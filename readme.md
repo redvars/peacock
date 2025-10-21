@@ -75,6 +75,7 @@ menus, checkboxes, and radio buttons.
 | File picker                                                | goat-file-picker     | 🔴    |
 | [HTML editor](https://goatui.com/components/html-editor)   | goat-html-editor     | 🟢    |
 | [Input](https://goatui.com/components/input)               | goat-input           | 🟢    |
+| [Input URL](https://goatui.com/components/input-url)       | goat-input-url       | 🟢    |
 | Month picker                                               | goat-month-picker    | 🔴    |
 | [Number](https://goatui.com/components/number)             | goat-number          | 🟢    |
 | [Select](https://goatui.com/components/select)             | goat-select          | 🟢    |
@@ -102,14 +103,14 @@ Informational components are UI elements that provide information to users. They
 updates, or instructions within the app or website. Some common examples of informational components include
 notifications, tooltips, and progress bars.
 
-| Name                                                                               | Component                 | State |
-|------------------------------------------------------------------------------------|---------------------------|-------|
-| [Badge](https://goatui.com/components/badge)                                       | goat-badge                | 🟢    |
-| [Progress](https://goatui.com/components/progress)                                 | goat-progress             | 🟢    |
-| [Spinner](https://goatui.com/components/spinner)                                   | goat-spinner              | 🟢    |
-| [Tooltip](https://goatui.com/components/tooltip)                                   | goat-tooltip              | 🟢    |
-| [Notification](https://goatui.com/components/notification)                         | goat-notification         | 🟢    |
-| [Notification Manager / Toast](https://goatui.com/components/notification-manager) | goat-notification-manager | 🟢    |
+| Name                                                                             | Component                 | State |
+|----------------------------------------------------------------------------------|---------------------------|-------|
+| [Badge](https://goatui.com/components/badge)                                     | goat-badge                | 🟢    |
+| [Progress](https://goatui.com/components/progress)                               | goat-progress             | 🟢    |
+| [Spinner](https://goatui.com/components/spinner)                                 | goat-spinner              | 🟢    |
+| [Tooltip](https://goatui.com/components/tooltip)                                 | goat-tooltip              | 🟢    |
+| [Notification](https://goatui.com/components/notification)                       | goat-notification         | 🟢    |
+| [Notification Manager](https://goatui.com/components/notification-manager)       | goat-notification-manager | 🟢    |
 
 
 ## Containers

@@ -892,6 +892,7 @@ export namespace Components {
           * Get the component's unique ID
          */
         "getComponentId": () => Promise<string>;
+        "label": string;
         /**
           * The input field name.
          */
@@ -900,6 +901,10 @@ export namespace Components {
           * The input field placeholder.
          */
         "placeholder": string;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
         /**
           * Sets blur on the native `input`. Use this method instead of the global `input.blur()`.
          */
@@ -912,6 +917,7 @@ export namespace Components {
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size": 'sm' | 'md' | 'lg';
+        "skeleton": boolean;
         /**
           * The input field value.
          */
@@ -4154,6 +4160,7 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         "editing"?: boolean;
+        "label"?: string;
         /**
           * The input field name.
          */
@@ -4171,9 +4178,14 @@ declare namespace LocalJSX {
          */
         "placeholder"?: string;
         /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
         "size"?: 'sm' | 'md' | 'lg';
+        "skeleton"?: boolean;
         /**
           * The input field value.
          */

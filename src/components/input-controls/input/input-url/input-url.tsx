@@ -13,17 +13,6 @@ import {
 } from '@stencil/core';
 import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
 
-// Interface definition matching what's in input.interface.tsx
-interface InputComponentInterface {
-  required?: boolean;
-  disabled?: boolean;
-  name: string;
-
-  getComponentId(): Promise<string>;
-  setFocus(): void;
-  setBlur(): void;
-}
-
 /**
  * @name Input URL
  * @description A specialized input field for URL validation.
@@ -44,10 +33,14 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
    */
   @Prop() name: string = `goat-input-url-${this.gid}`;
 
+  @Prop() skeleton: boolean = false;
+
   /**
    * The input field placeholder.
    */
   @Prop() placeholder: string;
+
+  @Prop() label: string;
 
   /**
    * The input field value.
@@ -65,6 +58,12 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
    * Set the amount of time, in milliseconds, to wait to trigger the `valueChange` event after each keystroke.
    */
   @Prop() debounce = 300;
+
+  /**
+     * If true, required icon is show. Defaults to `false`.
+     */
+    @Prop({ reflect: true }) required: boolean = false;
+  
 
   /**
      * The input field size.
@@ -188,13 +187,25 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
     return this.gid;
   }
 
+  getLabel() {
+    if (this.skeleton) return <div class="label skeleton" />;
+    else {
+      return (
+        <label class="label">
+          {this.required && <span class="required">*</span>}
+          {this.label}
+        </label>
+      );
+    }
+  }
+
   renderInput() {
     return (
       <div class={{ 'url-input': true, 'editing': this.editing }}>
 
 
         <div class={{ 'url-container': true }}>
-          <goat-link href={this.value} target="_blank">
+          <goat-link href={this.value || "javascript:void(0)"} target={this.value ? '_blank' : '_self'}>
             {this.value}
           </goat-link>
           <goat-button size="sm" variant="ghost" icon="edit" onGoat-button--click={() => {
@@ -244,6 +255,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
         invalid={!this.isValid}
       >
         <div class="form-control">
+         {this.label && this.getLabel()}
           <div class="field">
             {this.renderInput()}
           </div>
