@@ -19,6 +19,13 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                              | Description                |
+| --------------------------------- | -------------------------- |
+| `--goat-dropdown-menu-max-height` | Maximum height of the menu |
+
+
 ## Dependencies
 
 ### Depends on

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-06-30T05:54:47",
+  "timestamp": "2025-10-21T08:44:20",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.19.2",
@@ -233,7 +233,23 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-accordion-item-heading-background - Background color of the accordion item header",
+          "annotation": "prop",
+          "docs": ""
+        },
+        {
+          "name": "--goat-accordion-item-heading-background-hover - Background color of the accordion item header on hover",
+          "annotation": "prop",
+          "docs": ""
+        },
+        {
+          "name": "--goat-accordion-item-title-align - Alignment of the accordion title",
+          "annotation": "prop",
+          "docs": ""
+        }
+      ],
       "slots": [],
       "parts": [
         {
@@ -1269,7 +1285,58 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-button-border-radius",
+          "annotation": "prop",
+          "docs": "Button border radius."
+        },
+        {
+          "name": "--goat-button-border-style",
+          "annotation": "prop",
+          "docs": "Button border style."
+        },
+        {
+          "name": "--goat-button-color",
+          "annotation": "prop",
+          "docs": "Button filling color."
+        },
+        {
+          "name": "--goat-button-color-active",
+          "annotation": "prop",
+          "docs": "Button filling color on active."
+        },
+        {
+          "name": "--goat-button-color-hover",
+          "annotation": "prop",
+          "docs": "Button filling color on hover."
+        },
+        {
+          "name": "--goat-button-color-light",
+          "annotation": "prop",
+          "docs": "Button filling color for light variant."
+        },
+        {
+          "name": "--goat-button-padding",
+          "annotation": "prop",
+          "docs": "Button padding."
+        },
+        {
+          "name": "--goat-button-support-contrast-color",
+          "annotation": "prop",
+          "docs": "Button support color (text or border). Should be white or black based on weight of button filling color."
+        },
+        {
+          "name": "--goat-theme-button-border-radius",
+          "annotation": "prop",
+          "docs": "Theme level button border radius. (applies to all buttons)"
+        },
+        {
+          "name": "--goat-theme-button-border-style",
+          "annotation": "prop",
+          "docs": "Theme level button border style. (applies to all buttons)"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -4375,7 +4442,13 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-code-highlighter-background",
+          "annotation": "prop",
+          "docs": "Code Highlighter background color"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5177,7 +5250,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-divider-color",
+          "annotation": "prop",
+          "docs": "Color of the divider"
+        },
+        {
+          "name": "--goat-divider-padding",
+          "annotation": "prop",
+          "docs": "Padding of the divider"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5476,7 +5560,13 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-dropdown-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -6375,7 +6465,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-header-height",
+          "annotation": "prop",
+          "docs": "Height of the header. Defaults to 3rem."
+        },
+        {
+          "name": "--goat-header-width",
+          "annotation": "prop",
+          "docs": "Width of the header. Defaults to 100%."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7298,7 +7399,7 @@
       "metadata": {
         "name": "HTML Editor",
         "description": "HTML Editor component is a WYSIWYG editor that allows users to edit HTML content.",
-        "category": "Up coming",
+        "category": "Form Inputs",
         "tags": [
           "input",
           " form"
@@ -7410,7 +7511,13 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-icon-size - The size of the icon (height and width)",
+          "annotation": "prop",
+          "docs": ""
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -8223,6 +8330,27 @@
           "required": false
         },
         {
+          "name": "label",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "label",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
           "name": "name",
           "type": "string",
           "complexType": {
@@ -8266,6 +8394,28 @@
           "required": false
         },
         {
+          "name": "required",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "required",
+          "reflectToAttr": true,
+          "docs": "If true, required icon is show. Defaults to `false`.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
           "name": "size",
           "type": "\"lg\" | \"md\" | \"sm\"",
           "complexType": {
@@ -8291,6 +8441,28 @@
             {
               "value": "sm",
               "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "skeleton",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "skeleton",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
             }
           ],
           "optional": false,
@@ -8800,7 +8972,23 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-menu-background",
+          "annotation": "prop",
+          "docs": "Background color of the menu"
+        },
+        {
+          "name": "--goat-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        },
+        {
+          "name": "--goat-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -10783,7 +10971,28 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of popover content"
+        },
+        {
+          "name": "--popover-content-background",
+          "annotation": "prop",
+          "docs": "Background color of the popover content"
+        },
+        {
+          "name": "--popover-content-border-radius",
+          "annotation": "prop",
+          "docs": "Border radius of the popover content"
+        },
+        {
+          "name": "--popover-padding",
+          "annotation": "prop",
+          "docs": "Padding of the popover content"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -10979,6 +11188,144 @@
           " spinner"
         ],
         "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
+      }
+    },
+    {
+      "dirPath": "/workspaces/components/src/components/progress-indicator",
+      "filePath": "src/components/progress-indicator/progress-indicator.tsx",
+      "fileName": "progress-indicator.tsx",
+      "readmePath": "/workspaces/components/src/components/progress-indicator/readme.md",
+      "usagesDir": "/workspaces/components/src/components/progress-indicator/usage",
+      "tag": "goat-progress-indicator",
+      "readme": "# goat-progress-indicator\n\n\n",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {},
+      "props": [
+        {
+          "name": "clickable",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "clickable",
+          "reflectToAttr": false,
+          "docs": "If true, steps are clickable and component emits `goatStepSelect`.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": true,
+          "attr": "current",
+          "reflectToAttr": false,
+          "docs": "Current active step (1-based).",
+          "docsTags": [],
+          "default": "1",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "labels",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "labels",
+          "reflectToAttr": false,
+          "docs": "Comma separated labels, e.g. \"Start,Details,Confirm\".\nIf omitted, generic \"Step 1\", \"Step 2\", ... labels are used.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": true,
+          "required": false
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "total",
+          "reflectToAttr": false,
+          "docs": "Total number of steps. Ignored if `labels` is provided.",
+          "docsTags": [],
+          "default": "3",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "goatStepSelect",
+          "detail": "number",
+          "bubbles": true,
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when a step is clicked (1-based index).",
+          "docsTags": []
+        }
+      ],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "name": "Progress indicator",
+        "description": "Progress indicators express an unspecified wait time or display the length of a process.",
+        "category": "Informational",
+        "tags": [
+          "feedback",
+          " loading",
+          " progress",
+          " spinner"
+        ],
+        "example": "<goat-progress-indicator value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress-indicator>"
       }
     },
     {
@@ -16160,21 +16507,21 @@
           "required": false
         },
         {
-          "name": "selectedNode",
-          "type": "string",
+          "name": "selected",
+          "type": "boolean",
           "complexType": {
-            "original": "string",
-            "resolved": "string",
+            "original": "boolean",
+            "resolved": "boolean",
             "references": {}
           },
           "mutable": true,
-          "attr": "selected-node",
+          "attr": "selected",
           "reflectToAttr": true,
           "docs": "Menu item selection state.",
           "docsTags": [],
           "values": [
             {
-              "type": "string"
+              "type": "boolean"
             }
           ],
           "optional": false,

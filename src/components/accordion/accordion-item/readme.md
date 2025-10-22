@@ -28,6 +28,15 @@
 | `"title"` |             |
 
 
+## CSS Custom Properties
+
+| Name                                                                                                      | Description |
+| --------------------------------------------------------------------------------------------------------- | ----------- |
+| `--goat-accordion-item-heading-background - Background color of the accordion item header`                |             |
+| `--goat-accordion-item-heading-background-hover - Background color of the accordion item header on hover` |             |
+| `--goat-accordion-item-title-align - Alignment of the accordion title`                                    |             |
+
+
 ## Dependencies
 
 ### Depends on

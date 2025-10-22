@@ -1250,6 +1250,31 @@ export namespace Components {
         "value": number;
     }
     /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface GoatProgressIndicator {
+        /**
+          * If true, steps are clickable and component emits `goatStepSelect`.
+         */
+        "clickable": boolean;
+        /**
+          * Current active step (1-based).
+         */
+        "current": number;
+        /**
+          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
+         */
+        "labels"?: string;
+        /**
+          * Total number of steps. Ignored if `labels` is provided.
+         */
+        "total": number;
+    }
+    /**
      * @name Select
      * @description Allows the user to select one or more options using a dropdown.
      * @category Form Inputs
@@ -1922,6 +1947,10 @@ export interface GoatNumberCustomEvent<T> extends CustomEvent<T> {
 export interface GoatPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatPopoverElement;
+}
+export interface GoatProgressIndicatorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGoatProgressIndicatorElement;
 }
 export interface GoatSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2824,6 +2853,30 @@ declare global {
         prototype: HTMLGoatProgressElement;
         new (): HTMLGoatProgressElement;
     };
+    interface HTMLGoatProgressIndicatorElementEventMap {
+        "goatStepSelect": number;
+    }
+    /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface HTMLGoatProgressIndicatorElement extends Components.GoatProgressIndicator, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLGoatProgressIndicatorElementEventMap>(type: K, listener: (this: HTMLGoatProgressIndicatorElement, ev: GoatProgressIndicatorCustomEvent<HTMLGoatProgressIndicatorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLGoatProgressIndicatorElementEventMap>(type: K, listener: (this: HTMLGoatProgressIndicatorElement, ev: GoatProgressIndicatorCustomEvent<HTMLGoatProgressIndicatorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLGoatProgressIndicatorElement: {
+        prototype: HTMLGoatProgressIndicatorElement;
+        new (): HTMLGoatProgressIndicatorElement;
+    };
     interface HTMLGoatSelectElementEventMap {
         "goat-select--change": any;
         "goat-select--search": any;
@@ -3240,6 +3293,7 @@ declare global {
         "goat-popover": HTMLGoatPopoverElement;
         "goat-popover-content": HTMLGoatPopoverContentElement;
         "goat-progress": HTMLGoatProgressElement;
+        "goat-progress-indicator": HTMLGoatProgressIndicatorElement;
         "goat-select": HTMLGoatSelectElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
@@ -4525,6 +4579,35 @@ declare namespace LocalJSX {
         "value"?: number;
     }
     /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface GoatProgressIndicator {
+        /**
+          * If true, steps are clickable and component emits `goatStepSelect`.
+         */
+        "clickable"?: boolean;
+        /**
+          * Current active step (1-based).
+         */
+        "current"?: number;
+        /**
+          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
+         */
+        "labels"?: string;
+        /**
+          * Emitted when a step is clicked (1-based index).
+         */
+        "onGoatStepSelect"?: (event: GoatProgressIndicatorCustomEvent<number>) => void;
+        /**
+          * Total number of steps. Ignored if `labels` is provided.
+         */
+        "total"?: number;
+    }
+    /**
      * @name Select
      * @description Allows the user to select one or more options using a dropdown.
      * @category Form Inputs
@@ -5214,6 +5297,7 @@ declare namespace LocalJSX {
         "goat-popover": GoatPopover;
         "goat-popover-content": GoatPopoverContent;
         "goat-progress": GoatProgress;
+        "goat-progress-indicator": GoatProgressIndicator;
         "goat-select": GoatSelect;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
@@ -5607,6 +5691,14 @@ declare module "@stencil/core" {
              * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
              */
             "goat-progress": LocalJSX.GoatProgress & JSXBase.HTMLAttributes<HTMLGoatProgressElement>;
+            /**
+             * @name Progress indicator
+             * @description Progress indicators express an unspecified wait time or display the length of a process.
+             * @category Informational
+             * @tags feedback, loading, progress, spinner
+             * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+             */
+            "goat-progress-indicator": LocalJSX.GoatProgressIndicator & JSXBase.HTMLAttributes<HTMLGoatProgressIndicatorElement>;
             /**
              * @name Select
              * @description Allows the user to select one or more options using a dropdown.

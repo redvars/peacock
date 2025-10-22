@@ -13,6 +13,13 @@
 | `size`   | `size`    | The size of the icon. This can be specified in pixels (px) or rem units to control the icon's dimensions. If a number is provided, it will be treated as rem units. For example, '16px', '2rem', or 2 would be valid values. | `string` | `undefined` |
 
 
+## CSS Custom Properties
+
+| Name                                                         | Description |
+| ------------------------------------------------------------ | ----------- |
+| `--goat-icon-size - The size of the icon (height and width)` |             |
+
+
 ## Dependencies
 
 ### Used by

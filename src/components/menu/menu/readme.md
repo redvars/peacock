@@ -32,6 +32,15 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                     | Description                  |
+| ------------------------ | ---------------------------- |
+| `--goat-menu-background` | Background color of the menu |
+| `--goat-menu-max-height` | Maximum height of the menu   |
+| `--goat-menu-shadow`     | Shadow of the menu           |
+
+
 ## Dependencies
 
 ### Used by

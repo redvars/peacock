@@ -71,6 +71,22 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                                   | Description                                                                                              |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `--goat-button-border-radius`          | Button border radius.                                                                                    |
+| `--goat-button-border-style`           | Button border style.                                                                                     |
+| `--goat-button-color`                  | Button filling color.                                                                                    |
+| `--goat-button-color-active`           | Button filling color on active.                                                                          |
+| `--goat-button-color-hover`            | Button filling color on hover.                                                                           |
+| `--goat-button-color-light`            | Button filling color for light variant.                                                                  |
+| `--goat-button-padding`                | Button padding.                                                                                          |
+| `--goat-button-support-contrast-color` | Button support color (text or border). Should be white or black based on weight of button filling color. |
+| `--goat-theme-button-border-radius`    | Theme level button border radius. (applies to all buttons)                                               |
+| `--goat-theme-button-border-style`     | Theme level button border style. (applies to all buttons)                                                |
+
+
 ## Dependencies
 
 ### Used by

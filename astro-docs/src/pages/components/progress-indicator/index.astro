@@ -1,0 +1,38 @@
+---
+import Layout from '../../../layouts/Component.astro';
+import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
+import ApiPanel from '../../../components/ApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+const componentDetails = getComponentDetails('goat-progress-indicator');
+
+import UsageSection from './_sections/usage.astro';
+import SizesSection from './_sections/sizes.astro';
+
+const sections = [{
+  'title': 'Usage',
+  'Component': UsageSection
+}];
+---
+<style is:inline>
+  goat-progress {
+    margin-bottom: 1rem;
+  }
+</style>
+<Layout componentDetails={componentDetails}>
+  <goat-tabs class='page-tabs'>
+    <goat-tabs-list>
+      <goat-tab selected='true'>Overview</goat-tab>
+      <goat-tab>Playground</goat-tab>
+      <goat-tab>API</goat-tab>
+    </goat-tabs-list>
+    <goat-tab-panel>
+      <OverviewPanel componentDetails={componentDetails} sections={sections} />
+    </goat-tab-panel>
+    <goat-tab-panel>
+      <goat-notification type='warning'>Work in progress</goat-notification>
+    </goat-tab-panel>
+    <goat-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </goat-tab-panel>
+  </goat-tabs>
+</Layout>

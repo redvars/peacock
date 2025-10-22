@@ -30,9 +30,12 @@ A specialized input component for URL validation. This component provides real-t
 | `debounce`    | `debounce`    | Set the amount of time, in milliseconds, to wait to trigger the `valueChange` event after each keystroke. | `number`               | `300`                          |
 | `disabled`    | `disabled`    | If true, the user cannot interact with the input. Defaults to `false`.                                    | `boolean`              | `false`                        |
 | `editing`     | `editing`     |                                                                                                           | `boolean`              | `false`                        |
+| `label`       | `label`       |                                                                                                           | `string`               | `undefined`                    |
 | `name`        | `name`        | The input field name.                                                                                     | `string`               | ``goat-input-url-${this.gid}`` |
 | `placeholder` | `placeholder` | The input field placeholder.                                                                              | `string`               | `undefined`                    |
+| `required`    | `required`    | If true, required icon is show. Defaults to `false`.                                                      | `boolean`              | `false`                        |
 | `size`        | `size`        | The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.                    | `"lg" \| "md" \| "sm"` | `'md'`                         |
+| `skeleton`    | `skeleton`    |                                                                                                           | `boolean`              | `false`                        |
 | `value`       | `value`       | The input field value.                                                                                    | `string`               | `undefined`                    |
 
 
