@@ -1,4 +1,4 @@
-# PEACOCK
+# peacock
 ### Beauty in every interaction.
 
 [![Build](https://github.com/goatui/components/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
@@ -10,8 +10,11 @@ dependencies, You can simply import required component js, and right away start 
 
 Checkout the complete documentation over here -> https://goatui.com
 
-<div align="center" style="background: #b1fc3f; border-radius: 12px">
-  <img alt="GOAT UI LOGO" src="https://raw.githubusercontent.com/goatui/components/gh-pages/assets/img/logo.png" width="210">
+<div align="center" style="overflow: hidden;">
+<div style="max-width: context; background: #FFDE21; border-radius: 12px; border: 4px solid black">
+  <img alt="GOAT UI LOGO" src="./logo.png" width="210">
+  <div style="font-size: 24px; background: white; border-radius: 0 0 12px 12px; padding: 8px">peacock</div>
+</div>
 </div>
 
 ## Getting Started
