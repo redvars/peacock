@@ -17,7 +17,7 @@ Peacock is more than just a collection of components; it is an aesthetic philoso
 
 **Opinionated Beauty:** We deliver pre-styled, beautiful components that follow modern design trends, significantly reducing the boilerplate needed to achieve a professional look.
 
-**Foundation First:** Similar to projects like shadcn/ui, Peacock focuses on providing the foundational primitives, ensuring maximum flexibility for customization without sacrificing initial polish.
+**Foundation First:** Similar to projects like `shadcn/ui`, Peacock focuses on providing the foundational primitives, ensuring maximum flexibility for customization without sacrificing initial polish.
 
 **Seamless Integration:** Designed with modern web frameworks in mind (e.g., React, Vue), integrating Peacock into your existing project structure is fast, efficient, and empowering.
 
@@ -30,8 +30,8 @@ Vibrant & Consistent Design System: Every component—from buttons and cards to 
 
 **Responsive by Default:** Components are built with responsiveness baked in, guaranteeing a graceful display across all screen sizes and devices.
 
-Checkout the complete documentation over here -> https://goatui.com
-
+## Documentation
+Visit [https://goatui.com](https://goatui.com) to view the documentation.
 
 ## Getting Started
 
