@@ -1,4 +1,5 @@
-# GOAT UI
+# PEACOCK
+### Beauty in every interaction.
 
 [![Build](https://github.com/goatui/components/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/goatui/components.svg)](/LICENSE)
