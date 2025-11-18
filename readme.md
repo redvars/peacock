@@ -10,7 +10,7 @@ dependencies, You can simply import required component js, and right away start 
 
 Checkout the complete documentation over here -> https://goatui.com
 
-<div align="center">
+<div align="center" style="background: #FFDE21;">
 <div style="background: #FFDE21; border-radius: 12px; border: 4px solid black">
   <img alt="GOAT UI LOGO" src="./logo.png" width="210">
   <div style="font-size: 24px; background: white; border-radius: 0 0 12px 12px; padding: 8px">peacock</div>
