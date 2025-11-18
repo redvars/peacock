@@ -1,29 +1,36 @@
-# peacock
-### Beauty in every interaction.
+# Peacock
+**The Foundation to Unveil Your Vision. Beautiful User Interface Primitives.**
 
 [![Build](https://github.com/goatui/components/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/goatui/components.svg)](/LICENSE)
 ![Version](https://img.shields.io/npm/v/%40goatui%2Fcomponents)
 
-GOAT UI contains most used web components built using Stencil. So you don't need to include any additional framework
-dependencies, You can simply import required component js, and right away start using it.
+
+<div align="center">
+<img alt="GOAT UI LOGO" src="./logo.png" width="210">
+</div>
+
+Peacock is a meticulously crafted, open-source UI component library designed to provide the solid foundation and the finesse required to build truly stunning digital experiences. Inspired by the utility of headless libraries but focused on delivering a beautiful, opinionated aesthetic out of the box, Peacock ensures your application’s presentation is as brilliant as its logic.
+
+## What is Peacock?
+Peacock is more than just a collection of components; it is an aesthetic philosophy. Like its avian namesake, it provides the core elements (the primitives) that allow the full, vibrant display (the design) to be unveiled.
+
+**Opinionated Beauty:** We deliver pre-styled, beautiful components that follow modern design trends, significantly reducing the boilerplate needed to achieve a professional look.
+
+**Foundation First:** Similar to projects like shadcn/ui, Peacock focuses on providing the foundational primitives, ensuring maximum flexibility for customization without sacrificing initial polish.
+
+**Seamless Integration:** Designed with modern web frameworks in mind (e.g., React, Vue), integrating Peacock into your existing project structure is fast, efficient, and empowering.
+
+## Key Features
+Vibrant & Consistent Design System: Every component—from buttons and cards to complex data tables—shares a cohesive, high-quality visual language.
+
+**Highly Extensible:** The component structure is designed for easy overwriting and theme customization, allowing you to quickly adapt the style to your specific brand identity.
+
+**Built for Accessibility:** Focus on semantic HTML and proper ARIA attributes to ensure that your beautiful interfaces are accessible to all users.
+
+**Responsive by Default:** Components are built with responsiveness baked in, guaranteeing a graceful display across all screen sizes and devices.
 
 Checkout the complete documentation over here -> https://goatui.com
-
-<div align="center" style="background: #FFDE21;">
-<div style="background: #FFDE21; border-radius: 12px; border: 4px solid black">
-  <img alt="GOAT UI LOGO" src="./logo.png" width="210">
-  <div style="font-size: 24px; background: white; border-radius: 0 0 12px 12px; padding: 8px">peacock</div>
-</div>
-</div>
-
-<div align="center" style="background: #b1fc3f; border-radius: 12px">
-  <img alt="GOAT UI LOGO" src="https://raw.githubusercontent.com/goatui/components/gh-pages/assets/img/logo.png" width="210">
-</div>
-
-<div align="center" style="background: #FFDE21; border-radius: 12px">
-  <img alt="GOAT UI LOGO" src="https://raw.githubusercontent.com/goatui/components/gh-pages/assets/img/logo.png" width="210">
-</div>
 
 
 ## Getting Started
