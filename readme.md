@@ -17,6 +17,10 @@ Checkout the complete documentation over here -> https://goatui.com
 </div>
 </div>
 
+<div align="center" style="background: #FFDE21; border-radius: 12px">
+  <img alt="GOAT UI LOGO" src="./logo.png" width="210">
+</div>
+
 ## Getting Started
 
 ### Script tag
