@@ -1,5 +1,5 @@
 # Peacock
-**The Foundation to Unveil Your Vision. Beautiful User Interface Primitives.**
+**The foundation for beautiful interfaces.**
 
 [![Build](https://github.com/goatui/components/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/goatui/components.svg)](/LICENSE)
@@ -7,10 +7,10 @@
 
 
 <div align="center">
-<img alt="GOAT UI LOGO" src="./logo.png" width="210">
+<img alt="Peacock LOGO" src="./logo.png" width="210">
 </div>
 
-Peacock is a meticulously crafted, open-source UI component library designed to provide the solid foundation and the finesse required to build truly stunning digital experiences. Inspired by the utility of headless libraries but focused on delivering a beautiful, opinionated aesthetic out of the box, Peacock ensures your application’s presentation is as brilliant as its logic.
+Peacock gives you the tools and foundation to build beautiful, usable product interfaces. It’s the system you use to craft your own component library.
 
 ## What is Peacock?
 Peacock is more than just a collection of components; it is an aesthetic philosophy. Like its avian namesake, it provides the core elements (the primitives) that allow the full, vibrant display (the design) to be unveiled.

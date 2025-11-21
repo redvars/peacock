@@ -1,0 +1,40 @@
+            DESIGN TOKENS (Style Atoms)
+     ┌────────────────────────────────────┐
+     │ Colors • Radius • Spacing • Fonts │
+     │ Shadows • Typography scale        │
+     └────────────────────────────────────┘
+                           │
+                           ▼
+                ATOMS (Primitive Components)
+     ┌──────────────────────────────────────────┐
+     │ Button • Input • Label • Avatar • Icon  │
+     │ Checkbox • Badge • Spinner              │
+     └──────────────────────────────────────────┘
+                           │
+                           ▼
+                  MOLECULES (Composed Units)
+     ┌──────────────────────────────────────────┐
+     │ Search Bar (Input + Icon + Button)       │
+     │ Dropdown Trigger (Button + Icon)         │
+     │ Card (Title + Description + Actions)     │
+     └──────────────────────────────────────────┘
+                           │
+                           ▼
+                ORGANISMS (Complex Sections)
+     ┌──────────────────────────────────────────┐
+     │ Navbar (Logo + Menu + Search + Profile)  │
+     │ Sidebar (List + Icons + Footer Actions)  │
+     │ Product Grid (Cards + Pagination)        │
+     └──────────────────────────────────────────┘
+                           │
+                           ▼
+                TEMPLATES (Page Structure)
+     ┌──────────────────────────────────────────┐
+     │ Dashboard Layout • Auth Layout • Docs UI │
+     └──────────────────────────────────────────┘
+                           │
+                           ▼
+                   PAGES (Final UI)
+     ┌──────────────────────────────────────────┐
+     │ Home Page • Dashboard • Settings Page    │
+     └──────────────────────────────────────────┘
