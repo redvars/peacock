@@ -1,8 +1,8 @@
 @use "sass:map";
 @use "sass:list";
 
-$font-family-sans-serif: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
-$font-family-monospace: 'IBM Plex Mono', 'Courier New', monospace;
+$font-family-sans-serif: "Noto Sans", sans-serif;
+$font-family-monospace: "Noto Sans Mono", monospace;
 
 $font-weights: (
   regular: normal,

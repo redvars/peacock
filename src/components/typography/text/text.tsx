@@ -11,7 +11,7 @@ import {
  * @name Text
  * @description Typography are used for rendering headlines, paragraphs and captions.
  * @category General
- * @example <goat-text type="heading" level="1">Heading</goat-typography>
+ * @example <goat-text type="heading" level="1">Heading</goat-text>
  */
 @Component({
   tag: 'goat-text',

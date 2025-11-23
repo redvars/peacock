@@ -48,14 +48,14 @@ export const config: Config = {
         });
 
         fs.writeFileSync(
-          __dirname + '/astro-docs/src/_data/componentsDetails.json',
+          __dirname + '/docs/src/_data/componentsDetails.json',
           JSON.stringify(docs, null, 2),
         );
       },
     },
     {
       type: 'www',
-      dir: 'astro-docs/public/assets/goatui-dev/',
+      dir: 'docs/public/assets/goatui-dev/',
       serviceWorker: null, // disable service workers
       copy: [{ src: 'assets', dest: 'build/assets' }],
     },

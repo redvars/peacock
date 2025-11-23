@@ -20,165 +20,137 @@ const searchItems = componentsDetails.components.map(component => ({
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
+  <div class="page-with-navigation">
+    <div class="side-navigation">
+      <goat-link class="search-button no-style" href="./search.html">
 
-  <nav class='top-nav'>
-    <goat-header color='white' dark-mode-color='black' class={`header ${!root ? 'border' : ''}`}>
-      <div slot='left'>
-        <goat-header-brand logo='/assets/img/logo-plain.png' href='/#' name={site.title}></goat-header-brand>
+        <goat-icon name="search" size="1.5rem"></goat-icon>
+        
+      </goat-link>
 
+      <goat-link class="home no-style nav-item">
+        <div class="home-item">
+        <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
+        <goat-text type="label">Home</goat-text>
+        </div>
+      </goat-link>
 
-        <!--goat-header-action
+      <goat-link class="components no-style nav-item">
+        <div class="home-item">
+        <goat-icon class="icon" name="settings"></goat-icon>
+        <goat-text type="label">Components</goat-text>
+        </div>
+      </goat-link>
+
+      <goat-link class="color no-style nav-item">
+        <div class="home-item">
+        <goat-icon class="icon" name="color-palette"></goat-icon>
+        <goat-text type="label">Colors</goat-text>
+        </div>
+      </goat-link>
+
+    </div>
+
+    <div class="page-context-wrapper">
+      <nav class="top-nav">
+        <goat-header color="white" dark-mode-color="black" class={`header ${!root ? 'border' : ''}`}>
+          <div slot="left">
+            <goat-header-brand logo="/assets/img/logo-plain.png" href="/#" name={site.title}></goat-header-brand>
+
+            <!--goat-header-action
           class='hide-tablet-portrait-below'
           href='/components#'>
           Docs
         </goat-header-action-->
 
-        <goat-header-action
-          class='hide-tablet-portrait-below'
-          href='/components#'>
-          Components
-        </goat-header-action>
+            <goat-header-action class="hide-tablet-portrait-below" href="/components#"> Components </goat-header-action>
+          </div>
 
-      </div>
+          <div slot="right">
+            <goat-header-action id="search-btn" aria-label="Search" icon="search"> </goat-header-action>
 
-      <div slot='right'>
+            <div id="search-header-container">
+              <div id="search-container-overlay"></div>
+              <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
+                <goat-icon slot="start" name="search" size="1rem"></goat-icon>
+              </goat-select>
+            </div>
 
+            <goat-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
+              Sponsor
+            </goat-button>
 
-        <goat-header-action
-          id='search-btn'
-          aria-label='Search'
-          icon='search'>
-        </goat-header-action>
+            <goat-divider class="header-divider hide-tablet-portrait-below" vertical></goat-divider>
 
-        <div id='search-header-container'>
-          <div id='search-container-overlay'></div>
-          <goat-select id='site-search'
-                       search='contains'
-                       layer='01'
-                       hide-dropdown-icon
-                       placeholder="Type '/' for search">
-            <goat-icon slot='start' name='search' size='1rem'></goat-icon>
-          </goat-select>
+            <goat-header-action class="dir-switcher hide-tablet-portrait-below" aria-label="Direction switcher">LTR </goat-header-action>
+
+            <goat-header-action id="theme-switcher" icon="sun" class="theme-switcher" aria-label="Theme switcher"></goat-header-action>
+
+            <goat-header-action icon="logo--github" aria-label="View Github" href={`https://github.com/${site.github_username}/${site.github_project}`} target="_blank"
+            ></goat-header-action>
+
+            <goat-header-action class="show-tablet-portrait-below" aria-label="Menu" id="header-menu-btn" icon="menu"></goat-header-action>
+          </div>
+        </goat-header>
+      </nav>
+
+      <div id="header-menu">
+        <div class="header-menu-head">
+          <goat-button id="header-menu-close-btn" variant="ghost" icon="close--large" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></goat-button>
         </div>
 
-
-
-
-        <goat-button
-          color='primary'
-          size='sm'
-          variant='simple'
-          target='_blank'
-          class='hide-tablet-portrait-below sponsor-btn'
-          href='https://github.com/sponsors/shivajivarma'>
-          Sponsor
-        </goat-button>
-
-        <goat-divider class='header-divider hide-tablet-portrait-below' vertical></goat-divider>
-
-        <goat-header-action
-          class='dir-switcher hide-tablet-portrait-below'
-          aria-label='Direction switcher'
-        >LTR
-        </goat-header-action>
-
-        <goat-header-action
-          id='theme-switcher'
-          icon='sun'
-          class='theme-switcher'
-          aria-label='Theme switcher'></goat-header-action>
-
-        <goat-header-action
-          icon='logo--github'
-          aria-label='View Github'
-          href={`https://github.com/${site.github_username}/${site.github_project}`}
-          target='_blank'
-        ></goat-header-action>
-
-        <goat-header-action
-          class='show-tablet-portrait-below'
-          aria-label='Menu'
-          id='header-menu-btn'
-          icon='menu'></goat-header-action>
+        <goat-menu class="header-menu-list no-border">
+          <goat-menu-item href="/components#">
+            <goat-icon name="roadmap" slot="start" size="sm"></goat-icon>&nbsp; Components
+          </goat-menu-item>
+          <goat-menu-item href="/blog#">
+            <goat-icon name="blog" slot="start" size="sm"></goat-icon>&nbsp; Blog
+          </goat-menu-item>
+          <goat-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
+            <goat-icon name="currency--rupee" slot="start" size="sm"></goat-icon>&nbsp; Sponsor
+          </goat-menu-item>
+        </goat-menu>
       </div>
 
-
-    </goat-header>
-
-  </nav>
-
-  <div id='header-menu'>
-    <div class='header-menu-head'>
-      <goat-button
-        id='header-menu-close-btn'
-        variant='ghost'
-        icon='close--large'
-        color='secondary'
-        size='lg'
-        dark-mode-color='white'
-        aria-label='Close menu'
-      ></goat-button>
+      <main class={classes}>
+        <slot />
+      </main>
     </div>
-
-    <goat-menu class='header-menu-list no-border'>
-      <goat-menu-item href='/components#'>
-        <goat-icon name='roadmap' slot="start" size="sm"></goat-icon>&nbsp;
-        Components
-      </goat-menu-item>
-      <goat-menu-item href='/blog#'>
-        <goat-icon name='blog' slot="start" size="sm"></goat-icon>&nbsp;
-        Blog
-      </goat-menu-item>
-      <goat-menu-item href='https://github.com/sponsors/shivajivarma' target='_blank'
-                      icon='roadmap'>
-        <goat-icon name='currency--rupee' slot="start" size="sm"></goat-icon>&nbsp;
-        Sponsor
-      </goat-menu-item>
-    </goat-menu>
   </div>
-
-  <main class={classes}>
-    <slot />
-  </main>
 
   <div slot="page-end">
     <!-- Scripts -->
-    <script src='/assets/js/main.js' is:inline></script>
+    <script src="/assets/js/main.js" is:inline></script>
   </div>
 
   <script is:inline define:vars={{ searchItems }}>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const searchBtn = document.querySelector('#search-btn');
       const searchContainerOverlay = document.querySelector('#search-container-overlay');
       const search = document.querySelector('#site-search');
 
-      searchBtn.addEventListener('click', function() {
+      searchBtn.addEventListener('click', function () {
         openSearchContainer();
       });
 
-      
-
-      searchContainerOverlay.addEventListener('click', function() {
+      searchContainerOverlay.addEventListener('click', function () {
         const searchContainer = document.querySelector('#search-header-container');
         searchContainer.removeAttribute('open');
       });
-
 
       if (search) {
         // prettier-ignore
         search.items = searchItems;
         search.items = search.items.filter(item => !!item.label);
-        search.addEventListener('goat-select--change', function(e) {
+        search.addEventListener('goat-select--change', function (e) {
           window.location.href = '/components/' + e.detail.value;
         });
 
-        search.addEventListener('goat-select--enter', function(e) {
-          if (e.detail.currentItems.length > 0)
-            window.location.href = '/components/' + e.detail.currentItems[0].value;
+        search.addEventListener('goat-select--enter', function (e) {
+          if (e.detail.currentItems.length > 0) window.location.href = '/components/' + e.detail.currentItems[0].value;
         });
 
-        document.addEventListener('keydown', function(e) {
-
+        document.addEventListener('keydown', function (e) {
           if (e.key === '/') {
             const path = e.composedPath();
             for (const elm of path) {
@@ -192,7 +164,6 @@ const searchItems = componentsDetails.components.map(component => ({
         });
       }
 
-
       function openSearchContainer() {
         const searchContainer = document.querySelector('#search-header-container');
         searchContainer.toggleAttribute('open');
@@ -200,7 +171,6 @@ const searchItems = componentsDetails.components.map(component => ({
           search.openSelectList();
         }, 300);
       }
-
     });
   </script>
 </Layout>
