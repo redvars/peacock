@@ -7,15 +7,15 @@
 
 ## Properties
 
-| Property         | Attribute         | Description | Type                                | Default         |
-| ---------------- | ----------------- | ----------- | ----------------------------------- | --------------- |
-| `action`         | `action`          |             | `string`                            | `undefined`     |
-| `actionDisabled` | `action-disabled` |             | `boolean`                           | `false`         |
-| `actionUrl`      | `action-url`      |             | `string`                            | `undefined`     |
-| `actionVariant`  | `action-variant`  |             | `"default" \| "ghost" \| "outline"` | `'default'`     |
-| `description`    | `description`     |             | `string`                            | `undefined`     |
-| `headline`       | `headline`        |             | `string`                            | `undefined`     |
-| `illustration`   | `illustration`    |             | `"no-document"`                     | `'no-document'` |
+| Property         | Attribute         | Description | Type                               | Default         |
+| ---------------- | ----------------- | ----------- | ---------------------------------- | --------------- |
+| `action`         | `action`          |             | `string`                           | `undefined`     |
+| `actionDisabled` | `action-disabled` |             | `boolean`                          | `false`         |
+| `actionUrl`      | `action-url`      |             | `string`                           | `undefined`     |
+| `actionVariant`  | `action-variant`  |             | `"filled" \| "outlined" \| "text"` | `'filled'`      |
+| `description`    | `description`     |             | `string`                           | `undefined`     |
+| `headline`       | `headline`        |             | `string`                           | `undefined`     |
+| `illustration`   | `illustration`    |             | `"no-document"`                    | `'no-document'` |
 
 
 ## Dependencies
@@ -30,7 +30,7 @@
 ### Depends on
 
 - [goat-svg](../../svg)
-- [goat-button](../../button/button)
+- [goat-button](../../button)
 
 ### Graph
 ```mermaid

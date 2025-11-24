@@ -260,7 +260,7 @@ export class CodeHighlighter implements ComponentInterface {
                     class="icon-only"
                     size="sm"
                     color={'secondary'}
-                    variant={'ghost'}
+                    variant={'text'}
                     aria-label="Copy to clipboard"
                     icon={'copy'}
                     onGoat-button--click={async () => {
@@ -276,7 +276,6 @@ export class CodeHighlighter implements ComponentInterface {
                   class="copy-btn icon-only test"
                   size="sm"
                   color={'success'}
-                  variant={'default'}
                   aria-label={locale.copiedCode}
                   title={locale.copiedCode}
                   icon={'checkmark'}

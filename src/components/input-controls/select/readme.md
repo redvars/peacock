@@ -104,7 +104,7 @@ Type: `Promise<void>`
 
 - [goat-icon](../../icon)
 - [goat-tag](../../tag)
-- [goat-button](../../button/button)
+- [goat-button](../../button)
 - [goat-spinner](../../spinner)
 - [goat-menu](../../menu/menu)
 - [goat-text](../../typography/text)

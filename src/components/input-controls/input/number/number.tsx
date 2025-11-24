@@ -297,7 +297,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
             icon="subtract"
             size={this.size}
             aria-label="Decrease"
-            variant="ghost.simple"
+            variant="text"
             onGoat-button--click={evt => {
               this.decrease(evt);
             }}
@@ -310,7 +310,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
             color={'secondary'}
             icon="add"
             size={this.size}
-            variant="ghost.simple"
+            variant="text"
             onGoat-button--click={evt => {
               this.increment(evt);
             }}

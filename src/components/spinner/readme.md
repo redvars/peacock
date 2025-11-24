@@ -18,7 +18,7 @@
 
 ### Used by
 
- - [goat-button](../button/button)
+ - [goat-button](../button)
  - [goat-code-editor](../input-controls/code-editor)
  - [goat-code-highlighter](../application/code-highlighter)
  - [goat-html-editor](../input-controls/html-editor)

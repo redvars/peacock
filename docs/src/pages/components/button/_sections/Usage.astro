@@ -40,9 +40,7 @@ const componentDetails = getComponentDetails('goat-button');
       const $codeEditor = this.elm.querySelector('.code-editor');
       const $demoArea = this.elm.querySelector('.demo-area');
 
-      $codeEditor.value = `<goat-button icon='arrow--right'>
-  Button
-</goat-button>
+      $codeEditor.value = `<goat-button>Button</goat-button>
 `;
       $codeEditor.addEventListener('goat-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;
@@ -90,7 +88,7 @@ const componentDetails = getComponentDetails('goat-button');
 
 
   const $size = document.getElementById('comp-size');
-  playground.populateDropdown($size, 'size', 'md');
+  playground.populateDropdown($size, 'size', 'sm');
 
   const $variant = document.getElementById('comp-variant');
   playground.populateDropdown($variant, 'variant', 'default');

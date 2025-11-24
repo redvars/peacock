@@ -42,7 +42,7 @@
 ### Depends on
 
 - [goat-checkbox](../input-controls/checkbox)
-- [goat-button](../button/button)
+- [goat-button](../button)
 - [goat-select](../input-controls/select)
 - [goat-text](../typography/text)
 - [goat-empty-state](../application/empty-state)

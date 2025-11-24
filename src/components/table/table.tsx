@@ -221,7 +221,7 @@ export class Table {
                     class="col-action"
                     color="secondary"
                     dark-mode-color="white"
-                    variant="ghost"
+                    variant="text"
                     onClick={() => {
                       if (this.sortBy === col.name) {
                         if (this.sortOrder === 'asc') this.sortOrder = 'desc';
@@ -402,7 +402,7 @@ export class Table {
                   class="arrows"
                   color="secondary"
                   dark-mode-color="light"
-                  variant="ghost"
+                  variant="text"
                   disabled={this.page === 1}
                   onClick={() => {
                     this.page = this.page - 1;
@@ -416,7 +416,7 @@ export class Table {
                   icon="arrow--right"
                   color="secondary"
                   dark-mode-color="light"
-                  variant="ghost"
+                  variant="text"
                   class="arrows"
                   disabled={this.pageSize * this.page >= this.getTotalItems()}
                   onClick={() => {

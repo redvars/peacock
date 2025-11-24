@@ -250,7 +250,7 @@ export class DatePicker implements ComponentInterface {
                 class="input-action"
                 color={'secondary'}
                 icon={'calendar'}
-                variant="ghost.simple"
+                variant="text"
                 size={this.size}
                 disabled={this.disabled}
                 onGoat-button--click={() => {

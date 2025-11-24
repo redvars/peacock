@@ -107,12 +107,12 @@ export namespace Components {
     }
     /**
      * @name Button
-     * @description Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
      * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category General
+     * @category Buttons
      * @tags controls
      * @example <goat-button>
-     * Button CTA
+     * Button
      * </goat-button>
      */
     interface GoatButton {
@@ -131,16 +131,6 @@ export namespace Components {
     | 'white'
     | 'black';
         "configAria": any;
-        /**
-          * Color variant for dark mode, applicable when [data-theme="dark"] is set.
-         */
-        "darkModeColor"?: | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
@@ -162,10 +152,6 @@ export namespace Components {
          */
         "iconAlign": 'start' | 'end';
         /**
-          * Button selection state.
-         */
-        "selected": boolean;
-        /**
           * Sets blur on the native `button` in `goat-button`. Use this method instead of the global `button.blur()`.
          */
         "setBlur": () => Promise<void>;
@@ -178,9 +164,9 @@ export namespace Components {
          */
         "showLoader": boolean;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"2xl"`, `"full"`. Defaults to `"md"`.
+          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
-        "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
         /**
           * Sets or retrieves the window or frame at which to target content.
          */
@@ -202,20 +188,15 @@ export namespace Components {
          */
         "type": 'button' | 'submit' | 'reset';
         /**
-          * The visual style of the button.   Possible variant values: `"default"` is a filled button. `"outline"` is an outlined button. `"ghost"` is a transparent button. `"light"` is a light color button.  Possible sub-variant values: `"simple"` is a simple button without default padding at end. `"block"` is a full-width button that spans the full width of its container.    Mix and match the `variant` and `sub-variant` to create a variety of buttons.  `"default.simple"`, `"outline.block"` etc.
+          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
          */
-        "variant": | 'default'
-    | 'outline'
-    | 'ghost'
-    | 'light'
-    | 'neo'
+        "variant": | 'filled'
+    | 'outlined'
+    | 'text'
+    | 'tonal'
     | 'link'
-    | 'default.simple'
-    | 'outline.simple'
-    | 'ghost.simple'
-    | 'light.simple'
-    | 'neo.simple'
-    | 'link.simple';
+    
+    | 'neo';
     }
     /**
      * @name Button Group
@@ -607,7 +588,7 @@ export namespace Components {
         "action": string;
         "actionDisabled": boolean;
         "actionUrl": string;
-        "actionVariant": 'default' | 'outline' | 'ghost';
+        "actionVariant": 'filled' | 'outlined' | 'text';
         "description": string;
         "headline": string;
         "illustration": 'no-document';
@@ -709,10 +690,6 @@ export namespace Components {
           * Icon which will displayed on button. Possible values are icon names.
          */
         "icon": string;
-        /**
-          * Button selection state.
-         */
-        "selected": boolean;
         "setColor": (color: string) => Promise<void>;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
@@ -1611,7 +1588,7 @@ export namespace Components {
      * @name Text
      * @description Typography are used for rendering headlines, paragraphs and captions.
      * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-typography>
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
      */
     interface GoatText {
         "color": | 'primary'
@@ -2087,12 +2064,12 @@ declare global {
     }
     /**
      * @name Button
-     * @description Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
      * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category General
+     * @category Buttons
      * @tags controls
      * @example <goat-button>
-     * Button CTA
+     * Button
      * </goat-button>
      */
     interface HTMLGoatButtonElement extends Components.GoatButton, HTMLStencilElement {
@@ -3092,7 +3069,7 @@ declare global {
      * @name Text
      * @description Typography are used for rendering headlines, paragraphs and captions.
      * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-typography>
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
      */
     interface HTMLGoatTextElement extends Components.GoatText, HTMLStencilElement {
     }
@@ -3418,12 +3395,12 @@ declare namespace LocalJSX {
     }
     /**
      * @name Button
-     * @description Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
      * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category General
+     * @category Buttons
      * @tags controls
      * @example <goat-button>
-     * Button CTA
+     * Button
      * </goat-button>
      */
     interface GoatButton {
@@ -3442,16 +3419,6 @@ declare namespace LocalJSX {
     | 'white'
     | 'black';
         "configAria"?: any;
-        /**
-          * Color variant for dark mode, applicable when [data-theme="dark"] is set.
-         */
-        "darkModeColor"?: | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
          */
@@ -3479,17 +3446,13 @@ declare namespace LocalJSX {
     appendData: any;
   }>) => void;
         /**
-          * Button selection state.
-         */
-        "selected"?: boolean;
-        /**
           * If true, a loader will be displayed on button.
          */
         "showLoader"?: boolean;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"2xl"`, `"full"`. Defaults to `"md"`.
+          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
          */
-        "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
         /**
           * Sets or retrieves the window or frame at which to target content.
          */
@@ -3507,20 +3470,15 @@ declare namespace LocalJSX {
          */
         "type"?: 'button' | 'submit' | 'reset';
         /**
-          * The visual style of the button.   Possible variant values: `"default"` is a filled button. `"outline"` is an outlined button. `"ghost"` is a transparent button. `"light"` is a light color button.  Possible sub-variant values: `"simple"` is a simple button without default padding at end. `"block"` is a full-width button that spans the full width of its container.    Mix and match the `variant` and `sub-variant` to create a variety of buttons.  `"default.simple"`, `"outline.block"` etc.
+          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
          */
-        "variant"?: | 'default'
-    | 'outline'
-    | 'ghost'
-    | 'light'
-    | 'neo'
+        "variant"?: | 'filled'
+    | 'outlined'
+    | 'text'
+    | 'tonal'
     | 'link'
-    | 'default.simple'
-    | 'outline.simple'
-    | 'ghost.simple'
-    | 'light.simple'
-    | 'neo.simple'
-    | 'link.simple';
+    
+    | 'neo';
     }
     /**
      * @name Button Group
@@ -3929,7 +3887,7 @@ declare namespace LocalJSX {
         "action"?: string;
         "actionDisabled"?: boolean;
         "actionUrl"?: string;
-        "actionVariant"?: 'default' | 'outline' | 'ghost';
+        "actionVariant"?: 'filled' | 'outlined' | 'text';
         "description"?: string;
         "headline"?: string;
         "illustration"?: 'no-document';
@@ -4031,10 +3989,6 @@ declare namespace LocalJSX {
           * Icon which will displayed on button. Possible values are icon names.
          */
         "icon"?: string;
-        /**
-          * Button selection state.
-         */
-        "selected"?: boolean;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
          */
@@ -4960,7 +4914,7 @@ declare namespace LocalJSX {
      * @name Text
      * @description Typography are used for rendering headlines, paragraphs and captions.
      * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-typography>
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
      */
     interface GoatText {
         "color"?: | 'primary'
@@ -5372,12 +5326,12 @@ declare module "@stencil/core" {
             "goat-breadcrumb-item": LocalJSX.GoatBreadcrumbItem & JSXBase.HTMLAttributes<HTMLGoatBreadcrumbItemElement>;
             /**
              * @name Button
-             * @description Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.
+             * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
              * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-             * @category General
+             * @category Buttons
              * @tags controls
              * @example <goat-button>
-             * Button CTA
+             * Button
              * </goat-button>
              */
             "goat-button": LocalJSX.GoatButton & JSXBase.HTMLAttributes<HTMLGoatButtonElement>;
@@ -5776,7 +5730,7 @@ declare module "@stencil/core" {
              * @name Text
              * @description Typography are used for rendering headlines, paragraphs and captions.
              * @category General
-             * @example <goat-text type="heading" level="1">Heading</goat-typography>
+             * @example <goat-text type="heading" level="1">Heading</goat-text>
              */
             "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
             /**

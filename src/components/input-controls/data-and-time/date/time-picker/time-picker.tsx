@@ -200,7 +200,7 @@ export class TimePicker {
             class="input-action"
             color={'secondary'}
             icon={'time'}
-            variant="ghost.simple"
+            variant="text"
             disabled={this.disabled}
             size={this.size}
             onGoat-button--click={() => {

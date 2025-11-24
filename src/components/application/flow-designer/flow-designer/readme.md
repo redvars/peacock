@@ -21,8 +21,8 @@
 - [goat-canvas](../canvas)
 - [goat-icon](../../../icon)
 - [goat-tag](../../../tag)
-- [goat-button-group](../../../button/button-group)
-- [goat-button](../../../button/button)
+- [goat-button-group](../../../button-group)
+- [goat-button](../../../button)
 
 ### Graph
 ```mermaid

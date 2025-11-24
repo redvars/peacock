@@ -36,7 +36,7 @@ export class EmptyState implements ComponentInterface {
 
   @Prop() actionUrl: string;
 
-  @Prop() actionVariant: 'default' | 'outline' | 'ghost' = 'default';
+  @Prop() actionVariant: 'filled' | 'outlined' | 'text' = 'filled';
 
   @Prop() actionDisabled: boolean = false;
 

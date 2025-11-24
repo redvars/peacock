@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-18T15:58:06",
+  "timestamp": "2025-11-24T06:39:36",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.19.2",
@@ -608,11 +608,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/button/button",
-      "filePath": "src/components/button/button/button.tsx",
+      "dirPath": "/workspaces/peacock/src/components/button",
+      "filePath": "src/components/button/button.tsx",
       "fileName": "button.tsx",
-      "readmePath": "/workspaces/peacock/src/components/button/button/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/button/button/usage",
+      "readmePath": "/workspaces/peacock/src/components/button/readme.md",
+      "usagesDir": "/workspaces/peacock/src/components/button/usage",
       "tag": "goat-button",
       "readme": "# goat-button\n\n\n",
       "overview": "",
@@ -950,28 +950,6 @@
           "required": false
         },
         {
-          "name": "selected",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "selected",
-          "reflectToAttr": true,
-          "docs": "Button selection state.",
-          "docsTags": [],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
           "name": "showLoader",
           "type": "boolean",
           "complexType": {
@@ -995,23 +973,19 @@
         },
         {
           "name": "size",
-          "type": "\"2xl\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"",
+          "type": "\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"",
           "complexType": {
-            "original": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
-            "resolved": "\"2xl\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"",
+            "original": "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
+            "resolved": "\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"",
             "references": {}
           },
           "mutable": false,
           "attr": "size",
-          "reflectToAttr": true,
-          "docs": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`, `\"2xl\"`, `\"full\"`. Defaults to `\"md\"`.",
+          "reflectToAttr": false,
+          "docs": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [],
-          "default": "'md'",
+          "default": "'sm'",
           "values": [
-            {
-              "value": "2xl",
-              "type": "string"
-            },
             {
               "value": "lg",
               "type": "string"
@@ -1112,7 +1086,7 @@
           },
           "mutable": false,
           "attr": "type",
-          "reflectToAttr": false,
+          "reflectToAttr": true,
           "docs": "Button type based on which actions are performed when the button is clicked.",
           "docsTags": [],
           "default": "'button'",
@@ -1135,41 +1109,21 @@
         },
         {
           "name": "variant",
-          "type": "\"default\" | \"default.simple\" | \"ghost\" | \"ghost.simple\" | \"light\" | \"light.simple\" | \"link\" | \"link.simple\" | \"neo\" | \"neo.simple\" | \"outline\" | \"outline.simple\"",
+          "type": "\"filled\" | \"link\" | \"neo\" | \"outlined\" | \"text\" | \"tonal\"",
           "complexType": {
-            "original": "| 'default'\n    | 'outline'\n    | 'ghost'\n    | 'light'\n    | 'neo'\n    | 'link'\n    | 'default.simple'\n    | 'outline.simple'\n    | 'ghost.simple'\n    | 'light.simple'\n    | 'neo.simple'\n    | 'link.simple'",
-            "resolved": "\"default\" | \"default.simple\" | \"ghost\" | \"ghost.simple\" | \"light\" | \"light.simple\" | \"link\" | \"link.simple\" | \"neo\" | \"neo.simple\" | \"outline\" | \"outline.simple\"",
+            "original": "| 'filled'\n    | 'outlined'\n    | 'text'\n    | 'tonal'\n    | 'link'\n    \n    | 'neo'",
+            "resolved": "\"filled\" | \"link\" | \"neo\" | \"outlined\" | \"text\" | \"tonal\"",
             "references": {}
           },
           "mutable": false,
           "attr": "variant",
-          "reflectToAttr": true,
-          "docs": "The visual style of the button.\n\n Possible variant values:\n`\"default\"` is a filled button.\n`\"outline\"` is an outlined button.\n`\"ghost\"` is a transparent button.\n`\"light\"` is a light color button.\n\nPossible sub-variant values:\n`\"simple\"` is a simple button without default padding at end.\n`\"block\"` is a full-width button that spans the full width of its container.\n\n\n Mix and match the `variant` and `sub-variant` to create a variety of buttons.\n `\"default.simple\"`, `\"outline.block\"` etc.",
+          "reflectToAttr": false,
+          "docs": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
           "docsTags": [],
-          "default": "'default'",
+          "default": "'filled'",
           "values": [
             {
-              "value": "default",
-              "type": "string"
-            },
-            {
-              "value": "default.simple",
-              "type": "string"
-            },
-            {
-              "value": "ghost",
-              "type": "string"
-            },
-            {
-              "value": "ghost.simple",
-              "type": "string"
-            },
-            {
-              "value": "light",
-              "type": "string"
-            },
-            {
-              "value": "light.simple",
+              "value": "filled",
               "type": "string"
             },
             {
@@ -1177,23 +1131,19 @@
               "type": "string"
             },
             {
-              "value": "link.simple",
-              "type": "string"
-            },
-            {
               "value": "neo",
               "type": "string"
             },
             {
-              "value": "neo.simple",
+              "value": "outlined",
               "type": "string"
             },
             {
-              "value": "outline",
+              "value": "text",
               "type": "string"
             },
             {
-              "value": "outline.simple",
+              "value": "tonal",
               "type": "string"
             }
           ],
@@ -1355,21 +1305,21 @@
       ],
       "metadata": {
         "name": "Button",
-        "description": "Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.",
+        "description": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
         "overview": " <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>",
-        "category": "General",
+        "category": "Buttons",
         "tags": [
           "controls"
         ],
-        "example": "<goat-button>\nButton CTA\n</goat-button>"
+        "example": "<goat-button>\nButton\n</goat-button>"
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/button/button-group",
-      "filePath": "src/components/button/button-group/button-group.tsx",
+      "dirPath": "/workspaces/peacock/src/components/button-group",
+      "filePath": "src/components/button-group/button-group.tsx",
       "fileName": "button-group.tsx",
-      "readmePath": "/workspaces/peacock/src/components/button/button-group/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/button/button-group/usage",
+      "readmePath": "/workspaces/peacock/src/components/button-group/readme.md",
+      "usagesDir": "/workspaces/peacock/src/components/button-group/usage",
       "tag": "goat-button-group",
       "readme": "# goat-button-group\n\n\n",
       "overview": "",
@@ -5689,10 +5639,10 @@
         },
         {
           "name": "actionVariant",
-          "type": "\"default\" | \"ghost\" | \"outline\"",
+          "type": "\"filled\" | \"outlined\" | \"text\"",
           "complexType": {
-            "original": "'default' | 'outline' | 'ghost'",
-            "resolved": "\"default\" | \"ghost\" | \"outline\"",
+            "original": "'filled' | 'outlined' | 'text'",
+            "resolved": "\"filled\" | \"outlined\" | \"text\"",
             "references": {}
           },
           "mutable": false,
@@ -5700,18 +5650,18 @@
           "reflectToAttr": false,
           "docs": "",
           "docsTags": [],
-          "default": "'default'",
+          "default": "'filled'",
           "values": [
             {
-              "value": "default",
+              "value": "filled",
               "type": "string"
             },
             {
-              "value": "ghost",
+              "value": "outlined",
               "type": "string"
             },
             {
-              "value": "outline",
+              "value": "text",
               "type": "string"
             }
           ],
@@ -6595,28 +6545,6 @@
           "values": [
             {
               "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "selected",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "selected",
-          "reflectToAttr": false,
-          "docs": "Button selection state.",
-          "docsTags": [],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
             }
           ],
           "optional": false,
@@ -14884,7 +14812,7 @@
         "name": "Text",
         "description": "Typography are used for rendering headlines, paragraphs and captions.",
         "category": "General",
-        "example": "<goat-text type=\"heading\" level=\"1\">Heading</goat-typography>"
+        "example": "<goat-text type=\"heading\" level=\"1\">Heading</goat-text>"
       }
     },
     {

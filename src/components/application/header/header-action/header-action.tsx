@@ -30,11 +30,6 @@ export class HeaderAction {
    */
   @Prop({ reflect: true }) href: string;
 
-  /**
-   * Button selection state.
-   */
-  @Prop() selected: boolean = false;
-
   @Prop({ reflect: true, mutable: true }) configAria: any = {};
 
   /*
@@ -67,10 +62,8 @@ export class HeaderAction {
       <goat-button
         class="header-action"
         color={this.color}
-        variant={'default.simple'}
         icon={this.icon}
         href={this.href}
-        selected={this.selected}
         configAria={this.configAria}
         target={this.target}
       >
