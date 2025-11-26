@@ -15,7 +15,6 @@ import {
 import {
   getComponentIndex,
   hasSlot,
-  isLightOrDark,
   throttle,
 } from '../../utils/utils';
 
@@ -53,7 +52,6 @@ export class Button implements ComponentInterface {
   private gid: string = getComponentIndex();
   private nativeElement: HTMLButtonElement;
   private tabindex?: string | number;
-  private buttonElm?: HTMLDivElement;
   private handleClickWithThrottle: () => void;
 
   
@@ -319,38 +317,6 @@ export class Button implements ComponentInterface {
     else return 'button';
   }
 
-  #computeColorLightOrDark() {
-    if (this.buttonElm == null) return;
-    let color = getComputedStyle(this.buttonElm).getPropertyValue(
-      `--internal-button-color`,
-    );
-    if (this.variant != 'link') {
-      if (this.hasHover)
-        color = getComputedStyle(this.buttonElm).getPropertyValue(
-          `--internal-button-color-hover`,
-        );
-      if (this.isActive || this.selected)
-        color = getComputedStyle(this.buttonElm).getPropertyValue(
-          `--internal-button-color-active`,
-        );
-    }
-    return isLightOrDark(color);
-  }
-
-  componentDidRender() {
-    if (this.#computeColorLightOrDark() == 'dark') {
-      this.buttonElm.style.setProperty(
-        '--internal-button-support-contrast-color',
-        `var(--goat-button-support-contrast-color, white)`,
-      );
-    } else {
-      this.buttonElm.style.setProperty(
-        '--internal-button-support-contrast-color',
-        `var(--goat-button-support-contrast-color, black)`,
-      );
-    }
-  }
-
   render() {
     const NativeElementTag = this.#getNativeElementTagName();
 
@@ -365,29 +331,9 @@ export class Button implements ComponentInterface {
 
     const [variant, subVariant] = variants as [string, string?];
 
-
-    const style = {};
-    if (!PREDEFINED_BUTTON_COLORS.includes(this.color)) {
-      style['--internal-button-color'] = `var(--color-${this.color})`;
-      style[
-        '--internal-button-color-light'
-      ] = `var(--color-${this.color}-10)`;
-      style[
-        '--internal-button-color-neo'
-      ] = `var(--color-${this.color}-50)`;
-      style[
-        '--internal-button-color-hover'
-      ] = `var(--color-${this.color}-70, var(--color-${this.color}-hover-60))`;
-      style[
-        '--internal-button-color-active'
-      ] = `var(--color-${this.color}-80)`;
-    }
-
     return (
       <Host active={this.isActive}>
         <div
-          style={style}
-          ref={(elm: HTMLDivElement) => (this.buttonElm = elm)}
           class={{
             'button': true,
             [`size-${this.size}`]: true,
@@ -401,12 +347,19 @@ export class Button implements ComponentInterface {
             'active': this.isActive,
             'has-content': this.slotHasContent,
             'has-icon': !!this.icon,
-            'show-loader': this.showLoader,
-            [`color-is-${this.#computeColorLightOrDark()}`]: true,
+            'show-loader': this.showLoader
           }}
         >
+
+          <div class="button-elevation" />
+          
           <div class="button-neo-background" />
+          
           <div class="button-background" />
+          
+          
+          
+          
           <NativeElementTag
             class="native-button"
             tabindex={this.tabindex}

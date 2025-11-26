@@ -38,9 +38,21 @@
 
 
   --filled-button-container-color: var(--color-primary);
-  --filled-button-container-shape: var(--shape-corner-full);
-  
 
+
+
+
+}
+
+/**
+  * Private CSS Variables
+  * These variables are used internally within the button component
+  */
+.button {
+  --_container-shape-start-start: var(--filled-button-container-shape-start-start, var(--filled-button-container-shape, var(--md-sys-shape-corner-full)));
+  --_container-shape-start-end: var(--filled-button-container-shape-start-end, var(--filled-button-container-shape, var(--md-sys-shape-corner-full)));
+  --_container-shape-end-start: var(--filled-button-container-shape-end-start, var(--filled-button-container-shape, var(--md-sys-shape-corner-full)));
+  --_container-shape-end-end: var(--filled-button-container-shape-end-end, var(--filled-button-container-shape, var(--md-sys-shape-corner-full)));
 }
 
 .button {
@@ -64,7 +76,11 @@
     border-style: var(--goat-button-border-style);
     border-color: transparent;
 
-    border-radius: var(--filled-button-container-shape);
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+    
     outline: none;
     --goat-spinner-color: currentColor;
     --goat-icon-size: var(--goat-button-icon-size);
@@ -120,11 +136,12 @@
       display: flex;
       flex: none;
       justify-content: center;
-      
+
     }
   }
 
-  &.has-content.has-icon, &.has-content.show-loader {
+  &.has-content.has-icon,
+  &.has-content.show-loader {
     .button-content {
       gap: var(--internal-button-gap, 2rem);
     }
@@ -144,10 +161,10 @@
   }
 
   &.has-content .slot-container {
-      padding-right: 2rem;
-      flex: 1;
-      flex: none;
-      justify-content: start;
+    padding-right: 2rem;
+    flex: 1;
+    flex: none;
+    justify-content: start;
   }
 }
 
@@ -191,20 +208,24 @@
   * - The `.has-content` and `.has-icon` flags modify internal padding/gaps for
   *   better visual balance when icons and text are combined.
   */
-.button.size-xs, .button.size-extra-small {
+.button.size-xs,
+.button.size-extra-small {
   min-height: var(--goat-button-height, 1.5rem);
 
 
-  &:not(.has-content).has-icon, &:not(.has-content).show-loader {
+  &:not(.has-content).has-icon,
+  &:not(.has-content).show-loader {
     --internal-button-padding: 0.25rem;
   }
 }
 
-.button.size-sm, .button.size-small {
+.button.size-sm,
+.button.size-small {
   min-height: var(--goat-button-height, 2rem);
 
 
-  &:not(.has-content).has-icon, &:not(.has-content).show-loader {
+  &:not(.has-content).has-icon,
+  &:not(.has-content).show-loader {
     --internal-button-padding: 0.5rem;
   }
 }
@@ -212,15 +233,18 @@
 
 
 
-.button.size-md, .button.size-medium {
+.button.size-md,
+.button.size-medium {
   min-height: var(--goat-button-height, 2.5rem);
 
-  &:not(.has-content).has-icon, &:not(.has-content).show-loader {
+  &:not(.has-content).has-icon,
+  &:not(.has-content).show-loader {
     --internal-button-padding: 0.75rem;
   }
 }
 
-.button.size-lg, .button.size-large {
+.button.size-lg,
+.button.size-large {
   min-height: var(--goat-button-height, 3rem);
 }
 
@@ -265,7 +289,8 @@
     }
   }
 
-  &.active, &.selected {
+  &.active,
+  &.selected {
 
     .native-button {
       border-color: var(--internal-button-color-active);
@@ -322,7 +347,8 @@
     }
   }
 
-  &.active, &.selected {
+  &.active,
+  &.selected {
     .native-button {
       color: var(--internal-button-support-contrast-color);
       border-color: var(--internal-button-color-active);
@@ -378,7 +404,8 @@
     }
   }
 
-  &.active, &.selected {
+  &.active,
+  &.selected {
     .native-button {
       color: var(--internal-button-support-contrast-color);
       border-color: var(--internal-button-color-active);
@@ -439,7 +466,8 @@
     }
   }
 
-  &.active, &.selected {
+  &.active,
+  &.selected {
     .native-button {
       color: var(--internal-button-color);
     }
@@ -533,18 +561,23 @@
   }
 
   &:hover {
-    .native-button, .button-background {
+
+    .native-button,
+    .button-background {
       transform: translateY(-0.125rem);
     }
   }
 
   &.active {
-    .native-button, .button-background {
+
+    .native-button,
+    .button-background {
       transform: translateX(0.25rem) translateY(0.25rem);
     }
   }
 
-  &.active, &.selected {
+  &.active,
+  &.selected {
 
     .native-button {
       border-color: var(--color-dark);
@@ -614,7 +647,8 @@
   --internal-button-color-active: var(--goat-button-color-active, #{var(--color-warning-80)});
 }
 
-.button.color-error, .button.color-danger {
+.button.color-error,
+.button.color-danger {
   --internal-button-color: var(--goat-button-color, #{var(--color-error)});
   --internal-button-color-light: var(--goat-button-color-light, #{var(--color-error-10)});
   --internal-button-color-neo: var(--goat-button-color-neo, #{var(--color-error-50)});
