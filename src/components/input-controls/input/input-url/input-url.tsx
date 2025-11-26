@@ -208,7 +208,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
           <goat-link href={this.value || "javascript:void(0)"} target={this.value ? '_blank' : '_self'}>
             {this.value}
           </goat-link>
-          <goat-button size="sm" variant="ghost" icon="edit" onGoat-button--click={() => {
+          <goat-button size="sm" variant="text" icon="edit" onGoat-button--click={() => {
             this.#startEditing();
           }}></goat-button>
         </div>

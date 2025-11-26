@@ -87,7 +87,7 @@ Type: `Promise<void>`
 ### Depends on
 
 - [goat-link](../../../link)
-- [goat-button](../../../button/button)
+- [goat-button](../../../button)
 
 ### Graph
 ```mermaid

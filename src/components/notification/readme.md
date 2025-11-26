@@ -34,7 +34,7 @@
 ### Depends on
 
 - [goat-icon](../icon)
-- [goat-button](../button/button)
+- [goat-button](../button)
 
 ### Graph
 ```mermaid

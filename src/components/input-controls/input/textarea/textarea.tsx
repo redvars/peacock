@@ -280,7 +280,7 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
             <goat-button
               class="clear clear-action"
               color={'secondary'}
-              variant="ghost"
+              variant="text"
               size={this.size}
               icon="close"
               onClick={this.clearInput}

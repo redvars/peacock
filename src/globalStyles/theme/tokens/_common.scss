@@ -2,6 +2,13 @@
 
 $common: (
   border-radius: 3px,
+  
+  shape-corner-full: 9999px,
+  shape-corner-large: 12px,
+  shape-corner-medium: 8px,
+  shape-corner-small: 4px,
+  shape-corner-none: 0px,
+  
   /**
    * TIP: use against position:relative elements
    */

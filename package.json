@@ -45,8 +45,7 @@
     "release-to-docs": "stencil docs && node releaseToDocs.js",
     "start": "node env.js && concurrently --kill-others \"npm run start:watch\" \"npm run start:docs-server\"",
     "start:local": "node env.js LOCAL && concurrently --kill-others \"npm run start:watch\" \"npm run start:docs-server\"",
-    "start:docs-server": "cd astro-docs && npm run start",
-    "start:lume": "cd lume-docs && serve.cmd",
+    "start:docs-server": "cd docs && npm run start",
     "start:watch": "stencil build --dev --watch --serve --cors",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"

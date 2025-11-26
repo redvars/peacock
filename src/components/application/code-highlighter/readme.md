@@ -29,7 +29,7 @@
 ### Depends on
 
 - [goat-tooltip](../../tooltip)
-- [goat-button](../../button/button)
+- [goat-button](../../button)
 - [goat-spinner](../../spinner)
 
 ### Graph

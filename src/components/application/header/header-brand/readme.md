@@ -38,7 +38,7 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-button](../../../button/button)
+- [goat-button](../../../button)
 - [goat-svg](../../../svg)
 - [goat-divider](../../../divider)
 

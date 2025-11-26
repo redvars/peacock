@@ -379,7 +379,6 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     class={'action'}
                     icon={action.icon}
                     color="white"
-                    darkModeColor="secondary"
                     onGoat-button--click={action.action}
                   ></goat-button>
                 );

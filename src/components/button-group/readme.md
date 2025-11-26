@@ -9,7 +9,7 @@
 
 ### Used by
 
- - [goat-flow-designer](../../application/flow-designer/flow-designer)
+ - [goat-flow-designer](../application/flow-designer/flow-designer)
 
 ### Graph
 ```mermaid

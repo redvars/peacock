@@ -25,7 +25,7 @@
 ### Used by
 
  - [goat-accordion-item](../accordion/accordion-item)
- - [goat-button](../button/button)
+ - [goat-button](../button)
  - [goat-flow-designer](../application/flow-designer/flow-designer)
  - [goat-menu-item](../menu/menu-item)
  - [goat-notification](../notification)

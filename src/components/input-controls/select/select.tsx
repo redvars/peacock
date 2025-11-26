@@ -589,7 +589,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
                     class="clear clear-action"
                     color={'secondary'}
                     size={'xs'}
-                    variant="ghost.simple"
+                    variant="text"
                     icon="close"
                     onClick={this.clearInput}
                   />

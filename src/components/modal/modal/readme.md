@@ -30,7 +30,7 @@
 ### Depends on
 
 - [goat-text](../../typography/text)
-- [goat-button](../../button/button)
+- [goat-button](../../button)
 - [goat-spinner](../../spinner)
 
 ### Graph

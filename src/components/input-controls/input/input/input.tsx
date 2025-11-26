@@ -277,7 +277,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
             <goat-button
               color={'secondary'}
               icon={this.passwordVisible ? 'view--off' : 'view'}
-              variant="ghost.simple"
+              variant="text"
               size={this.size}
               onGoat-button--click={() => {
                 this.passwordVisible = !this.passwordVisible;

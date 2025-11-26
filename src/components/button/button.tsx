@@ -10,16 +10,13 @@ import {
   Method,
   Prop,
   State,
-  Watch,
 } from '@stencil/core';
+
 import {
   getComponentIndex,
   hasSlot,
-  isDarkMode,
-  isLightOrDark,
-  observeThemeChange,
   throttle,
-} from '../../../utils/utils';
+} from '../../utils/utils';
 
 const PREDEFINED_BUTTON_COLORS = [
   'primary',
@@ -35,14 +32,14 @@ const PREDEFINED_BUTTON_COLORS = [
 
 /**
  * @name Button
- * @description Buttons are used to initialize an action. Button labels express what action will occur when the user interacts with it.
+ * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
  * @overview
  *  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
- * @category General
+ * @category Buttons
  * @tags controls
  * @example <goat-button>
- *   Button CTA
- *   </goat-button>
+ *   Button
+ * </goat-button>
  */
 @Component({
   tag: 'goat-button',
@@ -55,56 +52,39 @@ export class Button implements ComponentInterface {
   private gid: string = getComponentIndex();
   private nativeElement: HTMLButtonElement;
   private tabindex?: string | number;
-  private buttonElm?: HTMLDivElement;
   private handleClickWithThrottle: () => void;
 
-  /**
-   * Button size.
-   * Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"2xl"`, `"full"`. Defaults to `"md"`.
-   */
-  @Prop({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' =
-    'md';
-
+  
   /**
    *  Button type based on which actions are performed when the button is clicked.
    */
-  @Prop() type: 'button' | 'submit' | 'reset' = 'button';
+  @Prop({reflect: true}) type: 'button' | 'submit' | 'reset' = 'button';
 
   /**
    * The visual style of the button.
    *
    *  Possible variant values:
-   * `"default"` is a filled button.
-   * `"outline"` is an outlined button.
-   * `"ghost"` is a transparent button.
-   * `"light"` is a light color button.
+   * `"filled"` is a filled button.
+   * `"outlined"` is an outlined button.
+   * `"text"` is a transparent button.
+   * `"tonal"` is a light color button.
    *
-   * Possible sub-variant values:
-   * `"simple"` is a simple button without default padding at end.
-   * `"block"` is a full-width button that spans the full width of its container.
-   *
-   *
-   *  Mix and match the `variant` and `sub-variant` to create a variety of buttons.
-   *  `"default.simple"`, `"outline.block"` etc.
    */
-  @Prop({ reflect: true }) variant:
-    | 'default'
-    | 'outline'
-    | 'ghost'
-    | 'light'
-    | 'neo'
+  @Prop() variant:
+    | 'filled'
+    | 'outlined'
+    | 'text'
+    | 'tonal'
     | 'link'
-    | 'default.simple'
-    | 'outline.simple'
-    | 'ghost.simple'
-    | 'light.simple'
-    | 'neo.simple'
-    | 'link.simple' = 'default';
+    
+    | 'neo' = 'filled';
+
 
   /**
-   * Button selection state.
+   * Button size.
+   * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
    */
-  @Prop({ reflect: true }) selected: boolean = false;
+  @Prop() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
    * If true, the user cannot interact with the button. Defaults to `false`.
@@ -127,18 +107,6 @@ export class Button implements ComponentInterface {
     | 'warning'
     | 'white'
     | 'black' = 'primary';
-
-  /**
-   * Color variant for dark mode, applicable when [data-theme="dark"] is set.
-   */
-  @Prop({ reflect: true }) darkModeColor?:
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
 
   /**
    * Icon which will displayed on button.
@@ -227,13 +195,8 @@ export class Button implements ComponentInterface {
   @State() isActive = false;
   @State() hasHover = false;
   @State() slotHasContent = false;
-  @State() computedColor: string;
+  @State() selected: boolean = false;
 
-  @Watch('color')
-  @Watch('darkModeColor')
-  colorChanged() {
-    this.#computedColor();
-  }
 
   connectedCallback() {
     this.handleClickWithThrottle = throttle(
@@ -338,17 +301,6 @@ export class Button implements ComponentInterface {
         }
       });
     this.#computeSlotHasContent();
-    this.#computedColor();
-    observeThemeChange(() => {
-      this.#computedColor();
-    });
-  }
-
-  #computedColor() {
-    this.computedColor = this.color;
-    if (isDarkMode() && this.darkModeColor) {
-      this.computedColor = this.darkModeColor;
-    }
   }
 
   #renderDisabledReason() {
@@ -365,86 +317,29 @@ export class Button implements ComponentInterface {
     else return 'button';
   }
 
-  #computeColorLightOrDark() {
-    if (this.buttonElm == null) return;
-    let color = getComputedStyle(this.buttonElm).getPropertyValue(
-      `--internal-button-color`,
-    );
-    if (this.variant != 'link') {
-      if (this.hasHover)
-        color = getComputedStyle(this.buttonElm).getPropertyValue(
-          `--internal-button-color-hover`,
-        );
-      if (this.isActive || this.selected)
-        color = getComputedStyle(this.buttonElm).getPropertyValue(
-          `--internal-button-color-active`,
-        );
-    }
-    return isLightOrDark(color);
-  }
-
-  componentDidRender() {
-    if (this.#computeColorLightOrDark() == 'dark') {
-      this.buttonElm.style.setProperty(
-        '--internal-button-support-contrast-color',
-        `var(--goat-button-support-contrast-color, white)`,
-      );
-    } else {
-      this.buttonElm.style.setProperty(
-        '--internal-button-support-contrast-color',
-        `var(--goat-button-support-contrast-color, black)`,
-      );
-    }
-  }
-
   render() {
     const NativeElementTag = this.#getNativeElementTagName();
 
     const variants = this.variant?.split('.');
     if (
-      ['default', 'outline', 'ghost', 'light', 'neo', 'link'].includes(
+      ['filled', 'outline', 'ghost', 'light', 'neo'].includes(
         variants[0],
       ) == false
     ) {
-      variants.unshift('default');
+      variants.unshift('filled');
     }
 
     const [variant, subVariant] = variants as [string, string?];
 
-    const hostStyle = {};
-    if (subVariant == 'block') {
-      hostStyle['display'] = `block`;
-      hostStyle['width'] = `100%`;
-    }
-
-    const style = {};
-    if (!PREDEFINED_BUTTON_COLORS.includes(this.computedColor)) {
-      style['--internal-button-color'] = `var(--color-${this.computedColor})`;
-      style[
-        '--internal-button-color-light'
-      ] = `var(--color-${this.computedColor}-10)`;
-      style[
-        '--internal-button-color-neo'
-      ] = `var(--color-${this.computedColor}-50)`;
-      style[
-        '--internal-button-color-hover'
-      ] = `var(--color-${this.computedColor}-70, var(--color-${this.computedColor}-hover-60))`;
-      style[
-        '--internal-button-color-active'
-      ] = `var(--color-${this.computedColor}-80)`;
-    }
-
     return (
-      <Host active={this.isActive} style={hostStyle}>
+      <Host active={this.isActive}>
         <div
-          style={style}
-          ref={(elm: HTMLDivElement) => (this.buttonElm = elm)}
           class={{
             'button': true,
             [`size-${this.size}`]: true,
             [`variant-${variant}`]: true,
             [`variant-${subVariant}`]: !!subVariant,
-            [`color-${this.computedColor}`]: true,
+            [`color-${this.color}`]: true,
             'hover': this.hasHover,
             'disabled': this.disabled,
             'selected': this.selected,
@@ -452,12 +347,19 @@ export class Button implements ComponentInterface {
             'active': this.isActive,
             'has-content': this.slotHasContent,
             'has-icon': !!this.icon,
-            'show-loader': this.showLoader,
-            [`color-is-${this.#computeColorLightOrDark()}`]: true,
+            'show-loader': this.showLoader
           }}
         >
+
+          <div class="button-elevation" />
+          
           <div class="button-neo-background" />
+          
           <div class="button-background" />
+          
+          
+          
+          
           <NativeElementTag
             class="native-button"
             tabindex={this.tabindex}
