@@ -3,6 +3,6 @@
     "@carbon/icons": "11.41.0",
     "d3": "7.9.0",
     "monaco-editor": "0.48.0",
-    "prismjs": "1.29.0"
+    "prismjs": "1.30.0"
   }
 }
