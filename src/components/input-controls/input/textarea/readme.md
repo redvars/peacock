@@ -87,6 +87,7 @@ Type: `Promise<void>`
 graph TD;
   goat-textarea --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   style goat-textarea fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

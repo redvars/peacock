@@ -2,8 +2,16 @@
   "color": {
     "$type": "color",
     "background": {
-      "$value": "{color.red.50}",
-      "$darkValue": "#AA4444"
+      "$value": "{color.white}",
+      "$darkValue": "{color.gray.900}"
+    },
+    "background-hover": {
+      "$value": "rgba({color.gray.500}, 0.12)",
+      "$darkValue": "rgba({color.gray.500}, 0.16)"
+    },
+    "background-active": {
+      "$value": "rgba({color.gray.500}, 0.5)",
+      "$darkValue": "rgba({color.gray.500}, 0.6)"
     }
   }
 }

@@ -12,10 +12,16 @@ const sd = new StyleDictionary({
         {
           destination: 'dist/variables.css', // Destination file for CSS variables
           format: 'css/variables', // Custom format for CSS variables with dark mode support
+          options: {
+            outputReferences: true, // Enable outputReferences for this file
+          },
         },
         {
           destination: 'dist/variables-dark.css', // Destination file for CSS variables
           format: 'cssDark', // Custom format for CSS variables with dark mode support
+          options: {
+            outputReferences: true, // Enable outputReferences for this file
+          },
         },
         {
           format: 'javascript/esm',

@@ -47,6 +47,7 @@ Type: `Promise<void>`
 graph TD;
   goat-header-action --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   style goat-header-action fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

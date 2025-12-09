@@ -30,16 +30,20 @@ graph TD;
   goat-condition-builder --> goat-text
   goat-condition-builder --> goat-cb-divider
   goat-condition-builder --> goat-tag
+  goat-select --> pc-icon
   goat-select --> goat-tag
   goat-select --> goat-button
   goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> goat-text
   goat-select --> goat-menu-item
+  goat-tag --> pc-icon
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
+  goat-menu-item --> pc-icon
   goat-input --> goat-tooltip
   goat-input --> goat-button
   goat-tooltip --> goat-popover

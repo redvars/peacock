@@ -12,14 +12,6 @@
 | `vertical` | `vertical` |             | `boolean` | `false` |
 
 
-## CSS Custom Properties
-
-| Name                     | Description            |
-| ------------------------ | ---------------------- |
-| `--goat-divider-color`   | Color of the divider   |
-| `--goat-divider-padding` | Padding of the divider |
-
-
 ## Dependencies
 
 ### Used by

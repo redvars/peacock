@@ -56,15 +56,19 @@ graph TD;
   goat-table --> goat-text
   goat-table --> goat-empty-state
   goat-button --> goat-spinner
+  goat-button --> pc-icon
+  goat-select --> pc-icon
   goat-select --> goat-tag
   goat-select --> goat-button
   goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> goat-text
   goat-select --> goat-menu-item
+  goat-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
+  goat-menu-item --> pc-icon
   style goat-table fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

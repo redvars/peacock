@@ -73,17 +73,18 @@ html.hydrated {
 
 .side-navigation {
   padding-top: 1.5rem;
-  background-color: var(--color-brand-50);
+  background-color: var(--color-brand-primary-50);
   width: 5rem;
   align-items: center;
   display: flex;
   flex-direction: column;
   --pc-icon-size: 1.75rem;
+  min-height: 100vh;
 }
 
 
 .side-navigation .search-button {
-  background-color: var(--color-brand-300);
+  background-color: var(--color-brand-primary-200);
   height: 3.25rem;
   width: 3.25rem;
 
@@ -101,20 +102,24 @@ html.hydrated {
 }
 
 .side-navigation .nav-item .icon {
-  padding: .25rem
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 2rem;
 }
 
-.side-navigation .nav-item:hover .icon, .side-navigation .nav-item:hover .logo {
+.side-navigation .nav-item:hover .icon {
   background: var(--color-red-30);
-  border-radius: var(--border-radius);
+  border-radius: var(--global-shape-corner-large);
 }
 
-.home-item {
+.item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  gap: 0.25rem;
 }
 
 .side-navigation .home img {

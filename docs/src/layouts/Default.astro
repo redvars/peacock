@@ -29,21 +29,23 @@ const searchItems = componentsDetails.components.map(component => ({
       </goat-link>
 
       <goat-link class="home no-style nav-item" href="./">
-        <div class="home-item">
-        <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
-        <goat-text type="label">Home</goat-text>
+        <div class="item">
+          <div class='icon'>
+            <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
+          </div>
+          <goat-text type="label">Home</goat-text>
         </div>
       </goat-link>
 
-      <goat-link class="components no-style nav-item">
-        <div class="home-item">
+      <goat-link class="components no-style nav-item" href='/color'>
+        <div class="item">
         <pc-icon class="icon" name="settings"></pc-icon>
         <goat-text type="label">Components</goat-text>
         </div>
       </goat-link>
 
       <goat-link class="color no-style nav-item" href='/color'>
-        <div class="home-item">
+        <div class="item">
         <pc-icon class="icon" name="palette"></pc-icon>
         <goat-text type="label">Colors</goat-text>
         </div>

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-07T06:47:08",
+  "timestamp": "2025-12-09T13:50:31",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.19.2",
@@ -141,8 +141,14 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
+      "dependencies": [
+        "pc-icon"
+      ],
+      "dependencyGraph": {
+        "goat-accordion-item": [
+          "pc-icon"
+        ]
+      },
       "props": [
         {
           "name": "disabled",
@@ -227,23 +233,7 @@
           "docsTags": []
         }
       ],
-      "styles": [
-        {
-          "name": "--goat-accordion-item-heading-background - Background color of the accordion item header",
-          "annotation": "prop",
-          "docs": ""
-        },
-        {
-          "name": "--goat-accordion-item-heading-background-hover - Background color of the accordion item header on hover",
-          "annotation": "prop",
-          "docs": ""
-        },
-        {
-          "name": "--goat-accordion-item-title-align - Alignment of the accordion title",
-          "annotation": "prop",
-          "docs": ""
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [
         {
@@ -448,7 +438,7 @@
         "description": "The badge component is used to display a small amount of information to the user.",
         "category": "Informational",
         "tag": "content",
-        "example": "<goat-badge content=\"5\"> <goat-icon name=\"notification\" size=\"2rem\"></goat-icon></goat-badge>"
+        "example": "<goat-badge content=\"5\"> <pc-icon name=\"notification\" size=\"2rem\"></pc-icon></goat-badge>"
       }
     },
     {
@@ -633,11 +623,13 @@
         "goat-time-picker"
       ],
       "dependencies": [
-        "goat-spinner"
+        "goat-spinner",
+        "pc-icon"
       ],
       "dependencyGraph": {
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-calendar": [
           "goat-button"
@@ -1181,58 +1173,7 @@
           "docsTags": []
         }
       ],
-      "styles": [
-        {
-          "name": "--goat-button-border-radius",
-          "annotation": "prop",
-          "docs": "Button border radius."
-        },
-        {
-          "name": "--goat-button-border-style",
-          "annotation": "prop",
-          "docs": "Button border style."
-        },
-        {
-          "name": "--goat-button-color",
-          "annotation": "prop",
-          "docs": "Button filling color."
-        },
-        {
-          "name": "--goat-button-color-active",
-          "annotation": "prop",
-          "docs": "Button filling color on active."
-        },
-        {
-          "name": "--goat-button-color-hover",
-          "annotation": "prop",
-          "docs": "Button filling color on hover."
-        },
-        {
-          "name": "--goat-button-color-light",
-          "annotation": "prop",
-          "docs": "Button filling color for light variant."
-        },
-        {
-          "name": "--goat-button-padding",
-          "annotation": "prop",
-          "docs": "Button padding."
-        },
-        {
-          "name": "--goat-button-support-contrast-color",
-          "annotation": "prop",
-          "docs": "Button support color (text or border). Should be white or black based on weight of button filling color."
-        },
-        {
-          "name": "--goat-theme-button-border-radius",
-          "annotation": "prop",
-          "docs": "Theme level button border radius. (applies to all buttons)"
-        },
-        {
-          "name": "--goat-theme-button-border-style",
-          "annotation": "prop",
-          "docs": "Theme level button border style. (applies to all buttons)"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -1325,9 +1266,11 @@
           "goat-calendar-month-view"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-select": [
+          "pc-icon",
           "goat-tag",
           "goat-button",
           "goat-spinner",
@@ -1335,12 +1278,18 @@
           "goat-text",
           "goat-menu-item"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-menu": [
           "goat-empty-state"
         ],
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ],
         "goat-calendar-column-view": [
           "goat-calendar-column-view-background"
@@ -2253,6 +2202,9 @@
           "goat-text",
           "goat-cb-divider",
           "goat-tag"
+        ],
+        "goat-tag": [
+          "pc-icon"
         ]
       },
       "props": [
@@ -2461,6 +2413,7 @@
           "goat-select"
         ],
         "goat-select": [
+          "pc-icon",
           "goat-tag",
           "goat-button",
           "goat-spinner",
@@ -2468,8 +2421,12 @@
           "goat-text",
           "goat-menu-item"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-menu": [
           "goat-empty-state"
@@ -2477,6 +2434,9 @@
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ]
       },
       "props": [
@@ -2553,6 +2513,9 @@
         "goat-cb-predicate": [
           "goat-cb-divider",
           "goat-tag"
+        ],
+        "goat-tag": [
+          "pc-icon"
         ]
       },
       "props": [
@@ -3340,6 +3303,9 @@
           "goat-tag",
           "goat-spinner"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-html-editor": [
           "goat-code-editor"
         ]
@@ -3707,7 +3673,8 @@
           "goat-popover-content"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -4312,13 +4279,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-code-highlighter-background",
-          "annotation": "prop",
-          "docs": "Code Highlighter background color"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -4360,6 +4321,7 @@
           "goat-tag"
         ],
         "goat-select": [
+          "pc-icon",
           "goat-tag",
           "goat-button",
           "goat-spinner",
@@ -4367,8 +4329,12 @@
           "goat-text",
           "goat-menu-item"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-menu": [
           "goat-empty-state"
@@ -4376,6 +4342,9 @@
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ],
         "goat-input": [
           "goat-tooltip",
@@ -4563,7 +4532,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -5111,18 +5081,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-divider-color",
-          "annotation": "prop",
-          "docs": "Color of the divider"
-        },
-        {
-          "name": "--goat-divider-padding",
-          "annotation": "prop",
-          "docs": "Padding of the divider"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5391,7 +5350,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [],
@@ -5420,13 +5380,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-dropdown-menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5466,7 +5420,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-menu": [
           "goat-empty-state"
@@ -5679,6 +5634,7 @@
       "dependents": [],
       "dependencies": [
         "goat-canvas",
+        "pc-icon",
         "goat-tag",
         "goat-button-group",
         "goat-button"
@@ -5686,12 +5642,17 @@
       "dependencyGraph": {
         "goat-flow-designer": [
           "goat-canvas",
+          "pc-icon",
           "goat-tag",
           "goat-button-group",
           "goat-button"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -6318,18 +6279,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-header-height",
-          "annotation": "prop",
-          "docs": "Height of the header. Defaults to 3rem."
-        },
-        {
-          "name": "--goat-header-width",
-          "annotation": "prop",
-          "docs": "Width of the header. Defaults to 100%."
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -6362,7 +6312,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -6586,7 +6537,8 @@
           "goat-divider"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -6750,11 +6702,15 @@
           "goat-menu-item"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-code-editor": [
           "goat-tag",
           "goat-spinner"
+        ],
+        "goat-tag": [
+          "pc-icon"
         ],
         "goat-menu": [
           "goat-empty-state"
@@ -6762,6 +6718,9 @@
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ]
       },
       "props": [
@@ -7347,7 +7306,8 @@
           "goat-popover-content"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-condition-builder": [
           "goat-input"
@@ -7958,7 +7918,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -8458,7 +8419,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-dropdown-menu": [
           "goat-menu"
@@ -8670,23 +8632,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-menu-background",
-          "annotation": "prop",
-          "docs": "Background color of the menu"
-        },
-        {
-          "name": "--goat-menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        },
-        {
-          "name": "--goat-menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -8753,8 +8699,13 @@
         "goat-html-editor",
         "goat-select"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "pc-icon"
+      ],
       "dependencyGraph": {
+        "goat-menu-item": [
+          "pc-icon"
+        ],
         "goat-html-editor": [
           "goat-menu-item"
         ],
@@ -9090,7 +9041,8 @@
           "goat-spinner"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -9367,14 +9319,17 @@
         "goat-notification-manager"
       ],
       "dependencies": [
+        "pc-icon",
         "goat-button"
       ],
       "dependencyGraph": {
         "goat-notification": [
+          "pc-icon",
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-notification-manager": [
           "goat-notification"
@@ -9501,7 +9456,7 @@
           "mutable": false,
           "attr": "state",
           "reflectToAttr": true,
-          "docs": "The state of the notification.\r\nPossible values are: 'success', 'error', 'info', 'warning'",
+          "docs": "The state of the notification.\nPossible values are: 'success', 'error', 'info', 'warning'",
           "docsTags": [],
           "default": "'info'",
           "values": [
@@ -9568,7 +9523,7 @@
         "tags": [
           "notification"
         ],
-        "example": "<goat-notification state=\"success\">\r\n     <div slot='title'>Successful saved the record</div>\r\n   </goat-notification>"
+        "example": "<goat-notification state=\"success\">\n     <div slot='title'>Successful saved the record</div>\n   </goat-notification>"
       }
     },
     {
@@ -9592,10 +9547,12 @@
           "goat-notification"
         ],
         "goat-notification": [
+          "pc-icon",
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -9710,7 +9667,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-slider": [
           "goat-number"
@@ -10657,28 +10615,7 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of popover content"
-        },
-        {
-          "name": "--popover-content-background",
-          "annotation": "prop",
-          "docs": "Background color of the popover content"
-        },
-        {
-          "name": "--popover-content-border-radius",
-          "annotation": "prop",
-          "docs": "Border radius of the popover content"
-        },
-        {
-          "name": "--popover-padding",
-          "annotation": "prop",
-          "docs": "Padding of the popover content"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -10703,8 +10640,14 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
+      "dependencies": [
+        "pc-icon"
+      ],
+      "dependencyGraph": {
+        "goat-progress": [
+          "pc-icon"
+        ]
+      },
       "props": [
         {
           "name": "helperText",
@@ -11027,6 +10970,7 @@
         "goat-table"
       ],
       "dependencies": [
+        "pc-icon",
         "goat-tag",
         "goat-button",
         "goat-spinner",
@@ -11036,6 +10980,7 @@
       ],
       "dependencyGraph": {
         "goat-select": [
+          "pc-icon",
           "goat-tag",
           "goat-button",
           "goat-spinner",
@@ -11043,8 +10988,12 @@
           "goat-text",
           "goat-menu-item"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-menu": [
           "goat-empty-state"
@@ -11052,6 +11001,9 @@
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ],
         "goat-calendar": [
           "goat-select"
@@ -11267,13 +11219,13 @@
           "name": "items",
           "type": "{ label: string | number; value: string | number; icon?: string; }[]",
           "complexType": {
-            "original": "{\r\n    label: string | number;\r\n    value: string | number;\r\n    icon?: string;\r\n  }[]",
+            "original": "{\n    label: string | number;\n    value: string | number;\n    icon?: string;\n  }[]",
             "resolved": "{ label: string | number; value: string | number; icon?: string; }[]",
             "references": {}
           },
           "mutable": false,
           "reflectToAttr": false,
-          "docs": "[{\r\n  label: 'Shivaji Varma',\r\n  value: 'shivaji-varma',\r\n  icon: 'person'\r\n}]",
+          "docs": "[{\n  label: 'Shivaji Varma',\n  value: 'shivaji-varma',\n  icon: 'person'\n}]",
           "docsTags": [],
           "default": "[]",
           "values": [
@@ -11505,7 +11457,7 @@
           "mutable": false,
           "attr": "search",
           "reflectToAttr": false,
-          "docs": "Search type\r\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`.",
+          "docs": "Search type\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`.",
           "docsTags": [],
           "default": "'none'",
           "values": [
@@ -11562,7 +11514,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The select input size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The select input size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [],
           "default": "'md'",
           "values": [
@@ -11593,7 +11545,7 @@
           "mutable": false,
           "attr": "state",
           "reflectToAttr": true,
-          "docs": "The input state.\r\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
+          "docs": "The input state.\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
           "docsTags": [],
           "default": "'default'",
           "values": [
@@ -11750,7 +11702,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\r\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -11772,7 +11724,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\r\n`input.focus()`.t",
+          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\n`input.focus()`.t",
           "docsTags": []
         }
       ],
@@ -11941,7 +11893,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -12266,7 +12219,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-tooltip": [
           "goat-popover",
@@ -12890,11 +12844,13 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "goat-spinner"
+        "goat-spinner",
+        "pc-icon"
       ],
       "dependencyGraph": {
         "goat-tab": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -13331,9 +13287,11 @@
           "goat-empty-state"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ],
         "goat-select": [
+          "pc-icon",
           "goat-tag",
           "goat-button",
           "goat-spinner",
@@ -13341,12 +13299,18 @@
           "goat-text",
           "goat-menu-item"
         ],
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-menu": [
           "goat-empty-state"
         ],
         "goat-empty-state": [
           "goat-svg",
           "goat-button"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
         ]
       },
       "props": [
@@ -13986,8 +13950,13 @@
         "goat-flow-designer",
         "goat-select"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "pc-icon"
+      ],
       "dependencyGraph": {
+        "goat-tag": [
+          "pc-icon"
+        ],
         "goat-cb-compound-expression": [
           "goat-tag"
         ],
@@ -14562,7 +14531,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -15177,7 +15147,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -16019,8 +15990,14 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
+      "dependencies": [
+        "pc-icon"
+      ],
+      "dependencyGraph": {
+        "goat-tree-node": [
+          "pc-icon"
+        ]
+      },
       "props": [
         {
           "name": "disabled",
@@ -16098,7 +16075,7 @@
           "mutable": false,
           "attr": "icon",
           "reflectToAttr": false,
-          "docs": "Icon which will displayed on button.\r\nPossible values are icon names.",
+          "docs": "Icon which will displayed on button.\nPossible values are icon names.",
           "docsTags": [],
           "values": [
             {
@@ -16240,7 +16217,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\r\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `goat-input`. Use this method instead of the global\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -16262,7 +16239,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `goat-input`. Use this method instead of the global\r\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `goat-input`. Use this method instead of the global\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -16334,7 +16311,8 @@
           "goat-button"
         ],
         "goat-button": [
-          "goat-spinner"
+          "goat-spinner",
+          "pc-icon"
         ]
       },
       "props": [
@@ -16522,9 +16500,51 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [],
+      "dependents": [
+        "goat-accordion-item",
+        "goat-button",
+        "goat-flow-designer",
+        "goat-menu-item",
+        "goat-notification",
+        "goat-progress",
+        "goat-select",
+        "goat-tab",
+        "goat-tag",
+        "goat-tree-node"
+      ],
       "dependencies": [],
-      "dependencyGraph": {},
+      "dependencyGraph": {
+        "goat-accordion-item": [
+          "pc-icon"
+        ],
+        "goat-button": [
+          "pc-icon"
+        ],
+        "goat-flow-designer": [
+          "pc-icon"
+        ],
+        "goat-menu-item": [
+          "pc-icon"
+        ],
+        "goat-notification": [
+          "pc-icon"
+        ],
+        "goat-progress": [
+          "pc-icon"
+        ],
+        "goat-select": [
+          "pc-icon"
+        ],
+        "goat-tab": [
+          "pc-icon"
+        ],
+        "goat-tag": [
+          "pc-icon"
+        ],
+        "goat-tree-node": [
+          "pc-icon"
+        ]
+      },
       "props": [
         {
           "name": "name",
@@ -16558,8 +16578,7 @@
         "name": "Icon",
         "description": "Icons are visual symbols used to represent ideas, objects, or actions.",
         "overview": "Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.",
-        "category": "General",
-        "example": "<goat-icon name=\"home\" size=\"2rem\"></goat-icon>"
+        "example": "<pc-icon name=\"home\" size=\"2rem\"></pc-icon>"
       }
     }
   ],

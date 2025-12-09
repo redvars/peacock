@@ -1,0 +1,17 @@
+{
+  "color": {
+    "$type": "color",
+    "info": {
+      "$value": "{color.blue.500}"
+    },
+    "success": {
+      "$value": "{color.green.500}"
+    },
+    "warning": {
+      "$value": "{color.yellow.500}"
+    },
+    "danger": {
+      "$value": "{color.red.500}"
+    }
+  }
+}

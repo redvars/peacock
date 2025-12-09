@@ -86,12 +86,12 @@ Secondary link color for lower contrast backgrounds
 @include defineVariableDeprecated(--support-error, getColor(error, 60), getColor(error, 50));
 @include defineVariableDeprecated(--support-success, getColor(success, 60), getColor(success, 40));
 @include defineVariableDeprecated(--support-warning, getColor(warning, 30), getColor(warning, 30));
-@include defineVariableDeprecated(--support-info, getColor(info, 70), getColor(info, 50));
+//@include defineVariableDeprecated(--support-info, getColor(info, 70), getColor(info, 50));
 
 @include defineVariableDeprecated(--support-error-inverse, getColor(error, 50), getColor(error, 60));
 @include defineVariableDeprecated(--support-success-inverse, getColor(success, 40), getColor(success, 50));
 @include defineVariableDeprecated(--support-warning-inverse, getColor(warning, 30), getColor(warning, 30));
-@include defineVariableDeprecated(--support-info-inverse, getColor(info, 50), getColor(info, 70));
+//@include defineVariableDeprecated(--support-info-inverse, getColor(info, 50), getColor(info, 70));
 
 @include defineVariableDeprecated(--toggle-off, getColor(gray, 50), getColor(gray, 60));
 
@@ -108,7 +108,7 @@ Secondary link color for lower contrast backgrounds
 @include defineVariableDeprecated(--code-editor-bg-primary, getColor(red, 10), getColor(purple, 100));
 
 
-@each $color in [gray, blue, green, red, yellow, primary, success, info, warning, error] {
+@each $color in [gray, blue, green, red, yellow, primary, success, warning, error] {
   @include defineVariableDeprecated(--tag-background-#{$color}, getColor($color, 20), getColor($color, 80));
   @include defineVariableDeprecated(--tag-hover-#{$color}, getColor($color, 30), getColor($color, 70));
   @include defineVariableDeprecated(--tag-color-#{$color}, getColor($color, 80), getColor($color, 30));

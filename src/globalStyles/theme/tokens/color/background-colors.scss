@@ -3,7 +3,6 @@
  * Default page background;
  * UI Shell base color
  */
-@include defineThemeVariable(--background, getColor(white, 0), getColor(gray, 10), getColor(gray, 90), getColor(gray, 100));
 
 @include defineVariableDeprecated(--background-hover, getColor(gray, 50, 0.12), getColor(gray, 50, 0.16));
 @include defineVariableDeprecated(--background-active, getColor(gray, 50, 0.5), getColor(gray, 50, 0.4));

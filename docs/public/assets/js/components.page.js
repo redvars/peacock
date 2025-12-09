@@ -45,9 +45,9 @@ const cardHeaders = document.querySelectorAll('.card-header');
 cardHeaders.forEach(box => {
   box.addEventListener('click', function handleClick(event) {
     if (event.ctrlKey || event.metaKey) {
-      window.open(`/components/${event.target.getAttribute('data-tag').replace('goat-', '')}/#`, '_blank');
+      window.open(`/components/${event.target.getAttribute('data-tag').replace('goat-', '').replace('pc-', '')}/#`, '_blank');
       return;
     }
-    window.location.href = `/components/${event.target.getAttribute('data-tag').replace('goat-', '')}/#`;
+    window.location.href = `/components/${event.target.getAttribute('data-tag').replace('goat-', '').replace('pc-', '')}/#`;
   });
 });

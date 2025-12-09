@@ -91,6 +91,7 @@ Type: `Promise<void>`
 graph TD;
   goat-number --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   goat-slider --> goat-number
   style goat-number fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -81,7 +81,7 @@ $border-width: 2px;
 @each $color in [primary, secondary, success, info, warning, error, white, black] {
   .menu-item#{'.color-' + $color} {
     &:hover, &.has-focus:not(.active) {
-      background: v(--color-#{$color});
+      background: var(--color-#{$color});
       color: white;
 
       .slot-end {

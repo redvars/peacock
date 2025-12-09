@@ -71,7 +71,7 @@
 
     @each $color in [primary, secondary, success, info, warning, error,white, black, brand-primary, brand-secondary] {
       &#{'.color-' + $color} .header-container {
-        background: v(--color-#{$color});
+        background: var(--color-#{$color});
       }
     }
   }
@@ -80,7 +80,7 @@
     @each $color in
       [primary, secondary, success, info, warning, error, white, black, brand-primary, brand-secondary] {
       &#{'.color-' + $color} {
-        background: v(--color-#{$color});
+        background: var(--color-#{$color});
       }
     }
   }

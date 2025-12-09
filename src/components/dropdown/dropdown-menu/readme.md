@@ -19,13 +19,6 @@ Type: `Promise<void>`
 
 
 
-## CSS Custom Properties
-
-| Name                              | Description                |
-| --------------------------------- | -------------------------- |
-| `--goat-dropdown-menu-max-height` | Maximum height of the menu |
-
-
 ## Dependencies
 
 ### Depends on
@@ -40,6 +33,7 @@ graph TD;
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   style goat-dropdown-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -90,11 +90,14 @@ graph TD;
   goat-html-editor --> goat-menu
   goat-html-editor --> goat-menu-item
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   goat-code-editor --> goat-tag
   goat-code-editor --> goat-spinner
+  goat-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
+  goat-menu-item --> pc-icon
   style goat-html-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -1,5 +1,6 @@
 {
   "title": "peacock",
+  "component_prefix": "pc-",
   "description": "GOAT UI contains design system and most used web components built using Stencil. So you don't need to include any additional framework dependencies, You can simple import required component js, and right away start using it.",
   "tagline": "Rapidly build web applications",
   "baseurl": "",
@@ -19,7 +20,7 @@
     "version": "2.25.6"
   },
   "dev": {
-    "script": "/assets/goatui-dev/build/goatui.esm.js",
+    "script": "/assets/goatui-dev/build/peacock.esm.js",
     "themeCss": "/assets/goatui-dev/build/assets/styles/theme.css",
     "version": "2.25.6"
   }

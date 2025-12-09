@@ -85,14 +85,13 @@ $colors: (
 /*
  * Theme colors
  */
-@include cloneColor(brand-primary, primary);
 @include cloneColor(brand-secondary, secondary);
 
 
 /*
  * Alert colors
  */
-@include cloneColor(info, blue);
+//@include cloneColor(info, blue);
 @include cloneColor(info-hover, blue-hover);
 @include cloneColor(success, green);
 @include cloneColor(warning, yellow);

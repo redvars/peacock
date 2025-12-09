@@ -38,6 +38,7 @@ graph TD;
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   goat-menu --> goat-empty-state
   goat-sidenav-menu --> goat-empty-state
   goat-table --> goat-empty-state

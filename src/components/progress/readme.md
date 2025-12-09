@@ -17,6 +17,19 @@
 | `value`      | `value`       |                                                                       | `number`                           | `null`      |
 
 
+## Dependencies
+
+### Depends on
+
+- [pc-icon](../icon)
+
+### Graph
+```mermaid
+graph TD;
+  goat-progress --> pc-icon
+  style goat-progress fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with love!*

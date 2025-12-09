@@ -32,15 +32,6 @@ Type: `Promise<void>`
 
 
 
-## CSS Custom Properties
-
-| Name                     | Description                  |
-| ------------------------ | ---------------------------- |
-| `--goat-menu-background` | Background color of the menu |
-| `--goat-menu-max-height` | Maximum height of the menu   |
-| `--goat-menu-shadow`     | Shadow of the menu           |
-
-
 ## Dependencies
 
 ### Used by
@@ -60,6 +51,7 @@ graph TD;
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
   goat-button --> goat-spinner
+  goat-button --> pc-icon
   goat-dropdown-menu --> goat-menu
   goat-html-editor --> goat-menu
   goat-select --> goat-menu

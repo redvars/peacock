@@ -643,10 +643,10 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 .button.color-info {
   --internal-button-color: var(--goat-button-color, #{var(--color-info)});
-  --internal-button-color-light: var(--goat-button-color-light, #{var(--color-info-10)});
-  --internal-button-color-neo: var(--goat-button-color-neo, #{var(--color-info-50)});
+  --internal-button-color-light: var(--goat-button-color-light, #{var(--color-info-100)});
+  --internal-button-color-neo: var(--goat-button-color-neo, #{var(--color-info-500)});
   --internal-button-color-hover: var(--goat-button-color-hover, #{var(--color-info-hover-60)});
-  --internal-button-color-active: var(--goat-button-color-active, #{var(--color-info-80)});
+  --internal-button-color-active: var(--goat-button-color-active, #{var(--color-info-800)});
 }
 
 .button.color-warning {
