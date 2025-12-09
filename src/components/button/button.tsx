@@ -12,12 +12,9 @@ import {
   State,
 } from '@stencil/core';
 
-import {
-  getComponentIndex,
-  hasSlot,
-  throttle,
-} from '../../utils/utils';
+import { getComponentIndex, hasSlot, throttle } from '../../utils/utils';
 
+//@ts-ignore
 const PREDEFINED_BUTTON_COLORS = [
   'primary',
   'secondary',
@@ -54,11 +51,10 @@ export class Button implements ComponentInterface {
   private tabindex?: string | number;
   private handleClickWithThrottle: () => void;
 
-  
   /**
    *  Button type based on which actions are performed when the button is clicked.
    */
-  @Prop({reflect: true}) type: 'button' | 'submit' | 'reset' = 'button';
+  @Prop({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
 
   /**
    * The visual style of the button.
@@ -70,15 +66,8 @@ export class Button implements ComponentInterface {
    * `"tonal"` is a light color button.
    *
    */
-  @Prop() variant:
-    | 'filled'
-    | 'outlined'
-    | 'text'
-    | 'tonal'
-    | 'link'
-    
-    | 'neo' = 'filled';
-
+  @Prop() variant: 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo' =
+    'filled';
 
   /**
    * Button size.
@@ -197,7 +186,6 @@ export class Button implements ComponentInterface {
   @State() slotHasContent = false;
   @State() selected: boolean = false;
 
-
   connectedCallback() {
     this.handleClickWithThrottle = throttle(
       this.handleClick,
@@ -216,7 +204,7 @@ export class Button implements ComponentInterface {
   }
 
   #renderIcon(iconName: string) {
-    return <goat-icon name={iconName} class="icon inherit" />;
+    return <pc-icon name={iconName} class="icon inherit" />;
   }
 
   handleClick = () => {
@@ -322,9 +310,8 @@ export class Button implements ComponentInterface {
 
     const variants = this.variant?.split('.');
     if (
-      ['filled', 'outline', 'ghost', 'light', 'neo'].includes(
-        variants[0],
-      ) == false
+      ['filled', 'outline', 'ghost', 'light', 'neo'].includes(variants[0]) ==
+      false
     ) {
       variants.unshift('filled');
     }
@@ -347,19 +334,15 @@ export class Button implements ComponentInterface {
             'active': this.isActive,
             'has-content': this.slotHasContent,
             'has-icon': !!this.icon,
-            'show-loader': this.showLoader
+            'show-loader': this.showLoader,
           }}
         >
+          <div class="button-elevation-background" />
 
-          <div class="button-elevation" />
-          
           <div class="button-neo-background" />
-          
-          <div class="button-background" />
-          
-          
-          
-          
+
+          <div class="button-default-background" />
+
           <NativeElementTag
             class="native-button"
             tabindex={this.tabindex}
@@ -384,28 +367,26 @@ export class Button implements ComponentInterface {
             aria-disabled={(this.disabled || this.showLoader) + ''}
             {...this.configAria}
           >
-            <div class="button-content">
-              {!this.showLoader &&
-                this.icon &&
-                this.iconAlign == 'start' &&
-                this.#renderIcon(this.icon)}
+            {!this.showLoader &&
+              this.icon &&
+              this.iconAlign == 'start' &&
+              this.#renderIcon(this.icon)}
 
-              <div class="slot-container">
-                <slot onSlotchange={() => this.#computeSlotHasContent()} />
-              </div>
-
-              {this.showLoader && (
-                <goat-spinner
-                  hideBackground={true}
-                  class="spinner loader inherit"
-                />
-              )}
-
-              {!this.showLoader &&
-                this.icon &&
-                this.iconAlign == 'end' &&
-                this.#renderIcon(this.icon)}
+            <div class="slot-container">
+              <slot onSlotchange={() => this.#computeSlotHasContent()} />
             </div>
+
+            {this.showLoader && (
+              <goat-spinner
+                hideBackground={true}
+                class="spinner loader inherit"
+              />
+            )}
+
+            {!this.showLoader &&
+              this.icon &&
+              this.iconAlign == 'end' &&
+              this.#renderIcon(this.icon)}
           </NativeElementTag>
           {this.#renderDisabledReason()}
         </div>

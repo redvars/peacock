@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
-  namespace: 'goatui',
+  namespace: 'peacock',
   outputTargets: [
     {
       type: 'dist',

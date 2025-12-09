@@ -17,19 +17,6 @@
 | `value`      | `value`       |                                                                       | `number`                           | `null`      |
 
 
-## Dependencies
-
-### Depends on
-
-- [goat-icon](../icon)
-
-### Graph
-```mermaid
-graph TD;
-  goat-progress --> goat-icon
-  style goat-progress fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

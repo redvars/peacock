@@ -1,6 +1,6 @@
 @charset "utf-8";
-@import "mixin";
-@import "device-utils";
+@use "mixin";
+@use "device-utils";
 
 /* width */
 ::-webkit-scrollbar {
@@ -73,19 +73,23 @@ html.hydrated {
 
 .side-navigation {
   padding-top: 1.5rem;
-  background-color: var(--color-red-10);
+  background-color: var(--color-brand-50);
   width: 5rem;
   align-items: center;
   display: flex;
   flex-direction: column;
+  --pc-icon-size: 1.75rem;
 }
 
 
 .side-navigation .search-button {
-  background-color: var(--color-purple-30);
-  height: 3rem;
-  width: 3rem;
-  border-radius: var(--border-radius);
+  background-color: var(--color-brand-300);
+  height: 3.25rem;
+  width: 3.25rem;
+
+  border-radius: 16px;
+  corner-shape: squircle;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,8 +101,7 @@ html.hydrated {
 }
 
 .side-navigation .nav-item .icon {
-  padding: 2px;
-  --goat-icon-size: 30px;
+  padding: .25rem
 }
 
 .side-navigation .nav-item:hover .icon, .side-navigation .nav-item:hover .logo {
@@ -220,7 +223,7 @@ figure {
   padding-block: var(--spacing-11);
 }
 
-@include for-phone-only {
+@include mixin.for-phone-only {
   .container-code {
     margin-inline: -1rem;
   }

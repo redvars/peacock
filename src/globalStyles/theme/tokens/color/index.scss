@@ -9,9 +9,9 @@
 @import "skeleton-colors";
 
 @include defineVariableDeprecated(--color-white, getColor(white, 0));
-@include defineVariableDeprecated(--color-black, getColor(black, 100));
-@include defineVariableDeprecated(--color-dark, getColor(black, 100), getColor(white, 0));
-@include defineVariableDeprecated(--color-light, getColor(white, 0), getColor(black, 100));
+@include defineVariableDeprecated(--color-black, var(--color-black));
+@include defineVariableDeprecated(--color-dark, var(--color-black), var(--color-white));
+@include defineVariableDeprecated(--color-light, getColor(white, 0), var(--color-black));
 @include defineVariableDeprecated(--border-color, getColor(gray, 50));
 
 

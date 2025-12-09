@@ -8,8 +8,6 @@
 
         <goat-select label='Icon' id='comp-select' search='contains' placeholder='Select' clearable></goat-select>
 
-        <goat-input label='Size' id='comp-size'></goat-input>
-
       </div>
     </div>
     <div class='code-editor-container'>
@@ -29,9 +27,7 @@
       const $codeEditor = this.elm.querySelector('.code-editor');
       const $demoArea = this.elm.querySelector('.demo-area');
 
-      $codeEditor.value = `
-    <goat-icon name='alarm' size='2rem'></goat-icon>
-    `;
+      $codeEditor.value = `<pc-icon name='alarm'></pc-icon>`;
       $codeEditor.addEventListener('goat-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;
       });
@@ -81,11 +77,5 @@
   $dropDown.value = 'alarm';
   $dropDown.addEventListener('goat-select--change', function(evt) {
     playground.updateProperty('name', evt.detail.value);
-  });
-
-  const $size = document.getElementById('comp-size');
-  $size.value = '2rem';
-  $size.addEventListener('goat-input--change', function(evt) {
-    playground.updateProperty('size', evt.target.value);
   });
 </script>

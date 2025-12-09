@@ -1,4 +1,4 @@
-# goat-icon
+# pc-icon
 
 
 
@@ -28,7 +28,6 @@ graph TD;
   goat-cb-compound-expression --> goat-text
   goat-cb-compound-expression --> goat-cb-divider
   goat-cb-compound-expression --> goat-tag
-  goat-tag --> goat-icon
   style goat-cb-compound-expression fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

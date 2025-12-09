@@ -22,13 +22,13 @@ const searchItems = componentsDetails.components.map(component => ({
 <Layout title={title} description={description} keywords={keywords}>
   <div class="page-with-navigation">
     <div class="side-navigation">
-      <goat-link class="search-button no-style" href="./search.html">
+      <goat-link class="search-button no-style" href="./search">
 
-        <goat-icon name="search" size="1.5rem"></goat-icon>
-        
+        <pc-icon name="search"></pc-icon>
+
       </goat-link>
 
-      <goat-link class="home no-style nav-item">
+      <goat-link class="home no-style nav-item" href="./">
         <div class="home-item">
         <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
         <goat-text type="label">Home</goat-text>
@@ -37,14 +37,14 @@ const searchItems = componentsDetails.components.map(component => ({
 
       <goat-link class="components no-style nav-item">
         <div class="home-item">
-        <goat-icon class="icon" name="settings"></goat-icon>
+        <pc-icon class="icon" name="settings"></pc-icon>
         <goat-text type="label">Components</goat-text>
         </div>
       </goat-link>
 
-      <goat-link class="color no-style nav-item">
+      <goat-link class="color no-style nav-item" href='/color'>
         <div class="home-item">
-        <goat-icon class="icon" name="color-palette"></goat-icon>
+        <pc-icon class="icon" name="palette"></pc-icon>
         <goat-text type="label">Colors</goat-text>
         </div>
       </goat-link>
@@ -72,7 +72,7 @@ const searchItems = componentsDetails.components.map(component => ({
             <div id="search-header-container">
               <div id="search-container-overlay"></div>
               <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
-                <goat-icon slot="start" name="search" size="1rem"></goat-icon>
+                <pc-icon slot="start" name="search"></pc-icon>
               </goat-select>
             </div>
 
@@ -101,13 +101,13 @@ const searchItems = componentsDetails.components.map(component => ({
 
         <goat-menu class="header-menu-list no-border">
           <goat-menu-item href="/components#">
-            <goat-icon name="roadmap" slot="start" size="sm"></goat-icon>&nbsp; Components
+            <pc-icon name="roadmap" slot="start" size="sm"></pc-icon>&nbsp; Components
           </goat-menu-item>
           <goat-menu-item href="/blog#">
-            <goat-icon name="blog" slot="start" size="sm"></goat-icon>&nbsp; Blog
+            <pc-icon name="blog" slot="start" size="sm"></pc-icon>&nbsp; Blog
           </goat-menu-item>
           <goat-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
-            <goat-icon name="currency--rupee" slot="start" size="sm"></goat-icon>&nbsp; Sponsor
+            <pc-icon name="currency--rupee" slot="start" size="sm"></pc-icon>&nbsp; Sponsor
           </goat-menu-item>
         </goat-menu>
       </div>

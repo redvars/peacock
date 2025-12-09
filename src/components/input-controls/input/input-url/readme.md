@@ -95,7 +95,6 @@ graph TD;
   goat-input-url --> goat-link
   goat-input-url --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-input-url fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

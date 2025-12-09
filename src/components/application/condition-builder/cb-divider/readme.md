@@ -1,4 +1,4 @@
-# goat-icon
+# pc-icon
 
 
 

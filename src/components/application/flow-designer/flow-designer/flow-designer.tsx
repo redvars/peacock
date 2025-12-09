@@ -228,7 +228,10 @@ export class FlowDesigner {
                       height: 20 * this.zoom + 'px',
                     }}
                   >
-                    <goat-icon name={'plus'} size={this.zoom * 20 + 'px'} />
+                    <pc-icon
+                      name={'plus'}
+                      style={{ '--pc-icon-size': this.zoom * 20 + 'px' }}
+                    />
                   </div>
 
                   <goat-tag

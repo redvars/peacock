@@ -1,5 +1,5 @@
-@import "mixin";
-@include for-phone-only {
+@use "mixin";
+@include mixin.for-phone-only {
   .show-mobile {
     display: unset;
   }
@@ -23,7 +23,7 @@
   }
 }
 
-@include for-tablet-portrait-up {
+@include mixin.for-tablet-portrait-up {
   .show-mobile {
     display: none;
   }
@@ -44,7 +44,7 @@
   }
 }
 
-@include for-tablet-landscape-up {
+@include mixin.for-tablet-landscape-up {
   .show-mobile {
     display: none;
   }
@@ -65,7 +65,7 @@
   }
 }
 
-@include for-desktop-up {
+@include mixin.for-desktop-up {
   .hide-tablet-landscape-below {
     display: unset;
   }

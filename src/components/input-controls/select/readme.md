@@ -102,7 +102,6 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-icon](../../icon)
 - [goat-tag](../../tag)
 - [goat-button](../../button)
 - [goat-spinner](../../spinner)
@@ -113,20 +112,16 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-select --> goat-icon
   goat-select --> goat-tag
   goat-select --> goat-button
   goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> goat-text
   goat-select --> goat-menu-item
-  goat-tag --> goat-icon
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
-  goat-menu-item --> goat-icon
   goat-calendar --> goat-select
   goat-cb-expression --> goat-select
   goat-condition-builder --> goat-select

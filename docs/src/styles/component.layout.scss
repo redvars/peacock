@@ -1,6 +1,6 @@
 @charset "utf-8";
-@import "mixin.scss";
-@import "device-utils.scss";
+@use "mixin.scss";
+@use "device-utils.scss";
 
 
 :root {
@@ -155,7 +155,7 @@ pre[class*='language-'] {
 
 }
 
-@include for-tablet-landscape-up {
+@include mixin.for-tablet-landscape-up {
   .playground-container {
     .playground {
       flex-direction: row;

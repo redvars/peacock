@@ -67,7 +67,6 @@ graph TD;
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-tree-view fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

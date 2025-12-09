@@ -6,12 +6,15 @@
 }
 
 .link {
+  cursor: pointer;
   height: 100%;
-  border-radius: var(--border-radius);
+  width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: row;
-  cursor: pointer;
+  justify-content: center;
+  border-radius: inherit;
+  corner-shape: inherit;
+
   text-decoration: var(--link-decoration, none);
 
   color: var(--link-color, var(--link-01));

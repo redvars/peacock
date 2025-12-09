@@ -60,7 +60,6 @@ graph TD;
   goat-empty-state --> goat-svg
   goat-empty-state --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   goat-dropdown-menu --> goat-menu
   goat-html-editor --> goat-menu
   goat-select --> goat-menu

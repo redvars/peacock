@@ -189,8 +189,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
 
   @Listen('click', { target: 'window' })
   windowClick(evt) {
-    if (this.open === false)
-      return;
+    if (this.open === false) return;
     const path = evt.path || evt.composedPath();
     for (const elm of path) {
       if (elm == this.elm) return;
@@ -373,7 +372,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
         if (item) {
           return (
             <div class="display-value-container">
-              {item.icon && <goat-icon name={item.icon} size="sm" />}
+              {item.icon && <pc-icon name={item.icon} />}
               <span class="item-label">{item.label}</span>
             </div>
           );
@@ -617,13 +616,12 @@ export class Select implements ComponentInterface, InputComponentInterface {
     }
     if (!this.disabled && !this.readonly && !this.hideDropdownIcon)
       return (
-        <goat-icon
+        <pc-icon
           tabindex={-1}
           class="toggle-icon chevron-down color-secondary"
-          size={this.size}
           name="chevron--down"
           onClick={this.toggleList}
-        ></goat-icon>
+        ></pc-icon>
       );
   }
 
@@ -633,11 +631,10 @@ export class Select implements ComponentInterface, InputComponentInterface {
         <goat-menu
           class="menu"
           ref={el => (this.menuElm = el)}
-          size={this.size}
           layer={this.layer}
         >
           <div class="start-search">
-            <goat-icon name="search" size={this.size} />
+            <pc-icon name="search" />
             <goat-text class="text-secondary">
               Start typing to perform search
             </goat-text>
@@ -653,7 +650,6 @@ export class Select implements ComponentInterface, InputComponentInterface {
           class="menu"
           empty={filteredItems.length == 0}
           ref={el => (this.menuElm = el)}
-          size={this.size}
           layer={this.layer}
         >
           {(() => {
@@ -661,17 +657,13 @@ export class Select implements ComponentInterface, InputComponentInterface {
               return (
                 <goat-menu-item value={item.value} layer={this.layer}>
                   <div class={'slot-container-start'} slot="start">
-                    {item.icon && (
-                      <goat-icon name={item.icon} size={this.size} />
-                    )}
+                    {item.icon && <pc-icon name={item.icon} />}
                   </div>
                   {item.label || item.value}
 
                   <div slot="end">
                     {((this.multiple && this.containsValue(item.value)) ||
-                      this.value == item.value) && (
-                      <goat-icon name="checkmark" size={this.size} />
-                    )}
+                      this.value == item.value) && <pc-icon name="checkmark" />}
                   </div>
                 </goat-menu-item>
               );

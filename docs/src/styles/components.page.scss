@@ -1,6 +1,6 @@
 @charset "utf-8";
-@import "mixin.scss";
-@import "device-utils.scss";
+@use "mixin.scss";
+@use "device-utils.scss";
 
 :root {
   --header-height: 4rem;

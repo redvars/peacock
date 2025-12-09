@@ -1,4 +1,3 @@
-import icons from './icons';
 import { ICON_BASE_URL } from './constants';
 import { getAssetPath } from '@stencil/core';
 import { createCacheFetch } from '../../utils/utils';
@@ -6,11 +5,7 @@ import { createCacheFetch } from '../../utils/utils';
 export async function fetchIcon(name: string) {
   if (!name) return '';
 
-  const cacheFetch = await createCacheFetch('goat-icons');
-
-  const icon = icons.find((icon: any) => icon.name === name);
-
-  if (!icon) return '';
+  const cacheFetch = await createCacheFetch('pc-icons');
 
   let iconBaseUrl: string;
   if (process.env.THIRD_PARTY_ASSETS == 'LOCAL') {
@@ -19,5 +14,5 @@ export async function fetchIcon(name: string) {
     iconBaseUrl = ICON_BASE_URL;
   }
 
-  return await cacheFetch(`${iconBaseUrl}/svg/${icon.path}`);
+  return await cacheFetch(`${iconBaseUrl}/svg-500@0.40.1/outlined/${name}.svg`);
 }

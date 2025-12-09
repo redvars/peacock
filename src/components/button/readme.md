@@ -12,7 +12,6 @@
 | `appendData`     | `append-data`     | The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic. | `any`                                                                                  | `undefined` |
 | `color`          | `color`           | Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.                                                                                                                                                                                  | `"black" \| "danger" \| "primary" \| "secondary" \| "success" \| "warning" \| "white"` | `'primary'` |
 | `configAria`     | `config-aria`     |                                                                                                                                                                                                                                                                                                     | `any`                                                                                  | `{}`        |
-| `darkModeColor`  | `dark-mode-color` | Color variant for dark mode, applicable when [data-theme="dark"] is set.                                                                                                                                                                                                                            | `"black" \| "danger" \| "primary" \| "secondary" \| "success" \| "warning" \| "white"` | `undefined` |
 | `disabled`       | `disabled`        | If true, the user cannot interact with the button. Defaults to `false`.                                                                                                                                                                                                                             | `boolean`                                                                              | `false`     |
 | `disabledReason` | `disabled-reason` | If button is disabled, the reason why it is disabled.                                                                                                                                                                                                                                               | `string`                                                                               | `''`        |
 | `href`           | `href`            | Hyperlink to navigate to on click.                                                                                                                                                                                                                                                                  | `string`                                                                               | `undefined` |
@@ -111,13 +110,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [goat-spinner](../spinner)
-- [goat-icon](../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   goat-calendar --> goat-button
   goat-code-highlighter --> goat-button
   goat-date-picker --> goat-button

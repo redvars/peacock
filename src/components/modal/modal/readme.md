@@ -40,7 +40,6 @@ graph TD;
   goat-modal --> goat-button
   goat-modal --> goat-spinner
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

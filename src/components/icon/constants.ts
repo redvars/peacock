@@ -1,1 +1,2 @@
-export const ICON_BASE_URL = 'https://cdn.jsdelivr.net/npm/@carbon/icons@11.41.0';
+export const ICON_BASE_URL = 'https://cdn.jsdelivr.net/npm/@material-symbols';
+export const ICON_VERSION = '0.40.1';

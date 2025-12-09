@@ -74,7 +74,7 @@ export namespace Components {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <goat-badge content="5"> <goat-icon name="notification" size="2rem"></goat-icon></goat-badge>
+     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
      */
     interface GoatBadge {
         "color": | 'primary'
@@ -190,13 +190,7 @@ export namespace Components {
         /**
           * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
          */
-        "variant": | 'filled'
-    | 'outlined'
-    | 'text'
-    | 'tonal'
-    | 'link'
-    
-    | 'neo';
+        "variant": 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo';
     }
     /**
      * @name Button Group
@@ -758,23 +752,6 @@ export namespace Components {
           * The input field value.
          */
         "value": string;
-    }
-    /**
-     * @name Icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <goat-icon name="home" size="2rem"></goat-icon>
-     */
-    interface GoatIcon {
-        /**
-          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
-         */
-        "name": string;
-        /**
-          * The size of the icon. This can be specified in pixels (px) or rem units to control the icon's dimensions. If a number is provided, it will be treated as rem units. For example, '16px', '2rem', or 2 would be valid values.
-         */
-        "size": string;
     }
     interface GoatImage {
         "darkSrc": string;
@@ -1856,6 +1833,19 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         "subscribeToSelect": (cb: any) => Promise<void>;
     }
+    /**
+     * @name Icon
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-icon name="home" size="2rem"></pc-icon>
+     */
+    interface PcIcon {
+        /**
+          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
+         */
+        "name": string;
+    }
 }
 export interface GoatAccordionItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2030,7 +2020,7 @@ declare global {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <goat-badge content="5"> <goat-icon name="notification" size="2rem"></goat-icon></goat-badge>
+     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
      */
     interface HTMLGoatBadgeElement extends Components.GoatBadge, HTMLStencilElement {
     }
@@ -2535,19 +2525,6 @@ declare global {
     var HTMLGoatHtmlEditorElement: {
         prototype: HTMLGoatHtmlEditorElement;
         new (): HTMLGoatHtmlEditorElement;
-    };
-    /**
-     * @name Icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <goat-icon name="home" size="2rem"></goat-icon>
-     */
-    interface HTMLGoatIconElement extends Components.GoatIcon, HTMLStencilElement {
-    }
-    var HTMLGoatIconElement: {
-        prototype: HTMLGoatIconElement;
-        new (): HTMLGoatIconElement;
     };
     interface HTMLGoatImageElement extends Components.GoatImage, HTMLStencilElement {
     }
@@ -3212,6 +3189,19 @@ declare global {
         prototype: HTMLGoatTreeViewElement;
         new (): HTMLGoatTreeViewElement;
     };
+    /**
+     * @name Icon
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-icon name="home" size="2rem"></pc-icon>
+     */
+    interface HTMLPcIconElement extends Components.PcIcon, HTMLStencilElement {
+    }
+    var HTMLPcIconElement: {
+        prototype: HTMLPcIconElement;
+        new (): HTMLPcIconElement;
+    };
     interface HTMLElementTagNameMap {
         "goat-accordion": HTMLGoatAccordionElement;
         "goat-accordion-item": HTMLGoatAccordionItemElement;
@@ -3254,7 +3244,6 @@ declare global {
         "goat-header-action": HTMLGoatHeaderActionElement;
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
-        "goat-icon": HTMLGoatIconElement;
         "goat-image": HTMLGoatImageElement;
         "goat-input": HTMLGoatInputElement;
         "goat-input-url": HTMLGoatInputUrlElement;
@@ -3291,6 +3280,7 @@ declare global {
         "goat-tooltip": HTMLGoatTooltipElement;
         "goat-tree-node": HTMLGoatTreeNodeElement;
         "goat-tree-view": HTMLGoatTreeViewElement;
+        "pc-icon": HTMLPcIconElement;
     }
 }
 declare namespace LocalJSX {
@@ -3362,7 +3352,7 @@ declare namespace LocalJSX {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <goat-badge content="5"> <goat-icon name="notification" size="2rem"></goat-icon></goat-badge>
+     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
      */
     interface GoatBadge {
         "color"?: | 'primary'
@@ -3472,13 +3462,7 @@ declare namespace LocalJSX {
         /**
           * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
          */
-        "variant"?: | 'filled'
-    | 'outlined'
-    | 'text'
-    | 'tonal'
-    | 'link'
-    
-    | 'neo';
+        "variant"?: 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo';
     }
     /**
      * @name Button Group
@@ -4054,23 +4038,6 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string;
-    }
-    /**
-     * @name Icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <goat-icon name="home" size="2rem"></goat-icon>
-     */
-    interface GoatIcon {
-        /**
-          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
-         */
-        "name"?: string;
-        /**
-          * The size of the icon. This can be specified in pixels (px) or rem units to control the icon's dimensions. If a number is provided, it will be treated as rem units. For example, '16px', '2rem', or 2 would be valid values.
-         */
-        "size"?: string;
     }
     interface GoatImage {
         "darkSrc"?: string;
@@ -5193,6 +5160,19 @@ declare namespace LocalJSX {
         "emptyState"?: string;
         "selectedNode"?: string;
     }
+    /**
+     * @name Icon
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-icon name="home" size="2rem"></pc-icon>
+     */
+    interface PcIcon {
+        /**
+          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
+         */
+        "name"?: string;
+    }
     interface IntrinsicElements {
         "goat-accordion": GoatAccordion;
         "goat-accordion-item": GoatAccordionItem;
@@ -5235,7 +5215,6 @@ declare namespace LocalJSX {
         "goat-header-action": GoatHeaderAction;
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
-        "goat-icon": GoatIcon;
         "goat-image": GoatImage;
         "goat-input": GoatInput;
         "goat-input-url": GoatInputUrl;
@@ -5272,6 +5251,7 @@ declare namespace LocalJSX {
         "goat-tooltip": GoatTooltip;
         "goat-tree-node": GoatTreeNode;
         "goat-tree-view": GoatTreeView;
+        "pc-icon": PcIcon;
     }
 }
 export { LocalJSX as JSX };
@@ -5312,7 +5292,7 @@ declare module "@stencil/core" {
              * @description The badge component is used to display a small amount of information to the user.
              * @category Informational
              * @tag content
-             * @example <goat-badge content="5"> <goat-icon name="notification" size="2rem"></goat-icon></goat-badge>
+             * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
              */
             "goat-badge": LocalJSX.GoatBadge & JSXBase.HTMLAttributes<HTMLGoatBadgeElement>;
             /**
@@ -5517,14 +5497,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/html-editor-dark.webp
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
-            /**
-             * @name Icon
-             * @description Icons are visual symbols used to represent ideas, objects, or actions.
-             * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-             * @category General
-             * @example <goat-icon name="home" size="2rem"></goat-icon>
-             */
-            "goat-icon": LocalJSX.GoatIcon & JSXBase.HTMLAttributes<HTMLGoatIconElement>;
             "goat-image": LocalJSX.GoatImage & JSXBase.HTMLAttributes<HTMLGoatImageElement>;
             /**
              * @name Input
@@ -5785,6 +5757,14 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/tree-view-dark.webp
              */
             "goat-tree-view": LocalJSX.GoatTreeView & JSXBase.HTMLAttributes<HTMLGoatTreeViewElement>;
+            /**
+             * @name Icon
+             * @description Icons are visual symbols used to represent ideas, objects, or actions.
+             * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+             * @category General
+             * @example <pc-icon name="home" size="2rem"></pc-icon>
+             */
+            "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
         }
     }
 }

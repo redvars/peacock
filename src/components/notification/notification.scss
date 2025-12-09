@@ -19,6 +19,9 @@
   .state-icon {
     padding: 0.875rem v(--spacing-04);
     line-height: 0;
+    .icon {
+      --pc-icon-size: 1.25rem;
+    }
   }
 
   .content {
@@ -80,6 +83,9 @@
     --goat-button-padding: .75rem;
     --goat-button-height: 3rem;
     --goat-button-border-radius: none;
+    .icon {
+      --pc-icon-size: 1.25rem;
+    }
   }
 }
 

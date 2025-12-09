@@ -23,10 +23,8 @@
 ```mermaid
 graph TD;
   goat-notification-manager --> goat-notification
-  goat-notification --> goat-icon
   goat-notification --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-notification-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

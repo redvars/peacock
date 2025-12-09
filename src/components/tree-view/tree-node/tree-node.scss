@@ -1,4 +1,5 @@
 @import "../../../globalStyles/commons";
+@import "../../../globalStyles/commons";
 
 :host {
   display: block;
@@ -28,6 +29,7 @@
   .expand-icon {
     transform: rotate(0deg);
     transition: all .11s cubic-bezier(.2, 0, .38, .9);
+    --pc-icon-size: 1rem;
   }
 
   .expand-icon.expanded {
@@ -40,6 +42,7 @@
 
   .icon {
     padding-inline-start: .5rem;
+    --pc-icon-size: 1rem;
   }
 }
 

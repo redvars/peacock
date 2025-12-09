@@ -94,11 +94,7 @@ export class GoatAccordionItem {
             }}
             aria-expanded={this.open + ''}
           >
-            <goat-icon
-              name="chevron--down"
-              class="accordion-icon inherit"
-              size="1rem"
-            />
+            <pc-icon name="chevron--down" class="accordion-icon inherit" />
             <div part="title" class="accordion-title">
               <slot name="heading">{this.heading}</slot>
             </div>

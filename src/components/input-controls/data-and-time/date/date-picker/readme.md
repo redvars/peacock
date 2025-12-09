@@ -83,7 +83,6 @@ Type: `Promise<void>`
 graph TD;
   goat-date-picker --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

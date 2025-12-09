@@ -36,14 +36,9 @@
  - [goat-flow-designer](../application/flow-designer/flow-designer)
  - [goat-select](../input-controls/select)
 
-### Depends on
-
-- [goat-icon](../icon)
-
 ### Graph
 ```mermaid
 graph TD;
-  goat-tag --> goat-icon
   goat-cb-compound-expression --> goat-tag
   goat-cb-predicate --> goat-tag
   goat-code-editor --> goat-tag

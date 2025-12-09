@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Default.astro';
+import BannerLogo from '../components/BannerLogo.astro';
+import site from '../_data/site.json';
+import '../styles/index.page.scss';
+import Footer from '../components/Footer.astro';
+
+const isProd = import.meta.env.PROD;
+let envProps;
+
+if (isProd) {
+  envProps = site['prod'];
+} else {
+  envProps = site['dev'];
+}
+---
+
+<Layout classes='layer-background'
+        keywords='web components, button, input, grid, ui library, calendar, table, accordion, select, search, notifications, modal, card, breadcrumb, tree view, tabs, pagination, tooltip, popover, dropdown, menu, slider, toggle, switch, progress bar, spinner, loader, toast, alert, badge, tag, avatar, chip, divider, list, icon, text, heading, paragraph, label, link, image, checkbox, radio, form, form group, form field'>
+
+
+
+
+  <Footer />
+
+</Layout>

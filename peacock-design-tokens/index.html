@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System - Color Palette</title>
+    <link href="./dist/index.css" rel="stylesheet"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .color-family {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .color-family:hover {
+            transform: translateY(-5px);
+        }
+
+        .family-header {
+            padding: 20px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            text-transform: capitalize;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .shade-list {
+            list-style: none;
+        }
+
+        .shade-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .shade-item:last-child {
+            border-bottom: none;
+        }
+
+        .shade-item:hover {
+            background: #f9fafb;
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            margin-right: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        .shade-info {
+            flex: 1;
+        }
+
+        .shade-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+
+        .shade-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .copy-btn {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #4b5563;
+        }
+
+        .copy-btn:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1f2937;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .color-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Color Palette</h1>
+            <p class="subtitle">Complete design system color shades</p>
+        </header>
+
+        <div class="color-grid" id="colorGrid"></div>
+    </div>
+
+    <div class="toast" id="toast">Color copied to clipboard!</div>
+
+    <script>
+        const colorPalette = {
+            slate: ['#f8fafc', '#f1f5f9', '#e2e8f0', '#cbd5e1', '#94a3b8', '#64748b', '#475569', '#334155', '#1e293b', '#0f172a'],
+            gray: ['#f9fafb', '#f3f4f6', '#e5e7eb', '#d1d5db', '#9ca3af', '#6b7280', '#4b5563', '#374151', '#1f2937', '#111827'],
+            red: ['var(--color-br)', '#fee2e2', '#fecaca', '#fca5a5', '#f87171', '#ef4444', '#dc2626', '#b91c1c', '#991b1b', '#7f1d1d'],
+            orange: ['#fff7ed', '#ffedd5', '#fed7aa', '#fdba74', '#fb923c', '#f97316', '#ea580c', '#c2410c', '#9a3412', '#7c2d12'],
+            amber: ['#fffbeb', '#fef3c7', '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706', '#b45309', '#92400e', '#78350f'],
+            yellow: ['#fefce8', '#fef9c3', '#fef08a', '#fde047', '#facc15', '#eab308', '#ca8a04', '#a16207', '#854d0e', '#713f12'],
+            lime: ['#f7fee7', '#ecfccb', '#d9f99d', '#bef264', '#a3e635', '#84cc16', '#65a30d', '#4d7c0f', '#3f6212', '#365314'],
+            green: ['#f0fdf4', '#dcfce7', '#bbf7d0', '#86efac', '#4ade80', '#22c55e', '#16a34a', '#15803d', '#166534', '#14532d'],
+            emerald: ['#ecfdf5', '#d1fae5', '#a7f3d0', '#6ee7b7', '#34d399', '#10b981', '#059669', '#047857', '#065f46', '#064e3b'],
+            teal: ['#f0fdfa', '#ccfbf1', '#99f6e4', '#5eead4', '#2dd4bf', '#14b8a6', '#0d9488', '#0f766e', '#115e59', '#134e4a'],
+            cyan: ['#ecfeff', '#cffafe', '#a5f3fc', '#67e8f9', '#22d3ee', '#06b6d4', '#0891b2', '#0e7490', '#155e75', '#164e63'],
+            sky: ['#f0f9ff', '#e0f2fe', '#bae6fd', '#7dd3fc', '#38bdf8', '#0ea5e9', '#0284c7', '#0369a1', '#075985', '#0c4a6e'],
+            blue: ['#eff6ff', '#dbeafe', '#bfdbfe', '#93c5fd', '#60a5fa', '#3b82f6', '#2563eb', '#1d4ed8', '#1e40af', '#1e3a8a'],
+            indigo: ['#eef2ff', '#e0e7ff', '#c7d2fe', '#a5b4fc', '#818cf8', '#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'],
+            violet: ['#f5f3ff', '#ede9fe', '#ddd6fe', '#c4b5fd', '#a78bfa', '#8b5cf6', '#7c3aed', '#6d28d9', '#5b21b6', '#4c1d95'],
+            purple: ['#faf5ff', '#f3e8ff', '#e9d5ff', '#d8b4fe', '#c084fc', '#a855f7', '#9333ea', '#7e22ce', '#6b21a8', '#581c87'],
+            fuchsia: ['#fdf4ff', '#fae8ff', '#f5d0fe', '#f0abfc', '#e879f9', '#d946ef', '#c026d3', '#a21caf', '#86198f', '#701a75'],
+            pink: ['#fdf2f8', '#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899', '#db2777', '#be185d', '#9d174d', '#831843'],
+            rose: ['#fff1f2', '#ffe4e6', '#fecdd3', '#fda4af', '#fb7185', '#f43f5e', '#e11d48', '#be123c', '#9f1239', '#881337']
+        };
+
+        const shadeNames = [ '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
+
+        function generateColorGrid() {
+            const grid = document.getElementById('colorGrid');
+            
+            Object.entries(colorPalette).forEach(([family, colors]) => {
+                const familyDiv = document.createElement('div');
+                familyDiv.className = 'color-family';
+                
+                const header = document.createElement('div');
+                header.className = 'family-header';
+                header.textContent = family;
+                
+                const shadeList = document.createElement('ul');
+                shadeList.className = 'shade-list';
+                
+                shadeNames.forEach((shadeName, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'shade-item';
+                    
+                    const swatch = document.createElement('div');
+                    swatch.className = 'color-swatch';
+                    swatch.style.backgroundColor = `var(--color-${family}-${shadeNames[index]})`;
+                    
+                    const info = document.createElement('div');
+                    info.className = 'shade-info';
+                    
+                    const name = document.createElement('div');
+                    name.className = 'shade-name';
+                    name.textContent = `${family}-${shadeNames[index]}`;
+                    
+                    const value = document.createElement('div');
+                    value.className = 'shade-value';
+                    value.textContent = `var(--color-${family}-${shadeNames[index]})`;
+                    
+                    info.appendChild(name);
+                    info.appendChild(value);
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'copy-btn';
+                    copyBtn.textContent = 'Copy';
+                   // copyBtn.onclick = (e) => copyColor(color, copyBtn, e);
+                    
+                    li.appendChild(swatch);
+                    li.appendChild(info);
+                    li.appendChild(copyBtn);
+                    shadeList.appendChild(li);
+                });
+                
+                familyDiv.appendChild(header);
+                familyDiv.appendChild(shadeList);
+                grid.appendChild(familyDiv);
+            });
+        }
+
+        function copyColor(color, btn, e) {
+            e.stopPropagation();
+            navigator.clipboard.writeText(color).then(() => {
+                btn.textContent = '✓ Copied';
+                btn.classList.add('copied');
+                showToast();
+                
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        generateColorGrid();
+    </script>
+</body>
+</html>

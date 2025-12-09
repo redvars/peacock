@@ -94,7 +94,6 @@ graph TD;
   goat-tooltip --> goat-popover
   goat-tooltip --> goat-popover-content
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   goat-condition-builder --> goat-input
   style goat-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

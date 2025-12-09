@@ -1,0 +1,9 @@
+{
+  "color": {
+    "$type": "color",
+    "background": {
+      "$value": "{color.red.50}",
+      "$darkValue": "#AA4444"
+    }
+  }
+}

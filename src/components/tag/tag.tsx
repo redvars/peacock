@@ -94,16 +94,20 @@ export class Tag implements ComponentInterface {
   }
 
   renderCloseButton() {
-    if (this.dismissible)
+    if (this.dismissible) {
+      const style = {
+        '--pc-icon-size': this.getIconSize(),
+      };
       return (
         <button class="close-btn" onClick={() => this.dismissClickHandler()}>
-          <goat-icon
+          <pc-icon
             class="close-btn-icon inherit"
             name="close"
-            size={this.getIconSize()}
-          ></goat-icon>
+            style={style}
+          ></pc-icon>
         </button>
       );
+    }
   }
 
   renderImage() {

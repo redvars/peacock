@@ -195,12 +195,10 @@ export class Tab implements ComponentInterface {
             aria-disabled={(this.disabled || this.showLoader) + ''}
           >
             <div class="tab-content">
-              {this.showLoader && (
-                <goat-spinner class="spinner inherit" size="1rem" />
-              )}
+              {this.showLoader && <goat-spinner class="spinner inherit" />}
 
               {!this.showLoader && this.icon && (
-                <goat-icon name={this.icon} size="1rem" class="icon inherit" />
+                <pc-icon name={this.icon} class="icon inherit" />
               )}
 
               {!this.showLoader && (
@@ -210,7 +208,7 @@ export class Tab implements ComponentInterface {
               )}
 
               {!this.showLoader && this.href && (
-                <goat-icon name={'launch'} size="1rem" class="icon inherit" />
+                <pc-icon name={'launch'} class="icon inherit" />
               )}
             </div>
           </NativeElementTag>

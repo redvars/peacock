@@ -49,7 +49,6 @@ graph TD;
   goat-header-brand --> goat-svg
   goat-header-brand --> goat-divider
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-header-brand fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

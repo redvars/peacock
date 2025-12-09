@@ -33,16 +33,13 @@
 
 ### Depends on
 
-- [goat-icon](../icon)
 - [goat-button](../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-notification --> goat-icon
   goat-notification --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   goat-notification-manager --> goat-notification
   style goat-notification fill:#f9f,stroke:#333,stroke-width:4px
 ```

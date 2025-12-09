@@ -247,18 +247,15 @@ export class GoatTreeNode {
             ref={el => (this.nativeElement = el as HTMLElement)}
           >
             {this.hasChildNodes && (
-              <goat-icon
+              <pc-icon
                 name="caret--right"
                 class={{ 'expand-icon': true, 'expanded': this.expanded }}
-                size="1rem"
               />
             )}
 
             {!this.hasChildNodes && <div class="icon-space" />}
 
-            {this.icon && (
-              <goat-icon name={this.icon} class={'icon'} size="1rem" />
-            )}
+            {this.icon && <pc-icon name={this.icon} class={'icon'} />}
 
             <span class="tree-node-label">{this.label}</span>
           </NativeElementTag>

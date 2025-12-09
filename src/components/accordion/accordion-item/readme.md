@@ -37,19 +37,6 @@
 | `--goat-accordion-item-title-align - Alignment of the accordion title`                                    |             |
 
 
-## Dependencies
-
-### Depends on
-
-- [goat-icon](../../icon)
-
-### Graph
-```mermaid
-graph TD;
-  goat-accordion-item --> goat-icon
-  style goat-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

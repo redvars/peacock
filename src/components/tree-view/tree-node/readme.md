@@ -52,19 +52,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [goat-icon](../../icon)
-
-### Graph
-```mermaid
-graph TD;
-  goat-tree-node --> goat-icon
-  style goat-tree-node fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

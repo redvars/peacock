@@ -162,7 +162,7 @@ These components are used for general purpose. They include
 | Grid                                                                       | goat-grid                 | 🔴    |
 | Group                                                                      | goat-group                | 🔴    |
 | [Header](https://goatui.com/components/header)                             | goat-header               | 🟢    |
-| [Icon](https://goatui.com/components/icon)                                 | goat-icon                 | 🟢    |
+| [Icon](https://goatui.com/components/icon)                                 | pc-icon                 | 🟢    |
 | [Link](https://goatui.com/components/link)                                 | goat-link                 | 🟢    |
 | [Modal](https://goatui.com/components/modal)                               | goat-modal                | 🟢    |
 | [Notification Manager](https://goatui.com/components/notification-manager) | goat-notification-manager | 🟡    |

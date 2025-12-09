@@ -37,6 +37,10 @@ $border-width: 0.125;
       gap: v(--spacing-02);
       padding: 0 1rem;
       @include font-style(body-compact-01);
+
+      .icon {
+        --pc-icon-size: 1rem;
+      }
     }
   }
 

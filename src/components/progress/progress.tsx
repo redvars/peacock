@@ -38,15 +38,10 @@ export class Progress {
   getRenderIcon() {
     if (this.status === 'success') {
       return (
-        <goat-icon
-          class={'progress-icon'}
-          name={'checkmark--filled'}
-        ></goat-icon>
+        <pc-icon class={'progress-icon'} name={'checkmark--filled'}></pc-icon>
       );
     } else if (this.status === 'error') {
-      return (
-        <goat-icon class={'progress-icon'} name={'error--filled'}></goat-icon>
-      );
+      return <pc-icon class={'progress-icon'} name={'error--filled'}></pc-icon>;
     }
   }
 

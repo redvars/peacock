@@ -30,7 +30,7 @@ const description = 'The overview page is the first page you see when you visit 
 
         <div id='search-container'>
           <goat-input id='component-search' layer='01' placeholder='Search'>
-            <goat-icon slot='start' size='1rem' name='search'></goat-icon>
+            <pc-icon slot='start' size='1rem' name='search'></pc-icon>
           </goat-input>
         </div>
 
@@ -41,7 +41,7 @@ const description = 'The overview page is the first page you see when you visit 
                 <goat-tag id={`tag-${category.name.toLowerCase().replace(' ', '-')}`}
                           color='blue'
                           class='category'>{category.name}
-                  <goat-icon class='selected-icon inherit' name='checkmark'></goat-icon>
+                  <pc-icon class='selected-icon inherit' name='checkmark'></pc-icon>
                 </goat-tag>
               </goat-link>);
           })

@@ -1,4 +1,4 @@
-# goat-icon
+# pc-icon
 
 
 
@@ -25,7 +25,6 @@
 graph TD;
   goat-cb-predicate --> goat-cb-divider
   goat-cb-predicate --> goat-tag
-  goat-tag --> goat-icon
   style goat-cb-predicate fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

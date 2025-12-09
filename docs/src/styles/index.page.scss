@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import "mixin";
+@use "mixin";
 
 @keyframes reveal {
   0% {
@@ -61,7 +61,7 @@
   stroke: var(--color-dark);
 }
 
-@include for-phone-only {
+@include mixin.for-phone-only {
   .banner-actions {
     flex-direction: column;
     width: 100%;

@@ -75,7 +75,6 @@ Type: `Promise<void>`
 graph TD;
   goat-time-picker --> goat-button
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -41,7 +41,6 @@ graph TD;
   goat-tooltip --> goat-popover
   goat-tooltip --> goat-popover-content
   goat-button --> goat-spinner
-  goat-button --> goat-icon
   style goat-code-highlighter fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
