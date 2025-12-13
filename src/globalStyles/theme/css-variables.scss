@@ -1,5 +1,4 @@
 @import 'tokens/color';
-@import 'tokens/spacing';
 @import 'tokens/shadow';
 @import 'tokens/typography';
 @import 'tokens/common';
@@ -8,6 +7,5 @@ $css-variables: ();
 
 $css-variables: map-merge($css-variables, $color-css-variables);
 $css-variables: map-merge($css-variables, $typography-css-variables);
-$css-variables: map-merge($css-variables, $spacing-css-variables);
 $css-variables: map-merge($css-variables, $shadows-css-variables);
 $css-variables: map-merge($css-variables, $common-css-variables);

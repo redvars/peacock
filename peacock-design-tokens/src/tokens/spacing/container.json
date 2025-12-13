@@ -1,6 +1,7 @@
 {
   "container": {
-    "$type": "spacing",
+    "$type": "dimension",
+    "$comment": "Container widths are intentionally defined in 'px' instead of 'rem'.",
     "sm": {
       "$value": "320px",
       "$description": "Small container width. Use for narrow layouts and small screens such as mobile devices."

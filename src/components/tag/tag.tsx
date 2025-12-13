@@ -96,7 +96,7 @@ export class Tag implements ComponentInterface {
   renderCloseButton() {
     if (this.dismissible) {
       const style = {
-        '--pc-icon-size': this.getIconSize(),
+        '--icon-size': this.getIconSize(),
       };
       return (
         <button class="close-btn" onClick={() => this.dismissClickHandler()}>

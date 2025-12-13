@@ -39,7 +39,7 @@ $border-width: 0.125;
       @include font-style(body-compact-01);
 
       .icon {
-        --pc-icon-size: 1rem;
+        --icon-size: 1rem;
       }
     }
   }

@@ -230,7 +230,7 @@ export class FlowDesigner {
                   >
                     <pc-icon
                       name={'plus'}
-                      style={{ '--pc-icon-size': this.zoom * 20 + 'px' }}
+                      style={{ '--icon-size': this.zoom * 20 + 'px' }}
                     />
                   </div>
 

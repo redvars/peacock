@@ -22,6 +22,7 @@
   "author": "Shivaji Varma <contact@shivajivarma.com>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@tokens-studio/sd-transforms": "^2.0.3",
     "style-dictionary": "^5.1.1"
   }
 }

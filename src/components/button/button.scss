@@ -94,7 +94,7 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 
     --goat-spinner-color: currentColor;
-    --pc-icon-size: var(--goat-button-icon-size);
+    --icon-size: var(--goat-button-icon-size);
 
     @include font-style(body-compact-01);
     padding: 0 calc(var(--goat-button-padding, var(--internal-button-padding, 1rem)) - var(--internal-button-inner-padding));

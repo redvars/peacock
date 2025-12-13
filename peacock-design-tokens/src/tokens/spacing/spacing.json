@@ -1,25 +1,65 @@
 {
   "spacing": {
-    "$type": "spacing",
-    "sm": {
-      "$value": "320px",
-      "$description": "Small container width. Use for narrow layouts and small screens such as mobile devices."
+    "$type": "dimension",
+    "base": {
+      "$value": "1rem",
+      "$description": "Base spacing unit (1rem = 16px)."
     },
-    "md": {
-      "$value": "672px",
-      "$description": "Medium container width. Suitable for tablet layouts and compact desktop content areas."
+    "000": {
+      "$value": "0",
+      "$description": "No spacing (base × 0)."
     },
-    "lg": {
-      "$value": "1056px",
-      "$description": "Large container width. Intended for standard desktop layouts with typical content density."
+    "025": {
+      "$value": "0.125rem",
+      "$description": "2px - Smallest increment (base × 0.125)."
     },
-    "xl": {
-      "$value": "1312px",
-      "$description": "Extra large container width. Use for wide desktop displays and content-heavy pages."
+    "050": {
+      "$value": "0.25rem",
+      "$description": "4px - Extra small spacing (base × 0.25)."
     },
-    "max": {
-      "$value": "1584px",
-      "$description": "Maximum container width. Use when constraining very wide layouts to maintain readable line lengths."
+    "100": {
+      "$value": "0.5rem",
+      "$description": "8px - Small spacing (base × 0.5)."
+    },
+    "150": {
+      "$value": "0.75rem",
+      "$description": "12px - Small-medium spacing (base × 0.75)."
+    },
+    "200": {
+      "$value": "1rem",
+      "$description": "16px - Base spacing unit (base × 1)."
+    },
+    "300": {
+      "$value": "1.5rem",
+      "$description": "24px - Medium spacing (base × 1.5)."
+    },
+    "400": {
+      "$value": "2rem",
+      "$description": "32px - Medium-large spacing (base × 2)."
+    },
+    "500": {
+      "$value": "2.5rem",
+      "$description": "40px - Large spacing (base × 2.5)."
+    },
+    "600": {
+      "$value": "3rem",
+      "$description": "48px - Extra large spacing (base × 3)."
+    },
+    "800": {
+      "$value": "4rem",
+      "$description": "64px - Huge spacing (base × 4)."
+    },
+    "1000": {
+      "$value": "5rem",
+      "$description": "80px - Massive spacing (base × 5)."
+    },
+    "1200": {
+      "$value": "6rem",
+      "$description": "96px - Gigantic spacing (base × 6)."
+    },
+    "2000": {
+      "$value": "10rem",
+      "$description": "160px - Maximum defined spacing (base × 10)."
     }
   }
 }
