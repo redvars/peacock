@@ -1,17 +1,17 @@
 :host {
   display: inline-block;
   line-height: 0;
-  --pc-icon-size: inherit;
-  --pc-icon-color: inherit;
+  --icon-size: inherit;
+  --icon-color: inherit;
 }
 
 .icon {
   display: inline-block;
-  height: var(--pc-icon-size, 1rem);
-  width: var(--pc-icon-size, 1rem);
+  height: var(--icon-size, 1rem);
+  width: var(--icon-size, 1rem);
 
   svg {
-    fill: var(--pc-icon-color, var(--color-icon-primary));
+    fill: var(--icon-color, var(--color-icon-primary));
     height: 100%;
     width: 100%;
   }

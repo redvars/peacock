@@ -3,21 +3,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <goat-text type='heading' heading-size='3'>Color</goat-text>
-<goat-text type='body'>You can change the color of the icon using the <code>--pc-icon-color</code> CSS variable.</goat-text>
+<goat-text type='body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</goat-text>
 <DemoComponentCard lang={'html'}>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-icon-primary)'></pc-icon>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-icon-secondary)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-icon-primary)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-icon-secondary)'></pc-icon>
 
   <span style='background-color: var(--color-background-inverse); line-height: 0;'>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-icon-inverse)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-icon-inverse)'></pc-icon>
 </span>
 
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-info)'></pc-icon>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-success)'></pc-icon>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-warning)'></pc-icon>
-  <pc-icon name='alarm' style='--pc-icon-color: var(--color-danger)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-info)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-success)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-warning)'></pc-icon>
+  <pc-icon name='alarm' style='--icon-color: var(--color-danger)'></pc-icon>
 
-  <span style='--pc-icon-color: pink; line-height: 0;'>
+  <span style='--icon-color: pink; line-height: 0;'>
   <pc-icon name='alarm'></pc-icon>
 </span>
 </DemoComponentCard>
@@ -26,6 +26,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <goat-text type="body">Fancy larger or smaller icons? Add size attribute for additional sizes.</goat-text>
 <DemoComponentCard lang={'html'}>
   <pc-icon name="alarm"></pc-icon>
-  <pc-icon name="alarm" style="--pc-icon-size: 3rem"></pc-icon>
-  <pc-icon name="alarm" style="--pc-icon-size: 100px"></pc-icon>
+  <pc-icon name="alarm" style="--icon-size: 3rem"></pc-icon>
+  <pc-icon name="alarm" style="--icon-size: 100px"></pc-icon>
 </DemoComponentCard>

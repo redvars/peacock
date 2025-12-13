@@ -14,8 +14,8 @@ import site from '../_data/site.json';
 import componentsDetails from '../_data/componentsDetails.json';
 
 const searchItems = componentsDetails.components.map(component => ({
-  label: component.metadata.name,
-  value: component.tag.replace('goat-', ''),
+  label: component.metadata.label,
+  value: component.metadata.name
 }));
 ---
 

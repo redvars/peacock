@@ -35,7 +35,23 @@
         },
         "950": {
           "$value": "#470000"
+        },
+        "@": {
+          "$value": "#ff0000"
         }
+      },
+      "on-primary": {
+        "@": {
+          "$value": "{color.white}"
+        }
+      },
+      "primary-container": {
+        "$value": "{color.brand.primary.100}",
+        "$darkValue": "{color.brand.primary.700}"
+      },
+      "on-primary-container": {
+        "$value": "{color.brand.primary.900}",
+        "$darkValue": "{color.brand.primary.100}"
       }
     }
   }
