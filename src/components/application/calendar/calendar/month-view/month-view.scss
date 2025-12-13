@@ -37,7 +37,7 @@
         .column-content {
           display: flex;
           align-items: center;
-          padding: var(--spacing-04) var(--spacing-05);
+          padding: var(--spacing-150) var(--spacing-200);
           @include font-style(heading-compact-01);
           gap: .5rem;
         }

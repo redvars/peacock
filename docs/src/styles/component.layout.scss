@@ -48,8 +48,8 @@ $sideBarWidth: 15rem;
   .comp-header {
     display: flex;
     align-items: center;
-    gap: var(--spacing-05);
-    margin-bottom: var(--spacing-05);
+    gap: var(--spacing-200);
+    margin-bottom: var(--spacing-200);
 
     .comp-title {
       margin: 0;
@@ -58,7 +58,7 @@ $sideBarWidth: 15rem;
 }
 
 .footer .footer-content {
-  padding: var(--spacing-05) var(--spacing-07);
+  padding: var(--spacing-200) var(--spacing-400);
 }
 
 .page-tabs > goat-tab-panel {
@@ -77,7 +77,7 @@ pre[class*='language-'] {
     flex: 1;
     overflow-x: auto;
     .component-description {
-      margin-bottom: var(--spacing-09);
+      margin-bottom: var(--spacing-600);
     }
   }
 
@@ -95,17 +95,17 @@ pre[class*='language-'] {
 
 
 .component-section {
-  margin-bottom: var(--spacing-09);
+  margin-bottom: var(--spacing-600);
 }
 
 .component-section > goat-text[type="body"] {
-  margin-bottom: var(--spacing-05);
+  margin-bottom: var(--spacing-200);
 }
 
 .component-container {
   display: flex;
   align-items: center;
-  margin-bottom: var(--spacing-05);
+  margin-bottom: var(--spacing-200);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -116,7 +116,7 @@ pre[class*='language-'] {
     align-items: center;
     justify-content: center;
     min-height: 10rem;
-    gap: var(--spacing-05);
+    gap: var(--spacing-200);
   }
 }
 
@@ -195,15 +195,15 @@ pre[class*='language-'] {
 }
 
 .api-section {
-  margin-bottom: var(--spacing-09);
+  margin-bottom: var(--spacing-600);
 }
 
 .demo-canvas .demo-area {
   display: flex;
-  padding: var(--spacing-09);
+  padding: var(--spacing-600);
   align-items: center;
   justify-content: center;
-  padding-block: var(--spacing-12);
+  padding-block: var(--spacing-1200);
   background: linear-gradient(120deg, var(--color-red-10), var(--color-yellow-10));
 }
 

@@ -5,9 +5,9 @@
 }
 
 :host([type='text']) .modal-content {
-  padding: 0 20% 0 var(--spacing-05);
+  padding: 0 20% 0 var(--spacing-200);
 }
 
 :host([type='default']) .modal-content {
-  padding: 0 var(--spacing-05);
+  padding: 0 var(--spacing-200);
 }

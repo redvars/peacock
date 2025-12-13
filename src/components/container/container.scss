@@ -33,7 +33,7 @@
   width: 100%;
 
   .content {
-    padding: v(--spacing-05);
+    padding: v(--spacing-200);
   }
 }
 
@@ -69,24 +69,24 @@
 
 @container containerwrapper (min-width: 672px) {
   .content {
-    margin-inline: var(--spacing-05);
+    margin-inline: var(--spacing-200);
   }
 }
 
 @container containerwrapper (min-width: 1056px) {
   .content {
-    margin-inline: var(--spacing-05);
+    margin-inline: var(--spacing-200);
   }
 }
 
 @container containerwrapper (min-width: 1312px) {
   .content {
-    margin-inline: var(--spacing-05);
+    margin-inline: var(--spacing-200);
   }
 }
 
 @container containerwrapper (min-width: 1584px) {
   .content {
-    margin-inline: var(--spacing-06);
+    margin-inline: var(--spacing-300);
   }
 }

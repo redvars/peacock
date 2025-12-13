@@ -4,14 +4,14 @@
 :host {
   display: block;
   width: 100%;
-  margin-bottom: v(--spacing-03);
+  margin-bottom: v(--spacing-100);
   --input-border-radius: #{v(--border-radius)};
   --input-border: 1px solid #{v(--border-strong)};
   color: v(--text-primary);
 }
 
 :host(.form-field) {
-  margin-bottom: v(--spacing-07);
+  margin-bottom: v(--spacing-400);
 }
 
 :host([inline]) {
@@ -26,7 +26,7 @@
 
   .label {
     @include font-style(label-01);
-    margin-bottom: v(--spacing-03);
+    margin-bottom: v(--spacing-100);
 
     color: v(--text-secondary);
     overflow: hidden;
@@ -35,19 +35,19 @@
 
     .required {
       color: v(--danger-02);
-      padding-right: v(--spacing-01);
+      padding-right: v(--spacing-025);
     }
 
     &.skeleton {
-      height: v(--spacing-04);
-      width: v(--spacing-10);
+      height: v(--spacing-150);
+      width: v(--spacing-800);
     }
   }
 
 
   .helper {
-    min-height: v(--spacing-05);
-    margin-block-start: v(--spacing-02);
+    min-height: v(--spacing-200);
+    margin-block-start: v(--spacing-050);
     @include font-style(helper-text-01);
 
     &.text {
@@ -69,7 +69,7 @@
 
     .label {
       margin-bottom: 0;
-      margin-inline-end: v(--spacing-04);
+      margin-inline-end: v(--spacing-150);
     }
   }
 
@@ -115,7 +115,7 @@
     width: 100%;
     cursor: inherit;
     color: v(--text-primary);
-    padding: 0 var(--spacing-05);
+    padding: 0 var(--spacing-200);
 
     /*
      * Font styles
@@ -144,23 +144,23 @@
   }
 
   .slot-container.start {
-    margin-inline-start: v(--spacing-05);
+    margin-inline-start: v(--spacing-200);
   }
 
   .slot-container.end {
     margin-inline-end: 1rem;
-    margin-inline-start: v(--spacing-03);
+    margin-inline-start: v(--spacing-100);
   }
 
   &.start-slot-has-content {
     .input {
-      padding-inline-start: v(--spacing-03);
+      padding-inline-start: v(--spacing-100);
     }
   }
 
   &.end-slot-has-content {
     .input {
-      padding-inline-end: v(--spacing-03);
+      padding-inline-end: v(--spacing-100);
     }
   }
 

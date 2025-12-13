@@ -25,7 +25,7 @@ const description = componentDetails.metadata.description;
 
   <goat-text type="body" expressive set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description} />
 
-  <div style="margin-bottom: var(--spacing-09)">
+  <div style="margin-bottom: var(--spacing-600)">
     <goat-button size="xs" variant="light.simple" href={`/components/${componentDetails.tag.replace('goat-', '')}/api`} icon="arrow--up-right"> API Reference </goat-button>
   </div>
 

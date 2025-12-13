@@ -17,7 +17,7 @@
   align-items: center;
   background-color: var(--badge-color, v(--color-neutral));
   border-radius: 12px;
-  padding: v(--spacing-01) var(--spacing-02);
+  padding: v(--spacing-025) var(--spacing-050);
   @include font-style(code-01);
 
   &.has-content {

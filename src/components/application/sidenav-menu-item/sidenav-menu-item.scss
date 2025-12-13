@@ -7,11 +7,11 @@
 .sidenav-menu-item {
   cursor: pointer;
   @include font-style(text-md);
-  padding: var(--spacing-02) var(--spacing-04);
+  padding: var(--spacing-050) var(--spacing-150);
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--spacing-02);
+  gap: var(--spacing-050);
   color: var(--text-secondary);
   outline: none;
 

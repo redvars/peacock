@@ -70,13 +70,13 @@
 
 
 .container .section {
-  padding: 0 var(--spacing-13);
-  padding-bottom: var(--spacing-09);
+  padding: 0 var(--spacing-2000);
+  padding-bottom: var(--spacing-600);
 }
 
 .container .code-highlighter {
-  padding: 0 var(--spacing-13);
-  padding-bottom: var(--spacing-09);
+  padding: 0 var(--spacing-2000);
+  padding-bottom: var(--spacing-600);
 }
 
 goat-text[type='code'] {
@@ -98,7 +98,7 @@ goat-text[type='code'] {
 
 
 .made-in-india .country-flag {
-  padding: 0 var(--spacing-04);
+  padding: 0 var(--spacing-150);
 }
 
 .banner-logo .head {
@@ -156,7 +156,7 @@ goat-text[type='code'] {
 @media only screen and (max-width: 1024px) {
   .container {
     .section {
-      padding: var(--spacing-09) var(--spacing-07);
+      padding: var(--spacing-600) var(--spacing-400);
     }
     .code-highlighter {
       padding: 0;

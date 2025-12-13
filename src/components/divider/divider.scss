@@ -12,7 +12,7 @@
   /**
    * @prop --pc-divider-padding: Padding of the divider
    */
-  --pc-divider-padding: #{v(--spacing-05)};
+  --pc-divider-padding: #{v(--spacing-200)};
 }
 
 .divider {
@@ -32,7 +32,7 @@
     }
 
     &.has-content .slot-container {
-      padding: 0 var(--spacing-04);
+      padding: 0 var(--spacing-150);
     }
   }
 
@@ -49,7 +49,7 @@
     }
 
     &.has-content .slot-container {
-      padding: var(--spacing-03) 0;
+      padding: var(--spacing-100) 0;
     }
   }
 

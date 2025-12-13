@@ -57,7 +57,7 @@ $tag-hover-color: var(--tag-hover-color, var(--tag-hover-gray));
   background: transparent;
   line-height: 0;
   cursor: pointer;
-  margin-inline-end: var(--spacing-01);
+  margin-inline-end: var(--spacing-025);
 
   &:hover {
     background: $tag-hover-color;

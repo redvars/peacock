@@ -37,7 +37,7 @@ main {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  padding-bottom: var(--spacing-04);
+  padding-bottom: var(--spacing-150);
 
   .category {
     cursor: pointer;
@@ -57,9 +57,9 @@ main {
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-  gap: var(--spacing-08);
+  gap: var(--spacing-500);
   align-items: stretch;
-  margin-top: var(--spacing-08);
+  margin-top: var(--spacing-500);
 }
 
 .card {
@@ -78,11 +78,11 @@ main {
   }
 
   .component-title {
-    margin-bottom: var(--spacing-02);
+    margin-bottom: var(--spacing-050);
   }
 
   .component-category-container {
-    padding-bottom: var(--spacing-06);
+    padding-bottom: var(--spacing-300);
   }
 
   .header {
@@ -134,11 +134,11 @@ main {
 }
 
 .up-coming-title {
-  margin-top: var(--spacing-09);
+  margin-top: var(--spacing-600);
 }
 
 .up-coming {
-  margin-top: var(--spacing-02);
+  margin-top: var(--spacing-050);
 }
 
 @media (max-width: 671px) {
@@ -146,7 +146,7 @@ main {
     width: 100%;
   }
   .cards {
-    gap: var(--spacing-08);
+    gap: var(--spacing-500);
   }
 }
 

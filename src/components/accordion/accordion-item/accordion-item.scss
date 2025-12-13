@@ -27,7 +27,7 @@
     border-radius: 0;
     color: v(--text-primary);
     border: 0;
-    padding: 0 v(--spacing-05);
+    padding: 0 v(--spacing-200);
     background: var(--goat-accordion-item-heading-background);
 
     display: flex;
@@ -72,7 +72,7 @@
       height: 100%;
       pointer-events: auto;
       opacity: 1;
-      padding: var(--spacing-03) var(--spacing-10) var(--spacing-06) var(--spacing-05);
+      padding: var(--spacing-100) var(--spacing-800) var(--spacing-300) var(--spacing-200);
     }
 
     .accordion-icon {

@@ -225,7 +225,7 @@ figure {
 }
 
 .sections-wrapper {
-  padding-block: var(--spacing-11);
+  padding-block: var(--spacing-1000);
 }
 
 @include mixin.for-phone-only {
@@ -237,7 +237,7 @@ figure {
 
 .page-wrapper {
   position: relative;
-  margin-block: var(--spacing-05);
+  margin-block: var(--spacing-200);
 }
 
 .back-to-home {
@@ -245,7 +245,7 @@ figure {
 }
 
 .sections-wrapper .section {
-  padding-bottom: var(--spacing-09);
+  padding-bottom: var(--spacing-600);
 }
 
 .sections-wrapper .section:last-child {

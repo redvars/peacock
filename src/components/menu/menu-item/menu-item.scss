@@ -13,11 +13,11 @@ $border-width: 2px;
 
   cursor: pointer;
   @include font-style(body-compact-01);
-  padding-inline: calc(#{v(--spacing-05)} - #{$border-width});
+  padding-inline: calc(#{v(--spacing-200)} - #{$border-width});
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: v(--spacing-02);
+  gap: v(--spacing-050);
   color: v(--text-secondary);
 
   border: $border-width solid transparent;

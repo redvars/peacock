@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  margin-bottom: v(--spacing-02);
+  margin-bottom: v(--spacing-050);
 }
 
 .breadcrumb {
@@ -13,8 +13,8 @@
 slot::slotted(*) {
   &::before {
     display: inline-block;
-    padding-right: v(--spacing-03);
-    padding-left: v(--spacing-03);
+    padding-right: v(--spacing-100);
+    padding-left: v(--spacing-100);
     color: v(--border-strong-01);
     content: "/";
   }

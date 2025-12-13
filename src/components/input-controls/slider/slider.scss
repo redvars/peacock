@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   user-select: none;
-  gap: v(--spacing-05);
+  gap: v(--spacing-200);
 
   .slider-wrapper {
     display: flex;
@@ -18,7 +18,7 @@
       position: relative;
       width: 100%;
       min-width: 10rem;
-      padding: v(--spacing-05) 0;
+      padding: v(--spacing-200) 0;
       cursor: pointer;
 
       .slider__thumb {

@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: v(--spacing-02);
+  gap: v(--spacing-050);
 }
 
 .code-editor-component {
@@ -38,7 +38,7 @@
   position: absolute;
   right: 9rem;
   z-index: 1;
-  top: v(--spacing-05);
+  top: v(--spacing-200);
 }
 
 :host(.no-border) {
