@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node ./build-tokens.js",
-    "gen-tokens": "node ./src/main.js && tz build"
+    "gen-base-colors": "node ./src/gen-base-colors.js"
   },
   "files": [
     "dist/"
@@ -22,11 +22,6 @@
   "author": "Shivaji Varma <contact@shivajivarma.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "apcach": "^0.6.4",
-    "style-dictionary": "^5.1.1",
-    "apca-w3": "^0.1.9",
-    "colorjs.io": "^0.5.2",
-    "culori": "^4.0.2",
-    "oklch": "^0.0.2"
+    "style-dictionary": "^5.1.1"
   }
 }

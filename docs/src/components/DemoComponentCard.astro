@@ -1,0 +1,25 @@
+---
+interface Props {
+  cssClasses?: string;
+  lang: any;
+}
+
+const { lang } = Astro.props;
+
+let html = '';
+if (Astro.slots.has('default')) {
+  html = await Astro.slots.render('default');
+  html = html.replaceAll('<', '&lt;');
+  html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
+}
+---
+<goat-card class='demo-component-card'>
+  <goat-card-content class='demo-area'>
+    <slot></slot>
+  </goat-card-content>
+  <goat-card-content class='body no-padding'>
+    <goat-code-highlighter language={lang}>
+      <pre><code><Fragment set:html={html} /></code></pre>
+    </goat-code-highlighter>
+  </goat-card-content>
+</goat-card>

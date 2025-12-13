@@ -8,27 +8,25 @@
   container: containerwrapper / inline-size;
 
   &.size-max .container {
-    max-width: v(--container-max);
+    max-width: var(--container-max);
   }
 
   &.size-xl .container {
-    max-width: v(--container-xl);
+    max-width: var(--container-xl);
   }
 
   &.size-sm .container {
-    max-width: v(--container-sm);
+    max-width: var(--container-sm);
   }
 
   &.size-md .container {
-    max-width: v(--container-md);
+    max-width: var(--container-md);
   }
 
   &.size-lg .container {
-    max-width: v(--container-lg);
+    max-width: var(--container-lg);
   }
 }
-
-
 
 .container {
   margin: auto;
@@ -40,19 +38,25 @@
 }
 
 :host(.debug) {
-  border: 1px solid red;
   border-width: 0 1px;
-  background: var(--color-error-10);
+  border-color: var(--color-red);
+  border-style: solid;
+
+  background: var(--color-red-50);
 
   .container {
-    border: 1px solid blue;
     border-width: 0 1px;
-    background: var(--color-blue-10);
+    border-color: var(--color-blue);
+    border-style: solid;
+
+    background: var(--color-blue-100);
 
     .content {
-      border: 1px solid green;
       border-width: 0 1px;
-      background: var(--color-green-10);
+      border-color: var(--color-green);
+      border-style: solid;
+
+      background: var(--color-green-100);
     }
   }
 }

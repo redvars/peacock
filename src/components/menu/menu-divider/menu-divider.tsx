@@ -6,7 +6,7 @@ import { Component, ComponentInterface, h, Host } from '@stencil/core';
  * @category Layout
  * @subcategory Menu
  * @childComponents true
- * @example <goat-divider style="width: 12rem;">or</goat-divider>
+ * @example <pc-divider style="width: 12rem;">or</pc-divider>
  */
 @Component({
   tag: 'goat-menu-divider',

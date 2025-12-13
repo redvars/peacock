@@ -110,6 +110,16 @@ pre[class*='language-'] {
   gap: 1rem;
 }
 
+.demo-component-card {
+  .demo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 10rem;
+    gap: var(--spacing-05);
+  }
+}
+
 
 .playground-container {
   border: 1px solid var(--border-color);

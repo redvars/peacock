@@ -10,7 +10,7 @@ import site from '../../_data/site.json';
       <goat-text type='heading' heading-size='7'>Blog</goat-text>
       <goat-text expressive>News and announcements for all things GOATUI, including new releases</goat-text>
 
-      <goat-divider></goat-divider>
+      <pc-divider></pc-divider>
 
       <div class='post-list'>
         {allPosts.map(async (post: any) => {
@@ -30,7 +30,7 @@ import site from '../../_data/site.json';
     </goat-container>
     <goat-container>
       <div class='footer container'>
-        <goat-divider></goat-divider>
+        <pc-divider></pc-divider>
         <div class='footer-content'>
           <goat-text class='legal' type='legal' expressive>
             &copy; {new Date().getFullYear()} <goat-link href={site.author_url}>{site.author}</goat-link>. All Rights Reserved.

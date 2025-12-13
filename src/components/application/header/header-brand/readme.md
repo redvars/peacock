@@ -40,14 +40,14 @@ Type: `Promise<void>`
 
 - [goat-button](../../../button)
 - [goat-svg](../../../svg)
-- [goat-divider](../../../divider)
+- [pc-divider](../../../divider)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-header-brand --> goat-button
   goat-header-brand --> goat-svg
-  goat-header-brand --> goat-divider
+  goat-header-brand --> pc-divider
   goat-button --> goat-spinner
   goat-button --> pc-icon
   style goat-header-brand fill:#f9f,stroke:#333,stroke-width:4px

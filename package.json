@@ -1,7 +1,7 @@
 {
   "name": "@redvars/peacock",
   "version": "2.25.6",
-  "description": "A light weight web component library",
+  "description": "The foundation for beautiful user interfaces",
   "keywords": [
     "goatui",
     "stenciljs",
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/goatui/components.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Shivaji Varma <contact@shivajivarma.com>",
   "contributors": [],
   "files": [

@@ -22,7 +22,7 @@ const searchItems = componentsDetails.components.map(component => ({
 <Layout title={title} description={description} keywords={keywords}>
   <div class="page-with-navigation">
     <div class="side-navigation">
-      <goat-link class="search-button no-style" href="./search">
+      <goat-link class="search-button no-style" id="search-btn" href="#">
 
         <pc-icon name="search"></pc-icon>
 
@@ -69,20 +69,12 @@ const searchItems = componentsDetails.components.map(component => ({
           </div>
 
           <div slot="right">
-            <goat-header-action id="search-btn" aria-label="Search" icon="search"> </goat-header-action>
-
-            <div id="search-header-container">
-              <div id="search-container-overlay"></div>
-              <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
-                <pc-icon slot="start" name="search"></pc-icon>
-              </goat-select>
-            </div>
 
             <goat-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
               Sponsor
             </goat-button>
 
-            <goat-divider class="header-divider hide-tablet-portrait-below" vertical></goat-divider>
+            <pc-divider class="header-divider hide-tablet-portrait-below" vertical></pc-divider>
 
             <goat-header-action class="dir-switcher hide-tablet-portrait-below" aria-label="Direction switcher">LTR </goat-header-action>
 
@@ -123,6 +115,13 @@ const searchItems = componentsDetails.components.map(component => ({
   <div slot="page-end">
     <!-- Scripts -->
     <script src="/assets/js/main.js" is:inline></script>
+  </div>
+
+  <div id="search-header-container">
+    <div id="search-container-overlay"></div>
+    <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
+      <pc-icon slot="start" name="search"></pc-icon>
+    </goat-select>
   </div>
 
   <script is:inline define:vars={{ searchItems }}>

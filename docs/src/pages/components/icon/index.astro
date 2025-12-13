@@ -1,24 +1,20 @@
 ---
-import Layout from '../../../layouts/Component.astro';
+import Layout from '../../../layouts/ComponentPageLayout.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 const componentDetails = getComponentDetails('pc-icon');
 
 import UsageSection from './_sections/usage.astro';
-import VariantsSection from './_sections/variants.astro';
-import SizesSection from './_sections/sizes.astro';
+import ThemingSection from './_sections/theming.astro';
 
 const sections = [
   {
     'title': 'Usage',
     'Component': UsageSection,
   }, {
-    'title': 'Color Variants',
-    'Component': VariantsSection,
-  }, {
-    'title': 'Sizes',
-    'Component': SizesSection,
+    'title': 'Theming',
+    'Component': ThemingSection,
   }];
 ---
 

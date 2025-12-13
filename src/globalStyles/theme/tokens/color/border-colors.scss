@@ -4,6 +4,9 @@ Subtle borders paired with $background
  */
 @include defineVariableDeprecated(--border-interactive, getColor(blue, 60), getColor(blue, 50));
 
+@include defineVariableDeprecated(--border-inverse, getColor(gray, 100), getColor(gray, 10));
+
+
 /*
 Subtle borders paired with $background
  */

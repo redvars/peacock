@@ -3,7 +3,8 @@ import { fetchIcon } from './datasource';
 import { getSVGHTMLString } from '../../utils/utils';
 
 /**
- * @name Icon
+ * @label Icon
+ * @name icon
  * @description Icons are visual symbols used to represent ideas, objects, or actions.
  * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
  * @category General

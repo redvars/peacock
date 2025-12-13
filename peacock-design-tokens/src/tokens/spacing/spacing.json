@@ -1,0 +1,25 @@
+{
+  "spacing": {
+    "$type": "spacing",
+    "sm": {
+      "$value": "320px",
+      "$description": "Small container width. Use for narrow layouts and small screens such as mobile devices."
+    },
+    "md": {
+      "$value": "672px",
+      "$description": "Medium container width. Suitable for tablet layouts and compact desktop content areas."
+    },
+    "lg": {
+      "$value": "1056px",
+      "$description": "Large container width. Intended for standard desktop layouts with typical content density."
+    },
+    "xl": {
+      "$value": "1312px",
+      "$description": "Extra large container width. Use for wide desktop displays and content-heavy pages."
+    },
+    "max": {
+      "$value": "1584px",
+      "$description": "Maximum container width. Use when constraining very wide layouts to maintain readable line lengths."
+    }
+  }
+}

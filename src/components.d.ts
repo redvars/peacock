@@ -531,15 +531,6 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @name Divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @category Layout
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
-     */
-    interface GoatDivider {
-        "vertical": boolean;
-    }
-    /**
      * @name Dropdown
      * @description Enables native inputs to be used within a Form field.
      * @category Navigation
@@ -924,7 +915,7 @@ export namespace Components {
      * @category Layout
      * @subcategory Menu
      * @childComponents true
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface GoatMenuDivider {
     }
@@ -1834,7 +1825,17 @@ export namespace Components {
         "subscribeToSelect": (cb: any) => Promise<void>;
     }
     /**
-     * @name Icon
+     * @name Divider
+     * @description A divider can be used to segment content vertically or horizontally.
+     * @category Layout
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
+     */
+    interface PcDivider {
+        "vertical": boolean;
+    }
+    /**
+     * @label Icon
+     * @name icon
      * @description Icons are visual symbols used to represent ideas, objects, or actions.
      * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
      * @category General
@@ -2357,18 +2358,6 @@ declare global {
         prototype: HTMLGoatDatePickerElement;
         new (): HTMLGoatDatePickerElement;
     };
-    /**
-     * @name Divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @category Layout
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
-     */
-    interface HTMLGoatDividerElement extends Components.GoatDivider, HTMLStencilElement {
-    }
-    var HTMLGoatDividerElement: {
-        prototype: HTMLGoatDividerElement;
-        new (): HTMLGoatDividerElement;
-    };
     interface HTMLGoatDropdownElementEventMap {
         "goat-dropdown--item-click": any;
         "goat-dropdown--open": any;
@@ -2616,7 +2605,7 @@ declare global {
      * @category Layout
      * @subcategory Menu
      * @childComponents true
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface HTMLGoatMenuDividerElement extends Components.GoatMenuDivider, HTMLStencilElement {
     }
@@ -3190,7 +3179,20 @@ declare global {
         new (): HTMLGoatTreeViewElement;
     };
     /**
-     * @name Icon
+     * @name Divider
+     * @description A divider can be used to segment content vertically or horizontally.
+     * @category Layout
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
+     */
+    interface HTMLPcDividerElement extends Components.PcDivider, HTMLStencilElement {
+    }
+    var HTMLPcDividerElement: {
+        prototype: HTMLPcDividerElement;
+        new (): HTMLPcDividerElement;
+    };
+    /**
+     * @label Icon
+     * @name icon
      * @description Icons are visual symbols used to represent ideas, objects, or actions.
      * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
      * @category General
@@ -3231,7 +3233,6 @@ declare global {
         "goat-container": HTMLGoatContainerElement;
         "goat-current-time": HTMLGoatCurrentTimeElement;
         "goat-date-picker": HTMLGoatDatePickerElement;
-        "goat-divider": HTMLGoatDividerElement;
         "goat-dropdown": HTMLGoatDropdownElement;
         "goat-dropdown-menu": HTMLGoatDropdownMenuElement;
         "goat-empty-state": HTMLGoatEmptyStateElement;
@@ -3280,6 +3281,7 @@ declare global {
         "goat-tooltip": HTMLGoatTooltipElement;
         "goat-tree-node": HTMLGoatTreeNodeElement;
         "goat-tree-view": HTMLGoatTreeViewElement;
+        "pc-divider": HTMLPcDividerElement;
         "pc-icon": HTMLPcIconElement;
     }
 }
@@ -3816,15 +3818,6 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @name Divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @category Layout
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
-     */
-    interface GoatDivider {
-        "vertical"?: boolean;
-    }
-    /**
      * @name Dropdown
      * @description Enables native inputs to be used within a Form field.
      * @category Navigation
@@ -4208,7 +4201,7 @@ declare namespace LocalJSX {
      * @category Layout
      * @subcategory Menu
      * @childComponents true
-     * @example <goat-divider style="width: 12rem;">or</goat-divider>
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface GoatMenuDivider {
     }
@@ -5161,7 +5154,17 @@ declare namespace LocalJSX {
         "selectedNode"?: string;
     }
     /**
-     * @name Icon
+     * @name Divider
+     * @description A divider can be used to segment content vertically or horizontally.
+     * @category Layout
+     * @example <pc-divider style="width: 12rem;">or</pc-divider>
+     */
+    interface PcDivider {
+        "vertical"?: boolean;
+    }
+    /**
+     * @label Icon
+     * @name icon
      * @description Icons are visual symbols used to represent ideas, objects, or actions.
      * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
      * @category General
@@ -5202,7 +5205,6 @@ declare namespace LocalJSX {
         "goat-container": GoatContainer;
         "goat-current-time": GoatCurrentTime;
         "goat-date-picker": GoatDatePicker;
-        "goat-divider": GoatDivider;
         "goat-dropdown": GoatDropdown;
         "goat-dropdown-menu": GoatDropdownMenu;
         "goat-empty-state": GoatEmptyState;
@@ -5251,6 +5253,7 @@ declare namespace LocalJSX {
         "goat-tooltip": GoatTooltip;
         "goat-tree-node": GoatTreeNode;
         "goat-tree-view": GoatTreeView;
+        "pc-divider": PcDivider;
         "pc-icon": PcIcon;
     }
 }
@@ -5419,13 +5422,6 @@ declare module "@stencil/core" {
              */
             "goat-date-picker": LocalJSX.GoatDatePicker & JSXBase.HTMLAttributes<HTMLGoatDatePickerElement>;
             /**
-             * @name Divider
-             * @description A divider can be used to segment content vertically or horizontally.
-             * @category Layout
-             * @example <goat-divider style="width: 12rem;">or</goat-divider>
-             */
-            "goat-divider": LocalJSX.GoatDivider & JSXBase.HTMLAttributes<HTMLGoatDividerElement>;
-            /**
              * @name Dropdown
              * @description Enables native inputs to be used within a Form field.
              * @category Navigation
@@ -5536,7 +5532,7 @@ declare module "@stencil/core" {
              * @category Layout
              * @subcategory Menu
              * @childComponents true
-             * @example <goat-divider style="width: 12rem;">or</goat-divider>
+             * @example <pc-divider style="width: 12rem;">or</pc-divider>
              */
             "goat-menu-divider": LocalJSX.GoatMenuDivider & JSXBase.HTMLAttributes<HTMLGoatMenuDividerElement>;
             /**
@@ -5758,7 +5754,15 @@ declare module "@stencil/core" {
              */
             "goat-tree-view": LocalJSX.GoatTreeView & JSXBase.HTMLAttributes<HTMLGoatTreeViewElement>;
             /**
-             * @name Icon
+             * @name Divider
+             * @description A divider can be used to segment content vertically or horizontally.
+             * @category Layout
+             * @example <pc-divider style="width: 12rem;">or</pc-divider>
+             */
+            "pc-divider": LocalJSX.PcDivider & JSXBase.HTMLAttributes<HTMLPcDividerElement>;
+            /**
+             * @label Icon
+             * @name icon
              * @description Icons are visual symbols used to represent ideas, objects, or actions.
              * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
              * @category General

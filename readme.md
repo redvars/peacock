@@ -1,5 +1,5 @@
 # Peacock
-**The foundation for beautiful interfaces.**
+**The foundation for beautiful user interfaces.**
 
 [![Build](https://github.com/goatui/components/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/goatui/components.svg)](/LICENSE)
@@ -31,7 +31,7 @@ Vibrant & Consistent Design System: Every component—from buttons and cards to 
 **Responsive by Default:** Components are built with responsiveness baked in, guaranteeing a graceful display across all screen sizes and devices.
 
 ## Documentation
-Visit [https://goatui.com](https://goatui.com) to view the documentation.
+Visit [https://peacock.redvars.com](https://goatui.com) to view the documentation.
 
 ## Getting Started
 
@@ -187,3 +187,12 @@ These components are used to display data in a graphical format. They include
 |----------------------------------------------------------------|---------------------|-------|
 | [Doughnut Chart](https://goatui.com/components/chart-doughnut) | goat-chart-doughnut | 🟢    |
 | [Pie Chart ](https://goatui.com/components/chart-pie)          | goat-chart-pie      | 🟢    |
+
+
+## 📄 License
+
+Peacock is open-source software licensed under the [Apache-2.0 License](LICENSE).
+
+---
+
+Made with 💖 by [shivajivarma](https://shivajivarma.com).

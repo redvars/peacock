@@ -48,7 +48,7 @@ export class HeaderBrand {
           if (this.subTitle)
             return (
               <Fragment>
-                <goat-divider vertical={true} class="subtitle-divider" />
+                <pc-divider vertical={true} class="subtitle-divider" />
                 <div class="subtitle">{this.subTitle}</div>
               </Fragment>
             );

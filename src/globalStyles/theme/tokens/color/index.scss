@@ -1,11 +1,8 @@
 @import "base";
 
-@import "background-colors";
 @import "layer-colors";
-@import "icon-colors";
 @import "text-colors";
 @import "field-colors";
-@import "icon-colors";
 @import "skeleton-colors";
 
 @include defineVariableDeprecated(--color-white, getColor(white, 0));

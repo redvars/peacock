@@ -2,7 +2,6 @@ import StyleDictionary from 'style-dictionary';
 import { formats } from 'style-dictionary/enums';
 import { fileHeader, formattedVariables } from 'style-dictionary/utils';
 
-//const sd = new StyleDictionary('config.json');
 const sd = new StyleDictionary({
   source: ['src/tokens/**/*.json'],
   platforms: {

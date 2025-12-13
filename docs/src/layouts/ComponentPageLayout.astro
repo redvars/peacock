@@ -1,17 +1,15 @@
 ---
-import site from '../_data/site.json';
 interface Props {
   componentDetails: any;
 }
 
 const {componentDetails} = Astro.props;
-
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
 import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../_data/getComponentDetails';
 import Footer from '../components/Footer.astro';
 
-const title = componentDetails.metadata.name;
+const title = componentDetails.metadata.label;
 const description = componentDetails.metadata.description;
 const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.tag);
 
@@ -66,12 +64,6 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
   </div>
   <div class='main-content'>
     <goat-container class='page-wrapper'>
-
-      <goat-breadcrumb>
-        <goat-breadcrumb-item href="/">Home</goat-breadcrumb-item>
-        { title != "Overview" ? <goat-breadcrumb-item href="/components">Components</goat-breadcrumb-item> : '' }
-        <goat-breadcrumb-item active>{title}</goat-breadcrumb-item>
-      </goat-breadcrumb>
 
       <div class='comp-header'>
         <goat-text class='comp-title heading-scrollable' type='heading' heading-size='6'>{title}</goat-text>

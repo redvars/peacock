@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-12-09T13:50:31",
+  "timestamp": "2025-12-12T09:42:06",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.19.2",
@@ -5035,64 +5035,6 @@
       }
     },
     {
-      "dirPath": "E:/git/peacock/components/src/components/divider",
-      "filePath": "src/components/divider/divider.tsx",
-      "fileName": "divider.tsx",
-      "readmePath": "E:/git/peacock/components/src/components/divider/readme.md",
-      "usagesDir": "E:/git/peacock/components/src/components/divider/usage",
-      "tag": "goat-divider",
-      "readme": "# goat-heading\r\n\r\n\r\n\r",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "goat-header-brand"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "goat-header-brand": [
-          "goat-divider"
-        ]
-      },
-      "props": [
-        {
-          "name": "vertical",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "vertical",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "name": "Divider",
-        "description": "A divider can be used to segment content vertically or horizontally.",
-        "category": "Layout",
-        "example": "<goat-divider style=\"width: 12rem;\">or</goat-divider>"
-      }
-    },
-    {
       "dirPath": "E:/git/peacock/components/src/components/dropdown/dropdown",
       "filePath": "src/components/dropdown/dropdown/dropdown.tsx",
       "fileName": "dropdown.tsx",
@@ -6519,7 +6461,7 @@
       "readmePath": "E:/git/peacock/components/src/components/application/header/header-brand/readme.md",
       "usagesDir": "E:/git/peacock/components/src/components/application/header/header-brand/usage",
       "tag": "goat-header-brand",
-      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
+      "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -6528,13 +6470,13 @@
       "dependencies": [
         "goat-button",
         "goat-svg",
-        "goat-divider"
+        "pc-divider"
       ],
       "dependencyGraph": {
         "goat-header-brand": [
           "goat-button",
           "goat-svg",
-          "goat-divider"
+          "pc-divider"
         ],
         "goat-button": [
           "goat-spinner",
@@ -8680,7 +8622,7 @@
         "category": "Layout",
         "subcategory": "Menu",
         "childComponents": "true",
-        "example": "<goat-divider style=\"width: 12rem;\">or</goat-divider>"
+        "example": "<pc-divider style=\"width: 12rem;\">or</pc-divider>"
       }
     },
     {
@@ -16489,6 +16431,64 @@
       }
     },
     {
+      "dirPath": "E:/git/peacock/components/src/components/divider",
+      "filePath": "src/components/divider/divider.tsx",
+      "fileName": "divider.tsx",
+      "readmePath": "E:/git/peacock/components/src/components/divider/readme.md",
+      "usagesDir": "E:/git/peacock/components/src/components/divider/usage",
+      "tag": "pc-divider",
+      "readme": "# goat-heading\n\n\n",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [
+        "goat-header-brand"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "goat-header-brand": [
+          "pc-divider"
+        ]
+      },
+      "props": [
+        {
+          "name": "vertical",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "vertical",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "name": "Divider",
+        "description": "A divider can be used to segment content vertically or horizontally.",
+        "category": "Layout",
+        "example": "<pc-divider style=\"width: 12rem;\">or</pc-divider>"
+      }
+    },
+    {
       "dirPath": "E:/git/peacock/components/src/components/icon",
       "filePath": "src/components/icon/icon.tsx",
       "fileName": "icon.tsx",
@@ -16575,9 +16575,11 @@
       "parts": [],
       "listeners": [],
       "metadata": {
-        "name": "Icon",
+        "label": "Icon",
+        "name": "icon",
         "description": "Icons are visual symbols used to represent ideas, objects, or actions.",
         "overview": "Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.",
+        "category": "General",
         "example": "<pc-icon name=\"home\" size=\"2rem\"></pc-icon>"
       }
     }
