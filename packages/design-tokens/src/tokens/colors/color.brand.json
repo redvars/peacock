@@ -47,7 +47,11 @@
       },
       "primary-container": {
         "$value": "{color.brand.primary.100}",
-        "$darkValue": "{color.brand.primary.700}"
+        "$extensions": {
+          "mode": {
+            "dark": "{color.brand.primary.700}"
+          }
+        }
       },
       "on-primary-container": {
         "$value": "{color.brand.primary.900}",
