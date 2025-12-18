@@ -86,16 +86,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-link](../../../link)
-- [goat-button](../../../button)
+- [pc-button](../../../button)
+- [pc-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-input-url --> goat-link
-  goat-input-url --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-input-url --> pc-button
+  goat-input-url --> pc-icon
+  pc-button --> pc-elevation
   style goat-input-url fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

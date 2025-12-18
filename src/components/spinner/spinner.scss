@@ -58,22 +58,22 @@
 
 
 @keyframes rainbow {
-  0%   {color:v(--color-primary);}
-  20%  {color:v(--color-success);}
-  40%  {color:v(--color-warning);}
-  60%  {color:v(--color-error);}
-  80% {color:v(--color-secondary);}
+  0%   {color:var(--color-primary);}
+  20%  {color:var(--color-blue);}
+  40%  {color:var(--color-red);}
+  60%  {color:var(--color-green);}
+  80% {color:var(--color-yellow);}
 }
 
 :host(.rainbow) .spinner__stroke {
-  color: v(--color-primary);
+  color: var(--color-primary);
   animation-name: rainbow;
   animation-duration: 5s;
   animation-iteration-count: infinite;
 }
 
 slot::slotted(*) {
-  @include font-style(label-01);
+  @include get-typography(label-medium);
   color: var(text-secondary);
 }
 

@@ -1,24 +1,20 @@
 import { Component, Element, h, Host, Prop } from '@stencil/core';
 
-/**
- * @name Avatar
+/**\
+ * @Label Avatar
+ * @name avatar
  * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
  * @category Data Display
  * @tags display
- * @example <goat-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></goat-avatar>
+ * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
  */
 @Component({
-  tag: 'goat-avatar',
+  tag: 'pc-avatar',
   styleUrl: 'avatar.scss',
   shadow: true,
 })
 export class Avatar {
   @Element() elm!: HTMLElement;
-
-  /**
-   * Avatar size.
-   */
-  @Prop() size: string = '2rem';
 
   @Prop() name: string = '';
 
@@ -31,13 +27,6 @@ export class Avatar {
     return `${firstName}${lastName}`;
   }
 
-  private getFontSize() {
-    const size = this.size;
-    const fontSize = this.size.match(/^\d+(\.\d{1,2})?/)[0];
-    // @ts-ignore
-    return (fontSize * 4) / 10 + size.replace(/^\d+(\.\d{1,2})?/, '');
-  }
-
   render() {
     const cssCls = ['avatar'];
     if (this.src) {
@@ -48,7 +37,7 @@ export class Avatar {
     return (
       <Host title={this.name}>
         <div class="avatar-container">
-          <div class={cssCls.join(' ')} style={{ width: this.size, height: this.size, fontSize: this.getFontSize() }}>
+          <div class={cssCls.join(' ')}>
             {(() => {
               if (this.src) {
                 return <img class="image" src={this.src} alt={this.name} />;

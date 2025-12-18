@@ -2,7 +2,7 @@
 
 :host {
   display: inline-block;
-  color: v(--text-primary);
+  color: var(--text-primary);
 }
 
 .toggle {
@@ -120,7 +120,7 @@
 
     .node {
       border-color: var(--disabled-01) !important;
-      background: var(--icon-primary) !important;
+      background: var(--color-outline) !important;
     }
   }
 

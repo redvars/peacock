@@ -78,9 +78,9 @@ Type: `Promise<void>`
 graph TD;
   goat-slider --> goat-number
   goat-slider --> goat-tooltip
-  goat-number --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-number --> pc-button
+  goat-number --> pc-icon
+  pc-button --> pc-elevation
   goat-tooltip --> goat-popover
   goat-tooltip --> goat-popover-content
   style goat-slider fill:#f9f,stroke:#333,stroke-width:4px

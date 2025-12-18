@@ -18,14 +18,12 @@
 
 ### Depends on
 
-- [goat-text](../../../typography/text)
 - [goat-cb-divider](../cb-divider)
 - [goat-tag](../../../tag)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-cb-compound-expression --> goat-text
   goat-cb-compound-expression --> goat-cb-divider
   goat-cb-compound-expression --> goat-tag
   goat-tag --> pc-icon

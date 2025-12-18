@@ -28,18 +28,19 @@ const PREDEFINED_BUTTON_COLORS = [
 ];
 
 /**
- * @name Button
+ * @label Button
+ * @name button
  * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
  * @overview
  *  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
  * @category Buttons
  * @tags controls
- * @example <goat-button>
+ * @example <pc-button>
  *   Button
- * </goat-button>
+ * </pc-button>
  */
 @Component({
-  tag: 'goat-button',
+  tag: 'pc-button',
   styleUrl: 'button.scss',
   shadow: true,
 })
@@ -66,8 +67,13 @@ export class Button implements ComponentInterface {
    * `"tonal"` is a light color button.
    *
    */
-  @Prop() variant: 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo' =
-    'filled';
+  @Prop() variant:
+    | 'elevated'
+    | 'filled'
+    | 'tonal'
+    | 'outlined'
+    | 'text'
+    | 'neo' = 'filled';
 
   /**
    * Button size.
@@ -98,21 +104,10 @@ export class Button implements ComponentInterface {
     | 'black' = 'primary';
 
   /**
-   * Icon which will displayed on button.
-   * Possible values are icon names.
-   */
-  @Prop() icon?: string;
-
-  /**
    * Icon alignment.
    * Possible values are `"start"`, `"end"`. Defaults to `"end"`.
    */
   @Prop() iconAlign: 'start' | 'end' = 'end';
-
-  /**
-   * If true, a loader will be displayed on button.
-   */
-  @Prop() showLoader: boolean = false;
 
   /**
    * Hyperlink to navigate to on click.
@@ -144,12 +139,12 @@ export class Button implements ComponentInterface {
   /**
    * Triggered when the button is clicked.
    */
-  @Event({ eventName: 'goat-button--click' }) clickEvent: EventEmitter<{
+  @Event({ eventName: 'pc-button--click' }) clickEvent: EventEmitter<{
     appendData: any;
   }>;
 
   /**
-   * Sets focus on the native `button` in `goat-button`. Use this method instead of the global
+   * Sets focus on the native `button` in `pc-button`. Use this method instead of the global
    * `button.focus()`.
    */
   @Method()
@@ -159,7 +154,7 @@ export class Button implements ComponentInterface {
   }
 
   /**
-   * Sets blur on the native `button` in `goat-button`. Use this method instead of the global
+   * Sets blur on the native `button` in `pc-button`. Use this method instead of the global
    * `button.blur()`.
    */
   @Method()
@@ -169,7 +164,7 @@ export class Button implements ComponentInterface {
   }
 
   /**
-   * Triggers a click event on the native `button` in `goat-button`. Use this method instead of the global
+   * Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global
    * `button.click()`.
    */
   @Method()
@@ -184,7 +179,6 @@ export class Button implements ComponentInterface {
   @State() isActive = false;
   @State() hasHover = false;
   @State() slotHasContent = false;
-  @State() selected: boolean = false;
 
   connectedCallback() {
     this.handleClickWithThrottle = throttle(
@@ -203,8 +197,8 @@ export class Button implements ComponentInterface {
     if (this.isActive && !this.toggle && evt.key == ' ') this.isActive = false;
   }
 
-  #renderIcon(iconName: string) {
-    return <pc-icon name={iconName} class="icon inherit" />;
+  #renderIcon() {
+    return <slot name="icon" />;
   }
 
   handleClick = () => {
@@ -214,7 +208,7 @@ export class Button implements ComponentInterface {
   };
 
   #onClick(evt: MouseEvent) {
-    if (!this.disabled && !this.showLoader) {
+    if (!this.disabled) {
       this.handleClickWithThrottle();
     } else {
       evt.preventDefault();
@@ -244,7 +238,7 @@ export class Button implements ComponentInterface {
   };
 
   #onKeyDown = (evt: KeyboardEvent) => {
-    if (!this.disabled && !this.showLoader) {
+    if (!this.disabled) {
       if (evt.key == 'Enter' || evt.key == ' ') {
         if (!this.href) {
           evt.preventDefault();
@@ -261,7 +255,7 @@ export class Button implements ComponentInterface {
   };
 
   #onKeyUp = (evt: KeyboardEvent) => {
-    if (!this.disabled && !this.showLoader && !this.toggle) {
+    if (!this.disabled && !this.toggle) {
       if (evt.key == 'Enter' || evt.key == ' ') {
         this.isActive = false;
       }
@@ -273,9 +267,9 @@ export class Button implements ComponentInterface {
   }
 
   componentWillLoad() {
-    // If the goat-button has a tabindex attribute we get the value
+    // If the pc-button has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-button to avoid causing tabbing twice on the same element
+    // pc-button to avoid causing tabbing twice on the same element
     if (this.host.hasAttribute('tabindex')) {
       const tabindex = this.host.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
@@ -300,17 +294,16 @@ export class Button implements ComponentInterface {
       );
   }
 
-  #getNativeElementTagName() {
-    if (this.href) return 'a';
-    else return 'button';
+  #isLink() {
+    return !!this.href;
   }
 
   render() {
-    const NativeElementTag = this.#getNativeElementTagName();
+    const isLink = this.#isLink();
 
     const variants = this.variant?.split('.');
     if (
-      ['filled', 'outline', 'ghost', 'light', 'neo'].includes(variants[0]) ==
+      ['filled', 'outlined', 'text', 'tonal', 'neo'].includes(variants[0]) ==
       false
     ) {
       variants.unshift('filled');
@@ -329,68 +322,100 @@ export class Button implements ComponentInterface {
             [`color-${this.color}`]: true,
             'hover': this.hasHover,
             'disabled': this.disabled,
-            'selected': this.selected,
             'has-focus': this.hasFocus,
             'active': this.isActive,
             'has-content': this.slotHasContent,
-            'has-icon': !!this.icon,
-            'show-loader': this.showLoader,
           }}
         >
-          <div class="button-elevation-background" />
+          <div class="outline"></div>
 
-          <div class="button-neo-background" />
+          <pc-elevation class="elevation"></pc-elevation>
 
-          <div class="button-default-background" />
+          <div class="neo-background" />
 
-          <NativeElementTag
-            class="native-button"
-            tabindex={this.tabindex}
-            href={this.href}
-            target={this.target}
-            type={this.type}
-            ref={(elm: HTMLButtonElement) => (this.nativeElement = elm)}
-            onBlur={() => this.#onBlur()}
-            onFocus={() => this.#onFocus()}
-            onMouseOver={() => this.#onMouseOver()}
-            onMouseOut={() => this.#onMouseOut()}
-            onClick={evt => this.#onClick(evt)}
-            onMouseDown={() => this.#onMouseDown()}
-            onKeyDown={evt => this.#onKeyDown(evt)}
-            onKeyUp={evt => this.#onKeyUp(evt)}
-            role="button"
-            aria-describedby={
-              this.disabled && this.disabledReason
-                ? `disabled-reason-${this.gid}`
-                : null
-            }
-            aria-disabled={(this.disabled || this.showLoader) + ''}
-            {...this.configAria}
-          >
-            {!this.showLoader &&
-              this.icon &&
-              this.iconAlign == 'start' &&
-              this.#renderIcon(this.icon)}
+          <div class="background"></div>
 
-            <div class="slot-container">
-              <slot onSlotchange={() => this.#computeSlotHasContent()} />
-            </div>
+          <div class="state-background"></div>
 
-            {this.showLoader && (
-              <goat-spinner
-                hideBackground={true}
-                class="spinner loader inherit"
-              />
-            )}
+          {isLink ? this.renderLink() : this.renderButton()}
 
-            {!this.showLoader &&
-              this.icon &&
-              this.iconAlign == 'end' &&
-              this.#renderIcon(this.icon)}
-          </NativeElementTag>
           {this.#renderDisabledReason()}
         </div>
       </Host>
+    );
+  }
+
+  renderButton() {
+    return (
+      <button
+        class="native-element native-button"
+        tabIndex={this.tabindex}
+        href={this.href}
+        target={this.target}
+        type={this.type}
+        ref={(elm: HTMLButtonElement) => (this.nativeElement = elm)}
+        onBlur={() => this.#onBlur()}
+        onFocus={() => this.#onFocus()}
+        onMouseOver={() => this.#onMouseOver()}
+        onMouseOut={() => this.#onMouseOut()}
+        onClick={evt => this.#onClick(evt)}
+        onMouseDown={() => this.#onMouseDown()}
+        onKeyDown={evt => this.#onKeyDown(evt)}
+        onKeyUp={evt => this.#onKeyUp(evt)}
+        role="button"
+        aria-describedby={
+          this.disabled && this.disabledReason
+            ? `disabled-reason-${this.gid}`
+            : null
+        }
+        aria-disabled={this.disabled + ''}
+        {...this.configAria}
+      >
+        {this.iconAlign == 'start' && this.#renderIcon()}
+
+        <div class="slot-container">
+          <slot onSlotchange={() => this.#computeSlotHasContent()} />
+        </div>
+
+        {this.iconAlign == 'end' && this.#renderIcon()}
+      </button>
+    );
+  }
+
+  renderLink() {
+    return (
+      <a
+        class="native-element native-link"
+        tabindex={this.tabindex}
+        href={this.href}
+        target={this.target}
+        type={this.type}
+        ref={(elm: HTMLButtonElement) => (this.nativeElement = elm)}
+        onBlur={() => this.#onBlur()}
+        onFocus={() => this.#onFocus()}
+        onMouseOver={() => this.#onMouseOver()}
+        onMouseOut={() => this.#onMouseOut()}
+        onClick={evt => this.#onClick(evt)}
+        onMouseDown={() => this.#onMouseDown()}
+        onKeyDown={evt => this.#onKeyDown(evt)}
+        onKeyUp={evt => this.#onKeyUp(evt)}
+        role="button"
+        aria-describedby={
+          this.disabled && this.disabledReason
+            ? `disabled-reason-${this.gid}`
+            : null
+        }
+        aria-disabled={this.disabled + ''}
+        {...this.configAria}
+      >
+        {this.iconAlign == 'start' && this.#renderIcon()}
+
+        <div class="slot-container">
+          <slot onSlotchange={() => this.#computeSlotHasContent()} />
+        </div>
+
+        {this.iconAlign == 'end' && this.#renderIcon()}
+      </a>
     );
   }
 }

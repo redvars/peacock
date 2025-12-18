@@ -1,9 +1,9 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
-<goat-text type='body' expressive>Buttons come in different colors to indicate the action or the type of button. The
+<pc-text type='body' expressive>Buttons come in different colors to indicate the action or the type of button. The
   following example shows the different colors available for the button component.
-</goat-text>
+</pc-text>
 
 <style is:inline>
   .color-dark-theme-bg {
@@ -12,47 +12,24 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   }
 </style>
 <HighlighterCard lang={'html'}>
-  <div class='component-container'>
-    <goat-button color='primary'>Primary</goat-button>
-    <goat-button color='secondary'>Secondary</goat-button>
-    <goat-button color='success'>Success</goat-button>
-    <goat-button color='warning'>Warning</goat-button>
-    <goat-button color='danger'>Danger</goat-button>
-  </div>
-
-  <goat-text>Switch your button color in dark theme using <goat-code-highlighter inline>dark-mode-color</goat-code-highlighter> attribute</goat-text>
-  <div class='component-container color-dark-theme-bg'>
-    <goat-button color='white'>White</goat-button>
-    <goat-button color='black'>Black</goat-button>
-    <goat-button color='black' dark-mode-color='white'>Inverse</goat-button>
-  </div>
 
   <!-- Custom color : give any name to css variable and use it as button color -->
   <style is:inline>
-    :root {
-      /* --color-custom is equivalent to --color-custom-60 */
-      --color-custom: #8a3ffc;
-      --color-custom-10: #f6f2ff;
-      --color-custom-20: #e8daff;
-      --color-custom-30: #d4bbff;
-      --color-custom-40: #be95ff;
-      --color-custom-50: #a56eff;
-      --color-custom-60: #8a3ffc;
-      --color-purple: #8a3ffc;
-      --color-custom-70: #6929c4;
-      --color-custom-80: #491d8b;
-      --color-custom-90: #31135e;
-      --color-custom-100: #1c0f30;
+    .success {
+      --filled-button-container-color: var(--color-success-500);
+
+    }
+    .danger {
+      --filled-button-container-color: var(--color-danger-500);
     }
   </style>
 
-  <goat-text>Custom color</goat-text>
   <div class='component-container'>
-    <goat-button variant='default' color='custom' icon='arrow--right'>Default</goat-button>
-    <goat-button variant='light' color='custom' icon='arrow--right'>Light</goat-button>
-    <goat-button variant='outline' color='custom' icon='arrow--right'>Outline</goat-button>
-    <goat-button variant='ghost' color='custom' icon='arrow--right'>Ghost</goat-button>
-    <goat-button variant='neo' color='custom' icon='arrow--right'>Neo-Brutalism</goat-button>
+    <pc-button>Primary</pc-button>
+    <pc-button class='success'>Success</pc-button>
+    <pc-button class='danger'>Danger</pc-button>
   </div>
+
+
 
 </HighlighterCard>

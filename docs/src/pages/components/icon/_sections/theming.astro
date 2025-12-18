@@ -2,15 +2,10 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<goat-text type='heading' heading-size='3'>Color</goat-text>
-<goat-text type='body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</goat-text>
+<pc-text type='heading' heading-size='3'>Color</pc-text>
+<pc-text type='body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</pc-text>
 <DemoComponentCard lang={'html'}>
-  <pc-icon name='alarm' style='--icon-color: var(--color-icon-primary)'></pc-icon>
-  <pc-icon name='alarm' style='--icon-color: var(--color-icon-secondary)'></pc-icon>
-
-  <span style='background-color: var(--color-background-inverse); line-height: 0;'>
-  <pc-icon name='alarm' style='--icon-color: var(--color-icon-inverse)'></pc-icon>
-</span>
+  <pc-icon name='alarm' style='--icon-color: var(--color-on-surface)'></pc-icon>
 
   <pc-icon name='alarm' style='--icon-color: var(--color-info)'></pc-icon>
   <pc-icon name='alarm' style='--icon-color: var(--color-success)'></pc-icon>
@@ -22,8 +17,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </span>
 </DemoComponentCard>
 
-<goat-text type='heading' heading-size='3'>Size</goat-text>
-<goat-text type="body">Fancy larger or smaller icons? Add size attribute for additional sizes.</goat-text>
+<pc-text type='heading' heading-size='3'>Size</pc-text>
+<pc-text type="body">Fancy larger or smaller icons? Add size attribute for additional sizes.</pc-text>
 <DemoComponentCard lang={'html'}>
   <pc-icon name="alarm"></pc-icon>
   <pc-icon name="alarm" style="--icon-size: 3rem"></pc-icon>

@@ -22,11 +22,12 @@
   "author": "Shivaji Varma <contact@shivajivarma.com>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@material/material-color-utilities": "^0.3.0",
     "@terrazzo/cli": "^0.10.5",
-    "culori": "^4.0.2",
-    "@terrazzo/token-tools": "^0.10.5",
     "@terrazzo/plugin-css": "^0.10.4",
+    "@terrazzo/token-tools": "^0.10.5",
     "@tokens-studio/sd-transforms": "^2.0.3",
+    "culori": "^4.0.2",
     "style-dictionary": "^5.1.1"
   }
 }

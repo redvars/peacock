@@ -148,7 +148,7 @@
 
   &:not(.multiple) .input-container.has-value {
     .display-value {
-      color: v(--text-primary);
+      color: var(--text-primary);
     }
   }
 

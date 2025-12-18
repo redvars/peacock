@@ -20,7 +20,7 @@ const {component} = Astro.props;
 
     <goat-card-content class='body'>
 
-      <goat-text class='component-title' type='heading' heading-size='3'>{component.metadata.name}</goat-text>
+      <pc-text class='component-title' type='heading' heading-size='3'>{component.metadata.name}</pc-text>
 
       <div class='component-category-container'>
         <goat-link href={`/components/?filter=${component.metadata.category.toLowerCase().replace(' ', '-')}`}>
@@ -30,9 +30,9 @@ const {component} = Astro.props;
       </div>
 
 
-      <goat-text class='component-description'>{component.metadata.description}</goat-text>
+      <pc-text class='component-description'>{component.metadata.description}</pc-text>
 
-      <goat-button size='sm' color='black' dark-mode-color="white" href={`/components/${component.tag.replace(site.component_prefix + '-', '')}/#`}  icon="arrow--right">Read more</goat-button>
+      <pc-button size='sm' color='black' dark-mode-color="white" href={`/components/${component.metadata.name}/#`}  icon="arrow--right">Read more</pc-button>
     </goat-card-content>
   </goat-card>
 </div>}

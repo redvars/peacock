@@ -37,7 +37,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    color: v(--text-primary);
+    color: var(--text-primary);
 
 
 
@@ -50,7 +50,7 @@
         border-inline-end: 1px solid var(--border-strong);
 
         .action {
-          --goat-button-border-radius: 0;
+          --pc-button-border-radius: 0;
         }
       }
     }

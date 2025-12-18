@@ -5,24 +5,24 @@ $border-width: 0.0625rem;
 :host .button-group {
   display: flex;
 
-  slot::slotted(goat-button) {
+  slot::slotted(pc-button) {
     display: block;
     margin: 0;
-    --goat-button-border-width: #{$border-width} 0 #{$border-width} #{$border-width};
-    --goat-button-border-radius: 0;
+    --pc-button-border-width: #{$border-width} 0 #{$border-width} #{$border-width};
+    --pc-button-border-radius: 0;
   }
 
-  slot::slotted(goat-button:first-child) {
-    --goat-button-border-radius: #{v(--border-radius)} 0 0 #{v(--border-radius)};
+  slot::slotted(pc-button:first-child) {
+    --pc-button-border-radius: #{v(--border-radius)} 0 0 #{v(--border-radius)};
   }
 
-  slot::slotted(goat-button:last-child) {
-    --goat-button-border-width: #{$border-width};
-    --goat-button-border-radius: 0 #{v(--border-radius)} #{v(--border-radius)} 0;
+  slot::slotted(pc-button:last-child) {
+    --pc-button-border-width: #{$border-width};
+    --pc-button-border-radius: 0 #{v(--border-radius)} #{v(--border-radius)} 0;
   }
 
-  slot::slotted(goat-button:only-child) {
-    --goat-button-border-radius: #{v(--border-radius)};
-    --goat-button-border-width: #{$border-width};
+  slot::slotted(pc-button:only-child) {
+    --pc-button-border-radius: #{v(--border-radius)};
+    --pc-button-border-width: #{$border-width};
   }
 }

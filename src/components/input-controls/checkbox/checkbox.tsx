@@ -215,7 +215,15 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
             aria-checked={this.value + ''}
             {...this.configAria}
           >
-            <div class="tick" />
+            <pc-icon
+              name={
+                this.value
+                  ? 'check'
+                  : this.intermediate
+                  ? 'minus'
+                  : 'empty-square'
+              }
+            ></pc-icon>
           </div>
 
           <input

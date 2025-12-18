@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event                        | Description                            | Type               |
-| ---------------------------- | -------------------------------------- | ------------------ |
-| `goat-accordion-item--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
+| Event                    | Description                            | Type               |
+| ------------------------ | -------------------------------------- | ------------------ |
+| `accordion--item--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
 
 
 ## Shadow Parts
@@ -37,8 +37,8 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-accordion-item --> pc-icon
-  style goat-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
+  pc-accordion-item --> pc-icon
+  style pc-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

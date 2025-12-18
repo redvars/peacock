@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/ComponentPageLayout.astro';
+import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
+import ApiPanel from '../../../components/ApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+const componentDetails = getComponentDetails('elevation');
+
+import UsageSection from './_sections/usage.astro';
+import ThemingSection from './_sections/theming.astro';
+
+const sections = [
+  {
+    'title': 'Usage',
+    'Component': UsageSection,
+  }, {
+    'title': 'Theming',
+    'Component': ThemingSection,
+  }];
+---
+
+<Layout componentDetails={componentDetails}>
+  <goat-tabs class='page-tabs'>
+    <goat-tabs-list>
+      <goat-tab selected='true'>Overview</goat-tab>
+      <goat-tab>API</goat-tab>
+    </goat-tabs-list>
+    <goat-tab-panel>
+      <OverviewPanel componentDetails={componentDetails} sections={sections} />
+    </goat-tab-panel>
+    <goat-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </goat-tab-panel>
+  </goat-tabs>
+</Layout>

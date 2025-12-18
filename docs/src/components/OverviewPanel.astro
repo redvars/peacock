@@ -10,13 +10,13 @@ const { componentDetails, sections } = Astro.props;
 <div class='component-overview-tab'>
   <div class='component-content'>
     <div class='component-description'>
-      <goat-text type='body' expressive set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}></goat-text>
+      <pc-text type='body' expressive set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}></pc-text>
     </div>
     {
       sections.map((section) => (
         <div id={`section-${section.title.toLowerCase().replaceAll(" ", "-").replaceAll("/", "-")}`}
              class='component-section'>
-          <goat-text class='heading-scrollable' type='heading' heading-size='4'>{section.title}</goat-text>
+          <pc-text class='heading-scrollable' type='heading' heading-size='4'>{section.title}</pc-text>
 
           <section.Component/>
         </div>))

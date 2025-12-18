@@ -18,7 +18,6 @@
 
 ### Used by
 
- - [goat-button](../button)
  - [goat-code-editor](../input-controls/code-editor)
  - [goat-code-highlighter](../application/code-highlighter)
  - [goat-html-editor](../input-controls/html-editor)
@@ -29,7 +28,6 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-button --> goat-spinner
   goat-code-editor --> goat-spinner
   goat-code-highlighter --> goat-spinner
   goat-html-editor --> goat-spinner

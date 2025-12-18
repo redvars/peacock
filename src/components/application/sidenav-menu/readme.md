@@ -40,9 +40,9 @@ Type: `Promise<void>`
 graph TD;
   goat-sidenav-menu --> goat-empty-state
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
+  pc-button --> pc-elevation
   style goat-sidenav-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

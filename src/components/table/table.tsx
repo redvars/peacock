@@ -216,8 +216,7 @@ export class Table {
                   else icon = 'arrow--down';
                 }
                 return (
-                  <goat-button
-                    icon={icon}
+                  <pc-button
                     class="col-action"
                     color="secondary"
                     dark-mode-color="white"
@@ -235,7 +234,9 @@ export class Table {
                         sortOrder: this.sortOrder,
                       });
                     }}
-                  />
+                  >
+                    <pc-icon slot="icon" name={icon}></pc-icon>
+                  </pc-button>
                 );
               })()}
             </div>
@@ -386,19 +387,18 @@ export class Table {
             />
           </div>
           <div class="pagination-item-count">
-            <goat-text inline color="secondary">
+            <span class={'text-body inline secondary'}>
               {this.pageSize * (this.page - 1)} -{' '}
               {this.pageSize * this.page < this.getTotalItems()
                 ? this.pageSize * this.page
                 : this.getTotalItems()}{' '}
               of {this.getTotalItems()} items
-            </goat-text>
+            </span>
           </div>
           <div class="pagination-right">
             <div class="table-footer-right-content">
               <div class="table-footer-right-content-pagination">
-                <goat-button
-                  icon="arrow--left"
+                <pc-button
                   class="arrows"
                   color="secondary"
                   dark-mode-color="light"
@@ -411,9 +411,10 @@ export class Table {
                       pageSize: this.pageSize,
                     });
                   }}
-                />
-                <goat-button
-                  icon="arrow--right"
+                >
+                  <pc-icon slot="icon" name="arrow--left"></pc-icon>
+                </pc-button>
+                <pc-button
                   color="secondary"
                   dark-mode-color="light"
                   variant="text"
@@ -426,7 +427,9 @@ export class Table {
                       pageSize: this.pageSize,
                     });
                   }}
-                />
+                >
+                  <pc-icon slot="icon" name="arrow--right"></pc-icon>
+                </pc-button>
               </div>
             </div>
           </div>

@@ -84,7 +84,7 @@ import Layout from '../layouts/Base.astro';
 
     <div class='border'>
       <div class='inside'>
-        <goat-button id='generate'>Generate</goat-button>
+        <pc-button id='generate'>Generate</pc-button>
       </div>
     </div>
 
@@ -122,7 +122,7 @@ import Layout from '../layouts/Base.astro';
     });
 
     const $outputCode = document.getElementById('output-code');
-    $generate.addEventListener('goat-button--click', () => {
+    $generate.addEventListener('pc-button--click', () => {
       const input = $inputHex.value;
       const variable = '--color-' + $dropDown.value;
       const color = new Values(input);

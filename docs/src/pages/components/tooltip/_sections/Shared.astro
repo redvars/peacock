@@ -1,20 +1,20 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
-<goat-text type='body'>
+<pc-text type='body'>
   The dropdown can be positioned relative to the trigger element. Possible positions are: <code class='language-html'>top-start</code>,
   <code class='language-html'>top-end</code>,
   <code class='language-html'>bottom-end</code>, <code class='language-html'>bottom-start</code>.
-</goat-text>
-<goat-text type='body'>
+</pc-text>
+<pc-text type='body'>
   You can also use the <code class='language-html'>positions</code> attribute to set all preferred position of the
   dropdown. On scroll, the dropdown will be repositioned to the
   closest position.
-</goat-text>
+</pc-text>
 
 <HighlighterCard lang='html'>
-  <goat-button tooltip-target='tooltip-shared' tooltip-content='Save the record' icon='save' variant='outline'></goat-button>
-  <goat-button tooltip-target='tooltip-shared' tooltip-content='Delete the record' icon='trash-can' color='red'></goat-button>
+  <pc-button tooltip-target='tooltip-shared' tooltip-content='Save the record' icon='save' variant='outline'></pc-button>
+  <pc-button tooltip-target='tooltip-shared' tooltip-content='Delete the record' icon='trash-can' color='red'></pc-button>
 
   <goat-tooltip id='tooltip-shared'></goat-tooltip>
 </HighlighterCard>

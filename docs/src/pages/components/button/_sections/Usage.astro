@@ -1,6 +1,6 @@
 ---
 import { getComponentDetails } from '../../../../_data/getComponentDetails';
-const componentDetails = getComponentDetails('goat-button');
+const componentDetails = getComponentDetails('button');
 ---
 
 <div class='playground-tab'>
@@ -40,7 +40,7 @@ const componentDetails = getComponentDetails('goat-button');
       const $codeEditor = this.elm.querySelector('.code-editor');
       const $demoArea = this.elm.querySelector('.demo-area');
 
-      $codeEditor.value = `<goat-button>Button</goat-button>
+      $codeEditor.value = `<pc-button>Button</pc-button>
 `;
       $codeEditor.addEventListener('goat-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;

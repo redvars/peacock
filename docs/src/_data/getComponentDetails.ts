@@ -1,12 +1,20 @@
 import componentsDetails from './componentsDetails.json';
 
-export function getComponentDetails(tagName: string): any {
-  return componentsDetails.components.find((component: any) => component.tag === tagName);
+export function getComponentDetails(name: string): any {
+  return componentsDetails.components.find(
+    (component: any) =>
+      component.tag === name || component.metadata.name === name,
+  );
 }
 
-const arr = componentsDetails.components.filter((component: any) => component.metadata.name).map((component: any) => component.tag);
+const arr = componentsDetails.components
+  .filter((component: any) => component.metadata.name)
+  .map((component: any) => component.tag);
 
-export function getNextAndPrevious(target: string): {nextComponent?: any, previousComponent?: any} {
+export function getNextAndPrevious(target: string): {
+  nextComponent?: any;
+  previousComponent?: any;
+} {
   const index = arr.indexOf(target);
   if (index === -1) {
     console.log(`"${target}" not found in the array.`);
@@ -35,7 +43,9 @@ export function getCategoriesTree() {
       categoryName = 'Up coming';
     }
 
-    let cat = categoriesTree.find((category: any) => category.name === categoryName);
+    let cat = categoriesTree.find(
+      (category: any) => category.name === categoryName,
+    );
     if (!cat) {
       cat = {
         name: categoryName,
@@ -46,7 +56,9 @@ export function getCategoriesTree() {
     }
 
     if (subCategoryName) {
-      let subCat = cat.children.find((subcategory: any) => subcategory.name === subCategoryName);
+      let subCat = cat.children.find(
+        (subcategory: any) => subcategory.name === subCategoryName,
+      );
       if (!subCat) {
         subCat = {
           name: subCategoryName,
@@ -61,7 +73,17 @@ export function getCategoriesTree() {
     cat.children.push(component.tag);
   });
 
-  const order = ['Data Display', 'Feedback', 'Form Inputs', 'General', 'Layout', 'Navigation', 'Charts', 'Others', 'Up coming'];
+  const order = [
+    'Data Display',
+    'Feedback',
+    'Form Inputs',
+    'General',
+    'Layout',
+    'Navigation',
+    'Charts',
+    'Others',
+    'Up coming',
+  ];
 
   categoriesTree.sort((a, b) => {
     return order.indexOf(a.name) - order.indexOf(b.name);

@@ -18,7 +18,7 @@ import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
  * @description Enables native inputs to be used within a Form field.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-textarea placeholder="Enter some description over here"></goat-textarea>
+ * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
  */
 @Component({
   tag: 'goat-textarea',
@@ -277,14 +277,15 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
 
         <div class={'actions-container'}>
           {this.clearable && this.hasValue() && (
-            <goat-button
+            <pc-button
               class="clear clear-action"
               color={'secondary'}
               variant="text"
               size={this.size}
-              icon="close"
               onClick={this.clearInput}
-            />
+            >
+              <pc-icon name="close" />
+            </pc-button>
           )}
         </div>
 

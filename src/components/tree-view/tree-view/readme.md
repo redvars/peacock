@@ -65,9 +65,9 @@ Type: `Promise<void>`
 graph TD;
   goat-tree-view --> goat-empty-state
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
+  pc-button --> pc-elevation
   style goat-tree-view fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

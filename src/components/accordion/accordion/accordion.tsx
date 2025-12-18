@@ -1,8 +1,9 @@
 import { Component, Element, h, Host, Listen, Prop } from '@stencil/core';
-import { GoatAccordionItemCustomEvent } from '../../../components';
+import { PcAccordionItemCustomEvent } from '../../../components';
 
 /**
- * @name Accordion
+ * @label Accordion
+ * @name accordion
  * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
  * @overview
  *  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
@@ -14,7 +15,7 @@ import { GoatAccordionItemCustomEvent } from '../../../components';
  * @imgDark /assets/img/accordion-dark.webp
  */
 @Component({
-  tag: 'goat-accordion',
+  tag: 'pc-accordion',
   styleUrl: 'accordion.scss',
   shadow: true,
 })
@@ -33,12 +34,13 @@ export class Accordion {
 
   @Prop() multiple: boolean = false;
 
-  @Listen('goat-accordion-item-click')
-  accordionItemClick(evt: GoatAccordionItemCustomEvent<any>) {
+  @Listen('accordion--item-click')
+  accordionItemClick(evt: PcAccordionItemCustomEvent<any>) {
     if (!this.multiple) {
       const accordionItems = this.elm.querySelectorAll('goat-accordion-item');
       accordionItems.forEach(item => {
         if (item !== evt.detail.element) {
+          //@ts-ignore
           item.open = false;
         }
       });

@@ -246,10 +246,9 @@ export class DatePicker implements ComponentInterface {
                 onFocus={this.focusHandler}
               />
 
-              <goat-button
+              <pc-button
                 class="input-action"
                 color={'secondary'}
-                icon={'calendar'}
                 variant="text"
                 size={this.size}
                 disabled={this.disabled}
@@ -258,7 +257,9 @@ export class DatePicker implements ComponentInterface {
                     this.nativeElement.showPicker();
                   });
                 }}
-              ></goat-button>
+              >
+                <pc-icon slot="icon" name="calendar"></pc-icon>
+              </pc-button>
             </div>
             {this.renderHelper()}
           </div>

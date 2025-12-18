@@ -24,7 +24,8 @@
   .modal-overlay {
     position: absolute;
     content: '';
-    background: var(--overlay);
+    background: var(--color-scrim);
+    opacity: 0.32;
     width: 100%;
     height: 100%;
   }
@@ -41,7 +42,8 @@
 .modal {
   margin: auto;
   width: 100%;
-  background: var(--layer-01);
+  background: var(--color-surface-container-high);
+  border-radius: var(--global-shape-corner-large);
 
   .modal__content {
     padding: 0 0 var(--spacing-600);
@@ -67,8 +69,8 @@
     flex-direction: row-reverse;
 
     .close-icon {
-      --goat-button-height: 3rem;
-      --goat-button-border-radius: 0;
+      --button-height: 3rem;
+      --pc-button-border-radius: 0;
     }
   }
 
@@ -91,7 +93,7 @@
     .modal__loading-background {
       position: absolute;
       content: '';
-      background: var(--overlay);
+      background: var(--color-scrim);
       width: 100%;
       height: 100%;
     }

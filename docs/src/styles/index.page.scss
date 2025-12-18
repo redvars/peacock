@@ -28,8 +28,6 @@
   height: 100vh;
   min-height: 750px;
   padding-top: var(--header-height);
-  border-bottom: 1px solid var(--border-strong-01);
-  background: var(--color-light);
 }
 
 .banner-content {
@@ -88,7 +86,7 @@ goat-text[type='code'] {
   display: flex;
   align-items: center;
   text-align: center;
-  goat-text {
+  pc-text {
     margin-bottom: 0;
   }
   goat-link {
@@ -126,8 +124,8 @@ goat-text[type='code'] {
     right: 0.5rem;
     flex-direction: column;
 
-    goat-button {
-      --goat-button-icon-size: 1.5rem;
+    pc-button {
+      --pc-button-icon-size: 1.5rem;
     }
   }
 
@@ -176,11 +174,9 @@ goat-text[type='code'] {
   display: inline-block;
   padding-inline: .2rem;
 }
+
 .jumping-text {
   position:relative;
-  font-weight: 900;
-  letter-spacing: -2px;
-  font-size: 40px;
   transform: matrix(1, 0, 0, 1, 0, 0);
   transform-origin: 50% 100%;
   display: inline-block;

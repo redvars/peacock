@@ -21,7 +21,7 @@ $sideBarWidth: 15rem;
   top: var(--header-height);
   height: calc(100vh - var(--header-height));
   overflow-y: auto;
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--color-outline);
 }
 
 .sidenav-components {
@@ -31,7 +31,7 @@ $sideBarWidth: 15rem;
 .category-name {
   margin: 0 1rem;
   padding: 1.5rem 0 0.5rem 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--color-outline);
 }
 
 .main-content {
@@ -110,26 +110,17 @@ pre[class*='language-'] {
   gap: 1rem;
 }
 
-.demo-component-card {
-  .demo-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 10rem;
-    gap: var(--spacing-200);
-  }
-}
 
 
 .playground-container {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--color-outline);
   margin-bottom: 2rem;
   border-radius: var(--border-radius);
   background: var(--background);
 
   .playground {
     display: flex;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--color-outline);
 
     flex-direction: column;
 
@@ -139,8 +130,8 @@ pre[class*='language-'] {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-inline-end: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
+      border-inline-end: 1px solid var(--color-outline);
+      border-bottom: 1px solid var(--color-outline);
     }
 
     .demo-controls {

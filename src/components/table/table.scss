@@ -65,7 +65,7 @@
 
     .arrows {
       --border-radius: 0;
-      --goat-button-height: calc(2.5rem - 2px);
+      --button-height: calc(2.5rem - 2px);
     }
   }
 
@@ -114,7 +114,7 @@
       }
 
       .col-action {
-        --goat-button-border-radius: none;
+        --pc-button-border-radius: none;
 
         &.has-focus {
           z-index: 12;

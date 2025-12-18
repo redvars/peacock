@@ -2,35 +2,36 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 
-<goat-text expressive>Here are several predefined button styles, each serving its own semantic purpose.
-</goat-text>
+<pc-text expressive>Here are several predefined button styles, each serving its own semantic purpose.
+</pc-text>
 
-<goat-text expressive>Mix and match the `variant` and `sub-variant` to create a variety of buttons.</goat-text>
-<goat-text>`"simple"` is a simple button without default padding at end.</goat-text>
-<goat-text>`"block"` is a full-width button that spans the full width of its container.</goat-text>
+<pc-text expressive>Mix and match the `variant` and `sub-variant` to create a variety of buttons.</pc-text>
+<pc-text>`"simple"` is a simple button without default padding at end.</pc-text>
+<pc-text>`"block"` is a full-width button that spans the full width of its container.</pc-text>
 
 <HighlighterCard lang={'html'}>
 
-  <goat-button variant='default'>Default</goat-button>
+  <pc-button variant='elevated'>Elevated</pc-button>
 
-  <goat-button variant='light'>Light</goat-button>
+  <pc-button>Filled / Default</pc-button>
 
-  <goat-button variant='outline'>Outline</goat-button>
+  <pc-button variant='tonal'>Tonal</pc-button>
 
-  <goat-button variant='ghost'>Ghost</goat-button>
+  <pc-button variant='outlined'>Outlined</pc-button>
 
-  <goat-button variant='neo'>Neo-Brutalism
-  </goat-button>
+  <pc-button variant='text'>Text</pc-button>
+
+  <pc-button variant='neo'>Neo-Brutalism</pc-button>
 
   <br />
   <br />
 
   <div class='component-container'>
-    <goat-button variant='light.simple'>Light & Simple</goat-button>
+    <pc-button variant='light.simple'>Light & Simple</pc-button>
   </div>
 
   <div class='component-container'>
-    <goat-button variant='block'>Default & Block</goat-button>
+    <pc-button variant='block'>Default & Block</pc-button>
   </div>
 
 

@@ -1,0 +1,36 @@
+{
+  "font-family-brand": {
+    "$type": "fontFamily",
+    "$value": ["Noto Sans", "sans-serif"],
+    "$description": "The font family used for brand headings and titles."
+  },
+  "font-family-sans": {
+    "$type": "fontFamily",
+    "$value": ["Noto Sans", "sans-serif"],
+    "$description": "The primary font family used for body text and general content."
+  },
+  "font-family-monospace": {
+    "$type": "fontFamily",
+    "$value": ["Noto Sans Mono", "monospace"],
+    "$description": "The font family used for code snippets and monospaced text."
+  },
+  "font-weight": {
+    "$type": "fontWeight",
+    "regular": {
+      "$value": "regular",
+      "$description": "Standard weight for regular text. 400 weight."
+    },
+    "medium": {
+      "$value": "medium",
+      "$description": "Slightly heavier than regular weight. 500 weight."
+    },
+    "semi-bold": {
+      "$value": "semi-bold",
+      "$description": "Heavier than medium weight. 600 weight."
+    },
+    "bold": {
+      "$value": "bold",
+      "$description": "Bold weight for emphasis. 700 weight."
+    }
+  }
+}

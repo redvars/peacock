@@ -5,25 +5,24 @@ import { Component, ComponentInterface, h, Host } from '@stencil/core';
  * @description Group a series of buttons together on a single line with the button group, and super-power.
  * @category General
  * @tags controls
- * @example <goat-button-group>
- *   <goat-button block icon="home"></goat-button>
- *   <goat-button block icon="alarm"></goat-button>
- *   </goat-button-group>
+ * @example <pc-button-group>
+ *   <pc-button block icon="home"></pc-button>
+ *   <pc-button block icon="alarm"></pc-button>
+ *   </pc-button-group>
  */
 @Component({
-  tag: 'goat-button-group',
+  tag: 'pc-button-group',
   styleUrl: 'button-group.scss',
   shadow: true,
 })
 export class ButtonGroup implements ComponentInterface {
-
-
   render() {
-    return (<Host>
-      <div class='button-group'>
-        <slot/>
-      </div>
-    </Host>);
+    return (
+      <Host>
+        <div class="button-group">
+          <slot />
+        </div>
+      </Host>
+    );
   }
-
 }

@@ -3,7 +3,7 @@
 
 :host {
   display: inline-block;
-  color: v(--text-primary);
+  color: var(--text-primary);
   --checkbox-size: 1rem;
 }
 
@@ -32,8 +32,8 @@
 
   .box {
     position: relative;
-    background: var(--input-background-color, var(--field));
-    border: 1px solid v(--icon-primary);
+    background: var(--input-background-color, var(--color-primary));
+    border: 1px solid var(--color-outline);
     border-radius: 2px;
     display: flex;
     align-items: center;
@@ -79,14 +79,14 @@
   }
 
   .label {
-    color: v(--text-primary);
+    color: var(--text-primary);
   }
 
 }
 
 .checkbox.state-checked {
   .box {
-    background: v(--icon-primary);
+    background: var(--color-outline);
     border-color: transparent;
   }
 
@@ -116,7 +116,7 @@
 
 .checkbox.state-intermediate {
   .box {
-    background: v(--icon-primary);
+    background: var(--color-outline);
     border-color: transparent;
   }
 
@@ -174,7 +174,7 @@
 
 .checkbox.readonly {
   cursor: default;
-  color: v(--text-primary) !important;
+  color: var(--text-primary) !important;
   border-color: v(--text-disabled) !important;
 
   &.state-checked .box {

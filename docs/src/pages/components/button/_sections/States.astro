@@ -1,39 +1,25 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
-<goat-text type='heading' heading-size='3'>Selected</goat-text>
+<pc-text type='heading' heading-size='3'>Selected</pc-text>
 
-<goat-text type='body' expressive>Make buttons look active by adding the selected <code>boolean</code> attribute to any
+<pc-text type='body' expressive>Make buttons look active by adding the selected <code>boolean</code> attribute to any
   <code>&lt;button&gt;</code> element.
-</goat-text>
+</pc-text>
 
 <HighlighterCard lang={'html'}>
-  <goat-button selected>Primary</goat-button>
+  <pc-button selected>Primary</pc-button>
 </HighlighterCard>
 
 <br />
 
-<goat-text type='heading' heading-size='3'>Loading</goat-text>
-<goat-text type='body' expressive>Show loader animation, by setting show-loader attribute.</goat-text>
-
-<HighlighterCard lang={'html'}>
-  <div class='component-container'>
-    <goat-button show-loader></goat-button>
-  </div>
-  <div class='component-container'>
-    <goat-button show-loader>Loading</goat-button>
-  </div>
-</HighlighterCard>
-
-<br />
-
-<goat-text type='heading' heading-size='3'>Disabled</goat-text>
-<goat-text type='body' expressive>Make buttons look inactive by adding the disabled <code>boolean</code> attribute to
+<pc-text type='heading' heading-size='3'>Disabled</pc-text>
+<pc-text type='body' expressive>Make buttons look inactive by adding the disabled <code>boolean</code> attribute to
   any <code>&lt;button&gt;</code> element.
-</goat-text>
+</pc-text>
 
 <HighlighterCard lang={'html'}>
-  <goat-button disabled>Primary</goat-button>
-  <goat-button variant='outline' disabled>Outline</goat-button>
-  <goat-button variant='ghost' disabled>Ghost</goat-button>
+  <pc-button disabled>Primary</pc-button>
+  <pc-button variant='outline' disabled>Outline</pc-button>
+  <pc-button variant='ghost' disabled>Ghost</pc-button>
 </HighlighterCard>

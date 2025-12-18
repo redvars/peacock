@@ -1,4 +1,4 @@
-# goat-button-group
+# pc-button-group
 
 
 
@@ -14,8 +14,8 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-flow-designer --> goat-button-group
-  style goat-button-group fill:#f9f,stroke:#333,stroke-width:4px
+  goat-flow-designer --> pc-button-group
+  style pc-button-group fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

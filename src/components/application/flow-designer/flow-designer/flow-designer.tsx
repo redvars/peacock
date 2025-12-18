@@ -295,24 +295,26 @@ export class FlowDesigner {
             </div>
           </div>
           <div class="action-bar">
-            <goat-button-group>
-              <goat-button
+            <pc-button-group>
+              <pc-button
                 size="sm"
-                icon="plus"
                 variant="outlined"
                 onGoat-button--click={() => {
                   this.zoom = this.zoom + 0.1;
                 }}
-              ></goat-button>
-              <goat-button
+              >
+                <pc-icon slot="icon" name="plus"></pc-icon>
+              </pc-button>
+              <pc-button
                 size="sm"
-                icon="dash"
                 variant="outlined"
                 onGoat-button--click={() => {
                   this.zoom = this.zoom - 0.1;
                 }}
-              ></goat-button>
-            </goat-button-group>
+              >
+                <pc-icon slot="icon" name="dash"></pc-icon>
+              </pc-button>
+            </pc-button-group>
           </div>
         </div>
       </Host>

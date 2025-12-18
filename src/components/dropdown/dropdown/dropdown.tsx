@@ -30,7 +30,7 @@ export class Dropdown implements ComponentInterface {
 
   slotRef: HTMLSlotElement;
   menuRef: HTMLGoatDropdownMenuElement;
-  triggerRef: HTMLElement | HTMLGoatButtonElement;
+  triggerRef: HTMLElement | HTMLPcButtonElement;
   popoverController: PopoverController;
 
   @Prop({ mutable: true, reflect: true }) open: boolean = false;
@@ -66,8 +66,8 @@ export class Dropdown implements ComponentInterface {
   }
 
   setFocusOnTrigger() {
-    (this.triggerRef as HTMLGoatButtonElement).setFocus
-      ? (this.triggerRef as HTMLGoatButtonElement).setFocus()
+    (this.triggerRef as HTMLPcButtonElement).setFocus
+      ? (this.triggerRef as HTMLPcButtonElement).setFocus()
       : this.triggerRef.focus();
   }
 

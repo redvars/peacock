@@ -21,8 +21,8 @@
 - [goat-canvas](../canvas)
 - [pc-icon](../../../icon)
 - [goat-tag](../../../tag)
-- [goat-button-group](../../../button-group)
-- [goat-button](../../../button)
+- [pc-button-group](../../../button-group)
+- [pc-button](../../../button)
 
 ### Graph
 ```mermaid
@@ -30,11 +30,10 @@ graph TD;
   goat-flow-designer --> goat-canvas
   goat-flow-designer --> pc-icon
   goat-flow-designer --> goat-tag
-  goat-flow-designer --> goat-button-group
-  goat-flow-designer --> goat-button
+  goat-flow-designer --> pc-button-group
+  goat-flow-designer --> pc-button
   goat-tag --> pc-icon
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   style goat-flow-designer fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

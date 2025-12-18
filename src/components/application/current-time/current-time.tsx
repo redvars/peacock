@@ -1,14 +1,21 @@
-import { Component, ComponentInterface, h, Host, Prop, State } from '@stencil/core';
+import {
+  Component,
+  ComponentInterface,
+  h,
+  Host,
+  Prop,
+  State,
+} from '@stencil/core';
 
 /**
- * @name Current Time
+ * @label Current Time
+ * @name current-time
  * @description Displays the current time in a given timezone.
  * @category Others
- * @example <goat-current-time></goat-current-time>
+ * @example <pc-current-time></pc-current-time>
  */
-
 @Component({
-  tag: 'goat-current-time',
+  tag: 'pc-current-time',
   styleUrl: 'current-time.scss',
   shadow: true,
 })
@@ -35,7 +42,9 @@ export class CurrentTime implements ComponentInterface {
   }
 
   render() {
-    const time = new Date(this.currentTime).toLocaleTimeString('en-US', { timeZone: this.timezone });
+    const time = new Date(this.currentTime).toLocaleTimeString('en-US', {
+      timeZone: this.timezone,
+    });
 
     return (
       <Host>

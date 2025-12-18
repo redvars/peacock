@@ -1,6 +1,6 @@
-import { Component, h, Host, Prop, State, Watch } from '@stencil/core';
+import { Component, h, Host, Prop, Watch } from '@stencil/core';
 import { fetchIcon } from './datasource';
-import { getSVGHTMLString } from '../../utils/utils';
+import { getSVGHTMLElement } from '../../utils/utils';
 
 /**
  * @label Icon
@@ -20,32 +20,36 @@ export class Icon {
    * The identifier for the icon.
    * This name corresponds to a specific SVG asset in the icon set.
    */
-  @Prop({ reflect: true }) name: string;
+  @Prop() name: string;
 
-  @State() svg: string;
+  private iconElm?: HTMLElement;
 
   @Watch('name')
-  async handleNameChange(newValue: string) {
-    await this.fetchSvg(newValue);
+  handleNameChange(newValue: string) {
+    this.fetchSvg(newValue);
   }
 
   async fetchSvg(name: string) {
-    if (this.name) {
+    if (name) {
       const svgXml = await fetchIcon(name);
-      this.svg = getSVGHTMLString(svgXml);
+      this.iconElm.replaceChildren();
+      const svgElement = getSVGHTMLElement(svgXml);
+      if (svgElement) {
+        this.iconElm.appendChild(svgElement);
+      }
     } else {
-      this.svg = '';
+      this.iconElm.replaceChildren();
     }
   }
 
-  async componentWillLoad() {
+  componentWillLoad() {
     this.fetchSvg(this.name);
   }
 
   render() {
     return (
       <Host>
-        <div innerHTML={this.svg} class="icon"></div>
+        <div ref={elm => (this.iconElm = elm)} class="icon"></div>
       </Host>
     );
   }

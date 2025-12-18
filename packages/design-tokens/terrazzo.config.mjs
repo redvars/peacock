@@ -1,19 +1,20 @@
 import { defineConfig } from '@terrazzo/cli';
-import { kebabCase } from 'scule';
 import css from '@terrazzo/plugin-css';
-import { alphaTransformerPlugin } from './terrazzo.operations.plugin.mjs';
+import { customTransformerPlugin } from './terrazzo.operations.plugin.mjs';
+import getFileNames from './get-file-names.mjs';
 
 export default defineConfig({
   tokens: [
-    './src/tokens/colors/color.base.json',
-    './src/tokens/colors/color.background.json',
-    './src/tokens/colors/color.icon.json',
-    './src/tokens/colors/color.support.json',
-    './src/tokens/colors/color.brand.json',
+    ...getFileNames('./src/tokens/primitive/colors'),
+    ...getFileNames('./src/tokens/primitive/typography'),
+    ...getFileNames('./src/tokens/primitive/spacing'),
+    ...getFileNames('./src/tokens/semantics/colors'),
+    ...getFileNames('./src/tokens/semantics/typography'),
   ],
   plugins: [
     css({
       filename: 'tokens.css',
+      legacyHex: true,
       baseScheme: 'light dark', // Default is 'light', this enables both.
 
       // OPTION B: Define how 'dark' mode tokens are applied via CSS selectors.
@@ -32,23 +33,8 @@ export default defineConfig({
         //   selectors: ["@media (forced-colors: active)"],
         // },
       ],
-      /* transform(token) {
-        console.log(token);
-        // Check if our custom alpha extension exists
-        const alpha = token.$extensions?.['ui.terrazzo']?.alpha;
-
-        if (token.$type === 'color' && alpha !== undefined) {
-          // Return a CSS color-mix for the best modern browser support
-          // This mixes the base token with transparent based on the alpha
-          const percentage = alpha * 100;
-          return `color-mix(in srgb, var(${token.id}), transparent ${100 - percentage}%)`;
-        }
-
-        // If no extension, return undefined to use Terrazzo's default behavior
-        return undefined;
-      },*/
     }),
-    alphaTransformerPlugin(),
+    customTransformerPlugin(),
   ],
   outDir: './dist/',
   lint: {

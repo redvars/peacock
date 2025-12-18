@@ -44,22 +44,22 @@ Selected UI elements
 * Primary links;
 * Ghost button
 */
-@include defineVariableDeprecated(--link-01, getColor(primary, 60));
+@include defineVariableDeprecated(--link-01, getColor(/*primary*/ blue, 60));
 
 /**
 Secondary link color for lower contrast backgrounds
  */
-@include defineVariableDeprecated(--link-02, getColor(primary, 60));
+@include defineVariableDeprecated(--link-02, getColor(/*primary*/ blue, 60));
 
-@include defineVariableDeprecated(--hover-primary, getColor(primary, 60));
-@include defineVariableDeprecated(--hover-primary-text, getColor(primary, 70));
+@include defineVariableDeprecated(--hover-primary, getColor(/*primary*/ blue, 60));
+@include defineVariableDeprecated(--hover-primary-text, getColor(/*primary*/ blue, 70));
 
 @include defineVariableDeprecated(--visited-link, getColor(purple, 60), getColor(purple, 40));
 
 /**
 * Secondary link color for lower contrast backgrounds
 */
-@include defineVariableDeprecated(--link-02, getColor(primary, 40));
+@include defineVariableDeprecated(--link-02, getColor(/*primary*/ blue, 40));
 
 @include defineVariableDeprecated(--icon-01, getColor(gray, 100), getColor(gray, 10));
 @include defineVariableDeprecated(--icon-02, getColor(gray, 70), getColor(gray, 30));
@@ -105,7 +105,7 @@ Secondary link color for lower contrast backgrounds
 @include defineVariableDeprecated(--code-editor-bg-primary, getColor(red, 10), getColor(purple, 100));
 
 
-@each $color in [gray, blue, green, red, yellow, primary, success, warning, error] {
+@each $color in [gray, blue, green, red, yellow, success, warning, error] {
   @include defineVariableDeprecated(--tag-background-#{$color}, getColor($color, 20), getColor($color, 80));
   @include defineVariableDeprecated(--tag-hover-#{$color}, getColor($color, 30), getColor($color, 70));
   @include defineVariableDeprecated(--tag-color-#{$color}, getColor($color, 80), getColor($color, 30));

@@ -30,15 +30,16 @@
 ### Depends on
 
 - [goat-svg](../../svg)
-- [goat-button](../../button)
+- [pc-button](../../button)
+- [pc-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
+  pc-button --> pc-elevation
   goat-menu --> goat-empty-state
   goat-sidenav-menu --> goat-empty-state
   goat-table --> goat-empty-state

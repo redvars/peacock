@@ -8,18 +8,18 @@ interface Props {
 
 const {title, description} = Astro.props;
 ---
-<Layout title={title} description={description}  classes='layer-background'>
+<Layout title={title} description={description}  classes='surface'>
 <div class='main-content'>
 
   <goat-container class='page-container'>
     <div class='post-header'>
-      <goat-breadcrumb>
-        <goat-breadcrumb-item href="/">Home</goat-breadcrumb-item>
-        <goat-breadcrumb-item href="/blog">Blog</goat-breadcrumb-item>
-        <goat-breadcrumb-item active>{title}</goat-breadcrumb-item>
-      </goat-breadcrumb>
+      <pc-breadcrumb>
+        <pc-breadcrumb-item href="/">Home</pc-breadcrumb-item>
+        <pc-breadcrumb-item href="/blog">Blog</pc-breadcrumb-item>
+        <pc-breadcrumb-item active>{title}</pc-breadcrumb-item>
+      </pc-breadcrumb>
 
-      <goat-text type='heading' heading-size='6'>{title}</goat-text>
+      <pc-text type='heading' heading-size='6'>{title}</pc-text>
     </div>
 
 
@@ -38,9 +38,9 @@ const {title, description} = Astro.props;
     <div class='footer container'>
       <pc-divider></pc-divider>
       <div class='footer-content'>
-        <goat-text class='legal' type='legal' expressive>
+        <pc-text class='legal' type='legal' expressive>
           &copy; {new Date().getFullYear()} <goat-link href={site.author_url}>{site.author}</goat-link>. All Rights Reserved.
-        </goat-text>
+        </pc-text>
       </div>
     </div>
   </goat-container>

@@ -64,7 +64,7 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
   <script type='module' src={envProps.script}></script>
 
   <script type='module' define:vars={{ envProps }}>
-    if (!window.customElements.get('goat-button')) {
+    if (!window.customElements.get('pc-button')) {
       import(envProps.fallbackScript);
 
       var fileref = document.createElement("link");

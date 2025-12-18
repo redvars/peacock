@@ -2,11 +2,11 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 <HighlighterCard lang={'html'}>
-  <goat-text type='text'>Primary</goat-text>
-  <goat-text type='text' color='secondary'>Secondary</goat-text>
-  <goat-text type='text' color='tertiary'>Tertiary / Helper</goat-text>
-  <goat-text type='text' color='error'>Error</goat-text>
-  <goat-text type='text' color='inverse'>Inverse</goat-text>
+  <pc-text type='text'>Primary</pc-text>
+  <pc-text type='text' color='secondary'>Secondary</pc-text>
+  <pc-text type='text' color='tertiary'>Tertiary / Helper</pc-text>
+  <pc-text type='text' color='error'>Error</pc-text>
+  <pc-text type='text' color='inverse'>Inverse</pc-text>
 
   <style is:inline>
     .custom {
@@ -15,10 +15,10 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   </style>
 
   <div class='custom'>
-    <goat-text type='text'>Primary</goat-text>
+    <pc-text type='text'>Primary</pc-text>
   </div>
 
   <div style='color: brown'>
-    <goat-text type='text' class='inherit'>Primary</goat-text>
+    <pc-text type='text' class='inherit'>Primary</pc-text>
   </div>
 </HighlighterCard>

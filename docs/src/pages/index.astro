@@ -20,40 +20,40 @@ function jumpingSentence(sentence: string) {
     return `<div class='jumping-word'>${word.split('').map((char, index) => {
       if (char === ' ')
         return char;
-      return `<goat-text style='z-index:${len--};' class='jumping-text' type='fluid-heading' heading-size='6' heading-level='1'>${char}</goat-text>`;
+      return `<h1 style='z-index:${len--};' class='jumping-text text-display-large-emphasized'>${char}</h1>`;
     }).join('')}</div>`;
   }).join(' ');
 }
 ---
 
 <Layout root={true}
-        classes='layer-background'
+        classes='surface'
         keywords='web components, button, input, grid, ui library, calendar, table, accordion, select, search, notifications, modal, card, breadcrumb, tree view, tabs, pagination, tooltip, popover, dropdown, menu, slider, toggle, switch, progress bar, spinner, loader, toast, alert, badge, tag, avatar, chip, divider, list, icon, text, heading, paragraph, label, link, image, checkbox, radio, form, form group, form field'>
 
-  <div class='banner'>
+  <div class='banner surface'>
 
 
     <div class='banner-content'>
       <BannerLogo />
 
-      <div class='title' set:html={
-        `<goat-text type='fluid-heading' heading-size='6' heading-level='1'>Rapidly build web applications</goat-text> <br/>
-<goat-text type='fluid-heading' heading-size='6' heading-level='1' inline>with</goat-text> ` + jumpingSentence('goat/ui')
-      }></div>
+      <div class='title'>
+        <h1 class='text-display-large'>The foundation for beautiful user interfaces.</h1>
+        <Fragment set:html={jumpingSentence('goat/ui')} />
+      </div>
 
-      <goat-text class='' type='heading' heading-size='3' heading-level='2'>A light weight web component library
-      </goat-text>
+
+      <pc-text type='headline' heading-level='2'>A light weight web component library</pc-text>
       <div class='banner-actions '>
-        <goat-button href='#getting-started' size='lg' color='secondary' icon='arrow--right'>Get
+        <pc-button href='#getting-started' size='md' color='secondary' icon='arrow--right'>Get
           Started
-        </goat-button>
-        <goat-button href='/components/' size='lg' color='secondary' variant='ghost.simple'>Browse Components</goat-button>
+        </pc-button>
+        <pc-button href='/components/' size='md' color='secondary' variant='tonal'>Browse Components</pc-button>
       </div>
     </div>
 
 
     <div class='social-icons'>
-      <goat-button
+      <pc-button
         icon='logo--github'
         variant='ghost'
         color='black'
@@ -61,8 +61,8 @@ function jumpingSentence(sentence: string) {
         target='_blank'
         aria-label='Github'
         href={`https://www.github.com/${site.github_username}`}
-      ></goat-button>
-      <goat-button
+      ></pc-button>
+      <pc-button
         icon='logo--x'
         color='black'
         dark-mode-color='white'
@@ -70,57 +70,57 @@ function jumpingSentence(sentence: string) {
         target='_blank'
         aria-label='Twitter'
         href={`https://x.com/${site.twitter_username}`}
-      ></goat-button>
+      ></pc-button>
     </div>
 
     <div class='made-in-india'>
-      <goat-text expressive>Built by</goat-text>&nbsp;
-      <goat-text expressive>
+      <pc-text expressive>Built by</pc-text>&nbsp;
+      <pc-text expressive>
         <goat-link class='no-decoration' href={site.author_url}>
-          <goat-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
+          <pc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
           {site.author}
         </goat-link>
-      </goat-text>
-      <goat-text expressive>.</goat-text>
+      </pc-text>
+      <pc-text expressive>.</pc-text>
       <goat-svg class='country-flag' size='1.5rem'
                 src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></goat-svg>
-      <goat-text expressive>Made in India.</goat-text>
+      <pc-text expressive>Made in India.</pc-text>
     </div>
   </div>
 
 
-  <div class='sections-wrapper layer-01'>
+  <div class='sections-wrapper surface-container'>
     <goat-container size='max'>
       <div class='section'>
-        <goat-text type='heading' heading-size='5'>Introduction</goat-text>
-        <goat-text expressive>{site.title} contains most used web components built using Stencil. So you don't need to
+        <pc-text type='heading' heading-size='5'>Introduction</pc-text>
+        <pc-text expressive>{site.title} contains most used web components built using Stencil. So you don't need to
           include any additional framework dependencies, You can simply import required
           component js, and right away start using it.
-        </goat-text>
-        <goat-text expressive>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</goat-text>
+        </pc-text>
+        <pc-text expressive>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</pc-text>
         <br />
-        <goat-text expressive
+        <pc-text expressive
         >{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
           <goat-link href='https://shivajivarma.com'>Shivaji Varma</goat-link>
           . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
           by creating pull requests or issues.
-        </goat-text>
+        </pc-text>
       </div>
 
       <div class='section'>
-        <goat-text class='heading-scrollable' type='heading' heading-size='5' id='getting-started'>Getting Started
-        </goat-text>
+        <pc-text class='heading-scrollable' type='heading' heading-size='5' id='getting-started'>Getting Started
+        </pc-text>
         <ul style='padding-inline-start: 1.5rem'>
           <li>
-            <goat-text expressive=''>
+            <pc-text expressive=''>
               Put a script tag similar to this
               <goat-code-highlighter inline><code>&lt;script type="module"
                 src="{envProps.script}"&gt;&lt;/script&gt;</code></goat-code-highlighter>
               in the head of your index.html
-            </goat-text>
+            </pc-text>
           </li>
           <li>
-            <goat-text expressive>Then you can use the element anywhere in your template, JSX, html etc</goat-text>
+            <pc-text expressive>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
           </li>
         </ul>
         <div class='container-code'>
@@ -154,7 +154,7 @@ function jumpingSentence(sentence: string) {
 
                  &lt;body>
 
-                  <goat-button size='lg' color='primary'>Click me</goat-button>
+                  <pc-button size='lg' color='primary'>Click me</pc-button>
 
                  &lt;/body>
                  &lt;/html>`;
@@ -174,7 +174,7 @@ function jumpingSentence(sentence: string) {
                   <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
                    &lt;script type='module'>
-    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/goat-button.js";
+    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/pc-button.js";
     customElements.define('my-button', GoatButton);
  &lt;/script>
 
@@ -199,13 +199,13 @@ function jumpingSentence(sentence: string) {
       </div>
 
       <div class='section'>
-        <goat-button color='secondary' href='/components/' size='lg' variant='block' icon='arrow--right'>Browse
+        <pc-button color='secondary' href='/components/' size='lg' variant='block' icon='arrow--right'>Browse
           Components
-        </goat-button>
+        </pc-button>
         <br />
-        <goat-button color='secondary' href='/theme-creator/' size='lg' variant='ghost.block' icon='arrow--right'>Theme
+        <pc-button color='secondary' href='/theme-creator/' size='lg' variant='ghost.block' icon='arrow--right'>Theme
           Creator
-        </goat-button>
+        </pc-button>
       </div>
 
     </goat-container>

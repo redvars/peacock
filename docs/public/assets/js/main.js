@@ -30,7 +30,7 @@
   const registerThemeSwitcher = (() => {
     function setTheme($themeSwitcher, theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      $themeSwitcher.icon = theme === 'dark' ? 'asleep--filled' : 'sun';
+      $themeSwitcher.icon = theme === 'dark' ? 'dark_mode' : 'light_mode';
       localStorage.setItem('theme', theme);
     }
 
@@ -42,7 +42,8 @@
       const theme = localStorage.getItem('theme') || 'light';
       setTheme($themeSwitcher, theme);
       $themeSwitcher.addEventListener('click', function () {
-        const theme = localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
+        const theme =
+          localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
         setTheme($themeSwitcher, theme);
       });
     };
@@ -77,14 +78,16 @@
         return;
       }
       const $headerMenuBtn = document.querySelector('#header-menu-btn');
-      $headerMenuBtn.addEventListener('goat-button--click', function () {
+      $headerMenuBtn.addEventListener('pc-button--click', function () {
         $headerMenu.classList.add('show');
         $headerMenu.querySelectorAll('goat-menu-item')[0].setFocus();
         document.body.classList.add('stop-scroll');
       });
 
-      const $headerMenuCloseBtn = document.querySelector('#header-menu-close-btn');
-      $headerMenuCloseBtn.addEventListener('goat-button--click', function () {
+      const $headerMenuCloseBtn = document.querySelector(
+        '#header-menu-close-btn',
+      );
+      $headerMenuCloseBtn.addEventListener('pc-button--click', function () {
         $headerMenu.classList.remove('show');
         document.body.classList.remove('stop-scroll');
       });

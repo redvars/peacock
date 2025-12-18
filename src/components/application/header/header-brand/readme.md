@@ -38,18 +38,17 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-button](../../../button)
+- [pc-button](../../../button)
 - [goat-svg](../../../svg)
 - [pc-divider](../../../divider)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-header-brand --> goat-button
+  goat-header-brand --> pc-button
   goat-header-brand --> goat-svg
   goat-header-brand --> pc-divider
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   style goat-header-brand fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

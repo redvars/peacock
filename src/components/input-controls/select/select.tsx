@@ -584,14 +584,15 @@ export class Select implements ComponentInterface, InputComponentInterface {
                 </div>
 
                 {this.clearable && !this.multiple && this.hasValue() && (
-                  <goat-button
+                  <pc-button
                     class="clear clear-action"
                     color={'secondary'}
                     size={'xs'}
                     variant="text"
-                    icon="close"
                     onClick={this.clearInput}
-                  />
+                  >
+                    <pc-icon name="close" />
+                  </pc-button>
                 )}
 
                 <div class="slot-container end">
@@ -635,9 +636,9 @@ export class Select implements ComponentInterface, InputComponentInterface {
         >
           <div class="start-search">
             <pc-icon name="search" />
-            <goat-text class="text-secondary">
+            <pc-text class="text-secondary">
               Start typing to perform search
-            </goat-text>
+            </pc-text>
           </div>
         </goat-menu>
       );

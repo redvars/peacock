@@ -17,6 +17,14 @@
   }
 }
 
+@mixin get-typography($name) {
+  font-family: var(--typography-#{$name}-font-family);
+  font-size:  var(--typography-#{$name}-font-size);
+  font-weight: var(--typography-#{$name}-font-weight);
+  line-height: var(--typography-#{$name}-line-height);
+  letter-spacing: var(--typography-#{$name}-letter-spacing);
+}
+
 @mixin focus-ring($color:var(--border-interactive)) {
   outline: 2px solid $color;
 }

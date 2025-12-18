@@ -112,7 +112,7 @@ include menus, tabs, and breadcrumbs.
 
 | Name                                                   | Component       | State |
 |--------------------------------------------------------|-----------------|-------|
-| [Breadcrumb](https://goatui.com/components/breadcrumb) | goat-breadcrumb | 🟢    |
+| [Breadcrumb](https://goatui.com/components/breadcrumb) | pc-breadcrumb | 🟢    |
 | [Dropdown](https://goatui.com/components/dropdown)     | goat-dropdown   | 🟡    |
 | [Menu](https://goatui.com/components/menu)             | goat-menu       | 🟡    |
 | [Tabs](https://goatui.com/components/tabs)             | goat-tabs       | 🟢    |
@@ -150,7 +150,7 @@ These components are used for general purpose. They include
 
 | Name                                                                       | Component                 | State |
 |----------------------------------------------------------------------------|---------------------------|-------|
-| [Avatar](https://goatui.com/components/avatar)                             | goat-avatar               | 🟢    |
+| [Avatar](https://goatui.com/components/avatar)                             | pc-avatar               | 🟢    |
 | [Button](https://goatui.com/components/button)                             | goat-button               | 🟢    |
 | [Button Group](https://goatui.com/components/button-group)                 | goat-button-group         | 🟢    |
 | [Calendar](https://goatui.com/components/calendar)                         | goat-calendar             | 🟢    |
@@ -175,7 +175,7 @@ These components are used for general purpose. They include
 | Stepper                                                                    | goat-stepper              | 🔴    |
 | [Table](https://goatui.com/components/table)                               | goat-table                | 🟡    |
 | [Tag](https://goatui.com/components/tag) / Chip                            | goat-tag                  | 🟢    |
-| [Text](https://goatui.com/components/text)                                 | goat-text                 | 🟢    |
+| [Text](https://goatui.com/components/text)                                 | pc-text                 | 🟢    |
 | [Tree View](https://goatui.com/components/tree-view)                       | goat-tree-view            | 🟡    |
 | [Toggle](https://goatui.com/components/toggle)                             | goat-toggle               | 🟢    |
 

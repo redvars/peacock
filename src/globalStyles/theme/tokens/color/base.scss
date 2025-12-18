@@ -78,14 +78,13 @@ $colors: (
  * Application colors
  */
 @include cloneColor(neutral, gray);
-@include cloneColor(primary, blue);
 @include cloneColor(primary-hover, blue-hover);
-@include cloneColor(secondary, warm-gray);
+/*@include cloneColor(secondary, warm-gray);*/
 
 /*
  * Theme colors
  */
-@include cloneColor(brand-secondary, secondary);
+@include cloneColor(brand-secondary, warm-gray);
 
 
 /*

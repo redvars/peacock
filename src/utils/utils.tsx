@@ -138,7 +138,7 @@ export const debounce = (func: (...args: any[]) => void, wait = 0) => {
 
 export async function loadScriptModule(src) {
   return new Promise(resolve => {
-     import(src)
+    import(src)
       .then(module => {
         resolve(module);
       })
@@ -292,6 +292,20 @@ export const hasSlot = (el: HTMLElement, name?: string) => {
     return false;
   });
 };
+
+export function getSVGHTMLElement(svgXml: string): HTMLElement {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgXml, 'image/svg+xml');
+    if (doc.documentElement.tagName === 'svg') {
+      // @ts-ignore
+      return doc.documentElement;
+    }
+  } catch (e) {
+    console.error(e);
+    throw new Error(`Error parsing SVG: ${e}`);
+  }
+}
 
 export function getSVGHTMLString(svgXml: string): string {
   try {

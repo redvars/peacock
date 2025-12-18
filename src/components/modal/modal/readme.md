@@ -29,18 +29,17 @@
 
 ### Depends on
 
-- [goat-text](../../typography/text)
-- [goat-button](../../button)
+- [pc-button](../../button)
+- [pc-icon](../../icon)
 - [goat-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-modal --> goat-text
-  goat-modal --> goat-button
+  goat-modal --> pc-button
+  goat-modal --> pc-icon
   goat-modal --> goat-spinner
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   style goat-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

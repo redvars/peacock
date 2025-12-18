@@ -59,16 +59,16 @@ export class HeaderAction {
 
   render() {
     return (
-      <goat-button
+      <pc-button
         class="header-action"
         color={this.color}
-        icon={this.icon}
         href={this.href}
         configAria={this.configAria}
         target={this.target}
       >
+        <pc-icon slot="icon" name={this.icon}></pc-icon>
         {this.slotHasContent && <slot></slot>}
-      </goat-button>
+      </pc-button>
     );
   }
 }

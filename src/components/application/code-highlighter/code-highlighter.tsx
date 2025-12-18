@@ -256,32 +256,33 @@ export class CodeHighlighter implements ComponentInterface {
                   class={'copy-btn'}
                   content={locale.copyToClipboard}
                 >
-                  <goat-button
+                  <pc-button
                     class="icon-only"
                     size="sm"
                     color={'secondary'}
                     variant={'text'}
                     aria-label="Copy to clipboard"
-                    icon={'copy'}
                     onGoat-button--click={async () => {
                       await this.#handleCopyClick();
                     }}
-                  ></goat-button>
+                  >
+                    <pc-icon slot="icon" name="content_copy" />
+                  </pc-button>
                 </goat-tooltip>
               </Fragment>
             )}
             {!this.hideCopy && this.copyState === 'copied' && !this.inline && (
               <div>
-                <goat-button
+                <pc-button
                   class="copy-btn icon-only test"
                   size="sm"
                   color={'success'}
                   aria-label={locale.copiedCode}
                   title={locale.copiedCode}
-                  icon={'checkmark'}
                 >
+                  <pc-icon slot="icon" name="checkmark" />
                   {locale.copied}
-                </goat-button>
+                </pc-button>
               </div>
             )}
           </div>

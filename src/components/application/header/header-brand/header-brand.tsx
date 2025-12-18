@@ -25,8 +25,8 @@ export class HeaderBrand {
     const isLogoSVG = this.logo.endsWith('.svg');
     return (
       <div class="header-brand">
-        <goat-button
-          variant={'link'}
+        <pc-button
+          variant={'text'}
           color={this.color}
           class="brand-link no-style"
           href={this.href}
@@ -43,7 +43,7 @@ export class HeaderBrand {
             })()}
             {this.name && <span class="brand-name">{this.name}</span>}
           </div>
-        </goat-button>
+        </pc-button>
         {(() => {
           if (this.subTitle)
             return (

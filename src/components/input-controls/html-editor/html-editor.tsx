@@ -8,7 +8,7 @@ import {
   Method,
   Prop,
   State,
-  Watch
+  Watch,
 } from '@stencil/core';
 import { debounceEvent, getComponentIndex } from '../../../utils/utils';
 import { Editor, mergeAttributes } from '@tiptap/core';
@@ -49,9 +49,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
 
   @Prop({ reflect: true }) layer?: 'background' | '01' | '02';
 
-   /**
-    * The input field placeholder.
-    */
+  /**
+   * The input field placeholder.
+   */
   @Prop() placeholder: string;
 
   /**
@@ -76,7 +76,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
 
   @Prop() showToolbar: boolean = true;
 
-  @Prop({mutable: true}) mentions: { label: string; value: string }[] = [];
+  @Prop({ mutable: true }) mentions: { label: string; value: string }[] = [];
 
   @Prop() mentionsSearch: 'contains' | 'managed' = 'contains';
 
@@ -85,9 +85,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
    */
   @Event({ eventName: 'goat-html-editor--change' }) goatChange: EventEmitter;
 
-   /**
-    * Emitted when a keyboard input occurred.
-    */
+  /**
+   * Emitted when a keyboard input occurred.
+   */
   @Event({ eventName: 'goat-html-editor--search' }) goatSearch: EventEmitter;
 
   /**
@@ -198,7 +198,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
           //   if (node.type.name === 'heading') {
           //     return 'What’s the title?'
           //   }
-  
+
           //   return 'Can you add some further context?'
           // },
         }),
@@ -211,10 +211,12 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             return [
               'a',
               mergeAttributes(
-                {contenteditable: false},
+                { contenteditable: false },
                 options.HTMLAttributes,
               ),
-              `${that.showSuggestionCharacter ? options.suggestion.char : ''}${item ? item.label : node.attrs.id}`,
+              `${that.showSuggestionCharacter ? options.suggestion.char : ''}${
+                item ? item.label : node.attrs.id
+              }`,
             ];
           },
           suggestion: {
@@ -222,20 +224,22 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             char: that.suggestionCharacter,
             items: async function (props) {
               if (that.mentionsSearch == 'managed') {
-                return new Promise((resolve) => {
+                return new Promise(resolve => {
                   that.goatSearch.emit({
                     query: props.query,
-                    callback: function(mentions) {
+                    callback: function (mentions) {
                       that.mentions = mentions;
                       resolve(that.mentions.map(item => item.value));
-                    }
-                  })
+                    },
+                  });
                 });
               }
 
               return that.mentions
                 .filter(item =>
-                  item.label.toLowerCase().startsWith(props.query.toLowerCase()),
+                  item.label
+                    .toLowerCase()
+                    .startsWith(props.query.toLowerCase()),
                 )
                 .map(item => item.value)
                 .slice(0, 5);
@@ -375,12 +379,13 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             <div class={'action-group'}>
               {actionGroup.actions.map(action => {
                 return (
-                  <goat-button
+                  <pc-button
                     class={'action'}
-                    icon={action.icon}
                     color="white"
                     onGoat-button--click={action.action}
-                  ></goat-button>
+                  >
+                    <pc-icon slot="icon" name={action.icon} />
+                  </pc-button>
                 );
               })}
             </div>
@@ -388,7 +393,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
         })}
 
         {/*<div class={'action-group'}>
-              <goat-button
+              <pc-button
                 icon="cut"
                 variant="light"
                 color="secondary"
@@ -399,9 +404,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.editorInstance.state.doc.textBetween(from, to);
                   document.execCommand('cut');
                 }}
-              ></goat-button>
+              ></pc-button>
 
-              <goat-button
+              <pc-button
                 icon="copy"
                 variant="light"
                 color="secondary"
@@ -412,9 +417,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.editorInstance.state.doc.textBetween(from, to);
                   document.execCommand('copy');
                 }}
-              ></goat-button>
+              ></pc-button>
 
-              <goat-button
+              <pc-button
                 icon="paste"
                 variant="light"
                 color="secondary"
@@ -424,10 +429,10 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.copiedContent,
                   );
                 }}
-              ></goat-button>
+              ></pc-button>
             </div>*/}
 
-        {/* <goat-button
+        {/* <pc-button
                 icon="text--align--left"
                 variant="outline"
                 color="secondary"
@@ -435,9 +440,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   // this.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
                 }}
-              ></goat-button>
+              ></pc-button>
 
-              <goat-button
+              <pc-button
                 icon="text--align--center"
                 variant="outline"
                 color="secondary"
@@ -445,9 +450,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   // this.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
                 }}
-              ></goat-button>
+              ></pc-button>
 
-              <goat-button
+              <pc-button
                 icon="text--align--right"
                 variant="outline"
                 color="secondary"
@@ -455,7 +460,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   //.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
                 }}
-              ></goat-button> */}
+              ></pc-button> */}
       </div>
     );
   }
@@ -477,7 +482,10 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
           }}
         >
           <div class={{ 'wysiwyg-container': true, 'hidden': this.showHtml }}>
-            {!this.readonly && !this.disabled && this.showToolbar && this.renderToolbar()}
+            {!this.readonly &&
+              !this.disabled &&
+              this.showToolbar &&
+              this.renderToolbar()}
             <div class="editor" ref={el => (this.editorElement = el)}></div>
           </div>
 
@@ -499,7 +507,8 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             }}
           ></goat-code-editor>
 
-          {this.showToolbar && <div class={'html-editor-footer'}>
+          {this.showToolbar && (
+            <div class={'html-editor-footer'}>
               <div class={'footer-left'}>
                 <goat-toggle
                   goat-toggle--change={evt => {
@@ -514,11 +523,11 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 {this.editorInstance && this.editorInstance.getHTML()?.length}
               </div>
             </div>
-          }
+          )}
         </div>
 
         <goat-menu
-          class={{"mention-menu":true, "show": this.showDropdown}}
+          class={{ 'mention-menu': true, 'show': this.showDropdown }}
           ref={elm => (this.dropdownContent = elm)}
           onGoat-menu-item--click={evt => {
             this.editorInstance.commands.deleteRange(this.queryRange);
@@ -542,6 +551,6 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
   }
 
   mentionProps: any;
-  queryRange:any;
+  queryRange: any;
   dropdownContent: HTMLGoatMenuElement;
 }

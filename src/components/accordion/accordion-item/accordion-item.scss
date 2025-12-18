@@ -25,7 +25,7 @@
     cursor: pointer;
     width: 100%;
     border-radius: 0;
-    color: v(--text-primary);
+    color: var(--text-primary);
     border: 0;
     padding: 0 v(--spacing-200);
     background: var(--goat-accordion-item-heading-background);

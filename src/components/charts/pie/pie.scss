@@ -9,16 +9,16 @@
 .item-polyline {
   fill: none;
   stroke-width: 1;
-  stroke: v(--text-primary);
+  stroke: var(--text-primary);
 }
 
 .title, .label {
-  fill: v(--text-primary);
+  fill: var(--text-primary);
   @include font-style(text-md);
 }
 
 .item-label {
-  fill: v(--text-primary);
+  fill: var(--text-primary);
   font-size: v(--label-01-font-size);
   font-weight: v(--label-01-font-weight);
   line-height: v(--label-01-line-height);

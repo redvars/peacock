@@ -1,4 +1,4 @@
-# goat-avatar
+# pc-avatar
 
 
 
@@ -29,7 +29,8 @@
 
 ### Depends on
 
-- [goat-button](../../../button)
+- [pc-button](../../../button)
+- [pc-icon](../../../icon)
 - [goat-select](../../../input-controls/select)
 - [goat-calendar-column-view](column-view)
 - [goat-calendar-month-view](month-view)
@@ -37,23 +38,24 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-calendar --> goat-button
+  goat-calendar --> pc-button
+  goat-calendar --> pc-icon
   goat-calendar --> goat-select
   goat-calendar --> goat-calendar-column-view
   goat-calendar --> goat-calendar-month-view
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   goat-select --> pc-icon
   goat-select --> goat-tag
-  goat-select --> goat-button
+  goat-select --> pc-button
   goat-select --> goat-spinner
   goat-select --> goat-menu
-  goat-select --> goat-text
+  goat-select --> pc-text
   goat-select --> goat-menu-item
   goat-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
   goat-menu-item --> pc-icon
   goat-calendar-column-view --> goat-calendar-column-view-background
   style goat-calendar fill:#f9f,stroke:#333,stroke-width:4px

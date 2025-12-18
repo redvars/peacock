@@ -80,14 +80,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-button](../../../button)
+- [pc-button](../../../button)
+- [pc-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-textarea --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-textarea --> pc-button
+  goat-textarea --> pc-icon
+  pc-button --> pc-elevation
   style goat-textarea fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

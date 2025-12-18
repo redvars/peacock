@@ -1,85 +1,62 @@
 @use "sass:map";
 @use "sass:list";
 
-$font-family-sans-serif: "Noto Sans", sans-serif;
-$font-family-monospace: "Noto Sans Mono", monospace;
-
-$font-weights: (
-  regular: normal,
-  medium: 500,
-  semi-bold: 600,
-  bold: 700,
-);
-
-$typography: (
-  text-xs: [0.75, 1.125, 0], // font-size, line-height, letter-spacing
-  text-sm: [0.875, 1.25, 0],
-  text-md: [1, 1.5, 0],
-  text-lg: [1.125, 1.75, 0],
-  text-xl: [1.25, 1.875, 0],
-  display-xs: [1.5, 2, 0],
-  display-sm: [1.875, 2.375, 0],
-  display-md: [2.25, 2.75, 0],
-  display-lg: [3, 3.75, -0.02],
-  display-xl: [3.75, 4.625, -0.02],
-);
-
 /*
  * There are two body styles for productive and expressive moments. Productive styles have a suffix of -01 and expressive styles have a suffix of -02
  */
 $font-styles: (
   // Utility font styles
   code-01: (
-    font-family: $font-family-monospace,
+    font-family: var(--font-family-monospace),
     font-size: .75rem,
     line-height: 1rem,
     weight: 400,
     letter-spacing: .32px
   ),
   code-02: (
-    font-family: $font-family-monospace,
+    font-family: var(--font-family-monospace),
     font-size: .875rem,
     line-height: 1.25rem,
     weight: 400,
     letter-spacing: .32px
   ),
   label-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .75rem,
     line-height: 1rem,
     weight: 400,
     letter-spacing: .32px
   ),
   label-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.125rem,
     weight: 400,
     letter-spacing: .16px
   ),
   helper-text-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .75rem,
     line-height: 1rem,
     weight: 400,
     letter-spacing: .32px
   ),
   helper-text-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.125rem,
     weight: 400,
     letter-spacing: .16px
   ),
   legal-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .75rem,
     line-height: 1rem,
     weight: 400,
     letter-spacing: .32px
   ),
   legal-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.125rem,
     weight: 400,
@@ -87,28 +64,28 @@ $font-styles: (
   ),
   // Body font styles
   body-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.25rem,
     weight: 400,
     letter-spacing: .16px
   ),
   body-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 1rem,
     line-height: 1.5rem,
     weight: 400,
     letter-spacing: 0
   ),
   body-compact-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.125rem,
     weight: 400,
     letter-spacing: .16px
   ),
   body-compact-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 1rem,
     line-height: 1.375rem,
     weight: 400,
@@ -116,209 +93,205 @@ $font-styles: (
   ),
   // Heading font styles
   heading-compact-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.125rem,
     weight: 600,
     letter-spacing: .16px
   ),
   heading-compact-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.375rem,
     weight: 400,
     letter-spacing: 0
   ),
   heading-01: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: .875rem,
     line-height: 1.25rem,
     weight: 600,
     letter-spacing: .16px
   ),
   heading-02: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 1rem,
     line-height: 1.5rem,
     weight: 600,
     letter-spacing: 0
   ),
   heading-03: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 1.25rem,
     line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
   heading-04: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 1.75rem,
     line-height: 2.25rem,
     weight: 400,
     letter-spacing: 0
   ),
   heading-05: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 2rem,
     line-height: 2.5rem,
     weight: 400,
     letter-spacing: 0
   ),
   heading-06: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 2.625rem,
     line-height: 3.125rem,
     weight: 300,
     letter-spacing: 0
   ),
   heading-07: (
-    font-family: $font-family-sans-serif,
+    font-family: var(--font-family-sans),
     font-size: 3.375rem,
     line-height: 4rem,
     weight: 300,
     letter-spacing: 0
   ),
-
   fluid-heading-03-sm: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.25rem,
-    line-height:  1.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.25rem,
+    line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-03-md: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.25rem,
-    line-height:  1.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.25rem,
+    line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-03-lg: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.25rem,
-    line-height:  1.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.25rem,
+    line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-03-xl: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.25rem,
-    line-height:  1.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.25rem,
+    line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-03-max: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.5rem,
-    line-height:  1.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.5rem,
+    line-height: 1.75rem,
     weight: 400,
     letter-spacing: 0
   ),
-
   fluid-heading-04-sm: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.75rem,
-    line-height:  2.25rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.75rem,
+    line-height: 2.25rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-04-md: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.75rem,
-    line-height:  2.25rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.75rem,
+    line-height: 2.25rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-04-lg: (
-    font-family: $font-family-sans-serif,
-    font-size:  1.75rem,
-    line-height:  2.25rem,
+    font-family: var(--font-family-sans),
+    font-size: 1.75rem,
+    line-height: 2.25rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-04-xl: (
-    font-family: $font-family-sans-serif,
-    font-size:  2rem,
-    line-height:  2.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 2rem,
+    line-height: 2.5rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-04-max: (
-    font-family: $font-family-sans-serif,
-    font-size:  2rem,
-    line-height:  2.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 2rem,
+    line-height: 2.5rem,
     weight: 400,
     letter-spacing: 0
   ),
-
   fluid-heading-05-sm: (
-    font-family: $font-family-sans-serif,
-    font-size:  2rem,
-    line-height:  2.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 2rem,
+    line-height: 2.5rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-05-md: (
-    font-family: $font-family-sans-serif,
-    font-size:  2.25rem,
-    line-height:  2.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 2.25rem,
+    line-height: 2.75rem,
     weight: 300,
     letter-spacing: 0
   ),
   fluid-heading-05-lg: (
-    font-family: $font-family-sans-serif,
-    font-size:  2.625rem,
-    line-height:  3.125rem,
+    font-family: var(--font-family-sans),
+    font-size: 2.625rem,
+    line-height: 3.125rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-05-xl: (
-    font-family: $font-family-sans-serif,
-    font-size:  3rem,
-    line-height:  3.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 3rem,
+    line-height: 3.5rem,
     weight: 400,
     letter-spacing: 0
   ),
   fluid-heading-05-max: (
-    font-family: $font-family-sans-serif,
-    font-size:  3.75rem,
-    line-height:  4.375rem,
+    font-family: var(--font-family-sans),
+    font-size: 3.75rem,
+    line-height: 4.375rem,
     weight: 400,
     letter-spacing: 0
   ),
-
   fluid-heading-06-sm: (
-    font-family: $font-family-sans-serif,
-    font-size:  2rem,
-    line-height:  2.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 2rem,
+    line-height: 2.5rem,
     weight: 600,
     letter-spacing: 0
   ),
   fluid-heading-06-md: (
-    font-family: $font-family-sans-serif,
-    font-size:  2.25rem,
-    line-height:  2.75rem,
+    font-family: var(--font-family-sans),
+    font-size: 2.25rem,
+    line-height: 2.75rem,
     weight: 600,
     letter-spacing: 0
   ),
   fluid-heading-06-lg: (
-    font-family: $font-family-sans-serif,
-    font-size:  2.625rem,
-    line-height:  3.125rem,
+    font-family: var(--font-family-sans),
+    font-size: 2.625rem,
+    line-height: 3.125rem,
     weight: 600,
     letter-spacing: 0
   ),
   fluid-heading-06-xl: (
-    font-family: $font-family-sans-serif,
-    font-size:  3rem,
-    line-height:  3.5rem,
+    font-family: var(--font-family-sans),
+    font-size: 3rem,
+    line-height: 3.5rem,
     weight: 600,
     letter-spacing: 0
   ),
   fluid-heading-06-max: (
-    font-family: $font-family-sans-serif,
-    font-size:  3.75rem,
-    line-height:  4.375rem,
+    font-family: var(--font-family-sans),
+    font-size: 3.75rem,
+    line-height: 4.375rem,
     weight: 600,
     letter-spacing: 0
   ),
@@ -326,21 +299,8 @@ $font-styles: (
 
 $typography-css-variables: ();
 
-$typography-css-variables: map-merge($typography-css-variables, ("--font-family-base": $font-family-sans-serif));
-
-@each $key, $value in $font-weights {
-  $map: ();
-  $map: map-merge($map, ("--font-weight-"+$key: $value));
-  $typography-css-variables: map-merge($typography-css-variables, $map);
-}
-
-@each $key, $value in $typography {
-  $map: ();
-  $map: map-merge($map, ("--"+$key+"-font-size": #{list.nth($value,1)}rem));
-  $map: map-merge($map, ("--"+$key+"-line-height": #{list.nth($value,2)}rem));
-  $map: map-merge($map, ("--"+$key+"-letter-spacing": #{list.nth($value,3)}rem));
-  $typography-css-variables: map-merge($typography-css-variables, $map);
-}
+$typography-css-variables: map-merge($typography-css-variables, ("--font-family-base": var(--font-family-sans)
+));
 
 @each $key, $value in $font-styles {
   $map: ();

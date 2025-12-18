@@ -291,30 +291,32 @@ export class Number implements ComponentInterface, InputComponentInterface {
         />
 
         {!this.readonly && !this.disabled && !this.hideActions && (
-          <goat-button
+          <pc-button
             class="input-action"
             color={'secondary'}
-            icon="subtract"
             size={this.size}
             aria-label="Decrease"
             variant="text"
             onGoat-button--click={evt => {
               this.decrease(evt);
             }}
-          ></goat-button>
+          >
+            <pc-icon name="subtract"></pc-icon>
+          </pc-button>
         )}
 
         {!this.readonly && !this.disabled && !this.hideActions && (
-          <goat-button
+          <pc-button
             class="input-action"
             color={'secondary'}
-            icon="add"
             size={this.size}
             variant="text"
             onGoat-button--click={evt => {
               this.increment(evt);
             }}
-          ></goat-button>
+          >
+            <pc-icon slot="icon" name="add"></pc-icon>
+          </pc-button>
         )}
 
         <div class="slot-container end">

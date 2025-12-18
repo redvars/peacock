@@ -73,7 +73,8 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-button](../../button)
+- [pc-button](../../button)
+- [pc-icon](../../icon)
 - [goat-spinner](../../spinner)
 - [goat-code-editor](../code-editor)
 - [goat-toggle](../toggle)
@@ -83,20 +84,21 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-html-editor --> goat-button
+  goat-html-editor --> pc-button
+  goat-html-editor --> pc-icon
   goat-html-editor --> goat-spinner
   goat-html-editor --> goat-code-editor
   goat-html-editor --> goat-toggle
   goat-html-editor --> goat-menu
   goat-html-editor --> goat-menu-item
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   goat-code-editor --> goat-tag
   goat-code-editor --> goat-spinner
   goat-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
   goat-menu-item --> pc-icon
   style goat-html-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```

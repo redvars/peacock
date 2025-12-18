@@ -15,9 +15,9 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
 
 ---
 
-<Layout title={title} description={description} classes='layer-background'>
+<Layout title={title} description={description} classes='surface'>
 
-  <div class='sidenav m-hide layer-background' id="component-page">
+  <div class='sidenav m-hide surface' id="component-page">
 
     <div class='sidenav-components'>
 
@@ -66,7 +66,7 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
     <goat-container class='page-wrapper'>
 
       <div class='comp-header'>
-        <goat-text class='comp-title heading-scrollable' type='heading' heading-size='6'>{title}</goat-text>
+        <h1 class='heading-scrollable text-display'>{title}</h1>
 
 
         { componentDetails.metadata.category == 'Up coming' ? <goat-tag color='red'>Work in progress</goat-tag>  : '' }
@@ -75,12 +75,12 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
       <slot/>
 
       <div class='previous-next-nav'>
-        <goat-button kind='simple' icon='arrow--left' icon-align='start' href={`/components/${previousComponent.tag.replace('goat-', '')}/`}>
+        <pc-button kind='simple' icon='arrow--left' icon-align='start' href={`/components/${previousComponent.metadata.name}/`}>
           Previous
-        </goat-button>
-        <goat-button kind='simple' icon='arrow--right' href={`/components/${nextComponent.tag.replace('goat-', '')}/`}>
+        </pc-button>
+        <pc-button kind='simple' icon='arrow--right' href={`/components/${previousComponent.metadata.name}/`}>
           Next
-        </goat-button>
+        </pc-button>
       </div>
     </goat-container>
 

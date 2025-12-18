@@ -9,8 +9,11 @@ import {
 } from '@stencil/core';
 
 /**
- * @name Divider
+ * @label Divider
+ * @name divider
  * @description A divider can be used to segment content vertically or horizontally.
+ * @overview
+ *  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
  * @category Layout
  * @example <pc-divider style="width: 12rem;">or</pc-divider>
  */

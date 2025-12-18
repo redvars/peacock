@@ -6,7 +6,7 @@
       "$description": "Base spacing unit (1rem = 16px)."
     },
     "000": {
-      "$value": "0",
+      "$value": "0rem",
       "$description": "No spacing (base × 0)."
     },
     "025": {

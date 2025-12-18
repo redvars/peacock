@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  margin-bottom: v(--spacing-050);
+  margin-bottom: var(--spacing-050);
 }
 
 .breadcrumb {
@@ -13,9 +13,9 @@
 slot::slotted(*) {
   &::before {
     display: inline-block;
-    padding-right: v(--spacing-100);
-    padding-left: v(--spacing-100);
-    color: v(--border-strong-01);
+    padding-right: var(--spacing-100);
+    padding-left: var(--spacing-100);
+    color: var(--color-outline);
     content: "/";
   }
 }

@@ -2,28 +2,28 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 
-<goat-text type='body'>Here are several predefined checkbox styles, each serving its own semantic purpose.</goat-text>
+<p>Here are several predefined checkbox styles, each serving its own semantic purpose.</p>
 <style is:inline>
   .container-horizontal {
     display: inline-block;
     margin-right: 1rem;
     padding: 1rem;
     width: 200px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--color-outline);
   }
 </style>
 
 <HighlighterCard lang={'html'}>
   <div class='container-horizontal'>
-    <goat-text>Content A</goat-text>
+    <p>Content A</p>
     <pc-divider></pc-divider>
-    <goat-text>Content B</goat-text>
+    <p>Content B</p>
   </div>
 
   <div class='container-horizontal'>
-    <goat-text>Content A</goat-text>
+    <p>Content A</p>
     <pc-divider> or</pc-divider>
-    <goat-text>Content B</goat-text>
+    <p>Content B</p>
   </div>
 </HighlighterCard>
 
@@ -34,10 +34,10 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     margin-bottom: 1rem;
     padding: 1rem;
     width: 250px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--color-outline);
   }
 
-  .container-vertical goat-text {
+  .container-vertical p {
     display: flex;
     align-items: center;
   }
@@ -45,14 +45,14 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
 <HighlighterCard lang={'html'}>
   <div class='container-vertical'>
-    <goat-text>Content A</goat-text>
+    <p>Content A</p>
     <pc-divider vertical></pc-divider>
-    <goat-text>Content B</goat-text>
+    <p>Content B</p>
   </div>
 
   <div class='container-vertical'>
-    <goat-text>Content A</goat-text>
+    <p>Content A</p>
     <pc-divider vertical> or</pc-divider>
-    <goat-text>Content B</goat-text>
+    <p>Content B</p>
   </div>
 </HighlighterCard>

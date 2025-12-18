@@ -104,10 +104,10 @@ Type: `Promise<void>`
 
 - [pc-icon](../../icon)
 - [goat-tag](../../tag)
-- [goat-button](../../button)
+- [pc-button](../../button)
 - [goat-spinner](../../spinner)
 - [goat-menu](../../menu/menu)
-- [goat-text](../../typography/text)
+- [pc-text](../../typography/text)
 - [goat-menu-item](../../menu/menu-item)
 
 ### Graph
@@ -115,17 +115,17 @@ Type: `Promise<void>`
 graph TD;
   goat-select --> pc-icon
   goat-select --> goat-tag
-  goat-select --> goat-button
+  goat-select --> pc-button
   goat-select --> goat-spinner
   goat-select --> goat-menu
-  goat-select --> goat-text
+  goat-select --> pc-text
   goat-select --> goat-menu-item
   goat-tag --> pc-icon
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
-  goat-empty-state --> goat-button
+  goat-empty-state --> pc-button
+  goat-empty-state --> pc-icon
   goat-menu-item --> pc-icon
   goat-calendar --> goat-select
   goat-cb-expression --> goat-select

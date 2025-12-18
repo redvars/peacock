@@ -60,15 +60,14 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
   @Prop() debounce = 300;
 
   /**
-     * If true, required icon is show. Defaults to `false`.
-     */
-    @Prop({ reflect: true }) required: boolean = false;
-  
+   * If true, required icon is show. Defaults to `false`.
+   */
+  @Prop({ reflect: true }) required: boolean = false;
 
   /**
-     * The input field size.
-     * Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-     */
+   * The input field size.
+   * Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+   */
   @Prop({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
 
   /**
@@ -98,8 +97,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
     this.isValid = this.validateUrl(this.value);
     this.inputInvalid.emit(!this.isValid);
 
-    if (this.isValid)
-      this.editing = false;
+    if (this.isValid) this.editing = false;
   }
 
   /**
@@ -151,7 +149,8 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
   }
 
   componentDidLoad() {
-    this.startSlotHasContent = this.elm.querySelector('[slot="start"]') !== null;
+    this.startSlotHasContent =
+      this.elm.querySelector('[slot="start"]') !== null;
     this.endSlotHasContent = this.elm.querySelector('[slot="end"]') !== null;
   }
 
@@ -202,15 +201,22 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
   renderInput() {
     return (
       <div class={{ 'url-input': true, 'editing': this.editing }}>
-
-
         <div class={{ 'url-container': true }}>
-          <goat-link href={this.value || "javascript:void(0)"} target={this.value ? '_blank' : '_self'}>
+          <goat-link
+            href={this.value || 'javascript:void(0)'}
+            target={this.value ? '_blank' : '_self'}
+          >
             {this.value}
           </goat-link>
-          <goat-button size="sm" variant="text" icon="edit" onGoat-button--click={() => {
-            this.#startEditing();
-          }}></goat-button>
+          <pc-button
+            size="sm"
+            variant="text"
+            onGoat-button--click={() => {
+              this.#startEditing();
+            }}
+          >
+            <pc-icon slot="icon" name="edit" />
+          </pc-button>
         </div>
 
         <div
@@ -223,7 +229,6 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
             'end-slot-has-content': this.endSlotHasContent,
           }}
         >
-
           <input
             class="input input-native"
             name={this.name}
@@ -250,15 +255,10 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
 
   render() {
     return (
-      <Host
-        has-focus={this.hasFocus}
-        invalid={!this.isValid}
-      >
+      <Host has-focus={this.hasFocus} invalid={!this.isValid}>
         <div class="form-control">
-         {this.label && this.getLabel()}
-          <div class="field">
-            {this.renderInput()}
-          </div>
+          {this.label && this.getLabel()}
+          <div class="field">{this.renderInput()}</div>
           {this.renderHelper()}
         </div>
       </Host>

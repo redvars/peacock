@@ -4,11 +4,11 @@ const allPosts = await Astro.glob('./posts/*.astro');
 import '../../styles/blog.scss';
 import site from '../../_data/site.json';
 ---
-<Layout  classes='layer-background'>
+<Layout  classes='surface'>
   <div class='main-content'>
     <goat-container class='blog-posts page-container'>
-      <goat-text type='heading' heading-size='7'>Blog</goat-text>
-      <goat-text expressive>News and announcements for all things GOATUI, including new releases</goat-text>
+      <pc-text type='heading' heading-size='7'>Blog</pc-text>
+      <pc-text expressive>News and announcements for all things GOATUI, including new releases</pc-text>
 
       <pc-divider></pc-divider>
 
@@ -16,13 +16,13 @@ import site from '../../_data/site.json';
         {allPosts.map(async (post: any) => {
           return (
             <div class='item'>
-              <goat-text type='heading' heading-size='4'>
+              <pc-text type='heading' heading-size='4'>
                 <goat-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</goat-link>
-              </goat-text>
-              <goat-text expressive>{post.description}</goat-text>
-              <goat-text color='secondary'>
+              </pc-text>
+              <pc-text expressive>{post.description}</pc-text>
+              <pc-text color='secondary'>
                 Posted on {post.publishedDate}
-              </goat-text>
+              </pc-text>
             </div>);
         })}
 
@@ -32,9 +32,9 @@ import site from '../../_data/site.json';
       <div class='footer container'>
         <pc-divider></pc-divider>
         <div class='footer-content'>
-          <goat-text class='legal' type='legal' expressive>
+          <pc-text class='legal' type='legal' expressive>
             &copy; {new Date().getFullYear()} <goat-link href={site.author_url}>{site.author}</goat-link>. All Rights Reserved.
-          </goat-text>
+          </pc-text>
         </div>
       </div>
     </goat-container>

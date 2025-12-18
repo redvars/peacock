@@ -1,9 +1,9 @@
 ---
-import Layout from '../../../layouts/Component.astro';
+import Layout from '../../../layouts/ComponentPageLayout.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-const componentDetails = getComponentDetails('goat-text');
+const componentDetails = getComponentDetails('text');
 
 import FixedHeadingStylesSection from './_sections/fixed-heading-styles.astro';
 import BodyStylesSection from './_sections/body-styles.astro';
@@ -34,7 +34,6 @@ const sections = [
   <goat-tabs class='page-tabs'>
     <goat-tabs-list>
       <goat-tab selected='true'>Overview</goat-tab>
-      <goat-tab>Playground</goat-tab>
       <goat-tab>API</goat-tab>
     </goat-tabs-list>
     <goat-tab-panel>

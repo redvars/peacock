@@ -6,22 +6,28 @@ import { kebabCase } from 'scule';
  * * @param {object} options - Plugin options (if needed)
  * @returns {import('@terrazzo/cli').Plugin}
  */
-export function alphaTransformerPlugin(options = {}) {
+export function customTransformerPlugin(options = {}) {
   return {
     // 1. Name the plugin
-    name: 'terrazzo-alpha-transformer',
+    name: 'operations-transformer',
 
     // 2. The core transformation function
     transform({ tokens, setTransform }) {
       // Loop through all tokens and their modes
       for (const [id, token] of Object.entries(tokens)) {
-        // Find the operations extension on the token itself
-        const operations =
-          token.originalValue?.$extensions?.['org.terrazzo.operations'];
-
-        if (operations && token.$type === 'color') {
+        if (
+          token.$type === 'color' &&
+          token.originalValue?.$extensions?.['alpha']
+        ) {
           // Process the base value (default/light mode)
-          processTokenValue(id, token, token.$value, operations, setTransform);
+          processTokenValue(
+            id,
+            token,
+            token.$value,
+            token.originalValue?.$extensions?.['alpha'],
+            setTransform,
+            '.',
+          );
 
           // Process values inside of modes (e.g., dark mode)
           if (token.mode) {
@@ -32,7 +38,7 @@ export function alphaTransformerPlugin(options = {}) {
                   id,
                   token,
                   modeValue,
-                  operations,
+                  token.originalValue?.$extensions?.['alpha'],
                   setTransform,
                   modeName,
                 );
@@ -55,19 +61,14 @@ function processTokenValue(
   id,
   token,
   tokenValue,
-  operations,
+  alpha,
   setTransform,
   modeName,
 ) {
-  // We only care about the first operation for this simple example
-  const alphaOp = operations.find(op => op.alpha !== undefined);
-
-  if (alphaOp) {
-    token.value = `RGBA(var(--color-red), 0.55)`;
+  if (alpha) {
     setTransform(id, {
       format: 'css',
-      localID: `--${kebabCase(id)}`,
-      value: `RGBA(var(--${kebabCase(token.aliasOf)}), ${alphaOp.alpha})`, // convert original format into CSS-friendly value
+      value: `RGBA(var(--${kebabCase(token.aliasOf)}), ${alpha[modeName]})`, // convert original format into CSS-friendly value
       mode: modeName,
     });
   }

@@ -16,8 +16,8 @@ const description = componentDetails.metadata.description;
 const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails.tag);
 ---
 
-<Layout title={title} description={description}  classes={'layer-background'}>
-  <div class="sidenav m-hide layer-background" id="component-page">
+<Layout title={title} description={description}  classes={'surface'}>
+  <div class="sidenav m-hide surface" id="component-page">
     <div class="sidenav-components">
       <goat-tree-view layer="01" value={title} selected-node={title}>
         <goat-tree-node label="Overview" href="/components"></goat-tree-node>
@@ -59,8 +59,8 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
       <slot />
 
       <div class="previous-next-nav">
-        <goat-button kind="simple" icon="arrow--left" icon-align="start" href={`/components/${previousComponent.tag.replace('goat-', '')}/`}> Previous </goat-button>
-        <goat-button kind="simple" icon="arrow--right" href={`/components/${nextComponent.tag.replace('goat-', '')}/`}> Next </goat-button>
+        <pc-button kind="simple" icon="arrow--left" icon-align="start" href={`/components/${previousComponent.tag.replace('goat-', '')}/`}> Previous </pc-button>
+        <pc-button kind="simple" icon="arrow--right" href={`/components/${nextComponent.tag.replace('goat-', '')}/`}> Next </pc-button>
       </div>
     </goat-container>
 

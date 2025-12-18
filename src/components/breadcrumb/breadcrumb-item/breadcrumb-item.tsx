@@ -1,7 +1,7 @@
 import { Component, ComponentInterface, h, Host, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'goat-breadcrumb-item',
+  tag: 'pc-breadcrumb-item',
   styleUrl: 'breadcrumb-item.scss',
   shadow: true,
 })
@@ -25,24 +25,24 @@ export class BreadcrumbItem implements ComponentInterface {
       <Host
         itemprop="itemListElement"
         itemscope
-        itemtype="http://schema.org/ListItem"
+        itemtype="https://schema.org/ListItem"
       >
         {this.active ? (
-          <goat-text type="body-compact" expressive={false} inline={true}>
-            <span itemProp="name">
+          <span class={'breadcrumb-item active'}>
+            <span itemprop="name">
               <slot />
             </span>
-            <meta itemProp="position" content={this.position} />
-          </goat-text>
+            <meta itemprop="position" content={this.position} />
+          </span>
         ) : (
-          <goat-text type="body-compact" expressive={false} inline={true}>
+          <span class={'breadcrumb-item'}>
             <goat-link itemprop="item" href={this.href} target={this.target}>
-              <span itemProp="name">
+              <span itemprop="name">
                 <slot />
               </span>
-              <meta itemProp="position" content={this.position} />
+              <meta itemprop="position" content={this.position} />
             </goat-link>
-          </goat-text>
+          </span>
         )}
       </Host>
     );

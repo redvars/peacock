@@ -84,17 +84,18 @@ Type: `Promise<void>`
 ### Depends on
 
 - [goat-tooltip](../../../tooltip)
-- [goat-button](../../../button)
+- [pc-button](../../../button)
+- [pc-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-input --> goat-tooltip
-  goat-input --> goat-button
+  goat-input --> pc-button
+  goat-input --> pc-icon
   goat-tooltip --> goat-popover
   goat-tooltip --> goat-popover-content
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  pc-button --> pc-elevation
   goat-condition-builder --> goat-input
   style goat-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -2,16 +2,16 @@
 
 :host {
   display: block;
-  padding-bottom: v(--spacing-100);
+  padding-bottom: var(--spacing-100);
 }
 
 .card {
   display: flex;
   flex-direction: column;
   border: 1px solid v(--border-subtle);
-  border-radius: v(--border-radius);
+  border-radius: v(--global-shape-corner-large);
   height: 100%;
-  background-color: v(--background);
+  background-color: var(--color-surface);
 }
 
 :host([shadow-level="xxl"]) .card {

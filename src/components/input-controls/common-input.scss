@@ -7,7 +7,7 @@
   margin-bottom: v(--spacing-100);
   --input-border-radius: #{v(--border-radius)};
   --input-border: 1px solid #{v(--border-strong)};
-  color: v(--text-primary);
+  color: var(--text-primary);
 }
 
 :host(.form-field) {
@@ -114,7 +114,7 @@
     background: none;
     width: 100%;
     cursor: inherit;
-    color: v(--text-primary);
+    color: var(--text-primary);
     padding: 0 var(--spacing-200);
 
     /*
@@ -179,8 +179,8 @@
   .input-action {
     height: 100%;
     --goat-popover-height: 100%;
-    --goat-button-height: 100%;
-    --goat-button-padding: .625rem;
+    --button-height: 100%;
+    --pc-button-padding: .625rem;
   }
 
   .clear-action {
@@ -243,10 +243,10 @@
     --goat-tooltip-height: 100%;
   }
 
-  goat-button {
+  pc-button {
     height: 100%;
-    --goat-button-height: 100%;
-    --goat-button-border-radius: 0;
+    --button-height: 100%;
+    --pc-button-border-radius: 0;
   }*/
 }
 

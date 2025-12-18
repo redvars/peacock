@@ -83,6 +83,7 @@ export class Modal {
             role="dialog"
             aria-modal="true"
           >
+            <pc-elevation></pc-elevation>
             <div class="modal-overlay" />
             <div
               class="modal--wrapper"
@@ -106,37 +107,33 @@ export class Modal {
                   <div class="modal-header">
                     <div class="modal-heading-section">
                       {this.subheading && (
-                        <goat-text
-                          class="modal-subheading"
+                        <span
+                          class="modal-subheading text-label"
                           color="secondary"
-                          type="label"
                         >
                           {this.subheading}
-                        </goat-text>
+                        </span>
                       )}
 
                       {this.heading && (
-                        <goat-text
-                          class="modal-heading"
-                          type="heading"
-                          heading-size="3"
-                        >
+                        <span class="modal-heading text-headline">
                           {this.heading}
-                        </goat-text>
+                        </span>
                       )}
                     </div>
                     <div class="action-container">
                       {!this.hideClose && (
-                        <goat-button
+                        <pc-button
                           title="Close"
                           class="close-icon cancel-button"
                           color="black"
-                          icon="close--large"
                           variant="text"
                           onGoat-button--click={() => {
                             this.closeModal();
                           }}
-                        ></goat-button>
+                        >
+                          <pc-icon name="close" />
+                        </pc-button>
                       )}
                     </div>
                   </div>

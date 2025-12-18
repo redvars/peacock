@@ -29,7 +29,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   .demo-container .sub-container {
     position: relative;
     height: 13rem;
-    border: 1px dashed var(--border-color);
+    border: 1px dashed var(--color-outline);
     width: 40rem;
     padding: 1rem;
   }
@@ -56,7 +56,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
 <HighlighterCard lang='html' cssClasses='demo-container'>
 
-  <goat-button id='clear-btn'>Clear</goat-button>
+  <pc-button id='clear-btn'>Clear</pc-button>
 
   <div class='application'>
     <goat-notification-manager name='application-manager' position='bottom-right'></goat-notification-manager>
@@ -64,9 +64,9 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     <div class='sub-container'>
 
       <goat-notification-manager name='sub-container-manager' position='top-right'></goat-notification-manager>
-      <goat-button id='notification-btn'>Notification</goat-button>
+      <pc-button id='notification-btn'>Notification</pc-button>
       <br /><br />
-      <goat-button id='notification-btn-dismissible'>Dismissible notification</goat-button>
+      <pc-button id='notification-btn-dismissible'>Dismissible notification</pc-button>
     </div>
   </div>
 

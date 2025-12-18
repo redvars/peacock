@@ -11,40 +11,40 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
 ---
 
 <Layout componentDetails={componentDetails}>
-  <goat-breadcrumb>
-    <goat-breadcrumb-item href="/components">Components</goat-breadcrumb-item>
-    <goat-breadcrumb-item href="./">{title}</goat-breadcrumb-item>
-    <goat-breadcrumb-item active>API Reference</goat-breadcrumb-item>
-  </goat-breadcrumb>
+  <pc-breadcrumb>
+    <pc-breadcrumb-item href="/components">Components</pc-breadcrumb-item>
+    <pc-breadcrumb-item href="./">{title}</pc-breadcrumb-item>
+    <pc-breadcrumb-item active>API Reference</pc-breadcrumb-item>
+  </pc-breadcrumb>
 
   <div class="comp-header">
-    <goat-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title} - API Reference</goat-text>
+    <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title} - API Reference</pc-text>
     {componentDetails.metadata.category == 'Up coming' ? <goat-tag color="red">Work in progress</goat-tag> : ''}
   </div>
 
-  <goat-text type="body" expressive set:html={overview} />
+  <pc-text type="body" expressive set:html={overview} />
 
   <div style="margin-bottom: var(--spacing-600)">
-    <goat-button size="xs" variant="light.simple" href="./" icon="arrow--left" icon-align="start"> Back </goat-button>
+    <pc-button size="xs" variant="light.simple" href="./" icon="arrow--left" icon-align="start"> Back </pc-button>
   </div>
 
   <div class="api-section">
-    <goat-text type="heading" heading-size="4">Properties</goat-text>
+    <pc-text type="heading" heading-size="4">Properties</pc-text>
     <goat-table id="comp-properties" class="table-auto-height" layer="01" paginate="false"></goat-table>
   </div>
 
   <div class="api-section">
-    <goat-text type="heading" heading-size="4">Events</goat-text>
+    <pc-text type="heading" heading-size="4">Events</pc-text>
     <goat-table id="comp-events" class="table-auto-height" layer="01" paginate="false"></goat-table>
   </div>
 
   <div class="api-section">
-    <goat-text type="heading" heading-size="4">Methods</goat-text>
+    <pc-text type="heading" heading-size="4">Methods</pc-text>
     <goat-table id="comp-methods" class="table-auto-height" layer="01" paginate="false"></goat-table>
   </div>
 
   <div class="api-section">
-    <goat-text type="heading" heading-size="4">CSS Custom Properties</goat-text>
+    <pc-text type="heading" heading-size="4">CSS Custom Properties</pc-text>
     <goat-table id="comp-css-custom-properties" class="table-auto-height" layer="01" paginate="false"></goat-table>
   </div>
 
@@ -70,7 +70,7 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
           if (row[column.name])
             return `<div class='col-text' title='${row[column.name]}'>${row[column.name]
               .split('\n')
-              .map(i => `<goat-text>${i}</goat-text>`)
+              .map(i => `<pc-text>${i}</pc-text>`)
               .join('')}</div>`;
           return '';
         },

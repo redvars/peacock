@@ -1,4 +1,4 @@
-# goat-button
+# pc-button
 
 
 
@@ -15,29 +15,27 @@
 | `disabled`       | `disabled`        | If true, the user cannot interact with the button. Defaults to `false`.                                                                                                                                                                                                                             | `boolean`                                                                              | `false`     |
 | `disabledReason` | `disabled-reason` | If button is disabled, the reason why it is disabled.                                                                                                                                                                                                                                               | `string`                                                                               | `''`        |
 | `href`           | `href`            | Hyperlink to navigate to on click.                                                                                                                                                                                                                                                                  | `string`                                                                               | `undefined` |
-| `icon`           | `icon`            | Icon which will displayed on button. Possible values are icon names.                                                                                                                                                                                                                                | `string`                                                                               | `undefined` |
 | `iconAlign`      | `icon-align`      | Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.                                                                                                                                                                                                                        | `"end" \| "start"`                                                                     | `'end'`     |
-| `showLoader`     | `show-loader`     | If true, a loader will be displayed on button.                                                                                                                                                                                                                                                      | `boolean`                                                                              | `false`     |
 | `size`           | `size`            | Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.                                                                                                                                                                                                                        | `"lg" \| "md" \| "sm" \| "xl" \| "xs"`                                                 | `'sm'`      |
 | `target`         | `target`          | Sets or retrieves the window or frame at which to target content.                                                                                                                                                                                                                                   | `string`                                                                               | `'_self'`   |
 | `throttleDelay`  | `throttle-delay`  | Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.                                                                                                                                                                                                                          | `number`                                                                               | `200`       |
 | `toggle`         | `toggle`          | If true, the button will be in a toggled state.                                                                                                                                                                                                                                                     | `boolean`                                                                              | `false`     |
 | `type`           | `type`            | Button type based on which actions are performed when the button is clicked.                                                                                                                                                                                                                        | `"button" \| "reset" \| "submit"`                                                      | `'button'`  |
-| `variant`        | `variant`         | The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.                                                                                                  | `"filled" \| "link" \| "neo" \| "outlined" \| "text" \| "tonal"`                       | `'filled'`  |
+| `variant`        | `variant`         | The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.                                                                                                  | `"elevated" \| "filled" \| "neo" \| "outlined" \| "text" \| "tonal"`                   | `'filled'`  |
 
 
 ## Events
 
-| Event                | Description                           | Type                                |
-| -------------------- | ------------------------------------- | ----------------------------------- |
-| `goat-button--click` | Triggered when the button is clicked. | `CustomEvent<{ appendData: any; }>` |
+| Event              | Description                           | Type                                |
+| ------------------ | ------------------------------------- | ----------------------------------- |
+| `pc-button--click` | Triggered when the button is clicked. | `CustomEvent<{ appendData: any; }>` |
 
 
 ## Methods
 
 ### `setBlur() => Promise<void>`
 
-Sets blur on the native `button` in `goat-button`. Use this method instead of the global
+Sets blur on the native `button` in `pc-button`. Use this method instead of the global
 `button.blur()`.
 
 #### Returns
@@ -48,7 +46,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the native `button` in `goat-button`. Use this method instead of the global
+Sets focus on the native `button` in `pc-button`. Use this method instead of the global
 `button.focus()`.
 
 #### Returns
@@ -59,7 +57,7 @@ Type: `Promise<void>`
 
 ### `triggerClick() => Promise<void>`
 
-Triggers a click event on the native `button` in `goat-button`. Use this method instead of the global
+Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global
 `button.click()`.
 
 #### Returns
@@ -93,32 +91,30 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-spinner](../spinner)
-- [pc-icon](../icon)
+- [pc-elevation](../elevation)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
-  goat-calendar --> goat-button
-  goat-code-highlighter --> goat-button
-  goat-date-picker --> goat-button
-  goat-empty-state --> goat-button
-  goat-flow-designer --> goat-button
-  goat-header-action --> goat-button
-  goat-header-brand --> goat-button
-  goat-html-editor --> goat-button
-  goat-input --> goat-button
-  goat-input-url --> goat-button
-  goat-modal --> goat-button
-  goat-notification --> goat-button
-  goat-number --> goat-button
-  goat-select --> goat-button
-  goat-table --> goat-button
-  goat-textarea --> goat-button
-  goat-time-picker --> goat-button
-  style goat-button fill:#f9f,stroke:#333,stroke-width:4px
+  pc-button --> pc-elevation
+  goat-calendar --> pc-button
+  goat-code-highlighter --> pc-button
+  goat-date-picker --> pc-button
+  goat-empty-state --> pc-button
+  goat-flow-designer --> pc-button
+  goat-header-action --> pc-button
+  goat-header-brand --> pc-button
+  goat-html-editor --> pc-button
+  goat-input --> pc-button
+  goat-input-url --> pc-button
+  goat-modal --> pc-button
+  goat-notification --> pc-button
+  goat-number --> pc-button
+  goat-select --> pc-button
+  goat-table --> pc-button
+  goat-textarea --> pc-button
+  goat-time-picker --> pc-button
+  style pc-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

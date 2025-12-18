@@ -13,7 +13,7 @@ if (Astro.slots.has('default')) {
   html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
 }
 ---
-<goat-card class={cssClasses}>
+<pc-card class={cssClasses}>
   <goat-card-content class='demo-area'>
     <div class='demo-area-inner'>
       <slot></slot>
@@ -24,4 +24,4 @@ if (Astro.slots.has('default')) {
       <pre><code><Fragment set:html={html} /></code></pre>
     </goat-code-highlighter>
   </goat-card-content>
-</goat-card>
+</pc-card>

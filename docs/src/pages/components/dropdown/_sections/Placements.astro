@@ -2,28 +2,28 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 import MenuItems from './dropdown-menu.astro';
 ---
-<goat-text type='body'>
+<pc-text type='body'>
   The dropdown can be positioned relative to the trigger element. Possible positions are: <code class='language-html'>top-start</code>,
   <code class='language-html'>top-end</code>,
   <code class='language-html'>bottom-end</code>, <code class='language-html'>bottom-start</code>.
-</goat-text>
-<goat-text type='body'>
+</pc-text>
+<pc-text type='body'>
   You can also use the <code class='language-html'>positions</code> attribute to set all preferred position of the
   dropdown. On scroll, the dropdown will be repositioned to the
   closest position.
-</goat-text>
+</pc-text>
 
 <goat-card>
   <goat-card-content>
     <div class='component-container'>
       <goat-dropdown id='dropdown' item-variant='icon' placements='bottom-start,top-start'>
-        <goat-button icon='home' variant='outline'>Open</goat-button>
+        <pc-button icon='home' variant='outline'>Open</pc-button>
 
         <MenuItems/>
       </goat-dropdown>
 
       <goat-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
-        <goat-button icon='trash-can' color='danger' aria-label='Trash Can'></goat-button>
+        <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
 
         <MenuItems/>
       </goat-dropdown>
@@ -32,12 +32,12 @@ import MenuItems from './dropdown-menu.astro';
   <goat-card-content class='no-padding'>
     <Highlighter lang='html'>
       <goat-dropdown id='dropdown' item-variant='icon' placements='top-start,bottom-start'>
-        <goat-button icon='home' variant='outline'>Open</goat-button>
+        <pc-button icon='home' variant='outline'>Open</pc-button>
         <goat-dropdown-menu>...</goat-dropdown-menu>
       </goat-dropdown>
 
       <goat-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
-        <goat-button icon='trash-can' color='danger' aria-label='Trash Can'></goat-button>
+        <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
         <goat-dropdown-menu>...</goat-dropdown-menu>
       </goat-dropdown>
 

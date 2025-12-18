@@ -112,7 +112,7 @@ export default class PopoverController {
       triggerRef.addEventListener('mouseleave', this.mouseleaveHandler);
     } else if (this.trigger == 'click') {
       if (triggerRef.nodeName === 'GOAT-BUTTON') {
-        triggerRef.addEventListener('goat-button--click', () => {
+        triggerRef.addEventListener('pc-button--click', () => {
           this.open ? this.hidePopover() : this.showPopover();
         });
       } else {

@@ -11,9 +11,9 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 <HighlighterCard lang={'html'} cssClasses={'demo-canvas'}>
 
 
-  <goat-button id='open-modal-button'>
+  <pc-button id='open-modal-button'>
     Open Modal
-  </goat-button>
+  </pc-button>
 
   <goat-modal id='sample-modal'
               size='xs'
@@ -21,13 +21,13 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
               subheading='User management'>
 
     <goat-modal-content type='text'>
-      <goat-text style='margin-bottom: 1rem'>
+      <pc-text style='margin-bottom: 1rem'>
         Modal labels and headings should be set in sentence case. Keep all labels and headings concise and to the point.
         Modal labels are optional.
         <pc-icon size='sm' tooltip-target='save-tooltip-scroll' color='secondary' variant='ghost'
                    name='warning'></pc-icon>
         <goat-tooltip id='save-tooltip-scroll' placements='bottom,top'>Save the record</goat-tooltip>
-      </goat-text>
+      </pc-text>
     </goat-modal-content>
 
     <goat-modal-content>
@@ -52,14 +52,15 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     <div slot='footer'>
       <div class='modal-footer'>
-        <goat-button class='footer-button cancel-button'
+        <pc-button class='footer-button cancel-button'
+                   variant='tonal'
                      color='secondary'
-                     size='xl'>Cancel
-        </goat-button>
-        <goat-button id='save-button'
+                     size='lg'>Cancel
+        </pc-button>
+        <pc-button id='save-button'
                      class='footer-button'
-                     size='xl'>Save
-        </goat-button>
+                     size='lg'>Save
+        </pc-button>
       </div>
     </div>
 
@@ -72,7 +73,8 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     }
 
     .footer-button {
-      --goat-button-border-radius: 0;
+      --filled-button-container-shape: var(--global-shape-corner-none);
+      --tonal-button-container-shape: var(--global-shape-corner-none);
       flex: 1;
     }
   </style>

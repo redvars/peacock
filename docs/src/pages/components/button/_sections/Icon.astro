@@ -3,23 +3,23 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 <HighlighterCard lang={'html'}>
 <div class='component-container'>
-  <goat-button icon="add--large"></goat-button>
-  <goat-button icon="add--large">Add</goat-button>
+  <pc-button icon="add--large"></pc-button>
+  <pc-button icon="add--large">Add</pc-button>
 
-  <goat-button icon="chevron--left" icon-align='start'>Previous</goat-button>
-  <goat-button icon="chevron--right">Next</goat-button>
+  <pc-button icon="chevron--left" icon-align='start'>Previous</pc-button>
+  <pc-button icon="chevron--right">Next</pc-button>
 </div>
 
 <div class='component-container'>
-  <goat-button icon="save" variant="outline"></goat-button>
-  <goat-button icon="save" variant="text"></goat-button>
+  <pc-button icon="save" variant="outline"></pc-button>
+  <pc-button icon="save" variant="text"></pc-button>
 </div>
 
 <div class='component-container'>
-  <goat-button icon="save" size='sm'></goat-button>
-  <goat-button icon="save" size='md'></goat-button>
-  <goat-button icon="save" size='lg'></goat-button>
-  <goat-button icon="save" size='xl'></goat-button>
-  <goat-button icon="save" size='2xl'></goat-button>
+  <pc-button size='xs'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button size='sm'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button size='md'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button size='lg'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button size='xl'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
 </div>
 </HighlighterCard>

@@ -76,14 +76,14 @@ export class EmptyState implements ComponentInterface {
               )}
               <div class="actions">
                 {this.action && (
-                  <goat-button
+                  <pc-button
                     href={this.actionUrl}
-                    icon={'arrow--right'}
                     disabled={this.actionDisabled}
                     variant={this.actionVariant}
                   >
+                    <pc-icon slot="icon" name="arrow--right" />
                     {this.action}
-                  </goat-button>
+                  </pc-button>
                 )}
               </div>
             </div>

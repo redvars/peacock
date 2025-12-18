@@ -1,17 +1,14 @@
 @import "./theme/css-variables";
 @import "mixins";
+@import "./theme/typography-css-component";
 
 * {
   box-sizing: border-box;
 }
 
-:host {
-  font-family: v(--font-family-base);
-}
-
 ::selection {
-  color: v(--color-white);
-  background: v(--color-primary);
+  color: var(--color-white);
+  background: var(--color-primary);
 }
 
 /* width */
@@ -22,15 +19,15 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-neutral-96);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--color-neutral-40);
 
   :hover {
-    background: #555;
+    background: var(--color-neutral-20);
   }
 }
 

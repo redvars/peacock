@@ -1,5 +1,6 @@
 @import "../../../globalStyles/commons";
 
+
 :host {
   display: block;
   margin-bottom: v(--spacing-100);
@@ -17,6 +18,7 @@
     display: inline-block;
   }
 }
+
 :host([type=code]) {
   background: v(--border-subtle);
   padding-inline: .25rem;
@@ -24,14 +26,11 @@
 }
 
 
-
-
 /* *
  * heading styles
  */
-
 :host([type="heading"]) {
-  margin-bottom: v(--spacing-200);
+  margin-bottom: var(--spacing-200);
 
   .text {
     @for $i from 1 through 7 {
@@ -114,20 +113,26 @@
 }
 
 
-/* *
- * Other styles
- */
+$types: "display", "headline", "body", 'label', 'title';
 
-$types: "body", "body-compact", "code", "helper", "legal", "label";
+$sizes: "large", "medium", 'small';
 
 @each $type in $types {
-  :host([type="#{$type}"]) {
-    .native-element {
-      @include font-style(#{$type}-01, text);
+
+  .type-#{$type} .native-element {
+    @include get-typography(#{$type}-medium);
+  }
+
+  @each $size in $sizes {
+
+
+
+    .type-#{$type}-#{$size} .native-element {
+      @include get-typography(#{$type}-#{$size});
     }
 
-    .expressive .native-element {
-      @include font-style(#{$type}-02, text);
+    .type-#{$type}-#{$size}-emphasized .native-element {
+      @include get-typography(#{$type}-#{$size}-emphasized);
     }
   }
 }
@@ -158,6 +163,3 @@ $types: "body", "body-compact", "code", "helper", "legal", "label";
 }
 
 
-:host(.inherit) {
-  color: inherit;
-}

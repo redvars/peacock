@@ -10,24 +10,24 @@
   font-weight: 600;
   line-height:v(--heading-03-line-height);
   letter-spacing: v(--heading-03-letter-spacing);
-  fill: v(--text-primary);
+  fill: var(--text-primary);
 }
 
 .label {
   font-size: v(--heading-02-font-size);
   line-height: v(--heading-02-line-height);
   letter-spacing: v(--heading-02-letter-spacing);
-  fill: v(--text-primary);
+  fill: var(--text-primary);
 }
 
 .item-polyline {
   fill: none;
   stroke-width: 1;
-  stroke: v(--text-primary);
+  stroke: var(--text-primary);
 }
 
 .item-label {
-  fill: v(--text-primary);
+  fill: var(--text-primary);
   font-size: v(--label-01-font-size);
   font-weight: v(--label-01-font-weight);
   line-height: v(--label-01-line-height);

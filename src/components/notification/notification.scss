@@ -45,7 +45,7 @@
       padding-top: 1.5rem;
 
       .action {
-        --goat-button-border-radius: none;
+        --pc-button-border-radius: none;
       }
     }
   }
@@ -80,9 +80,9 @@
 
   .close-button {
     margin: 0;
-    --goat-button-padding: .75rem;
-    --goat-button-height: 3rem;
-    --goat-button-border-radius: none;
+    --pc-button-padding: .75rem;
+    --button-height: 3rem;
+    --pc-button-border-radius: none;
     .icon {
       --icon-size: 1.25rem;
     }
@@ -106,7 +106,7 @@
         }
 
         .description {
-          color: v(--text-primary);
+          color: var(--text-primary);
         }
       }
     }

@@ -21,35 +21,42 @@ const searchItems = componentsDetails.components.map(component => ({
 
 <Layout title={title} description={description} keywords={keywords}>
   <div class="page-with-navigation">
-    <div class="side-navigation">
-      <goat-link class="search-button no-style" id="search-btn" href="#">
+    <div class="side-navigation surface-dim">
+      <a class="link search-button" id="search-btn" href="#">
 
         <pc-icon name="search"></pc-icon>
 
-      </goat-link>
+      </a>
 
-      <goat-link class="home no-style nav-item" href="./">
+      <a class="home link no-style nav-item" href="/#">
         <div class="item">
           <div class='icon'>
             <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
           </div>
-          <goat-text type="label">Home</goat-text>
+          <span class='text-label'>Home</span>
         </div>
-      </goat-link>
+      </a>
 
-      <goat-link class="components no-style nav-item" href='/color'>
+      <a class="components link no-style nav-item" href='/components'>
         <div class="item">
         <pc-icon class="icon" name="settings"></pc-icon>
-        <goat-text type="label">Components</goat-text>
+          <span class='text-label'>Components</span>
         </div>
-      </goat-link>
+      </a>
 
-      <goat-link class="color no-style nav-item" href='/color'>
+      <a class="color link no-style nav-item" href='/color'>
         <div class="item">
         <pc-icon class="icon" name="palette"></pc-icon>
-        <goat-text type="label">Colors</goat-text>
+          <span class='text-label'>Colors</span>
         </div>
-      </goat-link>
+      </a>
+
+      <a class="color link no-style nav-item" href='/typography'>
+        <div class="item">
+          <pc-icon class="icon" name="font_download"></pc-icon>
+          <span class='text-label'>Typography</span>
+        </div>
+      </a>
 
     </div>
 
@@ -70,9 +77,9 @@ const searchItems = componentsDetails.components.map(component => ({
 
           <div slot="right">
 
-            <goat-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
+            <pc-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
               Sponsor
-            </goat-button>
+            </pc-button>
 
             <pc-divider class="header-divider hide-tablet-portrait-below" vertical></pc-divider>
 
@@ -90,7 +97,7 @@ const searchItems = componentsDetails.components.map(component => ({
 
       <div id="header-menu">
         <div class="header-menu-head">
-          <goat-button id="header-menu-close-btn" variant="text" icon="close--large" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></goat-button>
+          <pc-button id="header-menu-close-btn" variant="text" icon="close" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></pc-button>
         </div>
 
         <goat-menu class="header-menu-list no-border">

@@ -11,65 +11,6 @@ export { CalendarViewType, EventType } from "./components/application/calendar/c
 export { Language } from "./components/application/code-highlighter/constants";
 export namespace Components {
     /**
-     * @name Accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface GoatAccordion {
-        /**
-          * Accordion item dropdown alignment.
-         */
-        "align": 'start' | 'end';
-        "multiple": boolean;
-        /**
-          * The According size.
-         */
-        "size": 'sm' | 'md' | 'lg';
-    }
-    /**
-     * @name Accordion Item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface GoatAccordionItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        /**
-          * The menu item value.
-         */
-        "heading": string;
-        /**
-          * Menu item selection state.
-         */
-        "open": boolean;
-    }
-    /**
-     * @name Avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <goat-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></goat-avatar>
-     */
-    interface GoatAvatar {
-        "name": string;
-        /**
-          * Avatar size.
-         */
-        "size": string;
-        "src": string;
-    }
-    /**
      * @name Badge
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
@@ -83,126 +24,6 @@ export namespace Components {
     | 'error'
     | 'warning';
         "content": string;
-    }
-    /**
-     * @name Breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <goat-breadcrumb><goat-breadcrumb-item href="#">Home</goat-breadcrumb-item><goat-breadcrumb-item href="#" active>Page</goat-breadcrumb-item></goat-breadcrumb>
-     */
-    interface GoatBreadcrumb {
-    }
-    interface GoatBreadcrumbItem {
-        "active": boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        "position": string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-    }
-    /**
-     * @name Button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <goat-button>
-     * Button
-     * </goat-button>
-     */
-    interface GoatButton {
-        /**
-          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
-         */
-        "appendData": any;
-        /**
-          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-         */
-        "color": | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        /**
-          * If button is disabled, the reason why it is disabled.
-         */
-        "disabledReason": string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon"?: string;
-        /**
-          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
-         */
-        "iconAlign": 'start' | 'end';
-        /**
-          * Sets blur on the native `button` in `goat-button`. Use this method instead of the global `button.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `button` in `goat-button`. Use this method instead of the global `button.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * If true, a loader will be displayed on button.
-         */
-        "showLoader": boolean;
-        /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-        /**
-          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
-         */
-        "throttleDelay": number;
-        /**
-          * If true, the button will be in a toggled state.
-         */
-        "toggle": boolean;
-        /**
-          * Triggers a click event on the native `button` in `goat-button`. Use this method instead of the global `button.click()`.
-         */
-        "triggerClick": () => Promise<void>;
-        /**
-          * Button type based on which actions are performed when the button is clicked.
-         */
-        "type": 'button' | 'submit' | 'reset';
-        /**
-          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
-         */
-        "variant": 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo';
-    }
-    /**
-     * @name Button Group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <goat-button-group>
-     * <goat-button block icon="home"></goat-button>
-     * <goat-button block icon="alarm"></goat-button>
-     * </goat-button-group>
-     */
-    interface GoatButtonGroup {
     }
     /**
      * @name Calendar
@@ -274,9 +95,6 @@ export namespace Components {
         "shapes": any[];
         "viewbox"?: string;
         "zoom": number;
-    }
-    interface GoatCard {
-        "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     interface GoatCbCompoundExpression {
         "conditionOperator": 'and' | 'or';
@@ -463,15 +281,6 @@ export namespace Components {
     }
     interface GoatContainer {
         "size": 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
-    }
-    /**
-     * @name Current Time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <goat-current-time></goat-current-time>
-     */
-    interface GoatCurrentTime {
-        "timezone": string;
     }
     /**
      * @name Date Picker
@@ -867,23 +676,6 @@ export namespace Components {
           * The input field value.
          */
         "value": string;
-    }
-    /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface GoatLink {
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-        "triggerClick": () => Promise<void>;
     }
     /**
      * @name Menu
@@ -1553,40 +1345,11 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface GoatText {
-        "color": | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'helper'
-    | 'error'
-    | 'on-color'
-    | 'inverse';
-        "configAria": any;
-        "expressive": boolean;
-        "headingLevel": 1 | 2 | 3 | 4 | 5 | 6;
-        "headingSize": 1 | 2 | 3 | 4 | 5 | 6 | 7;
-        "inline": boolean;
-        "type": | 'code'
-    | 'helper-text'
-    | 'label'
-    | 'legal'
-    | 'heading'
-    | 'body'
-    | 'body-compact'
-    | 'heading-compact'
-    | 'fluid-heading';
-    }
-    /**
      * @name Textarea
      * @description Enables native inputs to be used within a Form field.
      * @category Form Inputs
      * @tags input, form
-     * @example <goat-textarea placeholder="Enter some description over here"></goat-textarea>
+     * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
      */
     interface GoatTextarea {
         /**
@@ -1825,13 +1588,216 @@ export namespace Components {
         "subscribeToSelect": (cb: any) => Promise<void>;
     }
     /**
-     * @name Divider
+     * @label Accordion
+     * @name accordion
+     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
+     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
+     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @tags display
+     * @img /assets/img/accordion.webp
+     * @imgDark /assets/img/accordion-dark.webp
+     */
+    interface PcAccordion {
+        /**
+          * Accordion item dropdown alignment.
+         */
+        "align": 'start' | 'end';
+        "multiple": boolean;
+        /**
+          * The According size.
+         */
+        "size": 'sm' | 'md' | 'lg';
+    }
+    /**
+     * @label Accordion Item
+     * @name accordion-item
+     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
+     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @childComponent true
+     */
+    interface PcAccordionItem {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * The menu item value.
+         */
+        "heading": string;
+        /**
+          * Menu item selection state.
+         */
+        "open": boolean;
+    }
+    /**
+     * \
+     * @Label Avatar
+     * @name avatar
+     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
+     * @category Data Display
+     * @tags display
+     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     */
+    interface PcAvatar {
+        "name": string;
+        "src": string;
+    }
+    /**
+     * @label Breadcrumb
+     * @name breadcrumb
+     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+     * @category Navigation
+     * @tags navigation
+     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
+     */
+    interface PcBreadcrumb {
+    }
+    interface PcBreadcrumbItem {
+        "active": boolean;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href": string;
+        "position": string;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target": string;
+    }
+    /**
+     * @label Button
+     * @name button
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @category Buttons
+     * @tags controls
+     * @example <pc-button>
+     * Button
+     * </pc-button>
+     */
+    interface PcButton {
+        /**
+          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
+         */
+        "appendData": any;
+        /**
+          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+         */
+        "color": | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'white'
+    | 'black';
+        "configAria": any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * If button is disabled, the reason why it is disabled.
+         */
+        "disabledReason": string;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href": string;
+        /**
+          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
+         */
+        "iconAlign": 'start' | 'end';
+        /**
+          * Sets blur on the native `button` in `pc-button`. Use this method instead of the global `button.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `button` in `pc-button`. Use this method instead of the global `button.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target": string;
+        /**
+          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+         */
+        "throttleDelay": number;
+        /**
+          * If true, the button will be in a toggled state.
+         */
+        "toggle": boolean;
+        /**
+          * Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global `button.click()`.
+         */
+        "triggerClick": () => Promise<void>;
+        /**
+          * Button type based on which actions are performed when the button is clicked.
+         */
+        "type": 'button' | 'submit' | 'reset';
+        /**
+          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
+         */
+        "variant": | 'elevated'
+    | 'filled'
+    | 'tonal'
+    | 'outlined'
+    | 'text'
+    | 'neo';
+    }
+    /**
+     * @name Button Group
+     * @description Group a series of buttons together on a single line with the button group, and super-power.
+     * @category General
+     * @tags controls
+     * @example <pc-button-group>
+     * <pc-button block icon="home"></pc-button>
+     * <pc-button block icon="alarm"></pc-button>
+     * </pc-button-group>
+     */
+    interface PcButtonGroup {
+    }
+    interface PcCard {
+        "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
+    }
+    /**
+     * @label Current Time
+     * @name current-time
+     * @description Displays the current time in a given timezone.
+     * @category Others
+     * @example <pc-current-time></pc-current-time>
+     */
+    interface PcCurrentTime {
+        "timezone": string;
+    }
+    /**
+     * @label Divider
+     * @name divider
      * @description A divider can be used to segment content vertically or horizontally.
+     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
      * @category Layout
      * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface PcDivider {
         "vertical": boolean;
+    }
+    /**
+     * @label Elevation
+     * @name elevation
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-elevation></pc-elevation>
+     */
+    interface PcElevation {
     }
     /**
      * @label Icon
@@ -1847,14 +1813,24 @@ export namespace Components {
          */
         "name": string;
     }
-}
-export interface GoatAccordionItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatAccordionItemElement;
-}
-export interface GoatButtonCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatButtonElement;
+    /**
+     * @label Link
+     * @name link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <a href="#">Link</pc-link>
+     */
+    interface PcLink {
+    }
+    /**
+     * @label Text
+     * @name text
+     * @description Typography are used for rendering headlines, paragraphs, and captions.
+     * @category General
+     * @example <h1 class=>Heading</h1>
+     */
+    interface PcText {
+    }
 }
 export interface GoatCalendarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1960,62 +1936,15 @@ export interface GoatTreeNodeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatTreeNodeElement;
 }
+export interface PcAccordionItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcAccordionItemElement;
+}
+export interface PcButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcButtonElement;
+}
 declare global {
-    /**
-     * @name Accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface HTMLGoatAccordionElement extends Components.GoatAccordion, HTMLStencilElement {
-    }
-    var HTMLGoatAccordionElement: {
-        prototype: HTMLGoatAccordionElement;
-        new (): HTMLGoatAccordionElement;
-    };
-    interface HTMLGoatAccordionItemElementEventMap {
-        "goat-accordion-item--click": any;
-    }
-    /**
-     * @name Accordion Item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface HTMLGoatAccordionItemElement extends Components.GoatAccordionItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatAccordionItemElementEventMap>(type: K, listener: (this: HTMLGoatAccordionItemElement, ev: GoatAccordionItemCustomEvent<HTMLGoatAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatAccordionItemElementEventMap>(type: K, listener: (this: HTMLGoatAccordionItemElement, ev: GoatAccordionItemCustomEvent<HTMLGoatAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatAccordionItemElement: {
-        prototype: HTMLGoatAccordionItemElement;
-        new (): HTMLGoatAccordionItemElement;
-    };
-    /**
-     * @name Avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <goat-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></goat-avatar>
-     */
-    interface HTMLGoatAvatarElement extends Components.GoatAvatar, HTMLStencilElement {
-    }
-    var HTMLGoatAvatarElement: {
-        prototype: HTMLGoatAvatarElement;
-        new (): HTMLGoatAvatarElement;
-    };
     /**
      * @name Badge
      * @description The badge component is used to display a small amount of information to the user.
@@ -2028,70 +1957,6 @@ declare global {
     var HTMLGoatBadgeElement: {
         prototype: HTMLGoatBadgeElement;
         new (): HTMLGoatBadgeElement;
-    };
-    /**
-     * @name Breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <goat-breadcrumb><goat-breadcrumb-item href="#">Home</goat-breadcrumb-item><goat-breadcrumb-item href="#" active>Page</goat-breadcrumb-item></goat-breadcrumb>
-     */
-    interface HTMLGoatBreadcrumbElement extends Components.GoatBreadcrumb, HTMLStencilElement {
-    }
-    var HTMLGoatBreadcrumbElement: {
-        prototype: HTMLGoatBreadcrumbElement;
-        new (): HTMLGoatBreadcrumbElement;
-    };
-    interface HTMLGoatBreadcrumbItemElement extends Components.GoatBreadcrumbItem, HTMLStencilElement {
-    }
-    var HTMLGoatBreadcrumbItemElement: {
-        prototype: HTMLGoatBreadcrumbItemElement;
-        new (): HTMLGoatBreadcrumbItemElement;
-    };
-    interface HTMLGoatButtonElementEventMap {
-        "goat-button--click": {
-    appendData: any;
-  };
-    }
-    /**
-     * @name Button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <goat-button>
-     * Button
-     * </goat-button>
-     */
-    interface HTMLGoatButtonElement extends Components.GoatButton, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatButtonElementEventMap>(type: K, listener: (this: HTMLGoatButtonElement, ev: GoatButtonCustomEvent<HTMLGoatButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatButtonElementEventMap>(type: K, listener: (this: HTMLGoatButtonElement, ev: GoatButtonCustomEvent<HTMLGoatButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatButtonElement: {
-        prototype: HTMLGoatButtonElement;
-        new (): HTMLGoatButtonElement;
-    };
-    /**
-     * @name Button Group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <goat-button-group>
-     * <goat-button block icon="home"></goat-button>
-     * <goat-button block icon="alarm"></goat-button>
-     * </goat-button-group>
-     */
-    interface HTMLGoatButtonGroupElement extends Components.GoatButtonGroup, HTMLStencilElement {
-    }
-    var HTMLGoatButtonGroupElement: {
-        prototype: HTMLGoatButtonGroupElement;
-        new (): HTMLGoatButtonGroupElement;
     };
     interface HTMLGoatCalendarElementEventMap {
         "goat-calendar--event-click": any;
@@ -2177,12 +2042,6 @@ declare global {
     var HTMLGoatCanvasElement: {
         prototype: HTMLGoatCanvasElement;
         new (): HTMLGoatCanvasElement;
-    };
-    interface HTMLGoatCardElement extends Components.GoatCard, HTMLStencilElement {
-    }
-    var HTMLGoatCardElement: {
-        prototype: HTMLGoatCardElement;
-        new (): HTMLGoatCardElement;
     };
     interface HTMLGoatCbCompoundExpressionElement extends Components.GoatCbCompoundExpression, HTMLStencilElement {
     }
@@ -2319,18 +2178,6 @@ declare global {
     var HTMLGoatContainerElement: {
         prototype: HTMLGoatContainerElement;
         new (): HTMLGoatContainerElement;
-    };
-    /**
-     * @name Current Time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <goat-current-time></goat-current-time>
-     */
-    interface HTMLGoatCurrentTimeElement extends Components.GoatCurrentTime, HTMLStencilElement {
-    }
-    var HTMLGoatCurrentTimeElement: {
-        prototype: HTMLGoatCurrentTimeElement;
-        new (): HTMLGoatCurrentTimeElement;
     };
     interface HTMLGoatDatePickerElementEventMap {
         "goat-date-picker--input": any;
@@ -2572,18 +2419,6 @@ declare global {
     var HTMLGoatInputUrlElement: {
         prototype: HTMLGoatInputUrlElement;
         new (): HTMLGoatInputUrlElement;
-    };
-    /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface HTMLGoatLinkElement extends Components.GoatLink, HTMLStencilElement {
-    }
-    var HTMLGoatLinkElement: {
-        prototype: HTMLGoatLinkElement;
-        new (): HTMLGoatLinkElement;
     };
     /**
      * @name Menu
@@ -3031,18 +2866,6 @@ declare global {
         prototype: HTMLGoatTagElement;
         new (): HTMLGoatTagElement;
     };
-    /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface HTMLGoatTextElement extends Components.GoatText, HTMLStencilElement {
-    }
-    var HTMLGoatTextElement: {
-        prototype: HTMLGoatTextElement;
-        new (): HTMLGoatTextElement;
-    };
     interface HTMLGoatTextareaElementEventMap {
         "goat-textarea--input": any;
         "goat-textarea--change": any;
@@ -3055,7 +2878,7 @@ declare global {
      * @description Enables native inputs to be used within a Form field.
      * @category Form Inputs
      * @tags input, form
-     * @example <goat-textarea placeholder="Enter some description over here"></goat-textarea>
+     * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
      */
     interface HTMLGoatTextareaElement extends Components.GoatTextarea, HTMLStencilElement {
         addEventListener<K extends keyof HTMLGoatTextareaElementEventMap>(type: K, listener: (this: HTMLGoatTextareaElement, ev: GoatTextareaCustomEvent<HTMLGoatTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -3179,8 +3002,154 @@ declare global {
         new (): HTMLGoatTreeViewElement;
     };
     /**
-     * @name Divider
+     * @label Accordion
+     * @name accordion
+     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
+     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
+     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @tags display
+     * @img /assets/img/accordion.webp
+     * @imgDark /assets/img/accordion-dark.webp
+     */
+    interface HTMLPcAccordionElement extends Components.PcAccordion, HTMLStencilElement {
+    }
+    var HTMLPcAccordionElement: {
+        prototype: HTMLPcAccordionElement;
+        new (): HTMLPcAccordionElement;
+    };
+    interface HTMLPcAccordionItemElementEventMap {
+        "accordion--item--click": any;
+    }
+    /**
+     * @label Accordion Item
+     * @name accordion-item
+     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
+     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @childComponent true
+     */
+    interface HTMLPcAccordionItemElement extends Components.PcAccordionItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcAccordionItemElementEventMap>(type: K, listener: (this: HTMLPcAccordionItemElement, ev: PcAccordionItemCustomEvent<HTMLPcAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcAccordionItemElementEventMap>(type: K, listener: (this: HTMLPcAccordionItemElement, ev: PcAccordionItemCustomEvent<HTMLPcAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcAccordionItemElement: {
+        prototype: HTMLPcAccordionItemElement;
+        new (): HTMLPcAccordionItemElement;
+    };
+    /**
+     * \
+     * @Label Avatar
+     * @name avatar
+     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
+     * @category Data Display
+     * @tags display
+     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     */
+    interface HTMLPcAvatarElement extends Components.PcAvatar, HTMLStencilElement {
+    }
+    var HTMLPcAvatarElement: {
+        prototype: HTMLPcAvatarElement;
+        new (): HTMLPcAvatarElement;
+    };
+    /**
+     * @label Breadcrumb
+     * @name breadcrumb
+     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+     * @category Navigation
+     * @tags navigation
+     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
+     */
+    interface HTMLPcBreadcrumbElement extends Components.PcBreadcrumb, HTMLStencilElement {
+    }
+    var HTMLPcBreadcrumbElement: {
+        prototype: HTMLPcBreadcrumbElement;
+        new (): HTMLPcBreadcrumbElement;
+    };
+    interface HTMLPcBreadcrumbItemElement extends Components.PcBreadcrumbItem, HTMLStencilElement {
+    }
+    var HTMLPcBreadcrumbItemElement: {
+        prototype: HTMLPcBreadcrumbItemElement;
+        new (): HTMLPcBreadcrumbItemElement;
+    };
+    interface HTMLPcButtonElementEventMap {
+        "pc-button--click": {
+    appendData: any;
+  };
+    }
+    /**
+     * @label Button
+     * @name button
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @category Buttons
+     * @tags controls
+     * @example <pc-button>
+     * Button
+     * </pc-button>
+     */
+    interface HTMLPcButtonElement extends Components.PcButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcButtonElementEventMap>(type: K, listener: (this: HTMLPcButtonElement, ev: PcButtonCustomEvent<HTMLPcButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcButtonElementEventMap>(type: K, listener: (this: HTMLPcButtonElement, ev: PcButtonCustomEvent<HTMLPcButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcButtonElement: {
+        prototype: HTMLPcButtonElement;
+        new (): HTMLPcButtonElement;
+    };
+    /**
+     * @name Button Group
+     * @description Group a series of buttons together on a single line with the button group, and super-power.
+     * @category General
+     * @tags controls
+     * @example <pc-button-group>
+     * <pc-button block icon="home"></pc-button>
+     * <pc-button block icon="alarm"></pc-button>
+     * </pc-button-group>
+     */
+    interface HTMLPcButtonGroupElement extends Components.PcButtonGroup, HTMLStencilElement {
+    }
+    var HTMLPcButtonGroupElement: {
+        prototype: HTMLPcButtonGroupElement;
+        new (): HTMLPcButtonGroupElement;
+    };
+    interface HTMLPcCardElement extends Components.PcCard, HTMLStencilElement {
+    }
+    var HTMLPcCardElement: {
+        prototype: HTMLPcCardElement;
+        new (): HTMLPcCardElement;
+    };
+    /**
+     * @label Current Time
+     * @name current-time
+     * @description Displays the current time in a given timezone.
+     * @category Others
+     * @example <pc-current-time></pc-current-time>
+     */
+    interface HTMLPcCurrentTimeElement extends Components.PcCurrentTime, HTMLStencilElement {
+    }
+    var HTMLPcCurrentTimeElement: {
+        prototype: HTMLPcCurrentTimeElement;
+        new (): HTMLPcCurrentTimeElement;
+    };
+    /**
+     * @label Divider
+     * @name divider
      * @description A divider can be used to segment content vertically or horizontally.
+     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
      * @category Layout
      * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
@@ -3189,6 +3158,20 @@ declare global {
     var HTMLPcDividerElement: {
         prototype: HTMLPcDividerElement;
         new (): HTMLPcDividerElement;
+    };
+    /**
+     * @label Elevation
+     * @name elevation
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-elevation></pc-elevation>
+     */
+    interface HTMLPcElevationElement extends Components.PcElevation, HTMLStencilElement {
+    }
+    var HTMLPcElevationElement: {
+        prototype: HTMLPcElevationElement;
+        new (): HTMLPcElevationElement;
     };
     /**
      * @label Icon
@@ -3204,22 +3187,40 @@ declare global {
         prototype: HTMLPcIconElement;
         new (): HTMLPcIconElement;
     };
+    /**
+     * @label Link
+     * @name link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <a href="#">Link</pc-link>
+     */
+    interface HTMLPcLinkElement extends Components.PcLink, HTMLStencilElement {
+    }
+    var HTMLPcLinkElement: {
+        prototype: HTMLPcLinkElement;
+        new (): HTMLPcLinkElement;
+    };
+    /**
+     * @label Text
+     * @name text
+     * @description Typography are used for rendering headlines, paragraphs, and captions.
+     * @category General
+     * @example <h1 class=>Heading</h1>
+     */
+    interface HTMLPcTextElement extends Components.PcText, HTMLStencilElement {
+    }
+    var HTMLPcTextElement: {
+        prototype: HTMLPcTextElement;
+        new (): HTMLPcTextElement;
+    };
     interface HTMLElementTagNameMap {
-        "goat-accordion": HTMLGoatAccordionElement;
-        "goat-accordion-item": HTMLGoatAccordionItemElement;
-        "goat-avatar": HTMLGoatAvatarElement;
         "goat-badge": HTMLGoatBadgeElement;
-        "goat-breadcrumb": HTMLGoatBreadcrumbElement;
-        "goat-breadcrumb-item": HTMLGoatBreadcrumbItemElement;
-        "goat-button": HTMLGoatButtonElement;
-        "goat-button-group": HTMLGoatButtonGroupElement;
         "goat-calendar": HTMLGoatCalendarElement;
         "goat-calendar-column-view": HTMLGoatCalendarColumnViewElement;
         "goat-calendar-column-view-background": HTMLGoatCalendarColumnViewBackgroundElement;
         "goat-calendar-month-view": HTMLGoatCalendarMonthViewElement;
         "goat-calendar-month-view-background": HTMLGoatCalendarMonthViewBackgroundElement;
         "goat-canvas": HTMLGoatCanvasElement;
-        "goat-card": HTMLGoatCardElement;
         "goat-cb-compound-expression": HTMLGoatCbCompoundExpressionElement;
         "goat-cb-divider": HTMLGoatCbDividerElement;
         "goat-cb-expression": HTMLGoatCbExpressionElement;
@@ -3231,7 +3232,6 @@ declare global {
         "goat-code-highlighter": HTMLGoatCodeHighlighterElement;
         "goat-condition-builder": HTMLGoatConditionBuilderElement;
         "goat-container": HTMLGoatContainerElement;
-        "goat-current-time": HTMLGoatCurrentTimeElement;
         "goat-date-picker": HTMLGoatDatePickerElement;
         "goat-dropdown": HTMLGoatDropdownElement;
         "goat-dropdown-menu": HTMLGoatDropdownMenuElement;
@@ -3248,7 +3248,6 @@ declare global {
         "goat-image": HTMLGoatImageElement;
         "goat-input": HTMLGoatInputElement;
         "goat-input-url": HTMLGoatInputUrlElement;
-        "goat-link": HTMLGoatLinkElement;
         "goat-menu": HTMLGoatMenuElement;
         "goat-menu-divider": HTMLGoatMenuDividerElement;
         "goat-menu-item": HTMLGoatMenuItemElement;
@@ -3274,81 +3273,29 @@ declare global {
         "goat-tabs": HTMLGoatTabsElement;
         "goat-tabs-list": HTMLGoatTabsListElement;
         "goat-tag": HTMLGoatTagElement;
-        "goat-text": HTMLGoatTextElement;
         "goat-textarea": HTMLGoatTextareaElement;
         "goat-time-picker": HTMLGoatTimePickerElement;
         "goat-toggle": HTMLGoatToggleElement;
         "goat-tooltip": HTMLGoatTooltipElement;
         "goat-tree-node": HTMLGoatTreeNodeElement;
         "goat-tree-view": HTMLGoatTreeViewElement;
+        "pc-accordion": HTMLPcAccordionElement;
+        "pc-accordion-item": HTMLPcAccordionItemElement;
+        "pc-avatar": HTMLPcAvatarElement;
+        "pc-breadcrumb": HTMLPcBreadcrumbElement;
+        "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
+        "pc-button": HTMLPcButtonElement;
+        "pc-button-group": HTMLPcButtonGroupElement;
+        "pc-card": HTMLPcCardElement;
+        "pc-current-time": HTMLPcCurrentTimeElement;
         "pc-divider": HTMLPcDividerElement;
+        "pc-elevation": HTMLPcElevationElement;
         "pc-icon": HTMLPcIconElement;
+        "pc-link": HTMLPcLinkElement;
+        "pc-text": HTMLPcTextElement;
     }
 }
 declare namespace LocalJSX {
-    /**
-     * @name Accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface GoatAccordion {
-        /**
-          * Accordion item dropdown alignment.
-         */
-        "align"?: 'start' | 'end';
-        "multiple"?: boolean;
-        /**
-          * The According size.
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-    }
-    /**
-     * @name Accordion Item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface GoatAccordionItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        /**
-          * The menu item value.
-         */
-        "heading"?: string;
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onGoat-accordion-item--click"?: (event: GoatAccordionItemCustomEvent<any>) => void;
-        /**
-          * Menu item selection state.
-         */
-        "open"?: boolean;
-    }
-    /**
-     * @name Avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <goat-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></goat-avatar>
-     */
-    interface GoatAvatar {
-        "name"?: string;
-        /**
-          * Avatar size.
-         */
-        "size"?: string;
-        "src"?: string;
-    }
     /**
      * @name Badge
      * @description The badge component is used to display a small amount of information to the user.
@@ -3363,120 +3310,6 @@ declare namespace LocalJSX {
     | 'error'
     | 'warning';
         "content"?: string;
-    }
-    /**
-     * @name Breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <goat-breadcrumb><goat-breadcrumb-item href="#">Home</goat-breadcrumb-item><goat-breadcrumb-item href="#" active>Page</goat-breadcrumb-item></goat-breadcrumb>
-     */
-    interface GoatBreadcrumb {
-    }
-    interface GoatBreadcrumbItem {
-        "active"?: boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        "position"?: string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
-    }
-    /**
-     * @name Button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <goat-button>
-     * Button
-     * </goat-button>
-     */
-    interface GoatButton {
-        /**
-          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
-         */
-        "appendData"?: any;
-        /**
-          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-         */
-        "color"?: | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        /**
-          * If button is disabled, the reason why it is disabled.
-         */
-        "disabledReason"?: string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon"?: string;
-        /**
-          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
-         */
-        "iconAlign"?: 'start' | 'end';
-        /**
-          * Triggered when the button is clicked.
-         */
-        "onGoat-button--click"?: (event: GoatButtonCustomEvent<{
-    appendData: any;
-  }>) => void;
-        /**
-          * If true, a loader will be displayed on button.
-         */
-        "showLoader"?: boolean;
-        /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
-        /**
-          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
-         */
-        "throttleDelay"?: number;
-        /**
-          * If true, the button will be in a toggled state.
-         */
-        "toggle"?: boolean;
-        /**
-          * Button type based on which actions are performed when the button is clicked.
-         */
-        "type"?: 'button' | 'submit' | 'reset';
-        /**
-          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
-         */
-        "variant"?: 'filled' | 'outlined' | 'text' | 'tonal' | 'link' | 'neo';
-    }
-    /**
-     * @name Button Group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <goat-button-group>
-     * <goat-button block icon="home"></goat-button>
-     * <goat-button block icon="alarm"></goat-button>
-     * </goat-button-group>
-     */
-    interface GoatButtonGroup {
     }
     /**
      * @name Calendar
@@ -3556,9 +3389,6 @@ declare namespace LocalJSX {
         "shapes"?: any[];
         "viewbox"?: string;
         "zoom"?: number;
-    }
-    interface GoatCard {
-        "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     interface GoatCbCompoundExpression {
         "conditionOperator"?: 'and' | 'or';
@@ -3743,15 +3573,6 @@ declare namespace LocalJSX {
     }
     interface GoatContainer {
         "size"?: 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
-    }
-    /**
-     * @name Current Time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <goat-current-time></goat-current-time>
-     */
-    interface GoatCurrentTime {
-        "timezone"?: string;
     }
     /**
      * @name Date Picker
@@ -4158,22 +3979,6 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string;
-    }
-    /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface GoatLink {
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
     }
     /**
      * @name Menu
@@ -4871,40 +4676,11 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface GoatText {
-        "color"?: | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'helper'
-    | 'error'
-    | 'on-color'
-    | 'inverse';
-        "configAria"?: any;
-        "expressive"?: boolean;
-        "headingLevel"?: 1 | 2 | 3 | 4 | 5 | 6;
-        "headingSize"?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-        "inline"?: boolean;
-        "type"?: | 'code'
-    | 'helper-text'
-    | 'label'
-    | 'legal'
-    | 'heading'
-    | 'body'
-    | 'body-compact'
-    | 'heading-compact'
-    | 'fluid-heading';
-    }
-    /**
      * @name Textarea
      * @description Enables native inputs to be used within a Form field.
      * @category Form Inputs
      * @tags input, form
-     * @example <goat-textarea placeholder="Enter some description over here"></goat-textarea>
+     * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
      */
     interface GoatTextarea {
         /**
@@ -5154,13 +4930,214 @@ declare namespace LocalJSX {
         "selectedNode"?: string;
     }
     /**
-     * @name Divider
+     * @label Accordion
+     * @name accordion
+     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
+     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
+     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @tags display
+     * @img /assets/img/accordion.webp
+     * @imgDark /assets/img/accordion-dark.webp
+     */
+    interface PcAccordion {
+        /**
+          * Accordion item dropdown alignment.
+         */
+        "align"?: 'start' | 'end';
+        "multiple"?: boolean;
+        /**
+          * The According size.
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+    }
+    /**
+     * @label Accordion Item
+     * @name accordion-item
+     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
+     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
+     * @category Data Display
+     * @subcategory Accordion
+     * @childComponent true
+     */
+    interface PcAccordionItem {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * The menu item value.
+         */
+        "heading"?: string;
+        /**
+          * Emitted when the menu item is clicked.
+         */
+        "onAccordion--item--click"?: (event: PcAccordionItemCustomEvent<any>) => void;
+        /**
+          * Menu item selection state.
+         */
+        "open"?: boolean;
+    }
+    /**
+     * \
+     * @Label Avatar
+     * @name avatar
+     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
+     * @category Data Display
+     * @tags display
+     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     */
+    interface PcAvatar {
+        "name"?: string;
+        "src"?: string;
+    }
+    /**
+     * @label Breadcrumb
+     * @name breadcrumb
+     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+     * @category Navigation
+     * @tags navigation
+     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
+     */
+    interface PcBreadcrumb {
+    }
+    interface PcBreadcrumbItem {
+        "active"?: boolean;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href"?: string;
+        "position"?: string;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target"?: string;
+    }
+    /**
+     * @label Button
+     * @name button
+     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @category Buttons
+     * @tags controls
+     * @example <pc-button>
+     * Button
+     * </pc-button>
+     */
+    interface PcButton {
+        /**
+          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
+         */
+        "appendData"?: any;
+        /**
+          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+         */
+        "color"?: | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'white'
+    | 'black';
+        "configAria"?: any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * If button is disabled, the reason why it is disabled.
+         */
+        "disabledReason"?: string;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href"?: string;
+        /**
+          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
+         */
+        "iconAlign"?: 'start' | 'end';
+        /**
+          * Triggered when the button is clicked.
+         */
+        "onPc-button--click"?: (event: PcButtonCustomEvent<{
+    appendData: any;
+  }>) => void;
+        /**
+          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target"?: string;
+        /**
+          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+         */
+        "throttleDelay"?: number;
+        /**
+          * If true, the button will be in a toggled state.
+         */
+        "toggle"?: boolean;
+        /**
+          * Button type based on which actions are performed when the button is clicked.
+         */
+        "type"?: 'button' | 'submit' | 'reset';
+        /**
+          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
+         */
+        "variant"?: | 'elevated'
+    | 'filled'
+    | 'tonal'
+    | 'outlined'
+    | 'text'
+    | 'neo';
+    }
+    /**
+     * @name Button Group
+     * @description Group a series of buttons together on a single line with the button group, and super-power.
+     * @category General
+     * @tags controls
+     * @example <pc-button-group>
+     * <pc-button block icon="home"></pc-button>
+     * <pc-button block icon="alarm"></pc-button>
+     * </pc-button-group>
+     */
+    interface PcButtonGroup {
+    }
+    interface PcCard {
+        "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
+    }
+    /**
+     * @label Current Time
+     * @name current-time
+     * @description Displays the current time in a given timezone.
+     * @category Others
+     * @example <pc-current-time></pc-current-time>
+     */
+    interface PcCurrentTime {
+        "timezone"?: string;
+    }
+    /**
+     * @label Divider
+     * @name divider
      * @description A divider can be used to segment content vertically or horizontally.
+     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
      * @category Layout
      * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface PcDivider {
         "vertical"?: boolean;
+    }
+    /**
+     * @label Elevation
+     * @name elevation
+     * @description Icons are visual symbols used to represent ideas, objects, or actions.
+     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+     * @category General
+     * @example <pc-elevation></pc-elevation>
+     */
+    interface PcElevation {
     }
     /**
      * @label Icon
@@ -5176,22 +5153,32 @@ declare namespace LocalJSX {
          */
         "name"?: string;
     }
+    /**
+     * @label Link
+     * @name link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <a href="#">Link</pc-link>
+     */
+    interface PcLink {
+    }
+    /**
+     * @label Text
+     * @name text
+     * @description Typography are used for rendering headlines, paragraphs, and captions.
+     * @category General
+     * @example <h1 class=>Heading</h1>
+     */
+    interface PcText {
+    }
     interface IntrinsicElements {
-        "goat-accordion": GoatAccordion;
-        "goat-accordion-item": GoatAccordionItem;
-        "goat-avatar": GoatAvatar;
         "goat-badge": GoatBadge;
-        "goat-breadcrumb": GoatBreadcrumb;
-        "goat-breadcrumb-item": GoatBreadcrumbItem;
-        "goat-button": GoatButton;
-        "goat-button-group": GoatButtonGroup;
         "goat-calendar": GoatCalendar;
         "goat-calendar-column-view": GoatCalendarColumnView;
         "goat-calendar-column-view-background": GoatCalendarColumnViewBackground;
         "goat-calendar-month-view": GoatCalendarMonthView;
         "goat-calendar-month-view-background": GoatCalendarMonthViewBackground;
         "goat-canvas": GoatCanvas;
-        "goat-card": GoatCard;
         "goat-cb-compound-expression": GoatCbCompoundExpression;
         "goat-cb-divider": GoatCbDivider;
         "goat-cb-expression": GoatCbExpression;
@@ -5203,7 +5190,6 @@ declare namespace LocalJSX {
         "goat-code-highlighter": GoatCodeHighlighter;
         "goat-condition-builder": GoatConditionBuilder;
         "goat-container": GoatContainer;
-        "goat-current-time": GoatCurrentTime;
         "goat-date-picker": GoatDatePicker;
         "goat-dropdown": GoatDropdown;
         "goat-dropdown-menu": GoatDropdownMenu;
@@ -5220,7 +5206,6 @@ declare namespace LocalJSX {
         "goat-image": GoatImage;
         "goat-input": GoatInput;
         "goat-input-url": GoatInputUrl;
-        "goat-link": GoatLink;
         "goat-menu": GoatMenu;
         "goat-menu-divider": GoatMenuDivider;
         "goat-menu-item": GoatMenuItem;
@@ -5246,50 +5231,32 @@ declare namespace LocalJSX {
         "goat-tabs": GoatTabs;
         "goat-tabs-list": GoatTabsList;
         "goat-tag": GoatTag;
-        "goat-text": GoatText;
         "goat-textarea": GoatTextarea;
         "goat-time-picker": GoatTimePicker;
         "goat-toggle": GoatToggle;
         "goat-tooltip": GoatTooltip;
         "goat-tree-node": GoatTreeNode;
         "goat-tree-view": GoatTreeView;
+        "pc-accordion": PcAccordion;
+        "pc-accordion-item": PcAccordionItem;
+        "pc-avatar": PcAvatar;
+        "pc-breadcrumb": PcBreadcrumb;
+        "pc-breadcrumb-item": PcBreadcrumbItem;
+        "pc-button": PcButton;
+        "pc-button-group": PcButtonGroup;
+        "pc-card": PcCard;
+        "pc-current-time": PcCurrentTime;
         "pc-divider": PcDivider;
+        "pc-elevation": PcElevation;
         "pc-icon": PcIcon;
+        "pc-link": PcLink;
+        "pc-text": PcText;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            /**
-             * @name Accordion
-             * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-             * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-             *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-             * @category Data Display
-             * @subcategory Accordion
-             * @tags display
-             * @img /assets/img/accordion.webp
-             * @imgDark /assets/img/accordion-dark.webp
-             */
-            "goat-accordion": LocalJSX.GoatAccordion & JSXBase.HTMLAttributes<HTMLGoatAccordionElement>;
-            /**
-             * @name Accordion Item
-             * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-             * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-             * @category Data Display
-             * @subcategory Accordion
-             * @childComponent true
-             */
-            "goat-accordion-item": LocalJSX.GoatAccordionItem & JSXBase.HTMLAttributes<HTMLGoatAccordionItemElement>;
-            /**
-             * @name Avatar
-             * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-             * @category Data Display
-             * @tags display
-             * @example <goat-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></goat-avatar>
-             */
-            "goat-avatar": LocalJSX.GoatAvatar & JSXBase.HTMLAttributes<HTMLGoatAvatarElement>;
             /**
              * @name Badge
              * @description The badge component is used to display a small amount of information to the user.
@@ -5298,37 +5265,6 @@ declare module "@stencil/core" {
              * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
              */
             "goat-badge": LocalJSX.GoatBadge & JSXBase.HTMLAttributes<HTMLGoatBadgeElement>;
-            /**
-             * @name Breadcrumb
-             * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-             * @category Navigation
-             * @tags navigation
-             * @example <goat-breadcrumb><goat-breadcrumb-item href="#">Home</goat-breadcrumb-item><goat-breadcrumb-item href="#" active>Page</goat-breadcrumb-item></goat-breadcrumb>
-             */
-            "goat-breadcrumb": LocalJSX.GoatBreadcrumb & JSXBase.HTMLAttributes<HTMLGoatBreadcrumbElement>;
-            "goat-breadcrumb-item": LocalJSX.GoatBreadcrumbItem & JSXBase.HTMLAttributes<HTMLGoatBreadcrumbItemElement>;
-            /**
-             * @name Button
-             * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-             * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
-             * @category Buttons
-             * @tags controls
-             * @example <goat-button>
-             * Button
-             * </goat-button>
-             */
-            "goat-button": LocalJSX.GoatButton & JSXBase.HTMLAttributes<HTMLGoatButtonElement>;
-            /**
-             * @name Button Group
-             * @description Group a series of buttons together on a single line with the button group, and super-power.
-             * @category General
-             * @tags controls
-             * @example <goat-button-group>
-             * <goat-button block icon="home"></goat-button>
-             * <goat-button block icon="alarm"></goat-button>
-             * </goat-button-group>
-             */
-            "goat-button-group": LocalJSX.GoatButtonGroup & JSXBase.HTMLAttributes<HTMLGoatButtonGroupElement>;
             /**
              * @name Calendar
              * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -5349,7 +5285,6 @@ declare module "@stencil/core" {
              * @img /assets/img/canvas.webp
              */
             "goat-canvas": LocalJSX.GoatCanvas & JSXBase.HTMLAttributes<HTMLGoatCanvasElement>;
-            "goat-card": LocalJSX.GoatCard & JSXBase.HTMLAttributes<HTMLGoatCardElement>;
             "goat-cb-compound-expression": LocalJSX.GoatCbCompoundExpression & JSXBase.HTMLAttributes<HTMLGoatCbCompoundExpressionElement>;
             "goat-cb-divider": LocalJSX.GoatCbDivider & JSXBase.HTMLAttributes<HTMLGoatCbDividerElement>;
             "goat-cb-expression": LocalJSX.GoatCbExpression & JSXBase.HTMLAttributes<HTMLGoatCbExpressionElement>;
@@ -5407,13 +5342,6 @@ declare module "@stencil/core" {
              */
             "goat-condition-builder": LocalJSX.GoatConditionBuilder & JSXBase.HTMLAttributes<HTMLGoatConditionBuilderElement>;
             "goat-container": LocalJSX.GoatContainer & JSXBase.HTMLAttributes<HTMLGoatContainerElement>;
-            /**
-             * @name Current Time
-             * @description Displays the current time in a given timezone.
-             * @category Others
-             * @example <goat-current-time></goat-current-time>
-             */
-            "goat-current-time": LocalJSX.GoatCurrentTime & JSXBase.HTMLAttributes<HTMLGoatCurrentTimeElement>;
             /**
              * @name Date Picker
              * @category Form Inputs
@@ -5510,13 +5438,6 @@ declare module "@stencil/core" {
              * @example <goat-input-url value="https://shivajivarma.com"></goat-input-url>
              */
             "goat-input-url": LocalJSX.GoatInputUrl & JSXBase.HTMLAttributes<HTMLGoatInputUrlElement>;
-            /**
-             * @name Link
-             * @description Links allow users to click their way from page to page.
-             * @category Navigation
-             * @example <goat-link href="#">Link</goat-link>
-             */
-            "goat-link": LocalJSX.GoatLink & JSXBase.HTMLAttributes<HTMLGoatLinkElement>;
             /**
              * @name Menu
              * @description Menus display a list of choices on temporary surfaces.
@@ -5695,18 +5616,11 @@ declare module "@stencil/core" {
              */
             "goat-tag": LocalJSX.GoatTag & JSXBase.HTMLAttributes<HTMLGoatTagElement>;
             /**
-             * @name Text
-             * @description Typography are used for rendering headlines, paragraphs and captions.
-             * @category General
-             * @example <goat-text type="heading" level="1">Heading</goat-text>
-             */
-            "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
-            /**
              * @name Textarea
              * @description Enables native inputs to be used within a Form field.
              * @category Form Inputs
              * @tags input, form
-             * @example <goat-textarea placeholder="Enter some description over here"></goat-textarea>
+             * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
              */
             "goat-textarea": LocalJSX.GoatTextarea & JSXBase.HTMLAttributes<HTMLGoatTextareaElement>;
             /**
@@ -5754,12 +5668,98 @@ declare module "@stencil/core" {
              */
             "goat-tree-view": LocalJSX.GoatTreeView & JSXBase.HTMLAttributes<HTMLGoatTreeViewElement>;
             /**
-             * @name Divider
+             * @label Accordion
+             * @name accordion
+             * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
+             * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
+             *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
+             * @category Data Display
+             * @subcategory Accordion
+             * @tags display
+             * @img /assets/img/accordion.webp
+             * @imgDark /assets/img/accordion-dark.webp
+             */
+            "pc-accordion": LocalJSX.PcAccordion & JSXBase.HTMLAttributes<HTMLPcAccordionElement>;
+            /**
+             * @label Accordion Item
+             * @name accordion-item
+             * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
+             * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
+             * @category Data Display
+             * @subcategory Accordion
+             * @childComponent true
+             */
+            "pc-accordion-item": LocalJSX.PcAccordionItem & JSXBase.HTMLAttributes<HTMLPcAccordionItemElement>;
+            /**
+             * \
+             * @Label Avatar
+             * @name avatar
+             * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
+             * @category Data Display
+             * @tags display
+             * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+             */
+            "pc-avatar": LocalJSX.PcAvatar & JSXBase.HTMLAttributes<HTMLPcAvatarElement>;
+            /**
+             * @label Breadcrumb
+             * @name breadcrumb
+             * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+             * @category Navigation
+             * @tags navigation
+             * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
+             */
+            "pc-breadcrumb": LocalJSX.PcBreadcrumb & JSXBase.HTMLAttributes<HTMLPcBreadcrumbElement>;
+            "pc-breadcrumb-item": LocalJSX.PcBreadcrumbItem & JSXBase.HTMLAttributes<HTMLPcBreadcrumbItemElement>;
+            /**
+             * @label Button
+             * @name button
+             * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+             * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+             * @category Buttons
+             * @tags controls
+             * @example <pc-button>
+             * Button
+             * </pc-button>
+             */
+            "pc-button": LocalJSX.PcButton & JSXBase.HTMLAttributes<HTMLPcButtonElement>;
+            /**
+             * @name Button Group
+             * @description Group a series of buttons together on a single line with the button group, and super-power.
+             * @category General
+             * @tags controls
+             * @example <pc-button-group>
+             * <pc-button block icon="home"></pc-button>
+             * <pc-button block icon="alarm"></pc-button>
+             * </pc-button-group>
+             */
+            "pc-button-group": LocalJSX.PcButtonGroup & JSXBase.HTMLAttributes<HTMLPcButtonGroupElement>;
+            "pc-card": LocalJSX.PcCard & JSXBase.HTMLAttributes<HTMLPcCardElement>;
+            /**
+             * @label Current Time
+             * @name current-time
+             * @description Displays the current time in a given timezone.
+             * @category Others
+             * @example <pc-current-time></pc-current-time>
+             */
+            "pc-current-time": LocalJSX.PcCurrentTime & JSXBase.HTMLAttributes<HTMLPcCurrentTimeElement>;
+            /**
+             * @label Divider
+             * @name divider
              * @description A divider can be used to segment content vertically or horizontally.
+             * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
              * @category Layout
              * @example <pc-divider style="width: 12rem;">or</pc-divider>
              */
             "pc-divider": LocalJSX.PcDivider & JSXBase.HTMLAttributes<HTMLPcDividerElement>;
+            /**
+             * @label Elevation
+             * @name elevation
+             * @description Icons are visual symbols used to represent ideas, objects, or actions.
+             * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+             * @category General
+             * @example <pc-elevation></pc-elevation>
+             */
+            "pc-elevation": LocalJSX.PcElevation & JSXBase.HTMLAttributes<HTMLPcElevationElement>;
             /**
              * @label Icon
              * @name icon
@@ -5769,6 +5769,22 @@ declare module "@stencil/core" {
              * @example <pc-icon name="home" size="2rem"></pc-icon>
              */
             "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
+            /**
+             * @label Link
+             * @name link
+             * @description Links allow users to click their way from page to page.
+             * @category Navigation
+             * @example <a href="#">Link</pc-link>
+             */
+            "pc-link": LocalJSX.PcLink & JSXBase.HTMLAttributes<HTMLPcLinkElement>;
+            /**
+             * @label Text
+             * @name text
+             * @description Typography are used for rendering headlines, paragraphs, and captions.
+             * @category General
+             * @example <h1 class=>Heading</h1>
+             */
+            "pc-text": LocalJSX.PcText & JSXBase.HTMLAttributes<HTMLPcTextElement>;
         }
     }
 }

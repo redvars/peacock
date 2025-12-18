@@ -2,12 +2,13 @@
 
 :host {
   display: block;
+  --accordion-border-color: var(--color-outline);
 }
 
-slot::slotted(goat-accordion-item) {
-  border-top: 1px solid var(--border-subtle);
+slot::slotted(pc-accordion-item) {
+  border-block-start: 1px solid var(--accordion-border-color);
 }
 
-slot::slotted(goat-accordion-item:last-child) {
-  border-bottom: 1px solid var(--border-subtle);
+slot::slotted(pc-accordion-item:last-child) {
+  border-block-end: 1px solid var(--accordion-border-color);
 }

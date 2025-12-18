@@ -26,16 +26,12 @@
   box-sizing: border-box;
 }
 
-:root {
-  --font-family-base: "Noto Sans", sans-serif;
-}
-
 
 body {
   position: relative;
   margin: 0;
   padding: 0;
-  font-family: var(--font-family-base);
+  font-family: var(--font-family-sans);
 }
 
 html {
@@ -73,8 +69,7 @@ html.hydrated {
 
 .side-navigation {
   padding-top: 1.5rem;
-  background-color: var(--color-brand-primary-container);
-  width: 5rem;
+  width: 5.5rem;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -84,7 +79,8 @@ html.hydrated {
 
 
 .side-navigation .search-button {
-  background-color: var(--color-brand-primary-200);
+  background-color: var(--color-primary);
+  --icon-color: var(--color-on-primary);
   height: 3.25rem;
   width: 3.25rem;
 
@@ -110,7 +106,7 @@ html.hydrated {
 }
 
 .side-navigation .nav-item:hover .icon {
-  background: var(--color-red-30);
+  background: var(--color-secondary-container);
   border-radius: var(--global-shape-corner-large);
 }
 
@@ -164,7 +160,7 @@ body.stop-scroll {
   }
 
   #header-menu-close-btn {
-    --goat-button-border-radius: none;
+    --pc-button-border-radius: none;
   }
 
   goat-menu {
@@ -182,7 +178,7 @@ figure {
 
 .sponsor-btn {
   padding-inline: .5rem;
-  --goat-button-border-radius: 100px;
+  --pc-button-border-radius: 100px;
 }
 
 #search-header-container {

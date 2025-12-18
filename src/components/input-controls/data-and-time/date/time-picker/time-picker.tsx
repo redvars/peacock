@@ -196,10 +196,9 @@ export class TimePicker {
             onFocus={this.focusHandler}
           />
 
-          <goat-button
+          <pc-button
             class="input-action"
             color={'secondary'}
-            icon={'time'}
             variant="text"
             disabled={this.disabled}
             size={this.size}
@@ -208,7 +207,9 @@ export class TimePicker {
                 this.nativeElement.showPicker();
               });
             }}
-          ></goat-button>
+          >
+            <pc-icon slot="icon" name="access-time"></pc-icon>
+          </pc-button>
         </div>
       </Host>
     );

@@ -55,7 +55,7 @@ $border-width: 0.125;
 
   &:hover {
     .native-button {
-      color: v(--text-primary);
+      color: var(--text-primary);
       border-bottom-color: var(--border-strong);
     }
   }
@@ -73,7 +73,7 @@ $border-width: 0.125;
 
   &.selected {
     .native-button {
-      color: v(--text-primary);
+      color: var(--text-primary);
     }
 
     .tab-content {

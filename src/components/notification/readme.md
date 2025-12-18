@@ -34,15 +34,14 @@
 ### Depends on
 
 - [pc-icon](../icon)
-- [goat-button](../button)
+- [pc-button](../button)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-notification --> pc-icon
-  goat-notification --> goat-button
-  goat-button --> goat-spinner
-  goat-button --> pc-icon
+  goat-notification --> pc-button
+  pc-button --> pc-elevation
   goat-notification-manager --> goat-notification
   style goat-notification fill:#f9f,stroke:#333,stroke-width:4px
 ```

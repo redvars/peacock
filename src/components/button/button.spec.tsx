@@ -5,10 +5,10 @@ describe('button', () => {
   it('renders', async () => {
     const page = await newSpecPage({
       components: [Button],
-      html: '<goat-button></goat-button>',
+      html: '<pc-button></pc-button>',
     });
     expect(page.root).toEqualHtml(`
-      <goat-button>
+      <pc-button>
         <mock:shadow-root>
           <div class='button size-md type-default variant-default color-primary has-content'>
             <div class='button-background'></div>
@@ -19,7 +19,7 @@ describe('button', () => {
             </button>
           </div>
         </mock:shadow-root>
-      </goat-button>
+      </pc-button>
     `);
   });
 });

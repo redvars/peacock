@@ -6,22 +6,22 @@ interface Props {
 const { componentDetails } = Astro.props;
 ---
 <div class='api-section'>
-  <goat-text type='heading' heading-size='4'>Properties</goat-text>
+  <pc-text type='heading' heading-size='4'>Properties</pc-text>
   <goat-table id='comp-properties' class='table-auto-height' layer='01' paginate='false'></goat-table>
 </div>
 
 <div class='api-section'>
-  <goat-text type='heading' heading-size='4'>Events</goat-text>
+  <pc-text type='heading' heading-size='4'>Events</pc-text>
   <goat-table id='comp-events' class='table-auto-height' layer='01' paginate='false'></goat-table>
 </div>
 
 <div class='api-section'>
-  <goat-text type='heading' heading-size='4'>Methods</goat-text>
+  <pc-text type='heading' heading-size='4'>Methods</pc-text>
   <goat-table id='comp-methods' class='table-auto-height' layer='01' paginate='false'></goat-table>
 </div>
 
 <div class='api-section'>
-  <goat-text type='heading' heading-size='4'>CSS Custom Properties</goat-text>
+  <pc-text type='heading' heading-size='4'>CSS Custom Properties</pc-text>
   <goat-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></goat-table>
 </div>
 
@@ -42,7 +42,7 @@ const { componentDetails } = Astro.props;
     'width': 28,
     template: function(row, column) {
       if (row[column.name])
-        return `<div class='col-text' title='${row[column.name]}'>${row[column.name].split('\n').map((i) => `<goat-text>${i}</goat-text>`).join('')}</div>`;
+        return `<div class='col-text' title='${row[column.name]}'>${row[column.name].split('\n').map((i) => `<pc-text>${i}</pc-text>`).join('')}</div>`;
       return '';
     },
   }, {

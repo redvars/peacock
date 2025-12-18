@@ -3,15 +3,15 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <HighlighterCard lang='html'>
-  <goat-button id='click-me-btn'>Click me</goat-button>
-  <goat-button disabled id='disabled-btn'>Disabled Button</goat-button>
+  <pc-button id='click-me-btn'>Click me</pc-button>
+  <pc-button disabled id='disabled-btn'>Disabled Button</pc-button>
 
   <script is:inline>
-    document.querySelector('#click-me-btn').addEventListener('goat-button--click', (event) => {
-      myConsole.log('Button clicked', 'goat-button--click');
+    document.querySelector('#click-me-btn').addEventListener('pc-button--click', (event) => {
+      myConsole.log('Button clicked', 'pc-button--click');
     });
-    document.querySelector('#disabled-btn').addEventListener('goat-button--click', (event) => {
-      myConsole.log('Button clicked', 'goat-button--click'); // this will not be fired
+    document.querySelector('#disabled-btn').addEventListener('pc-button--click', (event) => {
+      myConsole.log('Button clicked', 'pc-button--click'); // this will not be fired
     });
   </script>
 </HighlighterCard>

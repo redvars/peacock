@@ -1,9 +1,9 @@
 ---
-import Layout from '../../../layouts/Component.astro';
+import Layout from '../../../layouts/ComponentPageLayout.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
 import ComponentSectionNav from '../../../components/ComponentSectionNav.astro';
-const componentDetails = getComponentDetails('goat-current-time');
+const componentDetails = getComponentDetails('current-time');
 
 import UsageSection from './_sections/usage.astro';
 import TimezoneSection from './_sections/timezone.astro';
@@ -13,9 +13,6 @@ const sections = [
   {
     'title': 'Usage',
     'Component': UsageSection,
-  }, {
-    'title': 'Timezone',
-    'Component': TimezoneSection,
   }];
 ---
 <Layout componentDetails={componentDetails}>

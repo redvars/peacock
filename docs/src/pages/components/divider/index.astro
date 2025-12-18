@@ -1,5 +1,5 @@
 ---
-import Layout from '../../../layouts/Component.astro';
+import Layout from '../../../layouts/ComponentPageLayout.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
 import ComponentSectionNav from '../../../components/ComponentSectionNav.astro';
@@ -18,14 +18,10 @@ const sections = [
   <goat-tabs class='page-tabs'>
     <goat-tabs-list>
       <goat-tab selected='true'>Overview</goat-tab>
-      <goat-tab>Playground</goat-tab>
       <goat-tab>API</goat-tab>
     </goat-tabs-list>
     <goat-tab-panel>
       <OverviewPanel componentDetails={componentDetails} sections={sections} />
-    </goat-tab-panel>
-    <goat-tab-panel>
-      <goat-notification type='warning'>Work in progress</goat-notification>
     </goat-tab-panel>
     <goat-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

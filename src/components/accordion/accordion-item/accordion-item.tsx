@@ -11,7 +11,8 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name Accordion Item
+ * @label Accordion Item
+ * @name accordion-item
  * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
  * @overview
  *  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
@@ -20,11 +21,11 @@ import { getComponentIndex } from '../../../utils/utils';
  * @childComponent true
  */
 @Component({
-  tag: 'goat-accordion-item',
+  tag: 'pc-accordion-item',
   styleUrl: 'accordion-item.scss',
   shadow: true,
 })
-export class GoatAccordionItem {
+export class AccordionItem {
   gid: string = getComponentIndex();
 
   /**
@@ -47,7 +48,7 @@ export class GoatAccordionItem {
   /**
    * Emitted when the menu item is clicked.
    */
-  @Event({ eventName: 'goat-accordion-item--click' })
+  @Event({ eventName: 'accordion--item--click' })
   goatAccordionItemClick: EventEmitter;
 
   @State() startSlotHasContent = false;

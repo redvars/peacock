@@ -1,10 +1,10 @@
 ---
 interface Props {
-  cssClasses?: string;
   lang: any;
+  alignStart?: boolean
 }
 
-const { lang } = Astro.props;
+const { lang, alignStart } = Astro.props;
 
 let html = '';
 if (Astro.slots.has('default')) {
@@ -12,9 +12,30 @@ if (Astro.slots.has('default')) {
   html = html.replaceAll('<', '&lt;');
   html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
 }
+let cssClasses = '';
+if (alignStart) {
+  cssClasses = 'align-start';
+}
 ---
-<goat-card class='demo-component-card'>
-  <goat-card-content class='demo-area'>
+<style>
+  .demo-component-card {
+    .demo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 10rem;
+      gap: var(--spacing-200);
+      background: var(--color-surface);
+    }
+    .demo-area.align-start {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+  }
+</style>
+<pc-card class='demo-component-card'>
+  <goat-card-content class={'demo-area ' + cssClasses}>
     <slot></slot>
   </goat-card-content>
   <goat-card-content class='body no-padding'>
@@ -22,4 +43,4 @@ if (Astro.slots.has('default')) {
       <pre><code><Fragment set:html={html} /></code></pre>
     </goat-code-highlighter>
   </goat-card-content>
-</goat-card>
+</pc-card>
