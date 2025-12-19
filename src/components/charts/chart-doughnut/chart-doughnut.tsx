@@ -12,7 +12,8 @@ import { chartColors, convertToHex } from '../chart-colors';
 import { getColorScale, getPieData } from '../pie/pie';
 
 /**
- * @name Chart Doughnut
+ * @label Chart Doughnut
+ * @name chart-doughnut
  * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
  * @category Charts
  * @tag chart

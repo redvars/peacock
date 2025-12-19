@@ -27,8 +27,11 @@ const locale: {
 };
 
 /**
- * @name Code Highlighter
- * @description A browser based code highlighter.
+ * @label Code Highlighter
+ * @name code-highlighter
+ * @description The code highlighter component is used to display code snippets with syntax highlighting.
+ * @overview
+ * <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
  * @category Data Display
  * @tag display, code
  * @img /assets/img/code-highlighter.webp

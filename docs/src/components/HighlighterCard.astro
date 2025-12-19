@@ -14,14 +14,14 @@ if (Astro.slots.has('default')) {
 }
 ---
 <pc-card class={cssClasses}>
-  <goat-card-content class='demo-area'>
+  <pc-card-content class='demo-area'>
     <div class='demo-area-inner'>
       <slot></slot>
     </div>
-  </goat-card-content>
-  <goat-card-content class='no-padding code-area'>
+  </pc-card-content>
+  <pc-card-content class='no-padding code-area'>
     <goat-code-highlighter language={lang} class='demo-html'>
       <pre><code><Fragment set:html={html} /></code></pre>
     </goat-code-highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </pc-card>

@@ -17,10 +17,12 @@ export class FooterCopyright {
   render() {
     return (
       <Host>
-        <span class={'legal text-body-small-emphasized'}>
+        <span class={'legal pc-text-body-small-emphasized'}>
           &copy; {this.year}&nbsp;
-          <goat-link href={this.copyrightHref}>{this.copyright}</goat-link>. All
-          Rights Reserved.
+          <a class={'link'} href={this.copyrightHref}>
+            {this.copyright}
+          </a>
+          . All Rights Reserved.
         </span>
       </Host>
     );

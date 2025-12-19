@@ -67,7 +67,7 @@ export class ConditionBuilder {
     return (
       <div class="condition-builder__compound_conditions">
         <div class="field-name-container">
-          <span class={'text-body inline'}>Field name</span>
+          <span class={'pc-text-body inline'}>Field name</span>
           <div class="field-compound-type">
             <goat-cb-divider connect-end={true}>
               <goat-tag color={'warning'}>{'or'}</goat-tag>

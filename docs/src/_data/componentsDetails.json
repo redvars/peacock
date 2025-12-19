@@ -1,102 +1,11 @@
 {
-  "timestamp": "2025-12-17T16:34:18",
+  "timestamp": "2025-12-18T16:06:14",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.19.2",
     "typescriptVersion": "5.4.5"
   },
   "components": [
-    {
-      "dirPath": "E:/git/peacock/components/src/components/badge",
-      "filePath": "src/components/badge/badge.tsx",
-      "fileName": "badge.tsx",
-      "readmePath": "E:/git/peacock/components/src/components/badge/readme.md",
-      "usagesDir": "E:/git/peacock/components/src/components/badge/usage",
-      "tag": "goat-badge",
-      "readme": "# pc-icon\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "color",
-          "type": "\"error\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
-          "complexType": {
-            "original": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'error'\n    | 'warning'",
-            "resolved": "\"error\" | \"primary\" | \"secondary\" | \"success\" | \"warning\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "color",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [],
-          "default": "'error'",
-          "values": [
-            {
-              "value": "error",
-              "type": "string"
-            },
-            {
-              "value": "primary",
-              "type": "string"
-            },
-            {
-              "value": "secondary",
-              "type": "string"
-            },
-            {
-              "value": "success",
-              "type": "string"
-            },
-            {
-              "value": "warning",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "content",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "content",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "name": "Badge",
-        "description": "The badge component is used to display a small amount of information to the user.",
-        "category": "Informational",
-        "tag": "content",
-        "example": "<goat-badge content=\"5\"> <pc-icon name=\"notification\" size=\"2rem\"></pc-icon></goat-badge>"
-      }
-    },
     {
       "dirPath": "E:/git/peacock/components/src/components/application/calendar/calendar",
       "filePath": "src/components/application/calendar/calendar/calendar.tsx",
@@ -1664,8 +1573,13 @@
       "dependents": [
         "goat-table"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "pc-icon"
+      ],
       "dependencyGraph": {
+        "goat-checkbox": [
+          "pc-icon"
+        ],
         "goat-table": [
           "goat-checkbox"
         ]
@@ -3076,8 +2990,10 @@
       "parts": [],
       "listeners": [],
       "metadata": {
-        "name": "Code Highlighter",
-        "description": "A browser based code highlighter.",
+        "label": "Code Highlighter",
+        "name": "code-highlighter",
+        "description": "The code highlighter component is used to display code snippets with syntax highlighting.",
+        "overview": "<p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>",
         "category": "Data Display",
         "tag": "display, code",
         "img": "/assets/img/code-highlighter.webp",
@@ -6936,6 +6852,144 @@
       }
     },
     {
+      "dirPath": "E:/git/peacock/components/src/components/progress-indicator",
+      "filePath": "src/components/progress-indicator/progress-indicator.tsx",
+      "fileName": "progress-indicator.tsx",
+      "readmePath": "E:/git/peacock/components/src/components/progress-indicator/readme.md",
+      "usagesDir": "E:/git/peacock/components/src/components/progress-indicator/usage",
+      "tag": "goat-linear-progress",
+      "readme": "# goat-progress-indicator\r\n\r\n\r\n\r",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {},
+      "props": [
+        {
+          "name": "clickable",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "clickable",
+          "reflectToAttr": false,
+          "docs": "If true, steps are clickable and component emits `goatStepSelect`.",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": true,
+          "attr": "current",
+          "reflectToAttr": false,
+          "docs": "Current active step (1-based).",
+          "docsTags": [],
+          "default": "1",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "labels",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "labels",
+          "reflectToAttr": false,
+          "docs": "Comma separated labels, e.g. \"Start,Details,Confirm\".\nIf omitted, generic \"Step 1\", \"Step 2\", ... labels are used.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": true,
+          "required": false
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "total",
+          "reflectToAttr": false,
+          "docs": "Total number of steps. Ignored if `labels` is provided.",
+          "docsTags": [],
+          "default": "3",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [
+        {
+          "event": "goatStepSelect",
+          "detail": "number",
+          "bubbles": true,
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "cancelable": true,
+          "composed": true,
+          "docs": "Emitted when a step is clicked (1-based index).",
+          "docsTags": []
+        }
+      ],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "name": "Progress indicator",
+        "description": "Progress indicators express an unspecified wait time or display the length of a process.",
+        "category": "Informational",
+        "tags": [
+          "feedback",
+          " loading",
+          " progress",
+          " spinner"
+        ],
+        "example": "<goat-progress-indicator value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress-indicator>"
+      }
+    },
+    {
       "dirPath": "E:/git/peacock/components/src/components/menu/menu",
       "filePath": "src/components/menu/menu/menu.tsx",
       "fileName": "menu.tsx",
@@ -7575,12 +7629,14 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
+        "pc-elevation",
         "pc-button",
         "pc-icon",
         "goat-spinner"
       ],
       "dependencyGraph": {
         "goat-modal": [
+          "pc-elevation",
           "pc-button",
           "pc-icon",
           "goat-spinner"
@@ -9168,330 +9224,6 @@
         "category": "Informational",
         "subcategory": "Popover",
         "childComponent": "true"
-      }
-    },
-    {
-      "dirPath": "E:/git/peacock/components/src/components/progress",
-      "filePath": "src/components/progress/progress.tsx",
-      "fileName": "progress.tsx",
-      "readmePath": "E:/git/peacock/components/src/components/progress/readme.md",
-      "usagesDir": "E:/git/peacock/components/src/components/progress/usage",
-      "tag": "goat-progress",
-      "readme": "# goat-spinner\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [
-        "pc-icon"
-      ],
-      "dependencyGraph": {
-        "goat-progress": [
-          "pc-icon"
-        ]
-      },
-      "props": [
-        {
-          "name": "helperText",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "helper-text",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "hideLabel",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "hide-label",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "label",
-          "reflectToAttr": false,
-          "docs": "A label describing the progress bar.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "size",
-          "type": "\"md\" | \"sm\"",
-          "complexType": {
-            "original": "'sm' | 'md'",
-            "resolved": "\"md\" | \"sm\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "size",
-          "reflectToAttr": false,
-          "docs": "\nPossible values are: `\"sm\"` and `\"md\"` in pixel. Defaults to `\"md\"`.",
-          "docsTags": [],
-          "default": "'md'",
-          "values": [
-            {
-              "value": "md",
-              "type": "string"
-            },
-            {
-              "value": "sm",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "status",
-          "type": "\"active\" | \"error\" | \"success\"",
-          "complexType": {
-            "original": "'active' | 'success' | 'error'",
-            "resolved": "\"active\" | \"error\" | \"success\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "status",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "default": "'active'",
-          "values": [
-            {
-              "value": "active",
-              "type": "string"
-            },
-            {
-              "value": "error",
-              "type": "string"
-            },
-            {
-              "value": "success",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "value",
-          "type": "number",
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "value",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "default": "null",
-          "values": [
-            {
-              "type": "number"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "name": "Progress",
-        "description": "Progress indicators express an unspecified wait time or display the length of a process.",
-        "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
-        "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
-      }
-    },
-    {
-      "dirPath": "E:/git/peacock/components/src/components/progress-indicator",
-      "filePath": "src/components/progress-indicator/progress-indicator.tsx",
-      "fileName": "progress-indicator.tsx",
-      "readmePath": "E:/git/peacock/components/src/components/progress-indicator/readme.md",
-      "usagesDir": "E:/git/peacock/components/src/components/progress-indicator/usage",
-      "tag": "goat-progress-indicator",
-      "readme": "# goat-progress-indicator\r\n\r\n\r\n\r",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "clickable",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "clickable",
-          "reflectToAttr": false,
-          "docs": "If true, steps are clickable and component emits `goatStepSelect`.",
-          "docsTags": [],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "current",
-          "type": "number",
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "mutable": true,
-          "attr": "current",
-          "reflectToAttr": false,
-          "docs": "Current active step (1-based).",
-          "docsTags": [],
-          "default": "1",
-          "values": [
-            {
-              "type": "number"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "labels",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "labels",
-          "reflectToAttr": false,
-          "docs": "Comma separated labels, e.g. \"Start,Details,Confirm\".\r\nIf omitted, generic \"Step 1\", \"Step 2\", ... labels are used.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": true,
-          "required": false
-        },
-        {
-          "name": "total",
-          "type": "number",
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "total",
-          "reflectToAttr": false,
-          "docs": "Total number of steps. Ignored if `labels` is provided.",
-          "docsTags": [],
-          "default": "3",
-          "values": [
-            {
-              "type": "number"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [],
-      "events": [
-        {
-          "event": "goatStepSelect",
-          "detail": "number",
-          "bubbles": true,
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when a step is clicked (1-based index).",
-          "docsTags": []
-        }
-      ],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "name": "Progress indicator",
-        "description": "Progress indicators express an unspecified wait time or display the length of a process.",
-        "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
-        "example": "<goat-progress-indicator value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress-indicator>"
       }
     },
     {
@@ -11824,6 +11556,9 @@
           "pc-icon",
           "goat-select",
           "goat-empty-state"
+        ],
+        "goat-checkbox": [
+          "pc-icon"
         ],
         "pc-button": [
           "pc-elevation"
@@ -15039,6 +14774,37 @@
       }
     },
     {
+      "dirPath": "E:/git/peacock/components/src/components/badge",
+      "filePath": "src/components/badge/badge.tsx",
+      "fileName": "badge.tsx",
+      "readmePath": "E:/git/peacock/components/src/components/badge/readme.md",
+      "usagesDir": "E:/git/peacock/components/src/components/badge/usage",
+      "tag": "pc-badge",
+      "readme": "# pc-icon\n\n\n",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {},
+      "props": [],
+      "methods": [],
+      "events": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "label": "Badge",
+        "name": "badge",
+        "description": "The badge component is used to display a small amount of information to the user.",
+        "category": "Informational",
+        "tag": "content",
+        "example": "<pc-badge content=\"5\"> <pc-icon name=\"notification\" size=\"2rem\"></pc-icon></goat-badge>"
+      }
+    },
+    {
       "dirPath": "E:/git/peacock/components/src/components/breadcrumb",
       "filePath": "src/components/breadcrumb/breadcrumb.tsx",
       "fileName": "breadcrumb.tsx",
@@ -15977,10 +15743,14 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [
+        "goat-modal",
         "pc-button"
       ],
       "dependencies": [],
       "dependencyGraph": {
+        "goat-modal": [
+          "pc-elevation"
+        ],
         "pc-button": [
           "pc-elevation"
         ]
@@ -16015,6 +15785,7 @@
       "encapsulation": "shadow",
       "dependents": [
         "goat-calendar",
+        "goat-checkbox",
         "goat-code-highlighter",
         "goat-date-picker",
         "goat-empty-state",
@@ -16027,7 +15798,6 @@
         "goat-modal",
         "goat-notification",
         "goat-number",
-        "goat-progress",
         "goat-select",
         "goat-tab",
         "goat-table",
@@ -16040,6 +15810,9 @@
       "dependencies": [],
       "dependencyGraph": {
         "goat-calendar": [
+          "pc-icon"
+        ],
+        "goat-checkbox": [
           "pc-icon"
         ],
         "goat-code-highlighter": [
@@ -16078,9 +15851,6 @@
         "goat-number": [
           "pc-icon"
         ],
-        "goat-progress": [
-          "pc-icon"
-        ],
         "goat-select": [
           "pc-icon"
         ],
@@ -16117,7 +15887,7 @@
           },
           "mutable": false,
           "attr": "name",
-          "reflectToAttr": false,
+          "reflectToAttr": true,
           "docs": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
           "docsTags": [],
           "values": [
@@ -16145,6 +15915,156 @@
       }
     },
     {
+      "dirPath": "E:/git/peacock/components/src/components/progress/linear-progress",
+      "filePath": "src/components/progress/linear-progress/linear-progress.tsx",
+      "fileName": "linear-progress.tsx",
+      "readmePath": "E:/git/peacock/components/src/components/progress/linear-progress/readme.md",
+      "usagesDir": "E:/git/peacock/components/src/components/progress/linear-progress/usage",
+      "tag": "pc-linear-progress",
+      "readme": "# goat-spinner\n\n\n",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {},
+      "props": [
+        {
+          "name": "helperText",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "helper-text",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "hideLabel",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "hide-label",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "label",
+          "reflectToAttr": false,
+          "docs": "A label describing the progress bar.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"sm\"",
+          "complexType": {
+            "original": "'sm' | 'md'",
+            "resolved": "\"md\" | \"sm\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "size",
+          "reflectToAttr": false,
+          "docs": "\nPossible values are: `\"sm\"` and `\"md\"` in pixel. Defaults to `\"md\"`.",
+          "docsTags": [],
+          "default": "'md'",
+          "values": [
+            {
+              "value": "md",
+              "type": "string"
+            },
+            {
+              "value": "sm",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "complexType": {
+            "original": "number",
+            "resolved": "number",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "value",
+          "reflectToAttr": false,
+          "docs": "",
+          "docsTags": [],
+          "default": "null",
+          "values": [
+            {
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "label": "Linear Progress Indicator",
+        "name": "linear-progress",
+        "description": "A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.",
+        "category": "Informational",
+        "tags": [
+          "feedback",
+          " loading",
+          " progress",
+          " spinner"
+        ],
+        "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
+      }
+    },
+    {
       "dirPath": "E:/git/peacock/components/src/components/link",
       "filePath": "src/components/link/link.tsx",
       "fileName": "link.tsx",
@@ -16159,98 +16079,19 @@
       "dependents": [],
       "dependencies": [],
       "dependencyGraph": {},
-      "props": [
-        {
-          "name": "href",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "href",
-          "reflectToAttr": true,
-          "docs": "Hyperlink to navigate to on click.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        },
-        {
-          "name": "target",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "target",
-          "reflectToAttr": false,
-          "docs": "Sets or retrieves the window or frame at which to target content.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false
-        }
-      ],
-      "methods": [
-        {
-          "name": "triggerClick",
-          "returns": {
-            "type": "Promise<void>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<void>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<void>"
-          },
-          "signature": "triggerClick() => Promise<void>",
-          "parameters": [],
-          "docs": "",
-          "docsTags": []
-        }
-      ],
+      "props": [],
+      "methods": [],
       "events": [],
       "styles": [],
       "slots": [],
       "parts": [],
-      "listeners": [
-        {
-          "event": "mouseup",
-          "target": "window",
-          "capture": false,
-          "passive": true
-        },
-        {
-          "event": "keyup",
-          "target": "window",
-          "capture": false,
-          "passive": false
-        }
-      ],
+      "listeners": [],
       "metadata": {
         "label": "Link",
         "name": "link",
         "description": "Links allow users to click their way from page to page.",
         "category": "Navigation",
-        "example": "<pc-link href=\"#\">Link</pc-link>"
+        "example": "<a class=\"pc-link\" href=\"#\">Link</a>"
       }
     },
     {

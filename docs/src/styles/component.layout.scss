@@ -218,6 +218,10 @@ pre[class*='language-'] {
   --icon-color: white;
 }
 
+.previous-next-nav pc-button {
+  --filled-button-container-color: var(--color-secondary);
+}
+
 
 @media only screen and (max-width: 1055px) {
   .sidenav {

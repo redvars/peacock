@@ -1,22 +1,11 @@
-import {
-  Component,
-  ComponentInterface,
-  Element,
-  h,
-  Host,
-  Listen,
-  Method,
-  Prop,
-  State,
-} from '@stencil/core';
-import { getComponentIndex } from '../../utils/utils';
+import { Component, ComponentInterface, h, Host } from '@stencil/core';
 
 /**
  * @label Link
  * @name link
  * @description Links allow users to click their way from page to page.
  * @category Navigation
- * @example <a href="#">Link</pc-link>
+ * @example <a class="pc-link" href="#">Link</a>
  */
 @Component({
   tag: 'pc-link',

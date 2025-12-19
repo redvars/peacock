@@ -3,15 +3,18 @@
 :host {
   display: block;
   padding-bottom: var(--spacing-100);
+  --card-border-color: var(--color-outline);
+  --card-background: var(--color-surface);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid v(--border-subtle);
-  border-radius: v(--global-shape-corner-large);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--global-shape-corner-large);
+  overflow: clip;
   height: 100%;
-  background-color: var(--color-surface);
+  background-color: var(--card-background);
 }
 
 :host([shadow-level="xxl"]) .card {
@@ -39,17 +42,13 @@
   box-shadow: v(--shadow-xl);
 }
 
-slot::slotted(goat-card-content) {
+slot::slotted(pc-card-content) {
   display: block;
   padding: 1rem;
-  border-bottom: 1px solid v(--border-subtle);
+  border-bottom: 1px solid var(--card-border-color);
 }
 
-slot::slotted(goat-card-content.no-padding) {
-  padding: 0;
-}
-
-slot::slotted(goat-card-content:last-child) {
+slot::slotted(pc-card-content:last-child) {
   border-bottom: none;
   flex: 1;
 }

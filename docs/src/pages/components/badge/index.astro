@@ -2,20 +2,15 @@
 import Layout from '../../../layouts/Component.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('goat-badge');
+const componentDetails = getComponentDetails('badge');
 
 import UsageSection from "./_sections/Usage.astro";
-import ExampleSection from "./_sections/Examples.astro";
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 const sections = [
   {
     "title": "Usage",
     "Component": UsageSection
-  },
-  {
-    "title": "Examples",
-    "Component": ExampleSection
   }
 ];
 ---

@@ -66,7 +66,7 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
     <goat-container class='page-wrapper'>
 
       <div class='comp-header'>
-        <h1 class='heading-scrollable text-display'>{title}</h1>
+        <h1 class='heading-scrollable pc-text-display'>{title}</h1>
 
 
         { componentDetails.metadata.category == 'Up coming' ? <goat-tag color='red'>Work in progress</goat-tag>  : '' }
@@ -75,12 +75,10 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
       <slot/>
 
       <div class='previous-next-nav'>
-        <pc-button kind='simple' icon='arrow--left' icon-align='start' href={`/components/${previousComponent.metadata.name}/`}>
-          Previous
+        <pc-button href={`/components/${previousComponent.metadata.name}/`} icon-align="start">
+          <pc-icon slot='icon' name='arrow_left_alt'></pc-icon> Previous
         </pc-button>
-        <pc-button kind='simple' icon='arrow--right' href={`/components/${previousComponent.metadata.name}/`}>
-          Next
-        </pc-button>
+        <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <pc-icon slot='icon' name='arrow_right_alt'>Previous</pc-icon> </pc-button>
       </div>
     </goat-container>
 

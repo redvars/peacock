@@ -7,21 +7,21 @@ import Highlighter from '../../../../components/Highlighter.astro';
 </pc-text>
 
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-checkbox id='change-checkbox-field'>Change Event?</goat-checkbox>
     <script is:inline>
       document.querySelector('#change-checkbox-field').addEventListener('goat-checkbox--change', function(event) {
         myConsole.log('Input changed to :: ' + event.target.value);
       });
     </script>
-  </goat-card-content>
+  </pc-card-content>
   <!-- prettier-ignore -->
-  <goat-card-content class='no-padding'>
+  <pc-card-content class='no-padding'>
     <Highlighter lang='javascript' is:raw>
       document.querySelector('#change-checkbox-field').addEventListener('goat-checkbox--change',
       function(event) {
       console.log('Input changed to :: ' + event.target.value);
       });
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

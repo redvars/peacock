@@ -30,7 +30,8 @@
   const registerThemeSwitcher = (() => {
     function setTheme($themeSwitcher, theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      $themeSwitcher.icon = theme === 'dark' ? 'dark_mode' : 'light_mode';
+      $themeSwitcher.querySelector('.icon').name =
+        theme === 'dark' ? 'dark_mode' : 'light_mode';
       localStorage.setItem('theme', theme);
     }
 

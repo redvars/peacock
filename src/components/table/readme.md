@@ -55,6 +55,7 @@ graph TD;
   goat-table --> pc-icon
   goat-table --> goat-select
   goat-table --> goat-empty-state
+  goat-checkbox --> pc-icon
   pc-button --> pc-elevation
   goat-select --> pc-icon
   goat-select --> goat-tag

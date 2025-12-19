@@ -10,21 +10,11 @@ export function convertToHex(colorName: string): string {
   return computed ? computed : colorName;
 }
 
-export const chartColors: ChartColor[] = [
-  {
-    color: 'var(--color-purple-70)',
-    hoverColor: 'var(--color-purple-80)',
-  },
-  {
-    color: 'var(--color-cyan-50)',
-    hoverColor: 'var(--color-cyan-60)',
-  },
-  {
-    color: 'var(--color-teal-60)',
-    hoverColor: 'var(--color-teal-70)',
-  },
-  {
-    color: 'var(--color-magenta-70)',
-    hoverColor: 'var(--color-magenta-80)',
-  },
-];
+export const chartColors: ChartColor[] = [];
+
+['purple', 'blue', 'green', 'yellow', 'orange', 'red'].forEach(colorName => {
+  chartColors.push({
+    color: `var(--color-${colorName}-60)`,
+    hoverColor: `var(--color-${colorName}-40)`,
+  });
+});

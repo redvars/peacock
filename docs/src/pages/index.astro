@@ -20,7 +20,7 @@ function jumpingSentence(sentence: string) {
     return `<div class='jumping-word'>${word.split('').map((char, index) => {
       if (char === ' ')
         return char;
-      return `<h1 style='z-index:${len--};' class='jumping-text text-display-large-emphasized'>${char}</h1>`;
+      return `<h1 style='z-index:${len--};' class='jumping-text pc-text-display-large-emphasized'>${char}</h1>`;
     }).join('')}</div>`;
   }).join(' ');
 }
@@ -37,7 +37,7 @@ function jumpingSentence(sentence: string) {
       <BannerLogo />
 
       <div class='title'>
-        <h1 class='text-display-large'>The foundation for beautiful user interfaces.</h1>
+        <h1 class='pc-text-display-large'>The foundation for beautiful user interfaces.</h1>
         <Fragment set:html={jumpingSentence('goat/ui')} />
       </div>
 
@@ -92,19 +92,18 @@ function jumpingSentence(sentence: string) {
   <div class='sections-wrapper surface-container'>
     <goat-container size='max'>
       <div class='section'>
-        <pc-text type='heading' heading-size='5'>Introduction</pc-text>
-        <pc-text expressive>{site.title} contains most used web components built using Stencil. So you don't need to
+        <h2 class='pc-text-headline'>Introduction</h2>
+        <p class='pc-text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
           include any additional framework dependencies, You can simply import required
           component js, and right away start using it.
-        </pc-text>
-        <pc-text expressive>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</pc-text>
+        </p>
+        <p class='pc-text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
         <br />
-        <pc-text expressive
-        >{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
-          <goat-link href='https://shivajivarma.com'>Shivaji Varma</goat-link>
+        <p class='pc-text-large'>{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
+          <a class='pc-link' href='https://shivajivarma.com'>Shivaji Varma</a>
           . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
           by creating pull requests or issues.
-        </pc-text>
+        </p>
       </div>
 
       <div class='section'>

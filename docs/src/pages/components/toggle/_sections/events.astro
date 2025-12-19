@@ -8,19 +8,19 @@ import Highlighter from '../../../../components/Highlighter.astro';
 >
 
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-toggle id='change-toggle-field'>Change Event?</goat-toggle>
     <script is:inline>
       document.querySelector('#change-toggle-field').addEventListener('goat:change', function(event) {
         myConsole.log('Input changed to :: ' + event.target.value);
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang='javascript' is:raw>
       document.querySelector('#change-toggle-field').addEventListener('goat:change', function(event) {
         console.log('Input changed to :: ' + event.target.value);
       });
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

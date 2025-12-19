@@ -1,6 +1,7 @@
 @import "./theme/css-variables";
 @import "mixins";
-@import "./theme/typography-css-component";
+@import "./css-components/text-component";
+@import "./css-components/link-component";
 
 * {
   box-sizing: border-box;

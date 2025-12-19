@@ -387,7 +387,7 @@ export class Table {
             />
           </div>
           <div class="pagination-item-count">
-            <span class={'text-body inline secondary'}>
+            <span class={'pc-text-body inline secondary'}>
               {this.pageSize * (this.page - 1)} -{' '}
               {this.pageSize * this.page < this.getTotalItems()
                 ? this.pageSize * this.page

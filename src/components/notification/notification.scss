@@ -3,7 +3,7 @@
 
 :host {
   display: block;
-  margin-bottom: v(--spacing-100);
+  margin-bottom: var(--spacing-100);
 }
 
 
@@ -17,7 +17,7 @@
   display: flex;
 
   .state-icon {
-    padding: 0.875rem v(--spacing-150);
+    padding: 0.875rem var(--spacing-150);
     line-height: 0;
     .icon {
       --icon-size: 1.25rem;
@@ -26,15 +26,15 @@
 
   .content {
     flex: 1;
-    padding-block: v(--spacing-150);
+    padding-block: var(--spacing-150);
 
     .title {
-      @include font-style(heading-compact-01);
+      @include get-typography(headline-small);
       word-break: break-word;
     }
 
     .subtitle {
-      @include font-style(body-compact-01);
+      @include get-typography(body-small);
       word-break: break-word;
     }
 
@@ -133,14 +133,14 @@
   .notification.state-#{$state} {
 
     &.high-contrast {
-      border-left-color: v(--support-#{$state}-inverse);
+      border-left-color: var(--color-#{$state}-inverse);
       color: v(--text-inverse);
       background: v(--background-inverse);
       border-width: 0 0 0 3px;
 
       .close-button {
         .icon {
-          color: v(--text-inverse);
+          color: var(--text-inverse);
         }
       }
 
@@ -150,19 +150,19 @@
     }
 
     &:not(.high-contrast) {
-      color: v(--color-neutral-100);
-      border-color: v(--support-#{$state});
-      background: v(--color-#{$state}-10);
+      color: var(--color-neutral-100);
+      border-color: var(--support-#{$state});
+      background: var(--color-#{$state}-10);
       border-width: 1px 1px 1px 3px;
 
       .close-button {
         .icon {
-          --icon-color: v(--color-neutral-100);
+          --icon-color: var(--color-neutral-100);
         }
       }
 
       .state-icon {
-        color: v(--support-#{$state});
+        color: var(--support-#{$state});
       }
     }
   }

@@ -11,21 +11,6 @@ export { CalendarViewType, EventType } from "./components/application/calendar/c
 export { Language } from "./components/application/code-highlighter/constants";
 export namespace Components {
     /**
-     * @name Badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
-     */
-    interface GoatBadge {
-        "color": | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'warning';
-        "content": string;
-    }
-    /**
      * @name Calendar
      * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
      * @category Data Display
@@ -115,7 +100,8 @@ export namespace Components {
         "vertical": boolean;
     }
     /**
-     * @name Chart Doughnut
+     * @label Chart Doughnut
+     * @name chart-doughnut
      * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
      * @category Charts
      * @tag chart
@@ -236,8 +222,10 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @name Code Highlighter
-     * @description A browser based code highlighter.
+     * @label Code Highlighter
+     * @name code-highlighter
+     * @description The code highlighter component is used to display code snippets with syntax highlighting.
+     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
      * @category Data Display
      * @tag display, code
      * @img /assets/img/code-highlighter.webp
@@ -385,7 +373,7 @@ export namespace Components {
         "actionVariant": 'filled' | 'outlined' | 'text';
         "description": string;
         "headline": string;
-        "illustration": 'no-document';
+        "illustration": 'no-document' | 'page' | 'search';
     }
     /**
      * @name Flow Designer
@@ -678,6 +666,31 @@ export namespace Components {
         "value": string;
     }
     /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface GoatLinearProgress {
+        /**
+          * If true, steps are clickable and component emits `goatStepSelect`.
+         */
+        "clickable": boolean;
+        /**
+          * Current active step (1-based).
+         */
+        "current": number;
+        /**
+          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
+         */
+        "labels"?: string;
+        /**
+          * Total number of steps. Ignored if `labels` is provided.
+         */
+        "total": number;
+    }
+    /**
      * @name Menu
      * @description Menus display a list of choices on temporary surfaces.
      * @category Navigation
@@ -700,16 +713,6 @@ export namespace Components {
          */
         "size": 'sm' | 'md' | 'lg';
         "value"?: string | number;
-    }
-    /**
-     * @name MenuDivider
-     * @description A divider to separate menu items.
-     * @category Layout
-     * @subcategory Menu
-     * @childComponents true
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface GoatMenuDivider {
     }
     /**
      * @name Menu Item
@@ -964,52 +967,6 @@ export namespace Components {
      * @childComponent true
      */
     interface GoatPopoverContent {
-    }
-    /**
-     * @name Progress
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface GoatProgress {
-        "helperText": string;
-        "hideLabel": boolean;
-        /**
-          * A label describing the progress bar.
-         */
-        "label": string;
-        /**
-          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
-         */
-        "size": 'sm' | 'md';
-        "status": 'active' | 'success' | 'error';
-        "value": number;
-    }
-    /**
-     * @name Progress indicator
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
-     */
-    interface GoatProgressIndicator {
-        /**
-          * If true, steps are clickable and component emits `goatStepSelect`.
-         */
-        "clickable": boolean;
-        /**
-          * Current active step (1-based).
-         */
-        "current": number;
-        /**
-          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
-         */
-        "labels"?: string;
-        /**
-          * Total number of steps. Ignored if `labels` is provided.
-         */
-        "total": number;
     }
     /**
      * @name Select
@@ -1647,6 +1604,16 @@ export namespace Components {
         "src": string;
     }
     /**
+     * @label Badge
+     * @name badge
+     * @description The badge component is used to display a small amount of information to the user.
+     * @category Informational
+     * @tag content
+     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     */
+    interface PcBadge {
+    }
+    /**
      * @label Breadcrumb
      * @name breadcrumb
      * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -1814,11 +1781,32 @@ export namespace Components {
         "name": string;
     }
     /**
+     * @label Linear Progress Indicator
+     * @name linear-progress
+     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
+     */
+    interface PcLinearProgress {
+        "helperText": string;
+        "hideLabel": boolean;
+        /**
+          * A label describing the progress bar.
+         */
+        "label": string;
+        /**
+          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md';
+        "value": number;
+    }
+    /**
      * @label Link
      * @name link
      * @description Links allow users to click their way from page to page.
      * @category Navigation
-     * @example <a href="#">Link</pc-link>
+     * @example <a class="pc-link" href="#">Link</a>
      */
     interface PcLink {
     }
@@ -1872,6 +1860,10 @@ export interface GoatInputUrlCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatInputUrlElement;
 }
+export interface GoatLinearProgressCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLGoatLinearProgressElement;
+}
 export interface GoatMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatMenuItemElement;
@@ -1891,10 +1883,6 @@ export interface GoatNumberCustomEvent<T> extends CustomEvent<T> {
 export interface GoatPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatPopoverElement;
-}
-export interface GoatProgressIndicatorCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatProgressIndicatorElement;
 }
 export interface GoatSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1945,19 +1933,6 @@ export interface PcButtonCustomEvent<T> extends CustomEvent<T> {
     target: HTMLPcButtonElement;
 }
 declare global {
-    /**
-     * @name Badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
-     */
-    interface HTMLGoatBadgeElement extends Components.GoatBadge, HTMLStencilElement {
-    }
-    var HTMLGoatBadgeElement: {
-        prototype: HTMLGoatBadgeElement;
-        new (): HTMLGoatBadgeElement;
-    };
     interface HTMLGoatCalendarElementEventMap {
         "goat-calendar--event-click": any;
     }
@@ -2068,7 +2043,8 @@ declare global {
         new (): HTMLGoatCbPredicateElement;
     };
     /**
-     * @name Chart Doughnut
+     * @label Chart Doughnut
+     * @name chart-doughnut
      * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
      * @category Charts
      * @tag chart
@@ -2147,8 +2123,10 @@ declare global {
         new (): HTMLGoatCodeEditorElement;
     };
     /**
-     * @name Code Highlighter
-     * @description A browser based code highlighter.
+     * @label Code Highlighter
+     * @name code-highlighter
+     * @description The code highlighter component is used to display code snippets with syntax highlighting.
+     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
      * @category Data Display
      * @tag display, code
      * @img /assets/img/code-highlighter.webp
@@ -2420,6 +2398,30 @@ declare global {
         prototype: HTMLGoatInputUrlElement;
         new (): HTMLGoatInputUrlElement;
     };
+    interface HTMLGoatLinearProgressElementEventMap {
+        "goatStepSelect": number;
+    }
+    /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface HTMLGoatLinearProgressElement extends Components.GoatLinearProgress, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLGoatLinearProgressElementEventMap>(type: K, listener: (this: HTMLGoatLinearProgressElement, ev: GoatLinearProgressCustomEvent<HTMLGoatLinearProgressElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLGoatLinearProgressElementEventMap>(type: K, listener: (this: HTMLGoatLinearProgressElement, ev: GoatLinearProgressCustomEvent<HTMLGoatLinearProgressElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLGoatLinearProgressElement: {
+        prototype: HTMLGoatLinearProgressElement;
+        new (): HTMLGoatLinearProgressElement;
+    };
     /**
      * @name Menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -2433,20 +2435,6 @@ declare global {
     var HTMLGoatMenuElement: {
         prototype: HTMLGoatMenuElement;
         new (): HTMLGoatMenuElement;
-    };
-    /**
-     * @name MenuDivider
-     * @description A divider to separate menu items.
-     * @category Layout
-     * @subcategory Menu
-     * @childComponents true
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface HTMLGoatMenuDividerElement extends Components.GoatMenuDivider, HTMLStencilElement {
-    }
-    var HTMLGoatMenuDividerElement: {
-        prototype: HTMLGoatMenuDividerElement;
-        new (): HTMLGoatMenuDividerElement;
     };
     interface HTMLGoatMenuItemElementEventMap {
         "goat-menu-item--click": any;
@@ -2617,43 +2605,6 @@ declare global {
     var HTMLGoatPopoverContentElement: {
         prototype: HTMLGoatPopoverContentElement;
         new (): HTMLGoatPopoverContentElement;
-    };
-    /**
-     * @name Progress
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface HTMLGoatProgressElement extends Components.GoatProgress, HTMLStencilElement {
-    }
-    var HTMLGoatProgressElement: {
-        prototype: HTMLGoatProgressElement;
-        new (): HTMLGoatProgressElement;
-    };
-    interface HTMLGoatProgressIndicatorElementEventMap {
-        "goatStepSelect": number;
-    }
-    /**
-     * @name Progress indicator
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
-     */
-    interface HTMLGoatProgressIndicatorElement extends Components.GoatProgressIndicator, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatProgressIndicatorElementEventMap>(type: K, listener: (this: HTMLGoatProgressIndicatorElement, ev: GoatProgressIndicatorCustomEvent<HTMLGoatProgressIndicatorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatProgressIndicatorElementEventMap>(type: K, listener: (this: HTMLGoatProgressIndicatorElement, ev: GoatProgressIndicatorCustomEvent<HTMLGoatProgressIndicatorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatProgressIndicatorElement: {
-        prototype: HTMLGoatProgressIndicatorElement;
-        new (): HTMLGoatProgressIndicatorElement;
     };
     interface HTMLGoatSelectElementEventMap {
         "goat-select--change": any;
@@ -3061,6 +3012,20 @@ declare global {
         new (): HTMLPcAvatarElement;
     };
     /**
+     * @label Badge
+     * @name badge
+     * @description The badge component is used to display a small amount of information to the user.
+     * @category Informational
+     * @tag content
+     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     */
+    interface HTMLPcBadgeElement extends Components.PcBadge, HTMLStencilElement {
+    }
+    var HTMLPcBadgeElement: {
+        prototype: HTMLPcBadgeElement;
+        new (): HTMLPcBadgeElement;
+    };
+    /**
      * @label Breadcrumb
      * @name breadcrumb
      * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -3188,11 +3153,25 @@ declare global {
         new (): HTMLPcIconElement;
     };
     /**
+     * @label Linear Progress Indicator
+     * @name linear-progress
+     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
+     */
+    interface HTMLPcLinearProgressElement extends Components.PcLinearProgress, HTMLStencilElement {
+    }
+    var HTMLPcLinearProgressElement: {
+        prototype: HTMLPcLinearProgressElement;
+        new (): HTMLPcLinearProgressElement;
+    };
+    /**
      * @label Link
      * @name link
      * @description Links allow users to click their way from page to page.
      * @category Navigation
-     * @example <a href="#">Link</pc-link>
+     * @example <a class="pc-link" href="#">Link</a>
      */
     interface HTMLPcLinkElement extends Components.PcLink, HTMLStencilElement {
     }
@@ -3214,7 +3193,6 @@ declare global {
         new (): HTMLPcTextElement;
     };
     interface HTMLElementTagNameMap {
-        "goat-badge": HTMLGoatBadgeElement;
         "goat-calendar": HTMLGoatCalendarElement;
         "goat-calendar-column-view": HTMLGoatCalendarColumnViewElement;
         "goat-calendar-column-view-background": HTMLGoatCalendarColumnViewBackgroundElement;
@@ -3248,8 +3226,8 @@ declare global {
         "goat-image": HTMLGoatImageElement;
         "goat-input": HTMLGoatInputElement;
         "goat-input-url": HTMLGoatInputUrlElement;
+        "goat-linear-progress": HTMLGoatLinearProgressElement;
         "goat-menu": HTMLGoatMenuElement;
-        "goat-menu-divider": HTMLGoatMenuDividerElement;
         "goat-menu-item": HTMLGoatMenuItemElement;
         "goat-modal": HTMLGoatModalElement;
         "goat-modal-content": HTMLGoatModalContentElement;
@@ -3258,8 +3236,6 @@ declare global {
         "goat-number": HTMLGoatNumberElement;
         "goat-popover": HTMLGoatPopoverElement;
         "goat-popover-content": HTMLGoatPopoverContentElement;
-        "goat-progress": HTMLGoatProgressElement;
-        "goat-progress-indicator": HTMLGoatProgressIndicatorElement;
         "goat-select": HTMLGoatSelectElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
@@ -3282,6 +3258,7 @@ declare global {
         "pc-accordion": HTMLPcAccordionElement;
         "pc-accordion-item": HTMLPcAccordionItemElement;
         "pc-avatar": HTMLPcAvatarElement;
+        "pc-badge": HTMLPcBadgeElement;
         "pc-breadcrumb": HTMLPcBreadcrumbElement;
         "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
         "pc-button": HTMLPcButtonElement;
@@ -3291,26 +3268,12 @@ declare global {
         "pc-divider": HTMLPcDividerElement;
         "pc-elevation": HTMLPcElevationElement;
         "pc-icon": HTMLPcIconElement;
+        "pc-linear-progress": HTMLPcLinearProgressElement;
         "pc-link": HTMLPcLinkElement;
         "pc-text": HTMLPcTextElement;
     }
 }
 declare namespace LocalJSX {
-    /**
-     * @name Badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
-     */
-    interface GoatBadge {
-        "color"?: | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'error'
-    | 'warning';
-        "content"?: string;
-    }
     /**
      * @name Calendar
      * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -3409,7 +3372,8 @@ declare namespace LocalJSX {
         "vertical"?: boolean;
     }
     /**
-     * @name Chart Doughnut
+     * @label Chart Doughnut
+     * @name chart-doughnut
      * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
      * @category Charts
      * @tag chart
@@ -3528,8 +3492,10 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @name Code Highlighter
-     * @description A browser based code highlighter.
+     * @label Code Highlighter
+     * @name code-highlighter
+     * @description The code highlighter component is used to display code snippets with syntax highlighting.
+     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
      * @category Data Display
      * @tag display, code
      * @img /assets/img/code-highlighter.webp
@@ -3688,7 +3654,7 @@ declare namespace LocalJSX {
         "actionVariant"?: 'filled' | 'outlined' | 'text';
         "description"?: string;
         "headline"?: string;
-        "illustration"?: 'no-document';
+        "illustration"?: 'no-document' | 'page' | 'search';
     }
     /**
      * @name Flow Designer
@@ -3981,6 +3947,35 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
+     * @name Progress indicator
+     * @description Progress indicators express an unspecified wait time or display the length of a process.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+     */
+    interface GoatLinearProgress {
+        /**
+          * If true, steps are clickable and component emits `goatStepSelect`.
+         */
+        "clickable"?: boolean;
+        /**
+          * Current active step (1-based).
+         */
+        "current"?: number;
+        /**
+          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
+         */
+        "labels"?: string;
+        /**
+          * Emitted when a step is clicked (1-based index).
+         */
+        "onGoatStepSelect"?: (event: GoatLinearProgressCustomEvent<number>) => void;
+        /**
+          * Total number of steps. Ignored if `labels` is provided.
+         */
+        "total"?: number;
+    }
+    /**
      * @name Menu
      * @description Menus display a list of choices on temporary surfaces.
      * @category Navigation
@@ -3999,16 +3994,6 @@ declare namespace LocalJSX {
          */
         "size"?: 'sm' | 'md' | 'lg';
         "value"?: string | number;
-    }
-    /**
-     * @name MenuDivider
-     * @description A divider to separate menu items.
-     * @category Layout
-     * @subcategory Menu
-     * @childComponents true
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface GoatMenuDivider {
     }
     /**
      * @name Menu Item
@@ -4275,56 +4260,6 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface GoatPopoverContent {
-    }
-    /**
-     * @name Progress
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface GoatProgress {
-        "helperText"?: string;
-        "hideLabel"?: boolean;
-        /**
-          * A label describing the progress bar.
-         */
-        "label"?: string;
-        /**
-          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
-         */
-        "size"?: 'sm' | 'md';
-        "status"?: 'active' | 'success' | 'error';
-        "value"?: number;
-    }
-    /**
-     * @name Progress indicator
-     * @description Progress indicators express an unspecified wait time or display the length of a process.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
-     */
-    interface GoatProgressIndicator {
-        /**
-          * If true, steps are clickable and component emits `goatStepSelect`.
-         */
-        "clickable"?: boolean;
-        /**
-          * Current active step (1-based).
-         */
-        "current"?: number;
-        /**
-          * Comma separated labels, e.g. "Start,Details,Confirm". If omitted, generic "Step 1", "Step 2", ... labels are used.
-         */
-        "labels"?: string;
-        /**
-          * Emitted when a step is clicked (1-based index).
-         */
-        "onGoatStepSelect"?: (event: GoatProgressIndicatorCustomEvent<number>) => void;
-        /**
-          * Total number of steps. Ignored if `labels` is provided.
-         */
-        "total"?: number;
     }
     /**
      * @name Select
@@ -4993,6 +4928,16 @@ declare namespace LocalJSX {
         "src"?: string;
     }
     /**
+     * @label Badge
+     * @name badge
+     * @description The badge component is used to display a small amount of information to the user.
+     * @category Informational
+     * @tag content
+     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     */
+    interface PcBadge {
+    }
+    /**
      * @label Breadcrumb
      * @name breadcrumb
      * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -5154,11 +5099,32 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     /**
+     * @label Linear Progress Indicator
+     * @name linear-progress
+     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
+     */
+    interface PcLinearProgress {
+        "helperText"?: string;
+        "hideLabel"?: boolean;
+        /**
+          * A label describing the progress bar.
+         */
+        "label"?: string;
+        /**
+          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md';
+        "value"?: number;
+    }
+    /**
      * @label Link
      * @name link
      * @description Links allow users to click their way from page to page.
      * @category Navigation
-     * @example <a href="#">Link</pc-link>
+     * @example <a class="pc-link" href="#">Link</a>
      */
     interface PcLink {
     }
@@ -5172,7 +5138,6 @@ declare namespace LocalJSX {
     interface PcText {
     }
     interface IntrinsicElements {
-        "goat-badge": GoatBadge;
         "goat-calendar": GoatCalendar;
         "goat-calendar-column-view": GoatCalendarColumnView;
         "goat-calendar-column-view-background": GoatCalendarColumnViewBackground;
@@ -5206,8 +5171,8 @@ declare namespace LocalJSX {
         "goat-image": GoatImage;
         "goat-input": GoatInput;
         "goat-input-url": GoatInputUrl;
+        "goat-linear-progress": GoatLinearProgress;
         "goat-menu": GoatMenu;
-        "goat-menu-divider": GoatMenuDivider;
         "goat-menu-item": GoatMenuItem;
         "goat-modal": GoatModal;
         "goat-modal-content": GoatModalContent;
@@ -5216,8 +5181,6 @@ declare namespace LocalJSX {
         "goat-number": GoatNumber;
         "goat-popover": GoatPopover;
         "goat-popover-content": GoatPopoverContent;
-        "goat-progress": GoatProgress;
-        "goat-progress-indicator": GoatProgressIndicator;
         "goat-select": GoatSelect;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
@@ -5240,6 +5203,7 @@ declare namespace LocalJSX {
         "pc-accordion": PcAccordion;
         "pc-accordion-item": PcAccordionItem;
         "pc-avatar": PcAvatar;
+        "pc-badge": PcBadge;
         "pc-breadcrumb": PcBreadcrumb;
         "pc-breadcrumb-item": PcBreadcrumbItem;
         "pc-button": PcButton;
@@ -5249,6 +5213,7 @@ declare namespace LocalJSX {
         "pc-divider": PcDivider;
         "pc-elevation": PcElevation;
         "pc-icon": PcIcon;
+        "pc-linear-progress": PcLinearProgress;
         "pc-link": PcLink;
         "pc-text": PcText;
     }
@@ -5257,14 +5222,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            /**
-             * @name Badge
-             * @description The badge component is used to display a small amount of information to the user.
-             * @category Informational
-             * @tag content
-             * @example <goat-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
-             */
-            "goat-badge": LocalJSX.GoatBadge & JSXBase.HTMLAttributes<HTMLGoatBadgeElement>;
             /**
              * @name Calendar
              * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -5290,7 +5247,8 @@ declare module "@stencil/core" {
             "goat-cb-expression": LocalJSX.GoatCbExpression & JSXBase.HTMLAttributes<HTMLGoatCbExpressionElement>;
             "goat-cb-predicate": LocalJSX.GoatCbPredicate & JSXBase.HTMLAttributes<HTMLGoatCbPredicateElement>;
             /**
-             * @name Chart Doughnut
+             * @label Chart Doughnut
+             * @name chart-doughnut
              * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
              * @category Charts
              * @tag chart
@@ -5325,8 +5283,10 @@ declare module "@stencil/core" {
              */
             "goat-code-editor": LocalJSX.GoatCodeEditor & JSXBase.HTMLAttributes<HTMLGoatCodeEditorElement>;
             /**
-             * @name Code Highlighter
-             * @description A browser based code highlighter.
+             * @label Code Highlighter
+             * @name code-highlighter
+             * @description The code highlighter component is used to display code snippets with syntax highlighting.
+             * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
              * @category Data Display
              * @tag display, code
              * @img /assets/img/code-highlighter.webp
@@ -5439,6 +5399,14 @@ declare module "@stencil/core" {
              */
             "goat-input-url": LocalJSX.GoatInputUrl & JSXBase.HTMLAttributes<HTMLGoatInputUrlElement>;
             /**
+             * @name Progress indicator
+             * @description Progress indicators express an unspecified wait time or display the length of a process.
+             * @category Informational
+             * @tags feedback, loading, progress, spinner
+             * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
+             */
+            "goat-linear-progress": LocalJSX.GoatLinearProgress & JSXBase.HTMLAttributes<HTMLGoatLinearProgressElement>;
+            /**
              * @name Menu
              * @description Menus display a list of choices on temporary surfaces.
              * @category Navigation
@@ -5447,15 +5415,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/menu-dark.webp
              */
             "goat-menu": LocalJSX.GoatMenu & JSXBase.HTMLAttributes<HTMLGoatMenuElement>;
-            /**
-             * @name MenuDivider
-             * @description A divider to separate menu items.
-             * @category Layout
-             * @subcategory Menu
-             * @childComponents true
-             * @example <pc-divider style="width: 12rem;">or</pc-divider>
-             */
-            "goat-menu-divider": LocalJSX.GoatMenuDivider & JSXBase.HTMLAttributes<HTMLGoatMenuDividerElement>;
             /**
              * @name Menu Item
              * @description Menu items display a list of choices on temporary surfaces.
@@ -5526,22 +5485,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "goat-popover-content": LocalJSX.GoatPopoverContent & JSXBase.HTMLAttributes<HTMLGoatPopoverContentElement>;
-            /**
-             * @name Progress
-             * @description Progress indicators express an unspecified wait time or display the length of a process.
-             * @category Informational
-             * @tags feedback, loading, progress, spinner
-             * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-             */
-            "goat-progress": LocalJSX.GoatProgress & JSXBase.HTMLAttributes<HTMLGoatProgressElement>;
-            /**
-             * @name Progress indicator
-             * @description Progress indicators express an unspecified wait time or display the length of a process.
-             * @category Informational
-             * @tags feedback, loading, progress, spinner
-             * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
-             */
-            "goat-progress-indicator": LocalJSX.GoatProgressIndicator & JSXBase.HTMLAttributes<HTMLGoatProgressIndicatorElement>;
             /**
              * @name Select
              * @description Allows the user to select one or more options using a dropdown.
@@ -5701,6 +5644,15 @@ declare module "@stencil/core" {
              */
             "pc-avatar": LocalJSX.PcAvatar & JSXBase.HTMLAttributes<HTMLPcAvatarElement>;
             /**
+             * @label Badge
+             * @name badge
+             * @description The badge component is used to display a small amount of information to the user.
+             * @category Informational
+             * @tag content
+             * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+             */
+            "pc-badge": LocalJSX.PcBadge & JSXBase.HTMLAttributes<HTMLPcBadgeElement>;
+            /**
              * @label Breadcrumb
              * @name breadcrumb
              * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -5770,11 +5722,20 @@ declare module "@stencil/core" {
              */
             "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
             /**
+             * @label Linear Progress Indicator
+             * @name linear-progress
+             * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
+             * @category Informational
+             * @tags feedback, loading, progress, spinner
+             * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
+             */
+            "pc-linear-progress": LocalJSX.PcLinearProgress & JSXBase.HTMLAttributes<HTMLPcLinearProgressElement>;
+            /**
              * @label Link
              * @name link
              * @description Links allow users to click their way from page to page.
              * @category Navigation
-             * @example <a href="#">Link</pc-link>
+             * @example <a class="pc-link" href="#">Link</a>
              */
             "pc-link": LocalJSX.PcLink & JSXBase.HTMLAttributes<HTMLPcLinkElement>;
             /**

@@ -1,9 +1,6 @@
 {
   "color": {
     "$type": "color",
-    "info": {
-      "$value": "{color.blue.@}"
-    },
     "success": {
       "0": {
         "$value": "{color.green.0}"
@@ -49,10 +46,92 @@
       }
     },
     "warning": {
-      "$value": "{color.yellow}"
+      "0": {
+        "$value": "{color.yellow.0}"
+      },
+      "10": {
+        "$value": "{color.yellow.10}"
+      },
+      "20": {
+        "$value": "{color.yellow.20}"
+      },
+      "30": {
+        "$value": "{color.yellow.30}"
+      },
+      "40": {
+        "$value": "{color.yellow.40}"
+      },
+      "50": {
+        "$value": "{color.yellow.50}"
+      },
+      "60": {
+        "$value": "{color.yellow.60}"
+      },
+      "70": {
+        "$value": "{color.yellow.70}"
+      },
+      "80": {
+        "$value": "{color.yellow.80}"
+      },
+      "90": {
+        "$value": "{color.yellow.90}"
+      },
+      "95": {
+        "$value": "{color.yellow.95}"
+      },
+      "98": {
+        "$value": "{color.yellow.98}"
+      },
+      "100": {
+        "$value": "{color.yellow.100}"
+      },
+      "@": {
+        "$value": "{color.yellow.@}"
+      }
     },
-    "danger": {
-      "$value": "{color.red.@}"
+    "error": {
+      "0": {
+        "$value": "{color.red.0}"
+      },
+      "10": {
+        "$value": "{color.red.10}"
+      },
+      "20": {
+        "$value": "{color.red.20}"
+      },
+      "30": {
+        "$value": "{color.red.30}"
+      },
+      "40": {
+        "$value": "{color.red.40}"
+      },
+      "50": {
+        "$value": "{color.red.50}"
+      },
+      "60": {
+        "$value": "{color.red.60}"
+      },
+      "70": {
+        "$value": "{color.red.70}"
+      },
+      "80": {
+        "$value": "{color.red.80}"
+      },
+      "90": {
+        "$value": "{color.red.90}"
+      },
+      "95": {
+        "$value": "{color.red.95}"
+      },
+      "98": {
+        "$value": "{color.red.98}"
+      },
+      "100": {
+        "$value": "{color.red.100}"
+      },
+      "@": {
+        "$value": "{color.red.@}"
+      }
     }
   }
 }

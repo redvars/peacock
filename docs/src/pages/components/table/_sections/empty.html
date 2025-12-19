@@ -1,5 +1,5 @@
 <goat-card>
-  <goat-card-content style="height: 30rem">
+  <pc-card-content style="height: 30rem">
     <goat-table id="empty-table" key-field="_id" selection-type="checkbox" sortable></goat-table>
     <script>
       const $emptyTable = document.getElementById('empty-table');
@@ -14,8 +14,8 @@
         'actionUrl': '#'
       };
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     {% GoatHighlighter language:"javascript" %}
 const $emptyTable = document.getElementById('empty-table');
 // Columns
@@ -29,5 +29,5 @@ $emptyTable.emptyState = {
   'actionUrl': '#'
 };
     {% endGoatHighlighter %}
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

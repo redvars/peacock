@@ -1,0 +1,15 @@
+{
+  "global": {
+    "badge": {
+      "color": {
+        "$type": "color",
+        "$value": "{color.error.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.error.80}"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,38 @@
 {
   "color": {
     "$type": "color",
+    "surface": {
+      "$value": "{color.neutral.98}",
+      "$extensions": {
+        "mode": {
+          "dark": "#201a19"
+        }
+      }
+    },
+    "onSurface": {
+      "$value": "{color.neutral.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "#ede0dd"
+        }
+      }
+    },
+    "surfaceVariant": {
+      "$value": "{color.neutral.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "#534341"
+        }
+      }
+    },
+    "onSurfaceVariant": {
+      "$value": "{color.neutral.30}",
+      "$extensions": {
+        "mode": {
+          "dark": "#d8c2be"
+        }
+      }
+    },
     "surfaceContainerHighest": {
       "$value": "{color.neutral.90}",
       "$extensions": {
@@ -46,6 +78,22 @@
       "$extensions": {
         "mode": {
           "dark": "{color.neutral.6}"
+        }
+      }
+    },
+    "outline": {
+      "$value": "{color.neutralVariant.50}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.60}"
+        }
+      }
+    },
+    "outlineVariant": {
+      "$value": "{color.neutralVariant.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.30}"
         }
       }
     }

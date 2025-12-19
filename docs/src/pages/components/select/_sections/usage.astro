@@ -2,7 +2,7 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-select id="select" placeholder="Select" clearable style="width: 20rem"></goat-select>
     <script is:inline>
       let $dropDown = document.getElementById('select');
@@ -45,14 +45,14 @@ import Highlighter from '../../../../components/Highlighter.astro';
         },
       ];
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
     <goat-select id="select" placeholder="Select" clearable style="width: 20rem"></goat-select>
 <goat-select id="select2" class='no-border' placeholder="Select"  style="width: 20rem"></goat-select>
     </Highlighter>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw>
 const $dropDown = document.getElementById('select');
 $dropDown.items = [
@@ -74,5 +74,5 @@ $dropDown.addEventListener('goat:change', function (evt) {
   myConsole.log(JSON.stringify(evt.detail, null, 4));
 });
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

@@ -2,44 +2,31 @@
 
 :host {
   display: inline-block;
+  --badge-color: var(--global-badge-color);
 }
 
 .badge {
-  position: relative;
-}
-
-.badge-content {
-  position: absolute;
-  z-index: v(--z-index-badge);
-  color: v(--color-white);
+  pointer-events: none;
+  z-index: var(--z-index-badge);
+  color: var(--color-white);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--badge-color, v(--color-neutral));
-  border-radius: 12px;
-  padding: v(--spacing-025) var(--spacing-050);
-  @include font-style(code-01);
+  background-color: var(--badge-color);
+  border-radius: var(--global-shape-corner-full);
+
+
 
   &.has-content {
-    top: var(--badge-top, -0.5rem);
-    right: var(--badge-left, -0.5rem);
-    height: 1.25rem;
-    min-width: 1.25rem;
+    height: 1rem;
+    min-width: 1rem;
+    padding-inline: var(--spacing-050);
+    @include get-typography(label-small);
+    color: var(--color-on-error);
   }
 
   &:not(.has-content) {
-    top: var(--badge-top, -0.25rem);
-    right: var(--badge-left, -0.25rem);
-    height: 0.5rem;
-    min-width: 0.5rem;
-  }
-}
-
-
-@each $state in [success, warning, error] {
-  .badge.color-#{$state} {
-    .badge-content {
-      background-color: var(--support-#{$state});
-    }
+    height: 6px;
+    width: 6px;
   }
 }

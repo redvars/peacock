@@ -1,8 +1,47 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={"html"} cssClasses={"demo-canvas"}>
-  <goat-badge content="1">
-    <pc-icon name="notification"></pc-icon>
-  </goat-badge>
-</HighlighterCard>
+
+<DemoComponentCard lang={"html"}>
+
+  <div class='badge-wrapper'>
+    <pc-icon name="notifications"></pc-icon>
+    <pc-badge class='badge-anchor-simple'></pc-badge>
+  </div>
+
+  <div class='badge-wrapper'>
+    <pc-icon name="notifications"></pc-icon>
+    <pc-badge class='badge-anchor'>1</pc-badge>
+  </div>
+
+  <div class='badge-wrapper'>
+    <pc-icon name="notifications">
+    </pc-icon>
+    <pc-badge class='badge-anchor'>999+</pc-badge>
+  </div>
+
+
+  <style is:inline>
+    .badge-wrapper {
+      position: relative;
+      display: inline-flex;
+      width: 1.5rem;
+      height: 1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .badge-anchor-simple {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .badge-anchor {
+      position: absolute;
+      top: -2px;
+      left: calc(100% - 12px);
+    }
+  </style>
+
+</DemoComponentCard>

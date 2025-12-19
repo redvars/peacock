@@ -1,18 +1,19 @@
 import { Component, h, Host, Prop } from '@stencil/core';
 
 /**
- * @name Progress
- * @description Progress indicators express an unspecified wait time or display the length of a process.
+ * @label Linear Progress Indicator
+ * @name  linear-progress
+ * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
  * @category Informational
  * @tags feedback, loading, progress, spinner
  * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
  */
 @Component({
-  tag: 'goat-progress',
-  styleUrl: 'progress.scss',
+  tag: 'pc-linear-progress',
+  styleUrl: 'linear-progress.scss',
   shadow: true,
 })
-export class Progress {
+export class LinearProgress {
   /*
    * The current value.
    */
@@ -33,18 +34,6 @@ export class Progress {
 
   @Prop() hideLabel: boolean = false;
 
-  @Prop() status: 'active' | 'success' | 'error' = 'active';
-
-  getRenderIcon() {
-    if (this.status === 'success') {
-      return (
-        <pc-icon class={'progress-icon'} name={'checkmark--filled'}></pc-icon>
-      );
-    } else if (this.status === 'error') {
-      return <pc-icon class={'progress-icon'} name={'error--filled'}></pc-icon>;
-    }
-  }
-
   render() {
     return (
       <Host>
@@ -52,14 +41,12 @@ export class Progress {
           class={{
             progress: true,
             [`size-${this.size}`]: true,
-            [`status-${this.status}`]: true,
-            indeterminate: this.value === null && this.status === 'active',
+            indeterminate: this.value === null,
           }}
         >
           {!this.hideLabel && (
             <div class="progress-header">
               <label class="progress-label">{this.label}</label>
-              {this.getRenderIcon()}
             </div>
           )}
           <div class="progress-track">

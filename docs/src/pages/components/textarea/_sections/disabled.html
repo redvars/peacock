@@ -1,5 +1,5 @@
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <pc-textarea id="input-with-actions"></goat-textarea>
     <script>
       document.querySelector('#input-with-actions').actions = [
@@ -21,8 +21,8 @@
         window.notyf.success('Action clicked :: ' + evt.detail.eventName);
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     {% GoatHighlighter language:"javascript" %}
 document.querySelector('#input-with-actions').actions = [
   { icon: 'search', eventName: 'search-item' },
@@ -34,5 +34,5 @@ document.querySelector('#input-with-actions').addEventListener('goat:action-clic
   console.log("Action clicked :: " + evt.detail.eventName);
 });
     {% endGoatHighlighter %}
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

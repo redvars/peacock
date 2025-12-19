@@ -1,0 +1,39 @@
+@import "../mixins";
+
+
+
+p {
+  @include get-typography(body-medium);
+  margin-block-end: var(--spacing-200);
+}
+
+.pc-text-body, .pc-text-body-medium, .pc-text-body-large, .pc-text-body-small {
+  margin-block-end: var(--spacing-200);
+}
+
+.pc-text-headline, .pc-text-headline-medium, .pc-text-headline-large, .pc-text-headline-small {
+  margin-block-end: var(--spacing-400);
+}
+
+$types: "display", "headline", "body", 'label', 'title';
+$sizes: "large", "medium", 'small';
+
+@each $type in $types {
+  .pc-text-#{$type} {
+    @include get-typography(#{$type}-medium);
+  }
+
+  .pc-text-#{$type}-emphasized {
+    @include get-typography(#{$type}-medium-emphasized);
+  }
+
+  @each $size in $sizes {
+    .pc-text-#{$type}-#{$size} {
+      @include get-typography(#{$type}-#{$size});
+    }
+
+    .pc-text-#{$type}-#{$size}-emphasized {
+      @include get-typography(#{$type}-#{$size}-emphasized);
+    }
+  }
+}

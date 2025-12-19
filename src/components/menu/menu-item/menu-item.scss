@@ -13,12 +13,12 @@ $border-width: 2px;
 
   cursor: pointer;
   @include font-style(body-compact-01);
-  padding-inline: calc(#{v(--spacing-200)} - #{$border-width});
+  padding-inline: calc(var(--spacing-200) - #{$border-width});
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: v(--spacing-050);
-  color: v(--text-secondary);
+  gap: var(--spacing-050);
+  color: var(--menu-text-color);
 
   border: $border-width solid transparent;
 
@@ -40,7 +40,7 @@ $border-width: 2px;
   }
 
   .slot-end {
-    color: v(--text-helper);
+    color: var(--text-helper);
   }
 
 }
@@ -65,11 +65,11 @@ $border-width: 2px;
 
 .menu-item {
   &:hover {
-    background: v(--layer-hover);
+    background: var(--layer-hover);
     color: var(--text-primary);
 
     .slot-end {
-      color: v(--icon-01);
+      color: var(--icon-01);
     }
   }
 

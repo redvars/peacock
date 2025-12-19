@@ -29,6 +29,7 @@
 
 ### Depends on
 
+- [pc-elevation](../../elevation)
 - [pc-button](../../button)
 - [pc-icon](../../icon)
 - [goat-spinner](../../spinner)
@@ -36,6 +37,7 @@
 ### Graph
 ```mermaid
 graph TD;
+  goat-modal --> pc-elevation
   goat-modal --> pc-button
   goat-modal --> pc-icon
   goat-modal --> goat-spinner

@@ -95,6 +95,7 @@ html.hydrated {
 
 .side-navigation .nav-item {
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 .side-navigation .nav-item .icon {
@@ -108,6 +109,11 @@ html.hydrated {
 .side-navigation .nav-item:hover .icon {
   background: var(--color-secondary-container);
   border-radius: var(--global-shape-corner-large);
+}
+
+.side-navigation .theme-switcher {
+  margin-top: auto;
+  margin-bottom: 1.5rem;
 }
 
 .item {

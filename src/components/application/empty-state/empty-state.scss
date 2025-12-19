@@ -2,6 +2,14 @@
 
 :host {
   display: block;
+  --empty-state-outline: var(--color-outline);
+  --empty-state-bg-primary: var(--color-secondary);
+  --empty-state-bg-secondary: var(--color-tertiary-40);
+  --empty-state-bg-tertiary: var(--color-tertiary-30);
+
+  --empty-state-text-color: var(--color-on-surface);
+  --empty-state-bg-surface: var(--surface);
+  --empty-state-green: var(--color-success-50);
 }
 
 
@@ -29,21 +37,14 @@
     height: 100%;
   }
 
-  --empty-state-outline: #{v(--color-brand-primary)};
-  --empty-state-bg-primary: #{v(--color-brand-secondary)};
-  --empty-state-bg-secondary: #{v(--color-brand-secondary-40)};
-  --empty-state-bg-tertiary: #{v(--color-brand-secondary-30)};
 
-  --empty-state-text: var(--text-primary);
-  --empty-state-bg-surface: var(--background);
 
-  --empty-state-green: #{v(--color-success-50)};
 }
 
 :host-context([data-theme="dark"]) {
   .illustration {
-    --empty-state-bg-secondary: #{v(--color-brand-secondary-50)};
-    --empty-state-bg-tertiary: #{v(--color-brand-secondary-90)};
+    --empty-state-bg-secondary: var(--color-secondary-50);
+    --empty-state-bg-tertiary: var(--color-secondary-90);
   }
 }
 
@@ -53,16 +54,15 @@
   justify-content: center;
 
   .title {
-    @include font-style(text-md);
-    font-weight: v(--font-weight-semi-bold);
-    margin-bottom: v(--spacing-050);
-    color: var(--text-color, var(--text-primary))
+    @include get-typography(headline-medium-emphasized);
+    margin-bottom: var(--spacing-200);
+    color: var(--color-on-surface)
   }
 
   .description {
-    @include font-style(text-sm);
-    margin-bottom: v(--spacing-150);
-    color: var(--text-color, var(--text-secondary))
+    @include get-typography(body-medium);
+    margin-bottom: var(--spacing-400);
+    color: var(--color-on-surface-variant)
   }
 }
 

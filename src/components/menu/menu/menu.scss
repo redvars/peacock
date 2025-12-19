@@ -4,34 +4,41 @@
 :host {
   display: inline-block;
   /**
-    * @prop --goat-menu-background: Background color of the menu
+    * @prop --menu-background: Background color of the menu
    */
-  --goat-menu-background: var(--layer);
+  --menu-background: var(--color-secondary-container);
+  --menu-text-color:  var(--color-on-secondary-container);
+  --menu-border-radius: var(--global-shape-corner-medium);
 
   /**
-    * @prop --goat-menu-max-height: Maximum height of the menu
+    * @prop --menu-max-height: Maximum height of the menu
    */
-  --goat-menu-max-height: 100%;
+  --menu-max-height: 100%;
 
   /**
-    * @prop --goat-menu-shadow: Shadow of the menu
+    * @prop --menu-shadow: Shadow of the menu
    */
-  --goat-menu-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+  --menu-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
 
   min-width: 10rem;
 }
 
 .menu {
-  background: var(--goat-menu-background);
+  background: var(--menu-background);
   box-sizing: border-box;
-  max-height: var(--goat-menu-max-height);
+  max-height: var(--menu-max-height);
   overflow-x: auto;
-  border: 1px solid #{v(--border-subtle)};
-  box-shadow: var(--goat-menu-shadow);
-  padding-block: v(--spacing-050);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--menu-border-radius);
+  box-shadow: var(--menu-shadow);
+  padding-block: var(--spacing-050);
 }
 
 :host(.no-border) .menu {
   border: none;
   box-shadow: none;
+}
+
+slot::slotted(pc-divider) {
+  --divider-padding: var(--spacing-050);
 }

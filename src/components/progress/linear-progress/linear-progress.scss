@@ -1,8 +1,9 @@
-@import "../../globalStyles/commons";
+@import "../../../globalStyles/commons";
 
 :host {
   display: block;
   --progress-height: .5rem;
+  --progress-color: var(--color-primary);
   .spinner {
     line-height: 0;
   }
@@ -23,6 +24,7 @@
   .progress-header {
     display: flex;
     align-items: center;
+
     .progress-label {
       flex: 1;
     }
@@ -31,17 +33,15 @@
   .progress-track {
     height: var(--progress-height);
     width: 100%;
-    background: var(--border-subtle-00);
+    background: var(--color-secondary-container);
     position: relative;
     margin: var(--spacing-100) 0;
 
     .progress-bar {
       height: 100%;
-      background: var(--border-interactive);
+      background: var(--progress-color);
       transition: width .3s ease-in-out;
     }
-
-
   }
 
   .progress-helper {
@@ -49,18 +49,18 @@
   }
 
 
-
   &.indeterminate {
     .progress-track {
       .progress-bar {
         display: none;
       }
+
       &:after {
         animation-duration: 1.4s;
         animation-iteration-count: infinite;
         animation-name: progress-bar-indeterminate;
         animation-timing-function: linear;
-        background-image: linear-gradient(90deg,var(--cds-interactive,#0f62fe) 12.5%,transparent 12.5%);
+        background-image: linear-gradient(90deg, var(--color-primary) 12.5%, transparent 12.5%);
         background-position-x: 0;
         background-size: 200% 100%;
         content: "";
@@ -69,26 +69,8 @@
       }
     }
   }
-
-  &.status-success {
-    .progress-bar {
-      background: var(--support-success);
-    }
-    .progress-icon {
-      --icon-color: var(--support-success);
-    }
-  }
-
-  &.status-error {
-    .progress-bar {
-      background: var(--support-error);
-    }
-    .progress-icon {
-      --icon-color: var(--support-error);
-    }
-  }
-
 }
+
 
 :host([size="sm"]) {
   --progress-height: 0.25rem;

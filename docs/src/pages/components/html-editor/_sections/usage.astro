@@ -3,7 +3,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 ---
 
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-checkbox id="disableEditor">Disable editor</goat-checkbox>
     <goat-checkbox id="readonlyEditor">Read-only editor</goat-checkbox>
     <goat-html-editor id="html-editor" style="height: 300px"></goat-html-editor>
@@ -51,7 +51,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
       document.querySelector('#disableEditor').addEventListener('goat-checkbox--change', function (evt) {
         document.getElementById('html-editor').disabled = evt.target.value;
       });
-    
+
       document.getElementById('html-editor').addEventListener('goat-html-editor--search', function (evt) {
         evt.detail.callback([{
           label: 'Jennifer Grey',
@@ -59,15 +59,15 @@ import Highlighter from '../../../../components/Highlighter.astro';
         }]);
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
     <goat-html-editor id="html-editor" style="height: 300px"></goat-html-editor>
     </Highlighter>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw> document.getElementById('html-editor').value =
     "<b>Hello world</b>";
         </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

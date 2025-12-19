@@ -2,7 +2,7 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-select id="multi-select" value="new,save" multiple placeholder="Search" search="contains" clearable style="width: 30rem"></goat-select>
     <script is:inline>
       const $multiSelect = document.getElementById('multi-select');
@@ -25,8 +25,8 @@ import Highlighter from '../../../../components/Highlighter.astro';
         myConsole.log(JSON.stringify(evt.detail, null, 4));
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
 <goat-select
   id="multi-selected"
@@ -38,5 +38,5 @@ import Highlighter from '../../../../components/Highlighter.astro';
   style="width: 20rem"
 ></goat-select>
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

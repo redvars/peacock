@@ -31,6 +31,7 @@
 
   --button-height: unset;
   --button-icon-size: unset;
+  --button-container-shape: unset;
 
   --filled-button-container-color: var(--color-primary);
   --filled-button-label-text-color: var(--color-on-primary);
@@ -97,6 +98,7 @@ border: var(--internal-button-inner-padding) solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: var(--__container-gap, var(--spacing-200));
     z-index: var(--z-index-button);
     height: 100%;
     width: 100%;
@@ -151,6 +153,7 @@ border: var(--internal-button-inner-padding) solid transparent;
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+
 
     pointer-events: none;
   }
@@ -254,10 +257,10 @@ border: var(--internal-button-inner-padding) solid transparent;
  */
 .button.variant-filled {
 
-  --_container-shape-start-start: var(--filled-button-container-shape-start-start, var(--filled-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-start-end: var(--filled-button-container-shape-start-end, var(--filled-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-start: var(--filled-button-container-shape-end-start, var(--filled-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-end: var(--filled-button-container-shape-end-end, var(--filled-button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-start: var(--filled-button-container-shape-start-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-end: var(--filled-button-container-shape-start-end, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-start: var(--filled-button-container-shape-end-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-end: var(--filled-button-container-shape-end-end, var(--button-container-shape, var(--global-shape-corner-small)));
   --__container-color: var(--filled-button-container-color);
   --__label-text-color: var(--filled-button-label-text-color);
 
@@ -314,10 +317,10 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 .button.variant-elevated {
 
-  --_container-shape-start-start: var(--elevated-button-container-shape-start-start, var(--elevated-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-start-end: var(--elevated-button-container-shape-start-end, var(--elevated-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-start: var(--elevated-button-container-shape-end-start, var(--elevated-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-end: var(--elevated-button-container-shape-end-end, var(--elevated-button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-start: var(--elevated-button-container-shape-start-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-end: var(--elevated-button-container-shape-start-end, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-start: var(--elevated-button-container-shape-end-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-end: var(--elevated-button-container-shape-end-end, var(--button-container-shape, var(--global-shape-corner-small)));
   --__container-color: var(--elevated-button-container-color);
   --__label-text-color: var(--elevated-button-label-text-color);
   --_container-elevation-level: 1;
@@ -330,10 +333,7 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 .button.variant-tonal {
 
-  --_container-shape-start-start: var(--tonal-button-container-shape-start-start, var(--tonal-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-start-end: var(--tonal-button-container-shape-start-end, var(--tonal-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-start: var(--tonal-button-container-shape-end-start, var(--tonal-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-end: var(--tonal-button-container-shape-end-end, var(--tonal-button-container-shape, var(--global-shape-corner-small)));
+
   --__container-color: var(--tonal-button-container-color);
   --__label-text-color: var(--tonal-button-label-text-color);
 
@@ -402,10 +402,10 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 .button.variant-outlined {
 
-  --_container-shape-start-start: var(--outlined-button-container-shape-start-start, var(--outlined-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-start-end: var(--outlined-button-container-shape-start-end, var(--outlined-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-start: var(--outlined-button-container-shape-end-start, var(--outlined-button-container-shape, var(--global-shape-corner-small)));
-  --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--outlined-button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-start: var(--outlined-button-container-shape-start-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-start-end: var(--outlined-button-container-shape-start-end, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-start: var(--outlined-button-container-shape-end-start, var(--button-container-shape, var(--global-shape-corner-small)));
+  --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--button-container-shape, var(--global-shape-corner-small)));
 
   --_outline-width: var(--outlined-button-outline-width, 0.125rem);
   --_outline-color: var(--outlined-button-outline-color, var(--color-primary));

@@ -4,7 +4,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 import dataSource from '../_data-source.json';
 ---
 <goat-card>
-  <goat-card-content style='height: 30rem'>
+  <pc-card-content style='height: 30rem'>
     <goat-table id='table' key-field='_id' selection-type='checkbox' sortable></goat-table>
     <script is:inline define:vars={{ dataSource }}>
       const $table = document.getElementById('table');
@@ -87,8 +87,8 @@ import dataSource from '../_data-source.json';
         document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
       });
     </script>
-  </goat-card-content>
-  <goat-card-content>
+  </pc-card-content>
+  <pc-card-content>
     <div class='result'>
       <goat-heading level='5'>Cell Click Result :</goat-heading>
       <div>
@@ -101,8 +101,8 @@ import dataSource from '../_data-source.json';
       <br />
       <div>Check console for full event detail.</div>
     </div>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang='html'>
       <goat-table id='table' key-field='_id' selection-type='checkbox' sortable></goat-table>
       {`<script type='javascript'>
@@ -155,5 +155,5 @@ import dataSource from '../_data-source.json';
       });
     </script>`}
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

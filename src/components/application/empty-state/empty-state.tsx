@@ -26,7 +26,8 @@ import * as DOMPurify from 'dompurify';
 export class EmptyState implements ComponentInterface {
   @Element() elm!: HTMLElement;
 
-  @Prop({ reflect: true }) illustration: 'no-document' = 'no-document';
+  @Prop({ reflect: true }) illustration: 'no-document' | 'page' | 'search' =
+    'no-document';
 
   @Prop({ reflect: true }) headline: string;
 
@@ -81,7 +82,7 @@ export class EmptyState implements ComponentInterface {
                     disabled={this.actionDisabled}
                     variant={this.actionVariant}
                   >
-                    <pc-icon slot="icon" name="arrow--right" />
+                    <pc-icon slot="icon" name="arrow_right_alt" />
                     {this.action}
                   </pc-button>
                 )}

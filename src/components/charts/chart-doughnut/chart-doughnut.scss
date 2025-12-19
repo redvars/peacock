@@ -5,6 +5,9 @@
   display: inline-block;
 }
 
+
+
+
 .title {
   font-size:v(--heading-03-font-size);
   font-weight: 600;
@@ -26,10 +29,8 @@
   stroke: var(--text-primary);
 }
 
+
 .item-label {
-  fill: var(--text-primary);
-  font-size: v(--label-01-font-size);
-  font-weight: v(--label-01-font-weight);
-  line-height: v(--label-01-line-height);
-  letter-spacing: v(--label-01-letter-spacing);
+  fill: var(--color-on-surface);
+  @include get-typography('label-medium')
 }

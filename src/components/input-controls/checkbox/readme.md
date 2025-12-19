@@ -72,9 +72,14 @@ Type: `Promise<void>`
 
  - [goat-table](../../table)
 
+### Depends on
+
+- [pc-icon](../../icon)
+
 ### Graph
 ```mermaid
 graph TD;
+  goat-checkbox --> pc-icon
   goat-table --> goat-checkbox
   style goat-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```

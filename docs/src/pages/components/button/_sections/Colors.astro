@@ -15,17 +15,19 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
   <!-- Custom color : give any name to css variable and use it as button color -->
   <style is:inline>
+    .primary {
+      --filled-button-container-color: var(--color-secondary);
+    }
     .success {
-      --filled-button-container-color: var(--color-success-500);
-
+      --filled-button-container-color: var(--color-success);
     }
     .danger {
-      --filled-button-container-color: var(--color-danger-500);
+      --filled-button-container-color: var(--color-error);
     }
   </style>
 
   <div class='component-container'>
-    <pc-button>Primary</pc-button>
+    <pc-button class='primary'>Primary</pc-button>
     <pc-button class='success'>Success</pc-button>
     <pc-button class='danger'>Danger</pc-button>
   </div>

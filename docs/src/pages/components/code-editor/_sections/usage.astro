@@ -2,7 +2,7 @@
 import Highlighter from '../../../../components/Highlighter.astro'
 ---
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-checkbox id='disableEditor'>Disable editor</goat-checkbox>
 
     <goat-code-editor id='business-rule-editor' style='display:block; height: 300px'></goat-code-editor>
@@ -21,13 +21,13 @@ function myBusinessRuleFunction(){
         document.getElementById('business-rule-editor').disabled = evt.target.value;
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
       <goat-code-editor id='business-rule-editor' style='height: 300px'></goat-code-editor>
     </Highlighter>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw> document.getElementById('business-rule-editor').value = `/**
       * Sample Code
       */
@@ -38,5 +38,5 @@ function myBusinessRuleFunction(){
         console.log(c);
       }`;
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

@@ -1,7 +1,5 @@
 import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 
-
-
 /**
  * @name Progress indicator
  * @description Progress indicators express an unspecified wait time or display the length of a process.
@@ -10,11 +8,11 @@ import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
  * @example <goat-progress-indicator value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress-indicator>
  */
 @Component({
-  tag: 'goat-progress-indicator',
+  tag: 'goat-linear-progress',
   styleUrl: 'progress-indicator.scss',
   shadow: true,
 })
-export class ProgressIndicator {
+export class LinearProgress {
   /**
    * Total number of steps. Ignored if `labels` is provided.
    */
@@ -43,7 +41,10 @@ export class ProgressIndicator {
 
   private getSteps(): string[] {
     if (this.labels && this.labels.trim().length) {
-      return this.labels.split(',').map(s => s.trim()).filter(Boolean);
+      return this.labels
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
     }
     return Array.from({ length: this.total }, (_, i) => `Step ${i + 1}`);
   }
@@ -63,7 +64,11 @@ export class ProgressIndicator {
             const index = i + 1;
             const completed = index < this.current;
             const active = index === this.current;
-            const stateClass = completed ? 'is-complete' : active ? 'is-active' : '';
+            const stateClass = completed
+              ? 'is-complete'
+              : active
+              ? 'is-active'
+              : '';
             return (
               <li
                 class={`goat-progress__step ${stateClass}`}
@@ -77,12 +82,18 @@ export class ProgressIndicator {
                   onClick={() => this.onStepClick(index)}
                   aria-pressed={active ? 'true' : 'false'}
                 >
-                  <span class={`goat-progress__marker ${completed ? 'marker-complete' : ''}`}>
+                  <span
+                    class={`goat-progress__marker ${
+                      completed ? 'marker-complete' : ''
+                    }`}
+                  >
                     <span class="goat-progress__number">{index}</span>
                   </span>
                   <span class="goat-progress__label">{label}</span>
                 </button>
-                {i !== steps.length - 1 ? <span class="goat-progress__connector" aria-hidden="true" /> : null}
+                {i !== steps.length - 1 ? (
+                  <span class="goat-progress__connector" aria-hidden="true" />
+                ) : null}
               </li>
             );
           })}

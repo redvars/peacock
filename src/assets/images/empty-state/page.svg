@@ -4,11 +4,11 @@
     fill: var(--empty-state-bg-secondary);
     }
     .tree {
-      fill: var(--empty-state-green);
+      fill: var(--color-green);
     }
 
     .oops {
-      fill: var(--empty-state-text);
+      fill: var(--empty-state-text-color);
     }
 
     .primary-cloth {

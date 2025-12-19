@@ -8,7 +8,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 
 
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <pc-textarea variant='default' id='name-input-field'></goat-textarea>
 
     <script is:inline>
@@ -19,8 +19,8 @@ import Highlighter from '../../../../components/Highlighter.astro';
         myConsole.warn(event.target.value, event.type);
       });
     </script>
-  </goat-card-content>
-  <goat-card-content class='no-padding'>
+  </pc-card-content>
+  <pc-card-content class='no-padding'>
     <Highlighter lang='javascript' is:raw>
       document.querySelector('#name-input-field').addEventListener('goat-textarea--input', function(event) {
         myConsole.log(event.target.value, event.type);
@@ -29,5 +29,5 @@ import Highlighter from '../../../../components/Highlighter.astro';
         myConsole.warn(event.target.value, event.type);
       });
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

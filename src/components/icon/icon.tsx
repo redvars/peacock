@@ -20,7 +20,7 @@ export class Icon {
    * The identifier for the icon.
    * This name corresponds to a specific SVG asset in the icon set.
    */
-  @Prop() name: string;
+  @Prop({ reflect: true }) name: string;
 
   private iconElm?: HTMLElement;
 

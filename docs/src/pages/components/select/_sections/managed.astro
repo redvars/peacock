@@ -2,7 +2,7 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <goat-card>
-  <goat-card-content>
+  <pc-card-content>
     <goat-select id="managed-selected" placeholder="Search" search="managed" clearable style="width: 20rem"></goat-select>
     <script is:inline>
       const $managed = document.getElementById('managed-selected');
@@ -32,15 +32,15 @@ import Highlighter from '../../../../components/Highlighter.astro';
         }, 1000);
       }
     </script>
-  </goat-card-content>
+  </pc-card-content>
 
-  <goat-card-content class='no-padding'>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
     <goat-select id="managed-selected" placeholder="Search" search="managed" clearable style="width: 20rem"></goat-select>
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 
-  <goat-card-content class='no-padding'>
+  <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw>
 const $managed = document.getElementById('managed-selected');
 $managed.items = [];
@@ -69,5 +69,5 @@ function fakeServerCall(searchString, callback) {
   }, 1000);
 }
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

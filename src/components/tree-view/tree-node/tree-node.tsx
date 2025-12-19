@@ -248,7 +248,7 @@ export class GoatTreeNode {
           >
             {this.hasChildNodes && (
               <pc-icon
-                name="caret--right"
+                name="arrow_right"
                 class={{ 'expand-icon': true, 'expanded': this.expanded }}
               />
             )}

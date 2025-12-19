@@ -2,12 +2,12 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <goat-card>
-  <goat-card-content class='no-padding'>
+  <pc-card-content class='no-padding'>
     <Highlighter lang='javascript' is:raw>
       const treeView = document.querySelector('#tree-view');
       treeView.addEventListener('goat-tree-node--click', function(evt) {
       myConsole.log(JSON.stringify(evt.detail.value, null, 4), 'goat-tree-node-click');
       });
     </Highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </goat-card>

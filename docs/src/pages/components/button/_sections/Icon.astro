@@ -6,20 +6,20 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   <pc-button icon="add--large"></pc-button>
   <pc-button icon="add--large">Add</pc-button>
 
-  <pc-button icon="chevron--left" icon-align='start'>Previous</pc-button>
-  <pc-button icon="chevron--right">Next</pc-button>
+  <pc-button icon-align='start'><pc-icon slot='icon' name='chevron_left'/> Previous</pc-button>
+  <pc-button><pc-icon slot='icon' name='chevron_right'/> Next</pc-button>
 </div>
 
 <div class='component-container'>
-  <pc-button icon="save" variant="outline"></pc-button>
-  <pc-button icon="save" variant="text"></pc-button>
+  <pc-button variant="outlined"><pc-icon slot='icon' name='save'/></pc-button>
+  <pc-button variant="text"><pc-icon slot='icon' name='save'/></pc-button>
 </div>
 
 <div class='component-container'>
-  <pc-button size='xs'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
-  <pc-button size='sm'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
-  <pc-button size='md'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
-  <pc-button size='lg'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
-  <pc-button size='xl'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button size='xs'><pc-icon slot='icon' name='save'/></pc-button>
+  <pc-button size='sm'><pc-icon slot='icon' name='save'/></pc-button>
+  <pc-button size='md'><pc-icon slot='icon' name='save'/></pc-button>
+  <pc-button size='lg'><pc-icon slot='icon' name='save'/></pc-button>
+  <pc-button size='xl'><pc-icon slot='icon' name='save'/></pc-button>
 </div>
 </HighlighterCard>

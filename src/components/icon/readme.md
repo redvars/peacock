@@ -17,6 +17,7 @@
 ### Used by
 
  - [goat-calendar](../application/calendar/calendar)
+ - [goat-checkbox](../input-controls/checkbox)
  - [goat-code-highlighter](../application/code-highlighter)
  - [goat-date-picker](../input-controls/data-and-time/date/date-picker)
  - [goat-empty-state](../application/empty-state)
@@ -29,7 +30,6 @@
  - [goat-modal](../modal/modal)
  - [goat-notification](../notification)
  - [goat-number](../input-controls/input/number)
- - [goat-progress](../progress)
  - [goat-select](../input-controls/select)
  - [goat-tab](../tabs/tab)
  - [goat-table](../table)
@@ -43,6 +43,7 @@
 ```mermaid
 graph TD;
   goat-calendar --> pc-icon
+  goat-checkbox --> pc-icon
   goat-code-highlighter --> pc-icon
   goat-date-picker --> pc-icon
   goat-empty-state --> pc-icon
@@ -55,7 +56,6 @@ graph TD;
   goat-modal --> pc-icon
   goat-notification --> pc-icon
   goat-number --> pc-icon
-  goat-progress --> pc-icon
   goat-select --> pc-icon
   goat-tab --> pc-icon
   goat-table --> pc-icon

@@ -35,12 +35,12 @@ if (alignStart) {
   }
 </style>
 <pc-card class='demo-component-card'>
-  <goat-card-content class={'demo-area ' + cssClasses}>
+  <pc-card-content class={'demo-area ' + cssClasses}>
     <slot></slot>
-  </goat-card-content>
-  <goat-card-content class='body no-padding'>
+  </pc-card-content>
+  <pc-card-content class='body no-padding'>
     <goat-code-highlighter language={lang}>
       <pre><code><Fragment set:html={html} /></code></pre>
     </goat-code-highlighter>
-  </goat-card-content>
+  </pc-card-content>
 </pc-card>

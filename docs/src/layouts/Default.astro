@@ -23,40 +23,44 @@ const searchItems = componentsDetails.components.map(component => ({
   <div class="page-with-navigation">
     <div class="side-navigation surface-dim">
       <a class="link search-button" id="search-btn" href="#">
-
         <pc-icon name="search"></pc-icon>
-
       </a>
 
-      <a class="home link no-style nav-item" href="/#">
+      <a class="home pc-link no-style nav-item" href="/#">
         <div class="item">
           <div class='icon'>
             <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
           </div>
-          <span class='text-label'>Home</span>
+          <span class='pc-text-label'>Home</span>
         </div>
       </a>
 
-      <a class="components link no-style nav-item" href='/components'>
+      <a class="components pc-link no-style nav-item" href='/components'>
         <div class="item">
         <pc-icon class="icon" name="settings"></pc-icon>
-          <span class='text-label'>Components</span>
+          <span class='pc-text-label'>Components</span>
         </div>
       </a>
 
-      <a class="color link no-style nav-item" href='/color'>
+      <a class="color pc-link no-style nav-item" href='/color'>
         <div class="item">
         <pc-icon class="icon" name="palette"></pc-icon>
-          <span class='text-label'>Colors</span>
+          <span class='pc-text-label'>Colors</span>
         </div>
       </a>
 
-      <a class="color link no-style nav-item" href='/typography'>
+      <a class="color pc-link no-style nav-item" href='/components/text'>
         <div class="item">
           <pc-icon class="icon" name="font_download"></pc-icon>
-          <span class='text-label'>Typography</span>
+          <span class='pc-text-label'>Typography</span>
         </div>
       </a>
+
+      <div class="pc-link no-style nav-item theme-switcher" role='button' aria-label="Theme switcher">
+        <div class="item">
+          <pc-icon class="icon"/>
+        </div>
+      </div>
 
     </div>
 
