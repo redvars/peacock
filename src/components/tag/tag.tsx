@@ -11,14 +11,15 @@ import {
 import { ElementSize } from '../../utils/utils';
 
 /**
- * @name Tag
+ * @label Tag
+ * @name tag
  * @description Use tags to label, categorize, or organize items using keywords that describe them.
  * @category Data Display
  * @tag controls
- * @example <goat-tag class="color-red">Important</goat-tag>
+ * @example <pc-tag class="color-red">Important</pc-tag>
  */
 @Component({
-  tag: 'goat-tag',
+  tag: 'pc-tag',
   styleUrl: 'tag.scss',
   shadow: true,
 })
@@ -67,12 +68,12 @@ export class Tag implements ComponentInterface {
   /**
    * Emitted when the tag is clicked.
    */
-  @Event({ eventName: 'goat-tag--click' }) goatClick: EventEmitter;
+  @Event({ eventName: 'pc-tag--click' }) goatClick: EventEmitter;
 
   /**
    * Emitted when the close icon is clicked.
    */
-  @Event({ eventName: 'goat-tag--dismiss' }) goatTagDismissClick: EventEmitter;
+  @Event({ eventName: 'pc-tag--dismiss' }) goatTagDismissClick: EventEmitter;
 
   @Element() elm!: HTMLElement;
 

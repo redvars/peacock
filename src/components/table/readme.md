@@ -41,7 +41,6 @@
 
 ### Depends on
 
-- [goat-checkbox](../input-controls/checkbox)
 - [pc-button](../button)
 - [pc-icon](../icon)
 - [goat-select](../input-controls/select)
@@ -50,27 +49,24 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-table --> goat-checkbox
-  goat-table --> pc-button
-  goat-table --> pc-icon
-  goat-table --> goat-select
-  goat-table --> goat-empty-state
-  goat-checkbox --> pc-icon
+  pc-table --> pc-button
+  pc-table --> pc-icon
+  pc-table --> goat-select
+  pc-table --> goat-empty-state
   pc-button --> pc-elevation
   goat-select --> pc-icon
-  goat-select --> goat-tag
+  goat-select --> pc-tag
   goat-select --> pc-button
-  goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> pc-text
   goat-select --> goat-menu-item
-  goat-tag --> pc-icon
+  pc-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> pc-button
   goat-empty-state --> pc-icon
   goat-menu-item --> pc-icon
-  style goat-table fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-table fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

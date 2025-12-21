@@ -27,11 +27,11 @@
 }
 
 .spinner__svg {
-  animation-duration: 690ms;
+  animation-duration: 700ms;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
   animation-name: rotate;
-  animation-timing-function: linear;
+  animation-timing-function: cubic-bezier(0.2, 0.0, 0, 1);
   pointer-events: none;
 }
 

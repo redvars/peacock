@@ -1,7 +1,8 @@
 import { Component, Element, h, Host, Listen, Prop } from '@stencil/core';
 
 /**
- * @name Tooltip
+ * @label Tooltip
+ * @name tooltip
  * @description The Tooltip component is used to display additional information on hover.
  * @category Informational
  * @tag content

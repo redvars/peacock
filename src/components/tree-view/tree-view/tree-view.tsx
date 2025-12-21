@@ -9,10 +9,11 @@ import {
   State,
   Watch,
 } from '@stencil/core';
-import { GoatTreeNodeCustomEvent } from '../../../components';
+import { PcTreeNodeCustomEvent } from '../../../components';
 
 /**
- * @name TreeView
+ * @label Tree View
+ * @name tree-view
  * @description A tree view is a hierarchical structure that provides nested levels of navigation.
  * @category Navigation
  * @subcategory Tree View
@@ -20,7 +21,7 @@ import { GoatTreeNodeCustomEvent } from '../../../components';
  * @imgDark /assets/img/tree-view-dark.webp
  */
 @Component({
-  tag: 'goat-tree-view',
+  tag: 'pc-tree-view',
   styleUrl: 'tree-view.scss',
   shadow: true,
 })
@@ -49,8 +50,8 @@ export class TreeView implements ComponentInterface {
     }
   }
 
-  @Listen('goat-tree-node--click')
-  treeNodeClick(evt: GoatTreeNodeCustomEvent<any>) {
+  @Listen('tree-node--click')
+  treeNodeClick(evt: PcTreeNodeCustomEvent<any>) {
     this.selectedNode = evt.detail.value;
     this.subscribers.forEach(cb => cb(evt.detail.value));
   }
@@ -113,7 +114,7 @@ export class TreeView implements ComponentInterface {
         return;
       }
       if (!nextItem) {
-        nextItem = this.elm.querySelector('goat-tree-node:first-child');
+        nextItem = this.elm.querySelector('pc-tree-node:first-child');
       } else {
         nextItem = nextItem.nextElementSibling;
       }
@@ -132,7 +133,7 @@ export class TreeView implements ComponentInterface {
         return;
       }
       if (!previousItem) {
-        previousItem = this.elm.querySelector('goat-tree-node:last-child');
+        previousItem = this.elm.querySelector('pc-tree-node:last-child');
       } else {
         previousItem = previousItem.previousElementSibling;
       }

@@ -139,7 +139,7 @@ export class Tab implements ComponentInterface {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.host.hasAttribute('tabindex')) {
       const tabindex = this.host.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

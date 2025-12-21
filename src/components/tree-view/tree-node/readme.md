@@ -22,9 +22,9 @@
 
 ## Events
 
-| Event                   | Description                            | Type               |
-| ----------------------- | -------------------------------------- | ------------------ |
-| `goat-tree-node--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
+| Event                 | Description                            | Type               |
+| --------------------- | -------------------------------------- | ------------------ |
+| `pc-tree-node--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
 
 
 ## Methods
@@ -61,8 +61,8 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-tree-node --> pc-icon
-  style goat-tree-node fill:#f9f,stroke:#333,stroke-width:4px
+  pc-tree-node --> pc-icon
+  style pc-tree-node fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

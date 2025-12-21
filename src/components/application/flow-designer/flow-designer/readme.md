@@ -20,7 +20,7 @@
 
 - [goat-canvas](../canvas)
 - [pc-icon](../../../icon)
-- [goat-tag](../../../tag)
+- [pc-tag](../../../tag)
 - [pc-button-group](../../../button-group)
 - [pc-button](../../../button)
 
@@ -29,10 +29,10 @@
 graph TD;
   goat-flow-designer --> goat-canvas
   goat-flow-designer --> pc-icon
-  goat-flow-designer --> goat-tag
+  goat-flow-designer --> pc-tag
   goat-flow-designer --> pc-button-group
   goat-flow-designer --> pc-button
-  goat-tag --> pc-icon
+  pc-tag --> pc-icon
   pc-button --> pc-elevation
   style goat-flow-designer fill:#f9f,stroke:#333,stroke-width:4px
 ```

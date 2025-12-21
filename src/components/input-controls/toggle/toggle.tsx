@@ -14,14 +14,15 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name Toggle
+ * @label Toggle
+ * @name toggle
  * @description Captures boolean input with an optional indeterminate mode.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-toggle value='true'>Want ice cream?</goat-toggle>
+ * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
  */
 @Component({
-  tag: 'goat-toggle',
+  tag: 'pc-toggle',
   styleUrl: 'toggle.scss',
   shadow: true,
 })
@@ -31,7 +32,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The checkbox label.
@@ -68,17 +69,17 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   /**
    * On change of input a CustomEvent 'goat-change' will be triggered. Event details contains parent event, oldValue, newValue of input.
    */
-  @Event({ eventName: 'goat-toggle--change' }) goatChange: EventEmitter;
+  @Event({ eventName: 'pc-toggle--change' }) goatChange: EventEmitter;
 
   /**
    * Emitted when the input loses focus.
    */
-  @Event({ eventName: 'goat-toggle--blur' }) goatBlur: EventEmitter;
+  @Event({ eventName: 'pc-toggle--blur' }) goatBlur: EventEmitter;
 
   /**
    * Emitted when the input has focus.
    */
-  @Event({ eventName: 'goat-toggle--focus' }) goatFocus: EventEmitter;
+  @Event({ eventName: 'pc-toggle--focus' }) goatFocus: EventEmitter;
 
   @Method()
   async getComponentId() {
@@ -86,7 +87,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-toggle`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-toggle`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -97,7 +98,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-toggle`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-toggle`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -158,7 +159,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
@@ -175,7 +176,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
 
   render() {
     return (
-      <Host has-focus={this.hasFocus} active={this.isActive}>
+      <Host has-focus={this.hasFocus}>
         <label
           class={{
             'toggle': true,
@@ -191,7 +192,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
           }}
         >
           <div
-            class="box"
+            class="track"
             tabindex={this.tabindex}
             ref={elm => (this.iconContainer = elm)}
             onKeyUp={evt => {
@@ -209,7 +210,7 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
             aria-checked={this.value + ''}
             {...this.configAria}
           >
-            <div class="node" />
+            <div class="handle" />
           </div>
 
           <input

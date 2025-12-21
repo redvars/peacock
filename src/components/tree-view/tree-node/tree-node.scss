@@ -8,7 +8,7 @@
 .tree-node-content {
   cursor: pointer;
   height: 2rem;
-  padding-inline-end: calc(v(--spacing-200) - 0.125rem);
+  padding-inline-end: calc(var(--spacing-200) - 0.125rem);
   box-sizing: border-box;
   outline: none;
   display: flex;
@@ -22,7 +22,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-left: .5rem;
-    color: v(--text-secondary);
+    color: var(--color-on-surface);
     @include font-style(body-compact-01);
   }
 
@@ -37,7 +37,7 @@
   }
 
   .icon-space {
-    width: v(--spacing-200);
+    width: var(--spacing-200);
   }
 
   .icon {
@@ -58,7 +58,7 @@
   text-decoration: none !important;
 
   &:hover {
-    background: v(--layer-hover);
+    background: var(--layer-hover);
 
     &.selected {
       background: var(--layer-selected-hover);
@@ -85,7 +85,7 @@
     content: " ";
     display: block;
     height: calc(100% + 0.25rem);
-    border-left: 0.25rem solid var(--color-primary, v(--color-blue-60)) !important;
+    border-left: 0.25rem solid var(--color-primary) !important;
     position: absolute;
     top: -0.125rem;
     left: -0.125rem;

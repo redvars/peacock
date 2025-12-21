@@ -1,0 +1,118 @@
+---
+---
+
+<style lang="scss">
+  .side-navigation {
+    padding-top: 1.5rem;
+    width: 5.5rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    --icon-size: 1.75rem;
+    height: 100%;
+
+    .search-button {
+      background-color: var(--color-primary);
+      --icon-color: var(--color-on-primary);
+      height: 3.25rem;
+      width: 3.25rem;
+
+      border-radius: 16px;
+      corner-shape: squircle;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-item {
+      margin-bottom: 1rem;
+      cursor: pointer;
+    }
+
+    .home img {
+      width: 2rem;
+    }
+
+    .nav-item .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 2rem;
+    }
+
+    .nav-item:hover .icon {
+      background: var(--color-secondary-container);
+      border-radius: var(--global-shape-corner-large);
+    }
+
+    .push-bottom {
+      margin-top: auto;
+    }
+
+    .theme-switcher {
+      margin-bottom: 1.5rem;
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+  }
+</style>
+
+<nav class="side-navigation surface-dim">
+  <a class="link search-button" id="search-btn" href="#" title='Component Search'>
+    <pc-icon name="search"></pc-icon>
+  </a>
+
+  <a class="pc-link no-style nav-item home" href="/#" title='Go to Home'>
+    <div class="item">
+      <div class='icon'>
+        <img src="/assets/img/logo-plain.png" class="logo" alt="peacock">
+      </div>
+      <span class='pc-text-label'>Home</span>
+    </div>
+  </a>
+
+  <a class="pc-link no-style nav-item components" href='/components' title='Go to Components'>
+    <div class="item">
+      <pc-icon class="icon" name="settings"></pc-icon>
+      <span class='pc-text-label'>Components</span>
+    </div>
+  </a>
+
+  <a class="pc-link no-style nav-item color" href='/color' title='Go to Colors'>
+    <div class="item">
+      <pc-icon class="icon" name="palette"></pc-icon>
+      <span class='pc-text-label'>Colors</span>
+    </div>
+  </a>
+
+  <a class="pc-link no-style nav-item typography" href='/components/text' title='Go to Typography'>
+    <div class="item">
+      <pc-icon class="icon" name="font_download"></pc-icon>
+      <span class='pc-text-label'>Typography</span>
+    </div>
+  </a>
+
+  <div class='push-bottom'/>
+
+  <div class="pc-link no-style nav-item dir-switcher" role='button' title='Toggle ltr/rtl direction'>
+    <div class="item">
+      <pc-icon class="icon"></pc-icon>
+    </div>
+  </div>
+
+  <div class="pc-link no-style nav-item theme-switcher" role='button' title="Toggle light/dark mode">
+    <div class="item">
+      <pc-icon class="icon"></pc-icon>
+    </div>
+  </div>
+
+</nav>

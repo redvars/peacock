@@ -52,7 +52,7 @@ const { componentDetails } = Astro.props;
     template: function(row, column) {
       if (row[column.name] && row[column.name].includes("|")) {
         const types = row[column.name].split("|");
-        const typesHtml = types.map(type => `<goat-tag color='secondary'>${type}</goat-tag>`).join('');
+        const typesHtml = types.map(type => `<pc-tag color='secondary'>${type}</pc-tag>`).join('');
         return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
       }
       return `<div class='col-text'>${row[column.name]}</div>`;

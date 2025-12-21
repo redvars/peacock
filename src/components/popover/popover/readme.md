@@ -58,19 +58,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Used by
-
- - [goat-tooltip](../../tooltip)
-
-### Graph
-```mermaid
-graph TD;
-  goat-tooltip --> goat-popover
-  style goat-popover fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

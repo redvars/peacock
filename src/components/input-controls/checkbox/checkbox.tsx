@@ -14,14 +14,15 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name Checkbox
+ * @label Checkbox
+ * @name checkbox
  * @description Captures boolean input with an optional indeterminate mode.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-checkbox value='true'>Want ice cream?</goat-checkbox>
+ * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
  */
 @Component({
-  tag: 'goat-checkbox',
+  tag: 'pc-checkbox',
   styleUrl: 'checkbox.scss',
   shadow: true,
 })
@@ -31,7 +32,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The checkbox label.
@@ -90,7 +91,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -101,7 +102,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -163,7 +164,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

@@ -19,7 +19,7 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
 
   <div class="comp-header">
     <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title} - API Reference</pc-text>
-    {componentDetails.metadata.category == 'Up coming' ? <goat-tag color="red">Work in progress</goat-tag> : ''}
+    {componentDetails.metadata.category == 'Up coming' ? <pc-tag color="red">Work in progress</pc-tag> : ''}
   </div>
 
   <pc-text type="body" expressive set:html={overview} />
@@ -82,7 +82,7 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
         template: function (row, column) {
           if (row[column.name] && row[column.name].includes('|')) {
             const types = row[column.name].split('|');
-            const typesHtml = types.map(type => `<goat-tag color='secondary'>${type}</goat-tag>`).join('');
+            const typesHtml = types.map(type => `<pc-tag color='secondary'>${type}</pc-tag>`).join('');
             return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
           }
           return `<div class='col-text'>${row[column.name]}</div>`;

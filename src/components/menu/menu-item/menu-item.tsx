@@ -83,7 +83,7 @@ export class GoatMenu {
   private tabindex?: string | number = 1;
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -94,7 +94,7 @@ export class GoatMenu {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -122,7 +122,7 @@ export class GoatMenu {
   async componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

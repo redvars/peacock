@@ -1,4 +1,5 @@
 ---
+import GoogleAnalyticsScript from '../components/analytics/GoogleAnalyticsScript.astro';
 interface Props {
   title?: string;
   description?: string;
@@ -85,15 +86,8 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
 <slot name='page-end'/>
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async is:inline src='https://www.googletagmanager.com/gtag/js?id=G-YVVYZC1HFF'></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag('js', new Date());
-  gtag('config', 'G-YVVYZC1HFF');
-</script>
+<GoogleAnalyticsScript/>
+
+
 </body>
 </html>

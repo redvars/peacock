@@ -11,7 +11,8 @@ import { getComponentIndex } from '../../../utils/utils';
 import { GoatTabCustomEvent } from '../../../components';
 
 /**
- * @name Tabs
+ * @label Tabs
+ * @name tabs
  * @description The tabs component is used to display multiple panels of content in a container.
  * @category Navigation
  * @tags navigation

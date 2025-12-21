@@ -14,14 +14,15 @@ import {
 import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
 
 /**
- * @name Input
+ * @label Input
+ * @name input
  * @description Enables native inputs to be used within a Form field.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-input placeholder="Enter your name"></goat-input>
+ * @example <pc-input placeholder="Enter your name"></pc-input>
  */
 @Component({
-  tag: 'goat-input',
+  tag: 'pc-input',
   styleUrl: './input.scss',
   shadow: true,
 })
@@ -31,7 +32,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field placeholder.
@@ -101,22 +102,22 @@ export class Input implements ComponentInterface, InputComponentInterface {
   /**
    * Emitted when a keyboard input occurred.
    */
-  @Event({ eventName: 'goat-input--input' }) goatInput: EventEmitter;
+  @Event({ eventName: 'pc-input--input' }) goatInput: EventEmitter;
 
   /**
    * Emitted when the value has changed.
    */
-  @Event({ eventName: 'goat-input--change' }) goatChange: EventEmitter;
+  @Event({ eventName: 'pc-input--change' }) goatChange: EventEmitter;
 
   /**
    * Emitted when the input loses focus.
    */
-  @Event({ eventName: 'goat-input--blur' }) goatBlur: EventEmitter;
+  @Event({ eventName: 'pc-input--blur' }) goatBlur: EventEmitter;
 
   /**
    * Emitted when the input has focus.
    */
-  @Event({ eventName: 'goat-input--focus' }) goatFocus: EventEmitter;
+  @Event({ eventName: 'pc-input--focus' }) goatFocus: EventEmitter;
 
   @Element() elm!: HTMLElement;
   private nativeElement?: HTMLInputElement;
@@ -155,7 +156,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -167,7 +168,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -186,7 +187,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

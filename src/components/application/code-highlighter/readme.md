@@ -24,7 +24,6 @@
 - [goat-tooltip](../../tooltip)
 - [pc-button](../../button)
 - [pc-icon](../../icon)
-- [goat-spinner](../../spinner)
 
 ### Graph
 ```mermaid
@@ -32,9 +31,6 @@ graph TD;
   goat-code-highlighter --> goat-tooltip
   goat-code-highlighter --> pc-button
   goat-code-highlighter --> pc-icon
-  goat-code-highlighter --> goat-spinner
-  goat-tooltip --> goat-popover
-  goat-tooltip --> goat-popover-content
   pc-button --> pc-elevation
   style goat-code-highlighter fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -2,18 +2,14 @@
 
 :host {
   display: inline-block;
-  color: var(--text-primary);
+  --toogle-track-color: var(--color-primary);
+  --toogle-track-off-color: var(--color-surface-container-highest);
 }
 
 .toggle {
   position: relative;
   display: flex;
   align-items: center;
-  @include font-style(body-comptact-01);
-
-  &.has-content {
-    gap: v(--spacing-050);
-  }
 
   .input-native {
     position: absolute;
@@ -26,100 +22,92 @@
     border: 0;
   }
 
-  .box {
+  .label {
+    @include get-typography(label-medium);
+  }
+
+
+  &.has-content {
+    gap: var(--spacing-050);
+  }
+
+
+
+  .track {
     position: relative;
-    background: var(--toggle-off);
-    border: 1px solid v(--border-strong-01);
-    border-radius: 100rem;
+    background: var(--toogle-track-off-color);
+    border: 2px solid var(--color-outline);
+    border-radius: var(--global-shape-corner-full);
     cursor: pointer;
     display: flex;
-    transition: background-color 70ms cubic-bezier(.2, 0, 1, .9);
+    transition: background-color 200ms cubic-bezier(.2, 0, 0, 1);
     align-items: center;
 
-    .node {
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    padding: 0 4px;
+
+
+    .handle {
       display: block;
-      border-radius: 50%;
-      transition: all 70ms cubic-bezier(.2, 0, 1, .9);
+      border-radius: var(--global-shape-corner-full);
+      transition: all 200ms cubic-bezier(.2, 0, 0, 1);
       background: white;
+      height: var(--toogle-handle-radius);
+      width: var(--toogle-handle-radius);
+      background: var(--toogle-handle-color);
     }
   }
 
 
   &.has-focus:not(.active) {
-    .box {
+    .track {
       @include focus-ring;
-      border-color: v(--color-white);
+      border-color: var(--color-white);
     }
 
-    &:not(.state-checked) .node {
-      border-color: v(--icon-01);
+    &:not(.state-checked) .handle {
+      border-color: var(--icon-01);
     }
   }
 
 }
 
-:host(.light) .box {
-  background-color: var(--field);
-}
 
+.toggle {
+  --toogle-handle-color: var(--color-outline);
+}
 
 .toggle.state-checked {
-  .box {
-    background: v(--support-success);
+  .track {
+    background: var(--toogle-track-color);
   }
 
-  &.active .box {
-    border-color: v(--color-white);
+  .handle {
+    margin-inline-start: calc(100% - var(--toogle-handle-radius));
+  }
+
+  &.active .track {
+    border-color: var(--toogle-track-color);
   }
 
   &.has-focus:not(.active) {
-    .box {
+    .track {
       @include focus-ring;
-      border-color: v(--color-white);
+      border-color: var(--color-white);
     }
   }
 
 }
-
-
-/**
- * SIZES
- */
-.toggle {
-  .box {
-    width: var(--toggle-width);
-    height: calc(var(--toggle-width) / 2);
-    padding: 0 calc(var(--toggle-width) / 10);
-
-    .node {
-      height: calc(var(--toggle-width) / 2 - calc(var(--toggle-width) / 5));
-      width: calc(var(--toggle-width) / 2 - calc(var(--toggle-width) / 5));
-    }
-  }
-
-  &.state-checked .node {
-    margin-inline-start: calc(100% - calc(var(--toggle-width) / 2 - calc(var(--toggle-width) / 5)));
-  }
-}
-
-.toggle.size-md {
-  --toggle-width: 2.5rem;
-}
-
-.toggle.size-lg {
-  --toggle-width: 3rem;
-}
-
 
 .toggle.readonly {
   cursor: default;
   color: var(--text-primary) !important;
 
-  .box {
+  .track {
     background: transparent !important;
 
-    .node {
-      border-color: var(--disabled-01) !important;
+    .handle {
       background: var(--color-outline) !important;
     }
   }
@@ -127,17 +115,27 @@
 }
 
 .toggle.disabled {
-  cursor: not-allowed;
-  color: var(--text-disabled) !important;
+  .track {
+    border-color: var(--color-on-surface);
+    background: var(--toogle-track-off-color);
 
-  .box {
-    background: var(--button-disabled) !important;
-
-    .node {
-      border-color: var(--disabled-01) !important;
-      background: var(--icon-on-color-disabled) !important;
+    .handle {
+      background: var(--color-on-surface) !important;
     }
   }
 }
 
 
+
+/**
+ * Sizes
+ */
+.toggle.size-md {
+  --toggle-width: 3.25rem;
+  --toggle-height: 2rem;
+  --toogle-handle-radius: 16px;
+
+  &.state-checked {
+    --toogle-handle-radius: 22px;
+  }
+}

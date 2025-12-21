@@ -2,8 +2,9 @@
 
 :host {
   display: block;
+  --tree-view-background: var(--color-secondary-container);
 }
 
 .tree-view {
-  background-color: var(--layer);
+  background-color: var(--tree-view-background);
 }

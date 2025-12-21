@@ -7,7 +7,7 @@ import { hasSlot } from '../../utils/utils';
  * @description The badge component is used to display a small amount of information to the user.
  * @category Informational
  * @tag content
- * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+ * @example <pc-badge class="badge-anchor">1</pc-badge>
  */
 @Component({
   tag: 'pc-badge',

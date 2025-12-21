@@ -1,27 +1,34 @@
 @import "../../globalStyles/commons";
 
-$tag-background-color: var(--tag-background-color, var(--tag-background-gray));
-$tag-color: var(--tag-color, var(--tag-color-gray));
-$tag-hover-color: var(--tag-hover-color, var(--tag-hover-gray));
-
 :host {
   display: inline-block;
+  --tag-background-color: var(--color-surface-container-low);
+  --tag-hover-color: var(--color-primary-70);
+  --tag-color: var(--color-on-surface);
+}
+
+:host-context([data-theme="dark"]) {
+  --tag-hover-color: var(--color-primary-30);
 }
 
 .tag {
-  @include font-style(label-01);
-  background: $tag-background-color;
-  color: $tag-color;
+  @include get-typography(label-small);
+  height: 2rem;
+  border-radius: var(--global-shape-corner-small);
+  background: var(--tag-background-color);
+  color: var(--tag-color);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-inline: var(--spacing-200);
+  gap: .5rem;
 
   .tag-image {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.125rem;
+    height: 1.125rem;
     border-radius: 100%;
-    background: $tag-hover-color;
+    background: var(--tag-hover-color);
   }
 
   .tag-content {
@@ -29,7 +36,6 @@ $tag-hover-color: var(--tag-hover-color, var(--tag-hover-gray));
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
-    padding: 0 .5rem;
     display: flex;
     align-items: center;
   }
@@ -40,7 +46,7 @@ $tag-hover-color: var(--tag-hover-color, var(--tag-hover-gray));
 
   &.selected {
     color: var(--background);
-    background: $tag-hover-color;
+    background: var(--tag-hover-color);
 
     .close-btn-icon {
       color: var(--background);
@@ -57,35 +63,12 @@ $tag-hover-color: var(--tag-hover-color, var(--tag-hover-gray));
   background: transparent;
   line-height: 0;
   cursor: pointer;
-  margin-inline-end: var(--spacing-025);
 
   &:hover {
-    background: $tag-hover-color;
+    background: var(--tag-hover-color);
 
     .close-btn-icon {
       color: var(--background);
     }
-  }
-}
-
-/**
- * Sizes
- */
-.tag.size-md {
-  height: 1.5rem;
-  border-radius: 12px;
-}
-
-
-.tag.size-sm {
-  height: 1.125rem;
-  border-radius: 9px;
-}
-
-@each $color in ['gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'] {
-  .tag#{'.color-' + $color} {
-    --tag-background-color: var(--tag-background-#{$color});
-    --tag-color: var(--tag-color-#{$color});
-    --tag-hover-color: var(--tag-hover-#{$color});
   }
 }

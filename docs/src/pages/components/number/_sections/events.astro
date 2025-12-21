@@ -2,7 +2,7 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <pc-text type='body'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>goat-input--change</code> is triggered by
+                                                                  data-lang='html'>pc-input--change</code> is triggered by
   the element.
 </pc-text>
 
@@ -21,12 +21,12 @@ import Highlighter from '../../../../components/Highlighter.astro';
   </pc-card-content>
   <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw> document.querySelector('#number-input-field')
-      .addEventListener('goat-input--input', function (event) {
-      myConsole.log('goat-input--input :: ' + event.details);
+      .addEventListener('pc-input--input', function (event) {
+      myConsole.log('pc-input--input :: ' + event.details);
       });
 
-      document.querySelector('#number-input-field').addEventListener('goat-input--change', function (event) {
-      myConsole.warn('goat-input--change :: ' + event.target.value);
+      document.querySelector('#number-input-field').addEventListener('pc-input--change', function (event) {
+      myConsole.warn('pc-input--change :: ' + event.target.value);
       });
     </Highlighter>
   </pc-card-content>

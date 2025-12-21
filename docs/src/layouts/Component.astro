@@ -1,11 +1,9 @@
 ---
-import site from '../_data/site.json';
 interface Props {
   componentDetails: any;
 }
 
 const {componentDetails} = Astro.props;
-
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
 import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../_data/getComponentDetails';
@@ -23,43 +21,43 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
 
     <div class='sidenav-components'>
 
-      <goat-tree-view layer='01' value={title} selected-node={title}>
-        <goat-tree-node  label="Overview" href='/components'></goat-tree-node>
+      <pc-tree-view layer='01' value={title} selected-node={title}>
+        <pc-tree-node  label="Overview" href='/components'></pc-tree-node>
 
         {
           getCategoriesTree().map((category) => {
             if (!category.hide) {
-              return <goat-tree-node label={category.name}  value={category.name + 'group'}>
+              return <pc-tree-node label={category.name}  value={category.name + 'group'}>
                 {
 
                   category.children.map((componentName) => {
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <goat-tree-node label={component.metadata.label} value={component.metadata.label}
-                                          href={`/components/${component.metadata.name}/`}></goat-tree-node>
+                        return <pc-tree-node label={component.metadata.label} value={component.metadata.name}
+                                               href={`/components/${component.metadata.name}/`}></pc-tree-node>
                       }
                     } else if (componentName.children) {
-                      return <goat-tree-node label={componentName.label}  value={componentName.name + 'group'}>
+                      return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
                         {
                           componentName.children.map((componentName) => {
                             const component = getComponentDetails(componentName);
                             if (component.metadata.name) {
-                              return <goat-tree-node label={component.metadata.label}  value={component.metadata.name}
-                                                href={`/components/${component.metadata.name}/`}></goat-tree-node>
+                              return <pc-tree-node label={component.metadata.label}  value={component.metadata.name}
+                                                     href={`/components/${component.metadata.name}/`}></pc-tree-node>
                             }
                           })
                         }
-                      </goat-tree-node>
+                      </pc-tree-node>
                     }
                   })
                 }
-              </goat-tree-node>
+              </pc-tree-node>
             }
           })
         }
 
-      </goat-tree-view>
+      </pc-tree-view>
 
     </div>
 
@@ -67,24 +65,20 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
   <div class='main-content'>
     <goat-container class='page-wrapper'>
 
-      <pc-breadcrumb>
-        <pc-breadcrumb-item href="/">Home</pc-breadcrumb-item>
-        { title != "Overview" ? <pc-breadcrumb-item href="/components">Components</pc-breadcrumb-item> : '' }
-        <pc-breadcrumb-item active>{title}</pc-breadcrumb-item>
-      </pc-breadcrumb>
-
       <div class='comp-header'>
-        <h1 class='pc-text-display heading-scrollable'>{title}</h1>
-        { componentDetails.metadata.category == 'Up coming' ? <goat-tag color='red'>Work in progress</goat-tag>  : '' }
+        <h1 class='heading-scrollable pc-text-display'>{title}</h1>
+
+
+        { componentDetails.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
       </div>
 
       <slot/>
 
       <div class='previous-next-nav'>
-        <pc-button href={`/components/${previousComponent.metadata.name}/`} icon-align="left">
-          <pc-icon slot='icon' name='arrow_left'></pc-icon> Previous
+        <pc-button href={`/components/${previousComponent.metadata.name}/`} icon-align="start">
+          <pc-icon slot='icon' name='arrow_left_alt'></pc-icon> Previous
         </pc-button>
-        <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <pc-icon slot='icon' name='arrow_right'>Previous</pc-icon> </pc-button>
+        <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <pc-icon slot='icon' name='arrow_right_alt'>Previous</pc-icon> </pc-button>
       </div>
     </goat-container>
 

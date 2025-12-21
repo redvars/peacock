@@ -20,17 +20,17 @@ const {component} = Astro.props;
 
     <pc-card-content class='body'>
 
-      <pc-text class='component-title' type='heading' heading-size='3'>{component.metadata.name}</pc-text>
+      <h3 class='component-title text-headline-small' >{component.metadata.label}</h3>
 
       <div class='component-category-container'>
-        <goat-link href={`/components/?filter=${component.metadata.category.toLowerCase().replace(' ', '-')}`}>
-          <goat-tag color='warning' size='sm' class='category-tag'
-                    tag={component.metadata.category}>{component.metadata.category}</goat-tag>
-        </goat-link>
+        <a href={`/components/?filter=${component.metadata.category.toLowerCase().replace(' ', '-')}`}>
+          <pc-tag color='warning' size='sm' class='category-tag'
+                    tag={component.metadata.category}>{component.metadata.category}</pc-tag>
+        </a>
       </div>
 
 
-      <pc-text class='component-description'>{component.metadata.description}</pc-text>
+      <p class='text-body component-description'>{component.metadata.description}</p>
 
       <pc-button size='sm' color='black' dark-mode-color="white" href={`/components/${component.metadata.name}/#`}  icon="arrow--right">Read more</pc-button>
     </pc-card-content>

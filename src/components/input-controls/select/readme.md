@@ -98,14 +98,13 @@ Type: `Promise<void>`
  - [goat-calendar](../../application/calendar/calendar)
  - [goat-cb-expression](../../application/condition-builder/cb-expression)
  - [goat-condition-builder](../../application/condition-builder/condition-builder)
- - [goat-table](../../table)
+ - [pc-table](../../table)
 
 ### Depends on
 
 - [pc-icon](../../icon)
-- [goat-tag](../../tag)
+- [pc-tag](../../tag)
 - [pc-button](../../button)
-- [goat-spinner](../../spinner)
 - [goat-menu](../../menu/menu)
 - [pc-text](../../typography/text)
 - [goat-menu-item](../../menu/menu-item)
@@ -114,13 +113,12 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   goat-select --> pc-icon
-  goat-select --> goat-tag
+  goat-select --> pc-tag
   goat-select --> pc-button
-  goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> pc-text
   goat-select --> goat-menu-item
-  goat-tag --> pc-icon
+  pc-tag --> pc-icon
   pc-button --> pc-elevation
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
@@ -130,7 +128,7 @@ graph TD;
   goat-calendar --> goat-select
   goat-cb-expression --> goat-select
   goat-condition-builder --> goat-select
-  goat-table --> goat-select
+  pc-table --> goat-select
   style goat-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -53,7 +53,10 @@
   const registerDirSwitcher = (() => {
     function setDir($dirSwitcher, dir) {
       document.documentElement.setAttribute('dir', dir);
-      $dirSwitcher.textContent = dir.toUpperCase();
+      $dirSwitcher.querySelector('.icon').name =
+        dir === 'ltr'
+          ? 'format_textdirection_l_to_r'
+          : 'format_textdirection_r_to_l';
       localStorage.setItem('dir', dir);
     }
 

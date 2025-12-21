@@ -1,5 +1,6 @@
 import {
   Component,
+  ComponentInterface,
   Element,
   Event,
   EventEmitter,
@@ -13,7 +14,8 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name TreeNode
+ * @label Tree Node
+ * @name tree-node
  * @description A tree node is a hierarchical structure that provides nested levels of navigation.
  * @category Navigation
  * @subcategory Tree View
@@ -22,11 +24,11 @@ import { getComponentIndex } from '../../../utils/utils';
  * @imgDark /assets/img/tree-view-dark.webp
  */
 @Component({
-  tag: 'goat-tree-node',
+  tag: 'pc-tree-node',
   styleUrl: 'tree-node.scss',
   shadow: true,
 })
-export class GoatTreeNode {
+export class TreeNode implements ComponentInterface {
   gid: string = getComponentIndex();
 
   private nativeElement?: HTMLElement;
@@ -73,13 +75,13 @@ export class GoatTreeNode {
   /**
    * Emitted when the menu item is clicked.
    */
-  @Event({ eventName: 'goat-tree-node--click' })
+  @Event({ eventName: 'pc-tree-node--click' })
   goatTreeNodeClick: EventEmitter;
 
   @State() hasChildNodes = false;
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -90,7 +92,7 @@ export class GoatTreeNode {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -172,7 +174,7 @@ export class GoatTreeNode {
     } else if (evt.key === 'ArrowRight') {
       evt.preventDefault();
       if (this.expanded && this.hasChildNodes) {
-        const childNodes = this.elm.querySelectorAll('goat-tree-node');
+        const childNodes = this.elm.querySelectorAll('pc-tree-node');
         if (childNodes.length) {
           const firstChild = childNodes[0] as any;
           firstChild.setFocus();
@@ -186,14 +188,14 @@ export class GoatTreeNode {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;
       this.elm.removeAttribute('tabindex');
     }
 
-    const treeView = this.elm.closest('goat-tree-view');
+    const treeView = this.elm.closest('pc-tree-view');
 
     // @ts-ignore
     treeView.getSelectedNode().then((selectedNode: string) => {
@@ -205,7 +207,7 @@ export class GoatTreeNode {
       this.selected = this.isSelected(selectedNode);
     });
 
-    const childNodes = this.elm.querySelectorAll('goat-tree-node');
+    const childNodes = this.elm.querySelectorAll('pc-tree-node');
     this.hasChildNodes = !!childNodes.length;
     childNodes.forEach((node: any) => {
       node.level = this.level + 1;

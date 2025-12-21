@@ -8,19 +8,19 @@ const { sections } = Astro.props;
 
 <div class="section-nav">
   <div class="section-nav-content">
-    <goat-tree-view id="overview-navigation" layer="01">
+    <pc-tree-view id="overview-navigation" layer="01">
       {
         sections.map((section: any) => {
           const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
-          return <goat-tree-node layer="01" label={section.title} value={`section-${sectionValue}`} href={`#section-${sectionValue}`} />
+          return <pc-tree-node layer="01" label={section.title} value={`section-${sectionValue}`} href={`#section-${sectionValue}`} />
         })
       }
-    </goat-tree-view>
+    </pc-tree-view>
 
     <script>
       const overviewNavigation = document.getElementById('overview-navigation');
 
-      const nodes = overviewNavigation?.querySelectorAll('goat-tree-node');
+      const nodes = overviewNavigation?.querySelectorAll('pc-tree-node');
       if (nodes?.length) {
         //@ts-ignore
         let selectedNode = location.hash?.replace("#", "");

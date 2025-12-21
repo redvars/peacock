@@ -79,15 +79,15 @@ Type: `Promise<void>`
  - [goat-header-action](../application/header/header-action)
  - [goat-header-brand](../application/header/header-brand)
  - [goat-html-editor](../input-controls/html-editor)
- - [goat-input](../input-controls/input/input)
  - [goat-input-url](../input-controls/input/input-url)
  - [goat-modal](../modal/modal)
  - [goat-notification](../notification)
  - [goat-number](../input-controls/input/number)
  - [goat-select](../input-controls/select)
- - [goat-table](../table)
  - [goat-textarea](../input-controls/input/textarea)
  - [goat-time-picker](../input-controls/data-and-time/date/time-picker)
+ - [pc-input](../input-controls/input/input)
+ - [pc-table](../table)
 
 ### Depends on
 
@@ -105,15 +105,15 @@ graph TD;
   goat-header-action --> pc-button
   goat-header-brand --> pc-button
   goat-html-editor --> pc-button
-  goat-input --> pc-button
   goat-input-url --> pc-button
   goat-modal --> pc-button
   goat-notification --> pc-button
   goat-number --> pc-button
   goat-select --> pc-button
-  goat-table --> pc-button
   goat-textarea --> pc-button
   goat-time-picker --> pc-button
+  pc-input --> pc-button
+  pc-table --> pc-button
   style pc-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

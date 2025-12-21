@@ -20,7 +20,7 @@ const description = componentDetails.metadata.description;
 
   <div class="comp-header">
     <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title}</pc-text>
-    {componentDetails.metadata.category == 'Up coming' ? <goat-tag color="red">Work in progress</goat-tag> : ''}
+    {componentDetails.metadata.category == 'Up coming' ? <pc-tag color="red">Work in progress</pc-tag> : ''}
   </div>
 
   <pc-text type="body" expressive set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description} />

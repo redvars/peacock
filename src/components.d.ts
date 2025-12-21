@@ -131,53 +131,6 @@ export namespace Components {
         "width": number;
     }
     /**
-     * @name Checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-checkbox value='true'>Want ice cream?</goat-checkbox>
-     */
-    interface GoatCheckbox {
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "intermediate": boolean;
-        /**
-          * The checkbox label.
-         */
-        "label": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * The input field name.
-         */
-        "name": string;
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required": boolean;
-        "rounded": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-         */
-        "value": boolean;
-    }
-    /**
      * @name Code Editor
      * @description A browser based code editor.
      * @category Form Inputs
@@ -328,7 +281,8 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @name Dropdown
+     * @label Dropdown
+     * @name dropdown
      * @description Enables native inputs to be used within a Form field.
      * @category Navigation
      * @subcategory Dropdown
@@ -347,7 +301,8 @@ export namespace Components {
         "trigger": 'click' | 'hover' | 'manual';
     }
     /**
-     * @name Dropdown Menu
+     * @label Dropdown Menu
+     * @name dropdown-menu
      * @description The Dropdown Menu component is used to display a list of options.
      * @category Navigation
      * @subcategory Dropdown
@@ -545,73 +500,6 @@ export namespace Components {
         "darkSrc": string;
         "imageTitle": string;
         "src": string;
-    }
-    /**
-     * @name Input
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-input placeholder="Enter your name"></goat-input>
-     */
-    interface GoatInput {
-        /**
-          * Indicates whether the value of the control can be automatically completed by the browser.
-         */
-        "autocomplete": 'on' | 'off';
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "helperText": string;
-        "inline": boolean;
-        "invalid": boolean;
-        "invalidText": string;
-        "label": string;
-        /**
-          * The input field name.
-         */
-        "name": string;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size": 'sm' | 'md' | 'lg';
-        "skeleton": boolean;
-        /**
-          * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
-         */
-        "type": 'text' | 'password' | 'email' | 'tel';
-        /**
-          * The input field value.
-         */
-        "value": string;
-        "warn": boolean;
-        "warnText": string;
     }
     /**
      * @name Input URL
@@ -914,61 +802,6 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @name Popover
-     * @description The Popover component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @img /assets/img/dropdown.webp
-     * @imgDark /assets/img/dropdown-dark.webp
-     */
-    interface GoatPopover {
-        /**
-          * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
-         */
-        "dismissTimeout": number;
-        /**
-          * Hides the popover. This method is useful when the trigger is set to `"manual"`.
-         */
-        "hide": () => Promise<void>;
-        /**
-          * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
-         */
-        "offset": number;
-        /**
-          * Determines whether the popover is open.
-         */
-        "open": boolean;
-        /**
-          * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
-         */
-        "openTimeout": number;
-        /**
-          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"top-start"`: The popover is placed above the trigger element, aligned to the start. - `"top-end"`: The popover is placed above the trigger element, aligned to the end. - `"right"`: The popover is placed to the right of the trigger element. - `"right-start"`: The popover is placed to the right of the trigger element, aligned to the start. - `"right-end"`: The popover is placed to the right of the trigger element, aligned to the end. - `"bottom"`: The popover is placed below the trigger element. - `"bottom-start"`: The popover is placed below the trigger element, aligned to the start. - `"bottom-end"`: The popover is placed below the trigger element, aligned to the end. - `"left"`: The popover is placed to the left of the trigger element. - `"left-start"`: The popover is placed to the left of the trigger element, aligned to the start. - `"left-end"`: The popover is placed to the left of the trigger element, aligned to the end.
-         */
-        "placements": string;
-        /**
-          * Shows the popover. This method is particularly useful when the trigger mode is set to `"manual"`. It allows for programmatic control over the visibility of the popover, making it visible regardless of the trigger mode. Optionally, a target HTMLElement can be provided to dynamically set the trigger element for the popover.
-         */
-        "show": (target?: HTMLElement) => Promise<void>;
-        /**
-          * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
-         */
-        "tip": 'caret' | 'tab' | 'none';
-        /**
-          * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
-         */
-        "trigger": 'click' | 'hover' | 'manual';
-    }
-    /**
-     * @name Popover Content
-     * @description The PopoverContent component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @childComponent true
-     */
-    interface GoatPopoverContent {
-    }
-    /**
      * @name Select
      * @description Allows the user to select one or more options using a dropdown.
      * @category Form Inputs
@@ -1095,73 +928,6 @@ export namespace Components {
         "value"?: string | number | null;
     }
     /**
-     * @name Slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface GoatSlider {
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        /**
-          * function to format the value of the input
-         */
-        "formatter": (value: string | number) => string;
-        "getComponentId": () => Promise<string>;
-        "max": number;
-        "min": number;
-        /**
-          * The input field name.
-         */
-        "name": string;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        "showOnlySlider": boolean;
-        "step": number;
-        /**
-          * The input field value.
-         */
-        "value"?: number;
-    }
-    /**
-     * @name Spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
-     */
-    interface GoatSpinner {
-        "description": string;
-        "hideBackground": boolean;
-        /**
-          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
-         */
-        "size": 'sm' | 'md' | 'lg' | string;
-    }
-    /**
      * @name SVG
      * @description Render SVG content from an external source.
      * @category Data Display
@@ -1209,38 +975,8 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @name Table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface GoatTable {
-        /**
-          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
-         */
-        "columns": any[];
-        /**
-          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
-         */
-        "data": any[];
-        "emptyStateDescription": string;
-        "emptyStateHeadline": string;
-        "keyField": string;
-        "layer"?: 'background' | '01' | '02';
-        "managed": boolean;
-        "page": number;
-        "pageSize": number;
-        "paginate": boolean;
-        "selectedRowKeys": string[];
-        "selectionType": 'checkbox' | undefined;
-        "sortBy": string;
-        "sortOrder": 'asc' | 'desc';
-        "sortable": boolean;
-        "totalItems": any;
-    }
-    /**
-     * @name Tabs
+     * @label Tabs
+     * @name tabs
      * @description The tabs component is used to display multiple panels of content in a container.
      * @category Navigation
      * @tags navigation
@@ -1258,48 +994,6 @@ export namespace Components {
     interface GoatTabsList {
         "managed": boolean;
         "type": 'contained' | 'contained-bottom' | 'default';
-    }
-    /**
-     * @name Tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <goat-tag class="color-red">Important</goat-tag>
-     */
-    interface GoatTag {
-        /**
-          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
-         */
-        "color": | 'gray'
-    | 'blue'
-    | 'green'
-    | 'red'
-    | 'yellow'
-    | 'primary'
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'error';
-        /**
-          * If true, the tag will have a close icon.
-         */
-        "dismissible": boolean;
-        /**
-          * Image source.
-         */
-        "imageSrc"?: string;
-        /**
-          * If true, the tag will be selected.
-         */
-        "selected": boolean;
-        /**
-          * Text size.
-         */
-        "size": 'sm' | 'md';
-        /**
-          * Tag value.
-         */
-        "value": string;
     }
     /**
      * @name Textarea
@@ -1413,52 +1107,8 @@ export namespace Components {
         "value"?: string | number | null;
     }
     /**
-     * @name Toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-toggle value='true'>Want ice cream?</goat-toggle>
-     */
-    interface GoatToggle {
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        /**
-          * The checkbox label.
-         */
-        "label": string;
-        /**
-          * The input field name.
-         */
-        "name": string;
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required": boolean;
-        "rounded": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-toggle`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `goat-toggle`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size": 'md' | 'lg';
-        /**
-          * The input field value.
-         */
-        "value": boolean;
-    }
-    /**
-     * @name Tooltip
+     * @label Tooltip
+     * @name tooltip
      * @description The Tooltip component is used to display additional information on hover.
      * @category Informational
      * @tag content
@@ -1478,71 +1128,6 @@ export namespace Components {
           * If true, the tooltip will be managed by the parent component.
          */
         "trigger": 'hover' | 'manual';
-    }
-    /**
-     * @name TreeNode
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface GoatTreeNode {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled": boolean;
-        "expanded": boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon": string;
-        "label": string;
-        "level": number;
-        /**
-          * Menu item selection state.
-         */
-        "selected": boolean;
-        /**
-          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
-     * @name TreeView
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface GoatTreeView {
-        "empty": boolean;
-        "emptyState": string;
-        "getSelectedNode": () => Promise<string>;
-        "selectedNode": string;
-        /**
-          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        "subscribeToSelect": (cb: any) => Promise<void>;
     }
     /**
      * @label Accordion
@@ -1609,7 +1194,7 @@ export namespace Components {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     * @example <pc-badge class="badge-anchor">1</pc-badge>
      */
     interface PcBadge {
     }
@@ -1736,6 +1321,54 @@ export namespace Components {
         "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     /**
+     * @label Checkbox
+     * @name checkbox
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
+     */
+    interface PcCheckbox {
+        "configAria": any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        "getComponentId": () => Promise<string>;
+        "intermediate": boolean;
+        /**
+          * The checkbox label.
+         */
+        "label": string;
+        "layer"?: 'background' | '01' | '02';
+        /**
+          * The input field name.
+         */
+        "name": string;
+        "readonly": boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
+        "rounded": boolean;
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg';
+        /**
+          * The input field value.
+         */
+        "value": boolean;
+    }
+    /**
      * @label Current Time
      * @name current-time
      * @description Displays the current time in a given timezone.
@@ -1781,6 +1414,74 @@ export namespace Components {
         "name": string;
     }
     /**
+     * @label Input
+     * @name input
+     * @description Enables native inputs to be used within a Form field.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <goat-input placeholder="Enter your name"></goat-input>
+     */
+    interface PcInput {
+        /**
+          * Indicates whether the value of the control can be automatically completed by the browser.
+         */
+        "autocomplete": 'on' | 'off';
+        "configAria": any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce": number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        "getComponentId": () => Promise<string>;
+        "helperText": string;
+        "inline": boolean;
+        "invalid": boolean;
+        "invalidText": string;
+        "label": string;
+        /**
+          * The input field name.
+         */
+        "name": string;
+        /**
+          * The input field placeholder.
+         */
+        "placeholder": string;
+        /**
+          * If true, the user read the value cannot modify it. Defaults to `false`.
+         */
+        "readonly": boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg';
+        "skeleton": boolean;
+        /**
+          * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
+         */
+        "type": 'text' | 'password' | 'email' | 'tel';
+        /**
+          * The input field value.
+         */
+        "value": string;
+        "warn": boolean;
+        "warnText": string;
+    }
+    /**
      * @label Linear Progress Indicator
      * @name linear-progress
      * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
@@ -1811,6 +1512,207 @@ export namespace Components {
     interface PcLink {
     }
     /**
+     * @label Popover
+     * @name popover
+     * @description The Popover component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @img /assets/img/dropdown.webp
+     * @imgDark /assets/img/dropdown-dark.webp
+     */
+    interface PcPopover {
+        /**
+          * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
+         */
+        "dismissTimeout": number;
+        /**
+          * Hides the popover. This method is useful when the trigger is set to `"manual"`.
+         */
+        "hide": () => Promise<void>;
+        /**
+          * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
+         */
+        "offset": number;
+        /**
+          * Determines whether the popover is open.
+         */
+        "open": boolean;
+        /**
+          * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
+         */
+        "openTimeout": number;
+        /**
+          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"top-start"`: The popover is placed above the trigger element, aligned to the start. - `"top-end"`: The popover is placed above the trigger element, aligned to the end. - `"right"`: The popover is placed to the right of the trigger element. - `"right-start"`: The popover is placed to the right of the trigger element, aligned to the start. - `"right-end"`: The popover is placed to the right of the trigger element, aligned to the end. - `"bottom"`: The popover is placed below the trigger element. - `"bottom-start"`: The popover is placed below the trigger element, aligned to the start. - `"bottom-end"`: The popover is placed below the trigger element, aligned to the end. - `"left"`: The popover is placed to the left of the trigger element. - `"left-start"`: The popover is placed to the left of the trigger element, aligned to the start. - `"left-end"`: The popover is placed to the left of the trigger element, aligned to the end.
+         */
+        "placements": string;
+        /**
+          * Shows the popover. This method is particularly useful when the trigger mode is set to `"manual"`. It allows for programmatic control over the visibility of the popover, making it visible regardless of the trigger mode. Optionally, a target HTMLElement can be provided to dynamically set the trigger element for the popover.
+         */
+        "show": (target?: HTMLElement) => Promise<void>;
+        /**
+          * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
+         */
+        "tip": 'caret' | 'tab' | 'none';
+        /**
+          * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
+         */
+        "trigger": 'click' | 'hover' | 'manual';
+    }
+    /**
+     * @label Popover Content
+     * @name popover-content
+     * @description The PopoverContent component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @childComponent true
+     */
+    interface PcPopoverContent {
+    }
+    /**
+     * @label Slider
+     * @name slider
+     * @description Sliders allow users to make selections from a range of values.
+     * @category Form Inputs
+     * @tags input, form
+     * @img /assets/img/slider.webp
+     * @imgDark /assets/img/slider-dark.webp
+     */
+    interface PcSlider {
+        "configAria": any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce": number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        /**
+          * function to format the value of the input
+         */
+        "formatter": (value: string | number) => string;
+        "getComponentId": () => Promise<string>;
+        "max": number;
+        "min": number;
+        /**
+          * The input field name.
+         */
+        "name": string;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "readonly": boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        "showOnlySlider": boolean;
+        "step": number;
+        /**
+          * The input field value.
+         */
+        "value"?: number;
+    }
+    /**
+     * @label Spinner
+     * @name spinner
+     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
+     */
+    interface PcSpinner {
+        "description": string;
+        "hideBackground": boolean;
+        /**
+          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
+         */
+        "size": 'sm' | 'md' | 'lg' | string;
+    }
+    /**
+     * @label Table
+     * @name table
+     * @description A configurable component for displaying tabular data.
+     * @category Data Display
+     * @img /assets/img/table.webp
+     * @imgDark /assets/img/table-dark.webp
+     */
+    interface PcTable {
+        /**
+          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
+         */
+        "columns": any[];
+        /**
+          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+         */
+        "data": any[];
+        "emptyStateDescription": string;
+        "emptyStateHeadline": string;
+        "keyField": string;
+        "layer"?: 'background' | '01' | '02';
+        "managed": boolean;
+        "page": number;
+        "pageSize": number;
+        "paginate": boolean;
+        "selectedRowKeys": string[];
+        "selectionType": 'checkbox' | undefined;
+        "sortBy": string;
+        "sortOrder": 'asc' | 'desc';
+        "sortable": boolean;
+        "totalItems": any;
+    }
+    /**
+     * @label Tag
+     * @name tag
+     * @description Use tags to label, categorize, or organize items using keywords that describe them.
+     * @category Data Display
+     * @tag controls
+     * @example <pc-tag class="color-red">Important</pc-tag>
+     */
+    interface PcTag {
+        /**
+          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
+         */
+        "color": | 'gray'
+    | 'blue'
+    | 'green'
+    | 'red'
+    | 'yellow'
+    | 'primary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'error';
+        /**
+          * If true, the tag will have a close icon.
+         */
+        "dismissible": boolean;
+        /**
+          * Image source.
+         */
+        "imageSrc"?: string;
+        /**
+          * If true, the tag will be selected.
+         */
+        "selected": boolean;
+        /**
+          * Text size.
+         */
+        "size": 'sm' | 'md';
+        /**
+          * Tag value.
+         */
+        "value": string;
+    }
+    /**
      * @label Text
      * @name text
      * @description Typography are used for rendering headlines, paragraphs, and captions.
@@ -1818,6 +1720,119 @@ export namespace Components {
      * @example <h1 class=>Heading</h1>
      */
     interface PcText {
+    }
+    /**
+     * @label Toggle
+     * @name toggle
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
+     */
+    interface PcToggle {
+        "configAria": any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        "getComponentId": () => Promise<string>;
+        /**
+          * The checkbox label.
+         */
+        "label": string;
+        /**
+          * The input field name.
+         */
+        "name": string;
+        "readonly": boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required": boolean;
+        "rounded": boolean;
+        /**
+          * Sets blur on the native `input` in `pc-toggle`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `pc-toggle`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size": 'md' | 'lg';
+        /**
+          * The input field value.
+         */
+        "value": boolean;
+    }
+    /**
+     * @label Tree Node
+     * @name tree-node
+     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @childComponent true
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface PcTreeNode {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled": boolean;
+        "expanded": boolean;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href": string;
+        /**
+          * Icon which will displayed on button. Possible values are icon names.
+         */
+        "icon": string;
+        "label": string;
+        "level": number;
+        /**
+          * Menu item selection state.
+         */
+        "selected": boolean;
+        /**
+          * Sets blur on the native `input` in `goat-input`. Use this method instead of the global `input.blur()`.
+         */
+        "setBlur": () => Promise<void>;
+        /**
+          * Sets focus on the native `input` in `goat-input`. Use this method instead of the global `input.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target": string;
+        /**
+          * The menu item value.
+         */
+        "value"?: string | number | null;
+    }
+    /**
+     * @label Tree View
+     * @name tree-view
+     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface PcTreeView {
+        "empty": boolean;
+        "emptyState": string;
+        "getSelectedNode": () => Promise<string>;
+        "selectedNode": string;
+        /**
+          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
+         */
+        "setFocus": () => Promise<void>;
+        "subscribeToSelect": (cb: any) => Promise<void>;
     }
 }
 export interface GoatCalendarCustomEvent<T> extends CustomEvent<T> {
@@ -1831,10 +1846,6 @@ export interface GoatCalendarColumnViewCustomEvent<T> extends CustomEvent<T> {
 export interface GoatCalendarMonthViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatCalendarMonthViewElement;
-}
-export interface GoatCheckboxCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatCheckboxElement;
 }
 export interface GoatCodeEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1851,10 +1862,6 @@ export interface GoatDropdownCustomEvent<T> extends CustomEvent<T> {
 export interface GoatHtmlEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatHtmlEditorElement;
-}
-export interface GoatInputCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatInputElement;
 }
 export interface GoatInputUrlCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1880,10 +1887,6 @@ export interface GoatNumberCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatNumberElement;
 }
-export interface GoatPopoverCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatPopoverElement;
-}
 export interface GoatSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatSelectElement;
@@ -1892,21 +1895,9 @@ export interface GoatSidenavMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatSidenavMenuItemElement;
 }
-export interface GoatSliderCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatSliderElement;
-}
 export interface GoatTabCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatTabElement;
-}
-export interface GoatTableCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatTableElement;
-}
-export interface GoatTagCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatTagElement;
 }
 export interface GoatTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1916,14 +1907,6 @@ export interface GoatTimePickerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatTimePickerElement;
 }
-export interface GoatToggleCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatToggleElement;
-}
-export interface GoatTreeNodeCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatTreeNodeElement;
-}
 export interface PcAccordionItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcAccordionItemElement;
@@ -1931,6 +1914,38 @@ export interface PcAccordionItemCustomEvent<T> extends CustomEvent<T> {
 export interface PcButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcButtonElement;
+}
+export interface PcCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcCheckboxElement;
+}
+export interface PcInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcInputElement;
+}
+export interface PcPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcPopoverElement;
+}
+export interface PcSliderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcSliderElement;
+}
+export interface PcTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcTableElement;
+}
+export interface PcTagCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcTagElement;
+}
+export interface PcToggleCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcToggleElement;
+}
+export interface PcTreeNodeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPcTreeNodeElement;
 }
 declare global {
     interface HTMLGoatCalendarElementEventMap {
@@ -2071,32 +2086,6 @@ declare global {
         prototype: HTMLGoatChartPieElement;
         new (): HTMLGoatChartPieElement;
     };
-    interface HTMLGoatCheckboxElementEventMap {
-        "goat-checkbox--change": any;
-        "goat-checkbox--blur": any;
-        "goat-checkbox--focus": any;
-    }
-    /**
-     * @name Checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-checkbox value='true'>Want ice cream?</goat-checkbox>
-     */
-    interface HTMLGoatCheckboxElement extends Components.GoatCheckbox, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatCheckboxElementEventMap>(type: K, listener: (this: HTMLGoatCheckboxElement, ev: GoatCheckboxCustomEvent<HTMLGoatCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatCheckboxElementEventMap>(type: K, listener: (this: HTMLGoatCheckboxElement, ev: GoatCheckboxCustomEvent<HTMLGoatCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatCheckboxElement: {
-        prototype: HTMLGoatCheckboxElement;
-        new (): HTMLGoatCheckboxElement;
-    };
     interface HTMLGoatCodeEditorElementEventMap {
         "goat-code-editor--change": any;
     }
@@ -2189,7 +2178,8 @@ declare global {
         "goat-dropdown--close": any;
     }
     /**
-     * @name Dropdown
+     * @label Dropdown
+     * @name dropdown
      * @description Enables native inputs to be used within a Form field.
      * @category Navigation
      * @subcategory Dropdown
@@ -2211,7 +2201,8 @@ declare global {
         new (): HTMLGoatDropdownElement;
     };
     /**
-     * @name Dropdown Menu
+     * @label Dropdown Menu
+     * @name dropdown-menu
      * @description The Dropdown Menu component is used to display a list of options.
      * @category Navigation
      * @subcategory Dropdown
@@ -2345,33 +2336,6 @@ declare global {
     var HTMLGoatImageElement: {
         prototype: HTMLGoatImageElement;
         new (): HTMLGoatImageElement;
-    };
-    interface HTMLGoatInputElementEventMap {
-        "goat-input--input": any;
-        "goat-input--change": any;
-        "goat-input--blur": any;
-        "goat-input--focus": any;
-    }
-    /**
-     * @name Input
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-input placeholder="Enter your name"></goat-input>
-     */
-    interface HTMLGoatInputElement extends Components.GoatInput, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatInputElementEventMap>(type: K, listener: (this: HTMLGoatInputElement, ev: GoatInputCustomEvent<HTMLGoatInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatInputElementEventMap>(type: K, listener: (this: HTMLGoatInputElement, ev: GoatInputCustomEvent<HTMLGoatInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatInputElement: {
-        prototype: HTMLGoatInputElement;
-        new (): HTMLGoatInputElement;
     };
     interface HTMLGoatInputUrlElementEventMap {
         "valueChange": string;
@@ -2567,45 +2531,6 @@ declare global {
         prototype: HTMLGoatNumberElement;
         new (): HTMLGoatNumberElement;
     };
-    interface HTMLGoatPopoverElementEventMap {
-        "goat-popover--open": any;
-        "goat-popover--close": any;
-    }
-    /**
-     * @name Popover
-     * @description The Popover component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @img /assets/img/dropdown.webp
-     * @imgDark /assets/img/dropdown-dark.webp
-     */
-    interface HTMLGoatPopoverElement extends Components.GoatPopover, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatPopoverElementEventMap>(type: K, listener: (this: HTMLGoatPopoverElement, ev: GoatPopoverCustomEvent<HTMLGoatPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatPopoverElementEventMap>(type: K, listener: (this: HTMLGoatPopoverElement, ev: GoatPopoverCustomEvent<HTMLGoatPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatPopoverElement: {
-        prototype: HTMLGoatPopoverElement;
-        new (): HTMLGoatPopoverElement;
-    };
-    /**
-     * @name Popover Content
-     * @description The PopoverContent component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @childComponent true
-     */
-    interface HTMLGoatPopoverContentElement extends Components.GoatPopoverContent, HTMLStencilElement {
-    }
-    var HTMLGoatPopoverContentElement: {
-        prototype: HTMLGoatPopoverContentElement;
-        new (): HTMLGoatPopoverContentElement;
-    };
     interface HTMLGoatSelectElementEventMap {
         "goat-select--change": any;
         "goat-select--search": any;
@@ -2667,45 +2592,6 @@ declare global {
         prototype: HTMLGoatSidenavMenuItemElement;
         new (): HTMLGoatSidenavMenuItemElement;
     };
-    interface HTMLGoatSliderElementEventMap {
-        "goat-slider--change": any;
-        "goat-slider--input": any;
-    }
-    /**
-     * @name Slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface HTMLGoatSliderElement extends Components.GoatSlider, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatSliderElementEventMap>(type: K, listener: (this: HTMLGoatSliderElement, ev: GoatSliderCustomEvent<HTMLGoatSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatSliderElementEventMap>(type: K, listener: (this: HTMLGoatSliderElement, ev: GoatSliderCustomEvent<HTMLGoatSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatSliderElement: {
-        prototype: HTMLGoatSliderElement;
-        new (): HTMLGoatSliderElement;
-    };
-    /**
-     * @name Spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
-     */
-    interface HTMLGoatSpinnerElement extends Components.GoatSpinner, HTMLStencilElement {
-    }
-    var HTMLGoatSpinnerElement: {
-        prototype: HTMLGoatSpinnerElement;
-        new (): HTMLGoatSpinnerElement;
-    };
     /**
      * @name SVG
      * @description Render SVG content from an external source.
@@ -2741,35 +2627,9 @@ declare global {
         prototype: HTMLGoatTabPanelElement;
         new (): HTMLGoatTabPanelElement;
     };
-    interface HTMLGoatTableElementEventMap {
-        "goat-table--cell-click": any;
-        "goat-table--selection-change": any;
-        "goat-table--sort": any;
-        "goat-table--page": any;
-    }
     /**
-     * @name Table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface HTMLGoatTableElement extends Components.GoatTable, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatTableElementEventMap>(type: K, listener: (this: HTMLGoatTableElement, ev: GoatTableCustomEvent<HTMLGoatTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatTableElementEventMap>(type: K, listener: (this: HTMLGoatTableElement, ev: GoatTableCustomEvent<HTMLGoatTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatTableElement: {
-        prototype: HTMLGoatTableElement;
-        new (): HTMLGoatTableElement;
-    };
-    /**
-     * @name Tabs
+     * @label Tabs
+     * @name tabs
      * @description The tabs component is used to display multiple panels of content in a container.
      * @category Navigation
      * @tags navigation
@@ -2791,31 +2651,6 @@ declare global {
     var HTMLGoatTabsListElement: {
         prototype: HTMLGoatTabsListElement;
         new (): HTMLGoatTabsListElement;
-    };
-    interface HTMLGoatTagElementEventMap {
-        "goat-tag--click": any;
-        "goat-tag--dismiss": any;
-    }
-    /**
-     * @name Tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <goat-tag class="color-red">Important</goat-tag>
-     */
-    interface HTMLGoatTagElement extends Components.GoatTag, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatTagElementEventMap>(type: K, listener: (this: HTMLGoatTagElement, ev: GoatTagCustomEvent<HTMLGoatTagElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatTagElementEventMap>(type: K, listener: (this: HTMLGoatTagElement, ev: GoatTagCustomEvent<HTMLGoatTagElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatTagElement: {
-        prototype: HTMLGoatTagElement;
-        new (): HTMLGoatTagElement;
     };
     interface HTMLGoatTextareaElementEventMap {
         "goat-textarea--input": any;
@@ -2872,34 +2707,9 @@ declare global {
         prototype: HTMLGoatTimePickerElement;
         new (): HTMLGoatTimePickerElement;
     };
-    interface HTMLGoatToggleElementEventMap {
-        "goat-toggle--change": any;
-        "goat-toggle--blur": any;
-        "goat-toggle--focus": any;
-    }
     /**
-     * @name Toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-toggle value='true'>Want ice cream?</goat-toggle>
-     */
-    interface HTMLGoatToggleElement extends Components.GoatToggle, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatToggleElementEventMap>(type: K, listener: (this: HTMLGoatToggleElement, ev: GoatToggleCustomEvent<HTMLGoatToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatToggleElementEventMap>(type: K, listener: (this: HTMLGoatToggleElement, ev: GoatToggleCustomEvent<HTMLGoatToggleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatToggleElement: {
-        prototype: HTMLGoatToggleElement;
-        new (): HTMLGoatToggleElement;
-    };
-    /**
-     * @name Tooltip
+     * @label Tooltip
+     * @name tooltip
      * @description The Tooltip component is used to display additional information on hover.
      * @category Informational
      * @tag content
@@ -2911,46 +2721,6 @@ declare global {
     var HTMLGoatTooltipElement: {
         prototype: HTMLGoatTooltipElement;
         new (): HTMLGoatTooltipElement;
-    };
-    interface HTMLGoatTreeNodeElementEventMap {
-        "goat-tree-node--click": any;
-    }
-    /**
-     * @name TreeNode
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface HTMLGoatTreeNodeElement extends Components.GoatTreeNode, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatTreeNodeElementEventMap>(type: K, listener: (this: HTMLGoatTreeNodeElement, ev: GoatTreeNodeCustomEvent<HTMLGoatTreeNodeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatTreeNodeElementEventMap>(type: K, listener: (this: HTMLGoatTreeNodeElement, ev: GoatTreeNodeCustomEvent<HTMLGoatTreeNodeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatTreeNodeElement: {
-        prototype: HTMLGoatTreeNodeElement;
-        new (): HTMLGoatTreeNodeElement;
-    };
-    /**
-     * @name TreeView
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface HTMLGoatTreeViewElement extends Components.GoatTreeView, HTMLStencilElement {
-    }
-    var HTMLGoatTreeViewElement: {
-        prototype: HTMLGoatTreeViewElement;
-        new (): HTMLGoatTreeViewElement;
     };
     /**
      * @label Accordion
@@ -3017,7 +2787,7 @@ declare global {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     * @example <pc-badge class="badge-anchor">1</pc-badge>
      */
     interface HTMLPcBadgeElement extends Components.PcBadge, HTMLStencilElement {
     }
@@ -3097,6 +2867,33 @@ declare global {
         prototype: HTMLPcCardElement;
         new (): HTMLPcCardElement;
     };
+    interface HTMLPcCheckboxElementEventMap {
+        "goat-checkbox--change": any;
+        "goat-checkbox--blur": any;
+        "goat-checkbox--focus": any;
+    }
+    /**
+     * @label Checkbox
+     * @name checkbox
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
+     */
+    interface HTMLPcCheckboxElement extends Components.PcCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcCheckboxElementEventMap>(type: K, listener: (this: HTMLPcCheckboxElement, ev: PcCheckboxCustomEvent<HTMLPcCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcCheckboxElementEventMap>(type: K, listener: (this: HTMLPcCheckboxElement, ev: PcCheckboxCustomEvent<HTMLPcCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcCheckboxElement: {
+        prototype: HTMLPcCheckboxElement;
+        new (): HTMLPcCheckboxElement;
+    };
     /**
      * @label Current Time
      * @name current-time
@@ -3152,6 +2949,34 @@ declare global {
         prototype: HTMLPcIconElement;
         new (): HTMLPcIconElement;
     };
+    interface HTMLPcInputElementEventMap {
+        "goat-input--input": any;
+        "goat-input--change": any;
+        "goat-input--blur": any;
+        "goat-input--focus": any;
+    }
+    /**
+     * @label Input
+     * @name input
+     * @description Enables native inputs to be used within a Form field.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <goat-input placeholder="Enter your name"></goat-input>
+     */
+    interface HTMLPcInputElement extends Components.PcInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcInputElementEventMap>(type: K, listener: (this: HTMLPcInputElement, ev: PcInputCustomEvent<HTMLPcInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcInputElementEventMap>(type: K, listener: (this: HTMLPcInputElement, ev: PcInputCustomEvent<HTMLPcInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcInputElement: {
+        prototype: HTMLPcInputElement;
+        new (): HTMLPcInputElement;
+    };
     /**
      * @label Linear Progress Indicator
      * @name linear-progress
@@ -3179,6 +3004,142 @@ declare global {
         prototype: HTMLPcLinkElement;
         new (): HTMLPcLinkElement;
     };
+    interface HTMLPcPopoverElementEventMap {
+        "goat-popover--open": any;
+        "goat-popover--close": any;
+    }
+    /**
+     * @label Popover
+     * @name popover
+     * @description The Popover component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @img /assets/img/dropdown.webp
+     * @imgDark /assets/img/dropdown-dark.webp
+     */
+    interface HTMLPcPopoverElement extends Components.PcPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcPopoverElementEventMap>(type: K, listener: (this: HTMLPcPopoverElement, ev: PcPopoverCustomEvent<HTMLPcPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcPopoverElementEventMap>(type: K, listener: (this: HTMLPcPopoverElement, ev: PcPopoverCustomEvent<HTMLPcPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcPopoverElement: {
+        prototype: HTMLPcPopoverElement;
+        new (): HTMLPcPopoverElement;
+    };
+    /**
+     * @label Popover Content
+     * @name popover-content
+     * @description The PopoverContent component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @childComponent true
+     */
+    interface HTMLPcPopoverContentElement extends Components.PcPopoverContent, HTMLStencilElement {
+    }
+    var HTMLPcPopoverContentElement: {
+        prototype: HTMLPcPopoverContentElement;
+        new (): HTMLPcPopoverContentElement;
+    };
+    interface HTMLPcSliderElementEventMap {
+        "goat-slider--change": any;
+        "goat-slider--input": any;
+    }
+    /**
+     * @label Slider
+     * @name slider
+     * @description Sliders allow users to make selections from a range of values.
+     * @category Form Inputs
+     * @tags input, form
+     * @img /assets/img/slider.webp
+     * @imgDark /assets/img/slider-dark.webp
+     */
+    interface HTMLPcSliderElement extends Components.PcSlider, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcSliderElementEventMap>(type: K, listener: (this: HTMLPcSliderElement, ev: PcSliderCustomEvent<HTMLPcSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcSliderElementEventMap>(type: K, listener: (this: HTMLPcSliderElement, ev: PcSliderCustomEvent<HTMLPcSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcSliderElement: {
+        prototype: HTMLPcSliderElement;
+        new (): HTMLPcSliderElement;
+    };
+    /**
+     * @label Spinner
+     * @name spinner
+     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
+     */
+    interface HTMLPcSpinnerElement extends Components.PcSpinner, HTMLStencilElement {
+    }
+    var HTMLPcSpinnerElement: {
+        prototype: HTMLPcSpinnerElement;
+        new (): HTMLPcSpinnerElement;
+    };
+    interface HTMLPcTableElementEventMap {
+        "goat-table--cell-click": any;
+        "goat-table--selection-change": any;
+        "goat-table--sort": any;
+        "goat-table--page": any;
+    }
+    /**
+     * @label Table
+     * @name table
+     * @description A configurable component for displaying tabular data.
+     * @category Data Display
+     * @img /assets/img/table.webp
+     * @imgDark /assets/img/table-dark.webp
+     */
+    interface HTMLPcTableElement extends Components.PcTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcTableElementEventMap>(type: K, listener: (this: HTMLPcTableElement, ev: PcTableCustomEvent<HTMLPcTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcTableElementEventMap>(type: K, listener: (this: HTMLPcTableElement, ev: PcTableCustomEvent<HTMLPcTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcTableElement: {
+        prototype: HTMLPcTableElement;
+        new (): HTMLPcTableElement;
+    };
+    interface HTMLPcTagElementEventMap {
+        "pc-tag--click": any;
+        "pc-tag--dismiss": any;
+    }
+    /**
+     * @label Tag
+     * @name tag
+     * @description Use tags to label, categorize, or organize items using keywords that describe them.
+     * @category Data Display
+     * @tag controls
+     * @example <pc-tag class="color-red">Important</pc-tag>
+     */
+    interface HTMLPcTagElement extends Components.PcTag, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcTagElementEventMap>(type: K, listener: (this: HTMLPcTagElement, ev: PcTagCustomEvent<HTMLPcTagElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcTagElementEventMap>(type: K, listener: (this: HTMLPcTagElement, ev: PcTagCustomEvent<HTMLPcTagElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcTagElement: {
+        prototype: HTMLPcTagElement;
+        new (): HTMLPcTagElement;
+    };
     /**
      * @label Text
      * @name text
@@ -3191,6 +3152,75 @@ declare global {
     var HTMLPcTextElement: {
         prototype: HTMLPcTextElement;
         new (): HTMLPcTextElement;
+    };
+    interface HTMLPcToggleElementEventMap {
+        "pc-toggle--change": any;
+        "pc-toggle--blur": any;
+        "pc-toggle--focus": any;
+    }
+    /**
+     * @label Toggle
+     * @name toggle
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
+     */
+    interface HTMLPcToggleElement extends Components.PcToggle, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcToggleElementEventMap>(type: K, listener: (this: HTMLPcToggleElement, ev: PcToggleCustomEvent<HTMLPcToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcToggleElementEventMap>(type: K, listener: (this: HTMLPcToggleElement, ev: PcToggleCustomEvent<HTMLPcToggleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcToggleElement: {
+        prototype: HTMLPcToggleElement;
+        new (): HTMLPcToggleElement;
+    };
+    interface HTMLPcTreeNodeElementEventMap {
+        "pc-tree-node--click": any;
+    }
+    /**
+     * @label Tree Node
+     * @name tree-node
+     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @childComponent true
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface HTMLPcTreeNodeElement extends Components.PcTreeNode, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPcTreeNodeElementEventMap>(type: K, listener: (this: HTMLPcTreeNodeElement, ev: PcTreeNodeCustomEvent<HTMLPcTreeNodeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPcTreeNodeElementEventMap>(type: K, listener: (this: HTMLPcTreeNodeElement, ev: PcTreeNodeCustomEvent<HTMLPcTreeNodeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPcTreeNodeElement: {
+        prototype: HTMLPcTreeNodeElement;
+        new (): HTMLPcTreeNodeElement;
+    };
+    /**
+     * @label Tree View
+     * @name tree-view
+     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface HTMLPcTreeViewElement extends Components.PcTreeView, HTMLStencilElement {
+    }
+    var HTMLPcTreeViewElement: {
+        prototype: HTMLPcTreeViewElement;
+        new (): HTMLPcTreeViewElement;
     };
     interface HTMLElementTagNameMap {
         "goat-calendar": HTMLGoatCalendarElement;
@@ -3205,7 +3235,6 @@ declare global {
         "goat-cb-predicate": HTMLGoatCbPredicateElement;
         "goat-chart-doughnut": HTMLGoatChartDoughnutElement;
         "goat-chart-pie": HTMLGoatChartPieElement;
-        "goat-checkbox": HTMLGoatCheckboxElement;
         "goat-code-editor": HTMLGoatCodeEditorElement;
         "goat-code-highlighter": HTMLGoatCodeHighlighterElement;
         "goat-condition-builder": HTMLGoatConditionBuilderElement;
@@ -3224,7 +3253,6 @@ declare global {
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
         "goat-image": HTMLGoatImageElement;
-        "goat-input": HTMLGoatInputElement;
         "goat-input-url": HTMLGoatInputUrlElement;
         "goat-linear-progress": HTMLGoatLinearProgressElement;
         "goat-menu": HTMLGoatMenuElement;
@@ -3234,27 +3262,18 @@ declare global {
         "goat-notification": HTMLGoatNotificationElement;
         "goat-notification-manager": HTMLGoatNotificationManagerElement;
         "goat-number": HTMLGoatNumberElement;
-        "goat-popover": HTMLGoatPopoverElement;
-        "goat-popover-content": HTMLGoatPopoverContentElement;
         "goat-select": HTMLGoatSelectElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
-        "goat-slider": HTMLGoatSliderElement;
-        "goat-spinner": HTMLGoatSpinnerElement;
         "goat-svg": HTMLGoatSvgElement;
         "goat-tab": HTMLGoatTabElement;
         "goat-tab-panel": HTMLGoatTabPanelElement;
-        "goat-table": HTMLGoatTableElement;
         "goat-tabs": HTMLGoatTabsElement;
         "goat-tabs-list": HTMLGoatTabsListElement;
-        "goat-tag": HTMLGoatTagElement;
         "goat-textarea": HTMLGoatTextareaElement;
         "goat-time-picker": HTMLGoatTimePickerElement;
-        "goat-toggle": HTMLGoatToggleElement;
         "goat-tooltip": HTMLGoatTooltipElement;
-        "goat-tree-node": HTMLGoatTreeNodeElement;
-        "goat-tree-view": HTMLGoatTreeViewElement;
         "pc-accordion": HTMLPcAccordionElement;
         "pc-accordion-item": HTMLPcAccordionItemElement;
         "pc-avatar": HTMLPcAvatarElement;
@@ -3264,13 +3283,24 @@ declare global {
         "pc-button": HTMLPcButtonElement;
         "pc-button-group": HTMLPcButtonGroupElement;
         "pc-card": HTMLPcCardElement;
+        "pc-checkbox": HTMLPcCheckboxElement;
         "pc-current-time": HTMLPcCurrentTimeElement;
         "pc-divider": HTMLPcDividerElement;
         "pc-elevation": HTMLPcElevationElement;
         "pc-icon": HTMLPcIconElement;
+        "pc-input": HTMLPcInputElement;
         "pc-linear-progress": HTMLPcLinearProgressElement;
         "pc-link": HTMLPcLinkElement;
+        "pc-popover": HTMLPcPopoverElement;
+        "pc-popover-content": HTMLPcPopoverContentElement;
+        "pc-slider": HTMLPcSliderElement;
+        "pc-spinner": HTMLPcSpinnerElement;
+        "pc-table": HTMLPcTableElement;
+        "pc-tag": HTMLPcTagElement;
         "pc-text": HTMLPcTextElement;
+        "pc-toggle": HTMLPcToggleElement;
+        "pc-tree-node": HTMLPcTreeNodeElement;
+        "pc-tree-view": HTMLPcTreeViewElement;
     }
 }
 declare namespace LocalJSX {
@@ -3401,56 +3431,6 @@ declare namespace LocalJSX {
         "margin"?: number;
         "showLabels"?: boolean;
         "width"?: number;
-    }
-    /**
-     * @name Checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-checkbox value='true'>Want ice cream?</goat-checkbox>
-     */
-    interface GoatCheckbox {
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        "intermediate"?: boolean;
-        /**
-          * The checkbox label.
-         */
-        "label"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * The input field name.
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-checkbox--blur"?: (event: GoatCheckboxCustomEvent<any>) => void;
-        /**
-          * On change of input a CustomEvent 'goat-checkbox--change' will be triggered. Event details contains parent event, oldValue, newValue of input.
-         */
-        "onGoat-checkbox--change"?: (event: GoatCheckboxCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-checkbox--focus"?: (event: GoatCheckboxCustomEvent<any>) => void;
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required"?: boolean;
-        "rounded"?: boolean;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-         */
-        "value"?: boolean;
     }
     /**
      * @name Code Editor
@@ -3605,7 +3585,8 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @name Dropdown
+     * @label Dropdown
+     * @name dropdown
      * @description Enables native inputs to be used within a Form field.
      * @category Navigation
      * @subcategory Dropdown
@@ -3632,7 +3613,8 @@ declare namespace LocalJSX {
         "trigger"?: 'click' | 'hover' | 'manual';
     }
     /**
-     * @name Dropdown Menu
+     * @label Dropdown Menu
+     * @name dropdown-menu
      * @description The Dropdown Menu component is used to display a list of options.
      * @category Navigation
      * @subcategory Dropdown
@@ -3823,80 +3805,6 @@ declare namespace LocalJSX {
         "darkSrc"?: string;
         "imageTitle"?: string;
         "src"?: string;
-    }
-    /**
-     * @name Input
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-input placeholder="Enter your name"></goat-input>
-     */
-    interface GoatInput {
-        /**
-          * Indicates whether the value of the control can be automatically completed by the browser.
-         */
-        "autocomplete"?: 'on' | 'off';
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        "helperText"?: string;
-        "inline"?: boolean;
-        "invalid"?: boolean;
-        "invalidText"?: string;
-        "label"?: string;
-        /**
-          * The input field name.
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-input--blur"?: (event: GoatInputCustomEvent<any>) => void;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-input--change"?: (event: GoatInputCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-input--focus"?: (event: GoatInputCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-input--input"?: (event: GoatInputCustomEvent<any>) => void;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required"?: boolean;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        "skeleton"?: boolean;
-        /**
-          * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
-         */
-        "type"?: 'text' | 'password' | 'email' | 'tel';
-        /**
-          * The input field value.
-         */
-        "value"?: string;
-        "warn"?: boolean;
-        "warnText"?: string;
     }
     /**
      * @name Input URL
@@ -4207,61 +4115,6 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @name Popover
-     * @description The Popover component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @img /assets/img/dropdown.webp
-     * @imgDark /assets/img/dropdown-dark.webp
-     */
-    interface GoatPopover {
-        /**
-          * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
-         */
-        "dismissTimeout"?: number;
-        /**
-          * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
-         */
-        "offset"?: number;
-        /**
-          * Emitted when the popover is closed.
-         */
-        "onGoat-popover--close"?: (event: GoatPopoverCustomEvent<any>) => void;
-        /**
-          * Emitted when the popover is opened.
-         */
-        "onGoat-popover--open"?: (event: GoatPopoverCustomEvent<any>) => void;
-        /**
-          * Determines whether the popover is open.
-         */
-        "open"?: boolean;
-        /**
-          * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
-         */
-        "openTimeout"?: number;
-        /**
-          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"top-start"`: The popover is placed above the trigger element, aligned to the start. - `"top-end"`: The popover is placed above the trigger element, aligned to the end. - `"right"`: The popover is placed to the right of the trigger element. - `"right-start"`: The popover is placed to the right of the trigger element, aligned to the start. - `"right-end"`: The popover is placed to the right of the trigger element, aligned to the end. - `"bottom"`: The popover is placed below the trigger element. - `"bottom-start"`: The popover is placed below the trigger element, aligned to the start. - `"bottom-end"`: The popover is placed below the trigger element, aligned to the end. - `"left"`: The popover is placed to the left of the trigger element. - `"left-start"`: The popover is placed to the left of the trigger element, aligned to the start. - `"left-end"`: The popover is placed to the left of the trigger element, aligned to the end.
-         */
-        "placements"?: string;
-        /**
-          * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
-         */
-        "tip"?: 'caret' | 'tab' | 'none';
-        /**
-          * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
-         */
-        "trigger"?: 'click' | 'hover' | 'manual';
-    }
-    /**
-     * @name Popover Content
-     * @description The PopoverContent component is used to display additional information.
-     * @category Informational
-     * @subcategory Popover
-     * @childComponent true
-     */
-    interface GoatPopoverContent {
-    }
-    /**
      * @name Select
      * @description Allows the user to select one or more options using a dropdown.
      * @category Form Inputs
@@ -4379,72 +4232,6 @@ declare namespace LocalJSX {
         "value"?: string | number | null;
     }
     /**
-     * @name Slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface GoatSlider {
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        /**
-          * function to format the value of the input
-         */
-        "formatter"?: (value: string | number) => string;
-        "max"?: number;
-        "min"?: number;
-        /**
-          * The input field name.
-         */
-        "name"?: string;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-slider--change"?: (event: GoatSliderCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-slider--input"?: (event: GoatSliderCustomEvent<any>) => void;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required"?: boolean;
-        "showOnlySlider"?: boolean;
-        "step"?: number;
-        /**
-          * The input field value.
-         */
-        "value"?: number;
-    }
-    /**
-     * @name Spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
-     */
-    interface GoatSpinner {
-        "description"?: string;
-        "hideBackground"?: boolean;
-        /**
-          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
-         */
-        "size"?: 'sm' | 'md' | 'lg' | string;
-    }
-    /**
      * @name SVG
      * @description Render SVG content from an external source.
      * @category Data Display
@@ -4494,54 +4281,8 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @name Table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface GoatTable {
-        /**
-          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
-         */
-        "columns"?: any[];
-        /**
-          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
-         */
-        "data"?: any[];
-        "emptyStateDescription"?: string;
-        "emptyStateHeadline"?: string;
-        "keyField"?: string;
-        "layer"?: 'background' | '01' | '02';
-        "managed"?: boolean;
-        /**
-          * Emitted when a table cell is clicked.
-         */
-        "onGoat-table--cell-click"?: (event: GoatTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the page changes.
-         */
-        "onGoat-table--page"?: (event: GoatTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the selection changes.
-         */
-        "onGoat-table--selection-change"?: (event: GoatTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the table is sorted.
-         */
-        "onGoat-table--sort"?: (event: GoatTableCustomEvent<any>) => void;
-        "page"?: number;
-        "pageSize"?: number;
-        "paginate"?: boolean;
-        "selectedRowKeys"?: string[];
-        "selectionType"?: 'checkbox' | undefined;
-        "sortBy"?: string;
-        "sortOrder"?: 'asc' | 'desc';
-        "sortable"?: boolean;
-        "totalItems"?: any;
-    }
-    /**
-     * @name Tabs
+     * @label Tabs
+     * @name tabs
      * @description The tabs component is used to display multiple panels of content in a container.
      * @category Navigation
      * @tags navigation
@@ -4559,56 +4300,6 @@ declare namespace LocalJSX {
     interface GoatTabsList {
         "managed"?: boolean;
         "type"?: 'contained' | 'contained-bottom' | 'default';
-    }
-    /**
-     * @name Tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <goat-tag class="color-red">Important</goat-tag>
-     */
-    interface GoatTag {
-        /**
-          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
-         */
-        "color"?: | 'gray'
-    | 'blue'
-    | 'green'
-    | 'red'
-    | 'yellow'
-    | 'primary'
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'error';
-        /**
-          * If true, the tag will have a close icon.
-         */
-        "dismissible"?: boolean;
-        /**
-          * Image source.
-         */
-        "imageSrc"?: string;
-        /**
-          * Emitted when the tag is clicked.
-         */
-        "onGoat-tag--click"?: (event: GoatTagCustomEvent<any>) => void;
-        /**
-          * Emitted when the close icon is clicked.
-         */
-        "onGoat-tag--dismiss"?: (event: GoatTagCustomEvent<any>) => void;
-        /**
-          * If true, the tag will be selected.
-         */
-        "selected"?: boolean;
-        /**
-          * Text size.
-         */
-        "size"?: 'sm' | 'md';
-        /**
-          * Tag value.
-         */
-        "value"?: string;
     }
     /**
      * @name Textarea
@@ -4740,55 +4431,8 @@ declare namespace LocalJSX {
         "value"?: string | number | null;
     }
     /**
-     * @name Toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <goat-toggle value='true'>Want ice cream?</goat-toggle>
-     */
-    interface GoatToggle {
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        /**
-          * The checkbox label.
-         */
-        "label"?: string;
-        /**
-          * The input field name.
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-toggle--blur"?: (event: GoatToggleCustomEvent<any>) => void;
-        /**
-          * On change of input a CustomEvent 'goat-change' will be triggered. Event details contains parent event, oldValue, newValue of input.
-         */
-        "onGoat-toggle--change"?: (event: GoatToggleCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-toggle--focus"?: (event: GoatToggleCustomEvent<any>) => void;
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-         */
-        "required"?: boolean;
-        "rounded"?: boolean;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-         */
-        "size"?: 'md' | 'lg';
-        /**
-          * The input field value.
-         */
-        "value"?: boolean;
-    }
-    /**
-     * @name Tooltip
+     * @label Tooltip
+     * @name tooltip
      * @description The Tooltip component is used to display additional information on hover.
      * @category Informational
      * @tag content
@@ -4808,61 +4452,6 @@ declare namespace LocalJSX {
           * If true, the tooltip will be managed by the parent component.
          */
         "trigger"?: 'hover' | 'manual';
-    }
-    /**
-     * @name TreeNode
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface GoatTreeNode {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-         */
-        "disabled"?: boolean;
-        "expanded"?: boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon"?: string;
-        "label"?: string;
-        "level"?: number;
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onGoat-tree-node--click"?: (event: GoatTreeNodeCustomEvent<any>) => void;
-        /**
-          * Menu item selection state.
-         */
-        "selected"?: boolean;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
-     * @name TreeView
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface GoatTreeView {
-        "empty"?: boolean;
-        "emptyState"?: string;
-        "selectedNode"?: string;
     }
     /**
      * @label Accordion
@@ -4933,7 +4522,7 @@ declare namespace LocalJSX {
      * @description The badge component is used to display a small amount of information to the user.
      * @category Informational
      * @tag content
-     * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+     * @example <pc-badge class="badge-anchor">1</pc-badge>
      */
     interface PcBadge {
     }
@@ -5054,6 +4643,57 @@ declare namespace LocalJSX {
         "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     /**
+     * @label Checkbox
+     * @name checkbox
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
+     */
+    interface PcCheckbox {
+        "configAria"?: any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        "intermediate"?: boolean;
+        /**
+          * The checkbox label.
+         */
+        "label"?: string;
+        "layer"?: 'background' | '01' | '02';
+        /**
+          * The input field name.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the input loses focus.
+         */
+        "onGoat-checkbox--blur"?: (event: PcCheckboxCustomEvent<any>) => void;
+        /**
+          * On change of input a CustomEvent 'goat-checkbox--change' will be triggered. Event details contains parent event, oldValue, newValue of input.
+         */
+        "onGoat-checkbox--change"?: (event: PcCheckboxCustomEvent<any>) => void;
+        /**
+          * Emitted when the input has focus.
+         */
+        "onGoat-checkbox--focus"?: (event: PcCheckboxCustomEvent<any>) => void;
+        "readonly"?: boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        "rounded"?: boolean;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * The input field value.
+         */
+        "value"?: boolean;
+    }
+    /**
      * @label Current Time
      * @name current-time
      * @description Displays the current time in a given timezone.
@@ -5099,6 +4739,81 @@ declare namespace LocalJSX {
         "name"?: string;
     }
     /**
+     * @label Input
+     * @name input
+     * @description Enables native inputs to be used within a Form field.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <goat-input placeholder="Enter your name"></goat-input>
+     */
+    interface PcInput {
+        /**
+          * Indicates whether the value of the control can be automatically completed by the browser.
+         */
+        "autocomplete"?: 'on' | 'off';
+        "configAria"?: any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce"?: number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        "helperText"?: string;
+        "inline"?: boolean;
+        "invalid"?: boolean;
+        "invalidText"?: string;
+        "label"?: string;
+        /**
+          * The input field name.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the input loses focus.
+         */
+        "onGoat-input--blur"?: (event: PcInputCustomEvent<any>) => void;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGoat-input--change"?: (event: PcInputCustomEvent<any>) => void;
+        /**
+          * Emitted when the input has focus.
+         */
+        "onGoat-input--focus"?: (event: PcInputCustomEvent<any>) => void;
+        /**
+          * Emitted when a keyboard input occurred.
+         */
+        "onGoat-input--input"?: (event: PcInputCustomEvent<any>) => void;
+        /**
+          * The input field placeholder.
+         */
+        "placeholder"?: string;
+        /**
+          * If true, the user read the value cannot modify it. Defaults to `false`.
+         */
+        "readonly"?: boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        /**
+          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg';
+        "skeleton"?: boolean;
+        /**
+          * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
+         */
+        "type"?: 'text' | 'password' | 'email' | 'tel';
+        /**
+          * The input field value.
+         */
+        "value"?: string;
+        "warn"?: boolean;
+        "warnText"?: string;
+    }
+    /**
      * @label Linear Progress Indicator
      * @name linear-progress
      * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
@@ -5129,6 +4844,230 @@ declare namespace LocalJSX {
     interface PcLink {
     }
     /**
+     * @label Popover
+     * @name popover
+     * @description The Popover component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @img /assets/img/dropdown.webp
+     * @imgDark /assets/img/dropdown-dark.webp
+     */
+    interface PcPopover {
+        /**
+          * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
+         */
+        "dismissTimeout"?: number;
+        /**
+          * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
+         */
+        "offset"?: number;
+        /**
+          * Emitted when the popover is closed.
+         */
+        "onGoat-popover--close"?: (event: PcPopoverCustomEvent<any>) => void;
+        /**
+          * Emitted when the popover is opened.
+         */
+        "onGoat-popover--open"?: (event: PcPopoverCustomEvent<any>) => void;
+        /**
+          * Determines whether the popover is open.
+         */
+        "open"?: boolean;
+        /**
+          * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
+         */
+        "openTimeout"?: number;
+        /**
+          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"top-start"`: The popover is placed above the trigger element, aligned to the start. - `"top-end"`: The popover is placed above the trigger element, aligned to the end. - `"right"`: The popover is placed to the right of the trigger element. - `"right-start"`: The popover is placed to the right of the trigger element, aligned to the start. - `"right-end"`: The popover is placed to the right of the trigger element, aligned to the end. - `"bottom"`: The popover is placed below the trigger element. - `"bottom-start"`: The popover is placed below the trigger element, aligned to the start. - `"bottom-end"`: The popover is placed below the trigger element, aligned to the end. - `"left"`: The popover is placed to the left of the trigger element. - `"left-start"`: The popover is placed to the left of the trigger element, aligned to the start. - `"left-end"`: The popover is placed to the left of the trigger element, aligned to the end.
+         */
+        "placements"?: string;
+        /**
+          * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
+         */
+        "tip"?: 'caret' | 'tab' | 'none';
+        /**
+          * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
+         */
+        "trigger"?: 'click' | 'hover' | 'manual';
+    }
+    /**
+     * @label Popover Content
+     * @name popover-content
+     * @description The PopoverContent component is used to display additional information.
+     * @category Informational
+     * @subcategory Popover
+     * @childComponent true
+     */
+    interface PcPopoverContent {
+    }
+    /**
+     * @label Slider
+     * @name slider
+     * @description Sliders allow users to make selections from a range of values.
+     * @category Form Inputs
+     * @tags input, form
+     * @img /assets/img/slider.webp
+     * @imgDark /assets/img/slider-dark.webp
+     */
+    interface PcSlider {
+        "configAria"?: any;
+        /**
+          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+         */
+        "debounce"?: number;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * function to format the value of the input
+         */
+        "formatter"?: (value: string | number) => string;
+        "max"?: number;
+        "min"?: number;
+        /**
+          * The input field name.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the value has changed.
+         */
+        "onGoat-slider--change"?: (event: PcSliderCustomEvent<any>) => void;
+        /**
+          * Emitted when a keyboard input occurred.
+         */
+        "onGoat-slider--input"?: (event: PcSliderCustomEvent<any>) => void;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "readonly"?: boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        "showOnlySlider"?: boolean;
+        "step"?: number;
+        /**
+          * The input field value.
+         */
+        "value"?: number;
+    }
+    /**
+     * @label Spinner
+     * @name spinner
+     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
+     * @category Informational
+     * @tags feedback, loading, progress, spinner
+     * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
+     */
+    interface PcSpinner {
+        "description"?: string;
+        "hideBackground"?: boolean;
+        /**
+          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
+         */
+        "size"?: 'sm' | 'md' | 'lg' | string;
+    }
+    /**
+     * @label Table
+     * @name table
+     * @description A configurable component for displaying tabular data.
+     * @category Data Display
+     * @img /assets/img/table.webp
+     * @imgDark /assets/img/table-dark.webp
+     */
+    interface PcTable {
+        /**
+          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
+         */
+        "columns"?: any[];
+        /**
+          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+         */
+        "data"?: any[];
+        "emptyStateDescription"?: string;
+        "emptyStateHeadline"?: string;
+        "keyField"?: string;
+        "layer"?: 'background' | '01' | '02';
+        "managed"?: boolean;
+        /**
+          * Emitted when a table cell is clicked.
+         */
+        "onGoat-table--cell-click"?: (event: PcTableCustomEvent<any>) => void;
+        /**
+          * Emitted when the page changes.
+         */
+        "onGoat-table--page"?: (event: PcTableCustomEvent<any>) => void;
+        /**
+          * Emitted when the selection changes.
+         */
+        "onGoat-table--selection-change"?: (event: PcTableCustomEvent<any>) => void;
+        /**
+          * Emitted when the table is sorted.
+         */
+        "onGoat-table--sort"?: (event: PcTableCustomEvent<any>) => void;
+        "page"?: number;
+        "pageSize"?: number;
+        "paginate"?: boolean;
+        "selectedRowKeys"?: string[];
+        "selectionType"?: 'checkbox' | undefined;
+        "sortBy"?: string;
+        "sortOrder"?: 'asc' | 'desc';
+        "sortable"?: boolean;
+        "totalItems"?: any;
+    }
+    /**
+     * @label Tag
+     * @name tag
+     * @description Use tags to label, categorize, or organize items using keywords that describe them.
+     * @category Data Display
+     * @tag controls
+     * @example <pc-tag class="color-red">Important</pc-tag>
+     */
+    interface PcTag {
+        /**
+          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
+         */
+        "color"?: | 'gray'
+    | 'blue'
+    | 'green'
+    | 'red'
+    | 'yellow'
+    | 'primary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'error';
+        /**
+          * If true, the tag will have a close icon.
+         */
+        "dismissible"?: boolean;
+        /**
+          * Image source.
+         */
+        "imageSrc"?: string;
+        /**
+          * Emitted when the tag is clicked.
+         */
+        "onPc-tag--click"?: (event: PcTagCustomEvent<any>) => void;
+        /**
+          * Emitted when the close icon is clicked.
+         */
+        "onPc-tag--dismiss"?: (event: PcTagCustomEvent<any>) => void;
+        /**
+          * If true, the tag will be selected.
+         */
+        "selected"?: boolean;
+        /**
+          * Text size.
+         */
+        "size"?: 'sm' | 'md';
+        /**
+          * Tag value.
+         */
+        "value"?: string;
+    }
+    /**
      * @label Text
      * @name text
      * @description Typography are used for rendering headlines, paragraphs, and captions.
@@ -5136,6 +5075,112 @@ declare namespace LocalJSX {
      * @example <h1 class=>Heading</h1>
      */
     interface PcText {
+    }
+    /**
+     * @label Toggle
+     * @name toggle
+     * @description Captures boolean input with an optional indeterminate mode.
+     * @category Form Inputs
+     * @tags input, form
+     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
+     */
+    interface PcToggle {
+        "configAria"?: any;
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        /**
+          * The checkbox label.
+         */
+        "label"?: string;
+        /**
+          * The input field name.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the input loses focus.
+         */
+        "onPc-toggle--blur"?: (event: PcToggleCustomEvent<any>) => void;
+        /**
+          * On change of input a CustomEvent 'goat-change' will be triggered. Event details contains parent event, oldValue, newValue of input.
+         */
+        "onPc-toggle--change"?: (event: PcToggleCustomEvent<any>) => void;
+        /**
+          * Emitted when the input has focus.
+         */
+        "onPc-toggle--focus"?: (event: PcToggleCustomEvent<any>) => void;
+        "readonly"?: boolean;
+        /**
+          * If true, required icon is show. Defaults to `false`.
+         */
+        "required"?: boolean;
+        "rounded"?: boolean;
+        /**
+          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+         */
+        "size"?: 'md' | 'lg';
+        /**
+          * The input field value.
+         */
+        "value"?: boolean;
+    }
+    /**
+     * @label Tree Node
+     * @name tree-node
+     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @childComponent true
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface PcTreeNode {
+        /**
+          * If true, the user cannot interact with the button. Defaults to `false`.
+         */
+        "disabled"?: boolean;
+        "expanded"?: boolean;
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href"?: string;
+        /**
+          * Icon which will displayed on button. Possible values are icon names.
+         */
+        "icon"?: string;
+        "label"?: string;
+        "level"?: number;
+        /**
+          * Emitted when the menu item is clicked.
+         */
+        "onPc-tree-node--click"?: (event: PcTreeNodeCustomEvent<any>) => void;
+        /**
+          * Menu item selection state.
+         */
+        "selected"?: boolean;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target"?: string;
+        /**
+          * The menu item value.
+         */
+        "value"?: string | number | null;
+    }
+    /**
+     * @label Tree View
+     * @name tree-view
+     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
+     * @category Navigation
+     * @subcategory Tree View
+     * @img /assets/img/tree-view.webp
+     * @imgDark /assets/img/tree-view-dark.webp
+     */
+    interface PcTreeView {
+        "empty"?: boolean;
+        "emptyState"?: string;
+        "selectedNode"?: string;
     }
     interface IntrinsicElements {
         "goat-calendar": GoatCalendar;
@@ -5150,7 +5195,6 @@ declare namespace LocalJSX {
         "goat-cb-predicate": GoatCbPredicate;
         "goat-chart-doughnut": GoatChartDoughnut;
         "goat-chart-pie": GoatChartPie;
-        "goat-checkbox": GoatCheckbox;
         "goat-code-editor": GoatCodeEditor;
         "goat-code-highlighter": GoatCodeHighlighter;
         "goat-condition-builder": GoatConditionBuilder;
@@ -5169,7 +5213,6 @@ declare namespace LocalJSX {
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
         "goat-image": GoatImage;
-        "goat-input": GoatInput;
         "goat-input-url": GoatInputUrl;
         "goat-linear-progress": GoatLinearProgress;
         "goat-menu": GoatMenu;
@@ -5179,27 +5222,18 @@ declare namespace LocalJSX {
         "goat-notification": GoatNotification;
         "goat-notification-manager": GoatNotificationManager;
         "goat-number": GoatNumber;
-        "goat-popover": GoatPopover;
-        "goat-popover-content": GoatPopoverContent;
         "goat-select": GoatSelect;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
-        "goat-slider": GoatSlider;
-        "goat-spinner": GoatSpinner;
         "goat-svg": GoatSvg;
         "goat-tab": GoatTab;
         "goat-tab-panel": GoatTabPanel;
-        "goat-table": GoatTable;
         "goat-tabs": GoatTabs;
         "goat-tabs-list": GoatTabsList;
-        "goat-tag": GoatTag;
         "goat-textarea": GoatTextarea;
         "goat-time-picker": GoatTimePicker;
-        "goat-toggle": GoatToggle;
         "goat-tooltip": GoatTooltip;
-        "goat-tree-node": GoatTreeNode;
-        "goat-tree-view": GoatTreeView;
         "pc-accordion": PcAccordion;
         "pc-accordion-item": PcAccordionItem;
         "pc-avatar": PcAvatar;
@@ -5209,13 +5243,24 @@ declare namespace LocalJSX {
         "pc-button": PcButton;
         "pc-button-group": PcButtonGroup;
         "pc-card": PcCard;
+        "pc-checkbox": PcCheckbox;
         "pc-current-time": PcCurrentTime;
         "pc-divider": PcDivider;
         "pc-elevation": PcElevation;
         "pc-icon": PcIcon;
+        "pc-input": PcInput;
         "pc-linear-progress": PcLinearProgress;
         "pc-link": PcLink;
+        "pc-popover": PcPopover;
+        "pc-popover-content": PcPopoverContent;
+        "pc-slider": PcSlider;
+        "pc-spinner": PcSpinner;
+        "pc-table": PcTable;
+        "pc-tag": PcTag;
         "pc-text": PcText;
+        "pc-toggle": PcToggle;
+        "pc-tree-node": PcTreeNode;
+        "pc-tree-view": PcTreeView;
     }
 }
 export { LocalJSX as JSX };
@@ -5266,14 +5311,6 @@ declare module "@stencil/core" {
              */
             "goat-chart-pie": LocalJSX.GoatChartPie & JSXBase.HTMLAttributes<HTMLGoatChartPieElement>;
             /**
-             * @name Checkbox
-             * @description Captures boolean input with an optional indeterminate mode.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <goat-checkbox value='true'>Want ice cream?</goat-checkbox>
-             */
-            "goat-checkbox": LocalJSX.GoatCheckbox & JSXBase.HTMLAttributes<HTMLGoatCheckboxElement>;
-            /**
              * @name Code Editor
              * @description A browser based code editor.
              * @category Form Inputs
@@ -5310,7 +5347,8 @@ declare module "@stencil/core" {
              */
             "goat-date-picker": LocalJSX.GoatDatePicker & JSXBase.HTMLAttributes<HTMLGoatDatePickerElement>;
             /**
-             * @name Dropdown
+             * @label Dropdown
+             * @name dropdown
              * @description Enables native inputs to be used within a Form field.
              * @category Navigation
              * @subcategory Dropdown
@@ -5319,7 +5357,8 @@ declare module "@stencil/core" {
              */
             "goat-dropdown": LocalJSX.GoatDropdown & JSXBase.HTMLAttributes<HTMLGoatDropdownElement>;
             /**
-             * @name Dropdown Menu
+             * @label Dropdown Menu
+             * @name dropdown-menu
              * @description The Dropdown Menu component is used to display a list of options.
              * @category Navigation
              * @subcategory Dropdown
@@ -5382,14 +5421,6 @@ declare module "@stencil/core" {
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
             "goat-image": LocalJSX.GoatImage & JSXBase.HTMLAttributes<HTMLGoatImageElement>;
-            /**
-             * @name Input
-             * @description Enables native inputs to be used within a Form field.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <goat-input placeholder="Enter your name"></goat-input>
-             */
-            "goat-input": LocalJSX.GoatInput & JSXBase.HTMLAttributes<HTMLGoatInputElement>;
             /**
              * @name Input URL
              * @description A specialized input field for URL validation.
@@ -5469,23 +5500,6 @@ declare module "@stencil/core" {
              */
             "goat-number": LocalJSX.GoatNumber & JSXBase.HTMLAttributes<HTMLGoatNumberElement>;
             /**
-             * @name Popover
-             * @description The Popover component is used to display additional information.
-             * @category Informational
-             * @subcategory Popover
-             * @img /assets/img/dropdown.webp
-             * @imgDark /assets/img/dropdown-dark.webp
-             */
-            "goat-popover": LocalJSX.GoatPopover & JSXBase.HTMLAttributes<HTMLGoatPopoverElement>;
-            /**
-             * @name Popover Content
-             * @description The PopoverContent component is used to display additional information.
-             * @category Informational
-             * @subcategory Popover
-             * @childComponent true
-             */
-            "goat-popover-content": LocalJSX.GoatPopoverContent & JSXBase.HTMLAttributes<HTMLGoatPopoverContentElement>;
-            /**
              * @name Select
              * @description Allows the user to select one or more options using a dropdown.
              * @category Form Inputs
@@ -5503,23 +5517,6 @@ declare module "@stencil/core" {
             "goat-sidenav-menu": LocalJSX.GoatSidenavMenu & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuElement>;
             "goat-sidenav-menu-item": LocalJSX.GoatSidenavMenuItem & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuItemElement>;
             /**
-             * @name Slider
-             * @description Sliders allow users to make selections from a range of values.
-             * @category Form Inputs
-             * @tags input, form
-             * @img /assets/img/slider.webp
-             * @imgDark /assets/img/slider-dark.webp
-             */
-            "goat-slider": LocalJSX.GoatSlider & JSXBase.HTMLAttributes<HTMLGoatSliderElement>;
-            /**
-             * @name Spinner
-             * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-             * @category Informational
-             * @tags feedback, loading, progress, spinner
-             * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
-             */
-            "goat-spinner": LocalJSX.GoatSpinner & JSXBase.HTMLAttributes<HTMLGoatSpinnerElement>;
-            /**
              * @name SVG
              * @description Render SVG content from an external source.
              * @category Data Display
@@ -5529,15 +5526,8 @@ declare module "@stencil/core" {
             "goat-tab": LocalJSX.GoatTab & JSXBase.HTMLAttributes<HTMLGoatTabElement>;
             "goat-tab-panel": LocalJSX.GoatTabPanel & JSXBase.HTMLAttributes<HTMLGoatTabPanelElement>;
             /**
-             * @name Table
-             * @description A configurable component for displaying tabular data.
-             * @category Data Display
-             * @img /assets/img/table.webp
-             * @imgDark /assets/img/table-dark.webp
-             */
-            "goat-table": LocalJSX.GoatTable & JSXBase.HTMLAttributes<HTMLGoatTableElement>;
-            /**
-             * @name Tabs
+             * @label Tabs
+             * @name tabs
              * @description The tabs component is used to display multiple panels of content in a container.
              * @category Navigation
              * @tags navigation
@@ -5550,14 +5540,6 @@ declare module "@stencil/core" {
              */
             "goat-tabs": LocalJSX.GoatTabs & JSXBase.HTMLAttributes<HTMLGoatTabsElement>;
             "goat-tabs-list": LocalJSX.GoatTabsList & JSXBase.HTMLAttributes<HTMLGoatTabsListElement>;
-            /**
-             * @name Tag
-             * @description Use tags to label, categorize, or organize items using keywords that describe them.
-             * @category Data Display
-             * @tag controls
-             * @example <goat-tag class="color-red">Important</goat-tag>
-             */
-            "goat-tag": LocalJSX.GoatTag & JSXBase.HTMLAttributes<HTMLGoatTagElement>;
             /**
              * @name Textarea
              * @description Enables native inputs to be used within a Form field.
@@ -5575,15 +5557,8 @@ declare module "@stencil/core" {
              */
             "goat-time-picker": LocalJSX.GoatTimePicker & JSXBase.HTMLAttributes<HTMLGoatTimePickerElement>;
             /**
-             * @name Toggle
-             * @description Captures boolean input with an optional indeterminate mode.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <goat-toggle value='true'>Want ice cream?</goat-toggle>
-             */
-            "goat-toggle": LocalJSX.GoatToggle & JSXBase.HTMLAttributes<HTMLGoatToggleElement>;
-            /**
-             * @name Tooltip
+             * @label Tooltip
+             * @name tooltip
              * @description The Tooltip component is used to display additional information on hover.
              * @category Informational
              * @tag content
@@ -5591,25 +5566,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/tooltip-dark.webp
              */
             "goat-tooltip": LocalJSX.GoatTooltip & JSXBase.HTMLAttributes<HTMLGoatTooltipElement>;
-            /**
-             * @name TreeNode
-             * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-             * @category Navigation
-             * @subcategory Tree View
-             * @childComponent true
-             * @img /assets/img/tree-view.webp
-             * @imgDark /assets/img/tree-view-dark.webp
-             */
-            "goat-tree-node": LocalJSX.GoatTreeNode & JSXBase.HTMLAttributes<HTMLGoatTreeNodeElement>;
-            /**
-             * @name TreeView
-             * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-             * @category Navigation
-             * @subcategory Tree View
-             * @img /assets/img/tree-view.webp
-             * @imgDark /assets/img/tree-view-dark.webp
-             */
-            "goat-tree-view": LocalJSX.GoatTreeView & JSXBase.HTMLAttributes<HTMLGoatTreeViewElement>;
             /**
              * @label Accordion
              * @name accordion
@@ -5649,7 +5605,7 @@ declare module "@stencil/core" {
              * @description The badge component is used to display a small amount of information to the user.
              * @category Informational
              * @tag content
-             * @example <pc-badge content="5"> <pc-icon name="notification" size="2rem"></pc-icon></goat-badge>
+             * @example <pc-badge class="badge-anchor">1</pc-badge>
              */
             "pc-badge": LocalJSX.PcBadge & JSXBase.HTMLAttributes<HTMLPcBadgeElement>;
             /**
@@ -5687,6 +5643,15 @@ declare module "@stencil/core" {
             "pc-button-group": LocalJSX.PcButtonGroup & JSXBase.HTMLAttributes<HTMLPcButtonGroupElement>;
             "pc-card": LocalJSX.PcCard & JSXBase.HTMLAttributes<HTMLPcCardElement>;
             /**
+             * @label Checkbox
+             * @name checkbox
+             * @description Captures boolean input with an optional indeterminate mode.
+             * @category Form Inputs
+             * @tags input, form
+             * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
+             */
+            "pc-checkbox": LocalJSX.PcCheckbox & JSXBase.HTMLAttributes<HTMLPcCheckboxElement>;
+            /**
              * @label Current Time
              * @name current-time
              * @description Displays the current time in a given timezone.
@@ -5722,6 +5687,15 @@ declare module "@stencil/core" {
              */
             "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
             /**
+             * @label Input
+             * @name input
+             * @description Enables native inputs to be used within a Form field.
+             * @category Form Inputs
+             * @tags input, form
+             * @example <goat-input placeholder="Enter your name"></goat-input>
+             */
+            "pc-input": LocalJSX.PcInput & JSXBase.HTMLAttributes<HTMLPcInputElement>;
+            /**
              * @label Linear Progress Indicator
              * @name linear-progress
              * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
@@ -5739,6 +5713,62 @@ declare module "@stencil/core" {
              */
             "pc-link": LocalJSX.PcLink & JSXBase.HTMLAttributes<HTMLPcLinkElement>;
             /**
+             * @label Popover
+             * @name popover
+             * @description The Popover component is used to display additional information.
+             * @category Informational
+             * @subcategory Popover
+             * @img /assets/img/dropdown.webp
+             * @imgDark /assets/img/dropdown-dark.webp
+             */
+            "pc-popover": LocalJSX.PcPopover & JSXBase.HTMLAttributes<HTMLPcPopoverElement>;
+            /**
+             * @label Popover Content
+             * @name popover-content
+             * @description The PopoverContent component is used to display additional information.
+             * @category Informational
+             * @subcategory Popover
+             * @childComponent true
+             */
+            "pc-popover-content": LocalJSX.PcPopoverContent & JSXBase.HTMLAttributes<HTMLPcPopoverContentElement>;
+            /**
+             * @label Slider
+             * @name slider
+             * @description Sliders allow users to make selections from a range of values.
+             * @category Form Inputs
+             * @tags input, form
+             * @img /assets/img/slider.webp
+             * @imgDark /assets/img/slider-dark.webp
+             */
+            "pc-slider": LocalJSX.PcSlider & JSXBase.HTMLAttributes<HTMLPcSliderElement>;
+            /**
+             * @label Spinner
+             * @name spinner
+             * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
+             * @category Informational
+             * @tags feedback, loading, progress, spinner
+             * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
+             */
+            "pc-spinner": LocalJSX.PcSpinner & JSXBase.HTMLAttributes<HTMLPcSpinnerElement>;
+            /**
+             * @label Table
+             * @name table
+             * @description A configurable component for displaying tabular data.
+             * @category Data Display
+             * @img /assets/img/table.webp
+             * @imgDark /assets/img/table-dark.webp
+             */
+            "pc-table": LocalJSX.PcTable & JSXBase.HTMLAttributes<HTMLPcTableElement>;
+            /**
+             * @label Tag
+             * @name tag
+             * @description Use tags to label, categorize, or organize items using keywords that describe them.
+             * @category Data Display
+             * @tag controls
+             * @example <pc-tag class="color-red">Important</pc-tag>
+             */
+            "pc-tag": LocalJSX.PcTag & JSXBase.HTMLAttributes<HTMLPcTagElement>;
+            /**
              * @label Text
              * @name text
              * @description Typography are used for rendering headlines, paragraphs, and captions.
@@ -5746,6 +5776,36 @@ declare module "@stencil/core" {
              * @example <h1 class=>Heading</h1>
              */
             "pc-text": LocalJSX.PcText & JSXBase.HTMLAttributes<HTMLPcTextElement>;
+            /**
+             * @label Toggle
+             * @name toggle
+             * @description Captures boolean input with an optional indeterminate mode.
+             * @category Form Inputs
+             * @tags input, form
+             * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
+             */
+            "pc-toggle": LocalJSX.PcToggle & JSXBase.HTMLAttributes<HTMLPcToggleElement>;
+            /**
+             * @label Tree Node
+             * @name tree-node
+             * @description A tree node is a hierarchical structure that provides nested levels of navigation.
+             * @category Navigation
+             * @subcategory Tree View
+             * @childComponent true
+             * @img /assets/img/tree-view.webp
+             * @imgDark /assets/img/tree-view-dark.webp
+             */
+            "pc-tree-node": LocalJSX.PcTreeNode & JSXBase.HTMLAttributes<HTMLPcTreeNodeElement>;
+            /**
+             * @label Tree View
+             * @name tree-view
+             * @description A tree view is a hierarchical structure that provides nested levels of navigation.
+             * @category Navigation
+             * @subcategory Tree View
+             * @img /assets/img/tree-view.webp
+             * @imgDark /assets/img/tree-view-dark.webp
+             */
+            "pc-tree-view": LocalJSX.PcTreeView & JSXBase.HTMLAttributes<HTMLPcTreeViewElement>;
         }
     }
 }

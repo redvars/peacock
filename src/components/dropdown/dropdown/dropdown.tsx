@@ -13,7 +13,8 @@ import {
 import PopoverController from '../../popover/popover/PopoverController';
 
 /**
- * @name Dropdown
+ * @label Dropdown
+ * @name dropdown
  * @description Enables native inputs to be used within a Form field.
  * @category Navigation
  * @subcategory Dropdown

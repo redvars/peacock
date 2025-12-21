@@ -40,93 +40,13 @@ html {
   font-size: 16px;
 }
 
-/*
-html:not(.hydrated)::after {
-  content: 'loading...';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  visibility: visible;
-}
 
-html.hydrated {
-  visibility: visible;
-}*/
-
-.page-with-navigation {
-  display: flex;
-  flex-direction: row;
-}
 
 .page-context-wrapper {
   flex: 1;
 }
 
-.side-navigation {
-  padding-top: 1.5rem;
-  width: 5.5rem;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  --icon-size: 1.75rem;
-  min-height: 100vh;
-}
 
-
-.side-navigation .search-button {
-  background-color: var(--color-primary);
-  --icon-color: var(--color-on-primary);
-  height: 3.25rem;
-  width: 3.25rem;
-
-  border-radius: 16px;
-  corner-shape: squircle;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.side-navigation .nav-item {
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-
-.side-navigation .nav-item .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 2rem;
-}
-
-.side-navigation .nav-item:hover .icon {
-  background: var(--color-secondary-container);
-  border-radius: var(--global-shape-corner-large);
-}
-
-.side-navigation .theme-switcher {
-  margin-top: auto;
-  margin-bottom: 1.5rem;
-}
-
-.item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-}
-
-.side-navigation .home img {
-  width: 2rem;
-}
 
 .top-nav {
   width: 100%;

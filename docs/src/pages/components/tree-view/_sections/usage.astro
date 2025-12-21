@@ -2,19 +2,19 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 <HighlighterCard lang={'html'}>
-  <goat-tree-view id='tree-view' style='width: 300px;' selected-node='Blockchain'>
-    <goat-tree-node label='Artificial intelligence'></goat-tree-node>
-    <goat-tree-node label='Blockchain'></goat-tree-node>
-    <goat-tree-node label='Cloud computing'>
-      <goat-tree-node label='Containers'></goat-tree-node>
-      <goat-tree-node label='Databases'></goat-tree-node>
-    </goat-tree-node>
-  </goat-tree-view>
+  <pc-tree-view id='tree-view' style='width: 300px;' selected-node='Blockchain'>
+    <pc-tree-node label='Artificial intelligence'></pc-tree-node>
+    <pc-tree-node label='Blockchain'></pc-tree-node>
+    <pc-tree-node label='Cloud computing'>
+      <pc-tree-node label='Containers'></pc-tree-node>
+      <pc-tree-node label='Databases'></pc-tree-node>
+    </pc-tree-node>
+  </pc-tree-view>
 </HighlighterCard>
 
 <script is:inline>
   const treeView = document.querySelector('#tree-view');
-  treeView.addEventListener('goat-tree-node--click', function(evt) {
+  treeView.addEventListener('pc-tree-node--click', function(evt) {
     myConsole.log(JSON.stringify(evt.detail.value, null, 4),  evt.type);
   });
 </script>

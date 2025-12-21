@@ -9,7 +9,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 
 <goat-card>
   <pc-card-content>
-    <goat-toggle id='change-toggle-field'>Change Event?</goat-toggle>
+    <pc-toggle id='change-toggle-field'>Change Event?</pc-toggle>
     <script is:inline>
       document.querySelector('#change-toggle-field').addEventListener('goat:change', function(event) {
         myConsole.log('Input changed to :: ' + event.target.value);

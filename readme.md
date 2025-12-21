@@ -94,8 +94,8 @@ menus, checkboxes, and radio buttons.
 | [Form control](https://goatui.com/components/form-control) | goat-form-control    | 🟡    |
 | File picker                                                | goat-file-picker     | 🔴    |
 | [HTML editor](https://goatui.com/components/html-editor)   | goat-html-editor     | 🟢    |
-| [Input](https://goatui.com/components/input)               | goat-input           | 🟢    |
-| [Input URL](https://goatui.com/components/input-url)       | goat-input-url       | 🟢    |
+| [Input](https://goatui.com/components/input)               | pc-input           | 🟢    |
+| [Input URL](https://goatui.com/components/input-url)       | pc-input-url       | 🟢    |
 | Month picker                                               | goat-month-picker    | 🔴    |
 | [Number](https://goatui.com/components/number)             | goat-number          | 🟢    |
 | [Select](https://goatui.com/components/select)             | goat-select          | 🟢    |
@@ -174,10 +174,10 @@ These components are used for general purpose. They include
 | Spoiler                                                                    | goat-spoiler              | 🔴    |
 | Stepper                                                                    | goat-stepper              | 🔴    |
 | [Table](https://goatui.com/components/table)                               | goat-table                | 🟡    |
-| [Tag](https://goatui.com/components/tag) / Chip                            | goat-tag                  | 🟢    |
+| [Tag](https://goatui.com/components/tag) / Chip                            | pc-tag                  | 🟢    |
 | [Text](https://goatui.com/components/text)                                 | pc-text                 | 🟢    |
-| [Tree View](https://goatui.com/components/tree-view)                       | goat-tree-view            | 🟡    |
-| [Toggle](https://goatui.com/components/toggle)                             | goat-toggle               | 🟢    |
+| [Tree View](https://goatui.com/components/tree-view)                       | pc-tree-view            | 🟡    |
+| [Toggle](https://goatui.com/components/toggle)                             | pc-toggle               | 🟢    |
 
 ## Charts
 

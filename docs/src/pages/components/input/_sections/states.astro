@@ -7,10 +7,10 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 </pc-text>
 
 <HighlighterCard lang={'html'}>
-  <goat-input disabled>
+  <pc-input disabled>
     <pc-icon slot='start' class='inherit' name='email'></pc-icon>
     <span slot='end'>@example.com</span>
-  </goat-input>
+  </pc-input>
 </HighlighterCard>
 
 <br />
@@ -21,15 +21,15 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 </pc-text>
 
 <HighlighterCard lang={'html'}>
-  <goat-input readonly=''>
+  <pc-input readonly=''>
     <pc-icon slot='start' class='inherit' name='email'></pc-icon>
     <span slot='end'>@example.com</span>
-  </goat-input>
+  </pc-input>
 </HighlighterCard>
 
 <pc-text type='heading' heading-size='3'>Status</pc-text>
 <HighlighterCard lang={'html'}>
-  <goat-input label='City' invalid invalid-text='Please provide a valid city' value='America'></goat-input>
-  <goat-input label='City' warn warn-text='Please provide a valid city' value='America'></goat-input>
-  <goat-input label='City' success value='America'></goat-input>
+  <pc-input label='City' invalid invalid-text='Please provide a valid city' value='America'></pc-input>
+  <pc-input label='City' warn warn-text='Please provide a valid city' value='America'></pc-input>
+  <pc-input label='City' success value='America'></pc-input>
 </HighlighterCard>

@@ -1,5 +1,4 @@
-import {Component, Element, h, Host, Prop} from '@stencil/core';
-
+import { Component, Element, h, Host, Prop } from '@stencil/core';
 
 @Component({
   tag: 'goat-cb-predicate',
@@ -7,7 +6,6 @@ import {Component, Element, h, Host, Prop} from '@stencil/core';
   shadow: true,
 })
 export class CbPredicate {
-
   @Prop() conditionOperator: 'and' | 'or';
 
   @Prop() vertical: boolean = false;
@@ -16,21 +14,22 @@ export class CbPredicate {
     return (
       <Host>
         <div class="predicate">
-
           <div class="predicate-body">
-            <slot/>
+            <slot />
           </div>
 
           {(() => {
             if (this.conditionOperator) {
               return (
-                <goat-cb-divider vertical={true} class="predicate-condition-operator">
-                  <goat-tag color={'warning'}>{this.conditionOperator}</goat-tag>
+                <goat-cb-divider
+                  vertical={true}
+                  class="predicate-condition-operator"
+                >
+                  <pc-tag color={'warning'}>{this.conditionOperator}</pc-tag>
                 </goat-cb-divider>
-              )
+              );
             }
           })()}
-
         </div>
       </Host>
     );
@@ -40,41 +39,45 @@ export class CbPredicate {
 
   componentDidRender() {
     const elm: HTMLElement = this.elm.shadowRoot.querySelector('.slot-end');
-    const conditionOperatorElm: HTMLElement = this.elm.shadowRoot.querySelector('.predicate-condition-operator');
+    const conditionOperatorElm: HTMLElement = this.elm.shadowRoot.querySelector(
+      '.predicate-condition-operator',
+    );
     setTimeout(() => {
       if (elm)
-        elm.style.paddingInlineStart = conditionOperatorElm.getBoundingClientRect().width + 'px';
+        elm.style.paddingInlineStart =
+          conditionOperatorElm.getBoundingClientRect().width + 'px';
     }, 0);
   }
 
   renderVertical() {
-    return (<Host>
-      <div class="predicate vertical">
-        {(() => {
-          if (this.conditionOperator) {
-            return (
-              <div class='predicate-condition-operator'>
-                <goat-cb-divider connect-start={true} connect-end={true}>
-                  <goat-tag color={'success'}>{this.conditionOperator}</goat-tag>
-                </goat-cb-divider>
-              </div>)
-          }
-        })()}
+    return (
+      <Host>
+        <div class="predicate vertical">
+          {(() => {
+            if (this.conditionOperator) {
+              return (
+                <div class="predicate-condition-operator">
+                  <goat-cb-divider connect-start={true} connect-end={true}>
+                    <pc-tag color={'success'}>{this.conditionOperator}</pc-tag>
+                  </goat-cb-divider>
+                </div>
+              );
+            }
+          })()}
 
-        <div class="predicate-body">
-          <slot/>
+          <div class="predicate-body">
+            <slot />
+          </div>
         </div>
-      </div>
-      <div class='slot-end'>
-        <slot name={'end'}/>
-      </div>
-    </Host>);
+        <div class="slot-end">
+          <slot name={'end'} />
+        </div>
+      </Host>
+    );
   }
 
   render() {
-    if (this.vertical)
-      return this.renderVertical();
-    else
-      return this.renderHorizontal();
+    if (this.vertical) return this.renderVertical();
+    else return this.renderHorizontal();
   }
 }

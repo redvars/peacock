@@ -31,7 +31,7 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field placeholder.

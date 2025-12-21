@@ -18,14 +18,14 @@
 ### Depends on
 
 - [goat-cb-divider](../cb-divider)
-- [goat-tag](../../../tag)
+- [pc-tag](../../../tag)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-cb-predicate --> goat-cb-divider
-  goat-cb-predicate --> goat-tag
-  goat-tag --> pc-icon
+  goat-cb-predicate --> pc-tag
+  pc-tag --> pc-icon
   style goat-cb-predicate fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

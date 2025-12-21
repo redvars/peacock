@@ -1,0 +1,20 @@
+@charset "utf-8";
+@use "mixin";
+@use "device-utils";
+
+
+
+.page {
+  position: relative;
+}
+
+
+.side-navigation-container {
+  position: fixed;
+  height: 100vh;
+  z-index: 1;
+}
+
+.page-context-wrapper {
+  margin-inline-start: 5.5rem; // side navigation width
+}

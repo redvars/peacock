@@ -18,10 +18,10 @@ import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
  * @description A specialized input field for URL validation.
  * @category Up coming
  * @tags input, form, url
- * @example <goat-input-url value="https://shivajivarma.com"></goat-input-url>
+ * @example <pc-input-url value="https://shivajivarma.com"></pc-input-url>
  */
 @Component({
-  tag: 'goat-input-url',
+  tag: 'pc-input-url',
   styleUrl: 'input-url.scss',
   shadow: true,
 })
@@ -31,7 +31,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-url-${this.gid}`;
+  @Prop() name: string = `pc-input-url-${this.gid}`;
 
   @Prop() skeleton: boolean = false;
 

@@ -75,9 +75,8 @@ Type: `Promise<void>`
 
 - [pc-button](../../button)
 - [pc-icon](../../icon)
-- [goat-spinner](../../spinner)
 - [goat-code-editor](../code-editor)
-- [goat-toggle](../toggle)
+- [pc-toggle](../toggle)
 - [goat-menu](../../menu/menu)
 - [goat-menu-item](../../menu/menu-item)
 
@@ -86,15 +85,13 @@ Type: `Promise<void>`
 graph TD;
   goat-html-editor --> pc-button
   goat-html-editor --> pc-icon
-  goat-html-editor --> goat-spinner
   goat-html-editor --> goat-code-editor
-  goat-html-editor --> goat-toggle
+  goat-html-editor --> pc-toggle
   goat-html-editor --> goat-menu
   goat-html-editor --> goat-menu-item
   pc-button --> pc-elevation
-  goat-code-editor --> goat-tag
-  goat-code-editor --> goat-spinner
-  goat-tag --> pc-icon
+  goat-code-editor --> pc-tag
+  pc-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> pc-button

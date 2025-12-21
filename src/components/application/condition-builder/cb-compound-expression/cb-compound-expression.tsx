@@ -36,9 +36,9 @@ export class CbCompoundExpression {
                 if (this.conditionOperator)
                   return (
                     <goat-cb-divider connect-end={true}>
-                      <goat-tag color={'warning'}>
+                      <pc-tag color={'warning'}>
                         {this.conditionOperator}
-                      </goat-tag>
+                      </pc-tag>
                     </goat-cb-divider>
                   );
               })()}

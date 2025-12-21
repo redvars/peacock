@@ -1,4 +1,4 @@
-# goat-input
+# pc-input
 
 
 
@@ -77,10 +77,6 @@ Type: `Promise<void>`
 
 ## Dependencies
 
-### Used by
-
- - [goat-condition-builder](../../../application/condition-builder/condition-builder)
-
 ### Depends on
 
 - [goat-tooltip](../../../tooltip)
@@ -90,14 +86,11 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-input --> goat-tooltip
-  goat-input --> pc-button
-  goat-input --> pc-icon
-  goat-tooltip --> goat-popover
-  goat-tooltip --> goat-popover-content
+  pc-input --> goat-tooltip
+  pc-input --> pc-button
+  pc-input --> pc-icon
   pc-button --> pc-elevation
-  goat-condition-builder --> goat-input
-  style goat-input fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-input fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -71,15 +71,13 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-tag](../../tag)
-- [goat-spinner](../../spinner)
+- [pc-tag](../../tag)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-code-editor --> goat-tag
-  goat-code-editor --> goat-spinner
-  goat-tag --> pc-icon
+  goat-code-editor --> pc-tag
+  pc-tag --> pc-icon
   goat-html-editor --> goat-code-editor
   style goat-code-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```

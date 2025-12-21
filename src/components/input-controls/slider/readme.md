@@ -76,14 +76,12 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-slider --> goat-number
-  goat-slider --> goat-tooltip
+  pc-slider --> goat-number
+  pc-slider --> goat-tooltip
   goat-number --> pc-button
   goat-number --> pc-icon
   pc-button --> pc-elevation
-  goat-tooltip --> goat-popover
-  goat-tooltip --> goat-popover-content
-  style goat-slider fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-slider fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

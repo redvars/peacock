@@ -2,31 +2,31 @@
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <pc-text type='body'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>goat-input--change</code> is triggered by
+                                                                  data-lang='html'>pc-input--change</code> is triggered by
   the element.
 </pc-text>
 
 <goat-card>
   <pc-card-content>
-    <goat-input variant='default' id='name-input-field' placeholder='Type here'></goat-input>
+    <pc-input variant='default' id='name-input-field' placeholder='Type here'></pc-input>
 
     <script is:inline>
-      document.querySelector('#name-input-field').addEventListener('goat-input--input', function(event) {
-        myConsole.log('goat-input--input :: ' + event.target.value);
+      document.querySelector('#name-input-field').addEventListener('pc-input--input', function(event) {
+        myConsole.log('pc-input--input :: ' + event.target.value);
       });
-      document.querySelector('#name-input-field').addEventListener('goat-input--change', function(event) {
-        myConsole.warn('goat-input--change :: ' + event.target.value);
+      document.querySelector('#name-input-field').addEventListener('pc-input--change', function(event) {
+        myConsole.warn('pc-input--change :: ' + event.target.value);
       });
     </script>
   </pc-card-content>
   <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw>
-      document.querySelector('#name-input-field').addEventListener('goat-input--input', function (event) {
-        myConsole.log('goat-input--input :: ' + event.target.value);
+      document.querySelector('#name-input-field').addEventListener('pc-input--input', function (event) {
+        myConsole.log('pc-input--input :: ' + event.target.value);
       });
 
-      document.querySelector('#name-input-field').addEventListener('goat-input--change', function (event) {
-        myConsole.warn('goat-input--change :: ' + event.target.value);
+      document.querySelector('#name-input-field').addEventListener('pc-input--change', function (event) {
+        myConsole.warn('pc-input--change :: ' + event.target.value);
       });
     </Highlighter>
   </pc-card-content>

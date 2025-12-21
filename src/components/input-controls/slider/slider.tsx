@@ -22,7 +22,8 @@ import {
 } from '../../../utils/utils';
 
 /**
- * @name Slider
+ * @label Slider
+ * @name slider
  * @description Sliders allow users to make selections from a range of values.
  * @category Form Inputs
  * @tags input, form
@@ -30,7 +31,7 @@ import {
  * @imgDark /assets/img/slider-dark.webp
  */
 @Component({
-  tag: 'goat-slider',
+  tag: 'pc-slider',
   styleUrl: 'slider.scss',
   shadow: true,
 })
@@ -40,7 +41,7 @@ export class Slider implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   @Prop() min: number = 0;
 
@@ -102,7 +103,7 @@ export class Slider implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()

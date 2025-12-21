@@ -39,7 +39,7 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field value.
@@ -88,11 +88,17 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
   @Watch('libSource')
   protected libSourceChanged() {
     if (window['monaco']) {
-      const libModel = window['monaco'].editor.getModel("java://goatui.com/lib.java");
+      const libModel = window['monaco'].editor.getModel(
+        'java://goatui.com/lib.java',
+      );
       if (libModel) {
         libModel.dispose();
       }
-      window['monaco'].editor.createModel(this.libSource, this.language, "java://goatui.com/lib.java");
+      window['monaco'].editor.createModel(
+        this.libSource,
+        this.language,
+        'java://goatui.com/lib.java',
+      );
     }
   }
 
@@ -138,7 +144,7 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -149,7 +155,7 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -210,10 +216,12 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
       },
     );
 
-    
-
     if (this.libSource) {
-      window['monaco'].editor.createModel(this.libSource, this.language, "java://goatui.com/lib.java");
+      window['monaco'].editor.createModel(
+        this.libSource,
+        this.language,
+        'java://goatui.com/lib.java',
+      );
     }
 
     this.editorMonacoInstance.onDidChangeModelContent(e => {
@@ -246,9 +254,9 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
           }}
         >
           {this.disabled || this.readonly ? (
-            <goat-tag class="read-only-tag" color="red">
+            <pc-tag class="read-only-tag" color="red">
               Read Only
-            </goat-tag>
+            </pc-tag>
           ) : null}
 
           <div class="editor" ref={el => (this.editorElement = el)} />

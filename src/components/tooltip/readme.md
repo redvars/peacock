@@ -19,22 +19,15 @@
 ### Used by
 
  - [goat-code-highlighter](../application/code-highlighter)
- - [goat-input](../input-controls/input/input)
- - [goat-slider](../input-controls/slider)
-
-### Depends on
-
-- [goat-popover](../popover/popover)
-- [goat-popover-content](../popover/popover-content)
+ - [pc-input](../input-controls/input/input)
+ - [pc-slider](../input-controls/slider)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-tooltip --> goat-popover
-  goat-tooltip --> goat-popover-content
   goat-code-highlighter --> goat-tooltip
-  goat-input --> goat-tooltip
-  goat-slider --> goat-tooltip
+  pc-input --> goat-tooltip
+  pc-slider --> goat-tooltip
   style goat-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

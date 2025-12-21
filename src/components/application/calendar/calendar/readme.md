@@ -45,13 +45,12 @@ graph TD;
   goat-calendar --> goat-calendar-month-view
   pc-button --> pc-elevation
   goat-select --> pc-icon
-  goat-select --> goat-tag
+  goat-select --> pc-tag
   goat-select --> pc-button
-  goat-select --> goat-spinner
   goat-select --> goat-menu
   goat-select --> pc-text
   goat-select --> goat-menu-item
-  goat-tag --> pc-icon
+  pc-tag --> pc-icon
   goat-menu --> goat-empty-state
   goat-empty-state --> goat-svg
   goat-empty-state --> pc-button

@@ -58,7 +58,7 @@ export class ConditionBuilder {
           ]}
         />
 
-        <goat-input inline placeholder="Select Value" />
+        <pc-input inline placeholder="Select Value" />
       </div>
     );
   }
@@ -70,7 +70,7 @@ export class ConditionBuilder {
           <span class={'pc-text-body inline'}>Field name</span>
           <div class="field-compound-type">
             <goat-cb-divider connect-end={true}>
-              <goat-tag color={'warning'}>{'or'}</goat-tag>
+              <pc-tag color={'warning'}>{'or'}</pc-tag>
             </goat-cb-divider>
           </div>
         </div>
@@ -88,7 +88,7 @@ export class ConditionBuilder {
       <div class="condition-builder__compound">
         <div class="compound-type">
           <goat-cb-divider connect-start={true} connect-end={true}>
-            <goat-tag color={'success'}>{'and'}</goat-tag>
+            <pc-tag color={'success'}>{'and'}</pc-tag>
           </goat-cb-divider>
         </div>
 
@@ -107,7 +107,7 @@ export class ConditionBuilder {
           {this.renderCompound()}
         </div>
         <goat-cb-divider vertical={true} class="predicate-divider">
-          <goat-tag color={'warning'}>{'or'}</goat-tag>
+          <pc-tag color={'warning'}>{'or'}</pc-tag>
         </goat-cb-divider>
         <div class={`condition-builder__predicate`}>
           {this.renderCompound()}

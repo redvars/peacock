@@ -29,20 +29,20 @@ const description = 'The overview page is the first page you see when you visit 
 
 
         <div id='search-container'>
-          <goat-input id='component-search' layer='01' placeholder='Search'>
+          <pc-input id='component-search' layer='01' placeholder='Search'>
             <pc-icon slot='start' size='1rem' name='search'></pc-icon>
-          </goat-input>
+          </pc-input>
         </div>
 
         <div class='categories'>{
           getCategoriesTree().map((category) => {
             return (
               <goat-link href={`/components/?filter=${category.name.toLowerCase().replace(' ', '-')}`} class='no-style'>
-                <goat-tag id={`tag-${category.name.toLowerCase().replace(' ', '-')}`}
+                <pc-tag id={`tag-${category.name.toLowerCase().replace(' ', '-')}`}
                           color='blue'
                           class='category'>{category.name}
                   <pc-icon class='selected-icon inherit' name='checkmark'></pc-icon>
-                </goat-tag>
+                </pc-tag>
               </goat-link>);
           })
         }</div>

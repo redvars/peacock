@@ -8,14 +8,15 @@ enum SpinnerSize {
 }
 
 /**
- * @name Spinner
+ * @label Spinner
+ * @name spinner
  * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
  * @category Informational
  * @tags feedback, loading, progress, spinner
  * @example <goat-spinner class="rainbow" size="2rem"></goat-spinner>
  */
 @Component({
-  tag: 'goat-spinner',
+  tag: 'pc-spinner',
   styleUrl: 'spinner.scss',
   shadow: true,
 })

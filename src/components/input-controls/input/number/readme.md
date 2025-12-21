@@ -1,4 +1,4 @@
-# goat-input
+# pc-input
 
 
 
@@ -80,7 +80,7 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [goat-slider](../../slider)
+ - [pc-slider](../../slider)
 
 ### Depends on
 
@@ -93,7 +93,7 @@ graph TD;
   goat-number --> pc-button
   goat-number --> pc-icon
   pc-button --> pc-elevation
-  goat-slider --> goat-number
+  pc-slider --> goat-number
   style goat-number fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

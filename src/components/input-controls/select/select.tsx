@@ -19,10 +19,7 @@ import {
   throttle,
 } from '../../../utils/utils';
 import { computePosition, flip, offset, size } from '@floating-ui/dom';
-import {
-  GoatMenuItemCustomEvent,
-  GoatTagCustomEvent,
-} from '../../../components';
+import { GoatMenuItemCustomEvent, PcTagCustomEvent } from '../../../components';
 
 /**
  * @name Select
@@ -43,7 +40,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field placeholder.
@@ -172,7 +169,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -217,8 +214,8 @@ export class Select implements ComponentInterface, InputComponentInterface {
   @State() position: string;
   private displayElement?: HTMLElement;
 
-  @Listen('goat-tag--dismiss')
-  tagDismissClick(evt: GoatTagCustomEvent<any>) {
+  @Listen('pc-tag--dismiss')
+  tagDismissClick(evt: PcTagCustomEvent<any>) {
     this.removeItem(evt.detail.value);
   }
 
@@ -481,14 +478,14 @@ export class Select implements ComponentInterface, InputComponentInterface {
         const item = this.getItemByValue(value);
         if (item) {
           return (
-            <goat-tag
+            <pc-tag
               size="sm"
               dismissible={!this.disabled && !this.readonly}
               class="multi-select-value"
               value={item.value?.toString()}
             >
               {item.label}
-            </goat-tag>
+            </pc-tag>
           );
         }
       });

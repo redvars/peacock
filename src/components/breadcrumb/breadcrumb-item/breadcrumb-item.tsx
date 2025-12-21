@@ -36,12 +36,17 @@ export class BreadcrumbItem implements ComponentInterface {
           </span>
         ) : (
           <span class={'breadcrumb-item'}>
-            <goat-link itemprop="item" href={this.href} target={this.target}>
+            <a
+              class="pc-link no-decoration"
+              itemprop="item"
+              href={this.href}
+              target={this.target}
+            >
               <span itemprop="name">
                 <slot />
               </span>
               <meta itemprop="position" content={this.position} />
-            </goat-link>
+            </a>
           </span>
         )}
       </Host>

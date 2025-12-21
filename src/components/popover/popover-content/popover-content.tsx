@@ -2,14 +2,15 @@ import { Component, ComponentInterface, Element, h, Host } from '@stencil/core';
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name Popover Content
+ * @label Popover Content
+ * @name popover-content
  * @description The PopoverContent component is used to display additional information.
  * @category Informational
  * @subcategory Popover
  * @childComponent true
  */
 @Component({
-  tag: 'goat-popover-content',
+  tag: 'pc-popover-content',
   styleUrl: 'popover-content.scss',
   shadow: true,
 })

@@ -14,7 +14,8 @@ import { getComponentIndex } from '../../../utils/utils';
 import PopoverController from './PopoverController';
 
 /**
- * @name Popover
+ * @label Popover
+ * @name popover
  * @description The Popover component is used to display additional information.
  * @category Informational
  * @subcategory Popover
@@ -22,7 +23,7 @@ import PopoverController from './PopoverController';
  * @imgDark /assets/img/dropdown-dark.webp
  */
 @Component({
-  tag: 'goat-popover',
+  tag: 'pc-popover',
   styleUrl: 'popover.scss',
   shadow: true,
 })
@@ -147,7 +148,7 @@ export class Popover implements ComponentInterface {
   }
 
   async componentDidLoad() {
-    const contentRef = this.host.querySelector('goat-popover-content');
+    const contentRef = this.host.querySelector('pc-popover-content');
 
     if (!contentRef) {
       throw new Error(

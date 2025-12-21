@@ -19,10 +19,10 @@
 
 ## Events
 
-| Event               | Description                             | Type               |
-| ------------------- | --------------------------------------- | ------------------ |
-| `goat-tag--click`   | Emitted when the tag is clicked.        | `CustomEvent<any>` |
-| `goat-tag--dismiss` | Emitted when the close icon is clicked. | `CustomEvent<any>` |
+| Event             | Description                             | Type               |
+| ----------------- | --------------------------------------- | ------------------ |
+| `pc-tag--click`   | Emitted when the tag is clicked.        | `CustomEvent<any>` |
+| `pc-tag--dismiss` | Emitted when the close icon is clicked. | `CustomEvent<any>` |
 
 
 ## Dependencies
@@ -43,14 +43,14 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-tag --> pc-icon
-  goat-cb-compound-expression --> goat-tag
-  goat-cb-predicate --> goat-tag
-  goat-code-editor --> goat-tag
-  goat-condition-builder --> goat-tag
-  goat-flow-designer --> goat-tag
-  goat-select --> goat-tag
-  style goat-tag fill:#f9f,stroke:#333,stroke-width:4px
+  pc-tag --> pc-icon
+  goat-cb-compound-expression --> pc-tag
+  goat-cb-predicate --> pc-tag
+  goat-code-editor --> pc-tag
+  goat-condition-builder --> pc-tag
+  goat-flow-designer --> pc-tag
+  goat-select --> pc-tag
+  style pc-tag fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

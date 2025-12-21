@@ -19,39 +19,39 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
 <Layout title={title} description={description}  classes={'surface'}>
   <div class="sidenav m-hide surface" id="component-page">
     <div class="sidenav-components">
-      <goat-tree-view layer="01" value={title} selected-node={title}>
-        <goat-tree-node label="Overview" href="/components"></goat-tree-node>
+      <pc-tree-view layer="01" value={title} selected-node={title}>
+        <pc-tree-node label="Overview" href="/components"></pc-tree-node>
 
         {
           getCategoriesTree().map(category => {
             if (!category.hide) {
               return (
-                <goat-tree-node label={category.name} value={category.name + 'group'}>
+                <pc-tree-node label={category.name} value={category.name + 'group'}>
                   {category.children.map(componentName => {
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <goat-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
+                        return <pc-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
                       }
                     } else if (componentName.children) {
                       return (
-                        <goat-tree-node label={componentName.name} value={componentName.name + 'group'}>
+                        <pc-tree-node label={componentName.name} value={componentName.name + 'group'}>
                           {componentName.children.map(componentName => {
                             const component = getComponentDetails(componentName);
                             if (component.metadata.name) {
-                              return <goat-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
+                              return <pc-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
                             }
                           })}
-                        </goat-tree-node>
+                        </pc-tree-node>
                       );
                     }
                   })}
-                </goat-tree-node>
+                </pc-tree-node>
               );
             }
           })
         }
-      </goat-tree-view>
+      </pc-tree-view>
     </div>
   </div>
   <div class="main-content">

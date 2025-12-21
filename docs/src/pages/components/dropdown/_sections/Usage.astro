@@ -6,7 +6,9 @@ import MenuItems from './dropdown-menu.astro';
 <HighlighterCard lang='html'>
 
   <goat-dropdown>
-    <pc-button color='secondary' icon='overflow-menu--vertical'></pc-button>
+    <pc-button>
+      <pc-icon slot='icon' name='menu'></pc-icon>
+    </pc-button>
 
     <MenuItems/>
   </goat-dropdown>
@@ -14,7 +16,7 @@ import MenuItems from './dropdown-menu.astro';
 
 <HighlighterCard lang='html'>
   <goat-dropdown id='dropdown' placements='bottom-end'>
-    <pc-button color='secondary' variant='ghost' icon='overflow-menu--vertical'></pc-button>
+    <pc-button variant='text'><pc-icon slot='icon' name='menu'/></pc-button>
 
     <MenuItems/>
   </goat-dropdown>

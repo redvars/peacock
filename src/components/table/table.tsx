@@ -31,14 +31,15 @@ const SUPPORTED_PAGE_SIZES = [
 ];
 
 /**
- * @name Table
+ * @label Table
+ * @name table
  * @description A configurable component for displaying tabular data.
  * @category Data Display
  * @img /assets/img/table.webp
  * @imgDark /assets/img/table-dark.webp
  */
 @Component({
-  tag: 'goat-table',
+  tag: 'pc-table',
   styleUrl: 'table.scss',
   shadow: true,
 })

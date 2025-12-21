@@ -18,7 +18,7 @@ import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
  * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-number value="100"></goat-input>
+ * @example <goat-number value="100"></pc-input>
  */
 @Component({
   tag: 'goat-number',
@@ -31,7 +31,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field placeholder.
@@ -162,7 +162,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -174,7 +174,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -193,7 +193,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
   componentWillLoad() {
     // If the ion-input has a tabindex attribute we get the value
     // and pass it down to the native input, then remove it from the
-    // goat-input to avoid causing tabbing twice on the same element
+    // pc-input to avoid causing tabbing twice on the same element
     if (this.elm.hasAttribute('tabindex')) {
       const tabindex = this.elm.getAttribute('tabindex');
       this.tabindex = tabindex !== null ? tabindex : undefined;

@@ -1,4 +1,11 @@
-import { Component, ComponentInterface, Element, h, Host, Prop } from '@stencil/core';
+import {
+  Component,
+  ComponentInterface,
+  Element,
+  h,
+  Host,
+  Prop,
+} from '@stencil/core';
 
 /**
  * @name Form Control
@@ -6,7 +13,7 @@ import { Component, ComponentInterface, Element, h, Host, Prop } from '@stencil/
  * @category Form Inputs
  * @tags form
  * @example <goat-form-control label='Full Name' required>
- *   <goat-input type='text'></goat-input>
+ *   <pc-input type='text'></pc-input>
  * </goat-form-control>
  */
 @Component({
@@ -46,7 +53,14 @@ export class FormControl implements ComponentInterface {
   }
 
   getInputElement() {
-    for (const compName of ['goat-input', 'goat-textarea', 'goat-select', 'goat-checkbox', 'goat-radio', 'goat-code-editor']) {
+    for (const compName of [
+      'pc-input',
+      'goat-textarea',
+      'goat-select',
+      'goat-checkbox',
+      'goat-radio',
+      'goat-code-editor',
+    ]) {
       const controlElm = this.elm.querySelector(`${compName}`);
       if (controlElm) return controlElm;
     }
@@ -71,7 +85,11 @@ export class FormControl implements ComponentInterface {
     }
   }
 
-  componentShouldUpdate(newVal: any, _oldVal, propName: string): boolean | void {
+  componentShouldUpdate(
+    newVal: any,
+    _oldVal,
+    propName: string,
+  ): boolean | void {
     if (propName === 'required') {
       this.passRequiredToField(this.getInputElement(), newVal);
     } else if (propName === 'label') {
@@ -80,9 +98,11 @@ export class FormControl implements ComponentInterface {
   }
 
   renderHelper() {
-    if (this.invalid) return <div class="helper invalid">{this.invalidText}</div>;
+    if (this.invalid)
+      return <div class="helper invalid">{this.invalidText}</div>;
     else if (this.warn) return <div class="helper warn">{this.warnText}</div>;
-    else if (this.helperText || this.helperText === '') return <div class="helper text">{this.helperText}</div>;
+    else if (this.helperText || this.helperText === '')
+      return <div class="helper text">{this.helperText}</div>;
   }
 
   getLabel() {

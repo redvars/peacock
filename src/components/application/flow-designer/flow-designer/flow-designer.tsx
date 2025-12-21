@@ -234,7 +234,7 @@ export class FlowDesigner {
                     />
                   </div>
 
-                  <goat-tag
+                  <pc-tag
                     class="test-activity color-blue"
                     style={{
                       top: 121 * this.zoom + 'px',
@@ -242,7 +242,7 @@ export class FlowDesigner {
                     }}
                   >
                     Testing
-                  </goat-tag>
+                  </pc-tag>
 
                   <div
                     class="activity"

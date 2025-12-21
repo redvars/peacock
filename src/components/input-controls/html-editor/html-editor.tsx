@@ -40,7 +40,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
   /**
    * The input field name.
    */
-  @Prop() name: string = `goat-input-${this.gid}`;
+  @Prop() name: string = `pc-input-${this.gid}`;
 
   /**
    * The input field value.
@@ -140,7 +140,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets focus on the native `input` in `pc-input`. Use this method instead of the global
    * `input.focus()`.
    */
   @Method()
@@ -151,7 +151,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
   }
 
   /**
-   * Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+   * Sets blur on the native `input` in `pc-input`. Use this method instead of the global
    * `input.blur()`.
    */
   @Method()
@@ -510,13 +510,13 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
           {this.showToolbar && (
             <div class={'html-editor-footer'}>
               <div class={'footer-left'}>
-                <goat-toggle
-                  goat-toggle--change={evt => {
+                <pc-toggle
+                  pc-toggle--change={evt => {
                     this.showHtml = evt.target.value;
                   }}
                 >
                   HTML
-                </goat-toggle>
+                </pc-toggle>
               </div>
 
               <div class={'footer-right'}>

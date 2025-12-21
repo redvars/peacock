@@ -68,10 +68,6 @@ Type: `Promise<void>`
 
 ## Dependencies
 
-### Used by
-
- - [goat-table](../../table)
-
 ### Depends on
 
 - [pc-icon](../../icon)
@@ -79,9 +75,8 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-checkbox --> pc-icon
-  goat-table --> goat-checkbox
-  style goat-checkbox fill:#f9f,stroke:#333,stroke-width:4px
+  pc-checkbox --> pc-icon
+  style pc-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
