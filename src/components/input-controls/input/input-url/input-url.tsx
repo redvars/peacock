@@ -14,7 +14,8 @@ import {
 import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
 
 /**
- * @name Input URL
+ * @label Input URL
+ * @name input-url
  * @description A specialized input field for URL validation.
  * @category Up coming
  * @tags input, form, url
@@ -211,7 +212,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
           <pc-button
             size="sm"
             variant="text"
-            onGoat-button--click={() => {
+            onButton--click={() => {
               this.#startEditing();
             }}
           >

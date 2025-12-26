@@ -7,14 +7,15 @@ import {
 } from '../../../../utils/utils';
 
 /**
- * @name Header
+ * @label Header
+ * @name header
  * @description Header component is used to display a header with a brand, navigation, and actions.
  * @category Navigation
  * @img /assets/img/header.webp
  * @imgDark /assets/img/header-dark.webp
  */
 @Component({
-  tag: 'goat-header',
+  tag: 'pc-header',
   styleUrl: 'header.scss',
   shadow: true,
 })

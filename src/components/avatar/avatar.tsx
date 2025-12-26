@@ -1,7 +1,7 @@
 import { Component, Element, h, Host, Prop } from '@stencil/core';
 
 /**\
- * @Label Avatar
+ * @label Avatar
  * @name avatar
  * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
  * @category Data Display

@@ -12,19 +12,14 @@
   --goat-header-width: var(--container-max);
 }
 
-main {
-  min-height: calc(100vh - var(--header-height));
-}
-
 .top-nav {
   box-shadow: var(--shadow-sm);
   border-bottom: 1px solid var(--border-strong-01);
 }
 
 .main-content {
-  margin-top: var(--header-height);
   position: relative;
-  min-height: calc(100vh - var(--header-height));
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }

@@ -75,8 +75,8 @@ export class TreeNode implements ComponentInterface {
   /**
    * Emitted when the menu item is clicked.
    */
-  @Event({ eventName: 'pc-tree-node--click' })
-  goatTreeNodeClick: EventEmitter;
+  @Event({ eventName: 'tree-node--click' })
+  treeNodeClick: EventEmitter;
 
   @State() hasChildNodes = false;
 
@@ -117,7 +117,7 @@ export class TreeNode implements ComponentInterface {
   @Element() elm!: HTMLElement;
 
   handleClick = () => {
-    this.goatTreeNodeClick.emit({
+    this.treeNodeClick.emit({
       value: this.value || this.label,
       expand: this.expanded,
       id: this.gid,

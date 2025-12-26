@@ -1,4 +1,4 @@
-# goat-code-editor
+# pc-code-editor
 
 
 
@@ -21,16 +21,20 @@
 
 ### Depends on
 
-- [goat-tooltip](../../tooltip)
+- [pc-tooltip](../../tooltip)
 - [pc-button](../../button)
 - [pc-icon](../../icon)
+- [pc-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-code-highlighter --> goat-tooltip
+  goat-code-highlighter --> pc-tooltip
   goat-code-highlighter --> pc-button
   goat-code-highlighter --> pc-icon
+  goat-code-highlighter --> pc-spinner
+  pc-tooltip --> pc-popover
+  pc-tooltip --> pc-popover-content
   pc-button --> pc-elevation
   style goat-code-highlighter fill:#f9f,stroke:#333,stroke-width:4px
 ```

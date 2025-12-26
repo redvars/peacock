@@ -19,10 +19,10 @@
 
 ## Events
 
-| Event             | Description                             | Type               |
-| ----------------- | --------------------------------------- | ------------------ |
-| `pc-tag--click`   | Emitted when the tag is clicked.        | `CustomEvent<any>` |
-| `pc-tag--dismiss` | Emitted when the close icon is clicked. | `CustomEvent<any>` |
+| Event          | Description                             | Type               |
+| -------------- | --------------------------------------- | ------------------ |
+| `tag--click`   | Emitted when the tag is clicked.        | `CustomEvent<any>` |
+| `tag--dismiss` | Emitted when the close icon is clicked. | `CustomEvent<any>` |
 
 
 ## Dependencies
@@ -31,25 +31,27 @@
 
  - [goat-cb-compound-expression](../application/condition-builder/cb-compound-expression)
  - [goat-cb-predicate](../application/condition-builder/cb-predicate)
- - [goat-code-editor](../input-controls/code-editor)
  - [goat-condition-builder](../application/condition-builder/condition-builder)
- - [goat-flow-designer](../application/flow-designer/flow-designer)
- - [goat-select](../input-controls/select)
+ - [pc-code-editor](../input-controls/code-editor)
+ - [pc-flow-designer](../application/flow-designer/flow-designer)
+ - [pc-select](../input-controls/select)
 
 ### Depends on
 
 - [pc-icon](../icon)
+- [pc-elevation](../elevation)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-tag --> pc-icon
+  pc-tag --> pc-elevation
   goat-cb-compound-expression --> pc-tag
   goat-cb-predicate --> pc-tag
-  goat-code-editor --> pc-tag
   goat-condition-builder --> pc-tag
-  goat-flow-designer --> pc-tag
-  goat-select --> pc-tag
+  pc-code-editor --> pc-tag
+  pc-flow-designer --> pc-tag
+  pc-select --> pc-tag
   style pc-tag fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

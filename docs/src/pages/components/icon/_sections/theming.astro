@@ -2,8 +2,8 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<pc-text type='heading' heading-size='3'>Color</pc-text>
-<pc-text type='body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</pc-text>
+<h3 class='pc-text-headline-small'>Color</h3>
+<p class='pc-text-body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
 <DemoComponentCard lang={'html'}>
   <pc-icon name='alarm' style='--icon-color: var(--color-on-surface)'></pc-icon>
 
@@ -17,8 +17,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </span>
 </DemoComponentCard>
 
-<pc-text type='heading' heading-size='3'>Size</pc-text>
-<pc-text type="body">Fancy larger or smaller icons? Add size attribute for additional sizes.</pc-text>
+<h3 class='pc-text-headline-small'>Size</h3>
+<p class='pc-text-body'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
 <DemoComponentCard lang={'html'}>
   <pc-icon name="alarm"></pc-icon>
   <pc-icon name="alarm" style="--icon-size: 3rem"></pc-icon>

@@ -21,7 +21,7 @@ import { getColorScale, getPieData } from '../pie/pie';
  * @imgDark /assets/img/chart-doughnut-dark.webp
  */
 @Component({
-  tag: 'goat-chart-doughnut',
+  tag: 'pc-chart-doughnut',
   styleUrl: 'chart-doughnut.scss',
   shadow: true,
 })

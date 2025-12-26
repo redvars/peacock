@@ -1,4 +1,4 @@
-# goat-menu
+# pc-menu
 
 
 
@@ -22,16 +22,16 @@
 
 ## Events
 
-| Event                 | Description                            | Type               |
-| --------------------- | -------------------------------------- | ------------------ |
-| `pc-tree-node--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
+| Event              | Description                            | Type               |
+| ------------------ | -------------------------------------- | ------------------ |
+| `tree-node--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
 
 
 ## Methods
 
 ### `setBlur() => Promise<void>`
 
-Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+Sets blur on the native `input` in `pc-input`. Use this method instead of the global
 `input.blur()`.
 
 #### Returns
@@ -42,7 +42,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+Sets focus on the native `input` in `pc-input`. Use this method instead of the global
 `input.focus()`.
 
 #### Returns

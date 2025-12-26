@@ -13,25 +13,25 @@
   --popover-content-shadow: none;
 
   /**
-  * @prop --goat-dropdown-menu-max-height: Maximum height of the menu
+  * @prop --pc-dropdown-menu-max-height: Maximum height of the menu
  */
-  --goat-dropdown-menu-max-height: 100%;
+  --pc-dropdown-menu-max-height: 100%;
 
   min-width: 10rem;
   line-height: 0;
 }
 
 
-:host-context(goat-dropdown[open]) {
+:host-context(pc-dropdown[open]) {
   pointer-events: auto;
   transform: scale(1);
 }
 
 .dropdown-content {
-  --goat-menu-max-height: var(--goat-dropdown-menu-max-height);
+  --pc-menu-max-height: var(--pc-dropdown-menu-max-height);
   position: relative;
   width: 100%;
   filter: var(--popover-content-shadow, none);
-  --goat-menu-shadow: none;
+  --pc-menu-shadow: none;
 }
 

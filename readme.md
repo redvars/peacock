@@ -113,9 +113,9 @@ include menus, tabs, and breadcrumbs.
 | Name                                                   | Component       | State |
 |--------------------------------------------------------|-----------------|-------|
 | [Breadcrumb](https://goatui.com/components/breadcrumb) | pc-breadcrumb | 🟢    |
-| [Dropdown](https://goatui.com/components/dropdown)     | goat-dropdown   | 🟡    |
-| [Menu](https://goatui.com/components/menu)             | goat-menu       | 🟡    |
-| [Tabs](https://goatui.com/components/tabs)             | goat-tabs       | 🟢    |
+| [Dropdown](https://goatui.com/components/dropdown)     | pc-dropdown   | 🟡    |
+| [Menu](https://goatui.com/components/menu)             | pc-menu       | 🟡    |
+| [Tabs](https://goatui.com/components/tabs)             | pc-tabs       | 🟢    |
 
 ## Informational
 
@@ -127,10 +127,10 @@ notifications, tooltips, and progress bars.
 |----------------------------------------------------------------------------------|---------------------------|-------|
 | [Badge](https://goatui.com/components/badge)                                     | goat-badge                | 🟢    |
 | [Progress](https://goatui.com/components/progress)                               | goat-progress             | 🟢    |
-| [Spinner](https://goatui.com/components/spinner)                                 | goat-spinner              | 🟢    |
-| [Tooltip](https://goatui.com/components/tooltip)                                 | goat-tooltip              | 🟢    |
-| [Notification](https://goatui.com/components/notification)                       | goat-notification         | 🟢    |
-| [Notification Manager](https://goatui.com/components/notification-manager)       | goat-notification-manager | 🟢    |
+| [Spinner](https://goatui.com/components/spinner)                                 | pc-spinner              | 🟢    |
+| [Tooltip](https://goatui.com/components/tooltip)                                 | pc-tooltip              | 🟢    |
+| [Notification](https://goatui.com/components/notification)                       | pc-notification         | 🟢    |
+| [Notification Manager](https://goatui.com/components/notification-manager)       | pc-notification-manager | 🟢    |
 
 
 ## Containers
@@ -141,7 +141,7 @@ organization to the content.
 
 | Name                                                 | Component      | State |
 |------------------------------------------------------|----------------|-------|
-| [Accordion](https://goatui.com/components/accordion) | goat-accordion | 🟢    |
+| [Accordion](https://goatui.com/components/accordion) | pc-accordion | 🟢    |
 | Card                                                 | goat-card      | 🟡    |
 
 ## General
@@ -153,19 +153,19 @@ These components are used for general purpose. They include
 | [Avatar](https://goatui.com/components/avatar)                             | pc-avatar               | 🟢    |
 | [Button](https://goatui.com/components/button)                             | goat-button               | 🟢    |
 | [Button Group](https://goatui.com/components/button-group)                 | goat-button-group         | 🟢    |
-| [Calendar](https://goatui.com/components/calendar)                         | goat-calendar             | 🟢    |
+| [Calendar](https://goatui.com/components/calendar)                         | pc-calendar             | 🟢    |
 | Card Select                                                                | goat-cardselect           | 🔴    |
 | [Code Highlighter](https://goatui.com/components/code-highlighter)         | goat-card-highlighter     | 🟢    |
 | Column                                                                     | goat-col                  | 🔴    |
-| [Empty State](https://goatui.com/components/empty-state)                   | goat-empty-state          | 🟡    |
+| [Empty State](https://goatui.com/components/empty-state)                   | pc-empty-state          | 🟡    |
 | [Flow Designer ](https://goatui.com/components/flow-designer)              | goat-flow-designer        | 🔵    |
 | Grid                                                                       | goat-grid                 | 🔴    |
 | Group                                                                      | goat-group                | 🔴    |
 | [Header](https://goatui.com/components/header)                             | goat-header               | 🟢    |
 | [Icon](https://goatui.com/components/icon)                                 | pc-icon                 | 🟢    |
 | [Link](https://goatui.com/components/link)                                 | goat-link                 | 🟢    |
-| [Modal](https://goatui.com/components/modal)                               | goat-modal                | 🟢    |
-| [Notification Manager](https://goatui.com/components/notification-manager) | goat-notification-manager | 🟡    |
+| [Modal](https://goatui.com/components/modal)                               | pc-modal                | 🟢    |
+| [Notification Manager](https://goatui.com/components/notification-manager) | pc-notification-manager | 🟡    |
 | Observer                                                                   | goat-observer             | 🔴    |
 | Pagination                                                                 | goat-pagination           | 🔴    |
 | Radio Group                                                                | goat-radiogroup           | 🔴    |
@@ -173,7 +173,7 @@ These components are used for general purpose. They include
 | [Slider](https://goatui.com/components/slider)                             | goat-slider               | 🟡    |
 | Spoiler                                                                    | goat-spoiler              | 🔴    |
 | Stepper                                                                    | goat-stepper              | 🔴    |
-| [Table](https://goatui.com/components/table)                               | goat-table                | 🟡    |
+| [Table](https://goatui.com/components/table)                               | pc-table                | 🟡    |
 | [Tag](https://goatui.com/components/tag) / Chip                            | pc-tag                  | 🟢    |
 | [Text](https://goatui.com/components/text)                                 | pc-text                 | 🟢    |
 | [Tree View](https://goatui.com/components/tree-view)                       | pc-tree-view            | 🟡    |
@@ -185,8 +185,8 @@ These components are used to display data in a graphical format. They include
 
 | Name                                                           | Component           | State |
 |----------------------------------------------------------------|---------------------|-------|
-| [Doughnut Chart](https://goatui.com/components/chart-doughnut) | goat-chart-doughnut | 🟢    |
-| [Pie Chart ](https://goatui.com/components/chart-pie)          | goat-chart-pie      | 🟢    |
+| [Doughnut Chart](https://goatui.com/components/chart-doughnut) | pc-chart-doughnut | 🟢    |
+| [Pie Chart ](https://goatui.com/components/chart-pie)          | pc-chart-pie      | 🟢    |
 
 
 ## 📄 License

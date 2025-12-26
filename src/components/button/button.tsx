@@ -139,7 +139,7 @@ export class Button implements ComponentInterface {
   /**
    * Triggered when the button is clicked.
    */
-  @Event({ eventName: 'pc-button--click' }) clickEvent: EventEmitter<{
+  @Event({ eventName: 'button--click' }) clickEvent: EventEmitter<{
     appendData: any;
   }>;
 

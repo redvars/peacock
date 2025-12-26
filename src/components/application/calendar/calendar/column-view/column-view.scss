@@ -3,7 +3,7 @@
 :host {
   display: block;
   height: 100%;
-  --calendar-border-color: var(--field);
+  --calendar-border-color: var(--color-outline);
   --scale-size: 4rem;
   --scale-color: var(--layer-accent)
 }
@@ -206,32 +206,35 @@
           position: absolute;
           font-size: .5rem;
           font-weight: 600;
-          color: v(--color-primary);
+          color: var(--color-primary);
           top: -6px;
           left: -3rem;
-          background: v(--color-primary-10);
+          background: var(--color-primary-90);
           padding: 2px;
           border-radius: 3px;
         }
 
+
+
+
         .dash-line {
           position: absolute;
           left: 0;
-          border-bottom: 1px dashed v(--color-primary);
+          border-bottom: 1px dashed var(--color-primary);
         }
 
         .dot {
           border-radius: 100%;
           width: 0.5rem;
           height: 0.5rem;
-          background: v(--color-primary);
+          background: var(--color-primary);
           display: block;
           position: absolute;
           top: -0.25rem;
         }
 
         .line {
-          border-bottom: 2px solid v(--color-primary);
+          border-bottom: 2px solid var(--color-primary);
           position: absolute;
           top: -1px;
         }
@@ -248,7 +251,7 @@
 .calendar-column-view {
   .date {
     &:hover {
-      background: v(--color-brand-primary-10);
+      background: var(--color-primary-90);
     }
   }
 }
@@ -278,7 +281,7 @@
   .calendar-column-view {
     .date {
       &:hover {
-        background: v(--color-brand-primary-90);
+        background: var(--color-brand-primary-10);
       }
     }
   }

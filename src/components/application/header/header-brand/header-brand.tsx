@@ -35,7 +35,7 @@ export class HeaderBrand {
             {(() => {
               if (this.logo) {
                 if (isLogoSVG) {
-                  return <goat-svg class="logo inherit" src={this.logo} />;
+                  return <pc-icon class="logo inherit" src={this.logo} />;
                 } else {
                   return <img src={this.logo} class="logo" alt={this.name} />;
                 }

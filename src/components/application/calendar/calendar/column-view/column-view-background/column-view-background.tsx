@@ -2,7 +2,7 @@ import { Component, ComponentInterface, h, Host, Prop } from '@stencil/core';
 import { addDays, differenceInDays, startOfDay } from 'date-fns';
 
 @Component({
-  tag: 'goat-calendar-column-view-background',
+  tag: 'pc-calendar-column-view-background',
   styleUrl: 'column-view-background.scss',
   shadow: true,
 })
@@ -12,7 +12,11 @@ export class CalendarColumnViewBackground implements ComponentInterface {
   @Prop() currentTime: Date;
 
   #forEachDayInDateRange(callback: Function) {
-    for (let i = new Date(this.dateRange.startDate); differenceInDays(startOfDay(this.dateRange.endDate), i) >= 0; i = addDays(i, 1)) {
+    for (
+      let i = new Date(this.dateRange.startDate);
+      differenceInDays(startOfDay(this.dateRange.endDate), i) >= 0;
+      i = addDays(i, 1)
+    ) {
       callback(i);
     }
   }
@@ -21,7 +25,10 @@ export class CalendarColumnViewBackground implements ComponentInterface {
     const columns = [];
     this.#forEachDayInDateRange((i: Date) => {
       const cls = ['column'];
-      const diff = differenceInDays(startOfDay(i), startOfDay(this.currentTime));
+      const diff = differenceInDays(
+        startOfDay(i),
+        startOfDay(this.currentTime),
+      );
       if (diff === 0) cls.push('today');
       else if (diff < 0) cls.push('past');
       else if (diff < 0) cls.push('future');
@@ -36,7 +43,9 @@ export class CalendarColumnViewBackground implements ComponentInterface {
       // @TODO: parameterize number of column, currently rendering 24 hours
       const cls = ['row'];
       if (i % 2) cls.push('hour');
-      const row = <div class={cls.join(' ')}>{this.renderBackgroundColumns()}</div>;
+      const row = (
+        <div class={cls.join(' ')}>{this.renderBackgroundColumns()}</div>
+      );
       rows.push(row);
     }
     return (

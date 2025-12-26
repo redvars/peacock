@@ -33,12 +33,9 @@
   height: 100%;
   display: flex;
 
-  svg {
-    height: 100%;
+  pc-icon {
+    --icon-size: 100%;
   }
-
-
-
 }
 
 :host-context([data-theme="dark"]) {

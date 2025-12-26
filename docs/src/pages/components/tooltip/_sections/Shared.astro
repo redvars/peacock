@@ -13,8 +13,8 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 </pc-text>
 
 <HighlighterCard lang='html'>
-  <pc-button tooltip-target='tooltip-shared' tooltip-content='Save the record' icon='save' variant='outline'></pc-button>
-  <pc-button tooltip-target='tooltip-shared' tooltip-content='Delete the record' icon='trash-can' color='red'></pc-button>
+  <pc-button tooltip-target='tooltip-shared' tooltip-content='Save the record' variant='outlined'><pc-icon slot='icon' name='save'></pc-icon></pc-button>
+  <pc-button tooltip-target='tooltip-shared' tooltip-content='Delete the record'><pc-icon slot='icon' name='delete'></pc-icon></pc-button>
 
-  <goat-tooltip id='tooltip-shared'></goat-tooltip>
+  <pc-tooltip id='tooltip-shared'></pc-tooltip>
 </HighlighterCard>

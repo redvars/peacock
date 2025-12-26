@@ -1,7 +1,14 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<DemoComponentCard lang={'html'}>
+
+<style is:inline>
+  pc-linear-progress {
+    width: 20rem;
+    margin-bottom: 1rem;
+  }
+</style>
+<DemoComponentCard lang={'html'} alignStart={true}>
   <pc-linear-progress value='40' label='Progress' helper-text='Optional helper text goes here...'></pc-linear-progress>
   <pc-linear-progress label='Indeterminate'></pc-linear-progress>
 </DemoComponentCard>

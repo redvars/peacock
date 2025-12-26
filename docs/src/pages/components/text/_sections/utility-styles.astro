@@ -1,31 +1,36 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
-<pc-text expressive>
+<p class='pc-text-body-large'>
   The utility styles are used with productive and expressive moments and include styles for code snippets, labels for
   captions and helper text, as well as legal copy.
-  Productive styles have a suffix of `-01` and expressive styles have a suffix of `-02`.
-</pc-text>
+</p>
 
 <HighlighterCard lang={'html'}>
-  <pc-text type='code'>
+
+  <p class='pc-text-code-large'>
     This is for inline code snippets and smaller code elements.
-  </pc-text>
-  <pc-text type='code' expressive>
-    This is for large code snippets and larger code elements.
-  </pc-text>
+  </p>
+  <p class='pc-text-code'>
+    This is for inline code snippets and smaller code elements.
+  </p>
+  <p class='pc-text-code-small'>
+    This is for inline code snippets and smaller code elements.
+  </p>
 
   <br />
 
-  <pc-text type='label'>
-    This is a multipurpose type style that can be used for field labels in components, error messages, and captions. It
-    should not be used for body copy.
-  </pc-text>
+  <p class='pc-text-label-large'>
+    label large
+  </p>
 
-  <pc-text type='label' expressive>
-    This is a multipurpose type style that can be used for field labels in components, error messages, and captions. It
-    should not be used for body copy.
-  </pc-text>
+  <p class='pc-text-label'>
+    label
+  </p>
+
+  <p class='pc-text-label-small'>
+    label small
+  </p>
 
   <br />
 

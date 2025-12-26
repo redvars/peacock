@@ -5,8 +5,6 @@ import { createCacheFetch } from '../../utils/utils';
 export async function fetchIcon(name: string) {
   if (!name) return '';
 
-  const cacheFetch = await createCacheFetch('pc-icons');
-
   let iconBaseUrl: string;
   if (process.env.THIRD_PARTY_ASSETS == 'LOCAL') {
     iconBaseUrl = getAssetPath('./assets/node_modules/@carbon/icons');
@@ -14,5 +12,13 @@ export async function fetchIcon(name: string) {
     iconBaseUrl = ICON_BASE_URL;
   }
 
-  return await cacheFetch(`${iconBaseUrl}/svg-500@0.40.1/outlined/${name}.svg`);
+  return await fetchSVG(`${iconBaseUrl}/svg-500@0.40.1/outlined/${name}.svg`);
+}
+
+export async function fetchSVG(url) {
+  if (!url) return '';
+
+  const cacheFetch = await createCacheFetch('svg-cache');
+
+  return await cacheFetch(url);
 }

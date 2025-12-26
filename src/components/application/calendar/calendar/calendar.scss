@@ -4,16 +4,16 @@
   display: block;
   height: 100%;
   min-height: 20em;
-  --calendar-border-color: var(--border-strong-01);
+  --calendar-border-color: var(--color-outline);
   --scale-color: var(--text-placeholder);
 
-  --calendar-event-bg-color: #{v(--color-purple-20)};
-  --calendar-event-bg-color--hover: #{v(--color-purple-40)};
-  --calendar-event-border-color: #{v(--color-new-purple)};
+  --calendar-event-bg-color: var(--color-purple-80);
+  --calendar-event-bg-color--hover: var(--color-purple-60);
+  --calendar-event-border-color: var(--color-purple);
 
-  --calendar-event-dark-bg-color: #{v(--color-purple-90)};
-  --calendar-event-dark-bg-color--hover: #{v(--color-purple-70)};
-  --calendar-event-dark-border-color: #{v(--color-purple-70)};
+  --calendar-event-dark-bg-color: var(--color-purple-90);
+  --calendar-event-dark-bg-color--hover: var(--color-purple-70);
+  --calendar-event-dark-border-color: var(--color-purple-70);
 }
 
 .calendar {

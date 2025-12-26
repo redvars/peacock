@@ -1,4 +1,4 @@
-# goat-tab
+# pc-tab
 
 
 
@@ -23,9 +23,9 @@
 
 ## Events
 
-| Event             | Description                                                        | Type               |
-| ----------------- | ------------------------------------------------------------------ | ------------------ |
-| `goat-tab--click` | On click of tab, a CustomEvent 'goat-tab-click' will be triggered. | `CustomEvent<any>` |
+| Event           | Description                                                      | Type               |
+| --------------- | ---------------------------------------------------------------- | ------------------ |
+| `pc-tab--click` | On click of tab, a CustomEvent 'pc-tab-click' will be triggered. | `CustomEvent<any>` |
 
 
 ## Methods
@@ -55,13 +55,15 @@ Type: `Promise<void>`
 
 ### Depends on
 
+- [pc-spinner](../../spinner)
 - [pc-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-tab --> pc-icon
-  style goat-tab fill:#f9f,stroke:#333,stroke-width:4px
+  pc-tab --> pc-spinner
+  pc-tab --> pc-icon
+  style pc-tab fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

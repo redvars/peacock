@@ -21,7 +21,8 @@ import {
 import loadMonaco from '../../../3d-party/monaco';
 
 /**
- * @name Code Editor
+ * @label Code Editor
+ * @name code-editor
  * @description A browser based code editor.
  * @category Form Inputs
  * @tags input, form
@@ -29,7 +30,7 @@ import loadMonaco from '../../../3d-party/monaco';
  * @imgDark /assets/img/code-editor-dark.webp
  */
 @Component({
-  tag: 'goat-code-editor',
+  tag: 'pc-code-editor',
   styleUrl: 'code-editor.scss',
   shadow: true,
 })
@@ -71,7 +72,7 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
   /**
    * Emitted when the value has changed.
    */
-  @Event({ eventName: 'goat-code-editor--change' }) goatChange: EventEmitter;
+  @Event({ eventName: 'pc-code-editor--change' }) goatChange: EventEmitter;
 
   /**
    * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
@@ -262,7 +263,7 @@ export class CodeEditor implements ComponentInterface, InputComponentInterface {
           <div class="editor" ref={el => (this.editorElement = el)} />
           {!this.editorMonacoInstance && (
             <div class="code-editor-loader">
-              <goat-spinner />
+              <pc-spinner />
               Loading editor...
             </div>
           )}

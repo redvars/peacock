@@ -86,11 +86,12 @@ goat-text[type='code'] {
   display: flex;
   align-items: center;
   text-align: center;
-  pc-text {
+  [class*="pc-text"] {
     margin-bottom: 0;
   }
-  goat-link {
-    --link-color-visited: var(--color-primary);
+  .pc-link {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -136,7 +137,7 @@ goat-text[type='code'] {
     margin-right: 15px;
     height: 1px;
     width: 25px;
-    background: var(--color-gray-100);
+    background: var(--color-outline);
   }
 
   .social-icons:after {
@@ -145,7 +146,7 @@ goat-text[type='code'] {
     vertical-align: middle;
     height: 25px;
     width: 1px;
-    background: var(--color-gray-100);
+    background: var(--color-outline);
   }
 
 }

@@ -10,7 +10,10 @@ const { componentDetails, sections } = Astro.props;
 <div class='component-overview-tab'>
   <div class='component-content'>
     <div class='component-description'>
-      <p class='pc-text-body-emphasized' set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}></p>
+      <div class='pc-text-body-large'
+         set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
+
+      </div>
     </div>
     {
       sections.map((section) => (

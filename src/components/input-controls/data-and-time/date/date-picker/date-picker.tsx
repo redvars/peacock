@@ -14,13 +14,14 @@ import {
 import { debounceEvent, getComponentIndex } from '../../../../../utils/utils';
 
 /**
- * @name Date Picker
+ * @label Date Picker
+ * @name date-picker
  * @category Form Inputs
  * @description Captures date input.
- * @example <goat-date-picker value='true'></goat-date-picker>
+ * @example <pc-date-picker></pc-date-picker>
  */
 @Component({
-  tag: 'goat-date-picker',
+  tag: 'pc-date-picker',
   styleUrl: 'date-picker.scss',
   shadow: true,
 })
@@ -252,7 +253,7 @@ export class DatePicker implements ComponentInterface {
                 variant="text"
                 size={this.size}
                 disabled={this.disabled}
-                onGoat-button--click={() => {
+                onButton--click={() => {
                   setTimeout(() => {
                     this.nativeElement.showPicker();
                   });

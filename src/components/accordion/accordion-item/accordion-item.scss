@@ -4,19 +4,19 @@
   display: block;
 
   /**
-   * @prop --goat-accordion-item-heading-background - Background color of the accordion item header
+   * @prop --accordion-item-heading-background - Background color of the accordion item header
    */
-  --goat-accordion-item-heading-background: transparent;
+  --accordion-item-heading-background: transparent;
 
   /**
-   * @prop --goat-accordion-item-heading-background-hover - Background color of the accordion item header on hover
+   * @prop --accordion-item-heading-background-hover - Background color of the accordion item header on hover
    */
-  --goat-accordion-item-heading-background-hover: var(--layer-hover);
+  --accordion-item-heading-background-hover: var(--layer-hover);
 
   /**
-   * @prop --goat-accordion-item-title-align - Alignment of the accordion title
+   * @prop --accordion-item-title-align - Alignment of the accordion title
    */
-  --goat-accordion-item-title-align: start;
+  --accordion-item-title-align: start;
 }
 
 .accordion-item {
@@ -28,7 +28,7 @@
     color: var(--text-primary);
     border: 0;
     padding: 0 v(--spacing-200);
-    background: var(--goat-accordion-item-heading-background);
+    background: var(--accordion-item-heading-background);
 
     display: flex;
     flex-direction: row-reverse;
@@ -39,7 +39,7 @@
 
     .accordion-title {
       width: 100%;
-      text-align: var(--goat-accordion-item-title-align);
+      text-align: var(--accordion-item-title-align);
     }
 
     svg {
@@ -47,7 +47,7 @@
     }
 
     &:hover {
-      background: var(--goat-accordion-item-heading-background-hover);
+      background: var(--accordion-item-heading-background-hover);
     }
 
     &.has-focus {
@@ -60,12 +60,14 @@
     opacity: 0;
     pointer-events: none;
     text-align: start;
-    transition: all 0.1s linear;
-    background: var(--goat-accordion-item-heading-background);
+    transition: all var(--duration-medium2) var(--easing-standard);
+    background: var(--accordion-item-heading-background);
   }
+
   .accordion-icon {
-    transition: transform 0.1s linear;
+    transition: transform var(--duration-medium2) var(--easing-standard);
   }
+
 
   &.open {
     .item-section {
@@ -118,7 +120,7 @@
 }
 
 
-:host-context(goat-accordion[align="start"]) {
+:host-context(pc-accordion[align="start"]) {
   .accordion-item {
     .accordion-heading {
       flex-direction: row;

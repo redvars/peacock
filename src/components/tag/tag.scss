@@ -12,24 +12,27 @@
 }
 
 .tag {
-  @include get-typography(label-small);
-  height: 2rem;
-  border-radius: var(--global-shape-corner-small);
-  background: var(--tag-background-color);
-  color: var(--tag-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding-inline: var(--spacing-200);
-  gap: .5rem;
+  position: relative;
 
-  .tag-image {
-    width: 1.125rem;
-    height: 1.125rem;
-    border-radius: 100%;
-    background: var(--tag-hover-color);
+
+
+  .tag-background {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--global-shape-corner-small);
+    background: var(--tag-background-color);
+    pointer-events: none;
+    z-index: -1;
   }
+
+  .elevation {
+    --elevation-level: 1;
+    transition-duration: 280ms;
+    border-radius: var(--global-shape-corner-small);
+  }
+
 
   .tag-content {
     overflow: hidden;
@@ -38,6 +41,22 @@
     max-width: 100%;
     display: flex;
     align-items: center;
+    color: var(--tag-color);
+    @include get-typography(label-small);
+    z-index: var(--z-index-button);
+    gap: .5rem;
+
+    height: 2rem;
+    justify-content: center;
+    padding-inline: var(--spacing-200);
+
+    .tag-image {
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 100%;
+      background: var(--tag-hover-color);
+    }
+
   }
 
   &.dismissible .tag-content {
@@ -63,6 +82,7 @@
   background: transparent;
   line-height: 0;
   cursor: pointer;
+  --icon-size: 1rem;
 
   &:hover {
     background: var(--tag-hover-color);

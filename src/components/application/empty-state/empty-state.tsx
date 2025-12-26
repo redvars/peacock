@@ -12,14 +12,15 @@ import {
 import * as DOMPurify from 'dompurify';
 
 /**
- * @name Empty State
+ * @label Empty State
+ * @name empty-state
  * @description A message that displays when there is no information to display.
  * @category Data Display
  * @img /assets/img/empty-state.webp
  * @imgDark /assets/img/empty-state-dark.webp
  */
 @Component({
-  tag: 'goat-empty-state',
+  tag: 'pc-empty-state',
   styleUrl: 'empty-state.scss',
   shadow: true,
 })
@@ -60,7 +61,7 @@ export class EmptyState implements ComponentInterface {
         <div class={{ 'empty-state': true, 'vertical': this.vertical }}>
           <div class="empty-state-container">
             <div class="illustration">
-              <goat-svg
+              <pc-icon
                 src={getAssetPath(
                   `./assets/images/empty-state/${this.illustration}.svg`,
                 )}

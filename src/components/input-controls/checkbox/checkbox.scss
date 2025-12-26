@@ -15,7 +15,7 @@
   cursor: pointer;
 
   &.has-content {
-    gap: v(--spacing-100);
+    gap: var(--spacing-100);
   }
 
 

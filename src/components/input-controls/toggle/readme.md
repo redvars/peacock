@@ -7,17 +7,16 @@
 
 ## Properties
 
-| Property     | Attribute     | Description                                                                       | Type           | Default                  |
-| ------------ | ------------- | --------------------------------------------------------------------------------- | -------------- | ------------------------ |
-| `configAria` | `config-aria` |                                                                                   | `any`          | `{}`                     |
-| `disabled`   | `disabled`    | If true, the user cannot interact with the button. Defaults to `false`.           | `boolean`      | `false`                  |
-| `label`      | `label`       | The checkbox label.                                                               | `string`       | `undefined`              |
-| `name`       | `name`        | The input field name.                                                             | `string`       | ``pc-input-${this.gid}`` |
-| `readonly`   | `readonly`    |                                                                                   | `boolean`      | `false`                  |
-| `required`   | `required`    | If true, required icon is show. Defaults to `false`.                              | `boolean`      | `false`                  |
-| `rounded`    | `rounded`     |                                                                                   | `boolean`      | `true`                   |
-| `size`       | `size`        | The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. | `"lg" \| "md"` | `'md'`                   |
-| `value`      | `value`       | The input field value.                                                            | `boolean`      | `false`                  |
+| Property     | Attribute     | Description                                                             | Type      | Default                  |
+| ------------ | ------------- | ----------------------------------------------------------------------- | --------- | ------------------------ |
+| `configAria` | `config-aria` |                                                                         | `any`     | `{}`                     |
+| `disabled`   | `disabled`    | If true, the user cannot interact with the button. Defaults to `false`. | `boolean` | `false`                  |
+| `label`      | `label`       | The checkbox label.                                                     | `string`  | `undefined`              |
+| `name`       | `name`        | The input field name.                                                   | `string`  | ``pc-input-${this.gid}`` |
+| `readonly`   | `readonly`    |                                                                         | `boolean` | `false`                  |
+| `required`   | `required`    | If true, required icon is show. Defaults to `false`.                    | `boolean` | `false`                  |
+| `rounded`    | `rounded`     |                                                                         | `boolean` | `true`                   |
+| `value`      | `value`       | The input field value.                                                  | `boolean` | `false`                  |
 
 
 ## Events

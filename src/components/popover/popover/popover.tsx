@@ -94,12 +94,12 @@ export class Popover implements ComponentInterface {
   /**
    * Emitted when the popover is opened.
    */
-  @Event({ eventName: 'goat-popover--open' }) openEvent: EventEmitter;
+  @Event({ eventName: 'pc-popover--open' }) openEvent: EventEmitter;
 
   /**
    * Emitted when the popover is closed.
    */
-  @Event({ eventName: 'goat-popover--close' }) closeEvent: EventEmitter;
+  @Event({ eventName: 'pc-popover--close' }) closeEvent: EventEmitter;
 
   @Listen('resize', { target: 'window' })
   resizeHandler() {
@@ -152,7 +152,7 @@ export class Popover implements ComponentInterface {
 
     if (!contentRef) {
       throw new Error(
-        'The goat-popover component requires a goat-popover-content component to be present.',
+        'The pc-popover component requires a pc-popover-content component to be present.',
       );
     }
 
@@ -182,7 +182,7 @@ export class Popover implements ComponentInterface {
       ).assignedElements();
       if (
         assignedElements.length &&
-        assignedElements[0].nodeName !== 'GOAT-POPOVER-CONTENT'
+        assignedElements[0].nodeName !== 'PC-POPOVER-CONTENT'
       ) {
         triggerRef = assignedElements[0] as HTMLSlotElement;
       }

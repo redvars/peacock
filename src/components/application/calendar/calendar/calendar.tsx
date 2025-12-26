@@ -13,12 +13,13 @@ import { addDays, addMonths, format } from 'date-fns';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarViewType, EventType } from './types';
 import {
-  GoatCalendarColumnViewCustomEvent,
-  GoatCalendarMonthViewCustomEvent,
+  PcCalendarColumnViewCustomEvent,
+  PcCalendarMonthViewCustomEvent,
 } from '../../../../components';
 
 /**
- * @name Calendar
+ * @label Calendar
+ * @name calendar
  * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
  * @category Data Display
  * @tags calendar
@@ -26,7 +27,7 @@ import {
  * @imgDark /assets/img/calendar-dark.webp
  */
 @Component({
-  tag: 'goat-calendar',
+  tag: 'pc-calendar',
   styleUrl: 'calendar.scss',
   shadow: true,
 })
@@ -89,14 +90,14 @@ export class Calendar implements ComponentInterface {
   /**
    * Calendar event click.
    */
-  @Event({ eventName: 'goat-calendar--event-click' })
+  @Event({ eventName: 'pc-calendar--event-click' })
   goatCalendarEventClick: EventEmitter;
 
   #currentTime: any;
   #currentView: CalendarViewType;
 
   @Listen('internal-column-view-date-click')
-  columnViewDateClick(evt: GoatCalendarColumnViewCustomEvent<any>) {
+  columnViewDateClick(evt: PcCalendarColumnViewCustomEvent<any>) {
     evt.stopPropagation();
     evt.preventDefault();
     this.view = 'day';
@@ -105,7 +106,7 @@ export class Calendar implements ComponentInterface {
 
   @Listen('internal-column-view-event-click')
   @Listen('internal-month-view-event-click')
-  monthViewEventClick(evt: GoatCalendarMonthViewCustomEvent<any>) {
+  monthViewEventClick(evt: PcCalendarMonthViewCustomEvent<any>) {
     evt.stopPropagation();
     evt.preventDefault();
     this.goatCalendarEventClick.emit({
@@ -213,7 +214,7 @@ export class Calendar implements ComponentInterface {
 
     if (this.#currentView.type === 'column') {
       return (
-        <goat-calendar-column-view
+        <pc-calendar-column-view
           view={this.#currentView.value}
           days={this.#currentView.days}
           currentTime={this.#currentTime}
@@ -224,7 +225,7 @@ export class Calendar implements ComponentInterface {
       );
     } else if (this.#currentView.type === 'month') {
       return (
-        <goat-calendar-month-view
+        <pc-calendar-month-view
           currentTime={this.#currentTime}
           contextDate={this.contextDate}
           eventClickable={this.eventClickable}

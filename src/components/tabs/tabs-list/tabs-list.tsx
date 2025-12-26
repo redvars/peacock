@@ -7,10 +7,10 @@ import {
   Listen,
   Prop,
 } from '@stencil/core';
-import { GoatTabCustomEvent } from '../../../components';
+import { PcTabCustomEvent } from '../../../components';
 
 @Component({
-  tag: 'goat-tabs-list',
+  tag: 'pc-tabs-list',
   styleUrl: 'tabs-list.scss',
   shadow: true,
 })
@@ -22,20 +22,20 @@ export class TabsList implements ComponentInterface {
 
   @Element() elm!: HTMLElement;
 
-  @Listen('goat-tab-click')
-  tabClick(evt: GoatTabCustomEvent<any>) {
+  @Listen('pc-tab-click')
+  tabClick(evt: PcTabCustomEvent<any>) {
     if (!this.managed) {
       this.deselectAllTabs();
       evt.target.selected = true;
       if (evt.detail.target) {
       } else {
-        console.warn('goat-tabs:: No target associated');
+        console.warn('pc-tabs:: No target associated');
       }
     }
   }
 
   deselectAllTabs() {
-    const tabs = this.elm.querySelectorAll('goat-tab');
+    const tabs = this.elm.querySelectorAll('pc-tab');
     tabs.forEach(tab => {
       tab.selected = false;
     });

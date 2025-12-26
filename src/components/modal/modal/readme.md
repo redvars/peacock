@@ -20,9 +20,9 @@
 
 ## Events
 
-| Event               | Description                                                              | Type               |
-| ------------------- | ------------------------------------------------------------------------ | ------------------ |
-| `goat-modal--close` | On click of button, a CustomEvent 'goat-modal--close' will be triggered. | `CustomEvent<any>` |
+| Event             | Description                                                            | Type               |
+| ----------------- | ---------------------------------------------------------------------- | ------------------ |
+| `pc-modal--close` | On click of button, a CustomEvent 'pc-modal--close' will be triggered. | `CustomEvent<any>` |
 
 
 ## Dependencies
@@ -32,15 +32,17 @@
 - [pc-elevation](../../elevation)
 - [pc-button](../../button)
 - [pc-icon](../../icon)
+- [pc-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-modal --> pc-elevation
-  goat-modal --> pc-button
-  goat-modal --> pc-icon
+  pc-modal --> pc-elevation
+  pc-modal --> pc-button
+  pc-modal --> pc-icon
+  pc-modal --> pc-spinner
   pc-button --> pc-elevation
-  style goat-modal fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -6,6 +6,7 @@ $border-width: 0.125;
 
 :host {
   display: inline-block;
+  --tab-outline-color: var(--color-primary);
 }
 
 .tab {
@@ -19,7 +20,7 @@ $border-width: 0.125;
     background: transparent;
     cursor: pointer;
     color: v(--text-secondary);
-    z-index: v(--z-index-button);
+    z-index: var(--z-index-button);
     padding: 0;
     border: none;
     outline: none;
@@ -36,7 +37,7 @@ $border-width: 0.125;
       height: 100%;
       gap: v(--spacing-050);
       padding: 0 1rem;
-      @include font-style(body-compact-01);
+      @include get-typography(label-large);
 
       .icon {
         --icon-size: 1rem;
@@ -56,7 +57,7 @@ $border-width: 0.125;
   &:hover {
     .native-button {
       color: var(--text-primary);
-      border-bottom-color: var(--border-strong);
+      border-bottom-color: var(--color-outline);
     }
   }
 
@@ -77,7 +78,7 @@ $border-width: 0.125;
     }
 
     .tab-content {
-      @include font-style(heading-compact-01);
+      @include get-typography(label-large-emphasized);
     }
   }
 
@@ -104,18 +105,18 @@ $border-width: 0.125;
 
   &.selected {
     .native-button {
-      border-bottom-color: v(--border-interactive);
+      border-bottom-color: var(--tab-outline-color);
     }
   }
 
 
   &.has-focus:not(.active) {
     .native-button {
-      border-bottom-color: v(--border-interactive);
+      border-bottom-color: var(--tab-outline-color);
     }
 
     .tab-content {
-      border-color: v(--border-interactive);
+      border-color: var(--tab-outline-color);
     }
   }
 
@@ -149,7 +150,7 @@ $border-width: 0.125;
   &.selected {
     .native-button {
       border-right-color: transparent;
-      border-top-color: var(--border-interactive);
+      border-top-color: var(--tab-outline-color);
     }
 
     .tab-background {
@@ -159,11 +160,11 @@ $border-width: 0.125;
 
   &.has-focus:not(.active) {
     .native-button {
-      border-top-color: var(--border-interactive);
+      border-top-color: var(--tab-outline-color);
     }
 
     .tab-content {
-      border-color: var(--border-interactive);
+      border-color: var(--tab-outline-color);
     }
   }
 

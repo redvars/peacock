@@ -6,21 +6,21 @@ import site from '../_data/site.json';
 const year = new Date().getFullYear();
 ---
 <Layout title={title} description={description} keywords='License, MIT'>
-  <goat-container class='sections-wrapper'>
+  <pc-container class='sections-wrapper'>
 
     <pc-text type="fluid-heading">
       {title}
     </pc-text>
 
-    <pc-text expressive>
+    <p class='pc-text-body-large'>
       The MIT License (MIT)
     </pc-text>
 
-    <pc-text expressive>
+    <p class='pc-text-body-large'>
       Copyright (c) {year} { site.author }
     </pc-text>
 
-    <pc-text expressive>
+    <p class='pc-text-body-large'>
       Permission is hereby granted, free of charge, to any person obtaining a copy of
       this software and associated documentation files (the "Software"), to deal in
       the Software without restriction, including without limitation the rights to
@@ -29,12 +29,12 @@ const year = new Date().getFullYear();
       subject to the following conditions:
     </pc-text>
 
-    <pc-text expressive>
+    <p class='pc-text-body-large'>
       The above copyright notice and this permission notice shall be included in all
       copies or substantial portions of the Software.
     </pc-text>
 
-    <pc-text expressive>
+    <p class='pc-text-body-large'>
       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
       IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
       FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -45,7 +45,7 @@ const year = new Date().getFullYear();
 
 
     <pc-button class='back-to-home' color='secondary' icon='arrow--left' icon-align='start' href='/#'>Back to home</pc-button>
-  </goat-container>
+  </pc-container>
 
 </Layout>
 

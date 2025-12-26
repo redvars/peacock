@@ -1,12 +1,5 @@
 @import "../mixins";
 
-
-
-p {
-  @include get-typography(body-medium);
-  margin-block-end: var(--spacing-200);
-}
-
 .pc-text-body, .pc-text-body-medium, .pc-text-body-large, .pc-text-body-small {
   margin-block-end: var(--spacing-200);
 }
@@ -15,7 +8,15 @@ p {
   margin-block-end: var(--spacing-400);
 }
 
-$types: "display", "headline", "body", 'label', 'title';
+.pc-text-display, .pc-text-display-medium, .pc-text-display-large, .pc-text-display-small {
+  margin-block-end: var(--spacing-400);
+}
+
+.pc-text-title, .pc-text-title-medium, .pc-text-title-large, .pc-text-title-small {
+  margin-block-end: var(--spacing-400);
+}
+
+$types: "display", "headline", "body", 'code', 'label', 'title';
 $sizes: "large", "medium", 'small';
 
 @each $type in $types {

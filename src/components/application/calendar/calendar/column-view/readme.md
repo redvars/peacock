@@ -1,4 +1,4 @@
-# goat-calendar-column-view
+# pc-calendar-column-view
 
 
 
@@ -29,18 +29,18 @@
 
 ### Used by
 
- - [goat-calendar](..)
+ - [pc-calendar](..)
 
 ### Depends on
 
-- [goat-calendar-column-view-background](column-view-background)
+- [pc-calendar-column-view-background](column-view-background)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-calendar-column-view --> goat-calendar-column-view-background
-  goat-calendar --> goat-calendar-column-view
-  style goat-calendar-column-view fill:#f9f,stroke:#333,stroke-width:4px
+  pc-calendar-column-view --> pc-calendar-column-view-background
+  pc-calendar --> pc-calendar-column-view
+  style pc-calendar-column-view fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

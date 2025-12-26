@@ -7,12 +7,9 @@
   color: var(--color-primary);
   --icon-color: var(--color-primary);
 
-  &:visited {
-    color: var(--color-primary);
-  }
-
   &:hover {
-    color: var(--color-hover);
+    color: var(--color-hover-primary);
+    --icon-color: var(--color-hover-primary);
   }
 
   &:focus {

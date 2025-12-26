@@ -1,4 +1,4 @@
-# goat-spinner
+# pc-spinner
 
 
 

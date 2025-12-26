@@ -1,4 +1,4 @@
-# goat-dropdown
+# pc-dropdown
 
 
 
@@ -20,10 +20,10 @@
 
 ## Events
 
-| Event                 | Description                         | Type               |
-| --------------------- | ----------------------------------- | ------------------ |
-| `goat-popover--close` | Emitted when the popover is closed. | `CustomEvent<any>` |
-| `goat-popover--open`  | Emitted when the popover is opened. | `CustomEvent<any>` |
+| Event               | Description                         | Type               |
+| ------------------- | ----------------------------------- | ------------------ |
+| `pc-popover--close` | Emitted when the popover is closed. | `CustomEvent<any>` |
+| `pc-popover--open`  | Emitted when the popover is opened. | `CustomEvent<any>` |
 
 
 ## Methods
@@ -57,6 +57,19 @@ Type: `Promise<void>`
 
 
 
+
+## Dependencies
+
+### Used by
+
+ - [pc-tooltip](../../tooltip)
+
+### Graph
+```mermaid
+graph TD;
+  pc-tooltip --> pc-popover
+  style pc-popover fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

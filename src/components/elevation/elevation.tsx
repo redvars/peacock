@@ -15,10 +15,6 @@ import { Component, h } from '@stencil/core';
 })
 export class Elevation {
   render() {
-    return (
-      <span class="shadow">
-        <slot />
-      </span>
-    );
+    return <span class="shadow"></span>;
   }
 }

@@ -1,13 +1,14 @@
 import { Component, Element, h, Host, Prop } from '@stencil/core';
 
 /**
- * @name Canvas
+ * @label Canvas
+ * @name canvas
  * @category Up coming
  * @description Canvas for drawing lines and shapes on.
  * @img /assets/img/canvas.webp
  */
 @Component({
-  tag: 'goat-canvas',
+  tag: 'pc-canvas',
   styleUrl: 'canvas.scss',
   shadow: true,
 })

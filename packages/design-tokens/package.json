@@ -4,8 +4,7 @@
   "description": "red:var design tokens",
   "type": "module",
   "scripts": {
-    "build": "node ./build-tokens.js",
-    "gen-base-colors": "node ./src/gen-base-colors.js"
+    "design-tokens-build": "npx tz build"
   },
   "files": [
     "dist/"

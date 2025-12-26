@@ -1,7 +1,8 @@
 import { Component, ComponentInterface, h, Host } from '@stencil/core';
 
 /**
- * @name Button Group
+ * @label Button Group
+ * @name button-group
  * @description Group a series of buttons together on a single line with the button group, and super-power.
  * @category General
  * @tags controls

@@ -14,7 +14,7 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 @Component({
-  tag: 'goat-tab',
+  tag: 'pc-tab',
   styleUrl: 'tab.scss',
   shadow: true,
 })
@@ -63,9 +63,9 @@ export class Tab implements ComponentInterface {
   @Prop() showLoader: boolean = false;
 
   /**
-   * On click of tab, a CustomEvent 'goat-tab-click' will be triggered.
+   * On click of tab, a CustomEvent 'pc-tab-click' will be triggered.
    */
-  @Event({ eventName: 'goat-tab--click' }) goatTabClick: EventEmitter;
+  @Event({ eventName: 'pc-tab--click' }) goatTabClick: EventEmitter;
 
   @State() hasFocus = false;
   @State() isActive = false;
@@ -195,7 +195,7 @@ export class Tab implements ComponentInterface {
             aria-disabled={(this.disabled || this.showLoader) + ''}
           >
             <div class="tab-content">
-              {this.showLoader && <goat-spinner class="spinner inherit" />}
+              {this.showLoader && <pc-spinner class="spinner inherit" />}
 
               {!this.showLoader && this.icon && (
                 <pc-icon name={this.icon} class="icon inherit" />

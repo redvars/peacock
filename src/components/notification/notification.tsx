@@ -12,16 +12,17 @@ import {
 import { isDarkMode, observeThemeChange } from '../../utils/utils';
 
 /**
- * @name Notification
+ * @label Notification
+ * @name notification
  * @description Notifications are messages that communicate information to the user.
  * @category Informational
  * @tags notification
- * @example <goat-notification state="success">
+ * @example <pc-notification state="success">
  *               <div slot='title'>Successful saved the record</div>
- *             </goat-notification>
+ *             </pc-notification>
  */
 @Component({
-  tag: 'goat-notification',
+  tag: 'pc-notification',
   styleUrl: 'notification.scss',
   shadow: true,
 })
@@ -63,9 +64,9 @@ export class Notification implements ComponentInterface {
   /**
    * Emitted when the notification is dismissed
    */
-  @Event({ eventName: 'goat-notification--dismiss' }) goatDismiss: EventEmitter;
+  @Event({ eventName: 'pc-notification--dismiss' }) goatDismiss: EventEmitter;
 
-  @Event({ eventName: 'goat-notification--action-click' })
+  @Event({ eventName: 'pc-notification--action-click' })
   goatActionClick: EventEmitter;
 
   @State() hidden: boolean = false;
@@ -118,7 +119,7 @@ export class Notification implements ComponentInterface {
             class="action"
             variant={this.inline ? 'text' : 'outlined'}
             color={!this.highContrast || this.isDarkMode ? 'primary' : 'white'}
-            onGoat-button--click={() => {
+            onButton--click={() => {
               this.goatActionClick.emit();
             }}
           >
@@ -138,7 +139,7 @@ export class Notification implements ComponentInterface {
             aria-label="Close alert"
             variant="text"
             color="black"
-            onGoat-button--click={evt => {
+            onButton--click={evt => {
               evt.preventDefault();
               evt.stopPropagation();
               if (!this.managed) {

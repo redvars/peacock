@@ -2,15 +2,15 @@
 import Layout from '../../../layouts/Component.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('pc-accordion-item');
+const componentDetails = getComponentDetails('accordion-item');
 ---
 <Layout componentDetails={componentDetails}>
-  <goat-tabs class='page-tabs'>
-    <goat-tabs-list>
-      <goat-tab>API</goat-tab>
-    </goat-tabs-list>
-    <goat-tab-panel>
+  <pc-tabs class='page-tabs'>
+    <pc-tabs-list>
+      <pc-tab>API</pc-tab>
+    </pc-tabs-list>
+    <pc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />
-    </goat-tab-panel>
-  </goat-tabs>
+    </pc-tab-panel>
+  </pc-tabs>
 </Layout>

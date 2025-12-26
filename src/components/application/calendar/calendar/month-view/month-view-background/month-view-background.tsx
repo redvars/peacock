@@ -2,7 +2,7 @@ import { Component, ComponentInterface, h, Host, Prop } from '@stencil/core';
 import { isEqual, startOfDay } from 'date-fns';
 
 @Component({
-  tag: 'goat-calendar-month-view-background',
+  tag: 'pc-calendar-month-view-background',
   styleUrl: 'month-view-background.scss',
   shadow: true,
 })

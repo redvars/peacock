@@ -1,9 +1,22 @@
-# goat-dropdown
+# pc-dropdown
 
 
 
 <!-- Auto Generated Below -->
 
+
+## Dependencies
+
+### Used by
+
+ - [pc-tooltip](../../tooltip)
+
+### Graph
+```mermaid
+graph TD;
+  pc-tooltip --> pc-popover-content
+  style pc-popover-content fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 

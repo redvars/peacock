@@ -1,5 +1,14 @@
-import { Component, ComponentInterface, Element, h, Listen, Method, Prop, State, Watch } from '@stencil/core';
-
+import {
+  Component,
+  ComponentInterface,
+  Element,
+  h,
+  Listen,
+  Method,
+  Prop,
+  State,
+  Watch,
+} from '@stencil/core';
 
 @Component({
   tag: 'goat-sidenav-menu',
@@ -7,8 +16,6 @@ import { Component, ComponentInterface, Element, h, Listen, Method, Prop, State,
   shadow: true,
 })
 export class SidenavMenu implements ComponentInterface {
-
-
   @Element() elm!: HTMLElement;
 
   @Prop() showLoader: boolean = false;
@@ -17,13 +24,13 @@ export class SidenavMenu implements ComponentInterface {
 
   @Prop({ mutable: true }) empty: boolean = false;
 
-  @Prop({ mutable: true }) emptyState: any =  `{
+  @Prop({ mutable: true }) emptyState: any = `{
     "headline": "No items",
     "description": "There are no items to display"
   }`;
 
   @State()
-  internalEmptyState: {title: string, description: string};
+  internalEmptyState: { title: string; description: string };
 
   @Watch('emptyState')
   parseEmptyState() {
@@ -40,11 +47,10 @@ export class SidenavMenu implements ComponentInterface {
     let menuItem = null;
     for (const elm of path) {
       // @ts-ignore
-      if (elm.tagName === 'GOAT-MENU-ITEM') {
+      if (elm.tagName === 'PC-MENU-ITEM') {
         menuItem = elm;
       }
-      if (elm !== this.elm)
-        continue;
+      if (elm !== this.elm) continue;
       if (evt.key === 'ArrowDown') {
         evt.preventDefault();
         this.focusNextItem(menuItem);
@@ -66,18 +72,22 @@ export class SidenavMenu implements ComponentInterface {
   }
 
   private getFirstItem() {
-    return this.elm.querySelector('goat-menu-item');
+    return this.elm.querySelector('pc-menu-item');
   }
 
   private focusNextItem(currentItem) {
     let nextItem: any = currentItem.nextElementSibling;
     do {
-      if (nextItem && nextItem.tagName === 'GOAT-MENU-ITEM' && !nextItem.disabled) {
+      if (
+        nextItem &&
+        nextItem.tagName === 'PC-MENU-ITEM' &&
+        !nextItem.disabled
+      ) {
         nextItem.setFocus();
         return;
       }
       if (!nextItem) {
-        nextItem = this.elm.querySelector('goat-menu-item');
+        nextItem = this.elm.querySelector('pc-menu-item');
       } else {
         nextItem = nextItem.nextElementSibling;
       }
@@ -87,37 +97,42 @@ export class SidenavMenu implements ComponentInterface {
   private focusPreviousItem(currentItem) {
     let previousItem: any = currentItem.previousElementSibling;
     do {
-      if (previousItem && previousItem.tagName === 'GOAT-MENU-ITEM' && !previousItem.disabled) {
+      if (
+        previousItem &&
+        previousItem.tagName === 'PC-MENU-ITEM' &&
+        !previousItem.disabled
+      ) {
         previousItem.setFocus();
         return;
       }
       if (!previousItem) {
-        previousItem = this.elm.querySelector('goat-menu-item:last-child');
+        previousItem = this.elm.querySelector('pc-menu-item:last-child');
       } else {
         previousItem = previousItem.previousElementSibling;
       }
     } while (previousItem !== currentItem);
   }
 
-
   componentWillLoad() {
     this.parseEmptyState();
   }
 
-
   render() {
-    return <div class='menu'>
-      <slot />
-      {this.renderEmptyState()}
-    </div>;
+    return (
+      <div class="menu">
+        <slot />
+        {this.renderEmptyState()}
+      </div>
+    );
   }
 
   private renderEmptyState() {
     if (this.empty)
-      return <goat-empty-state class="empty-menu">
-        <div slot='title'>{this.internalEmptyState.title}</div>
-        <div slot='description'>{this.internalEmptyState.description}</div>
-      </goat-empty-state>;
+      return (
+        <pc-empty-state class="empty-menu">
+          <div slot="title">{this.internalEmptyState.title}</div>
+          <div slot="description">{this.internalEmptyState.description}</div>
+        </pc-empty-state>
+      );
   }
-
 }

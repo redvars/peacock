@@ -19,7 +19,7 @@ import { BaseEvent } from '../event-management/BaseEvent';
 import { calculateMonthRange, LONG_EVENT_PADDING } from '../utils';
 
 @Component({
-  tag: 'goat-calendar-month-view',
+  tag: 'pc-calendar-month-view',
   styleUrl: 'month-view.scss',
   shadow: true,
 })

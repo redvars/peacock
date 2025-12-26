@@ -22,7 +22,7 @@ import PopoverController from '../../popover/popover/PopoverController';
  * @imgDark /assets/img/dropdown-dark.webp
  */
 @Component({
-  tag: 'goat-dropdown',
+  tag: 'pc-dropdown',
   styleUrl: 'dropdown.scss',
   shadow: true,
 })
@@ -30,7 +30,7 @@ export class Dropdown implements ComponentInterface {
   @Element() host!: HTMLElement;
 
   slotRef: HTMLSlotElement;
-  menuRef: HTMLGoatDropdownMenuElement;
+  menuRef: HTMLPcDropdownMenuElement;
   triggerRef: HTMLElement | HTMLPcButtonElement;
   popoverController: PopoverController;
 
@@ -48,18 +48,18 @@ export class Dropdown implements ComponentInterface {
 
   @Prop({ reflect: true }) trigger: 'click' | 'hover' | 'manual' = 'click';
 
-  @Event({ eventName: 'goat-dropdown--item-click' })
+  @Event({ eventName: 'pc-dropdown--item-click' })
   goatDropdownItemClick: EventEmitter;
 
   /**
    * Emitted when the dropdown is opened.
    */
-  @Event({ eventName: 'goat-dropdown--open' }) openEvent: EventEmitter;
+  @Event({ eventName: 'pc-dropdown--open' }) openEvent: EventEmitter;
 
   /**
    * Emitted when the dropdown is closed.
    */
-  @Event({ eventName: 'goat-dropdown--close' }) closeEvent: EventEmitter;
+  @Event({ eventName: 'pc-dropdown--close' }) closeEvent: EventEmitter;
 
   @Method()
   async setFocus() {
@@ -107,11 +107,11 @@ export class Dropdown implements ComponentInterface {
   }
 
   componentDidLoad() {
-    const contentRef = this.host.querySelector('goat-dropdown-menu');
+    const contentRef = this.host.querySelector('pc-dropdown-menu');
 
     if (!contentRef) {
       throw new Error(
-        'goat-dropdown: The dropdown component must have a goat-dropdown-menu child component',
+        'pc-dropdown: The dropdown component must have a pc-dropdown-menu child component',
       );
     }
 
@@ -142,7 +142,7 @@ export class Dropdown implements ComponentInterface {
     this.popoverController.registerTarget(this.triggerRef);
     this.popoverController.setTriggerRef(this.triggerRef);
 
-    this.host.addEventListener('goat-menu-item--click', (evt: CustomEvent) => {
+    this.host.addEventListener('pc-menu-item--click', (evt: CustomEvent) => {
       this.goatDropdownItemClick.emit(evt.detail);
       this.setFocusOnTrigger();
       this.popoverController.hidePopover();

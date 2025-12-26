@@ -1,4 +1,4 @@
-# goat-menu
+# pc-menu
 
 
 
@@ -36,26 +36,25 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [goat-dropdown-menu](../../dropdown/dropdown-menu)
  - [goat-html-editor](../../input-controls/html-editor)
- - [goat-select](../../input-controls/select)
+ - [pc-dropdown-menu](../../dropdown/dropdown-menu)
+ - [pc-select](../../input-controls/select)
 
 ### Depends on
 
-- [goat-empty-state](../../application/empty-state)
+- [pc-empty-state](../../application/empty-state)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
+  pc-menu --> pc-empty-state
+  pc-empty-state --> pc-icon
+  pc-empty-state --> pc-button
   pc-button --> pc-elevation
-  goat-dropdown-menu --> goat-menu
-  goat-html-editor --> goat-menu
-  goat-select --> goat-menu
-  style goat-menu fill:#f9f,stroke:#333,stroke-width:4px
+  goat-html-editor --> pc-menu
+  pc-dropdown-menu --> pc-menu
+  pc-select --> pc-menu
+  style pc-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

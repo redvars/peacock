@@ -59,11 +59,11 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   <pc-button id='clear-btn'>Clear</pc-button>
 
   <div class='application'>
-    <goat-notification-manager name='application-manager' position='bottom-right'></goat-notification-manager>
+    <pc-notification-manager name='application-manager' position='bottom-right'></pc-notification-manager>
 
     <div class='sub-container'>
 
-      <goat-notification-manager name='sub-container-manager' position='top-right'></goat-notification-manager>
+      <pc-notification-manager name='sub-container-manager' position='top-right'></pc-notification-manager>
       <pc-button id='notification-btn'>Notification</pc-button>
       <br /><br />
       <pc-button id='notification-btn-dismissible'>Dismissible notification</pc-button>
@@ -75,7 +75,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     let notifications = [];
     document.getElementById('notification-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('goat-notification', {
+        new CustomEvent('pc-notification', {
           bubbles: true,
           detail: {
             target: 'application-manager',
@@ -92,7 +92,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     document.getElementById('clear-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('goat-notification-dismiss', {
+        new CustomEvent('pc-notification-dismiss', {
           bubbles: true,
           detail: {
             target: 'application-manager',
@@ -106,7 +106,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     document.getElementById('notification-btn-dismissible').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('goat-notification', {
+        new CustomEvent('pc-notification', {
           bubbles: true,
           detail: {
             target: 'sub-container-manager',

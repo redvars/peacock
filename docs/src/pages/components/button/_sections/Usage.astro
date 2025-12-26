@@ -20,11 +20,11 @@ const componentDetails = getComponentDetails('button');
       </div>
     </div>
     <div class='code-editor-container'>
-      <goat-code-editor language='html'
+      <pc-code-editor language='html'
                         class='code-editor no-border'
                         theme='vs-dark'>
 
-      </goat-code-editor>
+      </pc-code-editor>
     </div>
   </div>
 </div>
@@ -42,7 +42,7 @@ const componentDetails = getComponentDetails('button');
 
       $codeEditor.value = `<pc-button>Button</pc-button>
 `;
-      $codeEditor.addEventListener('goat-code-editor--change', (e) => {
+      $codeEditor.addEventListener('pc-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;
       });
       $demoArea.innerHTML = $codeEditor.value;

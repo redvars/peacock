@@ -6,9 +6,9 @@ import site from '../../_data/site.json';
 ---
 <Layout  classes='surface'>
   <div class='main-content'>
-    <goat-container class='blog-posts page-container'>
+    <pc-container class='blog-posts page-container'>
       <pc-text type='heading' heading-size='7'>Blog</pc-text>
-      <pc-text expressive>News and announcements for all things GOATUI, including new releases</pc-text>
+      <p class='pc-text-body-large'>News and announcements for all things GOATUI, including new releases</pc-text>
 
       <pc-divider></pc-divider>
 
@@ -19,7 +19,7 @@ import site from '../../_data/site.json';
               <pc-text type='heading' heading-size='4'>
                 <goat-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</goat-link>
               </pc-text>
-              <pc-text expressive>{post.description}</pc-text>
+              <p class='pc-text-body-large'>{post.description}</pc-text>
               <pc-text color='secondary'>
                 Posted on {post.publishedDate}
               </pc-text>
@@ -27,8 +27,8 @@ import site from '../../_data/site.json';
         })}
 
       </div>
-    </goat-container>
-    <goat-container>
+    </pc-container>
+    <pc-container>
       <div class='footer container'>
         <pc-divider></pc-divider>
         <div class='footer-content'>
@@ -37,6 +37,6 @@ import site from '../../_data/site.json';
           </pc-text>
         </div>
       </div>
-    </goat-container>
+    </pc-container>
   </div>
 </Layout>

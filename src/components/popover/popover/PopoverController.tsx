@@ -112,7 +112,7 @@ export default class PopoverController {
       triggerRef.addEventListener('mouseleave', this.mouseleaveHandler);
     } else if (this.trigger == 'click') {
       if (triggerRef.nodeName === 'GOAT-BUTTON') {
-        triggerRef.addEventListener('pc-button--click', () => {
+        triggerRef.addEventListener('button--click', () => {
           this.open ? this.hidePopover() : this.showPopover();
         });
       } else {
@@ -188,7 +188,7 @@ export default class PopoverController {
       apply({ availableHeight }) {
         if (availableHeight < 10 * 16) return;
         menuElm.style.setProperty(
-          '--goat-menu-max-height',
+          '--pc-menu-max-height',
           `${availableHeight}px`,
         );
       },

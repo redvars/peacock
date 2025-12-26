@@ -4,14 +4,14 @@
 :host {
   display: block;
   width: 100%;
-  margin-bottom: v(--spacing-100);
-  --input-border-radius: #{v(--border-radius)};
-  --input-border: 1px solid #{v(--border-strong)};
+  margin-bottom: var(--spacing-100);
+  --input-border-radius:var(--global-shape-corner-medium);
+  --input-border: 1px solid var(--color-outline);
   color: var(--text-primary);
 }
 
 :host(.form-field) {
-  margin-bottom: v(--spacing-400);
+  margin-bottom: var(--spacing-400);
 }
 
 :host([inline]) {
@@ -26,7 +26,7 @@
 
   .label {
     @include font-style(label-01);
-    margin-bottom: v(--spacing-100);
+    margin-bottom: var(--spacing-100);
 
     color: v(--text-secondary);
     overflow: hidden;
@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
 
-  background-color: var(--input-background-color, var(--field));
+  background-color: var(--input-background-color, var(--color-surface));
   border: var(--input-border);
   border-inline-start: var(--input-border-inline-start, var(--input-border));
   border-inline-end: var(--input-border-inline-end, var(--input-border));
@@ -178,14 +178,14 @@
 
   .input-action {
     height: 100%;
-    --goat-popover-height: 100%;
+    --pc-popover-height: 100%;
     --button-height: 100%;
     --pc-button-padding: .625rem;
   }
 
   .clear-action {
     height: auto;
-    --goat-popover-height: 100%;
+    --pc-popover-height: 100%;
   }
 
   slot::slotted(*) {
@@ -239,8 +239,8 @@
  */
 .input-container {
 
- /* goat-tooltip {
-    --goat-tooltip-height: 100%;
+ /* pc-tooltip {
+    --tooltip-height: 100%;
   }
 
   pc-button {

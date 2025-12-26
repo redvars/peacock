@@ -3,7 +3,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 
 <HighlighterCard lang={'html'}>
-  <goat-calendar id='calendar' view='month' style='height: 700px'></goat-calendar>
+  <pc-calendar id='calendar' view='month' style='height: 700px'></pc-calendar>
   <script is:inline>
     const $calendar = document.getElementById('calendar');
 
@@ -82,7 +82,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     ];
 
     // Events
-    $calendar.addEventListener('goat-calendar--event-click', function(evt) {
+    $calendar.addEventListener('pc-calendar--event-click', function(evt) {
       myConsole.log(JSON.stringify(evt.detail, null, 4));
     });
   </script>

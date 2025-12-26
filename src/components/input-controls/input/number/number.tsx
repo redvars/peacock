@@ -14,14 +14,15 @@ import {
 import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
 
 /**
- * @name Number
+ * @label Number
+ * @name number
  * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-number value="100"></pc-input>
+ * @example <pc-number value="100"></pc-input>
  */
 @Component({
-  tag: 'goat-number',
+  tag: 'pc-number',
   styleUrl: 'number.scss',
   shadow: true,
 })
@@ -297,7 +298,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
             size={this.size}
             aria-label="Decrease"
             variant="text"
-            onGoat-button--click={evt => {
+            onButton--click={evt => {
               this.decrease(evt);
             }}
           >
@@ -311,7 +312,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
             color={'secondary'}
             size={this.size}
             variant="text"
-            onGoat-button--click={evt => {
+            onButton--click={evt => {
               this.increment(evt);
             }}
           >

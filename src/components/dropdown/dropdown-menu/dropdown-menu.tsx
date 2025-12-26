@@ -17,7 +17,7 @@ import { getComponentIndex } from '../../../utils/utils';
  * @childComponent true
  */
 @Component({
-  tag: 'goat-dropdown-menu',
+  tag: 'pc-dropdown-menu',
   styleUrl: 'dropdown-menu.scss',
   shadow: true,
 })
@@ -25,7 +25,7 @@ export class DropdownMenu implements ComponentInterface {
   @Element() host!: HTMLElement;
 
   gid: string = getComponentIndex();
-  menuRef: HTMLGoatMenuElement;
+  menuRef: HTMLPcMenuElement;
 
   /**
    * Sets focus on first menu item. Use this method instead of the global
@@ -39,9 +39,9 @@ export class DropdownMenu implements ComponentInterface {
   render() {
     return (
       <Host>
-        <goat-menu class="dropdown-content" ref={elm => (this.menuRef = elm)}>
+        <pc-menu class="dropdown-content" ref={elm => (this.menuRef = elm)}>
           <slot />
-        </goat-menu>
+        </pc-menu>
       </Host>
     );
   }

@@ -10,13 +10,14 @@ import {
 import { loadScript, remToPx } from '../../../../utils/utils';
 
 /**
- * @name Flow Designer
+ * @label Flow Designer
+ * @name flow-designer
  * @category Up coming
  * @description Flow Designer is a component that allows users to create and edit flows.
  * @img /assets/img/flow-designer.webp
  */
 @Component({
-  tag: 'goat-flow-designer',
+  tag: 'pc-flow-designer',
   styleUrl: 'flow-designer.scss',
   shadow: true,
 })
@@ -299,7 +300,7 @@ export class FlowDesigner {
               <pc-button
                 size="sm"
                 variant="outlined"
-                onGoat-button--click={() => {
+                onButton--click={() => {
                   this.zoom = this.zoom + 0.1;
                 }}
               >
@@ -308,7 +309,7 @@ export class FlowDesigner {
               <pc-button
                 size="sm"
                 variant="outlined"
-                onGoat-button--click={() => {
+                onButton--click={() => {
                   this.zoom = this.zoom - 0.1;
                 }}
               >

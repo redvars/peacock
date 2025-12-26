@@ -21,7 +21,7 @@ import { BaseEvent } from '../event-management/BaseEvent';
 import { LONG_EVENT_PADDING } from '../utils';
 
 @Component({
-  tag: 'goat-calendar-column-view',
+  tag: 'pc-calendar-column-view',
   styleUrl: 'column-view.scss',
   shadow: true,
 })
@@ -217,24 +217,7 @@ export class CalendarColumnView implements ComponentInterface {
                       }% - 1px)`,
                     };
                     if (node.color) {
-                      eventStyles[
-                        '--calendar-event-bg-color'
-                      ] = `var(--color-${node.color}-20)`;
-                      eventStyles[
-                        '--calendar-event-bg-color--hover'
-                      ] = `var(--color-${node.color}-40)`;
-                      eventStyles[
-                        '--calendar-event-border-color'
-                      ] = `var(--color-${node.color})`;
-                      eventStyles[
-                        '--calendar-event-dark-bg-color'
-                      ] = `var(--color-${node.color}-90)`;
-                      eventStyles[
-                        '--calendar-event-dark-bg-color--hover'
-                      ] = `var(--color-${node.color}-70)`;
-                      eventStyles[
-                        '--calendar-event-dark-border-color'
-                      ] = `var(--color-${node.color})-70`;
+                      this.populateColorVariables(eventStyles, node.color);
                     }
                     return (
                       <div
@@ -264,6 +247,21 @@ export class CalendarColumnView implements ComponentInterface {
     return <div class="events-container">{columns}</div>;
   }
 
+  populateColorVariables(eventStyles, color) {
+    eventStyles['--calendar-event-bg-color'] = `var(--color-${color}-80)`;
+    eventStyles[
+      '--calendar-event-bg-color--hover'
+    ] = `var(--color-${color}-60)`;
+    eventStyles['--calendar-event-border-color'] = `var(--color-${color})`;
+    eventStyles['--calendar-event-dark-bg-color'] = `var(--color-${color}-90)`;
+    eventStyles[
+      '--calendar-event-dark-bg-color--hover'
+    ] = `var(--color-${color}-70)`;
+    eventStyles[
+      '--calendar-event-dark-border-color'
+    ] = `var(--color-${color})-70`;
+  }
+
   renderMultiDayEvents() {
     const eventDay = this.multiDayEvents;
     if (eventDay && eventDay.length) {
@@ -285,24 +283,7 @@ export class CalendarColumnView implements ComponentInterface {
                     }%`,
                   };
                   if (node.color) {
-                    eventStyles[
-                      '--calendar-event-bg-color'
-                    ] = `var(--color-${node.color}-20)`;
-                    eventStyles[
-                      '--calendar-event-bg-color--hover'
-                    ] = `var(--color-${node.color}-40)`;
-                    eventStyles[
-                      '--calendar-event-border-color'
-                    ] = `var(--color-${node.color})`;
-                    eventStyles[
-                      '--calendar-event-dark-bg-color'
-                    ] = `var(--color-${node.color}-90)`;
-                    eventStyles[
-                      '--calendar-event-dark-bg-color--hover'
-                    ] = `var(--color-${node.color}-70)`;
-                    eventStyles[
-                      '--calendar-event-dark-border-color'
-                    ] = `var(--color-${node.color})-70`;
+                    this.populateColorVariables(eventStyles, node.color);
                   }
                   if (this.eventClickable) cls.push('clickable');
                   return (
@@ -416,7 +397,7 @@ export class CalendarColumnView implements ComponentInterface {
           <div class="view-body-scroll">
             <div class="scale">{this.renderScale()}</div>
             <div class="drawing-area">
-              <goat-calendar-column-view-background
+              <pc-calendar-column-view-background
                 dateRange={this.dateRange}
                 currentTime={this.currentTime}
               />

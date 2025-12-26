@@ -82,14 +82,14 @@ body.stop-scroll {
   }
 
   .header-menu-list {
-    --goat-menu-background: transparent;
+    --pc-menu-background: transparent;
   }
 
   #header-menu-close-btn {
     --pc-button-border-radius: none;
   }
 
-  goat-menu {
+  pc-menu {
     width: 100%;
   }
 }
@@ -180,6 +180,5 @@ main {
 }
 
 .main-content {
-  margin-top: var(--header-height);
   position: relative;
 }

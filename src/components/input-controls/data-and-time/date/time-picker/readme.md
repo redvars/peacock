@@ -7,16 +7,16 @@
 
 ## Properties
 
-| Property      | Attribute     | Description                                                                            | Type                   | Default                    |
-| ------------- | ------------- | -------------------------------------------------------------------------------------- | ---------------------- | -------------------------- |
-| `configAria`  | `config-aria` |                                                                                        | `any`                  | `{}`                       |
-| `disabled`    | `disabled`    | If true, the user cannot interact with the button. Defaults to `false`.                | `boolean`              | `false`                    |
-| `inline`      | `inline`      |                                                                                        | `boolean`              | `false`                    |
-| `name`        | `name`        | The input field name.                                                                  | `string`               | ``goat-input-${this.gid}`` |
-| `placeholder` | `placeholder` | The input field placeholder.                                                           | `string`               | `undefined`                |
-| `readonly`    | `readonly`    | If true, the user read the value cannot modify it. Defaults to `false`.                | `boolean`              | `false`                    |
-| `size`        | `size`        | The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. | `"lg" \| "md" \| "sm"` | `'md'`                     |
-| `value`       | `value`       | The input field value.                                                                 | `number \| string`     | `''`                       |
+| Property      | Attribute     | Description                                                                            | Type                   | Default                  |
+| ------------- | ------------- | -------------------------------------------------------------------------------------- | ---------------------- | ------------------------ |
+| `configAria`  | `config-aria` |                                                                                        | `any`                  | `{}`                     |
+| `disabled`    | `disabled`    | If true, the user cannot interact with the button. Defaults to `false`.                | `boolean`              | `false`                  |
+| `inline`      | `inline`      |                                                                                        | `boolean`              | `false`                  |
+| `name`        | `name`        | The input field name.                                                                  | `string`               | ``pc-input-${this.gid}`` |
+| `placeholder` | `placeholder` | The input field placeholder.                                                           | `string`               | `undefined`              |
+| `readonly`    | `readonly`    | If true, the user read the value cannot modify it. Defaults to `false`.                | `boolean`              | `false`                  |
+| `size`        | `size`        | The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. | `"lg" \| "md" \| "sm"` | `'md'`                   |
+| `value`       | `value`       | The input field value.                                                                 | `number \| string`     | `''`                     |
 
 
 ## Events
@@ -43,7 +43,7 @@ Type: `Promise<string>`
 
 ### `setBlur() => Promise<void>`
 
-Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+Sets blur on the native `input` in `pc-input`. Use this method instead of the global
 `input.blur()`.
 
 #### Returns
@@ -54,7 +54,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+Sets focus on the native `input` in `pc-input`. Use this method instead of the global
 `input.focus()`.
 
 #### Returns
@@ -74,10 +74,10 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-time-picker --> pc-button
-  goat-time-picker --> pc-icon
+  pc-time-picker --> pc-button
+  pc-time-picker --> pc-icon
   pc-button --> pc-elevation
-  style goat-time-picker fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

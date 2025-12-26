@@ -55,7 +55,7 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
     </div>
   </div>
   <div class="main-content">
-    <goat-container class="page-wrapper">
+    <pc-container class="page-wrapper">
       <slot />
 
       <div class="previous-next-nav">
@@ -64,7 +64,7 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
         </pc-button>
         <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <pc-icon slot='icon' name='arrow_right'>Previous</pc-icon> </pc-button>
       </div>
-    </goat-container>
+    </pc-container>
 
     <div class="footer container">
       <pc-divider></pc-divider>

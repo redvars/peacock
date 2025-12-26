@@ -1,0 +1,16 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='pc-text-body'>You can change the color of the avatar using the <code>--avatar-bg-color</code> CSS variable.</p>
+<p class='pc-text-body'>You can change the border radius of the avatar using the <code>--avatar-border-radius</code> CSS variable.</p>
+<p class='pc-text-body'>You can change the size of the avatar using the <code>--avatar-size</code> CSS variable.</p>
+
+
+<DemoComponentCard lang={"html"}>
+  <pc-avatar style="--avatar-size:150px" name="Shivaji Varma"></pc-avatar>
+
+  <pc-avatar style="--avatar-bg-color: var(--color-blue);" name="Shivaji Varma"></pc-avatar>
+
+  <pc-avatar style="--avatar-border-radius: var(--global-shape-corner-small)" name="Shivaji Varma" show-name></pc-avatar>
+</DemoComponentCard>

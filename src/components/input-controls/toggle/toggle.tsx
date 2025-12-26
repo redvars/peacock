@@ -47,12 +47,6 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
   @Prop() rounded: boolean = true;
 
   /**
-   * The button size.
-   * Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-   */
-  @Prop() size: 'md' | 'lg' = 'md';
-
-  /**
    * If true, required icon is show. Defaults to `false`.
    */
   @Prop({ reflect: true }) required: boolean = false;
@@ -181,7 +175,6 @@ export class Toggle implements ComponentInterface, InputComponentInterface {
           class={{
             'toggle': true,
             'state-checked': this.value,
-            [`size-${this.size}`]: true,
             'has-focus': this.hasFocus,
             'active': this.isActive,
             'disabled': this.disabled,

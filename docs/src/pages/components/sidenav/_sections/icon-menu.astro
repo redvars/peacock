@@ -2,32 +2,32 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 <HighlighterCard lang={'html'}>
-  <goat-menu class='menu' style='width: 200px'>
-    <goat-menu-item value='cut'>
+  <pc-menu class='menu' style='width: 200px'>
+    <pc-menu-item value='cut'>
       <pc-icon name='scissors' slot='start' size='sm'></pc-icon>
       Cut
       <span slot='end'>⌘X</span>
-    </goat-menu-item>
-    <goat-menu-item value='copy'>
+    </pc-menu-item>
+    <pc-menu-item value='copy'>
       <pc-icon name='files' slot='start' size='sm'></pc-icon>
       Copy
       <span slot='end'>⌘C</span>
-    </goat-menu-item>
-    <goat-menu-item value='paste'>
+    </pc-menu-item>
+    <pc-menu-item value='paste'>
       <pc-icon name='clipboard' slot='start' size='sm'></pc-icon>
       Paste
       <span slot='end'>⌘X</span>
-    </goat-menu-item>
+    </pc-menu-item>
     <pc-divider></pc-divider>
-    <goat-menu-item value='delete'>
+    <pc-menu-item value='delete'>
       <pc-icon name='trash' slot='start' size='sm'></pc-icon>
       Delete
       <span slot='end'>←</span>
-    </goat-menu-item>
-  </goat-menu>
+    </pc-menu-item>
+  </pc-menu>
 
-  <goat-menu class='menu' style='width: 300px'>
-    <goat-menu-item value='shivaji' selected>
+  <pc-menu class='menu' style='width: 300px'>
+    <pc-menu-item value='shivaji' selected>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=74943b7fc5a9da2affe8c2d8b8558812' size='40px'
                    slot='start'></pc-avatar>
       <div>
@@ -36,8 +36,8 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       <div>
         <pc-text size='sm' variant='secondary'>Software Engineer</pc-text>
       </div>
-    </goat-menu-item>
-    <goat-menu-item value='john'>
+    </pc-menu-item>
+    <pc-menu-item value='john'>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=6801be2ffb4809eefe713e4fefd7b9ae' size='40px'
                    slot='start'></pc-avatar>
       <div>
@@ -48,9 +48,9 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
           <pc-text size='sm' variant='secondary'>Manager</pc-text>
         </div>
       </div>
-    </goat-menu-item>
+    </pc-menu-item>
 
-    <goat-menu-item value='fred'>
+    <pc-menu-item value='fred'>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=5ff278e220eacb10b8e37efefef406a6' size='40px'
                    slot='start'></pc-avatar>
       <div>
@@ -61,7 +61,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
           <pc-text size='sm' variant='secondary'>Director</pc-text>
         </div>
       </div>
-    </goat-menu-item>
-  </goat-menu>
+    </pc-menu-item>
+  </pc-menu>
 
 </HighlighterCard>

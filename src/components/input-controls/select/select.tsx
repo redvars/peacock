@@ -19,10 +19,11 @@ import {
   throttle,
 } from '../../../utils/utils';
 import { computePosition, flip, offset, size } from '@floating-ui/dom';
-import { GoatMenuItemCustomEvent, PcTagCustomEvent } from '../../../components';
+import { PcMenuItemCustomEvent, PcTagCustomEvent } from '../../../components';
 
 /**
- * @name Select
+ * @label Select
+ * @name select
  * @description Allows the user to select one or more options using a dropdown.
  * @category Form Inputs
  * @tags input, form
@@ -30,7 +31,7 @@ import { GoatMenuItemCustomEvent, PcTagCustomEvent } from '../../../components';
  * @imgDark /assets/img/select-dark.webp
  */
 @Component({
-  tag: 'goat-select',
+  tag: 'pc-select',
   styleUrl: 'select.scss',
   shadow: true,
 })
@@ -194,8 +195,8 @@ export class Select implements ComponentInterface, InputComponentInterface {
     this.open = false;
   }
 
-  @Listen('goat-menu-item--click')
-  menuItemClick(evt: GoatMenuItemCustomEvent<any>) {
+  @Listen('pc-menu-item--click')
+  menuItemClick(evt: PcMenuItemCustomEvent<any>) {
     this.selectHandler(evt.detail.value);
   }
 
@@ -206,7 +207,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
 
   @Element() elm!: HTMLElement;
   private nativeElement?: HTMLInputElement;
-  private menuElm?: HTMLGoatMenuElement;
+  private menuElm?: HTMLPcMenuElement;
   @State() hasFocus = false;
   @State() searchString: string = '';
   @State() startSlotHasContent = false;
@@ -214,7 +215,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   @State() position: string;
   private displayElement?: HTMLElement;
 
-  @Listen('pc-tag--dismiss')
+  @Listen('tag--dismiss')
   tagDismissClick(evt: PcTagCustomEvent<any>) {
     this.removeItem(evt.detail.value);
   }
@@ -402,7 +403,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   }
 
   private getMenuElement() {
-    return this.elm.querySelector('goat-menu');
+    return this.elm.querySelector('pc-menu');
   }
 
   index = 0;
@@ -429,7 +430,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
               apply({ availableHeight }) {
                 if (availableHeight < remToPx(10)) return;
                 menuElm?.style.setProperty(
-                  '--goat-menu-max-height',
+                  '--pc-menu-max-height',
                   `${availableHeight}px`,
                 );
               },
@@ -610,7 +611,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
 
   private getModeIcon() {
     if (this.showLoader) {
-      return <goat-spinner class="loader" />;
+      return <pc-spinner class="loader" />;
     }
     if (!this.disabled && !this.readonly && !this.hideDropdownIcon)
       return (
@@ -626,7 +627,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   private renderDropdownList() {
     if (this.search === 'managed' && !this.items.length) {
       return (
-        <goat-menu
+        <pc-menu
           class="menu"
           ref={el => (this.menuElm = el)}
           layer={this.layer}
@@ -637,14 +638,14 @@ export class Select implements ComponentInterface, InputComponentInterface {
               Start typing to perform search
             </pc-text>
           </div>
-        </goat-menu>
+        </pc-menu>
       );
     }
 
     if (this.items) {
       const filteredItems = this.filterItems();
       return (
-        <goat-menu
+        <pc-menu
           class="menu"
           empty={filteredItems.length == 0}
           ref={el => (this.menuElm = el)}
@@ -653,7 +654,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
           {(() => {
             return filteredItems.map(item => {
               return (
-                <goat-menu-item value={item.value} layer={this.layer}>
+                <pc-menu-item value={item.value} layer={this.layer}>
                   <div class={'slot-container-start'} slot="start">
                     {item.icon && <pc-icon name={item.icon} />}
                   </div>
@@ -663,11 +664,11 @@ export class Select implements ComponentInterface, InputComponentInterface {
                     {((this.multiple && this.containsValue(item.value)) ||
                       this.value == item.value) && <pc-icon name="checkmark" />}
                   </div>
-                </goat-menu-item>
+                </pc-menu-item>
               );
             });
           })()}
-        </goat-menu>
+        </pc-menu>
       );
     }
   }

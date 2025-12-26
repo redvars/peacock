@@ -16,29 +16,24 @@
 
 ### Depends on
 
-- [goat-select](../../../input-controls/select)
+- [pc-input](../../../input-controls/input/input)
 - [goat-cb-divider](../cb-divider)
 - [pc-tag](../../../tag)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-condition-builder --> goat-select
+  goat-condition-builder --> pc-input
   goat-condition-builder --> goat-cb-divider
   goat-condition-builder --> pc-tag
-  goat-select --> pc-icon
-  goat-select --> pc-tag
-  goat-select --> pc-button
-  goat-select --> goat-menu
-  goat-select --> pc-text
-  goat-select --> goat-menu-item
-  pc-tag --> pc-icon
+  pc-input --> pc-tooltip
+  pc-input --> pc-button
+  pc-input --> pc-icon
+  pc-tooltip --> pc-popover
+  pc-tooltip --> pc-popover-content
   pc-button --> pc-elevation
-  goat-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
-  goat-menu-item --> pc-icon
+  pc-tag --> pc-icon
+  pc-tag --> pc-elevation
   style goat-condition-builder fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

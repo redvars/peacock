@@ -32,13 +32,16 @@ if (alignStart) {
       align-items: flex-start;
       gap: 0;
     }
+    .body {
+      padding: 0;
+    }
   }
 </style>
 <pc-card class='demo-component-card'>
   <pc-card-content class={'demo-area ' + cssClasses}>
     <slot></slot>
   </pc-card-content>
-  <pc-card-content class='body no-padding'>
+  <pc-card-content class='body'>
     <goat-code-highlighter language={lang}>
       <pre><code><Fragment set:html={html} /></code></pre>
     </goat-code-highlighter>

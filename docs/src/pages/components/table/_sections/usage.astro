@@ -5,7 +5,7 @@ import dataSource from '../_data-source.json';
 ---
 <goat-card>
   <pc-card-content style='height: 30rem'>
-    <goat-table id='table' key-field='_id' selection-type='checkbox' sortable></goat-table>
+    <pc-table id='table' key-field='_id' selection-type='checkbox' sortable></pc-table>
     <script is:inline define:vars={{ dataSource }}>
       const $table = document.getElementById('table');
       // Columns
@@ -46,32 +46,32 @@ import dataSource from '../_data-source.json';
           'name': 'actions',
           'label': 'Actions',
           'template': function(row, column) {
-            return `<goat-dropdown id='dropdown'>
+            return `<pc-dropdown id='dropdown'>
       <pc-button color='secondary' variant='ghost' icon='overflow-menu--vertical'></pc-button>
-      <goat-menu slot='dropdown-content' class='menu' style='width: 200px'>
-        <goat-menu-item value='cut'>
+      <pc-menu slot='dropdown-content' class='menu' style='width: 200px'>
+        <pc-menu-item value='cut'>
           <pc-icon name='scissors' slot='start'></pc-icon>
           Cut
           <span slot='end'>⌘X</span>
-        </goat-menu-item>
-        <goat-menu-item value='copy'>
+        </pc-menu-item>
+        <pc-menu-item value='copy'>
           <pc-icon name='files' slot='start'></pc-icon>
           Copy
           <span slot='end'>⌘C</span>
-        </goat-menu-item>
-        <goat-menu-item value='paste'>
+        </pc-menu-item>
+        <pc-menu-item value='paste'>
           <pc-icon name='clipboard' slot='start'></pc-icon>
           Paste
           <span slot='end'>⌘X</span>
-        </goat-menu-item>
+        </pc-menu-item>
         <pc-divider></pc-divider>
-        <goat-menu-item value='delete'>
+        <pc-menu-item value='delete'>
           <pc-icon name='trash' slot='start'></pc-icon>
           Delete
           <span slot='end'>←</span>
-        </goat-menu-item>
-      </goat-menu>
-    </goat-dropdown>`;
+        </pc-menu-item>
+      </pc-menu>
+    </pc-dropdown>`;
           },
         },
       ];
@@ -79,11 +79,11 @@ import dataSource from '../_data-source.json';
       $table.data = dataSource;
 
       // Events
-      $table.addEventListener('goat-table--cell-click', function(evt) {
+      $table.addEventListener('pc-table--cell-click', function(evt) {
         document.getElementById('record').innerText = JSON.stringify(evt.detail.record, null, 3);
         document.getElementById('column').innerText = evt.detail.column.label;
       });
-      $table.addEventListener('goat-table--selection-change', function(evt) {
+      $table.addEventListener('pc-table--selection-change', function(evt) {
         document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
       });
     </script>
@@ -104,7 +104,7 @@ import dataSource from '../_data-source.json';
   </pc-card-content>
   <pc-card-content class='no-padding'>
     <Highlighter lang='html'>
-      <goat-table id='table' key-field='_id' selection-type='checkbox' sortable></goat-table>
+      <pc-table id='table' key-field='_id' selection-type='checkbox' sortable></pc-table>
       {`<script type='javascript'>
       const $table = document.getElementById('table');
       // Columns
@@ -146,11 +146,11 @@ import dataSource from '../_data-source.json';
       $table.data = JSON.stringify(dataSource.slice(0, 3), null, 2);
 
       // Events
-      $table.addEventListener('goat-table--cell-click', function(evt) {
+      $table.addEventListener('pc-table--cell-click', function(evt) {
         document.getElementById('record').innerText = JSON.stringify(evt.detail.record, null, 3);
         document.getElementById('column').innerText = evt.detail.column.label;
       });
-      $table.addEventListener('goat-table--selection-change', function(evt) {
+      $table.addEventListener('pc-table--selection-change', function(evt) {
         document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
       });
     </script>`}

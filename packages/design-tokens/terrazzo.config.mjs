@@ -8,6 +8,7 @@ export default defineConfig({
     ...getFileNames('./src/tokens/primitive/colors'),
     ...getFileNames('./src/tokens/primitive/typography'),
     ...getFileNames('./src/tokens/primitive/spacing'),
+    ...getFileNames('./src/tokens/primitive/animation'),
     ...getFileNames('./src/tokens/semantics/colors'),
     ...getFileNames('./src/tokens/semantics/typography'),
     ...getFileNames('./src/tokens/semantics/components'),

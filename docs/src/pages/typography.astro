@@ -12,7 +12,7 @@ const title = 'Typography';
 
 
   <div class='main-content'>
-    <goat-container class='page-wrapper'>
+    <pc-container class='page-wrapper'>
 
       <div class='article'>
 
@@ -22,22 +22,22 @@ const title = 'Typography';
 
         <section>
           <h2 class='pc-text-headline'>Body styles</h2>
-          <p>Body styles are used for longer passages of text in your app.</p>
-          <p>Use typefaces intended for body styles, which are readable at smaller sizes and can be comfortably read in longer passages.</p>
-          <p>Avoid expressive or decorative fonts for body text because these can be harder to read at small sizes.</p>
+          <p class='pc-text-body'>Body styles are used for longer passages of text in your app.</p>
+          <p class='pc-text-body'>Use typefaces intended for body styles, which are readable at smaller sizes and can be comfortably read in longer passages.</p>
+          <p class='pc-text-body'>Avoid expressive or decorative fonts for body text because these can be harder to read at small sizes.</p>
 
           <DemoComponentCard lang={'html'} alignStart={true}>
-            <p class='typography-body-large'>
+            <p class='pc-text-body-large'>
               This is for short paragraphs with no more than four lines and is commonly used in components.
             </p>
 
-            <p>
+            <p class='pc-text-body'>
               With a slightly taller line height than <code>body-compact</code>, this body style is used in productive layouts for long
               paragraphs with more than four lines. Use also for longer body copy in components such as accordion or structured
               list. It is always left-aligned. Body-long-01 can also be used for productive moments within expressive experiences.
             </p>
 
-            <p class='typography-body-small'>
+            <p class='pc-text-body-small'>
               This is for short paragraphs with no more than four lines and is commonly used in components.
             </p>
           </DemoComponentCard>
@@ -134,7 +134,7 @@ const title = 'Typography';
         </DemoComponentCard>
 
 
-    </goat-container>
+    </pc-container>
 
 
 

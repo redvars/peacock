@@ -1,7 +1,7 @@
 import { Component, ComponentInterface, h, Host, Prop } from '@stencil/core';
 
 @Component({
-  tag: 'goat-tab-panel',
+  tag: 'pc-tab-panel',
   styleUrl: 'tab-panel.scss',
   shadow: true,
 })

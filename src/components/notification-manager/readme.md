@@ -17,16 +17,16 @@
 
 ### Depends on
 
-- [goat-notification](../notification)
+- [pc-notification](../notification)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-notification-manager --> goat-notification
-  goat-notification --> pc-icon
-  goat-notification --> pc-button
+  pc-notification-manager --> pc-notification
+  pc-notification --> pc-icon
+  pc-notification --> pc-button
   pc-button --> pc-elevation
-  style goat-notification-manager fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-notification-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -12,14 +12,15 @@ import {
 import { getComponentIndex } from '../../../../../utils/utils';
 
 /**
- * @name Time Picker
+ * @label Time Picker
+ * @name time-picker
  * @description Captures time input.
  * @category Form Inputs
  * @tags input, form
- * @example <goat-time-picker value='true'></goat-time-picker>
+ * @example <pc-time-picker value='10:00:00'></pc-time-picker>
  */
 @Component({
-  tag: 'goat-time-picker',
+  tag: 'pc-time-picker',
   styleUrl: 'time-picker.scss',
   shadow: true,
 })
@@ -202,7 +203,7 @@ export class TimePicker {
             variant="text"
             disabled={this.disabled}
             size={this.size}
-            onGoat-button--click={() => {
+            onButton--click={() => {
               setTimeout(() => {
                 this.nativeElement.showPicker();
               });

@@ -10,7 +10,7 @@ import { Component, Element, h, Host, Listen, Prop } from '@stencil/core';
  * @imgDark /assets/img/tooltip-dark.webp
  */
 @Component({
-  tag: 'goat-tooltip',
+  tag: 'pc-tooltip',
   styleUrl: 'tooltip.scss',
   shadow: true,
 })
@@ -68,7 +68,7 @@ export class Tooltip {
   render() {
     return (
       <Host>
-        <goat-popover
+        <pc-popover
           class="popover"
           trigger={this.trigger}
           placements={this.placements}
@@ -76,12 +76,11 @@ export class Tooltip {
           ref={elm => (this.popoverElm = elm)}
         >
           <slot />
-
-          <goat-popover-content class="tooltip-content">
+          <pc-popover-content class="tooltip-content">
             {this.content}
             <slot name="content"></slot>
-          </goat-popover-content>
-        </goat-popover>
+          </pc-popover-content>
+        </pc-popover>
       </Host>
     );
   }

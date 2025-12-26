@@ -2,20 +2,19 @@
 
 :host {
   display: inline-block;
-  --goat-tooltip-height: inherit;
-  height: var(--goat-tooltip-height);
+  --tooltip-height: inherit;
+  height: var(--tooltip-height);
 }
 
 .popover {
-  --goat-popover-height: var(--goat-tooltip-height);
+  --pc-popover-height: var(--tooltip-height);
 }
 
 .tooltip-content {
-  @include font-style(label-01);
-  color: var(--text-inverse);
+  @include get-typography(label-small);
+  color: var(--color-inverse-on-surface);
   max-width: 18rem;
-  --popover-content-background: var(--background-inverse);
+  --popover-content-background: var(--color-inverse-surface);
   --popover-content-padding: var(--spacing-100) var(--spacing-200);
-  --popover-content-border-radius: 0;
   --popover-content-caret-size: 0.5rem;
 }

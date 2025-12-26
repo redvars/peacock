@@ -4,7 +4,7 @@ const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
 
 <pc-text type="body">
   Google icons are used by the <code>pc-icon</code> component. You can find the name from Google Icons{" "}
-  <goat-link href={GOOGLE_ICONS_URL}>{GOOGLE_ICONS_URL}</goat-link>.
+  <a class='pc-link' href={GOOGLE_ICONS_URL}>{GOOGLE_ICONS_URL}</a>.
 </pc-text>
 
 
@@ -20,7 +20,7 @@ const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
       </div>
     </div>
     <div class='code-editor-container'>
-      <goat-code-editor language='html' class='code-editor no-border' theme='vs-dark'></goat-code-editor>
+      <pc-code-editor language='html' class='code-editor no-border' theme='vs-dark'></pc-code-editor>
     </div>
   </div>
 </div>
@@ -36,8 +36,9 @@ const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
       const $codeEditor = this.elm.querySelector('.code-editor');
       const $demoArea = this.elm.querySelector('.demo-area');
 
-      $codeEditor.value = `<pc-icon name='alarm'></pc-icon>`;
-      $codeEditor.addEventListener('goat-code-editor--change', (e) => {
+      $codeEditor.value = `<pc-icon name='alarm'></pc-icon>
+<pc-icon src='https://icons.getbootstrap.com/assets/icons/bug.svg'></pc-icon>`;
+      $codeEditor.addEventListener('pc-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;
       });
       $demoArea.innerHTML = $codeEditor.value;

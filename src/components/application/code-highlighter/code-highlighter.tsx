@@ -255,23 +255,20 @@ export class CodeHighlighter implements ComponentInterface {
             </div>
             {!this.hideCopy && this.copyState === 'idle' && !this.inline && (
               <Fragment>
-                <goat-tooltip
-                  class={'copy-btn'}
-                  content={locale.copyToClipboard}
-                >
+                <pc-tooltip class={'copy-btn'} content={locale.copyToClipboard}>
                   <pc-button
                     class="icon-only"
                     size="sm"
                     color={'secondary'}
                     variant={'text'}
                     aria-label="Copy to clipboard"
-                    onGoat-button--click={async () => {
+                    onButton--click={async () => {
                       await this.#handleCopyClick();
                     }}
                   >
                     <pc-icon slot="icon" name="content_copy" />
                   </pc-button>
-                </goat-tooltip>
+                </pc-tooltip>
               </Fragment>
             )}
             {!this.hideCopy && this.copyState === 'copied' && !this.inline && (
@@ -292,7 +289,7 @@ export class CodeHighlighter implements ComponentInterface {
         )}
         {this.compiledCode === null && (
           <div class="code-loader">
-            <goat-spinner>{locale.loading}</goat-spinner>
+            <pc-spinner>{locale.loading}</pc-spinner>
           </div>
         )}
       </Host>

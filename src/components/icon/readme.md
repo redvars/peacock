@@ -10,59 +10,62 @@
 | Property | Attribute | Description                                                                                 | Type     | Default     |
 | -------- | --------- | ------------------------------------------------------------------------------------------- | -------- | ----------- |
 | `name`   | `name`    | The identifier for the icon. This name corresponds to a specific SVG asset in the icon set. | `string` | `undefined` |
+| `src`    | `src`     |                                                                                             | `string` | `undefined` |
 
 
 ## Dependencies
 
 ### Used by
 
- - [goat-calendar](../application/calendar/calendar)
  - [goat-code-highlighter](../application/code-highlighter)
- - [goat-date-picker](../input-controls/data-and-time/date/date-picker)
- - [goat-empty-state](../application/empty-state)
- - [goat-flow-designer](../application/flow-designer/flow-designer)
  - [goat-header-action](../application/header/header-action)
+ - [goat-header-brand](../application/header/header-brand)
  - [goat-html-editor](../input-controls/html-editor)
- - [goat-input-url](../input-controls/input/input-url)
- - [goat-menu-item](../menu/menu-item)
- - [goat-modal](../modal/modal)
- - [goat-notification](../notification)
- - [goat-number](../input-controls/input/number)
- - [goat-select](../input-controls/select)
- - [goat-tab](../tabs/tab)
- - [goat-textarea](../input-controls/input/textarea)
- - [goat-time-picker](../input-controls/data-and-time/date/time-picker)
  - [pc-accordion-item](../accordion/accordion-item)
+ - [pc-calendar](../application/calendar/calendar)
  - [pc-checkbox](../input-controls/checkbox)
+ - [pc-date-picker](../input-controls/data-and-time/date/date-picker)
+ - [pc-empty-state](../application/empty-state)
+ - [pc-flow-designer](../application/flow-designer/flow-designer)
  - [pc-input](../input-controls/input/input)
+ - [pc-input-url](../input-controls/input/input-url)
+ - [pc-menu-item](../menu/menu-item)
+ - [pc-modal](../modal/modal)
+ - [pc-notification](../notification)
+ - [pc-number](../input-controls/input/number)
+ - [pc-select](../input-controls/select)
+ - [pc-tab](../tabs/tab)
  - [pc-table](../table)
  - [pc-tag](../tag)
+ - [pc-textarea](../input-controls/input/textarea)
+ - [pc-time-picker](../input-controls/data-and-time/date/time-picker)
  - [pc-tree-node](../tree-view/tree-node)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-calendar --> pc-icon
   goat-code-highlighter --> pc-icon
-  goat-date-picker --> pc-icon
-  goat-empty-state --> pc-icon
-  goat-flow-designer --> pc-icon
   goat-header-action --> pc-icon
+  goat-header-brand --> pc-icon
   goat-html-editor --> pc-icon
-  goat-input-url --> pc-icon
-  goat-menu-item --> pc-icon
-  goat-modal --> pc-icon
-  goat-notification --> pc-icon
-  goat-number --> pc-icon
-  goat-select --> pc-icon
-  goat-tab --> pc-icon
-  goat-textarea --> pc-icon
-  goat-time-picker --> pc-icon
   pc-accordion-item --> pc-icon
+  pc-calendar --> pc-icon
   pc-checkbox --> pc-icon
+  pc-date-picker --> pc-icon
+  pc-empty-state --> pc-icon
+  pc-flow-designer --> pc-icon
   pc-input --> pc-icon
+  pc-input-url --> pc-icon
+  pc-menu-item --> pc-icon
+  pc-modal --> pc-icon
+  pc-notification --> pc-icon
+  pc-number --> pc-icon
+  pc-select --> pc-icon
+  pc-tab --> pc-icon
   pc-table --> pc-icon
   pc-tag --> pc-icon
+  pc-textarea --> pc-icon
+  pc-time-picker --> pc-icon
   pc-tree-node --> pc-icon
   style pc-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```

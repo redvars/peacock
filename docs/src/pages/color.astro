@@ -33,7 +33,7 @@ if (isProd) {
     box-shadow: var(--shadow-1);
   }
 </style>
-  <goat-container>
+  <pc-container>
 
     <div class='color-container'>
 
@@ -57,9 +57,39 @@ if (isProd) {
         })
       }
 
+
+      <style is:inline>
+        .app {
+          width: 100%;
+          height: 300px;
+          position: relative;
+          display: flow-root;
+          border: 1px solid var(--color-outline);
+        }
+        .nav {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 60px;
+        }
+
+        .main {
+          margin: 1rem 1rem 1rem calc(60px + 1rem);
+          height: calc(100% - 2rem);
+        }
+      </style>
+      <div class='app surface'>
+          <div class='nav surface-variant'></div>
+
+          <div class='main surface-container-low'>
+
+          </div>
+      </div>
+
     </div>
 
-  </goat-container>
+  </pc-container>
 
 
 

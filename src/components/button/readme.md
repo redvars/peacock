@@ -26,9 +26,9 @@
 
 ## Events
 
-| Event              | Description                           | Type                                |
-| ------------------ | ------------------------------------- | ----------------------------------- |
-| `pc-button--click` | Triggered when the button is clicked. | `CustomEvent<{ appendData: any; }>` |
+| Event           | Description                           | Type                                |
+| --------------- | ------------------------------------- | ----------------------------------- |
+| `button--click` | Triggered when the button is clicked. | `CustomEvent<{ appendData: any; }>` |
 
 
 ## Methods
@@ -71,23 +71,23 @@ Type: `Promise<void>`
 
 ### Used by
 
- - [goat-calendar](../application/calendar/calendar)
  - [goat-code-highlighter](../application/code-highlighter)
- - [goat-date-picker](../input-controls/data-and-time/date/date-picker)
- - [goat-empty-state](../application/empty-state)
- - [goat-flow-designer](../application/flow-designer/flow-designer)
  - [goat-header-action](../application/header/header-action)
  - [goat-header-brand](../application/header/header-brand)
  - [goat-html-editor](../input-controls/html-editor)
- - [goat-input-url](../input-controls/input/input-url)
- - [goat-modal](../modal/modal)
- - [goat-notification](../notification)
- - [goat-number](../input-controls/input/number)
- - [goat-select](../input-controls/select)
- - [goat-textarea](../input-controls/input/textarea)
- - [goat-time-picker](../input-controls/data-and-time/date/time-picker)
+ - [pc-calendar](../application/calendar/calendar)
+ - [pc-date-picker](../input-controls/data-and-time/date/date-picker)
+ - [pc-empty-state](../application/empty-state)
+ - [pc-flow-designer](../application/flow-designer/flow-designer)
  - [pc-input](../input-controls/input/input)
+ - [pc-input-url](../input-controls/input/input-url)
+ - [pc-modal](../modal/modal)
+ - [pc-notification](../notification)
+ - [pc-number](../input-controls/input/number)
+ - [pc-select](../input-controls/select)
  - [pc-table](../table)
+ - [pc-textarea](../input-controls/input/textarea)
+ - [pc-time-picker](../input-controls/data-and-time/date/time-picker)
 
 ### Depends on
 
@@ -97,23 +97,23 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-button --> pc-elevation
-  goat-calendar --> pc-button
   goat-code-highlighter --> pc-button
-  goat-date-picker --> pc-button
-  goat-empty-state --> pc-button
-  goat-flow-designer --> pc-button
   goat-header-action --> pc-button
   goat-header-brand --> pc-button
   goat-html-editor --> pc-button
-  goat-input-url --> pc-button
-  goat-modal --> pc-button
-  goat-notification --> pc-button
-  goat-number --> pc-button
-  goat-select --> pc-button
-  goat-textarea --> pc-button
-  goat-time-picker --> pc-button
+  pc-calendar --> pc-button
+  pc-date-picker --> pc-button
+  pc-empty-state --> pc-button
+  pc-flow-designer --> pc-button
   pc-input --> pc-button
+  pc-input-url --> pc-button
+  pc-modal --> pc-button
+  pc-notification --> pc-button
+  pc-number --> pc-button
+  pc-select --> pc-button
   pc-table --> pc-button
+  pc-textarea --> pc-button
+  pc-time-picker --> pc-button
   style pc-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

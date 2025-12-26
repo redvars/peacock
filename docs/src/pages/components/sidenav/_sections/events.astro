@@ -4,7 +4,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 <goat-card>
   <pc-card-content class='no-padding'>
     <Highlighter lang={'javascript'} is:raw> const $list = document.querySelector('.menu');
-      $list.addEventListener('goat-menu-item-click',
+      $list.addEventListener('pc-menu-item-click',
       function(evt) {
         console.log('<pre>' + JSON.stringify(evt.detail.value, null, 4) + '</pre>');
       });

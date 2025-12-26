@@ -8,7 +8,7 @@ import {
 } from '@stencil/core';
 
 @Component({
-  tag: 'goat-container',
+  tag: 'pc-container',
   styleUrl: 'container.scss',
   shadow: true,
 })

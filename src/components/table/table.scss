@@ -4,8 +4,8 @@
   display: block;
   height: 100%;
   min-height: 20em;
-  --goat-table-border-color: #{v(--border-subtle)};
-  --goat-table-border: 1px solid var(--goat-table-border-color);
+  --pc-table-border-color: #{v(--border-subtle)};
+  --pc-table-border: 1px solid var(--pc-table-border-color);
   --goat-col-content-padding: #{v(--spacing-150)} #{v(--spacing-200)};
 }
 
@@ -38,7 +38,7 @@
     background: var(--layer);
     --input-background-color: var(--layer);
     display: flex;
-    border-top: 1px solid var(--goat-table-border-color);
+    border-top: 1px solid var(--pc-table-border-color);
 
     .form-control {
       margin: 0;
@@ -48,8 +48,8 @@
       margin: 0;
       --input-border-radius: none;
       --input-border: none;
-      --input-border-inline-start: 1px solid var(--goat-table-border-color);
-      --input-border-inline-end: 1px solid var(--goat-table-border-color);
+      --input-border-inline-start: 1px solid var(--pc-table-border-color);
+      --input-border-inline-end: 1px solid var(--pc-table-border-color);
     }
 
     .page-sizes-select {
@@ -71,7 +71,7 @@
 
   &.horizontal-scrolled {
     .fixed-columns:after {
-      box-shadow: 10px 0 20px -20px #{v(--border-color)} inset;
+      box-shadow: 10px 0 20px -20px var(--color-outline) inset;
       content: " ";
       height: 100%;
       position: absolute;

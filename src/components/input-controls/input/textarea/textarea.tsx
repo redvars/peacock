@@ -14,14 +14,15 @@ import {
 import { debounceEvent, getComponentIndex } from '../../../../utils/utils';
 
 /**
- * @name Textarea
+ * @label Textarea
+ * @name textarea
  * @description Enables native inputs to be used within a Form field.
  * @category Form Inputs
  * @tags input, form
- * @example <pc-textarea placeholder="Enter some description over here"></goat-textarea>
+ * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
  */
 @Component({
-  tag: 'goat-textarea',
+  tag: 'pc-textarea',
   styleUrl: './textarea.scss',
   shadow: true,
 })

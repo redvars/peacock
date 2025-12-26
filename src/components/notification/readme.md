@@ -19,17 +19,17 @@
 
 ## Events
 
-| Event                             | Description                                | Type               |
-| --------------------------------- | ------------------------------------------ | ------------------ |
-| `goat-notification--action-click` |                                            | `CustomEvent<any>` |
-| `goat-notification--dismiss`      | Emitted when the notification is dismissed | `CustomEvent<any>` |
+| Event                           | Description                                | Type               |
+| ------------------------------- | ------------------------------------------ | ------------------ |
+| `pc-notification--action-click` |                                            | `CustomEvent<any>` |
+| `pc-notification--dismiss`      | Emitted when the notification is dismissed | `CustomEvent<any>` |
 
 
 ## Dependencies
 
 ### Used by
 
- - [goat-notification-manager](../notification-manager)
+ - [pc-notification-manager](../notification-manager)
 
 ### Depends on
 
@@ -39,11 +39,11 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-notification --> pc-icon
-  goat-notification --> pc-button
+  pc-notification --> pc-icon
+  pc-notification --> pc-button
   pc-button --> pc-elevation
-  goat-notification-manager --> goat-notification
-  style goat-notification fill:#f9f,stroke:#333,stroke-width:4px
+  pc-notification-manager --> pc-notification
+  style pc-notification fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

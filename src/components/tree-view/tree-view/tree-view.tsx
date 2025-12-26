@@ -74,7 +74,7 @@ export class TreeView implements ComponentInterface {
     let menuItem = null;
     for (const elm of path) {
       // @ts-ignore
-      if (elm.tagName === 'GOAT-TREE-NODE') {
+      if (elm.tagName === 'PC-TREE-NODE') {
         menuItem = elm;
       }
       if (elm !== this.elm) continue;
@@ -99,7 +99,7 @@ export class TreeView implements ComponentInterface {
   }
 
   private getFirstItem() {
-    return this.elm.querySelector('goat-menu-item');
+    return this.elm.querySelector('pc-menu-item');
   }
 
   private focusNextItem(currentItem) {
@@ -107,7 +107,7 @@ export class TreeView implements ComponentInterface {
     do {
       if (
         nextItem &&
-        nextItem.tagName === 'GOAT-TREE-NODE' &&
+        nextItem.tagName === 'PC-TREE-NODE' &&
         !nextItem.disabled
       ) {
         nextItem.setFocus();
@@ -126,7 +126,7 @@ export class TreeView implements ComponentInterface {
     do {
       if (
         previousItem &&
-        previousItem.tagName === 'GOAT-TREE-NODE' &&
+        previousItem.tagName === 'PC-TREE-NODE' &&
         !previousItem.disabled
       ) {
         previousItem.setFocus();
@@ -157,8 +157,6 @@ export class TreeView implements ComponentInterface {
 
   private renderEmptyState() {
     if (this.empty)
-      return (
-        <goat-empty-state class="empty-menu" {...this.internalEmptyState} />
-      );
+      return <pc-empty-state class="empty-menu" {...this.internalEmptyState} />;
   }
 }

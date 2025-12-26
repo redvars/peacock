@@ -1,4 +1,4 @@
-# goat-dropdown
+# pc-dropdown
 
 
 
@@ -18,11 +18,11 @@
 
 ## Events
 
-| Event                       | Description                          | Type               |
-| --------------------------- | ------------------------------------ | ------------------ |
-| `goat-dropdown--close`      | Emitted when the dropdown is closed. | `CustomEvent<any>` |
-| `goat-dropdown--item-click` |                                      | `CustomEvent<any>` |
-| `goat-dropdown--open`       | Emitted when the dropdown is opened. | `CustomEvent<any>` |
+| Event                     | Description                          | Type               |
+| ------------------------- | ------------------------------------ | ------------------ |
+| `pc-dropdown--close`      | Emitted when the dropdown is closed. | `CustomEvent<any>` |
+| `pc-dropdown--item-click` |                                      | `CustomEvent<any>` |
+| `pc-dropdown--open`       | Emitted when the dropdown is opened. | `CustomEvent<any>` |
 
 
 ## Methods

@@ -20,9 +20,9 @@
 
 ## Events
 
-| Event                        | Description           | Type               |
-| ---------------------------- | --------------------- | ------------------ |
-| `goat-calendar--event-click` | Calendar event click. | `CustomEvent<any>` |
+| Event                      | Description           | Type               |
+| -------------------------- | --------------------- | ------------------ |
+| `pc-calendar--event-click` | Calendar event click. | `CustomEvent<any>` |
 
 
 ## Dependencies
@@ -31,33 +31,19 @@
 
 - [pc-button](../../../button)
 - [pc-icon](../../../icon)
-- [goat-select](../../../input-controls/select)
-- [goat-calendar-column-view](column-view)
-- [goat-calendar-month-view](month-view)
+- [pc-calendar-column-view](column-view)
+- [pc-calendar-month-view](month-view)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-calendar --> pc-button
-  goat-calendar --> pc-icon
-  goat-calendar --> goat-select
-  goat-calendar --> goat-calendar-column-view
-  goat-calendar --> goat-calendar-month-view
+  pc-calendar --> pc-button
+  pc-calendar --> pc-icon
+  pc-calendar --> pc-calendar-column-view
+  pc-calendar --> pc-calendar-month-view
   pc-button --> pc-elevation
-  goat-select --> pc-icon
-  goat-select --> pc-tag
-  goat-select --> pc-button
-  goat-select --> goat-menu
-  goat-select --> pc-text
-  goat-select --> goat-menu-item
-  pc-tag --> pc-icon
-  goat-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
-  goat-menu-item --> pc-icon
-  goat-calendar-column-view --> goat-calendar-column-view-background
-  style goat-calendar fill:#f9f,stroke:#333,stroke-width:4px
+  pc-calendar-column-view --> pc-calendar-column-view-background
+  style pc-calendar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

@@ -18,7 +18,6 @@
 
 ### Depends on
 
-- [goat-canvas](../canvas)
 - [pc-icon](../../../icon)
 - [pc-tag](../../../tag)
 - [pc-button-group](../../../button-group)
@@ -27,14 +26,14 @@
 ### Graph
 ```mermaid
 graph TD;
-  goat-flow-designer --> goat-canvas
-  goat-flow-designer --> pc-icon
-  goat-flow-designer --> pc-tag
-  goat-flow-designer --> pc-button-group
-  goat-flow-designer --> pc-button
+  pc-flow-designer --> pc-icon
+  pc-flow-designer --> pc-tag
+  pc-flow-designer --> pc-button-group
+  pc-flow-designer --> pc-button
   pc-tag --> pc-icon
+  pc-tag --> pc-elevation
   pc-button --> pc-elevation
-  style goat-flow-designer fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-flow-designer fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

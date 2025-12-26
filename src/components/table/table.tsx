@@ -115,23 +115,23 @@ export class Table {
   /**
    * Emitted when a table cell is clicked.
    */
-  @Event({ eventName: 'goat-table--cell-click' }) goatCellClick: EventEmitter;
+  @Event({ eventName: 'pc-table--cell-click' }) goatCellClick: EventEmitter;
 
   /**
    * Emitted when the selection changes.
    */
-  @Event({ eventName: 'goat-table--selection-change' })
+  @Event({ eventName: 'pc-table--selection-change' })
   goatSelectChange: EventEmitter;
 
   /**
    * Emitted when the table is sorted.
    */
-  @Event({ eventName: 'goat-table--sort' }) goatSort: EventEmitter;
+  @Event({ eventName: 'pc-table--sort' }) goatSort: EventEmitter;
 
   /**
    * Emitted when the page changes.
    */
-  @Event({ eventName: 'goat-table--page' }) goatPage: EventEmitter;
+  @Event({ eventName: 'pc-table--page' }) goatPage: EventEmitter;
 
   onSelectAllClick = () => {
     let selectedRowKeys = [];
@@ -468,7 +468,7 @@ export class Table {
   private renderEmptyState() {
     return (
       <div class="empty-table">
-        <goat-empty-state
+        <pc-empty-state
           class="empty-state content-center"
           headline={this.emptyStateHeadline}
           description={this.emptyStateDescription}

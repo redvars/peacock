@@ -68,17 +68,17 @@ export class Tag implements ComponentInterface {
   /**
    * Emitted when the tag is clicked.
    */
-  @Event({ eventName: 'pc-tag--click' }) goatClick: EventEmitter;
+  @Event({ eventName: 'tag--click' }) tagClick: EventEmitter;
 
   /**
    * Emitted when the close icon is clicked.
    */
-  @Event({ eventName: 'pc-tag--dismiss' }) goatTagDismissClick: EventEmitter;
+  @Event({ eventName: 'tag--dismiss' }) tagDismissClick: EventEmitter;
 
   @Element() elm!: HTMLElement;
 
   private dismissClickHandler = () => {
-    this.goatTagDismissClick.emit({
+    this.tagDismissClick.emit({
       value: this.value || this.elm.textContent,
     });
   };
@@ -128,11 +128,15 @@ export class Tag implements ComponentInterface {
             [`color-${this.color}`]: true,
           }}
         >
-          {this.renderImage()}
+          <pc-elevation class="elevation"></pc-elevation>
+
+          <div class="tag-background"></div>
+
           <div class="tag-content">
+            {this.renderImage()}
             <slot />
+            {this.renderCloseButton()}
           </div>
-          {this.renderCloseButton()}
         </div>
       </Host>
     );

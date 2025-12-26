@@ -54,43 +54,41 @@ function jumpingSentence(sentence: string) {
 
     <div class='social-icons'>
       <pc-button
-        icon='logo--github'
-        variant='ghost'
-        color='black'
-        dark-mode-color='white'
+        variant='text'
         target='_blank'
         aria-label='Github'
         href={`https://www.github.com/${site.github_username}`}
-      ></pc-button>
+      >
+        <pc-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/github.svg'></pc-icon>
+      </pc-button>
       <pc-button
-        icon='logo--x'
-        color='black'
-        dark-mode-color='white'
-        variant='ghost'
+        variant='text'
         target='_blank'
         aria-label='Twitter'
         href={`https://x.com/${site.twitter_username}`}
-      ></pc-button>
+      >
+        <pc-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/twitter-x.svg'></pc-icon>
+      </pc-button>
     </div>
 
     <div class='made-in-india'>
-      <pc-text expressive>Built by</pc-text>&nbsp;
-      <pc-text expressive>
-        <goat-link class='no-decoration' href={site.author_url}>
+      <p class='pc-text-body-emphasized'>Built by</p>&nbsp;
+      <p class='pc-text-body-emphasized'>
+        <a class='pc-link no-decoration' href={site.author_url}>
           <pc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
           {site.author}
-        </goat-link>
-      </pc-text>
-      <pc-text expressive>.</pc-text>
-      <goat-svg class='country-flag' size='1.5rem'
-                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></goat-svg>
-      <pc-text expressive>Made in India.</pc-text>
+        </a>
+      </p>
+      <p class='pc-text-body-emphasized'>.</p>
+      <pc-svg class='country-flag' size='1.5rem'
+                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></pc-svg>
+      <p class='pc-text-body-emphasized'>Made in India.</p>
     </div>
   </div>
 
 
   <div class='sections-wrapper surface-container'>
-    <goat-container size='max'>
+    <pc-container size='max'>
       <div class='section'>
         <h2 class='pc-text-headline'>Introduction</h2>
         <p class='pc-text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
@@ -119,17 +117,17 @@ function jumpingSentence(sentence: string) {
             </pc-text>
           </li>
           <li>
-            <pc-text expressive>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
+            <p class='pc-text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
           </li>
         </ul>
         <div class='container-code'>
-          <goat-tabs>
-            <goat-tabs-list>
-              <goat-tab>Usage</goat-tab>
-              <goat-tab selected='true'>Load single component</goat-tab>
-            </goat-tabs-list>
+          <pc-tabs>
+            <pc-tabs-list>
+              <pc-tab>Usage</pc-tab>
+              <pc-tab selected='true'>Load single component</pc-tab>
+            </pc-tabs-list>
 
-            <goat-tab-panel>
+            <pc-tab-panel>
               <goat-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('get-started-code').value = `<!DOCTYPE html>
@@ -158,9 +156,9 @@ function jumpingSentence(sentence: string) {
                  &lt;/body>
                  &lt;/html>`;
               </script>
-            </goat-tab-panel>
+            </pc-tab-panel>
 
-            <goat-tab-panel>
+            <pc-tab-panel>
               <goat-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('load-single-component-code').value = `<!DOCTYPE html>
@@ -192,8 +190,8 @@ function jumpingSentence(sentence: string) {
                  &lt;/body>
                  &lt;/html>`;
               </script>
-            </goat-tab-panel>
-          </goat-tabs>
+            </pc-tab-panel>
+          </pc-tabs>
         </div>
       </div>
 
@@ -207,7 +205,7 @@ function jumpingSentence(sentence: string) {
         </pc-button>
       </div>
 
-    </goat-container>
+    </pc-container>
 
 
 

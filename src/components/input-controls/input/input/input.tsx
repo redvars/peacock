@@ -272,14 +272,14 @@ export class Input implements ComponentInterface, InputComponentInterface {
         />
 
         {this.type === 'password' && (
-          <goat-tooltip
+          <pc-tooltip
             content={this.passwordVisible ? 'Show password' : 'Hide password'}
           >
             <pc-button
               color={'secondary'}
               variant="text"
               size={this.size}
-              onGoat-button--click={() => {
+              onButton--click={() => {
                 this.passwordVisible = !this.passwordVisible;
               }}
             >
@@ -288,7 +288,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
                 name={this.passwordVisible ? 'view--off' : 'view'}
               />
             </pc-button>
-          </goat-tooltip>
+          </pc-tooltip>
         )}
 
         <div class="slot-container end">

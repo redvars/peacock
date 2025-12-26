@@ -2,16 +2,16 @@
 
 :host {
   display: inline-block;
-  --goat-popover-tiptab-padding: 0.5rem;
-  --goat-popover-height: inherit;
-  height: var(--goat-popover-height);
+  --pc-popover-tiptab-padding: 0.5rem;
+  --pc-popover-height: inherit;
+  height: var(--pc-popover-height);
 }
 
 .popover {
-  height: var(--goat-popover-height);
+  height: var(--pc-popover-height);
 
   &.tip-tab {
-    padding: var(--goat-popover-tiptab-padding);
+    padding: var(--pc-popover-tiptab-padding);
     line-height: 0;
     transition: background 0.1s ease-out 0s;
 

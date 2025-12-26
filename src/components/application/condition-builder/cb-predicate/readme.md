@@ -26,6 +26,7 @@ graph TD;
   goat-cb-predicate --> goat-cb-divider
   goat-cb-predicate --> pc-tag
   pc-tag --> pc-icon
+  pc-tag --> pc-elevation
   style goat-cb-predicate fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

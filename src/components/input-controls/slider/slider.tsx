@@ -237,7 +237,7 @@ export class Slider implements ComponentInterface, InputComponentInterface {
 
   openTooltip = (target, open) => {
     window.dispatchEvent(
-      new CustomEvent('goat-tooltip-open', {
+      new CustomEvent('pc-tooltip-open', {
         detail: {
           target: target,
           open: open,
@@ -405,13 +405,13 @@ export class Slider implements ComponentInterface, InputComponentInterface {
             </div>
           ) : null}
         </div>
-        <goat-tooltip
+        <pc-tooltip
           id={`slider-tooltip-${this.gid}`}
           placements="top,bottom"
           trigger={'manual'}
         >
           {this.getFormattedValue(this.value)}
-        </goat-tooltip>
+        </pc-tooltip>
       </Host>
     );
   }

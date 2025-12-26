@@ -13,14 +13,15 @@ import {
 import { getComponentIndex } from '../../../utils/utils';
 
 /**
- * @name Menu Item
+ * @label Menu Item
+ * @name menu-item
  * @description Menu items display a list of choices on temporary surfaces.
  * @category Navigation
  * @subcategory Menu
  * @childComponent true
  */
 @Component({
-  tag: 'goat-menu-item',
+  tag: 'pc-menu-item',
   styleUrl: 'menu-item.scss',
   shadow: true,
 })
@@ -71,7 +72,7 @@ export class GoatMenu {
   /**
    * Emitted when the menu item is clicked.
    */
-  @Event({ eventName: 'goat-menu-item--click' })
+  @Event({ eventName: 'pc-menu-item--click' })
   goatMenuItemClick: EventEmitter;
 
   @State() startSlotHasContent = false;

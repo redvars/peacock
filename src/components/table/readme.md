@@ -1,4 +1,4 @@
-# goat-table
+# pc-table
 
 
 
@@ -29,12 +29,12 @@
 
 ## Events
 
-| Event                          | Description                           | Type               |
-| ------------------------------ | ------------------------------------- | ------------------ |
-| `goat-table--cell-click`       | Emitted when a table cell is clicked. | `CustomEvent<any>` |
-| `goat-table--page`             | Emitted when the page changes.        | `CustomEvent<any>` |
-| `goat-table--selection-change` | Emitted when the selection changes.   | `CustomEvent<any>` |
-| `goat-table--sort`             | Emitted when the table is sorted.     | `CustomEvent<any>` |
+| Event                        | Description                           | Type               |
+| ---------------------------- | ------------------------------------- | ------------------ |
+| `pc-table--cell-click`       | Emitted when a table cell is clicked. | `CustomEvent<any>` |
+| `pc-table--page`             | Emitted when the page changes.        | `CustomEvent<any>` |
+| `pc-table--selection-change` | Emitted when the selection changes.   | `CustomEvent<any>` |
+| `pc-table--sort`             | Emitted when the table is sorted.     | `CustomEvent<any>` |
 
 
 ## Dependencies
@@ -43,29 +43,17 @@
 
 - [pc-button](../button)
 - [pc-icon](../icon)
-- [goat-select](../input-controls/select)
-- [goat-empty-state](../application/empty-state)
+- [pc-empty-state](../application/empty-state)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-table --> pc-button
   pc-table --> pc-icon
-  pc-table --> goat-select
-  pc-table --> goat-empty-state
+  pc-table --> pc-empty-state
   pc-button --> pc-elevation
-  goat-select --> pc-icon
-  goat-select --> pc-tag
-  goat-select --> pc-button
-  goat-select --> goat-menu
-  goat-select --> pc-text
-  goat-select --> goat-menu-item
-  pc-tag --> pc-icon
-  goat-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
-  goat-menu-item --> pc-icon
+  pc-empty-state --> pc-icon
+  pc-empty-state --> pc-button
   style pc-table fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

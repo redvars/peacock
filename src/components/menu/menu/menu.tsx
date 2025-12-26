@@ -9,7 +9,8 @@ import {
 } from '@stencil/core';
 
 /**
- * @name Menu
+ * @label Menu
+ * @name menu
  * @description Menus display a list of choices on temporary surfaces.
  * @category Navigation
  * @subcategory Menu
@@ -17,7 +18,7 @@ import {
  * @imgDark /assets/img/menu-dark.webp
  */
 @Component({
-  tag: 'goat-menu',
+  tag: 'pc-menu',
   styleUrl: 'menu.scss',
   shadow: true,
 })
@@ -49,7 +50,7 @@ export class Menu implements ComponentInterface {
     let menuItem = null;
     for (const elm of path) {
       // @ts-ignore
-      if (elm.tagName === 'GOAT-MENU-ITEM') {
+      if (elm.tagName === 'PC-MENU-ITEM') {
         menuItem = elm;
       }
       if (elm !== this.host) continue;
@@ -74,7 +75,7 @@ export class Menu implements ComponentInterface {
   }
 
   getFirstItem() {
-    let firstItem: any = this.host.querySelector('goat-menu-item');
+    let firstItem: any = this.host.querySelector('pc-menu-item');
     if (!firstItem) {
       if (
         this.host.childNodes.length &&
@@ -85,14 +86,14 @@ export class Menu implements ComponentInterface {
         ).assignedElements();
         for (let i = 0; i < assignedElements.length; i++) {
           const item = assignedElements[i] as HTMLElement;
-          if (item.tagName === 'GOAT-MENU-ITEM') {
+          if (item.tagName === 'PC-MENU-ITEM') {
             firstItem = item;
             break;
           }
         }
 
         if (!firstItem) {
-          throw new Error('goat-menu: No menu items found');
+          throw new Error('menu: No menu items found');
         }
       }
     }
@@ -100,7 +101,7 @@ export class Menu implements ComponentInterface {
   }
 
   getLastItem() {
-    let lastItem: any = this.host.querySelector('goat-menu-item:last-child');
+    let lastItem: any = this.host.querySelector('pc-menu-item:last-child');
     if (!lastItem) {
       if (
         this.host.childNodes.length &&
@@ -111,14 +112,14 @@ export class Menu implements ComponentInterface {
         ).assignedElements();
         for (let i = assignedElements.length - 1; i >= 0; i--) {
           const item = assignedElements[i] as HTMLElement;
-          if (item.tagName === 'GOAT-MENU-ITEM') {
+          if (item.tagName === 'PC-MENU-ITEM') {
             lastItem = item;
             break;
           }
         }
 
         if (!lastItem) {
-          throw new Error('goat-menu: No menu items found');
+          throw new Error('pc-menu: No menu items found');
         }
       }
     }
@@ -130,7 +131,7 @@ export class Menu implements ComponentInterface {
     do {
       if (
         nextItem &&
-        nextItem.tagName === 'GOAT-MENU-ITEM' &&
+        nextItem.tagName === 'PC-MENU-ITEM' &&
         !nextItem.disabled
       ) {
         nextItem.setFocus();
@@ -149,7 +150,7 @@ export class Menu implements ComponentInterface {
     do {
       if (
         previousItem &&
-        previousItem.tagName === 'GOAT-MENU-ITEM' &&
+        previousItem.tagName === 'PC-MENU-ITEM' &&
         !previousItem.disabled
       ) {
         previousItem.setFocus();
@@ -178,7 +179,7 @@ export class Menu implements ComponentInterface {
   private renderEmptyState() {
     if (this.empty)
       return (
-        <goat-empty-state
+        <pc-empty-state
           class="empty-menu"
           headline={this.emptyStateHeadline}
           description={this.emptyStateDescription}

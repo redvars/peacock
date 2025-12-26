@@ -18,8 +18,7 @@ $sideBarWidth: 15rem;
 .sidenav {
   width: $sideBarWidth;
   position: fixed;
-  top: var(--header-height);
-  height: calc(100vh - var(--header-height));
+  height: 100vh;
   overflow-y: auto;
   border-right: 1px solid var(--color-outline);
 }
@@ -35,7 +34,6 @@ $sideBarWidth: 15rem;
 }
 
 .main-content {
-  margin-top: var(--header-height);
   margin-inline-start: $sideBarWidth;
   position: relative;
   min-height: calc(100vh - var(--header-height));
@@ -61,7 +59,7 @@ $sideBarWidth: 15rem;
   padding: var(--spacing-200) var(--spacing-400);
 }
 
-.page-tabs > goat-tab-panel {
+.page-tabs > pc-tab-panel {
   padding-top: 1rem;
 }
 

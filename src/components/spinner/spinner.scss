@@ -21,7 +21,7 @@
 }
 
 .spinner__background {
-  stroke: var(--layer-accent);
+  stroke: var(--color-primary-container);
   stroke-linecap: butt;
   fill: rgba(0, 0, 0, 0);
 }
@@ -31,15 +31,16 @@
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
   animation-name: rotate;
-  animation-timing-function: cubic-bezier(0.2, 0.0, 0, 1);
+  animation-timing-function: var(--easing-linear);
   pointer-events: none;
 }
+
 
 .spinner__stroke {
   /*
 
    */
-  color: var(--goat-spinner-color, v(--color-primary));
+  color: var(--pc-spinner-color, v(--color-primary));
   stroke: currentColor;
   stroke-dashoffset: 75;
   stroke-dasharray: 360;
@@ -54,22 +55,6 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-
-@keyframes rainbow {
-  0%   {color:var(--color-primary);}
-  20%  {color:var(--color-blue);}
-  40%  {color:var(--color-red);}
-  60%  {color:var(--color-green);}
-  80% {color:var(--color-yellow);}
-}
-
-:host(.rainbow) .spinner__stroke {
-  color: var(--color-primary);
-  animation-name: rainbow;
-  animation-duration: 5s;
-  animation-iteration-count: infinite;
 }
 
 slot::slotted(*) {

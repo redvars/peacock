@@ -1,4 +1,4 @@
-# goat-menu-item
+# pc-menu-item
 
 
 
@@ -21,16 +21,16 @@
 
 ## Events
 
-| Event                   | Description                            | Type               |
-| ----------------------- | -------------------------------------- | ------------------ |
-| `goat-menu-item--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
+| Event                 | Description                            | Type               |
+| --------------------- | -------------------------------------- | ------------------ |
+| `pc-menu-item--click` | Emitted when the menu item is clicked. | `CustomEvent<any>` |
 
 
 ## Methods
 
 ### `setBlur() => Promise<void>`
 
-Sets blur on the native `input` in `goat-input`. Use this method instead of the global
+Sets blur on the native `input` in `pc-input`. Use this method instead of the global
 `input.blur()`.
 
 #### Returns
@@ -41,7 +41,7 @@ Type: `Promise<void>`
 
 ### `setFocus() => Promise<void>`
 
-Sets focus on the native `input` in `goat-input`. Use this method instead of the global
+Sets focus on the native `input` in `pc-input`. Use this method instead of the global
 `input.focus()`.
 
 #### Returns
@@ -56,7 +56,7 @@ Type: `Promise<void>`
 ### Used by
 
  - [goat-html-editor](../../input-controls/html-editor)
- - [goat-select](../../input-controls/select)
+ - [pc-select](../../input-controls/select)
 
 ### Depends on
 
@@ -65,10 +65,10 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-menu-item --> pc-icon
-  goat-html-editor --> goat-menu-item
-  goat-select --> goat-menu-item
-  style goat-menu-item fill:#f9f,stroke:#333,stroke-width:4px
+  pc-menu-item --> pc-icon
+  goat-html-editor --> pc-menu-item
+  pc-select --> pc-menu-item
+  style pc-menu-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

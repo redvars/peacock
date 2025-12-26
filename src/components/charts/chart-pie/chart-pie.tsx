@@ -12,7 +12,8 @@ import { chartColors, convertToHex } from '../chart-colors';
 import { getColorScale, getPieData } from '../pie/pie';
 
 /**
- * @name Chart Pie
+ * @label Chart Pie
+ * @name chart-pie
  * @description A pie chart (also known as a circle chart) is a circular statistical graphic that visually represents numerical proportions. It is commonly used to illustrate how parts relate to the whole for a specific categorical variable.
  * @category Charts
  * @tag chart
@@ -20,7 +21,7 @@ import { getColorScale, getPieData } from '../pie/pie';
  * @imgDark /assets/img/chart-pie-dark.webp
  */
 @Component({
-  tag: 'goat-chart-pie',
+  tag: 'pc-chart-pie',
   styleUrl: 'chart-pie.scss',
   shadow: true,
 })

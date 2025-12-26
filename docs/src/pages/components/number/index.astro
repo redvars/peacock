@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Component.astro';
 import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import ApiPanel from '../../../components/ApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-const componentDetails = getComponentDetails('goat-number');
+const componentDetails = getComponentDetails('number');
 
 import UsageSection from './_sections/usage.astro';
 import SlotsSection from './_sections/slots.astro';
@@ -26,20 +26,20 @@ const sections = [
   }];
 ---
 <Layout componentDetails={componentDetails}>
-  <goat-tabs class='page-tabs'>
-    <goat-tabs-list>
-      <goat-tab selected='true'>Overview</goat-tab>
-      <goat-tab>Playground</goat-tab>
-      <goat-tab>API</goat-tab>
-    </goat-tabs-list>
-    <goat-tab-panel>
+  <pc-tabs class='page-tabs'>
+    <pc-tabs-list>
+      <pc-tab selected='true'>Overview</pc-tab>
+      <pc-tab>Playground</pc-tab>
+      <pc-tab>API</pc-tab>
+    </pc-tabs-list>
+    <pc-tab-panel>
       <OverviewPanel componentDetails={componentDetails} sections={sections} />
-    </goat-tab-panel>
-    <goat-tab-panel>
-      <goat-notification type='warning'>Work in progress</goat-notification>
-    </goat-tab-panel>
-    <goat-tab-panel>
+    </pc-tab-panel>
+    <pc-tab-panel>
+      <pc-notification type='warning'>Work in progress</pc-notification>
+    </pc-tab-panel>
+    <pc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />
-    </goat-tab-panel>
-  </goat-tabs>
+    </pc-tab-panel>
+  </pc-tabs>
 </Layout>

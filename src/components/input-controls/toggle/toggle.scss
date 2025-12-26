@@ -32,7 +32,6 @@
   }
 
 
-
   .track {
     position: relative;
     background: var(--toogle-track-off-color);
@@ -40,7 +39,7 @@
     border-radius: var(--global-shape-corner-full);
     cursor: pointer;
     display: flex;
-    transition: background-color 200ms cubic-bezier(.2, 0, 0, 1);
+    transition: background-color var(--duration-short2) var(--easing-standard);
     align-items: center;
 
     width: var(--toggle-width);
@@ -51,7 +50,7 @@
     .handle {
       display: block;
       border-radius: var(--global-shape-corner-full);
-      transition: all 200ms cubic-bezier(.2, 0, 0, 1);
+      transition: all var(--duration-short2) var(--easing-standard);
       background: white;
       height: var(--toogle-handle-radius);
       width: var(--toogle-handle-radius);
@@ -73,12 +72,9 @@
 
 }
 
-
-.toggle {
-  --toogle-handle-color: var(--color-outline);
-}
-
 .toggle.state-checked {
+
+
   .track {
     background: var(--toogle-track-color);
   }
@@ -99,6 +95,21 @@
   }
 
 }
+
+.toggle {
+  --toggle-width: 3.25rem;
+  --toggle-height: 2rem;
+  --toogle-handle-radius: 16px;
+  --toogle-handle-color: var(--color-outline);
+
+  &.state-checked {
+    --toogle-handle-radius: 22px;
+    --toogle-handle-color: var(--color-surface-container-lowest);
+  }
+}
+
+
+
 
 .toggle.readonly {
   cursor: default;
@@ -122,20 +133,5 @@
     .handle {
       background: var(--color-on-surface) !important;
     }
-  }
-}
-
-
-
-/**
- * Sizes
- */
-.toggle.size-md {
-  --toggle-width: 3.25rem;
-  --toggle-height: 2rem;
-  --toogle-handle-radius: 16px;
-
-  &.state-checked {
-    --toogle-handle-radius: 22px;
   }
 }

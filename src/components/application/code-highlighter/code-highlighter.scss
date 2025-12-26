@@ -36,8 +36,7 @@
       padding: var(--spacing-200);
       padding-inline-end: 3rem;
       position: relative;
-      @include font-style(code-02);
-
+      
       &.line-numbers {
         margin-left: 3.8rem;
       }
@@ -45,6 +44,7 @@
       .highlighter {
         margin: 0;
         position: relative;
+        @include get-typography(code-medium);
       }
     }
   }

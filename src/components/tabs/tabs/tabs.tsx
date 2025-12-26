@@ -8,7 +8,7 @@ import {
   Prop,
 } from '@stencil/core';
 import { getComponentIndex } from '../../../utils/utils';
-import { GoatTabCustomEvent } from '../../../components';
+import { PcTabCustomEvent } from '../../../components';
 
 /**
  * @label Tabs
@@ -16,15 +16,15 @@ import { GoatTabCustomEvent } from '../../../components';
  * @description The tabs component is used to display multiple panels of content in a container.
  * @category Navigation
  * @tags navigation
- * @example <goat-tabs>
- *   <goat-tabs-list>
- *    <goat-tab selected >Tab 1</goat-tab>
- *    <goat-tab>Tab 2</goat-tab>
- *   </goat-tabs-list>
- * </goat-tabs>
+ * @example <pc-tabs>
+ *   <pc-tabs-list>
+ *    <pc-tab selected >Tab 1</pc-tab>
+ *    <pc-tab>Tab 2</pc-tab>
+ *   </pc-tabs-list>
+ * </pc-tabs>
  */
 @Component({
-  tag: 'goat-tabs',
+  tag: 'pc-tabs',
   styleUrl: 'tabs.scss',
   shadow: true,
 })
@@ -37,8 +37,8 @@ export class Tabs implements ComponentInterface {
   @Prop({ reflect: true }) type: 'contained' | 'contained-bottom' | 'default' =
     'default';
 
-  @Listen('goat-tab--click')
-  tabClick(evt: GoatTabCustomEvent<any>) {
+  @Listen('pc-tab--click')
+  tabClick(evt: PcTabCustomEvent<any>) {
     evt.stopPropagation();
     if (evt.detail.target) {
       this.selectTab(evt.detail.target);
@@ -75,25 +75,25 @@ export class Tabs implements ComponentInterface {
   }
 
   getTabs() {
-    return this.elm.querySelectorAll(':scope > goat-tabs-list goat-tab');
+    return this.elm.querySelectorAll(':scope > pc-tabs-list pc-tab');
   }
 
   getTabList() {
-    return this.elm.querySelector(':scope > goat-tabs-list');
+    return this.elm.querySelector(':scope > pc-tabs-list');
   }
 
   getTabPanels() {
-    return this.elm.querySelectorAll(':scope > goat-tab-panel');
+    return this.elm.querySelectorAll(':scope > pc-tab-panel');
   }
 
   tabsHaveTarget() {
-    return this.elm.querySelector(':scope > goat-tabs-list goat-tab[target]');
+    return this.elm.querySelector(':scope > pc-tabs-list pc-tab[target]');
   }
 
   componentDidLoad() {
     if (!this.tabsHaveTarget()) {
       const tabs = this.getTabs();
-      tabs.forEach((tab: HTMLGoatTabElement, index) => {
+      tabs.forEach((tab: HTMLPcTabElement, index) => {
         tab.setAttribute('target', `tab-${this.gid}-${index}`);
         tab.type = this.type;
       });
@@ -107,7 +107,7 @@ export class Tabs implements ComponentInterface {
       });
       if (tabs.length) this.selectTab(`tab-${this.gid}-0`);
     } else {
-      const selectedTab = this.elm.querySelector('goat-tab[selected]');
+      const selectedTab = this.elm.querySelector('pc-tab[selected]');
       if (selectedTab) this.selectTab(selectedTab['target']);
     }
   }

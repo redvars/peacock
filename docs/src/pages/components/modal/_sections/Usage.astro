@@ -15,22 +15,22 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     Open Modal
   </pc-button>
 
-  <goat-modal id='sample-modal'
+  <pc-modal id='sample-modal'
               size='xs'
               heading='Create User'
               subheading='User management'>
 
-    <goat-modal-content type='text'>
-      <pc-text style='margin-bottom: 1rem'>
+    <pc-modal-content type='text'>
+      <p class='pc-text-body'>
         Modal labels and headings should be set in sentence case. Keep all labels and headings concise and to the point.
         Modal labels are optional.
         <pc-icon size='sm' tooltip-target='save-tooltip-scroll' color='secondary' variant='ghost'
                    name='warning'></pc-icon>
-        <goat-tooltip id='save-tooltip-scroll' placements='bottom,top'>Save the record</goat-tooltip>
-      </pc-text>
-    </goat-modal-content>
+        <pc-tooltip id='save-tooltip-scroll' placements='bottom,top'>Save the record</pc-tooltip>
+      </p>
+    </pc-modal-content>
 
-    <goat-modal-content>
+    <pc-modal-content>
       <pc-input
         type='text'
         class='form-field'
@@ -48,7 +48,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
       <goat-checkbox  layer='01'>Do you like Ice cream?</goat-checkbox>
 
-    </goat-modal-content>
+    </pc-modal-content>
 
     <div slot='footer'>
       <div class='modal-footer'>
@@ -65,7 +65,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     </div>
 
 
-  </goat-modal>
+  </pc-modal>
 
   <style is:inline>
     .modal-footer {
@@ -127,7 +127,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       }, 1000);
     });
 
-    modal.addEventListener('goat-modal--close', () => {
+    modal.addEventListener('pc-modal--close', () => {
       modal.open = false;
       resetForm();
     });

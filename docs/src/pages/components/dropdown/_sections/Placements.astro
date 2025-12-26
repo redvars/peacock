@@ -16,30 +16,30 @@ import MenuItems from './dropdown-menu.astro';
 <goat-card>
   <pc-card-content>
     <div class='component-container'>
-      <goat-dropdown id='dropdown' item-variant='icon' placements='bottom-start,top-start'>
-        <pc-button icon='home' variant='outline'>Open</pc-button>
+      <pc-dropdown id='dropdown' item-variant='icon' placements='bottom-start,top-start'>
+        <pc-button variant='outlined'><pc-icon slot='icon' name='home'><pc-icon></pc-icon>Open</pc-button>
 
         <MenuItems/>
-      </goat-dropdown>
+      </pc-dropdown>
 
-      <goat-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
+      <pc-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
         <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
 
         <MenuItems/>
-      </goat-dropdown>
+      </pc-dropdown>
     </div>
   </pc-card-content>
   <pc-card-content class='no-padding'>
     <Highlighter lang='html'>
-      <goat-dropdown id='dropdown' item-variant='icon' placements='top-start,bottom-start'>
+      <pc-dropdown id='dropdown' item-variant='icon' placements='top-start,bottom-start'>
         <pc-button icon='home' variant='outline'>Open</pc-button>
-        <goat-dropdown-menu>...</goat-dropdown-menu>
-      </goat-dropdown>
+        <pc-dropdown-menu>...</pc-dropdown-menu>
+      </pc-dropdown>
 
-      <goat-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
+      <pc-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
         <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
-        <goat-dropdown-menu>...</goat-dropdown-menu>
-      </goat-dropdown>
+        <pc-dropdown-menu>...</pc-dropdown-menu>
+      </pc-dropdown>
 
     </Highlighter>
   </pc-card-content>

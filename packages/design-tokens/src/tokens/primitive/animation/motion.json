@@ -1,0 +1,47 @@
+{
+  "duration": {
+    "$type": "duration",
+
+    "short1": {
+      "$value": "50ms",
+      "$description": "These are used for small utility-focused transitions. Like checkbox animations."
+    },
+    "short2": {
+      "$value": "100ms",
+      "$description": "These are used for small utility-focused transitions. Like checkbox animations."
+    },
+    "short3": {
+      "$value": "150ms",
+      "$description": "These are used for small utility-focused transitions. Like checkbox animations."
+    },
+    "short4": {
+      "$value": "200ms",
+      "$description": "These are used for small utility-focused transitions. Like checkbox animations."
+    },
+    "medium1": {
+      "$value": "250ms",
+      "$description": "These are used for medium duration transitions, like modal animations."
+    },
+    "medium2": {
+      "$value": "300ms",
+      "$description": "These are used for medium duration transitions, like modal animations."
+    },
+    "long1": {
+      "$value": "450ms",
+      "$description": "These durations are often paired with Emphasized easing."
+    },
+    "long2": {
+      "$value": "500ms",
+      "$description": "These durations are often paired with Emphasized easing."
+    }
+  },
+  "easing": {
+    "$type": "cubicBezier",
+    "standard": {
+      "$value": [0.2, 0, 0, 1]
+    },
+    "linear": {
+      "$value": [0, 0, 1, 1]
+    }
+  }
+}

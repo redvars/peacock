@@ -1,25 +1,23 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<HighlighterCard lang='html' cssClasses={'demo-canvas'}>
+<DemoComponentCard lang='html' cssClasses={'demo-canvas'}>
 
-  <goat-tooltip id='save-tooltip' content='Save the record'>
-    <pc-button icon='save' variant='outline'></pc-button>
-  </goat-tooltip>
+  <pc-tooltip id='save-tooltip' content='Save the record'>
+    <pc-button variant='outlined'><pc-icon slot="icon" name='save'></pc-icon></pc-button>
+  </pc-tooltip>
 
 
-  <br/>
-  <br/>
-  <br/>
 
-  <goat-tooltip placements='bottom-start'>
+  <pc-tooltip placements='bottom-start'>
     <pc-button>Test</pc-button>
 
     <span slot='content'>
         Very large content. Very large content. Very large content.Very large content. Very large content. Very large content.
       </span>
-  </goat-tooltip>
+  </pc-tooltip>
 
-</HighlighterCard>
+</DemoComponentCard>

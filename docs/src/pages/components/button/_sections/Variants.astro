@@ -1,15 +1,12 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<pc-text expressive>Here are several predefined button styles, each serving its own semantic purpose.
-</pc-text>
+<p class='pc-text-body-large'>Here are several predefined button styles, each serving its own semantic purpose.
+</p>
 
-<pc-text expressive>Mix and match the `variant` and `sub-variant` to create a variety of buttons.</pc-text>
-<pc-text>`"simple"` is a simple button without default padding at end.</pc-text>
-<pc-text>`"block"` is a full-width button that spans the full width of its container.</pc-text>
-
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
 
   <pc-button variant='elevated'>Elevated</pc-button>
 
@@ -22,17 +19,11 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   <pc-button variant='text'>Text</pc-button>
 
   <pc-button variant='neo'>Neo-Brutalism</pc-button>
+</DemoComponentCard>
 
-  <br />
-  <br />
-
+<HighlighterCard lang={'html'}>
   <div class='component-container'>
-    <pc-button variant='light.simple'>Light & Simple</pc-button>
+    <pc-button style='width: 100%'>Block</pc-button>
   </div>
-
-  <div class='component-container'>
-    <pc-button variant='block'>Default & Block</pc-button>
-  </div>
-
-
 </HighlighterCard>
+

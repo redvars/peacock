@@ -1,4 +1,4 @@
-# goat-menu
+# pc-menu
 
 
 
@@ -33,15 +33,14 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-empty-state](../empty-state)
+- [pc-empty-state](../empty-state)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-sidenav-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
+  goat-sidenav-menu --> pc-empty-state
+  pc-empty-state --> pc-icon
+  pc-empty-state --> pc-button
   pc-button --> pc-elevation
   style goat-sidenav-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```

@@ -37,7 +37,7 @@ export class Accordion {
   @Listen('accordion--item-click')
   accordionItemClick(evt: PcAccordionItemCustomEvent<any>) {
     if (!this.multiple) {
-      const accordionItems = this.elm.querySelectorAll('goat-accordion-item');
+      const accordionItems = this.elm.querySelectorAll('pc-accordion-item');
       accordionItems.forEach(item => {
         if (item !== evt.detail.element) {
           //@ts-ignore

@@ -28,18 +28,11 @@ const searchItems = componentsDetails.components.map(component => ({
     </div>
 
     <div class="page-context-wrapper">
-      <nav class="top-nav">
+      <!--<nav class="top-nav">
         <goat-header color="white" dark-mode-color="black" class={`header ${!root ? 'border' : ''}`}>
           <div slot="left">
             <goat-header-brand logo="/assets/img/logo-plain.png" href="/#" name={site.title}></goat-header-brand>
 
-            <!--goat-header-action
-          class='hide-tablet-portrait-below'
-          href='/components#'>
-          Docs
-        </goat-header-action-->
-
-            <goat-header-action class="hide-tablet-portrait-below" href="/components#"> Components </goat-header-action>
           </div>
 
           <div slot="right">
@@ -50,32 +43,30 @@ const searchItems = componentsDetails.components.map(component => ({
 
             <pc-divider class="header-divider hide-tablet-portrait-below" vertical></pc-divider>
 
-            <goat-header-action class="dir-switcher hide-tablet-portrait-below" aria-label="Direction switcher">LTR </goat-header-action>
-
             <goat-header-action icon="github" aria-label="View Github" href={`https://github.com/${site.github_username}/${site.github_project}`} target="_blank"
             ></goat-header-action>
 
             <goat-header-action class="show-tablet-portrait-below" aria-label="Menu" id="header-menu-btn" icon="menu"></goat-header-action>
           </div>
         </goat-header>
-      </nav>
+      </nav>-->
 
       <div id="header-menu">
         <div class="header-menu-head">
           <pc-button id="header-menu-close-btn" variant="text" icon="close" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></pc-button>
         </div>
 
-        <goat-menu class="header-menu-list no-border">
-          <goat-menu-item href="/components#">
+        <pc-menu class="header-menu-list no-border">
+          <pc-menu-item href="/components#">
             <pc-icon name="roadmap" slot="start" size="sm"></pc-icon>&nbsp; Components
-          </goat-menu-item>
-          <goat-menu-item href="/blog#">
+          </pc-menu-item>
+          <pc-menu-item href="/blog#">
             <pc-icon name="blog" slot="start" size="sm"></pc-icon>&nbsp; Blog
-          </goat-menu-item>
-          <goat-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
+          </pc-menu-item>
+          <pc-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
             <pc-icon name="currency--rupee" slot="start" size="sm"></pc-icon>&nbsp; Sponsor
-          </goat-menu-item>
-        </goat-menu>
+          </pc-menu-item>
+        </pc-menu>
       </div>
 
       <main class={classes}>

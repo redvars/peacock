@@ -22,7 +22,8 @@ import * as beautify from 'js-beautify/js';
 import { computePosition, offset } from '@floating-ui/dom';
 
 /**
- * @name HTML Editor
+ * @label HTML Editor
+ * @name html-editor
  * @description HTML Editor component is a WYSIWYG editor that allows users to edit HTML content.
  * @category Form Inputs
  * @tags input, form
@@ -382,7 +383,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                   <pc-button
                     class={'action'}
                     color="white"
-                    onGoat-button--click={action.action}
+                    onButton--click={action.action}
                   >
                     <pc-icon slot="icon" name={action.icon} />
                   </pc-button>
@@ -491,12 +492,12 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
 
           {!this.showHtml && !this.editorInstance && (
             <div class="editor-loader">
-              <goat-spinner />
+              <pc-spinner />
               Loading editor...
             </div>
           )}
 
-          <goat-code-editor
+          <pc-code-editor
             class={{ 'html-code-editor': true, 'hidden': !this.showHtml }}
             value={this.value}
             readonly={this.readonly}
@@ -505,7 +506,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             onGoat-code-editor--change={evt => {
               this.value = evt.detail.value;
             }}
-          ></goat-code-editor>
+          ></pc-code-editor>
 
           {this.showToolbar && (
             <div class={'html-editor-footer'}>
@@ -526,7 +527,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
           )}
         </div>
 
-        <goat-menu
+        <pc-menu
           class={{ 'mention-menu': true, 'show': this.showDropdown }}
           ref={elm => (this.dropdownContent = elm)}
           onGoat-menu-item--click={evt => {
@@ -537,11 +538,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
           {this.filteredMentionValues.map(value => {
             const item = this.getMentionItem(value);
 
-            return (
-              <goat-menu-item value={item.value}>{item.label}</goat-menu-item>
-            );
+            return <pc-menu-item value={item.value}>{item.label}</pc-menu-item>;
           })}
-        </goat-menu>
+        </pc-menu>
       </Host>
     );
   }
@@ -552,5 +551,5 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
 
   mentionProps: any;
   queryRange: any;
-  dropdownContent: HTMLGoatMenuElement;
+  dropdownContent: HTMLPcMenuElement;
 }

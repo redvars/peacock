@@ -1,4 +1,4 @@
-# goat-dropdown
+# pc-dropdown
 
 
 
@@ -23,18 +23,17 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [goat-menu](../../menu/menu)
+- [pc-menu](../../menu/menu)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-dropdown-menu --> goat-menu
-  goat-menu --> goat-empty-state
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
+  pc-dropdown-menu --> pc-menu
+  pc-menu --> pc-empty-state
+  pc-empty-state --> pc-icon
+  pc-empty-state --> pc-button
   pc-button --> pc-elevation
-  style goat-dropdown-menu fill:#f9f,stroke:#333,stroke-width:4px
+  style pc-dropdown-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

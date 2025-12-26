@@ -22,13 +22,20 @@
  - [pc-input](../input-controls/input/input)
  - [pc-slider](../input-controls/slider)
 
+### Depends on
+
+- [pc-popover](../popover/popover)
+- [pc-popover-content](../popover/popover-content)
+
 ### Graph
 ```mermaid
 graph TD;
-  goat-code-highlighter --> goat-tooltip
-  pc-input --> goat-tooltip
-  pc-slider --> goat-tooltip
-  style goat-tooltip fill:#f9f,stroke:#333,stroke-width:4px
+  pc-tooltip --> pc-popover
+  pc-tooltip --> pc-popover-content
+  goat-code-highlighter --> pc-tooltip
+  pc-input --> pc-tooltip
+  pc-slider --> pc-tooltip
+  style pc-tooltip fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

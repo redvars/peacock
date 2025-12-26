@@ -6,11 +6,11 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   <pc-button id='randomize'>Randomize</pc-button>
   <br />
 
-  <goat-chart-pie width='400' margin='20'></goat-chart-pie>
+  <pc-chart-pie width='400' margin='20'></pc-chart-pie>
 
 
   <script is:inline>
-    const chart = document.querySelector('goat-chart-pie');
+    const chart = document.querySelector('pc-chart-pie');
     chart.label = "Browsers";
     chart.data = [
       { label: 'Firefox', value: 10, color: '--color-red-60', hoverColor: '--color-red-80' },

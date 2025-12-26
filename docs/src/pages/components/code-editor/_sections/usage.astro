@@ -5,7 +5,7 @@ import Highlighter from '../../../../components/Highlighter.astro'
   <pc-card-content>
     <goat-checkbox id='disableEditor'>Disable editor</goat-checkbox>
 
-    <goat-code-editor id='business-rule-editor' style='display:block; height: 300px'></goat-code-editor>
+    <pc-code-editor id='business-rule-editor' style='display:block; height: 300px'></pc-code-editor>
     <script is:inline>
       document.getElementById('business-rule-editor').value = `/**
 * Sample Code
@@ -24,7 +24,7 @@ function myBusinessRuleFunction(){
   </pc-card-content>
   <pc-card-content class='no-padding'>
     <Highlighter lang={'html'}>
-      <goat-code-editor id='business-rule-editor' style='height: 300px'></goat-code-editor>
+      <pc-code-editor id='business-rule-editor' style='height: 300px'></pc-code-editor>
     </Highlighter>
   </pc-card-content>
   <pc-card-content class='no-padding'>

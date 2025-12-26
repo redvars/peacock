@@ -35,7 +35,8 @@ type Notification = {
 };
 
 /**
- * @name Notification Manager
+ * @label Notification Manager
+ * @name notification-manager
  * @description The Notification Manager handles the organization and display of notifications within the application.
  * @category Informational
  * @tags notification
@@ -43,7 +44,7 @@ type Notification = {
  * @imgDark /assets/img/notification-manager-dark.webp
  */
 @Component({
-  tag: 'goat-notification-manager',
+  tag: 'pc-notification-manager',
   styleUrl: 'notification-manager.scss',
   shadow: true,
 })
@@ -62,7 +63,7 @@ export class NotificationManager implements ComponentInterface {
   @State() notifications: any = [];
   @State() isDarkMode: boolean = isDarkMode();
 
-  @Listen('goat-notification', { target: 'window' })
+  @Listen('pc-notification', { target: 'window' })
   listenNotification(evt: CustomEvent) {
     if (
       (evt.detail.target === this.name || this.name === 'global') &&
@@ -99,7 +100,7 @@ export class NotificationManager implements ComponentInterface {
     }
   }
 
-  @Listen('goat-notification-dismiss', { target: 'window' })
+  @Listen('pc-notification-dismiss', { target: 'window' })
   listenNotificationDismiss(evt: CustomEvent) {
     const notifications = this.notifications.filter(n =>
       evt.detail.notifications.includes(n.id),
@@ -116,7 +117,7 @@ export class NotificationManager implements ComponentInterface {
 
   renderNotification(notification) {
     return (
-      <goat-notification
+      <pc-notification
         state={notification.state}
         action={notification.action}
         managed={true}
@@ -132,7 +133,7 @@ export class NotificationManager implements ComponentInterface {
           innerHTML={DOMPurify.sanitize(notification.subtitle)}
           slot="subtitle"
         />
-      </goat-notification>
+      </pc-notification>
     );
   }
 

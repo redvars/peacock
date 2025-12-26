@@ -22,29 +22,27 @@
 
 ### Used by
 
- - [goat-menu](../../menu/menu)
  - [goat-sidenav-menu](../sidenav-menu)
+ - [pc-menu](../../menu/menu)
  - [pc-table](../../table)
  - [pc-tree-view](../../tree-view/tree-view)
 
 ### Depends on
 
-- [goat-svg](../../svg)
-- [pc-button](../../button)
 - [pc-icon](../../icon)
+- [pc-button](../../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  goat-empty-state --> goat-svg
-  goat-empty-state --> pc-button
-  goat-empty-state --> pc-icon
+  pc-empty-state --> pc-icon
+  pc-empty-state --> pc-button
   pc-button --> pc-elevation
-  goat-menu --> goat-empty-state
-  goat-sidenav-menu --> goat-empty-state
-  pc-table --> goat-empty-state
-  pc-tree-view --> goat-empty-state
-  style goat-empty-state fill:#f9f,stroke:#333,stroke-width:4px
+  goat-sidenav-menu --> pc-empty-state
+  pc-menu --> pc-empty-state
+  pc-table --> pc-empty-state
+  pc-tree-view --> pc-empty-state
+  style pc-empty-state fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

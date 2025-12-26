@@ -10,7 +10,8 @@ import {
 } from '@stencil/core';
 
 /**
- * @name Modal
+ * @label Modal
+ * @name modal
  * @description  Modals are used to display content in a layer above the app.
  * @category Informational
  * @subcategory Modal
@@ -19,7 +20,7 @@ import {
  * @imgDark /assets/img/modal-dark.webp
  */
 @Component({
-  tag: 'goat-modal',
+  tag: 'pc-modal',
   styleUrl: 'modal.scss',
   shadow: true,
 })
@@ -53,9 +54,9 @@ export class Modal {
   @Prop({ reflect: true }) showLoader: boolean = false;
 
   /**
-   * On click of button, a CustomEvent 'goat-modal--close' will be triggered.
+   * On click of button, a CustomEvent 'pc-modal--close' will be triggered.
    */
-  @Event({ eventName: 'goat-modal--close' }) goatModalClose: EventEmitter;
+  @Event({ eventName: 'pc-modal--close' }) goatModalClose: EventEmitter;
 
   @Watch('open')
   watchHandler(newValue: boolean) {
@@ -107,18 +108,18 @@ export class Modal {
                   <div class="modal-header">
                     <div class="modal-heading-section">
                       {this.subheading && (
-                        <span
-                          class="modal-subheading text-label"
+                        <h3
+                          class="modal-subheading pc-text-label"
                           color="secondary"
                         >
                           {this.subheading}
-                        </span>
+                        </h3>
                       )}
 
                       {this.heading && (
-                        <span class="modal-heading text-headline">
+                        <h2 class="modal-heading pc-text-headline">
                           {this.heading}
-                        </span>
+                        </h2>
                       )}
                     </div>
                     <div class="action-container">
@@ -128,7 +129,7 @@ export class Modal {
                           class="close-icon cancel-button"
                           color="black"
                           variant="text"
-                          onGoat-button--click={() => {
+                          onButton--click={() => {
                             this.closeModal();
                           }}
                         >
@@ -145,7 +146,7 @@ export class Modal {
                   {this.showLoader && (
                     <div class="modal__loading">
                       <div class="modal__loading-background"></div>
-                      <goat-spinner size="2rem"></goat-spinner>
+                      <pc-spinner size="2rem"></pc-spinner>
                     </div>
                   )}
                 </div>

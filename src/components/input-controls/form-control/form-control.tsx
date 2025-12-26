@@ -8,16 +8,17 @@ import {
 } from '@stencil/core';
 
 /**
- * @name Form Control
+ * @label Form Control
+ * @name form-control
  * @description The Form Control component adds a label and caption for its child control.
  * @category Form Inputs
  * @tags form
- * @example <goat-form-control label='Full Name' required>
+ * @example <pc-form-control label='Full Name' required>
  *   <pc-input type='text'></pc-input>
- * </goat-form-control>
+ * </pc-form-control>
  */
 @Component({
-  tag: 'goat-form-control',
+  tag: 'pc-form-control',
   styleUrl: 'form-control.scss',
   shadow: true,
 })
@@ -59,7 +60,7 @@ export class FormControl implements ComponentInterface {
       'goat-select',
       'goat-checkbox',
       'goat-radio',
-      'goat-code-editor',
+      'pc-code-editor',
     ]) {
       const controlElm = this.elm.querySelector(`${compName}`);
       if (controlElm) return controlElm;
