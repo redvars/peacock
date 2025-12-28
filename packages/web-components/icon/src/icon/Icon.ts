@@ -8,21 +8,29 @@ import { fetchIcon, fetchSVG } from './datasource.js';
  * Icons are visual symbols used to represent ideas, objects, or actions.
  *
  * @element pc-icon
- * @cssprop --counter-color - Controls the color of the count display.
+ * @cssprop --icon-size - Controls the size of the icon.
+ * @cssprop --icon-color - Controls the color of the icon.
  */
 export class Icon extends LitElement {
   static styles = css`
     :host {
       display: inline-block;
       line-height: 0;
-      --icon-size: inherit;
+      --icon-size: 1rem;
       --icon-color: inherit;
+    }
+
+    /**
+     * Local variables
+     */
+    .icon {
+      --__icon-size: var(--icon-size, 1rem);
     }
 
     .icon {
       display: inline-block;
-      height: var(--icon-size, 1rem);
-      width: var(--icon-size, 1rem);
+      height: var(--__icon-size);
+      width: var(--__icon-size);
 
       svg {
         fill: var(--icon-color);
@@ -37,7 +45,7 @@ export class Icon extends LitElement {
   @property({ type: String }) src? = '';
 
   @state()
-  private svgContent: string = '';
+  private svgContent: string | null;
 
   async fetchSvg() {
     if (this.name) {

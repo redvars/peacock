@@ -1,6 +1,6 @@
 {
-  "name": "pc-button",
-  "description": "Webcomponent pc-button following open-wc recommendations",
+  "name": "pc-icon",
+  "description": "Webcomponent pc-icon following open-wc recommendations",
   "license": "MIT",
   "author": "pc-button",
   "version": "0.0.0",
