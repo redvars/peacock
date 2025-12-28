@@ -7,11 +7,10 @@ const PROVIDERS: Record<string, (name: string) => string> = {
     `'https://cdn.jsdelivr.net/npm/@carbon/icons@11.41.0/svg/${name}.svg`,
 };
 
+const cacheFetch = await createCacheFetch('svg-cache');
+
 export async function fetchSVG(url: string) {
   if (!url) return '';
-
-  const cacheFetch = await createCacheFetch('svg-cache');
-
   return cacheFetch(url);
 }
 

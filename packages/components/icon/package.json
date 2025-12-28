@@ -10,7 +10,7 @@
   },
   "license": "Apache-2.0",
   "author": "Shivaji Varma <contact@shivajivarma.com>",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",

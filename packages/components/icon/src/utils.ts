@@ -1,89 +1,77 @@
-export async function createCacheFetch(
-  name: string,
-  defaults?: { forceRefresh?: boolean },
-) {
-  const defaultForce = defaults?.forceRefresh ?? false;
-  let cachePromise: Promise<Cache | null> | null = null;
+export async function createCacheFetch(name: string) {
+  let cache: Cache | null = null;
+  // This map tracks requests currently being processed
+  const inFlightRequests = new Map<string, Promise<string>>();
 
-  if ('caches' in window) {
-    try {
-      cachePromise = window.caches.open(name).catch(() => null);
-    } catch {
-      cachePromise = Promise.resolve(null);
-    }
-  } else {
-    cachePromise = Promise.resolve(null);
+  try {
+    cache = await window.caches.open(name);
+  } catch (e) {
+    console.warn('window.caches access not allowed');
   }
 
-  return async (url: string, opts?: { forceRefresh?: boolean }) => {
-    const force = opts?.forceRefresh ?? defaultForce;
-    const resolvedUrl = new URL(url, window.location.href).href;
-    const sameOrigin = new URL(resolvedUrl).origin === window.location.origin;
-    const request = new Request(resolvedUrl, {
-      method: 'GET',
-      mode: sameOrigin ? 'same-origin' : 'cors',
-      credentials: sameOrigin ? 'same-origin' : 'omit',
-    });
-
-    const cache = cachePromise ? await cachePromise : null;
-
-    // Return cached value if present and not forcing refresh
-    if (!force && cache) {
-      try {
-        const cached = await cache.match(request);
-        if (cached) return await cached.text();
-      } catch {
-        // ignore cache read errors and continue to fetch
-      }
+  return async (url: string): Promise<string> => {
+    // 1. Check if we are already fetching this URL
+    if (inFlightRequests.has(url)) {
+      // Return the existing promise instead of starting a new one
+      return inFlightRequests.get(url)!;
     }
 
-    // Fetch from network and update cache if possible
-    try {
-      const response = await fetch(request);
-      if (!response.ok) {
-        if (response.status === 404) {
-          console.error(`Icon ${url} not found`);
-          return '';
+    // 2. Create the main logic as a promise
+    const fetchPromise = (async () => {
+      const request = new Request(url);
+
+      // Check Cache first
+      if (cache) {
+        const cachedResponse = await cache.match(request);
+        if (cachedResponse) {
+          return await cachedResponse.text();
         }
-        // On non-ok response, try to return cached result if available
-        if (cache) {
-          const cached = await cache.match(request);
-          if (cached) return await cached.text();
-        }
-        throw new Error(
-          `Fetch failed: ${response.status} ${response.statusText}`,
+      }
+
+      // Prepare network request
+      const urlObj = new URL(request.url);
+      const isSameOrigin = urlObj.origin === window.location.origin;
+
+      const response = await fetch(request.url, {
+        method: 'GET',
+        mode: isSameOrigin ? 'no-cors' : 'cors',
+        credentials: isSameOrigin ? 'same-origin' : 'omit',
+      });
+
+      // --- Handle 404 ---
+      if (response.status === 404) {
+        console.error(`[Fetch Error] Resource not found (404): ${url}`);
+        return ''; // Return empty string as requested
+      }
+
+      const result = await response.text();
+
+      // Update Cache if applicable
+      if (cache && response.status === 200) {
+        // We clone the response logic by creating a new Response with the text body
+        await cache.put(
+          request,
+          new Response(result, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+          }),
         );
       }
 
-      const text = await response.text();
+      return result;
+    })();
 
-      if (cache && response.status === 200) {
-        // Preserve response headers (e.g. content-type) when storing
-        const headers = new Headers();
-        response.headers.forEach((v, k) => headers.set(k, v));
-        try {
-          await cache.put(
-            request,
-            new Response(text, { status: 200, headers }),
-          );
-        } catch {
-          // ignore cache put failures
-        }
-      }
+    // 3. Store the promise in the map
+    inFlightRequests.set(url, fetchPromise);
 
-      return text;
-    } catch (err) {
-      console.error('Fetch error', err);
-      // On fetch error, fallback to cache if available
-      if (cache) {
-        try {
-          const cached = await cache.match(request);
-          if (cached) return await cached.text();
-        } catch {
-          // ignore cache read errors
-        }
-      }
-      return '';
+    try {
+      // 4. Wait for the result
+      return await fetchPromise;
+    } finally {
+      // 5. Clean up: Remove the promise from the map when done
+      // This ensures subsequent calls (after this one finishes) can start fresh
+      inFlightRequests.delete(url);
     }
   };
 }
