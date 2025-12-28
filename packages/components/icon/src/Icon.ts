@@ -5,7 +5,7 @@ import { fetchIcon, fetchSVG } from './datasource.js';
 import { sanitizeSvg } from './utils.js';
 
 /**
- * Icons are visual symbols used to represent ideas, objects, or actions.
+ * @summary Icons are visual symbols used to represent ideas, objects, or actions.
  *
  * @cssprop --icon-color - Controls the color of the icon.
  * @cssprop --icon-size - Controls the size of the icon.
@@ -32,9 +32,12 @@ export class Icon extends LitElement {
     }
   `;
 
-  @property({ type: String }) name? = 'home';
+  @property({ type: String, reflect: true }) name? = 'home';
 
-  @property({ type: String }) src? = '';
+  @property({ type: String, reflect: true }) src? = '';
+
+  @property({ type: String }) provider?: 'material-symbols' | 'carbon' =
+    'material-symbols';
 
   // optional accessible label
   @property({ type: String }) label? = '';
@@ -104,7 +107,7 @@ export class Icon extends LitElement {
       let raw: string | undefined;
 
       if (this.name) {
-        raw = await fetchIcon(this.name);
+        raw = await fetchIcon(this.name, this.provider);
       } else if (this.src) {
         raw = await fetchSVG(this.src);
       } else {

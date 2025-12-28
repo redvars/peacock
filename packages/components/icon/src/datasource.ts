@@ -4,7 +4,7 @@ const PROVIDERS: Record<string, (name: string) => string> = {
   'material-symbols': (name: string) =>
     `https://cdn.jsdelivr.net/npm/@material-symbols/svg-500@0.40.1/outlined/${name}.svg`,
   carbon: (name: string) =>
-    `'https://cdn.jsdelivr.net/npm/@carbon/icons@11.41.0/svg/${name}.svg`,
+    `https://cdn.jsdelivr.net/npm/@carbon/icons@11.41.0/svg/32/${name}.svg`,
 };
 
 const cacheFetch = await createCacheFetch('svg-cache');
