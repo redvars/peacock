@@ -39,9 +39,6 @@ export class Icon extends LitElement {
   @property({ type: String }) provider?: 'material-symbols' | 'carbon' =
     'material-symbols';
 
-  // optional accessible label
-  @property({ type: String }) label? = '';
-
   @state()
   private svgContent: string = '';
 
@@ -72,8 +69,7 @@ export class Icon extends LitElement {
 
   render() {
     // accessible wrapper; consumers can provide a fallback via <slot name="fallback">.
-    const ariaLabel = this.label || this.name || this.src || '';
-    return html` <div class="icon" role="img" aria-label=${ariaLabel}>
+    return html` <div class="icon">
       ${this.svgContent
         ? unsafeSVG(this.svgContent)
         : html`<slot name="fallback"></slot>`}

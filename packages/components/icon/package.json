@@ -2,11 +2,11 @@
   "name": "@redvars/peacock-icon",
   "description": "Webcomponent icon following open-wc recommendations",
   "bugs": {
-    "url": "https://github.com/goatui/components/issues"
+    "url": "https://github.com/redvars/peacock/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goatui/components.git"
+    "url": "git+https://github.com/redvars/peacock.git"
   },
   "license": "Apache-2.0",
   "author": "Shivaji Varma <contact@shivajivarma.com>",
@@ -16,10 +16,10 @@
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./pc-icon.js": "./dist/src/pc-icon.js"
+    "./p-icon.js": "./dist/src/p-icon.js"
   },
   "scripts": {
-    "analyze": "cem analyze --litelement",
+    "analyze": "cem analyze --litelement --globs \"src/Icon.ts\"  && node readme-gen.mjs",
     "start": "rollup -c && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\"",
     "build": "rollup -c && npm run analyze -- --exclude dist",
     "prepublish": "rollup -c && npm run analyze -- --exclude dist",
@@ -33,22 +33,24 @@
     "lit": "^3.1.4"
   },
   "devDependencies": {
-    "lit-html": "^3.1.4",
-    "@rollup/plugin-commonjs": "^29.0.0",
+    "@custom-elements-manifest/to-markdown": "^0.1.0",
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@open-wc/eslint-config": "^12.0.3",
     "@open-wc/testing": "^4.0.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@types/mocha": "^10.0.7",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@web/dev-server": "^0.4.6",
     "@web/test-runner": "^0.18.2",
-    "@rollup/plugin-typescript": "^12.3.0",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
+    "lit-html": "^3.1.4",
     "prettier": "^3.3.2",
     "rollup-plugin-scss-lit": "^2.1.0",
     "sass": "^1.97.1",
