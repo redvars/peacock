@@ -2,12 +2,13 @@ import { css, html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { fetchIcon, fetchSVG } from './datasource.js';
+import { sanitizeSvg } from './utils.js';
 
 /**
  * Icons are visual symbols used to represent ideas, objects, or actions.
  *
- * @element pc-icon
- * @cssprop --counter-color - Controls the color of the count display.
+ * @cssprop --icon-color - Controls the color of the icon.
+ * @cssprop --icon-size - Controls the size of the icon.
  */
 export class Icon extends LitElement {
   static styles = css`
@@ -71,43 +72,6 @@ export class Icon extends LitElement {
     await this.__updateSvg();
   }
 
-  // Basic sanitization: remove <script>, <foreignObject>, event handler attributes (on*), and iframes
-  private __sanitizeSvg(rawSvg: string) {
-    try {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(rawSvg, 'image/svg+xml');
-
-      // remove script tags
-      const scripts = Array.from(doc.querySelectorAll('script'));
-      scripts.forEach(n => n.remove());
-
-      // remove foreignObject and iframe-like elements
-      const foreigns = Array.from(
-        doc.querySelectorAll('foreignObject, iframe'),
-      );
-      foreigns.forEach(n => n.remove());
-
-      // remove event handler attributes like onload, onclick, etc.
-      const all = Array.from(doc.querySelectorAll('*'));
-      all.forEach(el => {
-        const attrs = Array.from(el.attributes).filter(a =>
-          /^on/i.test(a.name),
-        );
-        attrs.forEach(a => el.removeAttribute(a.name));
-      });
-
-      const el = doc.documentElement;
-      if (!el) return '';
-
-      // serialize back to string
-      const serializer = new XMLSerializer();
-      return serializer.serializeToString(el);
-    } catch (e) {
-      // parsing failed; fall back to empty content to avoid injecting unsafe content
-      return '';
-    }
-  }
-
   render() {
     // accessible wrapper; consumers can provide a fallback via <slot name="fallback">.
     const ariaLabel = this.label || this.name || this.src || '';
@@ -127,6 +91,9 @@ export class Icon extends LitElement {
     this._debounceTimer = window.setTimeout(() => this.__updateSvg(), 50);
   }
 
+  /**
+   * @internal
+   */
   private async __updateSvg() {
     this._fetchId += 1;
     const currentId = this._fetchId;
@@ -148,7 +115,7 @@ export class Icon extends LitElement {
       if (currentId !== this._fetchId) return;
 
       if (raw) {
-        this.svgContent = this.__sanitizeSvg(raw);
+        this.svgContent = sanitizeSvg(raw);
       } else {
         this.svgContent = '';
       }
@@ -158,7 +125,7 @@ export class Icon extends LitElement {
       this.svgContent = '';
       // bubble an event so consumers can react
       this.dispatchEvent(
-        new CustomEvent('pc-icon-error', {
+        new CustomEvent('icon-error', {
           detail: { name: this.name, src: this.src, error: this.error },
           bubbles: true,
           composed: true,

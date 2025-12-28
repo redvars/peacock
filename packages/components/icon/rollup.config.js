@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { litScss } from 'rollup-plugin-scss-lit';
 
 export default {
-  input: 'src/pc-icon.ts', // Your main TypeScript entry file
+  input: 'src/index.ts', // Your main TypeScript entry file
   output: {
     dir: 'dist',
     format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
