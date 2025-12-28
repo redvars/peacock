@@ -1,6 +1,6 @@
 {
-  "name": "@peacockui/icon",
-  "description": "Webcomponent pc-icon following open-wc recommendations",
+  "name": "@redvars/peacock-icon",
+  "description": "Webcomponent icon following open-wc recommendations",
   "bugs": {
     "url": "https://github.com/goatui/components/issues"
   },
