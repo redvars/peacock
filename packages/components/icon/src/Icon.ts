@@ -70,11 +70,6 @@ export class Icon extends LitElement {
     }
   }
 
-  // public wrapper kept for compatibility but delegates to internal guarded updater
-  async fetchSvg() {
-    await this.__updateSvg();
-  }
-
   render() {
     // accessible wrapper; consumers can provide a fallback via <slot name="fallback">.
     const ariaLabel = this.label || this.name || this.src || '';
