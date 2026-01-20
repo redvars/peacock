@@ -17,3 +17,5 @@ console.log(JSON.stringify(ColorUtils.generateTheme('#4589ff'), null, 2));
 /*console.log(
   JSON.stringify(ColorUtils.generatePalette('#252525', 'neutral'), null, 2),
 );*/
+
+//console.log(JSON.stringify(ColorUtils.onBaselineColor('error'), null, 2));

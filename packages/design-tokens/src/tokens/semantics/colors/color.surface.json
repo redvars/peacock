@@ -1,0 +1,138 @@
+{
+  "color": {
+    "$type": "color",
+
+    "surface": {
+      "$value": "{color.neutral.99}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.10}"
+        }
+      }
+    },
+    "onSurface": {
+      "$value": "{color.neutral.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.90}"
+        }
+      }
+    },
+    "surfaceVariant": {
+      "$value": "{color.neutralVariant.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.30}"
+        }
+      }
+    },
+    "onSurfaceVariant": {
+      "$value": "{color.neutralVariant.30}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.80}"
+        }
+      }
+    },
+
+    "inverseSurface": {
+      "$value": "{color.neutral.20}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.90}"
+        }
+      }
+    },
+    "inverseOnSurface": {
+      "$value": "{color.neutral.95}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.20}"
+        }
+      }
+    },
+
+    "surfaceContainerHighest": {
+      "$value": "{color.neutral.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.22}"
+        }
+      }
+    },
+    "surfaceContainerHigh": {
+      "$value": "{color.neutral.92}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.17}"
+        }
+      }
+    },
+    "surfaceContainer": {
+      "$value": "{color.neutral.94}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.12}"
+        }
+      }
+    },
+    "surfaceContainerLow": {
+      "$value": "{color.neutral.96}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.10}"
+        }
+      }
+    },
+    "surfaceContainerLowest": {
+      "$value": "{color.neutral.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.4}"
+        }
+      }
+    },
+    "surfaceDim": {
+      "$value": "{color.neutral.87}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.6}"
+        }
+      }
+    },
+
+    "outline": {
+      "$value": "{color.neutralVariant.50}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.60}"
+        }
+      }
+    },
+    "outlineVariant": {
+      "$value": "{color.neutralVariant.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutralVariant.30}"
+        }
+      }
+    },
+
+    "shadow": {
+      "$value": "{color.neutral.0}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.0}"
+        }
+      }
+    },
+    "scrim": {
+      "$value": "{color.neutral.0}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.neutral.0}"
+        }
+      }
+    }
+  }
+}

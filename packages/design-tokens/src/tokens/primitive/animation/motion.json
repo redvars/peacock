@@ -1,7 +1,6 @@
 {
   "duration": {
     "$type": "duration",
-
     "short1": {
       "$value": "50ms",
       "$description": "These are used for small utility-focused transitions. Like checkbox animations."

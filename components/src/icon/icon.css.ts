@@ -1,0 +1,22 @@
+import { css } from 'lit';
+
+export const styles = css`
+  :host {
+    display: inline-block;
+    line-height: 0;
+    --icon-size: inherit;
+    --icon-color: inherit;
+  }
+
+  .icon {
+    display: inline-block;
+    height: var(--icon-size, 1rem);
+    width: var(--icon-size, 1rem);
+
+    svg {
+      fill: var(--icon-color);
+      height: 100%;
+      width: 100%;
+    }
+  }
+`;

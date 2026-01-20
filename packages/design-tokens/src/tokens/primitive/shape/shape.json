@@ -1,0 +1,20 @@
+{
+  "shape-corner": {
+    "$type": "dimension",
+    "full": {
+      "$value": "9999px"
+    },
+    "large": {
+      "$value": "12px"
+    },
+    "medium": {
+      "$value": "8px"
+    },
+    "small": {
+      "$value": "4px"
+    },
+    "none": {
+      "$value": "0px"
+    }
+  }
+}

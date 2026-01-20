@@ -273,7 +273,7 @@ export namespace Components {
      * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
      * @category Data Display
      * @tags display
-     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
      */
     interface PcAvatar {
         "name": string;
@@ -2143,7 +2143,7 @@ declare global {
      * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
      * @category Data Display
      * @tags display
-     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
      */
     interface HTMLPcAvatarElement extends Components.PcAvatar, HTMLStencilElement {
     }
@@ -3544,7 +3544,7 @@ declare namespace LocalJSX {
      * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
      * @category Data Display
      * @tags display
-     * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
      */
     interface PcAvatar {
         "name"?: string;
@@ -5321,7 +5321,7 @@ declare module "@stencil/core" {
              * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
              * @category Data Display
              * @tags display
-             * @example <pc-avatar size="5rem" name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
+             * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
              */
             "pc-avatar": LocalJSX.PcAvatar & JSXBase.HTMLAttributes<HTMLPcAvatarElement>;
             /**

@@ -1,6 +1,7 @@
 {
   "color": {
     "$type": "color",
+
     "success": {
       "0": {
         "$value": "{color.green.0}"
@@ -40,9 +41,6 @@
       },
       "100": {
         "$value": "{color.green.100}"
-      },
-      "@": {
-        "$value": "{color.green.@}"
       }
     },
     "warning": {
@@ -84,9 +82,6 @@
       },
       "100": {
         "$value": "{color.yellow.100}"
-      },
-      "@": {
-        "$value": "{color.yellow.@}"
       }
     },
     "error": {
@@ -128,9 +123,6 @@
       },
       "100": {
         "$value": "{color.red.100}"
-      },
-      "@": {
-        "$value": "{color.red.@}"
       }
     }
   }

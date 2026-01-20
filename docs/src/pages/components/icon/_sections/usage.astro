@@ -1,0 +1,18 @@
+---
+import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
+---
+
+<pc-text type="body">
+  Google icons are used by the <code>pc-icon</code> component. You can find the name from Google Icons{" "}
+  <a class='pc-link' href={GOOGLE_ICONS_URL}>{GOOGLE_ICONS_URL}</a>.
+</pc-text>
+
+
+<DemoComponentCard lang={'html'}>
+
+  <p-icon name='alarm'></p-icon>
+  <p-icon src='https://icons.getbootstrap.com/assets/icons/bug.svg'></p-icon>
+
+</DemoComponentCard>

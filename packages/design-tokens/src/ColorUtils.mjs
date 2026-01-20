@@ -5,6 +5,11 @@ import {
   themeFromSourceColor,
 } from '@material/material-color-utilities';
 
+function capitalizeFirstLetter(string) {
+  if (!string) return ''; // Handle empty or null strings
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const DEFAULT_WEIGHTS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98, 100];
 const NEUTRAL_WEIGHTS = [
   0, 4, 6, 10, 12, 17, 20, 22, 30, 40, 50, 60, 70, 80, 87, 90, 92, 94, 95, 96,
@@ -25,6 +30,54 @@ export default class ColorUtils {
     });
 
     return result;
+  }
+
+  static onBaselineColor(colorName) {
+    return {
+      color: {
+        $type: 'color',
+        [colorName]: {
+          $value: `{color.${colorName}.40}`,
+          $extensions: {
+            mode: {
+              dark: `{color.${colorName}.80}`,
+            },
+          },
+        },
+        [`on${capitalizeFirstLetter(colorName)}`]: {
+          $value: `{color.${colorName}.100}`,
+          $extensions: {
+            mode: {
+              dark: `{color.${colorName}.20}`,
+            },
+          },
+        },
+        [`${colorName}Container`]: {
+          $value: `{color.${colorName}.90}`,
+          $extensions: {
+            mode: {
+              dark: `{color.${colorName}.30}`,
+            },
+          },
+        },
+        [`on${capitalizeFirstLetter(colorName)}Container`]: {
+          $value: `{color.${colorName}.10}`,
+          $extensions: {
+            mode: {
+              dark: `{color.${colorName}.90}`,
+            },
+          },
+        },
+        [`inverse${capitalizeFirstLetter(colorName)}`]: {
+          $value: `{color.${colorName}.80}`,
+          $extensions: {
+            mode: {
+              dark: `{color.${colorName}.40}`,
+            },
+          },
+        },
+      },
+    };
   }
 
   /**

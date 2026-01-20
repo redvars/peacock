@@ -1,0 +1,90 @@
+{
+  "name": "@redvars/peacock",
+  "description": "The foundation for beautiful user interfaces",
+  "license": "Apache-2.0",
+  "version": "3.0.0",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
+  "keywords": [
+    "peacock",
+    "lit",
+    "web components"
+  ],
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./p-icon.js": "./dist/src/p-icon.js"
+  },
+  "scripts": {
+    "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node readme-gen.mjs",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\"",
+    "build": "rollup -c && npm run analyze -- --exclude dist",
+    "prepublish": "rollup -c  && npm run analyze -- --exclude dist",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
+    "prepare": "husky",
+    "test": "tsc && wtr --coverage",
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
+  },
+  "dependencies": {
+    "lit": "^3.1.4"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "@custom-elements-manifest/to-markdown": "^0.1.0",
+    "@open-wc/eslint-config": "^12.0.3",
+    "@open-wc/testing": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/mocha": "^10.0.7",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "@wc-toolkit/lazy-loader": "^1.0.1",
+    "@web/dev-server": "^0.4.6",
+    "@web/test-runner": "^0.18.2",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "rollup-plugin-summary": "^3.0.1",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "customElements": "dist/custom-elements.json"
+}

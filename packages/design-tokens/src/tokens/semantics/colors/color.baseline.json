@@ -40,9 +40,6 @@
       },
       "100": {
         "$value": "#ffffff"
-      },
-      "@": {
-        "$value": "#4589ff"
       }
     },
     "secondary": {
@@ -84,9 +81,6 @@
       },
       "100": {
         "$value": "#ffffff"
-      },
-      "@": {
-        "$value": "#6f778b"
       }
     },
     "tertiary": {
@@ -128,9 +122,6 @@
       },
       "100": {
         "$value": "#ffffff"
-      },
-      "@": {
-        "$value": "#8b6d8d"
       }
     },
     "neutral": {
@@ -279,161 +270,6 @@
       },
       "@": {
         "$value": "#6f797a"
-      }
-    },
-
-    "onPrimary": {
-      "$value": "#ffffff",
-      "$extensions": {
-        "mode": {
-          "dark": "#002e6b"
-        }
-      }
-    },
-    "primaryContainer": {
-      "$value": "#d8e2ff",
-      "$extensions": {
-        "mode": {
-          "dark": "#004396"
-        }
-      }
-    },
-    "onPrimaryContainer": {
-      "$value": "#001a42",
-      "$extensions": {
-        "mode": {
-          "dark": "#d8e2ff"
-        }
-      }
-    },
-    "onSecondary": {
-      "$value": "#ffffff",
-      "$extensions": {
-        "mode": {
-          "dark": "#293041"
-        }
-      }
-    },
-    "secondaryContainer": {
-      "$value": "#dbe2f9",
-      "$extensions": {
-        "mode": {
-          "dark": "#3f4759"
-        }
-      }
-    },
-    "onSecondaryContainer": {
-      "$value": "#141b2c",
-      "$extensions": {
-        "mode": {
-          "dark": "#dbe2f9"
-        }
-      }
-    },
-    "onTertiary": {
-      "$value": "#ffffff",
-      "$extensions": {
-        "mode": {
-          "dark": "#402843"
-        }
-      }
-    },
-    "tertiaryContainer": {
-      "$value": "#fcd7fb",
-      "$extensions": {
-        "mode": {
-          "dark": "#583e5a"
-        }
-      }
-    },
-    "onTertiaryContainer": {
-      "$value": "#29132d",
-      "$extensions": {
-        "mode": {
-          "dark": "#fcd7fb"
-        }
-      }
-    },
-
-    "onError": {
-      "$value": "#ffffff",
-      "$extensions": {
-        "mode": {
-          "dark": "#690005"
-        }
-      }
-    },
-    "errorContainer": {
-      "$value": "#ffdad6",
-      "$extensions": {
-        "mode": {
-          "dark": "#93000a"
-        }
-      }
-    },
-    "onErrorContainer": {
-      "$value": "#410002",
-      "$extensions": {
-        "mode": {
-          "dark": "#ffb4ab"
-        }
-      }
-    },
-    "background": {
-      "$value": "#fffbff",
-      "$extensions": {
-        "mode": {
-          "dark": "#201a19"
-        }
-      }
-    },
-    "onBackground": {
-      "$value": "#201a19",
-      "$extensions": {
-        "mode": {
-          "dark": "#ede0dd"
-        }
-      }
-    },
-
-    "shadow": {
-      "$value": "#000000",
-      "$extensions": {
-        "mode": {
-          "dark": "#000000"
-        }
-      }
-    },
-    "scrim": {
-      "$value": "#000000",
-      "$extensions": {
-        "mode": {
-          "dark": "#000000"
-        }
-      }
-    },
-    "inverseSurface": {
-      "$value": "#362f2e",
-      "$extensions": {
-        "mode": {
-          "dark": "#ede0dd"
-        }
-      }
-    },
-    "inverseOnSurface": {
-      "$value": "#fbeeec",
-      "$extensions": {
-        "mode": {
-          "dark": "#362f2e"
-        }
-      }
-    },
-    "inversePrimary": {
-      "$value": "#aec6ff",
-      "$extensions": {
-        "mode": {
-          "dark": "#005ac4"
-        }
       }
     }
   }

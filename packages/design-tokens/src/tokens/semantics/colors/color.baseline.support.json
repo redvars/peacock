@@ -1,0 +1,175 @@
+{
+  "color": {
+    "$type": "color",
+
+    "primary": {
+      "@": {
+        "$value": "{color.primary.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primary.80}"
+          }
+        }
+      }
+    },
+    "onPrimary": {
+      "$value": "{color.primary.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.primary.20}"
+        }
+      }
+    },
+    "primaryContainer": {
+      "$value": "{color.primary.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.primary.30}"
+        }
+      }
+    },
+    "onPrimaryContainer": {
+      "$value": "{color.primary.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.primary.90}"
+        }
+      }
+    },
+    "inversePrimary": {
+      "$value": "{color.primary.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.primary.40}"
+        }
+      }
+    },
+
+    "secondary": {
+      "@": {
+        "$value": "{color.secondary.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.secondary.80}"
+          }
+        }
+      }
+    },
+    "onSecondary": {
+      "$value": "{color.secondary.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.secondary.20}"
+        }
+      }
+    },
+    "secondaryContainer": {
+      "$value": "{color.secondary.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.secondary.30}"
+        }
+      }
+    },
+    "onSecondaryContainer": {
+      "$value": "{color.secondary.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.secondary.90}"
+        }
+      }
+    },
+    "inverseSecondary": {
+      "$value": "{color.secondary.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.secondary.40}"
+        }
+      }
+    },
+
+    "tertiary": {
+      "@": {
+        "$value": "{color.tertiary.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.tertiary.80}"
+          }
+        }
+      }
+    },
+    "onTertiary": {
+      "$value": "{color.tertiary.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.tertiary.20}"
+        }
+      }
+    },
+    "tertiaryContainer": {
+      "$value": "{color.tertiary.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.tertiary.30}"
+        }
+      }
+    },
+    "onTertiaryContainer": {
+      "$value": "{color.tertiary.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.tertiary.90}"
+        }
+      }
+    },
+    "inverseTertiary": {
+      "$value": "{color.tertiary.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.tertiary.40}"
+        }
+      }
+    },
+
+    "error": {
+      "$value": "{color.error.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.error.80}"
+        }
+      }
+    },
+    "onError": {
+      "$value": "{color.error.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.error.20}"
+        }
+      }
+    },
+    "errorContainer": {
+      "$value": "{color.error.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.error.30}"
+        }
+      }
+    },
+    "onErrorContainer": {
+      "$value": "{color.error.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.error.90}"
+        }
+      }
+    },
+    "inverseError": {
+      "$value": "{color.error.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.error.40}"
+        }
+      }
+    }
+  }
+}
