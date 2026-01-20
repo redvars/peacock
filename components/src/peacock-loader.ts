@@ -9,7 +9,7 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: Icon,
     },
     avatar: {
-      importPath: './avatar/avatar.js',
+      importPath: './component/avatar.js',
     },
   },
 };

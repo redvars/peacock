@@ -13,6 +13,7 @@ export { LoaderConfig };
 
 export class LoaderUtils {
   private _loaderConfig: LoaderConfig;
+
   private _observer: MutationObserver | undefined;
 
   constructor(private loaderConfig: LoaderConfig) {
