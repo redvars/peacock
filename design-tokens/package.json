@@ -4,7 +4,7 @@
   "description": "red:var design tokens",
   "type": "module",
   "scripts": {
-    "design-tokens-build": "npx tz build"
+    "build": "npx tz build"
   },
   "files": [
     "dist/"
