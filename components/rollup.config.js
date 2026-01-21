@@ -24,7 +24,7 @@ export default [
     ],
   },
   {
-    input: ['src/icon/Icon.ts', 'src/avatar/avatar.ts'], // Your main TypeScript entry file
+    input: ['src/icon/icon.ts', 'src/avatar/avatar.ts'], // Your main TypeScript entry file
     output: {
       dir: `dist`,
       format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
