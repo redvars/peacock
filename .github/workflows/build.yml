@@ -26,12 +26,16 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: components/node_modules
           key: node_modules-${{hashFiles('package-lock.json')}}
           restore-keys: node_modules- # Take any latest cache if failed to find it for current yarn.lock
 
       - name: npm install, build, and test
         run: |
+          cd design-tokens
+          npm ci
+          npm run build --if-present
+          cd ../components
           npm ci
           npm run build --if-present
         env:
