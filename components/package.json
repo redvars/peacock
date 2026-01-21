@@ -4,8 +4,8 @@
   "license": "Apache-2.0",
   "version": "3.1.0",
   "type": "module",
-  "main": "dist/src/index.js",
-  "module": "dist/src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "keywords": [
     "peacock",
     "lit",
@@ -13,7 +13,7 @@
   ],
   "exports": {
     ".": "./dist/src/index.js",
-    "./p-icon.js": "./dist/src/p-icon.js"
+    "./icon.js": "./dist/src/index.js"
   },
   "scripts": {
     "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node readme-gen.mjs",

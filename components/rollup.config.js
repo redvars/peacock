@@ -19,6 +19,10 @@ export default [
             src: '../design-tokens/dist/**',
             dest: 'dist/assets/styles/',
           },
+          {
+            src: '../readme.md',
+            dest: './',
+          },
         ],
       }),
     ],
