@@ -27,7 +27,6 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
-    "@redvars/peacock-design-tokens": "file:../design-token",
     "lit": "^3.1.4"
   },
   "devDependencies": {
