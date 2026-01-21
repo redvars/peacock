@@ -55,6 +55,9 @@
     "typescript": "^5.5.3",
     "unplugin-jsdelivr": "^1.0.0"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.55.2"
+  },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "extends": [
