@@ -35,14 +35,6 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
 
 ## Getting Started
 
-### Script tag
-
-- Put a script tag similar to
-  this `<script type="module" src="https://cdn.jsdelivr.net/npm/@goatui/components@2.0.0-0/dist/goatui/goatui.esm.js"></script>`
-  in
-  the head of your index.html
-- Include default font Roboto in the page
-- Then you can use the element anywhere in your template, JSX, html etc
 
 ```html
 <!doctype html>
@@ -50,11 +42,12 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
 <head>
   <meta charset='utf-8' />
   <meta name='viewport' content='width=device-width' />
-  <title>Peacock Component</title>
+  <title>Goat UI Component</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/assets/styles/tokens.css" rel='stylesheet' />
 
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.0/dist/peacock-loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/peacock-loader.js'></script>
 
   <!-- Default font : Noto Sans and Noto Sans Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +57,8 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
 
 </head>
 <body>
-<p-icon name="home"></p-icon>
+<p-avatar name="Shivaji Varma"></p-icon>
+
 </body>
 </html>
 ```
@@ -84,22 +78,22 @@ menus, checkboxes, and radio buttons.
 
 | Name                                                       | Component            | State |
 |------------------------------------------------------------|----------------------|-------|
-| [Code editor](https://goatui.com/components/code-editor)   | p-card-editor     | 🟢    |
+| [Code editor](https://peacock.redvars.com/components/code-editor)   | p-card-editor     | 🟢    |
 | Color picker                                               | p-color-picker    | 🔴    |
-| [Checkbox](https://goatui.com/components/checkbox)         | p-checkbox        | 🟢    |
-| [Date picker](https://goatui.com/components/date-picker)   | p-date-picker     | 🟡    |
+| [Checkbox](https://peacock.redvars.com/components/checkbox)         | p-checkbox        | 🟢    |
+| [Date picker](https://peacock.redvars.com/components/date-picker)   | p-date-picker     | 🟡    |
 | Date Time picker                                           | p-datetime-picker | 🔴    |
-| [Form control](https://goatui.com/components/form-control) | p-form-control    | 🟡    |
+| [Form control](https://peacock.redvars.com/components/form-control) | p-form-control    | 🟡    |
 | File picker                                                | p-file-picker     | 🔴    |
-| [HTML editor](https://goatui.com/components/html-editor)   | p-html-editor     | 🟢    |
-| [Input](https://goatui.com/components/input)               | p-input           | 🟢    |
-| [Input URL](https://goatui.com/components/input-url)       | p-input-url       | 🟢    |
+| [HTML editor](https://peacock.redvars.com/components/html-editor)   | p-html-editor     | 🟢    |
+| [Input](https://peacock.redvars.com/components/input)               | p-input           | 🟢    |
+| [Input URL](https://peacock.redvars.com/components/input-url)       | p-input-url       | 🟢    |
 | Month picker                                               | p-month-picker    | 🔴    |
-| [Number](https://goatui.com/components/number)             | p-number          | 🟢    |
-| [Select](https://goatui.com/components/select)             | p-select          | 🟢    |
-| [Textarea](https://goatui.com/components/textarea)         | p-textarea        | 🟢    |
-| [Time picker](https://goatui.com/components/time-picker)   | p-time-picker     | 🟡    |
-| [URL input](https://goatui.com/components/url-input)       | p-url-input.      | 🔴    |
+| [Number](https://peacock.redvars.com/components/number)             | p-number          | 🟢    |
+| [Select](https://peacock.redvars.com/components/select)             | p-select          | 🟢    |
+| [Textarea](https://peacock.redvars.com/components/textarea)         | p-textarea        | 🟢    |
+| [Time picker](https://peacock.redvars.com/components/time-picker)   | p-time-picker     | 🟡    |
+| [URL input](https://peacock.redvars.com/components/url-input)       | p-url-input.      | 🔴    |
 | Week picker                                                | p-week-picker     | 🔴    |
 
 ## Navigation
@@ -110,10 +104,10 @@ include menus, tabs, and breadcrumbs.
 
 | Name                                                   | Component       | State |
 |--------------------------------------------------------|-----------------|-------|
-| [Breadcrumb](https://goatui.com/components/breadcrumb) | p-breadcrumb | 🟢    |
-| [Dropdown](https://goatui.com/components/dropdown)     | p-dropdown   | 🟡    |
-| [Menu](https://goatui.com/components/menu)             | p-menu       | 🟡    |
-| [Tabs](https://goatui.com/components/tabs)             | p-tabs       | 🟢    |
+| [Breadcrumb](https://peacock.redvars.com/components/breadcrumb) | p-breadcrumb | 🟢    |
+| [Dropdown](https://peacock.redvars.com/components/dropdown)     | p-dropdown   | 🟡    |
+| [Menu](https://peacock.redvars.com/components/menu)             | p-menu       | 🟡    |
+| [Tabs](https://peacock.redvars.com/components/tabs)             | p-tabs       | 🟢    |
 
 ## Informational
 
@@ -123,12 +117,12 @@ notifications, tooltips, and progress bars.
 
 | Name                                                                             | Component                 | State |
 |----------------------------------------------------------------------------------|---------------------------|-------|
-| [Badge](https://goatui.com/components/badge)                                     | p-badge                | 🟢    |
-| [Progress](https://goatui.com/components/progress)                               | p-progress             | 🟢    |
-| [Spinner](https://goatui.com/components/spinner)                                 | p-spinner              | 🟢    |
-| [Tooltip](https://goatui.com/components/tooltip)                                 | p-tooltip              | 🟢    |
-| [Notification](https://goatui.com/components/notification)                       | p-notification         | 🟢    |
-| [Notification Manager](https://goatui.com/components/notification-manager)       | p-notification-manager | 🟢    |
+| [Badge](https://peacock.redvars.com/components/badge)                                     | p-badge                | 🟢    |
+| [Progress](https://peacock.redvars.com/components/progress)                               | p-progress             | 🟢    |
+| [Spinner](https://peacock.redvars.com/components/spinner)                                 | p-spinner              | 🟢    |
+| [Tooltip](https://peacock.redvars.com/components/tooltip)                                 | p-tooltip              | 🟢    |
+| [Notification](https://peacock.redvars.com/components/notification)                       | p-notification         | 🟢    |
+| [Notification Manager](https://peacock.redvars.com/components/notification-manager)       | p-notification-manager | 🟢    |
 
 
 ## Containers
@@ -139,7 +133,7 @@ organization to the content.
 
 | Name                                                 | Component      | State |
 |------------------------------------------------------|----------------|-------|
-| [Accordion](https://goatui.com/components/accordion) | p-accordion | 🟢    |
+| [Accordion](https://peacock.redvars.com/components/accordion) | p-accordion | 🟢    |
 | Card                                                 | p-card      | 🟡    |
 
 ## General
@@ -148,34 +142,34 @@ These components are used for general purpose. They include
 
 | Name                                                                       | Component                 | State |
 |----------------------------------------------------------------------------|---------------------------|-------|
-| [Avatar](https://goatui.com/components/avatar)                             | p-avatar               | 🟢    |
-| [Button](https://goatui.com/components/button)                             | p-button               | 🟢    |
-| [Button Group](https://goatui.com/components/button-group)                 | p-button-group         | 🟢    |
-| [Calendar](https://goatui.com/components/calendar)                         | p-calendar             | 🟢    |
+| [Avatar](https://peacock.redvars.com/components/avatar)                             | p-avatar               | 🟢    |
+| [Button](https://peacock.redvars.com/components/button)                             | p-button               | 🟢    |
+| [Button Group](https://peacock.redvars.com/components/button-group)                 | p-button-group         | 🟢    |
+| [Calendar](https://peacock.redvars.com/components/calendar)                         | p-calendar             | 🟢    |
 | Card Select                                                                | p-cardselect           | 🔴    |
-| [Code Highlighter](https://goatui.com/components/code-highlighter)         | p-card-highlighter     | 🟢    |
+| [Code Highlighter](https://peacock.redvars.com/components/code-highlighter)         | p-card-highlighter     | 🟢    |
 | Column                                                                     | p-col                  | 🔴    |
-| [Empty State](https://goatui.com/components/empty-state)                   | p-empty-state          | 🟡    |
-| [Flow Designer ](https://goatui.com/components/flow-designer)              | p-flow-designer        | 🔵    |
+| [Empty State](https://peacock.redvars.com/components/empty-state)                   | p-empty-state          | 🟡    |
+| [Flow Designer ](https://peacock.redvars.com/components/flow-designer)              | p-flow-designer        | 🔵    |
 | Grid                                                                       | p-grid                 | 🔴    |
 | Group                                                                      | p-group                | 🔴    |
-| [Header](https://goatui.com/components/header)                             | p-header               | 🟢    |
-| [Icon](https://goatui.com/components/icon)                                 | p-icon                 | 🟢    |
-| [Link](https://goatui.com/components/link)                                 | p-link                 | 🟢    |
-| [Modal](https://goatui.com/components/modal)                               | p-modal                | 🟢    |
-| [Notification Manager](https://goatui.com/components/notification-manager) | p-notification-manager | 🟡    |
+| [Header](https://peacock.redvars.com/components/header)                             | p-header               | 🟢    |
+| [Icon](https://peacock.redvars.com/components/icon)                                 | p-icon                 | 🟢    |
+| [Link](https://peacock.redvars.com/components/link)                                 | p-link                 | 🟢    |
+| [Modal](https://peacock.redvars.com/components/modal)                               | p-modal                | 🟢    |
+| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | p-notification-manager | 🟡    |
 | Observer                                                                   | p-observer             | 🔴    |
 | Pagination                                                                 | p-pagination           | 🔴    |
 | Radio Group                                                                | p-radiogroup           | 🔴    |
 | Row                                                                        | p-row                  | 🔴    |
-| [Slider](https://goatui.com/components/slider)                             | p-slider               | 🟡    |
+| [Slider](https://peacock.redvars.com/components/slider)                             | p-slider               | 🟡    |
 | Spoiler                                                                    | p-spoiler              | 🔴    |
 | Stepper                                                                    | p-stepper              | 🔴    |
-| [Table](https://goatui.com/components/table)                               | p-table                | 🟡    |
-| [Tag](https://goatui.com/components/tag) / Chip                            | p-tag                  | 🟢    |
-| [Text](https://goatui.com/components/text)                                 | p-text                 | 🟢    |
-| [Tree View](https://goatui.com/components/tree-view)                       | p-tree-view            | 🟡    |
-| [Toggle](https://goatui.com/components/toggle)                             | p-toggle               | 🟢    |
+| [Table](https://peacock.redvars.com/components/table)                               | p-table                | 🟡    |
+| [Tag](https://peacock.redvars.com/components/tag) / Chip                            | p-tag                  | 🟢    |
+| [Text](https://peacock.redvars.com/components/text)                                 | p-text                 | 🟢    |
+| [Tree View](https://peacock.redvars.com/components/tree-view)                       | p-tree-view            | 🟡    |
+| [Toggle](https://peacock.redvars.com/components/toggle)                             | p-toggle               | 🟢    |
 
 ## Charts
 
@@ -183,8 +177,8 @@ These components are used to display data in a graphical format. They include
 
 | Name                                                           | Component           | State |
 |----------------------------------------------------------------|---------------------|-------|
-| [Doughnut Chart](https://goatui.com/components/chart-doughnut) | p-chart-doughnut | 🟢    |
-| [Pie Chart ](https://goatui.com/components/chart-pie)          | p-chart-pie      | 🟢    |
+| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut) | p-chart-doughnut | 🟢    |
+| [Pie Chart ](https://peacock.redvars.com/components/chart-pie)          | p-chart-pie      | 🟢    |
 
 
 ## 📄 License

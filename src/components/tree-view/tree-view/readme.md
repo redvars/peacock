@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property       | Attribute       | Description | Type      | Default                                                                                  |
-| -------------- | --------------- | ----------- | --------- | ---------------------------------------------------------------------------------------- |
-| `empty`        | `empty`         |             | `boolean` | `false`                                                                                  |
-| `emptyState`   | `empty-state`   |             | `string`  | ``{     "headline": "No items",     "description": "There are no items to display"   }`` |
-| `selectedNode` | `selected-node` |             | `string`  | `undefined`                                                                              |
+| Property       | Attribute       | Description | Type      | Default                                                                                      |
+| -------------- | --------------- | ----------- | --------- | -------------------------------------------------------------------------------------------- |
+| `empty`        | `empty`         |             | `boolean` | `false`                                                                                      |
+| `emptyState`   | `empty-state`   |             | `string`  | `` `{     "headline": "No items",     "description": "There are no items to display"   }` `` |
+| `selectedNode` | `selected-node` |             | `string`  | `undefined`                                                                                  |
 
 
 ## Methods

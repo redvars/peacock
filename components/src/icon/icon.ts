@@ -5,16 +5,10 @@ import { fetchIcon, fetchSVG } from './datasource.js';
 import { sanitizeSvg } from '../utils.js';
 import { styles } from './icon.css.js';
 
-/**
- * @summary Icons are visual symbols used to represent ideas, objects, or actions.
- *
- * @cssprop --icon-color - Controls the color of the icon.
- * @cssprop [--icon-size=1rem] - Controls the size of the icon. Defaults to "1rem"
- */
 export class Icon extends LitElement {
   static styles = [styles];
 
-  @property({ type: String, reflect: true }) name?: string = 'home';
+  @property({ type: String, reflect: true }) name?: string;
 
   @property({ type: String, reflect: true }) src?: string;
 

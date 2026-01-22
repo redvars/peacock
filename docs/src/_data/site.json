@@ -13,15 +13,15 @@
   "github_project": "components",
   "npm_package": "@goatui/components",
   "prod": {
-    "script": "https://cdn.jsdelivr.net/npm/@goatui/components@2.25.6/dist/goatui/goatui.esm.js",
-    "themeCss": "https://cdn.jsdelivr.net/npm/@goatui/components@2.25.6/dist/goatui/assets/styles/theme.css",
-    "fallbackScript": "https://cdn.jsdelivr.net/npm/@goatui/components@2.25.5/dist/goatui/goatui.esm.js",
-    "fallbackThemeCss": "https://cdn.jsdelivr.net/npm/@goatui/components@2.25.5/dist/goatui/assets/styles/theme.css",
-    "version": "2.25.6"
+    "script": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.0/dist/peacock-loader.js",
+    "themeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.0/dist/assets/styles/tokens.css",
+    "fallbackScript": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.0/dist/peacock-loader.js",
+    "fallbackThemeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.0/dist/assets/styles/tokens.css",
+    "version": "3.1.0"
   },
   "dev": {
-    "script": "/assets/goatui-dev/build/peacock.esm.js",
-    "themeCss": "/assets/goatui-dev/build/assets/styles/theme.css",
-    "version": "2.25.6"
+    "script": "/assets/peacock/peacock-loader.js",
+    "themeCss": "/assets/peacock/assets/styles/tokens.css",
+    "version": "3.1.0"
   }
 }

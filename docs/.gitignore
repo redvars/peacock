@@ -21,3 +21,4 @@ pnpm-debug.log*
 .DS_Store
 
 public/assets/goatui-dev/
+public/assets/peacock/

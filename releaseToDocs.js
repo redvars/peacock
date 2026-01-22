@@ -1,24 +1,24 @@
 const fs = require('fs');
 
 function releaseToDocs(cb) {
-  const packageJsonStr = fs.readFileSync('package.json');
+  const packageJsonStr = fs.readFileSync('components/package.json');
   const packageJson = JSON.parse(packageJsonStr);
 
-  fs.readFile('astro-docs/src/_data/site.json', 'utf8', function (err, data) {
+  fs.readFile('docs/src/_data/site.json', 'utf8', function (err, data) {
     if (err) {
       return console.log(err);
     }
     let result = JSON.parse(data);
-    result.prod = {
-      script: `https://cdn.jsdelivr.net/npm/@goatui/components@${packageJson.version}/dist/goatui/goatui.esm.js`,
-      themeCss: `https://cdn.jsdelivr.net/npm/@goatui/components@${packageJson.version}/dist/goatui/assets/styles/theme.css`,
-      fallbackScript: result.prod.script,
-      fallbackThemeCss: result.prod.themeCss,
-      version: packageJson.version,
-    };
-    result.dev.version = packageJson.version;
+    if (result.prod.version != packageJson.version) {
+      result.prod.fallbackScript = result.prod.script;
+      result.prod.fallbackThemeCss = result.prod.themeCss;
+      result.prod.script = `https://cdn.jsdelivr.net/npm/@redvars/peacock@${packageJson.version}/dist/peacock-loader.js`;
+      result.prod.themeCss = `https://cdn.jsdelivr.net/npm/@redvars/peacock@${packageJson.version}/dist/assets/styles/tokens.css`;
+      result.prod.version = packageJson.version;
+      result.dev.version = packageJson.version;
+    }
     fs.writeFile(
-      'astro-docs/src/_data/site.json',
+      'docs/src/_data/site.json',
       JSON.stringify(result, null, 2),
       'utf8',
       function (err) {
@@ -32,8 +32,8 @@ function releaseToDocs(cb) {
       return console.log(err);
     }
     let result = data.replace(
-      new RegExp(/@goatui\/components@[0-9]+[.][0-9]+[.][0-9]+\/dist/, 'g'),
-      `@goatui/components@${packageJson.version}/dist`,
+      new RegExp(/@redvars\/peacock@[0-9]+[.][0-9]+[.][0-9]+\/dist/, 'g'),
+      `@redvars/components@${packageJson.version}/dist`,
     );
     fs.writeFile('readme.md', result, 'utf8', function (err) {
       if (err) return console.log(err);

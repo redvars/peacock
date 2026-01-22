@@ -4,15 +4,19 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
 ---
 
-<pc-text type="body">
+<p class='p-text-body'>
   Google icons are used by the <code>pc-icon</code> component. You can find the name from Google Icons{" "}
-  <a class='pc-link' href={GOOGLE_ICONS_URL}>{GOOGLE_ICONS_URL}</a>.
-</pc-text>
+  <a class='pc-link' href={GOOGLE_ICONS_URL} target='_blank'>{GOOGLE_ICONS_URL}</a>.
+
+  <br/>
+
+  Carbon icons can used by specifing `provider` value. <a class='pc-link' target='_blank' href='https://carbondesignsystem.com/elements/icons/library/'>https://carbondesignsystem.com/elements/icons/library/</a>
+</p>
 
 
 <DemoComponentCard lang={'html'}>
 
   <p-icon name='alarm'></p-icon>
   <p-icon src='https://icons.getbootstrap.com/assets/icons/bug.svg'></p-icon>
-
+  <p-icon provider='carbon' name='logo--github'></p-icon>
 </DemoComponentCard>

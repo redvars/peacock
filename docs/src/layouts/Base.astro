@@ -54,9 +54,6 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
   <!-- Favicon -->
   <link rel='shortcut icon' href='/favicon.svg' />
 
-  <!- Styles -->
-  <link rel='stylesheet' href={envProps.themeCss} />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -64,10 +61,11 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
   <!-- GoatUI scripts -->
   <script type='module' src={envProps.script}></script>
 
-  <script type='module' src="/assets/peacock/peacock-loader.js"></script>
+  <script type='module' src='/assets/goatui-dev/build/peacock.esm.js'></script>
+  <link rel='stylesheet' href='/assets/goatui-dev/build/assets/styles/theme.css'/>
 
-  <script type='module' define:vars={{ envProps }}>
-    if (!window.customElements.get('pc-button')) {
+  <!--<script type='module' define:vars={{ envProps }}>
+    if (!window.customElements.get('p-icon')) {
       import(envProps.fallbackScript);
 
       var fileref = document.createElement("link");
@@ -75,9 +73,9 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
       fileref.type = "text/css";
       fileref.href = envProps.fallbackThemeCss;
       document.getElementsByTagName("head")[0].appendChild(fileref)
-      console.warn("USING FALLBACK GOATUI");
+      console.warn("USING FALLBACK PEACOCK");
     }
-  </script>
+  </script>-->
 </head>
 <body>
 

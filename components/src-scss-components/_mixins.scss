@@ -1,0 +1,53 @@
+@use "sass:map";
+
+$prefix: "p";
+
+@mixin get-typography($name) {
+  font-family: var(--typography-#{$name}-font-family) !important;
+  font-size:  var(--typography-#{$name}-font-size) !important;
+  font-weight: var(--typography-#{$name}-font-weight) !important;
+  line-height: var(--typography-#{$name}-line-height) !important;
+  letter-spacing: var(--typography-#{$name}-letter-spacing) !important;
+}
+
+@mixin get-typography-not-important($name) {
+  font-family: var(--typography-#{$name}-font-family);
+  font-size:  var(--typography-#{$name}-font-size);
+  font-weight: var(--typography-#{$name}-font-weight);
+  line-height: var(--typography-#{$name}-line-height);
+  letter-spacing: var(--typography-#{$name}-letter-spacing);
+}
+
+@mixin focus-ring($color:var(--border-interactive)) {
+  outline: 2px solid $color;
+}
+
+@mixin for-phone-only {
+  @media (max-width: 671px) {
+    @content;
+  }
+}
+
+@mixin for-tablet-portrait-up {
+  @media (min-width: 672px) {
+    @content;
+  }
+}
+
+@mixin for-tablet-landscape-up {
+  @media (min-width: 1056px) {
+    @content;
+  }
+}
+
+@mixin for-desktop-up {
+  @media (min-width: 1312px) {
+    @content;
+  }
+}
+
+@mixin for-big-desktop-up {
+  @media (min-width: 1584px) {
+    @content;
+  }
+}

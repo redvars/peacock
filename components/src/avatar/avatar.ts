@@ -3,12 +3,6 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styles } from './avatar.css.js';
 
-/**
- * @summary Icons are visual symbols used to represent ideas, objects, or actions.
- *
- * @cssprop --icon-color - Controls the color of the icon.
- * @cssprop --icon-size - Controls the size of the icon.
- */
 export class Avatar extends LitElement {
   static styles = [styles];
 

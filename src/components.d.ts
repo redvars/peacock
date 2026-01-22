@@ -12,20 +12,44 @@ export { CalendarViewType, EventType } from "./components/application/calendar/c
 export namespace Components {
     interface GoatCbCompoundExpression {
         "conditionOperator": 'and' | 'or';
+        /**
+          * @default ''
+         */
         "fieldLabel": string;
+        /**
+          * @default ''
+         */
         "fieldName": string;
     }
     interface GoatCbDivider {
+        /**
+          * @default false
+         */
         "connectEnd": boolean;
+        /**
+          * @default false
+         */
         "connectStart": boolean;
+        /**
+          * @default false
+         */
         "vertical": boolean;
     }
     interface GoatCbExpression {
+        /**
+          * @default ''
+         */
         "operatorValue": string;
+        /**
+          * @default []
+         */
         "operators": any[];
     }
     interface GoatCbPredicate {
         "conditionOperator": 'and' | 'or';
+        /**
+          * @default false
+         */
         "vertical": boolean;
     }
     /**
@@ -45,22 +69,27 @@ export namespace Components {
         "format": boolean;
         /**
           * Hide the copy button.
+          * @default false
          */
         "hideCopy": boolean;
         /**
           * Display the code snippet inline.
+          * @default false
          */
         "inline": boolean;
         /**
           * The language of the code snippet.
+          * @default 'javascript'
          */
         "language": Language;
         /**
           * Display line numbers.
+          * @default false
          */
         "lineNumbers": boolean;
         /**
           * The code snippet to highlight.
+          * @default ''
          */
         "value": string;
     }
@@ -83,19 +112,37 @@ export namespace Components {
      * @imgDark /assets/img/footer-dark.webp
      */
     interface GoatFooter {
+        /**
+          * @default 'simple'
+         */
         "variant": 'simple';
+        /**
+          * @default new Date().getFullYear()
+         */
         "year": number;
     }
     interface GoatFooterCopyright {
         "copyright": string;
         "copyrightHref": string;
+        /**
+          * @default new Date().getFullYear()
+         */
         "year": number;
     }
     interface GoatFooterLinks {
+        /**
+          * @default []
+         */
         "links": { name: string; href: string }[];
     }
     interface GoatHeaderAction {
+        /**
+          * @default '_self'
+         */
         "badge": string;
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Hyperlink to navigate to on click.
@@ -108,14 +155,19 @@ export namespace Components {
         "setColor": (color: string) => Promise<void>;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none';
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target": string;
     }
     interface GoatHeaderBrand {
+        /**
+          * @default '#'
+         */
         "href": string;
         "logo": string;
         "name": string;
@@ -134,28 +186,44 @@ export namespace Components {
     interface GoatHtmlEditor {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
+          * @default 250
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default 'on'
+         */
         "lineNumbers": 'off' | 'on';
+        /**
+          * @default []
+         */
         "mentions": { label: string; value: string }[];
+        /**
+          * @default 'contains'
+         */
         "mentionsSearch": 'contains' | 'managed';
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
           * The input field placeholder.
          */
         "placeholder": string;
+        /**
+          * @default false
+         */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -166,9 +234,21 @@ export namespace Components {
           * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * @default true
+         */
         "showSuggestionCharacter": boolean;
+        /**
+          * @default true
+         */
         "showToolbar": boolean;
+        /**
+          * @default '@'
+         */
         "suggestionCharacter": string;
+        /**
+          * @default 'vs-light'
+         */
         "theme": 'vs-light' | 'vs-dark';
         /**
           * The input field value.
@@ -186,25 +266,39 @@ export namespace Components {
      * @img1 /assets/img/sidenav.webp
      */
     interface GoatSidenav {
+        /**
+          * @default false
+         */
         "showLoader": boolean;
     }
     interface GoatSidenavMenu {
+        /**
+          * @default false
+         */
         "empty": boolean;
+        /**
+          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
+         */
         "emptyState": any;
         /**
           * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * @default false
+         */
         "showLoader": boolean;
         "value"?: string | number;
     }
     interface GoatSidenavMenuItem {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         /**
           * Menu item selection state.
+          * @default false
          */
         "selected": boolean;
         /**
@@ -235,11 +329,16 @@ export namespace Components {
     interface PcAccordion {
         /**
           * Accordion item dropdown alignment.
+          * @default 'end'
          */
         "align": 'start' | 'end';
+        /**
+          * @default false
+         */
         "multiple": boolean;
         /**
           * The According size.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
     }
@@ -255,6 +354,7 @@ export namespace Components {
     interface PcAccordionItem {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -263,6 +363,7 @@ export namespace Components {
         "heading": string;
         /**
           * Menu item selection state.
+          * @default false
          */
         "open": boolean;
     }
@@ -276,7 +377,13 @@ export namespace Components {
      * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
      */
     interface PcAvatar {
+        /**
+          * @default ''
+         */
         "name": string;
+        /**
+          * @default ''
+         */
         "src": string;
     }
     /**
@@ -300,6 +407,9 @@ export namespace Components {
     interface PcBreadcrumb {
     }
     interface PcBreadcrumbItem {
+        /**
+          * @default false
+         */
         "active": boolean;
         /**
           * Hyperlink to navigate to on click.
@@ -329,6 +439,7 @@ export namespace Components {
         "appendData": any;
         /**
           * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+          * @default 'primary'
          */
         "color": | 'primary'
     | 'secondary'
@@ -337,13 +448,18 @@ export namespace Components {
     | 'warning'
     | 'white'
     | 'black';
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         /**
           * If button is disabled, the reason why it is disabled.
+          * @default ''
          */
         "disabledReason": string;
         /**
@@ -352,6 +468,7 @@ export namespace Components {
         "href": string;
         /**
           * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
+          * @default 'end'
          */
         "iconAlign": 'start' | 'end';
         /**
@@ -364,18 +481,22 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'sm'
          */
         "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target": string;
         /**
           * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+          * @default 200
          */
         "throttleDelay": number;
         /**
           * If true, the button will be in a toggled state.
+          * @default false
          */
         "toggle": boolean;
         /**
@@ -384,10 +505,12 @@ export namespace Components {
         "triggerClick": () => Promise<void>;
         /**
           * Button type based on which actions are performed when the button is clicked.
+          * @default 'button'
          */
         "type": 'button' | 'submit' | 'reset';
         /**
           * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
+          * @default 'filled'
          */
         "variant": | 'elevated'
     | 'filled'
@@ -421,6 +544,7 @@ export namespace Components {
     interface PcCalendar {
         /**
           * Available views.
+          * @default [     {       label: 'Day',       value: 'day',       type: 'column',       days: 1,     },     {       label: 'Week',       value: 'week',       type: 'column',       days: 7,     },     {       label: 'Month',       value: 'month',       type: 'month',     },   ]
          */
         "availableViews": CalendarViewType[];
         /**
@@ -429,14 +553,17 @@ export namespace Components {
         "contextDate": Date;
         /**
           * Event clickable.
+          * @default true
          */
         "eventClickable": boolean;
         /**
           * Calendar events.
+          * @default []
          */
         "events": EventType[];
         /**
           * Show loader.
+          * @default false
          */
         "showLoader": boolean;
         /**
@@ -445,15 +572,28 @@ export namespace Components {
         "timezone": string;
         /**
           * Calendar view.
+          * @default 'week'
          */
         "view": 'day' | 'week' | 'month' | string;
     }
     interface PcCalendarColumnView {
         "contextDate": Date;
         "currentTime": Date;
+        /**
+          * @default 7
+         */
         "days": number;
+        /**
+          * @default true
+         */
         "eventClickable": boolean;
+        /**
+          * @default []
+         */
         "events": any[];
+        /**
+          * @default 'week'
+         */
         "view": string;
     }
     interface PcCalendarColumnViewBackground {
@@ -463,10 +603,19 @@ export namespace Components {
     interface PcCalendarMonthView {
         "contextDate": Date;
         "currentTime": Date;
+        /**
+          * @default true
+         */
         "eventClickable": boolean;
+        /**
+          * @default []
+         */
         "events": any[];
     }
     interface PcCalendarMonthViewBackground {
+        /**
+          * @default 1
+         */
         "columns": number;
     }
     /**
@@ -477,9 +626,18 @@ export namespace Components {
      * @img /assets/img/canvas.webp
      */
     interface PcCanvas {
+        /**
+          * @default 1
+         */
         "padding": number;
+        /**
+          * @default []
+         */
         "shapes": any[];
         "viewbox"?: string;
+        /**
+          * @default 1
+         */
         "zoom": number;
     }
     interface PcCard {
@@ -495,10 +653,22 @@ export namespace Components {
      * @imgDark /assets/img/chart-doughnut-dark.webp
      */
     interface PcChartDoughnut {
+        /**
+          * @default []
+         */
         "data": any;
         "label": string;
+        /**
+          * @default 10
+         */
         "margin": number;
+        /**
+          * @default true
+         */
         "showLabels": boolean;
+        /**
+          * @default 0
+         */
         "width": number;
     }
     /**
@@ -511,10 +681,22 @@ export namespace Components {
      * @imgDark /assets/img/chart-pie-dark.webp
      */
     interface PcChartPie {
+        /**
+          * @default []
+         */
         "data": any;
         "label": string;
+        /**
+          * @default 10
+         */
         "margin": number;
+        /**
+          * @default true
+         */
         "showLabels": boolean;
+        /**
+          * @default 0
+         */
         "width": number;
     }
     /**
@@ -526,12 +708,19 @@ export namespace Components {
      * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
      */
     interface PcCheckbox {
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
+        /**
+          * @default false
+         */
         "intermediate": boolean;
         /**
           * The checkbox label.
@@ -540,13 +729,21 @@ export namespace Components {
         "layer"?: 'background' | '01' | '02';
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
+        /**
+          * @default false
+         */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
+        /**
+          * @default false
+         */
         "rounded": boolean;
         /**
           * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
@@ -558,10 +755,12 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default false
          */
         "value": boolean;
     }
@@ -577,24 +776,40 @@ export namespace Components {
     interface PcCodeEditor {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
+          * @default 250
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
+        /**
+          * @default 'javascript'
+         */
         "language": 'javascript' | 'json' | 'html';
         "libSource": any;
+        /**
+          * @default 'on'
+         */
         "lineNumbers": 'off' | 'on';
+        /**
+          * @default false
+         */
         "minimap": boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
+        /**
+          * @default false
+         */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -611,6 +826,9 @@ export namespace Components {
         "value": string;
     }
     interface PcContainer {
+        /**
+          * @default 'full'
+         */
         "size": 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
@@ -631,23 +849,35 @@ export namespace Components {
      * @example <pc-date-picker></pc-date-picker>
      */
     interface PcDatePicker {
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "helperText": string;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
@@ -656,10 +886,12 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -672,12 +904,17 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number | null;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -690,6 +927,9 @@ export namespace Components {
      * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface PcDivider {
+        /**
+          * @default false
+         */
         "vertical": boolean;
     }
     /**
@@ -704,12 +944,25 @@ export namespace Components {
     interface PcDropdown {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
+        /**
+          * @default false
+         */
         "managed": boolean;
+        /**
+          * @default false
+         */
         "open": boolean;
+        /**
+          * @default 'bottom-start,top-start,bottom-end,top-end'
+         */
         "placements": string;
         "setFocus": () => Promise<void>;
+        /**
+          * @default 'click'
+         */
         "trigger": 'click' | 'hover' | 'manual';
     }
     /**
@@ -746,11 +999,20 @@ export namespace Components {
      */
     interface PcEmptyState {
         "action": string;
+        /**
+          * @default false
+         */
         "actionDisabled": boolean;
         "actionUrl": string;
+        /**
+          * @default 'filled'
+         */
         "actionVariant": 'filled' | 'outlined' | 'text';
         "description": string;
         "headline": string;
+        /**
+          * @default 'no-document'
+         */
         "illustration": 'no-document' | 'page' | 'search';
     }
     /**
@@ -761,8 +1023,17 @@ export namespace Components {
      * @img /assets/img/flow-designer.webp
      */
     interface PcFlowDesigner {
+        /**
+          * @default 16
+         */
         "blockSize": number;
+        /**
+          * @default []
+         */
         "data": any[];
+        /**
+          * @default false
+         */
         "disabled": boolean;
     }
     /**
@@ -777,15 +1048,28 @@ export namespace Components {
      */
     interface PcFormControl {
         "helperText": string;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         "label": string;
         /**
           * Whether the form control is required.
+          * @default false
          */
         "required": boolean;
+        /**
+          * @default false
+         */
         "skeleton": boolean;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -800,6 +1084,7 @@ export namespace Components {
     interface PcHeader {
         /**
           * Defines the primary color of the header. This can be set to predefined color names to apply specific color themes.
+          * @default 'black'
          */
         "color": | 'primary'
     | 'secondary'
@@ -820,6 +1105,9 @@ export namespace Components {
     | 'white'
     | 'black'
     | string;
+        /**
+          * @default false
+         */
         "float": boolean;
     }
     /**
@@ -848,25 +1136,38 @@ export namespace Components {
     interface PcInput {
         /**
           * Indicates whether the value of the control can be automatically completed by the browser.
+          * @default 'off'
          */
         "autocomplete": 'on' | 'off';
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "helperText": string;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
@@ -875,10 +1176,12 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -891,17 +1194,25 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton": boolean;
         /**
           * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
+          * @default 'text'
          */
         "type": 'text' | 'password' | 'email' | 'tel';
         /**
           * The input field value.
          */
         "value": string;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -916,12 +1227,17 @@ export namespace Components {
     interface PcInputUrl {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `valueChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the input. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
+        /**
+          * @default false
+         */
         "editing": boolean;
         /**
           * Get the component's unique ID
@@ -930,6 +1246,7 @@ export namespace Components {
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-url-${this.gid}`
          */
         "name": string;
         /**
@@ -938,6 +1255,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -950,8 +1268,12 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton": boolean;
         /**
           * The input field value.
@@ -968,6 +1290,9 @@ export namespace Components {
      */
     interface PcLinearProgress {
         "helperText": string;
+        /**
+          * @default false
+         */
         "hideLabel": boolean;
         /**
           * A label describing the progress bar.
@@ -975,8 +1300,12 @@ export namespace Components {
         "label": string;
         /**
           * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md';
+        /**
+          * @default null
+         */
         "value": number;
     }
     /**
@@ -998,17 +1327,30 @@ export namespace Components {
      * @imgDark /assets/img/menu-dark.webp
      */
     interface PcMenu {
+        /**
+          * @default false
+         */
         "empty": boolean;
+        /**
+          * @default 'There are no items to display'
+         */
         "emptyStateDescription": string;
+        /**
+          * @default 'No items'
+         */
         "emptyStateHeadline": string;
         "layer"?: 'background' | '01' | '02';
         /**
           * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * @default false
+         */
         "showLoader": boolean;
         /**
           * The menu item size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         "value"?: string | number;
@@ -1022,6 +1364,9 @@ export namespace Components {
      * @childComponent true
      */
     interface PcMenuItem {
+        /**
+          * @default 'default'
+         */
         "color": | 'default'
     | 'primary'
     | 'secondary'
@@ -1032,6 +1377,7 @@ export namespace Components {
     | 'black';
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -1039,9 +1385,13 @@ export namespace Components {
          */
         "href": string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "selectable": boolean;
         /**
           * Menu item selection state.
+          * @default false
          */
         "selected": boolean;
         /**
@@ -1054,6 +1404,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target": string;
         /**
@@ -1073,16 +1424,27 @@ export namespace Components {
      */
     interface PcModal {
         "heading": string;
+        /**
+          * @default false
+         */
         "hideClose": boolean;
         /**
           * Specify whether the Modal is managed by the parent component
+          * @default false
          */
         "managed": boolean;
         /**
           * Specify whether the Modal is currently open
+          * @default false
          */
         "open": boolean;
+        /**
+          * @default false
+         */
         "showLoader": boolean;
+        /**
+          * @default 'md'
+         */
         "size": 'sm' | 'md' | 'lg';
         "subheading": string;
     }
@@ -1095,6 +1457,9 @@ export namespace Components {
      * @childComponent true
      */
     interface PcModalContent {
+        /**
+          * @default 'default'
+         */
         "type": 'text' | 'borderless' | 'default';
     }
     /**
@@ -1114,22 +1479,27 @@ export namespace Components {
         "action": string;
         /**
           * Whether the notification is dismissible
+          * @default false
          */
         "dismissible": boolean;
         /**
           * Whether to use high contrast mode
+          * @default false
          */
         "highContrast": boolean;
         /**
           * Whether the notification should be displayed inline
+          * @default false
          */
         "inline": boolean;
         /**
           * Whether the notification is managed by the notification manager
+          * @default false
          */
         "managed": boolean;
         /**
           * The state of the notification. Possible values are: 'success', 'error', 'info', 'warning'
+          * @default 'info'
          */
         "state": 'success' | 'error' | 'info' | 'warning';
     }
@@ -1143,7 +1513,13 @@ export namespace Components {
      * @imgDark /assets/img/notification-manager-dark.webp
      */
     interface PcNotificationManager {
+        /**
+          * @default 'global'
+         */
         "name": string;
+        /**
+          * @default 'bottom-right'
+         */
         "position": | 'top-right'
     | 'top-left'
     | 'bottom-right'
@@ -1160,26 +1536,42 @@ export namespace Components {
     interface PcNumber {
         /**
           * Indicates whether the value of the control can be automatically completed by the browser.
+          * @default 'off'
          */
         "autocomplete": 'on' | 'off';
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "helperText": string;
+        /**
+          * @default false
+         */
         "hideActions": boolean;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
@@ -1188,10 +1580,12 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -1204,17 +1598,26 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton": boolean;
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state": 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
+          * @default null
          */
         "value"?: number | null;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -1230,6 +1633,7 @@ export namespace Components {
     interface PcPopover {
         /**
           * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
+          * @default 300
          */
         "dismissTimeout": number;
         /**
@@ -1238,14 +1642,17 @@ export namespace Components {
         "hide": () => Promise<void>;
         /**
           * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
+          * @default 4
          */
         "offset": number;
         /**
           * Determines whether the popover is open.
+          * @default false
          */
         "open": boolean;
         /**
           * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
+          * @default 200
          */
         "openTimeout": number;
         /**
@@ -1258,10 +1665,12 @@ export namespace Components {
         "show": (target?: HTMLElement) => Promise<void>;
         /**
           * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
+          * @default 'caret'
          */
         "tip": 'caret' | 'tab' | 'none';
         /**
           * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
+          * @default 'hover'
          */
         "trigger": 'click' | 'hover' | 'manual';
     }
@@ -1296,25 +1705,41 @@ export namespace Components {
     interface PcSelect {
         /**
           * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+          * @default false
          */
         "clearable": boolean;
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "helperText": string;
+        /**
+          * @default false
+         */
         "hideDropdownIcon": boolean;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma',   icon: 'person' }]
+          * @default []
          */
         "items": {
     label: string | number;
@@ -1323,28 +1748,41 @@ export namespace Components {
   }[];
         "label": string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "multiple": boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
+        /**
+          * @default false
+         */
         "open": boolean;
         "openSelectList": () => Promise<void>;
         /**
           * The input field placeholder.
          */
         "placeholder": string;
+        /**
+          * @default 'bottom-start,top-start,bottom-end,top-end'
+         */
         "placements": string;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
           * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+          * @default 'none'
          */
         "search": 'none' | 'initial' | 'contains' | 'managed';
         /**
@@ -1355,19 +1793,28 @@ export namespace Components {
           * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.t
          */
         "setFocus": () => Promise<void>;
+        /**
+          * @default false
+         */
         "showLoader": boolean;
         /**
           * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state": 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -1381,13 +1828,18 @@ export namespace Components {
      * @imgDark /assets/img/slider-dark.webp
      */
     interface PcSlider {
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         /**
@@ -1395,18 +1847,27 @@ export namespace Components {
          */
         "formatter": (value: string | number) => string;
         "getComponentId": () => Promise<string>;
+        /**
+          * @default 100
+         */
         "max": number;
+        /**
+          * @default 0
+         */
         "min": number;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -1417,10 +1878,17 @@ export namespace Components {
           * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
          */
         "setFocus": () => Promise<void>;
+        /**
+          * @default false
+         */
         "showOnlySlider": boolean;
+        /**
+          * @default 1
+         */
         "step": number;
         /**
           * The input field value.
+          * @default 0
          */
         "value"?: number;
     }
@@ -1433,18 +1901,29 @@ export namespace Components {
      * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
      */
     interface PcSpinner {
+        /**
+          * @default 'Loading...'
+         */
         "description": string;
+        /**
+          * @default false
+         */
         "hideBackground": boolean;
         /**
           * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg' | string;
     }
     interface PcTab {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
+        /**
+          * @default ''
+         */
         "disabledReason": string;
         /**
           * Hyperlink to navigate to on click.
@@ -1457,19 +1936,27 @@ export namespace Components {
         "label": string;
         /**
           * Button selection state.
+          * @default false
          */
         "selected": boolean;
         "setFocus": () => Promise<void>;
         /**
           * Show loader.
+          * @default false
          */
         "showLoader": boolean;
         "target": string;
         "triggerClick": () => Promise<void>;
+        /**
+          * @default 'default'
+         */
         "type": 'contained' | 'contained-bottom' | 'default';
         "value": string;
     }
     interface PcTabPanel {
+        /**
+          * @default false
+         */
         "active": boolean;
         "layer"?: 'background' | '01' | '02';
         "value": string;
@@ -1485,24 +1972,56 @@ export namespace Components {
     interface PcTable {
         /**
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
+          * @default []
          */
         "columns": any[];
         /**
           * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+          * @default []
          */
         "data": any[];
+        /**
+          * @default 'There are no items to display'
+         */
         "emptyStateDescription": string;
+        /**
+          * @default 'No items'
+         */
         "emptyStateHeadline": string;
+        /**
+          * @default 'id'
+         */
         "keyField": string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "managed": boolean;
+        /**
+          * @default 1
+         */
         "page": number;
+        /**
+          * @default 10
+         */
         "pageSize": number;
+        /**
+          * @default true
+         */
         "paginate": boolean;
+        /**
+          * @default []
+         */
         "selectedRowKeys": string[];
         "selectionType": 'checkbox' | undefined;
         "sortBy": string;
+        /**
+          * @default 'asc'
+         */
         "sortOrder": 'asc' | 'desc';
+        /**
+          * @default true
+         */
         "sortable": boolean;
         "totalItems": any;
     }
@@ -1521,10 +2040,19 @@ export namespace Components {
      */
     interface PcTabs {
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default 'default'
+         */
         "type": 'contained' | 'contained-bottom' | 'default';
     }
     interface PcTabsList {
+        /**
+          * @default false
+         */
         "managed": boolean;
+        /**
+          * @default 'default'
+         */
         "type": 'contained' | 'contained-bottom' | 'default';
     }
     /**
@@ -1538,6 +2066,7 @@ export namespace Components {
     interface PcTag {
         /**
           * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
+          * @default 'gray'
          */
         "color": | 'gray'
     | 'blue'
@@ -1551,6 +2080,7 @@ export namespace Components {
     | 'error';
         /**
           * If true, the tag will have a close icon.
+          * @default false
          */
         "dismissible": boolean;
         /**
@@ -1559,14 +2089,17 @@ export namespace Components {
         "imageSrc"?: string;
         /**
           * If true, the tag will be selected.
+          * @default false
          */
         "selected": boolean;
         /**
           * Text size.
+          * @default 'md'
          */
         "size": 'sm' | 'md';
         /**
           * Tag value.
+          * @default ''
          */
         "value": string;
     }
@@ -1590,25 +2123,38 @@ export namespace Components {
     interface PcTextarea {
         /**
           * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+          * @default false
          */
         "clearable": boolean;
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goat:change` event after each keystroke.
+          * @default 300
          */
         "debounce": number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
         "helperText": string;
+        /**
+          * @default false
+         */
         "inline": boolean;
+        /**
+          * @default false
+         */
         "invalid": boolean;
         "invalidText": string;
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
@@ -1617,10 +2163,12 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
         /**
@@ -1633,17 +2181,25 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton": boolean;
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state": 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
          */
         "value": string;
+        /**
+          * @default false
+         */
         "warn": boolean;
         "warnText": string;
     }
@@ -1656,15 +2212,23 @@ export namespace Components {
      * @example <pc-time-picker value='10:00:00'></pc-time-picker>
      */
     interface PcTimePicker {
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
+        /**
+          * @default false
+         */
         "inline": boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
         /**
@@ -1673,6 +2237,7 @@ export namespace Components {
         "placeholder": string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly": boolean;
         /**
@@ -1685,10 +2250,12 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number | null;
     }
@@ -1701,9 +2268,13 @@ export namespace Components {
      * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
      */
     interface PcToggle {
+        /**
+          * @default {}
+         */
         "configAria": any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
         "getComponentId": () => Promise<string>;
@@ -1713,13 +2284,21 @@ export namespace Components {
         "label": string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name": string;
+        /**
+          * @default false
+         */
         "readonly": boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required": boolean;
+        /**
+          * @default true
+         */
         "rounded": boolean;
         /**
           * Sets blur on the native `input` in `pc-toggle`. Use this method instead of the global `input.blur()`.
@@ -1731,6 +2310,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * The input field value.
+          * @default false
          */
         "value": boolean;
     }
@@ -1746,14 +2326,17 @@ export namespace Components {
     interface PcTooltip {
         /**
           * The content of the tooltip.
+          * @default ''
          */
         "content": string;
         /**
           * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"right"`: The popover is placed to the right of the trigger element. - `"bottom"`: The popover is placed below the trigger element. - `"left"`: The popover is placed to the left of the trigger element.
+          * @default 'top,bottom,right,left'
          */
         "placements": string;
         /**
           * If true, the tooltip will be managed by the parent component.
+          * @default 'hover'
          */
         "trigger": 'hover' | 'manual';
     }
@@ -1770,8 +2353,12 @@ export namespace Components {
     interface PcTreeNode {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled": boolean;
+        /**
+          * @default true
+         */
         "expanded": boolean;
         /**
           * Hyperlink to navigate to on click.
@@ -1781,7 +2368,13 @@ export namespace Components {
           * Icon which will displayed on button. Possible values are icon names.
          */
         "icon": string;
+        /**
+          * @default ''
+         */
         "label": string;
+        /**
+          * @default 0
+         */
         "level": number;
         /**
           * Menu item selection state.
@@ -1797,6 +2390,7 @@ export namespace Components {
         "setFocus": () => Promise<void>;
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target": string;
         /**
@@ -1814,7 +2408,13 @@ export namespace Components {
      * @imgDark /assets/img/tree-view-dark.webp
      */
     interface PcTreeView {
+        /**
+          * @default false
+         */
         "empty": boolean;
+        /**
+          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
+         */
         "emptyState": string;
         "getSelectedNode": () => Promise<string>;
         "selectedNode": string;
@@ -3290,20 +3890,44 @@ declare global {
 declare namespace LocalJSX {
     interface GoatCbCompoundExpression {
         "conditionOperator"?: 'and' | 'or';
+        /**
+          * @default ''
+         */
         "fieldLabel"?: string;
+        /**
+          * @default ''
+         */
         "fieldName"?: string;
     }
     interface GoatCbDivider {
+        /**
+          * @default false
+         */
         "connectEnd"?: boolean;
+        /**
+          * @default false
+         */
         "connectStart"?: boolean;
+        /**
+          * @default false
+         */
         "vertical"?: boolean;
     }
     interface GoatCbExpression {
+        /**
+          * @default ''
+         */
         "operatorValue"?: string;
+        /**
+          * @default []
+         */
         "operators"?: any[];
     }
     interface GoatCbPredicate {
         "conditionOperator"?: 'and' | 'or';
+        /**
+          * @default false
+         */
         "vertical"?: boolean;
     }
     /**
@@ -3323,22 +3947,27 @@ declare namespace LocalJSX {
         "format"?: boolean;
         /**
           * Hide the copy button.
+          * @default false
          */
         "hideCopy"?: boolean;
         /**
           * Display the code snippet inline.
+          * @default false
          */
         "inline"?: boolean;
         /**
           * The language of the code snippet.
+          * @default 'javascript'
          */
         "language"?: Language;
         /**
           * Display line numbers.
+          * @default false
          */
         "lineNumbers"?: boolean;
         /**
           * The code snippet to highlight.
+          * @default ''
          */
         "value"?: string;
     }
@@ -3361,19 +3990,37 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/footer-dark.webp
      */
     interface GoatFooter {
+        /**
+          * @default 'simple'
+         */
         "variant"?: 'simple';
+        /**
+          * @default new Date().getFullYear()
+         */
         "year"?: number;
     }
     interface GoatFooterCopyright {
         "copyright"?: string;
         "copyrightHref"?: string;
+        /**
+          * @default new Date().getFullYear()
+         */
         "year"?: number;
     }
     interface GoatFooterLinks {
+        /**
+          * @default []
+         */
         "links"?: { name: string; href: string }[];
     }
     interface GoatHeaderAction {
+        /**
+          * @default '_self'
+         */
         "badge"?: string;
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Hyperlink to navigate to on click.
@@ -3385,14 +4032,19 @@ declare namespace LocalJSX {
         "icon"?: string;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none';
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target"?: string;
     }
     interface GoatHeaderBrand {
+        /**
+          * @default '#'
+         */
         "href"?: string;
         "logo"?: string;
         "name"?: string;
@@ -3410,18 +4062,30 @@ declare namespace LocalJSX {
     interface GoatHtmlEditor {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
+          * @default 250
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default 'on'
+         */
         "lineNumbers"?: 'off' | 'on';
+        /**
+          * @default []
+         */
         "mentions"?: { label: string; value: string }[];
+        /**
+          * @default 'contains'
+         */
         "mentionsSearch"?: 'contains' | 'managed';
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -3436,14 +4100,30 @@ declare namespace LocalJSX {
           * The input field placeholder.
          */
         "placeholder"?: string;
+        /**
+          * @default false
+         */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
+        /**
+          * @default true
+         */
         "showSuggestionCharacter"?: boolean;
+        /**
+          * @default true
+         */
         "showToolbar"?: boolean;
+        /**
+          * @default '@'
+         */
         "suggestionCharacter"?: string;
+        /**
+          * @default 'vs-light'
+         */
         "theme"?: 'vs-light' | 'vs-dark';
         /**
           * The input field value.
@@ -3461,17 +4141,30 @@ declare namespace LocalJSX {
      * @img1 /assets/img/sidenav.webp
      */
     interface GoatSidenav {
+        /**
+          * @default false
+         */
         "showLoader"?: boolean;
     }
     interface GoatSidenavMenu {
+        /**
+          * @default false
+         */
         "empty"?: boolean;
+        /**
+          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
+         */
         "emptyState"?: any;
+        /**
+          * @default false
+         */
         "showLoader"?: boolean;
         "value"?: string | number;
     }
     interface GoatSidenavMenuItem {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -3480,6 +4173,7 @@ declare namespace LocalJSX {
         "onGoat:sidenav-menu-item-click"?: (event: GoatSidenavMenuItemCustomEvent<any>) => void;
         /**
           * Menu item selection state.
+          * @default false
          */
         "selected"?: boolean;
         /**
@@ -3502,11 +4196,16 @@ declare namespace LocalJSX {
     interface PcAccordion {
         /**
           * Accordion item dropdown alignment.
+          * @default 'end'
          */
         "align"?: 'start' | 'end';
+        /**
+          * @default false
+         */
         "multiple"?: boolean;
         /**
           * The According size.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
     }
@@ -3522,6 +4221,7 @@ declare namespace LocalJSX {
     interface PcAccordionItem {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -3534,6 +4234,7 @@ declare namespace LocalJSX {
         "onAccordion--item--click"?: (event: PcAccordionItemCustomEvent<any>) => void;
         /**
           * Menu item selection state.
+          * @default false
          */
         "open"?: boolean;
     }
@@ -3547,7 +4248,13 @@ declare namespace LocalJSX {
      * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
      */
     interface PcAvatar {
+        /**
+          * @default ''
+         */
         "name"?: string;
+        /**
+          * @default ''
+         */
         "src"?: string;
     }
     /**
@@ -3571,6 +4278,9 @@ declare namespace LocalJSX {
     interface PcBreadcrumb {
     }
     interface PcBreadcrumbItem {
+        /**
+          * @default false
+         */
         "active"?: boolean;
         /**
           * Hyperlink to navigate to on click.
@@ -3600,6 +4310,7 @@ declare namespace LocalJSX {
         "appendData"?: any;
         /**
           * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+          * @default 'primary'
          */
         "color"?: | 'primary'
     | 'secondary'
@@ -3608,13 +4319,18 @@ declare namespace LocalJSX {
     | 'warning'
     | 'white'
     | 'black';
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * If button is disabled, the reason why it is disabled.
+          * @default ''
          */
         "disabledReason"?: string;
         /**
@@ -3623,6 +4339,7 @@ declare namespace LocalJSX {
         "href"?: string;
         /**
           * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
+          * @default 'end'
          */
         "iconAlign"?: 'start' | 'end';
         /**
@@ -3633,26 +4350,32 @@ declare namespace LocalJSX {
   }>) => void;
         /**
           * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'sm'
          */
         "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target"?: string;
         /**
           * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+          * @default 200
          */
         "throttleDelay"?: number;
         /**
           * If true, the button will be in a toggled state.
+          * @default false
          */
         "toggle"?: boolean;
         /**
           * Button type based on which actions are performed when the button is clicked.
+          * @default 'button'
          */
         "type"?: 'button' | 'submit' | 'reset';
         /**
           * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
+          * @default 'filled'
          */
         "variant"?: | 'elevated'
     | 'filled'
@@ -3686,6 +4409,7 @@ declare namespace LocalJSX {
     interface PcCalendar {
         /**
           * Available views.
+          * @default [     {       label: 'Day',       value: 'day',       type: 'column',       days: 1,     },     {       label: 'Week',       value: 'week',       type: 'column',       days: 7,     },     {       label: 'Month',       value: 'month',       type: 'month',     },   ]
          */
         "availableViews"?: CalendarViewType[];
         /**
@@ -3694,10 +4418,12 @@ declare namespace LocalJSX {
         "contextDate"?: Date;
         /**
           * Event clickable.
+          * @default true
          */
         "eventClickable"?: boolean;
         /**
           * Calendar events.
+          * @default []
          */
         "events"?: EventType[];
         /**
@@ -3706,6 +4432,7 @@ declare namespace LocalJSX {
         "onPc-calendar--event-click"?: (event: PcCalendarCustomEvent<any>) => void;
         /**
           * Show loader.
+          * @default false
          */
         "showLoader"?: boolean;
         /**
@@ -3714,17 +4441,30 @@ declare namespace LocalJSX {
         "timezone"?: string;
         /**
           * Calendar view.
+          * @default 'week'
          */
         "view"?: 'day' | 'week' | 'month' | string;
     }
     interface PcCalendarColumnView {
         "contextDate"?: Date;
         "currentTime"?: Date;
+        /**
+          * @default 7
+         */
         "days"?: number;
+        /**
+          * @default true
+         */
         "eventClickable"?: boolean;
+        /**
+          * @default []
+         */
         "events"?: any[];
         "onInternal-column-view-date-click"?: (event: PcCalendarColumnViewCustomEvent<any>) => void;
         "onInternal-column-view-event-click"?: (event: PcCalendarColumnViewCustomEvent<any>) => void;
+        /**
+          * @default 'week'
+         */
         "view"?: string;
     }
     interface PcCalendarColumnViewBackground {
@@ -3734,12 +4474,21 @@ declare namespace LocalJSX {
     interface PcCalendarMonthView {
         "contextDate"?: Date;
         "currentTime"?: Date;
+        /**
+          * @default true
+         */
         "eventClickable"?: boolean;
+        /**
+          * @default []
+         */
         "events"?: any[];
         "onInternal-month-view-date-click"?: (event: PcCalendarMonthViewCustomEvent<any>) => void;
         "onInternal-month-view-event-click"?: (event: PcCalendarMonthViewCustomEvent<any>) => void;
     }
     interface PcCalendarMonthViewBackground {
+        /**
+          * @default 1
+         */
         "columns"?: number;
     }
     /**
@@ -3750,9 +4499,18 @@ declare namespace LocalJSX {
      * @img /assets/img/canvas.webp
      */
     interface PcCanvas {
+        /**
+          * @default 1
+         */
         "padding"?: number;
+        /**
+          * @default []
+         */
         "shapes"?: any[];
         "viewbox"?: string;
+        /**
+          * @default 1
+         */
         "zoom"?: number;
     }
     interface PcCard {
@@ -3768,10 +4526,22 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/chart-doughnut-dark.webp
      */
     interface PcChartDoughnut {
+        /**
+          * @default []
+         */
         "data"?: any;
         "label"?: string;
+        /**
+          * @default 10
+         */
         "margin"?: number;
+        /**
+          * @default true
+         */
         "showLabels"?: boolean;
+        /**
+          * @default 0
+         */
         "width"?: number;
     }
     /**
@@ -3784,10 +4554,22 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/chart-pie-dark.webp
      */
     interface PcChartPie {
+        /**
+          * @default []
+         */
         "data"?: any;
         "label"?: string;
+        /**
+          * @default 10
+         */
         "margin"?: number;
+        /**
+          * @default true
+         */
         "showLabels"?: boolean;
+        /**
+          * @default 0
+         */
         "width"?: number;
     }
     /**
@@ -3799,11 +4581,18 @@ declare namespace LocalJSX {
      * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
      */
     interface PcCheckbox {
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default false
+         */
         "intermediate"?: boolean;
         /**
           * The checkbox label.
@@ -3812,6 +4601,7 @@ declare namespace LocalJSX {
         "layer"?: 'background' | '01' | '02';
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -3826,18 +4616,27 @@ declare namespace LocalJSX {
           * Emitted when the input has focus.
          */
         "onGoat-checkbox--focus"?: (event: PcCheckboxCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
+        /**
+          * @default false
+         */
         "rounded"?: boolean;
         /**
           * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default false
          */
         "value"?: boolean;
     }
@@ -3853,27 +4652,43 @@ declare namespace LocalJSX {
     interface PcCodeEditor {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
+          * @default 250
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default 'javascript'
+         */
         "language"?: 'javascript' | 'json' | 'html';
         "libSource"?: any;
+        /**
+          * @default 'on'
+         */
         "lineNumbers"?: 'off' | 'on';
+        /**
+          * @default false
+         */
         "minimap"?: boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
           * Emitted when the value has changed.
          */
         "onPc-code-editor--change"?: (event: PcCodeEditorCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
@@ -3882,6 +4697,9 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     interface PcContainer {
+        /**
+          * @default 'full'
+         */
         "size"?: 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
@@ -3902,22 +4720,34 @@ declare namespace LocalJSX {
      * @example <pc-date-picker></pc-date-picker>
      */
     interface PcDatePicker {
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -3942,20 +4772,27 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number | null;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -3968,6 +4805,9 @@ declare namespace LocalJSX {
      * @example <pc-divider style="width: 12rem;">or</pc-divider>
      */
     interface PcDivider {
+        /**
+          * @default false
+         */
         "vertical"?: boolean;
     }
     /**
@@ -3982,8 +4822,12 @@ declare namespace LocalJSX {
     interface PcDropdown {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default false
+         */
         "managed"?: boolean;
         /**
           * Emitted when the dropdown is closed.
@@ -3994,8 +4838,17 @@ declare namespace LocalJSX {
           * Emitted when the dropdown is opened.
          */
         "onPc-dropdown--open"?: (event: PcDropdownCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
+        /**
+          * @default 'bottom-start,top-start,bottom-end,top-end'
+         */
         "placements"?: string;
+        /**
+          * @default 'click'
+         */
         "trigger"?: 'click' | 'hover' | 'manual';
     }
     /**
@@ -4028,11 +4881,20 @@ declare namespace LocalJSX {
      */
     interface PcEmptyState {
         "action"?: string;
+        /**
+          * @default false
+         */
         "actionDisabled"?: boolean;
         "actionUrl"?: string;
+        /**
+          * @default 'filled'
+         */
         "actionVariant"?: 'filled' | 'outlined' | 'text';
         "description"?: string;
         "headline"?: string;
+        /**
+          * @default 'no-document'
+         */
         "illustration"?: 'no-document' | 'page' | 'search';
     }
     /**
@@ -4043,8 +4905,17 @@ declare namespace LocalJSX {
      * @img /assets/img/flow-designer.webp
      */
     interface PcFlowDesigner {
+        /**
+          * @default 16
+         */
         "blockSize"?: number;
+        /**
+          * @default []
+         */
         "data"?: any[];
+        /**
+          * @default false
+         */
         "disabled"?: boolean;
     }
     /**
@@ -4059,15 +4930,28 @@ declare namespace LocalJSX {
      */
     interface PcFormControl {
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         "label"?: string;
         /**
           * Whether the form control is required.
+          * @default false
          */
         "required"?: boolean;
+        /**
+          * @default false
+         */
         "skeleton"?: boolean;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -4082,6 +4966,7 @@ declare namespace LocalJSX {
     interface PcHeader {
         /**
           * Defines the primary color of the header. This can be set to predefined color names to apply specific color themes.
+          * @default 'black'
          */
         "color"?: | 'primary'
     | 'secondary'
@@ -4102,6 +4987,9 @@ declare namespace LocalJSX {
     | 'white'
     | 'black'
     | string;
+        /**
+          * @default false
+         */
         "float"?: boolean;
     }
     /**
@@ -4130,24 +5018,37 @@ declare namespace LocalJSX {
     interface PcInput {
         /**
           * Indicates whether the value of the control can be automatically completed by the browser.
+          * @default 'off'
          */
         "autocomplete"?: 'on' | 'off';
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4172,25 +5073,35 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton"?: boolean;
         /**
           * The type of control to display. Possible values are: `"text"`, `"password"`, `"email"`, `"tel"`. Defaults to `"text"`.
+          * @default 'text'
          */
         "type"?: 'text' | 'password' | 'email' | 'tel';
         /**
           * The input field value.
          */
         "value"?: string;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -4205,16 +5116,22 @@ declare namespace LocalJSX {
     interface PcInputUrl {
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `valueChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the input. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default false
+         */
         "editing"?: boolean;
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-url-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4231,12 +5148,17 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton"?: boolean;
         /**
           * The input field value.
@@ -4253,6 +5175,9 @@ declare namespace LocalJSX {
      */
     interface PcLinearProgress {
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "hideLabel"?: boolean;
         /**
           * A label describing the progress bar.
@@ -4260,8 +5185,12 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md';
+        /**
+          * @default null
+         */
         "value"?: number;
     }
     /**
@@ -4283,13 +5212,26 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/menu-dark.webp
      */
     interface PcMenu {
+        /**
+          * @default false
+         */
         "empty"?: boolean;
+        /**
+          * @default 'There are no items to display'
+         */
         "emptyStateDescription"?: string;
+        /**
+          * @default 'No items'
+         */
         "emptyStateHeadline"?: string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "showLoader"?: boolean;
         /**
           * The menu item size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         "value"?: string | number;
@@ -4303,6 +5245,9 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcMenuItem {
+        /**
+          * @default 'default'
+         */
         "color"?: | 'default'
     | 'primary'
     | 'secondary'
@@ -4313,6 +5258,7 @@ declare namespace LocalJSX {
     | 'black';
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -4324,13 +5270,18 @@ declare namespace LocalJSX {
           * Emitted when the menu item is clicked.
          */
         "onPc-menu-item--click"?: (event: PcMenuItemCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "selectable"?: boolean;
         /**
           * Menu item selection state.
+          * @default false
          */
         "selected"?: boolean;
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target"?: string;
         /**
@@ -4350,9 +5301,13 @@ declare namespace LocalJSX {
      */
     interface PcModal {
         "heading"?: string;
+        /**
+          * @default false
+         */
         "hideClose"?: boolean;
         /**
           * Specify whether the Modal is managed by the parent component
+          * @default false
          */
         "managed"?: boolean;
         /**
@@ -4361,9 +5316,16 @@ declare namespace LocalJSX {
         "onPc-modal--close"?: (event: PcModalCustomEvent<any>) => void;
         /**
           * Specify whether the Modal is currently open
+          * @default false
          */
         "open"?: boolean;
+        /**
+          * @default false
+         */
         "showLoader"?: boolean;
+        /**
+          * @default 'md'
+         */
         "size"?: 'sm' | 'md' | 'lg';
         "subheading"?: string;
     }
@@ -4376,6 +5338,9 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcModalContent {
+        /**
+          * @default 'default'
+         */
         "type"?: 'text' | 'borderless' | 'default';
     }
     /**
@@ -4395,18 +5360,22 @@ declare namespace LocalJSX {
         "action"?: string;
         /**
           * Whether the notification is dismissible
+          * @default false
          */
         "dismissible"?: boolean;
         /**
           * Whether to use high contrast mode
+          * @default false
          */
         "highContrast"?: boolean;
         /**
           * Whether the notification should be displayed inline
+          * @default false
          */
         "inline"?: boolean;
         /**
           * Whether the notification is managed by the notification manager
+          * @default false
          */
         "managed"?: boolean;
         "onPc-notification--action-click"?: (event: PcNotificationCustomEvent<any>) => void;
@@ -4416,6 +5385,7 @@ declare namespace LocalJSX {
         "onPc-notification--dismiss"?: (event: PcNotificationCustomEvent<any>) => void;
         /**
           * The state of the notification. Possible values are: 'success', 'error', 'info', 'warning'
+          * @default 'info'
          */
         "state"?: 'success' | 'error' | 'info' | 'warning';
     }
@@ -4429,7 +5399,13 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/notification-manager-dark.webp
      */
     interface PcNotificationManager {
+        /**
+          * @default 'global'
+         */
         "name"?: string;
+        /**
+          * @default 'bottom-right'
+         */
         "position"?: | 'top-right'
     | 'top-left'
     | 'bottom-right'
@@ -4446,25 +5422,41 @@ declare namespace LocalJSX {
     interface PcNumber {
         /**
           * Indicates whether the value of the control can be automatically completed by the browser.
+          * @default 'off'
          */
         "autocomplete"?: 'on' | 'off';
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "hideActions"?: boolean;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4489,25 +5481,36 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton"?: boolean;
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state"?: 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
+          * @default null
          */
         "value"?: number | null;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -4523,10 +5526,12 @@ declare namespace LocalJSX {
     interface PcPopover {
         /**
           * Time in milliseconds to wait before hiding the popover when the trigger is set to `"hover"`.
+          * @default 300
          */
         "dismissTimeout"?: number;
         /**
           * The offset of the popover relative to the trigger element. This value is used to adjust the position of the popover along the axis of the trigger element.
+          * @default 4
          */
         "offset"?: number;
         /**
@@ -4539,10 +5544,12 @@ declare namespace LocalJSX {
         "onPc-popover--open"?: (event: PcPopoverCustomEvent<any>) => void;
         /**
           * Determines whether the popover is open.
+          * @default false
          */
         "open"?: boolean;
         /**
           * Time in milliseconds to wait before showing the popover when the trigger is set to `"hover"`.
+          * @default 200
          */
         "openTimeout"?: number;
         /**
@@ -4551,10 +5558,12 @@ declare namespace LocalJSX {
         "placements"?: string;
         /**
           * The tip of the popover. Possible values are: - `"caret"`: A triangle tip. - `"tab"`: A tab tip. - `"none"`: No tip.
+          * @default 'caret'
          */
         "tip"?: 'caret' | 'tab' | 'none';
         /**
           * Determines how the popover is triggered. Possible values are: - `"click"`: The popover is shown or hidden when the trigger element is clicked. - `"hover"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves. - `"manual"`: The visibility of the popover must be manually controlled through the `open` property.
+          * @default 'hover'
          */
         "trigger"?: 'click' | 'hover' | 'manual';
     }
@@ -4589,24 +5598,40 @@ declare namespace LocalJSX {
     interface PcSelect {
         /**
           * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+          * @default false
          */
         "clearable"?: boolean;
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "hideDropdownIcon"?: boolean;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         /**
           * [{   label: 'Shivaji Varma',   value: 'shivaji-varma',   icon: 'person' }]
+          * @default []
          */
         "items"?: {
     label: string | number;
@@ -4615,9 +5640,13 @@ declare namespace LocalJSX {
   }[];
         "label"?: string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "multiple"?: boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4629,37 +5658,55 @@ declare namespace LocalJSX {
           * Emitted when a keyboard input occurred.
          */
         "onGoat-select--search"?: (event: PcSelectCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "open"?: boolean;
         /**
           * The input field placeholder.
          */
         "placeholder"?: string;
+        /**
+          * @default 'bottom-start,top-start,bottom-end,top-end'
+         */
         "placements"?: string;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
+          * @default 'none'
          */
         "search"?: 'none' | 'initial' | 'contains' | 'managed';
+        /**
+          * @default false
+         */
         "showLoader"?: boolean;
         /**
           * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state"?: 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -4673,23 +5720,35 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/slider-dark.webp
      */
     interface PcSlider {
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * function to format the value of the input
          */
         "formatter"?: (value: string | number) => string;
+        /**
+          * @default 100
+         */
         "max"?: number;
+        /**
+          * @default 0
+         */
         "min"?: number;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4702,16 +5761,25 @@ declare namespace LocalJSX {
         "onGoat-slider--input"?: (event: PcSliderCustomEvent<any>) => void;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
+        /**
+          * @default false
+         */
         "showOnlySlider"?: boolean;
+        /**
+          * @default 1
+         */
         "step"?: number;
         /**
           * The input field value.
+          * @default 0
          */
         "value"?: number;
     }
@@ -4724,18 +5792,29 @@ declare namespace LocalJSX {
      * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
      */
     interface PcSpinner {
+        /**
+          * @default 'Loading...'
+         */
         "description"?: string;
+        /**
+          * @default false
+         */
         "hideBackground"?: boolean;
         /**
           * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg' | string;
     }
     interface PcTab {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default ''
+         */
         "disabledReason"?: string;
         /**
           * Hyperlink to navigate to on click.
@@ -4752,17 +5831,25 @@ declare namespace LocalJSX {
         "onPc-tab--click"?: (event: PcTabCustomEvent<any>) => void;
         /**
           * Button selection state.
+          * @default false
          */
         "selected"?: boolean;
         /**
           * Show loader.
+          * @default false
          */
         "showLoader"?: boolean;
         "target"?: string;
+        /**
+          * @default 'default'
+         */
         "type"?: 'contained' | 'contained-bottom' | 'default';
         "value"?: string;
     }
     interface PcTabPanel {
+        /**
+          * @default false
+         */
         "active"?: boolean;
         "layer"?: 'background' | '01' | '02';
         "value"?: string;
@@ -4778,16 +5865,30 @@ declare namespace LocalJSX {
     interface PcTable {
         /**
           * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
+          * @default []
          */
         "columns"?: any[];
         /**
           * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
+          * @default []
          */
         "data"?: any[];
+        /**
+          * @default 'There are no items to display'
+         */
         "emptyStateDescription"?: string;
+        /**
+          * @default 'No items'
+         */
         "emptyStateHeadline"?: string;
+        /**
+          * @default 'id'
+         */
         "keyField"?: string;
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default false
+         */
         "managed"?: boolean;
         /**
           * Emitted when a table cell is clicked.
@@ -4805,13 +5906,31 @@ declare namespace LocalJSX {
           * Emitted when the table is sorted.
          */
         "onPc-table--sort"?: (event: PcTableCustomEvent<any>) => void;
+        /**
+          * @default 1
+         */
         "page"?: number;
+        /**
+          * @default 10
+         */
         "pageSize"?: number;
+        /**
+          * @default true
+         */
         "paginate"?: boolean;
+        /**
+          * @default []
+         */
         "selectedRowKeys"?: string[];
         "selectionType"?: 'checkbox' | undefined;
         "sortBy"?: string;
+        /**
+          * @default 'asc'
+         */
         "sortOrder"?: 'asc' | 'desc';
+        /**
+          * @default true
+         */
         "sortable"?: boolean;
         "totalItems"?: any;
     }
@@ -4830,10 +5949,19 @@ declare namespace LocalJSX {
      */
     interface PcTabs {
         "layer"?: 'background' | '01' | '02';
+        /**
+          * @default 'default'
+         */
         "type"?: 'contained' | 'contained-bottom' | 'default';
     }
     interface PcTabsList {
+        /**
+          * @default false
+         */
         "managed"?: boolean;
+        /**
+          * @default 'default'
+         */
         "type"?: 'contained' | 'contained-bottom' | 'default';
     }
     /**
@@ -4847,6 +5975,7 @@ declare namespace LocalJSX {
     interface PcTag {
         /**
           * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
+          * @default 'gray'
          */
         "color"?: | 'gray'
     | 'blue'
@@ -4860,6 +5989,7 @@ declare namespace LocalJSX {
     | 'error';
         /**
           * If true, the tag will have a close icon.
+          * @default false
          */
         "dismissible"?: boolean;
         /**
@@ -4876,14 +6006,17 @@ declare namespace LocalJSX {
         "onTag--dismiss"?: (event: PcTagCustomEvent<any>) => void;
         /**
           * If true, the tag will be selected.
+          * @default false
          */
         "selected"?: boolean;
         /**
           * Text size.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md';
         /**
           * Tag value.
+          * @default ''
          */
         "value"?: string;
     }
@@ -4907,24 +6040,37 @@ declare namespace LocalJSX {
     interface PcTextarea {
         /**
           * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
+          * @default false
          */
         "clearable"?: boolean;
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * Set the amount of time, in milliseconds, to wait to trigger the `goat:change` event after each keystroke.
+          * @default 300
          */
         "debounce"?: number;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         "helperText"?: string;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
+        /**
+          * @default false
+         */
         "invalid"?: boolean;
         "invalidText"?: string;
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -4953,25 +6099,35 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
+        /**
+          * @default false
+         */
         "skeleton"?: boolean;
         /**
           * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
+          * @default 'default'
          */
         "state"?: 'success' | 'error' | 'warning' | 'default';
         /**
           * The input field value.
          */
         "value"?: string;
+        /**
+          * @default false
+         */
         "warn"?: boolean;
         "warnText"?: string;
     }
@@ -4984,14 +6140,22 @@ declare namespace LocalJSX {
      * @example <pc-time-picker value='10:00:00'></pc-time-picker>
      */
     interface PcTimePicker {
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default false
+         */
         "inline"?: boolean;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -5016,14 +6180,17 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * If true, the user read the value cannot modify it. Defaults to `false`.
+          * @default false
          */
         "readonly"?: boolean;
         /**
           * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg';
         /**
           * The input field value.
+          * @default ''
          */
         "value"?: string | number | null;
     }
@@ -5036,9 +6203,13 @@ declare namespace LocalJSX {
      * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
      */
     interface PcToggle {
+        /**
+          * @default {}
+         */
         "configAria"?: any;
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
         /**
@@ -5047,6 +6218,7 @@ declare namespace LocalJSX {
         "label"?: string;
         /**
           * The input field name.
+          * @default `pc-input-${this.gid}`
          */
         "name"?: string;
         /**
@@ -5061,14 +6233,22 @@ declare namespace LocalJSX {
           * Emitted when the input has focus.
          */
         "onPc-toggle--focus"?: (event: PcToggleCustomEvent<any>) => void;
+        /**
+          * @default false
+         */
         "readonly"?: boolean;
         /**
           * If true, required icon is show. Defaults to `false`.
+          * @default false
          */
         "required"?: boolean;
+        /**
+          * @default true
+         */
         "rounded"?: boolean;
         /**
           * The input field value.
+          * @default false
          */
         "value"?: boolean;
     }
@@ -5084,14 +6264,17 @@ declare namespace LocalJSX {
     interface PcTooltip {
         /**
           * The content of the tooltip.
+          * @default ''
          */
         "content"?: string;
         /**
           * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"right"`: The popover is placed to the right of the trigger element. - `"bottom"`: The popover is placed below the trigger element. - `"left"`: The popover is placed to the left of the trigger element.
+          * @default 'top,bottom,right,left'
          */
         "placements"?: string;
         /**
           * If true, the tooltip will be managed by the parent component.
+          * @default 'hover'
          */
         "trigger"?: 'hover' | 'manual';
     }
@@ -5108,8 +6291,12 @@ declare namespace LocalJSX {
     interface PcTreeNode {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
+          * @default false
          */
         "disabled"?: boolean;
+        /**
+          * @default true
+         */
         "expanded"?: boolean;
         /**
           * Hyperlink to navigate to on click.
@@ -5119,7 +6306,13 @@ declare namespace LocalJSX {
           * Icon which will displayed on button. Possible values are icon names.
          */
         "icon"?: string;
+        /**
+          * @default ''
+         */
         "label"?: string;
+        /**
+          * @default 0
+         */
         "level"?: number;
         /**
           * Emitted when the menu item is clicked.
@@ -5131,6 +6324,7 @@ declare namespace LocalJSX {
         "selected"?: boolean;
         /**
           * Sets or retrieves the window or frame at which to target content.
+          * @default '_self'
          */
         "target"?: string;
         /**
@@ -5148,7 +6342,13 @@ declare namespace LocalJSX {
      * @imgDark /assets/img/tree-view-dark.webp
      */
     interface PcTreeView {
+        /**
+          * @default false
+         */
         "empty"?: boolean;
+        /**
+          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
+         */
         "emptyState"?: string;
         "selectedNode"?: string;
     }

@@ -20,7 +20,7 @@ function jumpingSentence(sentence: string) {
     return `<div class='jumping-word'>${word.split('').map((char, index) => {
       if (char === ' ')
         return char;
-      return `<h1 style='z-index:${len--};' class='jumping-text pc-text-display-large-emphasized'>${char}</h1>`;
+      return `<h1 style='z-index:${len--};' class='jumping-text p-text-display-large-emphasized'>${char}</h1>`;
     }).join('')}</div>`;
   }).join(' ');
 }
@@ -37,7 +37,7 @@ function jumpingSentence(sentence: string) {
       <BannerLogo />
 
       <div class='title'>
-        <h1 class='pc-text-display-large'>The foundation for beautiful user interfaces.</h1>
+        <h1 class='p-text-display-large'>The foundation for beautiful user interfaces.</h1>
         <Fragment set:html={jumpingSentence('goat/ui')} />
       </div>
 
@@ -72,17 +72,17 @@ function jumpingSentence(sentence: string) {
     </div>
 
     <div class='made-in-india'>
-      <p class='pc-text-body-emphasized'>Built by</p>&nbsp;
-      <p class='pc-text-body-emphasized'>
+      <p class='p-text-body-emphasized'>Built by</p>&nbsp;
+      <p class='p-text-body-emphasized'>
         <a class='pc-link no-decoration' href={site.author_url}>
           <pc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
           {site.author}
         </a>
       </p>
-      <p class='pc-text-body-emphasized'>.</p>
+      <p class='p-text-body-emphasized'>.</p>
       <pc-svg class='country-flag' size='1.5rem'
                 src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></pc-svg>
-      <p class='pc-text-body-emphasized'>Made in India.</p>
+      <p class='p-text-body-emphasized'>Made in India.</p>
     </div>
   </div>
 
@@ -90,14 +90,14 @@ function jumpingSentence(sentence: string) {
   <div class='sections-wrapper surface-container'>
     <pc-container size='max'>
       <div class='section'>
-        <h2 class='pc-text-headline'>Introduction</h2>
-        <p class='pc-text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
+        <h2 class='p-text-headline'>Introduction</h2>
+        <p class='p-text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
           include any additional framework dependencies, You can simply import required
           component js, and right away start using it.
         </p>
-        <p class='pc-text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
+        <p class='p-text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
         <br />
-        <p class='pc-text-large'>{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
+        <p class='p-text-large'>{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
           <a class='pc-link' href='https://shivajivarma.com'>Shivaji Varma</a>
           . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
           by creating pull requests or issues.
@@ -117,7 +117,7 @@ function jumpingSentence(sentence: string) {
             </pc-text>
           </li>
           <li>
-            <p class='pc-text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
+            <p class='p-text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
           </li>
         </ul>
         <div class='container-code'>

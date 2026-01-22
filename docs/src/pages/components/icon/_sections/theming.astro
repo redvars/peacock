@@ -2,25 +2,25 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<h3 class='pc-text-headline-small'>Color</h3>
-<p class='pc-text-body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
+<h3 class='p-text-headline-small'>Color</h3>
+<p class='p-text-body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
 <DemoComponentCard lang={'html'}>
-  <pc-icon name='alarm' style='--icon-color: var(--color-on-surface)'></pc-icon>
+  <p-icon name='alarm' style='--icon-color: var(--color-on-surface)'></p-icon>
 
-  <pc-icon name='alarm' style='--icon-color: var(--color-info)'></pc-icon>
-  <pc-icon name='alarm' style='--icon-color: var(--color-success)'></pc-icon>
-  <pc-icon name='alarm' style='--icon-color: var(--color-warning)'></pc-icon>
-  <pc-icon name='alarm' style='--icon-color: var(--color-danger)'></pc-icon>
+  <p-icon name='alarm' style='--icon-color: var(--color-info)'></p-icon>
+  <p-icon name='alarm' style='--icon-color: var(--color-success)'></p-icon>
+  <p-icon name='alarm' style='--icon-color: var(--color-warning)'></p-icon>
+  <p-icon name='alarm' style='--icon-color: var(--color-danger)'></p-icon>
 
   <span style='--icon-color: pink; line-height: 0;'>
-  <pc-icon name='alarm'></pc-icon>
+  <p-icon name='alarm'></p-icon>
 </span>
 </DemoComponentCard>
 
-<h3 class='pc-text-headline-small'>Size</h3>
-<p class='pc-text-body'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
+<h3 class='p-text-headline-small'>Size</h3>
+<p class='p-text-body'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
 <DemoComponentCard lang={'html'}>
-  <pc-icon name="alarm"></pc-icon>
-  <pc-icon name="alarm" style="--icon-size: 3rem"></pc-icon>
-  <pc-icon name="alarm" style="--icon-size: 100px"></pc-icon>
+  <p-icon name="alarm"></p-icon>
+  <p-icon name="alarm" style="--icon-size: 3rem"></p-icon>
+  <p-icon name="alarm" style="--icon-size: 100px"></p-icon>
 </DemoComponentCard>

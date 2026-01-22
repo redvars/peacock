@@ -3,12 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build --logLevel error",
+    "start": "npm run copy_peacock_files & astro dev",
+    "build": "npm run copy_peacock_files & astro build --logLevel error",
     "build:fetch-components": "",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "copy_peacock_files": "node copyPeacockFiles.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",

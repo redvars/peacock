@@ -1,5 +1,6 @@
 import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import css from 'rollup-plugin-import-css';
 import copy from 'rollup-plugin-copy';
 
 export default [
@@ -12,19 +13,8 @@ export default [
     },
     plugins: [
       typescript(), // The plugin loads options from tsconfig.json by default
+      css(),
       nodeResolve(),
-      copy({
-        targets: [
-          {
-            src: '../design-tokens/dist/**',
-            dest: 'dist/assets/styles/',
-          },
-          {
-            src: '../readme.md',
-            dest: './',
-          },
-        ],
-      }),
     ],
   },
   {
@@ -37,7 +27,17 @@ export default [
     },
     plugins: [
       typescript(), // The plugin loads options from tsconfig.json by default
+      css(),
       nodeResolve(),
+
+      copy({
+        targets: [
+          {
+            src: '../readme.md',
+            dest: './',
+          },
+        ],
+      }),
     ],
   },
 ];

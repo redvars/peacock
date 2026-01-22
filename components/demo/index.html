@@ -3,7 +3,13 @@
 <head>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
-  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+
+  <!-- Default font : Noto Sans and Noto Sans Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
   <style>
     body {
       background: #fafafa;
@@ -13,17 +19,24 @@
 </head>
 <body>
 
-<a href='/src/icon/demo/index.html'>icon</a>
-
-<p-icon provider='carbon' name='logo--github'></p-icon>
-
-<br/>
-
-<a href='/src/avatar/demo/index.html'>avatar</a>
-<p-avatar name='Test'></p-avatar>
+<div id='tags'></div>
 
 
+<script type="module">
+  const res = await fetch('/dist/custom-elements.json');
+  const customElements = await res.json();
+  console.log(customElements)
+  const customTags = customElements.modules.filter(module =>
+    module.declarations.find(d => d.tagName),
+  );
 
-<script type='module' src='/dist/src/peacock-loader.js'></script>
+  console.log(customTags);
+
+  const $tags = document.querySelector('#tags');
+  customTags.forEach((tag) => {
+    $tags.innerHTML += `<p><a href='/src/${tag.declarations[0].tagName.split('-')[1]}/demo/index.html'>${tag.declarations[0].tagName}</p></a>`;
+  })
+
+</script>
 </body>
 </html>

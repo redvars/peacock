@@ -1,2 +1,3 @@
-export { Icon } from './icon/icon.js';
-export { Avatar } from './avatar/avatar.js';
+export { Icon } from './icon/index.js';
+export { Avatar } from './avatar/index.js';
+export { Badge } from './badge/index.js';

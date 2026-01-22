@@ -7,20 +7,20 @@
 
 ## Properties
 
-| Property         | Attribute          | Description                                                                                              | Type                                  | Default                  |
-| ---------------- | ------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------ |
-| `configAria`     | `config-aria`      |                                                                                                          | `any`                                 | `{}`                     |
-| `debounce`       | `debounce`         | Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke. | `number`                              | `300`                    |
-| `disabled`       | `disabled`         | If true, the user cannot interact with the button. Defaults to `false`.                                  | `boolean`                             | `false`                  |
-| `formatter`      | --                 | function to format the value of the input                                                                | `(value: string \| number) => string` | `undefined`              |
-| `max`            | `max`              |                                                                                                          | `number`                              | `100`                    |
-| `min`            | `min`              |                                                                                                          | `number`                              | `0`                      |
-| `name`           | `name`             | The input field name.                                                                                    | `string`                              | ``pc-input-${this.gid}`` |
-| `readonly`       | `readonly`         | If true, the user cannot interact with the button. Defaults to `false`.                                  | `boolean`                             | `false`                  |
-| `required`       | `required`         | If true, required icon is show. Defaults to `false`.                                                     | `boolean`                             | `false`                  |
-| `showOnlySlider` | `show-only-slider` |                                                                                                          | `boolean`                             | `false`                  |
-| `step`           | `step`             |                                                                                                          | `number`                              | `1`                      |
-| `value`          | `value`            | The input field value.                                                                                   | `number`                              | `0`                      |
+| Property         | Attribute          | Description                                                                                              | Type                                  | Default                      |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------- | ---------------------------- |
+| `configAria`     | `config-aria`      |                                                                                                          | `any`                                 | `{}`                         |
+| `debounce`       | `debounce`         | Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke. | `number`                              | `300`                        |
+| `disabled`       | `disabled`         | If true, the user cannot interact with the button. Defaults to `false`.                                  | `boolean`                             | `false`                      |
+| `formatter`      | --                 | function to format the value of the input                                                                | `(value: string \| number) => string` | `undefined`                  |
+| `max`            | `max`              |                                                                                                          | `number`                              | `100`                        |
+| `min`            | `min`              |                                                                                                          | `number`                              | `0`                          |
+| `name`           | `name`             | The input field name.                                                                                    | `string`                              | `` `pc-input-${this.gid}` `` |
+| `readonly`       | `readonly`         | If true, the user cannot interact with the button. Defaults to `false`.                                  | `boolean`                             | `false`                      |
+| `required`       | `required`         | If true, required icon is show. Defaults to `false`.                                                     | `boolean`                             | `false`                      |
+| `showOnlySlider` | `show-only-slider` |                                                                                                          | `boolean`                             | `false`                      |
+| `step`           | `step`             |                                                                                                          | `number`                              | `1`                          |
+| `value`          | `value`            | The input field value.                                                                                   | `number`                              | `0`                          |
 
 
 ## Events

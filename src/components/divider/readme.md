@@ -12,6 +12,14 @@
 | `vertical` | `vertical` |             | `boolean` | `false` |
 
 
+## CSS Custom Properties
+
+| Name                 | Description            |
+| -------------------- | ---------------------- |
+| `--divider-padding`  | Padding of the divider |
+| `--pc-divider-color` | Color of the divider   |
+
+
 ## Dependencies
 
 ### Used by
