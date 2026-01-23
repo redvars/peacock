@@ -2,7 +2,7 @@
   "dependencies": {
     "d3": "7.9.0",
     "monaco-editor": "0.48.0",
-    "prismjs": "1.29.0",
+    "prismjs": "1.30.0",
     "@redvars/peacock-design-tokens": "^0.0.1"
   }
 }
