@@ -17,6 +17,30 @@ const TYPES = [
 
 const SIZES = ['large', 'medium', 'small'] as const;
 
+const createTagClass = (prefix: string, tag: string) => css`
+  .${unsafeCSS(prefix)}-text-${unsafeCSS(tag)} {
+    ${getTypography(tag)}
+  }
+
+  .${unsafeCSS(prefix)}-text-${unsafeCSS(tag)}-emphasized {
+    ${getTypography(`${tag}-emphasized`)}
+  }
+`;
+
+const createTypeClass = (prefix: string, type: string) => css`
+  .${unsafeCSS(prefix)}-text-${unsafeCSS(type)} {
+    ${getTypography(`${type}-medium`)}
+  }
+
+  .${unsafeCSS(prefix)}-text-${unsafeCSS(type)}-emphasized {
+    ${getTypography(`${type}-medium-emphasized`)}
+  }
+
+  ${unsafeCSS(
+    SIZES.map(size => createTagClass(prefix, `${type}-${size}`)).join(''),
+  )}
+`;
+
 export const createTextStyles = (prefix: string): CSSResult => css`
   /* === Margin rules (manual groups from Sass) === */
 
@@ -48,35 +72,5 @@ export const createTextStyles = (prefix: string): CSSResult => css`
     margin-block-end: var(--spacing-400);
   }
 
-  /* === Typography rules (Sass @each equivalent) === */
-
-  ${unsafeCSS(
-    TYPES.map(
-      type => css`
-        .${unsafeCSS(prefix)}-text-${unsafeCSS(type)} {
-          ${unsafeCSS(getTypography(`${type}-medium`))}
-        }
-
-        .${unsafeCSS(prefix)}-text-${unsafeCSS(type)}-emphasized {
-          ${unsafeCSS(getTypography(`${type}-medium-emphasized`))}
-        }
-
-        ${unsafeCSS(
-          SIZES.map(
-            size => css`
-              .${unsafeCSS(prefix)}-text-${unsafeCSS(type)}-${unsafeCSS(size)} {
-                ${unsafeCSS(getTypography(`${type}-${size}`))}
-              }
-
-              .${unsafeCSS(prefix)}-text-${unsafeCSS(type)}-${unsafeCSS(
-                size,
-              )}-emphasized {
-                ${unsafeCSS(getTypography(`${type}-${size}-emphasized`))}
-              }
-            `,
-          ),
-        )}
-      `,
-    ),
-  )}
+  ${unsafeCSS(TYPES.map(type => createTypeClass(prefix, type)).join(''))}
 `;

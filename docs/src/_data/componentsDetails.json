@@ -13,25 +13,16 @@
       "readmePath": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-compound-expression/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-compound-expression/usage",
       "tag": "goat-cb-compound-expression",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "goat-cb-divider",
-        "pc-tag"
-      ],
+      "dependencies": ["goat-cb-divider", "pc-tag"],
       "dependencyGraph": {
-        "goat-cb-compound-expression": [
-          "goat-cb-divider",
-          "pc-tag"
-        ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ]
+        "goat-cb-compound-expression": ["goat-cb-divider", "pc-tag"],
+        "pc-tag": ["p-icon", "pc-elevation"]
       },
       "props": [
         {
@@ -136,7 +127,7 @@
       "readmePath": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-divider/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-divider/usage",
       "tag": "goat-cb-divider",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -148,15 +139,9 @@
       ],
       "dependencies": [],
       "dependencyGraph": {
-        "goat-cb-compound-expression": [
-          "goat-cb-divider"
-        ],
-        "goat-cb-predicate": [
-          "goat-cb-divider"
-        ],
-        "goat-condition-builder": [
-          "goat-cb-divider"
-        ]
+        "goat-cb-compound-expression": ["goat-cb-divider"],
+        "goat-cb-predicate": ["goat-cb-divider"],
+        "goat-condition-builder": ["goat-cb-divider"]
       },
       "props": [
         {
@@ -262,7 +247,7 @@
       "readmePath": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-expression/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-expression/usage",
       "tag": "goat-cb-expression",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -344,25 +329,16 @@
       "readmePath": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-predicate/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/application/condition-builder/cb-predicate/usage",
       "tag": "goat-cb-predicate",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "goat-cb-divider",
-        "pc-tag"
-      ],
+      "dependencies": ["goat-cb-divider", "pc-tag"],
       "dependencyGraph": {
-        "goat-cb-predicate": [
-          "goat-cb-divider",
-          "pc-tag"
-        ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ]
+        "goat-cb-predicate": ["goat-cb-divider", "pc-tag"],
+        "pc-tag": ["p-icon", "pc-elevation"]
       },
       "props": [
         {
@@ -444,26 +420,16 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-tooltip",
-        "pc-button",
-        "pc-icon",
-        "pc-spinner"
-      ],
+      "dependencies": ["pc-tooltip", "pc-button", "p-icon", "pc-spinner"],
       "dependencyGraph": {
         "goat-code-highlighter": [
           "pc-tooltip",
           "pc-button",
-          "pc-icon",
+          "p-icon",
           "pc-spinner"
         ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-tooltip": ["pc-popover", "pc-popover-content"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -1133,39 +1099,19 @@
       "readmePath": "E:/git/redvars/peacock/src/components/application/condition-builder/condition-builder/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/application/condition-builder/condition-builder/usage",
       "tag": "goat-condition-builder",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-input",
-        "goat-cb-divider",
-        "pc-tag"
-      ],
+      "dependencies": ["pc-input", "goat-cb-divider", "pc-tag"],
       "dependencyGraph": {
-        "goat-condition-builder": [
-          "pc-input",
-          "goat-cb-divider",
-          "pc-tag"
-        ],
-        "pc-input": [
-          "pc-tooltip",
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ]
+        "goat-condition-builder": ["pc-input", "goat-cb-divider", "pc-tag"],
+        "pc-input": ["pc-tooltip", "pc-button", "p-icon"],
+        "pc-tooltip": ["pc-popover", "pc-popover-content"],
+        "pc-button": ["pc-elevation"],
+        "pc-tag": ["p-icon", "pc-elevation"]
       },
       "props": [
         {
@@ -1463,18 +1409,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "goat-header-action": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "goat-header-action": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -1717,20 +1655,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon",
-        "pc-divider"
-      ],
+      "dependencies": ["pc-button", "p-icon", "pc-divider"],
       "dependencyGraph": {
-        "goat-header-brand": [
-          "pc-button",
-          "pc-icon",
-          "pc-divider"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "goat-header-brand": ["pc-button", "p-icon", "pc-divider"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -1890,7 +1818,7 @@
       "dependents": [],
       "dependencies": [
         "pc-button",
-        "pc-icon",
+        "p-icon",
         "pc-spinner",
         "pc-code-editor",
         "pc-toggle",
@@ -1900,34 +1828,19 @@
       "dependencyGraph": {
         "goat-html-editor": [
           "pc-button",
-          "pc-icon",
+          "p-icon",
           "pc-spinner",
           "pc-code-editor",
           "pc-toggle",
           "pc-menu",
           "pc-menu-item"
         ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-code-editor": [
-          "pc-tag",
-          "pc-spinner"
-        ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-menu-item": [
-          "pc-icon"
-        ]
+        "pc-button": ["pc-elevation"],
+        "pc-code-editor": ["pc-tag", "pc-spinner"],
+        "pc-tag": ["p-icon", "pc-elevation"],
+        "pc-menu": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-menu-item": ["p-icon"]
       },
       "props": [
         {
@@ -2478,10 +2391,7 @@
         "name": "html-editor",
         "description": "HTML Editor component is a WYSIWYG editor that allows users to edit HTML content.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "img": "/assets/img/html-editor.webp",
         "imgDark": "/assets/img/html-editor-dark.webp"
       }
@@ -2493,7 +2403,7 @@
       "readmePath": "E:/git/redvars/peacock/src/components/image/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/image/usage",
       "tag": "goat-image",
-      "readme": "# pc-icon\r\n\r\n\r\n\r",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -2651,20 +2561,11 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-empty-state"
-      ],
+      "dependencies": ["pc-empty-state"],
       "dependencyGraph": {
-        "goat-sidenav-menu": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "goat-sidenav-menu": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -3138,9 +3039,7 @@
         "overview": " <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>\n <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>",
         "category": "Data Display",
         "subcategory": "Accordion",
-        "tags": [
-          "display"
-        ],
+        "tags": ["display"],
         "img": "/assets/img/accordion.webp",
         "imgDark": "/assets/img/accordion-dark.webp"
       }
@@ -3158,13 +3057,9 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-icon"
-      ],
+      "dependencies": ["p-icon"],
       "dependencyGraph": {
-        "pc-accordion-item": [
-          "pc-icon"
-        ]
+        "pc-accordion-item": ["p-icon"]
       },
       "props": [
         {
@@ -3387,9 +3282,7 @@
         "name": "avatar",
         "description": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
         "category": "Data Display",
-        "tags": [
-          "display"
-        ],
+        "tags": ["display"],
         "example": "<pc-avatar name=\"Shivaji Varma\" src=\"/assets/img/avatar.webp\"></pc-avatar>"
       }
     },
@@ -3400,7 +3293,7 @@
       "readmePath": "E:/git/redvars/peacock/src/components/badge/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/badge/usage",
       "tag": "pc-badge",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3451,9 +3344,7 @@
         "name": "breadcrumb",
         "description": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.",
         "category": "Navigation",
-        "tags": [
-          "navigation"
-        ],
+        "tags": ["navigation"],
         "example": "<pc-breadcrumb><pc-breadcrumb-item href=\"#\">Home</pc-breadcrumb-item><pc-breadcrumb-item href=\"#\" active>Page</pc-breadcrumb-item></pc-breadcrumb>"
       }
     },
@@ -3611,64 +3502,26 @@
         "pc-textarea",
         "pc-time-picker"
       ],
-      "dependencies": [
-        "pc-elevation"
-      ],
+      "dependencies": ["pc-elevation"],
       "dependencyGraph": {
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "goat-code-highlighter": [
-          "pc-button"
-        ],
-        "goat-header-action": [
-          "pc-button"
-        ],
-        "goat-header-brand": [
-          "pc-button"
-        ],
-        "goat-html-editor": [
-          "pc-button"
-        ],
-        "pc-calendar": [
-          "pc-button"
-        ],
-        "pc-date-picker": [
-          "pc-button"
-        ],
-        "pc-empty-state": [
-          "pc-button"
-        ],
-        "pc-flow-designer": [
-          "pc-button"
-        ],
-        "pc-input": [
-          "pc-button"
-        ],
-        "pc-input-url": [
-          "pc-button"
-        ],
-        "pc-modal": [
-          "pc-button"
-        ],
-        "pc-notification": [
-          "pc-button"
-        ],
-        "pc-number": [
-          "pc-button"
-        ],
-        "pc-select": [
-          "pc-button"
-        ],
-        "pc-table": [
-          "pc-button"
-        ],
-        "pc-textarea": [
-          "pc-button"
-        ],
-        "pc-time-picker": [
-          "pc-button"
-        ]
+        "pc-button": ["pc-elevation"],
+        "goat-code-highlighter": ["pc-button"],
+        "goat-header-action": ["pc-button"],
+        "goat-header-brand": ["pc-button"],
+        "goat-html-editor": ["pc-button"],
+        "pc-calendar": ["pc-button"],
+        "pc-date-picker": ["pc-button"],
+        "pc-empty-state": ["pc-button"],
+        "pc-flow-designer": ["pc-button"],
+        "pc-input": ["pc-button"],
+        "pc-input-url": ["pc-button"],
+        "pc-modal": ["pc-button"],
+        "pc-notification": ["pc-button"],
+        "pc-number": ["pc-button"],
+        "pc-select": ["pc-button"],
+        "pc-table": ["pc-button"],
+        "pc-textarea": ["pc-button"],
+        "pc-time-picker": ["pc-button"]
       },
       "props": [
         {
@@ -4272,9 +4125,7 @@
         "description": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
         "overview": " <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>",
         "category": "Buttons",
-        "tags": [
-          "controls"
-        ],
+        "tags": ["controls"],
         "example": "<pc-button>\nButton\n</pc-button>"
       }
     },
@@ -4290,14 +4141,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-flow-designer"
-      ],
+      "dependents": ["pc-flow-designer"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-flow-designer": [
-          "pc-button-group"
-        ]
+        "pc-flow-designer": ["pc-button-group"]
       },
       "props": [],
       "methods": [],
@@ -4311,9 +4158,7 @@
         "name": "button-group",
         "description": "Group a series of buttons together on a single line with the button group, and super-power.",
         "category": "General",
-        "tags": [
-          "controls"
-        ],
+        "tags": ["controls"],
         "example": "<pc-button-group>\n<pc-button block icon=\"home\"></pc-button>\n<pc-button block icon=\"alarm\"></pc-button>\n</pc-button-group>"
       }
     },
@@ -4332,23 +4177,19 @@
       "dependents": [],
       "dependencies": [
         "pc-button",
-        "pc-icon",
+        "p-icon",
         "pc-calendar-column-view",
         "pc-calendar-month-view"
       ],
       "dependencyGraph": {
         "pc-calendar": [
           "pc-button",
-          "pc-icon",
+          "p-icon",
           "pc-calendar-column-view",
           "pc-calendar-month-view"
         ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-calendar-column-view": [
-          "pc-calendar-column-view-background"
-        ]
+        "pc-button": ["pc-elevation"],
+        "pc-calendar-column-view": ["pc-calendar-column-view-background"]
       },
       "props": [
         {
@@ -4601,9 +4442,7 @@
         "name": "calendar",
         "description": "The calendar component is used to display information in a daily, weekly, monthly, or category view.",
         "category": "Data Display",
-        "tags": [
-          "calendar"
-        ],
+        "tags": ["calendar"],
         "img": "/assets/img/calendar.webp",
         "imgDark": "/assets/img/calendar-dark.webp"
       }
@@ -4620,19 +4459,11 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-calendar"
-      ],
-      "dependencies": [
-        "pc-calendar-column-view-background"
-      ],
+      "dependents": ["pc-calendar"],
+      "dependencies": ["pc-calendar-column-view-background"],
       "dependencyGraph": {
-        "pc-calendar-column-view": [
-          "pc-calendar-column-view-background"
-        ],
-        "pc-calendar": [
-          "pc-calendar-column-view"
-        ]
+        "pc-calendar-column-view": ["pc-calendar-column-view-background"],
+        "pc-calendar": ["pc-calendar-column-view"]
       },
       "props": [
         {
@@ -4854,14 +4685,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-calendar-column-view"
-      ],
+      "dependents": ["pc-calendar-column-view"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-calendar-column-view": [
-          "pc-calendar-column-view-background"
-        ]
+        "pc-calendar-column-view": ["pc-calendar-column-view-background"]
       },
       "props": [
         {
@@ -4935,14 +4762,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-calendar"
-      ],
+      "dependents": ["pc-calendar"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-calendar": [
-          "pc-calendar-month-view"
-        ]
+        "pc-calendar": ["pc-calendar-month-view"]
       },
       "props": [
         {
@@ -5714,13 +5537,9 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-icon"
-      ],
+      "dependencies": ["p-icon"],
       "dependencyGraph": {
-        "pc-checkbox": [
-          "pc-icon"
-        ]
+        "pc-checkbox": ["p-icon"]
       },
       "props": [
         {
@@ -6183,10 +6002,7 @@
         "name": "checkbox",
         "description": "Captures boolean input with an optional indeterminate mode.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-checkbox value='true'>Want ice cream?</pc-checkbox>"
       }
     },
@@ -6202,25 +6018,12 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor"
-      ],
-      "dependencies": [
-        "pc-tag",
-        "pc-spinner"
-      ],
+      "dependents": ["goat-html-editor"],
+      "dependencies": ["pc-tag", "pc-spinner"],
       "dependencyGraph": {
-        "pc-code-editor": [
-          "pc-tag",
-          "pc-spinner"
-        ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ],
-        "goat-html-editor": [
-          "pc-code-editor"
-        ]
+        "pc-code-editor": ["pc-tag", "pc-spinner"],
+        "pc-tag": ["p-icon", "pc-elevation"],
+        "goat-html-editor": ["pc-code-editor"]
       },
       "props": [
         {
@@ -6609,10 +6412,7 @@
         "name": "code-editor",
         "description": "A browser based code editor.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "img": "/assets/img/code-editor.webp",
         "imgDark": "/assets/img/code-editor-dark.webp"
       }
@@ -6759,18 +6559,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-date-picker": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-date-picker": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -7370,14 +7162,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-header-brand"
-      ],
+      "dependents": ["goat-header-brand"],
       "dependencies": [],
       "dependencyGraph": {
-        "goat-header-brand": [
-          "pc-divider"
-        ]
+        "goat-header-brand": ["pc-divider"]
       },
       "props": [
         {
@@ -7715,23 +7503,12 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-menu"
-      ],
+      "dependencies": ["pc-menu"],
       "dependencyGraph": {
-        "pc-dropdown-menu": [
-          "pc-menu"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-dropdown-menu": ["pc-menu"],
+        "pc-menu": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [],
       "methods": [
@@ -7790,22 +7567,12 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-button",
-        "pc-modal",
-        "pc-tag"
-      ],
+      "dependents": ["pc-button", "pc-modal", "pc-tag"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-modal": [
-          "pc-elevation"
-        ],
-        "pc-tag": [
-          "pc-elevation"
-        ]
+        "pc-button": ["pc-elevation"],
+        "pc-modal": ["pc-elevation"],
+        "pc-tag": ["pc-elevation"]
       },
       "props": [],
       "methods": [],
@@ -7841,30 +7608,14 @@
         "pc-table",
         "pc-tree-view"
       ],
-      "dependencies": [
-        "pc-icon",
-        "pc-button"
-      ],
+      "dependencies": ["p-icon", "pc-button"],
       "dependencyGraph": {
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "goat-sidenav-menu": [
-          "pc-empty-state"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
-        ],
-        "pc-table": [
-          "pc-empty-state"
-        ],
-        "pc-tree-view": [
-          "pc-empty-state"
-        ]
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"],
+        "goat-sidenav-menu": ["pc-empty-state"],
+        "pc-menu": ["pc-empty-state"],
+        "pc-table": ["pc-empty-state"],
+        "pc-tree-view": ["pc-empty-state"]
       },
       "props": [
         {
@@ -8100,26 +7851,16 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-icon",
-        "pc-tag",
-        "pc-button-group",
-        "pc-button"
-      ],
+      "dependencies": ["p-icon", "pc-tag", "pc-button-group", "pc-button"],
       "dependencyGraph": {
         "pc-flow-designer": [
-          "pc-icon",
+          "p-icon",
           "pc-tag",
           "pc-button-group",
           "pc-button"
         ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-tag": ["p-icon", "pc-elevation"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -8495,9 +8236,7 @@
         "name": "form-control",
         "description": "The Form Control component adds a label and caption for its child control.",
         "category": "Form Inputs",
-        "tags": [
-          "form"
-        ],
+        "tags": ["form"],
         "example": "<pc-form-control label='Full Name' required>\n<pc-input type='text'></pc-input>\n</pc-form-control>"
       }
     },
@@ -8631,8 +8370,8 @@
       "fileName": "icon.tsx",
       "readmePath": "E:/git/redvars/peacock/src/components/icon/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/icon/usage",
-      "tag": "pc-icon",
-      "readme": "# pc-icon\n\n\n",
+      "tag": "p-icon",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -8664,75 +8403,29 @@
       ],
       "dependencies": [],
       "dependencyGraph": {
-        "goat-code-highlighter": [
-          "pc-icon"
-        ],
-        "goat-header-action": [
-          "pc-icon"
-        ],
-        "goat-header-brand": [
-          "pc-icon"
-        ],
-        "goat-html-editor": [
-          "pc-icon"
-        ],
-        "pc-accordion-item": [
-          "pc-icon"
-        ],
-        "pc-calendar": [
-          "pc-icon"
-        ],
-        "pc-checkbox": [
-          "pc-icon"
-        ],
-        "pc-date-picker": [
-          "pc-icon"
-        ],
-        "pc-empty-state": [
-          "pc-icon"
-        ],
-        "pc-flow-designer": [
-          "pc-icon"
-        ],
-        "pc-input": [
-          "pc-icon"
-        ],
-        "pc-input-url": [
-          "pc-icon"
-        ],
-        "pc-menu-item": [
-          "pc-icon"
-        ],
-        "pc-modal": [
-          "pc-icon"
-        ],
-        "pc-notification": [
-          "pc-icon"
-        ],
-        "pc-number": [
-          "pc-icon"
-        ],
-        "pc-select": [
-          "pc-icon"
-        ],
-        "pc-tab": [
-          "pc-icon"
-        ],
-        "pc-table": [
-          "pc-icon"
-        ],
-        "pc-tag": [
-          "pc-icon"
-        ],
-        "pc-textarea": [
-          "pc-icon"
-        ],
-        "pc-time-picker": [
-          "pc-icon"
-        ],
-        "pc-tree-node": [
-          "pc-icon"
-        ]
+        "goat-code-highlighter": ["p-icon"],
+        "goat-header-action": ["p-icon"],
+        "goat-header-brand": ["p-icon"],
+        "goat-html-editor": ["p-icon"],
+        "pc-accordion-item": ["p-icon"],
+        "pc-calendar": ["p-icon"],
+        "pc-checkbox": ["p-icon"],
+        "pc-date-picker": ["p-icon"],
+        "pc-empty-state": ["p-icon"],
+        "pc-flow-designer": ["p-icon"],
+        "pc-input": ["p-icon"],
+        "pc-input-url": ["p-icon"],
+        "pc-menu-item": ["p-icon"],
+        "pc-modal": ["p-icon"],
+        "pc-notification": ["p-icon"],
+        "pc-number": ["p-icon"],
+        "pc-select": ["p-icon"],
+        "pc-tab": ["p-icon"],
+        "pc-table": ["p-icon"],
+        "pc-tag": ["p-icon"],
+        "pc-textarea": ["p-icon"],
+        "pc-time-picker": ["p-icon"],
+        "pc-tree-node": ["p-icon"]
       },
       "props": [
         {
@@ -8794,7 +8487,7 @@
         "description": "Icons are visual symbols used to represent ideas, objects, or actions.",
         "overview": "Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.",
         "category": "General",
-        "example": "<pc-icon name=\"home\" size=\"2rem\"></pc-icon>"
+        "example": "<p-icon name=\"home\" size=\"2rem\"></p-icon>"
       }
     },
     {
@@ -8809,30 +8502,13 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-condition-builder"
-      ],
-      "dependencies": [
-        "pc-tooltip",
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependents": ["goat-condition-builder"],
+      "dependencies": ["pc-tooltip", "pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-input": [
-          "pc-tooltip",
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "goat-condition-builder": [
-          "pc-input"
-        ]
+        "pc-input": ["pc-tooltip", "pc-button", "p-icon"],
+        "pc-tooltip": ["pc-popover", "pc-popover-content"],
+        "pc-button": ["pc-elevation"],
+        "goat-condition-builder": ["pc-input"]
       },
       "props": [
         {
@@ -9513,10 +9189,7 @@
         "name": "input",
         "description": "Enables native inputs to be used within a Form field.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-input placeholder=\"Enter your name\"></pc-input>"
       }
     },
@@ -9533,18 +9206,10 @@
       "docs": "A specialized input component for URL validation. This component provides real-time validation for URL inputs and visual feedback when an invalid URL is entered.",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-input-url": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-input-url": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -9936,11 +9601,7 @@
         "name": "input-url",
         "description": "A specialized input field for URL validation.",
         "category": "Up coming",
-        "tags": [
-          "input",
-          " form",
-          " url"
-        ],
+        "tags": ["input", " form", " url"],
         "example": "<pc-input-url value=\"https://shivajivarma.com\"></pc-input-url>"
       }
     },
@@ -10110,12 +9771,7 @@
         "name": "linear-progress",
         "description": "A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.",
         "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
+        "tags": ["feedback", " loading", " progress", " spinner"],
         "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
       }
     },
@@ -10161,34 +9817,15 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor",
-        "pc-dropdown-menu",
-        "pc-select"
-      ],
-      "dependencies": [
-        "pc-empty-state"
-      ],
+      "dependents": ["goat-html-editor", "pc-dropdown-menu", "pc-select"],
+      "dependencies": ["pc-empty-state"],
       "dependencyGraph": {
-        "pc-menu": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "goat-html-editor": [
-          "pc-menu"
-        ],
-        "pc-dropdown-menu": [
-          "pc-menu"
-        ],
-        "pc-select": [
-          "pc-menu"
-        ]
+        "pc-menu": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"],
+        "goat-html-editor": ["pc-menu"],
+        "pc-dropdown-menu": ["pc-menu"],
+        "pc-select": ["pc-menu"]
       },
       "props": [
         {
@@ -10478,23 +10115,12 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor",
-        "pc-select"
-      ],
-      "dependencies": [
-        "pc-icon"
-      ],
+      "dependents": ["goat-html-editor", "pc-select"],
+      "dependencies": ["p-icon"],
       "dependencyGraph": {
-        "pc-menu-item": [
-          "pc-icon"
-        ],
-        "goat-html-editor": [
-          "pc-menu-item"
-        ],
-        "pc-select": [
-          "pc-menu-item"
-        ]
+        "pc-menu-item": ["p-icon"],
+        "goat-html-editor": ["pc-menu-item"],
+        "pc-select": ["pc-menu-item"]
       },
       "props": [
         {
@@ -10854,22 +10480,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-elevation",
-        "pc-button",
-        "pc-icon",
-        "pc-spinner"
-      ],
+      "dependencies": ["pc-elevation", "pc-button", "p-icon", "pc-spinner"],
       "dependencyGraph": {
-        "pc-modal": [
-          "pc-elevation",
-          "pc-button",
-          "pc-icon",
-          "pc-spinner"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-modal": ["pc-elevation", "pc-button", "p-icon", "pc-spinner"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -11100,9 +10714,7 @@
         "description": "Modals are used to display content in a layer above the app.",
         "category": "Informational",
         "subcategory": "Modal",
-        "tags": [
-          "controls"
-        ],
+        "tags": ["controls"],
         "img": "/assets/img/modal.webp",
         "imgDark": "/assets/img/modal-dark.webp"
       }
@@ -11189,24 +10801,12 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-notification-manager"
-      ],
-      "dependencies": [
-        "pc-icon",
-        "pc-button"
-      ],
+      "dependents": ["pc-notification-manager"],
+      "dependencies": ["p-icon", "pc-button"],
       "dependencyGraph": {
-        "pc-notification": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-notification-manager": [
-          "pc-notification"
-        ]
+        "pc-notification": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"],
+        "pc-notification-manager": ["pc-notification"]
       },
       "props": [
         {
@@ -11431,9 +11031,7 @@
         "name": "notification",
         "description": "Notifications are messages that communicate information to the user.",
         "category": "Informational",
-        "tags": [
-          "notification"
-        ],
+        "tags": ["notification"],
         "example": "<pc-notification state=\"success\">\n     <div slot='title'>Successful saved the record</div>\n   </pc-notification>"
       }
     },
@@ -11450,20 +11048,11 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-notification"
-      ],
+      "dependencies": ["pc-notification"],
       "dependencyGraph": {
-        "pc-notification-manager": [
-          "pc-notification"
-        ],
-        "pc-notification": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-notification-manager": ["pc-notification"],
+        "pc-notification": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -11562,9 +11151,7 @@
         "name": "notification-manager",
         "description": "The Notification Manager handles the organization and display of notifications within the application.",
         "category": "Informational",
-        "tags": [
-          "notification"
-        ],
+        "tags": ["notification"],
         "img": "/assets/img/notification-manager.webp",
         "imgDark": "/assets/img/notification-manager-dark.webp"
       }
@@ -11582,18 +11169,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-number": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-number": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -12309,10 +11888,7 @@
         "name": "number",
         "description": "Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-number value=\"100\"></pc-input>"
       }
     },
@@ -12328,14 +11904,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-tooltip"
-      ],
+      "dependents": ["pc-tooltip"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover"
-        ]
+        "pc-tooltip": ["pc-popover"]
       },
       "props": [
         {
@@ -12685,14 +12257,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-tooltip"
-      ],
+      "dependents": ["pc-tooltip"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover-content"
-        ]
+        "pc-tooltip": ["pc-popover-content"]
       },
       "props": [],
       "methods": [],
@@ -12775,7 +12343,7 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "pc-icon",
+        "p-icon",
         "pc-tag",
         "pc-button",
         "pc-spinner",
@@ -12785,7 +12353,7 @@
       ],
       "dependencyGraph": {
         "pc-select": [
-          "pc-icon",
+          "p-icon",
           "pc-tag",
           "pc-button",
           "pc-spinner",
@@ -12793,23 +12361,11 @@
           "pc-text",
           "pc-menu-item"
         ],
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-menu-item": [
-          "pc-icon"
-        ]
+        "pc-tag": ["p-icon", "pc-elevation"],
+        "pc-button": ["pc-elevation"],
+        "pc-menu": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-menu-item": ["p-icon"]
       },
       "props": [
         {
@@ -13755,10 +13311,7 @@
         "name": "select",
         "description": "Allows the user to select one or more options using a dropdown.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "img": "/assets/img/select.webp",
         "imgDark": "/assets/img/select-dark.webp"
       }
@@ -13776,17 +13329,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-tooltip"
-      ],
+      "dependencies": ["pc-tooltip"],
       "dependencyGraph": {
-        "pc-slider": [
-          "pc-tooltip"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ]
+        "pc-slider": ["pc-tooltip"],
+        "pc-tooltip": ["pc-popover", "pc-popover-content"]
       },
       "props": [
         {
@@ -14248,10 +13794,7 @@
         "name": "slider",
         "description": "Sliders allow users to make selections from a range of values.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "img": "/assets/img/slider.webp",
         "imgDark": "/assets/img/slider-dark.webp"
       }
@@ -14278,24 +13821,12 @@
       ],
       "dependencies": [],
       "dependencyGraph": {
-        "goat-code-highlighter": [
-          "pc-spinner"
-        ],
-        "goat-html-editor": [
-          "pc-spinner"
-        ],
-        "pc-code-editor": [
-          "pc-spinner"
-        ],
-        "pc-modal": [
-          "pc-spinner"
-        ],
-        "pc-select": [
-          "pc-spinner"
-        ],
-        "pc-tab": [
-          "pc-spinner"
-        ]
+        "goat-code-highlighter": ["pc-spinner"],
+        "goat-html-editor": ["pc-spinner"],
+        "pc-code-editor": ["pc-spinner"],
+        "pc-modal": ["pc-spinner"],
+        "pc-select": ["pc-spinner"],
+        "pc-tab": ["pc-spinner"]
       },
       "props": [
         {
@@ -14397,12 +13928,7 @@
         "name": "spinner",
         "description": "Spinners provide a visual cue that an action is processing awaiting a course of change or a result.",
         "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
+        "tags": ["feedback", " loading", " progress", " spinner"],
         "example": "<pc-spinner class=\"rainbow\" size=\"2rem\"></pc-spinner>"
       }
     },
@@ -14419,15 +13945,9 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-spinner",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-spinner", "p-icon"],
       "dependencyGraph": {
-        "pc-tab": [
-          "pc-spinner",
-          "pc-icon"
-        ]
+        "pc-tab": ["pc-spinner", "p-icon"]
       },
       "props": [
         {
@@ -14903,24 +14423,11 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon",
-        "pc-empty-state"
-      ],
+      "dependencies": ["pc-button", "p-icon", "pc-empty-state"],
       "dependencyGraph": {
-        "pc-table": [
-          "pc-button",
-          "pc-icon",
-          "pc-empty-state"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ]
+        "pc-table": ["pc-button", "p-icon", "pc-empty-state"],
+        "pc-button": ["pc-elevation"],
+        "pc-empty-state": ["p-icon", "pc-button"]
       },
       "props": [
         {
@@ -15552,9 +15059,7 @@
         "name": "tabs",
         "description": "The tabs component is used to display multiple panels of content in a container.",
         "category": "Navigation",
-        "tags": [
-          "navigation"
-        ],
+        "tags": ["navigation"],
         "example": "<pc-tabs>\n<pc-tabs-list>\n<pc-tab selected >Tab 1</pc-tab>\n<pc-tab>Tab 2</pc-tab>\n</pc-tabs-list>\n</pc-tabs>"
       }
     },
@@ -15676,33 +15181,15 @@
         "pc-flow-designer",
         "pc-select"
       ],
-      "dependencies": [
-        "pc-icon",
-        "pc-elevation"
-      ],
+      "dependencies": ["p-icon", "pc-elevation"],
       "dependencyGraph": {
-        "pc-tag": [
-          "pc-icon",
-          "pc-elevation"
-        ],
-        "goat-cb-compound-expression": [
-          "pc-tag"
-        ],
-        "goat-cb-predicate": [
-          "pc-tag"
-        ],
-        "goat-condition-builder": [
-          "pc-tag"
-        ],
-        "pc-code-editor": [
-          "pc-tag"
-        ],
-        "pc-flow-designer": [
-          "pc-tag"
-        ],
-        "pc-select": [
-          "pc-tag"
-        ]
+        "pc-tag": ["p-icon", "pc-elevation"],
+        "goat-cb-compound-expression": ["pc-tag"],
+        "goat-cb-predicate": ["pc-tag"],
+        "goat-condition-builder": ["pc-tag"],
+        "pc-code-editor": ["pc-tag"],
+        "pc-flow-designer": ["pc-tag"],
+        "pc-select": ["pc-tag"]
       },
       "props": [
         {
@@ -15972,14 +15459,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "none",
-      "dependents": [
-        "pc-select"
-      ],
+      "dependents": ["pc-select"],
       "dependencies": [],
       "dependencyGraph": {
-        "pc-select": [
-          "pc-text"
-        ]
+        "pc-select": ["pc-text"]
       },
       "props": [],
       "methods": [],
@@ -16009,18 +15492,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-textarea": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-textarea": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -16710,10 +16185,7 @@
         "name": "textarea",
         "description": "Enables native inputs to be used within a Form field.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-textarea placeholder=\"Enter some description over here\"></pc-textarea>"
       }
     },
@@ -16730,18 +16202,10 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button",
-        "pc-icon"
-      ],
+      "dependencies": ["pc-button", "p-icon"],
       "dependencyGraph": {
-        "pc-time-picker": [
-          "pc-button",
-          "pc-icon"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-time-picker": ["pc-button", "p-icon"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {
@@ -17118,10 +16582,7 @@
         "name": "time-picker",
         "description": "Captures time input.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-time-picker value='10:00:00'></pc-time-picker>"
       }
     },
@@ -17137,14 +16598,10 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor"
-      ],
+      "dependents": ["goat-html-editor"],
       "dependencies": [],
       "dependencyGraph": {
-        "goat-html-editor": [
-          "pc-toggle"
-        ]
+        "goat-html-editor": ["pc-toggle"]
       },
       "props": [
         {
@@ -17508,10 +16965,7 @@
         "name": "toggle",
         "description": "Captures boolean input with an optional indeterminate mode.",
         "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
+        "tags": ["input", " form"],
         "example": "<pc-toggle value='true'>Want ice cream?</pc-toggle>"
       }
     },
@@ -17522,34 +16976,18 @@
       "readmePath": "E:/git/redvars/peacock/src/components/tooltip/readme.md",
       "usagesDir": "E:/git/redvars/peacock/src/components/tooltip/usage",
       "tag": "pc-tooltip",
-      "readme": "# pc-icon\n\n\n",
+      "readme": "# p-icon\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "goat-code-highlighter",
-        "pc-input",
-        "pc-slider"
-      ],
-      "dependencies": [
-        "pc-popover",
-        "pc-popover-content"
-      ],
+      "dependents": ["goat-code-highlighter", "pc-input", "pc-slider"],
+      "dependencies": ["pc-popover", "pc-popover-content"],
       "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ],
-        "goat-code-highlighter": [
-          "pc-tooltip"
-        ],
-        "pc-input": [
-          "pc-tooltip"
-        ],
-        "pc-slider": [
-          "pc-tooltip"
-        ]
+        "pc-tooltip": ["pc-popover", "pc-popover-content"],
+        "goat-code-highlighter": ["pc-tooltip"],
+        "pc-input": ["pc-tooltip"],
+        "pc-slider": ["pc-tooltip"]
       },
       "props": [
         {
@@ -17681,13 +17119,9 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-icon"
-      ],
+      "dependencies": ["p-icon"],
       "dependencyGraph": {
-        "pc-tree-node": [
-          "pc-icon"
-        ]
+        "pc-tree-node": ["p-icon"]
       },
       "props": [
         {
@@ -18034,20 +17468,11 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-empty-state"
-      ],
+      "dependencies": ["pc-empty-state"],
       "dependencyGraph": {
-        "pc-tree-view": [
-          "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-icon",
-          "pc-button"
-        ],
-        "pc-button": [
-          "pc-elevation"
-        ]
+        "pc-tree-view": ["pc-empty-state"],
+        "pc-empty-state": ["p-icon", "pc-button"],
+        "pc-button": ["pc-elevation"]
       },
       "props": [
         {

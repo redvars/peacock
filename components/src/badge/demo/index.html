@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+<style>
+  .badge-wrapper {
+    position: relative;
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .badge-anchor-simple {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .badge-anchor {
+    position: absolute;
+    top: -2px;
+    left: calc(100% - 12px);
+  }
+</style>
+
+<div class="badge-wrapper">
+  <p-icon name="notifications"></p-icon>
+  <p-badge class="badge-anchor-simple"></p-badge>
+</div>
+
+
+<p-avatar name='Shivaji Varma'></p-avatar>
+
+<script type='module'>
+  import { Icon, Badge } from '/dist/index.js';
+  window.customElements.define('p-icon', Icon);
+  window.customElements.define('p-badge', Badge);
+</script>
+</body>
+</html>

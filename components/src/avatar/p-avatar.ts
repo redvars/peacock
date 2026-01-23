@@ -6,6 +6,7 @@ import { Avatar } from './avatar.js';
  *
  * @cssprop --avatar-background-color - Controls the color of the avatar.
  * @cssprop --avatar-size - Controls the size of the avatar.
+ * @cssprop --avatar-text-color - Controls the color of the text inside the avatar.
  */
 @customElement('p-avatar')
 export class PAvatar extends Avatar {}

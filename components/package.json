@@ -6,11 +6,7 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "keywords": [
-    "peacock",
-    "lit",
-    "web components"
-  ],
+  "keywords": ["peacock", "lit", "web components"],
   "exports": {
     ".": "./dist/src/index.js",
     "./icon.js": "./dist/src/index.js"
@@ -45,6 +41,7 @@
     "@web/dev-server": "^0.4.6",
     "@web/test-runner": "^0.18.2",
     "concurrently": "^8.2.2",
+    "custom-element-jet-brains-integration": "^1.7.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
@@ -66,18 +63,11 @@
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
+    "extends": ["@open-wc", "prettier"],
+    "plugins": ["@typescript-eslint"],
     "rules": {
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
+      "@typescript-eslint/no-unused-vars": ["error"],
       "import/no-unresolved": "off",
       "import/extensions": [
         "error",
@@ -93,10 +83,8 @@
     "arrowParens": "avoid"
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+    "*.ts": ["eslint --fix", "prettier --write"]
   },
-  "customElements": "dist/custom-elements.json"
+  "customElements": "dist/custom-elements.json",
+  "web-types": "dist/web-types.json"
 }

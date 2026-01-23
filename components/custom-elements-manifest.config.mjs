@@ -1,16 +1,4 @@
-import { lazyLoaderPlugin } from '@wc-toolkit/lazy-loader';
-
-const formatComponentName = str => {
-  return (
-    str
-      // 1. Remove the word "Component" if it exists at the end
-      .replace(/Component$/, '')
-      // 2. Find uppercase letters and replace with "-lowercase"
-      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-      // 3. Convert the whole string to lowercase
-      .toLowerCase()
-  );
-};
+import { customElementJetBrainsPlugin } from 'custom-element-jet-brains-integration';
 
 export default {
   /** Globs to analyze */
@@ -21,14 +9,14 @@ export default {
   /** Enable special handling for litelement */
   litelement: true,
 
-  /*plugins: [
-    lazyLoaderPlugin({
-      importPathTemplate: (name, tagName) => {
-        console.log(`./src/${formatComponentName(name)}/${tagName}.js`);
-        return `./src/${formatComponentName(name)}/${tagName}.js`;
-      },
-      outdir: 'dist',
-      eagerLoad: ['p-icon'],
+  packageJson: true,
+
+  plugins: [
+    customElementJetBrainsPlugin({
+      // Optional configuration options
+      outdir: 'dist', // Output directory for web-types.json
+      fileName: 'web-types.json', // Output file name
+      packageJson: true, // Automatically update the "web-types" property in package.json
     }),
-  ],*/
+  ],
 };

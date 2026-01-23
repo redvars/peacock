@@ -24,7 +24,7 @@ const description = 'The overview page is the first page you see when you visit 
 
         <div id='search-container'>
           <pc-input id='component-search' layer='01' placeholder='Search'>
-            <pc-icon slot='start' size='1rem' name='search'></pc-icon>
+            <p-icon slot='start' size='1rem' name='search'></p-icon>
           </pc-input>
         </div>
 
@@ -35,7 +35,7 @@ const description = 'The overview page is the first page you see when you visit 
                 <pc-tag id={`tag-${category.name.toLowerCase().replace(' ', '-')}`}
                           color='blue'
                           class='category'>{category.name}
-                  <pc-icon class='selected-icon inherit' name='checkmark'></pc-icon>
+                  <p-icon class='selected-icon inherit' name='checkmark'></p-icon>
                 </pc-tag>
               </goat-link>);
           })

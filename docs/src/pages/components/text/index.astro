@@ -19,31 +19,17 @@ const sections = [
   'title': 'Headline styles',
    'Component': HeadlineStylesSection,
   },{
+    'title': 'Title styles',
+    'Component': TitleStylesSection,
+  }, {
     'title': 'Body styles',
     'Component': BodyStylesSection,
   },{
     'title': 'Utility styles',
     'Component': UtilityStylesSection,
-  },{
-    'title': 'Title styles',
-    'Component': TitleStylesSection,
   }];
 ---
 
 <Layout componentDetails={componentDetails}>
-  <pc-tabs class='page-tabs'>
-    <pc-tabs-list>
-      <pc-tab selected='true'>Overview</pc-tab>
-      <pc-tab>API</pc-tab>
-    </pc-tabs-list>
-    <pc-tab-panel>
-      <OverviewPanel componentDetails={componentDetails} sections={sections} />
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <ApiPanel componentDetails={componentDetails} />
-    </pc-tab-panel>
-  </pc-tabs>
+  <OverviewPanel componentDetails={componentDetails} sections={sections} />
 </Layout>

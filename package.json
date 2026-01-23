@@ -87,5 +87,7 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "customElements": "components/dist/custom-elements.json",
+  "web-types": "components/dist/web-types.json"
 }

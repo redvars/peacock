@@ -23,3 +23,33 @@ export const getTypographyNotImportant = (name: string): CSSResult => css`
   line-height: var(--typography-${unsafeCSS(name)}-line-height);
   letter-spacing: var(--typography-${unsafeCSS(name)}-letter-spacing);
 `;
+
+export const forPhoneOnly = (content: CSSResult): CSSResult => css`
+  @media (max-width: 671px) {
+    ${content}
+  }
+`;
+
+export const forTabletPortraitUp = (content: CSSResult): CSSResult => css`
+  @media (min-width: 672px) {
+    ${content}
+  }
+`;
+
+export const forTabletLandscapeUp = (content: CSSResult): CSSResult => css`
+  @media (min-width: 1056px) {
+    ${content}
+  }
+`;
+
+export const forDesktopUp = (content: CSSResult): CSSResult => css`
+  @media (min-width: 1312px) {
+    ${content}
+  }
+`;
+
+export const forBigDesktopUp = (content: CSSResult): CSSResult => css`
+  @media (min-width: 1584px) {
+    ${content}
+  }
+`;

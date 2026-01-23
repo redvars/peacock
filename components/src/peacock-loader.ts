@@ -3,7 +3,7 @@ import { Icon } from './icon/icon.js';
 import { Avatar } from './avatar/avatar.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
-import cssComponentsStyleSheet from '../assets/styles/peacock.css';
+import cssComponentsStyleSheet from '../assets/tokens.css';
 import { createLinkStyles } from './link/link.css.js';
 import { createTextStyles } from './text/text.css.js';
 
@@ -24,10 +24,23 @@ if (linkStylesheet) styleSheets.push(linkStylesheet);
 const textStylesheet = createTextStyles(libraryPrefix).styleSheet;
 if (textStylesheet) styleSheets.push(textStylesheet);
 
+function stringifyStyleSheet(stylesheet: any) {
+  // Use Array.from() to convert the CSSRuleList to an array
+  return (
+    Array.from(stylesheet.cssRules)
+      // Map each rule to its cssText property
+      .map((rule: any) => rule.cssText || '')
+      // Join all the rules with a newline character
+      .join('\\n')
+  );
+}
+
+console.log(stringifyStyleSheet(textStylesheet));
+
 document.adoptedStyleSheets = styleSheets;
 
 const loaderConfig: LoaderConfig = {
-  prefix: 'p',
+  prefix: libraryPrefix,
   components: {
     icon: {
       CustomElementClass: Icon,

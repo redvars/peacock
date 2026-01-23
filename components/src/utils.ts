@@ -108,11 +108,3 @@ export function sanitizeSvg(rawSvg: string) {
     return '';
   }
 }
-
-export const getTypography = (name: string) => `
-  font-family: var(--typography-${name}-font-family) !important;
-  font-size: var(--typography-${name}-font-size) !important;
-  font-weight: var(--typography-${name}-font-weight) !important;
-  line-height: var(--typography-${name}-line-height) !important;
-  letter-spacing: var(--typography-${name}-letter-spacing) !important;
-`;

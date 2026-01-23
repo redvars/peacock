@@ -1,5 +1,5 @@
 import { css, unsafeCSS } from 'lit';
-import { getTypography } from '../utils.js';
+import { getTypography } from '../styleMixins.css.js';
 
 export const styles = css`
   :host {
@@ -26,7 +26,7 @@ export const styles = css`
     color: var(--avatar-text-color);
     width: var(--avatar-size);
     height: var(--avatar-size);
-    ${unsafeCSS(getTypography('body-large-emphasized'))}
+    ${getTypography('body-large-emphasized')}
     background-color: var(--avatar-background-color);
 
     font-size: calc(var(--avatar-size) * 0.4);

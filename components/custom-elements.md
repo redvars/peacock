@@ -1,36 +1,3 @@
-# `src/badge/badge.ts`:
-
-## class: `Badge`
-
-### Superclass
-
-| Name         | Module | Package |
-| ------------ | ------ | ------- |
-| `LitElement` |        | lit     |
-
-### Fields
-
-| Name             | Privacy | Type                  | Default | Description | Inherited From |
-| ---------------- | ------- | --------------------- | ------- | ----------- | -------------- |
-| `name`           |         | `string`              | `''`    |             |                |
-| `src`            |         | `string \| undefined` |         |             |                |
-| `slotHasContent` |         | `boolean`             | `false` |             |                |
-
-### Attributes
-
-| Name   | Field | Inherited From |
-| ------ | ----- | -------------- |
-| `name` | name  |                |
-| `src`  | src   |                |
-
-<hr/>
-
-## Exports
-
-| Kind | Name    | Declaration | Module             | Package |
-| ---- | ------- | ----------- | ------------------ | ------- |
-| `js` | `Badge` | Badge       | src/badge/badge.ts |         |
-
 # `src/avatar/avatar.ts`:
 
 ## class: `Avatar`
@@ -102,6 +69,39 @@
 | --------------------------- | ---------- | ----------- | ---------------------- | ------- |
 | `js`                        | `PAvatar`  | PAvatar     | src/avatar/p-avatar.ts |         |
 | `custom-element-definition` | `p-avatar` | PAvatar     | src/avatar/p-avatar.ts |         |
+
+# `src/badge/badge.ts`:
+
+## class: `Badge`
+
+### Superclass
+
+| Name         | Module | Package |
+| ------------ | ------ | ------- |
+| `LitElement` |        | lit     |
+
+### Fields
+
+| Name             | Privacy | Type                  | Default | Description | Inherited From |
+| ---------------- | ------- | --------------------- | ------- | ----------- | -------------- |
+| `name`           |         | `string`              | `''`    |             |                |
+| `src`            |         | `string \| undefined` |         |             |                |
+| `slotHasContent` |         | `boolean`             | `false` |             |                |
+
+### Attributes
+
+| Name   | Field | Inherited From |
+| ------ | ----- | -------------- |
+| `name` | name  |                |
+| `src`  | src   |                |
+
+<hr/>
+
+## Exports
+
+| Kind | Name    | Declaration | Module             | Package |
+| ---- | ------- | ----------- | ------------------ | ------- |
+| `js` | `Badge` | Badge       | src/badge/badge.ts |         |
 
 # `src/icon/icon.ts`:
 

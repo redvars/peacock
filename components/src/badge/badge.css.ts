@@ -1,41 +1,33 @@
-import { css, unsafeCSS } from 'lit';
-import { getTypography } from '../utils.js';
+import { css } from 'lit';
+import { getTypography } from '../styleMixins.css.js';
 
 export const styles = css`
   :host {
     display: inline-block;
+    --badge-color: var(--global-badge-color);
+  }
+
+  .badge {
     pointer-events: none;
-    --avatar-size: 2rem;
-    --avatar-background-color: var(--color-primary);
-    --avatar-text-color: var(--color-on-primary);
-    --avatar-border-radius: var(--global-avatar-border-radius);
-  }
-
-  .avatar-container {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-050);
-    line-height: 0;
-  }
-
-  .avatar {
-    border-radius: var(--avatar-border-radius);
+    z-index: var(--z-index-badge);
+    color: var(--color-white);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--avatar-text-color);
-    width: var(--avatar-size);
-    height: var(--avatar-size);
-    ${unsafeCSS(getTypography('body-large-emphasized'))}
-    background-color: var(--avatar-background-color);
+    background-color: var(--badge-color);
+    border-radius: var(--shape-corner-full);
 
-    font-size: calc(var(--avatar-size) * 0.4);
+    &.has-content {
+      height: 1rem;
+      min-width: 1rem;
+      padding-inline: var(--spacing-050);
+      ${getTypography('label-small')};
+      color: var(--color-on-error);
+    }
 
-    .image {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      border-radius: inherit;
+    &:not(.has-content) {
+      height: 6px;
+      width: 6px;
     }
   }
 `;
