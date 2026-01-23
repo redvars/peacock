@@ -42,23 +42,23 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
 <head>
   <meta charset='utf-8' />
   <meta name='viewport' content='width=device-width' />
-  <title>Goat UI Component</title>
+  <title>Peacock</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/assets/styles/tokens.css" rel='stylesheet' />
-
-  <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/peacock-loader.js'></script>
-
+  
   <!-- Default font : Noto Sans and Noto Sans Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+  <script type='module'
+          src='https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/peacock-loader.js'></script>
+
 
 </head>
 <body>
-<p-avatar name="Shivaji Varma"></p-icon>
 
+<p-avatar name="Shivaji Varma"></p-avatar>
+  
 </body>
 </html>
 ```
