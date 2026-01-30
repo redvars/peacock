@@ -1,0 +1,418 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@redvars/peacock</title><meta name="description" content="Documentation for @redvars/peacock"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">@redvars/peacock</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>@redvars/peacock</h1></div><div class="tsd-panel tsd-typography"><h1 id="peacock" class="tsd-anchor-link">Peacock<a href="#peacock" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><strong>The foundation for beautiful user interfaces.</strong></p>
+<p><a href="https://github.com/goatui/components/actions?workflow=Build"><img src="https://github.com/redvars/peacock/workflows/Build/badge.svg" alt="Build"></a>
+<a href="/LICENSE"><img src="https://img.shields.io/github/license/redvars/peacock.svg" alt="GitHub license"></a>
+<img src="https://img.shields.io/npm/v/%40redvars%2Fpeacock" alt="Version"></p>
+<div align="center">
+<img alt="Peacock LOGO" src="./logo.png" width="210">
+</div>
+<p>Peacock gives you the tools and foundation to build beautiful, usable product interfaces. It’s the system you use to craft your own component library.</p>
+<h2 id="what-is-peacock" class="tsd-anchor-link">What is Peacock?<a href="#what-is-peacock" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Peacock is more than just a collection of components; it is an aesthetic philosophy. Like its avian namesake, it provides the core elements (the primitives) that allow the full, vibrant display (the design) to be unveiled.</p>
+<p><strong>Opinionated Beauty:</strong> We deliver pre-styled, beautiful components that follow modern design trends, significantly reducing the boilerplate needed to achieve a professional look.</p>
+<p><strong>Foundation First:</strong> Similar to projects like <code>shadcn/ui</code>, Peacock focuses on providing the foundational primitives, ensuring maximum flexibility for customization without sacrificing initial polish.</p>
+<p><strong>Seamless Integration:</strong> Designed with modern web frameworks in mind (e.g., React, Vue), integrating Peacock into your existing project structure is fast, efficient, and empowering.</p>
+<h2 id="key-features" class="tsd-anchor-link">Key Features<a href="#key-features" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Vibrant &amp; Consistent Design System: Every component—from buttons and cards to complex data tables—shares a cohesive, high-quality visual language.</p>
+<p><strong>Highly Extensible:</strong> The component structure is designed for easy overwriting and theme customization, allowing you to quickly adapt the style to your specific brand identity.</p>
+<p><strong>Built for Accessibility:</strong> Focus on semantic HTML and proper ARIA attributes to ensure that your beautiful interfaces are accessible to all users.</p>
+<p><strong>Responsive by Default:</strong> Components are built with responsiveness baked in, guaranteeing a graceful display across all screen sizes and devices.</p>
+<h2 id="documentation" class="tsd-anchor-link">Documentation<a href="#documentation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Visit <a href="https://goatui.com">https://peacock.redvars.com</a> to view the documentation.</p>
+<h2 id="getting-started" class="tsd-anchor-link">Getting Started<a href="#getting-started" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="html"><span class="hl-0">&lt;!</span><span class="hl-1">doctype</span><span class="hl-2"> </span><span class="hl-3">html</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;</span><span class="hl-1">html</span><span class="hl-2"> </span><span class="hl-3">lang</span><span class="hl-2">=</span><span class="hl-4">&#39;en&#39;</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;</span><span class="hl-1">head</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">meta</span><span class="hl-2"> </span><span class="hl-3">charset</span><span class="hl-2">=</span><span class="hl-4">&#39;utf-8&#39;</span><span class="hl-2"> </span><span class="hl-0">/&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">meta</span><span class="hl-2"> </span><span class="hl-3">name</span><span class="hl-2">=</span><span class="hl-4">&#39;viewport&#39;</span><span class="hl-2"> </span><span class="hl-3">content</span><span class="hl-2">=</span><span class="hl-4">&#39;width=device-width&#39;</span><span class="hl-2"> </span><span class="hl-0">/&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">title</span><span class="hl-0">&gt;</span><span class="hl-2">Peacock</span><span class="hl-0">&lt;/</span><span class="hl-1">title</span><span class="hl-0">&gt;</span><br/><br/><span class="hl-2">  </span><br/><span class="hl-2">  </span><span class="hl-5">&lt;!-- Default font : Noto Sans and Noto Sans Mono --&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">link</span><span class="hl-2"> </span><span class="hl-3">rel</span><span class="hl-2">=</span><span class="hl-4">&quot;preconnect&quot;</span><span class="hl-2"> </span><span class="hl-3">href</span><span class="hl-2">=</span><span class="hl-4">&quot;https://fonts.googleapis.com&quot;</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">link</span><span class="hl-2"> </span><span class="hl-3">rel</span><span class="hl-2">=</span><span class="hl-4">&quot;preconnect&quot;</span><span class="hl-2"> </span><span class="hl-3">href</span><span class="hl-2">=</span><span class="hl-4">&quot;https://fonts.gstatic.com&quot;</span><span class="hl-2"> </span><span class="hl-3">crossorigin</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">link</span><span class="hl-2"> </span><span class="hl-3">href</span><span class="hl-2">=</span><span class="hl-4">&quot;https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap&quot;</span><span class="hl-2"> </span><span class="hl-3">rel</span><span class="hl-2">=</span><span class="hl-4">&quot;stylesheet&quot;</span><span class="hl-0">&gt;</span><br/><br/><span class="hl-2">  </span><span class="hl-0">&lt;</span><span class="hl-1">script</span><span class="hl-6"> </span><span class="hl-3">type</span><span class="hl-6">=</span><span class="hl-4">&#39;module&#39;</span><br/><span class="hl-6">          </span><span class="hl-3">src</span><span class="hl-6">=</span><span class="hl-4">&#39;https://cdn.jsdelivr.net/npm/@redvars/components@3.1.0/dist/peacock-loader.js&#39;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">script</span><span class="hl-0">&gt;</span><br/><br/><br/><span class="hl-0">&lt;/</span><span class="hl-1">head</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;</span><span class="hl-1">body</span><span class="hl-0">&gt;</span><br/><br/><span class="hl-0">&lt;</span><span class="hl-1">p-avatar</span><span class="hl-2"> </span><span class="hl-3">name</span><span class="hl-2">=</span><span class="hl-4">&quot;Shivaji Varma&quot;</span><span class="hl-0">&gt;&lt;/</span><span class="hl-1">p-avatar</span><span class="hl-0">&gt;</span><br/><span class="hl-2">  </span><br/><span class="hl-0">&lt;/</span><span class="hl-1">body</span><span class="hl-0">&gt;</span><br/><span class="hl-0">&lt;/</span><span class="hl-1">html</span><span class="hl-0">&gt;</span>
+</code><button type="button">Copy</button></pre>
+
+<h1 id="components" class="tsd-anchor-link">Components<a href="#components" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<ul>
+<li>🟢 ready (feature complete for now)</li>
+<li>🟡 beta (changes possible, not feature complete)</li>
+<li>🔴 not ready (unstyled / no functions)</li>
+<li>🔵 planned (created, but empty files)</li>
+</ul>
+<h2 id="input-controls" class="tsd-anchor-link">Input Controls<a href="#input-controls" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Input controls are UI design elements that allow users to input information into the system. They are essential for
+collecting data and enabling user interactions. Some common examples of input controls include text fields, dropdown
+menus, checkboxes, and radio buttons.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/code-editor">Code editor</a></td>
+<td>p-card-editor</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>Color picker</td>
+<td>p-color-picker</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/checkbox">Checkbox</a></td>
+<td>p-checkbox</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/date-picker">Date picker</a></td>
+<td>p-date-picker</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Date Time picker</td>
+<td>p-datetime-picker</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/form-control">Form control</a></td>
+<td>p-form-control</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>File picker</td>
+<td>p-file-picker</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/html-editor">HTML editor</a></td>
+<td>p-html-editor</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/input">Input</a></td>
+<td>p-input</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/input-url">Input URL</a></td>
+<td>p-input-url</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>Month picker</td>
+<td>p-month-picker</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/number">Number</a></td>
+<td>p-number</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/select">Select</a></td>
+<td>p-select</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/textarea">Textarea</a></td>
+<td>p-textarea</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/time-picker">Time picker</a></td>
+<td>p-time-picker</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/url-input">URL input</a></td>
+<td>p-url-input.</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Week picker</td>
+<td>p-week-picker</td>
+<td>🔴</td>
+</tr>
+</tbody>
+</table>
+<h2 id="navigation" class="tsd-anchor-link">Navigation<a href="#navigation" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Navigational components are UI elements that help users move around the app or website. They provide users with a clear
+and intuitive way to navigate through different sections and pages. Some common examples of navigational components
+include menus, tabs, and breadcrumbs.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/breadcrumb">Breadcrumb</a></td>
+<td>p-breadcrumb</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/dropdown">Dropdown</a></td>
+<td>p-dropdown</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/menu">Menu</a></td>
+<td>p-menu</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/tabs">Tabs</a></td>
+<td>p-tabs</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<h2 id="informational" class="tsd-anchor-link">Informational<a href="#informational" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Informational components are UI elements that provide information to users. They communicate important messages,
+updates, or instructions within the app or website. Some common examples of informational components include
+notifications, tooltips, and progress bars.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/badge">Badge</a></td>
+<td>p-badge</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/progress">Progress</a></td>
+<td>p-progress</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/spinner">Spinner</a></td>
+<td>p-spinner</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/tooltip">Tooltip</a></td>
+<td>p-tooltip</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/notification">Notification</a></td>
+<td>p-notification</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/notification-manager">Notification Manager</a></td>
+<td>p-notification-manager</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<h2 id="containers" class="tsd-anchor-link">Containers<a href="#containers" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Containers are UI elements that group similar content together, making it easier for users to navigate and scan through
+the interface. Examples of common containers include cards, carousels, and accordions, which provide structure and
+organization to the content.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/accordion">Accordion</a></td>
+<td>p-accordion</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>Card</td>
+<td>p-card</td>
+<td>🟡</td>
+</tr>
+</tbody>
+</table>
+<h2 id="general" class="tsd-anchor-link">General<a href="#general" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>These components are used for general purpose. They include</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/avatar">Avatar</a></td>
+<td>p-avatar</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/button">Button</a></td>
+<td>p-button</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/button-group">Button Group</a></td>
+<td>p-button-group</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/calendar">Calendar</a></td>
+<td>p-calendar</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>Card Select</td>
+<td>p-cardselect</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/code-highlighter">Code Highlighter</a></td>
+<td>p-card-highlighter</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td>Column</td>
+<td>p-col</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/empty-state">Empty State</a></td>
+<td>p-empty-state</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/flow-designer">Flow Designer </a></td>
+<td>p-flow-designer</td>
+<td>🔵</td>
+</tr>
+<tr>
+<td>Grid</td>
+<td>p-grid</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Group</td>
+<td>p-group</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/header">Header</a></td>
+<td>p-header</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/icon">Icon</a></td>
+<td>p-icon</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/link">Link</a></td>
+<td>p-link</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/modal">Modal</a></td>
+<td>p-modal</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/notification-manager">Notification Manager</a></td>
+<td>p-notification-manager</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Observer</td>
+<td>p-observer</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Pagination</td>
+<td>p-pagination</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Radio Group</td>
+<td>p-radiogroup</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Row</td>
+<td>p-row</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/slider">Slider</a></td>
+<td>p-slider</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td>Spoiler</td>
+<td>p-spoiler</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td>Stepper</td>
+<td>p-stepper</td>
+<td>🔴</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/table">Table</a></td>
+<td>p-table</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/tag">Tag</a> / Chip</td>
+<td>p-tag</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/text">Text</a></td>
+<td>p-text</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/tree-view">Tree View</a></td>
+<td>p-tree-view</td>
+<td>🟡</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/toggle">Toggle</a></td>
+<td>p-toggle</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<h2 id="charts" class="tsd-anchor-link">Charts<a href="#charts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>These components are used to display data in a graphical format. They include</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://peacock.redvars.com/components/chart-doughnut">Doughnut Chart</a></td>
+<td>p-chart-doughnut</td>
+<td>🟢</td>
+</tr>
+<tr>
+<td><a href="https://peacock.redvars.com/components/chart-pie">Pie Chart </a></td>
+<td>p-chart-pie</td>
+<td>🟢</td>
+</tr>
+</tbody>
+</table>
+<h2 id="📄-license" class="tsd-anchor-link">📄 License<a href="#📄-license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Peacock is open-source software licensed under the <a href="media/LICENSE">Apache-2.0 License</a>.</p>
+<hr>
+<p>Made with 💖 by <a href="https://shivajivarma.com">shivajivarma</a>.</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#peacock"><span>Peacock</span></a><ul><li><a href="#what-is-peacock"><span>What is <wbr/>Peacock?</span></a></li><li><a href="#key-features"><span>Key <wbr/>Features</span></a></li><li><a href="#documentation"><span>Documentation</span></a></li><li><a href="#getting-started"><span>Getting <wbr/>Started</span></a></li></ul><a href="#components"><span>Components</span></a><ul><li><a href="#input-controls"><span>Input <wbr/>Controls</span></a></li><li><a href="#navigation"><span>Navigation</span></a></li><li><a href="#informational"><span>Informational</span></a></li><li><a href="#containers"><span>Containers</span></a></li><li><a href="#general"><span>General</span></a></li><li><a href="#charts"><span>Charts</span></a></li><li><a href="#📄-license"><span>📄 <wbr/>License</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">@redvars/peacock</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>

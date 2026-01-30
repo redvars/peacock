@@ -1,33 +1,34 @@
 ---
+import { getCodeBlock, getTextTag } from '../_data/getLitComponentDetails.ts';
 interface Props {
   component: any;
 }
 
 const {component} = Astro.props;
-
-const declaration = component.declarations.find(d => d.rawTag);
 ---
 
-{ declaration &&
-<div class='card-wrapper' data-category={declaration.name}>
+{ component &&
+<div class='card-wrapper' data-category={getTextTag(component, '@rawTag')}>
   <pc-card shadow-level='md' class='card'>
-    <pc-card-content class='header card-header' data-tag={declaration.tag}>
-      {
+    <pc-card-content class='header card-header' data-tag={getTextTag(component, '@rawTag')}>
+
+      <Fragment set:html={getCodeBlock(component, '@example')} />
+     <!-- {
         declaration.example
           ? <Fragment set:html={declaration.example} />
           : <goat-image src={component.img} dark-src={component.imgDark}/>
-      }
+      }-->
     </pc-card-content>
 
     <pc-card-content class='body'>
 
-      <h3 class='component-title text-headline-small' >{declaration.label.name}</h3>
+      <h3 class='component-title text-headline-small' >{getTextTag(component, '@label')}</h3>
 
 
-      <p class='text-body component-description'>{declaration.summary}</p>
+      <p class='text-body component-description'>{getTextTag(component, '@summary')}</p>
 
 
-      <pc-button size='sm' color='black' dark-mode-color="white" href={`/components/${declaration.rawTag.name}/#`}  icon="arrow--right">Read more</pc-button>
+      <pc-button size='sm' color='black' dark-mode-color="white" href={`/components/${getTextTag(component, '@rawTag')}/#`}  icon="arrow--right">Read more</pc-button>
     </pc-card-content>
   </pc-card>
 </div>}

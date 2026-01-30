@@ -16,6 +16,7 @@ export const styles = css`
     align-items: center;
     background-color: var(--badge-color);
     border-radius: var(--shape-corner-full);
+    box-sizing: border-box;
 
     &.slot-has-content {
       height: 1rem;

@@ -2,10 +2,12 @@ import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styles } from './badge.css.js';
+import { observerSlotChangesWithCallback } from '../utils.js';
 
 /**
  * @label Badge
  * @tag p-badge
+ * @rawTag badge
  * @summary The badge component is used to display a small amount of information to the user.
  *
  * @cssprop --badge-color - Controls the color of the badge.
@@ -26,6 +28,16 @@ export class Badge extends LitElement {
   @state()
   slotHasContent = false;
 
+  firstUpdated() {
+    observerSlotChangesWithCallback(
+      this.renderRoot.querySelector('slot'),
+      hasContent => {
+        this.slotHasContent = hasContent;
+        this.requestUpdate();
+      },
+    );
+  }
+
   render() {
     return html`<div
       class=${classMap({
@@ -33,13 +45,7 @@ export class Badge extends LitElement {
         'slot-has-content': this.slotHasContent,
       })}
     >
-      <slot @slotchange=${this.#handleSlotChange}></slot>
+      <slot></slot>
     </div>`;
-  }
-
-  #handleSlotChange(event: { target: any }) {
-    const slot = event.target;
-    // Check assignedElements length
-    this.slotHasContent = slot.assignedNodes({ flatten: true }).length > 0;
   }
 }

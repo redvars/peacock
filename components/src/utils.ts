@@ -108,3 +108,46 @@ export function sanitizeSvg(rawSvg: string) {
     return '';
   }
 }
+
+function __hasMeaningfulContent(slotElement: any) {
+  const nodes = slotElement.assignedNodes({ flatten: true });
+
+  for (const node of nodes) {
+    // If it's an element node, it has content
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      return true;
+    }
+    // If it's a text node and contains non-whitespace characters, it has content
+    if (
+      node.nodeType === Node.TEXT_NODE &&
+      node.textContent.trim().length > 0
+    ) {
+      return true;
+    }
+  }
+
+  // No meaningful content found
+  return false;
+}
+
+export function observerSlotChangesWithCallback(
+  slot: HTMLSlotElement | null,
+  callback: (hasContent: boolean) => void,
+) {
+  const observer = new MutationObserver(() => {
+    callback(__hasMeaningfulContent(slot));
+  });
+
+  // Observe the elements currently assigned to the slot
+  const assignedNodes = slot?.assignedNodes({ flatten: true }) || [];
+  assignedNodes.forEach(node => {
+    observer.observe(node, {
+      attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+  });
+
+  callback(__hasMeaningfulContent(slot));
+}

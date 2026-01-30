@@ -1,0 +1,551 @@
+[
+  {
+    "rawTag": "avatar",
+    "label": "Avatar",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Avatar"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-avatar"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "avatar"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--avatar-text-color - Controls the color of the text inside the avatar."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\"></p-avatar>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Avatar",
+      "cssProperties": [
+        {
+          "description": "Controls the border radius of the avatar.",
+          "name": "--avatar-border-radius"
+        },
+        {
+          "description": "Controls the color of the avatar.",
+          "name": "--avatar-background-color"
+        },
+        {
+          "description": "Controls the size of the avatar.",
+          "name": "--avatar-size"
+        },
+        {
+          "description": "Controls the color of the text inside the avatar.",
+          "name": "--avatar-text-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "__getInitials",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "src"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-avatar",
+      "customElement": true,
+      "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
+      "rawTag": {
+        "name": "avatar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "badge",
+    "label": "Badge",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Badge"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-badge"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "badge"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The badge component is used to display a small amount of information to the user."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--badge-color - Controls the color of the badge."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-badge>1</p-badge>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Badge",
+      "cssProperties": [
+        {
+          "description": "Controls the color of the badge.",
+          "name": "--badge-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "src"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-badge",
+      "customElement": true,
+      "summary": "The badge component is used to display a small amount of information to the user.",
+      "rawTag": {
+        "name": "badge",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "divider",
+    "label": "Divider",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Divider"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-divider"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "divider"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The divider component is used to visually separate content."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.\n - They can be oriented either vertically or horizontally, depending on the layout requirements."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--divider-padding - Controls the padding of the divider."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-divider style=\"width: 12rem;\">or</p-divider>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Divider",
+      "cssProperties": [
+        {
+          "description": "Controls the color of the divider.",
+          "name": "--divider-color"
+        },
+        {
+          "description": "Controls the padding of the divider.",
+          "name": "--divider-padding"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "vertical",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "#handleSlotChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "{ target: any }"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "vertical"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-divider",
+      "customElement": true,
+      "summary": "The divider component is used to visually separate content.",
+      "rawTag": {
+        "name": "divider",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "icon",
+    "label": "Icon",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Icon"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-icon"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "icon"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Icons are visual symbols used to represent ideas, objects, or actions."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "[--icon-size=1rem] - Controls the size of the icon. Defaults to \"1rem\""
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-icon name=\"home\"></p-icon>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Icon",
+      "cssProperties": [
+        {
+          "description": "Controls the color of the icon.",
+          "name": "--icon-color"
+        },
+        {
+          "description": "Controls the size of the icon. Defaults to \"1rem\"",
+          "name": "--icon-size",
+          "default": "1rem"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "provider",
+          "type": {
+            "text": "'material-symbols' | 'carbon' | undefined"
+          },
+          "default": "'material-symbols'",
+          "attribute": "provider"
+        },
+        {
+          "kind": "field",
+          "name": "svgContent",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "Error | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_fetchId",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_debounceTimer",
+          "type": {
+            "text": "number | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__scheduleUpdate",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "icon-error",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "src"
+        },
+        {
+          "name": "provider",
+          "type": {
+            "text": "'material-symbols' | 'carbon' | undefined"
+          },
+          "default": "'material-symbols'",
+          "fieldName": "provider"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-icon",
+      "customElement": true,
+      "summary": "Icons are visual symbols used to represent ideas, objects, or actions.",
+      "rawTag": {
+        "name": "icon",
+        "description": ""
+      }
+    }
+  }
+]

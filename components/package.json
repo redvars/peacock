@@ -16,7 +16,7 @@
     "./icon.js": "./dist/src/index.js"
   },
   "scripts": {
-    "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node readme-gen.mjs",
+    "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node typedoc-gen.mjs",
     "start": "npm run copy_design_files && rollup -c && concurrently -k -r \"rollup -c -w\" \"web-dev-server\"",
     "build": "npm run copy_design_files && rollup -c && npm run analyze -- --exclude dist",
     "prepublish": "rollup -c  && npm run analyze -- --exclude dist",
@@ -25,15 +25,13 @@
     "prepare": "husky",
     "copy_design_files": "node copyDesignFiles.js",
     "test": "tsc && wtr --coverage",
-    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
-    "typedoc ": "typedoc  --options typedoc.config.mjs"
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
     "lit": "^3.1.4"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",
-    "@custom-elements-manifest/to-markdown": "^0.1.0",
     "@open-wc/eslint-config": "^12.0.3",
     "@open-wc/testing": "^4.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -42,15 +40,13 @@
     "@types/mocha": "^10.0.7",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
-    "@wc-toolkit/lazy-loader": "^1.0.1",
+    "@wc-toolkit/jsdoc-tags": "^1.1.0",
     "@web/dev-server": "^0.4.6",
     "@web/test-runner": "^0.18.2",
     "concurrently": "^8.2.2",
-    "custom-element-jet-brains-integration": "^1.7.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
-    "jsdoc": "^4.0.5",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "rollup-plugin-copy": "^3.5.0",

@@ -8,10 +8,18 @@ import { styles } from './icon.css.js';
 /**
  * @label Icon
  * @tag p-icon
+ * @rawTag icon
  * @summary Icons are visual symbols used to represent ideas, objects, or actions.
+ * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
  *
  * @cssprop --icon-color - Controls the color of the icon.
  * @cssprop [--icon-size=1rem] - Controls the size of the icon. Defaults to "1rem"
+ *
+ * @example
+ * ```html
+ * <p-icon name="home"></p-icon>
+ * ```
+ *
  */
 export class Icon extends LitElement {
   static styles = [styles];

@@ -4,7 +4,7 @@ import ComponentCard from '../components/ComponentCard.astro';
 import '../styles/components.page.scss';
 import componentsDetails from '../_data/componentsDetails.json';
 
-import customElements from '../_data/custom-elements.json';
+import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
 import Footer from '../components/Footer.astro';
 import { getCategoriesTree } from '../_data/getComponentDetails';
 import WebComponentCard from '../components/WebComponentCard.astro';
@@ -52,9 +52,7 @@ const description = 'The overview page is the first page you see when you visit 
 
         <div class='cards'>
           {
-            customElements.modules.filter(module =>
-              module.declarations.find(d => d.rawTag),
-            ).map((component) => {
+            customElementsJSDocs.map((component) => {
               return <WebComponentCard component={component}></WebComponentCard>;
             })
           }

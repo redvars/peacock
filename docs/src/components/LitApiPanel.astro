@@ -1,0 +1,121 @@
+---
+import { getLitComponentDetails } from '../_data/getLitComponentDetails.ts';
+interface Props {
+  componentDetails: any;
+}
+
+const { componentDetails } = Astro.props;
+
+const litComp = getLitComponentDetails(componentDetails.metadata.name);
+---
+<div class='api-section'>
+  <h4 class='p-text-headline'>Properties</h4>
+  <pc-table id='comp-properties' class='table-auto-height' layer='01' paginate='false'></pc-table>
+</div>
+
+<div class='api-section'>
+  <h4 class='p-text-headline'>Events</h4>
+  <pc-table id='comp-events' class='table-auto-height' layer='01' paginate='false'></pc-table>
+</div>
+
+<div class='api-section'>
+  <h4 class='p-text-headline'>Methods</h4>
+  <pc-table id='comp-methods' class='table-auto-height' layer='01' paginate='false'></pc-table>
+</div>
+
+<div class='api-section'>
+  <h4 class='p-text-headline'>CSS Custom Properties</h4>
+  <pc-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></pc-table>
+</div>
+
+<script is:inline define:vars={{ componentDetails, litComp}}>
+  const $compProperties = window.document.getElementById('comp-properties');
+  // Columns
+  $compProperties.columns = [{
+    'name': 'name',
+    'label': 'Name',
+    'width': 10,
+  }, {
+    'name': 'fieldName',
+    'label': 'Field name',
+    'width': 20,
+  }, {
+    'name': 'docs',
+    'label': 'Description',
+    'width': 28,
+    template: function(row, column) {
+      if (row[column.name])
+        return `<div class='col-text' title='${row[column.name]}'>${row[column.name].split('\n').map((i) => `<p class='p-text-body'>${i}</p>`).join('')}</div>`;
+      return '';
+    },
+  }, {
+    'name': 'type',
+    'label': 'Type',
+    'width': 18,
+    template: function(row, column) {
+      const value = row[column.name].text
+      if (value && value.includes("|")) {
+        const types = value.split("|");
+        const typesHtml = types.map(type => `<pc-tag color='secondary'>${type}</pc-tag>`).join('');
+        return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
+      }
+      return `<div class='col-text'>${row[column.name]?.text}</div>`;
+    },
+  }, {
+    'name': 'default',
+    'label': 'Default',
+  }];
+  // Data
+  $compProperties.data = litComp.customElement.attributes;
+
+  const $compEvents = document.getElementById('comp-events');
+  // Columns
+  $compEvents.columns = [{
+    'name': 'name',
+    'label': 'Name',
+    'width': 10,
+  }, {
+    'name': 'type',
+    'label': 'Type',
+    'width': 18,
+    template: function(row, column) {
+      const value = row[column.name].text
+      if (value && value.includes("|")) {
+        const types = value.split("|");
+        const typesHtml = types.map(type => `<pc-tag color='secondary'>${type}</pc-tag>`).join('');
+        return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
+      }
+      return `<div class='col-text'>${row[column.name]?.text}</div>`;
+    },
+  }];
+  // Data
+  $compEvents.data = litComp.customElement.events;
+
+  const $compMethods = document.getElementById('comp-methods');
+  // Columns
+  $compMethods.columns = [{
+    'name': 'name',
+    'label': 'Name',
+    'width': 20,
+  }, {
+    'name': 'docs',
+    'label': 'Description',
+  }];
+  // Data
+  $compMethods.data = componentDetails.methods;
+
+  const $compCssCustomProperties = document.getElementById('comp-css-custom-properties');
+  // Columns
+  $compCssCustomProperties.columns = [{
+    'name': 'name',
+    'label': 'Name',
+    'width': 20,
+    'fixed': true,
+  }, {
+    'name': 'description',
+    'label': 'Description',
+  }];
+
+  // Data
+  $compCssCustomProperties.data = litComp.customElement.cssProperties;
+</script>

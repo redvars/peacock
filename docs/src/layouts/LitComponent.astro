@@ -1,0 +1,100 @@
+---
+import { getLitComponentDetails, getTextTag } from '../_data/getLitComponentDetails.ts';
+interface Props {
+  componentDetails: any;
+}
+
+const {componentDetails} = Astro.props;
+import Layout from './Default.astro';
+import '../styles/component.layout.scss';
+import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../_data/getComponentDetails';
+import Footer from '../components/Footer.astro';
+
+const litComp = getLitComponentDetails(componentDetails.metadata.name);
+
+const title = getTextTag(litComp, '@label');
+const description = getTextTag(litComp, '@summary');
+const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.tag);
+
+---
+
+<Layout title={title} description={description} classes='surface'>
+
+  <div class='sidenav m-hide surface' id="component-page">
+
+    <div class='sidenav-components'>
+
+      <pc-tree-view layer='01' value={title} selected-node={title}>
+        <pc-tree-node  label="Overview" href='/components'></pc-tree-node>
+
+        {
+          getCategoriesTree().map((category) => {
+            if (!category.hide) {
+              return <pc-tree-node label={category.name}  value={category.name + 'group'}>
+                {
+
+                  category.children.map((componentName: any) => {
+                    if (typeof componentName === 'string') {
+                      const component = getComponentDetails(componentName);
+                      if (component.metadata.name) {
+                        return <pc-tree-node label={component.metadata.label} value={component.metadata.name}
+                                               href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                      }
+                    } else if (componentName.children) {
+                      return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
+                        {
+                          componentName.children.map((componentName: any) => {
+                            const component = getComponentDetails(componentName);
+                            if (component.metadata.name) {
+                              return <pc-tree-node label={component.metadata.label}  value={component.metadata.name}
+                                                     href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                            }
+                          })
+                        }
+                      </pc-tree-node>
+                    }
+                  })
+                }
+              </pc-tree-node>
+            }
+          })
+        }
+
+      </pc-tree-view>
+
+    </div>
+
+  </div>
+  <div class='main-content'>
+    <pc-container class='page-wrapper'>
+
+      <div class='comp-header'>
+        <h1 class='heading-scrollable p-text-display'>{title}</h1>
+        { componentDetails.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+      </div>
+
+      <div class='component-description'>
+        <div class='p-text-title-large'
+             set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
+
+        </div>
+      </div>
+
+      <slot/>
+
+      <div class='previous-next-nav'>
+        <pc-button href={`/components/${previousComponent.metadata.name}/`} icon-align="start">
+          <p-icon slot='icon' name='arrow_left_alt'></p-icon> Previous
+        </pc-button>
+        <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right_alt'>Previous</p-icon> </pc-button>
+      </div>
+    </pc-container>
+
+    <div class='footer container'>
+      <pc-divider></pc-divider>
+      <Footer/>
+    </div>
+  </div>
+
+
+</Layout>
