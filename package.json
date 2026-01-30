@@ -69,6 +69,7 @@
     "@types/jest": "^27.5.2",
     "@types/js-beautify": "^1.13.3",
     "@types/node": "^20.10.8",
+    "@wc-toolkit/jsdoc-tags": "^1.1.0",
     "beautify": "^0.0.8",
     "concurrently": "^7.1.0",
     "date-fns": "^2.29.3",
@@ -88,6 +89,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "customElements": "components/dist/custom-elements.json",
-  "web-types": "components/dist/web-types.json"
+  "customElements": "./components/dist/custom-elements.json",
+  "web-types": "./components/dist/web-types.json"
 }

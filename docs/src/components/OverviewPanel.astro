@@ -9,12 +9,7 @@ const { componentDetails, sections } = Astro.props;
 ---
 <div class='component-overview-tab'>
   <div class='component-content'>
-    <div class='component-description'>
-      <div class='p-text-body-large'
-         set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
-
-      </div>
-    </div>
+    
     {
       sections.map((section) => (
         <div id={`section-${section.title.toLowerCase().replaceAll(" ", "-").replaceAll("/", "-")}`}

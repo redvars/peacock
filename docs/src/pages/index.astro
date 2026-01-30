@@ -20,7 +20,7 @@ function jumpingSentence(sentence: string) {
     return `<div class='jumping-word'>${word.split('').map((char, index) => {
       if (char === ' ')
         return char;
-      return `<h1 style='z-index:${len--};' class='jumping-text p-text-display-large-emphasized'>${char}</h1>`;
+      return `<h1 style='z-index:${len--};' class='jumping-text'>${char}</h1>`;
     }).join('')}</div>`;
   }).join(' ');
 }
@@ -34,15 +34,19 @@ function jumpingSentence(sentence: string) {
 
 
     <div class='banner-content'>
-      <BannerLogo />
 
-      <div class='title'>
-        <h1 class='p-text-display-large'>The foundation for beautiful user interfaces.</h1>
-        <Fragment set:html={jumpingSentence('goat/ui')} />
+      <div class="logo-card-container">
+        <div class="logo-card">
+          <img alt="GOAT UI LOGO" src="/assets/img/logo-plain.png">
+          <div class="title"><Fragment set:html={jumpingSentence('Peacock')} /></div>
+        </div>
       </div>
 
+      <h1 class='banner-title p-text-display'>
+        The foundation for beautiful user interfaces.
+      </h1>
+      <p class='p-text-headline'>A light weight customisable web component + css library</p>
 
-      <h2 class='p-text-headline'>A light weight web component library</h2>
       <div class='banner-actions '>
         <pc-button href='#getting-started' size='md' color='secondary' icon='arrow--right'>Get
           Started
@@ -74,7 +78,7 @@ function jumpingSentence(sentence: string) {
     <div class='made-in-india'>
       <p class='p-text-body-emphasized'>Built by</p>&nbsp;
       <p class='p-text-body-emphasized'>
-        <a class='pc-link no-decoration' href={site.author_url}>
+        <a class='p-link no-decoration' href={site.author_url}>
           <pc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
           {site.author}
         </a>
@@ -98,7 +102,7 @@ function jumpingSentence(sentence: string) {
         <p class='p-text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
         <br />
         <p class='p-text-large'>{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
-          <a class='pc-link' href='https://shivajivarma.com'>Shivaji Varma</a>
+          <a class='p-link' href='https://shivajivarma.com'>Shivaji Varma</a>
           . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
           by creating pull requests or issues.
         </p>
@@ -116,7 +120,7 @@ function jumpingSentence(sentence: string) {
             </pc-text>
           </li>
           <li>
-            <p class='p-text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</pc-text>
+            <p class='p-text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</p>
           </li>
         </ul>
         <div class='container-code'>
@@ -222,17 +226,6 @@ function jumpingSentence(sentence: string) {
 
   <script is:inline>
     document.addEventListener('DOMContentLoaded', function() {
-      anime({
-        targets: '.banner-logo path',
-        strokeDashoffset: [anime.setDashoffset, 0],
-        easing: 'easeInOutSine',
-        duration: 1500,
-        delay: function(_el, i) {
-          return i * 250;
-        },
-        direction: 'alternate',
-        loop: false,
-      });
       document.body.addEventListener('mousemove', evt => {
         document.querySelectorAll('.banner-logo .head').forEach(headPath => {
           headPath.style.transform = `rotate(${15 - (evt.clientY / document.body.clientHeight) * 60}deg)`;

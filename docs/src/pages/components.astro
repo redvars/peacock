@@ -3,8 +3,11 @@ import Layout from '../layouts/Default.astro';
 import ComponentCard from '../components/ComponentCard.astro';
 import '../styles/components.page.scss';
 import componentsDetails from '../_data/componentsDetails.json';
+
+import customElements from '../_data/custom-elements.json';
 import Footer from '../components/Footer.astro';
 import { getCategoriesTree } from '../_data/getComponentDetails';
+import WebComponentCard from '../components/WebComponentCard.astro';
 const title = 'Overview';
 const description = 'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
 ---
@@ -45,6 +48,16 @@ const description = 'The overview page is the first page you see when you visit 
           <goat-link href='/components'>
             Remove filter
           </goat-link>
+        </div>
+
+        <div class='cards'>
+          {
+            customElements.modules.filter(module =>
+              module.declarations.find(d => d.rawTag),
+            ).map((component) => {
+              return <WebComponentCard component={component}></WebComponentCard>;
+            })
+          }
         </div>
 
         <div class='cards'>

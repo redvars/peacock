@@ -1,0 +1,33 @@
+---
+interface Props {
+  component: any;
+}
+
+const {component} = Astro.props;
+
+const declaration = component.declarations.find(d => d.rawTag);
+---
+
+{ declaration &&
+<div class='card-wrapper' data-category={declaration.name}>
+  <pc-card shadow-level='md' class='card'>
+    <pc-card-content class='header card-header' data-tag={declaration.tag}>
+      {
+        declaration.example
+          ? <Fragment set:html={declaration.example} />
+          : <goat-image src={component.img} dark-src={component.imgDark}/>
+      }
+    </pc-card-content>
+
+    <pc-card-content class='body'>
+
+      <h3 class='component-title text-headline-small' >{declaration.label.name}</h3>
+
+
+      <p class='text-body component-description'>{declaration.summary}</p>
+
+
+      <pc-button size='sm' color='black' dark-mode-color="white" href={`/components/${declaration.rawTag.name}/#`}  icon="arrow--right">Read more</pc-button>
+    </pc-card-content>
+  </pc-card>
+</div>}

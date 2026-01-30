@@ -17,7 +17,7 @@ export const styles = css`
     background-color: var(--badge-color);
     border-radius: var(--shape-corner-full);
 
-    &.has-content {
+    &.slot-has-content {
       height: 1rem;
       min-width: 1rem;
       padding-inline: var(--spacing-050);
@@ -25,9 +25,9 @@ export const styles = css`
       color: var(--color-on-error);
     }
 
-    &:not(.has-content) {
-      height: 6px;
-      width: 6px;
+    &:not(.slot-has-content) {
+      height: 0.375rem;
+      width: 0.375rem;
     }
   }
 `;

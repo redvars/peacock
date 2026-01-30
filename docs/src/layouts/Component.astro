@@ -67,9 +67,14 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
 
       <div class='comp-header'>
         <h1 class='heading-scrollable p-text-display'>{title}</h1>
-
-
         { componentDetails.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+      </div>
+
+      <div class='component-description'>
+        <div class='p-text-title-large'
+             set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
+
+        </div>
       </div>
 
       <slot/>

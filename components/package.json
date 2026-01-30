@@ -25,7 +25,8 @@
     "prepare": "husky",
     "copy_design_files": "node copyDesignFiles.js",
     "test": "tsc && wtr --coverage",
-    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
+    "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
+    "typedoc ": "typedoc  --options typedoc.config.mjs"
   },
   "dependencies": {
     "lit": "^3.1.4"
@@ -49,6 +50,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
+    "jsdoc": "^4.0.5",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "rollup-plugin-copy": "^3.5.0",
@@ -59,6 +61,7 @@
     "rollup-plugin-summary": "^3.0.1",
     "sass": "^1.97.2",
     "tslib": "^2.6.3",
+    "typedoc": "^0.28.16",
     "typescript": "^5.5.3",
     "unplugin-jsdelivr": "^1.0.0"
   },

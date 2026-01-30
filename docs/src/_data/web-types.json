@@ -1,0 +1,104 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "@redvars/peacock",
+  "version": "3.1.1",
+  "description-markup": "markdown",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "p-avatar",
+          "description": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.\n---\n\n\n### **CSS Properties:**\n - **--avatar-background-color** - Controls the color of the avatar. _(default: undefined)_\n- **--avatar-size** - Controls the size of the avatar. _(default: undefined)_\n- **--avatar-text-color** - Controls the color of the text inside the avatar. _(default: undefined)_",
+          "doc-url": "",
+          "attributes": [
+            { "name": "name", "value": { "type": "string", "default": "''" } },
+            { "name": "src", "value": { "type": "string | undefined" } }
+          ],
+          "events": [],
+          "js": {
+            "properties": [
+              { "name": "name", "type": "string" },
+              { "name": "src", "type": "string | undefined" }
+            ],
+            "events": []
+          }
+        },
+        {
+          "name": "p-badge",
+          "description": "The badge component is used to display a small amount of information to the user.\n---\n\n\n### **CSS Properties:**\n - **--badge-color** - Controls the color of the badge. _(default: undefined)_",
+          "doc-url": "",
+          "attributes": [
+            { "name": "name", "value": { "type": "string", "default": "''" } },
+            { "name": "src", "value": { "type": "string | undefined" } }
+          ],
+          "events": [],
+          "js": {
+            "properties": [
+              { "name": "name", "type": "string" },
+              { "name": "src", "type": "string | undefined" },
+              { "name": "slotHasContent", "type": "boolean" }
+            ],
+            "events": []
+          }
+        },
+        {
+          "name": "p-icon",
+          "description": "Icons are visual symbols used to represent ideas, objects, or actions.\n---\n\n\n### **Events:**\n - **icon-error**\n\n### **CSS Properties:**\n - **--icon-color** - Controls the color of the icon. _(default: undefined)_\n- **--icon-size** - Controls the size of the icon. Defaults to \"1rem\" _(default: 1rem)_",
+          "doc-url": "",
+          "attributes": [
+            { "name": "name", "value": { "type": "string | undefined" } },
+            { "name": "src", "value": { "type": "string | undefined" } },
+            {
+              "name": "provider",
+              "value": {
+                "type": "'material-symbols' | 'carbon' | undefined",
+                "default": "'material-symbols'"
+              }
+            }
+          ],
+          "events": [{ "name": "icon-error", "type": "CustomEvent" }],
+          "js": {
+            "properties": [
+              { "name": "name", "type": "string | undefined" },
+              { "name": "src", "type": "string | undefined" },
+              {
+                "name": "provider",
+                "type": "'material-symbols' | 'carbon' | undefined"
+              }
+            ],
+            "events": [{ "name": "icon-error", "type": "CustomEvent" }]
+          }
+        }
+      ]
+    },
+    "css": {
+      "properties": [
+        {
+          "name": "--avatar-background-color",
+          "description": "Controls the color of the avatar."
+        },
+        {
+          "name": "--avatar-size",
+          "description": "Controls the size of the avatar."
+        },
+        {
+          "name": "--avatar-text-color",
+          "description": "Controls the color of the text inside the avatar."
+        },
+        {
+          "name": "--badge-color",
+          "description": "Controls the color of the badge."
+        },
+        {
+          "name": "--icon-color",
+          "description": "Controls the color of the icon."
+        },
+        {
+          "name": "--icon-size",
+          "description": "Controls the size of the icon. Defaults to \"1rem\""
+        }
+      ],
+      "pseudo-elements": []
+    }
+  }
+}

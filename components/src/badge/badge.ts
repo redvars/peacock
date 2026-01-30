@@ -3,6 +3,19 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styles } from './badge.css.js';
 
+/**
+ * @label Badge
+ * @tag p-badge
+ * @summary The badge component is used to display a small amount of information to the user.
+ *
+ * @cssprop --badge-color - Controls the color of the badge.
+ *
+ * @example
+ * ```html
+ * <p-badge>1</p-badge>
+ * ```
+ * @tags display
+ */
 export class Badge extends LitElement {
   static styles = [styles];
 
@@ -15,7 +28,10 @@ export class Badge extends LitElement {
 
   render() {
     return html`<div
-      class=${classMap({ badge: true, 'has-content': this.slotHasContent })}
+      class=${classMap({
+        badge: true,
+        'slot-has-content': this.slotHasContent,
+      })}
     >
       <slot @slotchange=${this.#handleSlotChange}></slot>
     </div>`;
@@ -24,6 +40,6 @@ export class Badge extends LitElement {
   #handleSlotChange(event: { target: any }) {
     const slot = event.target;
     // Check assignedElements length
-    this.slotHasContent = slot.assignedElements().length > 0;
+    this.slotHasContent = slot.assignedNodes({ flatten: true }).length > 0;
   }
 }

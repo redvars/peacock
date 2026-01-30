@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "@redvars/peacock-design-tokens": "^0.0.1",
     "d3": "7.9.0",
     "monaco-editor": "0.48.0",
-    "prismjs": "1.29.0",
-    "@redvars/peacock-design-tokens": "^0.0.1"
+    "prismjs": "1.29.0"
+  },
+  "devDependencies": {
+    "@wc-toolkit/jsdoc-tags": "^1.1.0"
   }
 }

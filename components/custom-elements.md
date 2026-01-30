@@ -1,6 +1,6 @@
 # `src/avatar/avatar.ts`:
 
-## class: `Avatar`
+## class: `Avatar`, `p-avatar`
 
 ### Superclass
 
@@ -21,6 +21,15 @@
 | ------ | ----- | -------------- |
 | `name` | name  |                |
 | `src`  | src   |                |
+
+### CSS Properties
+
+| Name                        | Default | Description                                       |
+| --------------------------- | ------- | ------------------------------------------------- |
+| `--avatar-border-radius`    |         | Controls the border radius of the avatar.         |
+| `--avatar-background-color` |         | Controls the color of the avatar.                 |
+| `--avatar-size`             |         | Controls the size of the avatar.                  |
+| `--avatar-text-color`       |         | Controls the color of the text inside the avatar. |
 
 <hr/>
 
@@ -56,10 +65,12 @@
 
 ### CSS Properties
 
-| Name                        | Default | Description                       |
-| --------------------------- | ------- | --------------------------------- |
-| `--avatar-background-color` |         | Controls the color of the avatar. |
-| `--avatar-size`             |         | Controls the size of the avatar.  |
+| Name                        | Default | Description                                       |
+| --------------------------- | ------- | ------------------------------------------------- |
+| `--avatar-border-radius`    |         | Controls the border radius of the avatar.         |
+| `--avatar-background-color` |         | Controls the color of the avatar.                 |
+| `--avatar-size`             |         | Controls the size of the avatar.                  |
+| `--avatar-text-color`       |         | Controls the color of the text inside the avatar. |
 
 <hr/>
 
@@ -70,9 +81,47 @@
 | `js`                        | `PAvatar`  | PAvatar     | src/avatar/p-avatar.ts |         |
 | `custom-element-definition` | `p-avatar` | PAvatar     | src/avatar/p-avatar.ts |         |
 
+# `src/divider/divider.ts`:
+
+## class: `Divider`, `p-divider`
+
+### Superclass
+
+| Name         | Module | Package |
+| ------------ | ------ | ------- |
+| `LitElement` |        | lit     |
+
+### Fields
+
+| Name             | Privacy | Type      | Default | Description | Inherited From |
+| ---------------- | ------- | --------- | ------- | ----------- | -------------- |
+| `vertical`       |         | `boolean` | `false` |             |                |
+| `slotHasContent` |         | `boolean` | `false` |             |                |
+
+### Attributes
+
+| Name       | Field    | Inherited From |
+| ---------- | -------- | -------------- |
+| `vertical` | vertical |                |
+
+### CSS Properties
+
+| Name                | Default | Description                          |
+| ------------------- | ------- | ------------------------------------ |
+| `--divider-color`   |         | Controls the color of the divider.   |
+| `--divider-padding` |         | Controls the padding of the divider. |
+
+<hr/>
+
+## Exports
+
+| Kind | Name      | Declaration | Module                 | Package |
+| ---- | --------- | ----------- | ---------------------- | ------- |
+| `js` | `Divider` | Divider     | src/divider/divider.ts |         |
+
 # `src/badge/badge.ts`:
 
-## class: `Badge`
+## class: `Badge`, `p-badge`
 
 ### Superclass
 
@@ -95,6 +144,12 @@
 | `name` | name  |                |
 | `src`  | src   |                |
 
+### CSS Properties
+
+| Name            | Default | Description                      |
+| --------------- | ------- | -------------------------------- |
+| `--badge-color` |         | Controls the color of the badge. |
+
 <hr/>
 
 ## Exports
@@ -103,9 +158,49 @@
 | ---- | ------- | ----------- | ------------------ | ------- |
 | `js` | `Badge` | Badge       | src/badge/badge.ts |         |
 
+# `src/badge/p-badge.ts`:
+
+## class: `PBadge`, `p-badge`
+
+### Superclass
+
+| Name    | Module              | Package |
+| ------- | ------------------- | ------- |
+| `Badge` | /src/badge/badge.js |         |
+
+### Fields
+
+| Name             | Privacy | Type                  | Default | Description | Inherited From |
+| ---------------- | ------- | --------------------- | ------- | ----------- | -------------- |
+| `name`           |         | `string`              | `''`    |             | Badge          |
+| `src`            |         | `string \| undefined` |         |             | Badge          |
+| `slotHasContent` |         | `boolean`             | `false` |             | Badge          |
+
+### Attributes
+
+| Name   | Field | Inherited From |
+| ------ | ----- | -------------- |
+| `name` | name  | Badge          |
+| `src`  | src   | Badge          |
+
+### CSS Properties
+
+| Name            | Default | Description                      |
+| --------------- | ------- | -------------------------------- |
+| `--badge-color` |         | Controls the color of the badge. |
+
+<hr/>
+
+## Exports
+
+| Kind                        | Name      | Declaration | Module               | Package |
+| --------------------------- | --------- | ----------- | -------------------- | ------- |
+| `js`                        | `PBadge`  | PBadge      | src/badge/p-badge.ts |         |
+| `custom-element-definition` | `p-badge` | PBadge      | src/badge/p-badge.ts |         |
+
 # `src/icon/icon.ts`:
 
-## class: `Icon`
+## class: `Icon`, `p-icon`
 
 ### Superclass
 
@@ -134,6 +229,13 @@
 | `name`     | name     |                |
 | `src`      | src      |                |
 | `provider` | provider |                |
+
+### CSS Properties
+
+| Name           | Default | Description                                       |
+| -------------- | ------- | ------------------------------------------------- |
+| `--icon-color` |         | Controls the color of the icon.                   |
+| `--icon-size`  | `1rem`  | Controls the size of the icon. Defaults to "1rem" |
 
 <hr/>
 

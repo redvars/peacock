@@ -1,4 +1,4 @@
-import { css, unsafeCSS } from 'lit';
+import { css } from 'lit';
 import { getTypography } from '../styleMixins.css.js';
 
 export const styles = css`

@@ -11,7 +11,7 @@ import ColorUtils from './ColorUtils.mjs';
 };
 console.log(JSON.stringify(result, null, 2));*/
 
-console.log(JSON.stringify(ColorUtils.generateTheme('#4589ff'), null, 2));
+console.log(JSON.stringify(ColorUtils.generateTheme('#ED1C24'), null, 2));
 
 // neutral
 /*console.log(

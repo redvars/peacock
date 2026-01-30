@@ -1,12 +1,12 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <p class='p-text-body-large'>
   The utility styles are used with productive and expressive moments and include styles for code snippets, labels for
   captions and helper text, as well as legal copy.
 </p>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'} alignStart={true}>
 
   <p class='p-text-code-large'>
     This is for inline code snippets and smaller code elements.
@@ -32,21 +32,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     label small
   </p>
 
-  <br />
-
-  <pc-text type='helper-text'>
-    This is for explanatory helper text that appears below a field title within a component.
-  </pc-text>
-  <pc-text type='helper-text' expressive>
-    This is for explanatory helper text that appears below a field title within a component.
-  </pc-text>
-
-  <br />
-
-  <pc-text type='legal'>
-    This is for legal copy appearing in product pages.
-  </pc-text>
-  <pc-text type='legal' expressive>
-    This is for legal copy appearing in web pages.
-  </pc-text>
-</HighlighterCard>
+</DemoComponentCard>

@@ -1,6 +1,7 @@
 // Eager loaded
 import { Icon } from './icon/icon.js';
 import { Avatar } from './avatar/avatar.js';
+import { Badge } from './badge/badge.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import cssComponentsStyleSheet from '../assets/tokens.css';
@@ -35,8 +36,6 @@ function stringifyStyleSheet(stylesheet: any) {
   );
 }
 
-console.log(stringifyStyleSheet(textStylesheet));
-
 document.adoptedStyleSheets = styleSheets;
 
 const loaderConfig: LoaderConfig = {
@@ -48,6 +47,9 @@ const loaderConfig: LoaderConfig = {
     },
     avatar: {
       CustomElementClass: Avatar,
+    },
+    badge: {
+      CustomElementClass: Badge,
     },
   },
 };
