@@ -1,6 +1,6 @@
 {
   "name": "@redvars/peacock-design-tokens",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "red:var design tokens",
   "type": "module",
   "scripts": {
