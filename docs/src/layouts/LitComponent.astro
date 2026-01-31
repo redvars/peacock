@@ -7,15 +7,11 @@ interface Props {
 const {componentDetails} = Astro.props;
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
-import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../_data/getComponentDetails';
+import { getCategoriesTree, getComponentDetails } from '../_data/getComponentDetails';
 import Footer from '../components/Footer.astro';
 
-const litComp = getLitComponentDetails(componentDetails.metadata.name);
-
-const title = getTextTag(litComp, '@label');
-const description = getTextTag(litComp, '@summary');
-const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.tag);
-
+const title = getTextTag(componentDetails, '@label');
+const description = getTextTag(componentDetails, '@summary');
 ---
 
 <Layout title={title} description={description} classes='surface'>
@@ -70,24 +66,18 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
 
       <div class='comp-header'>
         <h1 class='heading-scrollable p-text-display'>{title}</h1>
-        { componentDetails.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+        { componentDetails.stats == 'WIP' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
       </div>
 
       <div class='component-description'>
         <div class='p-text-title-large'
-             set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
+             set:html={getTextTag(componentDetails, '@overview') ? getTextTag(componentDetails, '@overview') : getTextTag(componentDetails, '@summary')}>
 
         </div>
       </div>
 
       <slot/>
 
-      <div class='previous-next-nav'>
-        <pc-button href={`/components/${previousComponent.metadata.name}/`} icon-align="start">
-          <p-icon slot='icon' name='arrow_left_alt'></p-icon> Previous
-        </pc-button>
-        <pc-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right_alt'>Previous</p-icon> </pc-button>
-      </div>
     </pc-container>
 
     <div class='footer container'>

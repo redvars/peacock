@@ -1,12 +1,12 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-const componentDetails = getComponentDetails('icon');
+const componentDetails = getLitComponentDetails('icon');
 
 import UsageSection from './_sections/usage.astro';
 import ThemingSection from './_sections/theming.astro';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
+import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 
 const sections = [
   {
@@ -25,7 +25,7 @@ const sections = [
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
-      <OverviewPanel componentDetails={componentDetails} sections={sections} />
+      <OverviewPanel sections={sections} />
     </pc-tab-panel>
     <pc-tab-panel>
       <LitApiPanel componentDetails={componentDetails} />

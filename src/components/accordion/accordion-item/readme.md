@@ -28,15 +28,6 @@
 | `"title"` |             |
 
 
-## CSS Custom Properties
-
-| Name                                                                                                 | Description |
-| ---------------------------------------------------------------------------------------------------- | ----------- |
-| `--accordion-item-heading-background - Background color of the accordion item header`                |             |
-| `--accordion-item-heading-background-hover - Background color of the accordion item header on hover` |             |
-| `--accordion-item-title-align - Alignment of the accordion title`                                    |             |
-
-
 ## Dependencies
 
 ### Depends on

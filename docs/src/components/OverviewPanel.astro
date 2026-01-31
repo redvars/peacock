@@ -1,15 +1,14 @@
 ---
 import ComponentSectionNav from './ComponentSectionNav.astro';
 interface Props {
-  componentDetails: any;
   sections: any;
 }
 
-const { componentDetails, sections } = Astro.props;
+const { sections } = Astro.props;
 ---
 <div class='component-overview-tab'>
   <div class='component-content'>
-    
+
     {
       sections.map((section) => (
         <div id={`section-${section.title.toLowerCase().replaceAll(" ", "-").replaceAll("/", "-")}`}

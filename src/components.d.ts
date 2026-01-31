@@ -1110,18 +1110,7 @@ export namespace Components {
          */
         "float": boolean;
     }
-    /**
-     * @label Icon
-     * @name icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-icon name="home" size="2rem"></pc-icon>
-     */
     interface PcIcon {
-        /**
-          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
-         */
         "name"?: string;
         "src"?: string;
     }
@@ -3181,14 +3170,6 @@ declare global {
         prototype: HTMLPcHeaderElement;
         new (): HTMLPcHeaderElement;
     };
-    /**
-     * @label Icon
-     * @name icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-icon name="home" size="2rem"></pc-icon>
-     */
     interface HTMLPcIconElement extends Components.PcIcon, HTMLStencilElement {
     }
     var HTMLPcIconElement: {
@@ -4992,18 +4973,7 @@ declare namespace LocalJSX {
          */
         "float"?: boolean;
     }
-    /**
-     * @label Icon
-     * @name icon
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-icon name="home" size="2rem"></pc-icon>
-     */
     interface PcIcon {
-        /**
-          * The identifier for the icon. This name corresponds to a specific SVG asset in the icon set.
-         */
         "name"?: string;
         "src"?: string;
     }
@@ -6720,14 +6690,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/header-dark.webp
              */
             "pc-header": LocalJSX.PcHeader & JSXBase.HTMLAttributes<HTMLPcHeaderElement>;
-            /**
-             * @label Icon
-             * @name icon
-             * @description Icons are visual symbols used to represent ideas, objects, or actions.
-             * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-             * @category General
-             * @example <pc-icon name="home" size="2rem"></pc-icon>
-             */
             "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
             /**
              * @label Input

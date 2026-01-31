@@ -17,13 +17,6 @@
 | `value`       | `value`        | The code snippet to highlight.    | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `''`           |
 
 
-## CSS Custom Properties
-
-| Name                            | Description                       |
-| ------------------------------- | --------------------------------- |
-| `--code-highlighter-background` | Code Highlighter background color |
-
-
 ## Dependencies
 
 ### Depends on

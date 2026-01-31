@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property | Attribute | Description                                                                                 | Type     | Default     |
-| -------- | --------- | ------------------------------------------------------------------------------------------- | -------- | ----------- |
-| `name`   | `name`    | The identifier for the icon. This name corresponds to a specific SVG asset in the icon set. | `string` | `undefined` |
-| `src`    | `src`     |                                                                                             | `string` | `undefined` |
+| Property | Attribute | Description | Type     | Default     |
+| -------- | --------- | ----------- | -------- | ----------- |
+| `name`   | `name`    |             | `string` | `undefined` |
+| `src`    | `src`     |             | `string` | `undefined` |
 
 
 ## Dependencies

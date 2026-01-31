@@ -24,6 +24,10 @@ import { styles } from './icon.css.js';
 export class Icon extends LitElement {
   static styles = [styles];
 
+  /**
+   * The identifier for the icon.
+   * This name corresponds to a specific SVG asset in the icon set.
+   */
   @property({ type: String, reflect: true }) name?: string;
 
   @property({ type: String, reflect: true }) src?: string;

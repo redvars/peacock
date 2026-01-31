@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-24T05:23:26",
+  "timestamp": "2026-01-30T17:22:33",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -1105,13 +1105,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--code-highlighter-background",
-          "annotation": "prop",
-          "docs": "Code Highlighter background color"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -3266,23 +3260,7 @@
           "docsTags": []
         }
       ],
-      "styles": [
-        {
-          "name": "--accordion-item-heading-background - Background color of the accordion item header",
-          "annotation": "prop",
-          "docs": ""
-        },
-        {
-          "name": "--accordion-item-heading-background-hover - Background color of the accordion item header on hover",
-          "annotation": "prop",
-          "docs": ""
-        },
-        {
-          "name": "--accordion-item-title-align - Alignment of the accordion title",
-          "annotation": "prop",
-          "docs": ""
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [
         {
@@ -4198,58 +4176,7 @@
           "docsTags": []
         }
       ],
-      "styles": [
-        {
-          "name": "--goat-theme-button-border-radius",
-          "annotation": "prop",
-          "docs": "Theme level button border radius. (applies to all buttons)"
-        },
-        {
-          "name": "--goat-theme-button-border-style",
-          "annotation": "prop",
-          "docs": "Theme level button border style. (applies to all buttons)"
-        },
-        {
-          "name": "--pc-button-border-radius",
-          "annotation": "prop",
-          "docs": "Button border radius."
-        },
-        {
-          "name": "--pc-button-border-style",
-          "annotation": "prop",
-          "docs": "Button border style."
-        },
-        {
-          "name": "--pc-button-color",
-          "annotation": "prop",
-          "docs": "Button filling color."
-        },
-        {
-          "name": "--pc-button-color-active",
-          "annotation": "prop",
-          "docs": "Button filling color on active."
-        },
-        {
-          "name": "--pc-button-color-hover",
-          "annotation": "prop",
-          "docs": "Button filling color on hover."
-        },
-        {
-          "name": "--pc-button-color-light",
-          "annotation": "prop",
-          "docs": "Button filling color for light variant."
-        },
-        {
-          "name": "--pc-button-padding",
-          "annotation": "prop",
-          "docs": "Button padding."
-        },
-        {
-          "name": "--pc-button-support-contrast-color",
-          "annotation": "prop",
-          "docs": "Button support color (text or border). Should be white or black based on weight of button filling color."
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -7412,18 +7339,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--divider-padding",
-          "annotation": "prop",
-          "docs": "Padding of the divider"
-        },
-        {
-          "name": "--pc-divider-color",
-          "annotation": "prop",
-          "docs": "Color of the divider"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7759,13 +7675,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--pc-dropdown-menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -8601,18 +8511,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-header-height",
-          "annotation": "prop",
-          "docs": "Height of the header. Defaults to 3rem."
-        },
-        {
-          "name": "--goat-header-width",
-          "annotation": "prop",
-          "docs": "Width of the header. Defaults to 100%."
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -8746,7 +8645,7 @@
           "mutable": false,
           "attr": "name",
           "reflectToAttr": true,
-          "docs": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
+          "docs": "",
           "docsTags": [],
           "values": [
             {
@@ -8788,14 +8687,7 @@
       "slots": [],
       "parts": [],
       "listeners": [],
-      "metadata": {
-        "label": "Icon",
-        "name": "icon",
-        "description": "Icons are visual symbols used to represent ideas, objects, or actions.",
-        "overview": "Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.",
-        "category": "General",
-        "example": "<pc-icon name=\"home\" size=\"2rem\"></pc-icon>"
-      }
+      "metadata": {}
     },
     {
       "dirPath": "E:/git/redvars/peacock/src/components/input-controls/input/input",
@@ -10429,23 +10321,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--menu-background",
-          "annotation": "prop",
-          "docs": "Background color of the menu"
-        },
-        {
-          "name": "--menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        },
-        {
-          "name": "--menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -12697,28 +12573,7 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--pc-menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of popover content"
-        },
-        {
-          "name": "--popover-content-background",
-          "annotation": "prop",
-          "docs": "Background color of the popover content"
-        },
-        {
-          "name": "--popover-content-border-radius",
-          "annotation": "prop",
-          "docs": "Border radius of the popover content"
-        },
-        {
-          "name": "--popover-padding",
-          "annotation": "prop",
-          "docs": "Padding of the popover content"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],

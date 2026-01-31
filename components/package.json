@@ -23,7 +23,7 @@
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepare": "husky",
-    "copy_design_files": "node copyDesignFiles.js",
+    "copy_design_files": "node bin/copyDesignFiles.js",
     "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
@@ -59,7 +59,8 @@
     "tslib": "^2.6.3",
     "typedoc": "^0.28.16",
     "typescript": "^5.5.3",
-    "unplugin-jsdelivr": "^1.0.0"
+    "unplugin-jsdelivr": "^1.0.0",
+    "@redvars/design-tokens": "^0.0.1"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.55.2"

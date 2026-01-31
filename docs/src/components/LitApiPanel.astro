@@ -6,7 +6,7 @@ interface Props {
 
 const { componentDetails } = Astro.props;
 
-const litComp = getLitComponentDetails(componentDetails.metadata.name);
+const litComp = componentDetails;
 ---
 <div class='api-section'>
   <h4 class='p-text-headline'>Properties</h4>
@@ -28,7 +28,7 @@ const litComp = getLitComponentDetails(componentDetails.metadata.name);
   <pc-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></pc-table>
 </div>
 
-<script is:inline define:vars={{ componentDetails, litComp}}>
+<script is:inline define:vars={{ litComp}}>
   const $compProperties = window.document.getElementById('comp-properties');
   // Columns
   $compProperties.columns = [{
@@ -91,7 +91,7 @@ const litComp = getLitComponentDetails(componentDetails.metadata.name);
   // Data
   $compEvents.data = litComp.customElement.events;
 
-  const $compMethods = document.getElementById('comp-methods');
+ /* const $compMethods = document.getElementById('comp-methods');
   // Columns
   $compMethods.columns = [{
     'name': 'name',
@@ -102,7 +102,7 @@ const litComp = getLitComponentDetails(componentDetails.metadata.name);
     'label': 'Description',
   }];
   // Data
-  $compMethods.data = componentDetails.methods;
+  $compMethods.data = componentDetails.methods;*/
 
   const $compCssCustomProperties = document.getElementById('comp-css-custom-properties');
   // Columns

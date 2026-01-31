@@ -1,12 +1,12 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('avatar');
+const componentDetails = getLitComponentDetails('avatar');
 
 import UsageSection from "./_sections/Usage.astro";
 import ThemingSection from "./_sections/Theming.astro";
 import OverviewPanel from '../../../components/OverviewPanel.astro';
+import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import LitApiPanel from '../../../components/LitApiPanel.astro';
 
 const sections = [
   {
@@ -23,17 +23,13 @@ const sections = [
   <pc-tabs class='page-tabs'>
     <pc-tabs-list>
       <pc-tab selected='true'>Overview</pc-tab>
-      <pc-tab>Playground</pc-tab>
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
-      <OverviewPanel componentDetails={componentDetails} sections={sections} />
+      <OverviewPanel  sections={sections} />
     </pc-tab-panel>
     <pc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <ApiPanel componentDetails={componentDetails} />
+      <LitApiPanel componentDetails={componentDetails} />
     </pc-tab-panel>
   </pc-tabs>
 </Layout>
