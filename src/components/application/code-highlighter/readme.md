@@ -23,7 +23,7 @@
 
 - [pc-tooltip](../../tooltip)
 - [pc-button](../../button)
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 - [pc-spinner](../../spinner)
 
 ### Graph
@@ -31,7 +31,7 @@
 graph TD;
   goat-code-highlighter --> pc-tooltip
   goat-code-highlighter --> pc-button
-  goat-code-highlighter --> pc-icon
+  goat-code-highlighter --> p-icon
   goat-code-highlighter --> pc-spinner
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content

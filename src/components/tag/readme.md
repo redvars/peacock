@@ -38,13 +38,13 @@
 
 ### Depends on
 
-- [pc-icon](../icon)
+- [p-icon](../icon)
 - [pc-elevation](../elevation)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-tag --> pc-icon
+  pc-tag --> p-icon
   pc-tag --> pc-elevation
   goat-cb-compound-expression --> pc-tag
   goat-cb-predicate --> pc-tag

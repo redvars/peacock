@@ -209,7 +209,7 @@ export class TimePicker {
               });
             }}
           >
-            <pc-icon slot="icon" name="access-time"></pc-icon>
+            <p-icon slot="icon" name="access-time"></p-icon>
           </pc-button>
         </div>
       </Host>

@@ -66,7 +66,7 @@ export class HeaderAction {
         configAria={this.configAria}
         target={this.target}
       >
-        <pc-icon slot="icon" name={this.icon}></pc-icon>
+        <p-icon slot="icon" name={this.icon}></p-icon>
         {this.slotHasContent && <slot></slot>}
       </pc-button>
     );

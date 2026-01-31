@@ -32,7 +32,7 @@ export class Icon extends LitElement {
 
   @property({ type: String, reflect: true }) src?: string;
 
-  @property({ type: String }) provider?: 'material-symbols' | 'carbon' =
+  @property({ type: String }) provider: 'material-symbols' | 'carbon' =
     'material-symbols';
 
   @state()

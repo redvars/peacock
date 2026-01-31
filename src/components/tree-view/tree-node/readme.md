@@ -56,12 +56,12 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-tree-node --> pc-icon
+  pc-tree-node --> p-icon
   style pc-tree-node fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

@@ -61,7 +61,7 @@ export class EmptyState implements ComponentInterface {
         <div class={{ 'empty-state': true, 'vertical': this.vertical }}>
           <div class="empty-state-container">
             <div class="illustration">
-              <pc-icon
+              <p-icon
                 src={getAssetPath(
                   `./assets/images/empty-state/${this.illustration}.svg`,
                 )}
@@ -83,7 +83,7 @@ export class EmptyState implements ComponentInterface {
                     disabled={this.actionDisabled}
                     variant={this.actionVariant}
                   >
-                    <pc-icon slot="icon" name="arrow_right_alt" />
+                    <p-icon slot="icon" name="arrow_right_alt" />
                     {this.action}
                   </pc-button>
                 )}

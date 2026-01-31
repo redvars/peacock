@@ -29,13 +29,13 @@
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 - [pc-button](../../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-empty-state --> pc-icon
+  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
   pc-button --> pc-elevation
   goat-sidenav-menu --> pc-empty-state

@@ -16,18 +16,18 @@
     "./icon.js": "./dist/src/index.js"
   },
   "scripts": {
-    "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node typedoc-gen.mjs",
-    "start": "npm run copy_design_files && rollup -c && concurrently -k -r \"rollup -c -w\" \"web-dev-server\"",
-    "build": "npm run copy_design_files && rollup -c && npm run analyze -- --exclude dist",
+    "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node bin/typedoc-gen.mjs",
+    "start": "rollup -c && concurrently -k -r \"rollup -c -w\" \"web-dev-server\"",
+    "build": "rollup -c && npm run analyze -- --exclude dist",
     "prepublish": "rollup -c  && npm run analyze -- --exclude dist",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepare": "husky",
-    "copy_design_files": "node bin/copyDesignFiles.js",
     "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\""
   },
   "dependencies": {
+    "@redvars/peacock-design-tokens": "^0.1.0",
     "lit": "^3.1.4"
   },
   "devDependencies": {
@@ -46,6 +46,7 @@
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "glob": "^13.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
@@ -59,8 +60,7 @@
     "tslib": "^2.6.3",
     "typedoc": "^0.28.16",
     "typescript": "^5.5.3",
-    "unplugin-jsdelivr": "^1.0.0",
-    "@redvars/design-tokens": "^0.0.1"
+    "unplugin-jsdelivr": "^1.0.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.55.2"

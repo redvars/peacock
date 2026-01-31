@@ -42,17 +42,17 @@
 ### Depends on
 
 - [pc-button](../button)
-- [pc-icon](../icon)
+- [p-icon](../icon)
 - [pc-empty-state](../application/empty-state)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-table --> pc-button
-  pc-table --> pc-icon
+  pc-table --> p-icon
   pc-table --> pc-empty-state
   pc-button --> pc-elevation
-  pc-empty-state --> pc-icon
+  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
   style pc-table fill:#f9f,stroke:#333,stroke-width:4px
 ```

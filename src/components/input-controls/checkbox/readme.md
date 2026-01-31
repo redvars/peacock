@@ -70,12 +70,12 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-checkbox --> pc-icon
+  pc-checkbox --> p-icon
   style pc-checkbox fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

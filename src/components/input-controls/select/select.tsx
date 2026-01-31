@@ -370,7 +370,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
         if (item) {
           return (
             <div class="display-value-container">
-              {item.icon && <pc-icon name={item.icon} />}
+              {item.icon && <p-icon name={item.icon} />}
               <span class="item-label">{item.label}</span>
             </div>
           );
@@ -589,7 +589,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
                     variant="text"
                     onClick={this.clearInput}
                   >
-                    <pc-icon name="close" />
+                    <p-icon name="close" />
                   </pc-button>
                 )}
 
@@ -615,12 +615,12 @@ export class Select implements ComponentInterface, InputComponentInterface {
     }
     if (!this.disabled && !this.readonly && !this.hideDropdownIcon)
       return (
-        <pc-icon
+        <p-icon
           tabindex={-1}
           class="toggle-icon chevron-down color-secondary"
           name="chevron--down"
           onClick={this.toggleList}
-        ></pc-icon>
+        ></p-icon>
       );
   }
 
@@ -633,7 +633,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
           layer={this.layer}
         >
           <div class="start-search">
-            <pc-icon name="search" />
+            <p-icon name="search" />
             <pc-text class="text-secondary">
               Start typing to perform search
             </pc-text>
@@ -656,13 +656,13 @@ export class Select implements ComponentInterface, InputComponentInterface {
               return (
                 <pc-menu-item value={item.value} layer={this.layer}>
                   <div class={'slot-container-start'} slot="start">
-                    {item.icon && <pc-icon name={item.icon} />}
+                    {item.icon && <p-icon name={item.icon} />}
                   </div>
                   {item.label || item.value}
 
                   <div slot="end">
                     {((this.multiple && this.containsValue(item.value)) ||
-                      this.value == item.value) && <pc-icon name="checkmark" />}
+                      this.value == item.value) && <p-icon name="checkmark" />}
                   </div>
                 </pc-menu-item>
               );

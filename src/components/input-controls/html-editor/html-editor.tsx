@@ -385,7 +385,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     color="white"
                     onButton--click={action.action}
                   >
-                    <pc-icon slot="icon" name={action.icon} />
+                    <p-icon slot="icon" name={action.icon} />
                   </pc-button>
                 );
               })}

@@ -101,11 +101,11 @@ export class Tag implements ComponentInterface {
       };
       return (
         <button class="close-btn" onClick={() => this.dismissClickHandler()}>
-          <pc-icon
+          <p-icon
             class="close-btn-icon inherit"
             name="close"
             style={style}
-          ></pc-icon>
+          ></p-icon>
         </button>
       );
     }

@@ -216,7 +216,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
               this.#startEditing();
             }}
           >
-            <pc-icon slot="icon" name="edit" />
+            <p-icon slot="icon" name="edit" />
           </pc-button>
         </div>
 

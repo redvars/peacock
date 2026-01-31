@@ -160,7 +160,7 @@ export class GoatMenu {
         >
           {this.selectable && (
             <div class="item-section start">
-              {this.selected && <pc-icon name="checkmark" class="checkmark" />}
+              {this.selected && <p-icon name="checkmark" class="checkmark" />}
             </div>
           )}
 

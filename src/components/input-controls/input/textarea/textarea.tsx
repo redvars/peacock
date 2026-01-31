@@ -285,7 +285,7 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
               size={this.size}
               onClick={this.clearInput}
             >
-              <pc-icon name="close" />
+              <p-icon name="close" />
             </pc-button>
           )}
         </div>

@@ -39,7 +39,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   goat-sidenav-menu --> pc-empty-state
-  pc-empty-state --> pc-icon
+  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
   pc-button --> pc-elevation
   style goat-sidenav-menu fill:#f9f,stroke:#333,stroke-width:4px

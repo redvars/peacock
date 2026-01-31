@@ -236,7 +236,7 @@ export class Table {
                       });
                     }}
                   >
-                    <pc-icon slot="icon" name={icon}></pc-icon>
+                    <p-icon slot="icon" name={icon}></p-icon>
                   </pc-button>
                 );
               })()}
@@ -413,7 +413,7 @@ export class Table {
                     });
                   }}
                 >
-                  <pc-icon slot="icon" name="arrow--left"></pc-icon>
+                  <p-icon slot="icon" name="arrow--left"></p-icon>
                 </pc-button>
                 <pc-button
                   color="secondary"
@@ -429,7 +429,7 @@ export class Table {
                     });
                   }}
                 >
-                  <pc-icon slot="icon" name="arrow--right"></pc-icon>
+                  <p-icon slot="icon" name="arrow--right"></p-icon>
                 </pc-button>
               </div>
             </div>

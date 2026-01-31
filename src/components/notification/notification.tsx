@@ -148,7 +148,7 @@ export class Notification implements ComponentInterface {
               this.goatDismiss.emit(evt);
             }}
           >
-            <pc-icon class="icon" name="close" />
+            <p-icon class="icon" name="close" />
           </pc-button>
         </div>
       );
@@ -157,13 +157,13 @@ export class Notification implements ComponentInterface {
 
   renderStateIcon() {
     if (this.state === 'success') {
-      return <pc-icon class="inherit icon" name="checkmark--filled" />;
+      return <p-icon class="inherit icon" name="checkmark--filled" />;
     } else if (this.state === 'error') {
-      return <pc-icon class="inherit icon" name="error--filled" />;
+      return <p-icon class="inherit icon" name="error--filled" />;
     } else if (this.state === 'info') {
-      return <pc-icon class="inherit icon" name="information--filled" />;
+      return <p-icon class="inherit icon" name="information--filled" />;
     } else if (this.state === 'warning') {
-      return <pc-icon class="inherit icon" name="warning--filled" />;
+      return <p-icon class="inherit icon" name="warning--filled" />;
     }
   }
 }

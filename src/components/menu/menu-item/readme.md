@@ -60,12 +60,12 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-menu-item --> pc-icon
+  pc-menu-item --> p-icon
   goat-html-editor --> pc-menu-item
   pc-select --> pc-menu-item
   style pc-menu-item fill:#f9f,stroke:#333,stroke-width:4px

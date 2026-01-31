@@ -33,7 +33,7 @@ function releaseToDocs(cb) {
     }
     let result = data.replace(
       new RegExp(/@redvars\/peacock@[0-9]+[.][0-9]+[.][0-9]+\/dist/, 'g'),
-      `@redvars/components@${packageJson.version}/dist`,
+      `@redvars/peacock@${packageJson.version}/dist`,
     );
     fs.writeFile('readme.md', result, 'utf8', function (err) {
       if (err) return console.log(err);

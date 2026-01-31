@@ -249,7 +249,7 @@ export class TreeNode implements ComponentInterface {
             ref={el => (this.nativeElement = el as HTMLElement)}
           >
             {this.hasChildNodes && (
-              <pc-icon
+              <p-icon
                 name="arrow_right"
                 class={{ 'expand-icon': true, 'expanded': this.expanded }}
               />
@@ -257,7 +257,7 @@ export class TreeNode implements ComponentInterface {
 
             {!this.hasChildNodes && <div class="icon-space" />}
 
-            {this.icon && <pc-icon name={this.icon} class={'icon'} />}
+            {this.icon && <p-icon name={this.icon} class={'icon'} />}
 
             <span class="tree-node-label">{this.label}</span>
           </NativeElementTag>

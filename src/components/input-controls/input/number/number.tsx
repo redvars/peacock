@@ -302,7 +302,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
               this.decrease(evt);
             }}
           >
-            <pc-icon name="subtract"></pc-icon>
+            <p-icon name="subtract"></p-icon>
           </pc-button>
         )}
 
@@ -316,7 +316,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
               this.increment(evt);
             }}
           >
-            <pc-icon slot="icon" name="add"></pc-icon>
+            <p-icon slot="icon" name="add"></p-icon>
           </pc-button>
         )}
 

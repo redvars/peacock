@@ -259,7 +259,7 @@ export class DatePicker implements ComponentInterface {
                   });
                 }}
               >
-                <pc-icon slot="icon" name="calendar"></pc-icon>
+                <p-icon slot="icon" name="calendar"></p-icon>
               </pc-button>
             </div>
             {this.renderHelper()}

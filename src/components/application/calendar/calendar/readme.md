@@ -30,7 +30,7 @@
 ### Depends on
 
 - [pc-button](../../../button)
-- [pc-icon](../../../icon)
+- [p-icon](../../../icon)
 - [pc-calendar-column-view](column-view)
 - [pc-calendar-month-view](month-view)
 
@@ -38,7 +38,7 @@
 ```mermaid
 graph TD;
   pc-calendar --> pc-button
-  pc-calendar --> pc-icon
+  pc-calendar --> p-icon
   pc-calendar --> pc-calendar-column-view
   pc-calendar --> pc-calendar-month-view
   pc-button --> pc-elevation

@@ -198,7 +198,7 @@ export class Tab implements ComponentInterface {
               {this.showLoader && <pc-spinner class="spinner inherit" />}
 
               {!this.showLoader && this.icon && (
-                <pc-icon name={this.icon} class="icon inherit" />
+                <p-icon name={this.icon} class="icon inherit" />
               )}
 
               {!this.showLoader && (
@@ -208,7 +208,7 @@ export class Tab implements ComponentInterface {
               )}
 
               {!this.showLoader && this.href && (
-                <pc-icon name={'launch'} class="icon inherit" />
+                <p-icon name={'launch'} class="icon inherit" />
               )}
             </div>
           </NativeElementTag>

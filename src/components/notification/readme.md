@@ -33,13 +33,13 @@
 
 ### Depends on
 
-- [pc-icon](../icon)
+- [p-icon](../icon)
 - [pc-button](../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-notification --> pc-icon
+  pc-notification --> p-icon
   pc-notification --> pc-button
   pc-button --> pc-elevation
   pc-notification-manager --> pc-notification

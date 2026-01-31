@@ -1,10 +1,11 @@
 // Eager loaded
+import cssComponentsStyleSheet from '@redvars/peacock-design-tokens/dist/tokens.css';
 import { Icon } from './icon/icon.js';
 import { Avatar } from './avatar/avatar.js';
 import { Badge } from './badge/badge.js';
+import { Divider } from './divider/divider.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
-import cssComponentsStyleSheet from '../assets/tokens.css';
 import { createLinkStyles } from './link/link.css.js';
 import { createTextStyles } from './text/text.css.js';
 
@@ -50,6 +51,12 @@ const loaderConfig: LoaderConfig = {
     },
     badge: {
       CustomElementClass: Badge,
+    },
+    divider: {
+      CustomElementClass: Divider,
+    },
+    clock: {
+      importPath: '.' + '/clock.js',
     },
   },
 };

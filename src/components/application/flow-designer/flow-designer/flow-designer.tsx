@@ -229,7 +229,7 @@ export class FlowDesigner {
                       height: 20 * this.zoom + 'px',
                     }}
                   >
-                    <pc-icon
+                    <p-icon
                       name={'plus'}
                       style={{ '--icon-size': this.zoom * 20 + 'px' }}
                     />
@@ -304,7 +304,7 @@ export class FlowDesigner {
                   this.zoom = this.zoom + 0.1;
                 }}
               >
-                <pc-icon slot="icon" name="plus"></pc-icon>
+                <p-icon slot="icon" name="plus"></p-icon>
               </pc-button>
               <pc-button
                 size="sm"
@@ -313,7 +313,7 @@ export class FlowDesigner {
                   this.zoom = this.zoom - 0.1;
                 }}
               >
-                <pc-icon slot="icon" name="dash"></pc-icon>
+                <p-icon slot="icon" name="dash"></p-icon>
               </pc-button>
             </pc-button-group>
           </div>

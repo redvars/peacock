@@ -266,7 +266,7 @@ export class CodeHighlighter implements ComponentInterface {
                       await this.#handleCopyClick();
                     }}
                   >
-                    <pc-icon slot="icon" name="content_copy" />
+                    <p-icon slot="icon" name="content_copy" />
                   </pc-button>
                 </pc-tooltip>
               </Fragment>
@@ -280,7 +280,7 @@ export class CodeHighlighter implements ComponentInterface {
                   aria-label={locale.copiedCode}
                   title={locale.copiedCode}
                 >
-                  <pc-icon slot="icon" name="checkmark" />
+                  <p-icon slot="icon" name="checkmark" />
                   {locale.copied}
                 </pc-button>
               </div>

@@ -32,12 +32,12 @@
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-accordion-item --> pc-icon
+  pc-accordion-item --> p-icon
   style pc-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

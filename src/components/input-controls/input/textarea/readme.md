@@ -81,13 +81,13 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../../button)
-- [pc-icon](../../../icon)
+- [p-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-textarea --> pc-button
-  pc-textarea --> pc-icon
+  pc-textarea --> p-icon
   pc-button --> pc-elevation
   style pc-textarea fill:#f9f,stroke:#333,stroke-width:4px
 ```

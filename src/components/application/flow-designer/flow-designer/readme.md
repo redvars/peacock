@@ -18,7 +18,7 @@
 
 ### Depends on
 
-- [pc-icon](../../../icon)
+- [p-icon](../../../icon)
 - [pc-tag](../../../tag)
 - [pc-button-group](../../../button-group)
 - [pc-button](../../../button)
@@ -26,11 +26,11 @@
 ### Graph
 ```mermaid
 graph TD;
-  pc-flow-designer --> pc-icon
+  pc-flow-designer --> p-icon
   pc-flow-designer --> pc-tag
   pc-flow-designer --> pc-button-group
   pc-flow-designer --> pc-button
-  pc-tag --> pc-icon
+  pc-tag --> p-icon
   pc-tag --> pc-elevation
   pc-button --> pc-elevation
   style pc-flow-designer fill:#f9f,stroke:#333,stroke-width:4px

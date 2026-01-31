@@ -241,6 +241,109 @@
     }
   },
   {
+    "rawTag": "clock",
+    "label": "Clock",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Clock"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-clock"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "clock"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Displays the current time in a given timezone."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-clock></p-clock>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Clock",
+      "members": [
+        {
+          "kind": "field",
+          "name": "timezone",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "timezone"
+        },
+        {
+          "kind": "field",
+          "name": "currentTime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "_timerId",
+          "type": {
+            "text": "any"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__updateCurrentTime"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "timezone",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "timezone"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-clock",
+      "customElement": true,
+      "summary": "Displays the current time in a given timezone.",
+      "rawTag": {
+        "name": "clock",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "divider",
     "label": "Divider",
     "jsdoc": {
@@ -432,6 +535,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
           "attribute": "name",
           "reflects": true
         },
@@ -448,7 +552,7 @@
           "kind": "field",
           "name": "provider",
           "type": {
-            "text": "'material-symbols' | 'carbon' | undefined"
+            "text": "'material-symbols' | 'carbon'"
           },
           "default": "'material-symbols'",
           "attribute": "provider"
@@ -517,6 +621,7 @@
           "type": {
             "text": "string | undefined"
           },
+          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
           "fieldName": "name"
         },
         {
@@ -529,7 +634,7 @@
         {
           "name": "provider",
           "type": {
-            "text": "'material-symbols' | 'carbon' | undefined"
+            "text": "'material-symbols' | 'carbon'"
           },
           "default": "'material-symbols'",
           "fieldName": "provider"

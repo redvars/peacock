@@ -167,7 +167,7 @@ export class Calendar implements ComponentInterface {
             class="color-secondary"
             onClick={() => this.previous()}
           >
-            <pc-icon slot="icon" name="chevron--left"></pc-icon>
+            <p-icon slot="icon" name="chevron--left"></p-icon>
           </pc-button>
           <pc-button
             variant="text"
@@ -175,7 +175,7 @@ export class Calendar implements ComponentInterface {
             class="color-secondary"
             onClick={() => this.next()}
           >
-            <pc-icon slot="icon" name="chevron--right"></pc-icon>
+            <p-icon slot="icon" name="chevron--right"></p-icon>
           </pc-button>
           <div class="title">{format(this.contextDate, 'MMMM d, yyyy')}</div>
         </div>

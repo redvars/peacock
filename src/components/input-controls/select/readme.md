@@ -95,7 +95,7 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-icon](../../icon)
+- [p-icon](../../icon)
 - [pc-tag](../../tag)
 - [pc-button](../../button)
 - [pc-spinner](../../spinner)
@@ -106,20 +106,20 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  pc-select --> pc-icon
+  pc-select --> p-icon
   pc-select --> pc-tag
   pc-select --> pc-button
   pc-select --> pc-spinner
   pc-select --> pc-menu
   pc-select --> pc-text
   pc-select --> pc-menu-item
-  pc-tag --> pc-icon
+  pc-tag --> p-icon
   pc-tag --> pc-elevation
   pc-button --> pc-elevation
   pc-menu --> pc-empty-state
-  pc-empty-state --> pc-icon
+  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
-  pc-menu-item --> pc-icon
+  pc-menu-item --> p-icon
   style pc-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

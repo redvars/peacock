@@ -95,7 +95,7 @@ export class AccordionItem {
             }}
             aria-expanded={this.open + ''}
           >
-            <pc-icon name="chevron--down" class="accordion-icon inherit" />
+            <p-icon name="chevron--down" class="accordion-icon inherit" />
             <div part="title" class="accordion-title">
               <slot name="heading">{this.heading}</slot>
             </div>

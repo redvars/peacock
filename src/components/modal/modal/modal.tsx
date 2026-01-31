@@ -133,7 +133,7 @@ export class Modal {
                             this.closeModal();
                           }}
                         >
-                          <pc-icon name="close" />
+                          <p-icon name="close" />
                         </pc-button>
                       )}
                     </div>

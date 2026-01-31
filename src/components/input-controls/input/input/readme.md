@@ -85,14 +85,14 @@ Type: `Promise<void>`
 
 - [pc-tooltip](../../../tooltip)
 - [pc-button](../../../button)
-- [pc-icon](../../../icon)
+- [p-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-input --> pc-tooltip
   pc-input --> pc-button
-  pc-input --> pc-icon
+  pc-input --> p-icon
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content
   pc-button --> pc-elevation

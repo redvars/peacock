@@ -283,7 +283,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
                 this.passwordVisible = !this.passwordVisible;
               }}
             >
-              <pc-icon
+              <p-icon
                 slot="icon"
                 name={this.passwordVisible ? 'view--off' : 'view'}
               />
