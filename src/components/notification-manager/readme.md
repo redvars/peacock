@@ -23,9 +23,7 @@
 ```mermaid
 graph TD;
   pc-notification-manager --> pc-notification
-  pc-notification --> p-icon
   pc-notification --> pc-button
-  pc-button --> pc-elevation
   style pc-notification-manager fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

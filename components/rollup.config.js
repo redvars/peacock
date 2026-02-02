@@ -4,6 +4,9 @@ import css from 'rollup-plugin-import-css';
 import copy from 'rollup-plugin-copy';
 import { readFile } from 'node:fs/promises';
 import { glob } from 'glob';
+import postcssLit from 'rollup-plugin-postcss-lit';
+import postcss from 'rollup-plugin-postcss';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default async function () {
   const files = await findLitComponents();
@@ -17,8 +20,13 @@ export default async function () {
       },
       plugins: [
         typescript(), // The plugin loads options from tsconfig.json by default
-        css(),
         nodeResolve(),
+        commonjs(),
+        postcss(),
+        postcssLit({
+          include: 'src/**/*.scss',
+        }),
+
         copy({
           targets: [
             {

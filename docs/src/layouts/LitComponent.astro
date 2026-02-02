@@ -65,12 +65,12 @@ const description = getTextTag(componentDetails, '@summary');
     <pc-container class='page-wrapper'>
 
       <div class='comp-header'>
-        <h1 class='heading-scrollable p-text-display'>{title}</h1>
+        <h1 class='heading-scrollable text-display'>{title}</h1>
         { componentDetails.stats == 'WIP' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
       </div>
 
       <div class='component-description'>
-        <div class='p-text-title-large'
+        <div class='text-title-large'
              set:html={getTextTag(componentDetails, '@overview') ? getTextTag(componentDetails, '@overview') : getTextTag(componentDetails, '@summary')}>
 
         </div>

@@ -1,0 +1,31 @@
+@use '../../scss/mixin';
+
+:host {
+  display: inline-block;
+  --badge-color: var(--global-badge-color);
+}
+
+.badge {
+  pointer-events: none;
+  z-index: var(--z-index-badge);
+  color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--badge-color);
+  border-radius: var(--shape-corner-full);
+  box-sizing: border-box;
+
+  &.slot-has-content {
+    height: 1rem;
+    min-width: 1rem;
+    padding-inline: var(--spacing-050);
+    @include mixin.get-typography('label-small');
+    color: var(--color-on-error);
+  }
+
+  &:not(.slot-has-content) {
+    height: 0.375rem;
+    width: 0.375rem;
+  }
+}

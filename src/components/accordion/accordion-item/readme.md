@@ -28,19 +28,6 @@
 | `"title"` |             |
 
 
-## Dependencies
-
-### Depends on
-
-- [p-icon](../../icon)
-
-### Graph
-```mermaid
-graph TD;
-  pc-accordion-item --> p-icon
-  style pc-accordion-item fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

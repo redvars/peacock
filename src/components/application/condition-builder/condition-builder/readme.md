@@ -28,12 +28,8 @@ graph TD;
   goat-condition-builder --> pc-tag
   pc-input --> pc-tooltip
   pc-input --> pc-button
-  pc-input --> p-icon
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content
-  pc-button --> pc-elevation
-  pc-tag --> p-icon
-  pc-tag --> pc-elevation
   style goat-condition-builder fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

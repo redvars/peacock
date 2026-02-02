@@ -368,35 +368,6 @@ export namespace Components {
         "open": boolean;
     }
     /**
-     * \
-     * @label Avatar
-     * @name avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
-     */
-    interface PcAvatar {
-        /**
-          * @default ''
-         */
-        "name": string;
-        /**
-          * @default ''
-         */
-        "src": string;
-    }
-    /**
-     * @label Badge
-     * @name badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <pc-badge class="badge-anchor">1</pc-badge>
-     */
-    interface PcBadge {
-    }
-    /**
      * @label Breadcrumb
      * @name breadcrumb
      * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -919,20 +890,6 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @label Divider
-     * @name divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
-     * @category Layout
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface PcDivider {
-        /**
-          * @default false
-         */
-        "vertical": boolean;
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -978,16 +935,6 @@ export namespace Components {
           * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
          */
         "setFocus": () => Promise<void>;
-    }
-    /**
-     * @label Elevation
-     * @name elevation
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-elevation></pc-elevation>
-     */
-    interface PcElevation {
     }
     /**
      * @label Empty State
@@ -1109,10 +1056,6 @@ export namespace Components {
           * @default false
          */
         "float": boolean;
-    }
-    interface PcIcon {
-        "name"?: string;
-        "src"?: string;
     }
     /**
      * @label Input
@@ -2726,35 +2669,6 @@ declare global {
         new (): HTMLPcAccordionItemElement;
     };
     /**
-     * \
-     * @label Avatar
-     * @name avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
-     */
-    interface HTMLPcAvatarElement extends Components.PcAvatar, HTMLStencilElement {
-    }
-    var HTMLPcAvatarElement: {
-        prototype: HTMLPcAvatarElement;
-        new (): HTMLPcAvatarElement;
-    };
-    /**
-     * @label Badge
-     * @name badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <pc-badge class="badge-anchor">1</pc-badge>
-     */
-    interface HTMLPcBadgeElement extends Components.PcBadge, HTMLStencilElement {
-    }
-    var HTMLPcBadgeElement: {
-        prototype: HTMLPcBadgeElement;
-        new (): HTMLPcBadgeElement;
-    };
-    /**
      * @label Breadcrumb
      * @name breadcrumb
      * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -3043,20 +2957,6 @@ declare global {
         prototype: HTMLPcDatePickerElement;
         new (): HTMLPcDatePickerElement;
     };
-    /**
-     * @label Divider
-     * @name divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
-     * @category Layout
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface HTMLPcDividerElement extends Components.PcDivider, HTMLStencilElement {
-    }
-    var HTMLPcDividerElement: {
-        prototype: HTMLPcDividerElement;
-        new (): HTMLPcDividerElement;
-    };
     interface HTMLPcDropdownElementEventMap {
         "pc-dropdown--item-click": any;
         "pc-dropdown--open": any;
@@ -3098,20 +2998,6 @@ declare global {
     var HTMLPcDropdownMenuElement: {
         prototype: HTMLPcDropdownMenuElement;
         new (): HTMLPcDropdownMenuElement;
-    };
-    /**
-     * @label Elevation
-     * @name elevation
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-elevation></pc-elevation>
-     */
-    interface HTMLPcElevationElement extends Components.PcElevation, HTMLStencilElement {
-    }
-    var HTMLPcElevationElement: {
-        prototype: HTMLPcElevationElement;
-        new (): HTMLPcElevationElement;
     };
     /**
      * @label Empty State
@@ -3169,12 +3055,6 @@ declare global {
     var HTMLPcHeaderElement: {
         prototype: HTMLPcHeaderElement;
         new (): HTMLPcHeaderElement;
-    };
-    interface HTMLPcIconElement extends Components.PcIcon, HTMLStencilElement {
-    }
-    var HTMLPcIconElement: {
-        prototype: HTMLPcIconElement;
-        new (): HTMLPcIconElement;
     };
     interface HTMLPcInputElementEventMap {
         "pc-input--input": any;
@@ -3807,8 +3687,6 @@ declare global {
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
         "pc-accordion": HTMLPcAccordionElement;
         "pc-accordion-item": HTMLPcAccordionItemElement;
-        "pc-avatar": HTMLPcAvatarElement;
-        "pc-badge": HTMLPcBadgeElement;
         "pc-breadcrumb": HTMLPcBreadcrumbElement;
         "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
         "pc-button": HTMLPcButtonElement;
@@ -3827,15 +3705,12 @@ declare global {
         "pc-container": HTMLPcContainerElement;
         "pc-current-time": HTMLPcCurrentTimeElement;
         "pc-date-picker": HTMLPcDatePickerElement;
-        "pc-divider": HTMLPcDividerElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
-        "pc-elevation": HTMLPcElevationElement;
         "pc-empty-state": HTMLPcEmptyStateElement;
         "pc-flow-designer": HTMLPcFlowDesignerElement;
         "pc-form-control": HTMLPcFormControlElement;
         "pc-header": HTMLPcHeaderElement;
-        "pc-icon": HTMLPcIconElement;
         "pc-input": HTMLPcInputElement;
         "pc-input-url": HTMLPcInputUrlElement;
         "pc-linear-progress": HTMLPcLinearProgressElement;
@@ -4218,35 +4093,6 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
-    }
-    /**
-     * \
-     * @label Avatar
-     * @name avatar
-     * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-     * @category Data Display
-     * @tags display
-     * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
-     */
-    interface PcAvatar {
-        /**
-          * @default ''
-         */
-        "name"?: string;
-        /**
-          * @default ''
-         */
-        "src"?: string;
-    }
-    /**
-     * @label Badge
-     * @name badge
-     * @description The badge component is used to display a small amount of information to the user.
-     * @category Informational
-     * @tag content
-     * @example <pc-badge class="badge-anchor">1</pc-badge>
-     */
-    interface PcBadge {
     }
     /**
      * @label Breadcrumb
@@ -4778,20 +4624,6 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @label Divider
-     * @name divider
-     * @description A divider can be used to segment content vertically or horizontally.
-     * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
-     * @category Layout
-     * @example <pc-divider style="width: 12rem;">or</pc-divider>
-     */
-    interface PcDivider {
-        /**
-          * @default false
-         */
-        "vertical"?: boolean;
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -4841,16 +4673,6 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcDropdownMenu {
-    }
-    /**
-     * @label Elevation
-     * @name elevation
-     * @description Icons are visual symbols used to represent ideas, objects, or actions.
-     * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-     * @category General
-     * @example <pc-elevation></pc-elevation>
-     */
-    interface PcElevation {
     }
     /**
      * @label Empty State
@@ -4972,10 +4794,6 @@ declare namespace LocalJSX {
           * @default false
          */
         "float"?: boolean;
-    }
-    interface PcIcon {
-        "name"?: string;
-        "src"?: string;
     }
     /**
      * @label Input
@@ -6341,8 +6159,6 @@ declare namespace LocalJSX {
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
         "pc-accordion": PcAccordion;
         "pc-accordion-item": PcAccordionItem;
-        "pc-avatar": PcAvatar;
-        "pc-badge": PcBadge;
         "pc-breadcrumb": PcBreadcrumb;
         "pc-breadcrumb-item": PcBreadcrumbItem;
         "pc-button": PcButton;
@@ -6361,15 +6177,12 @@ declare namespace LocalJSX {
         "pc-container": PcContainer;
         "pc-current-time": PcCurrentTime;
         "pc-date-picker": PcDatePicker;
-        "pc-divider": PcDivider;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
-        "pc-elevation": PcElevation;
         "pc-empty-state": PcEmptyState;
         "pc-flow-designer": PcFlowDesigner;
         "pc-form-control": PcFormControl;
         "pc-header": PcHeader;
-        "pc-icon": PcIcon;
         "pc-input": PcInput;
         "pc-input-url": PcInputUrl;
         "pc-linear-progress": PcLinearProgress;
@@ -6485,25 +6298,6 @@ declare module "@stencil/core" {
              */
             "pc-accordion-item": LocalJSX.PcAccordionItem & JSXBase.HTMLAttributes<HTMLPcAccordionItemElement>;
             /**
-             * \
-             * @label Avatar
-             * @name avatar
-             * @description The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
-             * @category Data Display
-             * @tags display
-             * @example <pc-avatar name="Shivaji Varma" src="/assets/img/avatar.webp"></pc-avatar>
-             */
-            "pc-avatar": LocalJSX.PcAvatar & JSXBase.HTMLAttributes<HTMLPcAvatarElement>;
-            /**
-             * @label Badge
-             * @name badge
-             * @description The badge component is used to display a small amount of information to the user.
-             * @category Informational
-             * @tag content
-             * @example <pc-badge class="badge-anchor">1</pc-badge>
-             */
-            "pc-badge": LocalJSX.PcBadge & JSXBase.HTMLAttributes<HTMLPcBadgeElement>;
-            /**
              * @label Breadcrumb
              * @name breadcrumb
              * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -6617,15 +6411,6 @@ declare module "@stencil/core" {
              */
             "pc-date-picker": LocalJSX.PcDatePicker & JSXBase.HTMLAttributes<HTMLPcDatePickerElement>;
             /**
-             * @label Divider
-             * @name divider
-             * @description A divider can be used to segment content vertically or horizontally.
-             * @overview  <p>Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented. They can be oriented either vertically or horizontally, depending on the layout requirements.</p>
-             * @category Layout
-             * @example <pc-divider style="width: 12rem;">or</pc-divider>
-             */
-            "pc-divider": LocalJSX.PcDivider & JSXBase.HTMLAttributes<HTMLPcDividerElement>;
-            /**
              * @label Dropdown
              * @name dropdown
              * @description Enables native inputs to be used within a Form field.
@@ -6644,15 +6429,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "pc-dropdown-menu": LocalJSX.PcDropdownMenu & JSXBase.HTMLAttributes<HTMLPcDropdownMenuElement>;
-            /**
-             * @label Elevation
-             * @name elevation
-             * @description Icons are visual symbols used to represent ideas, objects, or actions.
-             * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
-             * @category General
-             * @example <pc-elevation></pc-elevation>
-             */
-            "pc-elevation": LocalJSX.PcElevation & JSXBase.HTMLAttributes<HTMLPcElevationElement>;
             /**
              * @label Empty State
              * @name empty-state
@@ -6690,7 +6466,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/header-dark.webp
              */
             "pc-header": LocalJSX.PcHeader & JSXBase.HTMLAttributes<HTMLPcHeaderElement>;
-            "pc-icon": LocalJSX.PcIcon & JSXBase.HTMLAttributes<HTMLPcIconElement>;
             /**
              * @label Input
              * @name input

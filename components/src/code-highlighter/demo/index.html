@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+
+<style>
+  .container-horizontal {
+    display: inline-block;
+    margin-right: 1rem;
+    padding: 1rem;
+    width: 200px;
+    border: 1px solid var(--color-outline);
+  }
+
+  .container-vertical {
+    display: flex;
+    height: 150px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    width: 250px;
+    border: 1px solid var(--color-outline);
+  }
+</style>
+
+
+
+<div class="container-horizontal">
+  <p>Content A</p>
+  <p-divider>or</p-divider>
+  <p>Content B</p>
+</div>
+
+<div class="container-vertical">
+  <p>Content A</p>
+  <p-divider vertical="true">or</p-divider>
+  <p>Content B</p>
+</div>
+
+
+
+<script type='module'>
+  import { Divider } from '/dist/index.js';
+  window.customElements.define('p-divider', Divider);
+</script>
+</body>
+</html>

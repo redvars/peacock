@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { styles } from './divider.css.js';
+import styles from './divider.scss';
 import { observerSlotChangesWithCallback } from '../utils.js';
 
 /**
@@ -55,11 +55,5 @@ export class Divider extends LitElement {
       </div>
       <div class="line"></div>
     </div>`;
-  }
-
-  #handleSlotChange(event: { target: any }) {
-    const slot = event.target;
-    // Check assignedElements length
-    this.slotHasContent = slot.assignedNodes({ flatten: true }).length > 0;
   }
 }

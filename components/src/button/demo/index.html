@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+<a href='index.html'>Test</a>
+
+<p-button>Click</p-button>
+
+<a href='index.html'>Test 2</a>
+
+<script type='module'>
+  import { Button, Elevation } from '/dist/index.js';
+  window.customElements.define('p-button', Button);
+  window.customElements.define('p-elevation', Elevation);
+</script>
+</body>
+</html>

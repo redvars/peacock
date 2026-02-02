@@ -66,19 +66,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [p-icon](../../icon)
-
-### Graph
-```mermaid
-graph TD;
-  pc-checkbox --> p-icon
-  style pc-checkbox fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

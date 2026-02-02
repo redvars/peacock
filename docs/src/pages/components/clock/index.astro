@@ -1,0 +1,31 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getLitComponentDetails } from '../../../_data/getLitComponentDetails';
+
+
+import UsageSection from './_sections/usage.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+import LitApiPanel from '../../../components/LitApiPanel.astro';
+const componentDetails = getLitComponentDetails('clock');
+
+const sections = [
+  {
+    'title': 'Usage',
+    'Component': UsageSection,
+  }];
+---
+<Layout componentDetails={componentDetails}>
+  <pc-tabs class='page-tabs'>
+    <pc-tabs-list>
+      <pc-tab selected='true'>Overview</pc-tab>
+      <pc-tab>API</pc-tab>
+    </pc-tabs-list>
+    <pc-tab-panel>
+      <OverviewPanel  sections={sections} />
+    </pc-tab-panel>
+    <pc-tab-panel>
+      <LitApiPanel componentDetails={componentDetails} />
+    </pc-tab-panel>
+  </pc-tabs>
+</Layout>
+

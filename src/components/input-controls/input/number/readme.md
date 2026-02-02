@@ -81,14 +81,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../../button)
-- [p-icon](../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-number --> pc-button
-  pc-number --> p-icon
-  pc-button --> pc-elevation
   style pc-number fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

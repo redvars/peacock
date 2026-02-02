@@ -69,14 +69,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../../../button)
-- [p-icon](../../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-time-picker --> pc-button
-  pc-time-picker --> p-icon
-  pc-button --> pc-elevation
   style pc-time-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

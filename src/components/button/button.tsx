@@ -15,18 +15,6 @@ import {
 import { getComponentIndex, hasSlot, throttle } from '../../utils/utils';
 
 //@ts-ignore
-const PREDEFINED_BUTTON_COLORS = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'error',
-  'white',
-  'black',
-  'danger',
-];
-
 /**
  * @label Button
  * @name button
@@ -49,7 +37,7 @@ export class Button implements ComponentInterface {
 
   private gid: string = getComponentIndex();
   private nativeElement: HTMLButtonElement;
-  private tabindex?: string | number;
+  private tabindex?: number = 0;
   private handleClickWithThrottle: () => void;
 
   /**
@@ -272,7 +260,7 @@ export class Button implements ComponentInterface {
     // pc-button to avoid causing tabbing twice on the same element
     if (this.host.hasAttribute('tabindex')) {
       const tabindex = this.host.getAttribute('tabindex');
-      this.tabindex = tabindex !== null ? tabindex : undefined;
+      this.tabindex = tabindex !== null ? parseInt(tabindex) : 0;
       this.host.removeAttribute('tabindex');
     }
     if (this.host.getAttributeNames)
@@ -329,7 +317,7 @@ export class Button implements ComponentInterface {
         >
           <div class="outline"></div>
 
-          <pc-elevation class="elevation"></pc-elevation>
+          <p-elevation class="elevation"></p-elevation>
 
           <div class="neo-background" />
 

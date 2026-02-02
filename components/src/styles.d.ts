@@ -1,5 +1,7 @@
 declare module '*.css' {
-  const content: Record<string, string>;
+  import { CSSResultGroup } from 'lit';
+
+  const content: Record<string, string> | CSSResultGroup;
   export default content;
 }
 

@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { styles } from './badge.css.js';
+import styles from './badge.scss';
 import { observerSlotChangesWithCallback } from '../utils.js';
 
 /**

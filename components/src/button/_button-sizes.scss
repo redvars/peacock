@@ -1,0 +1,51 @@
+.button.size-xs,
+.button.size-extra-small {
+  --_button-height: 2rem;
+  --_button-icon-size: 1.25rem;
+  --_container-padding: 0.75rem;
+
+
+  &:not(.has-content).has-icon {
+    --internal-button-padding: 0.25rem;
+  }
+}
+
+
+.button.size-sm,
+.button.size-small {
+  --_button-height: 2.5rem;
+  --_button-icon-size: 1.25rem;
+  --_container-padding: 1rem;
+
+  &:not(.has-content).has-icon {
+    --internal-button-padding: 0.5rem;
+  }
+}
+
+.button.size-md,
+.button.size-medium {
+  --_button-height: 3.5rem;
+  --_button-icon-size: 1.5rem;
+  --_container-padding: 1.5rem;
+
+  &:not(.has-content).has-icon {
+    --internal-button-padding: 0.75rem;
+  }
+}
+
+.button.size-lg,
+.button.size-large {
+  --_button-height: 6rem;
+  --_button-icon-size: 2rem;
+  --_container-padding: 3rem;
+}
+
+.button.size-xl {
+  --_button-height: 8.5rem;
+  --_button-icon-size: 2.5rem;
+  --_container-padding: 4rem;
+
+  .button-content {
+    padding-bottom: 1rem;
+  }
+}

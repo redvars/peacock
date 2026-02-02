@@ -3,6 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
 
   <!-- Default font : Noto Sans and Noto Sans Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,21 +22,21 @@
 
 <div id='tags'></div>
 
+<a class='link' href='/src/link/demo/index.html'>Link</a>
+
 
 <script type="module">
-  const res = await fetch('/dist/custom-elements.json');
+  const res = await fetch('/dist/custom-elements-jsdocs.json');
   const customElements = await res.json();
-  const customTags = customElements.modules.filter(module =>
-    module.declarations.find(d => d.tagName),
-  );
-
   const $tags = document.querySelector('#tags');
   const output = [];
-  customTags.forEach((tag) => {
-    output.push(`<p><a href='/src/${tag.declarations[0].tagName.split('-')[1]}/demo/index.html'>${tag.declarations[0].label.name}</p></a>`);
+  customElements.forEach((tag) => {
+    output.push(`<p><a class='link' href='/src/${tag.rawTag}/demo/index.html'>${tag.label}</p></a>`);
   });
 
   $tags.innerHTML = output.join('');
 </script>
+
+<script type='module' src='/dist/peacock-loader.js'></script>
 </body>
 </html>

@@ -77,14 +77,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../../../button)
-- [p-icon](../../../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-date-picker --> pc-button
-  pc-date-picker --> p-icon
-  pc-button --> pc-elevation
   style pc-date-picker fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

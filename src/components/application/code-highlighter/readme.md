@@ -23,7 +23,6 @@
 
 - [pc-tooltip](../../tooltip)
 - [pc-button](../../button)
-- [p-icon](../../icon)
 - [pc-spinner](../../spinner)
 
 ### Graph
@@ -31,11 +30,9 @@
 graph TD;
   goat-code-highlighter --> pc-tooltip
   goat-code-highlighter --> pc-button
-  goat-code-highlighter --> p-icon
   goat-code-highlighter --> pc-spinner
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content
-  pc-button --> pc-elevation
   style goat-code-highlighter fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

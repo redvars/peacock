@@ -48,9 +48,7 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-menu --> pc-empty-state
-  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
-  pc-button --> pc-elevation
   goat-html-editor --> pc-menu
   pc-dropdown-menu --> pc-menu
   pc-select --> pc-menu

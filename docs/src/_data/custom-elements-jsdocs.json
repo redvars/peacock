@@ -241,6 +241,430 @@
     }
   },
   {
+    "rawTag": "button",
+    "label": "Button",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Button"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-button"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "button"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--divider-padding - Controls the padding of the divider."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<pc-button>Button</pc-button>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Button",
+      "cssProperties": [
+        {
+          "description": "Controls the color of the divider.",
+          "name": "--divider-color"
+        },
+        {
+          "description": "Controls the padding of the divider.",
+          "name": "--divider-padding"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#tabindex",
+          "privacy": "private",
+          "type": {
+            "text": "number | undefined"
+          },
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "__handleClickWithThrottle",
+          "type": {
+            "text": "(\n    event: MouseEvent | KeyboardEvent,\n  ) => void"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "attribute": "htmlType"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "attribute": "disabledReason"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "iconAlign",
+          "type": {
+            "text": "'start' | 'end'"
+          },
+          "default": "'end'",
+          "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
+          "attribute": "iconAlign"
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the button will be in a toggled state.",
+          "attribute": "toggle"
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "appendData",
+          "type": {
+            "text": "any"
+          },
+          "description": "The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.",
+          "attribute": "appendData"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "States"
+        },
+        {
+          "kind": "field",
+          "name": "isActive",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "__handleClick"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason"
+        },
+        {
+          "kind": "field",
+          "name": "__setFocus"
+        },
+        {
+          "kind": "field",
+          "name": "#onMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#onMouseDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#onKeyDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#onKeyUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "getVariant"
+        },
+        {
+          "kind": "method",
+          "name": "renderButtonContent"
+        },
+        {
+          "kind": "method",
+          "name": "renderLink"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "fieldName": "htmlType"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "fieldName": "disabledReason"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color"
+        },
+        {
+          "name": "iconAlign",
+          "type": {
+            "text": "'start' | 'end'"
+          },
+          "default": "'end'",
+          "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
+          "fieldName": "iconAlign"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "fieldName": "configAria"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the button will be in a toggled state.",
+          "fieldName": "toggle"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
+        },
+        {
+          "name": "appendData",
+          "type": {
+            "text": "any"
+          },
+          "description": "The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.",
+          "fieldName": "appendData"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-button",
+      "customElement": true,
+      "summary": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
+      "rawTag": {
+        "name": "button",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "clock",
     "label": "Clock",
     "jsdoc": {
@@ -428,19 +852,6 @@
             "text": "boolean"
           },
           "default": "false"
-        },
-        {
-          "kind": "method",
-          "name": "#handleSlotChange",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "{ target: any }"
-              }
-            }
-          ]
         }
       ],
       "attributes": [
@@ -462,6 +873,87 @@
       "summary": "The divider component is used to visually separate content.",
       "rawTag": {
         "name": "divider",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "elevation",
+    "label": "Elevation",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Elevation"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-elevation"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "elevation"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Adds elevation to an element."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- Elevation adds a shadow effect to an element to give it depth.\n - It can be used to create a sense of hierarchy or to draw attention to a particular element."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--elevation-color - Controls the color of the shadow."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Elevation",
+      "cssProperties": [
+        {
+          "description": "Controls the elevation level of the shadow.",
+          "name": "--elevation-level"
+        },
+        {
+          "description": "Controls the color of the shadow.",
+          "name": "--elevation-color"
+        }
+      ],
+      "members": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-elevation",
+      "customElement": true,
+      "summary": "Adds elevation to an element.",
+      "rawTag": {
+        "name": "elevation",
         "description": ""
       }
     }
@@ -552,7 +1044,7 @@
           "kind": "field",
           "name": "provider",
           "type": {
-            "text": "'material-symbols' | 'carbon'"
+            "text": "IconProvider"
           },
           "default": "'material-symbols'",
           "attribute": "provider"
@@ -634,7 +1126,7 @@
         {
           "name": "provider",
           "type": {
-            "text": "'material-symbols' | 'carbon'"
+            "text": "IconProvider"
           },
           "default": "'material-symbols'",
           "fieldName": "provider"

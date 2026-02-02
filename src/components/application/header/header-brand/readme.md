@@ -39,16 +39,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../../button)
-- [p-icon](../../../icon)
-- [pc-divider](../../../divider)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-header-brand --> pc-button
-  goat-header-brand --> p-icon
-  goat-header-brand --> pc-divider
-  pc-button --> pc-elevation
   style goat-header-brand fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

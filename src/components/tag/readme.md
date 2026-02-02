@@ -36,16 +36,9 @@
  - [pc-flow-designer](../application/flow-designer/flow-designer)
  - [pc-select](../input-controls/select)
 
-### Depends on
-
-- [p-icon](../icon)
-- [pc-elevation](../elevation)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-tag --> p-icon
-  pc-tag --> pc-elevation
   goat-cb-compound-expression --> pc-tag
   goat-cb-predicate --> pc-tag
   goat-condition-builder --> pc-tag

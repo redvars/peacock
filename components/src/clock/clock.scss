@@ -1,0 +1,9 @@
+@use '../../scss/mixin';
+
+:host {
+  display: inline-block;
+}
+
+.current-time {
+  @include mixin.get-typography('body-medium')
+}

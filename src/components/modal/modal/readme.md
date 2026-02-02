@@ -29,19 +29,14 @@
 
 ### Depends on
 
-- [pc-elevation](../../elevation)
 - [pc-button](../../button)
-- [p-icon](../../icon)
 - [pc-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-modal --> pc-elevation
   pc-modal --> pc-button
-  pc-modal --> p-icon
   pc-modal --> pc-spinner
-  pc-button --> pc-elevation
   style pc-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

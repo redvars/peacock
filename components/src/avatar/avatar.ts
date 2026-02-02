@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { styles } from './avatar.css.js';
+import styles from './avatar.scss';
 
 /**
  * @label Avatar

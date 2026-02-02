@@ -58,14 +58,9 @@ Type: `Promise<void>`
  - [goat-html-editor](../../input-controls/html-editor)
  - [pc-select](../../input-controls/select)
 
-### Depends on
-
-- [p-icon](../../icon)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-menu-item --> p-icon
   goat-html-editor --> pc-menu-item
   pc-select --> pc-menu-item
   style pc-menu-item fill:#f9f,stroke:#333,stroke-width:4px

@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { styles } from './clock.css.js';
+import styles from './clock.scss';
 
 /**
  * @label Clock

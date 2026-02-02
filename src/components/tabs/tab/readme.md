@@ -56,13 +56,11 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-spinner](../../spinner)
-- [p-icon](../../icon)
 
 ### Graph
 ```mermaid
 graph TD;
   pc-tab --> pc-spinner
-  pc-tab --> p-icon
   style pc-tab fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

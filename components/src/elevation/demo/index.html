@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+<style>
+  .elevated-element {
+    position: relative;
+    border-radius: 4px;
+    padding: var(--spacing-200);
+  }
+</style>
+
+<div class="elevated-element">
+  <p-elevation style="--elevation-level: 1"></p-elevation>
+  Level 1
+</div>
+
+<div class="elevated-element">
+  <p-elevation style="--elevation-level: 2"></p-elevation>
+  Level 2
+</div>
+
+
+<div class="elevated-element">
+  <p-elevation style="--elevation-level: 3"></p-elevation>
+  Level 3
+</div>
+
+<div class="elevated-element">
+  <p-elevation style="--elevation-level: 4"></p-elevation>
+  Level 4
+</div>
+
+<div class="elevated-element">
+  <p-elevation style="--elevation-level: 5"></p-elevation>
+  Level 5
+</div>
+
+
+
+<script type='module'>
+  import { Elevation } from '/dist/index.js';
+  window.customElements.define('p-elevation', Elevation);
+</script>
+</body>
+</html>

@@ -5,8 +5,7 @@ async function run() {
   const app = await td.Application.bootstrapWithPlugins({
     // 2. Force entry points to be absolute
     entryPoints: ['src/index.ts'],
-    // 3. Explicitly tell the app where the base directory is
-    disableSources: true,
+    entryPointStrategy: td.EntryPointStrategy.Expand,
   });
 
   const project = await app.convert();
@@ -57,7 +56,7 @@ async function run() {
       './dist/custom-elements-jsdocs.json',
       JSON.stringify(components, null, 2),
     );
-    await rm('./dist/typedoc.json');
+    //  await rm('./dist/typedoc.json');
   }
 }
 

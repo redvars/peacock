@@ -6,35 +6,35 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
         <div class="elevated-element">
-          <pc-elevation style='--elevation-level: 1'></pc-elevation>
+          <p-elevation style='--elevation-level: 1'></p-elevation>
           Level 1
         </div>
 
   <div class="elevated-element">
-    <pc-elevation style='--elevation-level: 2'></pc-elevation>
+    <p-elevation style='--elevation-level: 2'></p-elevation>
     Level 2
   </div>
 
 
   <div class="elevated-element">
-    <pc-elevation style='--elevation-level: 3'></pc-elevation>
+    <p-elevation style='--elevation-level: 3'></p-elevation>
     Level 3
   </div>
 
   <div class="elevated-element">
-    <pc-elevation style='--elevation-level: 4'></pc-elevation>
+    <p-elevation style='--elevation-level: 4'></p-elevation>
     Level 4
   </div>
 
   <div class="elevated-element">
-    <pc-elevation style='--elevation-level: 5'></pc-elevation>
+    <p-elevation style='--elevation-level: 5'></p-elevation>
     Level 5
   </div>
 
   <style is:inline>
     .elevated-element {
       position: relative;
-      border-radius: 4px;
+      border-radius: var(--shape-corner-small);
       padding: var(--spacing-200);
     }
   </style>

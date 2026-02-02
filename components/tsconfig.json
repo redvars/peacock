@@ -16,7 +16,8 @@
     "rootDir": "./",
     "declaration": true,
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./"
   },
   "include": ["**/*.ts"]
 }

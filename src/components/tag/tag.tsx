@@ -128,7 +128,7 @@ export class Tag implements ComponentInterface {
             [`color-${this.color}`]: true,
           }}
         >
-          <pc-elevation class="elevation"></pc-elevation>
+          <p-elevation class="elevation"></p-elevation>
 
           <div class="tag-background"></div>
 

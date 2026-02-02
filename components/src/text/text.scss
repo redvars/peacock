@@ -1,0 +1,48 @@
+@use "../../scss/mixin";
+@use "sass:string";
+
+
+@mixin _apply-typography($value-type) {
+  @include mixin.get-typography(#{$value-type});
+  @if string.index($value-type, "body") {
+    margin-block-end: var(--spacing-200);
+  }
+  @if string.index($value-type, "headline") {
+    margin-block-end: var(--spacing-200);
+  }
+  @if string.index($value-type, "display") {
+    margin-block-end: var(--spacing-400);
+  }
+  @if string.index($value-type, "title") {
+    margin-block-end: var(--spacing-400);
+  }
+}
+
+/// Mixin to define text classes for a specific type and value-type
+/// @param {String} $type - The type name to be used in the class name (e.g., .text-#{$type})
+/// @param {String} $value-type - The value-type name to be passed to get-typography and get-margin-end
+/// @param {Boolean} $important [true] - Whether to use !important in typography properties
+@mixin define-text-classes($type, $value-type) {
+  .text-#{$type} {
+    @include _apply-typography($value-type);
+  }
+
+  .text-#{$type}-emphasized {
+    @include _apply-typography(#{$value-type}-emphasized);
+  }
+}
+
+
+/// List of typography types
+$types: "display", "headline", "body", 'code', 'label', 'title';
+
+/// List of typography sizes
+$sizes: "large", "medium", 'small';
+
+/// Generate text classes for each type and size
+@each $type in $types {
+  @include define-text-classes($type, #{$type}-medium);
+  @each $size in $sizes {
+    @include define-text-classes(#{$type}-#{$size}, #{$type}-#{$size});
+  }
+}

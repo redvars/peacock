@@ -79,8 +79,6 @@ Type: `Promise<void>`
 graph TD;
   pc-code-editor --> pc-tag
   pc-code-editor --> pc-spinner
-  pc-tag --> p-icon
-  pc-tag --> pc-elevation
   goat-html-editor --> pc-code-editor
   style pc-code-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```

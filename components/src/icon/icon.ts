@@ -3,8 +3,9 @@ import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { fetchIcon, fetchSVG } from './datasource.js';
 import { sanitizeSvg } from '../utils.js';
-import { styles } from './icon.css.js';
+import styles from './icon.scss';
 
+export type IconProvider = 'material-symbols' | 'material-icons';
 /**
  * @label Icon
  * @tag p-icon
@@ -32,8 +33,7 @@ export class Icon extends LitElement {
 
   @property({ type: String, reflect: true }) src?: string;
 
-  @property({ type: String }) provider: 'material-symbols' | 'carbon' =
-    'material-symbols';
+  @property({ type: String }) provider: IconProvider = 'material-symbols';
 
   @state()
   private svgContent: string = '';

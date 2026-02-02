@@ -74,7 +74,6 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../button)
-- [p-icon](../../icon)
 - [pc-spinner](../../spinner)
 - [pc-code-editor](../code-editor)
 - [pc-toggle](../toggle)
@@ -85,21 +84,15 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   goat-html-editor --> pc-button
-  goat-html-editor --> p-icon
   goat-html-editor --> pc-spinner
   goat-html-editor --> pc-code-editor
   goat-html-editor --> pc-toggle
   goat-html-editor --> pc-menu
   goat-html-editor --> pc-menu-item
-  pc-button --> pc-elevation
   pc-code-editor --> pc-tag
   pc-code-editor --> pc-spinner
-  pc-tag --> p-icon
-  pc-tag --> pc-elevation
   pc-menu --> pc-empty-state
-  pc-empty-state --> p-icon
   pc-empty-state --> pc-button
-  pc-menu-item --> p-icon
   style goat-html-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

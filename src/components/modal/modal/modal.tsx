@@ -84,7 +84,7 @@ export class Modal {
             role="dialog"
             aria-modal="true"
           >
-            <pc-elevation></pc-elevation>
+            <p-elevation></p-elevation>
             <div class="modal-overlay" />
             <div
               class="modal--wrapper"

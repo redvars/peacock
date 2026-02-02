@@ -89,14 +89,9 @@ Type: `Promise<void>`
  - [pc-textarea](../input-controls/input/textarea)
  - [pc-time-picker](../input-controls/data-and-time/date/time-picker)
 
-### Depends on
-
-- [pc-elevation](../elevation)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-button --> pc-elevation
   goat-code-highlighter --> pc-button
   goat-header-action --> pc-button
   goat-header-brand --> pc-button

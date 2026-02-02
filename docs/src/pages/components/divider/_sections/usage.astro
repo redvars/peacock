@@ -1,58 +1,68 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Here are several predefined checkbox styles, each serving its own semantic purpose.</p>
-<style is:inline>
-  .container-horizontal {
-    display: inline-block;
-    margin-right: 1rem;
-    padding: 1rem;
-    width: 200px;
-    border: 1px solid var(--color-outline);
-  }
-</style>
+<p class='text-body-large'>Here are several predefined checkbox styles, each serving its own semantic purpose.</p>
 
-<HighlighterCard lang={'html'}>
-  <div class='container-horizontal'>
-    <p>Content A</p>
-    <pc-divider></pc-divider>
-    <p>Content B</p>
-  </div>
+<p class='text-body-large'>Horizontal Divider Usage</p>
+
+<DemoComponentCard lang={'html'}>
+  <style is:inline>
+    .container-horizontal {
+      display: inline-block;
+      margin-right: 1rem;
+      padding: 1rem;
+      width: 200px;
+      border: 1px solid var(--color-outline);
+    }
+  </style>
 
   <div class='container-horizontal'>
     <p>Content A</p>
-    <pc-divider> or</pc-divider>
+    <p-divider></p-divider>
     <p>Content B</p>
   </div>
-</HighlighterCard>
 
-<style is:inline>
-  .container-vertical {
-    display: flex;
-    height: 150px;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    width: 250px;
-    border: 1px solid var(--color-outline);
-  }
+  <div class='container-horizontal'>
+    <p>Content A</p>
+    <p-divider> or</p-divider>
+    <p>Content B</p>
+  </div>
+</DemoComponentCard>
 
-  .container-vertical p {
-    display: flex;
-    align-items: center;
-  }
-</style>
 
-<HighlighterCard lang={'html'}>
+<br/>
+
+<p class='text-body-large'>Vertical Divider Usage</p>
+
+<DemoComponentCard lang={'html'}>
+
+  <style is:inline>
+    .container-vertical {
+      display: flex;
+      height: 150px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      width: 250px;
+      border: 1px solid var(--color-outline);
+    }
+
+    .container-vertical p {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+
   <div class='container-vertical'>
     <p>Content A</p>
-    <pc-divider vertical></pc-divider>
+    <p-divider vertical></p-divider>
     <p>Content B</p>
   </div>
 
   <div class='container-vertical'>
     <p>Content A</p>
-    <pc-divider vertical> or</pc-divider>
+    <p-divider vertical> or</p-divider>
     <p>Content B</p>
   </div>
-</HighlighterCard>
+</DemoComponentCard>
