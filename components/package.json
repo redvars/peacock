@@ -2,7 +2,7 @@
   "name": "@redvars/peacock",
   "description": "The foundation for beautiful user interfaces",
   "license": "Apache-2.0",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
