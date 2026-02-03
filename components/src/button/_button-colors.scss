@@ -1,0 +1,96 @@
+:host([color=primary]) {
+  --filled-button-container-color: var(--color-primary);
+  --filled-button-label-text-color: var(--color-on-primary);
+
+  --tonal-button-container-color: var(--color-primary-container);
+  --tonal-button-label-text-color: var(--color-on-primary-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-primary);
+
+  --outlined-button-outline-color: var(--color-outline);
+  --outlined-button-label-text-color: var(--color-on-surface-variant);
+
+  --text-button-label-text-color: var(--color-primary);
+
+  --neo-button-container-color: var(--color-primary);
+  --neo-button-label-text-color: var(--color-on-primary);
+}
+
+:host([color=success]) {
+  --filled-button-container-color: var(--color-success);
+  --filled-button-label-text-color: var(--color-on-success);
+
+  --tonal-button-container-color: var(--color-success-container);
+  --tonal-button-label-text-color: var(--color-on-success-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-success);
+
+  --outlined-button-outline-color: var(--color-success);
+  --outlined-button-label-text-color: var(--color-success);
+
+  --text-button-label-text-color: var(--color-success);
+
+  --neo-button-container-color: var(--color-success);
+  --neo-button-label-text-color: var(--color-on-success);
+}
+
+:host([color=danger]) {
+  --filled-button-container-color: var(--color-error);
+  --filled-button-label-text-color: var(--color-on-error);
+
+  --tonal-button-container-color: var(--color-error-container);
+  --tonal-button-label-text-color: var(--color-on-error-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-error);
+
+  --outlined-button-outline-color: var(--color-error);
+  --outlined-button-label-text-color: var(--color-error);
+
+  --text-button-label-text-color: var(--color-error);
+
+  --neo-button-container-color: var(--color-error);
+  --neo-button-label-text-color: var(--color-on-error);
+}
+
+
+:host([color=dark]) {
+  --filled-button-container-color: var(--color-on-surface);
+  --filled-button-label-text-color: var(--color-surface);
+
+  --tonal-button-container-color: var(--color-surface-container);
+  --tonal-button-label-text-color: var(--color-on-surface-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-on-surface);
+
+  --outlined-button-outline-color: var(--color-on-surface);
+  --outlined-button-label-text-color: var(--color-on-surface);
+
+  --text-button-label-text-color: var(--color-on-surface);
+
+  --neo-button-container-color: var(--color-on-surface);
+  --neo-button-label-text-color: var(--color-surface);
+}
+
+:host([color=light]) {
+  --filled-button-container-color: var(--color-surface);
+  --filled-button-label-text-color: var(--color-on-surface);
+
+  --tonal-button-container-color: var(--color-on-surface-container);
+  --tonal-button-label-text-color: var(--color-surface-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-white);
+
+  --outlined-button-outline-color: var(--color-surface);
+  --outlined-button-label-text-color: var(--color-surface);
+
+  --text-button-label-text-color: var(--color-surface);
+
+  --neo-button-container-color: var(--color-surface);
+  --neo-button-label-text-color: var(--color-on-surface);
+}
+

@@ -35,6 +35,12 @@ export class Button extends LitElement {
     'button';
 
   /**
+   * Type is preset of color and variant. Type will be only applied.
+   *
+   */
+  @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+
+  /**
    * The visual style of the button.
    *
    *  Possible variant values:
@@ -42,7 +48,7 @@ export class Button extends LitElement {
    * `"outlined"` is an outlined button.
    * `"text"` is a transparent button.
    * `"tonal"` is a light color button.
-   *
+   * `"elevated"` is elevated button
    */
   @property() variant:
     | 'elevated'
@@ -51,6 +57,17 @@ export class Button extends LitElement {
     | 'outlined'
     | 'text'
     | 'neo' = 'filled';
+
+  /**
+   * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+   */
+  @property({ reflect: true }) color:
+    | 'primary'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'light'
+    | 'dark' = 'primary';
 
   /**
    * Button size.
@@ -72,18 +89,6 @@ export class Button extends LitElement {
    * If button is disabled, the reason why it is disabled.
    */
   @property() disabledReason: string = '';
-
-  /**
-   * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-   */
-  @property({ reflect: true }) color:
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black' = 'primary';
 
   /**
    * Icon alignment.
@@ -149,6 +154,20 @@ export class Button extends LitElement {
         this.requestUpdate();
       },
     );
+
+    if (this.type === 'primary') {
+      this.color = 'primary';
+      this.variant = 'filled';
+    } else if (this.type === 'secondary') {
+      this.color = 'dark';
+      this.variant = 'outlined';
+    } else if (this.type === 'tertiary') {
+      this.color = 'primary';
+      this.variant = 'text';
+    } else if (this.type === 'danger') {
+      this.color = 'danger';
+      this.variant = 'filled';
+    }
   }
 
   private __dispatchClickWithThrottle: (
@@ -210,14 +229,12 @@ export class Button extends LitElement {
 
   override render() {
     const isLink = this.__isLink();
-    const { variant, subVariant } = this.getVariant();
 
     const cssClasses = {
       button: true,
       'button-element': true,
       [`size-${this.size}`]: true,
-      [`variant-${variant}`]: true,
-      [`variant-${subVariant}`]: !!subVariant,
+      [`variant-${this.variant}`]: true,
       [`color-${this.color}`]: true,
       disabled: this.disabled || this.softDisabled,
       pressed: this.isPressed,
@@ -258,23 +275,8 @@ export class Button extends LitElement {
         : null}
       aria-disabled=${`${this.disabled}`}
     >
-      <div class="icon">
-        <slot name="icon"></slot>
-      </div>
-
-      <div class="slot-container">
-        <slot></slot>
-      </div>
+      ${this.renderButtonContent()}
     </a>`;
-  }
-
-  getVariant() {
-    const variants = this.variant?.split('.');
-    if (!['filled', 'outlined', 'text', 'tonal', 'neo'].includes(variants[0])) {
-      variants.unshift('filled');
-    }
-    const [variant, subVariant] = variants as [string, string?];
-    return { variant, subVariant };
   }
 
   renderButtonContent() {

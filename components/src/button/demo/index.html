@@ -9,7 +9,7 @@
 
   <style>
     body {
-      background: #fafafa;
+      background: var(--color-surface);
     }
   </style>
 </head>
@@ -17,7 +17,9 @@
 
 <a href='#'>Back</a>
 
-<p-button>Click</p-button>
+<p-button>Default</p-button>
+
+<p-button variant='filled'>Click</p-button>
 
 <p-button variant='elevated' iconAlign='start'><p-icon slot='icon' name='home'></p-icon> Click</p-button>
 
@@ -29,6 +31,17 @@
 
 <p-button variant='neo'>Click</p-button>
 
+<br/><br/>
+
+
+<p-button type='primary'>Default</p-button>
+
+<p-button type='secondary'>Default</p-button>
+
+<p-button type='tertiary'>Default</p-button>
+
+<p-button type='danger'>Default</p-button>
+
 
 <script type='module'>
   import { Button, Elevation, FocusRing, Ripple, Icon } from '/dist/index.js';
@@ -37,6 +50,7 @@
   window.customElements.define('p-focus-ring', FocusRing);
   window.customElements.define('p-ripple', Ripple);
   window.customElements.define('p-icon', Icon);
+
 </script>
 </body>
 </html>

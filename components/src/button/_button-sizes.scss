@@ -10,10 +10,10 @@
   --_button-icon-size: 1.25rem;
   --_container-padding: 0.75rem;
 
-
-  &:not(.has-content).has-icon {
-    --internal-button-padding: 0.25rem;
-  }
+  font-size:  0.875rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  line-height: 1.25rem !important;
+  letter-spacing: 0.1px !important;
 }
 
 
@@ -27,7 +27,7 @@
   font-size:  0.875rem !important;
   font-weight: var(--font-weight-medium) !important;
   line-height: 1.25rem !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 0.1px !important;
 }
 
 .button.size-md,
@@ -36,9 +36,10 @@
   --_button-icon-size: 1.5rem;
   --_container-padding: 1.5rem;
 
-  &:not(.has-content).has-icon {
-    --internal-button-padding: 0.75rem;
-  }
+  font-size:  1rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  line-height: 1.5rem !important;
+  letter-spacing: 0.15px !important;
 }
 
 .button.size-lg,
@@ -46,6 +47,11 @@
   --_button-height: 6rem;
   --_button-icon-size: 2rem;
   --_container-padding: 3rem;
+
+  font-size:  1.5rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  line-height: 2rem !important;
+  letter-spacing: 0 !important;
 }
 
 .button.size-xl {
@@ -53,7 +59,8 @@
   --_button-icon-size: 2.5rem;
   --_container-padding: 4rem;
 
-  .button-content {
-    padding-bottom: 1rem;
-  }
+  font-size:  2rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  line-height: 2.5rem !important;
+  letter-spacing: 0 !important;
 }

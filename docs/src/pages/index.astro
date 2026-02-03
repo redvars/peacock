@@ -48,31 +48,31 @@ function jumpingSentence(sentence: string) {
       <p class='text-headline'>A light weight customisable web component + css library</p>
 
       <div class='banner-actions '>
-        <pc-button href='#getting-started' size='md' color='secondary' icon='arrow--right'>Get
+        <p-button href='#getting-started' size='md' color='secondary' icon='arrow--right'>Get
           Started
-        </pc-button>
-        <pc-button href='/components/' size='md' color='secondary' variant='tonal'>Browse Components</pc-button>
+        </p-button>
+        <p-button href='/components/' size='md' color='secondary' variant='tonal'>Browse Components</p-button>
       </div>
     </div>
 
 
     <div class='social-icons'>
-      <pc-button
+      <p-button
         variant='text'
         target='_blank'
         aria-label='Github'
         href={`https://www.github.com/${site.github_username}`}
       >
         <p-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/github.svg'></p-icon>
-      </pc-button>
-      <pc-button
+      </p-button>
+      <p-button
         variant='text'
         target='_blank'
         aria-label='Twitter'
         href={`https://x.com/${site.twitter_username}`}
       >
         <p-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/twitter-x.svg'></p-icon>
-      </pc-button>
+      </p-button>
     </div>
 
     <div class='made-in-india'>
@@ -154,7 +154,7 @@ function jumpingSentence(sentence: string) {
 
                  &lt;body>
 
-                  <pc-button size='lg' color='primary'>Click me</pc-button>
+                  <p-button size='lg' color='primary'>Click me</p-button>
 
                  &lt;/body>
                  &lt;/html>`;
@@ -174,7 +174,7 @@ function jumpingSentence(sentence: string) {
                   <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
                    &lt;script type='module'>
-    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/pc-button.js";
+    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/p-button.js";
     customElements.define('my-button', GoatButton);
  &lt;/script>
 

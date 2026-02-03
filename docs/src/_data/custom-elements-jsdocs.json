@@ -444,13 +444,12 @@
         },
         {
           "kind": "field",
-          "name": "toggle",
+          "name": "selected",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, the button will be in a toggled state.",
-          "attribute": "toggle"
+          "attribute": "selected"
         },
         {
           "kind": "field",
@@ -461,15 +460,6 @@
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
           "attribute": "throttleDelay"
-        },
-        {
-          "kind": "field",
-          "name": "appendData",
-          "type": {
-            "text": "any"
-          },
-          "description": "The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.",
-          "attribute": "appendData"
         },
         {
           "kind": "field",
@@ -500,7 +490,7 @@
         },
         {
           "kind": "field",
-          "name": "__handleClickWithThrottle",
+          "name": "__dispatchClickWithThrottle",
           "type": {
             "text": "(\n    event: MouseEvent | KeyboardEvent,\n  ) => void"
           },
@@ -508,7 +498,7 @@
         },
         {
           "kind": "field",
-          "name": "__handleClick"
+          "name": "__dispatchClick"
         },
         {
           "kind": "method",
@@ -516,23 +506,7 @@
         },
         {
           "kind": "field",
-          "name": "#onMouseUp",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "#onMouseDown",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "#onKeyDown",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "#onKeyUp",
-          "privacy": "private"
+          "name": "__handlePress"
         },
         {
           "kind": "method",
@@ -546,10 +520,6 @@
         {
           "kind": "method",
           "name": "renderButtonContent"
-        },
-        {
-          "kind": "method",
-          "name": "renderLink"
         }
       ],
       "attributes": [
@@ -649,13 +619,12 @@
           "fieldName": "target"
         },
         {
-          "name": "toggle",
+          "name": "selected",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, the button will be in a toggled state.",
-          "fieldName": "toggle"
+          "fieldName": "selected"
         },
         {
           "name": "throttleDelay",
@@ -665,14 +634,6 @@
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
           "fieldName": "throttleDelay"
-        },
-        {
-          "name": "appendData",
-          "type": {
-            "text": "any"
-          },
-          "description": "The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.",
-          "fieldName": "appendData"
         }
       ],
       "superclass": {

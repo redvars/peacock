@@ -7,10 +7,10 @@ import Highlighter from '../../../../components/Highlighter.astro';
   <p-button disabled id='disabled-btn'>Disabled Button</p-button>
 
   <script is:inline>
-    document.querySelector('#click-me-btn').addEventListener('button--click', (event) => {
+    document.querySelector('#click-me-btn').addEventListener('button:click', (event) => {
       myConsole.log('Button clicked', 'button--click');
     });
-    document.querySelector('#disabled-btn').addEventListener('button--click', (event) => {
+    document.querySelector('#disabled-btn').addEventListener('button:click', (event) => {
       myConsole.log('Button clicked', 'button--click'); // this will not be fired
     });
   </script>

@@ -33,15 +33,6 @@
   --button-height: unset;
   --button-icon-size: unset;
   --button-container-shape: unset;
-
-  --filled-button-container-color: var(--color-primary);
-  --filled-button-label-text-color: var(--color-on-primary);
-
-  --tonal-button-container-color: var(--color-secondary-container);
-  --tonal-button-label-text-color: var(--color-on-secondary-container);
-
-  --elevated-button-container-color: var(--color-surface-container-low);
-  --elevated-button-label-text-color: var(--color-primary);
 }
 
 /**
@@ -177,6 +168,7 @@ slot::slotted(*) {
     pointer-events: none;
     box-sizing: border-box;
     border: var(--_outline-width) solid var(--_outline-color);
+    opacity: var(--_outline-opacity, 1);
     border-radius: inherit;
   }
 
@@ -191,45 +183,9 @@ slot::slotted(*) {
 
 }
 
-@import "button-sizes";
-
 /**
  * Button variant definitions
  */
-.button.variant-filled {
-
-  --_container-shape-start-start: var(--filled-button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-start-end: var(--filled-button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-end-start: var(--filled-button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-end-end: var(--filled-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-color: var(--filled-button-container-color);
-  --_label-text-color: var(--filled-button-label-text-color);
-
-  --_container-state-color: var(--_label-text-color);
-
-
-  &:hover:not(.disabled) {
-    --_container-elevation-level: 1;
-    --_container-state-opacity: 0.08;
-
-  }
-
-  &.pressed:not(.disabled) {
-    --_container-elevation-level: 0;
-    --_container-state-opacity: 0.1;
-  }
-
-  &.disabled {
-    --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
-    --_label-text-opacity: 0.38;
-
-    .ripple {
-      display: none;
-    }
-  }
-}
 
 .button.variant-elevated {
 
@@ -251,6 +207,42 @@ slot::slotted(*) {
   &.pressed:not(.disabled) {
     --_container-elevation-level: 1;
     --_container-state-opacity: 0.12;
+  }
+
+  &.disabled {
+    --_container-color: var(--color-on-surface);
+    --_container-opacity: 0.1;
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+
+.button.variant-filled {
+
+  --_container-shape-start-start: var(--filled-button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-small)));
+  --_container-shape-start-end: var(--filled-button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-small)));
+  --_container-shape-end-start: var(--filled-button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
+  --_container-shape-end-end: var(--filled-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
+  --_container-color: var(--filled-button-container-color);
+  --_label-text-color: var(--filled-button-label-text-color);
+
+  --_container-state-color: var(--_label-text-color);
+
+
+  &:hover:not(.disabled) {
+    --_container-elevation-level: 1;
+    --_container-state-opacity: 0.08;
+
+  }
+
+  &.pressed:not(.disabled) {
+    --_container-elevation-level: 0;
+    --_container-state-opacity: 0.1;
   }
 
   &.disabled {
@@ -309,10 +301,10 @@ slot::slotted(*) {
   --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
 
   --_outline-width: var(--outlined-button-outline-width, 0.125rem);
-  --_outline-color: var(--outlined-button-outline-color, var(--color-outline));
-  --_label-text-color: var(--color-on-surface-variant);
+  --_outline-color: var(--outlined-button-outline-color);
+  --_label-text-color: var(--outlined-button-label-text-color);
 
-  --_container-state-color: var(--color-on-surface-variant);
+  --_container-state-color: var(--_label-text-color);
 
   .outline {
     display: block;
@@ -329,7 +321,7 @@ slot::slotted(*) {
   &.disabled {
     --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
-    --_outline-color: var(--color-on-surface);
+    --_outline-opacity: 0.12;
 
     .ripple {
       display: none;
@@ -345,9 +337,8 @@ slot::slotted(*) {
   --_container-shape-end-start: var(--text-button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
   --_container-shape-end-end: var(--text-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
 
-  --_label-text-color: var(--color-primary);
-
-  --_container-state-color: var(--color-primary);
+  --_label-text-color: var(--text-button-label-text-color);
+  --_container-state-color: var(--_label-text-color);
 
   &:hover:not(.disabled) {
     --_container-state-opacity: 0.08;
@@ -375,8 +366,8 @@ slot::slotted(*) {
   --_container-shape-end-start: var(--outlined-button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
   --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
 
-  --_container-color: var(--color-primary);
-  --_label-text-color: var(--filled-button-label-text-color);
+  --_container-color: var(--neo-button-container-color);
+  --_label-text-color: var(--neo-button-label-text-color);
 
   --_outline-width: var(--outlined-button-outline-width, 0.125rem);
   --_outline-color: var(--color-inverse-surface);
@@ -404,7 +395,7 @@ slot::slotted(*) {
     --_container-opacity: 0.1;
     --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
-    --_outline-color: var(--color-on-surface);
+    --_outline-opacity: 0.12;
 
 
     .ripple {
@@ -413,18 +404,5 @@ slot::slotted(*) {
   }
 }
 
-@keyframes outward-grow {
-  from {
-    outline-width: 0
-  }
-
-  to {
-    outline-width: var(--focus-ring-active-width, 8px)
-  }
-}
-
-@keyframes outward-shrink {
-  from {
-    outline-width: var(--focus-ring-active-width, 8px)
-  }
-}
+@import "button-sizes";
+@import "button-colors";

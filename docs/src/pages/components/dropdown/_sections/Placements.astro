@@ -17,13 +17,13 @@ import MenuItems from './dropdown-menu.astro';
   <pc-card-content>
     <div class='component-container'>
       <pc-dropdown id='dropdown' item-variant='icon' placements='bottom-start,top-start'>
-        <pc-button variant='outlined'><p-icon slot='icon' name='home'><p-icon></p-icon>Open</pc-button>
+        <p-button variant='outlined'><p-icon slot='icon' name='home'><p-icon></p-icon>Open</p-button>
 
         <MenuItems/>
       </pc-dropdown>
 
       <pc-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
-        <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
+        <p-button icon='trash-can' color='danger' aria-label='Trash Can'></p-button>
 
         <MenuItems/>
       </pc-dropdown>
@@ -32,12 +32,12 @@ import MenuItems from './dropdown-menu.astro';
   <pc-card-content class='no-padding'>
     <Highlighter lang='html'>
       <pc-dropdown id='dropdown' item-variant='icon' placements='top-start,bottom-start'>
-        <pc-button icon='home' variant='outline'>Open</pc-button>
+        <p-button icon='home' variant='outline'>Open</p-button>
         <pc-dropdown-menu>...</pc-dropdown-menu>
       </pc-dropdown>
 
       <pc-dropdown id='dropdown' item-variant='icon' placements='top-end,bottom-end'>
-        <pc-button icon='trash-can' color='danger' aria-label='Trash Can'></pc-button>
+        <p-button icon='trash-can' color='danger' aria-label='Trash Can'></p-button>
         <pc-dropdown-menu>...</pc-dropdown-menu>
       </pc-dropdown>
 
