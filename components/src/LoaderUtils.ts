@@ -16,7 +16,7 @@ export class LoaderUtils {
 
   private _observer: MutationObserver | undefined;
 
-  constructor(private loaderConfig: LoaderConfig) {
+  constructor(loaderConfig: LoaderConfig) {
     this._loaderConfig = loaderConfig;
   }
 

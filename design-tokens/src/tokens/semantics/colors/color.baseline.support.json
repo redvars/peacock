@@ -131,43 +131,84 @@
       }
     },
 
-    "error": {
-      "$value": "{color.error.40}",
+    "success": {
+      "$value": "{color.green.40}",
       "$extensions": {
         "mode": {
-          "dark": "{color.error.80}"
+          "dark": "{color.green.80}"
+        }
+      }
+    },
+    "onSuccess": {
+      "$value": "{color.green.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.20}"
+        }
+      }
+    },
+    "successContainer": {
+      "$value": "{color.green.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.30}"
+        }
+      }
+    },
+    "onSuccessContainer": {
+      "$value": "{color.green.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.90}"
+        }
+      }
+    },
+    "inverseSuccess": {
+      "$value": "{color.green.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.40}"
+        }
+      }
+    },
+
+    "error": {
+      "$value": "{color.red.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.80}"
         }
       }
     },
     "onError": {
-      "$value": "{color.error.100}",
+      "$value": "{color.red.100}",
       "$extensions": {
         "mode": {
-          "dark": "{color.error.20}"
+          "dark": "{color.red.20}"
         }
       }
     },
     "errorContainer": {
-      "$value": "{color.error.90}",
+      "$value": "{color.red.90}",
       "$extensions": {
         "mode": {
-          "dark": "{color.error.30}"
+          "dark": "{color.red.30}"
         }
       }
     },
     "onErrorContainer": {
-      "$value": "{color.error.10}",
+      "$value": "{color.red.10}",
       "$extensions": {
         "mode": {
-          "dark": "{color.error.90}"
+          "dark": "{color.red.90}"
         }
       }
     },
     "inverseError": {
-      "$value": "{color.error.80}",
+      "$value": "{color.red.80}",
       "$extensions": {
         "mode": {
-          "dark": "{color.error.40}"
+          "dark": "{color.red.40}"
         }
       }
     }

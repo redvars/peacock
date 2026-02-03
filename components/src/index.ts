@@ -5,3 +5,5 @@ export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
 export { Button } from './button/index.js';
+export { FocusRing } from './focus-ring/index.js';
+export { Ripple } from './ripple/index.js';

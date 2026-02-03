@@ -39,7 +39,7 @@ export class Icon extends LitElement {
   private svgContent: string = '';
 
   // loading + error states for consumers/tests
-  @state()
+  @state() // @ts-ignore
   private loading: boolean = false;
 
   @state()

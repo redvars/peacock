@@ -1,10 +1,15 @@
 // Eager loaded
 import cssComponentsStyleSheet from '@redvars/peacock-design-tokens/dist/tokens.css';
+
+import { Elevation } from './elevation/elevation.js';
+import { FocusRing } from './focus-ring/focus-ring.js';
+import { Ripple } from './ripple/ripple.js';
+
 import { Icon } from './icon/icon.js';
 import { Avatar } from './avatar/avatar.js';
 import { Badge } from './badge/badge.js';
 import { Divider } from './divider/divider.js';
-import { Elevation } from './elevation/elevation.js';
+import { Button } from './button/button.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.scss';
@@ -34,11 +39,17 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: Icon,
       // importPath: './component/icon.js', - for lazy load give path instead of CustomElementClass
     },
+    'focus-ring': {
+      CustomElementClass: FocusRing,
+    },
     avatar: {
       CustomElementClass: Avatar,
     },
     badge: {
       CustomElementClass: Badge,
+    },
+    button: {
+      CustomElementClass: Button,
     },
     divider: {
       CustomElementClass: Divider,
@@ -48,6 +59,9 @@ const loaderConfig: LoaderConfig = {
     },
     clock: {
       importPath: './clock.js',
+    },
+    ripple: {
+      CustomElementClass: Ripple,
     },
   },
 };

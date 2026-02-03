@@ -1,61 +1,22 @@
-/**
- * Derived from Material Design Elevation
- * https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
- */
-
-:host,
-.shadow,
-.shadow::before,
-.shadow::after {
-  border-radius: inherit;
-  inset: 0;
-  position: absolute;
-  transition-duration: inherit;
-  transition-property: inherit;
-  transition-timing-function: inherit;
-}
-
 :host {
-  display: flex;
+  display: none;
   pointer-events: none;
-  transition-property: box-shadow, opacity;
-  --elevation-level: 0;
-  --elevation-color: var(--elevation-color-default, black);
+  position: absolute;
+  border-start-start-radius: var(--focus-ring-shape-start-start);
+  border-start-end-radius: var(--focus-ring-shape-start-end);
+  border-end-start-radius: var(--focus-ring-shape-end-start);
+  border-end-end-radius: var(--focus-ring-shape-end-end);
+  inset: calc(-1 * var(--focus-ring-inset, 2px));
+
+  animation-delay: 0s, calc(var(--focus-ring-duration, 600ms) * .25);
+  animation-duration: calc(var(--focus-ring-duration, 600ms) * .25), calc(var(--focus-ring-duration, 600ms) * .75);
+  animation-timing-function: var(--easing-standard);
+  box-sizing: border-box;
+
+  animation-name: outward-grow, outward-shrink;
 }
 
-.shadow::before,
-.shadow::after {
-  content: '';
-  transition-property: box-shadow, opacity;
-
-  // Elevation doesn't share styles with multiple variants, so we normally
-  // would not use private custom properties. However, these variables are
-  // repeated several times in the styles below, and a shorter custom property
-  // reduces the CSS size, minified and gzip.
-  --_level: var(--elevation-level);
-  --_shadow-color: var(--elevation-color);
-}
-
-// Key box shadow
-.shadow::before {
-  // level0: box-shadow: 0px 0px 0px 0px;
-  // level1: box-shadow: 0px 1px 2px 0px;
-  // level2: box-shadow: 0px 1px 2px 0px;
-  // level3: box-shadow: 0px 1px 3px 0px;
-  // level4: box-shadow: 0px 2px 3px 0px;
-  // level5: box-shadow: 0px 4px 4px 0px;
-  box-shadow: 0 calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1))) calc(1px * (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1))) 0 var(--_shadow-color);
-  opacity: 0.3;
-}
-
-// Ambient box shadow
-.shadow::after {
-  // level0: box-shadow: 0px 0px 0px 0px;
-  // level1: box-shadow: 0px 1px 3px 1px;
-  // level2: box-shadow: 0px 2px 6px 2px;
-  // level3: box-shadow: 0px 4px 8px 3px;
-  // level4: box-shadow: 0px 6px 10px 4px;
-  // level5: box-shadow: 0px 8px 12px 6px;
-  box-shadow: 0 calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3))) calc(1px * (3 * clamp(0, var(--_level), 2) + 2 * clamp(0, var(--_level) - 2, 3))) calc(1px * (clamp(0, var(--_level), 4) + 2 * clamp(0, var(--_level) - 4, 1))) var(--_shadow-color);
-  opacity: 0.15;
+:host([visible]) {
+  display: flex;
+  outline: 3px solid var(--color-primary);
 }

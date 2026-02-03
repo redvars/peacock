@@ -11,11 +11,13 @@ import ColorUtils from './ColorUtils.mjs';
 };
 console.log(JSON.stringify(result, null, 2));*/
 
-console.log(JSON.stringify(ColorUtils.generateTheme('#ED1C24'), null, 2));
+//console.log(JSON.stringify(ColorUtils.generateTheme('#ED1C24'), null, 2));
 
 // neutral
 /*console.log(
   JSON.stringify(ColorUtils.generatePalette('#252525', 'neutral'), null, 2),
 );*/
 
-//console.log(JSON.stringify(ColorUtils.onBaselineColor('error'), null, 2));
+console.log(
+  JSON.stringify(ColorUtils.onBaselineColor('success', 'green'), null, 2),
+);

@@ -15,16 +15,28 @@
 </head>
 <body>
 
-<a href='index.html'>Test</a>
+<a href='#'>Back</a>
 
 <p-button>Click</p-button>
 
-<a href='index.html'>Test 2</a>
+<p-button variant='elevated' iconAlign='start'><p-icon slot='icon' name='home'></p-icon> Click</p-button>
+
+<p-button variant='tonal'>Click</p-button>
+
+<p-button variant='outlined'>Click</p-button>
+
+<p-button variant='text'>Click</p-button>
+
+<p-button variant='neo'>Click</p-button>
+
 
 <script type='module'>
-  import { Button, Elevation } from '/dist/index.js';
+  import { Button, Elevation, FocusRing, Ripple, Icon } from '/dist/index.js';
   window.customElements.define('p-button', Button);
   window.customElements.define('p-elevation', Elevation);
+  window.customElements.define('p-focus-ring', FocusRing);
+  window.customElements.define('p-ripple', Ripple);
+  window.customElements.define('p-icon', Icon);
 </script>
 </body>
 </html>

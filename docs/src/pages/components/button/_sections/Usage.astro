@@ -40,7 +40,7 @@ const componentDetails = getComponentDetails('button');
       const $codeEditor = this.elm.querySelector('.code-editor');
       const $demoArea = this.elm.querySelector('.demo-area');
 
-      $codeEditor.value = `<pc-button>Button</pc-button>
+      $codeEditor.value = `<p-button>Button</p-button>
 `;
       $codeEditor.addEventListener('pc-code-editor--change', (e) => {
         $demoArea.innerHTML = e.target.value;

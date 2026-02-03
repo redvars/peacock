@@ -32,47 +32,51 @@ export default class ColorUtils {
     return result;
   }
 
-  static onBaselineColor(colorName) {
+  static onBaselineColor(colorName, baseColor) {
+    if (!baseColor) {
+      baseColor = colorName;
+    }
+
     return {
       color: {
         $type: 'color',
         [colorName]: {
-          $value: `{color.${colorName}.40}`,
+          $value: `{color.${baseColor}.40}`,
           $extensions: {
             mode: {
-              dark: `{color.${colorName}.80}`,
+              dark: `{color.${baseColor}.80}`,
             },
           },
         },
         [`on${capitalizeFirstLetter(colorName)}`]: {
-          $value: `{color.${colorName}.100}`,
+          $value: `{color.${baseColor}.100}`,
           $extensions: {
             mode: {
-              dark: `{color.${colorName}.20}`,
+              dark: `{color.${baseColor}.20}`,
             },
           },
         },
         [`${colorName}Container`]: {
-          $value: `{color.${colorName}.90}`,
+          $value: `{color.${baseColor}.90}`,
           $extensions: {
             mode: {
-              dark: `{color.${colorName}.30}`,
+              dark: `{color.${baseColor}.30}`,
             },
           },
         },
         [`on${capitalizeFirstLetter(colorName)}Container`]: {
-          $value: `{color.${colorName}.10}`,
+          $value: `{color.${baseColor}.10}`,
           $extensions: {
             mode: {
-              dark: `{color.${colorName}.90}`,
+              dark: `{color.${baseColor}.90}`,
             },
           },
         },
         [`inverse${capitalizeFirstLetter(colorName)}`]: {
-          $value: `{color.${colorName}.80}`,
+          $value: `{color.${baseColor}.80}`,
           $extensions: {
             mode: {
-              dark: `{color.${colorName}.40}`,
+              dark: `{color.${baseColor}.40}`,
             },
           },
         },

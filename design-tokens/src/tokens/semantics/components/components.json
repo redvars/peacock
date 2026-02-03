@@ -3,12 +3,7 @@
     "badge": {
       "color": {
         "$type": "color",
-        "$value": "{color.error.40}",
-        "$extensions": {
-          "mode": {
-            "dark": "{color.error.80}"
-          }
-        }
+        "$value": "{color.error}"
       }
     },
     "avatar": {

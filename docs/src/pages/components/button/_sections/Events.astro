@@ -3,8 +3,8 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
 <HighlighterCard lang='html'>
-  <pc-button id='click-me-btn'>Click me</pc-button>
-  <pc-button disabled id='disabled-btn'>Disabled Button</pc-button>
+  <p-button id='click-me-btn'>Click me</p-button>
+  <p-button disabled id='disabled-btn'>Disabled Button</p-button>
 
   <script is:inline>
     document.querySelector('#click-me-btn').addEventListener('button--click', (event) => {

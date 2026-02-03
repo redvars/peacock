@@ -45,7 +45,7 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.1/dist/peacock-loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.1.2/dist/peacock-loader.js'></script>
 </head>
 
 <p-avatar name="Shivaji Varma"></p-avatar>

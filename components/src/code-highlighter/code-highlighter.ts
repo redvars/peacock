@@ -55,10 +55,4 @@ export class CodeHighlighter extends LitElement {
       <div class="line"></div>
     </div>`;
   }
-
-  #handleSlotChange(event: { target: any }) {
-    const slot = event.target;
-    // Check assignedElements length
-    this.slotHasContent = slot.assignedNodes({ flatten: true }).length > 0;
-  }
 }

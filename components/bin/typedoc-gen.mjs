@@ -24,7 +24,7 @@ async function run() {
       .filter(child => child)
       .map(child => {
         const result = {};
-        child.comment.blockTags.forEach(tag => {
+        child.comment?.blockTags.forEach(tag => {
           result[tag.tag] = tag.content;
         });
         return {

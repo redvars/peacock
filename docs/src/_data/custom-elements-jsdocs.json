@@ -324,11 +324,12 @@
         },
         {
           "kind": "field",
-          "name": "__handleClickWithThrottle",
+          "name": "buttonElement",
           "type": {
-            "text": "(\n    event: MouseEvent | KeyboardEvent,\n  ) => void"
+            "text": "HTMLElement | null"
           },
-          "privacy": "private"
+          "privacy": "private",
+          "readonly": true
         },
         {
           "kind": "field",
@@ -368,6 +369,17 @@
           "default": "false",
           "description": "If true, the user cannot interact with the button. Defaults to `false`.",
           "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "attribute": "softDisabled",
           "reflects": true
         },
         {
@@ -461,22 +473,13 @@
         },
         {
           "kind": "field",
-          "name": "hasFocus",
+          "name": "isPressed",
           "type": {
             "text": "boolean"
           },
           "privacy": "private",
           "default": "false",
           "description": "States"
-        },
-        {
-          "kind": "field",
-          "name": "isActive",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
         },
         {
           "kind": "field",
@@ -488,16 +491,28 @@
           "default": "false"
         },
         {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__handleClickWithThrottle",
+          "type": {
+            "text": "(\n    event: MouseEvent | KeyboardEvent,\n  ) => void"
+          },
+          "privacy": "private"
+        },
+        {
           "kind": "field",
           "name": "__handleClick"
         },
         {
           "kind": "method",
           "name": "__renderDisabledReason"
-        },
-        {
-          "kind": "field",
-          "name": "__setFocus"
         },
         {
           "kind": "field",
@@ -572,6 +587,15 @@
           "default": "false",
           "description": "If true, the user cannot interact with the button. Defaults to `false`.",
           "fieldName": "disabled"
+        },
+        {
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "fieldName": "softDisabled"
         },
         {
           "name": "disabledReason",
@@ -695,13 +719,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time."
+          "text": "- Clocks are used to display the current time in a specified timezone.\r\n - They can be displayed in various formats, including 12-hour and 24-hour time."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-clock></p-clock>\n```"
+          "text": "```html\r\n<p-clock></p-clock>\r\n```"
         }
       ],
       "@tags": [
@@ -718,6 +742,11 @@
       "members": [
         {
           "kind": "field",
+          "name": "clockController",
+          "default": "new ClockController(this, 100)"
+        },
+        {
+          "kind": "field",
           "name": "timezone",
           "type": {
             "text": "string | undefined"
@@ -725,24 +754,16 @@
           "attribute": "timezone"
         },
         {
-          "kind": "field",
-          "name": "currentTime",
-          "type": {
-            "text": "string"
-          },
-          "default": "''"
-        },
-        {
-          "kind": "field",
-          "name": "_timerId",
-          "type": {
-            "text": "any"
-          },
-          "privacy": "private"
-        },
-        {
           "kind": "method",
-          "name": "__updateCurrentTime"
+          "name": "__formatDate",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
         }
       ],
       "attributes": [
@@ -959,6 +980,87 @@
     }
   },
   {
+    "rawTag": "elevation",
+    "label": "Elevation",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Elevation"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-elevation"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "elevation"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Adds elevation to an element."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- Elevation adds a shadow effect to an element to give it depth.\n - It can be used to create a sense of hierarchy or to draw attention to a particular element."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--elevation-color - Controls the color of the shadow."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Elevation",
+      "cssProperties": [
+        {
+          "description": "Controls the elevation level of the shadow.",
+          "name": "--elevation-level"
+        },
+        {
+          "description": "Controls the color of the shadow.",
+          "name": "--elevation-color"
+        }
+      ],
+      "members": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-elevation",
+      "customElement": true,
+      "summary": "Adds elevation to an element.",
+      "rawTag": {
+        "name": "elevation",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "icon",
     "label": "Icon",
     "jsdoc": {
@@ -1001,7 +1103,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-icon name=\"home\"></p-icon>\n```"
+          "text": "```html\r\n<p-icon name=\"home\"></p-icon>\r\n```"
         }
       ]
     },
@@ -1027,7 +1129,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
           "attribute": "name",
           "reflects": true
         },
@@ -1113,7 +1215,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
           "fieldName": "name"
         },
         {

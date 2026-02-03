@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './button.scss';
 import { observerSlotChangesWithCallback, throttle } from '../utils.js';
@@ -23,18 +23,15 @@ import { observerSlotChangesWithCallback, throttle } from '../utils.js';
  * @tags display
  */
 export class Button extends LitElement {
-  static styles = [styles];
+  static override styles = [styles];
 
   #id = crypto.randomUUID();
 
   #tabindex?: number = 0;
 
-  // @ts-ignore
-  private __handleClickWithThrottle: (
-    event: MouseEvent | KeyboardEvent,
-  ) => void;
+  @query('.button') private readonly buttonElement!: HTMLElement | null;
 
-  @property({ type: Boolean }) htmlType: 'button' | 'submit' | 'reset' =
+  @property({ type: String }) htmlType: 'button' | 'submit' | 'reset' =
     'button';
 
   /**
@@ -65,6 +62,11 @@ export class Button extends LitElement {
    * If true, the user cannot interact with the button. Defaults to `false`.
    */
   @property({ reflect: true }) disabled: boolean = false;
+
+  /**
+   * If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.
+   */
+  @property({ reflect: true }) softDisabled: boolean = false;
 
   /**
    * If button is disabled, the reason why it is disabled.
@@ -101,10 +103,7 @@ export class Button extends LitElement {
    */
   @property() target: string = '_self';
 
-  /**
-   * If true, the button will be in a toggled state.
-   */
-  @property() toggle: boolean = false;
+  @property() selected: boolean = false;
 
   /**
    * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
@@ -112,35 +111,35 @@ export class Button extends LitElement {
   @property() throttleDelay = 200;
 
   /**
-   * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
-   */
-  @property() appendData: any;
-
-  /**
    * States
    */
   @state()
-  private hasFocus = false;
-
-  @state()
-  private isActive = false;
+  private isPressed = false;
 
   @state()
   private slotHasContent = false;
 
-  connectedCallback() {
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  override connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('mouseup', this.#onMouseUp);
+    window.addEventListener('mouseup', this.__handlePress);
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
+    window.removeEventListener('mouseup', this.__handlePress);
     super.disconnectedCallback();
-    window.removeEventListener('mouseup', this.#onMouseUp);
   }
 
-  firstUpdated() {
-    this.__handleClickWithThrottle = throttle(
-      this.__handleClick,
+  override firstUpdated() {
+    this.__dispatchClickWithThrottle = throttle(
+      this.__dispatchClick,
       this.throttleDelay,
     );
     observerSlotChangesWithCallback(
@@ -152,17 +151,27 @@ export class Button extends LitElement {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  __handleClick = (evt: MouseEvent | KeyboardEvent) => {
-    evt.preventDefault();
-    if (this.disabled) return;
+  private __dispatchClickWithThrottle: (
+    event: MouseEvent | KeyboardEvent,
+  ) => void = event => {
+    this.__dispatchClick(event);
+  };
+
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.softDisabled || (this.disabled && this.href)) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    this.focus();
     this.dispatchEvent(
-      new CustomEvent('button-click', {
+      new CustomEvent('button:click', {
         bubbles: true,
         composed: true,
-        detail: {
-          appendData: this.appendData,
-        },
       }),
     );
   };
@@ -180,77 +189,83 @@ export class Button extends LitElement {
     return null;
   }
 
-  __setFocus = (flag: boolean) => {
-    this.hasFocus = flag;
-  };
-
-  #onMouseUp = () => {
-    if (this.isActive && !this.toggle) this.isActive = false;
-  };
-
-  #onMouseDown = () => {
-    this.isActive = this.toggle ? !this.isActive : true;
-  };
-
-  #onKeyDown = (evt: KeyboardEvent) => {
-    if (evt.key === 'Enter' || evt.key === ' ') {
-      if (!this.href) {
-        evt.preventDefault();
-        this.isActive = this.toggle ? !this.isActive : true;
-        this.__handleClickWithThrottle(evt);
-      } else {
-        evt.preventDefault();
-        this.isActive = true;
-        this.__handleClickWithThrottle(evt);
-        window.open(this.href, this.target);
-      }
+  __handlePress = (event: KeyboardEvent | MouseEvent) => {
+    if (
+      event instanceof KeyboardEvent &&
+      event.type === 'keydown' &&
+      (event.key === 'Enter' || event.key === ' ')
+    ) {
+      this.isPressed = true;
+    } else if (event.type === 'mousedown') {
+      this.isPressed = true;
+    } else {
+      this.isPressed = false;
     }
   };
 
-  #onKeyUp = (evt: KeyboardEvent) => {
-    if (!this.disabled && !this.toggle) {
-      if (evt.key === 'Enter' || evt.key === ' ') {
-        this.isActive = false;
-      }
-    }
-  };
-
+  /* @ts-ignore */
   private __isLink() {
     return !!this.href;
   }
 
-  render() {
-    // const isLink = this.__isLink();
+  override render() {
+    const isLink = this.__isLink();
     const { variant, subVariant } = this.getVariant();
 
-    return html`<button
-      class=${classMap({
-        button: true,
-        'native-button': true,
-        [`size-${this.size}`]: true,
-        [`variant-${variant}`]: true,
-        [`variant-${subVariant}`]: !!subVariant,
-        [`color-${this.color}`]: true,
-        disabled: this.disabled,
-        focus: this.hasFocus,
-        active: this.isActive,
-        'has-content': this.slotHasContent,
-      })}
+    const cssClasses = {
+      button: true,
+      'button-element': true,
+      [`size-${this.size}`]: true,
+      [`variant-${variant}`]: true,
+      [`variant-${subVariant}`]: !!subVariant,
+      [`color-${this.color}`]: true,
+      disabled: this.disabled || this.softDisabled,
+      pressed: this.isPressed,
+      'has-content': this.slotHasContent,
+    };
+
+    if (!isLink) {
+      return html`<button
+        class=${classMap(cssClasses)}
+        tabindex=${this.#tabindex}
+        type=${this.htmlType}
+        @click=${this.__dispatchClickWithThrottle}
+        @mousedown=${this.__handlePress}
+        @keydown=${this.__handlePress}
+        @keyup=${this.__handlePress}
+        ?aria-describedby=${(this.disabled || this.softDisabled) &&
+        this.disabledReason
+          ? `disabled-reason-${this.#id}`
+          : null}
+        aria-disabled=${`${this.disabled || this.softDisabled}`}
+        ?disabled=${this.disabled}
+      >
+        ${this.renderButtonContent()}
+      </button>`;
+    }
+    return html`<a
+      class=${classMap(cssClasses)}
       tabindex=${this.#tabindex}
-      type=${this.htmlType}
-      @blur=${() => this.__setFocus(false)}
-      @focus=${() => this.__setFocus(true)}
-      @click=${this.__handleClickWithThrottle}
-      @mousedown=${() => this.#onMouseDown()}
-      onKeyDown=${(evt: KeyboardEvent) => this.#onKeyDown(evt)}
-      onKeyUp=${(evt: KeyboardEvent) => this.#onKeyUp(evt)}
+      href=${this.href}
+      target=${this.target}
+      @click=${this.__dispatchClickWithThrottle}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
       aria-describedby=${this.disabled && this.disabledReason
         ? `disabled-reason-${this.#id}`
         : null}
       aria-disabled=${`${this.disabled}`}
     >
-      ${this.renderButtonContent()}
-    </button>`;
+      <div class="icon">
+        <slot name="icon"></slot>
+      </div>
+
+      <div class="slot-container">
+        <slot></slot>
+      </div>
+    </a>`;
   }
 
   getVariant() {
@@ -264,14 +279,17 @@ export class Button extends LitElement {
 
   renderButtonContent() {
     return html`
-      <div class="outline"></div>
+      <p-focus-ring class="focus-ring" .control=${this}></p-focus-ring>
       <p-elevation class="elevation"></p-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>
-      <div class="state-background"></div>
+      <div class="outline"></div>
+      <p-ripple class="ripple"></p-ripple>
 
       <div class="button-content">
-        ${this.iconAlign === 'start' ? html`<slot name="icon"></slot>` : null}
+        ${this.iconAlign === 'start'
+          ? html`<slot name="icon"></slot></div>`
+          : null}
 
         <div class="slot-container">
           <slot></slot>
@@ -282,35 +300,5 @@ export class Button extends LitElement {
 
       ${this.__renderDisabledReason()}
     `;
-  }
-
-  renderLink() {
-    // {...this.configAria}
-
-    return html`<a
-      class="native-element native-link"
-      tabindex=${this.#tabindex}
-      href=${this.href}
-      target=${this.target}
-      @blur=${() => this.__setFocus(false)}
-      @focus=${() => this.__setFocus(true)}
-      @click=${this.__handleClickWithThrottle}
-      onMouseDown=${() => this.#onMouseDown()}
-      onKeyDown=${(evt: KeyboardEvent) => this.#onKeyDown(evt)}
-      onKeyUp=${(evt: KeyboardEvent) => this.#onKeyUp(evt)}
-      role="button"
-      aria-describedby=${this.disabled && this.disabledReason
-        ? `disabled-reason-${this.#id}`
-        : null}
-      aria-disabled=${`${this.disabled}`}
-    >
-      ${this.iconAlign === 'start' ? html`<slot name="icon"></slot>` : null}
-
-      <div class="slot-container">
-        <slot></slot>
-      </div>
-
-      ${this.iconAlign === 'end' ? html`<slot name="icon"></slot>` : null}
-    </a>`;
   }
 }

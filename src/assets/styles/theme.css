@@ -428,6 +428,7 @@
   --color-success-95: var(--color-green-95);
   --color-success-98: var(--color-green-98);
   --color-success-100: var(--color-green-100);
+  --color-on-success: var(--color-green-100);
   --color-surface: var(--color-neutral-99);
   --color-surface-container: var(--color-neutral-94);
   --color-surface-container-high: var(--color-neutral-92);
