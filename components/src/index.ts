@@ -7,3 +7,5 @@ export { Elevation } from './elevation/index.js';
 export { Button } from './button/index.js';
 export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
+export { Accordion } from './accordion/accordion/index.js';
+export { Link } from './link/index.js';

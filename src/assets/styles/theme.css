@@ -245,21 +245,8 @@
   --color-blue-95: #eff0ff;
   --color-blue-98: #faf8ff;
   --color-blue-100: #ffffff;
-  --color-error: var(--color-red);
-  --color-error-0: var(--color-red-0);
-  --color-error-10: var(--color-red-10);
-  --color-error-20: var(--color-red-20);
-  --color-error-30: var(--color-red-30);
-  --color-error-40: var(--color-red-40);
-  --color-error-50: var(--color-red-50);
-  --color-error-60: var(--color-red-60);
-  --color-error-70: var(--color-red-70);
-  --color-error-80: var(--color-red-80);
-  --color-error-90: var(--color-red-90);
-  --color-error-95: var(--color-red-95);
-  --color-error-98: var(--color-red-98);
-  --color-error-100: var(--color-red-100);
-  --color-error-container: var(--color-error-90);
+  --color-error: var(--color-red-40);
+  --color-error-container: var(--color-red-90);
   --color-green: #2e6f40;
   --color-green-0: #000000;
   --color-green-10: #00210b;
@@ -274,10 +261,11 @@
   --color-green-95: #c4ffcb;
   --color-green-98: #eaffe9;
   --color-green-100: #ffffff;
-  --color-inverse-error: var(--color-error-80);
+  --color-inverse-error: var(--color-red-80);
   --color-inverse-on-surface: var(--color-neutral-95);
   --color-inverse-primary: var(--color-primary-80);
   --color-inverse-secondary: var(--color-secondary-80);
+  --color-inverse-success: var(--color-green-80);
   --color-inverse-surface: var(--color-neutral-20);
   --color-inverse-tertiary: var(--color-tertiary-80);
   --color-neutral: #747878;
@@ -328,12 +316,14 @@
   --color-neutral-variant-98: #f2fbfd;
   --color-neutral-variant-99: #f6feff;
   --color-neutral-variant-100: #ffffff;
-  --color-on-error: var(--color-error-100);
-  --color-on-error-container: var(--color-error-10);
+  --color-on-error: var(--color-red-100);
+  --color-on-error-container: var(--color-red-10);
   --color-on-primary: var(--color-primary-100);
   --color-on-primary-container: var(--color-primary-10);
   --color-on-secondary: var(--color-secondary-100);
   --color-on-secondary-container: var(--color-secondary-10);
+  --color-on-success: var(--color-green-100);
+  --color-on-success-container: var(--color-green-10);
   --color-on-surface: var(--color-neutral-10);
   --color-on-surface-variant: var(--color-neutral-variant-30);
   --color-on-tertiary: var(--color-tertiary-100);
@@ -414,21 +404,8 @@
   --color-secondary-100: #ffffff;
   --color-secondary-container: var(--color-secondary-90);
   --color-shadow: var(--color-neutral-0);
-  --color-success: var(--color-green);
-  --color-success-0: var(--color-green-0);
-  --color-success-10: var(--color-green-10);
-  --color-success-20: var(--color-green-20);
-  --color-success-30: var(--color-green-30);
-  --color-success-40: var(--color-green-40);
-  --color-success-50: var(--color-green-50);
-  --color-success-60: var(--color-green-60);
-  --color-success-70: var(--color-green-70);
-  --color-success-80: var(--color-green-80);
-  --color-success-90: var(--color-green-90);
-  --color-success-95: var(--color-green-95);
-  --color-success-98: var(--color-green-98);
-  --color-success-100: var(--color-green-100);
-  --color-on-success: var(--color-green-100);
+  --color-success: var(--color-green-40);
+  --color-success-container: var(--color-green-90);
   --color-surface: var(--color-neutral-99);
   --color-surface-container: var(--color-neutral-94);
   --color-surface-container-high: var(--color-neutral-92);
@@ -452,20 +429,6 @@
   --color-tertiary-98: #fff7fa;
   --color-tertiary-100: #ffffff;
   --color-tertiary-container: var(--color-tertiary-90);
-  --color-warning: var(--color-yellow);
-  --color-warning-0: var(--color-yellow-0);
-  --color-warning-10: var(--color-yellow-10);
-  --color-warning-20: var(--color-yellow-20);
-  --color-warning-30: var(--color-yellow-30);
-  --color-warning-40: var(--color-yellow-40);
-  --color-warning-50: var(--color-yellow-50);
-  --color-warning-60: var(--color-yellow-60);
-  --color-warning-70: var(--color-yellow-70);
-  --color-warning-80: var(--color-yellow-80);
-  --color-warning-90: var(--color-yellow-90);
-  --color-warning-95: var(--color-yellow-95);
-  --color-warning-98: var(--color-yellow-98);
-  --color-warning-100: var(--color-yellow-100);
   --color-white: #ffffff;
   --color-yellow: #ffed29;
   --color-yellow-0: #000000;
@@ -504,7 +467,7 @@
   --font-weight-regular: 400;
   --font-weight-semi-bold: 600;
   --global-avatar-border-radius: var(--shape-corner-full);
-  --global-badge-color: var(--color-error-40);
+  --global-badge-color: var(--color-error);
   --shape-corner-full: 9999px;
   --shape-corner-large: 12px;
   --shape-corner-medium: 8px;
@@ -709,20 +672,23 @@
 }
 
 [data-theme=dark] {
-  --color-error: var(--color-error-80);
-  --color-error-container: var(--color-error-30);
-  --color-inverse-error: var(--color-error-40);
+  --color-error: var(--color-red-80);
+  --color-error-container: var(--color-red-30);
+  --color-inverse-error: var(--color-red-40);
   --color-inverse-on-surface: var(--color-neutral-20);
   --color-inverse-primary: var(--color-primary-40);
   --color-inverse-secondary: var(--color-secondary-40);
+  --color-inverse-success: var(--color-green-40);
   --color-inverse-surface: var(--color-neutral-90);
   --color-inverse-tertiary: var(--color-tertiary-40);
-  --color-on-error: var(--color-error-20);
-  --color-on-error-container: var(--color-error-90);
+  --color-on-error: var(--color-red-20);
+  --color-on-error-container: var(--color-red-90);
   --color-on-primary: var(--color-primary-20);
   --color-on-primary-container: var(--color-primary-90);
   --color-on-secondary: var(--color-secondary-20);
   --color-on-secondary-container: var(--color-secondary-90);
+  --color-on-success: var(--color-green-20);
+  --color-on-success-container: var(--color-green-90);
   --color-on-surface: var(--color-neutral-90);
   --color-on-surface-variant: var(--color-neutral-variant-80);
   --color-on-tertiary: var(--color-tertiary-20);
@@ -735,6 +701,8 @@
   --color-secondary: var(--color-secondary-80);
   --color-secondary-container: var(--color-secondary-30);
   --color-shadow: var(--color-neutral-0);
+  --color-success: var(--color-green-80);
+  --color-success-container: var(--color-green-30);
   --color-surface: var(--color-neutral-10);
   --color-surface-container: var(--color-neutral-12);
   --color-surface-container-high: var(--color-neutral-17);
@@ -744,8 +712,7 @@
   --color-surface-dim: var(--color-neutral-6);
   --color-surface-variant: var(--color-neutral-variant-30);
   --color-tertiary: var(--color-tertiary-80);
-  --color-tertiary-container: var(--color-tertiary-30);
-  --global-badge-color: var(--color-error-80)
+  --color-tertiary-container: var(--color-tertiary-30)
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {

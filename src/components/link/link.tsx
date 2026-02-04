@@ -33,7 +33,7 @@ export class Link implements ComponentInterface {
   /**
    * Sets or retrieves the window or frame at which to target content.
    */
-  @Prop() target: string;
+  @Prop() target: '_self' | '_parent' | '_blank' | '_top' | string = '_self';
 
   @State() hasFocus = false;
   @State() isActive = false;

@@ -124,17 +124,17 @@ export class Modal {
                     </div>
                     <div class="action-container">
                       {!this.hideClose && (
-                        <pc-button
+                        <p-button
                           title="Close"
                           class="close-icon cancel-button"
-                          color="black"
+                          color="dark"
                           variant="text"
                           onButton--click={() => {
                             this.closeModal();
                           }}
                         >
                           <p-icon name="close" />
-                        </pc-button>
+                        </p-button>
                       )}
                     </div>
                   </div>

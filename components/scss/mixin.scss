@@ -1,3 +1,8 @@
+@mixin reset {
+  * {
+    box-sizing: border-box;
+  }
+}
 
 @mixin get-typography($name) {
   font-family: var(--typography-#{$name}-font-family) !important;

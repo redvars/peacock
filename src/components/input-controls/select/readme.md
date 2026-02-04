@@ -99,7 +99,6 @@ Type: `Promise<void>`
 - [pc-button](../../button)
 - [pc-spinner](../../spinner)
 - [pc-menu](../../menu/menu)
-- [pc-text](../../typography/text)
 - [pc-menu-item](../../menu/menu-item)
 
 ### Graph
@@ -109,7 +108,6 @@ graph TD;
   pc-select --> pc-button
   pc-select --> pc-spinner
   pc-select --> pc-menu
-  pc-select --> pc-text
   pc-select --> pc-menu-item
   pc-menu --> pc-empty-state
   pc-empty-state --> pc-button

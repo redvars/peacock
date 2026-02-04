@@ -261,6 +261,23 @@ export namespace Components {
         "src": string;
     }
     /**
+     * @name Link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <goat-link href="#">Link</goat-link>
+     */
+    interface GoatLink {
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href": string;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target": string;
+        "triggerClick": () => Promise<void>;
+    }
+    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -313,6 +330,50 @@ export namespace Components {
           * The menu item value.
          */
         "value"?: string | number | null;
+    }
+    /**
+     * @name Text
+     * @description Typography are used for rendering headlines, paragraphs and captions.
+     * @category General
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
+     */
+    interface GoatText {
+        /**
+          * @default 'primary'
+         */
+        "color": | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'helper'
+    | 'error'
+    | 'on-color'
+    | 'inverse';
+        /**
+          * @default {}
+         */
+        "configAria": any;
+        /**
+          * @default false
+         */
+        "expressive": boolean;
+        "headingLevel": 1 | 2 | 3 | 4 | 5 | 6;
+        "headingSize": 1 | 2 | 3 | 4 | 5 | 6 | 7;
+        /**
+          * @default false
+         */
+        "inline": boolean;
+        /**
+          * @default 'body'
+         */
+        "type": | 'code'
+    | 'helper-text'
+    | 'label'
+    | 'legal'
+    | 'heading'
+    | 'body'
+    | 'body-compact'
+    | 'heading-compact'
+    | 'fluid-heading';
     }
     /**
      * @label Accordion
@@ -803,16 +864,6 @@ export namespace Components {
         "size": 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
-     * @label Current Time
-     * @name current-time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <pc-current-time></pc-current-time>
-     */
-    interface PcCurrentTime {
-        "timezone": string;
-    }
-    /**
      * @label Date Picker
      * @name date-picker
      * @category Form Inputs
@@ -1241,15 +1292,6 @@ export namespace Components {
         "value": number;
     }
     /**
-     * @label Link
-     * @name link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <a class="pc-link" href="#">Link</a>
-     */
-    interface PcLink {
-    }
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -1615,15 +1657,6 @@ export namespace Components {
      * @childComponent true
      */
     interface PcPopoverContent {
-    }
-    /**
-     * @label Ripple
-     * @name ripple
-     * @description Ripples are state layers used to communicate the status of a component or interactive element.
-     * @category General
-     * @example <pc-ripple></pc-ripple>
-     */
-    interface PcRipple {
     }
     /**
      * @label Select
@@ -2034,15 +2067,6 @@ export namespace Components {
           * @default ''
          */
         "value": string;
-    }
-    /**
-     * @label Text
-     * @name text
-     * @description Typography are used for rendering headlines, paragraphs, and captions.
-     * @category General
-     * @example <h1 class=>Heading</h1>
-     */
-    interface PcText {
     }
     /**
      * @label Textarea
@@ -2591,6 +2615,18 @@ declare global {
         new (): HTMLGoatImageElement;
     };
     /**
+     * @name Link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <goat-link href="#">Link</goat-link>
+     */
+    interface HTMLGoatLinkElement extends Components.GoatLink, HTMLStencilElement {
+    }
+    var HTMLGoatLinkElement: {
+        prototype: HTMLGoatLinkElement;
+        new (): HTMLGoatLinkElement;
+    };
+    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -2623,6 +2659,18 @@ declare global {
     var HTMLGoatSidenavMenuItemElement: {
         prototype: HTMLGoatSidenavMenuItemElement;
         new (): HTMLGoatSidenavMenuItemElement;
+    };
+    /**
+     * @name Text
+     * @description Typography are used for rendering headlines, paragraphs and captions.
+     * @category General
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
+     */
+    interface HTMLGoatTextElement extends Components.GoatText, HTMLStencilElement {
+    }
+    var HTMLGoatTextElement: {
+        prototype: HTMLGoatTextElement;
+        new (): HTMLGoatTextElement;
     };
     /**
      * @label Accordion
@@ -2917,19 +2965,6 @@ declare global {
         prototype: HTMLPcContainerElement;
         new (): HTMLPcContainerElement;
     };
-    /**
-     * @label Current Time
-     * @name current-time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <pc-current-time></pc-current-time>
-     */
-    interface HTMLPcCurrentTimeElement extends Components.PcCurrentTime, HTMLStencilElement {
-    }
-    var HTMLPcCurrentTimeElement: {
-        prototype: HTMLPcCurrentTimeElement;
-        new (): HTMLPcCurrentTimeElement;
-    };
     interface HTMLPcDatePickerElementEventMap {
         "goat-date-picker--input": any;
         "goat-date-picker--change": any;
@@ -3125,19 +3160,6 @@ declare global {
         new (): HTMLPcLinearProgressElement;
     };
     /**
-     * @label Link
-     * @name link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <a class="pc-link" href="#">Link</a>
-     */
-    interface HTMLPcLinkElement extends Components.PcLink, HTMLStencilElement {
-    }
-    var HTMLPcLinkElement: {
-        prototype: HTMLPcLinkElement;
-        new (): HTMLPcLinkElement;
-    };
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -3330,19 +3352,6 @@ declare global {
         prototype: HTMLPcPopoverContentElement;
         new (): HTMLPcPopoverContentElement;
     };
-    /**
-     * @label Ripple
-     * @name ripple
-     * @description Ripples are state layers used to communicate the status of a component or interactive element.
-     * @category General
-     * @example <pc-ripple></pc-ripple>
-     */
-    interface HTMLPcRippleElement extends Components.PcRipple, HTMLStencilElement {
-    }
-    var HTMLPcRippleElement: {
-        prototype: HTMLPcRippleElement;
-        new (): HTMLPcRippleElement;
-    };
     interface HTMLPcSelectElementEventMap {
         "goat-select--change": any;
         "goat-select--search": any;
@@ -3514,19 +3523,6 @@ declare global {
         prototype: HTMLPcTagElement;
         new (): HTMLPcTagElement;
     };
-    /**
-     * @label Text
-     * @name text
-     * @description Typography are used for rendering headlines, paragraphs, and captions.
-     * @category General
-     * @example <h1 class=>Heading</h1>
-     */
-    interface HTMLPcTextElement extends Components.PcText, HTMLStencilElement {
-    }
-    var HTMLPcTextElement: {
-        prototype: HTMLPcTextElement;
-        new (): HTMLPcTextElement;
-    };
     interface HTMLPcTextareaElementEventMap {
         "goat-textarea--input": any;
         "goat-textarea--change": any;
@@ -3682,9 +3678,11 @@ declare global {
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
         "goat-image": HTMLGoatImageElement;
+        "goat-link": HTMLGoatLinkElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
+        "goat-text": HTMLGoatTextElement;
         "pc-accordion": HTMLPcAccordionElement;
         "pc-accordion-item": HTMLPcAccordionItemElement;
         "pc-breadcrumb": HTMLPcBreadcrumbElement;
@@ -3703,7 +3701,6 @@ declare global {
         "pc-checkbox": HTMLPcCheckboxElement;
         "pc-code-editor": HTMLPcCodeEditorElement;
         "pc-container": HTMLPcContainerElement;
-        "pc-current-time": HTMLPcCurrentTimeElement;
         "pc-date-picker": HTMLPcDatePickerElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
@@ -3714,7 +3711,6 @@ declare global {
         "pc-input": HTMLPcInputElement;
         "pc-input-url": HTMLPcInputUrlElement;
         "pc-linear-progress": HTMLPcLinearProgressElement;
-        "pc-link": HTMLPcLinkElement;
         "pc-menu": HTMLPcMenuElement;
         "pc-menu-item": HTMLPcMenuItemElement;
         "pc-modal": HTMLPcModalElement;
@@ -3724,7 +3720,6 @@ declare global {
         "pc-number": HTMLPcNumberElement;
         "pc-popover": HTMLPcPopoverElement;
         "pc-popover-content": HTMLPcPopoverContentElement;
-        "pc-ripple": HTMLPcRippleElement;
         "pc-select": HTMLPcSelectElement;
         "pc-slider": HTMLPcSliderElement;
         "pc-spinner": HTMLPcSpinnerElement;
@@ -3734,7 +3729,6 @@ declare global {
         "pc-tabs": HTMLPcTabsElement;
         "pc-tabs-list": HTMLPcTabsListElement;
         "pc-tag": HTMLPcTagElement;
-        "pc-text": HTMLPcTextElement;
         "pc-textarea": HTMLPcTextareaElement;
         "pc-time-picker": HTMLPcTimePickerElement;
         "pc-toggle": HTMLPcToggleElement;
@@ -3992,6 +3986,22 @@ declare namespace LocalJSX {
         "src"?: string;
     }
     /**
+     * @name Link
+     * @description Links allow users to click their way from page to page.
+     * @category Navigation
+     * @example <goat-link href="#">Link</goat-link>
+     */
+    interface GoatLink {
+        /**
+          * Hyperlink to navigate to on click.
+         */
+        "href"?: string;
+        /**
+          * Sets or retrieves the window or frame at which to target content.
+         */
+        "target"?: string;
+    }
+    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -4036,6 +4046,50 @@ declare namespace LocalJSX {
           * The menu item value.
          */
         "value"?: string | number | null;
+    }
+    /**
+     * @name Text
+     * @description Typography are used for rendering headlines, paragraphs and captions.
+     * @category General
+     * @example <goat-text type="heading" level="1">Heading</goat-text>
+     */
+    interface GoatText {
+        /**
+          * @default 'primary'
+         */
+        "color"?: | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'helper'
+    | 'error'
+    | 'on-color'
+    | 'inverse';
+        /**
+          * @default {}
+         */
+        "configAria"?: any;
+        /**
+          * @default false
+         */
+        "expressive"?: boolean;
+        "headingLevel"?: 1 | 2 | 3 | 4 | 5 | 6;
+        "headingSize"?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+        /**
+          * @default false
+         */
+        "inline"?: boolean;
+        /**
+          * @default 'body'
+         */
+        "type"?: | 'code'
+    | 'helper-text'
+    | 'label'
+    | 'legal'
+    | 'heading'
+    | 'body'
+    | 'body-compact'
+    | 'heading-compact'
+    | 'fluid-heading';
     }
     /**
      * @label Accordion
@@ -4530,16 +4584,6 @@ declare namespace LocalJSX {
         "size"?: 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
-     * @label Current Time
-     * @name current-time
-     * @description Displays the current time in a given timezone.
-     * @category Others
-     * @example <pc-current-time></pc-current-time>
-     */
-    interface PcCurrentTime {
-        "timezone"?: string;
-    }
-    /**
      * @label Date Picker
      * @name date-picker
      * @category Form Inputs
@@ -4982,15 +5026,6 @@ declare namespace LocalJSX {
         "value"?: number;
     }
     /**
-     * @label Link
-     * @name link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <a class="pc-link" href="#">Link</a>
-     */
-    interface PcLink {
-    }
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -5364,15 +5399,6 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcPopoverContent {
-    }
-    /**
-     * @label Ripple
-     * @name ripple
-     * @description Ripples are state layers used to communicate the status of a component or interactive element.
-     * @category General
-     * @example <pc-ripple></pc-ripple>
-     */
-    interface PcRipple {
     }
     /**
      * @label Select
@@ -5809,15 +5835,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @label Text
-     * @name text
-     * @description Typography are used for rendering headlines, paragraphs, and captions.
-     * @category General
-     * @example <h1 class=>Heading</h1>
-     */
-    interface PcText {
-    }
-    /**
      * @label Textarea
      * @name textarea
      * @description Enables native inputs to be used within a Form field.
@@ -6154,9 +6171,11 @@ declare namespace LocalJSX {
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
         "goat-image": GoatImage;
+        "goat-link": GoatLink;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
+        "goat-text": GoatText;
         "pc-accordion": PcAccordion;
         "pc-accordion-item": PcAccordionItem;
         "pc-breadcrumb": PcBreadcrumb;
@@ -6175,7 +6194,6 @@ declare namespace LocalJSX {
         "pc-checkbox": PcCheckbox;
         "pc-code-editor": PcCodeEditor;
         "pc-container": PcContainer;
-        "pc-current-time": PcCurrentTime;
         "pc-date-picker": PcDatePicker;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
@@ -6186,7 +6204,6 @@ declare namespace LocalJSX {
         "pc-input": PcInput;
         "pc-input-url": PcInputUrl;
         "pc-linear-progress": PcLinearProgress;
-        "pc-link": PcLink;
         "pc-menu": PcMenu;
         "pc-menu-item": PcMenuItem;
         "pc-modal": PcModal;
@@ -6196,7 +6213,6 @@ declare namespace LocalJSX {
         "pc-number": PcNumber;
         "pc-popover": PcPopover;
         "pc-popover-content": PcPopoverContent;
-        "pc-ripple": PcRipple;
         "pc-select": PcSelect;
         "pc-slider": PcSlider;
         "pc-spinner": PcSpinner;
@@ -6206,7 +6222,6 @@ declare namespace LocalJSX {
         "pc-tabs": PcTabs;
         "pc-tabs-list": PcTabsList;
         "pc-tag": PcTag;
-        "pc-text": PcText;
         "pc-textarea": PcTextarea;
         "pc-time-picker": PcTimePicker;
         "pc-toggle": PcToggle;
@@ -6267,6 +6282,13 @@ declare module "@stencil/core" {
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
             "goat-image": LocalJSX.GoatImage & JSXBase.HTMLAttributes<HTMLGoatImageElement>;
             /**
+             * @name Link
+             * @description Links allow users to click their way from page to page.
+             * @category Navigation
+             * @example <goat-link href="#">Link</goat-link>
+             */
+            "goat-link": LocalJSX.GoatLink & JSXBase.HTMLAttributes<HTMLGoatLinkElement>;
+            /**
              * @name1 Side Navigation
              * @description1 The side navigation component provides an easy way to navigate through your website / application.
              * @img1 /assets/img/sidenav.webp
@@ -6274,6 +6296,13 @@ declare module "@stencil/core" {
             "goat-sidenav": LocalJSX.GoatSidenav & JSXBase.HTMLAttributes<HTMLGoatSidenavElement>;
             "goat-sidenav-menu": LocalJSX.GoatSidenavMenu & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuElement>;
             "goat-sidenav-menu-item": LocalJSX.GoatSidenavMenuItem & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuItemElement>;
+            /**
+             * @name Text
+             * @description Typography are used for rendering headlines, paragraphs and captions.
+             * @category General
+             * @example <goat-text type="heading" level="1">Heading</goat-text>
+             */
+            "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
             /**
              * @label Accordion
              * @name accordion
@@ -6395,14 +6424,6 @@ declare module "@stencil/core" {
             "pc-code-editor": LocalJSX.PcCodeEditor & JSXBase.HTMLAttributes<HTMLPcCodeEditorElement>;
             "pc-container": LocalJSX.PcContainer & JSXBase.HTMLAttributes<HTMLPcContainerElement>;
             /**
-             * @label Current Time
-             * @name current-time
-             * @description Displays the current time in a given timezone.
-             * @category Others
-             * @example <pc-current-time></pc-current-time>
-             */
-            "pc-current-time": LocalJSX.PcCurrentTime & JSXBase.HTMLAttributes<HTMLPcCurrentTimeElement>;
-            /**
              * @label Date Picker
              * @name date-picker
              * @category Form Inputs
@@ -6494,14 +6515,6 @@ declare module "@stencil/core" {
              */
             "pc-linear-progress": LocalJSX.PcLinearProgress & JSXBase.HTMLAttributes<HTMLPcLinearProgressElement>;
             /**
-             * @label Link
-             * @name link
-             * @description Links allow users to click their way from page to page.
-             * @category Navigation
-             * @example <a class="pc-link" href="#">Link</a>
-             */
-            "pc-link": LocalJSX.PcLink & JSXBase.HTMLAttributes<HTMLPcLinkElement>;
-            /**
              * @label Menu
              * @name menu
              * @description Menus display a list of choices on temporary surfaces.
@@ -6590,14 +6603,6 @@ declare module "@stencil/core" {
              */
             "pc-popover-content": LocalJSX.PcPopoverContent & JSXBase.HTMLAttributes<HTMLPcPopoverContentElement>;
             /**
-             * @label Ripple
-             * @name ripple
-             * @description Ripples are state layers used to communicate the status of a component or interactive element.
-             * @category General
-             * @example <pc-ripple></pc-ripple>
-             */
-            "pc-ripple": LocalJSX.PcRipple & JSXBase.HTMLAttributes<HTMLPcRippleElement>;
-            /**
              * @label Select
              * @name select
              * @description Allows the user to select one or more options using a dropdown.
@@ -6661,14 +6666,6 @@ declare module "@stencil/core" {
              * @example <pc-tag class="color-red">Important</pc-tag>
              */
             "pc-tag": LocalJSX.PcTag & JSXBase.HTMLAttributes<HTMLPcTagElement>;
-            /**
-             * @label Text
-             * @name text
-             * @description Typography are used for rendering headlines, paragraphs, and captions.
-             * @category General
-             * @example <h1 class=>Heading</h1>
-             */
-            "pc-text": LocalJSX.PcText & JSXBase.HTMLAttributes<HTMLPcTextElement>;
             /**
              * @label Textarea
              * @name textarea

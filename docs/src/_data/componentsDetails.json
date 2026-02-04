@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-01T07:29:30",
+  "timestamp": "2026-02-04T10:12:46",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -1383,8 +1383,14 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
+      "dependencies": [
+        "goat-link"
+      ],
+      "dependencyGraph": {
+        "goat-footer-links": [
+          "goat-link"
+        ]
+      },
       "props": [
         {
           "name": "links",
@@ -2529,6 +2535,128 @@
       "metadata": {}
     },
     {
+      "dirPath": "E:/git/redvars/peacock/src/components/link",
+      "filePath": "src/components/link/link.tsx",
+      "fileName": "link.tsx",
+      "readmePath": "E:/git/redvars/peacock/src/components/link/readme.md",
+      "usagesDir": "E:/git/redvars/peacock/src/components/link/usage",
+      "tag": "goat-link",
+      "readme": "# pc-button\r\n\r\n\r\n\r",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [
+        "goat-footer-links",
+        "pc-input-url"
+      ],
+      "dependencies": [],
+      "dependencyGraph": {
+        "goat-footer-links": [
+          "goat-link"
+        ],
+        "pc-input-url": [
+          "goat-link"
+        ]
+      },
+      "props": [
+        {
+          "name": "href",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "href",
+          "reflectToAttr": true,
+          "docs": "Hyperlink to navigate to on click.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "complexType": {
+            "original": "string",
+            "resolved": "string",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "target",
+          "reflectToAttr": false,
+          "docs": "Sets or retrieves the window or frame at which to target content.",
+          "docsTags": [],
+          "values": [
+            {
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [
+        {
+          "name": "triggerClick",
+          "returns": {
+            "type": "Promise<void>",
+            "docs": ""
+          },
+          "complexType": {
+            "signature": "() => Promise<void>",
+            "parameters": [],
+            "references": {
+              "Promise": {
+                "location": "global",
+                "id": "global::Promise"
+              }
+            },
+            "return": "Promise<void>"
+          },
+          "signature": "triggerClick() => Promise<void>",
+          "parameters": [],
+          "docs": "",
+          "docsTags": []
+        }
+      ],
+      "events": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [
+        {
+          "event": "mouseup",
+          "target": "window",
+          "capture": false,
+          "passive": true
+        },
+        {
+          "event": "keyup",
+          "target": "window",
+          "capture": false,
+          "passive": false
+        }
+      ],
+      "metadata": {
+        "name": "Link",
+        "description": "Links allow users to click their way from page to page.",
+        "category": "Navigation",
+        "example": "<goat-link href=\"#\">Link</goat-link>"
+      }
+    },
+    {
       "dirPath": "E:/git/redvars/peacock/src/components/application/sidenav",
       "filePath": "src/components/application/sidenav/sidenav.tsx",
       "fileName": "sidenav.tsx",
@@ -2944,6 +3072,331 @@
         }
       ],
       "metadata": {}
+    },
+    {
+      "dirPath": "E:/git/redvars/peacock/src/components/typography/text",
+      "filePath": "src/components/typography/text/text.tsx",
+      "fileName": "text.tsx",
+      "readmePath": "E:/git/redvars/peacock/src/components/typography/text/readme.md",
+      "usagesDir": "E:/git/redvars/peacock/src/components/typography/text/usage",
+      "tag": "goat-text",
+      "readme": "# goat-heading\n\n\n",
+      "overview": "",
+      "usage": {},
+      "docs": "",
+      "encapsulation": "shadow",
+      "dependents": [],
+      "dependencies": [],
+      "dependencyGraph": {},
+      "props": [
+        {
+          "name": "color",
+          "type": "\"error\" | \"helper\" | \"inverse\" | \"on-color\" | \"primary\" | \"secondary\" | \"tertiary\"",
+          "complexType": {
+            "original": "| 'primary'\r\n    | 'secondary'\r\n    | 'tertiary'\r\n    | 'helper'\r\n    | 'error'\r\n    | 'on-color'\r\n    | 'inverse'",
+            "resolved": "\"error\" | \"helper\" | \"inverse\" | \"on-color\" | \"primary\" | \"secondary\" | \"tertiary\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "color",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'primary'"
+            }
+          ],
+          "default": "'primary'",
+          "values": [
+            {
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "value": "helper",
+              "type": "string"
+            },
+            {
+              "value": "inverse",
+              "type": "string"
+            },
+            {
+              "value": "on-color",
+              "type": "string"
+            },
+            {
+              "value": "primary",
+              "type": "string"
+            },
+            {
+              "value": "secondary",
+              "type": "string"
+            },
+            {
+              "value": "tertiary",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "configAria",
+          "type": "any",
+          "complexType": {
+            "original": "any",
+            "resolved": "any",
+            "references": {}
+          },
+          "mutable": true,
+          "attr": "config-aria",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "{}"
+            }
+          ],
+          "default": "{}",
+          "values": [
+            {
+              "type": "any"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "expressive",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "expressive",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "complexType": {
+            "original": "1 | 2 | 3 | 4 | 5 | 6",
+            "resolved": "1 | 2 | 3 | 4 | 5 | 6",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "heading-level",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "value": "1",
+              "type": "number"
+            },
+            {
+              "value": "2",
+              "type": "number"
+            },
+            {
+              "value": "3",
+              "type": "number"
+            },
+            {
+              "value": "4",
+              "type": "number"
+            },
+            {
+              "value": "5",
+              "type": "number"
+            },
+            {
+              "value": "6",
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "headingSize",
+          "type": "1 | 2 | 3 | 4 | 5 | 6 | 7",
+          "complexType": {
+            "original": "1 | 2 | 3 | 4 | 5 | 6 | 7",
+            "resolved": "1 | 2 | 3 | 4 | 5 | 6 | 7",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "heading-size",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [],
+          "values": [
+            {
+              "value": "1",
+              "type": "number"
+            },
+            {
+              "value": "2",
+              "type": "number"
+            },
+            {
+              "value": "3",
+              "type": "number"
+            },
+            {
+              "value": "4",
+              "type": "number"
+            },
+            {
+              "value": "5",
+              "type": "number"
+            },
+            {
+              "value": "6",
+              "type": "number"
+            },
+            {
+              "value": "7",
+              "type": "number"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "complexType": {
+            "original": "boolean",
+            "resolved": "boolean",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "inline",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "false"
+            }
+          ],
+          "default": "false",
+          "values": [
+            {
+              "type": "boolean"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        },
+        {
+          "name": "type",
+          "type": "\"body\" | \"body-compact\" | \"code\" | \"fluid-heading\" | \"heading\" | \"heading-compact\" | \"helper-text\" | \"label\" | \"legal\"",
+          "complexType": {
+            "original": "| 'code'\r\n    | 'helper-text'\r\n    | 'label'\r\n    | 'legal'\r\n    | 'heading'\r\n    | 'body'\r\n    | 'body-compact'\r\n    | 'heading-compact'\r\n    | 'fluid-heading'",
+            "resolved": "\"body\" | \"body-compact\" | \"code\" | \"fluid-heading\" | \"heading\" | \"heading-compact\" | \"helper-text\" | \"label\" | \"legal\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "type",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'body'"
+            }
+          ],
+          "default": "'body'",
+          "values": [
+            {
+              "value": "body",
+              "type": "string"
+            },
+            {
+              "value": "body-compact",
+              "type": "string"
+            },
+            {
+              "value": "code",
+              "type": "string"
+            },
+            {
+              "value": "fluid-heading",
+              "type": "string"
+            },
+            {
+              "value": "heading",
+              "type": "string"
+            },
+            {
+              "value": "heading-compact",
+              "type": "string"
+            },
+            {
+              "value": "helper-text",
+              "type": "string"
+            },
+            {
+              "value": "label",
+              "type": "string"
+            },
+            {
+              "value": "legal",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
+        }
+      ],
+      "methods": [],
+      "events": [],
+      "styles": [],
+      "slots": [],
+      "parts": [],
+      "listeners": [],
+      "metadata": {
+        "name": "Text",
+        "description": "Typography are used for rendering headlines, paragraphs and captions.",
+        "category": "General",
+        "example": "<goat-text type=\"heading\" level=\"1\">Heading</goat-text>"
+      }
     },
     {
       "dirPath": "E:/git/redvars/peacock/src/components/accordion/accordion",
@@ -3402,7 +3855,6 @@
         "pc-flow-designer",
         "pc-input",
         "pc-input-url",
-        "pc-modal",
         "pc-notification",
         "pc-number",
         "pc-select",
@@ -3440,9 +3892,6 @@
           "pc-button"
         ],
         "pc-input-url": [
-          "pc-button"
-        ],
-        "pc-modal": [
           "pc-button"
         ],
         "pc-notification": [
@@ -6421,60 +6870,6 @@
       "metadata": {}
     },
     {
-      "dirPath": "E:/git/redvars/peacock/src/components/application/current-time",
-      "filePath": "src/components/application/current-time/current-time.tsx",
-      "fileName": "current-time.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/application/current-time/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/application/current-time/usage",
-      "tag": "pc-current-time",
-      "readme": "# goat-current-time\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "timezone",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "timezone",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Current Time",
-        "name": "current-time",
-        "description": "Displays the current time in a given timezone.",
-        "category": "Others",
-        "example": "<pc-current-time></pc-current-time>"
-      }
-    },
-    {
       "dirPath": "E:/git/redvars/peacock/src/components/input-controls/data-and-time/date/date-picker",
       "filePath": "src/components/input-controls/data-and-time/date/date-picker/date-picker.tsx",
       "fileName": "date-picker.tsx",
@@ -8922,10 +9317,12 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
+        "goat-link",
         "pc-button"
       ],
       "dependencyGraph": {
         "pc-input-url": [
+          "goat-link",
           "pc-button"
         ]
       },
@@ -9500,36 +9897,6 @@
           " spinner"
         ],
         "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
-      }
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/link",
-      "filePath": "src/components/link/link.tsx",
-      "fileName": "link.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/link/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/link/usage",
-      "tag": "pc-link",
-      "readme": "# pc-button\r\n\r\n\r\n\r",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Link",
-        "name": "link",
-        "description": "Links allow users to click their way from page to page.",
-        "category": "Navigation",
-        "example": "<a class=\"pc-link\" href=\"#\">Link</a>"
       }
     },
     {
@@ -10213,12 +10580,10 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "pc-button",
         "pc-spinner"
       ],
       "dependencyGraph": {
         "pc-modal": [
-          "pc-button",
           "pc-spinner"
         ]
       },
@@ -12048,36 +12413,6 @@
       }
     },
     {
-      "dirPath": "E:/git/redvars/peacock/src/components/ripple",
-      "filePath": "src/components/ripple/ripple.tsx",
-      "fileName": "ripple.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/ripple/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/ripple/usage",
-      "tag": "pc-ripple",
-      "readme": "# pc-elevation\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Ripple",
-        "name": "ripple",
-        "description": "Ripples are state layers used to communicate the status of a component or interactive element.",
-        "category": "General",
-        "example": "<pc-ripple></pc-ripple>"
-      }
-    },
-    {
       "dirPath": "E:/git/redvars/peacock/src/components/input-controls/select",
       "filePath": "src/components/input-controls/select/select.tsx",
       "fileName": "select.tsx",
@@ -12095,7 +12430,6 @@
         "pc-button",
         "pc-spinner",
         "pc-menu",
-        "pc-text",
         "pc-menu-item"
       ],
       "dependencyGraph": {
@@ -12104,7 +12438,6 @@
           "pc-button",
           "pc-spinner",
           "pc-menu",
-          "pc-text",
           "pc-menu-item"
         ],
         "pc-menu": [
@@ -15246,42 +15579,6 @@
         "category": "Data Display",
         "tag": "controls",
         "example": "<pc-tag class=\"color-red\">Important</pc-tag>"
-      }
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/typography/text",
-      "filePath": "src/components/typography/text/text.tsx",
-      "fileName": "text.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/typography/text/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/typography/text/usage",
-      "tag": "pc-text",
-      "readme": "# goat-heading\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "none",
-      "dependents": [
-        "pc-select"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "pc-select": [
-          "pc-text"
-        ]
-      },
-      "props": [],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Text",
-        "name": "text",
-        "description": "Typography are used for rendering headlines, paragraphs, and captions.",
-        "category": "General",
-        "example": "<h1 class=>Heading</h1>"
       }
     },
     {

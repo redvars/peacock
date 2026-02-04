@@ -1,5 +1,7 @@
 @use '../../scss/mixin';
 
+@include mixin.reset;
+
 /**
  * @prop --pc-button-color: Button filling color.
  * @prop --pc-button-color-light: Button filling color for light variant.
@@ -10,20 +12,6 @@
 :host {
   display: inline-flex;
   --z-index-button: 0;
-
-  --pc-button-border-width: var(--goat-theme-button-border-width);
-
-  /**
-   * @prop --pc-button-border-radius: Button border radius.
-   * @prop --goat-theme-button-border-radius: Theme level button border radius. (applies to all buttons)
-   */
-  --pc-button-border-radius: var(--goat-theme-button-border-radius, var(--border-radius));
-
-  /**
-   * @prop --pc-button-border-style: Button border style.
-   * @prop --goat-theme-button-border-style: Theme level button border style. (applies to all buttons)
-   */
-  --pc-button-border-style: var(--goat-theme-button-border-style, solid);
 
   /**
     * @prop --pc-button-padding: Button padding.
@@ -67,6 +55,7 @@ slot::slotted(*) {
   justify-content: center;
   height: var(--button-height, var(--_button-height));
   padding: 0 var(--_container-padding);
+  width: 100%;
   cursor: pointer;
 
   border-start-start-radius: var(--_container-shape-start-start);
@@ -118,7 +107,6 @@ slot::slotted(*) {
     height: 100%;
     background-color: var(--_container-color);
     opacity: var(--_container-opacity, 1);
-    box-sizing: border-box;
 
     border-radius: inherit;
     pointer-events: none;
@@ -166,7 +154,6 @@ slot::slotted(*) {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    box-sizing: border-box;
     border: var(--_outline-width) solid var(--_outline-color);
     opacity: var(--_outline-opacity, 1);
     border-radius: inherit;
@@ -406,3 +393,7 @@ slot::slotted(*) {
 
 @import "button-sizes";
 @import "button-colors";
+
+:host([block]) {
+  width: 100%;
+}

@@ -1,13 +1,15 @@
+@use '../../scss/mixin';
+
+@include mixin.reset;
+
 :host {
-  display: inline-block;
+  display: inline-flex;
   vertical-align: middle;
   --icon-size: inherit;
   --icon-color: inherit;
 }
 
 .icon {
-  display: inline-block;
-  vertical-align: middle;
   height: var(--icon-size, 1rem);
   width: var(--icon-size, 1rem);
 

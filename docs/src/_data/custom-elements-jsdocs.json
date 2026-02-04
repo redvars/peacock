@@ -1,5 +1,123 @@
 [
   {
+    "rawTag": "accordion",
+    "label": "Accordion",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Accordion"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-accordion"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "accordion"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-accordion>\n\n</p-accordion>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Accordion",
+      "members": [
+        {
+          "kind": "field",
+          "name": "allowMultiple",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "allow-multiple"
+        },
+        {
+          "kind": "field",
+          "name": "items",
+          "type": {
+            "text": "Array<AccordionItem>"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_onItemToggle",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_onKeyDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "AccordionItem"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "allow-multiple",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "allowMultiple"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-accordion",
+      "customElement": true,
+      "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
+      "rawTag": {
+        "name": "accordion",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "avatar",
     "label": "Avatar",
     "jsdoc": {
@@ -277,13 +395,19 @@
       "@cssprop": [
         {
           "kind": "text",
-          "text": "--divider-padding - Controls the padding of the divider."
+          "text": "--neo-button-text-label: Text color of the neo button label."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "button:click - Dispatched when the button is clicked."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<pc-button>Button</pc-button>\n```"
+          "text": "```html\n<p-button>Button</p-button>\n```"
         }
       ],
       "@tags": [
@@ -299,12 +423,48 @@
       "name": "Button",
       "cssProperties": [
         {
-          "description": "Controls the color of the divider.",
-          "name": "--divider-color"
+          "description": "Color of the filled button container.",
+          "name": "--filled-button-container-color:"
         },
         {
-          "description": "Controls the padding of the divider.",
-          "name": "--divider-padding"
+          "description": "Text color of the filled button label.",
+          "name": "--filled-button-text-label:"
+        },
+        {
+          "description": "Color of the outlined button container.",
+          "name": "--outlined-button-container-color:"
+        },
+        {
+          "description": "Text color of the outlined button label.",
+          "name": "--outlined-button-text-label:"
+        },
+        {
+          "description": "Text color of the text button label.",
+          "name": "--text-button-text-label:"
+        },
+        {
+          "description": "Color of the tonal button container.",
+          "name": "--tonal-button-container-color:"
+        },
+        {
+          "description": "Text color of the tonal button label.",
+          "name": "--tonal-button-text-label:"
+        },
+        {
+          "description": "Color of the elevated button container.",
+          "name": "--elevated-button-container-color:"
+        },
+        {
+          "description": "Text color of the elevated button label.",
+          "name": "--elevated-button-text-label:"
+        },
+        {
+          "description": "Color of the neo button container.",
+          "name": "--neo-button-container-color:"
+        },
+        {
+          "description": "Text color of the neo button label.",
+          "name": "--neo-button-text-label:"
         }
       ],
       "members": [
@@ -342,13 +502,33 @@
         },
         {
           "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "attribute": "type"
+        },
+        {
+          "kind": "field",
           "name": "variant",
           "type": {
             "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
           "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -391,17 +571,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "attribute": "disabledReason"
-        },
-        {
-          "kind": "field",
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "attribute": "color",
-          "reflects": true
         },
         {
           "kind": "field",
@@ -515,11 +684,16 @@
         },
         {
           "kind": "method",
-          "name": "getVariant"
-        },
-        {
-          "kind": "method",
           "name": "renderButtonContent"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the button is clicked.",
+          "name": "button:click"
         }
       ],
       "attributes": [
@@ -532,13 +706,30 @@
           "fieldName": "htmlType"
         },
         {
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "fieldName": "type"
+        },
+        {
           "name": "variant",
           "type": {
             "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
           "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color"
         },
         {
           "name": "size",
@@ -575,15 +766,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "fieldName": "disabledReason"
-        },
-        {
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color"
         },
         {
           "name": "iconAlign",
@@ -941,49 +1123,31 @@
     }
   },
   {
-    "rawTag": "elevation",
-    "label": "Elevation",
+    "rawTag": "focus-ring",
+    "label": "Focus Ring",
     "jsdoc": {
       "@label": [
         {
           "kind": "text",
-          "text": "Elevation"
+          "text": "Focus Ring"
         }
       ],
       "@tag": [
         {
           "kind": "text",
-          "text": "p-elevation"
+          "text": "p-focus-ring"
         }
       ],
       "@rawTag": [
         {
           "kind": "text",
-          "text": "elevation"
+          "text": "focus-ring"
         }
       ],
       "@summary": [
         {
           "kind": "text",
-          "text": "Adds elevation to an element."
-        }
-      ],
-      "@overview": [
-        {
-          "kind": "text",
-          "text": "- Elevation adds a shadow effect to an element to give it depth.\n - It can be used to create a sense of hierarchy or to draw attention to a particular element."
-        }
-      ],
-      "@cssprop": [
-        {
-          "kind": "text",
-          "text": "--elevation-color - Controls the color of the shadow."
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
+          "text": "Adds a focus ring to an element."
         }
       ],
       "@tags": [
@@ -996,27 +1160,57 @@
     "customElement": {
       "kind": "class",
       "description": "",
-      "name": "Elevation",
-      "cssProperties": [
+      "name": "FocusRing",
+      "members": [
         {
-          "description": "Controls the elevation level of the shadow.",
-          "name": "--elevation-level"
+          "kind": "field",
+          "name": "visible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "visible",
+          "reflects": true
         },
         {
-          "description": "Controls the color of the shadow.",
-          "name": "--elevation-color"
+          "kind": "field",
+          "name": "_control",
+          "type": {
+            "text": "HTMLElement | undefined"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "control"
+        },
+        {
+          "kind": "method",
+          "name": "attach"
+        },
+        {
+          "kind": "method",
+          "name": "detach"
         }
       ],
-      "members": [],
+      "attributes": [
+        {
+          "name": "visible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "visible"
+        }
+      ],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-elevation",
+      "tagName": "p-focus-ring",
       "customElement": true,
-      "summary": "Adds elevation to an element.",
+      "summary": "Adds a focus ring to an element.",
       "rawTag": {
-        "name": "elevation",
+        "name": "focus-ring",
         "description": ""
       }
     }

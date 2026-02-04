@@ -1,33 +1,33 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>A user can independently expand each section of the accordion allowing for multiple sections to be open at once.</p>
+<p class='text-body-large'>A user can independently expand each section of the accordion allowing for multiple sections to be open at once.</p>
 
-<HighlighterCard lang={"html"}>
-  <pc-accordion multiple>
-    <pc-accordion-item heading="Title 1" disabled="false">
-      <p>
+<DemoComponentCard lang={"html"}>
+  <p-accordion allow-multiple='true'>
+    <p-accordion-item heading="Title 1">
+      <p class='text-body-large'>
         The accordion component delivers large amounts of content in a small space through progressive disclosure.
         The user gets key details about the underlying content and can choose to expand that content within the
         constraints of the accordion.
         Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
       </p>
-    </pc-accordion-item>
-    <pc-accordion-item heading="Title 2" disabled="false">
-      <pc-text>
+    </p-accordion-item>
+    <p-accordion-item heading="Title 2">
+      <p class='text-body-large'>
         The accordion component delivers large amounts of content in a small space through progressive disclosure.
         The user gets key details about the underlying content and can choose to expand that content within the
         constraints of the accordion.
         Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
-      </pc-text>
-    </pc-accordion-item>
-    <pc-accordion-item heading="Title Disabled" disabled="true">
-      <pc-text>
+      </p>
+    </p-accordion-item>
+    <p-accordion-item heading="Title Disabled" disabled>
+      <p class='text-body-large'>
         The accordion component delivers large amounts of content in a small space through progressive disclosure.
         The user gets key details about the underlying content and can choose to expand that content within the
         constraints of the accordion.
         Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
-      </pc-text>
-    </pc-accordion-item>
-  </pc-accordion>
-</HighlighterCard>
+      </p>
+    </p-accordion-item>
+  </p-accordion>
+</DemoComponentCard>

@@ -1,5 +1,7 @@
 @use '../../scss/mixin';
 
+@include mixin.reset;
+
 :host {
   display: inline-block;
   --badge-color: var(--global-badge-color);
@@ -14,7 +16,6 @@
   align-items: center;
   background-color: var(--badge-color);
   border-radius: var(--shape-corner-full);
-  box-sizing: border-box;
 
   &.slot-has-content {
     height: 1rem;

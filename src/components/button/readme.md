@@ -81,7 +81,6 @@ Type: `Promise<void>`
  - [pc-flow-designer](../application/flow-designer/flow-designer)
  - [pc-input](../input-controls/input/input)
  - [pc-input-url](../input-controls/input/input-url)
- - [pc-modal](../modal/modal)
  - [pc-notification](../notification)
  - [pc-number](../input-controls/input/number)
  - [pc-select](../input-controls/select)
@@ -102,7 +101,6 @@ graph TD;
   pc-flow-designer --> pc-button
   pc-input --> pc-button
   pc-input-url --> pc-button
-  pc-modal --> pc-button
   pc-notification --> pc-button
   pc-number --> pc-button
   pc-select --> pc-button

@@ -1,8 +1,8 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('accordion-item');
+import Layout from '../../../layouts/LitComponent.astro';
+import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import LitApiPanel from '../../../components/LitApiPanel.astro';
+const componentDetails = getLitComponentDetails('accordion-item');
 ---
 <Layout componentDetails={componentDetails}>
   <pc-tabs class='page-tabs'>
@@ -10,7 +10,7 @@ const componentDetails = getComponentDetails('accordion-item');
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
-      <ApiPanel componentDetails={componentDetails} />
+      <LitApiPanel componentDetails={componentDetails} />
     </pc-tab-panel>
   </pc-tabs>
 </Layout>

@@ -13,12 +13,28 @@ import { observerSlotChangesWithCallback, throttle } from '../utils.js';
  * @overview
  * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
  *
- * @cssprop --divider-color - Controls the color of the divider.
- * @cssprop --divider-padding - Controls the padding of the divider.
+ * @cssprop --filled-button-container-color: Color of the filled button container.
+ * @cssprop --filled-button-text-label: Text color of the filled button label.
+ *
+ * @cssprop --outlined-button-container-color: Color of the outlined button container.
+ * @cssprop --outlined-button-text-label: Text color of the outlined button label.
+ *
+ * @cssprop --text-button-text-label: Text color of the text button label.
+ *
+ * @cssprop --tonal-button-container-color: Color of the tonal button container.
+ * @cssprop --tonal-button-text-label: Text color of the tonal button label.
+ *
+ * @cssprop --elevated-button-container-color: Color of the elevated button container.
+ * @cssprop --elevated-button-text-label: Text color of the elevated button label.
+ *
+ * @cssprop --neo-button-container-color: Color of the neo button container.
+ * @cssprop --neo-button-text-label: Text color of the neo button label.
+ *
+ * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
  *
  * @example
  * ```html
- * <pc-button>Button</pc-button>
+ * <p-button>Button</p-button>
  * ```
  * @tags display
  */

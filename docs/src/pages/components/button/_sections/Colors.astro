@@ -1,40 +1,33 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body' expressive>Buttons come in different colors to indicate the action or the type of button. The
+<p class='text-body-large'>Buttons come in different colors to indicate the action or the type of button. The
   following example shows the different colors available for the button component.
-</pc-text>
+</p>
 
-<style is:inline>
-  .color-dark-theme-bg {
-    background: var(--color-primary-20);
-    padding: 1rem;
-  }
-</style>
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
+
+  <p-button color='primary'>Primary</p-button>
+  <p-button color='success'>Success</p-button>
+  <p-button color='danger'>Danger</p-button>
+  <p-button color='light'>Light</p-button>
+  <p-button color='dark'>Dark</p-button>
+
+</DemoComponentCard>
+
+<br/>
+<p class='text-body-large'>Define custom colors</p>
+
+<DemoComponentCard lang={'html'}>
 
   <!-- Custom color : give any name to css variable and use it as button color -->
   <style is:inline>
-    .primary {
-      --filled-button-container-color: var(--color-secondary);
-      --filled-button-label-text-color: var(--color-on-secondary);
-    }
-    .success {
-      --filled-button-container-color: var(--color-success);
-      --filled-button-label-text-color: var(--color-on-success);
-    }
-    .danger {
-      --filled-button-container-color: var(--color-error);
-      --filled-button-label-text-color: var(--color-on-error);
+    .custom-button {
+      --filled-button-container-color: var(--color-yellow-90);
+      --filled-button-label-text-color: var(--color-black);
     }
   </style>
 
-  <div class='component-container'>
-    <p-button class='primary'>Primary</p-button>
-    <p-button class='success'>Success</p-button>
-    <p-button class='danger'>Danger</p-button>
-  </div>
+  <p-button class='custom-button'>Custom</p-button>
 
-
-
-</HighlighterCard>
+</DemoComponentCard>

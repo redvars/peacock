@@ -1,0 +1,27 @@
+@use "../../scss/mixin";
+
+@include mixin.reset;
+
+.link {
+  border-radius: inherit;
+  corner-shape: inherit;
+
+  color: var(--color-primary);
+  --icon-color: currentColor;
+  text-decoration: none;
+
+  &:hover, &:focus-visible {
+    text-decoration: underline;
+  }
+
+  &.inherit {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
+  &.with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+}

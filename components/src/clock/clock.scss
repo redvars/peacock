@@ -1,5 +1,7 @@
 @use '../../scss/mixin';
 
+@include mixin.reset;
+
 :host {
   display: inline-block;
 }

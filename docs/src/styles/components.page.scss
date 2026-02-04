@@ -55,6 +55,7 @@
   gap: var(--spacing-500);
   align-items: stretch;
   margin-top: var(--spacing-500);
+  color: var(--color-on-surface);
 }
 
 .card {
@@ -110,7 +111,7 @@
 
   .body {
     height: 100%;
-    background: var(--code-bg-primary);
+    background: var(--color-surface-container-high);
     display: flex;
     flex-direction: column;
 

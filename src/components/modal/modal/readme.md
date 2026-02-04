@@ -29,13 +29,11 @@
 
 ### Depends on
 
-- [pc-button](../../button)
 - [pc-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-modal --> pc-button
   pc-modal --> pc-spinner
   style pc-modal fill:#f9f,stroke:#333,stroke-width:4px
 ```

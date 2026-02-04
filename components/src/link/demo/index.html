@@ -4,9 +4,7 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
 
-  <!-- Default font : Noto Sans and Noto Sans Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 
@@ -21,14 +19,18 @@
 
 
 <p class='text-body'>
-  <a href='#' class='link with-icon'><p-icon name='home'></p-icon> link</a>
+  <p-link href='#' class='with-icon'><p-icon name='home'></p-icon> link</p-link>
 </p>
 
 <p class='text-body'>
-  <a href='#' class='link inherit'> Testing No Style</a>
+  <p-link href='#' class='inherit'> Testing No Style</p-link>
 </p>
 
 
-<script type='module' src='/dist/peacock-loader.js'></script>
+<script type='module'>
+  import { Link, Icon } from '/dist/index.js';
+  window.customElements.define('p-link', Link);
+  window.customElements.define('p-icon', Icon);
+</script>
 </body>
 </html>

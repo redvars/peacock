@@ -10,10 +10,12 @@ import { Avatar } from './avatar/avatar.js';
 import { Badge } from './badge/badge.js';
 import { Divider } from './divider/divider.js';
 import { Button } from './button/button.js';
+import { Accordion } from './accordion/accordion/accordion.js';
+import { Link } from './link/link.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
-import linkStyles from './link/link.scss';
-import textStylesheet from './text/text.scss';
+import linkStyles from './link/link.css-component.scss';
+import textStylesheet from './text/text.css-component.scss';
 
 const libraryPrefix = 'p';
 
@@ -62,6 +64,15 @@ const loaderConfig: LoaderConfig = {
     },
     ripple: {
       CustomElementClass: Ripple,
+    },
+    accordion: {
+      CustomElementClass: Accordion,
+    },
+    'accordion-item': {
+      CustomElementClass: Accordion.Item,
+    },
+    link: {
+      CustomElementClass: Link,
     },
   },
 };

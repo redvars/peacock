@@ -1,8 +1,9 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang='html'>
+<DemoComponentCard lang='html'>
   <p-button id='click-me-btn'>Click me</p-button>
   <p-button disabled id='disabled-btn'>Disabled Button</p-button>
 
@@ -14,4 +15,4 @@ import Highlighter from '../../../../components/Highlighter.astro';
       myConsole.log('Button clicked', 'button--click'); // this will not be fired
     });
   </script>
-</HighlighterCard>
+</DemoComponentCard>

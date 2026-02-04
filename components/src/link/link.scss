@@ -1,24 +1,34 @@
 @use "../../scss/mixin";
 
+@include mixin.reset;
+
+:host {
+  display: inline-block;
+  border-radius: inherit;
+  corner-shape: inherit;
+  color: var(--color-primary);
+}
+
 .link {
   border-radius: inherit;
   corner-shape: inherit;
-
-  color: var(--color-primary);
+  color: inherit;
   --icon-color: currentColor;
   text-decoration: none;
 
   &:hover, &:focus-visible {
     text-decoration: underline;
   }
-
-  &.inherit {
-    color: inherit;
-  }
-
-  &.with-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-  }
 }
+
+:host(.inherit) .link {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+:host(.with-icon) .link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
