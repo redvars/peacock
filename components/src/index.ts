@@ -9,3 +9,4 @@ export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
 export { Accordion } from './accordion/accordion/index.js';
 export { Link } from './link/index.js';
+export { Chip } from './chip/chip/index.js';

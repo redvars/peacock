@@ -1,4 +1,5 @@
 import ColorUtils from './ColorUtils.mjs';
+import { PeacockColor } from './PecockColor.mjs';
 //console.log(JSON.stringify(ColorUtils.copyColor('blue'), null, 2));
 
 /*const result = {
@@ -11,13 +12,19 @@ import ColorUtils from './ColorUtils.mjs';
 };
 console.log(JSON.stringify(result, null, 2));*/
 
-//console.log(JSON.stringify(ColorUtils.generateTheme('#ED1C24'), null, 2));
+//console.log(JSON.stringify(ColorUtils.generateTheme('#7c5df0'), null, 2));
 
 // neutral
 /*console.log(
   JSON.stringify(ColorUtils.generatePalette('#252525', 'neutral'), null, 2),
 );*/
+/*
 
 console.log(
   JSON.stringify(ColorUtils.onBaselineColor('success', 'green'), null, 2),
+);
+*/
+
+console.log(
+  JSON.stringify(new PeacockColor('red', '#e73121').getPalette(), null, 2),
 );

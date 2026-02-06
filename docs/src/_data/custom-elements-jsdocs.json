@@ -395,7 +395,7 @@
       "@cssprop": [
         {
           "kind": "text",
-          "text": "--neo-button-text-label: Text color of the neo button label."
+          "text": "--neo-button-label-text-color: Text color of the neo button label."
         }
       ],
       "@fires": [
@@ -428,7 +428,7 @@
         },
         {
           "description": "Text color of the filled button label.",
-          "name": "--filled-button-text-label:"
+          "name": "--filled-button-label-text-color:"
         },
         {
           "description": "Color of the outlined button container.",
@@ -436,11 +436,11 @@
         },
         {
           "description": "Text color of the outlined button label.",
-          "name": "--outlined-button-text-label:"
+          "name": "--outlined-button-label-text-color:"
         },
         {
           "description": "Text color of the text button label.",
-          "name": "--text-button-text-label:"
+          "name": "--text-button-label-text-color:"
         },
         {
           "description": "Color of the tonal button container.",
@@ -448,7 +448,7 @@
         },
         {
           "description": "Text color of the tonal button label.",
-          "name": "--tonal-button-text-label:"
+          "name": "--tonal-button-label-text-color:"
         },
         {
           "description": "Color of the elevated button container.",
@@ -456,7 +456,7 @@
         },
         {
           "description": "Text color of the elevated button label.",
-          "name": "--elevated-button-text-label:"
+          "name": "--elevated-button-label-text-color:"
         },
         {
           "description": "Color of the neo button container.",
@@ -464,7 +464,7 @@
         },
         {
           "description": "Text color of the neo button label.",
-          "name": "--neo-button-text-label:"
+          "name": "--neo-button-label-text-color:"
         }
       ],
       "members": [
@@ -827,6 +827,187 @@
       "summary": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
       "rawTag": {
         "name": "button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "chip",
+    "label": "Chip",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chip"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-chip"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chip"
+        }
+      ],
+      "@summary": [],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-tag>Link</p-tag>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Chip",
+      "members": [
+        {
+          "kind": "field",
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will have a close icon.",
+          "attribute": "dismissible"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+          },
+          "description": "Tag color.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Tag value.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will be selected.",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "imageSrc",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Image source.",
+          "attribute": "imageSrc"
+        },
+        {
+          "kind": "method",
+          "name": "_dismissClickHandler",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderCloseButton",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderImage",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "tag--dismiss",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will have a close icon.",
+          "fieldName": "dismissible"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+          },
+          "description": "Tag color.",
+          "fieldName": "color"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Tag value.",
+          "fieldName": "value"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will be selected.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "imageSrc",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Image source.",
+          "fieldName": "imageSrc"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-chip",
+      "customElement": true,
+      "rawTag": {
+        "name": "chip",
         "description": ""
       }
     }
@@ -1398,6 +1579,124 @@
       "summary": "Icons are visual symbols used to represent ideas, objects, or actions.",
       "rawTag": {
         "name": "icon",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "link",
+    "label": "Link",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Link"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-link"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "link"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The link component is used to navigate to a new page or section within the current page."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--badge-color - Controls the color of the badge."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-link href=\"#\">Link</p-link>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Link",
+      "cssProperties": [
+        {
+          "description": "Controls the color of the badge.",
+          "name": "--badge-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "tabIndexValue",
+          "type": {
+            "text": "number | undefined"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-link",
+      "customElement": true,
+      "summary": "The link component is used to navigate to a new page or section within the current page.",
+      "rawTag": {
+        "name": "link",
         "description": ""
       }
     }

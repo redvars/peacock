@@ -22,7 +22,9 @@ export default async function () {
         typescript(), // The plugin loads options from tsconfig.json by default
         nodeResolve(),
         commonjs(),
-        postcss(),
+        postcss({
+          inject: false,
+        }),
         postcssLit({
           include: 'src/**/*.scss',
         }),

@@ -10,7 +10,7 @@
   /**
     * @prop --code-highlighter-background: Code Highlighter background color
     */
-  --code-highlighter-background: var(--color-surface-container-low);
+  --code-highlighter-background: var(--color-tertiary-container);
 }
 
 .code-loader {
@@ -36,7 +36,7 @@
       padding: var(--spacing-200);
       padding-inline-end: 3rem;
       position: relative;
-      
+
       &.line-numbers {
         margin-left: 3.8rem;
       }
@@ -51,7 +51,6 @@
 
   .copy-btn {
     position: absolute;
-    background-color: var(--code-highlighter-background);
     top: 0.675rem;
     right: var(--spacing-100);
   }

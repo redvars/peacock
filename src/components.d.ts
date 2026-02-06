@@ -261,23 +261,6 @@ export namespace Components {
         "src": string;
     }
     /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface GoatLink {
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-        "triggerClick": () => Promise<void>;
-    }
-    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -374,59 +357,6 @@ export namespace Components {
     | 'body-compact'
     | 'heading-compact'
     | 'fluid-heading';
-    }
-    /**
-     * @label Accordion
-     * @name accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface PcAccordion {
-        /**
-          * Accordion item dropdown alignment.
-          * @default 'end'
-         */
-        "align": 'start' | 'end';
-        /**
-          * @default false
-         */
-        "multiple": boolean;
-        /**
-          * The According size.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-    }
-    /**
-     * @label Accordion Item
-     * @name accordion-item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface PcAccordionItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * The menu item value.
-         */
-        "heading": string;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "open": boolean;
     }
     /**
      * @label Breadcrumb
@@ -2389,10 +2319,6 @@ export interface GoatSidenavMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatSidenavMenuItemElement;
 }
-export interface PcAccordionItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcAccordionItemElement;
-}
 export interface PcButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcButtonElement;
@@ -2615,18 +2541,6 @@ declare global {
         new (): HTMLGoatImageElement;
     };
     /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface HTMLGoatLinkElement extends Components.GoatLink, HTMLStencilElement {
-    }
-    var HTMLGoatLinkElement: {
-        prototype: HTMLGoatLinkElement;
-        new (): HTMLGoatLinkElement;
-    };
-    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -2671,50 +2585,6 @@ declare global {
     var HTMLGoatTextElement: {
         prototype: HTMLGoatTextElement;
         new (): HTMLGoatTextElement;
-    };
-    /**
-     * @label Accordion
-     * @name accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface HTMLPcAccordionElement extends Components.PcAccordion, HTMLStencilElement {
-    }
-    var HTMLPcAccordionElement: {
-        prototype: HTMLPcAccordionElement;
-        new (): HTMLPcAccordionElement;
-    };
-    interface HTMLPcAccordionItemElementEventMap {
-        "accordion--item--click": any;
-    }
-    /**
-     * @label Accordion Item
-     * @name accordion-item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface HTMLPcAccordionItemElement extends Components.PcAccordionItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcAccordionItemElementEventMap>(type: K, listener: (this: HTMLPcAccordionItemElement, ev: PcAccordionItemCustomEvent<HTMLPcAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcAccordionItemElementEventMap>(type: K, listener: (this: HTMLPcAccordionItemElement, ev: PcAccordionItemCustomEvent<HTMLPcAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcAccordionItemElement: {
-        prototype: HTMLPcAccordionItemElement;
-        new (): HTMLPcAccordionItemElement;
     };
     /**
      * @label Breadcrumb
@@ -3678,13 +3548,10 @@ declare global {
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
         "goat-image": HTMLGoatImageElement;
-        "goat-link": HTMLGoatLinkElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
         "goat-text": HTMLGoatTextElement;
-        "pc-accordion": HTMLPcAccordionElement;
-        "pc-accordion-item": HTMLPcAccordionItemElement;
         "pc-breadcrumb": HTMLPcBreadcrumbElement;
         "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
         "pc-button": HTMLPcButtonElement;
@@ -3986,22 +3853,6 @@ declare namespace LocalJSX {
         "src"?: string;
     }
     /**
-     * @name Link
-     * @description Links allow users to click their way from page to page.
-     * @category Navigation
-     * @example <goat-link href="#">Link</goat-link>
-     */
-    interface GoatLink {
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
-    }
-    /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
      * @img1 /assets/img/sidenav.webp
@@ -4090,63 +3941,6 @@ declare namespace LocalJSX {
     | 'body-compact'
     | 'heading-compact'
     | 'fluid-heading';
-    }
-    /**
-     * @label Accordion
-     * @name accordion
-     * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-     * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-     *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @tags display
-     * @img /assets/img/accordion.webp
-     * @imgDark /assets/img/accordion-dark.webp
-     */
-    interface PcAccordion {
-        /**
-          * Accordion item dropdown alignment.
-          * @default 'end'
-         */
-        "align"?: 'start' | 'end';
-        /**
-          * @default false
-         */
-        "multiple"?: boolean;
-        /**
-          * The According size.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-    }
-    /**
-     * @label Accordion Item
-     * @name accordion-item
-     * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-     * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-     * @category Data Display
-     * @subcategory Accordion
-     * @childComponent true
-     */
-    interface PcAccordionItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * The menu item value.
-         */
-        "heading"?: string;
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onAccordion--item--click"?: (event: PcAccordionItemCustomEvent<any>) => void;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "open"?: boolean;
     }
     /**
      * @label Breadcrumb
@@ -6171,13 +5965,10 @@ declare namespace LocalJSX {
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
         "goat-image": GoatImage;
-        "goat-link": GoatLink;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
         "goat-text": GoatText;
-        "pc-accordion": PcAccordion;
-        "pc-accordion-item": PcAccordionItem;
         "pc-breadcrumb": PcBreadcrumb;
         "pc-breadcrumb-item": PcBreadcrumbItem;
         "pc-button": PcButton;
@@ -6282,13 +6073,6 @@ declare module "@stencil/core" {
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
             "goat-image": LocalJSX.GoatImage & JSXBase.HTMLAttributes<HTMLGoatImageElement>;
             /**
-             * @name Link
-             * @description Links allow users to click their way from page to page.
-             * @category Navigation
-             * @example <goat-link href="#">Link</goat-link>
-             */
-            "goat-link": LocalJSX.GoatLink & JSXBase.HTMLAttributes<HTMLGoatLinkElement>;
-            /**
              * @name1 Side Navigation
              * @description1 The side navigation component provides an easy way to navigate through your website / application.
              * @img1 /assets/img/sidenav.webp
@@ -6303,29 +6087,6 @@ declare module "@stencil/core" {
              * @example <goat-text type="heading" level="1">Heading</goat-text>
              */
             "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
-            /**
-             * @label Accordion
-             * @name accordion
-             * @description An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
-             * @overview  <p>The accordion component delivers large amounts of content in a small space through progressive disclosure. The header title give the user a high level overview of the content allowing the user to decide which sections to read.</p>
-             *  <p>Accordions can make information processing and discovering more effective. However, it does hide content from users and it’s important to account for a user not noticing or reading all of the included content. If a user is likely to read all of the content then don’t use an accordion as it adds the burden of an extra click; instead use a full scrolling page with normal headers.</p>
-             * @category Data Display
-             * @subcategory Accordion
-             * @tags display
-             * @img /assets/img/accordion.webp
-             * @imgDark /assets/img/accordion-dark.webp
-             */
-            "pc-accordion": LocalJSX.PcAccordion & JSXBase.HTMLAttributes<HTMLPcAccordionElement>;
-            /**
-             * @label Accordion Item
-             * @name accordion-item
-             * @description An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
-             * @overview  <p>The accordion item component is a single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user. The accordion item can be used in conjunction with the accordion component to create a list of expandable items.</p>
-             * @category Data Display
-             * @subcategory Accordion
-             * @childComponent true
-             */
-            "pc-accordion-item": LocalJSX.PcAccordionItem & JSXBase.HTMLAttributes<HTMLPcAccordionItemElement>;
             /**
              * @label Breadcrumb
              * @name breadcrumb

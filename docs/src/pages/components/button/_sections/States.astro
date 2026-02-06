@@ -1,27 +1,28 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='heading' heading-size='3'>Selected</pc-text>
+<h4 class='text-title'>Selected</h4>
 
-<pc-text type='body' expressive>Make buttons look active by adding the selected <code>boolean</code> attribute to any
+<p class='text-body-large'>Make buttons look active by adding the selected <code>boolean</code> attribute to any
   <code>&lt;button&gt;</code> element.
-</pc-text>
+</p>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
   <p-button selected>Primary</p-button>
-</HighlighterCard>
+</DemoComponentCard>
 
 <br />
 
-<pc-text type='heading' heading-size='3'>Disabled</pc-text>
-<pc-text type='body' expressive>Make buttons look inactive by adding the disabled <code>boolean</code> attribute to
+<h4 class='text-title'>Disabled</h4>
+<p class='text-body-large'>Make buttons look inactive by adding the disabled <code>boolean</code> attribute to
   any <code>&lt;button&gt;</code> element.
-</pc-text>
+</p>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
   <p-button variant='elevated' disabled>Elevated</p-button>
   <p-button disabled>Filled</p-button>
   <p-button variant='tonal' disabled>Tonal</p-button>
   <p-button variant='outlined' disabled>Outline</p-button>
   <p-button variant='text' disabled>Ghost</p-button>
-</HighlighterCard>
+</DemoComponentCard>

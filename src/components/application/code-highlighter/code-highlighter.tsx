@@ -256,10 +256,9 @@ export class CodeHighlighter implements ComponentInterface {
             {!this.hideCopy && this.copyState === 'idle' && !this.inline && (
               <Fragment>
                 <pc-tooltip class={'copy-btn'} content={locale.copyToClipboard}>
-                  <pc-button
+                  <p-button
                     class="icon-only"
-                    size="sm"
-                    color={'secondary'}
+                    color={'dark'}
                     variant={'text'}
                     aria-label="Copy to clipboard"
                     onButton--click={async () => {
@@ -267,13 +266,13 @@ export class CodeHighlighter implements ComponentInterface {
                     }}
                   >
                     <p-icon slot="icon" name="content_copy" />
-                  </pc-button>
+                  </p-button>
                 </pc-tooltip>
               </Fragment>
             )}
             {!this.hideCopy && this.copyState === 'copied' && !this.inline && (
               <div>
-                <pc-button
+                <p-button
                   class="copy-btn icon-only test"
                   size="sm"
                   color={'success'}
@@ -282,7 +281,7 @@ export class CodeHighlighter implements ComponentInterface {
                 >
                   <p-icon slot="icon" name="checkmark" />
                   {locale.copied}
-                </pc-button>
+                </p-button>
               </div>
             )}
           </div>

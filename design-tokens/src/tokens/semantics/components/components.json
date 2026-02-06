@@ -12,5 +12,11 @@
         "$value": "{shape-corner.full}"
       }
     }
+  },
+  "z-index": {
+    "badge": {
+      "$type": "number",
+      "$value": 10
+    }
   }
 }

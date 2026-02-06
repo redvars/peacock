@@ -1,0 +1,162 @@
+<style>
+  .color-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  .color-card {
+    width: 100%;
+    height: 50px;
+    border-radius: 0.25rem;
+    border: 1px solid black;
+  }
+</style>
+
+
+<script type="module">
+  import * as materialmaterialColorUtilities from 'https://esm.sh/@material/material-color-utilities@0.4.0';
+  import * as terrazzoparser from 'https://esm.sh/@terrazzo/parser@0.10.5';
+  import cssPLugin from 'https://esm.sh/@terrazzo/plugin-css';
+
+  const { defineConfig, parse, build } = terrazzoparser;
+
+  const { argbFromHex, hexFromArgb, CorePalette  } = materialmaterialColorUtilities;
+
+
+  // Define configuration, typically including plugins for output format
+  const config = defineConfig(
+    {
+      plugins: [cssPLugin({
+        filename: 'tokens.css',
+        legacyHex: true,
+        baseScheme: 'light dark', // Default is 'light', this enables both.
+
+        // OPTION B: Define how 'dark' mode tokens are applied via CSS selectors.
+        // This is the core of dark mode implementation.
+        modeSelectors: [
+          {
+            mode: 'dark', // The token mode defined in your semantic JSON files ($modes: { "dark": ... })
+            // The CSS selector(s) that will apply the dark mode values.
+            selectors: [
+              "[data-theme='dark']", // Selector for a manual toggle
+            ],
+          },
+          // You could add other modes here, like high-contrast:
+          // {
+          //   mode: "high-contrast",
+          //   selectors: ["@media (forced-colors: active)"],
+          // },
+        ],
+      })]
+    },
+    { cwd: new URL(import.meta.url) },
+  );
+
+  const { tokens, sources } = await parse(
+    [
+      {
+        src: JSON.stringify({
+          color: {
+            $type: 'color',
+            "red-base": {
+              $value: "#000"
+            }
+          }
+        }),
+      }
+    ],
+    { config },
+  );
+
+  export class PeacockColor {
+    colorName;
+    hexValue;
+    argbColor;
+    weightsUsed = {};
+    constructor(colorName, hexValue) {
+      this.colorName = colorName;
+      this.hexValue = hexValue;
+      this.argbColor = argbFromHex(hexValue);
+    }
+
+    __useWeight(weight) {
+      this.weightsUsed[weight] = true;
+      return `{color.${this.colorName}.${weight}}`;
+    }
+
+    __generetareColor(tone, darkTone) {
+      return {
+        $value: this.__useWeight(tone),
+        $extensions: {
+          mode: {
+            dark: this.__useWeight(darkTone),
+          },
+        },
+      };
+    }
+
+    async getPalette() {
+      this.weightsUsed = {};
+      const palette = {
+        color: {
+          $type: 'color',
+          [`${this.colorName}-base`]: {
+            $value: 'red',
+          }
+        },
+      };
+
+      const colorPalette = CorePalette.of(this.argbColor);
+
+      Object.keys(this.weightsUsed).forEach(weight => {
+        palette.color[this.colorName][weight] = {
+          $value: hexFromArgb(colorPalette.a1.tone(parseInt(weight))),
+        };
+      });
+
+      const { tokens, sources } = await parse(
+        [
+          {
+            fileName: 'file:///colors.json',
+            src: {
+              color: {
+                $type: 'color',
+                "red-base": {
+                  $value: "#000000"
+                }
+              }
+            },
+          }
+        ],
+        { config },
+      );
+
+      const buildResult = await build(tokens, { sources, config });
+
+      console.log(buildResult.outputFiles);
+
+      return palette;
+    }
+
+    getNeutralPalette() {}
+  }
+
+  console.log(
+    JSON.stringify(new PeacockColor('red', '#e73121').getPalette(), null, 2),
+  );
+
+
+
+
+
+</script>
+
+<div class='color-container'>
+
+  <div class='color-cards'>
+  </div>
+
+
+</div>

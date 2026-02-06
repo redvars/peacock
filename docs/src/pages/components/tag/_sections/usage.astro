@@ -1,18 +1,16 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-
-  <div class='component-container'>
-    <pc-tag>Gray</pc-tag>
-    <pc-tag color='blue'>Blue</pc-tag>
-    <pc-tag color='red'>Red</pc-tag>
-    <pc-tag
-      color='green'
-      image-src='/assets/img/avatar.webp'
-    >
-      Green
-    </pc-tag>
-    <pc-tag color='yellow' dismissible>Yellow</pc-tag>
-  </div>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <p-chip>Gray</p-chip>
+  <p-chip color='blue'>Blue</p-chip>
+  <p-chip color='red'>Red</p-chip>
+  <p-chip
+    color='green'
+    image-src='/assets/img/avatar.webp'
+  >
+    Green
+  </p-chip>
+  <p-chip color='yellow' dismissible>Yellow</p-chip>
+</DemoComponentCard>

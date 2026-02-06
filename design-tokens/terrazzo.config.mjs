@@ -1,7 +1,9 @@
 import { defineConfig } from '@terrazzo/cli';
-import css from '@terrazzo/plugin-css';
+import terrazzoCssPlugin from '@terrazzo/plugin-css';
 import { customTransformerPlugin } from './terrazzo.operations.plugin.mjs';
-import getFileNames from './get-file-names.mjs';
+import { readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   tokens: [
@@ -15,7 +17,7 @@ export default defineConfig({
     ...getFileNames('./src/tokens/semantics/components'),
   ],
   plugins: [
-    css({
+    terrazzoCssPlugin({
       filename: 'tokens.css',
       legacyHex: true,
       baseScheme: 'light dark', // Default is 'light', this enables both.
@@ -44,3 +46,21 @@ export default defineConfig({
     /** @see https://terrazzo.app/docs/cli/lint */
   },
 });
+
+function getFileNames(folderRawPath) {
+  // Recreate __dirname for constructing the directory path
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  // Define the relative path to the folder you want to read
+  const folderPath = join(__dirname, folderRawPath);
+  try {
+    // Read the directory synchronously (use async fs.readdir for non-blocking I/O)
+    const files = readdirSync(folderPath);
+    return files.map(file => {
+      return `${folderRawPath}/${file}`;
+    });
+  } catch (err) {
+    console.error('Error reading directory:', err);
+  }
+}

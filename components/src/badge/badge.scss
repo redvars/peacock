@@ -5,11 +5,11 @@
 :host {
   display: inline-block;
   --badge-color: var(--global-badge-color);
+  z-index: var(--z-index-badge);
 }
 
 .badge {
   pointer-events: none;
-  z-index: var(--z-index-badge);
   color: var(--color-white);
   display: flex;
   justify-content: center;

@@ -2,13 +2,7 @@
 
 @include mixin.reset;
 
-/**
- * @prop --pc-button-color: Button filling color.
- * @prop --pc-button-color-light: Button filling color for light variant.
- * @prop --pc-button-color-hover: Button filling color on hover.
- * @prop --pc-button-color-active: Button filling color on active.
- * @prop --pc-button-support-contrast-color: Button support color (text or border). Should be white or black based on weight of button filling color.
- */
+
 :host {
   display: inline-flex;
   --z-index-button: 0;
@@ -68,8 +62,8 @@ slot::slotted(*) {
     align-items: center;
     justify-content: center;
     gap: var(--_button-icon-label-spacing);
-    z-index: var(--z-index-button);
     width: 100%;
+    z-index: 1;
 
     color: var(--_label-text-color);
     opacity: var(--_label-text-opacity, 1);
@@ -134,6 +128,7 @@ slot::slotted(*) {
     transform: translateX(0.25rem) translateY(0.25rem);
 
     &:before {
+      z-index: 0;
       content: "";
       position: absolute;
       pointer-events: none;
@@ -147,7 +142,7 @@ slot::slotted(*) {
   }
 
   .outline {
-    z-index: 1;
+    z-index: 0;
     display: none;
     position: absolute;
     left: 0;
@@ -287,7 +282,7 @@ slot::slotted(*) {
   --_container-shape-end-start: var(--outlined-button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
   --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
 
-  --_outline-width: var(--outlined-button-outline-width, 0.125rem);
+  --_outline-width: var(--outlined-button-outline-width, 0.0675rem);
   --_outline-color: var(--outlined-button-outline-color);
   --_label-text-color: var(--outlined-button-label-text-color);
 
@@ -306,6 +301,7 @@ slot::slotted(*) {
   }
 
   &.disabled {
+    --_outline-color: var(--color-on-surface);
     --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
     --_outline-opacity: 0.12;
@@ -375,6 +371,9 @@ slot::slotted(*) {
     .background, .button-content, .outline {
       transform: translateX(0.25rem) translateY(0.25rem);
     }
+    .neo-background:before {
+      transform: translateX(0) translateY(0);
+    }
   }
 
   &.disabled {
@@ -390,9 +389,6 @@ slot::slotted(*) {
     }
   }
 }
-
-@import "button-sizes";
-@import "button-colors";
 
 :host([block]) {
   width: 100%;

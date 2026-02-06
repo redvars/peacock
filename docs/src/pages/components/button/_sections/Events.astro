@@ -8,11 +8,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <p-button disabled id='disabled-btn'>Disabled Button</p-button>
 
   <script is:inline>
-    document.querySelector('#click-me-btn').addEventListener('button:click', (event) => {
-      myConsole.log('Button clicked', 'button--click');
+    document.querySelector('#click-me-btn').addEventListener('click', (event) => {
+      myConsole.log('Button clicked', '<p-button>');
     });
-    document.querySelector('#disabled-btn').addEventListener('button:click', (event) => {
-      myConsole.log('Button clicked', 'button--click'); // this will not be fired
+    document.querySelector('#disabled-btn').addEventListener('click', (event) => {
+      myConsole.log('Button clicked', '<p-button disabled>');
     });
   </script>
 </DemoComponentCard>

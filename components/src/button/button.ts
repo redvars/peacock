@@ -1,7 +1,9 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './button.scss';
+import colorStyles from './button-colors.scss';
+import sizeStyles from './button-sizes.scss';
 import { observerSlotChangesWithCallback, throttle } from '../utils.js';
 
 /**
@@ -14,21 +16,21 @@ import { observerSlotChangesWithCallback, throttle } from '../utils.js';
  * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
  *
  * @cssprop --filled-button-container-color: Color of the filled button container.
- * @cssprop --filled-button-text-label: Text color of the filled button label.
+ * @cssprop --filled-button-label-text-color: Text color of the filled button label.
  *
  * @cssprop --outlined-button-container-color: Color of the outlined button container.
- * @cssprop --outlined-button-text-label: Text color of the outlined button label.
+ * @cssprop --outlined-button-label-text-color: Text color of the outlined button label.
  *
- * @cssprop --text-button-text-label: Text color of the text button label.
+ * @cssprop --text-button-label-text-color: Text color of the text button label.
  *
  * @cssprop --tonal-button-container-color: Color of the tonal button container.
- * @cssprop --tonal-button-text-label: Text color of the tonal button label.
+ * @cssprop --tonal-button-label-text-color: Text color of the tonal button label.
  *
  * @cssprop --elevated-button-container-color: Color of the elevated button container.
- * @cssprop --elevated-button-text-label: Text color of the elevated button label.
+ * @cssprop --elevated-button-label-text-color: Text color of the elevated button label.
  *
  * @cssprop --neo-button-container-color: Color of the neo button container.
- * @cssprop --neo-button-text-label: Text color of the neo button label.
+ * @cssprop --neo-button-label-text-color: Text color of the neo button label.
  *
  * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
  *
@@ -39,7 +41,7 @@ import { observerSlotChangesWithCallback, throttle } from '../utils.js';
  * @tags display
  */
 export class Button extends LitElement {
-  static override styles = [styles];
+  static override styles = [styles, colorStyles, sizeStyles];
 
   #id = crypto.randomUUID();
 
@@ -204,9 +206,8 @@ export class Button extends LitElement {
 
     this.focus();
     this.dispatchEvent(
-      new CustomEvent('button:click', {
+      new CustomEvent('button--click', {
         bubbles: true,
-        composed: true,
       }),
     );
   };
@@ -306,14 +307,14 @@ export class Button extends LitElement {
 
       <div class="button-content">
         ${this.iconAlign === 'start'
-          ? html`<slot name="icon"></slot></div>`
-          : null}
+          ? html`<slot name="icon"></slot>`
+          : nothing}
 
         <div class="slot-container">
           <slot></slot>
         </div>
 
-        ${this.iconAlign === 'end' ? html`<slot name="icon"></slot>` : null}
+        ${this.iconAlign === 'end' ? html`<slot name="icon"></slot>` : nothing}
       </div>
 
       ${this.__renderDisabledReason()}

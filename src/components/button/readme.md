@@ -67,11 +67,26 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                                 | Description                                                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `--goat-theme-button-border-radius`  | Theme level button border radius. (applies to all buttons)                                               |
+| `--goat-theme-button-border-style`   | Theme level button border style. (applies to all buttons)                                                |
+| `--pc-button-border-radius`          | Button border radius.                                                                                    |
+| `--pc-button-border-style`           | Button border style.                                                                                     |
+| `--pc-button-color`                  | Button filling color.                                                                                    |
+| `--pc-button-color-active`           | Button filling color on active.                                                                          |
+| `--pc-button-color-hover`            | Button filling color on hover.                                                                           |
+| `--pc-button-color-light`            | Button filling color for light variant.                                                                  |
+| `--pc-button-padding`                | Button padding.                                                                                          |
+| `--pc-button-support-contrast-color` | Button support color (text or border). Should be white or black based on weight of button filling color. |
+
+
 ## Dependencies
 
 ### Used by
 
- - [goat-code-highlighter](../application/code-highlighter)
  - [goat-header-action](../application/header/header-action)
  - [goat-header-brand](../application/header/header-brand)
  - [goat-html-editor](../input-controls/html-editor)
@@ -91,7 +106,6 @@ Type: `Promise<void>`
 ### Graph
 ```mermaid
 graph TD;
-  goat-code-highlighter --> pc-button
   goat-header-action --> pc-button
   goat-header-brand --> pc-button
   goat-html-editor --> pc-button

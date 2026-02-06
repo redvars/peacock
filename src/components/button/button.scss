@@ -437,7 +437,7 @@ border: var(--internal-button-inner-padding) solid transparent;
   --_container-shape-end-start: var(--outlined-button-container-shape-end-start, var(--button-container-shape, var(--global-shape-corner-small)));
   --_container-shape-end-end: var(--outlined-button-container-shape-end-end, var(--button-container-shape, var(--global-shape-corner-small)));
 
-  --_outline-width: var(--outlined-button-outline-width, 0.125rem);
+  --_outline-width: var(--outlined-button-outline-width, 0.0675rem);
   --_outline-color: var(--outlined-button-outline-color, var(--color-outline));
   --_label-text-color: var(--color-on-surface-variant);
 

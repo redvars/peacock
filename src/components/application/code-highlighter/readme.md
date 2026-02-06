@@ -17,19 +17,24 @@
 | `value`       | `value`        | The code snippet to highlight.    | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `''`           |
 
 
+## CSS Custom Properties
+
+| Name                            | Description                       |
+| ------------------------------- | --------------------------------- |
+| `--code-highlighter-background` | Code Highlighter background color |
+
+
 ## Dependencies
 
 ### Depends on
 
 - [pc-tooltip](../../tooltip)
-- [pc-button](../../button)
 - [pc-spinner](../../spinner)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-code-highlighter --> pc-tooltip
-  goat-code-highlighter --> pc-button
   goat-code-highlighter --> pc-spinner
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content

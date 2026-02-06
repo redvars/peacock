@@ -1,0 +1,26 @@
+:host([color=primary]) {
+  --tag-container-color: var(--color-primary-container);
+  --tag-label-text-color: var(--color-on-primary-container);
+}
+
+:host([color=success]) {
+  --tag-container-color: var(--color-success-container);
+  --tag-label-text-color: var(--color-on-success-container);
+}
+
+:host([color=danger]) {
+  --tag-container-color: var(--color-error-container);
+  --tag-label-text-color: var(--color-on-error-container);
+}
+
+
+:host([color=dark]) {
+  --tag-container-color: var(--color-surface-container);
+  --tag-label-text-color: var(--color-on-surface-container);
+}
+
+:host([color=light]) {
+  --tag-container-color: var(--color-on-surface-container);
+  --tag-label-text-color: var(--color-surface-container);
+}
+

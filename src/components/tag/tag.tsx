@@ -13,7 +13,7 @@ import { ElementSize } from '../../utils/utils';
 /**
  * @label Tag
  * @name tag
- * @description Use tags to label, categorize, or organize items using keywords that describe them.
+ * @description Chips help people enter information, make selections, filter content, or trigger actions.
  * @category Data Display
  * @tag controls
  * @example <pc-tag class="color-red">Important</pc-tag>

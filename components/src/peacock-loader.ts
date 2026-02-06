@@ -12,6 +12,7 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button.js';
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
+import { Chip } from './chip/chip/chip.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.css-component.scss';
@@ -73,6 +74,9 @@ const loaderConfig: LoaderConfig = {
     },
     link: {
       CustomElementClass: Link,
+    },
+    chip: {
+      CustomElementClass: Chip,
     },
   },
 };

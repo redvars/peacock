@@ -21,7 +21,7 @@ function getTheme(primaryHexColor) {
     if (key === 'neutral' || key === 'neutralVariant') {
       result[key] = getPalette(
         theme.palettes[key].keyColor.argb,
-        [0, 4, 10, 12, 20, 30, 40, 50, 60, 70, 80, 90, 94, 95, 96, 99, 100],
+        [0, 4, 10, 12, 20, 30, 40, 50, 60, 70, 80, 90, 94, 95, 96, 98, 99, 100],
       );
     } else {
       result[key] = getPalette(theme.palettes[key].keyColor.argb);

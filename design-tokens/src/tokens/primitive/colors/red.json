@@ -1,0 +1,71 @@
+{
+  "color": {
+    "$type": "color",
+    "red-base": {
+      "$value": "red"
+    },
+    "red": {
+      "10": {
+        "$value": "#410000"
+      },
+      "20": {
+        "$value": "#690000"
+      },
+      "30": {
+        "$value": "#930000"
+      },
+      "40": {
+        "$value": "#be0c05"
+      },
+      "80": {
+        "$value": "#ffb4a8"
+      },
+      "90": {
+        "$value": "#ffdad4"
+      },
+      "100": {
+        "$value": "#ffffff"
+      },
+      "@": {
+        "$value": "{color.red.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.red.80}"
+          }
+        }
+      }
+    },
+    "on-red": {
+      "$value": "{color.red.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.20}"
+        }
+      }
+    },
+    "red-container": {
+      "$value": "{color.red.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.30}"
+        }
+      }
+    },
+    "on-red-container": {
+      "$value": "{color.red.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.90}"
+        }
+      }
+    },
+    "inverse-red": {
+      "$value": "{color.red.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.40}"
+        }
+      }
+    }
+  }
+}
