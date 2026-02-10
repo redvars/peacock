@@ -1,13 +1,13 @@
 import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from '../button/button.scss';
 import colorStyles from '../button/button-colors.scss';
 import sizeStyles from './icon-button-sizes.scss';
-import { observerSlotChangesWithCallback, throttle } from '../../utils.js';
 import { spread } from '../../spread.js';
 import { BaseButton } from '../BaseButton.js';
 import { IconProvider } from '../../icon/icon.js';
+import { throttle } from '../../utils.js';
 
 /**
  * @label Icon Button
@@ -65,22 +65,11 @@ export class IconButton extends BaseButton {
 
   @property({ type: String }) provider: IconProvider = 'material-symbols';
 
-  @state()
-  private slotHasContent = false;
-
   override firstUpdated() {
     this.__dispatchClickWithThrottle = throttle(
       this.__dispatchClick,
       this.throttleDelay,
     );
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot'),
-      hasContent => {
-        this.slotHasContent = hasContent;
-        this.requestUpdate();
-      },
-    );
-
     this.__convertTypeToVariantAndColor();
   }
 
@@ -90,7 +79,7 @@ export class IconButton extends BaseButton {
         id="disabled-reason-${this.#id}"
         role="tooltip"
         aria-label=${this.disabledReason}
-        class="sr-only"
+        class="screen-reader-only"
       >
         {this.disabledReason}
       </div>`;
@@ -108,7 +97,7 @@ export class IconButton extends BaseButton {
       [`color-${this.color}`]: true,
       disabled: this.disabled || this.softDisabled,
       pressed: this.isPressed,
-      'has-content': this.slotHasContent,
+      skeleton: this.skeleton,
     };
 
     if (!isLink) {

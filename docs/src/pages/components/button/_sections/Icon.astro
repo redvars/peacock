@@ -1,25 +1,12 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-<div class='component-container'>
+<DemoComponentCard lang={'html'}>
   <p-button><p-icon slot='icon' name='add'/></p-button>
   <p-button><p-icon slot='icon' name='add'/>Add</p-button>
-
   <p-button icon-align='start'><p-icon slot='icon' name='chevron_left'/> Previous</p-button>
-  <p-button><p-icon slot='icon' name='chevron_right'/> Next</p-button>
-</div>
 
-<div class='component-container'>
-  <p-button variant="outlined"><p-icon slot='icon' name='save'/></p-button>
-  <p-button variant="text"><p-icon slot='icon' name='save'/></p-button>
-</div>
-
-<div class='component-container'>
-  <p-button size='xs'><p-icon slot='icon' name='save'/></p-button>
-  <p-button size='sm'><p-icon slot='icon' name='save'/></p-button>
-  <p-button size='md'><p-icon slot='icon' name='save'/></p-button>
-  <p-button size='lg'><p-icon slot='icon' name='save'/></p-button>
-  <p-button size='xl'><p-icon slot='icon' name='save'/></p-button>
-</div>
-</HighlighterCard>
+  <p-button icon-align='start' variant='outlined'><p-icon slot='icon' name='chevron_left'/> Previous</p-button>
+  <p-button variant='text'><p-icon slot='icon' name='chevron_right'/> Next</p-button>
+</DemoComponentCard>

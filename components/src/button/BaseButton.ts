@@ -51,6 +51,8 @@ export class BaseButton extends LitElement {
    */
   @property({ reflect: true }) disabled: boolean = false;
 
+  @property() skeleton: boolean = false;
+
   /**
    * If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.
    */
@@ -110,6 +112,7 @@ export class BaseButton extends LitElement {
   }
 
   __handlePress = (event: KeyboardEvent | MouseEvent) => {
+    if (this.disabled || this.skeleton || this.softDisabled) return;
     if (
       event instanceof KeyboardEvent &&
       event.type === 'keydown' &&
@@ -136,7 +139,7 @@ export class BaseButton extends LitElement {
     // If the button is soft-disabled or a disabled link, we need to explicitly
     // prevent the click from propagating to other event listeners as well as
     // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href)) {
+    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
       event.stopImmediatePropagation();
       event.preventDefault();
       return;

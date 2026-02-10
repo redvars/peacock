@@ -615,6 +615,19 @@
         },
         {
           "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "softDisabled",
           "type": {
             "text": "boolean"
@@ -886,6 +899,18 @@
           "default": "false",
           "description": "If true, the user cannot interact with the button. Defaults to `false`.",
           "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -2191,15 +2216,6 @@
           "attribute": "provider"
         },
         {
-          "kind": "field",
-          "name": "slotHasContent",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
           "kind": "method",
           "name": "__renderDisabledReason"
         },
@@ -2286,6 +2302,19 @@
           "description": "If true, the user cannot interact with the button. Defaults to `false`.",
           "attribute": "disabled",
           "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -2577,6 +2606,18 @@
           "default": "false",
           "description": "If true, the user cannot interact with the button. Defaults to `false`.",
           "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -2989,6 +3030,99 @@
       "summary": "The link component is used to navigate to a new page or section within the current page.",
       "rawTag": {
         "name": "link",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "focus-ring",
+    "label": "Focus Ring",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Focus Ring"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-focus-ring"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "focus-ring"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Adds a focus ring to an element."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "FocusRing",
+      "members": [
+        {
+          "kind": "field",
+          "name": "visible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "visible",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_control",
+          "type": {
+            "text": "HTMLElement | undefined"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "control"
+        },
+        {
+          "kind": "method",
+          "name": "attach"
+        },
+        {
+          "kind": "method",
+          "name": "detach"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "visible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "visible"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-focus-ring",
+      "customElement": true,
+      "summary": "Adds a focus ring to an element.",
+      "rawTag": {
+        "name": "focus-ring",
         "description": ""
       }
     }

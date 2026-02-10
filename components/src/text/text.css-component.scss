@@ -1,7 +1,7 @@
 @use "../../scss/mixin";
 @use "sass:string";
 
-@include mixin.reset;
+@include mixin.base-styles;
 
 @mixin _apply-typography($value-type) {
   @include mixin.get-typography(#{$value-type});

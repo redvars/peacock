@@ -14,3 +14,4 @@ export { Tag } from './chip/tag/index.js';
 export { Chip } from './chip/chip/index.js';
 export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
+export { Skeleton } from './skeleton/index.js';

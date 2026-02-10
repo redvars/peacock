@@ -1,6 +1,6 @@
 @use "../../scss/mixin";
 
-@include mixin.reset;
+@include mixin.base-styles;
 
 .link {
   border-radius: inherit;

@@ -20,6 +20,8 @@ import { Chip } from './chip/chip/chip.js';
 import { LinearProgress } from './progress/linear-progress/linear-progress.js';
 import { CircularProgress } from './progress/circular-progress/circular-progress.js';
 
+import { Skeleton } from './skeleton/skeleton.js';
+
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.css-component.scss';
 import textStylesheet from './text/text.css-component.scss';
@@ -98,6 +100,9 @@ const loaderConfig: LoaderConfig = {
     },
     'circular-progress': {
       CustomElementClass: CircularProgress,
+    },
+    skeleton: {
+      CustomElementClass: Skeleton,
     },
   },
 };

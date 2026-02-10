@@ -1,6 +1,6 @@
 @use '../../../scss/mixin';
 
-@include mixin.reset;
+@include mixin.base-styles;
 
 $border-width: 0.0625rem;
 

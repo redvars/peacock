@@ -1,6 +1,10 @@
-@mixin reset {
+@mixin base-styles {
   * {
     box-sizing: border-box;
+  }
+
+  .screen-reader-only {
+    display: none !important;
   }
 }
 

@@ -89,7 +89,7 @@ export class Button extends BaseButton {
         id="disabled-reason-${this.#id}"
         role="tooltip"
         aria-label=${this.disabledReason}
-        class="sr-only"
+        class="screen-reader-only"
       >
         {this.disabledReason}
       </div>`;
@@ -108,6 +108,7 @@ export class Button extends BaseButton {
       disabled: this.disabled || this.softDisabled,
       pressed: this.isPressed,
       'has-content': this.slotHasContent,
+      'show-skeleton': this.skeleton,
     };
 
     if (!isLink) {
@@ -158,6 +159,7 @@ export class Button extends BaseButton {
       <div class="background"></div>
       <div class="outline"></div>
       <p-ripple class="ripple"></p-ripple>
+      <p-skeleton class="skeleton"></p-skeleton>
 
       <div class="button-content">
         ${this.iconAlign === 'start'

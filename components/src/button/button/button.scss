@@ -1,6 +1,6 @@
 @use '../../../scss/mixin';
 
-@include mixin.reset;
+@include mixin.base-styles;
 
 
 :host {
@@ -111,6 +111,20 @@ slot::slotted(*) {
     pointer-events: none;
   }
 
+  .skeleton {
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    --skeleton-shape-start-start: var(--_container-shape-start-start);
+    --skeleton-shape-start-end: var(--_container-shape-start-end);
+    --skeleton-shape-end-start: var(--_container-shape-end-start);
+    --skeleton-shape-end-end: var(--_container-shape-end-end);
+  }
+
   .ripple {
     --ripple-state-opacity: var(--_container-state-opacity, 0);
     --ripple-pressed-color: var(--_container-state-color);
@@ -180,6 +194,24 @@ slot::slotted(*) {
     }
   }
 
+  &.show-skeleton {
+    .background {
+      display: none;
+    }
+    .neo-background {
+      display: none;
+      &:before {
+        display: none;
+      }
+    }
+    .ripple {
+      display: none;
+    }
+    .skeleton {
+      display: block;
+    }
+  }
+
 }
 
 /**
@@ -193,12 +225,12 @@ slot::slotted(*) {
 
   --_container-state-color: var(--_label-text-color);
 
-  &:hover:not(.disabled) {
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 2;
     --_container-state-opacity: 0.08;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 1;
     --_container-state-opacity: 0.12;
   }
@@ -222,12 +254,12 @@ slot::slotted(*) {
   --_container-state-color: var(--_label-text-color);
 
 
-  &:hover:not(.disabled) {
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 1;
     --_container-state-opacity: 0.08;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 0;
     --_container-state-opacity: 0.1;
   }
@@ -251,12 +283,12 @@ slot::slotted(*) {
 
   --_container-state-color: var(--_label-text-color);
 
-  &:hover:not(.disabled) {
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 1;
     --_container-state-opacity: 0.08;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 0;
     --_container-state-opacity: 0.12;
   }
@@ -285,11 +317,11 @@ slot::slotted(*) {
     display: block;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.08;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.12;
   }
 
@@ -311,11 +343,11 @@ slot::slotted(*) {
   --_label-text-color: var(--text-button-label-text-color);
   --_container-state-color: var(--_label-text-color);
 
-  &:hover:not(.disabled) {
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.08;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.12;
   }
 
@@ -349,7 +381,7 @@ slot::slotted(*) {
     display: none;
   }
 
-  &.pressed:not(.disabled) {
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     .background, .button-content, .outline {
       transform: translateX(0.25rem) translateY(0.25rem);
     }
