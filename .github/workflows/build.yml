@@ -16,6 +16,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
+      packages: write # Required to write packages
+
     strategy:
       matrix:
         node-version: [20.10.0]
@@ -33,7 +38,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: components/node_modules
-          key: node_modules-${{hashFiles('package-lock.json')}}
+          key: node_modules-${{hashFiles('components/package-lock.json')}}
           restore-keys: node_modules- # Take any latest cache if failed to find it for current yarn.lock
 
       - name: npm install, build, and test
