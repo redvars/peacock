@@ -1,12 +1,12 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-import { getLitComponentDetails } from '../../../_data/getLitComponentDetails';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails';
 
 
 import UsageSection from './_sections/usage.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
-const componentDetails = getLitComponentDetails('clock');
+const componentDetails = getComponentDetails('clock');
 
 const sections = [
   {

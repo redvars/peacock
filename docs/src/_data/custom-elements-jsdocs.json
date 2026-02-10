@@ -423,6 +423,26 @@
       "name": "Button",
       "cssProperties": [
         {
+          "description": "Defines the border radius of the button container shape.",
+          "name": "--button-container-shape:"
+        },
+        {
+          "description": "Defines the start position of the button container shape.",
+          "name": "--button-container-shape-start-start:"
+        },
+        {
+          "description": "Defines the end position of the button container shape.",
+          "name": "--button-container-shape-start-end:"
+        },
+        {
+          "description": "Defines the start position of the button container shape.",
+          "name": "--button-container-shape-end-start:"
+        },
+        {
+          "description": "Defines the end position of the button container shape.",
+          "name": "--button-container-shape-end-end:"
+        },
+        {
           "description": "Color of the filled button container.",
           "name": "--filled-button-container-color:"
         },
@@ -484,161 +504,13 @@
         },
         {
           "kind": "field",
-          "name": "buttonElement",
-          "type": {
-            "text": "HTMLElement | null"
-          },
-          "privacy": "private",
-          "readonly": true
-        },
-        {
-          "kind": "field",
-          "name": "htmlType",
-          "type": {
-            "text": "'button' | 'submit' | 'reset'"
-          },
-          "default": "'button'",
-          "attribute": "htmlType"
-        },
-        {
-          "kind": "field",
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "attribute": "type"
-        },
-        {
-          "kind": "field",
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "attribute": "variant"
-        },
-        {
-          "kind": "field",
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "attribute": "color",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "size",
-          "type": {
-            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
-          },
-          "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
-          "attribute": "size"
-        },
-        {
-          "kind": "field",
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "attribute": "disabled",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "softDisabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
-          "attribute": "softDisabled",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "disabledReason",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "If button is disabled, the reason why it is disabled.",
-          "attribute": "disabledReason"
-        },
-        {
-          "kind": "field",
           "name": "iconAlign",
           "type": {
             "text": "'start' | 'end'"
           },
           "default": "'end'",
           "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
-          "attribute": "iconAlign"
-        },
-        {
-          "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "configAria",
-          "type": {
-            "text": "{ [key: string]: any } | undefined"
-          },
-          "attribute": "configAria",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target"
-        },
-        {
-          "kind": "field",
-          "name": "selected",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "selected"
-        },
-        {
-          "kind": "field",
-          "name": "throttleDelay",
-          "type": {
-            "text": "number"
-          },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
-          "attribute": "throttleDelay"
-        },
-        {
-          "kind": "field",
-          "name": "isPressed",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false",
-          "description": "States"
+          "attribute": "icon-align"
         },
         {
           "kind": "field",
@@ -651,40 +523,277 @@
         },
         {
           "kind": "method",
-          "name": "focus"
+          "name": "__renderDisabledReason"
         },
         {
           "kind": "method",
-          "name": "blur"
+          "name": "renderButtonContent"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "attribute": "type",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "attribute": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "buttonElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
           "name": "__dispatchClickWithThrottle",
           "type": {
-            "text": "(\n    event: MouseEvent | KeyboardEvent,\n  ) => void"
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
           },
-          "privacy": "private"
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
-          "name": "__dispatchClick"
+          "name": "__dispatchClick",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "method",
-          "name": "__renderDisabledReason"
-        },
-        {
-          "kind": "field",
-          "name": "__handlePress"
-        },
-        {
-          "kind": "method",
-          "name": "__isLink",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "renderButtonContent"
+          "name": "__convertTypeToVariantAndColor",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "events": [
@@ -698,77 +807,7 @@
       ],
       "attributes": [
         {
-          "name": "htmlType",
-          "type": {
-            "text": "'button' | 'submit' | 'reset'"
-          },
-          "default": "'button'",
-          "fieldName": "htmlType"
-        },
-        {
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "fieldName": "type"
-        },
-        {
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "fieldName": "variant"
-        },
-        {
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color"
-        },
-        {
-          "name": "size",
-          "type": {
-            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
-          },
-          "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
-          "fieldName": "size"
-        },
-        {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "fieldName": "disabled"
-        },
-        {
-          "name": "softDisabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
-          "fieldName": "softDisabled"
-        },
-        {
-          "name": "disabledReason",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "If button is disabled, the reason why it is disabled.",
-          "fieldName": "disabledReason"
-        },
-        {
-          "name": "iconAlign",
+          "name": "icon-align",
           "type": {
             "text": "'start' | 'end'"
           },
@@ -777,19 +816,129 @@
           "fieldName": "iconAlign"
         },
         {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "fieldName": "type",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
           "name": "href",
           "type": {
             "text": "string | undefined"
           },
           "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href"
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
           },
-          "fieldName": "configAria"
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "target",
@@ -798,7 +947,11 @@
           },
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "selected",
@@ -806,7 +959,11 @@
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "selected"
+          "fieldName": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "throttleDelay",
@@ -815,18 +972,103 @@
           },
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
-          "fieldName": "throttleDelay"
+          "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "BaseButton",
+        "module": "/src/button/BaseButton.js"
       },
       "tagName": "p-button",
       "customElement": true,
       "summary": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
       "rawTag": {
         "name": "button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "button-group",
+    "label": "Button Group",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Button Group"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-button-group"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "button-group"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Group a series of buttons together on a single line with the button group, and super-power."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-button-group>\n <p-button><p-icon name=\"home\" slot=\"icon\"></p-icon></p-button>\n <p-button><p-icon name=\"close\" slot=\"icon\"></p-icon></p-button>\n</p-button-group>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "controls"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ButtonGroup",
+      "members": [
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-button-group",
+      "customElement": true,
+      "summary": "Group a series of buttons together on a single line with the button group, and super-power.",
+      "rawTag": {
+        "name": "button-group",
         "description": ""
       }
     }
@@ -886,8 +1128,9 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
           },
+          "default": "'default'",
           "description": "Tag color.",
           "attribute": "color",
           "reflects": true
@@ -968,8 +1211,9 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
           },
+          "default": "'default'",
           "description": "Tag color.",
           "fieldName": "color"
         },
@@ -1010,6 +1254,198 @@
         "name": "chip",
         "description": ""
       }
+    }
+  },
+  {
+    "rawTag": "circular-progress",
+    "label": "Circular Progress / Spinner",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Circular Progress / Spinner"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-circular-progress"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "circular-progress"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A circular progress indicator is a visual representation of progress toward a specific goal."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-circular-progress value=\"50\"></p-circular-progress>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CircularProgress",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The current value.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "indeterminate",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "A label describing the progress bar.",
+          "attribute": "label",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "helper-text",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__getPercentageValue",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseProgress",
+        "module": "/src/progress/base-progress.js"
+      },
+      "tagName": "p-circular-progress",
+      "customElement": true,
+      "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
+      "rawTag": {
+        "name": "circular-progress",
+        "description": ""
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The current value.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "indeterminate",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "A label describing the progress bar.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        }
+      ]
     }
   },
   {
@@ -1584,6 +2020,862 @@
     }
   },
   {
+    "rawTag": "icon-button",
+    "label": "Icon Button",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Icon Button"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-icon-button"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "icon-button"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Icon buttons allow users to take actions, and make choices, with a single tap."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Icon buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--neo-button-label-text-color: Text color of the neo button label."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "button:click - Dispatched when the button is clicked."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-icon-button name=\"home\"></p-icon-button>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "IconButton",
+      "cssProperties": [
+        {
+          "description": "Defines the border radius of the button container shape.",
+          "name": "--button-container-shape:"
+        },
+        {
+          "description": "Defines the start position of the button container shape.",
+          "name": "--button-container-shape-start-start:"
+        },
+        {
+          "description": "Defines the end position of the button container shape.",
+          "name": "--button-container-shape-start-end:"
+        },
+        {
+          "description": "Defines the start position of the button container shape.",
+          "name": "--button-container-shape-end-start:"
+        },
+        {
+          "description": "Defines the end position of the button container shape.",
+          "name": "--button-container-shape-end-end:"
+        },
+        {
+          "description": "Color of the filled button container.",
+          "name": "--filled-button-container-color:"
+        },
+        {
+          "description": "Text color of the filled button label.",
+          "name": "--filled-button-label-text-color:"
+        },
+        {
+          "description": "Color of the outlined button container.",
+          "name": "--outlined-button-container-color:"
+        },
+        {
+          "description": "Text color of the outlined button label.",
+          "name": "--outlined-button-label-text-color:"
+        },
+        {
+          "description": "Text color of the text button label.",
+          "name": "--text-button-label-text-color:"
+        },
+        {
+          "description": "Color of the tonal button container.",
+          "name": "--tonal-button-container-color:"
+        },
+        {
+          "description": "Text color of the tonal button label.",
+          "name": "--tonal-button-label-text-color:"
+        },
+        {
+          "description": "Color of the elevated button container.",
+          "name": "--elevated-button-container-color:"
+        },
+        {
+          "description": "Text color of the elevated button label.",
+          "name": "--elevated-button-label-text-color:"
+        },
+        {
+          "description": "Color of the neo button container.",
+          "name": "--neo-button-container-color:"
+        },
+        {
+          "description": "Text color of the neo button label.",
+          "name": "--neo-button-label-text-color:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#tabindex",
+          "privacy": "private",
+          "type": {
+            "text": "number | undefined"
+          },
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "attribute": "provider"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason"
+        },
+        {
+          "kind": "method",
+          "name": "renderButtonContent"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "attribute": "type",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "attribute": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "buttonElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__convertTypeToVariantAndColor",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the button is clicked.",
+          "name": "button:click"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "src"
+        },
+        {
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "fieldName": "provider"
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "fieldName": "type",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseButton",
+        "module": "/src/button/BaseButton.js"
+      },
+      "tagName": "p-icon-button",
+      "customElement": true,
+      "summary": "Icon buttons allow users to take actions, and make choices, with a single tap.",
+      "rawTag": {
+        "name": "icon-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "linear-progress",
+    "label": "Linear Progress",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Linear Progress"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-linear-progress"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "linear-progress"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A linear progress indicator is a visual representation of progress toward a specific goal."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-linear-progress value=\"50\" style=\"width:10rem\"></p-linear-progress>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "LinearProgress",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The current value.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "indeterminate",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "A label describing the progress bar.",
+          "attribute": "label",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "helper-text",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__getPercentageValue",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseProgress",
+        "module": "/src/progress/base-progress.js"
+      },
+      "tagName": "p-linear-progress",
+      "customElement": true,
+      "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
+      "rawTag": {
+        "name": "linear-progress",
+        "description": ""
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The current value.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "indeterminate",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "A label describing the progress bar.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline",
+          "inheritedFrom": {
+            "name": "BaseProgress",
+            "module": "src/progress/base-progress.ts"
+          }
+        }
+      ]
+    }
+  },
+  {
     "rawTag": "link",
     "label": "Link",
     "jsdoc": {
@@ -1697,6 +2989,167 @@
       "summary": "The link component is used to navigate to a new page or section within the current page.",
       "rawTag": {
         "name": "link",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "tag",
+    "label": "Tag",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tag"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-tag"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tag"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Tag component for displaying labels or values with optional dismiss functionality."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-tag color=red>Tag</p-tag>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Tag",
+      "members": [
+        {
+          "kind": "field",
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will have a close icon.",
+          "attribute": "dismissible"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined'"
+          },
+          "default": "'tonal'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+          },
+          "default": "'default'",
+          "description": "Tag color.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | undefined"
+          },
+          "default": "'md'",
+          "attribute": "size"
+        },
+        {
+          "kind": "method",
+          "name": "_dismissClickHandler",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__renderDismissButton",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "tag--dismiss",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the tag will have a close icon.",
+          "fieldName": "dismissible"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined'"
+          },
+          "default": "'tonal'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+          },
+          "default": "'default'",
+          "description": "Tag color.",
+          "fieldName": "color"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | undefined"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-tag",
+      "customElement": true,
+      "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
+      "rawTag": {
+        "name": "tag",
         "description": ""
       }
     }

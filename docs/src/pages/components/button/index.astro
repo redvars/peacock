@@ -9,10 +9,10 @@ import ColorsSection from './_sections/Colors.astro';
 import EventsSection from './_sections/Events.astro';
 import IconSection from './_sections/Icon.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
 
-const componentDetails = getLitComponentDetails('button');
+const componentDetails = getComponentDetails('button');
 
 const sections = [
   {

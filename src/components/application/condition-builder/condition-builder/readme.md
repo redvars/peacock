@@ -18,14 +18,12 @@
 
 - [pc-input](../../../input-controls/input/input)
 - [goat-cb-divider](../cb-divider)
-- [pc-tag](../../../tag)
 
 ### Graph
 ```mermaid
 graph TD;
   goat-condition-builder --> pc-input
   goat-condition-builder --> goat-cb-divider
-  goat-condition-builder --> pc-tag
   pc-input --> pc-tooltip
   pc-input --> pc-button
   pc-tooltip --> pc-popover

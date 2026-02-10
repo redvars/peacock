@@ -154,7 +154,7 @@ export namespace Components {
         "icon": string;
         "setColor": (color: string) => Promise<void>;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
+          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
           * @default 'md'
          */
         "size": 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none';
@@ -384,14 +384,14 @@ export namespace Components {
         "target": string;
     }
     /**
-     * @label Button
+     * @label IconButton
      * @name button
      * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
      * @category Buttons
      * @tags controls
      * @example <pc-button>
-     * Button
+     * IconButton
      * </pc-button>
      */
     interface PcButton {
@@ -442,7 +442,7 @@ export namespace Components {
          */
         "setFocus": () => Promise<void>;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
           * @default 'sm'
          */
         "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -466,7 +466,7 @@ export namespace Components {
          */
         "triggerClick": () => Promise<void>;
         /**
-          * Button type based on which actions are performed when the button is clicked.
+          * IconButton type based on which actions are performed when the button is clicked.
           * @default 'button'
          */
         "type": 'button' | 'submit' | 'reset';
@@ -480,19 +480,6 @@ export namespace Components {
     | 'outlined'
     | 'text'
     | 'neo';
-    }
-    /**
-     * @label Button Group
-     * @name button-group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <pc-button-group>
-     * <pc-button block icon="home"></pc-button>
-     * <pc-button block icon="alarm"></pc-button>
-     * </pc-button-group>
-     */
-    interface PcButtonGroup {
     }
     /**
      * @label Calendar
@@ -1194,34 +1181,6 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @label Linear Progress Indicator
-     * @name linear-progress
-     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface PcLinearProgress {
-        "helperText": string;
-        /**
-          * @default false
-         */
-        "hideLabel": boolean;
-        /**
-          * A label describing the progress bar.
-         */
-        "label": string;
-        /**
-          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md';
-        /**
-          * @default null
-         */
-        "value": number;
-    }
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -1787,29 +1746,6 @@ export namespace Components {
          */
         "value"?: number;
     }
-    /**
-     * @label Spinner
-     * @name spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
-     */
-    interface PcSpinner {
-        /**
-          * @default 'Loading...'
-         */
-        "description": string;
-        /**
-          * @default false
-         */
-        "hideBackground": boolean;
-        /**
-          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg' | string;
-    }
     interface PcTab {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
@@ -1830,7 +1766,7 @@ export namespace Components {
         "icon": string;
         "label": string;
         /**
-          * Button selection state.
+          * IconButton selection state.
           * @default false
          */
         "selected": boolean;
@@ -1949,54 +1885,6 @@ export namespace Components {
           * @default 'default'
          */
         "type": 'contained' | 'contained-bottom' | 'default';
-    }
-    /**
-     * @label Tag
-     * @name tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <pc-tag class="color-red">Important</pc-tag>
-     */
-    interface PcTag {
-        /**
-          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
-          * @default 'gray'
-         */
-        "color": | 'gray'
-    | 'blue'
-    | 'green'
-    | 'red'
-    | 'yellow'
-    | 'primary'
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'error';
-        /**
-          * If true, the tag will have a close icon.
-          * @default false
-         */
-        "dismissible": boolean;
-        /**
-          * Image source.
-         */
-        "imageSrc"?: string;
-        /**
-          * If true, the tag will be selected.
-          * @default false
-         */
-        "selected": boolean;
-        /**
-          * Text size.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md';
-        /**
-          * Tag value.
-          * @default ''
-         */
-        "value": string;
     }
     /**
      * @label Textarea
@@ -2395,10 +2283,6 @@ export interface PcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcTableElement;
 }
-export interface PcTagCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTagElement;
-}
 export interface PcTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcTextareaElement;
@@ -2612,14 +2496,14 @@ declare global {
   };
     }
     /**
-     * @label Button
+     * @label IconButton
      * @name button
      * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
      * @category Buttons
      * @tags controls
      * @example <pc-button>
-     * Button
+     * IconButton
      * </pc-button>
      */
     interface HTMLPcButtonElement extends Components.PcButton, HTMLStencilElement {
@@ -2635,23 +2519,6 @@ declare global {
     var HTMLPcButtonElement: {
         prototype: HTMLPcButtonElement;
         new (): HTMLPcButtonElement;
-    };
-    /**
-     * @label Button Group
-     * @name button-group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <pc-button-group>
-     * <pc-button block icon="home"></pc-button>
-     * <pc-button block icon="alarm"></pc-button>
-     * </pc-button-group>
-     */
-    interface HTMLPcButtonGroupElement extends Components.PcButtonGroup, HTMLStencilElement {
-    }
-    var HTMLPcButtonGroupElement: {
-        prototype: HTMLPcButtonGroupElement;
-        new (): HTMLPcButtonGroupElement;
     };
     interface HTMLPcCalendarElementEventMap {
         "pc-calendar--event-click": any;
@@ -3016,20 +2883,6 @@ declare global {
         new (): HTMLPcInputUrlElement;
     };
     /**
-     * @label Linear Progress Indicator
-     * @name linear-progress
-     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface HTMLPcLinearProgressElement extends Components.PcLinearProgress, HTMLStencilElement {
-    }
-    var HTMLPcLinearProgressElement: {
-        prototype: HTMLPcLinearProgressElement;
-        new (): HTMLPcLinearProgressElement;
-    };
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -3277,20 +3130,6 @@ declare global {
         prototype: HTMLPcSliderElement;
         new (): HTMLPcSliderElement;
     };
-    /**
-     * @label Spinner
-     * @name spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
-     */
-    interface HTMLPcSpinnerElement extends Components.PcSpinner, HTMLStencilElement {
-    }
-    var HTMLPcSpinnerElement: {
-        prototype: HTMLPcSpinnerElement;
-        new (): HTMLPcSpinnerElement;
-    };
     interface HTMLPcTabElementEventMap {
         "pc-tab--click": any;
     }
@@ -3366,32 +3205,6 @@ declare global {
     var HTMLPcTabsListElement: {
         prototype: HTMLPcTabsListElement;
         new (): HTMLPcTabsListElement;
-    };
-    interface HTMLPcTagElementEventMap {
-        "tag--click": any;
-        "tag--dismiss": any;
-    }
-    /**
-     * @label Tag
-     * @name tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <pc-tag class="color-red">Important</pc-tag>
-     */
-    interface HTMLPcTagElement extends Components.PcTag, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTagElementEventMap>(type: K, listener: (this: HTMLPcTagElement, ev: PcTagCustomEvent<HTMLPcTagElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTagElementEventMap>(type: K, listener: (this: HTMLPcTagElement, ev: PcTagCustomEvent<HTMLPcTagElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTagElement: {
-        prototype: HTMLPcTagElement;
-        new (): HTMLPcTagElement;
     };
     interface HTMLPcTextareaElementEventMap {
         "goat-textarea--input": any;
@@ -3555,7 +3368,6 @@ declare global {
         "pc-breadcrumb": HTMLPcBreadcrumbElement;
         "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
         "pc-button": HTMLPcButtonElement;
-        "pc-button-group": HTMLPcButtonGroupElement;
         "pc-calendar": HTMLPcCalendarElement;
         "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
         "pc-calendar-column-view-background": HTMLPcCalendarColumnViewBackgroundElement;
@@ -3577,7 +3389,6 @@ declare global {
         "pc-header": HTMLPcHeaderElement;
         "pc-input": HTMLPcInputElement;
         "pc-input-url": HTMLPcInputUrlElement;
-        "pc-linear-progress": HTMLPcLinearProgressElement;
         "pc-menu": HTMLPcMenuElement;
         "pc-menu-item": HTMLPcMenuItemElement;
         "pc-modal": HTMLPcModalElement;
@@ -3589,13 +3400,11 @@ declare global {
         "pc-popover-content": HTMLPcPopoverContentElement;
         "pc-select": HTMLPcSelectElement;
         "pc-slider": HTMLPcSliderElement;
-        "pc-spinner": HTMLPcSpinnerElement;
         "pc-tab": HTMLPcTabElement;
         "pc-tab-panel": HTMLPcTabPanelElement;
         "pc-table": HTMLPcTableElement;
         "pc-tabs": HTMLPcTabsElement;
         "pc-tabs-list": HTMLPcTabsListElement;
-        "pc-tag": HTMLPcTagElement;
         "pc-textarea": HTMLPcTextareaElement;
         "pc-time-picker": HTMLPcTimePickerElement;
         "pc-toggle": HTMLPcToggleElement;
@@ -3748,7 +3557,7 @@ declare namespace LocalJSX {
          */
         "icon"?: string;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
+          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
           * @default 'md'
          */
         "size"?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none';
@@ -3968,14 +3777,14 @@ declare namespace LocalJSX {
         "target"?: string;
     }
     /**
-     * @label Button
+     * @label IconButton
      * @name button
      * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
      * @category Buttons
      * @tags controls
      * @example <pc-button>
-     * Button
+     * IconButton
      * </pc-button>
      */
     interface PcButton {
@@ -4024,7 +3833,7 @@ declare namespace LocalJSX {
     appendData: any;
   }>) => void;
         /**
-          * Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
           * @default 'sm'
          */
         "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -4044,7 +3853,7 @@ declare namespace LocalJSX {
          */
         "toggle"?: boolean;
         /**
-          * Button type based on which actions are performed when the button is clicked.
+          * IconButton type based on which actions are performed when the button is clicked.
           * @default 'button'
          */
         "type"?: 'button' | 'submit' | 'reset';
@@ -4058,19 +3867,6 @@ declare namespace LocalJSX {
     | 'outlined'
     | 'text'
     | 'neo';
-    }
-    /**
-     * @label Button Group
-     * @name button-group
-     * @description Group a series of buttons together on a single line with the button group, and super-power.
-     * @category General
-     * @tags controls
-     * @example <pc-button-group>
-     * <pc-button block icon="home"></pc-button>
-     * <pc-button block icon="alarm"></pc-button>
-     * </pc-button-group>
-     */
-    interface PcButtonGroup {
     }
     /**
      * @label Calendar
@@ -4792,34 +4588,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @label Linear Progress Indicator
-     * @name linear-progress
-     * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-     */
-    interface PcLinearProgress {
-        "helperText"?: string;
-        /**
-          * @default false
-         */
-        "hideLabel"?: boolean;
-        /**
-          * A label describing the progress bar.
-         */
-        "label"?: string;
-        /**
-          * Possible values are: `"sm"` and `"md"` in pixel. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md';
-        /**
-          * @default null
-         */
-        "value"?: number;
-    }
-    /**
      * @label Menu
      * @name menu
      * @description Menus display a list of choices on temporary surfaces.
@@ -5391,29 +5159,6 @@ declare namespace LocalJSX {
          */
         "value"?: number;
     }
-    /**
-     * @label Spinner
-     * @name spinner
-     * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-     * @category Informational
-     * @tags feedback, loading, progress, spinner
-     * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
-     */
-    interface PcSpinner {
-        /**
-          * @default 'Loading...'
-         */
-        "description"?: string;
-        /**
-          * @default false
-         */
-        "hideBackground"?: boolean;
-        /**
-          * The Icon size. Possible values are: `"sm"`, `"md"`, `"lg"` and size in pixel. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg' | string;
-    }
     interface PcTab {
         /**
           * If true, the user cannot interact with the button. Defaults to `false`.
@@ -5438,7 +5183,7 @@ declare namespace LocalJSX {
          */
         "onPc-tab--click"?: (event: PcTabCustomEvent<any>) => void;
         /**
-          * Button selection state.
+          * IconButton selection state.
           * @default false
          */
         "selected"?: boolean;
@@ -5571,62 +5316,6 @@ declare namespace LocalJSX {
           * @default 'default'
          */
         "type"?: 'contained' | 'contained-bottom' | 'default';
-    }
-    /**
-     * @label Tag
-     * @name tag
-     * @description Use tags to label, categorize, or organize items using keywords that describe them.
-     * @category Data Display
-     * @tag controls
-     * @example <pc-tag class="color-red">Important</pc-tag>
-     */
-    interface PcTag {
-        /**
-          * Tag color. Possible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.
-          * @default 'gray'
-         */
-        "color"?: | 'gray'
-    | 'blue'
-    | 'green'
-    | 'red'
-    | 'yellow'
-    | 'primary'
-    | 'success'
-    | 'info'
-    | 'warning'
-    | 'error';
-        /**
-          * If true, the tag will have a close icon.
-          * @default false
-         */
-        "dismissible"?: boolean;
-        /**
-          * Image source.
-         */
-        "imageSrc"?: string;
-        /**
-          * Emitted when the tag is clicked.
-         */
-        "onTag--click"?: (event: PcTagCustomEvent<any>) => void;
-        /**
-          * Emitted when the close icon is clicked.
-         */
-        "onTag--dismiss"?: (event: PcTagCustomEvent<any>) => void;
-        /**
-          * If true, the tag will be selected.
-          * @default false
-         */
-        "selected"?: boolean;
-        /**
-          * Text size.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md';
-        /**
-          * Tag value.
-          * @default ''
-         */
-        "value"?: string;
     }
     /**
      * @label Textarea
@@ -5972,7 +5661,6 @@ declare namespace LocalJSX {
         "pc-breadcrumb": PcBreadcrumb;
         "pc-breadcrumb-item": PcBreadcrumbItem;
         "pc-button": PcButton;
-        "pc-button-group": PcButtonGroup;
         "pc-calendar": PcCalendar;
         "pc-calendar-column-view": PcCalendarColumnView;
         "pc-calendar-column-view-background": PcCalendarColumnViewBackground;
@@ -5994,7 +5682,6 @@ declare namespace LocalJSX {
         "pc-header": PcHeader;
         "pc-input": PcInput;
         "pc-input-url": PcInputUrl;
-        "pc-linear-progress": PcLinearProgress;
         "pc-menu": PcMenu;
         "pc-menu-item": PcMenuItem;
         "pc-modal": PcModal;
@@ -6006,13 +5693,11 @@ declare namespace LocalJSX {
         "pc-popover-content": PcPopoverContent;
         "pc-select": PcSelect;
         "pc-slider": PcSlider;
-        "pc-spinner": PcSpinner;
         "pc-tab": PcTab;
         "pc-tab-panel": PcTabPanel;
         "pc-table": PcTable;
         "pc-tabs": PcTabs;
         "pc-tabs-list": PcTabsList;
-        "pc-tag": PcTag;
         "pc-textarea": PcTextarea;
         "pc-time-picker": PcTimePicker;
         "pc-toggle": PcToggle;
@@ -6098,29 +5783,17 @@ declare module "@stencil/core" {
             "pc-breadcrumb": LocalJSX.PcBreadcrumb & JSXBase.HTMLAttributes<HTMLPcBreadcrumbElement>;
             "pc-breadcrumb-item": LocalJSX.PcBreadcrumbItem & JSXBase.HTMLAttributes<HTMLPcBreadcrumbItemElement>;
             /**
-             * @label Button
+             * @label IconButton
              * @name button
              * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-             * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+             * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
              * @category Buttons
              * @tags controls
              * @example <pc-button>
-             * Button
+             * IconButton
              * </pc-button>
              */
             "pc-button": LocalJSX.PcButton & JSXBase.HTMLAttributes<HTMLPcButtonElement>;
-            /**
-             * @label Button Group
-             * @name button-group
-             * @description Group a series of buttons together on a single line with the button group, and super-power.
-             * @category General
-             * @tags controls
-             * @example <pc-button-group>
-             * <pc-button block icon="home"></pc-button>
-             * <pc-button block icon="alarm"></pc-button>
-             * </pc-button-group>
-             */
-            "pc-button-group": LocalJSX.PcButtonGroup & JSXBase.HTMLAttributes<HTMLPcButtonGroupElement>;
             /**
              * @label Calendar
              * @name calendar
@@ -6267,15 +5940,6 @@ declare module "@stencil/core" {
              */
             "pc-input-url": LocalJSX.PcInputUrl & JSXBase.HTMLAttributes<HTMLPcInputUrlElement>;
             /**
-             * @label Linear Progress Indicator
-             * @name linear-progress
-             * @description A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.
-             * @category Informational
-             * @tags feedback, loading, progress, spinner
-             * @example <goat-progress value="40" label="Progress" width="100%" helper-text="Optional helper text goes here..."></goat-progress>
-             */
-            "pc-linear-progress": LocalJSX.PcLinearProgress & JSXBase.HTMLAttributes<HTMLPcLinearProgressElement>;
-            /**
              * @label Menu
              * @name menu
              * @description Menus display a list of choices on temporary surfaces.
@@ -6383,15 +6047,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/slider-dark.webp
              */
             "pc-slider": LocalJSX.PcSlider & JSXBase.HTMLAttributes<HTMLPcSliderElement>;
-            /**
-             * @label Spinner
-             * @name spinner
-             * @description Spinners provide a visual cue that an action is processing awaiting a course of change or a result.
-             * @category Informational
-             * @tags feedback, loading, progress, spinner
-             * @example <pc-spinner class="rainbow" size="2rem"></pc-spinner>
-             */
-            "pc-spinner": LocalJSX.PcSpinner & JSXBase.HTMLAttributes<HTMLPcSpinnerElement>;
             "pc-tab": LocalJSX.PcTab & JSXBase.HTMLAttributes<HTMLPcTabElement>;
             "pc-tab-panel": LocalJSX.PcTabPanel & JSXBase.HTMLAttributes<HTMLPcTabPanelElement>;
             /**
@@ -6418,15 +6073,6 @@ declare module "@stencil/core" {
              */
             "pc-tabs": LocalJSX.PcTabs & JSXBase.HTMLAttributes<HTMLPcTabsElement>;
             "pc-tabs-list": LocalJSX.PcTabsList & JSXBase.HTMLAttributes<HTMLPcTabsListElement>;
-            /**
-             * @label Tag
-             * @name tag
-             * @description Use tags to label, categorize, or organize items using keywords that describe them.
-             * @category Data Display
-             * @tag controls
-             * @example <pc-tag class="color-red">Important</pc-tag>
-             */
-            "pc-tag": LocalJSX.PcTag & JSXBase.HTMLAttributes<HTMLPcTagElement>;
             /**
              * @label Textarea
              * @name textarea

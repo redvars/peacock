@@ -26,5 +26,16 @@ console.log(
 */
 
 console.log(
-  JSON.stringify(new PeacockColor('red', '#e73121').getPalette(), null, 2),
+  JSON.stringify(
+    await new PeacockColor([
+      { name: 'red', hex: '#CD1C18' },
+      { name: 'blue', hex: '#305CDE' },
+      { name: 'green', hex: '#2E6F40' },
+      { name: 'purple', hex: '#e40078' },
+      { name: 'yellow', hex: '#FFCE1B' },
+      { name: 'orange', hex: '#FF7518' },
+    ]).getPalette(),
+    null,
+    2,
+  ),
 );

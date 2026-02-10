@@ -1,11 +1,9 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>Fancy larger or smaller spinners? Add size attribute for additional sizes.</pc-text>
+<p class='text-body-emphasized'>Fancy larger or smaller spinners? Add size attribute for additional sizes.</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-progress value='40' label='Size medium'></goat-progress>
-
-
-  <goat-progress value='60' size='sm' label='Size small'></goat-progress>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <p-linear-progress value='60' style='--progress-height: 8px'></p-linear-progress>
+</DemoComponentCard>

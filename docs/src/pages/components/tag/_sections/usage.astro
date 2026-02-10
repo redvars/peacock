@@ -3,14 +3,14 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <DemoComponentCard lang={'html'}>
-  <p-chip>Gray</p-chip>
-  <p-chip color='blue'>Blue</p-chip>
-  <p-chip color='red'>Red</p-chip>
-  <p-chip
+  <p-tag>Gray</p-tag>
+  <p-tag color='blue'>Blue</p-tag>
+  <p-tag color='red'>Red</p-tag>
+  <p-tag
     color='green'
-    image-src='/assets/img/avatar.webp'
   >
+    <p-icon name='home' slot='icon'></p-icon>
     Green
-  </p-chip>
-  <p-chip color='yellow' dismissible>Yellow</p-chip>
+  </p-tag>
+  <p-tag color='yellow' dismissible>Yellow</p-tag>
 </DemoComponentCard>

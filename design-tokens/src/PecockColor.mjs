@@ -4,7 +4,7 @@ import {
   hexFromArgb,
 } from '@material/material-color-utilities';
 
-import { defineConfig, parse, build } from '@terrazzo/parser';
+import { defineConfig, parse } from '@terrazzo/parser';
 import css from '@terrazzo/plugin-css';
 import { customTransformerPlugin } from '../terrazzo.operations.plugin.mjs';
 
@@ -45,27 +45,28 @@ const config = defineConfig(
 );
 
 export class PeacockColor {
-  colorName;
-  hexValue;
-  argbColor;
+  /** @types {{{ hex: string, argbColor: string, name: string, toneType?: string}[]} **/
+  colors;
   weightsUsed = {};
-  constructor(colorName, hexValue) {
-    this.colorName = colorName;
-    this.hexValue = hexValue;
-    this.argbColor = argbFromHex(hexValue);
+  constructor(colors) {
+    this.colors = colors;
+
+    this.colors.forEach(color => {
+      color.argbColor = argbFromHex(color.hex);
+    });
   }
 
-  __useWeight(weight) {
+  __useWeight(name, weight) {
     this.weightsUsed[weight] = true;
-    return `{color.${this.colorName}.${weight}}`;
+    return `{color.${name}.${weight}}`;
   }
 
-  __generetareColor(tone, darkTone) {
+  __generateColor(name, tone, darkTone) {
     return {
-      $value: this.__useWeight(tone),
+      $value: this.__useWeight(name, tone),
       $extensions: {
         mode: {
-          dark: this.__useWeight(darkTone),
+          dark: this.__useWeight(name, darkTone),
         },
       },
     };
@@ -76,44 +77,68 @@ export class PeacockColor {
     const palette = {
       color: {
         $type: 'color',
-        [`${this.colorName}-base`]: {
-          $value: this.hexValue,
-        },
-        [this.colorName]: {
-          '@': this.__generetareColor(40, 80),
-        },
-        [`on-${this.colorName}`]: this.__generetareColor(100, 20),
-        [`${this.colorName}-container`]: this.__generetareColor(90, 30),
-        [`on-${this.colorName}-container`]: this.__generetareColor(10, 90),
-        [`inverse-${this.colorName}`]: this.__generetareColor(80, 40),
       },
     };
 
-    const colorPalette = CorePalette.of(this.argbColor);
-
-    Object.keys(this.weightsUsed).forEach(weight => {
-      palette.color[this.colorName][weight] = {
-        $value: hexFromArgb(colorPalette.a1.tone(parseInt(weight))),
+    this.colors.forEach(color => {
+      palette.color[color.name] = {
+        '@': this.__generateColor(color.name, 40, 80),
+        'base': this.hexValue,
       };
+      palette.color[`on-${color.name}`] = this.__generateColor(
+        color.name,
+        100,
+        20,
+      );
+      palette.color[`${color.name}-container`] = this.__generateColor(
+        color.name,
+        90,
+        30,
+      );
+      palette.color[`on-${color.name}-container`] = this.__generateColor(
+        color.name,
+        10,
+        90,
+      );
+      palette.color[`inverse-${color.name}`] = this.__generateColor(
+        color.name,
+        80,
+        40,
+      );
+
+      const colorPalette = CorePalette.of(color.argbColor);
+
+      debugger;
+
+      [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].forEach(weight => {
+        this.weightsUsed[weight] = true;
+      });
+
+      Object.keys(this.weightsUsed).forEach(weight => {
+        if (!color.toneType)
+          palette.color[color.name][weight] = {
+            $value: hexFromArgb(colorPalette.a1.tone(parseInt(weight))),
+          };
+        if (color.toneType == 'neutral')
+          palette.color[color.name][weight] = {
+            $value: hexFromArgb(colorPalette.n1.tone(parseInt(weight))),
+          };
+      });
     });
 
-    const { tokens, sources } = await parse(
+    /* const { tokens, sources } = await parse(
       [
         {
           filename: new URL('file:///tokens.json'),
           src: JSON.stringify(palette),
         },
-        {
-          filename: new URL('file:///tokens3.json'),
-          src: JSON.stringify(palette),
-        },
       ],
       { config },
-    );
+    );*/
 
-    const buildResult = await build(tokens, { sources, config });
+    // const buildResult = await build(tokens, { sources, config });
 
-    console.log(buildResult.outputFiles);
+    // console.log(buildResult.outputFiles);
 
     return palette;
   }

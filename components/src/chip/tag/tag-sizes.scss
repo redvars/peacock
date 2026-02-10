@@ -1,0 +1,23 @@
+@use '../../../scss/mixin';
+
+.tag {
+  font-family: var(--font-family-sans) !important;
+}
+
+.tag.size-sm,
+.tag.size-small {
+  --_chip-height: 1.5rem;
+  --_tag-icon-size: 1rem;
+  --_container-padding: 0.75rem;
+
+  @include mixin.get-typography(label-medium)
+}
+
+.tag.size-md,
+.tag.size-medium {
+  --_chip-height: 2rem;
+  --_tag-icon-size: 1.125rem;
+  --_container-padding: 1rem;
+
+  @include mixin.get-typography(label-large)
+}

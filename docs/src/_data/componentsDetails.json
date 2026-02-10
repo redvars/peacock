@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-05T05:23:31",
+  "timestamp": "2026-02-09T17:11:53",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -20,13 +20,11 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "goat-cb-divider",
-        "pc-tag"
+        "goat-cb-divider"
       ],
       "dependencyGraph": {
         "goat-cb-compound-expression": [
-          "goat-cb-divider",
-          "pc-tag"
+          "goat-cb-divider"
         ]
       },
       "props": [
@@ -347,13 +345,11 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "goat-cb-divider",
-        "pc-tag"
+        "goat-cb-divider"
       ],
       "dependencyGraph": {
         "goat-cb-predicate": [
-          "goat-cb-divider",
-          "pc-tag"
+          "goat-cb-divider"
         ]
       },
       "props": [
@@ -1090,13 +1086,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--code-highlighter-background",
-          "annotation": "prop",
-          "docs": "Code Highlighter background color"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -1126,14 +1116,12 @@
       "dependents": [],
       "dependencies": [
         "pc-input",
-        "goat-cb-divider",
-        "pc-tag"
+        "goat-cb-divider"
       ],
       "dependencyGraph": {
         "goat-condition-builder": [
           "pc-input",
-          "goat-cb-divider",
-          "pc-tag"
+          "goat-cb-divider"
         ],
         "pc-input": [
           "pc-tooltip",
@@ -1564,7 +1552,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": false,
-          "docs": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`, `\"xxl\"`, `\"none\"`. Defaults to `\"md\"`.",
+          "docs": "IconButton size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`, `\"xxl\"`, `\"none\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -1871,7 +1859,6 @@
           "pc-menu-item"
         ],
         "pc-code-editor": [
-          "pc-tag",
           "pc-spinner"
         ],
         "pc-menu": [
@@ -3740,7 +3727,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": false,
-          "docs": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "IconButton size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -3873,7 +3860,7 @@
           "mutable": false,
           "attr": "type",
           "reflectToAttr": true,
-          "docs": "Button type based on which actions are performed when the button is clicked.",
+          "docs": "IconButton type based on which actions are performed when the button is clicked.",
           "docsTags": [
             {
               "name": "default",
@@ -4035,58 +4022,7 @@
           "docsTags": []
         }
       ],
-      "styles": [
-        {
-          "name": "--goat-theme-button-border-radius",
-          "annotation": "prop",
-          "docs": "Theme level button border radius. (applies to all buttons)"
-        },
-        {
-          "name": "--goat-theme-button-border-style",
-          "annotation": "prop",
-          "docs": "Theme level button border style. (applies to all buttons)"
-        },
-        {
-          "name": "--pc-button-border-radius",
-          "annotation": "prop",
-          "docs": "Button border radius."
-        },
-        {
-          "name": "--pc-button-border-style",
-          "annotation": "prop",
-          "docs": "Button border style."
-        },
-        {
-          "name": "--pc-button-color",
-          "annotation": "prop",
-          "docs": "Button filling color."
-        },
-        {
-          "name": "--pc-button-color-active",
-          "annotation": "prop",
-          "docs": "Button filling color on active."
-        },
-        {
-          "name": "--pc-button-color-hover",
-          "annotation": "prop",
-          "docs": "Button filling color on hover."
-        },
-        {
-          "name": "--pc-button-color-light",
-          "annotation": "prop",
-          "docs": "Button filling color for light variant."
-        },
-        {
-          "name": "--pc-button-padding",
-          "annotation": "prop",
-          "docs": "Button padding."
-        },
-        {
-          "name": "--pc-button-support-contrast-color",
-          "annotation": "prop",
-          "docs": "Button support color (text or border). Should be white or black based on weight of button filling color."
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -4104,54 +4040,15 @@
         }
       ],
       "metadata": {
-        "label": "Button",
+        "label": "IconButton",
         "name": "button",
         "description": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
-        "overview": " <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>",
+        "overview": " <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>",
         "category": "Buttons",
         "tags": [
           "controls"
         ],
-        "example": "<pc-button>\nButton\n</pc-button>"
-      }
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/button-group",
-      "filePath": "src/components/button-group/button-group.tsx",
-      "fileName": "button-group.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/button-group/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/button-group/usage",
-      "tag": "pc-button-group",
-      "readme": "# pc-button-group\r\n\r\n\r\n\r",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "pc-flow-designer"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "pc-flow-designer": [
-          "pc-button-group"
-        ]
-      },
-      "props": [],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Button Group",
-        "name": "button-group",
-        "description": "Group a series of buttons together on a single line with the button group, and super-power.",
-        "category": "General",
-        "tags": [
-          "controls"
-        ],
-        "example": "<pc-button-group>\n<pc-button block icon=\"home\"></pc-button>\n<pc-button block icon=\"alarm\"></pc-button>\n</pc-button-group>"
+        "example": "<pc-button>\nIconButton\n</pc-button>"
       }
     },
     {
@@ -6032,12 +5929,10 @@
         "goat-html-editor"
       ],
       "dependencies": [
-        "pc-tag",
         "pc-spinner"
       ],
       "dependencyGraph": {
         "pc-code-editor": [
-          "pc-tag",
           "pc-spinner"
         ],
         "goat-html-editor": [
@@ -7440,13 +7335,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--pc-dropdown-menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7732,14 +7621,10 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "pc-tag",
-        "pc-button-group",
         "pc-button"
       ],
       "dependencyGraph": {
         "pc-flow-designer": [
-          "pc-tag",
-          "pc-button-group",
           "pc-button"
         ]
       },
@@ -8223,18 +8108,7 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--goat-header-height",
-          "annotation": "prop",
-          "docs": "Height of the header. Defaults to 3rem."
-        },
-        {
-          "name": "--goat-header-width",
-          "annotation": "prop",
-          "docs": "Width of the header. Defaults to 100%."
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -9385,181 +9259,6 @@
       }
     },
     {
-      "dirPath": "E:/git/redvars/peacock/src/components/progress/linear-progress",
-      "filePath": "src/components/progress/linear-progress/linear-progress.tsx",
-      "fileName": "linear-progress.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/progress/linear-progress/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/progress/linear-progress/usage",
-      "tag": "pc-linear-progress",
-      "readme": "# pc-spinner\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "helperText",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "helper-text",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "hideLabel",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "hide-label",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "label",
-          "reflectToAttr": false,
-          "docs": "A label describing the progress bar.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "size",
-          "type": "\"md\" | \"sm\"",
-          "complexType": {
-            "original": "'sm' | 'md'",
-            "resolved": "\"md\" | \"sm\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "size",
-          "reflectToAttr": false,
-          "docs": "\nPossible values are: `\"sm\"` and `\"md\"` in pixel. Defaults to `\"md\"`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'md'"
-            }
-          ],
-          "default": "'md'",
-          "values": [
-            {
-              "value": "md",
-              "type": "string"
-            },
-            {
-              "value": "sm",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "value",
-          "type": "number",
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "value",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "null"
-            }
-          ],
-          "default": "null",
-          "values": [
-            {
-              "type": "number"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Linear Progress Indicator",
-        "name": "linear-progress",
-        "description": "A linear progress indicator is a visual representation of progress toward a specific goal or completion of a task.",
-        "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
-        "example": "<goat-progress value=\"40\" label=\"Progress\" width=\"100%\" helper-text=\"Optional helper text goes here...\"></goat-progress>"
-      }
-    },
-    {
       "dirPath": "E:/git/redvars/peacock/src/components/menu/menu",
       "filePath": "src/components/menu/menu/menu.tsx",
       "fileName": "menu.tsx",
@@ -9835,23 +9534,7 @@
         }
       ],
       "events": [],
-      "styles": [
-        {
-          "name": "--menu-background",
-          "annotation": "prop",
-          "docs": "Background color of the menu"
-        },
-        {
-          "name": "--menu-max-height",
-          "annotation": "prop",
-          "docs": "Maximum height of the menu"
-        },
-        {
-          "name": "--menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of the menu"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -12075,28 +11758,7 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [
-        {
-          "name": "--pc-menu-shadow",
-          "annotation": "prop",
-          "docs": "Shadow of popover content"
-        },
-        {
-          "name": "--popover-content-background",
-          "annotation": "prop",
-          "docs": "Background color of the popover content"
-        },
-        {
-          "name": "--popover-content-border-radius",
-          "annotation": "prop",
-          "docs": "Border radius of the popover content"
-        },
-        {
-          "name": "--popover-padding",
-          "annotation": "prop",
-          "docs": "Padding of the popover content"
-        }
-      ],
+      "styles": [],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -12123,7 +11785,6 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "pc-tag",
         "pc-button",
         "pc-spinner",
         "pc-menu",
@@ -12131,7 +11792,6 @@
       ],
       "dependencyGraph": {
         "pc-select": [
-          "pc-tag",
           "pc-button",
           "pc-spinner",
           "pc-menu",
@@ -13899,7 +13559,7 @@
           "mutable": false,
           "attr": "selected",
           "reflectToAttr": true,
-          "docs": "Button selection state.",
+          "docs": "IconButton selection state.",
           "docsTags": [
             {
               "name": "default",
@@ -14980,303 +14640,6 @@
         }
       ],
       "metadata": {}
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/tag",
-      "filePath": "src/components/tag/tag.tsx",
-      "fileName": "tag.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/tag/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/tag/usage",
-      "tag": "pc-tag",
-      "readme": "# goat-heading\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "goat-cb-compound-expression",
-        "goat-cb-predicate",
-        "goat-condition-builder",
-        "pc-code-editor",
-        "pc-flow-designer",
-        "pc-select"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "goat-cb-compound-expression": [
-          "pc-tag"
-        ],
-        "goat-cb-predicate": [
-          "pc-tag"
-        ],
-        "goat-condition-builder": [
-          "pc-tag"
-        ],
-        "pc-code-editor": [
-          "pc-tag"
-        ],
-        "pc-flow-designer": [
-          "pc-tag"
-        ],
-        "pc-select": [
-          "pc-tag"
-        ]
-      },
-      "props": [
-        {
-          "name": "color",
-          "type": "\"blue\" | \"error\" | \"gray\" | \"green\" | \"info\" | \"primary\" | \"red\" | \"success\" | \"warning\" | \"yellow\"",
-          "complexType": {
-            "original": "| 'gray'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow'\n    | 'primary'\n    | 'success'\n    | 'info'\n    | 'warning'\n    | 'error'",
-            "resolved": "\"blue\" | \"error\" | \"gray\" | \"green\" | \"info\" | \"primary\" | \"red\" | \"success\" | \"warning\" | \"yellow\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "color",
-          "reflectToAttr": true,
-          "docs": "Tag color.\nPossible values are: 'gray', 'blue', 'green', 'red', 'yellow', 'primary', 'success', 'info', 'warning', 'error'.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'gray'"
-            }
-          ],
-          "default": "'gray'",
-          "values": [
-            {
-              "value": "blue",
-              "type": "string"
-            },
-            {
-              "value": "error",
-              "type": "string"
-            },
-            {
-              "value": "gray",
-              "type": "string"
-            },
-            {
-              "value": "green",
-              "type": "string"
-            },
-            {
-              "value": "info",
-              "type": "string"
-            },
-            {
-              "value": "primary",
-              "type": "string"
-            },
-            {
-              "value": "red",
-              "type": "string"
-            },
-            {
-              "value": "success",
-              "type": "string"
-            },
-            {
-              "value": "warning",
-              "type": "string"
-            },
-            {
-              "value": "yellow",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "dismissible",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "dismissible",
-          "reflectToAttr": false,
-          "docs": "If true, the tag will have a close icon.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "imageSrc",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "image-src",
-          "reflectToAttr": false,
-          "docs": "Image source.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "selected",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "selected",
-          "reflectToAttr": true,
-          "docs": "If true, the tag will be selected.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "size",
-          "type": "\"md\" | \"sm\"",
-          "complexType": {
-            "original": "'sm' | 'md'",
-            "resolved": "\"md\" | \"sm\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "size",
-          "reflectToAttr": true,
-          "docs": "Text size.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'md'"
-            }
-          ],
-          "default": "'md'",
-          "values": [
-            {
-              "value": "md",
-              "type": "string"
-            },
-            {
-              "value": "sm",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "value",
-          "reflectToAttr": true,
-          "docs": "Tag value.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "''"
-            }
-          ],
-          "default": "''",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [
-        {
-          "event": "tag--click",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when the tag is clicked.",
-          "docsTags": []
-        },
-        {
-          "event": "tag--dismiss",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when the close icon is clicked.",
-          "docsTags": []
-        }
-      ],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Tag",
-        "name": "tag",
-        "description": "Use tags to label, categorize, or organize items using keywords that describe them.",
-        "category": "Data Display",
-        "tag": "controls",
-        "example": "<pc-tag class=\"color-red\">Important</pc-tag>"
-      }
     },
     {
       "dirPath": "E:/git/redvars/peacock/src/components/input-controls/input/textarea",

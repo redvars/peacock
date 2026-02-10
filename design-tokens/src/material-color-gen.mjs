@@ -70,12 +70,13 @@ function getPalette(
   }
 }
 
-//console.log(JSON.stringify(getTheme('#ff0000'), null, 4));
+console.log(JSON.stringify(getTheme('#ff0000'), null, 4));
 
 //console.log(JSON.stringify(getPaletteFromHex('#ff0000'), null, 4));
 //console.log(JSON.stringify(getPaletteFromHex('#008000'), null, 4));
 //console.log(JSON.stringify(getPaletteFromHex('#0000ff'), null, 4));
 //console.log(JSON.stringify(getPaletteFromHex('#9d00ff'), null, 4));
+/*
 console.log(
   JSON.stringify(
     getPaletteFromHex(
@@ -89,3 +90,4 @@ console.log(
     4,
   ),
 );
+*/

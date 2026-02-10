@@ -2,6 +2,8 @@ import { html, LitElement, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './chip.scss';
+import colorStyles from './chip-colors.scss';
+import sizeStyles from './chip-sizes.scss';
 
 /**
  * @label Chip
@@ -18,17 +20,18 @@ import styles from './chip.scss';
 export class Chip extends LitElement {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
   // You would typically import your tag.scss.js here or use the css tag
-  static styles = [styles];
+  static styles = [styles, colorStyles, sizeStyles];
 
   /** If true, the tag will have a close icon. */
   @property({ type: Boolean }) dismissible = false;
 
   /** Tag color. */
   @property({ type: String, reflect: true }) color?:
+    | 'default'
     | 'blue'
     | 'green'
     | 'red'
-    | 'yellow';
+    | 'yellow' = 'default';
 
   /** Tag value. */
   @property({ type: String, reflect: true }) value = '';
@@ -88,7 +91,9 @@ export class Chip extends LitElement {
     return html`
       <div class="${classMap(classes)}">
         <p-elevation class="elevation"></p-elevation>
-        <div class="tag-background"></div>
+        <div class="background"></div>
+        <div class="outline"></div>
+
         <div class="tag-content">
           <slot name="icon"></slot>
           <slot></slot>

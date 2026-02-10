@@ -7,7 +7,7 @@ import { Component, Element, h, Method, Prop, State } from '@stencil/core';
 })
 export class HeaderAction {
   /**
-   * Button size.
+   * IconButton size.
    * Possible values are `"sm"`, `"md"`, `"lg"`, `"xl"`, `"xxl"`, `"none"`. Defaults to `"md"`.
    */
   @Prop() size: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none' = 'md';

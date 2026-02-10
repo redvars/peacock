@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+const componentDetails = getComponentDetails('circular-progress');
+
+import UsageSection from './_sections/usage.astro';
+import VariantsSection from './_sections/variants.astro';
+import SizesSection from './_sections/sizes.astro';
+
+const sections = [{
+  'title': 'Usage',
+  'Component': UsageSection,
+}, {
+  'title': 'Color Variants',
+  'Component': VariantsSection,
+}, {
+  'title': 'Sizes',
+  'Component': SizesSection,
+}];
+---
+<Layout componentDetails={componentDetails}>
+  <pc-tabs class='page-tabs'>
+    <pc-tabs-list>
+      <pc-tab selected='true'>Overview</pc-tab>
+      <pc-tab>API</pc-tab>
+    </pc-tabs-list>
+    <pc-tab-panel>
+      <OverviewPanel  sections={sections} />
+    </pc-tab-panel>
+    <pc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </pc-tab-panel>
+  </pc-tabs>
+</Layout>

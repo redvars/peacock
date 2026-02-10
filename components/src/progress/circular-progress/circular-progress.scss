@@ -1,0 +1,104 @@
+@use "../../../scss/mixin";
+
+:host {
+  display: inline-block;
+
+  --progress-height: 1.5rem;
+  --progress-line-thickness: 4px;
+  --progress-container-color: var(--color-primary);
+  --progress-track-color: var(--color-secondary-container);
+}
+
+.circular-progress {
+  display: flex;
+  flex-direction: column;
+
+  .circular-progress-container {
+    position: relative;
+    width: 100%;
+    --_container-height: clamp(0rem, var(--progress-height), 15rem);
+    height: var(--_container-height);
+
+    .progress-label {
+      @include mixin.get-typography(label-large-emphasized);
+      color: var(--color-on-surface);
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    svg {
+      transform: rotate(-90deg); // Start progress from the top
+      width: 100%;
+      height: 100%;
+    }
+
+    circle {
+      fill: none;
+      stroke-linecap: round;
+      transition: stroke-dashoffset var(--duration-medium2) var(--easing-standard);
+    }
+
+    .track {
+      stroke: var(--progress-track-color);
+      stroke-width: calc(var(--progress-line-thickness) / calc(tan(atan2(var(--_container-height), 1px)) / 16));
+    }
+
+    .active-indicator {
+      stroke: var(--progress-container-color);
+      stroke-width: calc(var(--progress-line-thickness) / calc(tan(atan2(var(--_container-height), 1px)) / 16));
+    }
+  }
+
+  &.indeterminate {
+    .active-indicator {
+      animation: arc-indeterminate 1.5s ease-in-out infinite;
+    }
+  }
+
+  .progress-label {
+    @include mixin.get-typography(label-medium);
+    color: var(--color-on-surface);
+  }
+
+  .progress-helper {
+    @include mixin.get-typography(label-small);
+    color: var(--color-on-surface-variant);
+    text-align: center;
+  }
+
+  &.inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-200);
+    .progress-footer {
+      flex: 1;
+    }
+    .progress-helper {
+      text-align: right;
+    }
+  }
+}
+
+@keyframes rotate-container {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes arc-indeterminate {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}

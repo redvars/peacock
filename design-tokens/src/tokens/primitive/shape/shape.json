@@ -2,7 +2,8 @@
   "shape-corner": {
     "$type": "dimension",
     "full": {
-      "$value": "9999px"
+      "$type": "string",
+      "$value": "50%"
     },
     "large": {
       "$value": "12px"

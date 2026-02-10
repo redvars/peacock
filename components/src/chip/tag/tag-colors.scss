@@ -1,0 +1,49 @@
+@mixin _tag-color($color) {
+
+  --filled-tag-container-color: var(--color-#{$color});
+  --filled-tag-label-text-color: var(--color-on-#{$color});
+
+  --tonal-tag-container-color: var(--color-#{$color}-container);
+  --tonal-tag-label-text-color: var(--color-on-#{$color}-container);
+
+  --elevated-tag-container-color: var(--color-surface-container-low);
+  --elevated-tag-label-text-color: var(--color-#{$color});
+
+  --outlined-tag-outline-color: var(--color-#{$color});
+  --outlined-tag-label-text-color:  var(--color-#{$color});
+}
+
+:host([color=default]) {
+  --filled-tag-container-color: var(--color-surface);
+  --filled-tag-label-text-color: var(--color-on-surface);
+
+  --tonal-tag-container-color: var(--color-surface-container);
+  --tonal-tag-label-text-color: var(--color-on-surface-container);
+
+  --elevated-tag-container-color: var(--color-surface-container-low);
+  --elevated-tag-label-text-color: var(--color-on-surface);
+
+  --outlined-tag-outline-color: var(--color-on-surface);
+  --outlined-tag-label-text-color: var(--color-on-surface);
+}
+
+:host([color=red]) {
+  @include _tag-color(red);
+}
+
+:host([color=green]) {
+  @include _tag-color(green);
+}
+
+:host([color=blue]) {
+  @include _tag-color(blue);
+}
+
+:host([color=yellow]) {
+  @include _tag-color(yellow);
+}
+
+:host([color=purple]) {
+  @include _tag-color(purple);
+}
+

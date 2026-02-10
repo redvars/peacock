@@ -1,0 +1,62 @@
+@use '../../../scss/mixin';
+
+.button.size-xs,
+.button.size-extra-small {
+  --_button-height: 2rem;
+  --_button-icon-size: 1rem;
+  --_container-padding: 0.75rem;
+
+  font-size:  0.875rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  line-height: 1.25rem !important;
+  letter-spacing: 0.1px !important;
+}
+
+
+.button.size-sm,
+.button.size-small {
+  --_button-height: 2.5rem;
+  --_button-icon-size: 1.25rem;
+  --_container-padding: 1rem;
+  --_button-icon-label-spacing: 0.5rem;
+
+  font-size:  0.875rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  line-height: 1.25rem !important;
+  letter-spacing: 0.1px !important;
+}
+
+.button.size-md,
+.button.size-medium {
+  --_button-height: 3.5rem;
+  --_button-icon-size: 1.5rem;
+  --_container-padding: 1.5rem;
+
+  font-size:  1rem !important;
+  font-weight: var(--font-weight-medium) !important;
+  line-height: 1.5rem !important;
+  letter-spacing: 0.15px !important;
+}
+
+.button.size-lg,
+.button.size-large {
+  --_button-height: 6rem;
+  --_button-icon-size: 2rem;
+  --_container-padding: 3rem;
+
+  font-size:  1.5rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  line-height: 2rem !important;
+  letter-spacing: 0 !important;
+}
+
+.button.size-xl {
+  --_button-height: 8.5rem;
+  --_button-icon-size: 2.5rem;
+  --_container-padding: 4rem;
+
+  font-size:  2rem !important;
+  font-weight: var(--font-weight-regular) !important;
+  line-height: 2.5rem !important;
+  letter-spacing: 0 !important;
+}

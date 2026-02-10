@@ -4,9 +4,13 @@ export { Badge } from './badge/index.js';
 export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
-export { Button } from './button/index.js';
+export { Button, ButtonGroup, IconButton } from './button/index.js';
+
 export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
 export { Accordion } from './accordion/accordion/index.js';
 export { Link } from './link/index.js';
+export { Tag } from './chip/tag/index.js';
 export { Chip } from './chip/chip/index.js';
+export { LinearProgress } from './progress/linear-progress/index.js';
+export { CircularProgress } from './progress/circular-progress/index.js';

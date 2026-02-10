@@ -1,50 +1,12 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <pc-text type='body'> Here are several predefined button styles, each serving its own semantic purpose.</pc-text>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
   <p-button-group>
-    <p-button icon='home' variant='outline' color='secondary'></p-button>
-    <p-button icon='alarm' variant='outline' color='secondary'></p-button>
-    <p-button icon='box' variant='outline' color='secondary'></p-button>
+    <p-icon-button color='secondary' name='home'></p-icon-button>
+    <p-icon-button color='secondary' name='alarm'></p-icon-button>
+    <p-icon-button color='secondary' name='box'></p-icon-button>
   </p-button-group>
-
-  <br />
-
-  <p-button-group>
-    <p-button variant='outline' color='secondary'>Save</p-button>
-    <p-button dropdown-target='dropdown' icon='chevron--down' class='last-child' variant='outline' color='secondary'
-                 style='--button-padding:.5rem'></p-button>
-
-
-
-  </p-button-group>
-
-  <pc-dropdown id='dropdown' item-variant='icon' placements='bottom-end,top-end'>
-
-    <pc-menu slot='dropdown-content' class='menu' style='width: 200px'>
-      <pc-menu-item value='cut'>
-        <p-icon name='cut' slot='start'></p-icon>
-        Cut
-        <span slot='end'>⌘X</span>
-      </pc-menu-item>
-      <pc-menu-item value='copy'>
-        <p-icon name='copy' slot='start'></p-icon>
-        Copy
-        <span slot='end'>⌘C</span>
-      </pc-menu-item>
-      <pc-menu-item value='paste'>
-        <p-icon name='paste' slot='start'></p-icon>
-        Paste
-        <span slot='end'>⌘X</span>
-      </pc-menu-item>
-      <pc-divider></pc-divider>
-      <pc-menu-item value='delete'>
-        <p-icon name='trash-can' slot='start'></p-icon>
-        Delete
-        <span slot='end'>←</span>
-      </pc-menu-item>
-    </pc-menu>
-  </pc-dropdown>
-</HighlighterCard>
+</DemoComponentCard>

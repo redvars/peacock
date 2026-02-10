@@ -1,7 +1,7 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 const componentDetails = getComponentDetails('linear-progress');
 
@@ -16,23 +16,21 @@ const sections = [{
   'Component': SizesSection,
 }];
 ---
+
 <style is:inline>
-  goat-progress {
-    margin-bottom: 1rem;
+  p-linear-progress {
+    width: 20rem;
   }
 </style>
+
 <Layout componentDetails={componentDetails}>
   <pc-tabs class='page-tabs'>
     <pc-tabs-list>
       <pc-tab selected='true'>Overview</pc-tab>
-      <pc-tab>Playground</pc-tab>
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
       <OverviewPanel  sections={sections} />
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
     </pc-tab-panel>
     <pc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

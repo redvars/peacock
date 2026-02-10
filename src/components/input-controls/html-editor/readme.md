@@ -89,7 +89,6 @@ graph TD;
   goat-html-editor --> pc-toggle
   goat-html-editor --> pc-menu
   goat-html-editor --> pc-menu-item
-  pc-code-editor --> pc-tag
   pc-code-editor --> pc-spinner
   pc-menu --> pc-empty-state
   pc-empty-state --> pc-button

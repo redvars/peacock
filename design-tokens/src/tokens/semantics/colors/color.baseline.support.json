@@ -172,6 +172,47 @@
       }
     },
 
+    "warning": {
+      "$value": "{color.yellow.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.80}"
+        }
+      }
+    },
+    "onWarning": {
+      "$value": "{color.yellow.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.20}"
+        }
+      }
+    },
+    "warningContainer": {
+      "$value": "{color.yellow.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.30}"
+        }
+      }
+    },
+    "onWarningContainer": {
+      "$value": "{color.yellow.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.90}"
+        }
+      }
+    },
+    "inverseWarning": {
+      "$value": "{color.yellow.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.40}"
+        }
+      }
+    },
+
     "error": {
       "$value": "{color.red.40}",
       "$extensions": {

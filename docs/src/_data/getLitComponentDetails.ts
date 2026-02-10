@@ -1,7 +1,7 @@
 import componentsDetails from './custom-elements-jsdocs.json';
 import { marked } from 'marked';
 
-export function getLitComponentDetails(name: string): any {
+export function getComponentDetails(name: string): any {
   const comp = componentsDetails.find((component: any) => {
     console.log(
       component.rawTag + ' === ' + name + ' ' + (component.rawTag == name),

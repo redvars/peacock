@@ -1,0 +1,148 @@
+@use "../../../scss/mixin";
+
+:host {
+  display: block;
+  --progress-height: 0.25rem;
+  --progress-container-color: var(--color-primary);
+  --progress-track-color: var(--color-secondary-container);
+  min-width: 2.5rem;
+}
+
+
+.linear-progress {
+  display: flex;
+  flex-direction: column;
+
+  .progress-header {
+    display: flex;
+    align-items: center;
+
+    .progress-label {
+      @include mixin.get-typography(label-medium);
+      color: var(--color-on-surface);
+      flex: 1;
+    }
+  }
+
+  .progress-body {
+    display: flex;
+    flex-direction: column;
+
+    .linear-progress-container {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      margin: var(--spacing-100) 0;
+
+      .track {
+        position: relative;
+
+        &:after {
+          content: '';
+          position: absolute;
+          display: block;
+          top: 0;
+          left: 0;
+          width: calc(100% - 0.25rem);
+          height: var(--progress-height);
+          background: var(--progress-track-color);
+          border-radius: 9999px;
+        }
+      }
+
+      .track-start {
+        &:after {
+          margin-inline-end: 0.25rem;
+        }
+      }
+
+      .active-indicator {
+        height: var(--progress-height);
+        background: var(--progress-container-color);
+        border-radius: 9999px;
+      }
+
+      .track-end {
+        flex: 1;
+
+        &:after {
+          margin-inline-start: 0.25rem;
+        }
+      }
+    }
+
+    .progress-helper {
+      @include mixin.get-typography(body-small);
+      color: var(--color-on-surface-variant);
+    }
+
+  }
+
+
+  &:not(.indeterminate) {
+    .track-start {
+      transition: width var(--duration-medium2) var(--easing-standard);
+    }
+
+    .active-indicator {
+      transition: width var(--duration-medium2) var(--easing-standard);
+    }
+  }
+
+  &.indeterminate {
+    .linear-progress-container {
+      .track-start {
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-name: track-start-indeterminate;
+        animation-timing-function: var(--easing-linear);
+      }
+
+      .active-indicator {
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-name: active-indicator-indeterminate;
+        animation-timing-function: var(--easing-linear);
+      }
+    }
+  }
+
+  &.inline {
+    flex-direction: row;
+    gap: var(--spacing-200);
+    .progress-body {
+      flex: 1;
+    }
+  }
+}
+
+
+@keyframes track-start-indeterminate {
+  0% {
+    width: 0;
+  }
+  50% {
+    width: 33%;
+  }
+  80%, to {
+    width: 100%;
+    padding-inline-end: 0;
+  }
+}
+
+@keyframes active-indicator-indeterminate {
+  0% {
+    width: 0;
+  }
+
+  50% {
+    width: 33%;
+  }
+
+  80%, to {
+    width: 0;
+  }
+}
+
+

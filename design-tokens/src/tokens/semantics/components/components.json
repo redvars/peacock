@@ -8,7 +8,6 @@
     },
     "avatar": {
       "borderRadius": {
-        "$type": "dimension",
         "$value": "{shape-corner.full}"
       }
     }

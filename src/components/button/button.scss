@@ -1,11 +1,11 @@
 @import "../../globalStyles/commons";
 
 /**
- * @prop --pc-button-color: Button filling color.
- * @prop --pc-button-color-light: Button filling color for light variant.
- * @prop --pc-button-color-hover: Button filling color on hover.
- * @prop --pc-button-color-active: Button filling color on active.
- * @prop --pc-button-support-contrast-color: Button support color (text or border). Should be white or black based on weight of button filling color.
+ * @prop --pc-button-color: IconButton filling color.
+ * @prop --pc-button-color-light: IconButton filling color for light variant.
+ * @prop --pc-button-color-hover: IconButton filling color on hover.
+ * @prop --pc-button-color-active: IconButton filling color on active.
+ * @prop --pc-button-support-contrast-color: IconButton support color (text or border). Should be white or black based on weight of button filling color.
  */
 :host {
   display: inline-flex;
@@ -13,19 +13,19 @@
   --pc-button-border-width: var(--goat-theme-button-border-width);
 
   /**
-   * @prop --pc-button-border-radius: Button border radius.
+   * @prop --pc-button-border-radius: IconButton border radius.
    * @prop --goat-theme-button-border-radius: Theme level button border radius. (applies to all buttons)
    */
   --pc-button-border-radius: var(--goat-theme-button-border-radius, var(--border-radius));
 
   /**
-   * @prop --pc-button-border-style: Button border style.
+   * @prop --pc-button-border-style: IconButton border style.
    * @prop --goat-theme-button-border-style: Theme level button border style. (applies to all buttons)
    */
   --pc-button-border-style: var(--goat-theme-button-border-style, solid);
 
   /**
-    * @prop --pc-button-padding: Button padding.
+    * @prop --pc-button-padding: IconButton padding.
    */
   --pc-button-padding: unset;
 
@@ -268,7 +268,7 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 
 /**
- * Button variant definitions
+ * IconButton variant definitions
  */
 .button.variant-filled {
 

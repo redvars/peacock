@@ -32,15 +32,6 @@ Type: `Promise<void>`
 
 
 
-## CSS Custom Properties
-
-| Name                | Description                  |
-| ------------------- | ---------------------------- |
-| `--menu-background` | Background color of the menu |
-| `--menu-max-height` | Maximum height of the menu   |
-| `--menu-shadow`     | Shadow of the menu           |
-
-
 ## Dependencies
 
 ### Used by

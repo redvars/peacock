@@ -1,26 +1,31 @@
-:host([color=primary]) {
-  --tag-container-color: var(--color-primary-container);
-  --tag-label-text-color: var(--color-on-primary-container);
+
+
+:host([color=red]) {
+  --chip-container-color: var(--color-red-container);
+  --chip-outline-color: var(--color-on-red-container);
 }
 
-:host([color=success]) {
-  --tag-container-color: var(--color-success-container);
-  --tag-label-text-color: var(--color-on-success-container);
+:host([color=green]) {
+  --chip-container-color: var(--color-green-container);
+  --chip-label-text-color: var(--color-on-green-container);
+  --chip-outline-color: var(--color-on-green-container);
 }
 
-:host([color=danger]) {
-  --tag-container-color: var(--color-error-container);
-  --tag-label-text-color: var(--color-on-error-container);
+:host([color=blue]) {
+  --chip-container-color: var(--color-blue-container);
+  --chip-label-text-color: var(--color-on-blue-container);
+  --chip-outline-color: var(--color-on-blue-container);
 }
 
-
-:host([color=dark]) {
-  --tag-container-color: var(--color-surface-container);
-  --tag-label-text-color: var(--color-on-surface-container);
+:host([color=yellow]) {
+  --chip-container-color: var(--color-yellow-container);
+  --chip-label-text-color: var(--color-on-yellow-container);
+  --chip-outline-color: var(--color-on-yellow-container);
 }
 
-:host([color=light]) {
-  --tag-container-color: var(--color-on-surface-container);
-  --tag-label-text-color: var(--color-surface-container);
+:host([color=purple]) {
+  --chip-container-color: var(--color-purple-container);
+  --chip-label-text-color: var(--color-on-purple-container);
+  --chip-outline-color: var(--color-on-purple-container);
 }
 

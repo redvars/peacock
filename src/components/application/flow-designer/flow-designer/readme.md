@@ -18,15 +18,11 @@
 
 ### Depends on
 
-- [pc-tag](../../../tag)
-- [pc-button-group](../../../button-group)
 - [pc-button](../../../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-flow-designer --> pc-tag
-  pc-flow-designer --> pc-button-group
   pc-flow-designer --> pc-button
   style pc-flow-designer fill:#f9f,stroke:#333,stroke-width:4px
 ```

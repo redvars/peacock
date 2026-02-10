@@ -1,0 +1,59 @@
+@use '../../../scss/mixin';
+
+@include mixin.reset;
+
+$border-width: 0.0625rem;
+
+.button-group {
+  display: flex;
+  gap: var(--_button-group-gap);
+
+
+  slot::slotted(p-button:first-child), slot::slotted(p-icon-button:first-child) {
+    --button-container-shape-start-start: var(--shape-corner-full);
+    --button-container-shape-end-start: var(--shape-corner-full);
+    --button-container-shape-start-end: var(--shape-corner-small);
+    --button-container-shape-end-end: var(--shape-corner-small);
+  }
+
+  slot::slotted(p-button:last-child), slot::slotted(p-icon-button:last-child) {
+    --button-container-shape-end-end: var(--shape-corner-full);
+    --button-container-shape-start-end: var(--shape-corner-full);
+
+    --button-container-shape-end-start: var(--shape-corner-small);
+    --button-container-shape-start-start: var(--shape-corner-small);
+  }
+
+  slot::slotted(p-button:only-child), slot::slotted(p-icon-button:only-child) {
+    --button-container-shape: var(--shape-corner-full);
+  }
+}
+
+
+.button-group.size-xs,
+.button-group.size-extra-small {
+  --_button-group-gap: 0.125rem;
+}
+
+
+.button-group.size-sm,
+.button-group.size-small {
+  --_button-group-gap: 0.125rem;
+}
+
+.button-group.size-md,
+.button-group.size-medium {
+  --_button-group-gap: 0.125rem;
+}
+
+.button-group.size-lg,
+.button-group.size-large {
+  --_button-group-gap: 0.125rem;
+}
+
+.button-group.size-xl {
+  --_button-group-gap: 0.125rem;
+}
+
+
+

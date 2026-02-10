@@ -1,0 +1,146 @@
+@use '../../../scss/mixin';
+
+@include mixin.reset;
+
+:host {
+  display: inline-block;
+  --tag-container-shape: inherit;
+}
+
+.tag {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: var(--tag-height, var(--_chip-height, 2rem));
+  padding-inline: calc(var(--_container-padding) / 2);
+  width: 100%;
+  --_container-shape: var(--tag-container-shape, var(--shape-corner-small));
+  border-radius: var(--_container-shape);
+
+  .tag-content {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--_label-text-color);
+    --icon-color: currentColor;
+
+    .slot-content {
+      padding-inline: calc(var(--_container-padding) / 2);
+    }
+  }
+
+  .dismiss-button {
+    position: relative;
+    border-radius: 12px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    line-height: 0;
+    cursor: pointer;
+
+    .dismiss-button-icon {
+      --icon-size: var(--tag-icon-size, var(--_tag-icon-size));
+      --icon-color: var(--_label-text-color);
+    }
+
+    .ripple {
+      --ripple-state-opacity: var(--_container-state-opacity, 0);
+      --ripple-pressed-color: var(--_container-state-color);
+    }
+  }
+
+  /**
+   * Tag background layers
+   */
+  .background {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+
+    background: var(--_container-color);
+    pointer-events: none;
+  }
+
+  .outline {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    border: 1px solid var(--_outline-color);
+  }
+
+  .elevation {
+    --elevation-level: 0;
+    transition-duration: 280ms;
+    border-radius: inherit;
+  }
+
+  &.dismissible .tag-content {
+    padding-inline-end: .25rem;
+  }
+}
+
+slot::slotted(*) {
+  --icon-size: var(--tag-icon-size, var(--_tag-icon-size));
+}
+
+/**
+ * IconButton variant definitions
+ */
+
+.tag.variant-elevated {
+  --_container-color: var(--elevated-tag-container-color);
+  --_label-text-color: var(--elevated-tag-label-text-color);
+  --_container-elevation-level: 1;
+
+  --_container-state-color: var(--_label-text-color);
+  .dismiss-button:hover {
+    --_container-state-opacity: 0.08;
+  }
+
+}
+
+.tag.variant-filled {
+  --_container-color: var(--filled-tag-container-color);
+  --_label-text-color: var(--filled-tag-label-text-color);
+
+  --_container-state-color: var(--_label-text-color);
+  .dismiss-button:hover {
+    --_container-state-opacity: 0.08;
+  }
+}
+
+.tag.variant-tonal {
+  --_container-color: var(--tonal-tag-container-color);
+  --_label-text-color: var(--tonal-tag-label-text-color);
+
+  --_container-state-color: var(--_label-text-color);
+  .dismiss-button:hover {
+    --_container-state-opacity: 0.08;
+  }
+}
+
+.tag.variant-outlined {
+  --_outline-color: var(--outlined-tag-outline-color);
+  --_label-text-color: var(--outlined-tag-label-text-color);
+
+  --_container-state-color: var(--_label-text-color);
+  .dismiss-button:hover {
+    --_container-state-opacity: 0.08;
+  }
+}
+
+@import 'tag-colors';

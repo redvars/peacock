@@ -16,11 +16,11 @@
 | `disabledReason` | `disabled-reason` | If button is disabled, the reason why it is disabled.                                                                                                                                                                                                                                               | `string`                                                                               | `''`        |
 | `href`           | `href`            | Hyperlink to navigate to on click.                                                                                                                                                                                                                                                                  | `string`                                                                               | `undefined` |
 | `iconAlign`      | `icon-align`      | Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.                                                                                                                                                                                                                        | `"end" \| "start"`                                                                     | `'end'`     |
-| `size`           | `size`            | Button size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.                                                                                                                                                                                                                        | `"lg" \| "md" \| "sm" \| "xl" \| "xs"`                                                 | `'sm'`      |
+| `size`           | `size`            | IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.                                                                                                                                                                                                                    | `"lg" \| "md" \| "sm" \| "xl" \| "xs"`                                                 | `'sm'`      |
 | `target`         | `target`          | Sets or retrieves the window or frame at which to target content.                                                                                                                                                                                                                                   | `string`                                                                               | `'_self'`   |
 | `throttleDelay`  | `throttle-delay`  | Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.                                                                                                                                                                                                                          | `number`                                                                               | `200`       |
 | `toggle`         | `toggle`          | If true, the button will be in a toggled state.                                                                                                                                                                                                                                                     | `boolean`                                                                              | `false`     |
-| `type`           | `type`            | Button type based on which actions are performed when the button is clicked.                                                                                                                                                                                                                        | `"button" \| "reset" \| "submit"`                                                      | `'button'`  |
+| `type`           | `type`            | IconButton type based on which actions are performed when the button is clicked.                                                                                                                                                                                                                    | `"button" \| "reset" \| "submit"`                                                      | `'button'`  |
 | `variant`        | `variant`         | The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.                                                                                                  | `"elevated" \| "filled" \| "neo" \| "outlined" \| "text" \| "tonal"`                   | `'filled'`  |
 
 
@@ -65,22 +65,6 @@ Triggers a click event on the native `button` in `pc-button`. Use this method in
 Type: `Promise<void>`
 
 
-
-
-## CSS Custom Properties
-
-| Name                                 | Description                                                                                              |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `--goat-theme-button-border-radius`  | Theme level button border radius. (applies to all buttons)                                               |
-| `--goat-theme-button-border-style`   | Theme level button border style. (applies to all buttons)                                                |
-| `--pc-button-border-radius`          | Button border radius.                                                                                    |
-| `--pc-button-border-style`           | Button border style.                                                                                     |
-| `--pc-button-color`                  | Button filling color.                                                                                    |
-| `--pc-button-color-active`           | Button filling color on active.                                                                          |
-| `--pc-button-color-hover`            | Button filling color on hover.                                                                           |
-| `--pc-button-color-light`            | Button filling color for light variant.                                                                  |
-| `--pc-button-padding`                | Button padding.                                                                                          |
-| `--pc-button-support-contrast-color` | Button support color (text or border). Should be white or black based on weight of button filling color. |
 
 
 ## Dependencies

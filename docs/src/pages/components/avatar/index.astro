@@ -1,12 +1,13 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-const componentDetails = getLitComponentDetails('avatar');
 
 import UsageSection from "./_sections/Usage.astro";
 import ThemingSection from "./_sections/Theming.astro";
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
+
+const componentDetails = getComponentDetails('avatar');
 
 const sections = [
   {

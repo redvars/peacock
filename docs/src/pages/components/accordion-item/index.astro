@@ -1,8 +1,8 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
-const componentDetails = getLitComponentDetails('accordion-item');
+const componentDetails = getComponentDetails('accordion-item');
 ---
 <Layout componentDetails={componentDetails}>
   <pc-tabs class='page-tabs'>

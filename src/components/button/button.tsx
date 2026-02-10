@@ -16,15 +16,15 @@ import { getComponentIndex, hasSlot, throttle } from '../../utils/utils';
 
 //@ts-ignore
 /**
- * @label Button
+ * @label IconButton
  * @name button
  * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
  * @overview
- *  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+ *  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
  * @category Buttons
  * @tags controls
  * @example <pc-button>
- *   Button
+ *   IconButton
  * </pc-button>
  */
 @Component({
@@ -41,7 +41,7 @@ export class Button implements ComponentInterface {
   private handleClickWithThrottle: () => void;
 
   /**
-   *  Button type based on which actions are performed when the button is clicked.
+   *  IconButton type based on which actions are performed when the button is clicked.
    */
   @Prop({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
 
@@ -64,7 +64,7 @@ export class Button implements ComponentInterface {
     | 'neo' = 'filled';
 
   /**
-   * Button size.
+   * IconButton size.
    * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
    */
   @Prop() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';

@@ -1,12 +1,12 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
 import ApiPanel from '../../../components/ApiPanel.astro';
-import ComponentSectionNav from '../../../components/ComponentSectionNav.astro';
-const componentDetails = getLitComponentDetails('divider');
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+const componentDetails = getComponentDetails('divider');
 
 import UsageSection from './_sections/usage.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import { getLitComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+
 
 const sections = [
   {

@@ -14,7 +14,7 @@
 | `href`           | `href`            | Hyperlink to navigate to on click.                                             | `string`                                         | `undefined` |
 | `icon`           | `icon`            | Icon which will displayed on button. Possible values are bootstrap icon names. | `string`                                         | `undefined` |
 | `label`          | `label`           |                                                                                | `string`                                         | `undefined` |
-| `selected`       | `selected`        | Button selection state.                                                        | `boolean`                                        | `false`     |
+| `selected`       | `selected`        | IconButton selection state.                                                    | `boolean`                                        | `false`     |
 | `showLoader`     | `show-loader`     | Show loader.                                                                   | `boolean`                                        | `false`     |
 | `target`         | `target`          |                                                                                | `string`                                         | `undefined` |
 | `type`           | `type`            |                                                                                | `"contained" \| "contained-bottom" \| "default"` | `'default'` |

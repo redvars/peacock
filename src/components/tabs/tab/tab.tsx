@@ -26,7 +26,7 @@ export class Tab implements ComponentInterface {
   private nativeElement?: HTMLButtonElement;
 
   /**
-   * Button selection state.
+   * IconButton selection state.
    */
   @Prop({ reflect: true }) selected: boolean = false;
 

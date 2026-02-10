@@ -17,14 +17,10 @@ const sections = [
   <pc-tabs class='page-tabs'>
     <pc-tabs-list>
       <pc-tab selected='true'>Overview</pc-tab>
-      <pc-tab>Playground</pc-tab>
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
       <OverviewPanel  sections={sections} />
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
     </pc-tab-panel>
     <pc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />
