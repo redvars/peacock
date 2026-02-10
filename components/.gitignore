@@ -21,4 +21,6 @@
 /out-tsc/
 
 storybook-static
-custom-elements.json
+
+/.husky/
+/.rollup.cache/
