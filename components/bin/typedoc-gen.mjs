@@ -6,6 +6,15 @@ async function run() {
     // 2. Force entry points to be absolute
     entryPoints: ['src/index.ts'],
     entryPointStrategy: td.EntryPointStrategy.Expand,
+    blockTags: [
+      '@label',
+      '@example',
+      '@deprecated',
+      '@rawTag',
+      '@tag',
+      '@summary',
+      '@cssprop',
+    ],
   });
 
   const project = await app.convert();
