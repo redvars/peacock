@@ -32,18 +32,18 @@ const description = getTextTag(componentDetails, '@summary');
                   category.children.map((componentName: any) => {
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
-                      if (component.metadata.name) {
-                        return <pc-tree-node label={component.metadata.label} value={component.metadata.name}
-                                               href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                      if (component?.metadata.name) {
+                        return <pc-tree-node label={component?.metadata.label} value={component?.metadata.name}
+                                               href={`/components/${component?.metadata.name}/`}></pc-tree-node>
                       }
                     } else if (componentName.children) {
                       return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
                         {
                           componentName.children.map((componentName: any) => {
                             const component = getComponentDetails(componentName);
-                            if (component.metadata.name) {
-                              return <pc-tree-node label={component.metadata.label}  value={component.metadata.name}
-                                                     href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                            if (component?.metadata.name) {
+                              return <pc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
+                                                     href={`/components/${component?.metadata.name}/`}></pc-tree-node>
                             }
                           })
                         }
@@ -66,7 +66,7 @@ const description = getTextTag(componentDetails, '@summary');
 
       <div class='comp-header'>
         <h1 class='heading-scrollable text-display'>{title}</h1>
-        { componentDetails.stats == 'WIP' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+        { componentDetails?.stats == 'WIP' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
       </div>
 
       <div class='component-description'>

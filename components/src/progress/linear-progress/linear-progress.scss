@@ -47,7 +47,7 @@
           width: calc(100% - 0.25rem);
           height: var(--progress-height);
           background: var(--progress-track-color);
-          border-radius: 9999px;
+          border-radius: var(--shape-corner-full);
         }
       }
 
@@ -60,7 +60,7 @@
       .active-indicator {
         height: var(--progress-height);
         background: var(--progress-container-color);
-        border-radius: 9999px;
+        border-radius: var(--shape-corner-full);
       }
 
       .track-end {

@@ -292,7 +292,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
         />
 
         {!this.readonly && !this.disabled && !this.hideActions && (
-          <pc-button
+          <p-button
             class="input-action"
             color={'secondary'}
             size={this.size}
@@ -303,11 +303,11 @@ export class Number implements ComponentInterface, InputComponentInterface {
             }}
           >
             <p-icon name="subtract"></p-icon>
-          </pc-button>
+          </p-button>
         )}
 
         {!this.readonly && !this.disabled && !this.hideActions && (
-          <pc-button
+          <p-button
             class="input-action"
             color={'secondary'}
             size={this.size}
@@ -317,7 +317,7 @@ export class Number implements ComponentInterface, InputComponentInterface {
             }}
           >
             <p-icon slot="icon" name="add"></p-icon>
-          </pc-button>
+          </p-button>
         )}
 
         <div class="slot-container end">

@@ -49,7 +49,6 @@
 graph TD;
   pc-table --> pc-button
   pc-table --> pc-empty-state
-  pc-empty-state --> pc-button
   style pc-table fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

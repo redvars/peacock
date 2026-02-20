@@ -3,15 +3,24 @@
     "$type": "dimension",
     "full": {
       "$type": "string",
-      "$value": "50%"
+      "$value": "9999px"
+    },
+    "extra-large": {
+      "$value": "28px"
+    },
+    "large-increased": {
+      "$value": "20px"
     },
     "large": {
-      "$value": "12px"
+      "$value": "16px"
     },
     "medium": {
-      "$value": "8px"
+      "$value": "12px"
     },
     "small": {
+      "$value": "8px"
+    },
+    "extra-small": {
       "$value": "4px"
     },
     "none": {

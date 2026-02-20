@@ -16,7 +16,7 @@ import styles from './elevation.scss';
  *
  * @example
  * ```html
- *   <div style="position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-small);">
+ *   <div style="position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-extra-small);">
  *     <p-elevation style='--elevation-level: 2'></p-elevation>
  *     Level 2
  *   </div>

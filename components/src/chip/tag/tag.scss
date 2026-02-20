@@ -30,7 +30,7 @@
     align-items: center;
     justify-content: center;
 
-    color: var(--_label-text-color);
+    color: var(--_input-text-color);
     --icon-color: currentColor;
 
     .slot-content {
@@ -50,7 +50,7 @@
 
     .dismiss-button-icon {
       --icon-size: var(--tag-icon-size, var(--_tag-icon-size));
-      --icon-color: var(--_label-text-color);
+      --icon-color: var(--_input-text-color);
     }
 
     .ripple {
@@ -103,10 +103,10 @@ slot::slotted(*) {
 
 .tag.variant-elevated {
   --_container-color: var(--elevated-tag-container-color);
-  --_label-text-color: var(--elevated-tag-label-text-color);
+  --_input-text-color: var(--elevated-tag-label-text-color);
   --_container-elevation-level: 1;
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
   .dismiss-button:hover {
     --_container-state-opacity: 0.08;
   }
@@ -115,9 +115,9 @@ slot::slotted(*) {
 
 .tag.variant-filled {
   --_container-color: var(--filled-tag-container-color);
-  --_label-text-color: var(--filled-tag-label-text-color);
+  --_input-text-color: var(--filled-tag-label-text-color);
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
   .dismiss-button:hover {
     --_container-state-opacity: 0.08;
   }
@@ -125,9 +125,9 @@ slot::slotted(*) {
 
 .tag.variant-tonal {
   --_container-color: var(--tonal-tag-container-color);
-  --_label-text-color: var(--tonal-tag-label-text-color);
+  --_input-text-color: var(--tonal-tag-label-text-color);
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
   .dismiss-button:hover {
     --_container-state-opacity: 0.08;
   }
@@ -135,9 +135,9 @@ slot::slotted(*) {
 
 .tag.variant-outlined {
   --_outline-color: var(--outlined-tag-outline-color);
-  --_label-text-color: var(--outlined-tag-label-text-color);
+  --_input-text-color: var(--outlined-tag-label-text-color);
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
   .dismiss-button:hover {
     --_container-state-opacity: 0.08;
   }

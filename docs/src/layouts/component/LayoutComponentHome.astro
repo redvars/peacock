@@ -20,10 +20,10 @@ const description = componentDetails.metadata.description;
 
   <div class="comp-header">
     <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title}</pc-text>
-    {componentDetails.metadata.category == 'Up coming' ? <pc-tag color="red">Work in progress</pc-tag> : ''}
+    {componentDetails?.metadata.category == 'Up coming' ? <pc-tag color="red">Work in progress</pc-tag> : ''}
   </div>
 
-  <pc-text type="body" expressive set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description} />
+  <pc-text type="body" expressive set:html={componentDetails?.metadata.overview ? componentDetails?.metadata.overview : componentDetails?.metadata.description} />
 
   <div style="margin-bottom: var(--spacing-600)">
     <p-button size="xs" variant="light.simple" href={`/components/${componentDetails.tag.replace('goat-', '')}/api`} icon="arrow--up-right"> API Reference </p-button>

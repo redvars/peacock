@@ -53,8 +53,6 @@ import { BaseButton } from '../BaseButton.js';
 export class Button extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 
-  #id = crypto.randomUUID();
-
   #tabindex?: number = 0;
 
   /**
@@ -83,19 +81,6 @@ export class Button extends BaseButton {
     this.__convertTypeToVariantAndColor();
   }
 
-  __renderDisabledReason() {
-    if (this.disabled && this.disabledReason)
-      return html`<div
-        id="disabled-reason-${this.#id}"
-        role="tooltip"
-        aria-label=${this.disabledReason}
-        class="screen-reader-only"
-      >
-        {this.disabledReason}
-      </div>`;
-    return null;
-  }
-
   override render() {
     const isLink = this.__isLink();
 
@@ -116,14 +101,10 @@ export class Button extends BaseButton {
         class=${classMap(cssClasses)}
         tabindex=${this.#tabindex}
         type=${this.htmlType}
-        @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        ?aria-describedby=${(this.disabled || this.softDisabled) &&
-        this.disabledReason
-          ? `disabled-reason-${this.#id}`
-          : null}
+        ?aria-describedby=${this.__getDisabledReasonID()}
         aria-disabled=${`${this.disabled || this.softDisabled}`}
         ?disabled=${this.disabled}
         ${spread(this.configAria)}
@@ -136,14 +117,11 @@ export class Button extends BaseButton {
       tabindex=${this.#tabindex}
       href=${this.href}
       target=${this.target}
-      @click=${this.__dispatchClickWithThrottle}
       @mousedown=${this.__handlePress}
       @keydown=${this.__handlePress}
       @keyup=${this.__handlePress}
       role="button"
-      aria-describedby=${this.disabled && this.disabledReason
-        ? `disabled-reason-${this.#id}`
-        : null}
+      ?aria-describedby=${this.__getDisabledReasonID()}
       aria-disabled=${`${this.disabled}`}
       ${spread(this.configAria)}
     >

@@ -1,33 +1,20 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
+<p class='text-body-large'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
                                                                   data-lang='html'>pc-input--change</code> is triggered by
   the element.
-</pc-text>
+</p>
 
-<goat-card>
-  <pc-card-content>
-    <goat-number id='number-input-field' placeholder='Type here'></goat-number>
+<DemoComponentCard lang={'html'}>
+  <p-number variant='default' id='name-input-field' placeholder='Type here'></p-number>
 
-    <script is:inline>
-      document.querySelector('#number-input-field').addEventListener('goat-number--input', function(event) {
-        myConsole.log(event.target.value, 'goat-number--input');
-      });
-      document.querySelector('#number-input-field').addEventListener('goat-number--change', function(event) {
-        myConsole.warn(event.target.value, 'goat-number--change');
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw> document.querySelector('#number-input-field')
-      .addEventListener('pc-input--input', function (event) {
-      myConsole.log('pc-input--input :: ' + event.details);
-      });
-
-      document.querySelector('#number-input-field').addEventListener('pc-input--change', function (event) {
+  <script is:inline>
+    document.querySelector('#name-input-field').addEventListener('input', function(event) {
+      myConsole.log('pc-input--input :: ' + event.target.value);
+    });
+    document.querySelector('#name-input-field').addEventListener('change', function(event) {
       myConsole.warn('pc-input--change :: ' + event.target.value);
-      });
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+    });
+  </script>
+</DemoComponentCard>

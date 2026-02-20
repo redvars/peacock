@@ -12,7 +12,9 @@ import { AccordionItem } from '../accordion-item/accordion-item.js';
  * @example
  * ```html
  * <p-accordion>
- *
+ *     <p-accordion-item heading="Accordion">
+ *         Content
+ *     </p-accordion-item>
  * </p-accordion>
  * ```
  * @tags display

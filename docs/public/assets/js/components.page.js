@@ -4,7 +4,7 @@ setTimeout(() => {
   $componentSearchElm.setFocus();
 }, 80);
 
-$componentSearchElm.addEventListener('pc-input--input', function (e) {
+$componentSearchElm.addEventListener('input', function (e) {
   window.scrollTo({
     top: 0,
     behavior: 'instant',

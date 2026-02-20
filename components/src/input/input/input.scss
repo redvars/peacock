@@ -1,0 +1,31 @@
+@use '../../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.input-element {
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+.input-wrapper {
+  .input {
+    flex: 1;
+    width: 100%;
+    background: none;
+    cursor: inherit;
+  }
+
+  .password-toggle {
+    --button-container-shape: var(--shape-corner-full);
+  }
+
+
+}

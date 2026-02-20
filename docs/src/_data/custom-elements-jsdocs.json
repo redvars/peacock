@@ -30,7 +30,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-accordion>\n\n</p-accordion>\n```"
+          "text": "```html\n<p-accordion>\n    <p-accordion-item heading=\"Accordion\">\n        Content\n    </p-accordion-item>\n</p-accordion>\n```"
         }
       ],
       "@tags": [
@@ -279,7 +279,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-badge>1</p-badge>\n```"
+          "text": "```html\n<p-badge value=\"1\"></p-badge>\n```"
         }
       ],
       "@tags": [
@@ -302,47 +302,24 @@
       "members": [
         {
           "kind": "field",
-          "name": "name",
+          "name": "value",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "attribute": "name",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "src",
-          "type": {
-            "text": "string | undefined"
-          },
-          "attribute": "src",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "slotHasContent",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false"
+          "description": "The value to display in the badge.",
+          "attribute": "value"
         }
       ],
       "attributes": [
         {
-          "name": "name",
+          "name": "value",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "fieldName": "name"
-        },
-        {
-          "name": "src",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "src"
+          "description": "The value to display in the badge.",
+          "fieldName": "value"
         }
       ],
       "superclass": {
@@ -490,11 +467,6 @@
       "members": [
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
           "name": "#tabindex",
           "privacy": "private",
           "type": {
@@ -523,11 +495,16 @@
         },
         {
           "kind": "method",
-          "name": "__renderDisabledReason"
+          "name": "renderButtonContent"
         },
         {
-          "kind": "method",
-          "name": "renderButtonContent"
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -807,6 +784,22 @@
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
           }
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "events": [
@@ -1048,7 +1041,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-button-group>\n <p-button><p-icon name=\"home\" slot=\"icon\"></p-icon></p-button>\n <p-button><p-icon name=\"close\" slot=\"icon\"></p-icon></p-button>\n</p-button-group>\n```"
+          "text": "```html\n<p-button-group>\n <p-icon-button name=\"home\"></p-icon-button>\n <p-icon-button name=\"alarm\"></p-icon-button>\n</p-button-group>\n```"
         }
       ],
       "@tags": [
@@ -1726,7 +1719,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-extra-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
         }
       ],
       "@tags": [
@@ -2177,7 +2170,11 @@
         {
           "kind": "field",
           "name": "#id",
-          "privacy": "private"
+          "privacy": "private",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -2217,7 +2214,11 @@
         },
         {
           "kind": "method",
-          "name": "__renderDisabledReason"
+          "name": "__renderDisabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "method",
@@ -2501,6 +2502,14 @@
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
           }
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "events": [
@@ -2720,6 +2729,521 @@
       "summary": "Icon buttons allow users to take actions, and make choices, with a single tap.",
       "rawTag": {
         "name": "icon-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "input",
+    "label": "Input",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Input"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-input"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "input"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Input component is used to capture user input."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-input label=\"Name\" required placeholder=\"Enter your name\"></p-input>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "InputField",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'text' | 'password' | 'email' | 'tel'"
+          },
+          "default": "'text'",
+          "attribute": "type"
+        },
+        {
+          "kind": "field",
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "attribute": "autocomplete"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "passwordVisible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "dirty",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__redispatchEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "'text' | 'password' | 'email' | 'tel'"
+          },
+          "default": "'text'",
+          "fieldName": "type"
+        },
+        {
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "fieldName": "autocomplete"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "p-input",
+      "customElement": true,
+      "summary": "The Input component is used to capture user input.",
+      "rawTag": {
+        "name": "input",
         "description": ""
       }
     }
@@ -3030,6 +3554,120 @@
       "summary": "The link component is used to navigate to a new page or section within the current page.",
       "rawTag": {
         "name": "link",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "number-counter",
+    "label": "Number Counter",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Number Counter"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-number-counter"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "number-counter"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Displays a number with commas for thousands."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-number-counter value=\"123456789\"></p-number-counter>\n<script>\n    const $counter = document.querySelector('p-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "NumberCounter",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "attribute": "value"
+        },
+        {
+          "kind": "field",
+          "name": "locale",
+          "type": {
+            "text": "string"
+          },
+          "default": "'en-US'",
+          "description": "Optional: Allow users to pass a locale, defaulting to 'en-US' for commas.",
+          "attribute": "locale"
+        },
+        {
+          "kind": "method",
+          "name": "renderDigits"
+        },
+        {
+          "kind": "method",
+          "name": "renderDigit",
+          "parameters": [
+            {
+              "name": "digit",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "fieldName": "value"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string"
+          },
+          "default": "'en-US'",
+          "description": "Optional: Allow users to pass a locale, defaulting to 'en-US' for commas.",
+          "fieldName": "locale"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-number-counter",
+      "customElement": true,
+      "summary": "Displays a number with commas for thousands.",
+      "rawTag": {
+        "name": "number-counter",
         "description": ""
       }
     }

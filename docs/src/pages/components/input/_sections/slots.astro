@@ -1,17 +1,18 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>Fancy larger or smaller input? Add size attribute for additional sizes.</pc-text>
-<HighlighterCard lang={'html'}>
+<p class='text-body-large'>Fancy larger or smaller input? Add size attribute for additional sizes.</p>
+<DemoComponentCard lang={'html'}>
 
-    <pc-input label='Email' type='text' size='lg'>
-      <p-icon slot='start' name='email'></p-icon>
+    <p-input label='Email' type='text' size='lg'>
+      <p-icon slot='start' name='mail'></p-icon>
       <div slot='end'>@example.com</div>
-    </pc-input>
+    </p-input>
 
-    <pc-input type='text' label='Card Number'>
-      <p-icon slot='start' name='purchase'></p-icon>
-      <div slot='end'><pc-spinner></pc-spinner></div>
-    </pc-input>
+    <p-input type='text' label='Card Number'>
+      <p-icon slot='start' name='credit_card'></p-icon>
+      <p-circular-progress slot='end' indeterminate></p-circular-progress>
+    </p-input>
 
-</HighlighterCard>
+</DemoComponentCard>

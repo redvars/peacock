@@ -12,16 +12,16 @@ export function getComponentDetails(name: string): any {
 }
 
 export function getTextTag(component: any, tag: string) {
-  if (component.jsdoc[tag] && component.jsdoc[tag][0])
+  if (component?.jsdoc[tag] && component?.jsdoc[tag][0])
     return component.jsdoc[tag][0].text;
   console.log(
-    `No text found for tag ${tag} in component ${component.rawTag}. Using default text instead.`,
+    `No text found for tag ${tag} in component ${component?.rawTag}. Using default text instead.`,
   );
   return 'Web Component';
 }
 
 export function getCodeBlock(component: any, tag: string) {
-  if (component.jsdoc[tag] && component.jsdoc[tag][0]) {
+  if (component?.jsdoc[tag] && component?.jsdoc[tag][0]) {
     const markdownString = component.jsdoc[tag][0].text;
     // 1. Convert Markdown into an array of tokens
     const tokens = marked.lexer(markdownString);

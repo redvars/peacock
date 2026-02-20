@@ -154,18 +154,16 @@
   display: none;
 }
 
+
 #search-container {
   position: sticky;
   top: 100px;
   z-index: 1000;
+  margin-bottom: var(--spacing-200);
+  --field-container-color: var(--color-surface);
 
   &.scrolled {
     padding: 1rem;
     transition: transform 3s ease-in-out;
-
-    #component-search {
-      box-shadow: var(--shadow-xl);
-      border-radius: var(--input-border-radius);
-    }
   }
 }

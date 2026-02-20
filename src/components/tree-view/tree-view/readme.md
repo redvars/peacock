@@ -64,7 +64,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-tree-view --> pc-empty-state
-  pc-empty-state --> pc-button
   style pc-tree-view fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

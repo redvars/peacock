@@ -76,19 +76,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-button](../../../button)
-
-### Graph
-```mermaid
-graph TD;
-  pc-number --> pc-button
-  style pc-number fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

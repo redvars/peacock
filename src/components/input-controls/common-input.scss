@@ -50,15 +50,15 @@
     margin-block-start: v(--spacing-050);
     @include font-style(helper-text-01);
 
-    &.text {
-      color: v(--text-helper);
+    &.helper-text {
+      color: var(--text-helper);
     }
 
-    &.invalid {
+    &.error-text {
       color: v(--support-error-inverse);
     }
 
-    &.warn {
+    &.warn-text {
       color: v(--support-warning-inverse);
     }
   }

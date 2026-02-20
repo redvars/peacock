@@ -19,7 +19,7 @@ import {
   throttle,
 } from '../../../utils/utils';
 import { computePosition, flip, offset, size } from '@floating-ui/dom';
-import { PcMenuItemCustomEvent, PcTagCustomEvent } from '../../../components';
+import { PcMenuItemCustomEvent } from '../../../components';
 
 /**
  * @label Select
@@ -216,7 +216,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
   private displayElement?: HTMLElement;
 
   @Listen('tag--dismiss')
-  tagDismissClick(evt: PcTagCustomEvent<any>) {
+  tagDismissClick(evt: any) {
     this.removeItem(evt.detail.value);
   }
 

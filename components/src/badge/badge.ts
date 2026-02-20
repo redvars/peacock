@@ -1,8 +1,7 @@
 import { html, LitElement } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './badge.scss';
-import { observerSlotChangesWithCallback } from '../utils.js';
 
 /**
  * @label Badge
@@ -14,38 +13,26 @@ import { observerSlotChangesWithCallback } from '../utils.js';
  *
  * @example
  * ```html
- * <p-badge>1</p-badge>
+ * <p-badge value="1"></p-badge>
  * ```
  * @tags display
  */
 export class Badge extends LitElement {
   static styles = [styles];
 
-  @property({ type: String, reflect: true }) name: string = '';
-
-  @property({ type: String, reflect: true }) src?: string;
-
-  @state()
-  slotHasContent = false;
-
-  firstUpdated() {
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot'),
-      hasContent => {
-        this.slotHasContent = hasContent;
-        this.requestUpdate();
-      },
-    );
-  }
+  /**
+   * The value to display in the badge.
+   */
+  @property({ type: String }) value: string = '';
 
   render() {
     return html`<div
       class=${classMap({
         badge: true,
-        'slot-has-content': this.slotHasContent,
+        'has-value': !!this.value,
       })}
     >
-      <slot></slot>
+      ${this.value}
     </div>`;
   }
 }

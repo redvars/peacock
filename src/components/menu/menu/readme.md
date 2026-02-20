@@ -32,6 +32,15 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                | Description                  |
+| ------------------- | ---------------------------- |
+| `--menu-background` | Background color of the menu |
+| `--menu-max-height` | Maximum height of the menu   |
+| `--menu-shadow`     | Shadow of the menu           |
+
+
 ## Dependencies
 
 ### Used by
@@ -48,7 +57,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-menu --> pc-empty-state
-  pc-empty-state --> pc-button
   goat-html-editor --> pc-menu
   pc-dropdown-menu --> pc-menu
   pc-select --> pc-menu

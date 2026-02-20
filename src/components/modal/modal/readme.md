@@ -25,19 +25,6 @@
 | `pc-modal--close` | On click of button, a CustomEvent 'pc-modal--close' will be triggered. | `CustomEvent<any>` |
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-spinner](../../spinner)
-
-### Graph
-```mermaid
-graph TD;
-  pc-modal --> pc-spinner
-  style pc-modal fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-09T17:11:53",
+  "timestamp": "2026-02-18T10:49:57",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -433,13 +433,11 @@
       "encapsulation": "shadow",
       "dependents": [],
       "dependencies": [
-        "pc-tooltip",
-        "pc-spinner"
+        "pc-tooltip"
       ],
       "dependencyGraph": {
         "goat-code-highlighter": [
-          "pc-tooltip",
-          "pc-spinner"
+          "pc-tooltip"
         ],
         "pc-tooltip": [
           "pc-popover",
@@ -1086,7 +1084,13 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--code-highlighter-background",
+          "annotation": "prop",
+          "docs": "Code Highlighter background color"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -1843,7 +1847,6 @@
       "dependents": [],
       "dependencies": [
         "pc-button",
-        "pc-spinner",
         "pc-code-editor",
         "pc-toggle",
         "pc-menu",
@@ -1852,20 +1855,13 @@
       "dependencyGraph": {
         "goat-html-editor": [
           "pc-button",
-          "pc-spinner",
           "pc-code-editor",
           "pc-toggle",
           "pc-menu",
           "pc-menu-item"
         ],
-        "pc-code-editor": [
-          "pc-spinner"
-        ],
         "pc-menu": [
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [
@@ -2596,9 +2592,6 @@
       "dependencyGraph": {
         "goat-sidenav-menu": [
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [
@@ -3435,12 +3428,10 @@
         "goat-html-editor",
         "pc-calendar",
         "pc-date-picker",
-        "pc-empty-state",
         "pc-flow-designer",
         "pc-input",
         "pc-input-url",
         "pc-notification",
-        "pc-number",
         "pc-select",
         "pc-table",
         "pc-textarea",
@@ -3463,9 +3454,6 @@
         "pc-date-picker": [
           "pc-button"
         ],
-        "pc-empty-state": [
-          "pc-button"
-        ],
         "pc-flow-designer": [
           "pc-button"
         ],
@@ -3476,9 +3464,6 @@
           "pc-button"
         ],
         "pc-notification": [
-          "pc-button"
-        ],
-        "pc-number": [
           "pc-button"
         ],
         "pc-select": [
@@ -4022,7 +4007,58 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-theme-button-border-radius",
+          "annotation": "prop",
+          "docs": "Theme level button border radius. (applies to all buttons)"
+        },
+        {
+          "name": "--goat-theme-button-border-style",
+          "annotation": "prop",
+          "docs": "Theme level button border style. (applies to all buttons)"
+        },
+        {
+          "name": "--pc-button-border-radius",
+          "annotation": "prop",
+          "docs": "IconButton border radius."
+        },
+        {
+          "name": "--pc-button-border-style",
+          "annotation": "prop",
+          "docs": "IconButton border style."
+        },
+        {
+          "name": "--pc-button-color",
+          "annotation": "prop",
+          "docs": "IconButton filling color."
+        },
+        {
+          "name": "--pc-button-color-active",
+          "annotation": "prop",
+          "docs": "IconButton filling color on active."
+        },
+        {
+          "name": "--pc-button-color-hover",
+          "annotation": "prop",
+          "docs": "IconButton filling color on hover."
+        },
+        {
+          "name": "--pc-button-color-light",
+          "annotation": "prop",
+          "docs": "IconButton filling color for light variant."
+        },
+        {
+          "name": "--pc-button-padding",
+          "annotation": "prop",
+          "docs": "IconButton padding."
+        },
+        {
+          "name": "--pc-button-support-contrast-color",
+          "annotation": "prop",
+          "docs": "IconButton support color (text or border). Should be white or black based on weight of button filling color."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -5928,13 +5964,8 @@
       "dependents": [
         "goat-html-editor"
       ],
-      "dependencies": [
-        "pc-spinner"
-      ],
+      "dependencies": [],
       "dependencyGraph": {
-        "pc-code-editor": [
-          "pc-spinner"
-        ],
         "goat-html-editor": [
           "pc-code-editor"
         ]
@@ -7304,9 +7335,6 @@
         ],
         "pc-menu": [
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [],
@@ -7335,7 +7363,13 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-dropdown-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7366,13 +7400,8 @@
         "pc-table",
         "pc-tree-view"
       ],
-      "dependencies": [
-        "pc-button"
-      ],
+      "dependencies": [],
       "dependencyGraph": {
-        "pc-empty-state": [
-          "pc-button"
-        ],
         "goat-sidenav-menu": [
           "pc-empty-state"
         ],
@@ -8108,7 +8137,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-header-height",
+          "annotation": "prop",
+          "docs": "Height of the header. Defaults to 3rem."
+        },
+        {
+          "name": "--goat-header-width",
+          "annotation": "prop",
+          "docs": "Width of the header. Defaults to 100%."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -9282,9 +9322,6 @@
         "pc-menu": [
           "pc-empty-state"
         ],
-        "pc-empty-state": [
-          "pc-button"
-        ],
         "goat-html-editor": [
           "pc-menu"
         ],
@@ -9534,7 +9571,23 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--menu-background",
+          "annotation": "prop",
+          "docs": "Background color of the menu"
+        },
+        {
+          "name": "--menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        },
+        {
+          "name": "--menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -9938,14 +9991,8 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-spinner"
-      ],
-      "dependencyGraph": {
-        "pc-modal": [
-          "pc-spinner"
-        ]
-      },
+      "dependencies": [],
+      "dependencyGraph": {},
       "props": [
         {
           "name": "heading",
@@ -10648,14 +10695,8 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-button"
-      ],
-      "dependencyGraph": {
-        "pc-number": [
-          "pc-button"
-        ]
-      },
+      "dependencies": [],
+      "dependencyGraph": {},
       "props": [
         {
           "name": "autocomplete",
@@ -11758,7 +11799,28 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of popover content"
+        },
+        {
+          "name": "--popover-content-background",
+          "annotation": "prop",
+          "docs": "Background color of the popover content"
+        },
+        {
+          "name": "--popover-content-border-radius",
+          "annotation": "prop",
+          "docs": "Border radius of the popover content"
+        },
+        {
+          "name": "--popover-padding",
+          "annotation": "prop",
+          "docs": "Padding of the popover content"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -11786,22 +11848,17 @@
       "dependents": [],
       "dependencies": [
         "pc-button",
-        "pc-spinner",
         "pc-menu",
         "pc-menu-item"
       ],
       "dependencyGraph": {
         "pc-select": [
           "pc-button",
-          "pc-spinner",
           "pc-menu",
           "pc-menu-item"
         ],
         "pc-menu": [
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [
@@ -13250,156 +13307,6 @@
       }
     },
     {
-      "dirPath": "E:/git/redvars/peacock/src/components/spinner",
-      "filePath": "src/components/spinner/spinner.tsx",
-      "fileName": "spinner.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/spinner/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/spinner/usage",
-      "tag": "pc-spinner",
-      "readme": "# pc-spinner\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "goat-code-highlighter",
-        "goat-html-editor",
-        "pc-code-editor",
-        "pc-modal",
-        "pc-select",
-        "pc-tab"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "goat-code-highlighter": [
-          "pc-spinner"
-        ],
-        "goat-html-editor": [
-          "pc-spinner"
-        ],
-        "pc-code-editor": [
-          "pc-spinner"
-        ],
-        "pc-modal": [
-          "pc-spinner"
-        ],
-        "pc-select": [
-          "pc-spinner"
-        ],
-        "pc-tab": [
-          "pc-spinner"
-        ]
-      },
-      "props": [
-        {
-          "name": "description",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "description",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'Loading...'"
-            }
-          ],
-          "default": "'Loading...'",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "hideBackground",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "hide-background",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "size",
-          "type": "string",
-          "complexType": {
-            "original": "'sm' | 'md' | 'lg' | string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "size",
-          "reflectToAttr": true,
-          "docs": "The Icon size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"` and size in pixel. Defaults to `\"md\"`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'md'"
-            }
-          ],
-          "default": "'md'",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Spinner",
-        "name": "spinner",
-        "description": "Spinners provide a visual cue that an action is processing awaiting a course of change or a result.",
-        "category": "Informational",
-        "tags": [
-          "feedback",
-          " loading",
-          " progress",
-          " spinner"
-        ],
-        "example": "<pc-spinner class=\"rainbow\" size=\"2rem\"></pc-spinner>"
-      }
-    },
-    {
       "dirPath": "E:/git/redvars/peacock/src/components/tabs/tab",
       "filePath": "src/components/tabs/tab/tab.tsx",
       "fileName": "tab.tsx",
@@ -13412,14 +13319,8 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-spinner"
-      ],
-      "dependencyGraph": {
-        "pc-tab": [
-          "pc-spinner"
-        ]
-      },
+      "dependencies": [],
+      "dependencyGraph": {},
       "props": [
         {
           "name": "disabled",
@@ -13902,9 +13803,6 @@
         "pc-table": [
           "pc-button",
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [
@@ -16669,9 +16567,6 @@
       "dependencyGraph": {
         "pc-tree-view": [
           "pc-empty-state"
-        ],
-        "pc-empty-state": [
-          "pc-button"
         ]
       },
       "props": [

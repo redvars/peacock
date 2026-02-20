@@ -1,17 +1,16 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>Fancy larger or smaller input? Add size attribute for additional sizes.</pc-text>
+<p class='text-body-large'>Fancy larger or smaller input? Add size attribute for additional sizes.</p>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
 
-    <goat-number size='sm' label='Slots'>
-      <div slot='start'>
-        <p-icon slot='start' name='currency--dollar' size='1rem'></p-icon>
-      </div>
-      <goat-link slot='end' href='#'>
-        <p-icon name='launch' size='sm'></p-icon>
-      </goat-link>
-    </goat-number>
+    <p-number size='sm' label='Slots'>
+      <p-icon slot='start' name='currency_rupee'></p-icon>
 
-</HighlighterCard>
+      <p-link slot='end' href='#'>
+        <p-icon name='link' size='sm'></p-icon>
+      </p-link>
+    </p-number>
+
+</DemoComponentCard>

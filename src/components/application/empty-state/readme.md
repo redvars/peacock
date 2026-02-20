@@ -27,14 +27,9 @@
  - [pc-table](../../table)
  - [pc-tree-view](../../tree-view/tree-view)
 
-### Depends on
-
-- [pc-button](../../button)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-empty-state --> pc-button
   goat-sidenav-menu --> pc-empty-state
   pc-menu --> pc-empty-state
   pc-table --> pc-empty-state

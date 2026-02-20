@@ -1,7 +1,10 @@
-import { LitElement } from 'lit';
+import { html, LitElement } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+import { dispatchActivationClick, isActivationClick } from '../utils.js';
 
 export class BaseButton extends LitElement {
+  #id = crypto.randomUUID();
+
   @property({ type: String }) htmlType: 'button' | 'submit' | 'reset' =
     'button';
 
@@ -49,7 +52,8 @@ export class BaseButton extends LitElement {
   /**
    * If true, the user cannot interact with the button. Defaults to `false`.
    */
-  @property({ reflect: true }) disabled: boolean = false;
+  @property({ type: Boolean, reflect: true })
+  disabled: boolean = false;
 
   @property() skeleton: boolean = false;
 
@@ -103,11 +107,13 @@ export class BaseButton extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
     window.addEventListener('mouseup', this.__handlePress);
   }
 
   override disconnectedCallback() {
     window.removeEventListener('mouseup', this.__handlePress);
+    this.removeEventListener('click', this.__dispatchClickWithThrottle);
     super.disconnectedCallback();
   }
 
@@ -145,12 +151,12 @@ export class BaseButton extends LitElement {
       return;
     }
 
+    if (!isActivationClick(event) || !this.buttonElement) {
+      return;
+    }
+
     this.focus();
-    this.dispatchEvent(
-      new CustomEvent('button--click', {
-        bubbles: true,
-      }),
-    );
+    dispatchActivationClick(this.buttonElement);
   };
 
   __convertTypeToVariantAndColor() {
@@ -167,5 +173,25 @@ export class BaseButton extends LitElement {
       this.color = 'danger';
       this.variant = 'filled';
     }
+  }
+
+  __getDisabledReasonID() {
+    return this.disabled && this.disabledReason
+      ? `disabled-reason-${this.#id}`
+      : null;
+  }
+
+  __renderDisabledReason() {
+    const disabledReasonID = this.__getDisabledReasonID();
+    if (disabledReasonID)
+      return html`<div
+        id="disabled-reason-${this.#id}"
+        role="tooltip"
+        aria-label=${this.disabledReason}
+        class="screen-reader-only"
+      >
+        {this.disabledReason}
+      </div>`;
+    return null;
   }
 }

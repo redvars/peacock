@@ -9,9 +9,9 @@ import '../styles/component.layout.scss';
 import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../_data/getComponentDetails';
 import Footer from '../components/Footer.astro';
 
-const title = componentDetails.metadata.label;
-const description = componentDetails.metadata.description;
-const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.tag);
+const title = componentDetails?.metadata.label;
+const description = componentDetails?.metadata.description;
+const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails?.tag);
 
 ---
 
@@ -34,17 +34,17 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <pc-tree-node label={component.metadata.label} value={component.metadata.name}
-                                               href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                        return <pc-tree-node label={component?.metadata.label} value={component?.metadata.name}
+                                               href={`/components/${component?.metadata.name}/`}></pc-tree-node>
                       }
                     } else if (componentName.children) {
                       return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
                         {
                           componentName.children.map((componentName) => {
                             const component = getComponentDetails(componentName);
-                            if (component.metadata.name) {
-                              return <pc-tree-node label={component.metadata.label}  value={component.metadata.name}
-                                                     href={`/components/${component.metadata.name}/`}></pc-tree-node>
+                            if (component?.metadata.name) {
+                              return <pc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
+                                                     href={`/components/${component?.metadata.name}/`}></pc-tree-node>
                             }
                           })
                         }
@@ -67,12 +67,12 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
 
       <div class='comp-header'>
         <h1 class='heading-scrollable text-display'>{title}</h1>
-        { componentDetails.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+        { componentDetails?.metadata.category == 'Up coming' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
       </div>
 
       <div class='component-description'>
         <div class='text-title-large'
-             set:html={componentDetails.metadata.overview ? componentDetails.metadata.overview : componentDetails.metadata.description}>
+             set:html={componentDetails?.metadata.overview ? componentDetails?.metadata.overview : componentDetails?.metadata.description}>
 
         </div>
       </div>
@@ -80,10 +80,10 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails.t
       <slot/>
 
       <div class='previous-next-nav'>
-        <p-button href={`/components/${previousComponent.metadata.name}/`} icon-align="start">
+        <p-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="start">
           <p-icon slot='icon' name='arrow_left_alt'></p-icon> Previous
         </p-button>
-        <p-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right_alt'>Previous</p-icon> </p-button>
+        <p-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right_alt'>Previous</p-icon> </p-button>
       </div>
     </pc-container>
 

@@ -11,9 +11,9 @@ import '../../styles/component.layout.scss';
 import { getCategoriesTree, getComponentDetails, getNextAndPrevious } from '../../_data/getComponentDetails';
 import Footer from '../../components/Footer.astro';
 
-const title = componentDetails.metadata.name;
-const description = componentDetails.metadata.description;
-const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails.tag);
+const title = componentDetails?.metadata.name;
+const description = componentDetails?.metadata.description;
+const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails?.tag);
 ---
 
 <Layout title={title} description={description}  classes={'surface'}>
@@ -31,15 +31,15 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <pc-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
+                        return <pc-tree-node label={component?.metadata.name} value={component?.metadata.name} href={`/components/${component?.tag.replace('goat-', '')}/`} />;
                       }
                     } else if (componentName.children) {
                       return (
                         <pc-tree-node label={componentName.name} value={componentName.name + 'group'}>
                           {componentName.children.map(componentName => {
                             const component = getComponentDetails(componentName);
-                            if (component.metadata.name) {
-                              return <pc-tree-node label={component.metadata.name} value={component.metadata.name} href={`/components/${component.tag.replace('goat-', '')}/`} />;
+                            if (component?.metadata.name) {
+                              return <pc-tree-node label={component?.metadata.name} value={component?.metadata.name} href={`/components/${component?.tag.replace('goat-', '')}/`} />;
                             }
                           })}
                         </pc-tree-node>
@@ -59,10 +59,10 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
       <slot />
 
       <div class="previous-next-nav">
-        <p-button href={`/components/${previousComponent.metadata.name}/`} icon-align="left">
+        <p-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="left">
           <p-icon slot='icon' name='arrow_left'></p-icon> Previous
         </p-button>
-        <p-button kind="simple" href={`/components/${nextComponent.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right'>Previous</p-icon> </p-button>
+        <p-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right'>Previous</p-icon> </p-button>
       </div>
     </pc-container>
 

@@ -15,11 +15,14 @@
 
 <p-icon></p-icon>
 <p-icon provider='carbon' name='logo--github'></p-icon>
-
 <script type='module'>
-  import { Icon } from '/dist/index.js';
-
+  import { Button, Elevation, FocusRing, Ripple, Icon } from '/dist/index.js';
+  window.customElements.define('p-button', Button);
+  window.customElements.define('p-elevation', Elevation);
+  window.customElements.define('p-focus-ring', FocusRing);
+  window.customElements.define('p-ripple', Ripple);
   window.customElements.define('p-icon', Icon);
+
 </script>
 </body>
 </html>

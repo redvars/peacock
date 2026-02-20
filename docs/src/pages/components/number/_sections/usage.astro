@@ -1,8 +1,12 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>Here are different types of inputs.</pc-text>
+<p class='text-body-large'>Here are different types of inputs.</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-number clearable label='Number'></goat-number>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <p-number label='Number'></p-number>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <p-number label='Number' stepper></p-number>
+</DemoComponentCard>

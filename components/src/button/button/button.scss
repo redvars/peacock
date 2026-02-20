@@ -23,7 +23,7 @@
   */
 slot::slotted(*) {
   --icon-size: var(--button-icon-size, var(--_button-icon-size));
-  --icon-color: var(--_label-text-color);
+  --icon-color: var(--_input-text-color);
 }
 
 /*
@@ -50,10 +50,10 @@ slot::slotted(*) {
   font-family: var(--font-family-sans) !important;
   cursor: pointer;
 
-  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-small)));
-  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-small)));
+  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-extra-small)));
+  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-extra-small)));
+  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-extra-small)));
+  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-extra-small)));
 
 
   .button-content {
@@ -64,9 +64,10 @@ slot::slotted(*) {
     width: 100%;
     z-index: 1;
 
-    color: var(--_label-text-color);
+    color: var(--_input-text-color);
     opacity: var(--_label-text-opacity, 1);
-    --icon-color: var(--_label-text-color);
+    --icon-size: var(--button-icon-size, var(--_button-icon-size));
+    --icon-color: var(--_input-text-color);
 
     .slot-container {
       display: none;
@@ -220,10 +221,10 @@ slot::slotted(*) {
 
 .button.variant-elevated {
   --_container-color: var(--elevated-button-container-color);
-  --_label-text-color: var(--elevated-button-label-text-color);
+  --_input-text-color: var(--elevated-button-label-text-color);
   --_container-elevation-level: 1;
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 2;
@@ -238,7 +239,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -250,8 +251,8 @@ slot::slotted(*) {
 
 .button.variant-filled {
   --_container-color: var(--filled-button-container-color);
-  --_label-text-color: var(--filled-button-label-text-color);
-  --_container-state-color: var(--_label-text-color);
+  --_input-text-color: var(--filled-button-label-text-color);
+  --_container-state-color: var(--_input-text-color);
 
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
@@ -267,7 +268,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -279,9 +280,9 @@ slot::slotted(*) {
 
 .button.variant-tonal {
   --_container-color: var(--tonal-button-container-color);
-  --_label-text-color: var(--tonal-button-label-text-color);
+  --_input-text-color: var(--tonal-button-label-text-color);
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 1;
@@ -296,7 +297,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -309,9 +310,9 @@ slot::slotted(*) {
 .button.variant-outlined {
   --_outline-width: var(--outlined-button-outline-width, 0.0675rem);
   --_outline-color: var(--outlined-button-outline-color);
-  --_label-text-color: var(--outlined-button-label-text-color);
+  --_input-text-color: var(--outlined-button-label-text-color);
 
-  --_container-state-color: var(--_label-text-color);
+  --_container-state-color: var(--_input-text-color);
 
   .outline {
     display: block;
@@ -327,7 +328,7 @@ slot::slotted(*) {
 
   &.disabled {
     --_outline-color: var(--color-on-surface);
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
     --_outline-opacity: 0.12;
 
@@ -340,8 +341,8 @@ slot::slotted(*) {
 
 .button.variant-text {
 
-  --_label-text-color: var(--text-button-label-text-color);
-  --_container-state-color: var(--_label-text-color);
+  --_input-text-color: var(--text-button-label-text-color);
+  --_container-state-color: var(--_input-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.08;
@@ -352,7 +353,7 @@ slot::slotted(*) {
   }
 
   &.disabled {
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -364,7 +365,7 @@ slot::slotted(*) {
 .button.variant-neo {
 
   --_container-color: var(--neo-button-container-color);
-  --_label-text-color: var(--neo-button-label-text-color);
+  --_input-text-color: var(--neo-button-label-text-color);
 
   --_outline-width: var(--outlined-button-outline-width, 0.125rem);
   --_outline-color: var(--color-inverse-surface);
@@ -393,7 +394,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
     --_outline-opacity: 0.12;
 

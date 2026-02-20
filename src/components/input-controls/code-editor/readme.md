@@ -69,14 +69,9 @@ Type: `Promise<void>`
 
  - [goat-html-editor](../html-editor)
 
-### Depends on
-
-- [pc-spinner](../../spinner)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-code-editor --> pc-spinner
   goat-html-editor --> pc-code-editor
   style pc-code-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```

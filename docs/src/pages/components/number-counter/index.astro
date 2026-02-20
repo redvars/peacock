@@ -1,0 +1,32 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+const componentDetails = getComponentDetails('number-counter');
+
+import UsageSection from './_sections/usage.astro';
+import SlotsSection from './_sections/slots.astro';
+import StatesSection from './_sections/states.astro';
+import EventsSection from './_sections/events.astro';
+
+const sections = [
+  {
+    'title': 'Usage',
+    'Component': UsageSection,
+  }];
+---
+<Layout componentDetails={componentDetails}>
+  <pc-tabs class='page-tabs'>
+    <pc-tabs-list>
+      <pc-tab selected='true'>Overview</pc-tab>
+      <pc-tab>API</pc-tab>
+    </pc-tabs-list>
+    <pc-tab-panel>
+      <OverviewPanel  sections={sections} />
+    </pc-tab-panel>
+    <pc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </pc-tab-panel>
+  </pc-tabs>
+</Layout>

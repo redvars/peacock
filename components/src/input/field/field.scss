@@ -1,0 +1,225 @@
+@use '../../../scss/mixin';
+
+@include mixin.base-styles;
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  --_container-shape-start-start: var(--field-container-shape-start-start, var(--shape-corner-extra-small));
+  --_container-shape-start-end: var(--field-container-shape-start-end, var(--shape-corner-extra-small));
+  --_container-shape-end-start: var(--field-container-shape-end-start, var(--shape-corner-extra-small));
+  --_container-shape-end-end: var(--field-container-shape-end-end, var(--shape-corner-extra-small));
+
+  --_container-color: var(--field-container-color);
+  --_outline-width: var(--field-outline-width, 0.0675rem);
+  --_outline-color: var(--field-outline-color, var(--color-outline));
+  --_input-text-color: var(--field-label-text-color, var(--color-on-surface));
+  --_helper-text-color: var(--field-helper-text-color, var(--color-on-surface-variant));
+  --_helper-text-opacity: unset;
+  --_label-text-color: var(--field-label-text-color, var(--color-primary));
+
+
+  .field-header {
+    display: flex;
+    align-items: center;
+    margin-block-end: var(--spacing-100);
+    justify-content: space-between;
+    gap: var(--spacing-100);
+
+    .label {
+      position: relative;
+      @include mixin.get-typography(body-small);
+
+
+      color: var(--_label-text-color);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .required {
+        color: var(--color-error);
+        padding-inline-start: var(--spacing-025);
+      }
+    }
+  }
+
+  .field-body {
+    position: relative;
+    display: flex;
+
+    cursor: text;
+
+
+    .outline {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      border: var(--_outline-width) solid var(--_outline-color);
+      opacity: var(--_outline-opacity, 1);
+      border-start-start-radius: var(--_container-shape-start-start);
+      border-start-end-radius: var(--_container-shape-start-end);
+      border-end-start-radius: var(--_container-shape-end-start);
+      border-end-end-radius: var(--_container-shape-end-end);
+    }
+
+    .background {
+      position: absolute;
+      z-index: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-color: var(--_container-color);
+      opacity: var(--_container-opacity, 1);
+
+      border-start-start-radius: var(--_container-shape-start-start);
+      border-start-end-radius: var(--_container-shape-start-end);
+      border-end-start-radius: var(--_container-shape-end-start);
+      border-end-end-radius: var(--_container-shape-end-end);
+    }
+
+
+
+    .field-content {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      height: 56px;
+      z-index: 1;
+
+      .input-wrapper {
+        flex: 1;
+        padding-inline: var(--spacing-200);
+        position: relative;
+
+        .outlined-label {
+          position: absolute;
+          top: 0;
+          left: 0;
+          align-items: center;
+          height: 100%;
+          width: 100%;
+          padding-inline: var(--spacing-200);
+          @include mixin.get-typography(body-large);
+          color: var(--_input-text-color);
+          background-color: var(--_container-color);
+          opacity: var(--_container-opacity, 1);
+        }
+
+        .outlined-slot-container {
+          opacity: 0;
+        }
+      }
+
+      slot::slotted(*) {
+        @include mixin.get-typography(body-large);
+        color: var(--_input-text-color);
+        --icon-size: 1.25rem;
+        --icon-color: var(--_input-text-color);
+      }
+      slot::slotted(input::placeholder) {
+        color: var(--color-on-surface-variant);
+      }
+
+
+      .slot-start-wrapper.has-content {
+        margin-inline-start: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+      }
+
+      .slot-end-wrapper.has-content {
+        margin-inline-end: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+      }
+
+
+
+    }
+  }
+
+  .field-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    margin-block-start: var(--spacing-050);
+    padding-inline: var(--spacing-200);
+
+    .helper, .text-count {
+      position: relative;
+      @include mixin.get-typography(body-large);
+      color: var(--_helper-text-color);
+      opacity: var(--_helper-text-opacity);
+    }
+  }
+
+  &.focused {
+    --_outline-color: var(--color-primary);
+    --_outline-width: 0.125rem;
+  }
+
+  &.has-error {
+    --_label-text-color: var(--color-error);
+    --_outline-color: var(--color-error);
+    --_helper-text-color: var(--color-error);
+    --_input-text-color: var(--color-error);
+  }
+
+  &.has-warning {
+    --_label-text-color: var(--color-warning);
+    --_outline-color: var(--color-warning);
+    --_helper-text-color: var(--color-warning);
+    --_input-text-color: var(--color-warning);
+  }
+
+
+  &.disabled {
+    .label {
+      opacity: 0.38;
+    }
+    --_input-text-color: var(--color-on-surface-variant);
+    --_outline-opacity: 0.38;
+    --_helper-text-opacity: 0.38;
+    --_container-color: var(--color-on-surface);
+    --_container-opacity: 0.1;
+    cursor: not-allowed;
+  }
+
+  &.readonly {
+    cursor: initial;
+    --_input-text-color: var(--color-on-surface-variant);
+    --_outline-opacity: 0.38;
+    --_helper-text-opacity: 0.38;
+    --_container-color: var(--color-on-surface);
+    --_container-opacity: 0.38;
+  }
+
+  &.show-skeleton {
+    .skeleton {
+      display: block;
+    }
+  }
+}
+
+.skeleton {
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  --skeleton-shape-start-start: var(--shape-corner-extra-small);
+  --skeleton-shape-start-end: var(--shape-corner-extra-small);
+  --skeleton-shape-end-start: var(--shape-corner-extra-small);
+  --skeleton-shape-end-end: var(--shape-corner-extra-small);
+}

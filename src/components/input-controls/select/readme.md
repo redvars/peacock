@@ -96,7 +96,6 @@ Type: `Promise<void>`
 ### Depends on
 
 - [pc-button](../../button)
-- [pc-spinner](../../spinner)
 - [pc-menu](../../menu/menu)
 - [pc-menu-item](../../menu/menu-item)
 
@@ -104,11 +103,9 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-select --> pc-button
-  pc-select --> pc-spinner
   pc-select --> pc-menu
   pc-select --> pc-menu-item
   pc-menu --> pc-empty-state
-  pc-empty-state --> pc-button
   style pc-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

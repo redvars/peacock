@@ -12,6 +12,9 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import { ButtonGroup } from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
+import { InputField } from './input/input/input-field.js';
+import { Field } from './input/field/field.js';
+import { NumberField } from './input/number/number-field.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -103,6 +106,18 @@ const loaderConfig: LoaderConfig = {
     },
     skeleton: {
       CustomElementClass: Skeleton,
+    },
+    input: {
+      CustomElementClass: InputField,
+    },
+    field: {
+      CustomElementClass: Field,
+    },
+    number: {
+      CustomElementClass: NumberField,
+    },
+    'number-counter': {
+      importPath: './number-counter.js',
     },
   },
 };

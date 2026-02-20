@@ -3,12 +3,12 @@ import componentsDetails from './componentsDetails.json';
 export function getComponentDetails(name: string): any {
   return componentsDetails.components.find(
     (component: any) =>
-      component.tag === name || component.metadata.name === name,
+      component.tag === name || component?.metadata.name === name,
   );
 }
 
 const arr = componentsDetails.components
-  .filter((component: any) => component.metadata.name)
+  .filter((component: any) => component?.metadata.name)
   .map((component: any) => component.tag);
 
 export function getNextAndPrevious(target: string): {
@@ -37,8 +37,8 @@ export function getCategoriesTree() {
   const categoriesTree: any[] = [];
 
   componentsDetails.components.forEach(component => {
-    let categoryName = component.metadata.category;
-    let subCategoryName = component.metadata.subcategory;
+    let categoryName = component?.metadata.category;
+    let subCategoryName = component?.metadata.subcategory;
     if (!categoryName) {
       categoryName = 'Up coming';
     }

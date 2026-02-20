@@ -13,8 +13,8 @@ import styles from './button-group.scss';
  * @example
  * ```html
  * <p-button-group>
- *  <p-button><p-icon name="home" slot="icon"></p-icon></p-button>
- *  <p-button><p-icon name="close" slot="icon"></p-icon></p-button>
+ *  <p-icon-button name="home"></p-icon-button>
+ *  <p-icon-button name="alarm"></p-icon-button>
  * </p-button-group>
  * ```
  *

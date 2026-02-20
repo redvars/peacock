@@ -26,3 +26,23 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <p-button variant='outlined' disabled>Outline</p-button>
   <p-button variant='text' disabled>Ghost</p-button>
 </DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Soft disabled</h4>
+<p class='text-body-large'>Make buttons look inactive by adding the soft-disabled <code>boolean</code> attribute to
+  any <code>&lt;button&gt;</code> element. But the button is still be focusable for accessibility reasons.
+</p>
+
+
+<DemoComponentCard lang={'html'}>
+  <p-button soft-disabled>Elevated</p-button>
+</DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Skeleton</h4>
+<p class='text-body-large'>Use the skeleton state to display a button while its content is loading.</p>
+<DemoComponentCard lang={'html'}>
+  <p-button skeleton>Elevated</p-button>
+</DemoComponentCard>

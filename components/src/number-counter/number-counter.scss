@@ -1,0 +1,31 @@
+@use "../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --number-counter-font-size: 1rem;
+}
+
+.number-counter {
+  display: flex;
+}
+
+.digit {
+  position: relative;
+  overflow: hidden;
+  height: calc(var(--number-counter-font-size) * 1.1);
+}
+
+.digit-content {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-long1) var(--easing-standard);
+}
+
+.each-digit, .digit-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--number-counter-font-size);
+}

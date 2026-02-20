@@ -439,7 +439,7 @@ border: var(--internal-button-inner-padding) solid transparent;
 
   --_outline-width: var(--outlined-button-outline-width, 0.0675rem);
   --_outline-color: var(--outlined-button-outline-color, var(--color-outline));
-  --_label-text-color: var(--color-on-surface-variant);
+  --_input-text-color: var(--color-on-surface-variant);
 
   .outline {
     display: block;
@@ -519,7 +519,7 @@ border: var(--internal-button-inner-padding) solid transparent;
 
 .button.variant-text {
 
-  --_label-text-color: var(--color-primary);
+  --_input-text-color: var(--color-primary);
 
   /*--internal-button-gap: .5rem;
 

@@ -55,7 +55,7 @@ export class AccordionItem extends LitElement {
     if (this.disabled) return;
     this.open = !this.open;
     this.dispatchEvent(
-      new CustomEvent('accordion-item:toggle', {
+      new CustomEvent('accordion-item--toggle', {
         bubbles: true,
         composed: true,
         detail: { open: this.open, id: this.#id },

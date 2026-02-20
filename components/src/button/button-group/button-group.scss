@@ -10,22 +10,22 @@ $border-width: 0.0625rem;
 
 
   slot::slotted(p-button:first-child), slot::slotted(p-icon-button:first-child) {
-    --button-container-shape-start-start: var(--shape-corner-full);
-    --button-container-shape-end-start: var(--shape-corner-full);
+    --button-container-shape-start-start: 50%;
+    --button-container-shape-end-start: 50%;
     --button-container-shape-start-end: var(--shape-corner-small);
     --button-container-shape-end-end: var(--shape-corner-small);
   }
 
   slot::slotted(p-button:last-child), slot::slotted(p-icon-button:last-child) {
-    --button-container-shape-end-end: var(--shape-corner-full);
-    --button-container-shape-start-end: var(--shape-corner-full);
+    --button-container-shape-end-end: 50%;
+    --button-container-shape-start-end: 50%;
 
     --button-container-shape-end-start: var(--shape-corner-small);
     --button-container-shape-start-start: var(--shape-corner-small);
   }
 
   slot::slotted(p-button:only-child), slot::slotted(p-icon-button:only-child) {
-    --button-container-shape: var(--shape-corner-full);
+    --button-container-shape: 50%;
   }
 }
 
