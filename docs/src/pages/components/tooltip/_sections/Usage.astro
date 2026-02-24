@@ -7,12 +7,28 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <span class='tooltip-link' tabindex='1'>
      hover here
-      <p-tooltip id='save-tooltip' content='Save the record'></p-tooltip>
+      <p-tooltip>Save the record</p-tooltip>
+    </span>
+</DemoComponentCard>
+
+<DemoComponentCard lang='html'>
+  <span class='tooltip-link' tabindex='1'>
+     hover here
+      <p-tooltip variant='rich'>
+        <span slot='title'>Rich tooltip</span>
+        Rich tooltips bring attention to important information or actions.
+
+      </p-tooltip>
     </span>
 </DemoComponentCard>
 
 
-<DemoComponentCard lang='html'>
 
-  <p-button tooltip='Testing'>Test</p-button>
+<DemoComponentCard lang='html'>
+  <div style='position:relative;width:150px'>
+    <p-button id='tooltip-btn' variant='outlined'><p-icon slot='icon' name='save'></p-icon></p-button>
+    <p-tooltip for='tooltip-btn'>Relative tooltup using for attribute</p-tooltip>
+  </div>
 </DemoComponentCard>
+
+

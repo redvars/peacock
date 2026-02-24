@@ -89,42 +89,46 @@ export class IconButton extends BaseButton {
 
     if (!isLink) {
       return html`<button
+          class=${classMap(cssClasses)}
+          id="button"
+          tabindex=${this.#tabindex}
+          type=${this.htmlType}
+          @click=${this.__dispatchClickWithThrottle}
+          @mousedown=${this.__handlePress}
+          @keydown=${this.__handlePress}
+          @keyup=${this.__handlePress}
+          ?aria-describedby=${(this.disabled || this.softDisabled) &&
+          this.disabledReason
+            ? `disabled-reason-${this.#id}`
+            : null}
+          aria-disabled=${`${this.disabled || this.softDisabled}`}
+          ?disabled=${this.disabled}
+          ${spread(this.configAria)}
+        >
+          ${this.renderButtonContent()}
+        </button>
+        ${this.__renderTooltip()}`;
+    }
+    return html`<a
         class=${classMap(cssClasses)}
+        id="button"
         tabindex=${this.#tabindex}
-        type=${this.htmlType}
+        href=${this.href}
+        target=${this.target}
         @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        ?aria-describedby=${(this.disabled || this.softDisabled) &&
-        this.disabledReason
+        role="button"
+        aria-describedby=${this.disabled && this.disabledReason
           ? `disabled-reason-${this.#id}`
           : null}
-        aria-disabled=${`${this.disabled || this.softDisabled}`}
-        ?disabled=${this.disabled}
+        aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
-      </button>`;
-    }
-    return html`<a
-      class=${classMap(cssClasses)}
-      tabindex=${this.#tabindex}
-      href=${this.href}
-      target=${this.target}
-      @click=${this.__dispatchClickWithThrottle}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
-      role="button"
-      aria-describedby=${this.disabled && this.disabledReason
-        ? `disabled-reason-${this.#id}`
-        : null}
-      aria-disabled=${`${this.disabled}`}
-      ${spread(this.configAria)}
-    >
-      ${this.renderButtonContent()}
-    </a>`;
+      </a>
+      ${this.__renderTooltip()}`;
   }
 
   renderButtonContent() {

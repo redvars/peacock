@@ -19,7 +19,7 @@
   opacity: 1;
 }
 
-.tooltip-content {
+.variant-plain .tooltip-content {
   display: inline-block;
   @include mixin.get-typography(body-small);
   max-width: 17.5rem;
@@ -28,5 +28,32 @@
   color: var(--color-inverse-on-surface);
   background-color: var(--color-inverse-surface);
   border-radius: var(--shape-corner-extra-small);
+}
+
+.variant-rich {
+
+  .tooltip-content {
+    display: inline-block;
+    max-width: 17.5rem;
+    padding-inline: var(--spacing-200);
+    padding-block: var(--spacing-150) var(--spacing-100);
+    color: var(--color-on-surface-variant);
+    background-color: var(--color-surface-container);
+    border-radius: var(--shape-corner-medium);
+  }
+
+  .elevation {
+    --elevation-level: 2;
+    --elevation-container-shape: var(--shape-corner-medium);
+  }
+
+  .tooltip-title {
+    @include mixin.get-typography(title-small);
+    margin-block-end: var(--spacing-050);
+  }
+
+  .tooltip-content {
+    @include mixin.get-typography(body-medium);
+  }
 }
 

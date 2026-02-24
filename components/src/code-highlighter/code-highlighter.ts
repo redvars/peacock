@@ -164,19 +164,16 @@ export class CodeHighlighter extends LitElement {
         <div class="header">
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
-            <div>
-              <p-icon-button
-                color="dark"
-                variant="text"
-                size="xs"
-                aria-label=${locale.copyToClipboard}
-                name="content_copy"
-                @click=${this.__handleCopyClick}
-              >
-              </p-icon-button>
-              <p-tooltip class="copy-button" .content=${locale.copyToClipboard}>
-              </p-tooltip>
-            </div>
+            <p-icon-button
+              color="dark"
+              variant="text"
+              size="xs"
+              aria-label=${locale.copyToClipboard}
+              name="content_copy"
+              tooltip=${locale.copyToClipboard}
+              @click=${this.__handleCopyClick}
+            >
+            </p-icon-button>
           </div>
         </div>
 

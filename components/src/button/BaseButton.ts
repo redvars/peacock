@@ -199,9 +199,7 @@ export class BaseButton extends LitElement {
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<p-tooltip for="button-${this.#id}"
-        >${this.tooltip}</p-tooltip
-      >`;
+      return html`<p-tooltip for="button">${this.tooltip}</p-tooltip>`;
     }
     return nothing;
   }

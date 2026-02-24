@@ -99,6 +99,7 @@ export class Button extends BaseButton {
     if (!isLink) {
       return html`<button
           class=${classMap(cssClasses)}
+          id="button"
           tabindex=${this.#tabindex}
           type=${this.htmlType}
           @mousedown=${this.__handlePress}
@@ -115,6 +116,7 @@ export class Button extends BaseButton {
     }
     return html`<a
         class=${classMap(cssClasses)}
+        id="button"
         tabindex=${this.#tabindex}
         href=${this.href}
         target=${this.target}

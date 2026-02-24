@@ -5732,5 +5732,274 @@
         "description": ""
       }
     }
+  },
+  {
+    "rawTag": "tooltip",
+    "label": "Tooltip",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tooltip"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-tooltip"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tooltip"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Displays a tooltip for an element."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<span class=\"tooltip\">Tooltip</span>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Tooltip",
+      "members": [
+        {
+          "kind": "field",
+          "name": "content",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "content"
+        },
+        {
+          "kind": "field",
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The ID of the element the tooltip should attach to.\nIf not provided, it defaults to the parent element.",
+          "attribute": "for"
+        },
+        {
+          "kind": "field",
+          "name": "trigger",
+          "type": {
+            "text": "string"
+          },
+          "default": "'hover focus'",
+          "attribute": "trigger"
+        },
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'plain' | 'rich'"
+          },
+          "default": "'plain'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "floatingEl",
+          "type": {
+            "text": "HTMLElement"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "_target",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_popover",
+          "privacy": "private",
+          "default": "new PopoverController(this, { placement: 'top', offset: 8, })"
+        },
+        {
+          "kind": "field",
+          "name": "CLOSE_OTHERS_EVENT",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "static": true,
+          "default": "'tooltip--open'"
+        },
+        {
+          "kind": "method",
+          "name": "hasTrigger",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "TooltipTrigger"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_onMouseEnter",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMouseLeave",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onFocusIn",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onFocusOut",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "show",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "hide",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "toggle",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleGlobalOpen",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleDocumentClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "detachListeners",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "attachListeners",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderPlainTooltip"
+        },
+        {
+          "kind": "method",
+          "name": "__renderRichTooltip"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "content",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "content"
+        },
+        {
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The ID of the element the tooltip should attach to.\nIf not provided, it defaults to the parent element.",
+          "fieldName": "for"
+        },
+        {
+          "name": "trigger",
+          "type": {
+            "text": "string"
+          },
+          "default": "'hover focus'",
+          "fieldName": "trigger"
+        },
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "open"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'plain' | 'rich'"
+          },
+          "default": "'plain'",
+          "fieldName": "variant"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-tooltip",
+      "customElement": true,
+      "summary": "Displays a tooltip for an element.",
+      "rawTag": {
+        "name": "tooltip",
+        "description": ""
+      }
+    }
   }
 ]
