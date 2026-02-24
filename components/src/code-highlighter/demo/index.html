@@ -15,44 +15,14 @@
 <body>
 
 
-<style>
-  .container-horizontal {
-    display: inline-block;
-    margin-right: 1rem;
-    padding: 1rem;
-    width: 200px;
-    border: 1px solid var(--color-outline);
-  }
-
-  .container-vertical {
-    display: flex;
-    height: 150px;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    width: 250px;
-    border: 1px solid var(--color-outline);
-  }
-</style>
+<p-code-highlighter language="javascript">
+    <pre><code>
+      const helloWorld = () => alert ('Hello World!');
+      export { helloWorld };
+</code></pre>
+</p-code-highlighter>
 
 
-
-<div class="container-horizontal">
-  <p>Content A</p>
-  <p-divider>or</p-divider>
-  <p>Content B</p>
-</div>
-
-<div class="container-vertical">
-  <p>Content A</p>
-  <p-divider vertical="true">or</p-divider>
-  <p>Content B</p>
-</div>
-
-
-
-<script type='module'>
-  import { Divider } from '/dist/index.js';
-  window.customElements.define('p-divider', Divider);
-</script>
+<script type='module' src='/dist/peacock-loader.js'></script>
 </body>
 </html>

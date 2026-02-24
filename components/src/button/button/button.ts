@@ -98,35 +98,37 @@ export class Button extends BaseButton {
 
     if (!isLink) {
       return html`<button
+          class=${classMap(cssClasses)}
+          tabindex=${this.#tabindex}
+          type=${this.htmlType}
+          @mousedown=${this.__handlePress}
+          @keydown=${this.__handlePress}
+          @keyup=${this.__handlePress}
+          ?aria-describedby=${this.__getDisabledReasonID()}
+          aria-disabled=${`${this.disabled || this.softDisabled}`}
+          ?disabled=${this.disabled}
+          ${spread(this.configAria)}
+        >
+          ${this.renderButtonContent()}
+        </button>
+        ${this.__renderTooltip()}`;
+    }
+    return html`<a
         class=${classMap(cssClasses)}
         tabindex=${this.#tabindex}
-        type=${this.htmlType}
+        href=${this.href}
+        target=${this.target}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
+        role="button"
         ?aria-describedby=${this.__getDisabledReasonID()}
-        aria-disabled=${`${this.disabled || this.softDisabled}`}
-        ?disabled=${this.disabled}
+        aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
-      </button>`;
-    }
-    return html`<a
-      class=${classMap(cssClasses)}
-      tabindex=${this.#tabindex}
-      href=${this.href}
-      target=${this.target}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
-      role="button"
-      ?aria-describedby=${this.__getDisabledReasonID()}
-      aria-disabled=${`${this.disabled}`}
-      ${spread(this.configAria)}
-    >
-      ${this.renderButtonContent()}
-    </a>`;
+      </a>
+      ${this.__renderTooltip()}`;
   }
 
   renderButtonContent() {

@@ -7,7 +7,12 @@
 .shadow,
 .shadow::before,
 .shadow::after {
-  border-radius: inherit;
+  border-start-start-radius: var(--elevation-container-shape-start-start, var(--elevation-container-shape));
+  border-start-end-radius: var(--elevation-container-shape-start-end, var(--elevation-container-shape));
+  border-end-start-radius: var(--elevation-container-shape-end-start, var(--elevation-container-shape));
+  border-end-end-radius: var(--elevation-container-shape-end-end, var(--elevation-container-shape));
+  corner-shape: var(--elevation-container-shape-variant);
+
   inset: 0;
   position: absolute;
   transition-duration: inherit;

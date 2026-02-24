@@ -50,10 +50,11 @@ slot::slotted(*) {
   font-family: var(--font-family-sans) !important;
   cursor: pointer;
 
-  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-extra-small)));
-  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-extra-small)));
-  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-extra-small)));
-  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-extra-small)));
+  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-medium)));
+  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-medium)));
+  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-medium)));
+  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-medium)));
+  --_container-corner-shape-variant: var(--button-container-shape-variant, squircle);
 
 
   .button-content {
@@ -83,10 +84,11 @@ slot::slotted(*) {
     Background layers
    */
   .focus-ring {
-    --focus-ring-shape-start-start: var(--_container-shape-start-start);
-    --focus-ring-shape-start-end: var(--_container-shape-start-end);
-    --focus-ring-shape-end-start: var(--_container-shape-end-start);
-    --focus-ring-shape-end-end: var(--_container-shape-end-end);
+    --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
+    --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
+    --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
+    --focus-ring-container-shape-end-end: var(--_container-shape-end-end);
+    --focus-ring-container-shape-variant: var(--_container-corner-shape-variant);
   }
 
   .ripple {
@@ -94,6 +96,7 @@ slot::slotted(*) {
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
   }
 
   .background {
@@ -109,6 +112,7 @@ slot::slotted(*) {
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
     pointer-events: none;
   }
 
@@ -120,10 +124,11 @@ slot::slotted(*) {
     position: absolute;
     top: 0;
     left: 0;
-    --skeleton-shape-start-start: var(--_container-shape-start-start);
-    --skeleton-shape-start-end: var(--_container-shape-start-end);
-    --skeleton-shape-end-start: var(--_container-shape-end-start);
-    --skeleton-shape-end-end: var(--_container-shape-end-end);
+    --skeleton-container-shape-start-start: var(--_container-shape-start-start);
+    --skeleton-container-shape-start-end: var(--_container-shape-start-end);
+    --skeleton-container-shape-end-start: var(--_container-shape-end-start);
+    --skeleton-container-shape-end-end: var(--_container-shape-end-end);
+    --skeleton-container-shape-variant: var(--_container-corner-shape-variant);
   }
 
   .ripple {
@@ -134,10 +139,11 @@ slot::slotted(*) {
   .elevation {
     --elevation-level: var(--_container-elevation-level);
     transition-duration: 280ms;
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-start-radius: var(--_container-shape-end-start);
-    border-end-end-radius: var(--_container-shape-end-end);
+    --elevation-container-shape-start-start: var(--_container-shape-start-start);
+    --elevation-container-shape-start-end: var(--_container-shape-start-end);
+    --elevation-container-shape-end-start: var(--_container-shape-end-start);
+    --elevation-container-shape-end-end: var(--_container-shape-end-end);
+    --elevation-container-shape-variant: var(--_container-corner-shape-variant);
   }
 
   .neo-background {
@@ -148,6 +154,7 @@ slot::slotted(*) {
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
     width: 100%;
     height: 100%;
     pointer-events: none;
@@ -162,6 +169,7 @@ slot::slotted(*) {
       border-start-end-radius: var(--_container-shape-start-end);
       border-end-start-radius: var(--_container-shape-end-start);
       border-end-end-radius: var(--_container-shape-end-end);
+      corner-shape: var(--_container-corner-shape-variant);
       width: 100%;
       height: 100%;
       background: white;
@@ -184,6 +192,7 @@ slot::slotted(*) {
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
   }
 
 

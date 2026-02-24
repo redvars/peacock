@@ -73,19 +73,6 @@ export class IconButton extends BaseButton {
     this.__convertTypeToVariantAndColor();
   }
 
-  __renderDisabledReason() {
-    if (this.disabled && this.disabledReason)
-      return html`<div
-        id="disabled-reason-${this.#id}"
-        role="tooltip"
-        aria-label=${this.disabledReason}
-        class="screen-reader-only"
-      >
-        {this.disabledReason}
-      </div>`;
-    return null;
-  }
-
   override render() {
     const isLink = this.__isLink();
 

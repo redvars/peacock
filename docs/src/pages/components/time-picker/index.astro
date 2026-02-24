@@ -1,43 +1,26 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
-import ComponentSectionNav from '../../../components/ComponentSectionNav.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('time-picker');
 
 import UsageSection from './_sections/usage.astro';
-import SizesSection from './_sections/sizes.astro';
-import DisabledSection from './_sections/disabled.astro';
-import EventsSection from './_sections/events.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 const sections = [
   {
     'title': 'Usage',
     'Component': UsageSection,
-  }, {
-    'title': 'Sizes',
-    'Component': SizesSection,
-  }, {
-    'title': 'Disabled',
-    'Component': DisabledSection,
-  }, {
-    'title': 'Events',
-    'Component': EventsSection,
   }];
 ---
 <Layout componentDetails={componentDetails}>
   <pc-tabs class='page-tabs'>
     <pc-tabs-list>
       <pc-tab selected='true'>Overview</pc-tab>
-      <pc-tab>Playground</pc-tab>
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
       <OverviewPanel  sections={sections} />
-    </pc-tab-panel>
-    <pc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
     </pc-tab-panel>
     <pc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

@@ -1,58 +1,189 @@
 import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { classMap } from 'lit/directives/class-map.js';
+
+// Internal imports (assuming these paths remain the same)
+import * as beautify from 'js-beautify';
+import * as Prism from 'prismjs';
+import { BundledLanguage, codeToHtml, ShikiTransformer } from 'shiki';
+
+import { copyToClipboard } from '../utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
-import { observerSlotChangesWithCallback } from '../utils.js';
+
+const locale = {
+  loading: 'Loading code...',
+  copyToClipboard: 'Copy to clipboard',
+  copied: 'Copied',
+  copiedCode: 'Copied code',
+};
 
 /**
  * @label Code Highlighter
  * @tag p-code-highlighter
  * @rawTag code-highlighter
  *
- * @summary The code highlighter component is used to display code snippets with syntax highlighting.
+ * @summary Highlights code snippets with syntax highlighting and line numbers.
  * @overview
- * <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
- *
- * @cssprop --divider-color - Controls the color of the divider.
- * @cssprop --divider-padding - Controls the padding of the divider.
+ *  - CodeHighlighter is a component that provides syntax highlighting for code snippets.
+ *  - It supports various programming languages and can display line numbers for better readability.
  *
  * @example
  * ```html
- * <p-divider style="width: 12rem;">or</p-divider>
+ * <p-code-highlighter language="javascript" style="height: 6rem"><pre><code>
+ *   function helloWorld() {
+ *     console.log('Hello, world!');
+ *   }</code></pre>
+ * </p-code-highlighter>
  * ```
  * @tags display
  */
 export class CodeHighlighter extends LitElement {
   static styles = [styles];
 
-  @property({ type: Boolean, reflect: true }) vertical = false;
+  @property({ type: String, reflect: true })
+  language: BundledLanguage = 'javascript';
 
-  @state()
-  slotHasContent = false;
+  @property({ attribute: 'line-numbers', type: Boolean, reflect: true })
+  lineNumbers: boolean = false;
+
+  @property({ type: String })
+  value: string = '';
+
+  @property({ type: Boolean, reflect: true })
+  format?: boolean = true;
+
+  @property({ type: Boolean })
+  hideCopy: boolean = false;
+
+  @state() private compiledCode: string | null = null;
+
+  private parsedCode: string | null = null;
+
+  async connectedCallback() {
+    // eslint-disable-next-line wc/guard-super-call
+    super.connectedCallback();
+  }
 
   firstUpdated() {
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot'),
-      hasContent => {
-        this.slotHasContent = hasContent;
-        this.requestUpdate();
+    this.populateCode();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private decode(str: string) {
+    return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  }
+
+  private async populateCode() {
+    if (!Prism.languages[this.language]) return;
+
+    let codeString = '';
+    if (this.value) {
+      codeString = this.value;
+    } else {
+      // Accessing light DOM children
+      const codeTag = this.querySelector('code');
+      if (codeTag) {
+        codeString = codeTag.innerHTML;
+      } else if (this.childNodes.length > 0) {
+        codeString = (this as HTMLElement).innerText;
+      }
+    }
+
+    codeString = this.decode(codeString);
+
+    const config = { wrap_line_length: 120 };
+    // eslint-disable-next-line default-case
+    switch (this.language) {
+      case 'javascript':
+        codeString = beautify.js(codeString, config);
+        break;
+      case 'html':
+        codeString = beautify.html(codeString, config);
+        break;
+      case 'css':
+        codeString = beautify.css(codeString, config);
+        break;
+    }
+
+    this.parsedCode = codeString;
+
+    const transformers: ShikiTransformer[] = [];
+
+    // If line numbers are enabled, we inject a transformer
+    // that adds the 'line' class to every line node.
+    if (this.lineNumbers) {
+      transformers.push({
+        name: 'add-line-class',
+        line(node) {
+          // Shiki v1 helper to add classes to the AST
+          this.addClassToHast(node, 'line');
+        },
+      });
+    }
+
+    this.compiledCode = await codeToHtml(codeString, {
+      lang: this.language,
+      themes: {
+        light: 'github-light',
+        dark: 'github-dark',
       },
-    );
+      transformers,
+    });
+  }
+
+  /**
+   * Replaces Stencil's @Watch
+   */
+  protected updated() {
+    this.populateCode();
+  }
+
+  private async __handleCopyClick() {
+    await copyToClipboard(`${this.parsedCode}`);
   }
 
   render() {
-    return html`<div
-      class=${classMap({
-        divider: true,
-        vertical: this.vertical,
-        'slot-has-content': this.slotHasContent,
-      })}
-    >
-      <div class="line"></div>
-      <div class="slot-container">
-        <slot></slot>
+    if (this.compiledCode === null) {
+      return html`
+        <div class="code-loader">
+          <p-circular-progress indeterminate></p-circular-progress>
+          ${locale.loading}
+        </div>
+      `;
+    }
+    // @click=${() => this.inline && this.handleCopyClick()}
+
+    return html`
+      <div
+        class=${classMap({
+          'code-highlighter': true,
+          'line-numbers': this.lineNumbers,
+        })}
+      >
+        <div class="header">
+          <div class="header-title">${this.language}</div>
+          <div class="header-actions">
+            <div>
+              <p-icon-button
+                color="dark"
+                variant="text"
+                size="xs"
+                aria-label=${locale.copyToClipboard}
+                name="content_copy"
+                @click=${this.__handleCopyClick}
+              >
+              </p-icon-button>
+              <p-tooltip class="copy-button" .content=${locale.copyToClipboard}>
+              </p-tooltip>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-wrapper">
+          <div class="highlighter">${unsafeHTML(this.compiledCode || '')}</div>
+        </div>
       </div>
-      <div class="line"></div>
-    </div>`;
+    `;
   }
 }

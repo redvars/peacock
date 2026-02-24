@@ -31,24 +31,6 @@ const description = 'The overview page is the first page you see when you visit 
           </p-input>
         </div>
 
-        <div class='categories'>{
-          getCategoriesTree().map((category) => {
-            return (
-              <goat-link href={`/components/?filter=${category.name.toLowerCase().replace(' ', '-')}`} class='no-style'>
-                <pc-tag id={`tag-${category.name.toLowerCase().replace(' ', '-')}`}
-                          color='blue'
-                          class='category'>{category.name}
-                  <p-icon class='selected-icon inherit' name='checkmark'></p-icon>
-                </pc-tag>
-              </goat-link>);
-          })
-        }</div>
-
-        <div class='filters hidden'>
-          <goat-link href='/components'>
-            Remove filter
-          </goat-link>
-        </div>
 
         <div class='cards'>
           {
@@ -57,6 +39,8 @@ const description = 'The overview page is the first page you see when you visit 
             })
           }
         </div>
+
+        <pc-text class='up-coming-title' type='heading' heading-size='4'>Old stencil components</pc-text>
 
         <div class='cards'>
           {

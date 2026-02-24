@@ -5,9 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Language } from "./components/application/code-highlighter/constants";
 import { CalendarViewType, EventType } from "./components/application/calendar/calendar/types";
-export { Language } from "./components/application/code-highlighter/constants";
 export { CalendarViewType, EventType } from "./components/application/calendar/calendar/types";
 export namespace Components {
     interface GoatCbCompoundExpression {
@@ -51,47 +49,6 @@ export namespace Components {
           * @default false
          */
         "vertical": boolean;
-    }
-    /**
-     * @label Code Highlighter
-     * @name code-highlighter
-     * @description The code highlighter component is used to display code snippets with syntax highlighting.
-     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
-     * @category Data Display
-     * @tag display, code
-     * @img /assets/img/code-highlighter.webp
-     * @imgDark /assets/img/code-highlighter-dark.webp
-     */
-    interface GoatCodeHighlighter {
-        /**
-          * Format the code snippet.
-         */
-        "format": boolean;
-        /**
-          * Hide the copy button.
-          * @default false
-         */
-        "hideCopy": boolean;
-        /**
-          * Display the code snippet inline.
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * The language of the code snippet.
-          * @default 'javascript'
-         */
-        "language": Language;
-        /**
-          * Display line numbers.
-          * @default false
-         */
-        "lineNumbers": boolean;
-        /**
-          * The code snippet to highlight.
-          * @default ''
-         */
-        "value": string;
     }
     /**
      * @name Condition Builder
@@ -781,83 +738,6 @@ export namespace Components {
         "size": 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
-     * @label Date Picker
-     * @name date-picker
-     * @category Form Inputs
-     * @description Captures date input.
-     * @example <pc-date-picker></pc-date-picker>
-     */
-    interface PcDatePicker {
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "helperText": string;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * @default false
-         */
-        "invalid": boolean;
-        "invalidText": string;
-        "label": string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number | null;
-        /**
-          * @default false
-         */
-        "warn": boolean;
-        "warnText": string;
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -1389,102 +1269,6 @@ export namespace Components {
     | 'bottom-left';
     }
     /**
-     * @label Number
-     * @name number
-     * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-number value="100"></pc-input>
-     */
-    interface PcNumber {
-        /**
-          * Indicates whether the value of the control can be automatically completed by the browser.
-          * @default 'off'
-         */
-        "autocomplete": 'on' | 'off';
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "helperText": string;
-        /**
-          * @default false
-         */
-        "hideActions": boolean;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * @default false
-         */
-        "invalid": boolean;
-        "invalidText": string;
-        "label": string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * @default false
-         */
-        "skeleton": boolean;
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state": 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-          * @default null
-         */
-        "value"?: number | null;
-        /**
-          * @default false
-         */
-        "warn": boolean;
-        "warnText": string;
-    }
-    /**
      * @label Popover
      * @name popover
      * @description The Popover component is used to display additional information.
@@ -1978,62 +1762,6 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @label Time Picker
-     * @name time-picker
-     * @description Captures time input.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-time-picker value='10:00:00'></pc-time-picker>
-     */
-    interface PcTimePicker {
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number | null;
-    }
-    /**
      * @label Toggle
      * @name toggle
      * @description Captures boolean input with an optional indeterminate mode.
@@ -2231,10 +1959,6 @@ export interface PcCodeEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcCodeEditorElement;
 }
-export interface PcDatePickerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcDatePickerElement;
-}
 export interface PcDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcDropdownElement;
@@ -2259,10 +1983,6 @@ export interface PcNotificationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcNotificationElement;
 }
-export interface PcNumberCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcNumberElement;
-}
 export interface PcPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcPopoverElement;
@@ -2286,10 +2006,6 @@ export interface PcTableCustomEvent<T> extends CustomEvent<T> {
 export interface PcTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcTextareaElement;
-}
-export interface PcTimePickerCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTimePickerElement;
 }
 export interface PcToggleCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2323,22 +2039,6 @@ declare global {
     var HTMLGoatCbPredicateElement: {
         prototype: HTMLGoatCbPredicateElement;
         new (): HTMLGoatCbPredicateElement;
-    };
-    /**
-     * @label Code Highlighter
-     * @name code-highlighter
-     * @description The code highlighter component is used to display code snippets with syntax highlighting.
-     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
-     * @category Data Display
-     * @tag display, code
-     * @img /assets/img/code-highlighter.webp
-     * @imgDark /assets/img/code-highlighter-dark.webp
-     */
-    interface HTMLGoatCodeHighlighterElement extends Components.GoatCodeHighlighter, HTMLStencilElement {
-    }
-    var HTMLGoatCodeHighlighterElement: {
-        prototype: HTMLGoatCodeHighlighterElement;
-        new (): HTMLGoatCodeHighlighterElement;
     };
     /**
      * @name Condition Builder
@@ -2702,33 +2402,6 @@ declare global {
         prototype: HTMLPcContainerElement;
         new (): HTMLPcContainerElement;
     };
-    interface HTMLPcDatePickerElementEventMap {
-        "goat-date-picker--input": any;
-        "goat-date-picker--change": any;
-        "goat-date-picker--blur": any;
-        "goat-date-picker--focus": any;
-    }
-    /**
-     * @label Date Picker
-     * @name date-picker
-     * @category Form Inputs
-     * @description Captures date input.
-     * @example <pc-date-picker></pc-date-picker>
-     */
-    interface HTMLPcDatePickerElement extends Components.PcDatePicker, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcDatePickerElementEventMap>(type: K, listener: (this: HTMLPcDatePickerElement, ev: PcDatePickerCustomEvent<HTMLPcDatePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcDatePickerElementEventMap>(type: K, listener: (this: HTMLPcDatePickerElement, ev: PcDatePickerCustomEvent<HTMLPcDatePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcDatePickerElement: {
-        prototype: HTMLPcDatePickerElement;
-        new (): HTMLPcDatePickerElement;
-    };
     interface HTMLPcDropdownElementEventMap {
         "pc-dropdown--item-click": any;
         "pc-dropdown--open": any;
@@ -3006,34 +2679,6 @@ declare global {
         prototype: HTMLPcNotificationManagerElement;
         new (): HTMLPcNotificationManagerElement;
     };
-    interface HTMLPcNumberElementEventMap {
-        "goat-number--input": any;
-        "goat-number--change": any;
-        "goat-number--blur": any;
-        "goat-number--focus": any;
-    }
-    /**
-     * @label Number
-     * @name number
-     * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-number value="100"></pc-input>
-     */
-    interface HTMLPcNumberElement extends Components.PcNumber, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcNumberElementEventMap>(type: K, listener: (this: HTMLPcNumberElement, ev: PcNumberCustomEvent<HTMLPcNumberElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcNumberElementEventMap>(type: K, listener: (this: HTMLPcNumberElement, ev: PcNumberCustomEvent<HTMLPcNumberElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcNumberElement: {
-        prototype: HTMLPcNumberElement;
-        new (): HTMLPcNumberElement;
-    };
     interface HTMLPcPopoverElementEventMap {
         "pc-popover--open": any;
         "pc-popover--close": any;
@@ -3235,34 +2880,6 @@ declare global {
         prototype: HTMLPcTextareaElement;
         new (): HTMLPcTextareaElement;
     };
-    interface HTMLPcTimePickerElementEventMap {
-        "goat-time-picker--input": any;
-        "goat-time-picker--change": any;
-        "goat-time-picker--blur": any;
-        "goat-time-picker--focus": any;
-    }
-    /**
-     * @label Time Picker
-     * @name time-picker
-     * @description Captures time input.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-time-picker value='10:00:00'></pc-time-picker>
-     */
-    interface HTMLPcTimePickerElement extends Components.PcTimePicker, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTimePickerElementEventMap>(type: K, listener: (this: HTMLPcTimePickerElement, ev: PcTimePickerCustomEvent<HTMLPcTimePickerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTimePickerElementEventMap>(type: K, listener: (this: HTMLPcTimePickerElement, ev: PcTimePickerCustomEvent<HTMLPcTimePickerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTimePickerElement: {
-        prototype: HTMLPcTimePickerElement;
-        new (): HTMLPcTimePickerElement;
-    };
     interface HTMLPcToggleElementEventMap {
         "pc-toggle--change": any;
         "pc-toggle--blur": any;
@@ -3352,7 +2969,6 @@ declare global {
         "goat-cb-divider": HTMLGoatCbDividerElement;
         "goat-cb-expression": HTMLGoatCbExpressionElement;
         "goat-cb-predicate": HTMLGoatCbPredicateElement;
-        "goat-code-highlighter": HTMLGoatCodeHighlighterElement;
         "goat-condition-builder": HTMLGoatConditionBuilderElement;
         "goat-footer": HTMLGoatFooterElement;
         "goat-footer-copyright": HTMLGoatFooterCopyrightElement;
@@ -3380,7 +2996,6 @@ declare global {
         "pc-checkbox": HTMLPcCheckboxElement;
         "pc-code-editor": HTMLPcCodeEditorElement;
         "pc-container": HTMLPcContainerElement;
-        "pc-date-picker": HTMLPcDatePickerElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
         "pc-empty-state": HTMLPcEmptyStateElement;
@@ -3395,7 +3010,6 @@ declare global {
         "pc-modal-content": HTMLPcModalContentElement;
         "pc-notification": HTMLPcNotificationElement;
         "pc-notification-manager": HTMLPcNotificationManagerElement;
-        "pc-number": HTMLPcNumberElement;
         "pc-popover": HTMLPcPopoverElement;
         "pc-popover-content": HTMLPcPopoverContentElement;
         "pc-select": HTMLPcSelectElement;
@@ -3406,7 +3020,6 @@ declare global {
         "pc-tabs": HTMLPcTabsElement;
         "pc-tabs-list": HTMLPcTabsListElement;
         "pc-textarea": HTMLPcTextareaElement;
-        "pc-time-picker": HTMLPcTimePickerElement;
         "pc-toggle": HTMLPcToggleElement;
         "pc-tooltip": HTMLPcTooltipElement;
         "pc-tree-node": HTMLPcTreeNodeElement;
@@ -3455,47 +3068,6 @@ declare namespace LocalJSX {
           * @default false
          */
         "vertical"?: boolean;
-    }
-    /**
-     * @label Code Highlighter
-     * @name code-highlighter
-     * @description The code highlighter component is used to display code snippets with syntax highlighting.
-     * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
-     * @category Data Display
-     * @tag display, code
-     * @img /assets/img/code-highlighter.webp
-     * @imgDark /assets/img/code-highlighter-dark.webp
-     */
-    interface GoatCodeHighlighter {
-        /**
-          * Format the code snippet.
-         */
-        "format"?: boolean;
-        /**
-          * Hide the copy button.
-          * @default false
-         */
-        "hideCopy"?: boolean;
-        /**
-          * Display the code snippet inline.
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * The language of the code snippet.
-          * @default 'javascript'
-         */
-        "language"?: Language;
-        /**
-          * Display line numbers.
-          * @default false
-         */
-        "lineNumbers"?: boolean;
-        /**
-          * The code snippet to highlight.
-          * @default ''
-         */
-        "value"?: string;
     }
     /**
      * @name Condition Builder
@@ -4174,90 +3746,6 @@ declare namespace LocalJSX {
         "size"?: 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
-     * @label Date Picker
-     * @name date-picker
-     * @category Form Inputs
-     * @description Captures date input.
-     * @example <pc-date-picker></pc-date-picker>
-     */
-    interface PcDatePicker {
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        "helperText"?: string;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * @default false
-         */
-        "invalid"?: boolean;
-        "invalidText"?: string;
-        "label"?: string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-date-picker--blur"?: (event: PcDatePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-date-picker--change"?: (event: PcDatePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-date-picker--focus"?: (event: PcDatePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-date-picker--input"?: (event: PcDatePickerCustomEvent<any>) => void;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number | null;
-        /**
-          * @default false
-         */
-        "warn"?: boolean;
-        "warnText"?: string;
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -4797,109 +4285,6 @@ declare namespace LocalJSX {
     | 'bottom-left';
     }
     /**
-     * @label Number
-     * @name number
-     * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-number value="100"></pc-input>
-     */
-    interface PcNumber {
-        /**
-          * Indicates whether the value of the control can be automatically completed by the browser.
-          * @default 'off'
-         */
-        "autocomplete"?: 'on' | 'off';
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        "helperText"?: string;
-        /**
-          * @default false
-         */
-        "hideActions"?: boolean;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * @default false
-         */
-        "invalid"?: boolean;
-        "invalidText"?: string;
-        "label"?: string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-number--blur"?: (event: PcNumberCustomEvent<any>) => void;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-number--change"?: (event: PcNumberCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-number--focus"?: (event: PcNumberCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-number--input"?: (event: PcNumberCustomEvent<any>) => void;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * @default false
-         */
-        "skeleton"?: boolean;
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state"?: 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-          * @default null
-         */
-        "value"?: number | null;
-        /**
-          * @default false
-         */
-        "warn"?: boolean;
-        "warnText"?: string;
-    }
-    /**
      * @label Popover
      * @name popover
      * @description The Popover component is used to display additional information.
@@ -5420,69 +4805,6 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @label Time Picker
-     * @name time-picker
-     * @description Captures time input.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-time-picker value='10:00:00'></pc-time-picker>
-     */
-    interface PcTimePicker {
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-time-picker--blur"?: (event: PcTimePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-time-picker--change"?: (event: PcTimePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-time-picker--focus"?: (event: PcTimePickerCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-time-picker--input"?: (event: PcTimePickerCustomEvent<any>) => void;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number | null;
-    }
-    /**
      * @label Toggle
      * @name toggle
      * @description Captures boolean input with an optional indeterminate mode.
@@ -5645,7 +4967,6 @@ declare namespace LocalJSX {
         "goat-cb-divider": GoatCbDivider;
         "goat-cb-expression": GoatCbExpression;
         "goat-cb-predicate": GoatCbPredicate;
-        "goat-code-highlighter": GoatCodeHighlighter;
         "goat-condition-builder": GoatConditionBuilder;
         "goat-footer": GoatFooter;
         "goat-footer-copyright": GoatFooterCopyright;
@@ -5673,7 +4994,6 @@ declare namespace LocalJSX {
         "pc-checkbox": PcCheckbox;
         "pc-code-editor": PcCodeEditor;
         "pc-container": PcContainer;
-        "pc-date-picker": PcDatePicker;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
         "pc-empty-state": PcEmptyState;
@@ -5688,7 +5008,6 @@ declare namespace LocalJSX {
         "pc-modal-content": PcModalContent;
         "pc-notification": PcNotification;
         "pc-notification-manager": PcNotificationManager;
-        "pc-number": PcNumber;
         "pc-popover": PcPopover;
         "pc-popover-content": PcPopoverContent;
         "pc-select": PcSelect;
@@ -5699,7 +5018,6 @@ declare namespace LocalJSX {
         "pc-tabs": PcTabs;
         "pc-tabs-list": PcTabsList;
         "pc-textarea": PcTextarea;
-        "pc-time-picker": PcTimePicker;
         "pc-toggle": PcToggle;
         "pc-tooltip": PcTooltip;
         "pc-tree-node": PcTreeNode;
@@ -5714,17 +5032,6 @@ declare module "@stencil/core" {
             "goat-cb-divider": LocalJSX.GoatCbDivider & JSXBase.HTMLAttributes<HTMLGoatCbDividerElement>;
             "goat-cb-expression": LocalJSX.GoatCbExpression & JSXBase.HTMLAttributes<HTMLGoatCbExpressionElement>;
             "goat-cb-predicate": LocalJSX.GoatCbPredicate & JSXBase.HTMLAttributes<HTMLGoatCbPredicateElement>;
-            /**
-             * @label Code Highlighter
-             * @name code-highlighter
-             * @description The code highlighter component is used to display code snippets with syntax highlighting.
-             * @overview <p>The <strong>Code Highlighter</strong> component allows you to display code snippets with syntax highlighting for various programming languages. It supports features like line numbers, code formatting, and a copy-to-clipboard button.</p>
-             * @category Data Display
-             * @tag display, code
-             * @img /assets/img/code-highlighter.webp
-             * @imgDark /assets/img/code-highlighter-dark.webp
-             */
-            "goat-code-highlighter": LocalJSX.GoatCodeHighlighter & JSXBase.HTMLAttributes<HTMLGoatCodeHighlighterElement>;
             /**
              * @name Condition Builder
              * @description A condition builder is a component that allows users to build a condition using a set of rules.
@@ -5857,14 +5164,6 @@ declare module "@stencil/core" {
              */
             "pc-code-editor": LocalJSX.PcCodeEditor & JSXBase.HTMLAttributes<HTMLPcCodeEditorElement>;
             "pc-container": LocalJSX.PcContainer & JSXBase.HTMLAttributes<HTMLPcContainerElement>;
-            /**
-             * @label Date Picker
-             * @name date-picker
-             * @category Form Inputs
-             * @description Captures date input.
-             * @example <pc-date-picker></pc-date-picker>
-             */
-            "pc-date-picker": LocalJSX.PcDatePicker & JSXBase.HTMLAttributes<HTMLPcDatePickerElement>;
             /**
              * @label Dropdown
              * @name dropdown
@@ -6000,15 +5299,6 @@ declare module "@stencil/core" {
              */
             "pc-notification-manager": LocalJSX.PcNotificationManager & JSXBase.HTMLAttributes<HTMLPcNotificationManagerElement>;
             /**
-             * @label Number
-             * @name number
-             * @description Number input lets users enter a numeric value and incrementally increase or decrease the value with a two-segment control.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <pc-number value="100"></pc-input>
-             */
-            "pc-number": LocalJSX.PcNumber & JSXBase.HTMLAttributes<HTMLPcNumberElement>;
-            /**
              * @label Popover
              * @name popover
              * @description The Popover component is used to display additional information.
@@ -6082,15 +5372,6 @@ declare module "@stencil/core" {
              * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
              */
             "pc-textarea": LocalJSX.PcTextarea & JSXBase.HTMLAttributes<HTMLPcTextareaElement>;
-            /**
-             * @label Time Picker
-             * @name time-picker
-             * @description Captures time input.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <pc-time-picker value='10:00:00'></pc-time-picker>
-             */
-            "pc-time-picker": LocalJSX.PcTimePicker & JSXBase.HTMLAttributes<HTMLPcTimePickerElement>;
             /**
              * @label Toggle
              * @name toggle

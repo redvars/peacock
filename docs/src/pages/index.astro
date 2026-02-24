@@ -114,8 +114,8 @@ function jumpingSentence(sentence: string) {
           <li>
             <pc-text expressive=''>
               Put a script tag similar to this
-              <goat-code-highlighter inline><code>&lt;script type="module"
-                src="{envProps.script}"&gt;&lt;/script&gt;</code></goat-code-highlighter>
+              <code class='text-code'>&lt;script type="module"
+                src="{envProps.script}"&gt;&lt;/script&gt;</code>
               in the head of your index.html
             </pc-text>
           </li>
@@ -131,7 +131,7 @@ function jumpingSentence(sentence: string) {
             </pc-tabs-list>
 
             <pc-tab-panel>
-              <goat-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
+              <p-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('get-started-code').value = `<!DOCTYPE html>
                  &lt;html>

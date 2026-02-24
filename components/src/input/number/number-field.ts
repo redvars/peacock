@@ -1,17 +1,22 @@
 import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import BaseInput from '../BaseInput.js';
 import styles from './number.scss';
 import { spread } from '../../spread.js';
 import { redispatchEvent } from '../../utils.js';
-import { classMap } from 'lit/directives/class-map.js';
 
 /**
- * @label Input
- * @tag p-input
- * @rawTag input
+ * @label Number Field
+ * @tag p-number
+ * @rawTag number
  *
- * @summary The Input component is used to capture user input.
+ * @summary The Number Field component is used to capture numeric user input.
+ *
+ * @example
+ * ```html
+ * <p-number label="Age" placeholder="Enter your age"></p-number>
+ * ```
  */
 export class NumberField extends BaseInput {
   static styles = [styles];

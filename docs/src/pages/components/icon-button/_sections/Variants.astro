@@ -1,0 +1,37 @@
+---
+import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Here are several predefined button styles, each serving its own semantic purpose.</p>
+
+<DemoComponentCard lang={'html'}>
+  <p-icon-button variant='elevated' name='home'></p-icon-button>
+  <p-icon-button name='home'></p-icon-button>
+  <p-icon-button variant='tonal' name='home'></p-icon-button>
+  <p-icon-button variant='outlined' name='home'></p-icon-button>
+  <p-icon-button variant='text' name='home'></p-icon-button>
+  <p-icon-button variant='neo' name='home'></p-icon-button>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <p-icon-button block name='home'>Block</p-icon-button>
+</DemoComponentCard>
+
+<br/>
+
+<style is:inline>
+  strong {
+    font-weight: bold;
+  }
+</style>
+
+<p class='text-body-large'>The <p-code-highlighter inline="true">type</p-code-highlighter> property property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
+<p class='text-body-large'><p-code-highlighter inline="true">type="primary"</p-code-highlighter>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
+
+<DemoComponentCard lang={'html'}>
+  <p-button type='primary'>Primary</p-button>
+  <p-button type='secondary'>Secondary</p-button>
+  <p-button type='tertiary'>Tertiary</p-button>
+  <p-button type='danger'>Danger</p-button>
+</DemoComponentCard>

@@ -5,7 +5,7 @@ import styles from './circular-progress.scss';
 import { BaseProgress } from '../base-progress.js';
 
 /**
- * @label Circular Progress / Spinner
+ * @label Circular Progress
  * @tag  p-circular-progress
  * @rawTag circular-progress
  *

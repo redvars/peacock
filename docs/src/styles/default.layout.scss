@@ -5,16 +5,16 @@
 
 
 .page {
-  position: relative;
+  display: flex;
+  height: 100vh;
 }
 
 
 .side-navigation-container {
-  position: fixed;
   height: 100vh;
-  z-index: 1;
 }
 
 .page-context-wrapper {
-  margin-inline-start: 5.5rem; // side navigation width
+  flex: 1;
+  overflow: auto;
 }

@@ -2,10 +2,12 @@
   display: none;
   pointer-events: none;
   position: absolute;
-  border-start-start-radius: var(--focus-ring-shape-start-start);
-  border-start-end-radius: var(--focus-ring-shape-start-end);
-  border-end-start-radius: var(--focus-ring-shape-end-start);
-  border-end-end-radius: var(--focus-ring-shape-end-end);
+  border-start-start-radius: var(--focus-ring-container-shape-start-start);
+  border-start-end-radius: var(--focus-ring-container-shape-start-end);
+  border-end-start-radius: var(--focus-ring-container-shape-end-start);
+  border-end-end-radius: var(--focus-ring-container-shape-end-end);
+  corner-shape: var(--focus-ring-container-shape-variant);
+
   inset: calc(-1 * var(--focus-ring-inset, 2px));
 
   animation-delay: 0s, calc(var(--focus-ring-duration, 600ms) * .25);

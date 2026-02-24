@@ -1,0 +1,142 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+
+:host {
+  display: block;
+  height: 100%;
+  --code-highlighter-background: var(--color-surface-container-high);
+}
+
+.code-loader {
+  height: 10rem;
+  background-color: var(--code-highlighter-background);
+  color: var(--color-on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-050);
+}
+
+.code-highlighter {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-on-surface);
+
+  .header {
+    padding: var(--spacing-100);
+    padding-inline-start: var(--spacing-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--code-highlighter-background);
+    margin-bottom: var(--spacing-050);
+
+    @include mixin.get-typography(body-medium);
+
+    .copy-button {
+      --button-container-shape: 9999px;
+    }
+  }
+
+
+  .scroll-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--code-highlighter-background);
+
+
+    .highlighter {
+      margin: 0;
+      position: relative;
+
+
+      .shiki {
+        margin: 0;
+        padding: var(--spacing-200);
+        width: fit-content;
+        background: transparent !important;
+        --shiki-dark-bg: transparent !important;
+
+        code {
+          @include mixin.get-typography(code-medium);
+        }
+      }
+    }
+  }
+
+  &.line-numbers {
+    margin-left: 3.75rem;
+
+    .highlighter .shiki {
+      /* Reset counter for line numbers */
+      counter-reset: line-counter;
+    }
+
+    .line {
+      position: relative;
+      padding-left: 2rem; /* Space for numbers */
+    }
+
+    .line::before {
+      counter-increment: line-counter;
+      content: counter(line-counter);
+
+      /* Positioning */
+      position: absolute;
+      left: -1.5rem; /* Pull back into padding */
+      width: 2.5rem; /* Fixed width for alignment */
+      text-align: right;
+      padding-right: 1rem;
+
+      /* Visuals */
+      color: var(--num-color);
+      opacity: 0.6;
+      font-variant-numeric: tabular-nums; /* Ensures numbers align vertically */
+      user-select: none; /* Don't copy line numbers when selecting text */
+      pointer-events: none;
+    }
+  }
+}
+
+:host-context([data-theme='dark']) {
+  .highlighter {
+    .shiki,
+    .shiki span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+    }
+  }
+}
+
+:host([inline]) {
+  display: inline;
+  height: initial;
+
+  .code-highlighter {
+    display: inline;
+    cursor: pointer;
+
+    .scroll-wrapper {
+      display: inline;
+
+      .line-numbers-wrapper {
+        padding: 0 var(--spacing-100);
+        font-size: inherit;
+        display: inline;
+        word-wrap: break-word;
+
+        .highlighter {
+          display: inline;
+        }
+      }
+    }
+  }
+
+  .code-loader {
+    height: initial;
+    display: inline;
+  }
+}

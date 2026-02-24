@@ -6,7 +6,6 @@ docs/assets/goatui-dev/
 *~
 *.sw[mnpcod]
 *.log
-*.lock
 *.tmp
 *.tmp.*
 log.txt

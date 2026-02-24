@@ -702,6 +702,18 @@
         },
         {
           "kind": "field",
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "tooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "isPressed",
           "type": {
             "text": "boolean"
@@ -796,6 +808,14 @@
         {
           "kind": "method",
           "name": "__renderDisabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -991,6 +1011,17 @@
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
           "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "tooltip",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1276,12 +1307,12 @@
   },
   {
     "rawTag": "circular-progress",
-    "label": "Circular Progress / Spinner",
+    "label": "Circular Progress",
     "jsdoc": {
       "@label": [
         {
           "kind": "text",
-          "text": "Circular Progress / Spinner"
+          "text": "Circular Progress"
         }
       ],
       "@tag": [
@@ -1567,6 +1598,701 @@
     }
   },
   {
+    "rawTag": "code-highlighter",
+    "label": "Code Highlighter",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Code Highlighter"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-code-highlighter"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "code-highlighter"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Highlights code snippets with syntax highlighting and line numbers."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-code-highlighter language=\"javascript\" style=\"height: 6rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</p-code-highlighter>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CodeHighlighter",
+      "members": [
+        {
+          "kind": "field",
+          "name": "language",
+          "type": {
+            "text": "BundledLanguage"
+          },
+          "default": "'javascript'",
+          "attribute": "language",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "lineNumbers",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "line-numbers",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value"
+        },
+        {
+          "kind": "field",
+          "name": "format",
+          "type": {
+            "text": "boolean | undefined"
+          },
+          "default": "true",
+          "attribute": "format",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "hideCopy",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "hideCopy"
+        },
+        {
+          "kind": "field",
+          "name": "compiledCode",
+          "type": {
+            "text": "string | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "parsedCode",
+          "type": {
+            "text": "string | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "method",
+          "name": "decode",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "str",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "populateCode",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleCopyClick",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "language",
+          "type": {
+            "text": "BundledLanguage"
+          },
+          "default": "'javascript'",
+          "fieldName": "language"
+        },
+        {
+          "name": "line-numbers",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "lineNumbers"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value"
+        },
+        {
+          "name": "format",
+          "type": {
+            "text": "boolean | undefined"
+          },
+          "default": "true",
+          "fieldName": "format"
+        },
+        {
+          "name": "hideCopy",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "hideCopy"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-code-highlighter",
+      "customElement": true,
+      "summary": "Highlights code snippets with syntax highlighting and line numbers.",
+      "rawTag": {
+        "name": "code-highlighter",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "date-picker",
+    "label": "Date Picker",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Date Picker"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-date-picker"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "date-picker"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Date Picker component is used to capture date user input."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-date-picker label=\"Name\" required placeholder=\"Enter your name\"></p-date-picker>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "DatePicker",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "attribute": "autocomplete"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "passwordVisible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "dirty",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__redispatchEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "fieldName": "autocomplete"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "p-date-picker",
+      "customElement": true,
+      "summary": "The Date Picker component is used to capture date user input.",
+      "rawTag": {
+        "name": "date-picker",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "divider",
     "label": "Divider",
     "jsdoc": {
@@ -1719,7 +2445,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200); border-radius: var(--shape-corner-extra-small);\">\n    <p-elevation style='--elevation-level: 2'></p-elevation>\n    Level 2\n  </div>\n```"
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <p-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></p-elevation>\n    Level 2\n  </div>\n```"
         }
       ],
       "@tags": [
@@ -1893,7 +2619,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\r\n<p-icon name=\"home\"></p-icon>\r\n```"
+          "text": "```html\r\n<p-icon name=\"home\" style=\"--icon-size: 2rem;\"></p-icon>\r\n```"
         }
       ]
     },
@@ -2214,14 +2940,6 @@
         },
         {
           "kind": "method",
-          "name": "__renderDisabledReason",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
           "name": "renderButtonContent"
         },
         {
@@ -2420,6 +3138,18 @@
         },
         {
           "kind": "field",
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "tooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "isPressed",
           "type": {
             "text": "boolean"
@@ -2506,6 +3236,22 @@
         {
           "kind": "method",
           "name": "__getDisabledReasonID",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -2714,6 +3460,17 @@
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
           "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "tooltip",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -3673,6 +4430,558 @@
     }
   },
   {
+    "rawTag": "number",
+    "label": "Number Field",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Number Field"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-number"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "number"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Number Field component is used to capture numeric user input."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-number label=\"Age\" placeholder=\"Enter your age\"></p-number>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "NumberField",
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private",
+          "type": {
+            "text": "string"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "max",
+          "type": {
+            "text": "number | undefined"
+          },
+          "attribute": "max"
+        },
+        {
+          "kind": "field",
+          "name": "min",
+          "type": {
+            "text": "number | undefined"
+          },
+          "attribute": "min"
+        },
+        {
+          "kind": "field",
+          "name": "step",
+          "type": {
+            "text": "number | undefined"
+          },
+          "attribute": "step"
+        },
+        {
+          "kind": "field",
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "attribute": "autocomplete"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "stepper",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "stepper"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "dirty",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__redispatchEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "stepUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "stepDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "max",
+          "type": {
+            "text": "number | undefined"
+          },
+          "fieldName": "max"
+        },
+        {
+          "name": "min",
+          "type": {
+            "text": "number | undefined"
+          },
+          "fieldName": "min"
+        },
+        {
+          "name": "step",
+          "type": {
+            "text": "number | undefined"
+          },
+          "fieldName": "step"
+        },
+        {
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "fieldName": "autocomplete"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "stepper",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "stepper"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "p-number",
+      "customElement": true,
+      "summary": "The Number Field component is used to capture numeric user input.",
+      "rawTag": {
+        "name": "number",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "focus-ring",
     "label": "Focus Ring",
     "jsdoc": {
@@ -3922,6 +5231,504 @@
       "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
       "rawTag": {
         "name": "tag",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "time-picker",
+    "label": "Time Picker",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Time Picker"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-time-picker"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "time-picker"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Time Picker component is used to capture time user input."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<p-time-picker label=\"Name\" required placeholder=\"Enter your name\"></p-time-picker>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "TimePicker",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "attribute": "autocomplete"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "passwordVisible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "dirty",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__redispatchEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "fieldName": "autocomplete"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "p-time-picker",
+      "customElement": true,
+      "summary": "The Time Picker component is used to capture time user input.",
+      "rawTag": {
+        "name": "time-picker",
         "description": ""
       }
     }

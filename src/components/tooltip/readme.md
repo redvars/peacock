@@ -18,7 +18,6 @@
 
 ### Used by
 
- - [goat-code-highlighter](../application/code-highlighter)
  - [pc-input](../input-controls/input/input)
  - [pc-slider](../input-controls/slider)
 
@@ -32,7 +31,6 @@
 graph TD;
   pc-tooltip --> pc-popover
   pc-tooltip --> pc-popover-content
-  goat-code-highlighter --> pc-tooltip
   pc-input --> pc-tooltip
   pc-slider --> pc-tooltip
   style pc-tooltip fill:#f9f,stroke:#333,stroke-width:4px

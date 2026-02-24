@@ -1,23 +1,18 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import Highlighter from '../../../../components/Highlighter.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<DemoComponentCard lang='html' cssClasses={'demo-canvas'}>
 
-  <pc-tooltip id='save-tooltip' content='Save the record'>
-    <p-button variant='outlined'><p-icon slot="icon" name='save'></p-icon></p-button>
-  </pc-tooltip>
+<DemoComponentCard lang='html'>
+
+  <span class='tooltip-link' tabindex='1'>
+     hover here
+      <p-tooltip id='save-tooltip' content='Save the record'></p-tooltip>
+    </span>
+</DemoComponentCard>
 
 
+<DemoComponentCard lang='html'>
 
-  <pc-tooltip placements='bottom-start'>
-    <p-button>Test</p-button>
-
-    <span slot='content'>
-        Very large content. Very large content. Very large content.Very large content. Very large content. Very large content.
-      </span>
-  </pc-tooltip>
-
+  <p-button tooltip='Testing'>Test</p-button>
 </DemoComponentCard>

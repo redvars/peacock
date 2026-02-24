@@ -1,5 +1,5 @@
 // Eager loaded
-import cssComponentsStyleSheet from '@redvars/peacock-design-tokens/dist/tokens.css';
+import cssComponentsStyleSheet from '../assets/styles/tokens.css';
 
 import { Elevation } from './elevation/elevation.js';
 import { FocusRing } from './focus-ring/focus-ring.js';
@@ -15,6 +15,8 @@ import { IconButton } from './button/icon-button/icon-button.js';
 import { InputField } from './input/input/input-field.js';
 import { Field } from './input/field/field.js';
 import { NumberField } from './input/number/number-field.js';
+import { DatePicker } from './input/date-picker/date-picker.js';
+import { TimePicker } from './input/time-picker/time-picker.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -23,11 +25,14 @@ import { Chip } from './chip/chip/chip.js';
 import { LinearProgress } from './progress/linear-progress/linear-progress.js';
 import { CircularProgress } from './progress/circular-progress/circular-progress.js';
 
+import { Tooltip } from './popover/tooltip/tooltip.js';
+
 import { Skeleton } from './skeleton/skeleton.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.css-component.scss';
 import textStylesheet from './text/text.css-component.scss';
+import tooltipStyles from './popover/tooltip.css-component.scss';
 
 const libraryPrefix = 'p';
 
@@ -42,6 +47,7 @@ const styleSheets = [
   buildSheet(cssComponentsStyleSheet),
   buildSheet(linkStyles),
   buildSheet(textStylesheet),
+  buildSheet(tooltipStyles),
 ];
 
 document.adoptedStyleSheets = styleSheets;
@@ -116,8 +122,20 @@ const loaderConfig: LoaderConfig = {
     number: {
       CustomElementClass: NumberField,
     },
+    'date-picker': {
+      CustomElementClass: DatePicker,
+    },
+    'time-picker': {
+      CustomElementClass: TimePicker,
+    },
+    tooltip: {
+      CustomElementClass: Tooltip,
+    },
     'number-counter': {
       importPath: './number-counter.js',
+    },
+    'code-highlighter': {
+      importPath: './code-highlighter.js',
     },
   },
 };

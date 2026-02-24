@@ -1,0 +1,32 @@
+@use "../../../scss/mixin";
+@use "sass:string";
+
+@include mixin.base-styles;
+
+.tooltip {
+  pointer-events: none;
+  transition: transform var(--duration-short2) ease-in-out, opacity var(--duration-short2) ease-in-out;
+  transform: scale(0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.tooltip.open {
+  pointer-events: auto;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.tooltip-content {
+  display: inline-block;
+  @include mixin.get-typography(body-small);
+  max-width: 17.5rem;
+  padding-inline: var(--spacing-100);
+  padding-block: var(--spacing-050);
+  color: var(--color-inverse-on-surface);
+  background-color: var(--color-inverse-surface);
+  border-radius: var(--shape-corner-extra-small);
+}
+

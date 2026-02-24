@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { dispatchActivationClick, isActivationClick } from '../utils.js';
 
@@ -89,6 +89,8 @@ export class BaseButton extends LitElement {
    */
   @property() throttleDelay = 200;
 
+  @property() tooltip?: string;
+
   /**
    * States
    */
@@ -178,7 +180,7 @@ export class BaseButton extends LitElement {
   __getDisabledReasonID() {
     return this.disabled && this.disabledReason
       ? `disabled-reason-${this.#id}`
-      : null;
+      : nothing;
   }
 
   __renderDisabledReason() {
@@ -192,6 +194,15 @@ export class BaseButton extends LitElement {
       >
         {this.disabledReason}
       </div>`;
-    return null;
+    return nothing;
+  }
+
+  __renderTooltip() {
+    if (this.tooltip) {
+      return html`<p-tooltip for="button-${this.#id}"
+        >${this.tooltip}</p-tooltip
+      >`;
+    }
+    return nothing;
   }
 }

@@ -12,18 +12,8 @@
     height: 100%;
 
     .search-button {
-      background-color: var(--color-primary);
-      --icon-color: var(--color-on-primary);
-      height: 3.25rem;
-      width: 3.25rem;
-
-      border-radius: 16px;
-      corner-shape: squircle;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
       margin-bottom: 1.5rem;
+      --button-container-shape: var(--shape-corner-large);
     }
 
     .nav-item {
@@ -45,7 +35,7 @@
 
     .nav-item:hover .icon {
       background: var(--color-secondary-container);
-      border-radius: var(--global-shape-corner-large);
+      border-radius: var(--shape-corner-full);
     }
 
     .push-bottom {
@@ -67,9 +57,14 @@
 </style>
 
 <nav class="side-navigation surface-dim">
-  <a class="link search-button" id="search-btn" href="#" title='Component Search'>
-    <p-icon name="search"></p-icon>
-  </a>
+
+  <p-icon-button name="search"
+                 href="#"
+                 size='md'
+                 id="search-btn"
+                 class='search-button'
+                 aria-label='Search components'>
+  </p-icon-button>
 
   <a class="link inherit nav-item home" href="/#" title='Go to Home'>
     <div class="item">

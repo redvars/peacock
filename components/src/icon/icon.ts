@@ -18,7 +18,7 @@ export type IconProvider = 'material-symbols' | 'material-icons';
  *
  * @example
  * ```html
- * <p-icon name="home"></p-icon>
+ * <p-icon name="home" style="--icon-size: 2rem;"></p-icon>
  * ```
  *
  */

@@ -4,7 +4,8 @@
   "description": "red:var design tokens",
   "type": "module",
   "scripts": {
-    "build": "npx tz build"
+    "build": "npx tz build && npm run deploy",
+    "deploy": "node ./bin/deployeToComponents.js"
   },
   "files": [
     "dist/"
