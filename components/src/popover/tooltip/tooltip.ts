@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
 import { PopoverController } from '../PopoverController.js';
@@ -53,9 +53,27 @@ export class Tooltip extends LitElement {
   }
 
   // Define listeners as arrow functions to maintain 'this' context
-  private _onMouseEnter = () => this.hasTrigger('hover') && this.show();
+  private _onMouseEnter = () => {
+    if (!this.hasTrigger('hover')) return;
+    window.clearTimeout(this._hideTimeout); // Cancel any pending close
+    this.show();
+  };
 
-  private _onMouseLeave = () => this.hasTrigger('hover') && this.hide();
+  private _onMouseLeave = () => {
+    if (!this.hasTrigger('hover')) return;
+
+    // Small delay allows the mouse to move from target -> tooltip
+    // without the tooltip vanishing instantly.
+    this._hideTimeout = window.setTimeout(() => {
+      // Only hide if the mouse isn't currently hovering the target OR the tooltip
+      const isHoveringTarget = this._target?.matches(':hover');
+      const isHoveringTooltip = this.floatingEl?.matches(':hover');
+
+      if (!isHoveringTarget && !isHoveringTooltip) {
+        this.hide();
+      }
+    }, 100); // 100ms is usually enough for a smooth transition
+  };
 
   private _onFocusIn = () => this.hasTrigger('focus') && this.show();
 
@@ -159,6 +177,8 @@ export class Tooltip extends LitElement {
     }
   }
 
+  private _hideTimeout?: number;
+
   render() {
     return html` <div
       class=${classMap({
@@ -168,6 +188,8 @@ export class Tooltip extends LitElement {
       })}
       id="tooltip"
       role="tooltip"
+      @mouseenter=${this._onMouseEnter}
+      @mouseleave=${this._onMouseLeave}
       aria-hidden=${!this.open}
       aria-labelledby="tooltip-labelledby"
     >
@@ -193,8 +215,11 @@ export class Tooltip extends LitElement {
         <div class="tooltip-title" id="tooltip-labelledby">
           <slot name="title"></slot>
         </div>
-        <div class="tooltip-suport-text">
+        <div class="tooltip-support-text">
           <slot></slot>
+        </div>
+        <div class="tooltip-actions">
+          <slot name="actions"></slot>
         </div>
       </div>
     `;

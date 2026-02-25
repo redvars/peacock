@@ -48,7 +48,9 @@ $sizes: "large", "medium", 'small';
   }
 }
 
-.text-code {
+.text-code-block {
   font-family: var(--font-family-monospace);
-  background: var(--color-surface-container-high);
+  background: var(--color-primary-container);
+  border-radius: var(--shape-corner-extra-small);
+  padding-inline: var(--spacing-050);
 }

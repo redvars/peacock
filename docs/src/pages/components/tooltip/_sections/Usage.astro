@@ -2,22 +2,34 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<style is:inline>
+  .demo-component-card .demo-area {
+    min-height: 20rem !important;
+  }
+</style>
 
 <DemoComponentCard lang='html'>
 
   <span class='tooltip-link' tabindex='1'>
      hover here
-      <p-tooltip>Save the record</p-tooltip>
+      <p-tooltip open>Save the record</p-tooltip>
     </span>
 </DemoComponentCard>
 
+<br/>
+
+<h3 class='text-headline-small'>Rich Tooltip</h3>
+
 <DemoComponentCard lang='html'>
   <span class='tooltip-link' tabindex='1'>
      hover here
-      <p-tooltip variant='rich'>
+      <p-tooltip variant='rich' open>
         <span slot='title'>Rich tooltip</span>
         Rich tooltips bring attention to important information or actions.
-
+        <div slot='actions'>
+          <p-button variant='text' size='xs'>Action</p-button>
+           <p-button variant='text' size='xs'>Action</p-button>
+        </div>
       </p-tooltip>
     </span>
 </DemoComponentCard>

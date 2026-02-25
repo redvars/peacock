@@ -17,7 +17,7 @@ export function getTextTag(component: any, tag: string) {
   console.log(
     `No text found for tag ${tag} in component ${component?.rawTag}. Using default text instead.`,
   );
-  return 'Web Component';
+  return null;
 }
 
 export function getCodeBlock(component: any, tag: string) {

@@ -35,7 +35,6 @@
   .tooltip-content {
     display: inline-block;
     max-width: 17.5rem;
-    padding-inline: var(--spacing-200);
     padding-block: var(--spacing-150) var(--spacing-100);
     color: var(--color-on-surface-variant);
     background-color: var(--color-surface-container);
@@ -50,10 +49,20 @@
   .tooltip-title {
     @include mixin.get-typography(title-small);
     margin-block-end: var(--spacing-050);
+    padding-inline: var(--spacing-200);
   }
 
-  .tooltip-content {
+  .tooltip-support-text {
     @include mixin.get-typography(body-medium);
+    padding-inline: var(--spacing-200);
+  }
+
+  .tooltip-actions {
+    margin-top: var(--spacing-150);
+    padding-inline: var(--spacing-050);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
   }
 }
 

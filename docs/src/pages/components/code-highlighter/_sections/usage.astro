@@ -1,28 +1,16 @@
 ---
----
-<pc-card>
-  <pc-card-content>
-    <p-code-highlighter line-numbers language="javascript" is:raw>
-<pre><code>
-      const helloWorld = () => alert ('Hello World!');
-      export { helloWorld };
-</code></pre>
-    </p-code-highlighter>
-  </pc-card-content>
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';---
 
-  <pc-card-content class='no-padding'>
-    <p-code-highlighter language="html">
-      <pre><code>
-<p-code-highlighter line-numbers language="javascript" is:raw>
-<pre><code>
+
+<DemoComponentCard lang={'html'}>
+  <p-code-highlighter line-numbers language="javascript" is:raw>
+    <pre><code>
       const helloWorld = () => alert ('Hello World!');
       export { helloWorld };
 </code></pre>
-</p-code-highlighter>
-      </code></pre>
-    </p-code-highlighter>
-  </pc-card-content>
-</pc-card>
+  </p-code-highlighter>
+</DemoComponentCard>
+
 
 
 <pc-card>

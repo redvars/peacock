@@ -5938,6 +5938,14 @@
           "privacy": "private"
         },
         {
+          "kind": "field",
+          "name": "_hideTimeout",
+          "type": {
+            "text": "number | undefined"
+          },
+          "privacy": "private"
+        },
+        {
           "kind": "method",
           "name": "__renderPlainTooltip"
         },
