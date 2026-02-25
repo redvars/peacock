@@ -2,10 +2,16 @@
 
 @include mixin.base-styles;
 
+:host {
+  --field-height: unset;
+  --field-padding-block: unset;
+}
 .field {
   position: relative;
   display: flex;
   flex-direction: column;
+
+
 
   --_container-shape-start-start: var(--field-container-shape-start-start, var(--shape-corner-extra-small));
   --_container-shape-start-end: var(--field-container-shape-start-end, var(--shape-corner-extra-small));
@@ -89,7 +95,8 @@
       display: flex;
       align-items: center;
       flex: 1;
-      height: 56px;
+      height: var(--field-height, 3.5rem);
+      padding-block: var(--field-padding-block);
       z-index: 1;
 
       .input-wrapper {

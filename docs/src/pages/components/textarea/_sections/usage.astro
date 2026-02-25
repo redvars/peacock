@@ -1,6 +1,7 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'} cssClasses='demo-input'>
-    <pc-textarea label='Textarea' helper-text='Optional helper text' clearable placeholder="Person Name" clearable></goat-textarea>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <textarea-field label='Textarea' helper-text='Optional helper text' clearable placeholder="Person Name" clearable></textarea-field>
+</DemoComponentCard>

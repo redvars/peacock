@@ -10,9 +10,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang='html'>
 
-  <span class='tooltip-link' tabindex='1'>
+  <span class='tooltibase-link' tabindex='1'>
      hover here
-      <p-tooltip open>Save the record</p-tooltip>
+      <base-tooltip open>Save the record</base-tooltip>
     </span>
 </DemoComponentCard>
 
@@ -21,16 +21,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <h3 class='text-headline-small'>Rich Tooltip</h3>
 
 <DemoComponentCard lang='html'>
-  <span class='tooltip-link' tabindex='1'>
+  <span class='tooltibase-link' tabindex='1'>
      hover here
-      <p-tooltip variant='rich' open>
+      <base-tooltip variant='rich' open>
         <span slot='title'>Rich tooltip</span>
         Rich tooltips bring attention to important information or actions.
         <div slot='actions'>
-          <p-button variant='text' size='xs'>Action</p-button>
-           <p-button variant='text' size='xs'>Action</p-button>
+          <base-button variant='text' size='xs'>Action</base-button>
+           <base-button variant='text' size='xs'>Action</base-button>
         </div>
-      </p-tooltip>
+      </base-tooltip>
     </span>
 </DemoComponentCard>
 
@@ -38,8 +38,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang='html'>
   <div style='position:relative;width:150px'>
-    <p-button id='tooltip-btn' variant='outlined'><p-icon slot='icon' name='save'></p-icon></p-button>
-    <p-tooltip for='tooltip-btn'>Relative tooltup using for attribute</p-tooltip>
+    <base-button id='tooltip-btn' variant='outlined'><base-icon slot='icon' name='save'></base-icon></base-button>
+    <base-tooltip for='tooltip-btn'>Relative tooltup using for attribute</base-tooltip>
   </div>
 </DemoComponentCard>
 

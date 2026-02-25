@@ -16,11 +16,12 @@ export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
 export { Skeleton } from './skeleton/index.js';
 export {
-  InputField,
+  Input,
   Field,
   NumberField,
   DatePicker,
   TimePicker,
+  Textarea,
 } from './input/index.js';
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';

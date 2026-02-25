@@ -5,22 +5,22 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <h3 class='text-headline-small'>Color</h3>
 <p class='text-body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
 <DemoComponentCard lang={'html'}>
-  <p-icon name='alarm' style='--icon-color: var(--color-on-surface)'></p-icon>
+  <base-icon name='alarm' style='--icon-color: var(--color-on-surface)'></base-icon>
 
-  <p-icon name='alarm' style='--icon-color: var(--color-info)'></p-icon>
-  <p-icon name='alarm' style='--icon-color: var(--color-success)'></p-icon>
-  <p-icon name='alarm' style='--icon-color: var(--color-warning)'></p-icon>
-  <p-icon name='alarm' style='--icon-color: var(--color-danger)'></p-icon>
+  <base-icon name='alarm' style='--icon-color: var(--color-info)'></base-icon>
+  <base-icon name='alarm' style='--icon-color: var(--color-success)'></base-icon>
+  <base-icon name='alarm' style='--icon-color: var(--color-warning)'></base-icon>
+  <base-icon name='alarm' style='--icon-color: var(--color-danger)'></base-icon>
 
   <span style='--icon-color: pink; line-height: 0;'>
-  <p-icon name='alarm'></p-icon>
+  <base-icon name='alarm'></base-icon>
 </span>
 </DemoComponentCard>
 
 <h3 class='text-headline-small'>Size</h3>
 <p class='text-body'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
 <DemoComponentCard lang={'html'}>
-  <p-icon name="alarm"></p-icon>
-  <p-icon name="alarm" style="--icon-size: 3rem"></p-icon>
-  <p-icon name="alarm" style="--icon-size: 100px"></p-icon>
+  <base-icon name="alarm"></base-icon>
+  <base-icon name="alarm" style="--icon-size: 3rem"></base-icon>
+  <base-icon name="alarm" style="--icon-size: 100px"></base-icon>
 </DemoComponentCard>

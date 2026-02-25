@@ -13,11 +13,11 @@ const {title, description} = Astro.props;
 
   <pc-container class='page-container'>
     <div class='post-header'>
-      <pc-breadcrumb>
-        <pc-breadcrumb-item href="/">Home</pc-breadcrumb-item>
-        <pc-breadcrumb-item href="/blog">Blog</pc-breadcrumb-item>
-        <pc-breadcrumb-item active>{title}</pc-breadcrumb-item>
-      </pc-breadcrumb>
+      <base-breadcrumb>
+        <breadcrumb-item href="/">Home</breadcrumb-item>
+        <breadcrumb-item href="/blog">Blog</breadcrumb-item>
+        <breadcrumb-item active>{title}</breadcrumb-item>
+      </base-breadcrumb>
 
       <pc-text type='heading' heading-size='6'>{title}</pc-text>
     </div>

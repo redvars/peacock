@@ -16,8 +16,8 @@
   height: var(--tag-height, var(--_chip-height, 2rem));
   padding-inline: calc(var(--_container-padding) / 2);
   width: 100%;
-  --_container-shape: var(--tag-container-shape, var(--shape-corner-small));
-  border-radius: var(--_container-shape);
+  --_container-shape: var(--tag-container-shape, var(--shape-corner-medium));
+  --_container-corner-shape-variant: squircle;
 
   .tag-content {
     position: relative;
@@ -67,9 +67,9 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: inherit;
-
     background: var(--_container-color);
+    border-radius: var(--_container-shape);
+    corner-shape: var(--_container-corner-shape-variant);
     pointer-events: none;
   }
 
@@ -78,14 +78,16 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: inherit;
+    border-radius: var(--_container-shape);
+    corner-shape: var(--_container-corner-shape-variant);
     border: 1px solid var(--_outline-color);
   }
 
   .elevation {
     --elevation-level: 0;
     transition-duration: 280ms;
-    border-radius: inherit;
+    border-radius: var(--_container-shape);
+    corner-shape: var(--_container-corner-shape-variant);
   }
 
   &.dismissible .tag-content {

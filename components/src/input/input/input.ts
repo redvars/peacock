@@ -1,57 +1,45 @@
 import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import BaseInput from '../BaseInput.js';
-import styles from './number.scss';
+import styles from './input.scss';
 import { spread } from '../../spread.js';
 import { redispatchEvent } from '../../utils.js';
 
 /**
- * @label Number Field
- * @tag number-field
- * @rawTag number
+ * @label Input
+ * @tag input-field
+ * @rawTag input
  *
- * @summary The Number Field component is used to capture numeric user input.
+ * @summary The Input component is used to capture user input.
  *
  * @example
  * ```html
- * <number-field label="Age" placeholder="Enter your age"></number-field>
+ * <input-field label="Name" required placeholder="Enter your name"></input-field>
  * ```
  */
-export class NumberField extends BaseInput {
+export class Input extends BaseInput {
   static styles = [styles];
-
-  #id: string = crypto.randomUUID();
 
   @property({ type: String })
   name: string = '';
 
-  @property({ type: String })
-  placeholder = '';
+  @property({ type: String }) placeholder = '';
+
+  @property({ type: String }) label = '';
+
+  @property({ type: Boolean, reflect: true }) inline = false;
+
+  @property({ type: String, reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
+
+  @property({ type: String }) type: 'text' | 'password' | 'email' | 'tel' =
+    'text';
+
+  @property({ type: String }) autocomplete: 'on' | 'off' = 'off';
+
+  @property({ type: Object }) configAria: Record<string, string> = {};
 
   @property({ type: String })
-  label = '';
-
-  @property({ type: Boolean, reflect: true })
-  inline = false;
-
-  @property({ type: String, reflect: true })
-  size: 'sm' | 'md' | 'lg' = 'md';
-
-  @property({ type: Number })
-  max?: number;
-
-  @property({ type: Number })
-  min?: number;
-
-  @property({ type: Number })
-  step?: number;
-
-  @property({ type: String })
-  autocomplete: 'on' | 'off' = 'off';
-
-  @property({ type: Object })
-  configAria: Record<string, string> = {};
+  variant: 'filled' | 'outlined' | 'default' = 'default';
 
   /**
    * Helper text to display below the input.
@@ -71,11 +59,11 @@ export class NumberField extends BaseInput {
   @property({ type: String, attribute: 'warning-text' })
   warningText: string = '';
 
-  @property({ type: Boolean })
-  stepper: boolean = false;
-
   @state()
   private focused = false;
+
+  @state()
+  private passwordVisible = false;
 
   /**
    * Returns true when the text field has been interacted with. Native
@@ -132,19 +120,9 @@ export class NumberField extends BaseInput {
     redispatchEvent(this, event);
   }
 
-  private stepUp() {
-    this.inputElement?.stepUp();
-  }
-
-  private stepDown() {
-    this.inputElement?.stepDown();
-  }
-
   render() {
-    const classes = {
-      'input-wrapper': true,
-      stepper: this.stepper,
-    };
+    const displayType =
+      this.type === 'password' && this.passwordVisible ? 'text' : this.type;
 
     return html`
       <base-field
@@ -156,28 +134,20 @@ export class NumberField extends BaseInput {
         ?error=${this.error}
         error-text=${this.errorText}
         ?warning=${this.warning}
+        variant=${this.variant}
+        ?populated=${!!this.value}
         warning-text=${this.warningText}
         label=${this.label}
         ?focused=${this.focused}
         .host=${this}
-        class=${classMap(classes)}
+        class="input-wrapper"
       >
-        ${this.stepper && !this.disabled
-          ? html`<icon-button
-              class="stepper"
-              name="remove"
-              variant="text"
-              slot="field-start"
-              @click=${this.stepDown}
-            ></icon-button>`
-          : nothing}
-
         <slot name="start" slot="field-start"></slot>
 
         <input
           class="input input-element"
           name=${this.name}
-          type="number"
+          type=${displayType}
           placeholder=${this.placeholder}
           autocomplete=${this.autocomplete}
           .value=${this.value}
@@ -185,9 +155,6 @@ export class NumberField extends BaseInput {
           ?readonly=${this.readonly}
           ?required=${this.required}
           ?disabled=${this.disabled}
-          min=${this.min}
-          max=${this.max}
-          step=${this.step}
           @input=${this.__handleInput}
           @change=${this.__redispatchEvent}
           @focus=${this.__handleFocusChange}
@@ -195,17 +162,28 @@ export class NumberField extends BaseInput {
           ${spread(this.configAria)}
         />
 
-        <slot name="end" slot="field-end"></slot>
-
-        ${this.stepper && !this.disabled
-          ? html`<icon-button
-              class="stepper"
-              variant="text"
-              name="add"
-              slot="field-end"
-              @click=${this.stepUp}
-            ></icon-button>`
+        ${this.type === 'password'
+          ? html`
+              <pc-tooltip
+                slot="field-end"
+                content=${this.passwordVisible
+                  ? 'Hide password'
+                  : 'Show password'}
+              >
+                <icon-button
+                  class="password-toggle"
+                  variant="text"
+                  name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
+                  @click=${() => {
+                    this.passwordVisible = !this.passwordVisible;
+                  }}
+                >
+                </icon-button>
+              </pc-tooltip>
+            `
           : nothing}
+
+        <slot name="end" slot="field-end"></slot>
       </base-field>
     `;
   }

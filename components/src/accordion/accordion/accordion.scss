@@ -6,10 +6,10 @@
   display: block;
 }
 
-slot::slotted(p-accordion-item) {
+slot::slotted(:not(:last-child)) {
   border-block-start: 1px solid var(--color-outline);
 }
 
-slot::slotted(p-accordion-item:last-child) {
+slot::slotted(:last-child) {
   border-block-end: 1px solid var(--color-outline);
 }

@@ -69,7 +69,7 @@ export class EmptyState extends LitElement {
       <div class="${classMap(classes)}">
         <div class="empty-state-container">
           <div class="illustration">
-            <p-icon src="${illustrationPath}"></p-icon>
+            <base-icon src="${illustrationPath}"></base-icon>
           </div>
 
           <div class="content">

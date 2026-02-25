@@ -11,7 +11,7 @@ import { throttle } from '../../utils.js';
 
 /**
  * @label Icon Button
- * @tag p-icon-button
+ * @tag icon-button
  * @rawTag icon-button
  *
  * @summary Icon buttons allow users to take actions, and make choices, with a single tap.
@@ -48,7 +48,7 @@ import { throttle } from '../../utils.js';
  *
  * @example
  * ```html
- * <p-icon-button name="home"></p-icon-button>
+ * <icon-button name="home"></icon-button>
  * ```
  * @tags display
  */
@@ -133,19 +133,19 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <p-focus-ring class="focus-ring" .control=${this}></p-focus-ring>
-      <p-elevation class="elevation"></p-elevation>
+      <focus-ring class="focus-ring" .control=${this}></focus-ring>
+      <base-elevation class="elevation"></base-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>
       <div class="outline"></div>
       <p-ripple class="ripple"></p-ripple>
 
       <div class="button-content">
-        <p-icon
+        <base-icon
           name=${this.name}
           src=${this.src}
           provider=${this.provider}
-        ></p-icon>
+        ></base-icon>
       </div>
 
       ${this.__renderDisabledReason()}

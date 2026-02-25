@@ -37,9 +37,9 @@ const searchItems = componentsDetails.components.map(component => ({
 
           <div slot="right">
 
-            <p-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
+            <base-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
               Sponsor
-            </p-button>
+            </base-button>
 
             <pc-divider class="header-divider hide-tablet-portrait-below" vertical></pc-divider>
 
@@ -53,18 +53,18 @@ const searchItems = componentsDetails.components.map(component => ({
 
       <div id="header-menu">
         <div class="header-menu-head">
-          <p-button id="header-menu-close-btn" variant="text" icon="close" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></p-button>
+          <base-button id="header-menu-close-btn" variant="text" icon="close" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></base-button>
         </div>
 
         <pc-menu class="header-menu-list no-border">
           <pc-menu-item href="/components#">
-            <p-icon name="roadmap" slot="start" size="sm"></p-icon>&nbsp; Components
+            <base-icon name="roadmap" slot="start" size="sm"></base-icon>&nbsp; Components
           </pc-menu-item>
           <pc-menu-item href="/blog#">
-            <p-icon name="blog" slot="start" size="sm"></p-icon>&nbsp; Blog
+            <base-icon name="blog" slot="start" size="sm"></base-icon>&nbsp; Blog
           </pc-menu-item>
           <pc-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
-            <p-icon name="currency--rupee" slot="start" size="sm"></p-icon>&nbsp; Sponsor
+            <base-icon name="currency--rupee" slot="start" size="sm"></base-icon>&nbsp; Sponsor
           </pc-menu-item>
         </pc-menu>
       </div>
@@ -83,7 +83,7 @@ const searchItems = componentsDetails.components.map(component => ({
   <div id="search-header-container">
     <div id="search-container-overlay"></div>
     <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
-      <p-icon slot="start" name="search"></p-icon>
+      <base-icon slot="start" name="search"></base-icon>
     </goat-select>
   </div>
 

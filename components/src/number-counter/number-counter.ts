@@ -5,13 +5,13 @@ import styles from './number-counter.scss';
 
 /**
  * @label Number Counter
- * @tag p-number-counter
+ * @tag number-counter
  * @rawTag number-counter
  * @summary Displays a number with commas for thousands.
  *
  * @example
  * ```html
- * <p-number-counter value="123456789"></p-number-counter>
+ * <number-counter value="123456789"></number-counter>
  * <script>
  *     const $counter = document.querySelector('p-number-counter');
  *

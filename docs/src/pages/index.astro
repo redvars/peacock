@@ -48,31 +48,31 @@ function jumpingSentence(sentence: string) {
       <p class='text-headline'>A light weight customisable web component + css library</p>
 
       <div class='banner-actions '>
-        <p-button href='#getting-started' size='md' type='primary' icon='arrow--right'>Get
+        <base-button href='#getting-started' size='md' type='primary' icon='arrow--right'>Get
           Started
-        </p-button>
-        <p-button href='/components/' size='md' type='secondary' variant='tonal'>Browse Components</p-button>
+        </base-button>
+        <base-button href='/components/' size='md' type='secondary' variant='tonal'>Browse Components</base-button>
       </div>
     </div>
 
 
     <div class='social-icons'>
-      <p-button
+      <base-button
         variant='text'
         target='_blank'
         aria-label='Github'
         href={`https://www.github.com/${site.github_username}`}
       >
-        <p-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/github.svg'></p-icon>
-      </p-button>
-      <p-button
+        <base-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/github.svg'></base-icon>
+      </base-button>
+      <base-button
         variant='text'
         target='_blank'
         aria-label='Twitter'
         href={`https://x.com/${site.twitter_username}`}
       >
-        <p-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/twitter-x.svg'></p-icon>
-      </p-button>
+        <base-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/twitter-x.svg'></base-icon>
+      </base-button>
     </div>
 
     <div class='made-in-india'>
@@ -131,7 +131,7 @@ function jumpingSentence(sentence: string) {
             </pc-tabs-list>
 
             <pc-tab-panel>
-              <p-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
+              <code-highlighter language='html' id='get-started-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('get-started-code').value = `<!DOCTYPE html>
                  &lt;html>
@@ -154,7 +154,7 @@ function jumpingSentence(sentence: string) {
 
                  &lt;body>
 
-                  <p-button size='lg' color='primary'>Click me</p-button>
+                  <base-button size='lg' color='primary'>Click me</base-button>
 
                  &lt;/body>
                  &lt;/html>`;
@@ -174,7 +174,7 @@ function jumpingSentence(sentence: string) {
                   <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
                    &lt;script type='module'>
-    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/p-button.js";
+    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/base-button.js";
     customElements.define('my-button', GoatButton);
  &lt;/script>
 

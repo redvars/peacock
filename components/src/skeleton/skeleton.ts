@@ -3,12 +3,12 @@ import { property } from 'lit/decorators.js';
 import styles from './skeleton.scss';
 
 /**
- * @label Focus Ring
+ * @label Skeleton
  *
- * @tag p-focus-ring
- * @rawTag focus-ring
+ * @tag base-skeleton
+ * @rawTag skeleton
  *
- * @summary Adds a focus ring to an element.
+ * @summary Adds a skeleton effect to an element.
  *
  *
  * @tags display

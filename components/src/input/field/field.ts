@@ -106,7 +106,7 @@ export class Field extends LitElement {
         ${this.label}${this.required
           ? html`<span class="required">*</span>`
           : nothing}
-        <p-skeleton class="skeleton"></p-skeleton>
+        <base-skeleton class="skeleton"></base-skeleton>
       </label>
     </div>`;
   }
@@ -132,7 +132,7 @@ export class Field extends LitElement {
         <div class="field-body" @click=${this.__handleClick}>
           <div class="outline"></div>
           <div class="background"></div>
-          <p-skeleton class="skeleton"></p-skeleton>
+          <base-skeleton class="skeleton"></base-skeleton>
 
           <div class="field-content">
             <div

@@ -5,7 +5,7 @@ import styles from './badge.scss';
 
 /**
  * @label Badge
- * @tag p-badge
+ * @tag base-badge
  * @rawTag badge
  * @summary The badge component is used to display a small amount of information to the user.
  *
@@ -13,7 +13,7 @@ import styles from './badge.scss';
  *
  * @example
  * ```html
- * <p-badge value="1"></p-badge>
+ * <base-badge value="1"></base-badge>
  * ```
  * @tags display
  */

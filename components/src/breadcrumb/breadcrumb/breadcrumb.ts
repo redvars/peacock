@@ -4,7 +4,7 @@ import styles from './breadcrumb.scss';
 
 /**
  * @label Breadcrumb
- * @tag p-breadcrumb
+ * @tag base-breadcrumb
  * @rawTag breadcrumb
  *
  * @summary A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
@@ -15,11 +15,11 @@ import styles from './breadcrumb.scss';
  *
  * @example
  * ```html
- * <p-breadcrumb label="Breadcrumb">
- *   <p-breadcrumb-item href="#">Home</p-breadcrumb-item>
- *   <p-breadcrumb-item href="#">Category</p-breadcrumb-item>
- *   <p-breadcrumb-item active>Current Page</p-breadcrumb-item>
- * </p-breadcrumb>
+ * <base-breadcrumb label="Breadcrumb">
+ *   <breadcrumb-item href="#">Home</breadcrumb-item>
+ *   <breadcrumb-item href="#">Category</breadcrumb-item>
+ *   <breadcrumb-item active>Current Page</breadcrumb-item>
+ * </base-breadcrumb>
  * ```
  * @tags navigation
  */

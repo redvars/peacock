@@ -7,13 +7,13 @@ import sizeStyles from './chip-sizes.scss';
 
 /**
  * @label Chip
- * @tag p-chip
+ * @tag base-chip
  * @rawTag chip
  * @summary
  *
  * @example
  * ```html
- * <p-tag>Link</p-tag>
+ * <base-tag>Link</base-tag>
  * ```
  * @tags display
  */
@@ -65,7 +65,7 @@ export class Chip extends LitElement {
         @click=${this._dismissClickHandler}
         aria-label="Dismiss"
       >
-        <p-icon class="close-btn-icon" name="close"></p-icon>
+        <base-icon class="close-btn-icon" name="close"></base-icon>
       </button>
     `;
   }
@@ -90,7 +90,7 @@ export class Chip extends LitElement {
 
     return html`
       <div class="${classMap(classes)}">
-        <p-elevation class="elevation"></p-elevation>
+        <base-elevation class="elevation"></base-elevation>
         <div class="background"></div>
         <div class="outline"></div>
 

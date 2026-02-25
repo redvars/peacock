@@ -7,14 +7,14 @@ import { redispatchEvent } from '../../utils.js';
 
 /**
  * @label Time Picker
- * @tag p-time-picker
+ * @tag time-picker
  * @rawTag time-picker
  *
  * @summary The Time Picker component is used to capture time user input.
  *
  * @example
  * ```html
- * <p-time-picker label="Name" required placeholder="Enter your name"></p-time-picker>
+ * <time-picker label="Name" required placeholder="Enter your name"></time-picker>
  * ```
  */
 export class TimePicker extends BaseInput {
@@ -119,7 +119,7 @@ export class TimePicker extends BaseInput {
 
   render() {
     return html`
-      <p-field
+      <base-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -158,7 +158,7 @@ export class TimePicker extends BaseInput {
 
         <slot name="end" slot="field-end"></slot>
 
-        <p-icon-button
+        <icon-button
           slot="field-end"
           color="secondary"
           variant="text"
@@ -171,8 +171,8 @@ export class TimePicker extends BaseInput {
             });
           }}
         >
-        </p-icon-button>
-      </p-field>
+        </icon-button>
+      </base-field>
     `;
   }
 }

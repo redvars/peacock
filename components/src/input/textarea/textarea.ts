@@ -1,23 +1,23 @@
-import { html, nothing } from 'lit';
+import { html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import BaseInput from '../BaseInput.js';
-import styles from './input.scss';
+import styles from './textarea.scss';
 import { spread } from '../../spread.js';
 import { redispatchEvent } from '../../utils.js';
 
 /**
- * @label Input
- * @tag p-input
- * @rawTag input
+ * @label Textarea
+ * @tag textarea-field
+ * @rawTag textarea
  *
- * @summary The Input component is used to capture user input.
+ * @summary The Textarea component is used to capture user input.
  *
  * @example
  * ```html
- * <p-input label="Name" required placeholder="Enter your name"></p-input>
+ * <textarea-field label="Name" required placeholder="Enter your name"></textarea-field>
  * ```
  */
-export class InputField extends BaseInput {
+export class Textarea extends BaseInput {
   static styles = [styles];
 
   @property({ type: String })
@@ -30,9 +30,6 @@ export class InputField extends BaseInput {
   @property({ type: Boolean, reflect: true }) inline = false;
 
   @property({ type: String, reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
-
-  @property({ type: String }) type: 'text' | 'password' | 'email' | 'tel' =
-    'text';
 
   @property({ type: String }) autocomplete: 'on' | 'off' = 'off';
 
@@ -58,6 +55,8 @@ export class InputField extends BaseInput {
 
   @property({ type: String, attribute: 'warning-text' })
   warningText: string = '';
+
+  @property({ type: String }) rows = '3';
 
   @state()
   private focused = false;
@@ -121,11 +120,8 @@ export class InputField extends BaseInput {
   }
 
   render() {
-    const displayType =
-      this.type === 'password' && this.passwordVisible ? 'text' : this.type;
-
     return html`
-      <p-field
+      <base-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -140,14 +136,14 @@ export class InputField extends BaseInput {
         label=${this.label}
         ?focused=${this.focused}
         .host=${this}
-        class="input-wrapper"
+        class="input-wrapper textarea"
       >
         <slot name="start" slot="field-start"></slot>
 
-        <input
+        <textarea
           class="input input-element"
+          rows=${this.rows}
           name=${this.name}
-          type=${displayType}
           placeholder=${this.placeholder}
           autocomplete=${this.autocomplete}
           .value=${this.value}
@@ -160,31 +156,10 @@ export class InputField extends BaseInput {
           @focus=${this.__handleFocusChange}
           @blur=${this.__handleFocusChange}
           ${spread(this.configAria)}
-        />
-
-        ${this.type === 'password'
-          ? html`
-              <pc-tooltip
-                slot="field-end"
-                content=${this.passwordVisible
-                  ? 'Hide password'
-                  : 'Show password'}
-              >
-                <p-icon-button
-                  class="password-toggle"
-                  variant="text"
-                  name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
-                  @click=${() => {
-                    this.passwordVisible = !this.passwordVisible;
-                  }}
-                >
-                </p-icon-button>
-              </pc-tooltip>
-            `
-          : nothing}
+        ></textarea>
 
         <slot name="end" slot="field-end"></slot>
-      </p-field>
+      </base-field>
     `;
   }
 }

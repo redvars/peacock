@@ -6,14 +6,13 @@ import styles from './breadcrumb-item.scss';
 
 /**
  * @label Breadcrumb Item
- * @tag p-breadcrumb-item
+ * @tag breadcrumb-item
  * @rawTag breadcrumb-item
  * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
  *
  * @example
  * ```html
- * <p-breadcrumb-item href="#">Home</p-breadcrumb-item>
- * <p-breadcrumb-item active>Current Page</p-breadcrumb-item>
+ * <breadcrumb-item href="#">Home</breadcrumb-item>
  * ```
  * @tags navigation
  */
@@ -49,10 +48,10 @@ export class BreadcrumbItem extends LitElement {
   }
 
   private calculatePosition() {
-    // Calculate position by counting sibling breadcrumb items of the same type
+    // Calculate position by counting sibling breadcrumb items
     if (this.parentElement) {
       const items = Array.from(
-        this.parentElement.querySelectorAll(this.tagName.toLowerCase()),
+        this.parentElement.querySelectorAll('p-breadcrumb-item'),
       );
       this.position = items.indexOf(this) + 1;
     }

@@ -20,7 +20,9 @@ ol {
   list-style: none;
 }
 
-::slotted(p-breadcrumb-item:not(:last-child))::after {
+// Target all direct slotted children except the last one
+// This will work with any tag name (breadcrumb-item, base-breadcrumb-item, etc.)
+::slotted(:not(:last-child))::after {
   display: inline-block;
   padding-right: var(--spacing-100);
   padding-left: var(--spacing-100);

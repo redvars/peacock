@@ -5,7 +5,7 @@ import styles from './link.scss';
 
 /**
  * @label Link
- * @tag p-link
+ * @tag base-link
  * @rawTag link
  * @summary The link component is used to navigate to a new page or section within the current page.
  *
@@ -13,7 +13,7 @@ import styles from './link.scss';
  *
  * @example
  * ```html
- * <p-link href="#">Link</p-link>
+ * <base-link href="#">Link</base-link>
  * ```
  * @tags display
  */

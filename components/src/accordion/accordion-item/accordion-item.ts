@@ -5,15 +5,15 @@ import styles from './accordion-item.scss';
 
 /**
  * @label Accordion Item
- * @tag p-accordion
+ * @tag accordion-item
  * @rawTag accordion
  * @summary An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
  *
  * @example
  * ```html
- * <p-accordion-item>
+ * <base-accordion-item>
  * Testing
- * </p-accordion-item>
+ * </accordion-item>
  * ```
  * @tags display
  */
@@ -80,7 +80,7 @@ export class AccordionItem extends LitElement {
         @click=${this.__handleToggle}
         aria-expanded=${this.open}
       >
-        <p-icon class="accordion-icon" name="keyboard_arrow_down"></p-icon>
+        <base-icon class="accordion-icon" name="keyboard_arrow_down"></base-icon>
         <div part="title" class="accordion-title">
           <slot name="heading">${this.heading}</slot>
         </div>

@@ -7,14 +7,14 @@ import { redispatchEvent } from '../../utils.js';
 
 /**
  * @label Date Picker
- * @tag p-date-picker
+ * @tag date-picker
  * @rawTag date-picker
  *
  * @summary The Date Picker component is used to capture date user input.
  *
  * @example
  * ```html
- * <p-date-picker label="Name" required placeholder="Enter your name"></p-date-picker>
+ * <date-picker label="Name" required placeholder="Enter your name"></date-picker>
  * ```
  */
 export class DatePicker extends BaseInput {
@@ -119,7 +119,7 @@ export class DatePicker extends BaseInput {
 
   render() {
     return html`
-      <p-field
+      <base-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -158,7 +158,7 @@ export class DatePicker extends BaseInput {
 
         <slot name="end" slot="field-end"></slot>
 
-        <p-icon-button
+        <icon-button
           slot="field-end"
           color="secondary"
           variant="text"
@@ -171,8 +171,8 @@ export class DatePicker extends BaseInput {
             });
           }}
         >
-        </p-icon-button>
-      </p-field>
+        </icon-button>
+      </base-field>
     `;
   }
 }

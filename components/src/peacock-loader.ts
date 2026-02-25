@@ -12,11 +12,12 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import { ButtonGroup } from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
-import { InputField } from './input/input/input-field.js';
+import { Input } from './input/input/input.js';
 import { Field } from './input/field/field.js';
 import { NumberField } from './input/number/number-field.js';
 import { DatePicker } from './input/date-picker/date-picker.js';
 import { TimePicker } from './input/time-picker/time-picker.js';
+import { Textarea } from './input/textarea/textarea.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -35,8 +36,6 @@ import linkStyles from './link/link.css-component.scss';
 import textStylesheet from './text/text.css-component.scss';
 import tooltipStyles from './popover/tooltip.css-component.scss';
 
-const libraryPrefix = 'p';
-
 function buildSheet(styleSheet: any) {
   const sheet = new CSSStyleSheet();
   // Add rules
@@ -54,22 +53,21 @@ const styleSheets = [
 document.adoptedStyleSheets = styleSheets;
 
 const loaderConfig: LoaderConfig = {
-  prefix: libraryPrefix,
   components: {
-    icon: {
+    'base-icon': {
       CustomElementClass: Icon,
       // importPath: './component/icon.js', - for lazy load give path instead of CustomElementClass
     },
     'focus-ring': {
       CustomElementClass: FocusRing,
     },
-    avatar: {
+    'base-avatar': {
       CustomElementClass: Avatar,
     },
-    badge: {
+    'base-badge': {
       CustomElementClass: Badge,
     },
-    button: {
+    'base-button': {
       CustomElementClass: Button,
     },
     'icon-button': {
@@ -78,31 +76,31 @@ const loaderConfig: LoaderConfig = {
     'button-group': {
       CustomElementClass: ButtonGroup,
     },
-    divider: {
+    'base-divider': {
       CustomElementClass: Divider,
     },
-    elevation: {
+    'base-elevation': {
       CustomElementClass: Elevation,
     },
-    clock: {
+    'base-clock': {
       importPath: './clock.js',
     },
-    ripple: {
+    'base-ripple': {
       CustomElementClass: Ripple,
     },
-    accordion: {
+    'base-accordion': {
       CustomElementClass: Accordion,
     },
     'accordion-item': {
       CustomElementClass: Accordion.Item,
     },
-    link: {
+    'base-link': {
       CustomElementClass: Link,
     },
-    chip: {
+    'base-chip': {
       CustomElementClass: Chip,
     },
-    tag: {
+    'base-tag': {
       CustomElementClass: Tag,
     },
     'linear-progress': {
@@ -111,17 +109,20 @@ const loaderConfig: LoaderConfig = {
     'circular-progress': {
       CustomElementClass: CircularProgress,
     },
-    skeleton: {
+    'base-skeleton': {
       CustomElementClass: Skeleton,
     },
-    input: {
-      CustomElementClass: InputField,
+    'input-field': {
+      CustomElementClass: Input,
     },
-    field: {
+    'base-field': {
       CustomElementClass: Field,
     },
-    number: {
+    'number-field': {
       CustomElementClass: NumberField,
+    },
+    'textarea-field': {
+      CustomElementClass: Textarea,
     },
     'date-picker': {
       CustomElementClass: DatePicker,
@@ -129,7 +130,7 @@ const loaderConfig: LoaderConfig = {
     'time-picker': {
       CustomElementClass: TimePicker,
     },
-    tooltip: {
+    'base-tooltip': {
       CustomElementClass: Tooltip,
     },
     'number-counter': {
@@ -138,7 +139,7 @@ const loaderConfig: LoaderConfig = {
     'code-highlighter': {
       importPath: './code-highlighter.js',
     },
-    breadcrumb: {
+    'base-breadcrumb': {
       CustomElementClass: Breadcrumb,
     },
     'breadcrumb-item': {

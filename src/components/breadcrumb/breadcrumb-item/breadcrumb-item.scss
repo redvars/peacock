@@ -1,9 +1,0 @@
-@import "../../../globalStyles/commons";
-
-.breadcrumb-item:not(.active) {
-  @include get-typography(label-large);
-}
-
-.breadcrumb-item.active {
-  @include get-typography(label-large-emphasized);
-}

@@ -316,31 +316,6 @@ export namespace Components {
     | 'fluid-heading';
     }
     /**
-     * @label Breadcrumb
-     * @name breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
-     */
-    interface PcBreadcrumb {
-    }
-    interface PcBreadcrumbItem {
-        /**
-          * @default false
-         */
-        "active": boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        "position": string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target": string;
-    }
-    /**
      * @label IconButton
      * @name button
      * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
@@ -2170,26 +2145,6 @@ declare global {
         prototype: HTMLGoatTextElement;
         new (): HTMLGoatTextElement;
     };
-    /**
-     * @label Breadcrumb
-     * @name breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
-     */
-    interface HTMLPcBreadcrumbElement extends Components.PcBreadcrumb, HTMLStencilElement {
-    }
-    var HTMLPcBreadcrumbElement: {
-        prototype: HTMLPcBreadcrumbElement;
-        new (): HTMLPcBreadcrumbElement;
-    };
-    interface HTMLPcBreadcrumbItemElement extends Components.PcBreadcrumbItem, HTMLStencilElement {
-    }
-    var HTMLPcBreadcrumbItemElement: {
-        prototype: HTMLPcBreadcrumbItemElement;
-        new (): HTMLPcBreadcrumbItemElement;
-    };
     interface HTMLPcButtonElementEventMap {
         "button--click": {
     appendData: any;
@@ -2981,8 +2936,6 @@ declare global {
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
         "goat-text": HTMLGoatTextElement;
-        "pc-breadcrumb": HTMLPcBreadcrumbElement;
-        "pc-breadcrumb-item": HTMLPcBreadcrumbItemElement;
         "pc-button": HTMLPcButtonElement;
         "pc-calendar": HTMLPcCalendarElement;
         "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
@@ -3322,31 +3275,6 @@ declare namespace LocalJSX {
     | 'body-compact'
     | 'heading-compact'
     | 'fluid-heading';
-    }
-    /**
-     * @label Breadcrumb
-     * @name breadcrumb
-     * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
-     */
-    interface PcBreadcrumb {
-    }
-    interface PcBreadcrumbItem {
-        /**
-          * @default false
-         */
-        "active"?: boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        "position"?: string;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-         */
-        "target"?: string;
     }
     /**
      * @label IconButton
@@ -4979,8 +4907,6 @@ declare namespace LocalJSX {
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
         "goat-text": GoatText;
-        "pc-breadcrumb": PcBreadcrumb;
-        "pc-breadcrumb-item": PcBreadcrumbItem;
         "pc-button": PcButton;
         "pc-calendar": PcCalendar;
         "pc-calendar-column-view": PcCalendarColumnView;
@@ -5079,16 +5005,6 @@ declare module "@stencil/core" {
              * @example <goat-text type="heading" level="1">Heading</goat-text>
              */
             "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
-            /**
-             * @label Breadcrumb
-             * @name breadcrumb
-             * @description A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
-             * @category Navigation
-             * @tags navigation
-             * @example <pc-breadcrumb><pc-breadcrumb-item href="#">Home</pc-breadcrumb-item><pc-breadcrumb-item href="#" active>Page</pc-breadcrumb-item></pc-breadcrumb>
-             */
-            "pc-breadcrumb": LocalJSX.PcBreadcrumb & JSXBase.HTMLAttributes<HTMLPcBreadcrumbElement>;
-            "pc-breadcrumb-item": LocalJSX.PcBreadcrumbItem & JSXBase.HTMLAttributes<HTMLPcBreadcrumbItemElement>;
             /**
              * @label IconButton
              * @name button

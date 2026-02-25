@@ -12,7 +12,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-accordion"
+          "text": "base-accordion"
         }
       ],
       "@rawTag": [
@@ -30,7 +30,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-accordion>\n    <p-accordion-item heading=\"Accordion\">\n        Content\n    </p-accordion-item>\n</p-accordion>\n```"
+          "text": "```html\n<base-accordion>\n    <accordion-item heading=\"Accordion\">\n        Content\n    </accordion-item>\n</base-accordion>\n```"
         }
       ],
       "@tags": [
@@ -108,7 +108,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-accordion",
+      "tagName": "base-accordion",
       "customElement": true,
       "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
       "rawTag": {
@@ -130,7 +130,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-avatar"
+          "text": "base-avatar"
         }
       ],
       "@rawTag": [
@@ -154,7 +154,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\"></p-avatar>\n```"
+          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\"></base-avatar>\n```"
         }
       ],
       "@tags": [
@@ -233,7 +233,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-avatar",
+      "tagName": "base-avatar",
       "customElement": true,
       "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
       "rawTag": {
@@ -255,7 +255,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-badge"
+          "text": "base-badge"
         }
       ],
       "@rawTag": [
@@ -279,7 +279,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-badge value=\"1\"></p-badge>\n```"
+          "text": "```html\n<base-badge value=\"1\"></base-badge>\n```"
         }
       ],
       "@tags": [
@@ -326,7 +326,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-badge",
+      "tagName": "base-badge",
       "customElement": true,
       "summary": "The badge component is used to display a small amount of information to the user.",
       "rawTag": {
@@ -348,7 +348,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-breadcrumb"
+          "text": "base-breadcrumb"
         }
       ],
       "@rawTag": [
@@ -366,13 +366,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\r\n - They help users understand their current location within the site hierarchy.\r\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
+          "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\n - They help users understand their current location within the site hierarchy.\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\r\n<p-breadcrumb label=\"Breadcrumb\">\r\n  <p-breadcrumb-item href=\"#\">Home</p-breadcrumb-item>\r\n  <p-breadcrumb-item href=\"#\">Category</p-breadcrumb-item>\r\n  <p-breadcrumb-item active>Current Page</p-breadcrumb-item>\r\n</p-breadcrumb>\r\n```"
+          "text": "```html\n<base-breadcrumb label=\"Breadcrumb\">\n  <breadcrumb-item href=\"#\">Home</breadcrumb-item>\n  <breadcrumb-item href=\"#\">Category</breadcrumb-item>\n  <breadcrumb-item active>Current Page</breadcrumb-item>\n</base-breadcrumb>\n```"
         }
       ],
       "@tags": [
@@ -413,7 +413,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-breadcrumb",
+      "tagName": "base-breadcrumb",
       "customElement": true,
       "summary": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.",
       "rawTag": {
@@ -435,7 +435,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-breadcrumb-item"
+          "text": "breadcrumb-item"
         }
       ],
       "@rawTag": [
@@ -453,7 +453,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\r\n<p-breadcrumb-item href=\"#\">Home</p-breadcrumb-item>\r\n<p-breadcrumb-item active>Current Page</p-breadcrumb-item>\r\n```"
+          "text": "```html\n<breadcrumb-item href=\"#\">Home</breadcrumb-item>\n```"
         }
       ],
       "@tags": [
@@ -561,7 +561,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-breadcrumb-item",
+      "tagName": "breadcrumb-item",
       "customElement": true,
       "summary": "A breadcrumb item component that represents a single item in a breadcrumb navigation.",
       "rawTag": {
@@ -583,7 +583,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-button"
+          "text": "base-button"
         }
       ],
       "@rawTag": [
@@ -619,7 +619,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-button>Button</p-button>\n```"
+          "text": "```html\n<base-button>Button</base-button>\n```"
         }
       ],
       "@tags": [
@@ -1267,7 +1267,7 @@
         "name": "BaseButton",
         "module": "/src/button/BaseButton.js"
       },
-      "tagName": "p-button",
+      "tagName": "base-button",
       "customElement": true,
       "summary": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
       "rawTag": {
@@ -1289,7 +1289,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-button-group"
+          "text": "button-group"
         }
       ],
       "@rawTag": [
@@ -1307,7 +1307,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-button-group>\n <p-icon-button name=\"home\"></p-icon-button>\n <p-icon-button name=\"alarm\"></p-icon-button>\n</p-button-group>\n```"
+          "text": "```html\n<button-group>\n <icon-button name=\"home\"></icon-button>\n <icon-button name=\"alarm\"></icon-button>\n</button-group>\n```"
         }
       ],
       "@tags": [
@@ -1348,7 +1348,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-button-group",
+      "tagName": "button-group",
       "customElement": true,
       "summary": "Group a series of buttons together on a single line with the button group, and super-power.",
       "rawTag": {
@@ -1370,7 +1370,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-chip"
+          "text": "base-chip"
         }
       ],
       "@rawTag": [
@@ -1383,7 +1383,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-tag>Link</p-tag>\n```"
+          "text": "```html\n<base-tag>Link</base-tag>\n```"
         }
       ],
       "@tags": [
@@ -1532,7 +1532,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-chip",
+      "tagName": "base-chip",
       "customElement": true,
       "rawTag": {
         "name": "chip",
@@ -1553,7 +1553,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-circular-progress"
+          "text": "circular-progress"
         }
       ],
       "@rawTag": [
@@ -1571,7 +1571,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-circular-progress value=\"50\"></p-circular-progress>\n```"
+          "text": "```html\n<circular-progress value=\"30\"></circular-progress>\n```"
         }
       ]
     },
@@ -1662,7 +1662,7 @@
         "name": "BaseProgress",
         "module": "/src/progress/base-progress.js"
       },
-      "tagName": "p-circular-progress",
+      "tagName": "circular-progress",
       "customElement": true,
       "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
       "rawTag": {
@@ -1745,7 +1745,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-clock"
+          "text": "base-clock"
         }
       ],
       "@rawTag": [
@@ -1763,13 +1763,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Clocks are used to display the current time in a specified timezone.\r\n - They can be displayed in various formats, including 12-hour and 24-hour time."
+          "text": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\r\n<p-clock></p-clock>\r\n```"
+          "text": "```html\n<base-clock></base-clock>\n```"
         }
       ],
       "@tags": [
@@ -1823,7 +1823,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-clock",
+      "tagName": "base-clock",
       "customElement": true,
       "summary": "Displays the current time in a given timezone.",
       "rawTag": {
@@ -1845,7 +1845,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-code-highlighter"
+          "text": "code-highlighter"
         }
       ],
       "@rawTag": [
@@ -1869,7 +1869,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-code-highlighter language=\"javascript\" style=\"height: 6rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</p-code-highlighter>\n```"
+          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 6rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
         }
       ],
       "@tags": [
@@ -2020,7 +2020,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-code-highlighter",
+      "tagName": "code-highlighter",
       "customElement": true,
       "summary": "Highlights code snippets with syntax highlighting and line numbers.",
       "rawTag": {
@@ -2042,7 +2042,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-date-picker"
+          "text": "date-picker"
         }
       ],
       "@rawTag": [
@@ -2060,7 +2060,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-date-picker label=\"Name\" required placeholder=\"Enter your name\"></p-date-picker>\n```"
+          "text": "```html\n<date-picker label=\"Name\" required placeholder=\"Enter your name\"></date-picker>\n```"
         }
       ]
     },
@@ -2518,7 +2518,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "p-date-picker",
+      "tagName": "date-picker",
       "customElement": true,
       "summary": "The Date Picker component is used to capture date user input.",
       "rawTag": {
@@ -2540,7 +2540,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-divider"
+          "text": "base-divider"
         }
       ],
       "@rawTag": [
@@ -2570,7 +2570,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-divider style=\"width: 12rem;\">or</p-divider>\n```"
+          "text": "```html\n<base-divider style=\"width: 12rem;\">or</base-divider>\n```"
         }
       ],
       "@tags": [
@@ -2628,7 +2628,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-divider",
+      "tagName": "base-divider",
       "customElement": true,
       "summary": "The divider component is used to visually separate content.",
       "rawTag": {
@@ -2650,7 +2650,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-elevation"
+          "text": "base-elevation"
         }
       ],
       "@rawTag": [
@@ -2680,7 +2680,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <p-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></p-elevation>\n    Level 2\n  </div>\n```"
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <base-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></base-elevation>\n    Level 2\n  </div>\n```"
         }
       ],
       "@tags": [
@@ -2709,7 +2709,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-elevation",
+      "tagName": "base-elevation",
       "customElement": true,
       "summary": "Adds elevation to an element.",
       "rawTag": {
@@ -2731,7 +2731,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-focus-ring"
+          "text": "focus-ring"
         }
       ],
       "@rawTag": [
@@ -2802,7 +2802,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-focus-ring",
+      "tagName": "focus-ring",
       "customElement": true,
       "summary": "Adds a focus ring to an element.",
       "rawTag": {
@@ -2824,7 +2824,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-icon"
+          "text": "base-icon"
         }
       ],
       "@rawTag": [
@@ -2854,7 +2854,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\r\n<p-icon name=\"home\" style=\"--icon-size: 2rem;\"></p-icon>\r\n```"
+          "text": "```html\n<base-icon name=\"home\" style=\"--icon-size: 2rem;\"></base-icon>\n```"
         }
       ]
     },
@@ -2880,7 +2880,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
           "attribute": "name",
           "reflects": true
         },
@@ -2966,7 +2966,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
           "fieldName": "name"
         },
         {
@@ -2989,7 +2989,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-icon",
+      "tagName": "base-icon",
       "customElement": true,
       "summary": "Icons are visual symbols used to represent ideas, objects, or actions.",
       "rawTag": {
@@ -3011,7 +3011,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-icon-button"
+          "text": "icon-button"
         }
       ],
       "@rawTag": [
@@ -3047,7 +3047,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-icon-button name=\"home\"></p-icon-button>\n```"
+          "text": "```html\n<icon-button name=\"home\"></icon-button>\n```"
         }
       ],
       "@tags": [
@@ -3716,7 +3716,7 @@
         "name": "BaseButton",
         "module": "/src/button/BaseButton.js"
       },
-      "tagName": "p-icon-button",
+      "tagName": "icon-button",
       "customElement": true,
       "summary": "Icon buttons allow users to take actions, and make choices, with a single tap.",
       "rawTag": {
@@ -3738,7 +3738,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-input"
+          "text": "input-field"
         }
       ],
       "@rawTag": [
@@ -3756,14 +3756,14 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-input label=\"Name\" required placeholder=\"Enter your name\"></p-input>\n```"
+          "text": "```html\n<input-field label=\"Name\" required placeholder=\"Enter your name\"></input-field>\n```"
         }
       ]
     },
     "customElement": {
       "kind": "class",
       "description": "",
-      "name": "InputField",
+      "name": "Input",
       "members": [
         {
           "kind": "field",
@@ -4231,7 +4231,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "p-input",
+      "tagName": "input-field",
       "customElement": true,
       "summary": "The Input component is used to capture user input.",
       "rawTag": {
@@ -4253,7 +4253,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-linear-progress"
+          "text": "linear-progress"
         }
       ],
       "@rawTag": [
@@ -4271,7 +4271,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-linear-progress value=\"50\" style=\"width:10rem\"></p-linear-progress>\n```"
+          "text": "```html\n<linear-progress value=\"30\" style=\"width:10rem\"></linear-progress>\n```"
         }
       ]
     },
@@ -4362,7 +4362,7 @@
         "name": "BaseProgress",
         "module": "/src/progress/base-progress.js"
       },
-      "tagName": "p-linear-progress",
+      "tagName": "linear-progress",
       "customElement": true,
       "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
       "rawTag": {
@@ -4445,7 +4445,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-link"
+          "text": "base-link"
         }
       ],
       "@rawTag": [
@@ -4469,7 +4469,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-link href=\"#\">Link</p-link>\n```"
+          "text": "```html\n<base-link href=\"#\">Link</base-link>\n```"
         }
       ],
       "@tags": [
@@ -4541,7 +4541,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-link",
+      "tagName": "base-link",
       "customElement": true,
       "summary": "The link component is used to navigate to a new page or section within the current page.",
       "rawTag": {
@@ -4563,7 +4563,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-number-counter"
+          "text": "number-counter"
         }
       ],
       "@rawTag": [
@@ -4581,7 +4581,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-number-counter value=\"123456789\"></p-number-counter>\n<script>\n    const $counter = document.querySelector('p-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+          "text": "```html\n<number-counter value=\"123456789\"></number-counter>\n<script>\n    const $counter = document.querySelector('p-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
         }
       ],
       "@tags": [
@@ -4655,7 +4655,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-number-counter",
+      "tagName": "number-counter",
       "customElement": true,
       "summary": "Displays a number with commas for thousands.",
       "rawTag": {
@@ -4677,7 +4677,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-number"
+          "text": "number-field"
         }
       ],
       "@rawTag": [
@@ -4695,7 +4695,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-number label=\"Age\" placeholder=\"Enter your age\"></p-number>\n```"
+          "text": "```html\n<number-field label=\"Age\" placeholder=\"Enter your age\"></number-field>\n```"
         }
       ]
     },
@@ -5207,7 +5207,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "p-number",
+      "tagName": "number-field",
       "customElement": true,
       "summary": "The Number Field component is used to capture numeric user input.",
       "rawTag": {
@@ -5217,31 +5217,31 @@
     }
   },
   {
-    "rawTag": "focus-ring",
-    "label": "Focus Ring",
+    "rawTag": "skeleton",
+    "label": "Skeleton",
     "jsdoc": {
       "@label": [
         {
           "kind": "text",
-          "text": "Focus Ring"
+          "text": "Skeleton"
         }
       ],
       "@tag": [
         {
           "kind": "text",
-          "text": "p-focus-ring"
+          "text": "base-skeleton"
         }
       ],
       "@rawTag": [
         {
           "kind": "text",
-          "text": "focus-ring"
+          "text": "skeleton"
         }
       ],
       "@summary": [
         {
           "kind": "text",
-          "text": "Adds a focus ring to an element."
+          "text": "Adds a skeleton effect to an element."
         }
       ],
       "@tags": [
@@ -5254,7 +5254,7 @@
     "customElement": {
       "kind": "class",
       "description": "",
-      "name": "FocusRing",
+      "name": "Skeleton",
       "members": [
         {
           "kind": "field",
@@ -5265,25 +5265,6 @@
           "default": "false",
           "attribute": "visible",
           "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "_control",
-          "type": {
-            "text": "HTMLElement | undefined"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "control"
-        },
-        {
-          "kind": "method",
-          "name": "attach"
-        },
-        {
-          "kind": "method",
-          "name": "detach"
         }
       ],
       "attributes": [
@@ -5300,11 +5281,11 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-focus-ring",
+      "tagName": "base-skeleton",
       "customElement": true,
-      "summary": "Adds a focus ring to an element.",
+      "summary": "Adds a skeleton effect to an element.",
       "rawTag": {
-        "name": "focus-ring",
+        "name": "skeleton",
         "description": ""
       }
     }
@@ -5322,7 +5303,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-tag"
+          "text": "base-tag"
         }
       ],
       "@rawTag": [
@@ -5340,7 +5321,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-tag color=red>Tag</p-tag>\n```"
+          "text": "```html\n<base-tag color=red>Tag</base-tag>\n```"
         }
       ],
       "@tags": [
@@ -5461,11 +5442,526 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-tag",
+      "tagName": "base-tag",
       "customElement": true,
       "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
       "rawTag": {
         "name": "tag",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "textarea",
+    "label": "Textarea",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Textarea"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "textarea-field"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "textarea"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The Textarea component is used to capture user input."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<textarea-field label=\"Name\" required placeholder=\"Enter your name\"></textarea-field>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Textarea",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "attribute": "autocomplete"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "rows",
+          "type": {
+            "text": "string"
+          },
+          "default": "'3'",
+          "attribute": "rows"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "passwordVisible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "dirty",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__redispatchEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "inline"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "autocomplete",
+          "type": {
+            "text": "'on' | 'off'"
+          },
+          "default": "'off'",
+          "fieldName": "autocomplete"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text to display below the input.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "rows",
+          "type": {
+            "text": "string"
+          },
+          "default": "'3'",
+          "fieldName": "rows"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "textarea-field",
+      "customElement": true,
+      "summary": "The Textarea component is used to capture user input.",
+      "rawTag": {
+        "name": "textarea",
         "description": ""
       }
     }
@@ -5483,7 +5979,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-time-picker"
+          "text": "time-picker"
         }
       ],
       "@rawTag": [
@@ -5501,7 +5997,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<p-time-picker label=\"Name\" required placeholder=\"Enter your name\"></p-time-picker>\n```"
+          "text": "```html\n<time-picker label=\"Name\" required placeholder=\"Enter your name\"></time-picker>\n```"
         }
       ]
     },
@@ -5959,7 +6455,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "p-time-picker",
+      "tagName": "time-picker",
       "customElement": true,
       "summary": "The Time Picker component is used to capture time user input.",
       "rawTag": {
@@ -5981,7 +6477,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "p-tooltip"
+          "text": "base-tooltip"
         }
       ],
       "@rawTag": [
@@ -6236,7 +6732,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "p-tooltip",
+      "tagName": "base-tooltip",
       "customElement": true,
       "summary": "Displays a tooltip for an element.",
       "rawTag": {

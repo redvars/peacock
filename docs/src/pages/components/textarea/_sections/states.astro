@@ -1,22 +1,23 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='heading' heading-size='3'>Disabled</pc-text>
-<pc-text type='body' expressive>Make input look inactive by adding the disabled <code>boolean</code> attribute to any
+<h3 class='text-headline-small'>Disabled</h3>
+<p class='text-body-large'>Make input look inactive by adding the disabled <code>boolean</code> attribute to any
   <code>&lt;button&gt;</code> element.
-</pc-text>
+</p>
 
-<HighlighterCard lang={'html'}>
-  <pc-textarea disabled=''></goat-textarea>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <textarea-field disabled=''></textarea-field>
+</DemoComponentCard>
 
 <br />
 
-<pc-text type='heading' heading-size='3'>Readonly</pc-text>
-<pc-text type='body' expressive>Make input look inactive by adding the disabled <code>boolean</code> attribute to any
+<h3 class='text-headline-small'>Readonly</h3>
+<p class='text-body-large'>Make input look inactive by adding the disabled <code>boolean</code> attribute to any
   <code>&lt;button&gt;</code> element.
-</pc-text>
+</p>
 
-<HighlighterCard lang={'html'}>
-  <pc-textarea readonly=''></goat-textarea>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <textarea-field readonly=''></textarea-field>
+</DemoComponentCard>

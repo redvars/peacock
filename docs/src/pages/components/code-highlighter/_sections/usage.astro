@@ -3,27 +3,27 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';-
 
 
 <DemoComponentCard lang={'html'}>
-  <p-code-highlighter line-numbers language="javascript" is:raw>
+  <code-highlighter line-numbers language="javascript" is:raw>
     <pre><code>
       const helloWorld = () => alert ('Hello World!');
       export { helloWorld };
 </code></pre>
-  </p-code-highlighter>
+  </code-highlighter>
 </DemoComponentCard>
 
 
 
 <pc-card>
   <pc-card-content>
-    <pc-text type='heading' heading-size='3'>In line code <p-code-highlighter inline language="javascript" is:raw><pre><code>const helloWorld = () => alert ('Hello World!');export { helloWorld }; const helloWorld = () => alert ('Hello World!');export { helloWorld };</code></pre></p-code-highlighter>
+    <pc-text type='heading' heading-size='3'>In line code <code-highlighter inline language="javascript" is:raw><pre><code>const helloWorld = () => alert ('Hello World!');export { helloWorld }; const helloWorld = () => alert ('Hello World!');export { helloWorld };</code></pre></code-highlighter>
     </pc-text>
   </pc-card-content>
 
   <pc-card-content class='no-padding'>
-    <p-code-highlighter language="html">
+    <code-highlighter language="html">
       <pre><code>
-<pc-text type='heading' heading-size='3'>In line code <p-code-highlighter inline language="javascript" is:raw><pre><code>const helloWorld = () => alert ('Hello World!');export { helloWorld }; const helloWorld = () => alert ('Hello World!');export { helloWorld };</code></pre></p-code-highlighter>
+<pc-text type='heading' heading-size='3'>In line code <code-highlighter inline language="javascript" is:raw><pre><code>const helloWorld = () => alert ('Hello World!');export { helloWorld }; const helloWorld = () => alert ('Hello World!');export { helloWorld };</code></pre></code-highlighter>
     </pc-text></code></pre>
-    </p-code-highlighter>
+    </code-highlighter>
   </pc-card-content>
 </pc-card>

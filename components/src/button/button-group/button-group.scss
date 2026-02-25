@@ -9,7 +9,7 @@ $border-width: 0.0625rem;
   gap: var(--_button-group-gap);
 
 
-  slot::slotted(p-button:first-child), slot::slotted(p-icon-button:first-child) {
+  slot::slotted(:first-child) {
     --button-container-shape-start-start: 50%;
     --button-container-shape-end-start: 50%;
     --button-container-shape-start-end: var(--shape-corner-medium);
@@ -17,7 +17,7 @@ $border-width: 0.0625rem;
     --button-container-shape-variant: unset;
   }
 
-  slot::slotted(p-button:last-child), slot::slotted(p-icon-button:last-child) {
+  slot::slotted(:last-child) {
     --button-container-shape-end-end: 50%;
     --button-container-shape-start-end: 50%;
 
@@ -26,7 +26,7 @@ $border-width: 0.0625rem;
     --button-container-shape-variant: unset;
   }
 
-  slot::slotted(p-button:only-child), slot::slotted(p-icon-button:only-child) {
+  slot::slotted(:only-child) {
     --button-container-shape: 50%;
   }
 }

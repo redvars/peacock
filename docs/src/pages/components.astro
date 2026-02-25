@@ -26,16 +26,19 @@ const description = 'The overview page is the first page you see when you visit 
 
 
         <div id='search-container'>
-          <p-input id='component-search' layer='01' placeholder='Search'>
-            <p-icon slot='start' name='search'></p-icon>
-          </p-input>
+          <input-field id='component-search' layer='01' placeholder='Search'>
+            <base-icon slot='start' name='search'></base-icon>
+          </input-field>
         </div>
 
 
         <div class='cards'>
           {
             customElementsJSDocs.map((component) => {
-              return <WebComponentCard component={component}></WebComponentCard>;
+              if (component.rawTag == 'breadcrumb-item' || component.rawTag == 'focus-ring'  || component.rawTag == 'skeleton') {
+                return;
+              }
+              return <WebComponentCard component={component}></WebComponentCard>
             })
           }
         </div>

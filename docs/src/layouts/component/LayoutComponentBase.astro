@@ -59,10 +59,10 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
       <slot />
 
       <div class="previous-next-nav">
-        <p-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="left">
-          <p-icon slot='icon' name='arrow_left'></p-icon> Previous
-        </p-button>
-        <p-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <p-icon slot='icon' name='arrow_right'>Previous</p-icon> </p-button>
+        <base-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="left">
+          <base-icon slot='icon' name='arrow_left'></base-icon> Previous
+        </base-button>
+        <base-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <base-icon slot='icon' name='arrow_right'>Previous</base-icon> </base-button>
       </div>
     </pc-container>
 

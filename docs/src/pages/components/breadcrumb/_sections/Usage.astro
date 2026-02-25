@@ -1,9 +1,10 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={"html"} cssClasses={"demo-canvas"}>
-  <p-breadcrumb>
-    <p-breadcrumb-item href="/">Home</p-breadcrumb-item>
-    <p-breadcrumb-item active>Page</p-breadcrumb-item>
-  </p-breadcrumb>
-</HighlighterCard>
+<DemoComponentCard lang={"html"}>
+  <base-breadcrumb>
+    <breadcrumb-item href="/">Home</breadcrumb-item>
+    <breadcrumb-item active>Page</breadcrumb-item>
+  </base-breadcrumb>
+</DemoComponentCard>

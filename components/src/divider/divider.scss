@@ -12,7 +12,7 @@
 .divider {
   display: flex;
   margin: 0;
-  @include mixin.get-typography(body-small-emphasized);
+  @include mixin.get-typography(body-medium);
   color: var(--divider-color);
 
   &:not(.vertical) {

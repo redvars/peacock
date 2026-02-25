@@ -6,9 +6,9 @@ import MenuItems from './dropdown-menu.astro';
 <HighlighterCard lang='html'>
 
   <pc-dropdown>
-    <p-button>
-      <p-icon slot='icon' name='menu'></p-icon>
-    </p-button>
+    <base-button>
+      <base-icon slot='icon' name='menu'></base-icon>
+    </base-button>
 
     <MenuItems/>
   </pc-dropdown>
@@ -16,7 +16,7 @@ import MenuItems from './dropdown-menu.astro';
 
 <HighlighterCard lang='html'>
   <pc-dropdown id='dropdown' placements='bottom-end'>
-    <p-button variant='text'><p-icon slot='icon' name='menu'/></p-button>
+    <base-button variant='text'><base-icon slot='icon' name='menu'/></base-button>
 
     <MenuItems/>
   </pc-dropdown>

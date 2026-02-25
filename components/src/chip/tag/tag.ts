@@ -7,13 +7,13 @@ import sizeStyles from './tag-sizes.scss';
 
 /**
  * @label Tag
- * @tag p-tag
+ * @tag base-tag
  * @rawTag tag
  * @summary Tag component for displaying labels or values with optional dismiss functionality.
  *
  * @example
  * ```html
- * <p-tag color=red>Tag</p-tag>
+ * <base-tag color=red>Tag</base-tag>
  * ```
  * @tags display
  */
@@ -57,8 +57,8 @@ export class Tag extends LitElement {
         @click=${this._dismissClickHandler}
         aria-label="Dismiss"
       >
-        <p-ripple class="ripple"></p-ripple>
-        <p-icon class="dismiss-button-icon" name="close"></p-icon>
+        <base-ripple class="ripple"></base-ripple>
+        <base-icon class="dismiss-button-icon" name="close"></base-icon>
       </button>
     `;
   }
@@ -74,7 +74,7 @@ export class Tag extends LitElement {
 
     return html`
       <div class="${classMap(classes)}">
-        <p-elevation class="elevation"></p-elevation>
+        <base-elevation class="elevation"></base-elevation>
         <div class="background"></div>
         <div class="outline"></div>
 

@@ -36,7 +36,7 @@
     position: relative;
     background: var(--toogle-track-off-color);
     border: 2px solid var(--color-outline);
-    border-radius: var(--global-shape-corner-full);
+    border-radius: var(--shape-corner-full);
     cursor: pointer;
     display: flex;
     transition: background-color var(--duration-short2) var(--easing-standard);
@@ -49,7 +49,7 @@
 
     .handle {
       display: block;
-      border-radius: var(--global-shape-corner-full);
+      border-radius: var(--shape-corner-full);
       transition: all var(--duration-short2) var(--easing-standard);
       background: white;
       height: var(--toogle-handle-radius);

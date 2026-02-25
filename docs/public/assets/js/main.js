@@ -4,6 +4,7 @@
   // @ts-ignore
   window.myConsole = {
     log: function (message, title) {
+      console.log(message);
       window.dispatchEvent(
         new CustomEvent('pc-notification', {
           detail: {
@@ -15,6 +16,7 @@
       );
     },
     warn: function (message, title) {
+      console.warn(message);
       window.dispatchEvent(
         new CustomEvent('pc-notification', {
           detail: {

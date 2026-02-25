@@ -10,7 +10,7 @@ import { BaseButton } from '../BaseButton.js';
 
 /**
  * @label Button
- * @tag p-button
+ * @tag base-button
  * @rawTag button
  *
  * @summary Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
@@ -46,7 +46,7 @@ import { BaseButton } from '../BaseButton.js';
  *
  * @example
  * ```html
- * <p-button>Button</p-button>
+ * <base-button>Button</base-button>
  * ```
  * @tags display
  */
@@ -135,13 +135,13 @@ export class Button extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <p-focus-ring class="focus-ring" .control=${this}></p-focus-ring>
-      <p-elevation class="elevation"></p-elevation>
+      <focus-ring class="focus-ring" .control=${this}></focus-ring>
+      <base-elevation class="elevation"></base-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>
       <div class="outline"></div>
-      <p-ripple class="ripple"></p-ripple>
-      <p-skeleton class="skeleton"></p-skeleton>
+      <base-ripple class="ripple"></base-ripple>
+      <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">
         ${this.iconAlign === 'start'

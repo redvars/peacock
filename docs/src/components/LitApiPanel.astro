@@ -55,7 +55,7 @@ const litComp = componentDetails;
       const value = row[column.name].text
       if (value && value.includes("|")) {
         const types = value.split("|");
-        const typesHtml = types.map(type => `<p-tag color='default'>${type}</p-tag>`).join('');
+        const typesHtml = types.map(type => `<base-tag color='default'>${type}</base-tag>`).join('');
         return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
       }
       return `<div class='col-text'>${row[column.name]?.text}</div>`;
@@ -81,7 +81,7 @@ const litComp = componentDetails;
       const value = row[column.name].text
       if (value && value.includes("|")) {
         const types = value.split("|");
-        const typesHtml = types.map(type => `<p-tag color='default'>${type}</p-tag>`).join('');
+        const typesHtml = types.map(type => `<base-tag color='default'>${type}</base-tag>`).join('');
         return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
       }
       return `<div class='col-text'>${row[column.name]?.text}</div>`;

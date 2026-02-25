@@ -1,18 +1,29 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p class='text-body-large'>Here are predefined variants of link, each serving its own semantic purpose.</p>
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
   <a class='link text-body' href='https://github.com/goatui/components' target='_blank'>
     Github
-    <p-icon name='arrow_right_alt'></p-icon>
+    <base-icon name='arrow_right_alt'></base-icon>
   </a>
-  <br />
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <base-link class='text-body' href='https://github.com/goatui/components' target='_blank'>
+    Github
+    <base-icon name='arrow_right_alt'></base-icon>
+  </base-link>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
   <p>
     Some sentence
     <a class='link inline' href='#'>Inline link</a>
     in-between
   </p>
-</HighlighterCard>
+</DemoComponentCard>
+

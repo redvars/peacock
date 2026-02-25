@@ -1,5 +1,5 @@
 import { customElement } from 'lit/decorators.js';
 import { Icon } from './icon.js';
 
-@customElement('p-icon')
+@customElement('base-icon')
 export class PIcon extends Icon {}

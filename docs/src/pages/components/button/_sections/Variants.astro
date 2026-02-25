@@ -6,16 +6,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p class='text-body-large'>Here are several predefined button styles, each serving its own semantic purpose.</p>
 
 <DemoComponentCard lang={'html'}>
-  <p-button variant='elevated'>Elevated</p-button>
-  <p-button>Filled / Default</p-button>
-  <p-button variant='tonal'>Tonal</p-button>
-  <p-button variant='outlined'>Outlined</p-button>
-  <p-button variant='text'>Text</p-button>
-  <p-button variant='neo'>Neo-Brutalism</p-button>
+  <base-button variant='elevated'>Elevated</base-button>
+  <base-button>Filled / Default</base-button>
+  <base-button variant='tonal'>Tonal</base-button>
+  <base-button variant='outlined'>Outlined</base-button>
+  <base-button variant='text'>Text</base-button>
+  <base-button variant='neo'>Neo-Brutalism</base-button>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>
-  <p-button block>Block</p-button>
+  <base-button block>Block</base-button>
 </DemoComponentCard>
 
 <br/>
@@ -26,12 +26,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 
-<p class='text-body-large'>The <p-code-highlighter inline="true">type</p-code-highlighter> property property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
-<p class='text-body-large'><p-code-highlighter inline="true">type="primary"</p-code-highlighter>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
+<p class='text-body-large'>The <code-highlighter inline="true">type</code-highlighter> property property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
+<p class='text-body-large'><code-highlighter inline="true">type="primary"</code-highlighter>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
 
 <DemoComponentCard lang={'html'}>
-  <p-button type='primary'>Primary</p-button>
-  <p-button type='secondary'>Secondary</p-button>
-  <p-button type='tertiary'>Tertiary</p-button>
-  <p-button type='danger'>Danger</p-button>
+  <base-button type='primary'>Primary</base-button>
+  <base-button type='secondary'>Secondary</base-button>
+  <base-button type='tertiary'>Tertiary</base-button>
+  <base-button type='danger'>Danger</base-button>
 </DemoComponentCard>

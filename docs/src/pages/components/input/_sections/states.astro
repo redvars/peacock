@@ -7,10 +7,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <p-input disabled>
-    <p-icon slot='start' class='inherit' name='mail'></p-icon>
+  <input-field disabled>
+    <base-icon slot='start' class='inherit' name='mail'></base-icon>
     <span slot='end'>@example.com</span>
-  </p-input>
+  </input-field>
 </DemoComponentCard>
 
 <br />
@@ -21,16 +21,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <p-input readonly='true'>
-    <p-icon slot='start' class='inherit' name='mail'></p-icon>
+  <input-field readonly='true'>
+    <base-icon slot='start' class='inherit' name='mail'></base-icon>
     <span slot='end'>@example.com</span>
-  </p-input>
+  </input-field>
 </DemoComponentCard>
 
 <br />
 
 <h3 class='text-headline-small'>Status</h3>
 <DemoComponentCard lang={'html'}>
-  <p-input label='City' error error-text='Please provide a valid city' value='America'></p-input>
-  <p-input label='City' warning warning-text='Please provide a valid city' value='America'></p-input>
+  <input-field label='City' error error-text='Please provide a valid city' value='America'></input-field>
+  <input-field label='City' warning warning-text='Please provide a valid city' value='America'></input-field>
 </DemoComponentCard>

@@ -9,7 +9,7 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
 
 /**
  * @label Tooltip
- * @tag p-tooltip
+ * @tag base-tooltip
  * @rawTag tooltip
  * @summary Displays a tooltip for an element.
  *
@@ -210,7 +210,7 @@ export class Tooltip extends LitElement {
   __renderRichTooltip() {
     return html`
       <div class="tooltip-content">
-        <p-elevation class="elevation"></p-elevation>
+        <base-elevation class="elevation"></base-elevation>
 
         <div class="tooltip-title" id="tooltip-labelledby">
           <slot name="title"></slot>

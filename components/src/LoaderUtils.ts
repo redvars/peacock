@@ -5,7 +5,6 @@ interface ComponentConfig {
 }
 
 interface LoaderConfig {
-  prefix?: string;
   components?: Record<string, ComponentConfig>;
 }
 
@@ -35,25 +34,16 @@ export class LoaderUtils {
     if (!this._loaderConfig.components) return;
     for (const [name, value] of Object.entries(this._loaderConfig.components)) {
       if (value.CustomElementClass)
-        LoaderUtils.registerComponent(
-          this.getFullTagName(name),
-          value.CustomElementClass,
-        );
+        LoaderUtils.registerComponent(name, value.CustomElementClass);
     }
-  }
-
-  getFullTagName(name: string) {
-    return `${this._loaderConfig.prefix}-${name}`;
   }
 
   async registerAsync(tagName: string): Promise<void> {
     if (customElements.get(tagName)) return;
 
-    const baseName = tagName.replace(`${this._loaderConfig.prefix}-`, '');
-
     if (!this._loaderConfig.components) return;
 
-    const config = this._loaderConfig.components[baseName];
+    const config = this._loaderConfig.components[tagName];
     if (!config || !config.importPath) return;
 
     try {
@@ -71,7 +61,7 @@ export class LoaderUtils {
       if (config.dependencies) {
         for (const dep of config.dependencies) {
           // eslint-disable-next-line no-await-in-loop
-          await this.registerAsync(this.getFullTagName(dep));
+          await this.registerAsync(dep);
         }
       }
     } catch (error) {

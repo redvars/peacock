@@ -11,11 +11,11 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
 ---
 
 <Layout componentDetails={componentDetails}>
-  <pc-breadcrumb>
-    <pc-breadcrumb-item href="/components">Components</pc-breadcrumb-item>
-    <pc-breadcrumb-item href="./">{title}</pc-breadcrumb-item>
-    <pc-breadcrumb-item active>API Reference</pc-breadcrumb-item>
-  </pc-breadcrumb>
+  <base-breadcrumb>
+    <breadcrumb-item href="/components">Components</breadcrumb-item>
+    <breadcrumb-item href="./">{title}</breadcrumb-item>
+    <breadcrumb-item active>API Reference</breadcrumb-item>
+  </base-breadcrumb>
 
   <div class="comp-header">
     <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title} - API Reference</pc-text>
@@ -25,7 +25,7 @@ const overview = componentDetails.metadata.overview ? componentDetails.metadata.
   <pc-text type="body" expressive set:html={overview} />
 
   <div style="margin-bottom: var(--spacing-600)">
-    <p-button size="xs" variant="light.simple" href="./" icon="arrow--left" icon-align="start"> Back </p-button>
+    <base-button size="xs" variant="light.simple" href="./" icon="arrow--left" icon-align="start"> Back </base-button>
   </div>
 
   <div class="api-section">

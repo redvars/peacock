@@ -20,7 +20,7 @@ const locale = {
 
 /**
  * @label Code Highlighter
- * @tag p-code-highlighter
+ * @tag code-highlighter
  * @rawTag code-highlighter
  *
  * @summary Highlights code snippets with syntax highlighting and line numbers.
@@ -30,11 +30,11 @@ const locale = {
  *
  * @example
  * ```html
- * <p-code-highlighter language="javascript" style="height: 6rem"><pre><code>
+ * <code-highlighter language="javascript" style="height: 6rem"><pre><code>
  *   function helloWorld() {
  *     console.log('Hello, world!');
  *   }</code></pre>
- * </p-code-highlighter>
+ * </code-highlighter>
  * ```
  * @tags display
  */
@@ -164,7 +164,7 @@ export class CodeHighlighter extends LitElement {
         <div class="header">
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
-            <p-icon-button
+            <icon-button
               color="dark"
               variant="text"
               size="xs"
@@ -173,7 +173,7 @@ export class CodeHighlighter extends LitElement {
               tooltip=${locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
-            </p-icon-button>
+            </icon-button>
           </div>
         </div>
 

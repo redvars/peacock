@@ -5,7 +5,7 @@ import { ClockController } from './ClockController.js';
 
 /**
  * @label Clock
- * @tag p-clock
+ * @tag base-clock
  * @rawTag clock
  *
  * @summary Displays the current time in a given timezone.
@@ -15,7 +15,7 @@ import { ClockController } from './ClockController.js';
  *
  * @example
  * ```html
- * <p-clock></p-clock>
+ * <base-clock></base-clock>
  * ```
  * @tags display
  */

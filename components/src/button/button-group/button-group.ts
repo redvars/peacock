@@ -5,17 +5,17 @@ import styles from './button-group.scss';
 
 /**
  * @label Button Group
- * @tag p-button-group
+ * @tag button-group
  * @rawTag button-group
  *
  * @summary Group a series of buttons together on a single line with the button group, and super-power.
 
  * @example
  * ```html
- * <p-button-group>
- *  <p-icon-button name="home"></p-icon-button>
- *  <p-icon-button name="alarm"></p-icon-button>
- * </p-button-group>
+ * <button-group>
+ *  <icon-button name="home"></icon-button>
+ *  <icon-button name="alarm"></icon-button>
+ * </button-group>
  * ```
  *
  * @tags controls
