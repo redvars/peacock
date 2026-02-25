@@ -18,6 +18,7 @@ import { NumberField } from './input/number/number-field.js';
 import { DatePicker } from './input/date-picker/date-picker.js';
 import { TimePicker } from './input/time-picker/time-picker.js';
 import { Textarea } from './input/textarea/textarea.js';
+import { Toggle } from './input/toggle/toggle.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -144,6 +145,9 @@ const loaderConfig: LoaderConfig = {
     },
     'breadcrumb-item': {
       CustomElementClass: BreadcrumbItem,
+    },
+    'base-toggle': {
+      CustomElementClass: Toggle,
     },
   },
 };

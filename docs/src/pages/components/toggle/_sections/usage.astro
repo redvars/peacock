@@ -1,6 +1,7 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'} cssClasses='demo-canvas'>
-  <pc-toggle value='true'>Want ice cream?</pc-toggle>
-</HighlighterCard>
+<DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
+  <base-toggle value='true'>Want ice cream?</base-toggle>
+  <base-toggle value='true' with-icon>Want ice cream?</base-toggle>
+</DemoComponentCard>

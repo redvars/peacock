@@ -21,6 +21,9 @@ export class DatePicker extends BaseInput {
   static styles = [styles];
 
   @property({ type: String })
+  value = '';
+
+  @property({ type: String })
   name: string = '';
 
   @property({ type: String }) placeholder = '';

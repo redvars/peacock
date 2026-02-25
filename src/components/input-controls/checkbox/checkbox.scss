@@ -93,8 +93,8 @@
   .tick {
     width: 33%;
     height: 67%;
-    border-right: 2px solid v(--icon-inverse);
-    border-bottom: 2px solid v(--icon-inverse);
+    border-right: 2px solid var(--icon-inverse);
+    border-bottom: 2px solid var(--icon-inverse);
     transform: rotate(45deg);
     transform-origin: 0 100%;
     top: -15%;
@@ -102,13 +102,13 @@
   }
 
   &.active .box {
-    border-color: v(--color-white);
+    border-color: var(--color-white);
   }
 
   &.has-focus:not(.active) {
     .box {
       @include focus-ring;
-      border-color: v(--color-white);
+      border-color: var(--color-white);
     }
   }
 
@@ -124,8 +124,8 @@
     width: 67%;
     height: 0;
     margin: auto;
-    border-right: 2px solid v(--icon-inverse);
-    border-bottom: 2px solid v(--icon-inverse);
+    border-right: 2px solid var(--icon-inverse);
+    border-bottom: 2px solid var(--icon-inverse);
     transform-origin: 0 100%;
   }
 
@@ -136,7 +136,7 @@
   &.has-focus:not(.active) {
     .box {
       @include focus-ring;
-      border-color: v(--color-white);
+      border-color: var(--color-white);
     }
   }
 

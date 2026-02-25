@@ -22,7 +22,9 @@ export {
   DatePicker,
   TimePicker,
   Textarea,
+  Toggle,
 } from './input/index.js';
+
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';
 export { Tooltip } from './popover/index.js';

@@ -23,6 +23,9 @@ export class NumberField extends BaseInput {
 
   #id: string = crypto.randomUUID();
 
+  @property({ type: Number })
+  value?: number;
+
   @property({ type: String })
   name: string = '';
 
@@ -109,7 +112,7 @@ export class NumberField extends BaseInput {
 
   private __handleInput(event: InputEvent) {
     this.dirty = true;
-    this.value = (event.target as HTMLInputElement).value;
+    this.value = Number((event.target as HTMLInputElement).value);
   }
 
   override focus() {

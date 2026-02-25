@@ -216,7 +216,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
             aria-checked={this.value + ''}
             {...this.configAria}
           >
-            <p-icon
+            <base-icon
               name={
                 this.value
                   ? 'check'
@@ -224,7 +224,7 @@ export class Checkbox implements ComponentInterface, InputComponentInterface {
                   ? 'minus'
                   : 'empty-square'
               }
-            ></p-icon>
+            ></base-icon>
           </div>
 
           <input

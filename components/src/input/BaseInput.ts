@@ -2,8 +2,7 @@ import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
 export default abstract class BaseInput extends LitElement {
-  @property({ type: String })
-  value = '';
+  value?: any;
 
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;

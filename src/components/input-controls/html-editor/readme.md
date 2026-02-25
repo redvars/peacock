@@ -75,7 +75,6 @@ Type: `Promise<void>`
 
 - [pc-button](../../button)
 - [pc-code-editor](../code-editor)
-- [pc-toggle](../toggle)
 - [pc-menu](../../menu/menu)
 - [pc-menu-item](../../menu/menu-item)
 
@@ -84,7 +83,6 @@ Type: `Promise<void>`
 graph TD;
   goat-html-editor --> pc-button
   goat-html-editor --> pc-code-editor
-  goat-html-editor --> pc-toggle
   goat-html-editor --> pc-menu
   goat-html-editor --> pc-menu-item
   pc-menu --> pc-empty-state

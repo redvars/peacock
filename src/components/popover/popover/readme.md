@@ -58,19 +58,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Used by
-
- - [pc-tooltip](../../tooltip)
-
-### Graph
-```mermaid
-graph TD;
-  pc-tooltip --> pc-popover
-  style pc-popover fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

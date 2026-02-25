@@ -83,16 +83,12 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-tooltip](../../../tooltip)
 - [pc-button](../../../button)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-input --> pc-tooltip
   pc-input --> pc-button
-  pc-tooltip --> pc-popover
-  pc-tooltip --> pc-popover-content
   goat-condition-builder --> pc-input
   style pc-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

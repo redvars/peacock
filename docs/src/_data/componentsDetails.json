@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-25T08:09:03",
+  "timestamp": "2026-02-25T09:38:51",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -442,12 +442,7 @@
           "goat-cb-divider"
         ],
         "pc-input": [
-          "pc-tooltip",
           "pc-button"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
         ]
       },
       "props": [
@@ -1162,7 +1157,6 @@
       "dependencies": [
         "pc-button",
         "pc-code-editor",
-        "pc-toggle",
         "pc-menu",
         "pc-menu-item"
       ],
@@ -1170,7 +1164,6 @@
         "goat-html-editor": [
           "pc-button",
           "pc-code-editor",
-          "pc-toggle",
           "pc-menu",
           "pc-menu-item"
         ],
@@ -6720,17 +6713,11 @@
         "goat-condition-builder"
       ],
       "dependencies": [
-        "pc-tooltip",
         "pc-button"
       ],
       "dependencyGraph": {
         "pc-input": [
-          "pc-tooltip",
           "pc-button"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
         ],
         "goat-condition-builder": [
           "pc-input"
@@ -9237,15 +9224,9 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-tooltip"
-      ],
+      "dependents": [],
       "dependencies": [],
-      "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover"
-        ]
-      },
+      "dependencyGraph": {},
       "props": [
         {
           "name": "dismissTimeout",
@@ -9594,15 +9575,9 @@
       "usage": {},
       "docs": "",
       "encapsulation": "shadow",
-      "dependents": [
-        "pc-tooltip"
-      ],
+      "dependents": [],
       "dependencies": [],
-      "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover-content"
-        ]
-      },
+      "dependencyGraph": {},
       "props": [],
       "methods": [],
       "events": [],
@@ -10633,18 +10608,8 @@
       "docs": "",
       "encapsulation": "shadow",
       "dependents": [],
-      "dependencies": [
-        "pc-tooltip"
-      ],
-      "dependencyGraph": {
-        "pc-slider": [
-          "pc-tooltip"
-        ],
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ]
-      },
+      "dependencies": [],
+      "dependencyGraph": {},
       "props": [
         {
           "name": "configAria",
@@ -13060,545 +13025,6 @@
           " form"
         ],
         "example": "<pc-textarea placeholder=\"Enter some description over here\"></pc-textarea>"
-      }
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/input-controls/toggle",
-      "filePath": "src/components/input-controls/toggle/toggle.tsx",
-      "fileName": "toggle.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/input-controls/toggle/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/input-controls/toggle/usage",
-      "tag": "pc-toggle",
-      "readme": "# goat-checkbox\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "goat-html-editor": [
-          "pc-toggle"
-        ]
-      },
-      "props": [
-        {
-          "name": "configAria",
-          "type": "any",
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "mutable": true,
-          "attr": "config-aria",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "{}"
-            }
-          ],
-          "default": "{}",
-          "values": [
-            {
-              "type": "any"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "disabled",
-          "reflectToAttr": true,
-          "docs": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "label",
-          "reflectToAttr": false,
-          "docs": "The checkbox label.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "name",
-          "reflectToAttr": false,
-          "docs": "The input field name.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "`pc-input-${this.gid}`"
-            }
-          ],
-          "default": "`pc-input-${this.gid}`",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "readonly",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "readonly",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "required",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "required",
-          "reflectToAttr": true,
-          "docs": "If true, required icon is show. Defaults to `false`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "rounded",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "rounded",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "true"
-            }
-          ],
-          "default": "true",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "value",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": true,
-          "attr": "value",
-          "reflectToAttr": false,
-          "docs": "The input field value.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [
-        {
-          "name": "getComponentId",
-          "returns": {
-            "type": "Promise<string>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<string>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<string>"
-          },
-          "signature": "getComponentId() => Promise<string>",
-          "parameters": [],
-          "docs": "",
-          "docsTags": []
-        },
-        {
-          "name": "setBlur",
-          "returns": {
-            "type": "Promise<void>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<void>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<void>"
-          },
-          "signature": "setBlur() => Promise<void>",
-          "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-toggle`. Use this method instead of the global\n`input.blur()`.",
-          "docsTags": []
-        },
-        {
-          "name": "setFocus",
-          "returns": {
-            "type": "Promise<void>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<void>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<void>"
-          },
-          "signature": "setFocus() => Promise<void>",
-          "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-toggle`. Use this method instead of the global\n`input.focus()`.",
-          "docsTags": []
-        }
-      ],
-      "events": [
-        {
-          "event": "pc-toggle--blur",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when the input loses focus.",
-          "docsTags": []
-        },
-        {
-          "event": "pc-toggle--change",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "On change of input a CustomEvent 'goat-change' will be triggered. Event details contains parent event, oldValue, newValue of input.",
-          "docsTags": []
-        },
-        {
-          "event": "pc-toggle--focus",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when the input has focus.",
-          "docsTags": []
-        }
-      ],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [
-        {
-          "event": "mouseup",
-          "target": "window",
-          "capture": false,
-          "passive": true
-        },
-        {
-          "event": "keyup",
-          "target": "window",
-          "capture": false,
-          "passive": false
-        }
-      ],
-      "metadata": {
-        "label": "Toggle",
-        "name": "toggle",
-        "description": "Captures boolean input with an optional indeterminate mode.",
-        "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
-        "example": "<pc-toggle value='true'>Want ice cream?</pc-toggle>"
-      }
-    },
-    {
-      "dirPath": "E:/git/redvars/peacock/src/components/tooltip",
-      "filePath": "src/components/tooltip/tooltip.tsx",
-      "fileName": "tooltip.tsx",
-      "readmePath": "E:/git/redvars/peacock/src/components/tooltip/readme.md",
-      "usagesDir": "E:/git/redvars/peacock/src/components/tooltip/usage",
-      "tag": "pc-tooltip",
-      "readme": "# p-icon\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "pc-input",
-        "pc-slider"
-      ],
-      "dependencies": [
-        "pc-popover",
-        "pc-popover-content"
-      ],
-      "dependencyGraph": {
-        "pc-tooltip": [
-          "pc-popover",
-          "pc-popover-content"
-        ],
-        "pc-input": [
-          "pc-tooltip"
-        ],
-        "pc-slider": [
-          "pc-tooltip"
-        ]
-      },
-      "props": [
-        {
-          "name": "content",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": true,
-          "attr": "content",
-          "reflectToAttr": false,
-          "docs": "The content of the tooltip.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "''"
-            }
-          ],
-          "default": "''",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "placements",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "placements",
-          "reflectToAttr": false,
-          "docs": "The placement of the popover relative to the trigger element.\nPossible values are:\n- `\"top\"`: The popover is placed above the trigger element.\n- `\"right\"`: The popover is placed to the right of the trigger element.\n- `\"bottom\"`: The popover is placed below the trigger element.\n- `\"left\"`: The popover is placed to the left of the trigger element.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'top,bottom,right,left'"
-            }
-          ],
-          "default": "'top,bottom,right,left'",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "trigger",
-          "type": "\"hover\" | \"manual\"",
-          "complexType": {
-            "original": "'hover' | 'manual'",
-            "resolved": "\"hover\" | \"manual\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "trigger",
-          "reflectToAttr": true,
-          "docs": "If true, the tooltip will be managed by the parent component.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'hover'"
-            }
-          ],
-          "default": "'hover'",
-          "values": [
-            {
-              "value": "hover",
-              "type": "string"
-            },
-            {
-              "value": "manual",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [
-        {
-          "event": "mouseover",
-          "target": "window",
-          "capture": false,
-          "passive": true
-        }
-      ],
-      "metadata": {
-        "label": "Tooltip",
-        "name": "tooltip",
-        "description": "The Tooltip component is used to display additional information on hover.",
-        "category": "Informational",
-        "tag": "content",
-        "img": "/assets/img/tooltip.webp",
-        "imgDark": "/assets/img/tooltip-dark.webp"
       }
     },
     {

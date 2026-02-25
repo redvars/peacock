@@ -1737,87 +1737,6 @@ export namespace Components {
         "warnText": string;
     }
     /**
-     * @label Toggle
-     * @name toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
-     */
-    interface PcToggle {
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        /**
-          * The checkbox label.
-         */
-        "label": string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * @default true
-         */
-        "rounded": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-toggle`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-toggle`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field value.
-          * @default false
-         */
-        "value": boolean;
-    }
-    /**
-     * @label Tooltip
-     * @name tooltip
-     * @description The Tooltip component is used to display additional information on hover.
-     * @category Informational
-     * @tag content
-     * @img /assets/img/tooltip.webp
-     * @imgDark /assets/img/tooltip-dark.webp
-     */
-    interface PcTooltip {
-        /**
-          * The content of the tooltip.
-          * @default ''
-         */
-        "content": string;
-        /**
-          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"right"`: The popover is placed to the right of the trigger element. - `"bottom"`: The popover is placed below the trigger element. - `"left"`: The popover is placed to the left of the trigger element.
-          * @default 'top,bottom,right,left'
-         */
-        "placements": string;
-        /**
-          * If true, the tooltip will be managed by the parent component.
-          * @default 'hover'
-         */
-        "trigger": 'hover' | 'manual';
-    }
-    /**
      * @label Tree Node
      * @name tree-node
      * @description A tree node is a hierarchical structure that provides nested levels of navigation.
@@ -1981,10 +1900,6 @@ export interface PcTableCustomEvent<T> extends CustomEvent<T> {
 export interface PcTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcTextareaElement;
-}
-export interface PcToggleCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcToggleElement;
 }
 export interface PcTreeNodeCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2835,48 +2750,6 @@ declare global {
         prototype: HTMLPcTextareaElement;
         new (): HTMLPcTextareaElement;
     };
-    interface HTMLPcToggleElementEventMap {
-        "pc-toggle--change": any;
-        "pc-toggle--blur": any;
-        "pc-toggle--focus": any;
-    }
-    /**
-     * @label Toggle
-     * @name toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
-     */
-    interface HTMLPcToggleElement extends Components.PcToggle, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcToggleElementEventMap>(type: K, listener: (this: HTMLPcToggleElement, ev: PcToggleCustomEvent<HTMLPcToggleElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcToggleElementEventMap>(type: K, listener: (this: HTMLPcToggleElement, ev: PcToggleCustomEvent<HTMLPcToggleElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcToggleElement: {
-        prototype: HTMLPcToggleElement;
-        new (): HTMLPcToggleElement;
-    };
-    /**
-     * @label Tooltip
-     * @name tooltip
-     * @description The Tooltip component is used to display additional information on hover.
-     * @category Informational
-     * @tag content
-     * @img /assets/img/tooltip.webp
-     * @imgDark /assets/img/tooltip-dark.webp
-     */
-    interface HTMLPcTooltipElement extends Components.PcTooltip, HTMLStencilElement {
-    }
-    var HTMLPcTooltipElement: {
-        prototype: HTMLPcTooltipElement;
-        new (): HTMLPcTooltipElement;
-    };
     interface HTMLPcTreeNodeElementEventMap {
         "tree-node--click": any;
     }
@@ -2973,8 +2846,6 @@ declare global {
         "pc-tabs": HTMLPcTabsElement;
         "pc-tabs-list": HTMLPcTabsListElement;
         "pc-textarea": HTMLPcTextareaElement;
-        "pc-toggle": HTMLPcToggleElement;
-        "pc-tooltip": HTMLPcTooltipElement;
         "pc-tree-node": HTMLPcTreeNodeElement;
         "pc-tree-view": HTMLPcTreeViewElement;
     }
@@ -4733,90 +4604,6 @@ declare namespace LocalJSX {
         "warnText"?: string;
     }
     /**
-     * @label Toggle
-     * @name toggle
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
-     */
-    interface PcToggle {
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * The checkbox label.
-         */
-        "label"?: string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onPc-toggle--blur"?: (event: PcToggleCustomEvent<any>) => void;
-        /**
-          * On change of input a CustomEvent 'goat-change' will be triggered. Event details contains parent event, oldValue, newValue of input.
-         */
-        "onPc-toggle--change"?: (event: PcToggleCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onPc-toggle--focus"?: (event: PcToggleCustomEvent<any>) => void;
-        /**
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * @default true
-         */
-        "rounded"?: boolean;
-        /**
-          * The input field value.
-          * @default false
-         */
-        "value"?: boolean;
-    }
-    /**
-     * @label Tooltip
-     * @name tooltip
-     * @description The Tooltip component is used to display additional information on hover.
-     * @category Informational
-     * @tag content
-     * @img /assets/img/tooltip.webp
-     * @imgDark /assets/img/tooltip-dark.webp
-     */
-    interface PcTooltip {
-        /**
-          * The content of the tooltip.
-          * @default ''
-         */
-        "content"?: string;
-        /**
-          * The placement of the popover relative to the trigger element. Possible values are: - `"top"`: The popover is placed above the trigger element. - `"right"`: The popover is placed to the right of the trigger element. - `"bottom"`: The popover is placed below the trigger element. - `"left"`: The popover is placed to the left of the trigger element.
-          * @default 'top,bottom,right,left'
-         */
-        "placements"?: string;
-        /**
-          * If true, the tooltip will be managed by the parent component.
-          * @default 'hover'
-         */
-        "trigger"?: 'hover' | 'manual';
-    }
-    /**
      * @label Tree Node
      * @name tree-node
      * @description A tree node is a hierarchical structure that provides nested levels of navigation.
@@ -4944,8 +4731,6 @@ declare namespace LocalJSX {
         "pc-tabs": PcTabs;
         "pc-tabs-list": PcTabsList;
         "pc-textarea": PcTextarea;
-        "pc-toggle": PcToggle;
-        "pc-tooltip": PcTooltip;
         "pc-tree-node": PcTreeNode;
         "pc-tree-view": PcTreeView;
     }
@@ -5288,25 +5073,6 @@ declare module "@stencil/core" {
              * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
              */
             "pc-textarea": LocalJSX.PcTextarea & JSXBase.HTMLAttributes<HTMLPcTextareaElement>;
-            /**
-             * @label Toggle
-             * @name toggle
-             * @description Captures boolean input with an optional indeterminate mode.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <pc-toggle value='true'>Want ice cream?</pc-toggle>
-             */
-            "pc-toggle": LocalJSX.PcToggle & JSXBase.HTMLAttributes<HTMLPcToggleElement>;
-            /**
-             * @label Tooltip
-             * @name tooltip
-             * @description The Tooltip component is used to display additional information on hover.
-             * @category Informational
-             * @tag content
-             * @img /assets/img/tooltip.webp
-             * @imgDark /assets/img/tooltip-dark.webp
-             */
-            "pc-tooltip": LocalJSX.PcTooltip & JSXBase.HTMLAttributes<HTMLPcTooltipElement>;
             /**
              * @label Tree Node
              * @name tree-node

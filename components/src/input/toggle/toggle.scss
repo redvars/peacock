@@ -1,0 +1,145 @@
+@use "../../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  --toggle-track-color: var(--color-primary);
+  --toggle-track-off-color: var(--color-surface-container-highest);
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .input-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .label {
+    @include mixin.get-typography(label-medium);
+  }
+
+  &.has-content {
+    gap: var(--spacing-150);
+  }
+
+  .track {
+    position: relative;
+    background: var(--toggle-track-off-color);
+    border: 2px solid var(--color-outline);
+    border-radius: var(--shape-corner-full);
+    cursor: pointer;
+    display: flex;
+    transition: background-color var(--duration-short2) var(--easing-standard);
+    align-items: center;
+
+    width: var(--_container-width);
+    height: var(--_container-height);
+    padding: 0 4px;
+
+    .handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--shape-corner-full);
+      transition: all var(--duration-short2) var(--easing-standard);
+      background: white;
+      height: var(--toggle-handle-radius);
+      width: var(--toggle-handle-radius);
+      background: var(--toggle-handle-color);
+      .icon {
+        --icon-size: .75rem;
+        --icon-color: var(--toggle-track-off-color);
+      }
+
+    }
+  }
+
+  &.has-focus:not(.active) {
+    .track {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+      border-color: var(--color-white);
+    }
+
+    &:not(.state-checked) .handle {
+      border-color: var(--icon-01);
+    }
+  }
+}
+
+.toggle.state-checked {
+  .track {
+    background: var(--toggle-track-color);
+    border-color: transparent;
+  }
+
+  .handle {
+    margin-inline-start: calc(100% - var(--toggle-handle-radius));
+    .icon {
+      --icon-size: 1rem;
+      --icon-color: var(--toggle-track-color);
+    }
+  }
+
+  &.active .track {
+    border-color: var(--toggle-track-color);
+  }
+
+  &.has-focus:not(.active) {
+    .track {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+      border-color: var(--color-white);
+    }
+  }
+}
+
+.toggle {
+  --_container-width: 3.25rem;
+  --_container-height: 2rem;
+  --toggle-handle-radius: 16px;
+  --toggle-handle-color: var(--color-outline);
+
+  &.state-checked {
+    --toggle-handle-radius: 22px;
+    --toggle-handle-color: var(--color-surface-container-lowest);
+  }
+}
+
+.toggle.readonly {
+  cursor: default;
+
+  .track {
+    border-color: var(--color-outline);
+    background: var(--toggle-track-off-color);
+    opacity: 0.38;
+
+    .handle {
+      background: var(--color-outline) !important;
+    }
+  }
+
+}
+
+.toggle.disabled {
+  cursor: not-allowed;
+  .track {
+    border-color: var(--color-on-surface);
+    background: var(--toggle-track-off-color);
+    opacity: 0.38;
+
+    .handle {
+      background: var(--color-on-surface) !important;
+    }
+  }
+}

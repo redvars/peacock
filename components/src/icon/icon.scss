@@ -12,6 +12,9 @@
 .icon {
   height: var(--icon-size, 1rem);
   width: var(--icon-size, 1rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   svg {
     fill: var(--icon-color);
