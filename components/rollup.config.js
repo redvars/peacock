@@ -24,9 +24,16 @@ export default async function () {
         commonjs(),
         postcss({
           inject: false,
+          use: {
+            sass: {
+              // This tells Dart Sass to ignore the legacy API warning
+              silenceDeprecations: ['legacy-js-api'],
+            },
+          },
         }),
         postcssLit({
           include: 'src/**/*.scss',
+          silenceDeprecations: ['legacy-js-api'],
         }),
 
         copy({
