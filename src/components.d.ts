@@ -581,71 +581,6 @@ export namespace Components {
         "width": number;
     }
     /**
-     * @label Checkbox
-     * @name checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
-     */
-    interface PcCheckbox {
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        /**
-          * @default false
-         */
-        "intermediate": boolean;
-        /**
-          * The checkbox label.
-         */
-        "label": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * @default false
-         */
-        "rounded": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default false
-         */
-        "value": boolean;
-    }
-    /**
      * @label Code Editor
      * @name code-editor
      * @description A browser based code editor.
@@ -1845,10 +1780,6 @@ export interface PcCalendarMonthViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcCalendarMonthViewElement;
 }
-export interface PcCheckboxCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcCheckboxElement;
-}
 export interface PcCodeEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcCodeEditorElement;
@@ -2212,33 +2143,6 @@ declare global {
     var HTMLPcChartPieElement: {
         prototype: HTMLPcChartPieElement;
         new (): HTMLPcChartPieElement;
-    };
-    interface HTMLPcCheckboxElementEventMap {
-        "goat-checkbox--change": any;
-        "goat-checkbox--blur": any;
-        "goat-checkbox--focus": any;
-    }
-    /**
-     * @label Checkbox
-     * @name checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
-     */
-    interface HTMLPcCheckboxElement extends Components.PcCheckbox, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcCheckboxElementEventMap>(type: K, listener: (this: HTMLPcCheckboxElement, ev: PcCheckboxCustomEvent<HTMLPcCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcCheckboxElementEventMap>(type: K, listener: (this: HTMLPcCheckboxElement, ev: PcCheckboxCustomEvent<HTMLPcCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcCheckboxElement: {
-        prototype: HTMLPcCheckboxElement;
-        new (): HTMLPcCheckboxElement;
     };
     interface HTMLPcCodeEditorElementEventMap {
         "pc-code-editor--change": any;
@@ -2819,7 +2723,6 @@ declare global {
         "pc-card": HTMLPcCardElement;
         "pc-chart-doughnut": HTMLPcChartDoughnutElement;
         "pc-chart-pie": HTMLPcChartPieElement;
-        "pc-checkbox": HTMLPcCheckboxElement;
         "pc-code-editor": HTMLPcCodeEditorElement;
         "pc-container": HTMLPcContainerElement;
         "pc-dropdown": HTMLPcDropdownElement;
@@ -3413,74 +3316,6 @@ declare namespace LocalJSX {
           * @default 0
          */
         "width"?: number;
-    }
-    /**
-     * @label Checkbox
-     * @name checkbox
-     * @description Captures boolean input with an optional indeterminate mode.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
-     */
-    interface PcCheckbox {
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * @default false
-         */
-        "intermediate"?: boolean;
-        /**
-          * The checkbox label.
-         */
-        "label"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-checkbox--blur"?: (event: PcCheckboxCustomEvent<any>) => void;
-        /**
-          * On change of input a CustomEvent 'goat-checkbox--change' will be triggered. Event details contains parent event, oldValue, newValue of input.
-         */
-        "onGoat-checkbox--change"?: (event: PcCheckboxCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-checkbox--focus"?: (event: PcCheckboxCustomEvent<any>) => void;
-        /**
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * @default false
-         */
-        "rounded"?: boolean;
-        /**
-          * The button size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * The input field value.
-          * @default false
-         */
-        "value"?: boolean;
     }
     /**
      * @label Code Editor
@@ -4704,7 +4539,6 @@ declare namespace LocalJSX {
         "pc-card": PcCard;
         "pc-chart-doughnut": PcChartDoughnut;
         "pc-chart-pie": PcChartPie;
-        "pc-checkbox": PcCheckbox;
         "pc-code-editor": PcCodeEditor;
         "pc-container": PcContainer;
         "pc-dropdown": PcDropdown;
@@ -4845,15 +4679,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/chart-pie-dark.webp
              */
             "pc-chart-pie": LocalJSX.PcChartPie & JSXBase.HTMLAttributes<HTMLPcChartPieElement>;
-            /**
-             * @label Checkbox
-             * @name checkbox
-             * @description Captures boolean input with an optional indeterminate mode.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <pc-checkbox value='true'>Want ice cream?</pc-checkbox>
-             */
-            "pc-checkbox": LocalJSX.PcCheckbox & JSXBase.HTMLAttributes<HTMLPcCheckboxElement>;
             /**
              * @label Code Editor
              * @name code-editor

@@ -3,9 +3,6 @@ import { marked } from 'marked';
 
 export function getComponentDetails(name: string): any {
   const comp = componentsDetails.find((component: any) => {
-    console.log(
-      component.rawTag + ' === ' + name + ' ' + (component.rawTag == name),
-    );
     return component.rawTag == name;
   });
   return comp;
