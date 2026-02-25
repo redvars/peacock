@@ -1,0 +1,31 @@
+@use "../../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  margin-bottom: var(--spacing-050);
+}
+
+.breadcrumb {
+  width: 100%;
+}
+
+ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::slotted(p-breadcrumb-item:not(:last-child))::after {
+  display: inline-block;
+  padding-right: var(--spacing-100);
+  padding-left: var(--spacing-100);
+  color: var(--color-outline);
+  content: "/";
+  user-select: none;
+  pointer-events: none;
+}

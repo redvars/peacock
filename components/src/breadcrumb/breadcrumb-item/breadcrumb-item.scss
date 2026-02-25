@@ -1,0 +1,53 @@
+@use "../../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: contents;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  font: var(--typescale-label-large-font);
+  letter-spacing: var(--typescale-label-large-tracking);
+  font-weight: var(--typescale-label-large-weight);
+  line-height: var(--typescale-label-large-line-height);
+}
+
+.breadcrumb-item.active {
+  font-weight: var(--typescale-label-large-weight-prominent);
+  color: var(--color-on-surface);
+}
+
+.breadcrumb-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-radius: var(--border-radius-050);
+  transition:
+    color 0.2s ease,
+    text-decoration 0.2s ease;
+
+  &:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: var(--color-primary);
+  }
+}
+
+.separator {
+  display: inline-block;
+  margin-left: var(--spacing-100);
+  color: var(--color-outline);
+  user-select: none;
+  pointer-events: none;
+}
