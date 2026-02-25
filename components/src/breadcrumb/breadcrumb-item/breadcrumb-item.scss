@@ -9,14 +9,11 @@
 .breadcrumb-item {
   display: inline-flex;
   align-items: center;
-  font: var(--typescale-label-large-font);
-  letter-spacing: var(--typescale-label-large-tracking);
-  font-weight: var(--typescale-label-large-weight);
-  line-height: var(--typescale-label-large-line-height);
+  @include mixin.get-typography('body-medium');
 }
 
 .breadcrumb-item.active {
-  font-weight: var(--typescale-label-large-weight-prominent);
+  @include mixin.get-typography('body-medium-emphasized');
   color: var(--color-on-surface);
 }
 

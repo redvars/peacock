@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
-import { property, queryAssignedElements } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import styles from './breadcrumb.scss';
-import type { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
 
 /**
  * @label Breadcrumb
@@ -33,27 +32,10 @@ export class Breadcrumb extends LitElement {
    */
   @property({ type: String }) label = 'Breadcrumb';
 
-  @queryAssignedElements({ selector: 'p-breadcrumb-item' })
-  private breadcrumbItems!: Array<BreadcrumbItem>;
-
-  firstUpdated() {
-    this.updateBreadcrumbPositions();
-  }
-
-  private handleSlotChange() {
-    this.updateBreadcrumbPositions();
-  }
-
-  private updateBreadcrumbPositions() {
-    this.breadcrumbItems.forEach((item, index) => {
-      item.position = `${index + 1}`;
-    });
-  }
-
   render() {
     return html`<nav aria-label=${this.label} class="breadcrumb">
       <ol>
-        <slot @slotchange=${this.handleSlotChange}></slot>
+        <slot></slot>
       </ol>
     </nav>`;
   }

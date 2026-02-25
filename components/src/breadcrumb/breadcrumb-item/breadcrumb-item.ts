@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './breadcrumb-item.scss';
@@ -31,11 +31,6 @@ export class BreadcrumbItem extends LitElement {
   @property() target?: string;
 
   /**
-   * Position in the breadcrumb list (set by parent breadcrumb component).
-   */
-  @property({ reflect: true }) position?: string;
-
-  /**
    * Indicates if this is the active (current) breadcrumb item.
    */
   @property({ type: Boolean, reflect: true }) active = false;
@@ -44,6 +39,24 @@ export class BreadcrumbItem extends LitElement {
    * Custom separator character. If not provided, default "/" is used.
    */
   @property({ type: String }) separator?: string;
+
+  @state()
+  private position = 1;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.calculatePosition();
+  }
+
+  private calculatePosition() {
+    // Calculate position by counting sibling breadcrumb items of the same type
+    if (this.parentElement) {
+      const items = Array.from(
+        this.parentElement.querySelectorAll(this.tagName.toLowerCase()),
+      );
+      this.position = items.indexOf(this) + 1;
+    }
+  }
 
   render() {
     return html`
@@ -74,7 +87,7 @@ export class BreadcrumbItem extends LitElement {
                 </span>
               </a>
             `}
-        <meta itemprop="position" content=${this.position || '1'} />
+        <meta itemprop="position" content=${String(this.position)} />
         ${this.separator
           ? html`<span class="separator" aria-hidden="true"
               >${this.separator}</span

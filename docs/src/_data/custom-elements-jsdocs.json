@@ -336,6 +336,241 @@
     }
   },
   {
+    "rawTag": "breadcrumb",
+    "label": "Breadcrumb",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Breadcrumb"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-breadcrumb"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "breadcrumb"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\r\n - They help users understand their current location within the site hierarchy.\r\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\r\n<p-breadcrumb label=\"Breadcrumb\">\r\n  <p-breadcrumb-item href=\"#\">Home</p-breadcrumb-item>\r\n  <p-breadcrumb-item href=\"#\">Category</p-breadcrumb-item>\r\n  <p-breadcrumb-item active>Current Page</p-breadcrumb-item>\r\n</p-breadcrumb>\r\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Breadcrumb",
+      "members": [
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Breadcrumb'",
+          "description": "Accessible label for the breadcrumb navigation landmark.",
+          "attribute": "label"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Breadcrumb'",
+          "description": "Accessible label for the breadcrumb navigation landmark.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-breadcrumb",
+      "customElement": true,
+      "summary": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.",
+      "rawTag": {
+        "name": "breadcrumb",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "breadcrumb-item",
+    "label": "Breadcrumb Item",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Breadcrumb Item"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "p-breadcrumb-item"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "breadcrumb-item"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A breadcrumb item component that represents a single item in a breadcrumb navigation."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\r\n<p-breadcrumb-item href=\"#\">Home</p-breadcrumb-item>\r\n<p-breadcrumb-item active>Current Page</p-breadcrumb-item>\r\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "BreadcrumbItem",
+      "members": [
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Indicates if this is the active (current) breadcrumb item.",
+          "attribute": "active",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "separator",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Custom separator character. If not provided, default \"/\" is used.",
+          "attribute": "separator"
+        },
+        {
+          "kind": "field",
+          "name": "position",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "1"
+        },
+        {
+          "kind": "method",
+          "name": "calculatePosition",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Indicates if this is the active (current) breadcrumb item.",
+          "fieldName": "active"
+        },
+        {
+          "name": "separator",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Custom separator character. If not provided, default \"/\" is used.",
+          "fieldName": "separator"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "p-breadcrumb-item",
+      "customElement": true,
+      "summary": "A breadcrumb item component that represents a single item in a breadcrumb navigation.",
+      "rawTag": {
+        "name": "breadcrumb-item",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "button",
     "label": "Button",
     "jsdoc": {
