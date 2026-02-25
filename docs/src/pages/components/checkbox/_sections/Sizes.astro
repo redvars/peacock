@@ -1,9 +1,10 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p class='text-body-large'>Here are several predefined checkbox sizes, each serving its own semantic purpose.</p>
+<p class='text-body-large'>Checkboxes come in three sizes following Material Design 3 specifications: small (16px), medium (18px - default), and large (24px). All sizes include proper 40-48px touch targets for accessibility.</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-checkbox size='lg'>Large</goat-checkbox>
-  <goat-checkbox>Medium</goat-checkbox>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <base-checkbox size='sm'>Small</base-checkbox>
+  <base-checkbox size='md'>Medium (Default)</base-checkbox>
+  <base-checkbox size='lg'>Large</base-checkbox>
+</DemoComponentCard>

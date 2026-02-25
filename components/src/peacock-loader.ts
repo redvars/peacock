@@ -19,6 +19,7 @@ import { DatePicker } from './input/date-picker/date-picker.js';
 import { TimePicker } from './input/time-picker/time-picker.js';
 import { Textarea } from './input/textarea/textarea.js';
 import { Toggle } from './input/toggle/toggle.js';
+import { Checkbox } from './checkbox/checkbox.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -148,6 +149,9 @@ const loaderConfig: LoaderConfig = {
     },
     'base-toggle': {
       CustomElementClass: Toggle,
+    },
+    'base-checkbox': {
+      CustomElementClass: Checkbox,
     },
   },
 };

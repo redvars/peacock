@@ -138,7 +138,8 @@ export class IconButton extends BaseButton {
       <div class="neo-background"></div>
       <div class="background"></div>
       <div class="outline"></div>
-      <p-ripple class="ripple"></p-ripple>
+      <base-ripple class="ripple"></base-ripple>
+      <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">
         <base-icon

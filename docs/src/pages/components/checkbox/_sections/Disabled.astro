@@ -1,14 +1,11 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'
->Make input look inactive by adding the disabled <code class='highlighter-rouge' data-lang='html'>boolean</code>
-  attribute to any
-  <code class='highlighter-rouge' data-lang='html'>&lt;input&gt;</code> element.
-</goat-text
->
+<p class='text-body-large'>
+Disabled checkboxes prevent user interaction and appear at 38% opacity following Material Design 3 guidelines. Add the <code class='highlighter-rouge' data-lang='html'>disabled</code> boolean attribute to disable the checkbox.
+</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-checkbox disabled>Disabled checkbox</goat-checkbox>
-  <goat-checkbox disabled value='true'>Disabled checkbox</goat-checkbox>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <base-checkbox disabled>Disabled checkbox</base-checkbox>
+  <base-checkbox disabled value='true'>Disabled checked</base-checkbox>
+</DemoComponentCard>

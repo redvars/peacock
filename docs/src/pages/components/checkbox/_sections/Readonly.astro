@@ -1,14 +1,11 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'
->Make input look inactive by adding the disabled <code class='highlighter-rouge' data-lang='html'>boolean</code>
-  attribute to any
-  <code class='highlighter-rouge' data-lang='html'>&lt;input&gt;</code> element.
-</goat-text
->
+<p class='text-body-large'>
+Readonly checkboxes display the current state without allowing user interaction. Unlike disabled, readonly checkboxes maintain full opacity. Add the <code class='highlighter-rouge' data-lang='html'>readonly</code> boolean attribute.
+</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-checkbox readonly>Readonly checkbox</goat-checkbox>
-  <goat-checkbox readonly value='true'>Readonly checkbox</goat-checkbox>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <base-checkbox readonly>Readonly checkbox</base-checkbox>
+  <base-checkbox readonly value='true'>Readonly checked</base-checkbox>
+</DemoComponentCard>

@@ -1,6 +1,10 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-  <goat-checkbox value='false' intermediate='true'>All</goat-checkbox>
-</HighlighterCard>
+<p class='text-body-large'>The indeterminate state is useful when the checkbox represents a parent of a group of checkboxes, and some but not all children are selected.</p>
+
+<DemoComponentCard lang={'html'}>
+  <base-checkbox indeterminate='true'>Select All</base-checkbox>
+  <base-checkbox value='true'>Option 1</base-checkbox>
+  <base-checkbox>Option 2</base-checkbox>
+</DemoComponentCard>
