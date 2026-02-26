@@ -105,7 +105,6 @@ graph TD;
   pc-select --> pc-button
   pc-select --> pc-menu
   pc-select --> pc-menu-item
-  pc-menu --> pc-empty-state
   style pc-select fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

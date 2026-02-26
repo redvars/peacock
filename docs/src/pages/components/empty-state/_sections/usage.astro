@@ -1,0 +1,24 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<style is:inline>
+  #page-404 {
+    height: 40rem;
+    width: 100%;
+  }
+</style>
+<DemoComponentCard lang='html'>
+
+  <empty-state
+    id='page-404'
+    illustration="page"
+    headline="404 : Page not found :("
+    description="The page you are looking for does not exist. Please check the URL or go back to the homepage.">
+    <div slot="actions">
+      <base-button href="/">Go to home page
+        <base-icon name="arrow_right_alt" slot='icon'></base-icon>
+      </base-button>
+    </div>
+  </empty-state>
+</DemoComponentCard>

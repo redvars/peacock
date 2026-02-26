@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-26T07:48:46",
+  "timestamp": "2026-02-26T10:06:45",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -1166,9 +1166,6 @@
           "pc-code-editor",
           "pc-menu",
           "pc-menu-item"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
         ]
       },
       "props": [
@@ -3150,7 +3147,58 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-theme-button-border-radius",
+          "annotation": "prop",
+          "docs": "Theme level button border radius. (applies to all buttons)"
+        },
+        {
+          "name": "--goat-theme-button-border-style",
+          "annotation": "prop",
+          "docs": "Theme level button border style. (applies to all buttons)"
+        },
+        {
+          "name": "--pc-button-border-radius",
+          "annotation": "prop",
+          "docs": "IconButton border radius."
+        },
+        {
+          "name": "--pc-button-border-style",
+          "annotation": "prop",
+          "docs": "IconButton border style."
+        },
+        {
+          "name": "--pc-button-color",
+          "annotation": "prop",
+          "docs": "IconButton filling color."
+        },
+        {
+          "name": "--pc-button-color-active",
+          "annotation": "prop",
+          "docs": "IconButton filling color on active."
+        },
+        {
+          "name": "--pc-button-color-hover",
+          "annotation": "prop",
+          "docs": "IconButton filling color on hover."
+        },
+        {
+          "name": "--pc-button-color-light",
+          "annotation": "prop",
+          "docs": "IconButton filling color for light variant."
+        },
+        {
+          "name": "--pc-button-padding",
+          "annotation": "prop",
+          "docs": "IconButton padding."
+        },
+        {
+          "name": "--pc-button-support-contrast-color",
+          "annotation": "prop",
+          "docs": "IconButton support color (text or border). Should be white or black based on weight of button filling color."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -5334,9 +5382,6 @@
       "dependencyGraph": {
         "pc-dropdown-menu": [
           "pc-menu"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
         ]
       },
       "props": [],
@@ -5365,7 +5410,13 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-dropdown-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5392,16 +5443,12 @@
       "encapsulation": "shadow",
       "dependents": [
         "goat-sidenav-menu",
-        "pc-menu",
         "pc-table",
         "pc-tree-view"
       ],
       "dependencies": [],
       "dependencyGraph": {
         "goat-sidenav-menu": [
-          "pc-empty-state"
-        ],
-        "pc-menu": [
           "pc-empty-state"
         ],
         "pc-table": [
@@ -6133,7 +6180,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-header-height",
+          "annotation": "prop",
+          "docs": "Height of the header. Defaults to 3rem."
+        },
+        {
+          "name": "--goat-header-width",
+          "annotation": "prop",
+          "docs": "Width of the header. Defaults to 100%."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7294,13 +7352,8 @@
         "pc-dropdown-menu",
         "pc-select"
       ],
-      "dependencies": [
-        "pc-empty-state"
-      ],
+      "dependencies": [],
       "dependencyGraph": {
-        "pc-menu": [
-          "pc-empty-state"
-        ],
         "goat-html-editor": [
           "pc-menu"
         ],
@@ -7550,7 +7603,23 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--menu-background",
+          "annotation": "prop",
+          "docs": "Background color of the menu"
+        },
+        {
+          "name": "--menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        },
+        {
+          "name": "--menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -9014,7 +9083,28 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of popover content"
+        },
+        {
+          "name": "--popover-content-background",
+          "annotation": "prop",
+          "docs": "Background color of the popover content"
+        },
+        {
+          "name": "--popover-content-border-radius",
+          "annotation": "prop",
+          "docs": "Border radius of the popover content"
+        },
+        {
+          "name": "--popover-padding",
+          "annotation": "prop",
+          "docs": "Padding of the popover content"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -9050,9 +9140,6 @@
           "pc-button",
           "pc-menu",
           "pc-menu-item"
-        ],
-        "pc-menu": [
-          "pc-empty-state"
         ]
       },
       "props": [

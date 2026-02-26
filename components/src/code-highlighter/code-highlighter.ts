@@ -3,9 +3,13 @@ import { property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-// Internal imports (assuming these paths remain the same)
-import * as beautify from 'js-beautify';
-import * as Prism from 'prismjs';
+import prettier from 'prettier/standalone';
+
+import prettierPluginBabel from 'prettier/plugins/babel';
+import prettierPluginHtml from 'prettier/plugins/html';
+import prettierPluginPostcss from 'prettier/plugins/postcss';
+import * as prettierPluginEstree from 'prettier/plugins/estree';
+
 import { BundledLanguage, codeToHtml, ShikiTransformer } from 'shiki';
 
 import { copyToClipboard } from '../utils/copy-to-clipboard.js';
@@ -30,7 +34,7 @@ const locale = {
  *
  * @example
  * ```html
- * <code-highlighter language="javascript" style="height: 6rem"><pre><code>
+ * <code-highlighter language="javascript" style="height: 9rem"><pre><code>
  *   function helloWorld() {
  *     console.log('Hello, world!');
  *   }</code></pre>
@@ -66,7 +70,7 @@ export class CodeHighlighter extends LitElement {
   }
 
   firstUpdated() {
-    this.populateCode();
+    this.__highlightCode();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -74,9 +78,7 @@ export class CodeHighlighter extends LitElement {
     return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   }
 
-  private async populateCode() {
-    if (!Prism.languages[this.language]) return;
-
+  private async __highlightCode() {
     let codeString = '';
     if (this.value) {
       codeString = this.value;
@@ -92,17 +94,25 @@ export class CodeHighlighter extends LitElement {
 
     codeString = this.decode(codeString);
 
-    const config = { wrap_line_length: 120 };
     // eslint-disable-next-line default-case
     switch (this.language) {
       case 'javascript':
-        codeString = beautify.js(codeString, config);
+        codeString = await prettier.format(codeString, {
+          parser: 'babel',
+          plugins: [prettierPluginBabel, prettierPluginEstree],
+        });
         break;
       case 'html':
-        codeString = beautify.html(codeString, config);
+        codeString = await prettier.format(codeString, {
+          parser: 'html',
+          plugins: [prettierPluginHtml],
+        });
         break;
       case 'css':
-        codeString = beautify.css(codeString, config);
+        codeString = await prettier.format(codeString, {
+          parser: 'css',
+          plugins: [prettierPluginPostcss],
+        });
         break;
     }
 
@@ -132,11 +142,8 @@ export class CodeHighlighter extends LitElement {
     });
   }
 
-  /**
-   * Replaces Stencil's @Watch
-   */
   protected updated() {
-    this.populateCode();
+    this.__highlightCode();
   }
 
   private async __handleCopyClick() {

@@ -32,6 +32,9 @@ import { Tooltip } from './popover/tooltip/tooltip.js';
 import { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 
 import { Skeleton } from './skeleton/skeleton.js';
+import { Spinner } from './spinner/spinner.js';
+
+import { EmptyState } from './empty-state/empty-state.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.css-component.scss';
@@ -152,6 +155,12 @@ const loaderConfig: LoaderConfig = {
     },
     'base-checkbox': {
       CustomElementClass: Checkbox,
+    },
+    'base-spinner': {
+      CustomElementClass: Spinner,
+    },
+    'empty-state': {
+      CustomElementClass: EmptyState,
     },
   },
 };

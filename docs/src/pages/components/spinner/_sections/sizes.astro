@@ -1,0 +1,17 @@
+---
+import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-emphasized'>Fancy larger or smaller spinners? Add size attribute for additional sizes.</p>
+
+<DemoComponentCard lang={'html'}>
+  <base-spinner class='spinner-custom'></base-spinner>
+
+  <style is:inline>
+    .spinner-custom {
+      --spinner-size: 2rem;
+      --spinner-track-color: var(--color-success-container);
+      --spinner-shape-color: var(--color-success);
+    }
+  </style>
+</DemoComponentCard>

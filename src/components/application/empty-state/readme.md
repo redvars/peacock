@@ -23,7 +23,6 @@
 ### Used by
 
  - [goat-sidenav-menu](../sidenav-menu)
- - [pc-menu](../../menu/menu)
  - [pc-table](../../table)
  - [pc-tree-view](../../tree-view/tree-view)
 
@@ -31,7 +30,6 @@
 ```mermaid
 graph TD;
   goat-sidenav-menu --> pc-empty-state
-  pc-menu --> pc-empty-state
   pc-table --> pc-empty-state
   pc-tree-view --> pc-empty-state
   style pc-empty-state fill:#f9f,stroke:#333,stroke-width:4px

@@ -2,7 +2,7 @@
   <style>
 
     .background {
-      fill: var(--empty-state-bg-secondary);
+      fill: var(--color-surface-container);
     }
 
     .tree {
@@ -14,7 +14,7 @@
     }
 
     .primary-cloth {
-      fill: var(--empty-state-outline);
+      fill: var(--color-secondary);
     }
   </style>
   <g>

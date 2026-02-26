@@ -179,7 +179,7 @@ export class Menu implements ComponentInterface {
   private renderEmptyState() {
     if (this.empty)
       return (
-        <pc-empty-state
+        <empty-state
           class="empty-menu"
           headline={this.emptyStateHeadline}
           description={this.emptyStateDescription}

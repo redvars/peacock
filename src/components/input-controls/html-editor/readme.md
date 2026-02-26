@@ -85,7 +85,6 @@ graph TD;
   goat-html-editor --> pc-code-editor
   goat-html-editor --> pc-menu
   goat-html-editor --> pc-menu-item
-  pc-menu --> pc-empty-state
   style goat-html-editor fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

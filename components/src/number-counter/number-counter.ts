@@ -13,7 +13,7 @@ import styles from './number-counter.scss';
  * ```html
  * <number-counter value="123456789"></number-counter>
  * <script>
- *     const $counter = document.querySelector('p-number-counter');
+ *     const $counter = document.querySelector('number-counter');
  *
  *     setInterval(() => {
  *         $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));

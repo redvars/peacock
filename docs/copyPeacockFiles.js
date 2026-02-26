@@ -5,6 +5,11 @@ fs.cpSync('../components/dist/', './public/assets/peacock/', {
   force: true,
 });
 
+fs.cpSync('../components/dist/', './dist/assets/peacock/', {
+  recursive: true,
+  force: true,
+});
+
 fs.cpSync(
   '../components/dist/custom-elements-jsdocs.json',
   './src/_data/custom-elements-jsdocs.json',

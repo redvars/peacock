@@ -154,7 +154,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\"></base-avatar>\n```"
+          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\" style='--avatar-size: 4rem'></base-avatar>\n```"
         }
       ],
       "@tags": [
@@ -1869,7 +1869,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 6rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
         }
       ],
       "@tags": [
@@ -1965,7 +1965,7 @@
         },
         {
           "kind": "method",
-          "name": "populateCode",
+          "name": "__highlightCode",
           "privacy": "private"
         },
         {
@@ -4573,7 +4573,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<number-counter value=\"123456789\"></number-counter>\n<script>\n    const $counter = document.querySelector('p-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+          "text": "```html\n<number-counter value=\"123456789\"></number-counter>\n<script>\n    const $counter = document.querySelector('number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
         }
       ],
       "@tags": [
@@ -5272,6 +5272,81 @@
       "summary": "Adds a skeleton effect to an element.",
       "rawTag": {
         "name": "skeleton",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "spinner",
+    "label": "Spinner",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Spinner"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "base-spinner"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "spinner"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A spinner component that animates a circular shape."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--spinner-shape-color - The color of the shape."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<base-spinner></base-spinner>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Spinner",
+      "cssProperties": [
+        {
+          "description": "The color of the track.",
+          "name": "--spinner-track-color"
+        },
+        {
+          "description": "The color of the shape.",
+          "name": "--spinner-shape-color"
+        }
+      ],
+      "members": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "base-spinner",
+      "customElement": true,
+      "summary": "A spinner component that animates a circular shape.",
+      "rawTag": {
+        "name": "spinner",
         "description": ""
       }
     }

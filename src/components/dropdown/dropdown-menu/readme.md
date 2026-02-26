@@ -19,6 +19,13 @@ Type: `Promise<void>`
 
 
 
+## CSS Custom Properties
+
+| Name                            | Description                |
+| ------------------------------- | -------------------------- |
+| `--pc-dropdown-menu-max-height` | Maximum height of the menu |
+
+
 ## Dependencies
 
 ### Depends on
@@ -29,7 +36,6 @@ Type: `Promise<void>`
 ```mermaid
 graph TD;
   pc-dropdown-menu --> pc-menu
-  pc-menu --> pc-empty-state
   style pc-dropdown-menu fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
