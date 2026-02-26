@@ -1,0 +1,15 @@
+---
+import HighlighterCard from '../../../../components/HighlighterCard.astro';
+---
+
+<pc-text type='heading' heading-size='3'>Disabled</pc-text>
+<p class='text-body-large'
+>Make input look inactive by adding the disabled <code class='highlighter-rouge' data-lang='html'>boolean</code>
+  attribute to any
+  <code class='highlighter-rouge' data-lang='html'>&lt;input&gt;</code> element.
+</p>
+
+<HighlighterCard lang={'html'}>
+  <base-switch disabled>Disabled toggle</base-switch>
+  <base-switch disabled value='true'>Disabled toggle</base-switch>
+</HighlighterCard>

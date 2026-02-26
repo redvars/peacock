@@ -14,6 +14,14 @@
 | `float`         | `float`           |                                                                                                                    | `boolean` | `false`     |
 
 
+## CSS Custom Properties
+
+| Name                   | Description                             |
+| ---------------------- | --------------------------------------- |
+| `--goat-header-height` | Height of the header. Defaults to 3rem. |
+| `--goat-header-width`  | Width of the header. Defaults to 100%.  |
+
+
 ----------------------------------------------
 
 *Built with love!*

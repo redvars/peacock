@@ -12,13 +12,13 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import { ButtonGroup } from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
-import { Input } from './input/input/input.js';
-import { Field } from './input/field/field.js';
-import { NumberField } from './input/number/number-field.js';
-import { DatePicker } from './input/date-picker/date-picker.js';
-import { TimePicker } from './input/time-picker/time-picker.js';
-import { Textarea } from './input/textarea/textarea.js';
-import { Toggle } from './input/toggle/toggle.js';
+import { Input } from './input/input.js';
+import { Field } from './field/field.js';
+import { NumberField } from './number-field/number-field.js';
+import { DatePicker } from './date-picker/date-picker.js';
+import { TimePicker } from './time-picker/time-picker.js';
+import { Textarea } from './textarea/textarea.js';
+import { Switch } from './switch/switch.js';
 import { Checkbox } from './checkbox/checkbox.js';
 
 import { Accordion } from './accordion/accordion/accordion.js';
@@ -147,8 +147,8 @@ const loaderConfig: LoaderConfig = {
     'breadcrumb-item': {
       CustomElementClass: BreadcrumbItem,
     },
-    'base-toggle': {
-      CustomElementClass: Toggle,
+    'base-switch': {
+      CustomElementClass: Switch,
     },
     'base-checkbox': {
       CustomElementClass: Checkbox,

@@ -121,10 +121,10 @@ goat-text[type='code'] {
   display: flex;
   align-items: center;
   text-align: center;
-  [class*="pc-text"] {
+  p {
     margin-bottom: 0;
   }
-  .p-link {
+  .link {
     display: flex;
     align-items: center;
   }

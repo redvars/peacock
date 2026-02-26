@@ -37,7 +37,7 @@ function jumpingSentence(sentence: string) {
 
       <div class="logo-card-container">
         <div class="logo-card">
-          <img alt="GOAT UI LOGO" src="/assets/img/logo-plain.png">
+          <img alt="GOAT UI LOGO" src="/assets/img/logo-plain.webp">
           <div class="title"><Fragment set:html={jumpingSentence('Peacock')} /></div>
         </div>
       </div>
@@ -57,35 +57,37 @@ function jumpingSentence(sentence: string) {
 
 
     <div class='social-icons'>
-      <base-button
+      <icon-button
         variant='text'
         target='_blank'
         aria-label='Github'
+        name='logo--github'
+        provider='carbon'
         href={`https://www.github.com/${site.github_username}`}
       >
-        <base-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/github.svg'></base-icon>
-      </base-button>
-      <base-button
+      </icon-button>
+      <icon-button
         variant='text'
         target='_blank'
         aria-label='Twitter'
+        name='logo--x'
+        provider='carbon'
         href={`https://x.com/${site.twitter_username}`}
       >
-        <base-icon src='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/icons/twitter-x.svg'></base-icon>
-      </base-button>
+      </icon-button>
     </div>
 
     <div class='made-in-india'>
       <p class='text-body-emphasized'>Built by</p>&nbsp;
       <p class='text-body-emphasized'>
         <a class='link no-decoration' href={site.author_url}>
-          <pc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem' />&nbsp;
+          <base-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></base-avatar>&nbsp;
           {site.author}
         </a>
       </p>
       <p class='text-body-emphasized'>.</p>
-      <pc-svg class='country-flag' size='1.5rem'
-                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></pc-svg>
+      <base-icon class='country-flag' size='1.5rem'
+                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></base-icon>
       <p class='text-body-emphasized'>Made in India.</p>
     </div>
   </div>

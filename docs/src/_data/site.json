@@ -8,10 +8,10 @@
   "email": "contact@shivajivarma.com",
   "author": "Shivaji Varma",
   "author_url": "https://shivajivarma.com",
-  "twitter_username": "peacock",
-  "github_username": "goatui",
+  "twitter_username": "redvars",
+  "github_username": "redvars/peacock",
   "github_project": "components",
-  "npm_package": "@goatui/components",
+  "npm_package": "@redvars/peacock",
   "prod": {
     "script": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.0/dist/peacock-loader.js",
     "themeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.0/dist/assets/styles/tokens.css",

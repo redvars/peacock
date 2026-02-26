@@ -22,9 +22,9 @@ export class FooterLinks {
           {this.getLinks().map(link => {
             return (
               <li>
-                <goat-link class={'no-style link'} href={link.href}>
+                <base-link class={'no-style link'} href={link.href}>
                   {link.name}
-                </goat-link>
+                </base-link>
               </li>
             );
           })}

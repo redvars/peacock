@@ -1,0 +1,17 @@
+---
+import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'
+>On change of toggle value a <b>CustomEvent</b> <code class='highlighter-rouge' data-lang='html'>goat:change</code> is
+  triggered by the element.
+</p>
+
+<DemoComponentCard lang={'html'}>
+    <base-switch id='change-toggle-field'>Change Event?</base-switch>
+    <script is:inline>
+      document.querySelector('#change-toggle-field').addEventListener('change', function(event) {
+        myConsole.log('Input changed to :: ' + event.target.value);
+      });
+    </script>
+</DemoComponentCard>

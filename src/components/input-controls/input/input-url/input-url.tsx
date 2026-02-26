@@ -203,12 +203,12 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
     return (
       <div class={{ 'url-input': true, 'editing': this.editing }}>
         <div class={{ 'url-container': true }}>
-          <goat-link
+          <base-link
             href={this.value || 'javascript:void(0)'}
             target={this.value ? '_blank' : '_self'}
           >
             {this.value}
-          </goat-link>
+          </base-link>
           <pc-button
             size="sm"
             variant="text"

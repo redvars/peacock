@@ -8,17 +8,17 @@ const year = new Date().getFullYear();
 <Layout title={title} description={description} keywords='License, MIT'>
   <pc-container class='sections-wrapper'>
 
-    <pc-text type="fluid-heading">
+    <h1 class="text-display">
       {title}
-    </pc-text>
+    </h1>
 
     <p class='text-body-large'>
       The MIT License (MIT)
-    </pc-text>
+    </p>
 
     <p class='text-body-large'>
       Copyright (c) {year} { site.author }
-    </pc-text>
+    </p>
 
     <p class='text-body-large'>
       Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -27,12 +27,12 @@ const year = new Date().getFullYear();
       use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
       the Software, and to permit persons to whom the Software is furnished to do so,
       subject to the following conditions:
-    </pc-text>
+    </p>
 
     <p class='text-body-large'>
       The above copyright notice and this permission notice shall be included in all
       copies or substantial portions of the Software.
-    </pc-text>
+    </p>
 
     <p class='text-body-large'>
       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -41,10 +41,13 @@ const year = new Date().getFullYear();
       COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
       IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
       CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    </pc-text>
+    </p>
 
 
-    <base-button class='back-to-home' color='secondary' icon='arrow--left' icon-align='start' href='/#'>Back to home</base-button>
+    <base-button class='back-to-home' color='secondary' icon-align='start' href='/#'>
+      <base-icon name='arrow_left_alt' slot='icon'></base-icon>
+      Back to home
+    </base-button>
   </pc-container>
 
 </Layout>

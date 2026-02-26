@@ -15,15 +15,13 @@ export { Chip } from './chip/chip/index.js';
 export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
 export { Skeleton } from './skeleton/index.js';
-export {
-  Input,
-  Field,
-  NumberField,
-  DatePicker,
-  TimePicker,
-  Textarea,
-  Toggle,
-} from './input/index.js';
+export { Input } from './input/index.js';
+export { Field } from './field/index.js';
+export { NumberField } from './number-field/index.js';
+export { DatePicker } from './date-picker/index.js';
+export { TimePicker } from './time-picker/index.js';
+export { Textarea } from './textarea/index.js';
+export { Switch } from './switch/index.js';
 
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';

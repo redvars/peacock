@@ -5277,6 +5277,470 @@
     }
   },
   {
+    "rawTag": "switch",
+    "label": "Switch",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Switch"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "base-switch"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "switch"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Captures boolean input with an on/off switch interaction."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--switch-handle-color: Color of the switch handle."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "focus - Dispatched when the switch receives focus."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<base-switch value=\"true\"></base-switch>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "input, form"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Switch",
+      "cssProperties": [
+        {
+          "description": "Color of the switch track when checked.",
+          "name": "--switch-track-color:"
+        },
+        {
+          "description": "Color of the switch track when unchecked.",
+          "name": "--switch-track-off-color:"
+        },
+        {
+          "description": "Width of the switch track.",
+          "name": "--switch-width:"
+        },
+        {
+          "description": "Height of the switch track.",
+          "name": "--switch-height:"
+        },
+        {
+          "description": "Size of the switch handle.",
+          "name": "--switch-handle-radius:"
+        },
+        {
+          "description": "Color of the switch handle.",
+          "name": "--switch-handle-color:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "any | undefined"
+          },
+          "default": "false",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The input field name.",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The switch label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "rounded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, the toggle has rounded corners. Defaults to `true`.",
+          "attribute": "rounded"
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "description": "If true, required icon is shown. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "description": "If true, the toggle is readonly. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "withIcon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "with-icon",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "Configuration object for aria attributes.",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isActive",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "trackElement",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "nativeElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "windowMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "windowKeyUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "mouseDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "keyDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "clickHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "blurHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "focusHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "handleKeyUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "description": "Sets focus on the toggle."
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "description": "Removes focus from the toggle."
+        },
+        {
+          "kind": "method",
+          "name": "__renderIcon"
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the switch value changes.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the switch loses focus.",
+          "name": "blur"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the switch receives focus.",
+          "name": "focus"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "value"
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The input field name.",
+          "fieldName": "name"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The switch label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "rounded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, the toggle has rounded corners. Defaults to `true`.",
+          "fieldName": "rounded"
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "description": "If true, required icon is shown. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "description": "If true, the toggle is readonly. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "with-icon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "withIcon"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "Configuration object for aria attributes.",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "base-switch",
+      "customElement": true,
+      "summary": "Captures boolean input with an on/off switch interaction.",
+      "rawTag": {
+        "name": "switch",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "tag",
     "label": "Tag",
     "jsdoc": {
@@ -6438,470 +6902,6 @@
       "summary": "The Time Picker component is used to capture time user input.",
       "rawTag": {
         "name": "time-picker",
-        "description": ""
-      }
-    }
-  },
-  {
-    "rawTag": "toggle",
-    "label": "Toggle",
-    "jsdoc": {
-      "@label": [
-        {
-          "kind": "text",
-          "text": "Toggle"
-        }
-      ],
-      "@tag": [
-        {
-          "kind": "text",
-          "text": "base-toggle"
-        }
-      ],
-      "@rawTag": [
-        {
-          "kind": "text",
-          "text": "toggle"
-        }
-      ],
-      "@summary": [
-        {
-          "kind": "text",
-          "text": "Captures boolean input with an on/off switch interaction."
-        }
-      ],
-      "@overview": [
-        {
-          "kind": "text",
-          "text": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>"
-        }
-      ],
-      "@cssprop": [
-        {
-          "kind": "text",
-          "text": "--toggle-handle-color: Color of the toggle handle."
-        }
-      ],
-      "@fires": [
-        {
-          "kind": "text",
-          "text": "focus - Dispatched when the toggle receives focus."
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-toggle value=\"true\"></base-toggle>\n```"
-        }
-      ],
-      "@tags": [
-        {
-          "kind": "text",
-          "text": "input, form"
-        }
-      ]
-    },
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "Toggle",
-      "cssProperties": [
-        {
-          "description": "Color of the toggle track when checked.",
-          "name": "--toggle-track-color:"
-        },
-        {
-          "description": "Color of the toggle track when unchecked.",
-          "name": "--toggle-track-off-color:"
-        },
-        {
-          "description": "Width of the toggle track.",
-          "name": "--toggle-width:"
-        },
-        {
-          "description": "Height of the toggle track.",
-          "name": "--toggle-height:"
-        },
-        {
-          "description": "Size of the toggle handle.",
-          "name": "--toggle-handle-radius:"
-        },
-        {
-          "description": "Color of the toggle handle.",
-          "name": "--toggle-handle-color:"
-        }
-      ],
-      "members": [
-        {
-          "kind": "field",
-          "name": "value",
-          "type": {
-            "text": "any | undefined"
-          },
-          "default": "false",
-          "attribute": "value",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The input field name.",
-          "attribute": "name"
-        },
-        {
-          "kind": "field",
-          "name": "label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The toggle label.",
-          "attribute": "label"
-        },
-        {
-          "kind": "field",
-          "name": "rounded",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "true",
-          "description": "If true, the toggle has rounded corners. Defaults to `true`.",
-          "attribute": "rounded"
-        },
-        {
-          "kind": "field",
-          "name": "required",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "required",
-          "reflects": true,
-          "description": "If true, required icon is shown. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "readonly",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "readonly",
-          "reflects": true,
-          "description": "If true, the toggle is readonly. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "disabled",
-          "reflects": true,
-          "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "withIcon",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "with-icon",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "configAria",
-          "type": {
-            "text": "Record<string, string>"
-          },
-          "default": "{}",
-          "description": "Configuration object for aria attributes.",
-          "attribute": "configAria"
-        },
-        {
-          "kind": "field",
-          "name": "hasFocus",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
-          "kind": "field",
-          "name": "isActive",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
-          "kind": "field",
-          "name": "slotHasContent",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
-          "kind": "field",
-          "name": "trackElement",
-          "type": {
-            "text": "HTMLElement | undefined"
-          },
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "nativeElement",
-          "type": {
-            "text": "HTMLInputElement | undefined"
-          },
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "tabindex",
-          "type": {
-            "text": "string | undefined"
-          },
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "handleInitialAttributes",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "windowMouseUp",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "windowKeyUp",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "mouseDownHandler",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "keyDownHandler",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "clickHandler",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "blurHandler",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "focusHandler",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "handleKeyUp",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "focus",
-          "description": "Sets focus on the toggle."
-        },
-        {
-          "kind": "method",
-          "name": "blur",
-          "description": "Removes focus from the toggle."
-        },
-        {
-          "kind": "method",
-          "name": "__renderIcon"
-        },
-        {
-          "kind": "field",
-          "name": "skeleton",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "skeleton",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        }
-      ],
-      "events": [
-        {
-          "type": {
-            "text": "CustomEvent"
-          },
-          "description": "Dispatched when the toggle value changes.",
-          "name": "change"
-        },
-        {
-          "type": {
-            "text": "CustomEvent"
-          },
-          "description": "Dispatched when the toggle loses focus.",
-          "name": "blur"
-        },
-        {
-          "type": {
-            "text": "CustomEvent"
-          },
-          "description": "Dispatched when the toggle receives focus.",
-          "name": "focus"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "value",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The input field name.",
-          "fieldName": "name"
-        },
-        {
-          "name": "label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The toggle label.",
-          "fieldName": "label"
-        },
-        {
-          "name": "rounded",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "true",
-          "description": "If true, the toggle has rounded corners. Defaults to `true`.",
-          "fieldName": "rounded"
-        },
-        {
-          "name": "required",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "required",
-          "description": "If true, required icon is shown. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "name": "readonly",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "readonly",
-          "description": "If true, the toggle is readonly. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "disabled",
-          "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        },
-        {
-          "name": "with-icon",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "withIcon"
-        },
-        {
-          "name": "configAria",
-          "type": {
-            "text": "Record<string, string>"
-          },
-          "default": "{}",
-          "description": "Configuration object for aria attributes.",
-          "fieldName": "configAria"
-        },
-        {
-          "name": "skeleton",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "skeleton",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
-          }
-        }
-      ],
-      "superclass": {
-        "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
-      },
-      "tagName": "base-toggle",
-      "customElement": true,
-      "summary": "Captures boolean input with an on/off switch interaction.",
-      "rawTag": {
-        "name": "toggle",
         "description": ""
       }
     }

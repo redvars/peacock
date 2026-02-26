@@ -17,7 +17,7 @@ import site from '../../_data/site.json';
           return (
             <div class='item'>
               <pc-text type='heading' heading-size='4'>
-                <goat-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</goat-link>
+                <base-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</base-link>
               </pc-text>
               <p class='text-body-large'>{post.description}</pc-text>
               <pc-text color='secondary'>

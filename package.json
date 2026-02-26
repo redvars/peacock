@@ -50,6 +50,9 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.55.2"
+  },
   "devDependencies": {
     "@floating-ui/dom": "^1.5.3",
     "@stencil/angular-output-target": "^0.8.4",
