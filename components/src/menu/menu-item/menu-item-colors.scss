@@ -1,0 +1,13 @@
+@use "../../../scss/mixin";
+
+:host-context(menu-list[variant=standard]) {
+  --menu-item-label-color: var(--color-on-surface-variant);
+  --menu-item-label-selected-color: var(--color-on-tertiary-container);
+  --menu-item-container-selected-color: var(--color-tertiary-container);
+}
+
+:host-context(menu-list[variant=vibrant]) {
+  --menu-item-label-color: var(--color-on-tertiary-container);
+  --menu-item-label-selected-color: var(--color-on-tertiary);
+  --menu-item-container-selected-color: var(--color-tertiary);
+}

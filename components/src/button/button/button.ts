@@ -94,6 +94,7 @@ export class Button extends BaseButton {
       pressed: this.isPressed,
       'has-content': this.slotHasContent,
       'show-skeleton': this.skeleton,
+      [`icon-align-${this.iconAlign}`]: true,
     };
 
     if (!isLink) {
@@ -144,15 +145,11 @@ export class Button extends BaseButton {
       <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">
-        ${this.iconAlign === 'start'
-          ? html`<slot name="icon"></slot>`
-          : nothing}
-
         <div class="slot-container">
           <slot></slot>
         </div>
 
-        ${this.iconAlign === 'end' ? html`<slot name="icon"></slot>` : nothing}
+        <slot name="icon"></slot>
       </div>
 
       ${this.__renderDisabledReason()}

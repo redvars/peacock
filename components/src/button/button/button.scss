@@ -24,7 +24,7 @@
   */
 slot::slotted(*) {
   --icon-size: var(--button-icon-size, var(--_button-icon-size));
-  --icon-color: var(--_input-text-color);
+  --icon-color: var(--_label-text-color);
 }
 
 /*
@@ -66,10 +66,10 @@ slot::slotted(*) {
     width: 100%;
     z-index: 1;
 
-    color: var(--_input-text-color);
+    color: var(--_label-text-color);
     opacity: var(--_label-text-opacity, 1);
     --icon-size: var(--button-icon-size, var(--_button-icon-size));
-    --icon-color: var(--_input-text-color);
+    --icon-color: var(--_label-text-color);
 
     .slot-container {
       display: none;
@@ -98,6 +98,8 @@ slot::slotted(*) {
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
     corner-shape: var(--_container-corner-shape-variant);
+    --ripple-state-opacity: var(--_container-state-opacity, 0);
+    --ripple-pressed-color: var(--_container-state-color);
   }
 
   .background {
@@ -130,11 +132,6 @@ slot::slotted(*) {
     --skeleton-container-shape-end-start: var(--_container-shape-end-start);
     --skeleton-container-shape-end-end: var(--_container-shape-end-end);
     --skeleton-container-shape-variant: var(--_container-corner-shape-variant);
-  }
-
-  .ripple {
-    --ripple-state-opacity: var(--_container-state-opacity, 0);
-    --ripple-pressed-color: var(--_container-state-color);
   }
 
   .elevation {
@@ -223,6 +220,15 @@ slot::slotted(*) {
     }
   }
 
+  &.icon-align-start .button-content {
+    flex-direction: row-reverse;
+
+  }
+
+  &.icon-align-end .button-content {
+    flex-direction: row;
+  }
+
 }
 
 /**
@@ -231,10 +237,10 @@ slot::slotted(*) {
 
 .button.variant-elevated {
   --_container-color: var(--elevated-button-container-color);
-  --_input-text-color: var(--elevated-button-label-text-color);
+  --_label-text-color: var(--elevated-button-label-text-color);
   --_container-elevation-level: 1;
 
-  --_container-state-color: var(--_input-text-color);
+  --_container-state-color: var(--_label-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 2;
@@ -249,7 +255,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -261,8 +267,8 @@ slot::slotted(*) {
 
 .button.variant-filled {
   --_container-color: var(--filled-button-container-color);
-  --_input-text-color: var(--filled-button-label-text-color);
-  --_container-state-color: var(--_input-text-color);
+  --_label-text-color: var(--filled-button-label-text-color);
+  --_container-state-color: var(--_label-text-color);
 
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
@@ -278,7 +284,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -290,9 +296,9 @@ slot::slotted(*) {
 
 .button.variant-tonal {
   --_container-color: var(--tonal-button-container-color);
-  --_input-text-color: var(--tonal-button-label-text-color);
+  --_label-text-color: var(--tonal-button-label-text-color);
 
-  --_container-state-color: var(--_input-text-color);
+  --_container-state-color: var(--_label-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-elevation-level: 1;
@@ -307,7 +313,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -320,9 +326,9 @@ slot::slotted(*) {
 .button.variant-outlined {
   --_outline-width: var(--outlined-button-outline-width, 0.0675rem);
   --_outline-color: var(--outlined-button-outline-color);
-  --_input-text-color: var(--outlined-button-label-text-color);
+  --_label-text-color: var(--outlined-button-label-text-color);
 
-  --_container-state-color: var(--_input-text-color);
+  --_container-state-color: var(--_label-text-color);
 
   .outline {
     display: block;
@@ -338,7 +344,7 @@ slot::slotted(*) {
 
   &.disabled {
     --_outline-color: var(--color-on-surface);
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
     --_outline-opacity: 0.12;
 
@@ -351,8 +357,8 @@ slot::slotted(*) {
 
 .button.variant-text {
 
-  --_input-text-color: var(--text-button-label-text-color);
-  --_container-state-color: var(--_input-text-color);
+  --_label-text-color: var(--text-button-label-text-color);
+  --_container-state-color: var(--_label-text-color);
 
   &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
     --_container-state-opacity: 0.08;
@@ -363,7 +369,7 @@ slot::slotted(*) {
   }
 
   &.disabled {
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
 
     .ripple {
@@ -375,7 +381,7 @@ slot::slotted(*) {
 .button.variant-neo {
 
   --_container-color: var(--neo-button-container-color);
-  --_input-text-color: var(--neo-button-label-text-color);
+  --_label-text-color: var(--neo-button-label-text-color);
 
   --_outline-width: var(--outlined-button-outline-width, 0.125rem);
   --_outline-color: var(--color-inverse-surface);
@@ -404,7 +410,7 @@ slot::slotted(*) {
   &.disabled {
     --_container-color: var(--color-on-surface);
     --_container-opacity: 0.1;
-    --_input-text-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
     --_label-text-opacity: 0.38;
     --_outline-opacity: 0.12;
 

@@ -6,7 +6,8 @@
   display: block;
 
   --divider-color: var(--color-outline-variant);
-  --divider-padding: var(--spacing-200);
+  --divider-spacing: var(--spacing-200);
+  --divider-line-thinkness: 2px;
 }
 
 .divider {
@@ -15,15 +16,17 @@
   @include mixin.get-typography(body-medium);
   color: var(--divider-color);
 
+  --_line-border: var(--divider-line-thinkness) solid var(--divider-color);
+
   &:not(.vertical) {
     width: 100%;
-    padding: var(--divider-padding) 0;
+    padding: var(--divider-spacing) 0;
     align-items: center;
     justify-content: center;
 
     .line {
       width: 100%;
-      border-top: 1px solid var(--divider-color);
+      border-top: var(--_line-border);
     }
 
     &.slot-has-content .slot-container {
@@ -33,14 +36,14 @@
 
   &.vertical {
     height: 100%;
-    padding: 0 var(--divider-padding);
+    padding: 0 var(--divider-spacing);
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
     .line {
       height: 100%;
-      border-right: 1px solid var(--divider-color);
+      border-right: var(--_line-border);
     }
 
     &.slot-has-content .slot-container {

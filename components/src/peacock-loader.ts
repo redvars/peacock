@@ -21,6 +21,10 @@ import { Textarea } from './textarea/textarea.js';
 import { Switch } from './switch/switch.js';
 import { Checkbox } from './checkbox/checkbox.js';
 
+import { Menu } from './menu/menu/menu.js';
+import { MenuItem } from './menu/menu-item/menu-item.js';
+import { MenuList } from './menu/menu-list/menu-list.js';
+
 import { Accordion } from './accordion/accordion/accordion.js';
 import { Link } from './link/link.js';
 import { Tag } from './chip/tag/tag.js';
@@ -161,6 +165,15 @@ const loaderConfig: LoaderConfig = {
     },
     'empty-state': {
       CustomElementClass: EmptyState,
+    },
+    'base-menu': {
+      CustomElementClass: Menu,
+    },
+    'menu-item': {
+      CustomElementClass: MenuItem,
+    },
+    'menu-list': {
+      CustomElementClass: MenuList,
     },
   },
 };

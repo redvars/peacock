@@ -1,31 +1,24 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-  <pc-menu class="menu">
-    <pc-menu-item value="cut">
-      Cut
-      <span slot="end">⌘X</span>
-    </pc-menu-item>
-    <pc-menu-item value="copy">
-      Copy
-      <span slot="end">⌘C</span>
-    </pc-menu-item>
-    <pc-menu-item value="paste">
-      Paste
-      <span slot="end">⌘X</span>
-    </pc-menu-item>
-    <pc-divider></pc-divider>
-    <pc-menu-item value="bold" selected>
-      Bold
-    </pc-menu-item>
-    <pc-menu-item value="italic">
-      Italic
-    </pc-menu-item>
-    <pc-divider></pc-divider>
-    <pc-menu-item value="delete" color='danger'>
-      Delete
-      <base-icon name='delete' slot="end"></base-icon>
-    </pc-menu-item>
-  </pc-menu>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+
+  <menu-list>
+    <menu-item value="profile">Profile</menu-item>
+    <menu-item value="account">Account Settings</menu-item>
+    <menu-item value="account" selected>Notification Settings</menu-item>
+    <base-divider />
+    <menu-item disabled>Settings (Disabled)</menu-item>
+    <menu-item value="logout">Logout</menu-item>
+  </menu-list>
+
+  <menu-list variant='vibrant'>
+    <menu-item value="profile">Profile</menu-item>
+    <menu-item value="account">Account Settings</menu-item>
+    <menu-item value="account" selected>Notification Settings</menu-item>
+    <base-divider />
+    <menu-item disabled>Settings (Disabled)</menu-item>
+    <menu-item value="logout">Logout</menu-item>
+  </menu-list>
+</DemoComponentCard>

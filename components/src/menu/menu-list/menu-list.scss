@@ -1,0 +1,73 @@
+@use "../../../scss/mixin";
+
+@include mixin.base-styles;
+
+.menu-list {
+  display: flex;
+  position: relative;
+  min-width: 112px;
+  padding-block: var(--spacing-050);
+
+  .menu-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    z-index: 1;
+
+    ::slotted(:first-child) {
+      --menu-item-container-shape-start-start: var(--shape-corner-medium);
+      --menu-item-container-shape-start-end: var(--shape-corner-medium);
+    }
+    ::slotted(:last-child) {
+      --menu-item-container-shape-end-start: var(--shape-corner-medium);
+      --menu-item-container-shape-end-end: var(--shape-corner-medium);
+    }
+
+    ::slotted(base-divider) {
+      --divider-spacing: var(--spacing-100);
+      padding-inline: var(--spacing-050);
+    }
+  }
+
+  .background {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--_container-color);
+    opacity: var(--_container-opacity, 1);
+
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+    pointer-events: none;
+  }
+
+  .elevation {
+    --elevation-level: 2;
+    transition-duration: 280ms;
+    --elevation-container-shape-start-start: var(--_container-shape-start-start);
+    --elevation-container-shape-start-end: var(--_container-shape-start-end);
+    --elevation-container-shape-end-start: var(--_container-shape-end-start);
+    --elevation-container-shape-end-end: var(--_container-shape-end-end);
+    --elevation-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+}
+
+.menu-list {
+  --_container-shape-start-start: var(--shape-corner-large);
+  --_container-shape-start-end: var(--shape-corner-large);
+  --_container-shape-end-start: var(--shape-corner-large);
+  --_container-shape-end-end: var(--shape-corner-large);
+
+  &.variant-standard {
+    --_container-color: var(--color-surface-container);
+  }
+
+  &.variant-vibrant {
+    --_container-color: var(--color-tertiary-container);
+  }
+}
