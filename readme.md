@@ -66,23 +66,23 @@ menus, checkboxes, and radio buttons.
 
 | Name                                                                | Component         | State |
 |---------------------------------------------------------------------|-------------------|-------|
-| [Code editor](https://peacock.redvars.com/components/code-editor)   | p-card-editor     | 🟢    |
-| Color picker                                                        | p-color-picker    | 🔴    |
+| [Code editor](https://peacock.redvars.com/components/code-editor)   | card-editor     | 🟢    |
+| Color picker                                                        | color-picker    | 🔴    |
 | [Checkbox](https://peacock.redvars.com/components/checkbox)         | base-checkbox     | 🟢    |
 | [Date picker](https://peacock.redvars.com/components/date-picker)   | date-picker       | 🟡    |
-| Date Time picker                                                    | p-datetime-picker | 🔴    |
+| Date Time picker                                                    | datetime-picker | 🔴    |
 | [Form control](https://peacock.redvars.com/components/form-control) | base-field        | 🟡    |
-| File picker                                                         | p-file-picker     | 🔴    |
-| [HTML editor](https://peacock.redvars.com/components/html-editor)   | p-html-editor     | 🟢    |
+| File picker                                                         | file-picker     | 🔴    |
+| [HTML editor](https://peacock.redvars.com/components/html-editor)   | html-editor     | 🟢    |
 | [Input](https://peacock.redvars.com/components/input)               | input-field       | 🟢    |
-| [Input URL](https://peacock.redvars.com/components/input-url)       | p-input-url       | 🟢    |
-| Month picker                                                        | p-month-picker    | 🔴    |
+| [Input URL](https://peacock.redvars.com/components/input-url)       | input-url       | 🟢    |
+| Month picker                                                        | month-picker    | 🔴    |
 | [Number](https://peacock.redvars.com/components/number)             | number-field      | 🟢    |
-| [Select](https://peacock.redvars.com/components/select)             | p-select          | 🟢    |
+| [Select](https://peacock.redvars.com/components/select)             | base-select          | 🟢    |
 | [Textarea](https://peacock.redvars.com/components/textarea)         | textarea-field    | 🟢    |
 | [Time picker](https://peacock.redvars.com/components/time-picker)   | time-picker       | 🟡    |
-| [URL input](https://peacock.redvars.com/components/url-input)       | p-url-input.      | 🔴    |
-| Week picker                                                         | p-week-picker     | 🔴    |
+| [URL input](https://peacock.redvars.com/components/url-input)       | url-input.      | 🔴    |
+| Week picker                                                         | week-picker     | 🔴    |
 
 ## Navigation
 
@@ -93,9 +93,9 @@ include menus, tabs, and breadcrumbs.
 | Name                                                   | Component       | State |
 |--------------------------------------------------------|-----------------|-------|
 | [Breadcrumb](https://peacock.redvars.com/components/breadcrumb) | base-breadcrumb | 🟢    |
-| [Dropdown](https://peacock.redvars.com/components/dropdown)     | p-dropdown   | 🟡    |
-| [Menu](https://peacock.redvars.com/components/menu)             | p-menu       | 🟡    |
-| [Tabs](https://peacock.redvars.com/components/tabs)             | p-tabs       | 🟢    |
+| [Dropdown](https://peacock.redvars.com/components/dropdown)     | base-dropdown   | 🟡    |
+| [Menu](https://peacock.redvars.com/components/menu)             | base-menu       | 🟡    |
+| [Tabs](https://peacock.redvars.com/components/tabs)             | base-tabs       | 🟢    |
 
 ## Informational
 
@@ -108,10 +108,10 @@ include notifications, tooltips, and progress bars.
 | [Badge](https://peacock.redvars.com/components/badge)                               | base-badge             | 🟢    |
 | [Linear Progress](https://peacock.redvars.com/components/linear-progress)           | linear-progress        | 🟢    |
 | [Circular Progress](https://peacock.redvars.com/components/circular-progress)       | circular-progress      | 🟢    |
-| [Spinner](https://peacock.redvars.com/components/spinner)                           | p-spinner              | 🟢    |
+| [Spinner](https://peacock.redvars.com/components/spinner)                           | base-spinner              | 🟢    |
 | [Tooltip](https://peacock.redvars.com/components/tooltip)                           | base-tooltip           | 🟢    |
-| [Notification](https://peacock.redvars.com/components/notification)                 | p-notification         | 🟢    |
-| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | p-notification-manager | 🟢    |
+| [Notification](https://peacock.redvars.com/components/notification)                 | base-notification         | 🟢    |
+| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | base-notification-manager | 🟢    |
 
 
 ## Containers
@@ -123,7 +123,7 @@ organization to the content.
 | Name                                                          | Component      | State |
 |---------------------------------------------------------------|----------------|-------|
 | [Accordion](https://peacock.redvars.com/components/accordion) | base-accordion | 🟢    |
-| Card                                                          | p-card         | 🟡    |
+| Card                                                          | base-card         | 🟡    |
 
 ## General
 
@@ -134,30 +134,30 @@ These components are used for general purpose. They include
 | [Avatar](https://peacock.redvars.com/components/avatar)                             | base-avatar               | 🟢    |
 | [Button](https://peacock.redvars.com/components/button)                             | base-button               | 🟢    |
 | [Button Group](https://peacock.redvars.com/components/button-group)                 | button-group         | 🟢    |
-| [Calendar](https://peacock.redvars.com/components/calendar)                         | p-calendar             | 🟢    |
-| Card Select                                                                         | p-cardselect           | 🔴    |
+| [Calendar](https://peacock.redvars.com/components/calendar)                         | base-calendar             | 🟢    |
+| Card Select                                                                         | base-cardselect           | 🔴    |
 | [Code Highlighter](https://peacock.redvars.com/components/code-highlighter)         | code-highlighter     | 🟢    |
-| Column                                                                              | p-col                  | 🔴    |
-| [Empty State](https://peacock.redvars.com/components/empty-state)                   | p-empty-state          | 🟡    |
-| [Flow Designer ](https://peacock.redvars.com/components/flow-designer)              | p-flow-designer        | 🔵    |
-| Grid                                                                                | p-grid                 | 🔴    |
-| Group                                                                               | p-group                | 🔴    |
-| [Header](https://peacock.redvars.com/components/header)                             | p-header               | 🟢    |
+| Column                                                                              | base-col                  | 🔴    |
+| [Empty State](https://peacock.redvars.com/components/empty-state)                   | empty-state          | 🟡    |
+| [Flow Designer ](https://peacock.redvars.com/components/flow-designer)              | flow-designer        | 🔵    |
+| Grid                                                                                | base-grid                 | 🔴    |
+| Group                                                                               | base-group                | 🔴    |
+| [Header](https://peacock.redvars.com/components/header)                             | base-header               | 🟢    |
 | [Icon](https://peacock.redvars.com/components/icon)                                 | base-icon                 | 🟢    |
 | [Link](https://peacock.redvars.com/components/link)                                 | base-link                 | 🟢    |
-| [Modal](https://peacock.redvars.com/components/modal)                               | p-modal                | 🟢    |
-| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | p-notification-manager | 🟡    |
-| Observer                                                                            | p-observer             | 🔴    |
-| Pagination                                                                          | p-pagination           | 🔴    |
-| Radio Group                                                                         | p-radiogroup           | 🔴    |
-| Row                                                                                 | p-row                  | 🔴    |
-| [Slider](https://peacock.redvars.com/components/slider)                             | p-slider               | 🟡    |
-| Spoiler                                                                             | p-spoiler              | 🔴    |
-| Stepper                                                                             | p-stepper              | 🔴    |
-| [Table](https://peacock.redvars.com/components/table)                               | p-table                | 🟡    |
+| [Modal](https://peacock.redvars.com/components/modal)                               | base-modal                | 🟢    |
+| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | notification-manager | 🟡    |
+| Observer                                                                            | base-observer             | 🔴    |
+| Pagination                                                                          | base-pagination           | 🔴    |
+| Radio Group                                                                         | base-radiogroup           | 🔴    |
+| Row                                                                                 | base-row                  | 🔴    |
+| [Slider](https://peacock.redvars.com/components/slider)                             | base-slider               | 🟡    |
+| Spoiler                                                                             | base-spoiler              | 🔴    |
+| Stepper                                                                             | base-stepper              | 🔴    |
+| [Table](https://peacock.redvars.com/components/table)                               | base-table                | 🟡    |
 | [Tag](https://peacock.redvars.com/components/tag) / Chip                            | base-tag                  | 🟢    |
-| [Text](https://peacock.redvars.com/components/text)                                 | p-text                 | 🟢    |
-| [Tree View](https://peacock.redvars.com/components/tree-view)                       | p-tree-view            | 🟡    |
+| [Text](https://peacock.redvars.com/components/text)                                 | base-text                 | 🟢    |
+| [Tree View](https://peacock.redvars.com/components/tree-view)                       | tree-view            | 🟡    |
 | [Switch](https://peacock.redvars.com/components/switch)                             | base-switch               | 🟢    |
 
 ## Charts
@@ -166,8 +166,8 @@ These components are used to display data in a graphical format. They include
 
 | Name                                                           | Component           | State |
 |----------------------------------------------------------------|---------------------|-------|
-| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut) | p-chart-doughnut | 🟢    |
-| [Pie Chart ](https://peacock.redvars.com/components/chart-pie)          | p-chart-pie      | 🟢    |
+| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut) | chart-doughnut | 🟢    |
+| [Pie Chart ](https://peacock.redvars.com/components/chart-pie)          | chart-pie      | 🟢    |
 
 
 ## 📄 License
