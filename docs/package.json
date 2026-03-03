@@ -15,8 +15,13 @@
     "@astrojs/mdx": "^4.3.12",
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.16.4",
-    "sass": "^1.94.2",
-    "typescript": "^5.9.3",
-    "marked": "^17.0.1"
+    "marked": "^17.0.1",
+    "typescript": "^5.9.3"
+  },
+  "optionalDependencies": {
+    "sass-embedded-darwin-arm64": "1.93.2",
+    "sass-embedded-linux-arm64": "1.93.2",
+    "sass-embedded-linux-musl-x64": "1.93.2",
+    "sass-embedded-linux-x64": "1.93.2"
   }
 }

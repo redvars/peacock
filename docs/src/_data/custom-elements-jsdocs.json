@@ -30,7 +30,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-accordion>\n    <accordion-item heading=\"Accordion\">\n        Content\n    </accordion-item>\n</base-accordion>\n```"
+          "text": "```html\r\n<base-accordion>\r\n    <accordion-item heading=\"Accordion\">\r\n        Content\r\n    </accordion-item>\r\n</base-accordion>\r\n```"
         }
       ],
       "@tags": [
@@ -154,7 +154,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\" style='--avatar-size: 4rem'></base-avatar>\n```"
+          "text": "```html\r\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\" style='--avatar-size: 4rem'></base-avatar>\r\n```"
         }
       ],
       "@tags": [
@@ -279,7 +279,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-badge value=\"1\"></base-badge>\n```"
+          "text": "```html\r\n<base-badge value=\"1\"></base-badge>\r\n```"
         }
       ],
       "@tags": [
@@ -366,13 +366,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\n - They help users understand their current location within the site hierarchy.\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
+          "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\r\n - They help users understand their current location within the site hierarchy.\r\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-breadcrumb label=\"Breadcrumb\">\n  <breadcrumb-item href=\"#\">Home</breadcrumb-item>\n  <breadcrumb-item href=\"#\">Category</breadcrumb-item>\n  <breadcrumb-item active>Current Page</breadcrumb-item>\n</base-breadcrumb>\n```"
+          "text": "```html\r\n<base-breadcrumb label=\"Breadcrumb\">\r\n  <breadcrumb-item href=\"#\">Home</breadcrumb-item>\r\n  <breadcrumb-item href=\"#\">Category</breadcrumb-item>\r\n  <breadcrumb-item active>Current Page</breadcrumb-item>\r\n</base-breadcrumb>\r\n```"
         }
       ],
       "@tags": [
@@ -453,7 +453,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<breadcrumb-item href=\"#\">Home</breadcrumb-item>\n```"
+          "text": "```html\r\n<breadcrumb-item href=\"#\">Home</breadcrumb-item>\r\n```"
         }
       ],
       "@tags": [
@@ -619,7 +619,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-button>Button</base-button>\n```"
+          "text": "```html\r\n<base-button>Button</base-button>\r\n```"
         }
       ],
       "@tags": [
@@ -716,7 +716,7 @@
             "text": "'start' | 'end'"
           },
           "default": "'end'",
-          "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
+          "description": "Icon alignment.\r\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
           "attribute": "icon-align"
         },
         {
@@ -771,10 +771,10 @@
           "kind": "field",
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+            "text": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'\r\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "attribute": "variant",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -785,7 +785,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'light'\r\n    | 'dark'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -803,7 +803,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -1073,7 +1073,7 @@
             "text": "'start' | 'end'"
           },
           "default": "'end'",
-          "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
+          "description": "Icon alignment.\r\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
           "fieldName": "iconAlign"
         },
         {
@@ -1103,10 +1103,10 @@
         {
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+            "text": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'\r\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -1116,7 +1116,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'light'\r\n    | 'dark'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -1132,7 +1132,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -1307,7 +1307,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<button-group>\n <icon-button name=\"home\"></icon-button>\n <icon-button name=\"alarm\"></icon-button>\n</button-group>\n```"
+          "text": "```html\r\n<button-group>\r\n <icon-button name=\"home\"></icon-button>\r\n <icon-button name=\"alarm\"></icon-button>\r\n</button-group>\r\n```"
         }
       ],
       "@tags": [
@@ -1329,7 +1329,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size"
         }
       ],
@@ -1340,7 +1340,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
         }
       ],
@@ -1383,7 +1383,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-tag>Link</base-tag>\n```"
+          "text": "```html\r\n<base-tag>Link</base-tag>\r\n```"
         }
       ],
       "@tags": [
@@ -1412,7 +1412,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -1495,7 +1495,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -1571,7 +1571,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<circular-progress value=\"30\"></circular-progress>\n```"
+          "text": "```html\r\n<circular-progress value=\"30\"></circular-progress>\r\n```"
         }
       ]
     },
@@ -1763,13 +1763,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time."
+          "text": "- Clocks are used to display the current time in a specified timezone.\r\n - They can be displayed in various formats, including 12-hour and 24-hour time."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-clock></base-clock>\n```"
+          "text": "```html\r\n<base-clock></base-clock>\r\n```"
         }
       ],
       "@tags": [
@@ -1863,13 +1863,13 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\r\n - It supports various programming languages and can display line numbers for better readability."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+          "text": "```html\r\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\r\n  function helloWorld() {\r\n    console.log('Hello, world!');\r\n  }</code></pre>\r\n</code-highlighter>\r\n```"
         }
       ],
       "@tags": [
@@ -2060,7 +2060,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<date-picker label=\"Name\" required placeholder=\"Enter your name\"></date-picker>\n```"
+          "text": "```html\r\n<date-picker label=\"Name\" required placeholder=\"Enter your name\"></date-picker>\r\n```"
         }
       ]
     },
@@ -2228,7 +2228,7 @@
           },
           "privacy": "private",
           "default": "false",
-          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+          "description": "Returns true when the text field has been interacted with. Native\r\nvalidation errors only display in response to user interactions."
         },
         {
           "kind": "field",
@@ -2554,7 +2554,7 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.\n - They can be oriented either vertically or horizontally, depending on the layout requirements."
+          "text": "- Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.\r\n - They can be oriented either vertically or horizontally, depending on the layout requirements."
         }
       ],
       "@cssprop": [
@@ -2566,7 +2566,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-divider style=\"width: 12rem;\">or</base-divider>\n```"
+          "text": "```html\r\n<base-divider style=\"width: 12rem;\">or</base-divider>\r\n```"
         }
       ],
       "@tags": [
@@ -2664,7 +2664,7 @@
       "@overview": [
         {
           "kind": "text",
-          "text": "- Elevation adds a shadow effect to an element to give it depth.\n - It can be used to create a sense of hierarchy or to draw attention to a particular element."
+          "text": "- Elevation adds a shadow effect to an element to give it depth.\r\n - It can be used to create a sense of hierarchy or to draw attention to a particular element."
         }
       ],
       "@cssprop": [
@@ -2676,7 +2676,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <base-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></base-elevation>\n    Level 2\n  </div>\n```"
+          "text": "```html\r\n  <div style=\"position: relative; padding: var(--spacing-200);\">\r\n    <base-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></base-elevation>\r\n    Level 2\r\n  </div>\r\n```"
         }
       ],
       "@tags": [
@@ -2850,7 +2850,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-icon name=\"home\" style=\"--icon-size: 2rem;\"></base-icon>\n```"
+          "text": "```html\r\n<base-icon name=\"home\" style=\"--icon-size: 2rem;\"></base-icon>\r\n```"
         }
       ]
     },
@@ -2876,7 +2876,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
           "attribute": "name",
           "reflects": true
         },
@@ -2962,7 +2962,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The identifier for the icon.\nThis name corresponds to a specific SVG asset in the icon set.",
+          "description": "The identifier for the icon.\r\nThis name corresponds to a specific SVG asset in the icon set.",
           "fieldName": "name"
         },
         {
@@ -3043,7 +3043,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<icon-button name=\"home\"></icon-button>\n```"
+          "text": "```html\r\n<icon-button name=\"home\"></icon-button>\r\n```"
         }
       ],
       "@tags": [
@@ -3203,10 +3203,10 @@
           "kind": "field",
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+            "text": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'\r\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "attribute": "variant",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -3217,7 +3217,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'light'\r\n    | 'dark'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -3235,7 +3235,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -3548,10 +3548,10 @@
         {
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
+            "text": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'\r\n    | 'neo'"
           },
           "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "fieldName": "variant",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -3561,7 +3561,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'light'\r\n    | 'dark'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -3577,7 +3577,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "Button size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size",
           "inheritedFrom": {
             "name": "BaseButton",
@@ -3752,7 +3752,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<input-field label=\"Name\" required placeholder=\"Enter your name\"></input-field>\n```"
+          "text": "```html\r\n<input-field label=\"Name\" required placeholder=\"Enter your name\"></input-field>\r\n```"
         }
       ]
     },
@@ -3929,7 +3929,7 @@
           },
           "privacy": "private",
           "default": "false",
-          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+          "description": "Returns true when the text field has been interacted with. Native\r\nvalidation errors only display in response to user interactions."
         },
         {
           "kind": "field",
@@ -4263,7 +4263,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<linear-progress value=\"30\" style=\"width:10rem\"></linear-progress>\n```"
+          "text": "```html\r\n<linear-progress value=\"30\" style=\"width:10rem\"></linear-progress>\r\n```"
         }
       ]
     },
@@ -4461,7 +4461,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-link href=\"#\">Link</base-link>\n```"
+          "text": "```html\r\n<base-link href=\"#\">Link</base-link>\r\n```"
         }
       ],
       "@tags": [
@@ -4573,7 +4573,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<number-counter value=\"123456789\"></number-counter>\n<script>\n    const $counter = document.querySelector('number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+          "text": "```html\r\n<number-counter value=\"123456789\"></number-counter>\r\n<script>\r\n    const $counter = document.querySelector('number-counter');\r\n\r\n    setInterval(() => {\r\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\r\n    }, 1000);\r\n</script>\r\n```"
         }
       ],
       "@tags": [
@@ -4687,7 +4687,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<number-field label=\"Age\" placeholder=\"Enter your age\"></number-field>\n```"
+          "text": "```html\r\n<number-field label=\"Age\" placeholder=\"Enter your age\"></number-field>\r\n```"
         }
       ]
     },
@@ -4877,7 +4877,7 @@
           },
           "privacy": "private",
           "default": "false",
-          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+          "description": "Returns true when the text field has been interacted with. Native\r\nvalidation errors only display in response to user interactions."
         },
         {
           "kind": "field",
@@ -5319,7 +5319,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-spinner></base-spinner>\n```"
+          "text": "```html\r\n<base-spinner></base-spinner>\r\n```"
         }
       ]
     },
@@ -5400,7 +5400,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-switch value=\"true\"></base-switch>\n```"
+          "text": "```html\r\n<base-switch value=\"true\"></base-switch>\r\n```"
         }
       ],
       "@tags": [
@@ -5846,7 +5846,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-tag color=red>Tag</base-tag>\n```"
+          "text": "```html\r\n<base-tag color=red>Tag</base-tag>\r\n```"
         }
       ],
       "@tags": [
@@ -5884,7 +5884,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -5948,7 +5948,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -6007,7 +6007,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<textarea-field label=\"Name\" required placeholder=\"Enter your name\"></textarea-field>\n```"
+          "text": "```html\r\n<textarea-field label=\"Name\" required placeholder=\"Enter your name\"></textarea-field>\r\n```"
         }
       ]
     },
@@ -6184,7 +6184,7 @@
           },
           "privacy": "private",
           "default": "false",
-          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+          "description": "Returns true when the text field has been interacted with. Native\r\nvalidation errors only display in response to user interactions."
         },
         {
           "kind": "field",
@@ -6518,7 +6518,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<time-picker label=\"Name\" required placeholder=\"Enter your name\"></time-picker>\n```"
+          "text": "```html\r\n<time-picker label=\"Name\" required placeholder=\"Enter your name\"></time-picker>\r\n```"
         }
       ]
     },
@@ -6686,7 +6686,7 @@
           },
           "privacy": "private",
           "default": "false",
-          "description": "Returns true when the text field has been interacted with. Native\nvalidation errors only display in response to user interactions."
+          "description": "Returns true when the text field has been interacted with. Native\r\nvalidation errors only display in response to user interactions."
         },
         {
           "kind": "field",
@@ -7012,7 +7012,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<span class=\"tooltip\">Tooltip</span>\n```"
+          "text": "```html\r\n<span class=\"tooltip\">Tooltip</span>\r\n```"
         }
       ],
       "@tags": [
@@ -7043,7 +7043,7 @@
             "text": "string"
           },
           "default": "''",
-          "description": "The ID of the element the tooltip should attach to.\nIf not provided, it defaults to the parent element.",
+          "description": "The ID of the element the tooltip should attach to.\r\nIf not provided, it defaults to the parent element.",
           "attribute": "for"
         },
         {
@@ -7217,7 +7217,7 @@
             "text": "string"
           },
           "default": "''",
-          "description": "The ID of the element the tooltip should attach to.\nIf not provided, it defaults to the parent element.",
+          "description": "The ID of the element the tooltip should attach to.\r\nIf not provided, it defaults to the parent element.",
           "fieldName": "for"
         },
         {
