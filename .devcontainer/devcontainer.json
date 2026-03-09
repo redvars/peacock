@@ -1,7 +1,17 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/universal:2",
-    "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
-	"features": {
-        "ghcr.io/devcontainers/features/node:1": {}
-	}
+  "name": "Node.js Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": { "version": "latest" }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  }
 }

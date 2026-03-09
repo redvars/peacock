@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 npm ci
-cd docs
+cd components
 npm ci

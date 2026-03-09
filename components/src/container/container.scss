@@ -1,0 +1,92 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.container-wrapper {
+  container: containerwrapper / inline-size;
+
+  &.size-max .container {
+    max-width: var(--container-max);
+  }
+
+  &.size-xl .container {
+    max-width: var(--container-xl);
+  }
+
+  &.size-sm .container {
+    max-width: var(--container-sm);
+  }
+
+  &.size-md .container {
+    max-width: var(--container-md);
+  }
+
+  &.size-lg .container {
+    max-width: var(--container-lg);
+  }
+}
+
+.container {
+  margin: auto;
+  width: 100%;
+
+  .content {
+    padding: v(--spacing-200);
+  }
+}
+
+:host(.debug) {
+  border-width: 0 1px;
+  border-color: var(--color-red);
+  border-style: solid;
+
+  background: var(--color-red-50);
+
+  .container {
+    border-width: 0 1px;
+    border-color: var(--color-blue);
+    border-style: solid;
+
+    background: var(--color-blue-100);
+
+    .content {
+      border-width: 0 1px;
+      border-color: var(--color-green);
+      border-style: solid;
+
+      background: var(--color-green-100);
+    }
+  }
+}
+
+.content {
+    margin-inline: 0;
+}
+
+@container containerwrapper (min-width: 672px) {
+  .content {
+    margin-inline: var(--spacing-200);
+  }
+}
+
+@container containerwrapper (min-width: 1056px) {
+  .content {
+    margin-inline: var(--spacing-200);
+  }
+}
+
+@container containerwrapper (min-width: 1312px) {
+  .content {
+    margin-inline: var(--spacing-200);
+  }
+}
+
+@container containerwrapper (min-width: 1584px) {
+  .content {
+    margin-inline: var(--spacing-300);
+  }
+}

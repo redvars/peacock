@@ -22,7 +22,8 @@ export { DatePicker } from './date-picker/index.js';
 export { TimePicker } from './time-picker/index.js';
 export { Textarea } from './textarea/index.js';
 export { Switch } from './switch/index.js';
-export { Spinner } from './spinner/spinner.js';
+export { Spinner } from './spinner/index.js';
+export { Container } from './container/index.js'
 
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';

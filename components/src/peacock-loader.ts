@@ -39,6 +39,7 @@ import { Skeleton } from './skeleton/skeleton.js';
 import { Spinner } from './spinner/spinner.js';
 
 import { EmptyState } from './empty-state/empty-state.js';
+import { Container } from './container/container.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import linkStyles from './link/link.css-component.scss';
@@ -175,6 +176,9 @@ const loaderConfig: LoaderConfig = {
     'menu-list': {
       CustomElementClass: MenuList,
     },
+    'base-container': {
+      CustomElementClass: Container
+    }
   },
 };
 
