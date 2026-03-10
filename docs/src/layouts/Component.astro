@@ -63,7 +63,7 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails?.
 
   </div>
   <div class='main-content'>
-    <pc-container class='page-wrapper'>
+    <base-container class='page-wrapper'>
 
       <div class='comp-header'>
         <h1 class='heading-scrollable text-display'>{title}</h1>
@@ -85,10 +85,10 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails?.
         </base-button>
         <base-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <base-icon slot='icon' name='arrow_right_alt'>Previous</base-icon> </base-button>
       </div>
-    </pc-container>
+    </base-container>
 
     <div class='footer container'>
-      <pc-divider></pc-divider>
+      <base-divider></base-divider>
       <Footer/>
     </div>
   </div>
