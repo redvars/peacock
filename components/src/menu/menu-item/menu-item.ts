@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
@@ -10,6 +10,17 @@ export class MenuItem extends LitElement {
   @property({ type: String }) value = '';
 
   @property({ type: Boolean }) selected = false;
+
+  /*
+   * Hyperlink to navigate to on click.
+   */
+  @property({ reflect: true }) href?: string;
+
+   /**
+   * Sets or retrieves the window or frame at which to target content.
+   */
+  @property() target: string = '_self';
+
 
   @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
     'standard';
@@ -22,9 +33,6 @@ export class MenuItem extends LitElement {
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'menuitem');
     }
-    if (!this.hasAttribute('tabindex') && !this.disabled) {
-      this.setAttribute('tabindex', '0');
-    }
   }
 
   // Handle keyboard activation (Enter/Space)
@@ -35,30 +43,66 @@ export class MenuItem extends LitElement {
     }
   }
 
+   __isLink() {
+    return !!this.href;
+  }
+
+   @query('.menu-item') private readonly menuItemElement!: HTMLElement | null;
+  
+    override focus() {
+      this.menuItemElement?.focus();
+    }
+  
+    override blur() {
+      this.menuItemElement?.blur();
+    }
+
   render() {
-    return html`
-      <div
-        class=${classMap({
+
+    const isLink = this.__isLink();
+
+    const cssClasses = {
           'menu-item': true,
           disabled: this.disabled,
           selected: this.selected,
-        })}
+        };
+
+    if (isLink) {
+      return html`<a
+        class=${classMap(cssClasses)}
+        href=${this.href}
+        target=${this.target}
+      >
+        ${this.renderContent()}
+      </a>
+    `;
+    }
+
+
+    return html`<div
+        class=${classMap(cssClasses)}
+        tabindex=${!this.disabled ? 0 : -1}
         @keydown="${this._handleKeyDown}"
       >
-        <div class="background"></div>
-        <base-ripple class="ripple"></base-ripple>
+        ${this.renderContent()}
+      </div>
+    `;
+  }
 
-        <div class="menu-item-content">
-          <slot name="leading-icon"></slot>
-          <base-icon name="home"></base-icon>
-          <div class="slot-container">
-            <slot></slot>
-          </div>
-          <slot
-            name="trailing-supporting-text"
-            slot="trailing-supporting-text"
-          ></slot>
+  renderContent() {
+    return html`
+      <focus-ring class="focus-ring" .control=${this}  element="menuItemElement"></focus-ring>
+      <div class="background"></div>
+      <base-ripple class="ripple"></base-ripple>
+
+      <div class="menu-item-content">
+        <slot name="leading-icon"></slot>
+        <div class="slot-container">
+          <slot></slot>
         </div>
+        <slot
+          name="trailing-supporting-text"
+        ></slot>
       </div>
     `;
   }

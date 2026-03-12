@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   padding-inline: 0.75rem;
+  outline: 0;
 
   @include mixin.get-typography(label-large);
 
@@ -49,6 +50,18 @@
     border-end-end-radius: var(--_container-shape-end-end);
     corner-shape: var(--_container-corner-shape-variant);
     pointer-events: none;
+  }
+
+   /*
+    Background layers
+   */
+  .focus-ring {
+    z-index: 2;
+    --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
+    --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
+    --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
+    --focus-ring-container-shape-end-end: var(--_container-shape-end-end);
+    --focus-ring-container-shape-variant: var(--_container-corner-shape-variant);
   }
 
   .ripple {

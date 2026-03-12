@@ -966,7 +966,6 @@
           "type": {
             "text": "HTMLElement | null"
           },
-          "privacy": "private",
           "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",
@@ -2870,6 +2869,15 @@
         },
         {
           "kind": "field",
+          "name": "element",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "element"
+        },
+        {
+          "kind": "field",
           "name": "_control",
           "type": {
             "text": "HTMLElement | undefined"
@@ -2878,6 +2886,18 @@
         {
           "kind": "field",
           "name": "control"
+        },
+        {
+          "kind": "method",
+          "name": "__focusin"
+        },
+        {
+          "kind": "method",
+          "name": "__focusout"
+        },
+        {
+          "kind": "method",
+          "name": "__pointerdown"
         },
         {
           "kind": "method",
@@ -2896,6 +2916,14 @@
           },
           "default": "false",
           "fieldName": "visible"
+        },
+        {
+          "name": "element",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "element"
         }
       ],
       "superclass": {
@@ -3502,7 +3530,6 @@
           "type": {
             "text": "HTMLElement | null"
           },
-          "privacy": "private",
           "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",

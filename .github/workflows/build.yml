@@ -45,7 +45,9 @@ jobs:
         run: |
           cd design-tokens
           npm ci
-          npm run build --if-present
+          npm run build
+          npm run deploy
+
           cd ../components
           npm ci
           npm run build --if-present

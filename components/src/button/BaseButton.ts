@@ -97,7 +97,7 @@ export class BaseButton extends LitElement {
   @state()
   isPressed = false;
 
-  @query('.button') private readonly buttonElement!: HTMLElement | null;
+  @query('.button') readonly buttonElement!: HTMLElement | null;
 
   override focus() {
     this.buttonElement?.focus();

@@ -18,6 +18,9 @@ export class FocusRing extends LitElement {
 
   @property({ type: Boolean, reflect: true }) visible: boolean = false;
 
+  @property({ type: String}) element = '';
+
+
   render() {
     return nothing;
   }
@@ -46,27 +49,41 @@ export class FocusRing extends LitElement {
     super.disconnectedCallback();
   }
 
+  __focusin() {
+    // @ts-ignore
+    this.visible = this._control[this.element].matches(':focus-visible') ?? false;
+  }
+
+  __focusout() {
+    this.visible = false;
+  }
+
+  __pointerdown() {
+    this.visible = false;
+  }
+
   attach() {
-    // @ts-ignore - buttonElement is not defined on the base class
-    this._control?.buttonElement?.addEventListener('focusin', () => {
-      this.visible =
-        // @ts-ignore - buttonElement is not defined on the base class
-        this._control?.buttonElement?.matches(':focus-visible') ?? false;
-    });
-    // @ts-ignore - buttonElement is not defined on the base class
-    this._control?.buttonElement?.addEventListener('focusout', () => {
-      this.visible = false;
-    });
-    // @ts-ignore - buttonElement is not defined on the base class
-    this._control?.buttonElement?.addEventListener('pointerdown', () => {
-      this.visible = false;
-    });
+    // @ts-ignore
+    if (this._control && this._control[this.element]) {
+      // @ts-ignore
+      this._control[this.element].addEventListener('focusin', this.__focusin.bind(this));
+      // @ts-ignore
+      this._control[this.element].addEventListener('focusout', this.__focusin.bind(this));
+      // @ts-ignore
+      this._control[this.element].addEventListener('pointerdown', this.__focusin.bind(this));
+    }
   }
 
   detach() {
-    this._control?.removeEventListener('focusin', () => {});
-    this._control?.removeEventListener('focusout', () => {});
-    this._control?.removeEventListener('pointerdown', () => {});
+    // @ts-ignore
+    if (this._control && this._control[this.element]) {
+      // @ts-ignore
+      this._control[this.element].removeEventListener('focusin', this.__focusin);
+      // @ts-ignore
+      this._control[this.element].removeEventListener('focusout', this.__focusout);
+      // @ts-ignore
+      this._control[this.element].removeEventListener('pointerdown', this.__pointerdown);
+    }
     this._control = undefined;
   }
 }

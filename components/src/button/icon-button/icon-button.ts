@@ -133,7 +133,7 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <focus-ring class="focus-ring" .control=${this}></focus-ring>
+      <focus-ring class="focus-ring" .control=${this} element="buttonElement"></focus-ring>
       <base-elevation class="elevation"></base-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

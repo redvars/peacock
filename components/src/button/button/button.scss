@@ -85,6 +85,7 @@ slot::slotted(*) {
     Background layers
    */
   .focus-ring {
+    z-index: 2;
     --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
     --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
     --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
