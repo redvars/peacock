@@ -9,7 +9,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
 
     permissions:
       id-token: write  # Required for OIDC
-      contents: read
+      contents: write
       packages: write # Required to write packages
 
     strategy:
@@ -64,8 +64,4 @@ jobs:
           cd ../components
           npm ci
           npm run build
-          npm publish --provenance --access public  # Added access flag for safety
-        env:
-          # When using OIDC, npm looks for this specific environment variable 
-          # to be 'true' to trigger the token exchange.
-          NPM_CONFIG_PROVENANCE: true
+          npm publish --access public  # Added access flag for safety
