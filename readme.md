@@ -1,7 +1,7 @@
 # Peacock
 **The foundation for beautiful user interfaces.**
 
-[![Build](https://github.com/redvars/peacock/workflows/Build/badge.svg)](https://github.com/goatui/components/actions?workflow=Build)
+[![Build](https://github.com/redvars/peacock/workflows/Build/badge.svg)](https://github.com/redvars/peacock/actions?workflow=Build)
 [![GitHub license](https://img.shields.io/github/license/redvars/peacock.svg)](/LICENSE)
 ![Version](https://img.shields.io/npm/v/%40redvars%2Fpeacock)
 
@@ -31,7 +31,7 @@ Vibrant & Consistent Design System: Every component—from buttons and cards to 
 **Responsive by Default:** Components are built with responsiveness baked in, guaranteeing a graceful display across all screen sizes and devices.
 
 ## Documentation
-Visit [https://peacock.redvars.com](https://goatui.com) to view the documentation.
+Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the documentation.
 
 ## Getting Started
 
@@ -48,7 +48,7 @@ Visit [https://peacock.redvars.com](https://goatui.com) to view the documentatio
           src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.2/dist/peacock-loader.js'></script>
 </head>
 
-<p-avatar name="Shivaji Varma"></p-avatar>
+<base-button>Button</base-button>
 ```
 
 # Components
