@@ -11,6 +11,7 @@
     "lit",
     "web components"
   ],
+  "private": false,
   "exports": {
     ".": "./dist/src/index.js",
     "./icon.js": "./dist/src/index.js"

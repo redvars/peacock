@@ -39,7 +39,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: design-tokens/node_modules
-          key: ${{ runner.os }}-design-tokens-node-modules-${{ steps.cache-keys.outputs.hash }}
+          # This is the reliable way to generate a key based on your dependencies
+          key: ${{ runner.os }}-design-tokens-${{ hashFiles('design-tokens/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-design-tokens-node-modules-
 
@@ -48,7 +49,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: components/node_modules
-          key: ${{ runner.os }}-components-node-modules-${{ steps.cache-keys.outputs.hash }}
+          # This is the reliable way to generate a key based on your dependencies
+          key: ${{ runner.os }}-components-${{ hashFiles('components/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-components-node-modules-
 
@@ -62,4 +64,8 @@ jobs:
           cd ../components
           npm ci
           npm run build
-          npm publish
+          npm publish --provenance --access public  # Added access flag for safety
+        env:
+          # When using OIDC, npm looks for this specific environment variable 
+          # to be 'true' to trigger the token exchange.
+          NPM_CONFIG_PROVENANCE: true
