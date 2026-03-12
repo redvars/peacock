@@ -65,7 +65,7 @@ async function run() {
       './dist/custom-elements-jsdocs.json',
       JSON.stringify(components, null, 2),
     );
-    //  await rm('./dist/typedoc.json');
+    await rm('./dist/typedoc.json');
   }
 }
 
