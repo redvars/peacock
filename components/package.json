@@ -11,6 +11,9 @@
     "lit",
     "web components"
   ],
+  "repository": {
+    "url": "https://github.com/redvars/peacock"
+  },
   "private": false,
   "exports": {
     ".": "./dist/src/index.js",

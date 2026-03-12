@@ -9,7 +9,7 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
 
     permissions:
       id-token: write  # Required for OIDC
-      contents: write
+      contents: read
       packages: write # Required to write packages
 
     strategy:
