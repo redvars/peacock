@@ -13,7 +13,7 @@ function releaseToDocs(cb) {
       result.prod.fallbackScript = result.prod.script;
       result.prod.fallbackThemeCss = result.prod.themeCss;
       result.prod.script = `https://cdn.jsdelivr.net/npm/@redvars/peacock@${packageJson.version}/dist/peacock-loader.js`;
-      result.prod.themeCss = `https://cdn.jsdelivr.net/npm/@redvars/peacock@${packageJson.version}/dist/assets/styles/tokens.css`;
+      result.prod.themeCss = `https://cdn.jsdelivr.net/npm/@redvars/peacock@${packageJson.version}/dist/assets/styles.css`;
       result.prod.version = packageJson.version;
       result.dev.version = packageJson.version;
     }

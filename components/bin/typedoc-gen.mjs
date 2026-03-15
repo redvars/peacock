@@ -12,7 +12,9 @@ async function run() {
       '@deprecated',
       '@rawTag',
       '@tag',
+      '@tags',
       '@summary',
+      '@overview',
       '@cssprop',
     ],
   });

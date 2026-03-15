@@ -29,7 +29,9 @@
   "scripts": {
     "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node bin/typedoc-gen.mjs",
     "start": "rollup -c && concurrently -k -r \"rollup -c -w\" \"web-dev-server\"",
-    "build": "rollup -c && npm run analyze -- --exclude dist",
+    "build": "npm run build:lit && npm run build:scss",
+    "build:lit": "rollup -c && npm run analyze -- --exclude dist",
+    "build:scss": "node ./bin/scss-build.mjs",
     "prepublish": "rollup -c  && npm run analyze -- --exclude dist",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
@@ -47,7 +49,8 @@
     "prettier": "^3.8.1",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-postcss-lit": "^2.2.0",
-    "shiki": "^3.22.0"
+    "shiki": "^3.22.0",
+    "sass": "^1.70.0"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",
@@ -83,7 +86,11 @@
     "unplugin-jsdelivr": "^1.0.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.55.2"
+    "@rollup/rollup-linux-x64-gnu": "^4.55.2",
+    "sass-embedded-darwin-arm64": "1.93.2",
+    "sass-embedded-linux-arm64": "1.93.2",
+    "sass-embedded-linux-musl-x64": "1.93.2",
+    "sass-embedded-linux-x64": "1.93.2"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

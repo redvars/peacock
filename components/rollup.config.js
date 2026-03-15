@@ -65,7 +65,7 @@ async function findLitComponents(searchDir = 'src') {
    * 2. Class extensions
    * 3. Custom element decorators
    */
-  const LIT_SIGNATURES = [/extends\s+LitElement/];
+  const LIT_SIGNATURES = [/class\s+\w+\s+extends\s+LitElement/];
 
   try {
     // glob() returns a Promise that resolves to an array of file paths
@@ -79,8 +79,10 @@ async function findLitComponents(searchDir = 'src') {
     for (const file of files) {
       const content = await readFile(file, 'utf8');
 
+      const codeWithoutComments = content?.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+
       // Check if any Lit-specific pattern exists in the file
-      const isLit = LIT_SIGNATURES.some(pattern => pattern.test(content));
+      const isLit = LIT_SIGNATURES.some(pattern => pattern.test(codeWithoutComments));
 
       if (isLit) {
         results.push(file);

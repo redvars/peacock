@@ -42,7 +42,7 @@ import { BaseButton } from '../BaseButton.js';
  * @cssprop --neo-button-container-color: Color of the neo button container.
  * @cssprop --neo-button-label-text-color: Text color of the neo button label.
  *
- * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked.
  *
  * @example
  * ```html

@@ -1,5 +1,4 @@
 // Eager loaded
-import cssComponentsStyleSheet from '../assets/styles/tokens.css';
 
 import { Elevation } from './elevation/elevation.js';
 import { FocusRing } from './focus-ring/focus-ring.js';
@@ -42,8 +41,8 @@ import { EmptyState } from './empty-state/empty-state.js';
 import { Container } from './container/container.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
-import linkStyles from './link/link.css-component.scss';
-import textStylesheet from './text/text.css-component.scss';
+
+/*
 import tooltipStyles from './popover/tooltip.css-component.scss';
 
 function buildSheet(styleSheet: any) {
@@ -54,13 +53,14 @@ function buildSheet(styleSheet: any) {
 }
 
 const styleSheets = [
-  buildSheet(cssComponentsStyleSheet),
-  buildSheet(linkStyles),
-  buildSheet(textStylesheet),
+// buildSheet(cssComponentsStyleSheet),
+// buildSheet(linkStyles),
+// buildSheet(textStylesheet),
   buildSheet(tooltipStyles),
 ];
 
 document.adoptedStyleSheets = styleSheets;
+*/
 
 const loaderConfig: LoaderConfig = {
   components: {
