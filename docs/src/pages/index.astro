@@ -163,7 +163,7 @@ function jumpingSentence(sentence: string) {
             </pc-tab-panel>
 
             <pc-tab-panel>
-              <goat-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
+              <code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('load-single-component-code').value = `<!DOCTYPE html>
                  &lt;html>
@@ -182,8 +182,8 @@ function jumpingSentence(sentence: string) {
                   <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
                    &lt;script type='module'>
-    import {GoatButton} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/components/base-button.js";
-    customElements.define('my-button', GoatButton);
+    import {Button} from "https://cdn.jsdelivr.net/npm/@goatui/components@${envProps.version}/dist/base-button.js";
+    customElements.define('my-button', Button);
  &lt;/script>
 
                       

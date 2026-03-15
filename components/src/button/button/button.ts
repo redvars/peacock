@@ -1,6 +1,7 @@
-import { html, nothing } from 'lit';
+import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import PeacockComponent from 'src/PeacockComponent.js';
 import styles from './button.scss';
 import colorStyles from './button-colors.scss';
 import sizeStyles from './button-sizes.scss';
@@ -50,6 +51,7 @@ import { BaseButton } from '../BaseButton.js';
  * ```
  * @tags display
  */
+@PeacockComponent
 export class Button extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 

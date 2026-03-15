@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import PeacockComponent from 'src/PeacockComponent.js';
 import styles from './button-group.scss';
 
 /**
@@ -20,6 +21,7 @@ import styles from './button-group.scss';
  *
  * @tags controls
  */
+@PeacockComponent
 export class ButtonGroup extends LitElement {
   // Lit prefers CSS-in-JS for better performance and scoping.
   // If you prefer keeping the SCSS file, you'll need a build tool (like Vite or Webpack)
