@@ -41,6 +41,11 @@ import { EmptyState } from './empty-state/empty-state.js';
 import { Container } from './container/container.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
+import { loadCSS } from './CssLoader.js';
+
+
+const distDirectory = `${import.meta.url}/..`;
+await loadCSS(`${distDirectory  }/assets/styles.css`);
 
 /*
 import tooltipStyles from './popover/tooltip.css-component.scss';
@@ -93,7 +98,7 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: Elevation,
     },
     'base-clock': {
-      importPath: './clock.js',
+      importPath: `${distDirectory}/clock.js`,
     },
     'base-ripple': {
       CustomElementClass: Ripple,
@@ -144,10 +149,10 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: Tooltip,
     },
     'number-counter': {
-      importPath: './number-counter.js',
+      importPath: `${distDirectory}/number-counter.js`,
     },
     'code-highlighter': {
-      importPath: './code-highlighter.js',
+      importPath: `${distDirectory}/code-highlighter.js`,
     },
     'base-breadcrumb': {
       CustomElementClass: Breadcrumb,

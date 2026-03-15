@@ -17,7 +17,7 @@ import styles from './avatar.scss';
  *
  * @example
  * ```html
- * <base-avatar name="Shivaji Varma" src="https://peacock.redvars.com/assets/img/avatar.webp" style='--avatar-size: 4rem'></base-avatar>
+ * <base-avatar name="Shivaji Varma" src="https://peacock.redvars.com/assets/img/avatar.xs.webp" style='--avatar-size: 4rem'></base-avatar>
  * ```
  *
  * @tags display

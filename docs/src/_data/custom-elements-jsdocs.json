@@ -613,7 +613,7 @@
       "@fires": [
         {
           "kind": "text",
-          "text": "button:click - Dispatched when the button is clicked."
+          "text": "click - Dispatched when the button is clicked."
         }
       ],
       "@example": [
@@ -1059,10 +1059,10 @@
       "events": [
         {
           "type": {
-            "text": "CustomEvent"
+            "text": "MouseEvent"
           },
           "description": "Dispatched when the button is clicked.",
-          "name": "button:click"
+          "name": "click"
         }
       ],
       "attributes": [
