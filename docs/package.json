@@ -3,8 +3,8 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm run copy_peacock_files & astro dev",
-    "build": "npm run copy_peacock_files & astro build --logLevel error",
+    "start": "astro dev",
+    "build": "astro build --logLevel error",
     "build:fetch-components": "",
     "preview": "astro preview",
     "astro": "astro",
