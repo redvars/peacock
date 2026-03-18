@@ -9,10 +9,12 @@ import ColorsSection from './_sections/Colors.astro';
 import EventsSection from './_sections/Events.astro';
 import IconSection from './_sections/Icon.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
 import LitApiPanel from '../../../components/LitApiPanel.astro';
 
 const componentDetails = getComponentDetails('button');
+
+const title = getTextTag(componentDetails, '@label');
 
 const sections = [
   {
@@ -45,7 +47,7 @@ const sections = [
       <pc-tab>API</pc-tab>
     </pc-tabs-list>
     <pc-tab-panel>
-      <OverviewPanel  sections={sections} />
+      <OverviewPanel  sections={sections} title={title} />
     </pc-tab-panel>
     <pc-tab-panel>
       <LitApiPanel componentDetails={componentDetails} />

@@ -64,7 +64,7 @@ slot::slotted(*) {
     justify-content: center;
     gap: var(--_button-icon-label-spacing);
     width: 100%;
-    z-index: 1;
+    z-index: 0;
 
     color: var(--_label-text-color);
     opacity: var(--_label-text-opacity, 1);

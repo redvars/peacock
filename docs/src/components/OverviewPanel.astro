@@ -4,7 +4,7 @@ interface Props {
   sections: any;
 }
 
-const { sections } = Astro.props;
+const { sections, title } = Astro.props;
 ---
 <div class='component-overview-tab'>
   <div class='component-content'>
@@ -19,5 +19,5 @@ const { sections } = Astro.props;
         </div>))
     }
   </div>
-  <ComponentSectionNav sections={sections} />
+  <ComponentSectionNav sections={sections} title={title} />
 </div>

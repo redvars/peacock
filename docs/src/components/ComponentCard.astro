@@ -14,7 +14,7 @@ const {component} = Astro.props;
       {
         component.metadata.example
           ? <Fragment set:html={component.metadata.example} />
-          : <goat-image src={component.metadata.img} dark-src={component.metadata.imgDark}/>
+          : <base-image src={component.metadata.img} dark-src={component.metadata.imgDark}/>
       }
     </pc-card-content>
 

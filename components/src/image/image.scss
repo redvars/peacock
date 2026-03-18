@@ -1,49 +1,56 @@
 :host {
-      display: inline-block;
-    }
+  display: block;
+  height: 100%;
+  width: 100%;
+}
 
-    .image-wrapper {
-      position: relative;
-      display: inline-block;
-    }
+.image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
 
-    img {
-      display: block;
-      max-width: 100%;
-    }
+img {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+}
 
-    img.clickable {
-      cursor: zoom-in;
-    }
 
-    .placeholder {
-      background: #e0e0e0;
-      min-width: 100px;
-      min-height: 100px;
-      display: block;
-    }
+img.clickable {
+  cursor: zoom-in;
+}
 
-    /* Preview overlay — rendered in light DOM via portal, but we keep
-       a host-level overlay as a fallback when shadow DOM is used.       */
-    .preview-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: rgba(0, 0, 0, 0.85);
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-    }
+.placeholder {
+  background: #e0e0e0;
+  min-width: 100px;
+  min-height: 100px;
+  display: block;
+}
 
-    .preview-overlay.open {
-      display: flex;
-    }
+/* Preview overlay — rendered in light DOM via portal, but we keep
+    a host-level overlay as a fallback when shadow DOM is used.       */
+.preview-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
 
-    .preview-overlay img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-      border-radius: 4px;
-    }
+.preview-overlay.open {
+  display: flex;
+}
+
+.preview-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+}

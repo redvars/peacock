@@ -212,11 +212,6 @@ export namespace Components {
          */
         "value": string;
     }
-    interface GoatImage {
-        "darkSrc": string;
-        "imageTitle": string;
-        "src": string;
-    }
     /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
@@ -1868,12 +1863,6 @@ declare global {
         prototype: HTMLGoatHtmlEditorElement;
         new (): HTMLGoatHtmlEditorElement;
     };
-    interface HTMLGoatImageElement extends Components.GoatImage, HTMLStencilElement {
-    }
-    var HTMLGoatImageElement: {
-        prototype: HTMLGoatImageElement;
-        new (): HTMLGoatImageElement;
-    };
     /**
      * @name1 Side Navigation
      * @description1 The side navigation component provides an easy way to navigate through your website / application.
@@ -2605,7 +2594,6 @@ declare global {
         "goat-header-action": HTMLGoatHeaderActionElement;
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
-        "goat-image": HTMLGoatImageElement;
         "goat-sidenav": HTMLGoatSidenavElement;
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
@@ -2849,11 +2837,6 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string;
-    }
-    interface GoatImage {
-        "darkSrc"?: string;
-        "imageTitle"?: string;
-        "src"?: string;
     }
     /**
      * @name1 Side Navigation
@@ -4357,7 +4340,6 @@ declare namespace LocalJSX {
         "goat-header-action": GoatHeaderAction;
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
-        "goat-image": GoatImage;
         "goat-sidenav": GoatSidenav;
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
@@ -4439,7 +4421,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/html-editor-dark.webp
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
-            "goat-image": LocalJSX.GoatImage & JSXBase.HTMLAttributes<HTMLGoatImageElement>;
             /**
              * @name1 Side Navigation
              * @description1 The side navigation component provides an easy way to navigate through your website / application.

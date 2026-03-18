@@ -3,11 +3,14 @@ interface Props {
   sections: any;
 }
 
-const { sections } = Astro.props;
+const { sections, title } = Astro.props;
 ---
 
 <div class="section-nav">
   <div class="section-nav-content">
+
+    <p class="text-body-large">On this page</p>
+    <h2 class="text-headline">{title}</h2>
     <menu-list id="overview-navigation" variant="vibrant">
       {
         sections.map((section: any) => {

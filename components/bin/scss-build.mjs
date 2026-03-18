@@ -8,6 +8,7 @@ const outputFolder = 'dist/assets';
 const sourceFiles = [
   'scss/styles.scss',
   'scss/components.scss',
+  'scss/tokens.scss',
 ];
 
 await Promise.all(sourceFiles.map(async (src) => {
