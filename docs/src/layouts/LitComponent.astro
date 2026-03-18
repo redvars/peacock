@@ -4,6 +4,8 @@ interface Props {
   componentDetails: any;
 }
 
+import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
+
 const {componentDetails} = Astro.props;
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
@@ -11,6 +13,7 @@ import { getCategoriesTree, getComponentDetails } from '../_data/getComponentDet
 import Footer from '../components/Footer.astro';
 
 const title = getTextTag(componentDetails, '@label');
+const rawTag = getTextTag(componentDetails, '@rawTag');
 const description = getTextTag(componentDetails, '@summary');
 ---
 
@@ -20,49 +23,25 @@ const description = getTextTag(componentDetails, '@summary');
 
     <div class='sidenav-components'>
 
-      <pc-tree-view layer='01' value={title} selected-node={title}>
+      <pc-tree-view layer='01' selected-node={rawTag}>
         <pc-tree-node  label="Overview" href='/components'></pc-tree-node>
 
         {
-          getCategoriesTree().map((category) => {
-            if (!category.hide) {
-              return <pc-tree-node label={category.name}  value={category.name + 'group'}>
-                {
-
-                  category.children.map((componentName: any) => {
-                    if (typeof componentName === 'string') {
-                      const component = getComponentDetails(componentName);
-                      if (component?.metadata.name) {
-                        return <pc-tree-node label={component?.metadata.label} value={component?.metadata.name}
-                                               href={`/components/${component?.metadata.name}/`}></pc-tree-node>
-                      }
-                    } else if (componentName.children) {
-                      return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
-                        {
-                          componentName.children.map((componentName: any) => {
-                            const component = getComponentDetails(componentName);
-                            if (component?.metadata.name) {
-                              return <pc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
-                                                     href={`/components/${component?.metadata.name}/`}></pc-tree-node>
-                            }
-                          })
-                        }
-                      </pc-tree-node>
-                    }
-                  })
-                }
-              </pc-tree-node>
-            }
-          })
+            customElementsJSDocs.map((component) => {
+              if (component.rawTag == 'breadcrumb-item' || component.rawTag == 'focus-ring'  || component.rawTag == 'skeleton') {
+                return;
+              }
+              return <pc-tree-node label={component?.label} value={component?.rawTag}
+                                               href={`/components/${component?.rawTag}/`}></pc-tree-node>
+            })
         }
-
       </pc-tree-view>
 
     </div>
 
   </div>
   <div class='main-content'>
-    <pc-container class='page-wrapper'>
+    <base-container class='page-wrapper'>
 
       <div class='comp-header'>
         <h1 class='heading-scrollable text-display'>{title}</h1>
@@ -78,7 +57,7 @@ const description = getTextTag(componentDetails, '@summary');
 
       <slot/>
 
-    </pc-container>
+    </base-container>
 
     <div class='footer container'>
       <pc-divider></pc-divider>

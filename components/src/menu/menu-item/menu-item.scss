@@ -13,6 +13,7 @@
   align-items: center;
   padding-inline: 0.75rem;
   outline: 0;
+  text-decoration: none;
 
   @include mixin.get-typography(label-large);
 
@@ -93,10 +94,10 @@
   &.selected {
     --_container-color: var(--menu-item-container-selected-color);
     --_label-text-color: var(--menu-item-label-selected-color);
-    --_container-shape-start-start: var(--menu-item-container-shape-start-start, var(--shape-corner-large));
-    --_container-shape-start-end: var(--menu-item-container-shape-start-end, var(--shape-corner-large));
-    --_container-shape-end-start: var(--menu-item-container-shape-end-start, var(--shape-corner-large));
-    --_container-shape-end-end: var(--menu-item-container-shape-end-end, var(--shape-corner-large));
+    --_container-shape-start-start: var(--shape-corner-large);
+    --_container-shape-start-end: var(--shape-corner-large);
+    --_container-shape-end-start: var(--shape-corner-large);
+    --_container-shape-end-end: var(--shape-corner-large);
     --_container-corner-shape-variant: none;
   }
 

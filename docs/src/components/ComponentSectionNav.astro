@@ -8,28 +8,48 @@ const { sections } = Astro.props;
 
 <div class="section-nav">
   <div class="section-nav-content">
-    <pc-tree-view id="overview-navigation" layer="01">
+    <menu-list id="overview-navigation" variant="vibrant">
       {
         sections.map((section: any) => {
           const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
-          return <pc-tree-node layer="01" label={section.title} value={`section-${sectionValue}`} href={`#section-${sectionValue}`} />
+          return <menu-item href={`#section-${sectionValue}`} value={sectionValue}>{section.title}</menu-item>
         })
       }
-    </pc-tree-view>
+    </menu-list>
 
     <script>
       const overviewNavigation = document.getElementById('overview-navigation');
 
-      const nodes = overviewNavigation?.querySelectorAll('pc-tree-node');
+      const nodes = overviewNavigation?.querySelectorAll('menu-item');
       if (nodes?.length) {
         //@ts-ignore
-        let selectedNode = location.hash?.replace("#", "");
+        let selectedValue = location.hash?.replace("#section-", "");
 
-        //@ts-ignore
-        if (!selectedNode) selectedNode = nodes[0].value;
+        setTimeout(function() {
+          selectNode(selectedValue)
+        });
 
-        //@ts-ignore
-        overviewNavigation.selectedNode = selectedNode;
+        nodes.forEach(function(node) {
+            node.addEventListener('click', function() {
+              nodes.forEach(function(node) {
+              node.selected = false;
+            });
+              this.selected = true;
+            })
+          });
+        
+      }
+
+      function selectNode(selectedValue) {
+          const overviewNavigation = document.getElementById('overview-navigation');
+          const nodes = overviewNavigation?.querySelectorAll('menu-item');
+
+          if (selectedValue)
+            nodes.forEach(function(node) {
+              node.selected = node.value == selectedValue;
+            });
+          else
+            nodes[0].selected = true;
       }
     </script>
 
