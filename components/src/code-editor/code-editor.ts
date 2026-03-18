@@ -29,6 +29,26 @@ import styles from './code-editor.scss';
   }
 };
 
+/**
+ * @label Code Editor
+ * @tag code-editor
+ * @rawTag code-editor
+ *
+ * @summary Code editor 
+ * @overview
+ *  - CodeHighlighter is a component that provides syntax highlighting for code snippets.
+ *  - It supports various programming languages and can display line numbers for better readability.
+ *
+ * @example
+ * ```html
+ * <code-highlighter language="javascript" style="height: 9rem"><pre><code>
+ *   function helloWorld() {
+ *     console.log('Hello, world!');
+ *   }</code></pre>
+ * </code-highlighter>
+ * ```
+ * @tags display
+ */
 @PeacockComponent
 export default class CodeEditor extends BaseInput {
 

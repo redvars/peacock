@@ -581,73 +581,6 @@ export namespace Components {
         "width": number;
     }
     /**
-     * @label Code Editor
-     * @name code-editor
-     * @description A browser based code editor.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/code-editor.webp
-     * @imgDark /assets/img/code-editor-dark.webp
-     */
-    interface PcCodeEditor {
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
-          * @default 250
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        /**
-          * @default 'javascript'
-         */
-        "language": 'javascript' | 'json' | 'html';
-        "libSource": any;
-        /**
-          * @default 'on'
-         */
-        "lineNumbers": 'off' | 'on';
-        /**
-          * @default false
-         */
-        "minimap": boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field value.
-         */
-        "value": string;
-    }
-    interface PcContainer {
-        /**
-          * @default 'full'
-         */
-        "size": 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -1780,10 +1713,6 @@ export interface PcCalendarMonthViewCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcCalendarMonthViewElement;
 }
-export interface PcCodeEditorCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcCodeEditorElement;
-}
 export interface PcDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcDropdownElement;
@@ -2143,38 +2072,6 @@ declare global {
     var HTMLPcChartPieElement: {
         prototype: HTMLPcChartPieElement;
         new (): HTMLPcChartPieElement;
-    };
-    interface HTMLPcCodeEditorElementEventMap {
-        "pc-code-editor--change": any;
-    }
-    /**
-     * @label Code Editor
-     * @name code-editor
-     * @description A browser based code editor.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/code-editor.webp
-     * @imgDark /assets/img/code-editor-dark.webp
-     */
-    interface HTMLPcCodeEditorElement extends Components.PcCodeEditor, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcCodeEditorElementEventMap>(type: K, listener: (this: HTMLPcCodeEditorElement, ev: PcCodeEditorCustomEvent<HTMLPcCodeEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcCodeEditorElementEventMap>(type: K, listener: (this: HTMLPcCodeEditorElement, ev: PcCodeEditorCustomEvent<HTMLPcCodeEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcCodeEditorElement: {
-        prototype: HTMLPcCodeEditorElement;
-        new (): HTMLPcCodeEditorElement;
-    };
-    interface HTMLPcContainerElement extends Components.PcContainer, HTMLStencilElement {
-    }
-    var HTMLPcContainerElement: {
-        prototype: HTMLPcContainerElement;
-        new (): HTMLPcContainerElement;
     };
     interface HTMLPcDropdownElementEventMap {
         "pc-dropdown--item-click": any;
@@ -2723,8 +2620,6 @@ declare global {
         "pc-card": HTMLPcCardElement;
         "pc-chart-doughnut": HTMLPcChartDoughnutElement;
         "pc-chart-pie": HTMLPcChartPieElement;
-        "pc-code-editor": HTMLPcCodeEditorElement;
-        "pc-container": HTMLPcContainerElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
         "pc-empty-state": HTMLPcEmptyStateElement;
@@ -3316,68 +3211,6 @@ declare namespace LocalJSX {
           * @default 0
          */
         "width"?: number;
-    }
-    /**
-     * @label Code Editor
-     * @name code-editor
-     * @description A browser based code editor.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/code-editor.webp
-     * @imgDark /assets/img/code-editor-dark.webp
-     */
-    interface PcCodeEditor {
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.
-          * @default 250
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * @default 'javascript'
-         */
-        "language"?: 'javascript' | 'json' | 'html';
-        "libSource"?: any;
-        /**
-          * @default 'on'
-         */
-        "lineNumbers"?: 'off' | 'on';
-        /**
-          * @default false
-         */
-        "minimap"?: boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onPc-code-editor--change"?: (event: PcCodeEditorCustomEvent<any>) => void;
-        /**
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * The input field value.
-         */
-        "value"?: string;
-    }
-    interface PcContainer {
-        /**
-          * @default 'full'
-         */
-        "size"?: 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
     }
     /**
      * @label Dropdown
@@ -4539,8 +4372,6 @@ declare namespace LocalJSX {
         "pc-card": PcCard;
         "pc-chart-doughnut": PcChartDoughnut;
         "pc-chart-pie": PcChartPie;
-        "pc-code-editor": PcCodeEditor;
-        "pc-container": PcContainer;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
         "pc-empty-state": PcEmptyState;
@@ -4679,17 +4510,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/chart-pie-dark.webp
              */
             "pc-chart-pie": LocalJSX.PcChartPie & JSXBase.HTMLAttributes<HTMLPcChartPieElement>;
-            /**
-             * @label Code Editor
-             * @name code-editor
-             * @description A browser based code editor.
-             * @category Form Inputs
-             * @tags input, form
-             * @img /assets/img/code-editor.webp
-             * @imgDark /assets/img/code-editor-dark.webp
-             */
-            "pc-code-editor": LocalJSX.PcCodeEditor & JSXBase.HTMLAttributes<HTMLPcCodeEditorElement>;
-            "pc-container": LocalJSX.PcContainer & JSXBase.HTMLAttributes<HTMLPcContainerElement>;
             /**
              * @label Dropdown
              * @name dropdown

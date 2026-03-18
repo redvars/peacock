@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-15T06:13:49",
+  "timestamp": "2026-03-18T07:11:05",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -1156,14 +1156,12 @@
       "dependents": [],
       "dependencies": [
         "pc-button",
-        "pc-code-editor",
         "pc-menu",
         "pc-menu-item"
       ],
       "dependencyGraph": {
         "goat-html-editor": [
           "pc-button",
-          "pc-code-editor",
           "pc-menu",
           "pc-menu-item"
         ]
@@ -3147,7 +3145,58 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-theme-button-border-radius",
+          "annotation": "prop",
+          "docs": "Theme level button border radius. (applies to all buttons)"
+        },
+        {
+          "name": "--goat-theme-button-border-style",
+          "annotation": "prop",
+          "docs": "Theme level button border style. (applies to all buttons)"
+        },
+        {
+          "name": "--pc-button-border-radius",
+          "annotation": "prop",
+          "docs": "IconButton border radius."
+        },
+        {
+          "name": "--pc-button-border-style",
+          "annotation": "prop",
+          "docs": "IconButton border style."
+        },
+        {
+          "name": "--pc-button-color",
+          "annotation": "prop",
+          "docs": "IconButton filling color."
+        },
+        {
+          "name": "--pc-button-color-active",
+          "annotation": "prop",
+          "docs": "IconButton filling color on active."
+        },
+        {
+          "name": "--pc-button-color-hover",
+          "annotation": "prop",
+          "docs": "IconButton filling color on hover."
+        },
+        {
+          "name": "--pc-button-color-light",
+          "annotation": "prop",
+          "docs": "IconButton filling color for light variant."
+        },
+        {
+          "name": "--pc-button-padding",
+          "annotation": "prop",
+          "docs": "IconButton padding."
+        },
+        {
+          "name": "--pc-button-support-contrast-color",
+          "annotation": "prop",
+          "docs": "IconButton support color (text or border). Should be white or black based on weight of button filling color."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -4556,497 +4605,6 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/code-editor",
-      "filePath": "src/components/input-controls/code-editor/code-editor.tsx",
-      "fileName": "code-editor.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/code-editor/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/code-editor/usage",
-      "tag": "pc-code-editor",
-      "readme": "# pc-code-editor\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [
-        "goat-html-editor"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "goat-html-editor": [
-          "pc-code-editor"
-        ]
-      },
-      "props": [
-        {
-          "name": "debounce",
-          "type": "number",
-          "complexType": {
-            "original": "number",
-            "resolved": "number",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "debounce",
-          "reflectToAttr": false,
-          "docs": "Set the amount of time, in milliseconds, to wait to trigger the `onChange` event after each keystroke.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "250"
-            }
-          ],
-          "default": "250",
-          "values": [
-            {
-              "type": "number"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "disabled",
-          "reflectToAttr": true,
-          "docs": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "language",
-          "type": "\"html\" | \"javascript\" | \"json\"",
-          "complexType": {
-            "original": "'javascript' | 'json' | 'html'",
-            "resolved": "\"html\" | \"javascript\" | \"json\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "language",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'javascript'"
-            }
-          ],
-          "default": "'javascript'",
-          "values": [
-            {
-              "value": "html",
-              "type": "string"
-            },
-            {
-              "value": "javascript",
-              "type": "string"
-            },
-            {
-              "value": "json",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "libSource",
-          "type": "any",
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "lib-source",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "any"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "lineNumbers",
-          "type": "\"off\" | \"on\"",
-          "complexType": {
-            "original": "'off' | 'on'",
-            "resolved": "\"off\" | \"on\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "line-numbers",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'on'"
-            }
-          ],
-          "default": "'on'",
-          "values": [
-            {
-              "value": "off",
-              "type": "string"
-            },
-            {
-              "value": "on",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "minimap",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "minimap",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "name",
-          "reflectToAttr": false,
-          "docs": "The input field name.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "`pc-input-${this.gid}`"
-            }
-          ],
-          "default": "`pc-input-${this.gid}`",
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "readonly",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "readonly",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "required",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "required",
-          "reflectToAttr": true,
-          "docs": "If true, required icon is show. Defaults to `false`.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": true,
-          "attr": "value",
-          "reflectToAttr": false,
-          "docs": "The input field value.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [
-        {
-          "name": "getComponentId",
-          "returns": {
-            "type": "Promise<string>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<string>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<string>"
-          },
-          "signature": "getComponentId() => Promise<string>",
-          "parameters": [],
-          "docs": "",
-          "docsTags": []
-        },
-        {
-          "name": "setBlur",
-          "returns": {
-            "type": "Promise<void>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<void>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<void>"
-          },
-          "signature": "setBlur() => Promise<void>",
-          "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
-          "docsTags": []
-        },
-        {
-          "name": "setFocus",
-          "returns": {
-            "type": "Promise<void>",
-            "docs": ""
-          },
-          "complexType": {
-            "signature": "() => Promise<void>",
-            "parameters": [],
-            "references": {
-              "Promise": {
-                "location": "global",
-                "id": "global::Promise"
-              }
-            },
-            "return": "Promise<void>"
-          },
-          "signature": "setFocus() => Promise<void>",
-          "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
-          "docsTags": []
-        }
-      ],
-      "events": [
-        {
-          "event": "pc-code-editor--change",
-          "detail": "any",
-          "bubbles": true,
-          "complexType": {
-            "original": "any",
-            "resolved": "any",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "Emitted when the value has changed.",
-          "docsTags": []
-        }
-      ],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {
-        "label": "Code Editor",
-        "name": "code-editor",
-        "description": "A browser based code editor.",
-        "category": "Form Inputs",
-        "tags": [
-          "input",
-          " form"
-        ],
-        "img": "/assets/img/code-editor.webp",
-        "imgDark": "/assets/img/code-editor-dark.webp"
-      }
-    },
-    {
-      "dirPath": "/workspaces/peacock/src/components/container",
-      "filePath": "src/components/container/container.tsx",
-      "fileName": "container.tsx",
-      "readmePath": "/workspaces/peacock/src/components/container/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/container/usage",
-      "tag": "pc-container",
-      "readme": "# goat-heading\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "size",
-          "type": "\"full\" | \"lg\" | \"max\" | \"md\" | \"sm\" | \"xl\"",
-          "complexType": {
-            "original": "'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full'",
-            "resolved": "\"full\" | \"lg\" | \"max\" | \"md\" | \"sm\" | \"xl\"",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "size",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "'full'"
-            }
-          ],
-          "default": "'full'",
-          "values": [
-            {
-              "value": "full",
-              "type": "string"
-            },
-            {
-              "value": "lg",
-              "type": "string"
-            },
-            {
-              "value": "max",
-              "type": "string"
-            },
-            {
-              "value": "md",
-              "type": "string"
-            },
-            {
-              "value": "sm",
-              "type": "string"
-            },
-            {
-              "value": "xl",
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {}
-    },
-    {
       "dirPath": "/workspaces/peacock/src/components/dropdown/dropdown",
       "filePath": "src/components/dropdown/dropdown/dropdown.tsx",
       "fileName": "dropdown.tsx",
@@ -5359,7 +4917,13 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-dropdown-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -6123,7 +5687,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-header-height",
+          "annotation": "prop",
+          "docs": "Height of the header. Defaults to 3rem."
+        },
+        {
+          "name": "--goat-header-width",
+          "annotation": "prop",
+          "docs": "Width of the header. Defaults to 100%."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -7535,7 +7110,23 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--menu-background",
+          "annotation": "prop",
+          "docs": "Background color of the menu"
+        },
+        {
+          "name": "--menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        },
+        {
+          "name": "--menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -8999,7 +8590,28 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of popover content"
+        },
+        {
+          "name": "--popover-content-background",
+          "annotation": "prop",
+          "docs": "Background color of the popover content"
+        },
+        {
+          "name": "--popover-content-border-radius",
+          "annotation": "prop",
+          "docs": "Border radius of the popover content"
+        },
+        {
+          "name": "--popover-padding",
+          "annotation": "prop",
+          "docs": "Padding of the popover content"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],

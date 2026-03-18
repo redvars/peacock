@@ -1,11 +1,19 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro'
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 ---
-<goat-card>
-  <pc-card-content>
-    <goat-checkbox id='disableEditor'>Disable editor</goat-checkbox>
 
-    <pc-code-editor id='business-rule-editor' style='display:block; height: 300px'></pc-code-editor>
+<style is:inline>
+  #business-rule-editor {
+    width: 90%;
+  }
+</style>
+
+<base-checkbox id='disableEditor'>Disable editor</base-checkbox>
+
+<DemoComponentCard lang={'html'}>
+
+  
+    <code-editor id='business-rule-editor' style='display:block; height: 300px'></code-editor>
     <script is:inline>
       document.getElementById('business-rule-editor').value = `/**
 * Sample Code
@@ -17,26 +25,9 @@ function myBusinessRuleFunction(){
   console.log(c);
 }`;
 
-      document.querySelector('#disableEditor').addEventListener('goat-checkbox--change', function(evt) {
+      document.querySelector('#disableEditor').addEventListener('change', function(evt) {
         document.getElementById('business-rule-editor').disabled = evt.target.value;
       });
     </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-      <pc-code-editor id='business-rule-editor' style='height: 300px'></pc-code-editor>
-    </Highlighter>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw> document.getElementById('business-rule-editor').value = `/**
-      * Sample Code
-      */
-      function myBusinessRuleFunction(){
-        const a = 1;
-        const b = 2;
-        let c = a + b;
-        console.log(c);
-      }`;
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+  
+</DemoComponentCard>

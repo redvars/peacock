@@ -154,7 +154,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.webp\" style='--avatar-size: 4rem'></base-avatar>\n```"
+          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></base-avatar>\n```"
         }
       ],
       "@tags": [
@@ -1827,6 +1827,344 @@
       "summary": "Displays the current time in a given timezone.",
       "rawTag": {
         "name": "clock",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "code-editor",
+    "label": "Code Editor",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Code Editor"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "code-editor"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "code-editor"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Code editor"
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CodeEditor",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"\"",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "any | undefined"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "language",
+          "type": {
+            "text": "'javascript' | 'json' | 'html'"
+          },
+          "default": "'javascript'",
+          "attribute": "language"
+        },
+        {
+          "kind": "field",
+          "name": "libSource",
+          "type": {
+            "text": "any"
+          },
+          "attribute": "libSource"
+        },
+        {
+          "kind": "field",
+          "name": "lineNumbers",
+          "type": {
+            "text": "'off' | 'on'"
+          },
+          "default": "'on'",
+          "attribute": "lineNumbers"
+        },
+        {
+          "kind": "field",
+          "name": "minimap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "minimap"
+        },
+        {
+          "kind": "field",
+          "name": "_isDarkMode",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "editorMonacoInstance",
+          "type": {
+            "text": "any | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "editorElement",
+          "type": {
+            "text": "HTMLElement"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "monaco",
+          "type": {
+            "text": "any"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "libSourceChanged",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "getTheme",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "initializeMonaco"
+        },
+        {
+          "kind": "method",
+          "name": "setFocus"
+        },
+        {
+          "kind": "method",
+          "name": "setBlur"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "\"\"",
+          "fieldName": "name"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value"
+        },
+        {
+          "name": "language",
+          "type": {
+            "text": "'javascript' | 'json' | 'html'"
+          },
+          "default": "'javascript'",
+          "fieldName": "language"
+        },
+        {
+          "name": "libSource",
+          "type": {
+            "text": "any"
+          },
+          "fieldName": "libSource"
+        },
+        {
+          "name": "lineNumbers",
+          "type": {
+            "text": "'off' | 'on'"
+          },
+          "default": "'on'",
+          "fieldName": "lineNumbers"
+        },
+        {
+          "name": "minimap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "minimap"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "code-editor",
+      "customElement": true,
+      "summary": "Code editor",
+      "rawTag": {
+        "name": "code-editor",
         "description": ""
       }
     }
@@ -3848,6 +4186,229 @@
       "summary": "Icon buttons allow users to take actions, and make choices, with a single tap.",
       "rawTag": {
         "name": "icon-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "image",
+    "label": "Image",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Image"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "base-image"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "image"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Image"
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Image",
+      "members": [
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Primary image source",
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "darkSrc",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional dark-mode image source",
+          "attribute": "dark-src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "imageTitle",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Alt text / title for the image",
+          "attribute": "image-title"
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox",
+          "attribute": "preview",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_isDarkMode",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_loaded",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_previewOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_intersectionObserver",
+          "type": {
+            "text": "IntersectionObserver | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_themeCleanup",
+          "type": {
+            "text": "(() => void) | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "method",
+          "name": "_setupIntersectionObserver",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_activeSrc",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "_handleClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_closePreview",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Primary image source",
+          "fieldName": "src"
+        },
+        {
+          "name": "dark-src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional dark-mode image source",
+          "fieldName": "darkSrc"
+        },
+        {
+          "name": "image-title",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Alt text / title for the image",
+          "fieldName": "imageTitle"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox",
+          "fieldName": "preview"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "base-image",
+      "customElement": true,
+      "summary": "Image",
+      "rawTag": {
+        "name": "image",
         "description": ""
       }
     }

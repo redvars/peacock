@@ -32,3 +32,4 @@ export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 
 export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
+export { Image } from './image/index.js';

@@ -22,6 +22,7 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
+    color: var(--color-on-surface);
     justify-content: flex-start;
     gap: 0.5rem;
     @include mixin.get-typography(title-medium);
@@ -57,7 +58,6 @@
 
   &.disabled .accordion-heading {
     cursor: not-allowed;
-    color: var(--color-on-surface);
     opacity: 0.38;
   }
 

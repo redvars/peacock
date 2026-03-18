@@ -1,0 +1,49 @@
+:host {
+      display: inline-block;
+    }
+
+    .image-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    img.clickable {
+      cursor: zoom-in;
+    }
+
+    .placeholder {
+      background: #e0e0e0;
+      min-width: 100px;
+      min-height: 100px;
+      display: block;
+    }
+
+    /* Preview overlay — rendered in light DOM via portal, but we keep
+       a host-level overlay as a fallback when shadow DOM is used.       */
+    .preview-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.85);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .preview-overlay.open {
+      display: flex;
+    }
+
+    .preview-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+    }
