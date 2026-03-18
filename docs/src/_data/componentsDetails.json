@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-18T10:04:12",
+  "timestamp": "2026-03-18T14:01:33",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -1722,100 +1722,6 @@
         "img": "/assets/img/html-editor.webp",
         "imgDark": "/assets/img/html-editor-dark.webp"
       }
-    },
-    {
-      "dirPath": "/workspaces/peacock/src/components/image",
-      "filePath": "src/components/image/image.tsx",
-      "fileName": "image.tsx",
-      "readmePath": "/workspaces/peacock/src/components/image/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/image/usage",
-      "tag": "goat-image",
-      "readme": "# p-icon\n\n\n",
-      "overview": "",
-      "usage": {},
-      "docs": "",
-      "encapsulation": "shadow",
-      "dependents": [],
-      "dependencies": [],
-      "dependencyGraph": {},
-      "props": [
-        {
-          "name": "darkSrc",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "dark-src",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "imageTitle",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "image-title",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "src",
-          "type": "string",
-          "complexType": {
-            "original": "string",
-            "resolved": "string",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "src",
-          "reflectToAttr": true,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "string"
-            }
-          ],
-          "optional": false,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
-      "methods": [],
-      "events": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "listeners": [],
-      "metadata": {}
     },
     {
       "dirPath": "/workspaces/peacock/src/components/application/sidenav",
