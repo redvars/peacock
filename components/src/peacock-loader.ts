@@ -151,6 +151,9 @@ const loaderConfig: LoaderConfig = {
     'number-counter': {
       importPath: `${distDirectory}/number-counter.js`,
     },
+    'code-editor': {
+      importPath: `${distDirectory}/code-editor.js`,
+    },
     'code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },

@@ -1,7 +1,9 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import styles from './clock.scss';
+import PeacockComponent from 'src/PeacockComponent.js';
 import { ClockController } from './ClockController.js';
+
+import styles from './clock.scss';
 
 /**
  * @label Clock
@@ -19,6 +21,7 @@ import { ClockController } from './ClockController.js';
  * ```
  * @tags display
  */
+@PeacockComponent
 export class Clock extends LitElement {
   static styles = [styles];
 

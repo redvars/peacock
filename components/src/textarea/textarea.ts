@@ -1,9 +1,9 @@
 import { html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
+import { redispatchEvent } from 'src/utils/dispatch-event-utils.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './textarea.scss';
 import { spread } from '../spread.js';
-import { redispatchEvent } from '../utils.js';
 
 /**
  * @label Textarea

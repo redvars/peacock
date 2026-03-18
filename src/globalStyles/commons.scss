@@ -5,31 +5,6 @@
   box-sizing: border-box;
 }
 
-::selection {
-  color: var(--color-white);
-  background: var(--color-primary);
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: var(--scrollbar-width);
-  height: var(--scrollbar-width);
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: var(--color-neutral-96);
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--color-neutral-40);
-
-  :hover {
-    background: var(--color-neutral-20);
-  }
-}
-
 :host([hidden]) {
   display: none;
 }

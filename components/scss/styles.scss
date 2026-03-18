@@ -2,3 +2,59 @@
 @use '../src/text/text.css-component.scss';
 @use '../src/link/link.css-component.scss';
 @use '../src/popover/tooltip.css-component.scss';
+
+.surface, .surface-container-high, .surface-container-highest, .surface-container, .surface-container-low, .surface-container-lowest, .surface-dim {
+  color: var(--color-on-surface);
+  --icon-color: var(--color-on-surface);
+}
+
+.surface {
+  background: var(--color-surface);
+}
+
+.surface-container-high {
+  background: var(--color-surface-container-high);
+}
+
+.surface-container-highest {
+  background: var(--color-surface-container-highest);
+}
+
+.surface-container {
+  background: var(--color-surface-container);
+}
+
+.surface-container-low {
+  background: var(--color-surface-container-low);
+}
+
+.surface-container-lowest {
+  background: var(--color-surface-container-lowest);
+}
+
+.surface-dim {
+  background: var(--color-surface-dim);
+}
+
+.surface-variant {
+  background: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  --icon-color: var(--color-on-surface-variant);
+}
+
+::selection {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+/* width */
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: var(--scrollbar-width);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: calc(var(--scrollbar-width) / 2);
+}

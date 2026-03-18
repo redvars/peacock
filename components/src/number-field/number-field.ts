@@ -1,10 +1,10 @@
 import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { redispatchEvent } from 'src/utils/dispatch-event-utils.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './number-field.scss';
 import { spread } from '../spread.js';
-import { redispatchEvent } from '../utils.js';
 
 /**
  * @label Number Field

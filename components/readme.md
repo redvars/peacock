@@ -44,9 +44,9 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.7/dist/assets/styles.css"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.8/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.7/dist/peacock-loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.2.8/dist/peacock-loader.js'></script>
 </head>
 
 <base-button>Button</base-button>

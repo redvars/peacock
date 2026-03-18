@@ -17,5 +17,9 @@
       "$type": "number",
       "$value": 10
     }
+  },
+  "scrollbar-width": {
+    "$type": "dimension",
+    "$value": "8px"
   }
 }

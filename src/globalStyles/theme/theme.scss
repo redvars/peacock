@@ -101,46 +101,6 @@ table th {
 }
 
 
-.surface, .surface-container, .surface-container-low, .surface-container-lowest, .surface-dim {
-  color: var(--color-on-surface);
-  --icon-color: var(--color-on-surface);
-}
-
-.surface {
-  background: var(--color-surface);
-}
-
-.surface-container-high {
-  background: var(--color-surface-container-high);
-}
-
-.surface-container-highest {
-  background: var(--color-surface-container-highest);
-}
-
-.surface-container {
-  background: var(--color-surface-container);
-}
-
-.surface-container-low {
-  background: var(--color-surface-container-low);
-}
-
-.surface-container-lowest {
-  background: var(--color-surface-container-lowest);
-}
-
-.surface-dim {
-  background: var(--color-surface-dim);
-}
-
-
-.surface-variant {
-  background: var(--color-surface-variant);
-  color: var(--color-on-surface-variant);
-}
-
-
 
 .layer-01 {
   background: var(--layer-01);
