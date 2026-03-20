@@ -8,8 +8,7 @@
 :host {
   display: block;
   height: 100%;
-  --code-editor-border: 1px solid var(--color-outline);
-  --code-editor-border-radius: var(--shape-corner-small);
+  --code-editor-height: 300px;
 }
 
 
@@ -30,11 +29,10 @@
   display: block;
   height: 100%;
   position: relative;
-  --field-height: 300px;
-  min-height: 5rem;
+  --field-height: var(--code-editor-height);
 
   .editor {
-    height: var(--field-height);
+    height: var(--code-editor-height);
   }
 
   .monaco-editor {

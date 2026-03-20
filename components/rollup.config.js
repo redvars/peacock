@@ -45,11 +45,7 @@ export default async function () {
             {
               src: './assets/*',
               dest: './dist/assets/',
-            },
-            {
-              src: './node_modules/@redvars/peacock-design-tokens/dist/tokens.css',
-              dest: './dist/assets/styles/',
-            },
+            }
           ],
         }),
       ],

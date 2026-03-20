@@ -7769,6 +7769,16 @@
         },
         {
           "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "preview",
+          "reflects": true
+        },
+        {
+          "kind": "field",
           "name": "floatingEl",
           "type": {
             "text": "HTMLElement"
@@ -7935,6 +7945,14 @@
           },
           "default": "'plain'",
           "fieldName": "variant"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "preview"
         }
       ],
       "superclass": {

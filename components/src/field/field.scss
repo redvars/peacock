@@ -225,8 +225,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  --skeleton-shape-start-start: var(--shape-corner-extra-small);
-  --skeleton-shape-start-end: var(--shape-corner-extra-small);
-  --skeleton-shape-end-start: var(--shape-corner-extra-small);
-  --skeleton-shape-end-end: var(--shape-corner-extra-small);
+  --skeleton-container-shape-start-start: var(--_container-shape-start-start);
+  --skeleton-container-shape-start-end: var(--_container-shape-start-end);
+  --skeleton-container-shape-end-start: var(--_container-shape-end-start);
+  --skeleton-container-shape-end-end: var(--_container-shape-end-end);
 }

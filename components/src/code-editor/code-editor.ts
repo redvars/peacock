@@ -34,20 +34,22 @@ import styles from './code-editor.scss';
  * @tag code-editor
  * @rawTag code-editor
  *
- * @summary Code editor 
+ * @summary A Monaco-based code editing component with syntax highlighting and theming.
  * @overview
- *  - CodeHighlighter is a component that provides syntax highlighting for code snippets.
- *  - It supports various programming languages and can display line numbers for better readability.
+ *  - CodeEditor wraps Monaco Editor as a web component.
+ *  - Supports JS/JSON/HTML languages, read-only mode, line numbers, minimap, and dark/light theme.
+ *  - Emits `change` when content is edited and updates value from property changes.
  *
  * @example
  * ```html
- * <code-highlighter language="javascript" style="height: 9rem"><pre><code>
- *   function helloWorld() {
- *     console.log('Hello, world!');
- *   }</code></pre>
- * </code-highlighter>
+ * <code-editor
+ *   language="javascript"
+ *   value="function hello() { console.log('Hello'); }"
+ *   lineNumbers="on"
+ *   minimap="false">
+ * </code-editor>
  * ```
- * @tags display
+ * @tags input, editor
  */
 @PeacockComponent
 export default class CodeEditor extends BaseInput {

@@ -31,7 +31,7 @@ import { Chip } from './chip/chip/chip.js';
 import { LinearProgress } from './progress/linear-progress/linear-progress.js';
 import { CircularProgress } from './progress/circular-progress/circular-progress.js';
 
-import { Tooltip } from './popover/tooltip/tooltip.js';
+import { Tooltip } from './tooltip/tooltip.js';
 import { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 
 import { Skeleton } from './skeleton/skeleton.js';

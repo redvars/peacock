@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
-import { PopoverController } from '../PopoverController.js';
+import { PopoverController } from '../popover/PopoverController.js';
 
 // Define a type for valid trigger combinations
 export type TooltipTrigger = 'hover' | 'focus' | 'click';
@@ -36,6 +36,8 @@ export class Tooltip extends LitElement {
 
   @property({ type: String, reflect: true }) variant: 'plain' | 'rich' =
     'plain';
+
+  @property({ type: Boolean, reflect: true }) preview = false;
 
   @query('#tooltip') floatingEl!: HTMLElement;
 
@@ -172,7 +174,7 @@ export class Tooltip extends LitElement {
       this.attachListeners();
     }
 
-    if (changedProps.has('open') && this.open && this._target) {
+    if (changedProps.has('open') && this.open && this._target && !this.preview) {
       this._popover.updatePosition(this._target, this.floatingEl);
     }
   }

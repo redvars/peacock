@@ -7,6 +7,7 @@
   border-end-start-radius: var(--focus-ring-container-shape-end-start);
   border-end-end-radius: var(--focus-ring-container-shape-end-end);
   corner-shape: var(--focus-ring-container-shape-variant);
+  --focus-ring-color: var(--color-primary);
 
   inset: calc(-1 * var(--focus-ring-inset, 2px));
 
@@ -19,5 +20,5 @@
 
 :host([visible]) {
   display: flex;
-  outline: 3px solid var(--color-primary);
+  outline: 3px solid var(--focus-ring-color);
 }

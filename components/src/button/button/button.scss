@@ -158,23 +158,6 @@ slot::slotted(*) {
     height: 100%;
     pointer-events: none;
     transform: translateX(0.25rem) translateY(0.25rem);
-
-    &:before {
-      z-index: 0;
-      content: "";
-      position: absolute;
-      pointer-events: none;
-      border-start-start-radius: var(--_container-shape-start-start);
-      border-start-end-radius: var(--_container-shape-start-end);
-      border-end-start-radius: var(--_container-shape-end-start);
-      border-end-end-radius: var(--_container-shape-end-end);
-      corner-shape: var(--_container-corner-shape-variant);
-      width: 100%;
-      height: 100%;
-      background: white;
-      left: 0;
-      transform: translateX(-0.25rem) translateY(-0.25rem);
-    }
   }
 
   .outline {
@@ -395,16 +378,18 @@ slot::slotted(*) {
     display: block;
   }
 
+  .focus-ring {
+    --focus-ring-color: var(--color-primary-container);
+    --focus-ring-inset: -2px;
+  }
+
   .ripple {
     display: none;
   }
 
   &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
-    .background, .button-content, .outline {
+    .background, .button-content, .outline, .focus-ring {
       transform: translateX(0.25rem) translateY(0.25rem);
-    }
-    .neo-background:before {
-      transform: translateX(0) translateY(0);
     }
   }
 
