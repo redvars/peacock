@@ -5,8 +5,15 @@ import styles from './empty-state.scss';
 
 /**
  * @label Empty State
- * @name empty-state
- * @description A message that displays when there is no information to display.
+ * @tag wc-empty-state
+ * @rawTag empty-state
+ * @summary A message that displays when there is no information to display.
+ * @tags display
+ *
+ * @example
+ * ```html
+ * <wc-empty-state headline="No items found"></wc-empty-state>
+ * ```
  */
 export class EmptyState extends LitElement {
   // Lit handles styles in a static property for better performance

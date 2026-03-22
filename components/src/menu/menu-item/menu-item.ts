@@ -4,6 +4,18 @@ import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
 
+/**
+ * @label Menu Item
+ * @tag wc-menu-item
+ * @rawTag menu-item
+ * @summary An item in a menu list.
+ * @tags navigation
+ *
+ * @example
+ * ```html
+ * <wc-menu-item>Menu Item</wc-menu-item>
+ * ```
+ */
 export class MenuItem extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 

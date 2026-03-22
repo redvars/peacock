@@ -7,7 +7,7 @@ import BaseInput from '../input/BaseInput.js';
 
 /**
  * @label Switch
- * @tag base-switch
+ * @tag wc-switch
  * @rawTag switch
  *
  * @summary Captures boolean input with an on/off switch interaction.
@@ -27,7 +27,7 @@ import BaseInput from '../input/BaseInput.js';
  *
  * @example
  * ```html
- * <base-switch value="true"></base-switch>
+ * <wc-switch value="true"></wc-switch>
  * ```
  * @tags input, form
  */

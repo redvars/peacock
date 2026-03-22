@@ -5,17 +5,16 @@ import styles from './link.scss';
 
 /**
  * @label Link
- * @tag base-link
+ * @tag wc-link
  * @rawTag link
  * @summary The link component is used to navigate to a new page or section within the current page.
- *
- * @cssprop --badge-color - Controls the color of the badge.
+ * @cssprop --link-color - Controls the color of the link.
+ * @tags navigation
  *
  * @example
  * ```html
- * <base-link href="#">Link</base-link>
+ * <wc-link href="#">Link</wc-link>
  * ```
- * @tags display
  */
 export class Link extends LitElement {
   static styles = [styles];

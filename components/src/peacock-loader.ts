@@ -151,7 +151,7 @@ const loaderConfig: LoaderConfig = {
     'wc-input': {
       CustomElementClass: Input,
     },
-    'wc-input-number': {
+    'wc-number-field': {
       CustomElementClass: NumberField,
     },
     'wc-textarea': {

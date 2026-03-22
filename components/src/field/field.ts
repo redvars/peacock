@@ -4,6 +4,23 @@ import { classMap } from 'lit/directives/class-map.js';
 import styles from './field.scss';
 import { observerSlotChangesWithCallback } from '../utils.js';
 
+/**
+ * @label Field
+ * @tag wc-field
+ * @rawTag field
+ *
+ * @summary Wrapper for form fields with label and help text.
+ * @overview
+ * <p>Field provides consistent styling and behavior for form inputs.</p>
+ *
+ * @example
+ * ```html
+ * <wc-field label="Name" required>
+ *   <wc-input placeholder="Enter name"></wc-input>
+ * </wc-field>
+ * ```
+ * @tags form
+ */
 export class Field extends LitElement {
   static styles = [styles];
 

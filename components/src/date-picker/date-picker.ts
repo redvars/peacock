@@ -7,14 +7,14 @@ import { spread } from '../spread.js';
 
 /**
  * @label Date Picker
- * @tag date-picker
+ * @tag wc-date-picker
  * @rawTag date-picker
- *
  * @summary The Date Picker component is used to capture date user input.
+ * @tags input
  *
  * @example
  * ```html
- * <date-picker label="Name" required placeholder="Enter your name"></date-picker>
+ * <wc-date-picker label="Date" placeholder="Select a date"></wc-date-picker>
  * ```
  */
 export class DatePicker extends BaseInput {

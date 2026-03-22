@@ -3,6 +3,24 @@ import { property } from 'lit/decorators.js';
 import styles from './tabs-list.scss';
 import { Tab } from './tab.js';
 
+/**
+ * @label Tabs List
+ * @tag wc-tabs-list
+ * @rawTag tabs-list
+ *
+ * @summary Container for tab components.
+ * @overview
+ * <p>TabsList holds the tab buttons and manages their layout.</p>
+ *
+ * @example
+ * ```html
+ * <wc-tabs-list>
+ *   <wc-tab>Tab 1</wc-tab>
+ *   <wc-tab>Tab 2</wc-tab>
+ * </wc-tabs-list>
+ * ```
+ * @tags navigation
+ */
 export class TabsList extends LitElement {
   static styles = [styles];
 

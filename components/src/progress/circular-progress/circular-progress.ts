@@ -6,14 +6,14 @@ import { BaseProgress } from '../base-progress.js';
 
 /**
  * @label Circular Progress
- * @tag circular-progress
+ * @tag wc-circular-progress
  * @rawTag circular-progress
- *
  * @summary A circular progress indicator is a visual representation of progress toward a specific goal.
+ * @tags display
  *
  * @example
  * ```html
- * <circular-progress value="30"></circular-progress>
+ * <wc-circular-progress value="30"></wc-circular-progress>
  * ```
  */
 export class CircularProgress extends BaseProgress {

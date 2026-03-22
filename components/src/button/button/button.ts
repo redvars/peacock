@@ -11,7 +11,7 @@ import { BaseButton } from '../BaseButton.js';
 
 /**
  * @label Button
- * @tag base-button
+ * @tag wc-button
  * @rawTag button
  *
  * @summary Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
@@ -47,7 +47,7 @@ import { BaseButton } from '../BaseButton.js';
  *
  * @example
  * ```html
- * <base-button>Button</base-button>
+ * <wc-button>Button</wc-button>
  * ```
  * @tags display
  */

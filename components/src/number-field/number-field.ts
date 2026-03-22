@@ -15,7 +15,7 @@ import { spread } from '../spread.js';
  *
  * @example
  * ```html
- * <number-field label="Age" placeholder="Enter your age"></number-field>
+ * <wc-number-field label="Age" placeholder="Enter your age"></wc-number-field>
  * ```
  */
 export class NumberField extends BaseInput {

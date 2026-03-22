@@ -3,7 +3,7 @@ import styles from './elevation.scss';
 
 /**
  * @label Elevation
- * @tag base-elevation
+ * @tag wc-elevation
  * @rawTag elevation
  *
  * @summary Adds elevation to an element.
@@ -17,7 +17,7 @@ import styles from './elevation.scss';
  * @example
  * ```html
  *   <div style="position: relative; padding: var(--spacing-200);">
- *     <base-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></base-elevation>
+ *     <wc-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></wc-elevation>
  *     Level 2
  *   </div>
  * ```

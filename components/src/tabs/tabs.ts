@@ -2,6 +2,28 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './tabs.scss';
 
+/**
+ * @label Tabs
+ * @tag wc-tabs
+ * @rawTag tabs
+ *
+ * @summary The tabs component is used to display multiple panels of content in a container.
+ * @overview
+ * <p>The tabs component allows users to switch between different views or content sections.</p>
+ *
+ * @example
+ * ```html
+ * <wc-tabs>
+ *   <wc-tabs-list>
+ *    <wc-tab selected >Tab 1</wc-tab>
+ *    <wc-tab>Tab 2</wc-tab>
+ *   </wc-tabs-list>
+ *   <wc-tab-panel>Panel 1</wc-tab-panel>
+ *   <wc-tab-panel>Panel 2</wc-tab-panel>
+ * </wc-tabs>
+ * ```
+ * @tags navigation
+ */
 export class Tabs extends LitElement {
   static styles = [styles];
 

@@ -6,14 +6,14 @@ import styles from './input.scss';
 import { spread } from '../spread.js';
 /**
  * @label Input
- * @tag input-field
+ * @tag wc-input
  * @rawTag input
  *
  * @summary The Input component is used to capture user input.
  *
  * @example
  * ```html
- * <input-field label="Name" required placeholder="Enter your name"></input-field>
+ * <wc-input label="Name" required placeholder="Enter your name"></wc-input>
  * ```
  */
 export class Input extends BaseInput {

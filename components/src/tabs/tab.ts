@@ -6,6 +6,21 @@ import { observerSlotChangesWithCallback, throttle } from 'src/utils.js';
 import { spread } from 'src/spread.js';
 import styles from './tab.scss';
 
+/**
+ * @label Tab
+ * @tag wc-tab
+ * @rawTag tab
+ *
+ * @summary A tab component for use within tabs.
+ * @overview
+ * <p>Tab represents an individual tab in a tabs component.</p>
+ *
+ * @example
+ * ```html
+ * <wc-tab>Tab Label</wc-tab>
+ * ```
+ * @tags navigation
+ */
 export class Tab extends LitElement {
 
   #id = crypto.randomUUID();

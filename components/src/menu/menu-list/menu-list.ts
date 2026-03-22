@@ -3,6 +3,21 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-list.scss';
 
+/**
+ * @label Menu List
+ * @tag wc-menu-list
+ * @rawTag menu-list
+ * @summary A list of menu items.
+ * @tags navigation
+ *
+ * @example
+ * ```html
+ * <wc-menu-list>
+ *   <wc-menu-item>Item 1</wc-menu-item>
+ *   <wc-menu-item>Item 2</wc-menu-item>
+ * </wc-menu-list>
+ * ```
+ */
 export class MenuList extends LitElement {
   static styles = [styles];
 

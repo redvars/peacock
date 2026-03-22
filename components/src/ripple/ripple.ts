@@ -80,6 +80,24 @@ const TOUCH_DELAY_MS = 150;
  */
 const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
 
+/**
+ * @label Ripple
+ * @tag wc-ripple
+ * @rawTag ripple
+ *
+ * @summary Provides ripple effect for interactive elements.
+ * @overview
+ * <p>Ripple creates a visual feedback effect when users interact with buttons or other clickable elements.</p>
+ *
+ * @example
+ * ```html
+ * <button style="position: relative;">
+ *   <wc-ripple></wc-ripple>
+ *   Click me
+ * </button>
+ * ```
+ * @tags display
+ */
 export class Ripple extends LitElement {
   static styles = css`
     :host {

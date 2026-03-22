@@ -4,7 +4,7 @@ import styles from './spinner.scss';
 
 /**
  * @label Spinner
- * @tag base-spinner
+ * @tag wc-spinner
  * @rawTag spinner
  * @summary A spinner component that animates a circular shape.
  * @cssprop --spinner-track-color - The color of the track.
@@ -13,7 +13,7 @@ import styles from './spinner.scss';
  *
  * @example
  * ```html
- * <base-spinner></base-spinner>
+ * <wc-spinner></wc-spinner>
  * ```
  */
 export class Spinner extends LitElement {

@@ -12,6 +12,19 @@ import {
 
 import styles from './code-editor.scss';
 
+/**
+ * @label Code Editor
+ * @tag wc-code-editor
+ * @rawTag code-editor
+ * @summary A code editor component using Monaco Editor.
+ * @tags input
+ *
+ * @example
+ * ```html
+ * <wc-code-editor language="javascript"></wc-code-editor>
+ * ```
+ */
+
 // At module level, outside the class
 // @ts-ignore
 // At module level, outside the class

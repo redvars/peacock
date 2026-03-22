@@ -6,14 +6,14 @@ import { BaseProgress } from '../base-progress.js';
 
 /**
  * @label Linear Progress
- * @tag linear-progress
+ * @tag wc-linear-progress
  * @rawTag linear-progress
- *
  * @summary A linear progress indicator is a visual representation of progress toward a specific goal.
+ * @tags display
  *
  * @example
  * ```html
- * <linear-progress value="30" style="width:10rem"></linear-progress>
+ * <wc-linear-progress value="30" style="width:10rem"></wc-linear-progress>
  * ```
  */
 export class LinearProgress extends BaseProgress {

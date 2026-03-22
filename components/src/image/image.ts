@@ -7,23 +7,15 @@ import styles from './image.scss';
 
 /**
  * @label Image
- * @tag base-image
+ * @tag wc-image
  * @rawTag image
- *
- * @summary Image
- * @overview
- *  - CodeHighlighter is a component that provides syntax highlighting for code snippets.
- *  - It supports various programming languages and can display line numbers for better readability.
+ * @summary An image component with lazy loading and theme support.
+ * @tags media
  *
  * @example
  * ```html
- * <code-highlighter language="javascript" style="height: 9rem"><pre><code>
- *   function helloWorld() {
- *     console.log('Hello, world!');
- *   }</code></pre>
- * </code-highlighter>
+ * <wc-image src="image.jpg" alt="Description"></wc-image>
  * ```
- * @tags display
  */
 export class Image extends LitElement {
   static styles = [styles];
