@@ -8,7 +8,7 @@ export { Button, ButtonGroup, IconButton } from './button/index.js';
 
 export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
-export { Accordion } from './accordion/accordion/index.js';
+export { Accordion } from './accordion/index.js';
 export { Link } from './link/index.js';
 export { Tag } from './chip/tag/index.js';
 export { Chip } from './chip/chip/index.js';
@@ -33,3 +33,4 @@ export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
 export { Image } from './image/index.js';
+export { Tab, Tabs, TabPanel, TabsList } from './tabs/index.js';

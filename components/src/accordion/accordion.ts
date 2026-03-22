@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './accordion.scss';
-import { AccordionItem } from '../accordion-item/accordion-item.js';
+import { AccordionItem } from './accordion-item.js';
 
 /**
  * @label Accordion

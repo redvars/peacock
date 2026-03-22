@@ -1,0 +1,18 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+.tabs-list {
+  display: flex;
+  position: relative;
+  width: 100%;
+}
+
+:host-context([variant='line']) {
+  --tabs-list-height: 3rem;
+  
+  .tabs-list {
+    height: var(--tabs-list-height);
+    border-bottom: 1px solid var(--color-surface-variant);
+  }
+}

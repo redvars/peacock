@@ -43,74 +43,113 @@
     "customElement": {
       "kind": "class",
       "description": "",
-      "name": "Accordion",
+      "name": "AccordionItem",
       "members": [
         {
           "kind": "field",
-          "name": "allowMultiple",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "heading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The menu item value.",
+          "attribute": "heading",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "attribute": "allow-multiple"
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true
         },
         {
           "kind": "field",
-          "name": "items",
+          "name": "open",
           "type": {
-            "text": "Array<AccordionItem>"
-          }
-        },
-        {
-          "kind": "method",
-          "name": "_onItemToggle",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "e",
-              "type": {
-                "text": "CustomEvent"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
-          "name": "_onKeyDown",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "e",
-              "type": {
-                "text": "KeyboardEvent"
-              }
-            }
-          ]
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Menu item selection state.",
+          "attribute": "open",
+          "reflects": true
         },
         {
           "kind": "field",
-          "name": "Item",
-          "static": true,
-          "default": "AccordionItem"
+          "name": "buttonElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__handleToggle",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "accordion-item--toggle",
+          "type": {
+            "text": "CustomEvent"
+          }
         }
       ],
       "attributes": [
         {
-          "name": "allow-multiple",
+          "name": "heading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The menu item value.",
+          "fieldName": "heading"
+        },
+        {
+          "name": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "allowMultiple"
+          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Menu item selection state.",
+          "fieldName": "open"
         }
       ],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-accordion",
+      "tagName": "accordion-item",
       "customElement": true,
-      "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
+      "summary": "An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.",
       "rawTag": {
         "name": "accordion",
         "description": ""
@@ -1856,25 +1895,33 @@
       "@summary": [
         {
           "kind": "text",
-          "text": "Code editor"
+          "text": "A Monaco-based code editing component with syntax highlighting and theming."
         }
       ],
       "@overview": [
         {
           "kind": "text",
-          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+          "text": "- CodeEditor wraps Monaco Editor as a web component.\n - Supports JS/JSON/HTML languages, read-only mode, line numbers, minimap, and dark/light theme.\n - Emits "
+        },
+        {
+          "kind": "code",
+          "text": "`change`"
+        },
+        {
+          "kind": "text",
+          "text": " when content is edited and updates value from property changes."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+          "text": "```html\n<code-editor\n  language=\"javascript\"\n  value=\"function hello() { console.log('Hello'); }\"\n  lineNumbers=\"on\"\n  minimap=\"false\">\n</code-editor>\n```"
         }
       ],
       "@tags": [
         {
           "kind": "text",
-          "text": "display"
+          "text": "input, editor"
         }
       ]
     },
@@ -2162,7 +2209,7 @@
       },
       "tagName": "code-editor",
       "customElement": true,
-      "summary": "Code editor",
+      "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
       "rawTag": {
         "name": "code-editor",
         "description": ""

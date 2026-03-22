@@ -1,0 +1,12 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  flex: 1;
+}
+
+:host([hidden]) {
+  display: none;
+}

@@ -30,7 +30,7 @@ slot::slotted(*) {
 /*
   * Reset native button/link styles
   */
-.button.button-element {
+.button-element {
   background: transparent;
   border: none;
   appearance: none;
@@ -41,7 +41,7 @@ slot::slotted(*) {
 
 .button {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;

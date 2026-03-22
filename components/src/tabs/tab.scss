@@ -1,0 +1,103 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  height: 100%;
+  --tab-outline-color: var(--color-primary);
+}
+
+.tab-element {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  text-decoration: none;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: var(--_tab-height);
+  padding: 0 var(--_container-padding);
+  width: 100%;
+  cursor: pointer;
+
+  .tab-content {
+    @include mixin.get-typography('title-small');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--_tab-icon-label-spacing);
+    width: 100%;
+    z-index: 0;
+
+    color: var(--_label-text-color);
+    opacity: var(--_label-text-opacity, 1);
+    --icon-size: var(--tab-icon-size, var(--_tab-icon-size));
+    --icon-color: var(--_label-text-color);
+
+    .slot-container {
+      display: none;
+    }
+  }
+
+  &.has-content {
+    .slot-container {
+      display: flex;
+      flex: none;
+      justify-content: center;
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  /*
+    Background layers
+   */
+  .focus-ring {
+    z-index: 2;
+    --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
+    --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
+    --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
+    --focus-ring-container-shape-end-end: var(--_container-shape-end-end);
+    --focus-ring-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+
+  .ripple {
+    corner-shape: var(--_container-corner-shape-variant);
+    --ripple-state-opacity: var(--_container-state-opacity, 0);
+    --ripple-pressed-color: var(--_container-state-color);
+  }
+}
+
+
+
+:host-context([variant='line']) .tab {
+  --_tab-height: 100%; // remove 1px to account for border-bottom in line variant
+  --_container-padding: 1rem;
+
+  --_label-text-color: var(--color-on-surface);
+  --_container-state-color: var(--_label-text-color);
+  --_container-shape-start-start: var(--shape-corner-small);
+  --_container-shape-start-end: var(--shape-corner-small);
+  --_container-shape-end-start: var(--shape-corner-small);
+  --_container-shape-end-end: var(--shape-corner-small);
+
+  --focus-ring-inset: -3px;
+
+  &:hover:not(:where(.disabled)) {
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled)) {
+    --_container-state-opacity: 0.12;
+  }
+}

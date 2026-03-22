@@ -1,26 +1,26 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <style is:inline>
   .demo-canvas .demo-area {
     height: 25rem;
   }
 </style>
-<HighlighterCard lang={'html'} cssClasses='demo-canvas'>
-<pc-tabs>
-  <pc-tabs-list>
-    <pc-tab>First tab</pc-tab>
-    <pc-tab selected="true">Second tab</pc-tab>
-    <pc-tab disabled>Disabled tab</pc-tab>
-    <pc-tab href='https://shivajivarma.com'>External link</pc-tab>
-  </pc-tabs-list>
+<DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
+<base-tabs>
+  <tabs-list>
+    <base-tab>First tab</base-tab>
+    <base-tab selected="true">Second tab</base-tab>
+    <base-tab disabled>Disabled tab</base-tab>
+    <base-tab href='https://shivajivarma.com'>External link</base-tab>
+  </tabs-list>
 
-  <pc-tab-panel>
+  <base-tab-panel>
     <pc-text type="heading"> First content </pc-text>
-  </pc-tab-panel>
+  </base-tab-panel>
 
-  <pc-tab-panel>
+  <base-tab-panel>
     <pc-text type="heading"> Second content </pc-text>
-  </pc-tab-panel>
-</pc-tabs>
-</HighlighterCard>
+  </base-tab-panel>
+</base-tabs>
+</DemoComponentCard>

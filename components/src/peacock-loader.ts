@@ -24,7 +24,7 @@ import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
 import { MenuList } from './menu/menu-list/menu-list.js';
 
-import { Accordion } from './accordion/accordion/accordion.js';
+import { Accordion } from './accordion/accordion.js';
 import { Link } from './link/link.js';
 import { Tag } from './chip/tag/tag.js';
 import { Chip } from './chip/chip/chip.js';
@@ -43,6 +43,10 @@ import { Image } from './image/image.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import { loadCSS } from './CssLoader.js';
+import { Tabs } from './tabs/tabs.js';
+import { TabsList } from './tabs/tabs-list.js';
+import { Tab } from './tabs/tab.js';
+import { TabPanel } from './tabs/tab-panel.js';
 
 
 const distDirectory = `${import.meta.url}/..`;
@@ -109,6 +113,18 @@ const loaderConfig: LoaderConfig = {
     },
     'accordion-item': {
       CustomElementClass: Accordion.Item,
+    },
+    'base-tabs': {
+      CustomElementClass: Tabs,
+    },
+    'tabs-list': {
+      CustomElementClass: TabsList,
+    },
+    'base-tab': {
+      CustomElementClass: Tab
+    },
+    'base-tab-panel': {
+      CustomElementClass: TabPanel,
     },
     'base-link': {
       CustomElementClass: Link,
