@@ -14,7 +14,7 @@ const {component} = Astro.props;
       {
         component.metadata.example
           ? <Fragment set:html={component.metadata.example} />
-          : <base-image src={component.metadata.img} dark-src={component.metadata.imgDark}/>
+          : <wc-image src={component.metadata.img} dark-src={component.metadata.imgDark}/>
       }
     </pc-card-content>
 
@@ -32,7 +32,7 @@ const {component} = Astro.props;
 
       <p class='text-body component-description'>{component.metadata.description}</p>
 
-      <base-button size='sm' color='dark' dark-mode-color="white" href={`/components/${component.metadata.name}/#`}  icon="arrow--right">Read more</base-button>
+      <wc-button size='sm' color='dark' dark-mode-color="white" href={`/components/${component.metadata.name}/#`}  icon="arrow--right">Read more</wc-button>
     </pc-card-content>
   </pc-card>
 </div>}

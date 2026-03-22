@@ -13,10 +13,10 @@ const description = componentDetails.metadata.description;
 ---
 
 <Layout componentDetails={componentDetails}>
-  <base-breadcrumb>
+  <wc-breadcrumb>
     {title != 'Overview' ? <breadcrumb-item href="/components">Components</breadcrumb-item> : ''}
     <breadcrumb-item active>{title}</breadcrumb-item>
-  </base-breadcrumb>
+  </wc-breadcrumb>
 
   <div class="comp-header">
     <pc-text class="comp-title heading-scrollable" type="heading" heading-size="6">{title}</pc-text>
@@ -26,7 +26,7 @@ const description = componentDetails.metadata.description;
   <pc-text type="body" expressive set:html={componentDetails?.metadata.overview ? componentDetails?.metadata.overview : componentDetails?.metadata.description} />
 
   <div style="margin-bottom: var(--spacing-600)">
-    <base-button size="xs" variant="light.simple" href={`/components/${componentDetails.tag.replace('goat-', '')}/api`} icon="arrow--up-right"> API Reference </base-button>
+    <wc-button size="xs" variant="light.simple" href={`/components/${componentDetails.tag.replace('goat-', '')}/api`} icon="arrow--up-right"> API Reference </wc-button>
   </div>
 
   <div class="component-overview-tab">

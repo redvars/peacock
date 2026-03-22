@@ -4,15 +4,15 @@ import Highlighter from '../../../../components/Highlighter.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <DemoComponentCard lang='html'>
-  <base-button id='click-me-btn'>Click me</base-button>
-  <base-button disabled id='disabled-btn'>Disabled Button</base-button>
+  <wc-button id='click-me-btn'>Click me</wc-button>
+  <wc-button disabled id='disabled-btn'>Disabled Button</wc-button>
 
   <script is:inline>
     document.querySelector('#click-me-btn').addEventListener('click', (event) => {
-      myConsole.log('IconButton clicked', '<base-button>');
+      myConsole.log('IconButton clicked', '<wc-button>');
     });
     document.querySelector('#disabled-btn').addEventListener('click', (event) => {
-      myConsole.log('IconButton clicked', '<base-button disabled>');
+      myConsole.log('IconButton clicked', '<wc-button disabled>');
     });
   </script>
 </DemoComponentCard>

@@ -47,26 +47,26 @@ import dataSource from '../_data-source.json';
           'label': 'Actions',
           'template': function(row, column) {
             return `<pc-dropdown id='dropdown'>
-      <base-button color='secondary' variant='ghost' icon='overflow-menu--vertical'></base-button>
+      <wc-button color='secondary' variant='ghost' icon='overflow-menu--vertical'></wc-button>
       <pc-menu slot='dropdown-content' class='menu' style='width: 200px'>
         <pc-menu-item value='cut'>
-          <base-icon name='scissors' slot='start'></base-icon>
+          <wc-icon name='scissors' slot='start'></wc-icon>
           Cut
           <span slot='end'>⌘X</span>
         </pc-menu-item>
         <pc-menu-item value='copy'>
-          <base-icon name='files' slot='start'></base-icon>
+          <wc-icon name='files' slot='start'></wc-icon>
           Copy
           <span slot='end'>⌘C</span>
         </pc-menu-item>
         <pc-menu-item value='paste'>
-          <base-icon name='clipboard' slot='start'></base-icon>
+          <wc-icon name='clipboard' slot='start'></wc-icon>
           Paste
           <span slot='end'>⌘X</span>
         </pc-menu-item>
         <pc-divider></pc-divider>
         <pc-menu-item value='delete'>
-          <base-icon name='trash' slot='start'></base-icon>
+          <wc-icon name='trash' slot='start'></wc-icon>
           Delete
           <span slot='end'>←</span>
         </pc-menu-item>

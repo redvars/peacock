@@ -11,9 +11,9 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 <HighlighterCard lang={'html'} cssClasses={'demo-canvas'}>
 
 
-  <base-button id='open-modal-button'>
+  <wc-button id='open-modal-button'>
     Open Modal
-  </base-button>
+  </wc-button>
 
   <pc-modal id='sample-modal'
               size='xs'
@@ -24,8 +24,8 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       <p class='text-body'>
         Modal labels and headings should be set in sentence case. Keep all labels and headings concise and to the point.
         Modal labels are optional.
-        <base-icon size='sm' tooltip-target='save-tooltip-scroll' color='secondary' variant='ghost'
-                   name='warning'></base-icon>
+        <wc-icon size='sm' tooltip-target='save-tooltip-scroll' color='secondary' variant='ghost'
+                   name='warning'></wc-icon>
         <pc-tooltip id='save-tooltip-scroll' placements='bottom,top'>Save the record</pc-tooltip>
       </p>
     </pc-modal-content>
@@ -52,15 +52,15 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     <div slot='footer'>
       <div class='modal-footer'>
-        <base-button class='footer-button cancel-button'
+        <wc-button class='footer-button cancel-button'
                    variant='tonal'
                      color='secondary'
                      size='lg'>Cancel
-        </base-button>
-        <base-button id='save-button'
+        </wc-button>
+        <wc-button id='save-button'
                      class='footer-button'
                      size='lg'>Save
-        </base-button>
+        </wc-button>
       </div>
     </div>
 

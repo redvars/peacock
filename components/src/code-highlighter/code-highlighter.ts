@@ -188,7 +188,7 @@ export class CodeHighlighter extends LitElement {
         <div class="header">
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
-            <icon-button
+            <wc-icon-button
               color="dark"
               variant="text"
               size="xs"
@@ -197,7 +197,7 @@ export class CodeHighlighter extends LitElement {
               tooltip=${locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
-            </icon-button>
+            </wc-icon-button>
           </div>
         </div>
 

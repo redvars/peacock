@@ -3,13 +3,13 @@ import Highlighter from '../../../../components/Highlighter.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <p class='text-body-large'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>goat-textarea--change</code> is triggered by
+                                                                  data-lang='html'>wc-textarea--change</code> is triggered by
   the element.
 </p>
 
 
 <DemoComponentCard lang={'html'}>
-  <textarea-field variant='default' id='name-input-field'></textarea-field>
+  <wc-textarea variant='default' id='name-input-field'></wc-textarea>
 
   <script is:inline>
     document.querySelector('#name-input-field').addEventListener('input', function(event) {

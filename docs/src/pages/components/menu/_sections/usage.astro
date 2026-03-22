@@ -4,21 +4,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <DemoComponentCard lang={'html'}>
 
-  <menu-list>
-    <menu-item value="profile"><base-icon name="home" slot="leading-icon"></base-icon>Profile</menu-item>
-    <menu-item value="account">Account Settings</menu-item>
-    <menu-item value="account" selected>Notification Settings</menu-item>
-    <base-divider />
-    <menu-item disabled>Settings (Disabled)</menu-item>
-    <menu-item value="logout">Logout</menu-item>
-  </menu-list>
+  <wc-menu-list>
+    <wc-menu-item value="profile"><wc-icon name="home" slot="leading-icon"></wc-icon>Profile</wc-menu-item>
+    <wc-menu-item value="account">Account Settings</wc-menu-item>
+    <wc-menu-item value="account" selected>Notification Settings</wc-menu-item>
+    <wc-divider />
+    <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
+    <wc-menu-item value="logout">Logout</wc-menu-item>
+  </wc-menu-list>
 
-  <menu-list variant='vibrant'>
-    <menu-item value="profile">Profile</menu-item>
-    <menu-item value="account">Account Settings</menu-item>
-    <menu-item value="account" selected>Notification Settings</menu-item>
-    <base-divider />
-    <menu-item disabled>Settings (Disabled)</menu-item>
-    <menu-item value="logout">Logout</menu-item>
-  </menu-list>
+  <wc-menu-list variant='vibrant'>
+    <wc-menu-item value="profile">Profile</wc-menu-item>
+    <wc-menu-item value="account">Account Settings</wc-menu-item>
+    <wc-menu-item value="account" selected>Notification Settings</wc-menu-item>
+    <wc-divider />
+    <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
+    <wc-menu-item value="logout">Logout</wc-menu-item>
+  </wc-menu-list>
 </DemoComponentCard>

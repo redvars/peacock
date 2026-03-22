@@ -11,13 +11,13 @@ const {title, description} = Astro.props;
 <Layout title={title} description={description}  classes='surface'>
 <div class='main-content'>
 
-  <base-container class='page-container'>
+  <wc-container class='page-container'>
     <div class='post-header'>
-      <base-breadcrumb>
+      <wc-breadcrumb>
         <breadcrumb-item href="/">Home</breadcrumb-item>
         <breadcrumb-item href="/blog">Blog</breadcrumb-item>
         <breadcrumb-item active>{title}</breadcrumb-item>
-      </base-breadcrumb>
+      </wc-breadcrumb>
 
       <pc-text type='heading' heading-size='6'>{title}</pc-text>
     </div>
@@ -33,8 +33,8 @@ const {title, description} = Astro.props;
 
       </div>
     </div>
-  </base-container>
-  <base-container>
+  </wc-container>
+  <wc-container>
     <div class='footer container'>
       <pc-divider></pc-divider>
       <div class='footer-content'>
@@ -43,7 +43,7 @@ const {title, description} = Astro.props;
         </pc-text>
       </div>
     </div>
-  </base-container>
+  </wc-container>
 
 </div>
 </Layout>

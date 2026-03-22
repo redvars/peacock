@@ -166,13 +166,13 @@ export class NumberField extends BaseInput {
         class=${classMap(classes)}
       >
         ${this.stepper && !this.disabled
-          ? html`<icon-button
+          ? html`<wc-icon-button
               class="stepper"
               name="remove"
               variant="text"
               slot="field-start"
               @click=${this.stepDown}
-            ></icon-button>`
+            ></wc-icon-button>`
           : nothing}
 
         <slot name="start" slot="field-start"></slot>
@@ -201,13 +201,13 @@ export class NumberField extends BaseInput {
         <slot name="end" slot="field-end"></slot>
 
         ${this.stepper && !this.disabled
-          ? html`<icon-button
+          ? html`<wc-icon-button
               class="stepper"
               variant="text"
               name="add"
               slot="field-end"
               @click=${this.stepUp}
-            ></icon-button>`
+            ></wc-icon-button>`
           : nothing}
       </base-field>
     `;

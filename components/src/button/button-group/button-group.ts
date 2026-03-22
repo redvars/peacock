@@ -14,8 +14,8 @@ import styles from './button-group.scss';
  * @example
  * ```html
  * <button-group>
- *  <icon-button name="home"></icon-button>
- *  <icon-button name="alarm"></icon-button>
+ *  <wc-icon-button name="home"></wc-icon-button>
+ *  <wc-icon-button name="alarm"></wc-icon-button>
  * </button-group>
  * ```
  *

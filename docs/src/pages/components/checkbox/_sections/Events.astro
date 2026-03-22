@@ -5,7 +5,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
 
 <pc-card>
   <pc-card-content>
-    <base-checkbox id='change-checkbox-field'>Change Event?</base-checkbox>
+    <wc-checkbox id='change-checkbox-field'>Change Event?</wc-checkbox>
     <script is:inline>
       document.querySelector('#change-checkbox-field').addEventListener('change', function(event) {
         console.log('Checkbox changed to:', event.detail.value);

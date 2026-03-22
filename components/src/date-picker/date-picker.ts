@@ -161,7 +161,7 @@ export class DatePicker extends BaseInput {
 
         <slot name="end" slot="field-end"></slot>
 
-        <icon-button
+        <wc-icon-button
           slot="field-end"
           color="secondary"
           variant="text"
@@ -174,7 +174,7 @@ export class DatePicker extends BaseInput {
             });
           }}
         >
-        </icon-button>
+        </wc-icon-button>
       </base-field>
     `;
   }
