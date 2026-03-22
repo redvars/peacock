@@ -5,15 +5,15 @@ import styles from './accordion-item.scss';
 
 /**
  * @label Accordion Item
- * @tag accordion-item
- * @rawTag accordion
+ * @tag wc-accordion-item
+ * @rawTag accordion-item
  * @summary An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
  *
  * @example
  * ```html
- * <base-accordion-item>
+ * <wc-accordion-item>
  * Testing
- * </accordion-item>
+ * </wc-accordion-item>
  * ```
  * @tags display
  */

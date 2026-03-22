@@ -1,10 +1,10 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import styles from './tab.scss';
 import { dispatchActivationClick, isActivationClick } from 'src/utils/dispatch-event-utils.js';
 import { observerSlotChangesWithCallback, throttle } from 'src/utils.js';
 import { spread } from 'src/spread.js';
+import styles from './tab.scss';
 
 export class Tab extends LitElement {
 
@@ -12,7 +12,7 @@ export class Tab extends LitElement {
 
   static styles = [styles];
 
-  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ type: Boolean, reflect: true }) active = false;
   
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -40,8 +40,6 @@ export class Tab extends LitElement {
   @property() throttleDelay = 200;
 
   @state() hasFocus = false;
-
-  @state() isActive = false;
 
   @state() slotHasContent = false;
 
@@ -134,11 +132,6 @@ export class Tab extends LitElement {
   //   }
   // }
 
- 
-
-  private handleMouseDown() {
-    this.isActive = true;
-  }
 
   render() {
 
@@ -148,9 +141,8 @@ export class Tab extends LitElement {
       tab: true,
       'tab-element': true,
       disabled: this.disabled,
-      selected: this.selected,
       pressed: this.isPressed,
-      active: this.isActive,
+      active: this.active,
       'has-content': this.slotHasContent
     };
 
@@ -203,7 +195,11 @@ export class Tab extends LitElement {
         </div>
 
         <slot name="icon"></slot>
+
+        <div class="indicator"></div>
       </div>
+
+      <div class="indicator"></div>
 
       ${this.__renderDisabledReason()}
     `;

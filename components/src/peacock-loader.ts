@@ -74,137 +74,138 @@ document.adoptedStyleSheets = styleSheets;
 
 const loaderConfig: LoaderConfig = {
   components: {
-    'base-icon': {
+    'wc-icon': {
       CustomElementClass: Icon,
       // importPath: './component/icon.js', - for lazy load give path instead of CustomElementClass
     },
-    'focus-ring': {
+    'wc-focus-ring': {
       CustomElementClass: FocusRing,
     },
-    'base-avatar': {
+    'wc-avatar': {
       CustomElementClass: Avatar,
     },
-    'base-badge': {
+    'wc-badge': {
       CustomElementClass: Badge,
     },
-    'base-button': {
+    'wc-button': {
       CustomElementClass: Button,
     },
-    'icon-button': {
+    'wc-icon-button': {
       CustomElementClass: IconButton,
     },
-    'button-group': {
+    'wc-button-group': {
       CustomElementClass: ButtonGroup,
     },
-    'base-divider': {
+    'wc-divider': {
       CustomElementClass: Divider,
     },
-    'base-elevation': {
+    'wc-elevation': {
       CustomElementClass: Elevation,
     },
-    'base-clock': {
+    'wc-clock': {
       importPath: `${distDirectory}/clock.js`,
     },
-    'base-ripple': {
+    'wc-ripple': {
       CustomElementClass: Ripple,
     },
-    'base-accordion': {
+    'wc-accordion': {
       CustomElementClass: Accordion,
     },
-    'accordion-item': {
+    'wc-accordion-item': {
       CustomElementClass: Accordion.Item,
     },
-    'base-tabs': {
+    'wc-tabs': {
       CustomElementClass: Tabs,
     },
-    'tabs-list': {
+    'wc-tabs-list': {
       CustomElementClass: TabsList,
     },
-    'base-tab': {
+    'wc-tab': {
       CustomElementClass: Tab
     },
-    'base-tab-panel': {
+    'wc-tab-panel': {
       CustomElementClass: TabPanel,
     },
-    'base-link': {
+    'wc-link': {
       CustomElementClass: Link,
     },
-    'base-chip': {
+    'wc-chip': {
       CustomElementClass: Chip,
     },
-    'base-tag': {
+    'wc-tag': {
       CustomElementClass: Tag,
     },
-    'linear-progress': {
+    'wc-linear-progress': {
       CustomElementClass: LinearProgress,
     },
-    'circular-progress': {
+    'wc-circular-progress': {
       CustomElementClass: CircularProgress,
     },
-    'base-skeleton': {
+    'wc-skeleton': {
       CustomElementClass: Skeleton,
     },
-    'input-field': {
-      CustomElementClass: Input,
-    },
-    'base-field': {
+
+    'wc-field': {
       CustomElementClass: Field,
     },
-    'number-field': {
+    'wc-input': {
+      CustomElementClass: Input,
+    },
+    'wc-input-number': {
       CustomElementClass: NumberField,
     },
-    'textarea-field': {
+    'wc-textarea': {
       CustomElementClass: Textarea,
     },
-    'date-picker': {
+    'wc-date-picker': {
       CustomElementClass: DatePicker,
     },
-    'time-picker': {
+    'wc-time-picker': {
       CustomElementClass: TimePicker,
     },
-    'base-tooltip': {
+    'wc-tooltip': {
       CustomElementClass: Tooltip,
     },
-    'number-counter': {
+    'wc-number-counter': {
       importPath: `${distDirectory}/number-counter.js`,
     },
-    'code-editor': {
+    'wc-code-editor': {
       importPath: `${distDirectory}/code-editor.js`,
     },
-    'code-highlighter': {
+    'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },
-    'base-breadcrumb': {
+    'wc-breadcrumb': {
       CustomElementClass: Breadcrumb,
     },
-    'breadcrumb-item': {
+    'wc-breadcrumb-item': {
       CustomElementClass: BreadcrumbItem,
     },
-    'base-switch': {
+    'wc-switch': {
       CustomElementClass: Switch,
     },
-    'base-checkbox': {
+    'wc-checkbox': {
       CustomElementClass: Checkbox,
     },
-    'base-spinner': {
+    'wc-spinner': {
       CustomElementClass: Spinner,
     },
-    'empty-state': {
+    'wc-empty-state': {
       CustomElementClass: EmptyState,
     },
-    'base-menu': {
+    'wc-base-menu': {
       CustomElementClass: Menu,
     },
-    'menu-item': {
+    'wc-menu-item': {
       CustomElementClass: MenuItem,
     },
-    'menu-list': {
+    'wc-menu-list': {
       CustomElementClass: MenuList,
     },
-    'base-container': {
+    'wc-container': {
       CustomElementClass: Container
     },
-    'base-image': {
+    'wc-image': {
       CustomElementClass: Image
     }
   },

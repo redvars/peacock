@@ -29,12 +29,14 @@
   cursor: pointer;
 
   .tab-content {
+    position: relative;
     @include mixin.get-typography('title-small');
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--_tab-icon-label-spacing);
     width: 100%;
+    height: 100%;
     z-index: 0;
 
     color: var(--_label-text-color);
@@ -45,6 +47,19 @@
     .slot-container {
       display: none;
     }
+  }
+
+  .indicator {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    background: var(--_active-indicator-color);
+    border-radius: var(--_active-indicator-shape);
+    transform-origin: left bottom;
+    height: var(--_active-indicator-height);
+    inset: auto 0px 0px;
+    opacity: 0;
   }
 
   &.has-content {
@@ -76,12 +91,26 @@
     --ripple-state-opacity: var(--_container-state-opacity, 0);
     --ripple-pressed-color: var(--_container-state-color);
   }
+
+  .outline {
+    z-index: 1;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border: var(--_outline-width) solid var(--_outline-color);
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+  }
 }
 
 
 
 :host-context([variant='line']) .tab {
-  --_tab-height: 100%; // remove 1px to account for border-bottom in line variant
+  --_tab-height: 100%;
   --_container-padding: 1rem;
 
   --_label-text-color: var(--color-on-surface);
@@ -90,8 +119,24 @@
   --_container-shape-start-end: var(--shape-corner-small);
   --_container-shape-end-start: var(--shape-corner-small);
   --_container-shape-end-end: var(--shape-corner-small);
+  --_active-indicator-color: var(--color-primary);
+  --_active-indicator-shape: 3px 3px 0 0;
+  --_active-indicator-height: 2px;
 
-  --focus-ring-inset: -3px;
+  .focus-ring {
+    inset: 3px 3px 4px 3px;
+  }
+
+  &.active {
+
+    .tab-content .indicator {
+      opacity: 1;
+    }
+
+    .focus-ring {
+      inset: 3px 3px calc(4px + var(--_active-indicator-height)) 3px;
+    }
+  }
 
   &:hover:not(:where(.disabled)) {
     --_container-state-opacity: 0.08;
@@ -99,5 +144,14 @@
 
   &.pressed:not(:where(.disabled)) {
     --_container-state-opacity: 0.12;
+  }
+
+  &.disabled {
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
   }
 }
