@@ -198,11 +198,11 @@ export class Tab extends LitElement {
 
   renderTabContent() {
     return html`
-      <focus-ring class="focus-ring" .control=${this} element="tabElement"></focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
       <base-elevation class="elevation"></base-elevation>
       <div class="background"></div>
       <div class="outline"></div>
-      <base-ripple class="ripple"></base-ripple>
+      <wc-ripple class="ripple"></wc-ripple>
       
       <div class="tab-content">
         <div class="slot-container">

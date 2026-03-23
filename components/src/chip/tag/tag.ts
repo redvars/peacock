@@ -57,7 +57,7 @@ export class Tag extends LitElement {
         @click=${this._dismissClickHandler}
         aria-label="Dismiss"
       >
-        <base-ripple class="ripple"></base-ripple>
+        <wc-ripple class="ripple"></wc-ripple>
         <wc-icon class="dismiss-button-icon" name="close"></wc-icon>
       </button>
     `;

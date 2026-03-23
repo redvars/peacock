@@ -150,7 +150,7 @@ export class NumberField extends BaseInput {
     };
 
     return html`
-      <base-field
+      <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -209,7 +209,7 @@ export class NumberField extends BaseInput {
               @click=${this.stepUp}
             ></wc-icon-button>`
           : nothing}
-      </base-field>
+      </wc-field>
     `;
   }
 }

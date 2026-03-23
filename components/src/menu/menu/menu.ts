@@ -3,18 +3,18 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 
 /**
  * @label Menu
- * @tag wc-base-menu
- * @rawTag base-menu
+ * @tag wc-menu
+ * @rawTag menu
  * @summary A dropdown menu component.
  * @tags navigation
  *
  * @example
  * ```html
- * <wc-base-menu>
+ * <wc-menu>
  *   <wc-menu-list>
  *     <wc-menu-item>Item 1</wc-menu-item>
  *   </wc-menu-list>
- * </wc-base-menu>
+ * </wc-menu>
  * ```
  */
 export class Menu extends LitElement {

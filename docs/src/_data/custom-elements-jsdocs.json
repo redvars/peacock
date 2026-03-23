@@ -1306,7 +1306,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<button-group>\n <icon-button name=\"home\"></icon-button>\n <icon-button name=\"alarm\"></icon-button>\n</button-group>\n```"
+          "text": "```html\n<button-group>\n <wc-icon-button name=\"home\"></wc-icon-button>\n <wc-icon-button name=\"alarm\"></wc-icon-button>\n</button-group>\n```"
         }
       ],
       "@tags": [
@@ -4013,7 +4013,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "icon-button"
+          "text": "wc-icon-button"
         }
       ],
       "@rawTag": [
@@ -4049,7 +4049,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<icon-button name=\"home\"></icon-button>\n```"
+          "text": "```html\n<wc-icon-button name=\"home\"></wc-icon-button>\n```"
         }
       ],
       "@tags": [
@@ -4717,7 +4717,7 @@
         "name": "BaseButton",
         "module": "/src/button/BaseButton.js"
       },
-      "tagName": "icon-button",
+      "tagName": "wc-icon-button",
       "customElement": true,
       "summary": "Icon buttons allow users to take actions, and make choices, with a single tap.",
       "rawTag": {

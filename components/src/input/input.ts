@@ -127,7 +127,7 @@ export class Input extends BaseInput {
       this.type === 'password' && this.passwordVisible ? 'text' : this.type;
 
     return html`
-      <base-field
+      <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -186,7 +186,7 @@ export class Input extends BaseInput {
           : nothing}
 
         <slot name="end" slot="field-end"></slot>
-      </base-field>
+      </wc-field>
     `;
   }
 }

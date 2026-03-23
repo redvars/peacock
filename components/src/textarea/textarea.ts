@@ -124,7 +124,7 @@ export class Textarea extends BaseInput {
 
   render() {
     return html`
-      <base-field
+      <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -162,7 +162,7 @@ export class Textarea extends BaseInput {
         ></textarea>
 
         <slot name="end" slot="field-end"></slot>
-      </base-field>
+      </wc-field>
     `;
   }
 }

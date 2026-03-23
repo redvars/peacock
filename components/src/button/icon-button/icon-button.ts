@@ -133,12 +133,12 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <focus-ring class="focus-ring" .control=${this} element="buttonElement"></focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} element="buttonElement"></wc-focus-ring>
       <base-elevation class="elevation"></base-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>
       <div class="outline"></div>
-      <base-ripple class="ripple"></base-ripple>
+      <wc-ripple class="ripple"></wc-ripple>
       <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">

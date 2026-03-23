@@ -103,9 +103,9 @@ export class MenuItem extends LitElement {
 
   renderContent() {
     return html`
-      <focus-ring class="focus-ring" .control=${this}  element="menuItemElement"></focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this}  element="menuItemElement"></wc-focus-ring>
       <div class="background"></div>
-      <base-ripple class="ripple"></base-ripple>
+      <wc-ripple class="ripple"></wc-ripple>
 
       <div class="menu-item-content">
         <slot name="leading-icon"></slot>
