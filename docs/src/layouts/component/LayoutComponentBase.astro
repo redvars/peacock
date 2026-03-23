@@ -55,19 +55,19 @@ const { nextComponent, previousComponent } = getNextAndPrevious(componentDetails
     </div>
   </div>
   <div class="main-content">
-    <base-container class="page-wrapper">
+    <wc-container class="page-wrapper">
       <slot />
 
       <div class="previous-next-nav">
-        <base-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="left">
-          <base-icon slot='icon' name='arrow_left'></base-icon> Previous
-        </base-button>
-        <base-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <base-icon slot='icon' name='arrow_right'>Previous</base-icon> </base-button>
+        <wc-button href={`/components/${previousComponent?.metadata.name}/`} icon-align="left">
+          <wc-icon slot='icon' name='arrow_left'></wc-icon> Previous
+        </wc-button>
+        <wc-button kind="simple" href={`/components/${nextComponent?.metadata.name}/`}> Next <wc-icon slot='icon' name='arrow_right'>Previous</wc-icon> </wc-button>
       </div>
-    </base-container>
+    </wc-container>
 
     <div class="footer container">
-      <base-divider></base-divider>
+      <wc-divider></wc-divider>
       <Footer />
     </div>
   </div>

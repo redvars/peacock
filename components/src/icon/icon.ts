@@ -8,7 +8,7 @@ import styles from './icon.scss';
 export type IconProvider = 'material-symbols' | 'material-icons';
 /**
  * @label Icon
- * @tag base-icon
+ * @tag wc-icon
  * @rawTag icon
  * @summary Icons are visual symbols used to represent ideas, objects, or actions.
  * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
@@ -18,7 +18,7 @@ export type IconProvider = 'material-symbols' | 'material-icons';
  *
  * @example
  * ```html
- * <base-icon name="home" style="--icon-size: 2rem;"></base-icon>
+ * <wc-icon name="home" style="--icon-size: 2rem;"></wc-icon>
  * ```
  *
  */

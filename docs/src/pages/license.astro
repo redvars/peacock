@@ -6,7 +6,7 @@ import site from '../_data/site.json';
 const year = new Date().getFullYear();
 ---
 <Layout title={title} description={description} keywords='License, MIT'>
-  <base-container class='sections-wrapper'>
+  <wc-container class='sections-wrapper'>
 
     <h1 class="text-display">
       {title}
@@ -44,11 +44,11 @@ const year = new Date().getFullYear();
     </p>
 
 
-    <base-button class='back-to-home' color='secondary' icon-align='start' href='/#'>
-      <base-icon name='arrow_left_alt' slot='icon'></base-icon>
+    <wc-button class='back-to-home' color='secondary' icon-align='start' href='/#'>
+      <wc-icon name='arrow_left_alt' slot='icon'></wc-icon>
       Back to home
-    </base-button>
-  </base-container>
+    </wc-button>
+  </wc-container>
 
 </Layout>
 

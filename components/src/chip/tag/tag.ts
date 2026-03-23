@@ -7,15 +7,15 @@ import sizeStyles from './tag-sizes.scss';
 
 /**
  * @label Tag
- * @tag base-tag
+ * @tag wc-tag
  * @rawTag tag
  * @summary Tag component for displaying labels or values with optional dismiss functionality.
+ * @tags display
  *
  * @example
  * ```html
- * <base-tag color=red>Tag</base-tag>
+ * <wc-tag color="red">Tag</wc-tag>
  * ```
- * @tags display
  */
 export class Tag extends LitElement {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
@@ -58,7 +58,7 @@ export class Tag extends LitElement {
         aria-label="Dismiss"
       >
         <base-ripple class="ripple"></base-ripple>
-        <base-icon class="dismiss-button-icon" name="close"></base-icon>
+        <wc-icon class="dismiss-button-icon" name="close"></wc-icon>
       </button>
     `;
   }

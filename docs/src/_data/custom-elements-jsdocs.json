@@ -12,7 +12,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-accordion"
+          "text": "wc-accordion"
         }
       ],
       "@rawTag": [
@@ -30,7 +30,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-accordion>\n    <accordion-item heading=\"Accordion\">\n        Content\n    </accordion-item>\n</base-accordion>\n```"
+          "text": "```html\n<wc-accordion>\n    <wc-accordion-item heading=\"Accordion\">\n        Content\n    </wc-accordion-item>\n</wc-accordion>\n```"
         }
       ],
       "@tags": [
@@ -43,113 +43,74 @@
     "customElement": {
       "kind": "class",
       "description": "",
-      "name": "AccordionItem",
+      "name": "Accordion",
       "members": [
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "heading",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The menu item value.",
-          "attribute": "heading",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "disabled",
+          "name": "allowMultiple",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "attribute": "disabled",
-          "reflects": true
+          "attribute": "allow-multiple"
         },
         {
           "kind": "field",
-          "name": "open",
+          "name": "items",
           "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Menu item selection state.",
-          "attribute": "open",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "buttonElement",
-          "type": {
-            "text": "HTMLElement | null"
-          },
-          "privacy": "private",
-          "readonly": true
-        },
-        {
-          "kind": "method",
-          "name": "focus"
-        },
-        {
-          "kind": "method",
-          "name": "blur"
-        },
-        {
-          "kind": "method",
-          "name": "__handleToggle",
-          "privacy": "private"
-        }
-      ],
-      "events": [
-        {
-          "name": "accordion-item--toggle",
-          "type": {
-            "text": "CustomEvent"
+            "text": "Array<AccordionItem>"
           }
+        },
+        {
+          "kind": "method",
+          "name": "_onItemToggle",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_onKeyDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "AccordionItem"
         }
       ],
       "attributes": [
         {
-          "name": "heading",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The menu item value.",
-          "fieldName": "heading"
-        },
-        {
-          "name": "disabled",
+          "name": "allow-multiple",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, the user cannot interact with the button. Defaults to `false`.",
-          "fieldName": "disabled"
-        },
-        {
-          "name": "open",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Menu item selection state.",
-          "fieldName": "open"
+          "fieldName": "allowMultiple"
         }
       ],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "accordion-item",
+      "tagName": "wc-accordion",
       "customElement": true,
-      "summary": "An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.",
+      "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
       "rawTag": {
         "name": "accordion",
         "description": ""
@@ -169,7 +130,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-avatar"
+          "text": "wc-avatar"
         }
       ],
       "@rawTag": [
@@ -193,7 +154,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></base-avatar>\n```"
+          "text": "```html\n<wc-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></wc-avatar>\n```"
         }
       ],
       "@tags": [
@@ -272,7 +233,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-avatar",
+      "tagName": "wc-avatar",
       "customElement": true,
       "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
       "rawTag": {
@@ -294,7 +255,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-badge"
+          "text": "wc-badge"
         }
       ],
       "@rawTag": [
@@ -318,7 +279,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-badge value=\"1\"></base-badge>\n```"
+          "text": "```html\n<wc-badge value=\"1\"></wc-badge>\n```"
         }
       ],
       "@tags": [
@@ -365,7 +326,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-badge",
+      "tagName": "wc-badge",
       "customElement": true,
       "summary": "The badge component is used to display a small amount of information to the user.",
       "rawTag": {
@@ -387,7 +348,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-breadcrumb"
+          "text": "wc-breadcrumb"
         }
       ],
       "@rawTag": [
@@ -408,16 +369,16 @@
           "text": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\n - They help users understand their current location within the site hierarchy.\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks."
         }
       ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-breadcrumb label=\"Breadcrumb\">\n  <breadcrumb-item href=\"#\">Home</breadcrumb-item>\n  <breadcrumb-item href=\"#\">Category</breadcrumb-item>\n  <breadcrumb-item active>Current Page</breadcrumb-item>\n</base-breadcrumb>\n```"
-        }
-      ],
       "@tags": [
         {
           "kind": "text",
           "text": "navigation"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-breadcrumb label=\"Breadcrumb\">\n  <wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\n  <wc-breadcrumb-item href=\"#\">Category</wc-breadcrumb-item>\n  <wc-breadcrumb-item active>Current Page</wc-breadcrumb-item>\n</wc-breadcrumb>\n```"
         }
       ]
     },
@@ -452,7 +413,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-breadcrumb",
+      "tagName": "wc-breadcrumb",
       "customElement": true,
       "summary": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.",
       "rawTag": {
@@ -474,7 +435,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "breadcrumb-item"
+          "text": "wc-breadcrumb-item"
         }
       ],
       "@rawTag": [
@@ -489,16 +450,16 @@
           "text": "A breadcrumb item component that represents a single item in a breadcrumb navigation."
         }
       ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<breadcrumb-item href=\"#\">Home</breadcrumb-item>\n```"
-        }
-      ],
       "@tags": [
         {
           "kind": "text",
           "text": "navigation"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\n```"
         }
       ]
     },
@@ -600,7 +561,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "breadcrumb-item",
+      "tagName": "wc-breadcrumb-item",
       "customElement": true,
       "summary": "A breadcrumb item component that represents a single item in a breadcrumb navigation.",
       "rawTag": {
@@ -622,7 +583,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-button"
+          "text": "wc-button"
         }
       ],
       "@rawTag": [
@@ -658,7 +619,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-button>Button</base-button>\n```"
+          "text": "```html\n<wc-button>Button</wc-button>\n```"
         }
       ],
       "@tags": [
@@ -1305,7 +1266,7 @@
         "name": "BaseButton",
         "module": "/src/button/BaseButton.js"
       },
-      "tagName": "base-button",
+      "tagName": "wc-button",
       "customElement": true,
       "summary": "Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.",
       "rawTag": {
@@ -1408,7 +1369,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-chip"
+          "text": "wc-chip"
         }
       ],
       "@rawTag": [
@@ -1417,17 +1378,22 @@
           "text": "chip"
         }
       ],
-      "@summary": [],
-      "@example": [
+      "@summary": [
         {
-          "kind": "code",
-          "text": "```html\n<base-tag>Link</base-tag>\n```"
+          "kind": "text",
+          "text": "Chip component for displaying compact information with optional actions."
         }
       ],
       "@tags": [
         {
           "kind": "text",
           "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chip>Chip content</wc-chip>\n```"
         }
       ]
     },
@@ -1570,8 +1536,9 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-chip",
+      "tagName": "wc-chip",
       "customElement": true,
+      "summary": "Chip component for displaying compact information with optional actions.",
       "rawTag": {
         "name": "chip",
         "description": ""
@@ -1591,7 +1558,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "circular-progress"
+          "text": "wc-circular-progress"
         }
       ],
       "@rawTag": [
@@ -1606,10 +1573,16 @@
           "text": "A circular progress indicator is a visual representation of progress toward a specific goal."
         }
       ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<circular-progress value=\"30\"></circular-progress>\n```"
+          "text": "```html\n<wc-circular-progress value=\"30\"></wc-circular-progress>\n```"
         }
       ]
     },
@@ -1700,7 +1673,7 @@
         "name": "BaseProgress",
         "module": "/src/progress/base-progress.js"
       },
-      "tagName": "circular-progress",
+      "tagName": "wc-circular-progress",
       "customElement": true,
       "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
       "rawTag": {
@@ -1783,7 +1756,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-clock"
+          "text": "wc-clock"
         }
       ],
       "@rawTag": [
@@ -1804,16 +1777,16 @@
           "text": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time."
         }
       ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-clock></base-clock>\n```"
-        }
-      ],
       "@tags": [
         {
           "kind": "text",
           "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-clock></wc-clock>\n```"
         }
       ]
     },
@@ -1861,7 +1834,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-clock",
+      "tagName": "wc-clock",
       "customElement": true,
       "summary": "Displays the current time in a given timezone.",
       "rawTag": {
@@ -2426,7 +2399,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-container"
+          "text": "wc-container"
         }
       ],
       "@rawTag": [
@@ -2438,25 +2411,25 @@
       "@summary": [
         {
           "kind": "text",
-          "text": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon."
+          "text": "A responsive container component for layout."
         }
       ],
       "@cssprop": [
         {
           "kind": "text",
-          "text": "--avatar-text-color - Controls the color of the text inside the avatar."
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-container>Container</base-avatar>\n```"
+          "text": "--container-padding - Controls the padding of the container."
         }
       ],
       "@tags": [
         {
           "kind": "text",
-          "text": "display"
+          "text": "layout"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-container size=\"lg\">Content</wc-container>\n```"
         }
       ]
     },
@@ -2466,20 +2439,12 @@
       "name": "Container",
       "cssProperties": [
         {
-          "description": "Controls the border radius of the avatar.",
-          "name": "--avatar-border-radius"
+          "description": "Controls the maximum width of the container.",
+          "name": "--container-max-width"
         },
         {
-          "description": "Controls the color of the avatar.",
-          "name": "--avatar-background-color"
-        },
-        {
-          "description": "Controls the size of the avatar.",
-          "name": "--avatar-size"
-        },
-        {
-          "description": "Controls the color of the text inside the avatar.",
-          "name": "--avatar-text-color"
+          "description": "Controls the padding of the container.",
+          "name": "--container-padding"
         }
       ],
       "members": [
@@ -2508,9 +2473,9 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-container",
+      "tagName": "wc-container",
       "customElement": true,
-      "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
+      "summary": "A responsive container component for layout.",
       "rawTag": {
         "name": "container",
         "description": ""
@@ -2530,7 +2495,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "date-picker"
+          "text": "wc-date-picker"
         }
       ],
       "@rawTag": [
@@ -2545,10 +2510,16 @@
           "text": "The Date Picker component is used to capture date user input."
         }
       ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "input"
+        }
+      ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<date-picker label=\"Name\" required placeholder=\"Enter your name\"></date-picker>\n```"
+          "text": "```html\n<wc-date-picker label=\"Date\" placeholder=\"Select a date\"></wc-date-picker>\n```"
         }
       ]
     },
@@ -3002,7 +2973,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "date-picker",
+      "tagName": "wc-date-picker",
       "customElement": true,
       "summary": "The Date Picker component is used to capture date user input.",
       "rawTag": {
@@ -3024,7 +2995,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-divider"
+          "text": "wc-divider"
         }
       ],
       "@rawTag": [
@@ -3054,7 +3025,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-divider style=\"width: 12rem;\">or</base-divider>\n```"
+          "text": "```html\n<wc-divider style=\"width: 12rem;\">or</wc-divider>\n```"
         }
       ],
       "@tags": [
@@ -3112,7 +3083,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-divider",
+      "tagName": "wc-divider",
       "customElement": true,
       "summary": "The divider component is used to visually separate content.",
       "rawTag": {
@@ -3134,7 +3105,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-elevation"
+          "text": "wc-elevation"
         }
       ],
       "@rawTag": [
@@ -3164,7 +3135,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <base-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></base-elevation>\n    Level 2\n  </div>\n```"
+          "text": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <wc-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></wc-elevation>\n    Level 2\n  </div>\n```"
         }
       ],
       "@tags": [
@@ -3193,11 +3164,529 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-elevation",
+      "tagName": "wc-elevation",
       "customElement": true,
       "summary": "Adds elevation to an element.",
       "rawTag": {
         "name": "elevation",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "empty-state",
+    "label": "Empty State",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Empty State"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-empty-state"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "empty-state"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A message that displays when there is no information to display."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-empty-state headline=\"No items found\"></wc-empty-state>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "EmptyState",
+      "members": [
+        {
+          "kind": "field",
+          "name": "illustration",
+          "type": {
+            "text": "'no-document' | 'page' | 'search'"
+          },
+          "default": "'no-document'",
+          "attribute": "illustration",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "headline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "description",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "handleResize",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderTitle"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDescription"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "illustration",
+          "type": {
+            "text": "'no-document' | 'page' | 'search'"
+          },
+          "default": "'no-document'",
+          "fieldName": "illustration"
+        },
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "headline"
+        },
+        {
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "description"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-empty-state",
+      "customElement": true,
+      "summary": "A message that displays when there is no information to display.",
+      "rawTag": {
+        "name": "empty-state",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "field",
+    "label": "Field",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Field"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-field"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "field"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Wrapper for form fields with label and help text."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Field provides consistent styling and behavior for form inputs.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-field label=\"Name\" required>\n  <wc-input placeholder=\"Enter name\"></wc-input>\n</wc-field>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "form"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Field",
+      "members": [
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "help",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "help"
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "textCount",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "text-count"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "focused"
+        },
+        {
+          "kind": "field",
+          "name": "populated",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "populated"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "host",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "attribute": "host"
+        },
+        {
+          "kind": "field",
+          "name": "slotStartHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotEndHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "__handleClick"
+        },
+        {
+          "kind": "method",
+          "name": "__renderInputSlot"
+        },
+        {
+          "kind": "method",
+          "name": "__renderFieldHeader"
+        },
+        {
+          "kind": "method",
+          "name": "__renderFieldFooter"
+        },
+        {
+          "kind": "method",
+          "name": "__renderHelperText"
+        },
+        {
+          "kind": "method",
+          "name": "__renderWordCount"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "help",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "help"
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "text-count",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "textCount"
+        },
+        {
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "focused"
+        },
+        {
+          "name": "populated",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "populated"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "host",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "fieldName": "host"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-field",
+      "customElement": true,
+      "summary": "Wrapper for form fields with label and help text.",
+      "rawTag": {
+        "name": "field",
         "description": ""
       }
     }
@@ -3215,7 +3704,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "focus-ring"
+          "text": "wc-focus-ring"
         }
       ],
       "@rawTag": [
@@ -3315,7 +3804,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "focus-ring",
+      "tagName": "wc-focus-ring",
       "customElement": true,
       "summary": "Adds a focus ring to an element.",
       "rawTag": {
@@ -3337,7 +3826,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-icon"
+          "text": "wc-icon"
         }
       ],
       "@rawTag": [
@@ -3367,7 +3856,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-icon name=\"home\" style=\"--icon-size: 2rem;\"></base-icon>\n```"
+          "text": "```html\n<wc-icon name=\"home\" style=\"--icon-size: 2rem;\"></wc-icon>\n```"
         }
       ]
     },
@@ -3502,7 +3991,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-icon",
+      "tagName": "wc-icon",
       "customElement": true,
       "summary": "Icons are visual symbols used to represent ideas, objects, or actions.",
       "rawTag": {
@@ -4250,7 +4739,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-image"
+          "text": "wc-image"
         }
       ],
       "@rawTag": [
@@ -4262,25 +4751,19 @@
       "@summary": [
         {
           "kind": "text",
-          "text": "Image"
-        }
-      ],
-      "@overview": [
-        {
-          "kind": "text",
-          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+          "text": "An image component with lazy loading and theme support."
         }
       ],
       "@tags": [
         {
           "kind": "text",
-          "text": "display"
+          "text": "media"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-image src=\"image.jpg\" alt=\"Description\"></wc-image>\n```"
         }
       ]
     },
@@ -4451,9 +4934,9 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-image",
+      "tagName": "wc-image",
       "customElement": true,
-      "summary": "Image",
+      "summary": "An image component with lazy loading and theme support.",
       "rawTag": {
         "name": "image",
         "description": ""
@@ -4473,7 +4956,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "input-field"
+          "text": "wc-input"
         }
       ],
       "@rawTag": [
@@ -4491,7 +4974,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<input-field label=\"Name\" required placeholder=\"Enter your name\"></input-field>\n```"
+          "text": "```html\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\n```"
         }
       ]
     },
@@ -4962,7 +5445,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "input-field",
+      "tagName": "wc-input",
       "customElement": true,
       "summary": "The Input component is used to capture user input.",
       "rawTag": {
@@ -4984,7 +5467,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "linear-progress"
+          "text": "wc-linear-progress"
         }
       ],
       "@rawTag": [
@@ -4999,10 +5482,16 @@
           "text": "A linear progress indicator is a visual representation of progress toward a specific goal."
         }
       ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<linear-progress value=\"30\" style=\"width:10rem\"></linear-progress>\n```"
+          "text": "```html\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\n```"
         }
       ]
     },
@@ -5093,7 +5582,7 @@
         "name": "BaseProgress",
         "module": "/src/progress/base-progress.js"
       },
-      "tagName": "linear-progress",
+      "tagName": "wc-linear-progress",
       "customElement": true,
       "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
       "rawTag": {
@@ -5176,7 +5665,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-link"
+          "text": "wc-link"
         }
       ],
       "@rawTag": [
@@ -5194,19 +5683,19 @@
       "@cssprop": [
         {
           "kind": "text",
-          "text": "--badge-color - Controls the color of the badge."
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-link href=\"#\">Link</base-link>\n```"
+          "text": "--link-color - Controls the color of the link."
         }
       ],
       "@tags": [
         {
           "kind": "text",
-          "text": "display"
+          "text": "navigation"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-link href=\"#\">Link</wc-link>\n```"
         }
       ]
     },
@@ -5216,8 +5705,8 @@
       "name": "Link",
       "cssProperties": [
         {
-          "description": "Controls the color of the badge.",
-          "name": "--badge-color"
+          "description": "Controls the color of the link.",
+          "name": "--link-color"
         }
       ],
       "members": [
@@ -5272,7 +5761,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-link",
+      "tagName": "wc-link",
       "customElement": true,
       "summary": "The link component is used to navigate to a new page or section within the current page.",
       "rawTag": {
@@ -5294,7 +5783,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "number-counter"
+          "text": "wc-number-counter"
         }
       ],
       "@rawTag": [
@@ -5312,7 +5801,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<number-counter value=\"123456789\"></number-counter>\n<script>\n    const $counter = document.querySelector('number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+          "text": "```html\n<wc-number-counter value=\"123456789\"></wc-number-counter>\n<script>\n    const $counter = document.querySelector('wc-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
         }
       ],
       "@tags": [
@@ -5386,7 +5875,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "number-counter",
+      "tagName": "wc-number-counter",
       "customElement": true,
       "summary": "Displays a number with commas for thousands.",
       "rawTag": {
@@ -5426,7 +5915,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<number-field label=\"Age\" placeholder=\"Enter your age\"></number-field>\n```"
+          "text": "```html\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\n```"
         }
       ]
     },
@@ -5942,6 +6431,353 @@
     }
   },
   {
+    "rawTag": "ripple",
+    "label": "Ripple",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Ripple"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-ripple"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "ripple"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Provides ripple effect for interactive elements."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Ripple creates a visual feedback effect when users interact with buttons or other clickable elements.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<button style=\"position: relative;\">\n  <wc-ripple></wc-ripple>\n  Click me\n</button>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Ripple",
+      "members": [
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables the ripple.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "hovered",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "pressed",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "mdRoot",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "rippleSize",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "rippleScale",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "initialSize",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "growAnimation",
+          "type": {
+            "text": "Animation | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "state",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "rippleStartEvent",
+          "type": {
+            "text": "PointerEvent | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "attach",
+          "parameters": [
+            {
+              "name": "control",
+              "type": {
+                "text": "HTMLElement"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "detach"
+        },
+        {
+          "kind": "method",
+          "name": "handlePointerenter",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handlePointerleave",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handlePointerup",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handlePointerdown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handlePointercancel",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleContextmenu",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "determineRippleSize",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "getTranslationCoordinates",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "positionEvent",
+              "optional": true,
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "startPressAnimation",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "positionEvent",
+              "optional": true,
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "endPressAnimation",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "shouldReactToEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ],
+          "description": "Returns `true` if\n - the ripple element is enabled\n - the pointer is primary for the input type\n - the pointer is the pointer that started the interaction, or will start\nthe interaction\n - the pointer is a touch, or the pointer state has the primary button\nheld, or the pointer is hovering"
+        },
+        {
+          "kind": "method",
+          "name": "isTouch",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "{ pointerType }",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleEvent",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "getNormalizedPointerEventCoords",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "{\n    x: number;\n    y: number;\n  }"
+            }
+          },
+          "parameters": [
+            {
+              "name": "pointerEvent",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables the ripple.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-ripple",
+      "customElement": true,
+      "summary": "Provides ripple effect for interactive elements.",
+      "rawTag": {
+        "name": "ripple",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "skeleton",
     "label": "Skeleton",
     "jsdoc": {
@@ -5954,7 +6790,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-skeleton"
+          "text": "wc-skeleton"
         }
       ],
       "@rawTag": [
@@ -5973,6 +6809,12 @@
         {
           "kind": "text",
           "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-skeleton visible></wc-skeleton>\n```"
         }
       ]
     },
@@ -6006,7 +6848,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-skeleton",
+      "tagName": "wc-skeleton",
       "customElement": true,
       "summary": "Adds a skeleton effect to an element.",
       "rawTag": {
@@ -6028,7 +6870,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-spinner"
+          "text": "wc-spinner"
         }
       ],
       "@rawTag": [
@@ -6058,7 +6900,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-spinner></base-spinner>\n```"
+          "text": "```html\n<wc-spinner></wc-spinner>\n```"
         }
       ]
     },
@@ -6081,7 +6923,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-spinner",
+      "tagName": "wc-spinner",
       "customElement": true,
       "summary": "A spinner component that animates a circular shape.",
       "rawTag": {
@@ -6103,7 +6945,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-switch"
+          "text": "wc-switch"
         }
       ],
       "@rawTag": [
@@ -6139,7 +6981,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<base-switch value=\"true\"></base-switch>\n```"
+          "text": "```html\n<wc-switch value=\"true\"></wc-switch>\n```"
         }
       ],
       "@tags": [
@@ -6545,11 +7387,660 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "base-switch",
+      "tagName": "wc-switch",
       "customElement": true,
       "summary": "Captures boolean input with an on/off switch interaction.",
       "rawTag": {
         "name": "switch",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "tab",
+    "label": "Tab",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tab"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-tab"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tab"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A tab component for use within tabs."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Tab represents an individual tab in a tabs component.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tab>Tab Label</wc-tab>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Tab",
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "active",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "disabledReason"
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "icon"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "value"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States"
+        },
+        {
+          "kind": "field",
+          "name": "_tabindex",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "tabElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "method",
+          "name": "renderTabContent"
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "active"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "disabledReason"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "icon"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "label"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "value"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "fieldName": "configAria"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tab",
+      "customElement": true,
+      "summary": "A tab component for use within tabs.",
+      "rawTag": {
+        "name": "tab",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "tab-panel",
+    "label": "Tab Panel",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tab Panel"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-tab-panel"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tab-panel"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Content panel for tabs."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>TabPanel contains the content associated with a tab.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tab-panel>Content for this tab</wc-tab-panel>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "TabPanel",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "value",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "value"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tab-panel",
+      "customElement": true,
+      "summary": "Content panel for tabs.",
+      "rawTag": {
+        "name": "tab-panel",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "tabs",
+    "label": "Tabs",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tabs"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-tabs"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tabs"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The tabs component is used to display multiple panels of content in a container."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>The tabs component allows users to switch between different views or content sections.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tabs>\n  <wc-tabs-list>\n   <wc-tab selected >Tab 1</wc-tab>\n   <wc-tab>Tab 2</wc-tab>\n  </wc-tabs-list>\n  <wc-tab-panel>Panel 1</wc-tab-panel>\n  <wc-tab-panel>Panel 2</wc-tab-panel>\n</wc-tabs>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Tabs",
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
+          },
+          "default": "'line'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "uid",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "onTabClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "selectTab",
+          "parameters": [
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "getTabs",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "NodeListOf<HTMLElement>"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "getTabPanels",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "NodeListOf<HTMLElement>"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "getTabList",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "HTMLElement | null"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "tabsHaveTarget",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "initializeTabs",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
+          },
+          "default": "'line'",
+          "fieldName": "variant"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tabs",
+      "customElement": true,
+      "summary": "The tabs component is used to display multiple panels of content in a container.",
+      "rawTag": {
+        "name": "tabs",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "tabs-list",
+    "label": "Tabs List",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tabs List"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-tabs-list"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tabs-list"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Container for tab components."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>TabsList holds the tab buttons and manages their layout.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tabs-list>\n  <wc-tab>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs-list>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "TabsList",
+      "members": [
+        {
+          "kind": "field",
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "managed"
+        },
+        {
+          "kind": "field",
+          "name": "__handleTabClick",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "managed"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tabs-list",
+      "customElement": true,
+      "summary": "Container for tab components.",
+      "rawTag": {
+        "name": "tabs-list",
         "description": ""
       }
     }
@@ -6567,7 +8058,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-tag"
+          "text": "wc-tag"
         }
       ],
       "@rawTag": [
@@ -6582,16 +8073,16 @@
           "text": "Tag component for displaying labels or values with optional dismiss functionality."
         }
       ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<base-tag color=red>Tag</base-tag>\n```"
-        }
-      ],
       "@tags": [
         {
           "kind": "text",
           "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tag color=\"red\">Tag</wc-tag>\n```"
         }
       ]
     },
@@ -6706,7 +8197,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-tag",
+      "tagName": "wc-tag",
       "customElement": true,
       "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
       "rawTag": {
@@ -6728,7 +8219,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "textarea-field"
+          "text": "wc-textarea"
         }
       ],
       "@rawTag": [
@@ -6743,10 +8234,16 @@
           "text": "The Textarea component is used to capture user input."
         }
       ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "input"
+        }
+      ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<textarea-field label=\"Name\" required placeholder=\"Enter your name\"></textarea-field>\n```"
+          "text": "```html\n<wc-textarea label=\"Description\" placeholder=\"Enter text\"></wc-textarea>\n```"
         }
       ]
     },
@@ -7217,7 +8714,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "textarea-field",
+      "tagName": "wc-textarea",
       "customElement": true,
       "summary": "The Textarea component is used to capture user input.",
       "rawTag": {
@@ -7239,7 +8736,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "time-picker"
+          "text": "wc-time-picker"
         }
       ],
       "@rawTag": [
@@ -7254,10 +8751,16 @@
           "text": "The Time Picker component is used to capture time user input."
         }
       ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "input"
+        }
+      ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<time-picker label=\"Name\" required placeholder=\"Enter your name\"></time-picker>\n```"
+          "text": "```html\n<wc-time-picker label=\"Time\" placeholder=\"Select a time\"></wc-time-picker>\n```"
         }
       ]
     },
@@ -7711,7 +9214,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "time-picker",
+      "tagName": "wc-time-picker",
       "customElement": true,
       "summary": "The Time Picker component is used to capture time user input.",
       "rawTag": {
@@ -7733,7 +9236,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "base-tooltip"
+          "text": "wc-tooltip"
         }
       ],
       "@rawTag": [
@@ -7748,16 +9251,16 @@
           "text": "Displays a tooltip for an element."
         }
       ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<span class=\"tooltip\">Tooltip</span>\n```"
-        }
-      ],
       "@tags": [
         {
           "kind": "text",
           "text": "display"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tooltip content=\"Tooltip text\">\n  <button>Hover me</button>\n</wc-tooltip>\n```"
         }
       ]
     },
@@ -8006,7 +9509,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "base-tooltip",
+      "tagName": "wc-tooltip",
       "customElement": true,
       "summary": "Displays a tooltip for an element.",
       "rawTag": {

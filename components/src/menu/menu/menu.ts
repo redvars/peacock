@@ -1,6 +1,22 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 
+/**
+ * @label Menu
+ * @tag wc-base-menu
+ * @rawTag base-menu
+ * @summary A dropdown menu component.
+ * @tags navigation
+ *
+ * @example
+ * ```html
+ * <wc-base-menu>
+ *   <wc-menu-list>
+ *     <wc-menu-item>Item 1</wc-menu-item>
+ *   </wc-menu-list>
+ * </wc-base-menu>
+ * ```
+ */
 export class Menu extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
 

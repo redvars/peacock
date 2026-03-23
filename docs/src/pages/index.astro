@@ -48,16 +48,16 @@ function jumpingSentence(sentence: string) {
       <p class='text-headline'>A light weight customisable web component + css library</p>
 
       <div class='banner-actions '>
-        <base-button href='#getting-started' size='md' type='primary' icon='arrow--right'>Get
+        <wc-button href='#getting-started' size='md' type='primary' icon='arrow--right'>Get
           Started
-        </base-button>
-        <base-button href='/components/' size='md' type='secondary' variant='tonal'>Browse Components</base-button>
+        </wc-button>
+        <wc-button href='/components/' size='md' type='secondary' variant='tonal'>Browse Components</wc-button>
       </div>
     </div>
 
 
     <div class='social-icons'>
-      <icon-button
+      <wc-icon-button
         variant='text'
         target='_blank'
         aria-label='Github'
@@ -65,8 +65,8 @@ function jumpingSentence(sentence: string) {
         provider='carbon'
         href={`https://www.github.com/${site.github_username}`}
       >
-      </icon-button>
-      <icon-button
+      </wc-icon-button>
+      <wc-icon-button
         variant='text'
         target='_blank'
         aria-label='Twitter'
@@ -74,27 +74,27 @@ function jumpingSentence(sentence: string) {
         provider='carbon'
         href={`https://x.com/${site.twitter_username}`}
       >
-      </icon-button>
+      </wc-icon-button>
     </div>
 
     <div class='made-in-india'>
       <p class='text-body-emphasized'>Built by</p>&nbsp;
       <p class='text-body-emphasized'>
         <a class='link no-decoration' href={site.author_url}>
-          <base-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></base-avatar>&nbsp;
+          <wc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></wc-avatar>&nbsp;
           {site.author}
         </a>
       </p>
       <p class='text-body-emphasized'>.</p>
-      <base-icon class='country-flag' size='1.5rem'
-                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></base-icon>
+      <wc-icon class='country-flag' size='1.5rem'
+                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></wc-icon>
       <p class='text-body-emphasized'>Made in India.</p>
     </div>
   </div>
 
 
   <div class='sections-wrapper surface-container-low'>
-    <base-container size='max'>
+    <wc-container size='max'>
       <div class='section'>
         <h2 class='text-headline'>Introduction</h2>
         <p class='text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
@@ -155,7 +155,7 @@ function jumpingSentence(sentence: string) {
 
                  &lt;body>
 
-                  <base-button size='lg' color='primary'>Click me</base-button>
+                  <wc-button size='lg' color='primary'>Click me</wc-button>
 
                  &lt;/body>
                  &lt;/html>`;
@@ -204,7 +204,7 @@ function jumpingSentence(sentence: string) {
         </div>
       </div>
 
-    </base-container>
+    </wc-container>
 
 
 

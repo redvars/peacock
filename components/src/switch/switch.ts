@@ -7,7 +7,7 @@ import BaseInput from '../input/BaseInput.js';
 
 /**
  * @label Switch
- * @tag base-switch
+ * @tag wc-switch
  * @rawTag switch
  *
  * @summary Captures boolean input with an on/off switch interaction.
@@ -27,7 +27,7 @@ import BaseInput from '../input/BaseInput.js';
  *
  * @example
  * ```html
- * <base-switch value="true"></base-switch>
+ * <wc-switch value="true"></wc-switch>
  * ```
  * @tags input, form
  */
@@ -213,8 +213,8 @@ export class Switch extends BaseInput {
   __renderIcon() {
     if (this.withIcon) {
       if (this.value)
-        return html`<base-icon name="check" class="icon"></base-icon>`;
-      return html`<base-icon name="close" class="icon"></base-icon>`;
+        return html`<wc-icon name="check" class="icon"></wc-icon>`;
+      return html`<wc-icon name="close" class="icon"></wc-icon>`;
     }
     return nothing;
   }

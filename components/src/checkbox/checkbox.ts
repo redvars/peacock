@@ -6,29 +6,26 @@ import styles from './checkbox.scss';
 
 /**
  * @label Checkbox
- * @tag base-checkbox
+ * @tag wc-checkbox
  * @rawTag checkbox
- *
  * @summary Captures boolean input with an optional indeterminate mode.
  * @overview
  * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
  * <p>Material Design 3 checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
- *
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.
  * @cssprop --checkbox-checkmark-color: Color of the checkmark icon.
  * @cssprop --checkbox-state-layer-size: Size of the state layer for touch target.
- *
  * @fires {CustomEvent} change - Dispatched when the checkbox value changes.
  * @fires {CustomEvent} blur - Dispatched when the checkbox loses focus.
  * @fires {CustomEvent} focus - Dispatched when the checkbox receives focus.
+ * @tags input, form
  *
  * @example
  * ```html
- * <base-checkbox label="Accept terms"></base-checkbox>
+ * <wc-checkbox label="Accept terms"></wc-checkbox>
  * ```
- * @tags input, form
  */
 export class Checkbox extends LitElement {
   static styles = [styles];

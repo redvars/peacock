@@ -16,7 +16,7 @@ const {component} = Astro.props;
      <!-- {
         declaration.example
           ? <Fragment set:html={declaration.example} />
-          : <base-image src={component.img} dark-src={component.imgDark}/>
+          : <wc-image src={component.img} dark-src={component.imgDark}/>
       }-->
     </pc-card-content>
 
@@ -28,7 +28,7 @@ const {component} = Astro.props;
       <p class='text-body component-description'>{getTextTag(component, '@summary')}</p>
 
 
-      <base-button size='sm' color='dark' dark-mode-color="white" href={`/components/${getTextTag(component, '@rawTag')}/#`}  icon="arrow--right">Read more</base-button>
+      <wc-button size='sm' color='dark' dark-mode-color="white" href={`/components/${getTextTag(component, '@rawTag')}/#`}  icon="arrow--right">Read more</wc-button>
     </pc-card-content>
   </pc-card>
 </div>}

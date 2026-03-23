@@ -5,7 +5,7 @@ import styles from './avatar.scss';
 
 /**
  * @label Avatar
- * @tag base-avatar
+ * @tag wc-avatar
  * @rawTag avatar
  * @summary The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
  *
@@ -17,7 +17,7 @@ import styles from './avatar.scss';
  *
  * @example
  * ```html
- * <base-avatar name="Shivaji Varma" src="https://peacock.redvars.com/assets/img/avatar.xs.webp" style='--avatar-size: 4rem'></base-avatar>
+ * <wc-avatar name="Shivaji Varma" src="https://peacock.redvars.com/assets/img/avatar.xs.webp" style='--avatar-size: 4rem'></wc-avatar>
  * ```
  *
  * @tags display

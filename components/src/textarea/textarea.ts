@@ -7,14 +7,14 @@ import { spread } from '../spread.js';
 
 /**
  * @label Textarea
- * @tag textarea-field
+ * @tag wc-textarea
  * @rawTag textarea
- *
  * @summary The Textarea component is used to capture user input.
+ * @tags input
  *
  * @example
  * ```html
- * <textarea-field label="Name" required placeholder="Enter your name"></textarea-field>
+ * <wc-textarea label="Description" placeholder="Enter text"></wc-textarea>
  * ```
  */
 export class Textarea extends BaseInput {

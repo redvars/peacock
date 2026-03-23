@@ -7,22 +7,17 @@ type ContainerSize = 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
 
 /**
  * @label Container
- * @tag base-container
+ * @tag wc-container
  * @rawTag container
- * @summary The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
- *
- * @cssprop --avatar-border-radius - Controls the border radius of the avatar.
- * @cssprop --avatar-background-color - Controls the color of the avatar.
- * @cssprop --avatar-size - Controls the size of the avatar.
- * @cssprop --avatar-text-color - Controls the color of the text inside the avatar.
- *
+ * @summary A responsive container component for layout.
+ * @cssprop --container-max-width - Controls the maximum width of the container.
+ * @cssprop --container-padding - Controls the padding of the container.
+ * @tags layout
  *
  * @example
  * ```html
- * <base-container>Container</base-avatar>
+ * <wc-container size="lg">Content</wc-container>
  * ```
- *
- * @tags display
  */
 export class Container extends LitElement {
   @property({ type: String, reflect: true })

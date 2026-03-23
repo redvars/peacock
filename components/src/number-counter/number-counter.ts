@@ -6,15 +6,15 @@ import styles from './number-counter.scss';
 
 /**
  * @label Number Counter
- * @tag number-counter
+ * @tag wc-number-counter
  * @rawTag number-counter
  * @summary Displays a number with commas for thousands.
  *
  * @example
  * ```html
- * <number-counter value="123456789"></number-counter>
+ * <wc-number-counter value="123456789"></wc-number-counter>
  * <script>
- *     const $counter = document.querySelector('number-counter');
+ *     const $counter = document.querySelector('wc-number-counter');
  *
  *     setInterval(() => {
  *         $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));

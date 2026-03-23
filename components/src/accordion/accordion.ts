@@ -5,17 +5,17 @@ import { AccordionItem } from './accordion-item.js';
 
 /**
  * @label Accordion
- * @tag base-accordion
+ * @tag wc-accordion
  * @rawTag accordion
  * @summary An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
  *
  * @example
  * ```html
- * <base-accordion>
- *     <accordion-item heading="Accordion">
+ * <wc-accordion>
+ *     <wc-accordion-item heading="Accordion">
  *         Content
- *     </accordion-item>
- * </base-accordion>
+ *     </wc-accordion-item>
+ * </wc-accordion>
  * ```
  * @tags display
  */

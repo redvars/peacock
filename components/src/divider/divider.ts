@@ -6,7 +6,7 @@ import { observerSlotChangesWithCallback } from '../utils.js';
 
 /**
  * @label Divider
- * @tag base-divider
+ * @tag wc-divider
  * @rawTag divider
  *
  * @summary The divider component is used to visually separate content.
@@ -19,7 +19,7 @@ import { observerSlotChangesWithCallback } from '../utils.js';
  *
  * @example
  * ```html
- * <base-divider style="width: 12rem;">or</base-divider>
+ * <wc-divider style="width: 12rem;">or</wc-divider>
  * ```
  * @tags display
  */

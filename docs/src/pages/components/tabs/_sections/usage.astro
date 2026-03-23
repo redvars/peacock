@@ -7,20 +7,20 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
-<base-tabs>
+<wc-tabs>
   <tabs-list>
-    <base-tab>First tab</base-tab>
-    <base-tab selected="true">Second tab</base-tab>
-    <base-tab disabled>Disabled tab</base-tab>
-    <base-tab href='https://shivajivarma.com'>External link</base-tab>
+    <wc-tab>First tab</wc-tab>
+    <wc-tab active="true">Second tab</wc-tab>
+    <wc-tab disabled>Disabled tab</wc-tab>
+    <wc-tab href='https://shivajivarma.com'>External link</wc-tab>
   </tabs-list>
 
-  <base-tab-panel>
+  <wc-tab-panel>
     <pc-text type="heading"> First content </pc-text>
-  </base-tab-panel>
+  </wc-tab-panel>
 
-  <base-tab-panel>
+  <wc-tab-panel>
     <pc-text type="heading"> Second content </pc-text>
-  </base-tab-panel>
-</base-tabs>
+  </wc-tab-panel>
+</wc-tabs>
 </DemoComponentCard>

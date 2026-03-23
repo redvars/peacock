@@ -11,19 +11,19 @@ const { sections, title } = Astro.props;
 
     <p class="text-body-large">On this page</p>
     <h2 class="text-headline">{title}</h2>
-    <menu-list id="overview-navigation" variant="vibrant">
+    <wc-menu-list id="overview-navigation" variant="vibrant">
       {
         sections.map((section: any) => {
           const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
-          return <menu-item href={`#section-${sectionValue}`} value={sectionValue}>{section.title}</menu-item>
+          return <wc-menu-item href={`#section-${sectionValue}`} value={sectionValue}>{section.title}</wc-menu-item>
         })
       }
-    </menu-list>
+    </wc-menu-list>
 
     <script>
       const overviewNavigation = document.getElementById('overview-navigation');
 
-      const nodes = overviewNavigation?.querySelectorAll('menu-item');
+      const nodes = overviewNavigation?.querySelectorAll('wc-menu-item');
       if (nodes?.length) {
         //@ts-ignore
         let selectedValue = location.hash?.replace("#section-", "");
@@ -45,7 +45,7 @@ const { sections, title } = Astro.props;
 
       function selectNode(selectedValue) {
           const overviewNavigation = document.getElementById('overview-navigation');
-          const nodes = overviewNavigation?.querySelectorAll('menu-item');
+          const nodes = overviewNavigation?.querySelectorAll('wc-menu-item');
 
           if (selectedValue)
             nodes.forEach(function(node) {

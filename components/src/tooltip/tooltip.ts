@@ -9,15 +9,17 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
 
 /**
  * @label Tooltip
- * @tag base-tooltip
+ * @tag wc-tooltip
  * @rawTag tooltip
  * @summary Displays a tooltip for an element.
+ * @tags display
  *
  * @example
  * ```html
- * <span class="tooltip">Tooltip</span>
+ * <wc-tooltip content="Tooltip text">
+ *   <button>Hover me</button>
+ * </wc-tooltip>
  * ```
- * @tags display
  */
 export class Tooltip extends LitElement {
   static styles = [styles];

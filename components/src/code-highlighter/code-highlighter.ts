@@ -16,6 +16,21 @@ import PeacockComponent from 'src/PeacockComponent.js';
 import { copyToClipboard } from '../utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
 
+/**
+ * @label Code Highlighter
+ * @tag wc-code-highlighter
+ * @rawTag code-highlighter
+ * @summary A component that provides syntax highlighting for code snippets.
+ * @tags display
+ *
+ * @example
+ * ```html
+ * <wc-code-highlighter language="javascript">
+ *   <pre><code>console.log('Hello');</code></pre>
+ * </wc-code-highlighter>
+ * ```
+ */
+
 const locale = {
   loading: 'Loading code...',
   copyToClipboard: 'Copy to clipboard',
@@ -173,7 +188,7 @@ export class CodeHighlighter extends LitElement {
         <div class="header">
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
-            <icon-button
+            <wc-icon-button
               color="dark"
               variant="text"
               size="xs"
@@ -182,7 +197,7 @@ export class CodeHighlighter extends LitElement {
               tooltip=${locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
-            </icon-button>
+            </wc-icon-button>
           </div>
         </div>
 

@@ -6,15 +6,15 @@ import styles from './breadcrumb-item.scss';
 
 /**
  * @label Breadcrumb Item
- * @tag breadcrumb-item
+ * @tag wc-breadcrumb-item
  * @rawTag breadcrumb-item
  * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
+ * @tags navigation
  *
  * @example
  * ```html
- * <breadcrumb-item href="#">Home</breadcrumb-item>
+ * <wc-breadcrumb-item href="#">Home</wc-breadcrumb-item>
  * ```
- * @tags navigation
  */
 export class BreadcrumbItem extends LitElement {
   static styles = [styles];

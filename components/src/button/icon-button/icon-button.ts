@@ -11,7 +11,7 @@ import { throttle } from '../../utils.js';
 
 /**
  * @label Icon Button
- * @tag icon-button
+ * @tag wc-icon-button
  * @rawTag icon-button
  *
  * @summary Icon buttons allow users to take actions, and make choices, with a single tap.
@@ -48,7 +48,7 @@ import { throttle } from '../../utils.js';
  *
  * @example
  * ```html
- * <icon-button name="home"></icon-button>
+ * <wc-icon-button name="home"></wc-icon-button>
  * ```
  * @tags display
  */
@@ -142,11 +142,11 @@ export class IconButton extends BaseButton {
       <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">
-        <base-icon
+        <wc-icon
           name=${this.name}
           src=${this.src}
           provider=${this.provider}
-        ></base-icon>
+        ></wc-icon>
       </div>
 
       ${this.__renderDisabledReason()}

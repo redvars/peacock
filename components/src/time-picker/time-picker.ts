@@ -7,14 +7,14 @@ import { spread } from '../spread.js';
 
 /**
  * @label Time Picker
- * @tag time-picker
+ * @tag wc-time-picker
  * @rawTag time-picker
- *
  * @summary The Time Picker component is used to capture time user input.
+ * @tags input
  *
  * @example
  * ```html
- * <time-picker label="Name" required placeholder="Enter your name"></time-picker>
+ * <wc-time-picker label="Time" placeholder="Select a time"></wc-time-picker>
  * ```
  */
 export class TimePicker extends BaseInput {
@@ -161,7 +161,7 @@ export class TimePicker extends BaseInput {
 
         <slot name="end" slot="field-end"></slot>
 
-        <icon-button
+        <wc-icon-button
           slot="field-end"
           color="secondary"
           variant="text"
@@ -174,7 +174,7 @@ export class TimePicker extends BaseInput {
             });
           }}
         >
-        </icon-button>
+        </wc-icon-button>
       </base-field>
     `;
   }

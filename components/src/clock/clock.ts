@@ -7,19 +7,18 @@ import styles from './clock.scss';
 
 /**
  * @label Clock
- * @tag base-clock
+ * @tag wc-clock
  * @rawTag clock
- *
  * @summary Displays the current time in a given timezone.
  * @overview
  *  - Clocks are used to display the current time in a specified timezone.
  *  - They can be displayed in various formats, including 12-hour and 24-hour time.
+ * @tags display
  *
  * @example
  * ```html
- * <base-clock></base-clock>
+ * <wc-clock></wc-clock>
  * ```
- * @tags display
  */
 @PeacockComponent
 export class Clock extends LitElement {

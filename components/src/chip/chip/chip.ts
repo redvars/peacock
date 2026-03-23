@@ -7,15 +7,15 @@ import sizeStyles from './chip-sizes.scss';
 
 /**
  * @label Chip
- * @tag base-chip
+ * @tag wc-chip
  * @rawTag chip
- * @summary
+ * @summary Chip component for displaying compact information with optional actions.
+ * @tags display
  *
  * @example
  * ```html
- * <base-tag>Link</base-tag>
+ * <wc-chip>Chip content</wc-chip>
  * ```
- * @tags display
  */
 export class Chip extends LitElement {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
@@ -65,7 +65,7 @@ export class Chip extends LitElement {
         @click=${this._dismissClickHandler}
         aria-label="Dismiss"
       >
-        <base-icon class="close-btn-icon" name="close"></base-icon>
+        <wc-icon class="close-btn-icon" name="close"></wc-icon>
       </button>
     `;
   }

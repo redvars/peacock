@@ -4,14 +4,15 @@ import styles from './skeleton.scss';
 
 /**
  * @label Skeleton
- *
- * @tag base-skeleton
+ * @tag wc-skeleton
  * @rawTag skeleton
- *
  * @summary Adds a skeleton effect to an element.
- *
- *
  * @tags display
+ *
+ * @example
+ * ```html
+ * <wc-skeleton visible></wc-skeleton>
+ * ```
  */
 export class Skeleton extends LitElement {
   static styles = [styles];

@@ -5,7 +5,7 @@ import styles from './focus-ring.scss';
 /**
  * @label Focus Ring
  *
- * @tag focus-ring
+ * @tag wc-focus-ring
  * @rawTag focus-ring
  *
  * @summary Adds a focus ring to an element.
