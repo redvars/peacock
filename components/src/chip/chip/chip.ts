@@ -65,7 +65,7 @@ export class Chip extends LitElement {
         @click=${this._dismissClickHandler}
         aria-label="Dismiss"
       >
-        <base-icon class="close-btn-icon" name="close"></base-icon>
+        <wc-icon class="close-btn-icon" name="close"></wc-icon>
       </button>
     `;
   }

@@ -213,8 +213,8 @@ export class Switch extends BaseInput {
   __renderIcon() {
     if (this.withIcon) {
       if (this.value)
-        return html`<base-icon name="check" class="icon"></base-icon>`;
-      return html`<base-icon name="close" class="icon"></base-icon>`;
+        return html`<wc-icon name="check" class="icon"></wc-icon>`;
+      return html`<wc-icon name="close" class="icon"></wc-icon>`;
     }
     return nothing;
   }

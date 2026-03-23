@@ -58,7 +58,7 @@ export class Tag extends LitElement {
         aria-label="Dismiss"
       >
         <base-ripple class="ripple"></base-ripple>
-        <base-icon class="dismiss-button-icon" name="close"></base-icon>
+        <wc-icon class="dismiss-button-icon" name="close"></wc-icon>
       </button>
     `;
   }

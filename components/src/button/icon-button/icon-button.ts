@@ -142,11 +142,11 @@ export class IconButton extends BaseButton {
       <base-skeleton class="skeleton"></base-skeleton>
 
       <div class="button-content">
-        <base-icon
+        <wc-icon
           name=${this.name}
           src=${this.src}
           provider=${this.provider}
-        ></base-icon>
+        ></wc-icon>
       </div>
 
       ${this.__renderDisabledReason()}

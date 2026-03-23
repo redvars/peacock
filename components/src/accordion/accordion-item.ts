@@ -80,7 +80,7 @@ export class AccordionItem extends LitElement {
         @click=${this.__handleToggle}
         aria-expanded=${this.open}
       >
-        <base-icon class="accordion-icon" name="keyboard_arrow_down"></base-icon>
+        <wc-icon class="accordion-icon" name="keyboard_arrow_down"></wc-icon>
         <div part="title" class="accordion-title">
           <slot name="heading">${this.heading}</slot>
         </div>
