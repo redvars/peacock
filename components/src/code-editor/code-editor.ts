@@ -202,7 +202,7 @@ export default class CodeEditor extends BaseInput {
 
   render() {
     return html`
-    <base-field
+    <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -215,16 +215,16 @@ export default class CodeEditor extends BaseInput {
       })}"
       >
         ${(this.disabled || this.readonly) 
-          ? html`<base-tag class="read-only-tag" color="red">Read Only</base-tag>` 
+          ? html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>` 
           : nothing
         }
         <div class="editor"></div>
         ${!this.editorMonacoInstance ? html`
           <div class="code-editor-loader">
-            <base-spinner></base-spinner> Loading...
+            <wc-spinner></wc-spinner> Loading...
           </div>
         ` : nothing}
-      </base-field>
+      </wc-field>
     `;
   }
 }

@@ -35,7 +35,7 @@ const description = 'The overview page is the first page you see when you visit 
         <div class='cards'>
           {
             customElementsJSDocs.map((component) => {
-              if (component.rawTag == 'breadcrumb-item' || component.rawTag == 'focus-ring'  || component.rawTag == 'skeleton') {
+              if (component.rawTag &&  ['breadcrumb-item', 'focus-ring', 'skeleton', 'tab-panel', 'tab', 'tabs-list'].includes(component.rawTag)) {
                 return;
               }
               return <WebComponentCard component={component}></WebComponentCard>

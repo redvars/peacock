@@ -74,7 +74,7 @@ export class Tag extends LitElement {
 
     return html`
       <div class="${classMap(classes)}">
-        <base-elevation class="elevation"></base-elevation>
+        <wc-elevation class="elevation"></wc-elevation>
         <div class="background"></div>
         <div class="outline"></div>
 

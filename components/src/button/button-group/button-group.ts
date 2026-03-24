@@ -6,8 +6,8 @@ import styles from './button-group.scss';
 
 /**
  * @label Button Group
- * @tag button-group
- * @rawTag wc-button-group
+ * @tag wc-button-group
+ * @rawTag button-group
  *
  * @summary Group a series of buttons together on a single line with the button group, and super-power.
 
