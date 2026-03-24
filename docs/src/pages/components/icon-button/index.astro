@@ -1,5 +1,7 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 
 import UsageSection from './_sections/Usage.astro';
 import SizesSection from './_sections/Sizes.astro';
@@ -9,8 +11,6 @@ import ColorsSection from './_sections/Colors.astro';
 import EventsSection from './_sections/Events.astro';
 import IconSection from './_sections/Icon.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
-import LitApiPanel from '../../../components/LitApiPanel.astro';
 
 const componentDetails = getComponentDetails('icon-button');
 
@@ -33,7 +33,7 @@ const sections = [
       <OverviewPanel  sections={sections} />
     </pc-tab-panel>
     <pc-tab-panel>
-      <LitApiPanel componentDetails={componentDetails} />
+      <ApiPanel componentDetails={componentDetails} />
     </pc-tab-panel>
   </pc-tabs>
 </Layout>

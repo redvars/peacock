@@ -3348,7 +3348,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-field label=\"Name\" required>\n  <wc-input placeholder=\"Enter name\"></wc-input>\n</wc-field>\n```"
+          "text": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```"
         }
       ],
       "@tags": [

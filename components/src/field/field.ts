@@ -16,7 +16,7 @@ import { observerSlotChangesWithCallback } from '../utils.js';
  * @example
  * ```html
  * <wc-field label="Name" required>
- *   <wc-input placeholder="Enter name"></wc-input>
+ *   some text
  * </wc-field>
  * ```
  * @tags form

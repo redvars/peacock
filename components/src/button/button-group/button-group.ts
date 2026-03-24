@@ -7,16 +7,16 @@ import styles from './button-group.scss';
 /**
  * @label Button Group
  * @tag button-group
- * @rawTag button-group
+ * @rawTag wc-button-group
  *
  * @summary Group a series of buttons together on a single line with the button group, and super-power.
 
  * @example
  * ```html
- * <button-group>
+ * <wc-button-group>
  *  <wc-icon-button name="home"></wc-icon-button>
  *  <wc-icon-button name="alarm"></wc-icon-button>
- * </button-group>
+ * </wc-button-group>
  * ```
  *
  * @tags controls

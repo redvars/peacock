@@ -14,8 +14,8 @@ const description = componentDetails.metadata.description;
 
 <Layout componentDetails={componentDetails}>
   <wc-breadcrumb>
-    {title != 'Overview' ? <breadcrumb-item href="/components">Components</breadcrumb-item> : ''}
-    <breadcrumb-item active>{title}</breadcrumb-item>
+    {title != 'Overview' ? <wc-breadcrumb-item href="/components">Components</wc-breadcrumb-item> : ''}
+    <wc-breadcrumb-item active>{title}</wc-breadcrumb-item>
   </wc-breadcrumb>
 
   <div class="comp-header">

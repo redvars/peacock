@@ -8,7 +8,7 @@
     "build:fetch-components": "",
     "preview": "astro preview",
     "astro": "astro",
-    "copy_peacock_files": "node copyPeacockFiles.js"
+    "install_peacock": "cd ../components && npm run build && cd ../docs && node copyPeacockFiles.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",

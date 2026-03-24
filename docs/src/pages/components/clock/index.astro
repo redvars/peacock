@@ -1,11 +1,10 @@
----
 import Layout from '../../../layouts/LitComponent.astro';
-import { getComponentDetails } from '../../../_data/getLitComponentDetails';
+import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 
 
 import UsageSection from './_sections/usage.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-import LitApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('clock');
 
 const sections = [
@@ -24,7 +23,7 @@ const sections = [
       <OverviewPanel  sections={sections} />
     </pc-tab-panel>
     <pc-tab-panel>
-      <LitApiPanel componentDetails={componentDetails} />
+      <ApiPanel componentDetails={componentDetails} />
     </pc-tab-panel>
   </pc-tabs>
 </Layout>

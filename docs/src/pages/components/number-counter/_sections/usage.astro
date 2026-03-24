@@ -4,13 +4,15 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p class='text-body-large'>Here are different types of inputs.</p>
 
 <DemoComponentCard lang={'html'}>
-  <number-counter value='4282828'></number-counter>
+  <wc-number-counter id="number-counter" value="4282828"></wc-number-counter>
 
   <script is:inline>
-    const $counter = document.querySelector('number-counter');
+    customElements.whenDefined('wc-number-counter').then(() => {
+      const $counter = document.querySelector('#number-counter');
 
-    setInterval(() => {
-      $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));
-    }, 1000);
+      setInterval(() => {
+        $counter.value = $counter.value + Math.floor(Math.random() * 1000);
+      }, 1000);
+    });
   </script>
 </DemoComponentCard>

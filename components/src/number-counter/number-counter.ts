@@ -12,13 +12,15 @@ import styles from './number-counter.scss';
  *
  * @example
  * ```html
- * <wc-number-counter value="123456789"></wc-number-counter>
+ * <wc-number-counter id="number-counter" value="123456789"></wc-number-counter>
  * <script>
- *     const $counter = document.querySelector('wc-number-counter');
- *
- *     setInterval(() => {
- *         $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));
- *     }, 1000);
+ *   customElements.whenDefined('wc-number-counter').then(() => {
+      const $counter = document.querySelector('#number-counter');
+
+      setInterval(() => {
+        $counter.value = $counter.value + Math.floor(Math.random() * 1000);
+      }, 1000);
+    });
  * </script>
  * ```
  * @tags display
