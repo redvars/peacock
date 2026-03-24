@@ -54,6 +54,7 @@ export class Slider extends LitElement {
   @state() private isDragging = false;
 
   @query('.slider-container') private container!: HTMLElement;
+  @query('.thumb') private thumbElement!: HTMLElement;
 
   private handleInput(event: MouseEvent | TouchEvent) {
     if (this.disabled) return;
@@ -77,39 +78,71 @@ export class Slider extends LitElement {
   }
 
   private onMouseDown(e: MouseEvent | TouchEvent) {
+    if (this.disabled) return;
+    
+    e.preventDefault();
     this.isDragging = true;
+    
+    // Add dragging class for CSS state
+    this.container.classList.add('dragging');
+    this.thumbElement.classList.add('dragging');
+    
     this.handleInput(e);
+    
     window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('mouseup', this.onMouseUp);
-    window.addEventListener('touchmove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onMouseMove, { passive: false });
     window.addEventListener('touchend', this.onMouseUp);
+    window.addEventListener('touchcancel', this.onMouseUp);
   }
 
   private onMouseMove = (e: MouseEvent | TouchEvent) => {
-    if (this.isDragging) this.handleInput(e);
+    if (this.isDragging) {
+      e.preventDefault();
+      this.handleInput(e);
+    }
   };
 
   private onMouseUp = () => {
+    if (!this.isDragging) return;
+    
     this.isDragging = false;
+    this.container.classList.remove('dragging');
+    this.thumbElement.classList.remove('dragging');
+    
     this.dispatchEvent(new CustomEvent('change', { detail: { value: this.value }, bubbles: true, composed: true }));
+    
     window.removeEventListener('mousemove', this.onMouseMove);
     window.removeEventListener('mouseup', this.onMouseUp);
     window.removeEventListener('touchmove', this.onMouseMove);
     window.removeEventListener('touchend', this.onMouseUp);
+    window.removeEventListener('touchcancel', this.onMouseUp);
   };
 
   private handleKeyDown(e: KeyboardEvent) {
     if (this.disabled) return;
+    
     const increment = e.shiftKey ? this.step * 10 : this.step;
+    let newValue = this.value;
 
     if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-      this.value = Math.min(this.max, this.value + increment);
+      newValue = Math.min(this.max, this.value + increment);
+      e.preventDefault();
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-      this.value = Math.max(this.min, this.value - increment);
+      newValue = Math.max(this.min, this.value - increment);
+      e.preventDefault();
     } else if (e.key === 'Home') {
-      this.value = this.min;
+      newValue = this.min;
+      e.preventDefault();
     } else if (e.key === 'End') {
-      this.value = this.max;
+      newValue = this.max;
+      e.preventDefault();
+    }
+
+    if (newValue !== this.value) {
+      this.value = newValue;
+      this.dispatchEvent(new CustomEvent('input', { detail: { value: this.value }, bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('change', { detail: { value: this.value }, bubbles: true, composed: true }));
     }
   }
 
