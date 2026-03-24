@@ -1,11 +1,11 @@
 {
   "name": "Node.js Development",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24.14.0",
   "features": {
     "ghcr.io/devcontainers/features/git:1": { "version": "latest" }
   },
   "forwardPorts": [3000],
-  "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
+  "postCreateCommand": ["bash", "./.devcontainer/postCreateCommand.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,5 +13,8 @@
         "streetsidesoftware.code-spell-checker"
       ]
     }
-  }
+  },
+  "mounts": [
+    "source=node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ]
 }
