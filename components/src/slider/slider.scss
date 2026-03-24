@@ -1,0 +1,113 @@
+:host {
+  --_track-height: 4px;
+  --_thumb-size: 20px;
+  --thumb-half: 10px;
+  --_active-track-color: var(--color-primary);
+  --_inactive-track-color: var(--color-secondary-container);
+  --_thumb-color: var(--color-primary);
+  --_label-color: var(--color-primary);
+  --_label-text-color: var(--color-on-primary);
+
+  display: inline-block;
+  width: 100%;
+  min-width: 200px;
+  vertical-align: middle;
+  touch-action: none; // Prevent scrolling while dragging
+}
+
+.slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px; // Touch target size
+  cursor: pointer;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.38;
+  }
+}
+
+.track {
+  position: absolute;
+  width: 100%;
+  height: var(--_track-height);
+  background-color: var(--_inactive-track-color);
+  border-radius: var(--_track-height);
+  overflow: hidden;
+
+  .track-active {
+    position: absolute;
+    height: 100%;
+    background-color: var(--_active-track-color);
+  }
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--_thumb-size);
+  height: var(--_thumb-size);
+  background-color: var(--_thumb-color);
+  border-radius: 50%;
+  box-shadow: var(--md-sys-elevation-1);
+  outline: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // State Layer (Hover/Focus halo)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: var(--_thumb-color);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:hover::before { opacity: 0.08; }
+  &:focus-visible::before { opacity: 0.12; }
+}
+
+// Value Label (Tooltip)
+.value-label {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  background-color: var(--_label-color);
+  color: var(--_label-text-color);
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.1s, transform 0.1s;
+  pointer-events: none;
+
+  // Tooltip triangle
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--_label-color);
+  }
+}
+
+.slider-container:active .value-label,
+.thumb:focus-visible .value-label {
+  opacity: 1;
+  transform: translateY(0);
+}
