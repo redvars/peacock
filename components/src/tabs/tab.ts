@@ -149,7 +149,6 @@ export class Tab extends LitElement {
 
 
   render() {
-
     const isLink = this.__isLink();
 
     const cssClasses = {
@@ -161,35 +160,40 @@ export class Tab extends LitElement {
       'has-content': this.slotHasContent
     };
 
+    // Common attributes for both button and link
+    const ariaAttributes = {
+      role: 'tab',
+      'aria-selected': this.active ? 'true' : 'false',
+      'aria-disabled': String(this.disabled),
+    };
 
     if (!isLink) {
-          return html`<button
-              class=${classMap(cssClasses)}
-              tabindex="0"
-              @mousedown=${this.__handlePress}
-              @keydown=${this.__handlePress}
-              @keyup=${this.__handlePress}
-              ?aria-describedby=${this.__getDisabledReasonID()}
-              aria-disabled=${`${this.disabled}`}
-              ?disabled=${this.disabled}
-              ${spread(this.configAria)}
-            >
-              ${this.renderTabContent()}
-            </button>`;
-        }
+      return html`<button
+          class=${classMap(cssClasses)}
+          tabindex=${this.active ? '0' : '-1'} 
+          @mousedown=${this.__handlePress}
+          @keydown=${this.__handlePress}
+          @keyup=${this.__handlePress}
+          ?aria-describedby=${this.__getDisabledReasonID()}
+          ?disabled=${this.disabled}
+          ${spread(ariaAttributes)}
+          ${spread(this.configAria)}
+        >
+          ${this.renderTabContent()}
+        </button>`;
+    }
 
     return html`<a
         class=${classMap(cssClasses)}
         id="button"
-        tabindex="0"
+        tabindex=${this.active ? '0' : '-1'}
         href=${this.href}
         target=${this.target}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        role="button"
         ?aria-describedby=${this.__getDisabledReasonID()}
-        aria-disabled=${`${this.disabled}`}
+        ${spread(ariaAttributes)}
         ${spread(this.configAria)}
       >
         ${this.renderTabContent()}

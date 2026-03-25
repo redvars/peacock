@@ -22,6 +22,19 @@ export class TabPanel extends LitElement {
 
   @property({ reflect: true }) value?: string;
 
+  // Set the role when the component is created
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'tabpanel');
+    }
+    
+    // Accessibility tip: panels should usually be focusable if they contain content
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
+  }
+
   render() {
     return html`<slot></slot>`;
   }

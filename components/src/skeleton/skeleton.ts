@@ -19,6 +19,13 @@ export class Skeleton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) visible: boolean = false;
 
+  override connectedCallback() {
+    super.connectedCallback();
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true');
+  }
+
   render() {
     return html` <div class="skeleton"></div>`;
   }

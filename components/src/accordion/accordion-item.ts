@@ -20,8 +20,6 @@ import styles from './accordion-item.scss';
 export class AccordionItem extends LitElement {
   static styles = [styles];
 
-  #id = crypto.randomUUID();
-
   /**
    * The menu item value.
    */
@@ -40,26 +38,46 @@ export class AccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   open: boolean = false;
 
-  @query('.accordion-heading')
-  private readonly buttonElement!: HTMLElement | null;
+  @query('#accordion-heading')
+  private readonly accordionHeading!: HTMLElement | null;
 
   override focus() {
-    this.buttonElement?.focus();
+    this.accordionHeading?.focus();
   }
 
   override blur() {
-    this.buttonElement?.blur();
+    this.accordionHeading?.blur();
   }
 
   private __handleToggle() {
     if (this.disabled) return;
+
+    // 1. Create the "before" event
+    const beforeEvent = new CustomEvent('before-toggle', {
+      detail: { nextState: !this.open },
+      bubbles: true,
+      composed: true,
+      cancelable: true
+    });
+
+    // 2. Dispatch it
+    this.dispatchEvent(beforeEvent);
+
+    // 3. Check if the developer called .preventDefault()
+    if (beforeEvent.defaultPrevented) {
+      console.log('Toggle was canceled by an external listener.');
+      return; // Exit early! Do not change the state.
+    }
+
+    // 4. If not canceled, proceed as normal
     this.open = !this.open;
+    
     this.dispatchEvent(
-      new CustomEvent('accordion-item--toggle', {
+      new CustomEvent('toggle', {
+        detail: { open: this.open },
         bubbles: true,
         composed: true,
-        detail: { open: this.open, id: this.#id },
-      }),
+      })
     );
   }
 
@@ -72,7 +90,7 @@ export class AccordionItem extends LitElement {
       })}
     >
       <button
-        id=${`accordion-heading-${this.#id}`}
+        id="accordion-heading"
         tabindex="0"
         aria-controls=${`accordion-control-${this.#id}`}
         class="accordion-heading"

@@ -25,14 +25,22 @@ export class Accordion extends LitElement {
   @property({ type: Boolean, attribute: 'allow-multiple' })
   allowMultiple = false;
 
-  @queryAssignedElements({ selector: 'p-accordion-item' })
-  items!: Array<AccordionItem>;
+  // 1. Query everything assigned to the slot
+  @queryAssignedElements({ flatten: true })
+  private _allAssignedElements!: Array<HTMLElement>;
+
+  // 2. Create a getter to filter by class type
+  get items(): Array<AccordionItem> {
+    return (this._allAssignedElements || []).filter(
+      (el): el is AccordionItem => el instanceof AccordionItem
+    );
+  }
 
   connectedCallback() {
     super.connectedCallback();
     // @ts-ignore
     // eslint-disable-next-line wc/require-listener-teardown
-    this.addEventListener('accordion-item:toggle', this._onItemToggle);
+    this.addEventListener('toggle', this._onItemToggle);
     this.addEventListener('keydown', this._onKeyDown);
   }
 
@@ -40,7 +48,7 @@ export class Accordion extends LitElement {
     super.disconnectedCallback();
     // @ts-ignore
     // eslint-disable-next-line no-undef
-    this.removeEventListener('accordion-item:toggle', this._onItemToggle);
+    this.removeEventListener('toggle', this._onItemToggle);
     this.removeEventListener('keydown', this._onKeyDown);
   }
 
@@ -67,8 +75,8 @@ export class Accordion extends LitElement {
     const focusedItemIndex = this.items.findIndex(item => {
       // Access the Shadow DOM of the item
       const root = item.shadowRoot;
-      // Check if the focused element inside that shadow DOM is the toggle button
-      return root?.activeElement?.classList.contains('accordion-heading');
+      // Check if the focused element's ID matches exactly
+      return root?.activeElement?.id === 'accordion-heading';
     });
 
     // 2. If no header is focused (e.g., focus is on body content or outside), do nothing.
@@ -102,12 +110,7 @@ export class Accordion extends LitElement {
 
     // 3. Apply Focus
     if (nextIndex !== -1) {
-      const itemToFocus = this.items[nextIndex];
-      // Select the button inside the Shadow DOM of the target item
-      const button = itemToFocus.shadowRoot?.querySelector(
-        '.accordion-heading',
-      ) as HTMLElement;
-      button?.focus();
+      this.items[nextIndex].focus();
     }
   }
 

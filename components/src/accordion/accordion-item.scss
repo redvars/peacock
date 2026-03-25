@@ -102,7 +102,7 @@
 }
 
 
-:host-context(p-accordion[align="start"]) {
+:host-context([align="start"]) {
   .accordion-item {
     .accordion-heading {
       flex-direction: row;
