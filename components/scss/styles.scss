@@ -3,6 +3,10 @@
 @use '../src/link/link.css-component.scss';
 @use '../src/popover/tooltip.css-component.scss';
 
+* {
+  transition: background-color .5s cubic-bezier(.2,0,0,1),background-image .5s cubic-bezier(.2,0,0,1);
+}
+
 .surface, .surface-container-high, .surface-container-highest, .surface-container, .surface-container-low, .surface-container-lowest, .surface-dim {
   color: var(--color-on-surface);
   --icon-color: var(--color-on-surface);
