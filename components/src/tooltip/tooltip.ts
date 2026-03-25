@@ -214,7 +214,7 @@ export class Tooltip extends LitElement {
   __renderRichTooltip() {
     return html`
       <div class="tooltip-content">
-        <base-elevation class="elevation"></base-elevation>
+        <wc-elevation class="elevation"></wc-elevation>
 
         <div class="tooltip-title" id="tooltip-labelledby">
           <slot name="title"></slot>

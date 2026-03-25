@@ -199,7 +199,7 @@ export class Tab extends LitElement {
   renderTabContent() {
     return html`
       <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
-      <base-elevation class="elevation"></base-elevation>
+      <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
       <wc-ripple class="ripple"></wc-ripple>

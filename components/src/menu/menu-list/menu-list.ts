@@ -38,7 +38,7 @@ export class MenuList extends LitElement {
       })}
     >
       <div class="background"></div>
-      <base-elevation class="elevation"></base-elevation>
+      <wc-elevation class="elevation"></wc-elevation>
 
       <div class="menu-list-content">
         <slot></slot>

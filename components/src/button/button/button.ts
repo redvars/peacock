@@ -139,12 +139,12 @@ export class Button extends BaseButton {
   renderButtonContent() {
     return html`
       <wc-focus-ring class="focus-ring" .control=${this} element="buttonElement"></wc-focus-ring>
-      <base-elevation class="elevation"></base-elevation>
+      <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>
       <div class="outline"></div>
       <wc-ripple class="ripple"></wc-ripple>
-      <base-skeleton class="skeleton"></base-skeleton>
+      <wc-skeleton class="skeleton"></wc-skeleton>
 
       <div class="button-content">
         <div class="slot-container">

@@ -1,9 +1,17 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-  <pc-slider id='slider' value='30' step='2'></pc-slider>
-</HighlighterCard>
+
+
+<style is:inline>
+  #slider {
+    padding: 0 3rem;
+  }
+</style>
+
+<DemoComponentCard lang={'html'}>
+  <wc-slider id='slider' value='100' step='1'></pc-slider>
+</DemoComponentCard>
 
 <script is:inline>
   const slider = document.querySelector('#slider');

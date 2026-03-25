@@ -122,7 +122,7 @@ export class TimePicker extends BaseInput {
 
   render() {
     return html`
-      <base-field
+      <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -175,7 +175,7 @@ export class TimePicker extends BaseInput {
           }}
         >
         </wc-icon-button>
-      </base-field>
+      </wc-field>
     `;
   }
 }

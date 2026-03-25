@@ -1288,7 +1288,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "button-group"
+          "text": "wc-button-group"
         }
       ],
       "@rawTag": [
@@ -1306,7 +1306,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<button-group>\n <wc-icon-button name=\"home\"></wc-icon-button>\n <wc-icon-button name=\"alarm\"></wc-icon-button>\n</button-group>\n```"
+          "text": "```html\n<wc-button-group>\n <wc-icon-button name=\"home\"></wc-icon-button>\n <wc-icon-button name=\"alarm\"></wc-icon-button>\n</wc-button-group>\n```"
         }
       ],
       "@tags": [
@@ -1347,7 +1347,7 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "button-group",
+      "tagName": "wc-button-group",
       "customElement": true,
       "summary": "Group a series of buttons together on a single line with the button group, and super-power.",
       "rawTag": {
@@ -5801,7 +5801,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-number-counter value=\"123456789\"></wc-number-counter>\n<script>\n    const $counter = document.querySelector('wc-number-counter');\n\n    setInterval(() => {\n        $counter.value = $counter.value + parseInt(Math.floor(Math.random() * 1000));\n    }, 1000);\n</script>\n```"
+          "text": "```html\n<wc-number-counter id=\"number-counter\" value=\"123456789\"></wc-number-counter>\n<script>\n  customElements.whenDefined('wc-number-counter').then(() => {\n     const $counter = document.querySelector('#number-counter');\n\n     setInterval(() => {\n       $counter.value = $counter.value + Math.floor(Math.random() * 1000);\n     }, 1000);\n   });\n</script>\n```"
         }
       ],
       "@tags": [
@@ -6853,6 +6853,266 @@
       "summary": "Adds a skeleton effect to an element.",
       "rawTag": {
         "name": "skeleton",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "slider",
+    "label": "Slider",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Slider"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-slider"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "slider"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Sliders allow users to make selections from a range of values."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "change - Dispatched when the slider interaction ends."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Slider",
+      "members": [
+        {
+          "kind": "field",
+          "name": "min",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The minimum value of the slider.",
+          "attribute": "min"
+        },
+        {
+          "kind": "field",
+          "name": "max",
+          "type": {
+            "text": "number"
+          },
+          "default": "100",
+          "description": "The maximum value of the slider.",
+          "attribute": "max"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "The current value of the slider.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "step",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The step increment for the slider.",
+          "attribute": "step"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the slider is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "labeled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels on the slider.",
+          "attribute": "labeled"
+        },
+        {
+          "kind": "field",
+          "name": "isDragging",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "container",
+          "type": {
+            "text": "HTMLElement"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent | TouchEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "onMouseDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "MouseEvent | TouchEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "onMouseMove",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "onMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleKeyDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "input",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the slider value changes during interaction."
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the slider interaction ends.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "min",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The minimum value of the slider.",
+          "fieldName": "min"
+        },
+        {
+          "name": "max",
+          "type": {
+            "text": "number"
+          },
+          "default": "100",
+          "description": "The maximum value of the slider.",
+          "fieldName": "max"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "number"
+          },
+          "default": "50",
+          "description": "The current value of the slider.",
+          "fieldName": "value"
+        },
+        {
+          "name": "step",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The step increment for the slider.",
+          "fieldName": "step"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the slider is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "labeled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels on the slider.",
+          "fieldName": "labeled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-slider",
+      "customElement": true,
+      "summary": "Sliders allow users to make selections from a range of values.",
+      "rawTag": {
+        "name": "slider",
         "description": ""
       }
     }

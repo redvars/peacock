@@ -47,6 +47,7 @@ import { Tabs } from './tabs/tabs.js';
 import { TabsList } from './tabs/tabs-list.js';
 import { Tab } from './tabs/tab.js';
 import { TabPanel } from './tabs/tab-panel.js';
+import { Slider } from './slider/slider.js';
 
 
 const distDirectory = `${import.meta.url}/..`;
@@ -207,6 +208,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-image': {
       CustomElementClass: Image
+    },
+    'wc-slider': {
+      CustomElementClass: Slider
     }
   },
 };

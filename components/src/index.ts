@@ -34,3 +34,4 @@ export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
 export { Image } from './image/index.js';
 export { Tab, Tabs, TabPanel, TabsList } from './tabs/index.js';
+export { Slider } from './slider/index.js';
