@@ -6,7 +6,6 @@ import styles from './chart-donut.scss';
 
 export type ChartDonutColor = {
   color: string;
-  hoverColor: string;
 };
 
 export type ChartDonutItem = {
@@ -14,23 +13,18 @@ export type ChartDonutItem = {
   value: number;
   label?: string;
   color?: string;
-  hoverColor?: string;
 };
 
 const chartColors: ChartDonutColor[] = [];
 ['purple', 'blue', 'green', 'yellow', 'orange', 'red'].forEach(colorName => {
   chartColors.push({
     color: `var(--color-${colorName}-60)`,
-    hoverColor: `var(--color-${colorName}-40)`,
   });
 });
 
-function convertToHex(colorName: string): string {
-  if (!colorName) return '';
-  const computed = getComputedStyle(document.documentElement).getPropertyValue(
-    colorName,
-  );
-  return computed ? computed.trim() : colorName;
+/** SVGPathElement augmented with the last rendered arc datum for smooth tween interpolation. */
+interface ArcPathElement extends SVGPathElement {
+  _prevDatum?: d3.PieArcDatum<ChartDonutItem>;
 }
 
 function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
@@ -77,45 +71,36 @@ export class ChartDonut extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'show-labels' })
   showLabels: boolean = true;
 
-  /** Chart data array. Each item should have name, value, and optional label/color/hoverColor. */
+  /** Chart data array. Each item should have name, value, and optional label and color. */
   @property({ type: Array }) data: ChartDonutItem[] = [];
 
   /** Label displayed in the center of the donut. */
   @property({ type: String }) label?: string;
 
-  private _debouncedUpdateChart = debounce(() => {
-    this._updateChart();
+  private _initialized = false;
+
+  private _debouncedRenderChart = debounce(() => {
+    this._renderChart(true);
   }, 300);
 
   firstUpdated() {
-    this._initializeChart();
+    this._renderChart(false);
   }
 
   updated(changedProperties: PropertyValues) {
+    if (!this._initialized) {
+      this._initialized = true;
+      return;
+    }
     const watchedProps = ['width', 'margin', 'showLabels', 'data'];
     const hasChanged = watchedProps.some(prop => changedProperties.has(prop));
     if (hasChanged) {
-      this._debouncedUpdateChart();
+      this._debouncedRenderChart();
     }
   }
 
   private _getRadius(): number {
     return this.width / 2 - this.margin - 100;
-  }
-
-  private _getDoughnutArc(radius: number) {
-    return d3
-      .arc()
-      .innerRadius(radius * 0.72)
-      .outerRadius(radius);
-  }
-
-  private _getLabelsArc() {
-    const radius = this._getRadius();
-    return d3
-      .arc()
-      .innerRadius(radius + 10)
-      .outerRadius(radius + 10);
   }
 
   private _getTotal(): number {
@@ -132,169 +117,155 @@ export class ChartDonut extends LitElement {
 
   private _getColorScale() {
     return d3
-      .scaleOrdinal()
-      .domain(this.data.map((d: ChartDonutItem) => d.name))
+      .scaleOrdinal<string, ChartDonutColor>()
+      .domain(this.data.map(d => d.name))
       .range(chartColors);
   }
 
-  private _setSVGDimensions() {
-    const svg = d3.select(this.svgElement as SVGElement);
+  private _renderChart(animate: boolean) {
+    if (!this.svgElement) return;
+
+    const DURATION = 500;
+    const radius = this._getRadius();
+    const pieData = this._getPieData();
+    const colorScale = this._getColorScale();
+    const total = this._getTotal();
+
+    const svg = d3.select(this.svgElement);
+
+    const doughnutArc = d3
+      .arc<d3.PieArcDatum<ChartDonutItem>>()
+      .innerRadius(radius * 0.72)
+      .outerRadius(radius);
+
+    const labelsArc = d3
+      .arc<d3.PieArcDatum<ChartDonutItem>>()
+      .innerRadius(radius + 10)
+      .outerRadius(radius + 10);
+
+    // Update SVG dimensions and center transform
     svg.attr('width', this.width).attr('height', this.width);
     svg
       .select('.chart-container')
       .attr('transform', `translate(${this.width / 2},${this.width / 2})`);
-  }
 
-  private _renderArcPaths(pieData: any, doughnutArc: any, colorScale: any) {
-    const $arcContainer = d3
-      .select(this.svgElement as SVGElement)
-      .select('.arc-container');
-
-    const $arcPaths = $arcContainer
-      .selectAll('.arc')
-      .data(pieData)
+    // Arc paths — keyed by name so D3 matches elements across updates
+    const $paths = svg
+      .select('.arc-container')
+      .selectAll<SVGPathElement, d3.PieArcDatum<ChartDonutItem>>('.arc')
+      .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
-      .on('mouseover', (e: MouseEvent, d: any) => {
-        (e.currentTarget as SVGPathElement).style.fill =
-          convertToHex(d.data.hoverColor) ||
-          convertToHex(d.data.color) ||
-          colorScale(d.data.name).hoverColor;
-      })
-      .on('mouseout', (e: MouseEvent, d: any) => {
-        (e.currentTarget as SVGPathElement).style.fill =
-          convertToHex(d.data.color) || colorScale(d.data.name).color;
-      });
+      .style('fill', d => d.data.color || colorScale(d.data.name).color);
 
-    $arcPaths
-      .transition()
-      .duration(500)
-      .attr('d', doughnutArc)
-      .attr('fill', (d: any) => {
-        return convertToHex(d.data.color) || colorScale(d.data.name).color;
-      });
-  }
-
-  private _updateChart() {
-    const radius = this._getRadius();
-    const pieData = this._getPieData();
-    const colorScale = this._getColorScale();
-
-    this._setSVGDimensions();
-
-    const total = this._getTotal();
-    d3.select(this.svgElement as SVGElement)
-      .select('.title')
-      .transition()
-      .tween('text', function (this: d3.BaseType) {
-        const selection = d3.select(this as SVGTextElement);
-        const start = parseFloat(d3.select(this as SVGTextElement).text()) || 0;
-        const end = total;
-        const interpolator = d3.interpolateNumber(start, end);
-        return function (t: number) {
-          selection.text(Math.round(interpolator(t)));
-        };
-      })
-      .duration(500);
-
-    const doughnutArc = this._getDoughnutArc(radius);
-    this._renderArcPaths(pieData, doughnutArc, colorScale);
-
-    if (this.showLabels) {
-      const labelsArc = this._getLabelsArc();
-      const $chartContainer = d3
-        .select(this.svgElement as SVGElement)
-        .select('.chart-container');
-
-      $chartContainer
-        .selectAll('.item-polyline')
-        .data(pieData)
-        .join('polyline')
-        .attr('class', 'item-polyline')
+    if (animate) {
+      $paths
         .transition()
-        .duration(500)
-        .attr('points', function (d: any) {
-          const posA = doughnutArc.centroid(d);
-          const posB = labelsArc.centroid(d);
-          const posC = posB.slice() as [number, number];
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          posC[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return [posA, posB, posC].map(p => p.join(',')).join(' ');
+        .duration(DURATION)
+        .ease(d3.easeCubicInOut)
+        .attrTween('d', function (this: SVGPathElement, d) {
+          const self = this as ArcPathElement;
+          // Interpolate from the last rendered angles to the new ones.
+          // New (entering) arcs start collapsed at their startAngle.
+          const prev: { startAngle: number; endAngle: number } =
+            self._prevDatum ?? {
+              startAngle: d.startAngle,
+              endAngle: d.startAngle,
+            };
+          self._prevDatum = d;
+          const iStart = d3.interpolateNumber(prev.startAngle, d.startAngle);
+          const iEnd = d3.interpolateNumber(prev.endAngle, d.endAngle);
+          return (t: number) =>
+            doughnutArc({ ...d, startAngle: iStart(t), endAngle: iEnd(t) }) ??
+            '';
         });
-
-      $chartContainer
-        .selectAll('.item-label')
-        .data(pieData)
-        .join('text')
-        .attr('class', 'item-label')
-        .transition()
-        .duration(500)
-        .text(function (d: any) {
-          return d.data.label;
+    } else {
+      // Initial render: draw immediately and seed previous-datum for later tweens
+      $paths
+        .each(function (this: SVGPathElement, d) {
+          (this as ArcPathElement)._prevDatum = d;
         })
-        .attr('transform', (d: any) => {
-          const pos = labelsArc.centroid(d);
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return `translate(${pos})`;
-        })
-        .style('text-anchor', (d: any) => {
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          return midAngle < Math.PI ? 'start' : 'end';
-        });
+        .attr('d', d => doughnutArc(d) ?? '');
     }
-  }
 
-  private _initializeChart() {
-    const radius = this._getRadius();
-    const pieData = this._getPieData();
-    const colorScale = this._getColorScale();
+    // Animate the central total counter
+    const $title = svg.select('.title');
+    if (animate) {
+      $title
+        .transition()
+        .duration(DURATION)
+        .ease(d3.easeCubicInOut)
+        .tween('text', function (this: d3.BaseType) {
+          const sel = d3.select(this as SVGTextElement);
+          const start = parseFloat(sel.text()) || 0;
+          const interp = d3.interpolateNumber(start, total);
+          return function (t: number) {
+            sel.text(Math.round(interp(t)));
+          };
+        });
+    } else {
+      $title.text(total);
+    }
 
-    this._setSVGDimensions();
-
-    const doughnutArc = this._getDoughnutArc(radius);
-    this._renderArcPaths(pieData, doughnutArc, colorScale);
-
-    d3.select(this.svgElement as SVGElement).select('.title').text(this._getTotal());
+    // Label polylines and text
+    const $chartContainer = svg.select('.chart-container');
 
     if (this.showLabels) {
-      const labelsArc = this._getLabelsArc();
-      const $chartContainer = d3
-        .select(this.svgElement as SVGElement)
-        .select('.chart-container');
+      const pointsFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+        const posA = doughnutArc.centroid(d);
+        const posB = labelsArc.centroid(d);
+        const posC = posB.slice() as [number, number];
+        const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+        posC[0] = radius * (midAngle < Math.PI ? 1 : -1);
+        return [posA, posB, posC].map(p => p.join(',')).join(' ');
+      };
 
-      $chartContainer
-        .selectAll('.item-polyline')
-        .data(pieData)
+      const transformFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+        const pos = labelsArc.centroid(d);
+        const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+        pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
+        return `translate(${pos})`;
+      };
+
+      const anchorFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+        const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+        return midAngle < Math.PI ? 'start' : 'end';
+      };
+
+      const $polylines = $chartContainer
+        .selectAll<SVGPolylineElement, d3.PieArcDatum<ChartDonutItem>>(
+          '.item-polyline',
+        )
+        .data(pieData, d => d.data.name)
         .join('polyline')
-        .attr('class', 'item-polyline')
-        .attr('points', (d: any) => {
-          const posA = doughnutArc.centroid(d);
-          const posB = labelsArc.centroid(d);
-          const posC = posB.slice() as [number, number];
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          posC[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return [posA, posB, posC].map(p => p.join(',')).join(' ');
-        });
+        .attr('class', 'item-polyline');
 
-      $chartContainer
-        .selectAll('.item-label')
-        .data(pieData)
+      const $labels = $chartContainer
+        .selectAll<SVGTextElement, d3.PieArcDatum<ChartDonutItem>>('.item-label')
+        .data(pieData, d => d.data.name)
         .join('text')
-        .text(function (d: any) {
-          return d.data.label;
-        })
         .attr('class', 'item-label')
-        .attr('transform', (d: any) => {
-          const pos = labelsArc.centroid(d);
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return `translate(${pos})`;
-        })
-        .style('text-anchor', (d: any) => {
-          const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          return midAngle < Math.PI ? 'start' : 'end';
-        });
+        .text(d => d.data.label ?? '');
+
+      if (animate) {
+        $polylines
+          .transition()
+          .duration(DURATION)
+          .ease(d3.easeCubicInOut)
+          .attr('points', pointsFn);
+        $labels
+          .transition()
+          .duration(DURATION)
+          .ease(d3.easeCubicInOut)
+          .attr('transform', transformFn)
+          .style('text-anchor', anchorFn);
+      } else {
+        $polylines.attr('points', pointsFn);
+        $labels.attr('transform', transformFn).style('text-anchor', anchorFn);
+      }
+    } else {
+      $chartContainer.selectAll('.item-polyline').remove();
+      $chartContainer.selectAll('.item-label').remove();
     }
   }
 

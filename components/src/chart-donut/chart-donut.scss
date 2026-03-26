@@ -16,6 +16,15 @@
   fill: var(--color-on-surface);
 }
 
+.arc {
+  cursor: pointer;
+  transition: filter 150ms ease;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+}
+
 .item-polyline {
   fill: none;
   stroke-width: 1;
