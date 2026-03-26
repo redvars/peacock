@@ -1,0 +1,28 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+}
+
+.title {
+  @include mixin.get-typography('title-large-emphasized');
+  fill: var(--color-on-surface);
+}
+
+.label {
+  @include mixin.get-typography('title-medium');
+  fill: var(--color-on-surface);
+}
+
+.item-polyline {
+  fill: none;
+  stroke-width: 1;
+  stroke: var(--color-on-surface);
+}
+
+.item-label {
+  fill: var(--color-on-surface);
+  @include mixin.get-typography('label-medium');
+}
