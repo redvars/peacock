@@ -1,6 +1,7 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import PeacockComponent from 'src/PeacockComponent.js';
+import * as d3 from 'd3';
 import styles from './chart-donut.scss';
 
 export type ChartDonutColor = {
@@ -30,34 +31,6 @@ function convertToHex(colorName: string): string {
     colorName,
   );
   return computed ? computed.trim() : colorName;
-}
-
-let d3LoadCalled = false;
-
-async function loadD3JS(): Promise<void> {
-  if ((window as any)['d3']) return;
-
-  if (d3LoadCalled) {
-    await new Promise<void>(resolve => {
-      const check = setInterval(() => {
-        if ((window as any)['d3']) {
-          clearInterval(check);
-          resolve();
-        }
-      }, 50);
-    });
-    return;
-  }
-
-  d3LoadCalled = true;
-
-  await new Promise<void>((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js';
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load D3.js'));
-    document.head.appendChild(script);
-  });
 }
 
 function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
@@ -110,20 +83,18 @@ export class ChartDonut extends LitElement {
   /** Label displayed in the center of the donut. */
   @property({ type: String }) label?: string;
 
-  private _d3Initialized = false;
-
   private _debouncedUpdateChart = debounce(() => {
     this._updateChart();
   }, 300);
 
-  async firstUpdated() {
-    await this._initializeChart();
+  firstUpdated() {
+    this._initializeChart();
   }
 
   updated(changedProperties: PropertyValues) {
     const watchedProps = ['width', 'margin', 'showLabels', 'data'];
     const hasChanged = watchedProps.some(prop => changedProperties.has(prop));
-    if (hasChanged && this._d3Initialized) {
+    if (hasChanged) {
       this._debouncedUpdateChart();
     }
   }
@@ -133,7 +104,6 @@ export class ChartDonut extends LitElement {
   }
 
   private _getDoughnutArc(radius: number) {
-    const d3 = (window as any)['d3'];
     return d3
       .arc()
       .innerRadius(radius * 0.72)
@@ -141,7 +111,6 @@ export class ChartDonut extends LitElement {
   }
 
   private _getLabelsArc() {
-    const d3 = (window as any)['d3'];
     const radius = this._getRadius();
     return d3
       .arc()
@@ -154,16 +123,14 @@ export class ChartDonut extends LitElement {
   }
 
   private _getPieData() {
-    const d3 = (window as any)['d3'];
     const pie = d3
-      .pie()
+      .pie<ChartDonutItem>()
       .sort(null)
-      .value((d: ChartDonutItem) => d.value);
+      .value(d => d.value);
     return pie(this.data);
   }
 
   private _getColorScale() {
-    const d3 = (window as any)['d3'];
     return d3
       .scaleOrdinal()
       .domain(this.data.map((d: ChartDonutItem) => d.name))
@@ -171,8 +138,7 @@ export class ChartDonut extends LitElement {
   }
 
   private _setSVGDimensions() {
-    const d3 = (window as any)['d3'];
-    const svg = d3.select(this.svgElement);
+    const svg = d3.select(this.svgElement as SVGElement);
     svg.attr('width', this.width).attr('height', this.width);
     svg
       .select('.chart-container')
@@ -180,9 +146,8 @@ export class ChartDonut extends LitElement {
   }
 
   private _renderArcPaths(pieData: any, doughnutArc: any, colorScale: any) {
-    const d3 = (window as any)['d3'];
     const $arcContainer = d3
-      .select(this.svgElement)
+      .select(this.svgElement as SVGElement)
       .select('.arc-container');
 
     const $arcPaths = $arcContainer
@@ -211,7 +176,6 @@ export class ChartDonut extends LitElement {
   }
 
   private _updateChart() {
-    const d3 = (window as any)['d3'];
     const radius = this._getRadius();
     const pieData = this._getPieData();
     const colorScale = this._getColorScale();
@@ -219,12 +183,12 @@ export class ChartDonut extends LitElement {
     this._setSVGDimensions();
 
     const total = this._getTotal();
-    d3.select(this.svgElement)
+    d3.select(this.svgElement as SVGElement)
       .select('.title')
       .transition()
-      .tween('text', function (this: SVGTextElement) {
-        const selection = d3.select(this);
-        const start = d3.select(this).text();
+      .tween('text', function (this: d3.BaseType) {
+        const selection = d3.select(this as SVGTextElement);
+        const start = parseFloat(d3.select(this as SVGTextElement).text()) || 0;
         const end = total;
         const interpolator = d3.interpolateNumber(start, end);
         return function (t: number) {
@@ -239,7 +203,7 @@ export class ChartDonut extends LitElement {
     if (this.showLabels) {
       const labelsArc = this._getLabelsArc();
       const $chartContainer = d3
-        .select(this.svgElement)
+        .select(this.svgElement as SVGElement)
         .select('.chart-container');
 
       $chartContainer
@@ -252,10 +216,10 @@ export class ChartDonut extends LitElement {
         .attr('points', function (d: any) {
           const posA = doughnutArc.centroid(d);
           const posB = labelsArc.centroid(d);
-          const posC = labelsArc.centroid(d);
+          const posC = posB.slice() as [number, number];
           const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
           posC[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return [posA, posB, posC];
+          return [posA, posB, posC].map(p => p.join(',')).join(' ');
         });
 
       $chartContainer
@@ -281,12 +245,7 @@ export class ChartDonut extends LitElement {
     }
   }
 
-  private async _initializeChart() {
-    await loadD3JS();
-
-    this._d3Initialized = true;
-
-    const d3 = (window as any)['d3'];
+  private _initializeChart() {
     const radius = this._getRadius();
     const pieData = this._getPieData();
     const colorScale = this._getColorScale();
@@ -296,12 +255,12 @@ export class ChartDonut extends LitElement {
     const doughnutArc = this._getDoughnutArc(radius);
     this._renderArcPaths(pieData, doughnutArc, colorScale);
 
-    d3.select(this.svgElement).select('.title').text(this._getTotal());
+    d3.select(this.svgElement as SVGElement).select('.title').text(this._getTotal());
 
     if (this.showLabels) {
       const labelsArc = this._getLabelsArc();
       const $chartContainer = d3
-        .select(this.svgElement)
+        .select(this.svgElement as SVGElement)
         .select('.chart-container');
 
       $chartContainer
@@ -312,10 +271,10 @@ export class ChartDonut extends LitElement {
         .attr('points', (d: any) => {
           const posA = doughnutArc.centroid(d);
           const posB = labelsArc.centroid(d);
-          const posC = labelsArc.centroid(d);
+          const posC = posB.slice() as [number, number];
           const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
           posC[0] = radius * (midAngle < Math.PI ? 1 : -1);
-          return [posA, posB, posC];
+          return [posA, posB, posC].map(p => p.join(',')).join(' ');
         });
 
       $chartContainer
