@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang='en-GB' data-theme=dark>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: var(--color-surface);
+    }
+  </style>
+</head>
+<body>
+
+<wc-button id="randomize">Randomize</wc-button>
+<br />
+
+<wc-chart-pie width="400" margin="20"></wc-chart-pie>
+
+<script>
+  const chart = document.querySelector('wc-chart-pie');
+  chart.label = "Browsers";
+  chart.data = [
+    { label: 'Firefox', name: 'firefox', value: 10},
+    { label: 'Chrome', name: 'chrome', value: 20},
+    { label: 'Microsoft Edge', name: 'microsoft-edge', value: 30 },
+    { label: 'Internet Explorer', name: 'internet-explorer', value: 40 },
+    { label: 'MC Browser', name: 'mc-browser', value: 50 },
+  ];
+
+  function randomNumber(min, max) {
+    return parseInt(Math.random() * (max - min) + min);
+  }
+
+  let count = 1;
+  document.querySelector('#randomize').addEventListener('click', () => {
+    chart.data = chart.data.map(d => ({ ...d, value: parseInt(Math.random() * 100) }));
+    chart.width =  randomNumber(400, 600);
+  });
+</script>
+
+
+<script type='module'>
+  import { Button, ChartPie } from '/dist/index.js';
+  window.customElements.define('wc-chart-pie', ChartPie);
+  window.customElements.define('wc-button', Button);
+</script>
+</body>
+</html>
