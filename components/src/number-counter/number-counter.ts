@@ -1,7 +1,7 @@
 import { html, LitElement, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import styles from './number-counter.scss';
 
 /**
@@ -25,7 +25,7 @@ import styles from './number-counter.scss';
  * ```
  * @tags display
  */
-@PeacockComponent
+@IndividualComponent
 export class NumberCounter extends LitElement {
   static styles = [styles];
 

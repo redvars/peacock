@@ -1,23 +1,23 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<HighlighterCard lang={'html'}>
+<DemoComponentCard lang={'html'}>
   <wc-button id='randomize'>Randomize</wc-button>
   <br />
 
-  <pc-chart-pie width='400' margin='20'></pc-chart-pie>
+  <wc-chart-pie width='400' margin='20'></wc-chart-pie>
 
 
   <script is:inline>
-    const chart = document.querySelector('pc-chart-pie');
+    const chart = document.querySelector('wc-chart-pie');
     chart.label = "Browsers";
     chart.data = [
-      { label: 'Firefox', value: 10, color: '--color-red-60', hoverColor: '--color-red-80' },
-      { label: 'Chrome', value: 20, color: '--color-green-30', hoverColor: '--color-green-50' },
-      { label: 'Microsoft Edge', value: 30 },
-      { label: 'Internet Explorer', value: 40 },
-      { label: 'MC Browser', value: 50 },
+      { label: 'Firefox', name: 'firefox', value: 10, color: '#FF0000'},
+      { label: 'Chrome', name: 'chrome', value: 20},
+      { label: 'Microsoft Edge', name: 'microsoft', value: 30 },
+      { label: 'Internet Explorer', name: 'ie', value: 40 },
+      { label: 'MC Browser', name: 'mcb', value: 50 },
     ];
 
     function randomNumber(min, max) {
@@ -30,4 +30,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       chart.width =  randomNumber(400, 600);
     });
   </script>
-</HighlighterCard>
+</DemoComponentCard>

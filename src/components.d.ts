@@ -520,62 +520,6 @@ export namespace Components {
         "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     /**
-     * @label Chart Doughnut
-     * @name chart-doughnut
-     * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-doughnut.webp
-     * @imgDark /assets/img/chart-doughnut-dark.webp
-     */
-    interface PcChartDoughnut {
-        /**
-          * @default []
-         */
-        "data": any;
-        "label": string;
-        /**
-          * @default 10
-         */
-        "margin": number;
-        /**
-          * @default true
-         */
-        "showLabels": boolean;
-        /**
-          * @default 0
-         */
-        "width": number;
-    }
-    /**
-     * @label Chart Pie
-     * @name chart-pie
-     * @description A pie chart (also known as a circle chart) is a circular statistical graphic that visually represents numerical proportions. It is commonly used to illustrate how parts relate to the whole for a specific categorical variable.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-pie.webp
-     * @imgDark /assets/img/chart-pie-dark.webp
-     */
-    interface PcChartPie {
-        /**
-          * @default []
-         */
-        "data": any;
-        "label": string;
-        /**
-          * @default 10
-         */
-        "margin": number;
-        /**
-          * @default true
-         */
-        "showLabels": boolean;
-        /**
-          * @default 0
-         */
-        "width": number;
-    }
-    /**
      * @label Dropdown
      * @name dropdown
      * @description Enables native inputs to be used within a Form field.
@@ -2032,36 +1976,6 @@ declare global {
         prototype: HTMLPcCardElement;
         new (): HTMLPcCardElement;
     };
-    /**
-     * @label Chart Doughnut
-     * @name chart-doughnut
-     * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-doughnut.webp
-     * @imgDark /assets/img/chart-doughnut-dark.webp
-     */
-    interface HTMLPcChartDoughnutElement extends Components.PcChartDoughnut, HTMLStencilElement {
-    }
-    var HTMLPcChartDoughnutElement: {
-        prototype: HTMLPcChartDoughnutElement;
-        new (): HTMLPcChartDoughnutElement;
-    };
-    /**
-     * @label Chart Pie
-     * @name chart-pie
-     * @description A pie chart (also known as a circle chart) is a circular statistical graphic that visually represents numerical proportions. It is commonly used to illustrate how parts relate to the whole for a specific categorical variable.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-pie.webp
-     * @imgDark /assets/img/chart-pie-dark.webp
-     */
-    interface HTMLPcChartPieElement extends Components.PcChartPie, HTMLStencilElement {
-    }
-    var HTMLPcChartPieElement: {
-        prototype: HTMLPcChartPieElement;
-        new (): HTMLPcChartPieElement;
-    };
     interface HTMLPcDropdownElementEventMap {
         "pc-dropdown--item-click": any;
         "pc-dropdown--open": any;
@@ -2606,8 +2520,6 @@ declare global {
         "pc-calendar-month-view-background": HTMLPcCalendarMonthViewBackgroundElement;
         "pc-canvas": HTMLPcCanvasElement;
         "pc-card": HTMLPcCardElement;
-        "pc-chart-doughnut": HTMLPcChartDoughnutElement;
-        "pc-chart-pie": HTMLPcChartPieElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
         "pc-empty-state": HTMLPcEmptyStateElement;
@@ -3138,62 +3050,6 @@ declare namespace LocalJSX {
     }
     interface PcCard {
         "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
-    }
-    /**
-     * @label Chart Doughnut
-     * @name chart-doughnut
-     * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-doughnut.webp
-     * @imgDark /assets/img/chart-doughnut-dark.webp
-     */
-    interface PcChartDoughnut {
-        /**
-          * @default []
-         */
-        "data"?: any;
-        "label"?: string;
-        /**
-          * @default 10
-         */
-        "margin"?: number;
-        /**
-          * @default true
-         */
-        "showLabels"?: boolean;
-        /**
-          * @default 0
-         */
-        "width"?: number;
-    }
-    /**
-     * @label Chart Pie
-     * @name chart-pie
-     * @description A pie chart (also known as a circle chart) is a circular statistical graphic that visually represents numerical proportions. It is commonly used to illustrate how parts relate to the whole for a specific categorical variable.
-     * @category Charts
-     * @tag chart
-     * @img /assets/img/chart-pie.webp
-     * @imgDark /assets/img/chart-pie-dark.webp
-     */
-    interface PcChartPie {
-        /**
-          * @default []
-         */
-        "data"?: any;
-        "label"?: string;
-        /**
-          * @default 10
-         */
-        "margin"?: number;
-        /**
-          * @default true
-         */
-        "showLabels"?: boolean;
-        /**
-          * @default 0
-         */
-        "width"?: number;
     }
     /**
      * @label Dropdown
@@ -4352,8 +4208,6 @@ declare namespace LocalJSX {
         "pc-calendar-month-view-background": PcCalendarMonthViewBackground;
         "pc-canvas": PcCanvas;
         "pc-card": PcCard;
-        "pc-chart-doughnut": PcChartDoughnut;
-        "pc-chart-pie": PcChartPie;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
         "pc-empty-state": PcEmptyState;
@@ -4471,26 +4325,6 @@ declare module "@stencil/core" {
              */
             "pc-canvas": LocalJSX.PcCanvas & JSXBase.HTMLAttributes<HTMLPcCanvasElement>;
             "pc-card": LocalJSX.PcCard & JSXBase.HTMLAttributes<HTMLPcCardElement>;
-            /**
-             * @label Chart Doughnut
-             * @name chart-doughnut
-             * @description A doughnut chart is a circular chart with a blank center. The chart is similar to a pie chart with the center cut out. The area in the center can be used to display information.
-             * @category Charts
-             * @tag chart
-             * @img /assets/img/chart-doughnut.webp
-             * @imgDark /assets/img/chart-doughnut-dark.webp
-             */
-            "pc-chart-doughnut": LocalJSX.PcChartDoughnut & JSXBase.HTMLAttributes<HTMLPcChartDoughnutElement>;
-            /**
-             * @label Chart Pie
-             * @name chart-pie
-             * @description A pie chart (also known as a circle chart) is a circular statistical graphic that visually represents numerical proportions. It is commonly used to illustrate how parts relate to the whole for a specific categorical variable.
-             * @category Charts
-             * @tag chart
-             * @img /assets/img/chart-pie.webp
-             * @imgDark /assets/img/chart-pie-dark.webp
-             */
-            "pc-chart-pie": LocalJSX.PcChartPie & JSXBase.HTMLAttributes<HTMLPcChartPieElement>;
             /**
              * @label Dropdown
              * @name dropdown

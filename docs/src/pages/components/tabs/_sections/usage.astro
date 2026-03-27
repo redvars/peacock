@@ -7,13 +7,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
-<wc-tabs>
-  <tabs-list>
+<wc-tab-group>
+  <wc-tabs>
     <wc-tab>First tab</wc-tab>
     <wc-tab active="true">Second tab</wc-tab>
     <wc-tab disabled>Disabled tab</wc-tab>
     <wc-tab href='https://shivajivarma.com'>External link</wc-tab>
-  </tabs-list>
+  </wc-tabs>
 
   <wc-tab-panel>
     <pc-text type="heading"> First content </pc-text>
@@ -22,5 +22,5 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <wc-tab-panel>
     <pc-text type="heading"> Second content </pc-text>
   </wc-tab-panel>
-</wc-tabs>
+</wc-tab-group>
 </DemoComponentCard>

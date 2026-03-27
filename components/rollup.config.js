@@ -61,7 +61,7 @@ async function findLitComponents(searchDir = 'src') {
    * 2. Class extensions
    * 3. Custom element decorators
    */
-  const LIT_SIGNATURES = [/@PeacockComponent/];
+  const LIT_SIGNATURES = [/@IndividualComponent/];
 
   try {
     // glob() returns a Promise that resolves to an array of file paths
@@ -87,7 +87,7 @@ async function findLitComponents(searchDir = 'src') {
     }
 
     console.log(
-      `\n✨ Search complete. Total Lit components: ${results.length}`,
+      `\n✨ Individual Components Search complete. Total components: ${results.length}`,
     );
     return results;
   } catch (error) {

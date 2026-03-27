@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import { ClockController } from './ClockController.js';
 
 import styles from './clock.scss';
@@ -20,7 +20,7 @@ import styles from './clock.scss';
  * <wc-clock></wc-clock>
  * ```
  */
-@PeacockComponent
+@IndividualComponent
 export class Clock extends LitElement {
   static styles = [styles];
 

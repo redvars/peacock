@@ -1357,6 +1357,425 @@
     }
   },
   {
+    "rawTag": "chart-doughnut",
+    "label": "Chart Doughnut",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chart Doughnut"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-chart-doughnut"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chart-doughnut"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A doughnut chart is a circular chart with a blank center. The area in the center can be used to display information."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "charts"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chart-doughnut width=\"400\" label=\"Total\"></wc-chart-doughnut>\n<script>\n  document.querySelector('wc-chart-doughnut').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChartDoughnut",
+      "members": [
+        {
+          "kind": "field",
+          "name": "svgElement",
+          "type": {
+            "text": "SVGElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "attribute": "width",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "attribute": "margin",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showLabels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "attribute": "show-labels",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "ChartDoughnutItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Label displayed in the center of the doughnut.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "_initialized",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_debouncedRenderChart",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getRadius",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getTotal",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getPieData",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getColorScale",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderChart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "animate",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "fieldName": "width"
+        },
+        {
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "fieldName": "margin"
+        },
+        {
+          "name": "show-labels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "fieldName": "showLabels"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartDoughnutItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "fieldName": "data"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Label displayed in the center of the doughnut.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chart-doughnut",
+      "customElement": true,
+      "summary": "A doughnut chart is a circular chart with a blank center. The area in the center can be used to display information.",
+      "rawTag": {
+        "name": "chart-doughnut",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "chart-pie",
+    "label": "Chart Pie",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chart Pie"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-chart-pie"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chart-pie"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A pie chart is a circular statistical graphic that visually represents numerical proportions."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "charts"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chart-pie width=\"400\"></wc-chart-pie>\n<script>\n  document.querySelector('wc-chart-pie').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChartPie",
+      "members": [
+        {
+          "kind": "field",
+          "name": "svgElement",
+          "type": {
+            "text": "SVGElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "attribute": "width",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "attribute": "margin",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showLabels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "attribute": "show-labels",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "ChartPieItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "_initialized",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_debouncedRenderChart",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getRadius",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getPieData",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getColorScale",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderChart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "animate",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "fieldName": "width"
+        },
+        {
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "fieldName": "margin"
+        },
+        {
+          "name": "show-labels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "fieldName": "showLabels"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartPieItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "fieldName": "data"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chart-pie",
+      "customElement": true,
+      "summary": "A pie chart is a circular statistical graphic that visually represents numerical proportions.",
+      "rawTag": {
+        "name": "chart-pie",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "chip",
     "label": "Chip",
     "jsdoc": {
@@ -6983,6 +7402,14 @@
           "privacy": "private"
         },
         {
+          "kind": "field",
+          "name": "thumbElement",
+          "type": {
+            "text": "HTMLElement"
+          },
+          "privacy": "private"
+        },
+        {
           "kind": "method",
           "name": "handleInput",
           "privacy": "private",
@@ -7041,11 +7468,11 @@
           "description": "Dispatched when the slider value changes during interaction."
         },
         {
+          "name": "change",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the slider interaction ends.",
-          "name": "change"
+          "description": "Dispatched when the slider interaction ends."
         }
       ],
       "attributes": [
@@ -7979,6 +8406,159 @@
     }
   },
   {
+    "rawTag": "tab-group",
+    "label": "Tab Group",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Tab Group"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-tab-group"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "tab-group"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "The tab group component is used to display multiple panels of content in a container."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>The tab group component allows users to switch between different views or content sections.</p>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-tab-group>\n\n  <wc-tabs>\n   <wc-tab selected >Tab 1</wc-tab>\n   <wc-tab>Tab 2</wc-tab>\n  </wc-tabs>\n\n  <wc-tab-panel>Panel 1</wc-tab-panel>\n  <wc-tab-panel>Panel 2</wc-tab-panel>\n</wc-tab-group>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "TabGroup",
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
+          },
+          "default": "'line'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "uid",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "onTabClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "selectTab",
+          "parameters": [
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "getTabs",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "NodeListOf<HTMLElement>"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "getTabPanels",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "NodeListOf<HTMLElement>"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "getTabList",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "HTMLElement | null"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "tabsHaveTarget",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "initializeTabs",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
+          },
+          "default": "'line'",
+          "fieldName": "variant"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tab-group",
+      "customElement": true,
+      "summary": "The tab group component is used to display multiple panels of content in a container.",
+      "rawTag": {
+        "name": "tab-group",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "tab-panel",
     "label": "Tab Panel",
     "jsdoc": {
@@ -8087,19 +8667,19 @@
       "@summary": [
         {
           "kind": "text",
-          "text": "The tabs component is used to display multiple panels of content in a container."
+          "text": "Container for tab components."
         }
       ],
       "@overview": [
         {
           "kind": "text",
-          "text": "<p>The tabs component allows users to switch between different views or content sections.</p>"
+          "text": "<p>Tabs holds the tab buttons and manages their layout.</p>"
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-tabs>\n  <wc-tabs-list>\n   <wc-tab selected >Tab 1</wc-tab>\n   <wc-tab>Tab 2</wc-tab>\n  </wc-tabs-list>\n  <wc-tab-panel>Panel 1</wc-tab-panel>\n  <wc-tab-panel>Panel 2</wc-tab-panel>\n</wc-tabs>\n```"
+          "text": "```html\n<wc-tabs>\n  <wc-tab>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```"
         }
       ],
       "@tags": [
@@ -8113,159 +8693,6 @@
       "kind": "class",
       "description": "",
       "name": "Tabs",
-      "members": [
-        {
-          "kind": "field",
-          "name": "variant",
-          "type": {
-            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
-          },
-          "default": "'line'",
-          "attribute": "variant",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "uid",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "onTabClick",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "selectTab",
-          "parameters": [
-            {
-              "name": "target",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
-          "name": "getTabs",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "NodeListOf<HTMLElement>"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "getTabPanels",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "NodeListOf<HTMLElement>"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "getTabList",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "HTMLElement | null"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "tabsHaveTarget",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "boolean"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "initializeTabs",
-          "privacy": "private"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "variant",
-          "type": {
-            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
-          },
-          "default": "'line'",
-          "fieldName": "variant"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-tabs",
-      "customElement": true,
-      "summary": "The tabs component is used to display multiple panels of content in a container.",
-      "rawTag": {
-        "name": "tabs",
-        "description": ""
-      }
-    }
-  },
-  {
-    "rawTag": "tabs-list",
-    "label": "Tabs List",
-    "jsdoc": {
-      "@label": [
-        {
-          "kind": "text",
-          "text": "Tabs List"
-        }
-      ],
-      "@tag": [
-        {
-          "kind": "text",
-          "text": "wc-tabs-list"
-        }
-      ],
-      "@rawTag": [
-        {
-          "kind": "text",
-          "text": "tabs-list"
-        }
-      ],
-      "@summary": [
-        {
-          "kind": "text",
-          "text": "Container for tab components."
-        }
-      ],
-      "@overview": [
-        {
-          "kind": "text",
-          "text": "<p>TabsList holds the tab buttons and manages their layout.</p>"
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<wc-tabs-list>\n  <wc-tab>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs-list>\n```"
-        }
-      ],
-      "@tags": [
-        {
-          "kind": "text",
-          "text": "navigation"
-        }
-      ]
-    },
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "TabsList",
       "members": [
         {
           "kind": "field",
@@ -8296,11 +8723,11 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "wc-tabs-list",
+      "tagName": "wc-tabs",
       "customElement": true,
       "summary": "Container for tab components.",
       "rawTag": {
-        "name": "tabs-list",
+        "name": "tabs",
         "description": ""
       }
     }

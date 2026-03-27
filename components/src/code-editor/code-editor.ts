@@ -2,7 +2,7 @@ import { html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import {init} from 'modern-monaco';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../utils/observe-theme-change.js';
 import { redispatchEvent } from '../utils/dispatch-event-utils.js';
@@ -64,7 +64,7 @@ import styles from './code-editor.scss';
  * ```
  * @tags input, editor
  */
-@PeacockComponent
+@IndividualComponent
 export default class CodeEditor extends BaseInput {
 
   static styles = [styles];
