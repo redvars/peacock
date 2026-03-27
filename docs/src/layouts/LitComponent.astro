@@ -28,7 +28,7 @@ const description = getTextTag(componentDetails, '@summary');
 
         {
             customElementsJSDocs.map((component) => {
-              if (component.rawTag == 'breadcrumb-item' || component.rawTag == 'focus-ring'  || component.rawTag == 'skeleton') {
+              if (component.rawTag &&  ['breadcrumb-item', 'focus-ring', 'skeleton', 'tab-panel', 'tab', 'tab-group'].includes(component.rawTag)) {
                 return;
               }
               return <pc-tree-node label={component?.label} value={component?.rawTag}

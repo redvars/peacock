@@ -67,22 +67,6 @@ Type: `Promise<void>`
 
 
 
-## CSS Custom Properties
-
-| Name                                 | Description                                                                                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `--goat-theme-button-border-radius`  | Theme level button border radius. (applies to all buttons)                                                   |
-| `--goat-theme-button-border-style`   | Theme level button border style. (applies to all buttons)                                                    |
-| `--pc-button-border-radius`          | IconButton border radius.                                                                                    |
-| `--pc-button-border-style`           | IconButton border style.                                                                                     |
-| `--pc-button-color`                  | IconButton filling color.                                                                                    |
-| `--pc-button-color-active`           | IconButton filling color on active.                                                                          |
-| `--pc-button-color-hover`            | IconButton filling color on hover.                                                                           |
-| `--pc-button-color-light`            | IconButton filling color for light variant.                                                                  |
-| `--pc-button-padding`                | IconButton padding.                                                                                          |
-| `--pc-button-support-contrast-color` | IconButton support color (text or border). Should be white or black based on weight of button filling color. |
-
-
 ## Dependencies
 
 ### Used by

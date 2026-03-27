@@ -1,0 +1,10 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+

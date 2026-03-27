@@ -1,21 +1,21 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import * as d3 from 'd3';
 import styles from './chart-donut.scss';
 
-export type ChartDonutColor = {
+export type ChartDoughnutColor = {
   color: string;
 };
 
-export type ChartDonutItem = {
+export type ChartDoughnutItem = {
   name: string;
   value: number;
   label?: string;
   color?: string;
 };
 
-const chartColors: ChartDonutColor[] = [];
+const chartColors: ChartDoughnutColor[] = [];
 ['purple', 'blue', 'red', 'green', 'yellow', 'orange'].forEach(colorName => {
   chartColors.push({
     color: `var(--color-${colorName})`,
@@ -24,7 +24,7 @@ const chartColors: ChartDonutColor[] = [];
 
 /** SVGPathElement augmented with the last rendered arc datum for smooth tween interpolation. */
 interface ArcPathElement extends SVGPathElement {
-  _prevDatum?: d3.PieArcDatum<ChartDonutItem>;
+  _prevDatum?: d3.PieArcDatum<ChartDoughnutItem>;
 }
 
 function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
@@ -36,17 +36,17 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
 }
 
 /**
- * @label Chart Donut
- * @tag wc-chart-donut
- * @rawTag chart-donut
- * @summary A donut chart is a circular chart with a blank center. The area in the center can be used to display information.
+ * @label Chart Doughnut
+ * @tag wc-chart-doughnut
+ * @rawTag chart-doughnut
+ * @summary A doughnut chart is a circular chart with a blank center. The area in the center can be used to display information.
  * @tags charts
  *
  * @example
  * ```html
- * <wc-chart-donut width="400" label="Total"></wc-chart-donut>
+ * <wc-chart-doughnut width="400" label="Total"></wc-chart-doughnut>
  * <script>
- *   document.querySelector('wc-chart-donut').data = [
+ *   document.querySelector('wc-chart-doughnut').data = [
  *     { name: 'A', value: 30, label: 'Category A' },
  *     { name: 'B', value: 50, label: 'Category B' },
  *     { name: 'C', value: 20, label: 'Category C' },
@@ -54,8 +54,8 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
  * </script>
  * ```
  */
-@PeacockComponent
-export class ChartDonut extends LitElement {
+@IndividualComponent
+export class ChartDoughnut extends LitElement {
   static styles = [styles];
 
   @query('svg')
@@ -72,9 +72,9 @@ export class ChartDonut extends LitElement {
   showLabels: boolean = true;
 
   /** Chart data array. Each item should have name, value, and optional label and color. */
-  @property({ type: Array }) data: ChartDonutItem[] = [];
+  @property({ type: Array }) data: ChartDoughnutItem[] = [];
 
-  /** Label displayed in the center of the donut. */
+  /** Label displayed in the center of the doughnut. */
   @property({ type: String }) label?: string;
 
   private _initialized = false;
@@ -109,7 +109,7 @@ export class ChartDonut extends LitElement {
 
   private _getPieData() {
     const pie = d3
-      .pie<ChartDonutItem>()
+      .pie<ChartDoughnutItem>()
       .sort(null)
       .value(d => d.value);
     return pie(this.data);
@@ -117,7 +117,7 @@ export class ChartDonut extends LitElement {
 
   private _getColorScale() {
     return d3
-      .scaleOrdinal<string, ChartDonutColor>()
+      .scaleOrdinal<string, ChartDoughnutColor>()
       .domain(this.data.map(d => d.name))
       .range(chartColors);
   }
@@ -134,12 +134,12 @@ export class ChartDonut extends LitElement {
     const svg = d3.select(this.svgElement);
 
     const doughnutArc = d3
-      .arc<d3.PieArcDatum<ChartDonutItem>>()
+      .arc<d3.PieArcDatum<ChartDoughnutItem>>()
       .innerRadius(radius * 0.72)
       .outerRadius(radius);
 
     const labelsArc = d3
-      .arc<d3.PieArcDatum<ChartDonutItem>>()
+      .arc<d3.PieArcDatum<ChartDoughnutItem>>()
       .innerRadius(radius + 10)
       .outerRadius(radius + 10);
 
@@ -152,7 +152,7 @@ export class ChartDonut extends LitElement {
     // Arc paths — keyed by name so D3 matches elements across updates
     const $paths = svg
       .select('.arc-container')
-      .selectAll<SVGPathElement, d3.PieArcDatum<ChartDonutItem>>('.arc')
+      .selectAll<SVGPathElement, d3.PieArcDatum<ChartDoughnutItem>>('.arc')
       .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
@@ -211,7 +211,7 @@ export class ChartDonut extends LitElement {
     const $chartContainer = svg.select('.chart-container');
 
     if (this.showLabels) {
-      const pointsFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+      const pointsFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
         const posA = doughnutArc.centroid(d);
         const posB = labelsArc.centroid(d);
         const posC = posB.slice() as [number, number];
@@ -220,20 +220,20 @@ export class ChartDonut extends LitElement {
         return [posA, posB, posC].map(p => p.join(',')).join(' ');
       };
 
-      const transformFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+      const transformFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
         const pos = labelsArc.centroid(d);
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
       };
 
-      const anchorFn = (d: d3.PieArcDatum<ChartDonutItem>) => {
+      const anchorFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         return midAngle < Math.PI ? 'start' : 'end';
       };
 
       const $polylines = $chartContainer
-        .selectAll<SVGPolylineElement, d3.PieArcDatum<ChartDonutItem>>(
+        .selectAll<SVGPolylineElement, d3.PieArcDatum<ChartDoughnutItem>>(
           '.item-polyline',
         )
         .data(pieData, d => d.data.name)
@@ -241,7 +241,7 @@ export class ChartDonut extends LitElement {
         .attr('class', 'item-polyline');
 
       const $labels = $chartContainer
-        .selectAll<SVGTextElement, d3.PieArcDatum<ChartDonutItem>>('.item-label')
+        .selectAll<SVGTextElement, d3.PieArcDatum<ChartDoughnutItem>>('.item-label')
         .data(pieData, d => d.data.name)
         .join('text')
         .attr('class', 'item-label')

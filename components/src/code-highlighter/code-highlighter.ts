@@ -12,7 +12,7 @@ import * as prettierPluginEstree from 'prettier/plugins/estree';
 
 import { BundledLanguage, codeToHtml, ShikiTransformer } from 'shiki';
 
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import { copyToClipboard } from '../utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
 
@@ -58,7 +58,7 @@ const locale = {
  * ```
  * @tags display
  */
-@PeacockComponent
+@IndividualComponent
 export class CodeHighlighter extends LitElement {
   static styles = [styles];
 

@@ -43,8 +43,8 @@ import { Image } from './image/image.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import { loadCSS } from './CssLoader.js';
+import { TabGroup } from './tabs/tab-group.js';
 import { Tabs } from './tabs/tabs.js';
-import { TabsList } from './tabs/tabs-list.js';
 import { Tab } from './tabs/tab.js';
 import { TabPanel } from './tabs/tab-panel.js';
 import { Slider } from './slider/slider.js';
@@ -118,8 +118,8 @@ const loaderConfig: LoaderConfig = {
     'wc-tabs': {
       CustomElementClass: Tabs,
     },
-    'wc-tabs-list': {
-      CustomElementClass: TabsList,
+    'wc-tab-group': {
+      CustomElementClass: TabGroup,
     },
     'wc-tab': {
       CustomElementClass: Tab
@@ -211,6 +211,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-slider': {
       CustomElementClass: Slider
+    },
+    'wc-chart-doughnut': {
+      importPath: `${distDirectory}/chart-doughnut.js`,
+    },
+    'wc-chart-pie': {
+      importPath: `${distDirectory}/chart-pie.js`,
     }
   },
 };

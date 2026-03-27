@@ -1,6 +1,6 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import * as d3 from 'd3';
 import styles from './chart-pie.scss';
 
@@ -54,7 +54,7 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
  * </script>
  * ```
  */
-@PeacockComponent
+@IndividualComponent
 export class ChartPie extends LitElement {
   static styles = [styles];
 
@@ -149,7 +149,7 @@ export class ChartPie extends LitElement {
       .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
-      .style('fill', d => d.data.color ? `var(${d.data.color})` : colorScale(d.data.name).color);
+      .style('fill', d => d.data.color || colorScale(d.data.name).color);
 
     if (animate) {
       $paths

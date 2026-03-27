@@ -1,4 +1,4 @@
 export { Tab } from './tab.js';
-export { Tabs } from './tabs.js';
+export { TabGroup } from './tab-group.js';
 export { TabPanel } from './tab-panel.js';
-export { TabsList } from './tabs-list.js';
+export { Tabs } from './tabs.js';
