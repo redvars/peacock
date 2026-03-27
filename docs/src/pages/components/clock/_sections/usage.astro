@@ -2,6 +2,48 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<style is:inline>
+   .clock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--spacing-300);
+      width: 100%;
+   }
+
+   .clock-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-100);
+      padding: var(--spacing-300);
+      border-radius: var(--radius-large);
+      background: var(--color-surface-container-high);
+   }
+
+   .clock-label {
+      color: var(--color-on-surface-variant);
+      font-size: 0.875rem;
+   }
+</style>
+
+<p class='text-body-large'>Use the clock with the local timezone or set a specific IANA timezone string.</p>
+
 <DemoComponentCard lang={'html'}>
-   <wc-clock timezone='Europe/Berlin'></wc-clock>
+   <wc-clock></wc-clock>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'} alignStart={true}>
+   <div class='clock-grid'>
+      <div class='clock-card'>
+         <span class='clock-label'>Berlin</span>
+         <wc-clock timezone='Europe/Berlin'></wc-clock>
+      </div>
+      <div class='clock-card'>
+         <span class='clock-label'>New York</span>
+         <wc-clock timezone='America/New_York'></wc-clock>
+      </div>
+      <div class='clock-card'>
+         <span class='clock-label'>Tokyo</span>
+         <wc-clock timezone='Asia/Tokyo'></wc-clock>
+      </div>
+   </div>
 </DemoComponentCard>

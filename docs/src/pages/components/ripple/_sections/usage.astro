@@ -1,0 +1,27 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<style is:inline>
+  .ripple-surface {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 64px;
+    border-radius: 12px;
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface);
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+  }
+</style>
+
+<DemoComponentCard lang={'html'}>
+  <button class='ripple-surface'>
+    Press me
+    <wc-ripple></wc-ripple>
+  </button>
+</DemoComponentCard>

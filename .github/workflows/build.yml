@@ -5,6 +5,8 @@ on:
     branches: [ main ]
     tags:
       - "v*"
+    paths:
+      - "components/**"
 
 permissions:
   id-token: write  # Required for OIDC

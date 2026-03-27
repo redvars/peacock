@@ -56,7 +56,7 @@ export class Tabs extends LitElement {
 
   render() {
     return html`
-      <div class="tabs-list">
+      <div class="tabs">
         <slot></slot>
       </div>
     `;

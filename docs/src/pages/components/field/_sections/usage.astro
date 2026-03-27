@@ -1,0 +1,16 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'} alignStart={true}>
+  <wc-field label='Email' helper-text='We never share your email'>
+    <input type='email' placeholder='name@example.com' />
+  </wc-field>
+</DemoComponentCard>
+
+
+<DemoComponentCard lang={'html'} alignStart={true}>
+  <wc-field label='Username' required error error-text='Username is required'>
+    <input value='john_doe' />
+  </wc-field>
+</DemoComponentCard>

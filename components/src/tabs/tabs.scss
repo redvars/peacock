@@ -2,17 +2,18 @@
 
 @include mixin.base-styles;
 
-.tabs-list {
+
+.tabs {
   display: flex;
   position: relative;
   width: 100%;
 }
 
-:host-context([variant='line']) {
-  --tabs-list-height: 3rem;
+:host-context([variant='line']), :host([variant='line']) {
+  --tabs-height: 3rem;
   
-  .tabs-list {
-    height: var(--tabs-list-height);
+  .tabs {
+    height: var(--tabs-height);
     border-bottom: 1px solid var(--color-surface-variant);
   }
 }
