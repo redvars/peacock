@@ -1,6 +1,6 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import PeacockComponent from 'src/PeacockComponent.js';
+import IndividualComponent from 'src/IndividualComponent.js';
 import * as d3 from 'd3';
 import styles from './chart-donut.scss';
 
@@ -54,7 +54,7 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
  * </script>
  * ```
  */
-@PeacockComponent
+@IndividualComponent
 export class ChartDonut extends LitElement {
   static styles = [styles];
 
