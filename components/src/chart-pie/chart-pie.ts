@@ -16,9 +16,9 @@ export type ChartPieItem = {
 };
 
 const chartColors: ChartPieColor[] = [];
-['purple', 'blue', 'green', 'yellow', 'orange', 'red'].forEach(colorName => {
+['purple', 'blue', 'red', 'green', 'yellow', 'orange'].forEach(colorName => {
   chartColors.push({
-    color: `var(--color-${colorName}-60)`,
+    color: `var(--color-${colorName})`,
   });
 });
 
@@ -149,7 +149,7 @@ export class ChartPie extends LitElement {
       .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
-      .style('fill', d => d.data.color || colorScale(d.data.name).color);
+      .style('fill', d => d.data.color ? `var(${d.data.color})` : colorScale(d.data.name).color);
 
     if (animate) {
       $paths

@@ -16,9 +16,9 @@ export type ChartDonutItem = {
 };
 
 const chartColors: ChartDonutColor[] = [];
-['purple', 'blue', 'green', 'yellow', 'orange', 'red'].forEach(colorName => {
+['purple', 'blue', 'red', 'green', 'yellow', 'orange'].forEach(colorName => {
   chartColors.push({
-    color: `var(--color-${colorName}-60)`,
+    color: `var(--color-${colorName})`,
   });
 });
 
