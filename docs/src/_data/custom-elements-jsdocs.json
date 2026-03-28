@@ -2275,7 +2275,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "code-editor"
+          "text": "wc-code-editor"
         }
       ],
       "@rawTag": [
@@ -2307,7 +2307,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<code-editor\n  language=\"javascript\"\n  value=\"function hello() { console.log('Hello'); }\"\n  lineNumbers=\"on\"\n  minimap=\"false\">\n</code-editor>\n```"
+          "text": "```html\n<wc-code-editor\n  language=\"javascript\"\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\"function hello() { console.log('Hello'); }\"\n  lineNumbers=\"on\"\n  minimap=\"false\">\n</wc-code-editor>\n```"
         }
       ],
       "@tags": [
@@ -2599,7 +2599,7 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "code-editor",
+      "tagName": "wc-code-editor",
       "customElement": true,
       "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
       "rawTag": {
@@ -2621,7 +2621,7 @@
       "@tag": [
         {
           "kind": "text",
-          "text": "code-highlighter"
+          "text": "wc-code-highlighter"
         }
       ],
       "@rawTag": [
@@ -2633,19 +2633,13 @@
       "@summary": [
         {
           "kind": "text",
-          "text": "Highlights code snippets with syntax highlighting and line numbers."
-        }
-      ],
-      "@overview": [
-        {
-          "kind": "text",
-          "text": "- CodeHighlighter is a component that provides syntax highlighting for code snippets.\n - It supports various programming languages and can display line numbers for better readability."
+          "text": "A component that provides syntax highlighting for code snippets."
         }
       ],
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</code-highlighter>\n```"
+          "text": "```html\n<wc-code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```"
         }
       ],
       "@tags": [
@@ -2796,9 +2790,9 @@
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "code-highlighter",
+      "tagName": "wc-code-highlighter",
       "customElement": true,
-      "summary": "Highlights code snippets with syntax highlighting and line numbers.",
+      "summary": "A component that provides syntax highlighting for code snippets.",
       "rawTag": {
         "name": "code-highlighter",
         "description": ""

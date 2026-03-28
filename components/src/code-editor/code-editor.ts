@@ -44,7 +44,7 @@ import styles from './code-editor.scss';
 
 /**
  * @label Code Editor
- * @tag code-editor
+ * @tag wc-code-editor
  * @rawTag code-editor
  *
  * @summary A Monaco-based code editing component with syntax highlighting and theming.
@@ -55,12 +55,13 @@ import styles from './code-editor.scss';
  *
  * @example
  * ```html
- * <code-editor
+ * <wc-code-editor
  *   language="javascript"
+ *   style="width: 100%; --code-editor-height: 10rem;"
  *   value="function hello() { console.log('Hello'); }"
  *   lineNumbers="on"
  *   minimap="false">
- * </code-editor>
+ * </wc-code-editor>
  * ```
  * @tags input, editor
  */

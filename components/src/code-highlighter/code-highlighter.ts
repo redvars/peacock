@@ -16,21 +16,6 @@ import IndividualComponent from 'src/IndividualComponent.js';
 import { copyToClipboard } from '../utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
 
-/**
- * @label Code Highlighter
- * @tag wc-code-highlighter
- * @rawTag code-highlighter
- * @summary A component that provides syntax highlighting for code snippets.
- * @tags display
- *
- * @example
- * ```html
- * <wc-code-highlighter language="javascript">
- *   <pre><code>console.log('Hello');</code></pre>
- * </wc-code-highlighter>
- * ```
- */
-
 const locale = {
   loading: 'Loading code...',
   copyToClipboard: 'Copy to clipboard',
@@ -40,21 +25,18 @@ const locale = {
 
 /**
  * @label Code Highlighter
- * @tag code-highlighter
+ * @tag wc-code-highlighter
  * @rawTag code-highlighter
  *
- * @summary Highlights code snippets with syntax highlighting and line numbers.
- * @overview
- *  - CodeHighlighter is a component that provides syntax highlighting for code snippets.
- *  - It supports various programming languages and can display line numbers for better readability.
+ * @summary A component that provides syntax highlighting for code snippets.
  *
  * @example
  * ```html
- * <code-highlighter language="javascript" style="height: 9rem"><pre><code>
+ * <wc-code-highlighter language="javascript" style="height: 9rem"><pre><code>
  *   function helloWorld() {
  *     console.log('Hello, world!');
  *   }</code></pre>
- * </code-highlighter>
+ * </wc-code-highlighter>
  * ```
  * @tags display
  */
