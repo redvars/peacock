@@ -105,6 +105,8 @@
 .row {
   display: flex;
   box-sizing: border-box;
+  width: max-content;
+  min-width: 100%;
 
   .columns-container {
     display: flex;
@@ -113,6 +115,7 @@
   .col {
     margin: 0;
     color: var(--color-on-surface);
+    flex-shrink: 0;
 
     .col-content {
       display: flex;
@@ -160,7 +163,7 @@
   }
 
   .scrollable-columns {
-    flex: 1;
+    flex: 0 0 auto;
   }
 }
 

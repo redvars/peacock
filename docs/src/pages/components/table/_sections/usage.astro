@@ -1,11 +1,38 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 import dataSource from '../_data-source.json';
 ---
-<goat-card>
-  <pc-card-content style='height: 30rem'>
-    <pc-table id='table' key-field='_id' selection-type='checkbox' sortable></pc-table>
+
+<style is:inline>
+  .table-demo {
+    width: 90%;
+  }
+</style>
+
+<DemoComponentCard lang='html'>
+
+  <div class="table-demo">
+
+    <wc-table id='table' key-field='_id' selection-type='checkbox' sortable></wc-table>
+
+    <pc-card-content>
+      <div class='result'>
+        <p class=text-title>Cell Click Result :</p>
+        <div>
+          <b>Cell Data :</b>
+          <pre id='record'></pre>
+        </div>
+        <div><b>Column :</b> <span id='column'></span></div>
+        <br>
+        <div><b>Selected Rows :</b> <span id='selected-rows'></span></div>
+        <br>
+        <div>Check console for full event detail.</div>
+      </div>
+  </pc-card-content>
+
+   </div>
+
     <script is:inline define:vars={{ dataSource }}>
       const $table = document.getElementById('table');
       // Columns
@@ -87,73 +114,8 @@ import dataSource from '../_data-source.json';
         document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
       });
     </script>
-  </pc-card-content>
-  <pc-card-content>
-    <div class='result'>
-      <goat-heading level='5'>Cell Click Result :</goat-heading>
-      <div>
-        <b>Cell Data :</b>
-        <pre id='record'></pre>
-      </div>
-      <div><b>Column :</b> <span id='column'></span></div>
-      <br />
-      <div><b>Selected Rows :</b> <span id='selected-rows'></span></div>
-      <br />
-      <div>Check console for full event detail.</div>
-    </div>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang='html'>
-      <pc-table id='table' key-field='_id' selection-type='checkbox' sortable></pc-table>
-      {`<script type='javascript'>
-      const $table = document.getElementById('table');
-      // Columns
-      $table.columns = [
-        {
-          'name': 'name',
-          'label': 'Name',
-          'width': 16,
-          'fixed': true,
-        },
-        {
-          'name': 'age',
-          'label': 'Age',
-          'width': 7,
-        },
-        {
-          'name': 'eyeColor',
-          'label': 'Eye Color',
-          'template': function(row, column) {
-            return "<pc-tag style='padding: 10px; max-width: 100%;' color='"+row[column.name]+"'>"+row[column.name]+"</pc-tag>";
-          },
-        },
-        {
-          'name': 'company',
-          'label': 'Company',
-        },
-        {
-          'name': 'email',
-          'label': 'Email',
-          'width': 25,
-        },
-        {
-          'name': 'address',
-          'label': 'Address',
-          'width': 20,
-        },
-      ];
-      // Data
-      $table.data = JSON.stringify(dataSource.slice(0, 3), null, 2);
+  </DemoComponentCard>
 
-      // Events
-      $table.addEventListener('pc-table--cell-click', function(evt) {
-        document.getElementById('record').innerText = JSON.stringify(evt.detail.record, null, 3);
-        document.getElementById('column').innerText = evt.detail.column.label;
-      });
-      $table.addEventListener('pc-table--selection-change', function(evt) {
-        document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
-      });
-    </script>`}
-    </Highlighter>
-  </pc-card-content>
+<goat-card>
+ 
 </goat-card>

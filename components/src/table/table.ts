@@ -206,6 +206,17 @@ export class Table extends LitElement {
     this.isHorizontallyScrolled = !!target.scrollLeft;
   };
 
+  private get totalColumnsWidth(): number {
+    let total = 0;
+    if (this.selectionType === 'checkbox') {
+      total += 3; // approximate checkbox column width in rem
+    }
+    this.columns.forEach(col => {
+      total += col.width ?? DEFAULT_CELL_WIDTH;
+    });
+    return total;
+  }
+
   private getTotalItems(): number {
     if (this.paginate && !this.managed) return this.data.length;
     return this.totalItems ?? 0;
@@ -297,7 +308,7 @@ export class Table extends LitElement {
 
     return html`
       <div class="header">
-        <div class="row">
+        <div class="row" style="min-width: ${this.totalColumnsWidth}rem">
           <div class="fixed-columns columns-container">${fixedCols}</div>
           <div class="scrollable-columns columns-container">${scrollCols}</div>
         </div>
@@ -370,8 +381,9 @@ export class Table extends LitElement {
             }}
             @click=${(evt: MouseEvent) => {
               const selection = window.getSelection();
-              if (selection?.type !== 'Range')
+              if (selection?.type !== 'Range') {
                 this.onCellClick(row, column, evt);
+              }
             }}
           >
             <div class="col-content">
@@ -398,6 +410,7 @@ export class Table extends LitElement {
             row: true,
             'row-hover': this.hoveredCell.row === row,
           })}
+          style="min-width: ${this.totalColumnsWidth}rem"
         >
           <div class="fixed-columns columns-container">${fixedCols}</div>
           <div class="scrollable-columns columns-container">${scrollCols}</div>

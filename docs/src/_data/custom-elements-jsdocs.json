@@ -8559,6 +8559,555 @@
     }
   },
   {
+    "rawTag": "table",
+    "label": "Table",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Table"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-table"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "table"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A configurable component for displaying tabular data."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>The table component displays rows of data with support for sorting, pagination, row selection, and fixed columns.</p>"
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "page - Dispatched when the page or page size changes."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-table></wc-table>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display, data"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Table",
+      "members": [
+        {
+          "kind": "field",
+          "name": "columns",
+          "type": {
+            "text": "TableColumn[]"
+          },
+          "default": "[]",
+          "description": "Grid columns configuration.\nEach column can have: name, label, width (px), fixed (boolean), template (function).",
+          "attribute": "columns"
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "any[]"
+          },
+          "default": "[]",
+          "description": "Grid data to display on table.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "selectionType",
+          "type": {
+            "text": "'checkbox' | undefined"
+          },
+          "description": "Row selection type. Set to `\"checkbox\"` to enable checkbox selection.",
+          "attribute": "selection-type"
+        },
+        {
+          "kind": "field",
+          "name": "selectedRowKeys",
+          "type": {
+            "text": "string[]"
+          },
+          "default": "[]",
+          "description": "Array of selected row key values.",
+          "attribute": "selected-row-keys"
+        },
+        {
+          "kind": "field",
+          "name": "keyField",
+          "type": {
+            "text": "string"
+          },
+          "default": "'id'",
+          "description": "The field name used as the unique key for each row. Defaults to `\"id\"`.",
+          "attribute": "key-field"
+        },
+        {
+          "kind": "field",
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, sorting and pagination are managed externally (controlled mode).",
+          "attribute": "managed"
+        },
+        {
+          "kind": "field",
+          "name": "sortable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, columns are sortable. Defaults to `true`.",
+          "attribute": "sortable"
+        },
+        {
+          "kind": "field",
+          "name": "sortBy",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The field name currently used for sorting.",
+          "attribute": "sort-by"
+        },
+        {
+          "kind": "field",
+          "name": "sortOrder",
+          "type": {
+            "text": "'asc' | 'desc'"
+          },
+          "default": "'asc'",
+          "description": "The current sort order. Possible values are `\"asc\"` and `\"desc\"`. Defaults to `\"asc\"`.",
+          "attribute": "sort-order"
+        },
+        {
+          "kind": "field",
+          "name": "paginate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, pagination is enabled. Defaults to `true`.",
+          "attribute": "paginate"
+        },
+        {
+          "kind": "field",
+          "name": "page",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The current page number (1-based). Defaults to `1`.",
+          "attribute": "page"
+        },
+        {
+          "kind": "field",
+          "name": "pageSize",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "The number of rows per page. Defaults to `10`.",
+          "attribute": "page-size"
+        },
+        {
+          "kind": "field",
+          "name": "totalItems",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Total number of items (used in managed/controlled mode).",
+          "attribute": "total-items"
+        },
+        {
+          "kind": "field",
+          "name": "emptyStateHeadline",
+          "type": {
+            "text": "string"
+          },
+          "default": "'No items'",
+          "description": "Headline text shown when the table has no data.",
+          "attribute": "empty-state-headline"
+        },
+        {
+          "kind": "field",
+          "name": "emptyStateDescription",
+          "type": {
+            "text": "string"
+          },
+          "default": "'There are no items to display'",
+          "description": "Description text shown when the table has no data.",
+          "attribute": "empty-state-description"
+        },
+        {
+          "kind": "field",
+          "name": "hoveredCell",
+          "type": {
+            "text": "{ row?: any; column?: any }"
+          },
+          "privacy": "private",
+          "default": "{}"
+        },
+        {
+          "kind": "field",
+          "name": "isSelectAll",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isSelectAllIntermediate",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isHorizontallyScrolled",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "onCellMouseOverThrottled",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "onSelectAllClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "onRowSelectClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "onSelectChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "selectedRowKeys",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "onCellClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "row",
+              "type": {
+                "text": "any"
+              }
+            },
+            {
+              "name": "col",
+              "type": {
+                "text": "TableColumn"
+              }
+            },
+            {
+              "name": "evt",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "onScrollContainer",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "totalColumnsWidth",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "getTotalItems",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "getSortIcon",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "col",
+              "type": {
+                "text": "TableColumn"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "onSortClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "col",
+              "type": {
+                "text": "TableColumn"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "renderHeader",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "renderBody",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "renderEmptyState",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "renderPagination",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "selection-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the row selection changes."
+        },
+        {
+          "name": "cell-click",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when a table cell is clicked."
+        },
+        {
+          "name": "sort",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the table is sorted."
+        },
+        {
+          "name": "page",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the page or page size changes."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "columns",
+          "type": {
+            "text": "TableColumn[]"
+          },
+          "default": "[]",
+          "description": "Grid columns configuration.\nEach column can have: name, label, width (px), fixed (boolean), template (function).",
+          "fieldName": "columns"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "any[]"
+          },
+          "default": "[]",
+          "description": "Grid data to display on table.",
+          "fieldName": "data"
+        },
+        {
+          "name": "selection-type",
+          "type": {
+            "text": "'checkbox' | undefined"
+          },
+          "description": "Row selection type. Set to `\"checkbox\"` to enable checkbox selection.",
+          "fieldName": "selectionType"
+        },
+        {
+          "name": "selected-row-keys",
+          "type": {
+            "text": "string[]"
+          },
+          "default": "[]",
+          "description": "Array of selected row key values.",
+          "fieldName": "selectedRowKeys"
+        },
+        {
+          "name": "key-field",
+          "type": {
+            "text": "string"
+          },
+          "default": "'id'",
+          "description": "The field name used as the unique key for each row. Defaults to `\"id\"`.",
+          "fieldName": "keyField"
+        },
+        {
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, sorting and pagination are managed externally (controlled mode).",
+          "fieldName": "managed"
+        },
+        {
+          "name": "sortable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, columns are sortable. Defaults to `true`.",
+          "fieldName": "sortable"
+        },
+        {
+          "name": "sort-by",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The field name currently used for sorting.",
+          "fieldName": "sortBy"
+        },
+        {
+          "name": "sort-order",
+          "type": {
+            "text": "'asc' | 'desc'"
+          },
+          "default": "'asc'",
+          "description": "The current sort order. Possible values are `\"asc\"` and `\"desc\"`. Defaults to `\"asc\"`.",
+          "fieldName": "sortOrder"
+        },
+        {
+          "name": "paginate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "If true, pagination is enabled. Defaults to `true`.",
+          "fieldName": "paginate"
+        },
+        {
+          "name": "page",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The current page number (1-based). Defaults to `1`.",
+          "fieldName": "page"
+        },
+        {
+          "name": "page-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "The number of rows per page. Defaults to `10`.",
+          "fieldName": "pageSize"
+        },
+        {
+          "name": "total-items",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Total number of items (used in managed/controlled mode).",
+          "fieldName": "totalItems"
+        },
+        {
+          "name": "empty-state-headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "'No items'",
+          "description": "Headline text shown when the table has no data.",
+          "fieldName": "emptyStateHeadline"
+        },
+        {
+          "name": "empty-state-description",
+          "type": {
+            "text": "string"
+          },
+          "default": "'There are no items to display'",
+          "description": "Description text shown when the table has no data.",
+          "fieldName": "emptyStateDescription"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-table",
+      "customElement": true,
+      "summary": "A configurable component for displaying tabular data.",
+      "rawTag": {
+        "name": "table",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "tab-panel",
     "label": "Tab Panel",
     "jsdoc": {
