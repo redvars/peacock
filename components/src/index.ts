@@ -23,7 +23,7 @@ export { TimePicker } from './time-picker/index.js';
 export { Textarea } from './textarea/index.js';
 export { Switch } from './switch/index.js';
 export { Spinner } from './spinner/index.js';
-export { Container } from './container/index.js'
+export { Container } from './container/index.js';
 
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';
@@ -37,3 +37,4 @@ export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
+export { Table } from './table/index.js';
