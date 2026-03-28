@@ -38,3 +38,4 @@ export { Slider } from './slider/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
 export { Table } from './table/index.js';
+export { Pagination } from './pagination/index.js';

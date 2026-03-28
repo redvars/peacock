@@ -1,0 +1,59 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.pagination {
+  background: var(--color-surface, #fff);
+  display: flex;
+  align-items: center;
+
+  .page-sizes-select {
+    margin-inline-start: var(--spacing-100, 0.5rem);
+  }
+
+  .page-size-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.5rem);
+    @include mixin.get-typography-not-important('body-medium');
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+  }
+
+  .page-size-select {
+    border: 1px solid var(--color-outline-variant);
+    background: var(--color-surface, #fff);
+    color: var(--color-on-surface);
+    padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+    cursor: pointer;
+    outline: none;
+    height: 2.5rem;
+
+    @include mixin.get-typography-not-important('body-medium');
+
+    &:focus {
+      outline: 2px solid var(--color-primary);
+    }
+  }
+
+  .pagination-item-count {
+    margin-inline-start: var(--spacing-150, 0.75rem);
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .pagination-text {
+    @include mixin.get-typography-not-important('body-medium');
+    color: var(--color-on-surface-variant);
+  }
+
+  .arrows {
+    --border-radius: 0;
+    --button-height: calc(2.5rem - 2px);
+  }
+}

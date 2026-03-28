@@ -7,8 +7,6 @@ import styles from './table.scss';
 
 const DEFAULT_CELL_WIDTH = 16; // in rem
 
-const SUPPORTED_PAGE_SIZES = [10, 25, 50, 100];
-
 export interface TableColumn {
   name: string;
   label: string;
@@ -32,7 +30,7 @@ export interface TableColumn {
  *
  * @example
  * ```html
- * <wc-table></wc-table>
+ * <wc-table columns="[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7}]" data="[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]"></wc-table>
  * ```
  * @tags display, data
  */
@@ -98,7 +96,7 @@ export class Table extends LitElement {
    * If true, pagination is enabled. Defaults to `true`.
    */
   @property({ type: Boolean })
-  paginate: boolean = true;
+  paginate: boolean = false;
 
   /**
    * The current page number (1-based). Defaults to `1`.
@@ -224,9 +222,9 @@ export class Table extends LitElement {
 
   private getSortIcon(col: TableColumn): string {
     if (this.sortBy === col.name) {
-      return this.sortOrder === 'asc' ? 'arrow--up' : 'arrow--down';
+      return this.sortOrder === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
     }
-    return 'arrows--vertical';
+    return '';
   }
 
   private onSortClick(col: TableColumn) {
@@ -436,96 +434,23 @@ export class Table extends LitElement {
   private renderPagination() {
     if (!this.paginate) return nothing;
 
-    const totalItems = this.getTotalItems();
-    const startItem = this.pageSize * (this.page - 1);
-    const endItem = Math.min(this.pageSize * this.page, totalItems);
-    const isFirstPage = this.page === 1;
-    const isLastPage = this.pageSize * this.page >= totalItems;
-
     return html`
-      <div class="pagination">
-        <div class="page-sizes-select">
-          <label class="page-size-label">
-            Items per page:
-            <select
-              class="page-size-select"
-              .value=${String(this.pageSize)}
-              @change=${(e: Event) => {
-                this.pageSize = parseInt(
-                  (e.target as HTMLSelectElement).value,
-                  10,
-                );
-                this.dispatchEvent(
-                  new CustomEvent('page', {
-                    detail: { page: this.page, pageSize: this.pageSize },
-                    bubbles: true,
-                    composed: true,
-                  }),
-                );
-              }}
-            >
-              ${SUPPORTED_PAGE_SIZES.map(
-                size => html`
-                  <option value=${size} ?selected=${this.pageSize === size}>
-                    ${size}
-                  </option>
-                `,
-              )}
-            </select>
-          </label>
-        </div>
-        <div class="pagination-item-count">
-          <span class="pagination-text">
-            ${startItem} - ${endItem} of ${totalItems} items
-          </span>
-        </div>
-        <div class="pagination-right">
-          <div class="table-footer-right-content">
-            <div class="table-footer-right-content-pagination">
-              <wc-button
-                class="arrows"
-                color="secondary"
-                variant="text"
-                ?disabled=${isFirstPage}
-                @click=${() => {
-                  if (!isFirstPage) {
-                    this.page -= 1;
-                    this.dispatchEvent(
-                      new CustomEvent('page', {
-                        detail: { page: this.page, pageSize: this.pageSize },
-                        bubbles: true,
-                        composed: true,
-                      }),
-                    );
-                  }
-                }}
-              >
-                <wc-icon slot="icon" name="arrow--left"></wc-icon>
-              </wc-button>
-              <wc-button
-                color="secondary"
-                variant="text"
-                class="arrows"
-                ?disabled=${isLastPage}
-                @click=${() => {
-                  if (!isLastPage) {
-                    this.page += 1;
-                    this.dispatchEvent(
-                      new CustomEvent('page', {
-                        detail: { page: this.page, pageSize: this.pageSize },
-                        bubbles: true,
-                        composed: true,
-                      }),
-                    );
-                  }
-                }}
-              >
-                <wc-icon slot="icon" name="arrow--right"></wc-icon>
-              </wc-button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <wc-pagination
+        .page=${this.page}
+        .pageSize=${this.pageSize}
+        .totalItems=${this.getTotalItems()}
+        @page=${(e: CustomEvent) => {
+          this.page = e.detail.page;
+          this.pageSize = e.detail.pageSize;
+          this.dispatchEvent(
+            new CustomEvent('page', {
+              detail: { page: this.page, pageSize: this.pageSize },
+              bubbles: true,
+              composed: true,
+            }),
+          );
+        }}
+      ></wc-pagination>
     `;
   }
 

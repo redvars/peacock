@@ -6844,6 +6844,178 @@
     }
   },
   {
+    "rawTag": "pagination",
+    "label": "Pagination",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Pagination"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-pagination"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "pagination"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A pagination control with page size selector, item count display, and previous/next navigation."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>The pagination component provides controls for navigating through paged data sets.</p>"
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "page - Dispatched when the page or page size changes. Detail: "
+        },
+        {
+          "kind": "code",
+          "text": "`{ page, pageSize }`"
+        },
+        {
+          "kind": "text",
+          "text": "."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-pagination page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation, data"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Pagination",
+      "members": [
+        {
+          "kind": "field",
+          "name": "page",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The current page number (1-based). Defaults to `1`.",
+          "attribute": "page"
+        },
+        {
+          "kind": "field",
+          "name": "pageSize",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "The number of rows per page. Defaults to `10`.",
+          "attribute": "page-size"
+        },
+        {
+          "kind": "field",
+          "name": "totalItems",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Total number of items.",
+          "attribute": "total-items"
+        },
+        {
+          "kind": "field",
+          "name": "pageSizes",
+          "type": {
+            "text": "number[]"
+          },
+          "default": "[10, 25, 50, 100]",
+          "description": "Supported page size options.",
+          "attribute": "page-sizes"
+        },
+        {
+          "kind": "method",
+          "name": "dispatchPageEvent",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "page",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the page or page size changes. Detail: `{ page, pageSize }`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "page",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "The current page number (1-based). Defaults to `1`.",
+          "fieldName": "page"
+        },
+        {
+          "name": "page-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "The number of rows per page. Defaults to `10`.",
+          "fieldName": "pageSize"
+        },
+        {
+          "name": "total-items",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Total number of items.",
+          "fieldName": "totalItems"
+        },
+        {
+          "name": "page-sizes",
+          "type": {
+            "text": "number[]"
+          },
+          "default": "DEFAULT_PAGE_SIZES",
+          "description": "Supported page size options.",
+          "fieldName": "pageSizes"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-pagination",
+      "customElement": true,
+      "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
+      "rawTag": {
+        "name": "pagination",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "ripple",
     "label": "Ripple",
     "jsdoc": {
@@ -8595,7 +8767,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-table></wc-table>\n```"
+          "text": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```"
         }
       ],
       "@tags": [
@@ -8705,7 +8877,7 @@
           "type": {
             "text": "boolean"
           },
-          "default": "true",
+          "default": "false",
           "description": "If true, pagination is enabled. Defaults to `true`.",
           "attribute": "paginate"
         },
@@ -9039,7 +9211,7 @@
           "type": {
             "text": "boolean"
           },
-          "default": "true",
+          "default": "false",
           "description": "If true, pagination is enabled. Defaults to `true`.",
           "fieldName": "paginate"
         },

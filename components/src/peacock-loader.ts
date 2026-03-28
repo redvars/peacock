@@ -49,6 +49,7 @@ import { Tab } from './tabs/tab.js';
 import { TabPanel } from './tabs/tab-panel.js';
 import { Slider } from './slider/slider.js';
 import { Table } from './table/table.js';
+import { Pagination } from './pagination/pagination.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -214,6 +215,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-table': {
       CustomElementClass: Table,
+    },
+    'wc-pagination': {
+      CustomElementClass: Pagination,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

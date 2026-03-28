@@ -74,7 +74,7 @@ import dataSource from '../_data-source.json';
           'label': 'Actions',
           'template': function(row, column) {
             return `<pc-dropdown id='dropdown'>
-      <wc-button color='secondary' variant='ghost' icon='overflow-menu--vertical'></wc-button>
+      <wc-icon-button color='secondary' variant='outlined' name='more_vert'></wc-icon-button>
       <pc-menu slot='dropdown-content' class='menu' style='width: 200px'>
         <pc-menu-item value='cut'>
           <wc-icon name='scissors' slot='start'></wc-icon>
@@ -106,11 +106,11 @@ import dataSource from '../_data-source.json';
       $table.data = dataSource;
 
       // Events
-      $table.addEventListener('pc-table--cell-click', function(evt) {
+      $table.addEventListener('cell-click', function(evt) {
         document.getElementById('record').innerText = JSON.stringify(evt.detail.record, null, 3);
         document.getElementById('column').innerText = evt.detail.column.label;
       });
-      $table.addEventListener('pc-table--selection-change', function(evt) {
+      $table.addEventListener('selection-change', function(evt) {
         document.getElementById('selected-rows').innerText = JSON.stringify(evt.detail.value, null, 4);
       });
     </script>
