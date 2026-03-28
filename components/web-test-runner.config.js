@@ -2,6 +2,21 @@
 
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
+/** Plugin to handle .scss imports in tests by returning empty Lit CSS */
+const scssStubPlugin = {
+  name: 'scss-stub',
+  serve(context) {
+    if (context.path.endsWith('.scss')) {
+      return {
+        body: "import { css } from 'lit'; export default css``;",
+        headers: { 'Content-Type': 'application/javascript' },
+        type: 'js',
+      };
+    }
+    return undefined;
+  },
+};
+
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   /** Test files to run */
   files: 'dist/test/**/*.test.js',
@@ -10,6 +25,8 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   nodeResolve: {
     exportConditions: ['browser', 'development'],
   },
+
+  plugins: [scssStubPlugin],
 
   /** Filter out lit dev mode logs */
   filterBrowserLogs(log) {

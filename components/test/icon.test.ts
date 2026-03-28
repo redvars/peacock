@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Icon } from '../src/index.js';
-import '../src/p-icon.js';
+import '../src/icon/p-icon.js';
 
 describe('Icon', () => {
   it('has a default name as home', async () => {
