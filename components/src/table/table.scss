@@ -1,0 +1,220 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 20em;
+  --table-border-color: var(--color-outline-variant);
+  --table-border: 1px solid var(--table-border-color);
+  --table-col-content-padding: var(--spacing-150, 0.75rem) var(--spacing-200, 1rem);
+}
+
+.table {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface, #fff);
+
+  @include mixin.get-typography-not-important('body-medium');
+
+  .table-scroll-container {
+    position: relative;
+    overflow: auto;
+    height: 100%;
+  }
+
+  .empty-table {
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .empty-state {
+      width: 10rem;
+    }
+  }
+
+  .pagination {
+    background: var(--color-surface, #fff);
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--table-border-color);
+
+    .page-sizes-select {
+      margin-inline-start: var(--spacing-100, 0.5rem);
+    }
+
+    .page-size-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-100, 0.5rem);
+      @include mixin.get-typography-not-important('body-medium');
+      color: var(--color-on-surface-variant);
+      white-space: nowrap;
+    }
+
+    .page-size-select {
+      border: 1px solid var(--table-border-color);
+      background: var(--color-surface, #fff);
+      color: var(--color-on-surface);
+      padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+      cursor: pointer;
+      outline: none;
+      height: 2.5rem;
+
+      @include mixin.get-typography-not-important('body-medium');
+
+      &:focus {
+        outline: 2px solid var(--color-primary);
+      }
+    }
+
+    .pagination-item-count {
+      margin-inline-start: var(--spacing-150, 0.75rem);
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .pagination-text {
+      @include mixin.get-typography-not-important('body-medium');
+      color: var(--color-on-surface-variant);
+    }
+
+    .arrows {
+      --border-radius: 0;
+      --button-height: calc(2.5rem - 2px);
+    }
+  }
+
+  &.horizontal-scrolled {
+    .fixed-columns::after {
+      box-shadow: 10px 0 20px -20px var(--color-outline) inset;
+      content: ' ';
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: -20px;
+      width: 20px;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  box-sizing: border-box;
+
+  .columns-container {
+    display: flex;
+  }
+
+  .col {
+    margin: 0;
+    color: var(--color-on-surface);
+
+    .col-content {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      .col-text {
+        padding: var(--table-col-content-padding);
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .col-template {
+        width: 100%;
+      }
+
+      .col-action {
+        --button-border-radius: 0;
+
+        &.has-focus {
+          z-index: 12;
+        }
+      }
+
+      .checkbox {
+        padding: 0 var(--spacing-100, 0.5rem);
+      }
+    }
+
+    &.center .col-content {
+      justify-content: center;
+    }
+
+    &:last-child {
+      flex: 1;
+    }
+  }
+
+  .fixed-columns {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+
+  .scrollable-columns {
+    flex: 1;
+  }
+}
+
+.header {
+  z-index: 2;
+  position: sticky;
+  top: 0;
+
+  @include mixin.get-typography-not-important('label-medium');
+
+  .col {
+    background: var(--color-surface-variant, #f4f4f4);
+
+    &.sort {
+      background: var(--color-secondary-container, #e8eaf6);
+    }
+  }
+}
+
+.body {
+  .row {
+    .col {
+      cursor: pointer;
+      background: var(--color-surface, #fff);
+      border-bottom: 1px solid var(--color-surface-variant, #f4f4f4);
+
+      &.col-checkbox .col-content {
+        border: 0;
+      }
+
+      .col-content {
+        border: 2px solid transparent;
+        border-bottom: 1px solid transparent;
+
+        .col-text {
+          text-wrap: wrap;
+        }
+      }
+
+      &:focus {
+        outline: none;
+        border-bottom-color: var(--color-primary);
+        z-index: 1;
+
+        .col-content {
+          border-color: var(--color-primary);
+        }
+      }
+    }
+
+    &:hover {
+      .col {
+        background-color: var(--color-surface-container-low, #f8f8f8);
+      }
+    }
+  }
+}

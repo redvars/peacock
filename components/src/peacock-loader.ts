@@ -48,10 +48,10 @@ import { Tabs } from './tabs/tabs.js';
 import { Tab } from './tabs/tab.js';
 import { TabPanel } from './tabs/tab-panel.js';
 import { Slider } from './slider/slider.js';
-
+import { Table } from './table/table.js';
 
 const distDirectory = `${import.meta.url}/..`;
-await loadCSS(`${distDirectory  }/assets/styles.css`);
+await loadCSS(`${distDirectory}/assets/styles.css`);
 
 /*
 import tooltipStyles from './popover/tooltip.css-component.scss';
@@ -122,7 +122,7 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: TabGroup,
     },
     'wc-tab': {
-      CustomElementClass: Tab
+      CustomElementClass: Tab,
     },
     'wc-tab-panel': {
       CustomElementClass: TabPanel,
@@ -204,20 +204,23 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: MenuList,
     },
     'wc-container': {
-      CustomElementClass: Container
+      CustomElementClass: Container,
     },
     'wc-image': {
-      CustomElementClass: Image
+      CustomElementClass: Image,
     },
     'wc-slider': {
-      CustomElementClass: Slider
+      CustomElementClass: Slider,
+    },
+    'wc-table': {
+      CustomElementClass: Table,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
     },
     'wc-chart-pie': {
       importPath: `${distDirectory}/chart-pie.js`,
-    }
+    },
   },
 };
 
