@@ -40,6 +40,21 @@ describe('TreeView', () => {
     expect(el.selectedNode).to.equal('node-1');
   });
 
+  it('applies selectedNode to matching node on initial load', async () => {
+    const el = await fixture<TreeView>(html`
+      <wc-tree-view selected-node="node-2">
+        <wc-tree-node label="Node 1" value="node-1"></wc-tree-node>
+        <wc-tree-node label="Node 2" value="node-2"></wc-tree-node>
+      </wc-tree-view>
+    `);
+
+    await el.updateComplete;
+
+    const nodes = el.querySelectorAll<TreeNode>('wc-tree-node');
+    expect(nodes[0]?.selected).to.be.false;
+    expect(nodes[1]?.selected).to.be.true;
+  });
+
   it('emits tree-view:change when a node is selected', async () => {
     const el = await fixture<TreeView>(html`
       <wc-tree-view>

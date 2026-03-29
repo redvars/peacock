@@ -23,19 +23,19 @@ const description = getTextTag(componentDetails, '@summary');
 
     <div class='sidenav-components'>
 
-      <pc-tree-view layer='01' selected-node={rawTag}>
-        <pc-tree-node  label="Overview" href='/components'></pc-tree-node>
+      <wc-tree-view layer='01' selected-node={rawTag}>
+        <wc-tree-node  label="Overview" href='/components'></wc-tree-node>
 
         {
             customElementsJSDocs.map((component) => {
               if (component.rawTag &&  ['breadcrumb-item', 'focus-ring', 'skeleton', 'tab-panel', 'tab', 'tab-group'].includes(component.rawTag)) {
                 return;
               }
-              return <pc-tree-node label={component?.label} value={component?.rawTag}
-                                               href={`/components/${component?.rawTag}/`}></pc-tree-node>
+              return <wc-tree-node label={component?.label} value={component?.rawTag}
+                                               href={`/components/${component?.rawTag}/`}></wc-tree-node>
             })
         }
-      </pc-tree-view>
+      </wc-tree-view>
 
     </div>
 

@@ -36,6 +36,14 @@ export class TreeView extends LitElement {
     this.setAttribute('role', 'tree');
   }
 
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+
+    if (changedProps.has('selectedNode')) {
+      this._syncSelectedStateFromProperty();
+    }
+  }
+
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener('tree-node:click', this._onNodeClick as EventListener);
@@ -93,6 +101,27 @@ export class TreeView extends LitElement {
     });
   }
 
+  private _clearSelectedState() {
+    const allNodes = this._collectAllNodes(this._getTopLevelNodes());
+    allNodes.forEach(node => {
+      // eslint-disable-next-line no-param-reassign
+      node.selected = false;
+    });
+  }
+
+  private _syncSelectedStateFromProperty() {
+    if (this.selectedNode) {
+      this._updateSelectedState(this.selectedNode);
+      return;
+    }
+
+    this._clearSelectedState();
+  }
+
+  private _onSlotChange = () => {
+    this._syncSelectedStateFromProperty();
+  };
+
   private _collectAllNodes(nodes: TreeNode[]): TreeNode[] {
     const result: TreeNode[] = [];
     nodes.forEach(node => {
@@ -145,7 +174,7 @@ export class TreeView extends LitElement {
 
   render() {
     return html`<div class="tree-view">
-      <slot></slot>
+      <slot @slotchange=${this._onSlotChange}></slot>
     </div>`;
   }
 
