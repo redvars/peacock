@@ -1,0 +1,12 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.tree-view {
+  display: block;
+  padding: var(--spacing-100, 0.5rem) 0;
+}

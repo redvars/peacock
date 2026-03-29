@@ -1,6 +1,8 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './tab-group.scss';
+import { Tabs } from './tabs.js';
+import { TabPanel } from './tab-panel.js';
 
 /**
  * @label Tab Group
@@ -28,6 +30,10 @@ import styles from './tab-group.scss';
  */
 export class TabGroup extends LitElement {
   static styles = [styles];
+
+  static Tabs = Tabs;
+
+  static TabPanel = TabPanel;
 
   @property({ reflect: true }) 
   variant: 'line' | 'line-secondary' | 'contained' | 'pill' = 'line';

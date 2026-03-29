@@ -6,6 +6,7 @@ import styles from './tab-panel.scss';
  * @label Tab Panel
  * @tag wc-tab-panel
  * @rawTag tab-panel
+ * @parentRawTag tab-group
  *
  * @summary Content panel for tabs.
  * @overview

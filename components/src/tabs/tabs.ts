@@ -24,6 +24,8 @@ import { Tab } from './tab.js';
 export class Tabs extends LitElement {
   static styles = [styles];
 
+  static Tab = Tab;
+
   @property({ type: Boolean }) managed = false;
 
   connectedCallback() {

@@ -3,6 +3,8 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from 'src/IndividualComponent.js';
 import styles from './button-group.scss';
+import { Button } from '../button/button.js';
+import { IconButton } from '../icon-button/icon-button.js';
 
 /**
  * @label Button Group
@@ -27,6 +29,10 @@ export class ButtonGroup extends LitElement {
   // If you prefer keeping the SCSS file, you'll need a build tool (like Vite or Webpack)
   // that can import .scss files as lit-css.
   static styles = [styles];
+
+  static Button = Button;
+
+  static IconButton = IconButton;
 
   /**
    * Button size.

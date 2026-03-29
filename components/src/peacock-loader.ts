@@ -50,6 +50,7 @@ import { TabPanel } from './tabs/tab-panel.js';
 import { Slider } from './slider/slider.js';
 import { Table } from './table/table.js';
 import { Pagination } from './pagination/pagination.js';
+import { TreeView } from './tree-view/tree-view.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -218,6 +219,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-pagination': {
       CustomElementClass: Pagination,
+    },
+    'wc-tree-view': {
+      CustomElementClass: TreeView,
+    },
+    'wc-tree-node': {
+      CustomElementClass: TreeView.Node,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

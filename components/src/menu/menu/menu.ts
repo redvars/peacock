@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
+import { MenuList } from '../menu-list/menu-list.js';
 
 /**
  * @label Menu
@@ -18,6 +19,8 @@ import { customElement, property, query, state } from 'lit/decorators.js';
  * ```
  */
 export class Menu extends LitElement {
+  static List = MenuList;
+
   @property({ type: Boolean, reflect: true }) open = false;
 
   // Position: 'bottom-start' | 'bottom-end' | etc. (Simplified here to generic dropdown)

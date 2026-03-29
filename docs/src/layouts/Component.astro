@@ -21,43 +21,43 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails?.
 
     <div class='sidenav-components'>
 
-      <pc-tree-view layer='01' value={title} selected-node={title}>
-        <pc-tree-node  label="Overview" href='/components'></pc-tree-node>
+      <wc-tree-view layer='01' value={title} selected-node={title}>
+        <wc-tree-node  label="Overview" href='/components'></wc-tree-node>
 
         {
           getCategoriesTree().map((category) => {
             if (!category.hide) {
-              return <pc-tree-node label={category.name}  value={category.name + 'group'}>
+              return <wc-tree-node label={category.name}  value={category.name + 'group'}>
                 {
 
                   category.children.map((componentName) => {
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <pc-tree-node label={component?.metadata.label} value={component?.metadata.name}
-                                               href={`/components/${component?.metadata.name}/`}></pc-tree-node>
+                        return <wc-tree-node label={component?.metadata.label} value={component?.metadata.name}
+                                               href={`/components/${component?.metadata.name}/`}></wc-tree-node>
                       }
                     } else if (componentName.children) {
-                      return <pc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
+                      return <wc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
                         {
                           componentName.children.map((componentName) => {
                             const component = getComponentDetails(componentName);
                             if (component?.metadata.name) {
-                              return <pc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
-                                                     href={`/components/${component?.metadata.name}/`}></pc-tree-node>
+                              return <wc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
+                                                     href={`/components/${component?.metadata.name}/`}></wc-tree-node>
                             }
                           })
                         }
-                      </pc-tree-node>
+                      </wc-tree-node>
                     }
                   })
                 }
-              </pc-tree-node>
+              </wc-tree-node>
             }
           })
         }
 
-      </pc-tree-view>
+      </wc-tree-view>
 
     </div>
 
