@@ -2,11 +2,13 @@ import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-list.scss';
+import { MenuItem } from '../menu-item/menu-item.js';
 
 /**
  * @label Menu List
  * @tag wc-menu-list
  * @rawTag menu-list
+ * @parentRawTag menu
  * @summary A list of menu items.
  * @tags navigation
  *
@@ -20,6 +22,8 @@ import styles from './menu-list.scss';
  */
 export class MenuList extends LitElement {
   static styles = [styles];
+
+  static Item = MenuItem;
 
   @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
     'standard';

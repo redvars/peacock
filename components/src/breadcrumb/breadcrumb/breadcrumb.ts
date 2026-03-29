@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './breadcrumb.scss';
+import { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
 
 /**
  * @label Breadcrumb
@@ -24,6 +25,8 @@ import styles from './breadcrumb.scss';
  */
 export class Breadcrumb extends LitElement {
   static styles = [styles];
+
+  static Item = BreadcrumbItem;
 
   /**
    * Accessible label for the breadcrumb navigation landmark.

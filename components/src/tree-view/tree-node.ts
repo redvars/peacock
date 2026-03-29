@@ -8,6 +8,7 @@ import styles from './tree-node.scss';
  * @label Tree Node
  * @tag wc-tree-node
  * @rawTag tree-node
+ * @parentRawTag tree-view
  * @summary A tree node represents a single item in a hierarchical tree structure. It supports nesting, icons, links, and keyboard navigation.
  *
  * @example

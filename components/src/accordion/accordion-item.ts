@@ -8,7 +8,8 @@ import styles from './accordion-item.scss';
  * @tag wc-accordion-item
  * @rawTag accordion-item
  * @summary An accordion item is single item in an accordion list. It contains a header and a content section that can be expanded or collapsed by the user.
- *
+ * @parentRawTag accordion
+ * 
  * @example
  * ```html
  * <wc-accordion-item>
