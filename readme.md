@@ -49,7 +49,7 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
           src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.3.0/dist/peacock-loader.js'></script>
 </head>
 
-<base-button>Button</base-button>
+<wc-button>Button</wc-button>
 ```
 
 # Components
@@ -67,22 +67,22 @@ menus, checkboxes, and radio buttons.
 
 | Name                                                                | Component         | State |
 |---------------------------------------------------------------------|-------------------|-------|
-| [Code editor](https://peacock.redvars.com/components/code-editor)   | card-editor     | 🟢    |
+| [Code editor](https://peacock.redvars.com/components/code-editor)   | wc-code-editor  | 🟢    |
 | Color picker                                                        | color-picker    | 🔴    |
-| [Checkbox](https://peacock.redvars.com/components/checkbox)         | base-checkbox     | 🟢    |
-| [Date picker](https://peacock.redvars.com/components/date-picker)   | date-picker       | 🟡    |
+| [Checkbox](https://peacock.redvars.com/components/checkbox)         | wc-checkbox     | 🟢    |
+| [Date picker](https://peacock.redvars.com/components/date-picker)   | wc-date-picker  | 🟡    |
 | Date Time picker                                                    | datetime-picker | 🔴    |
-| [Form control](https://peacock.redvars.com/components/form-control) | base-field        | 🟡    |
+| [Form control](https://peacock.redvars.com/components/form-control) | wc-field        | 🟡    |
 | File picker                                                         | file-picker     | 🔴    |
 | [HTML editor](https://peacock.redvars.com/components/html-editor)   | html-editor     | 🟢    |
-| [Input](https://peacock.redvars.com/components/input)               | input-field       | 🟢    |
+| [Input](https://peacock.redvars.com/components/input)               | wc-input        | 🟢    |
 | [Input URL](https://peacock.redvars.com/components/input-url)       | input-url       | 🟢    |
 | Month picker                                                        | month-picker    | 🔴    |
-| [Number](https://peacock.redvars.com/components/number)             | number-field      | 🟢    |
-| [Select](https://peacock.redvars.com/components/select)             | base-select          | 🟢    |
-| [Textarea](https://peacock.redvars.com/components/textarea)         | textarea-field    | 🟢    |
-| [Time picker](https://peacock.redvars.com/components/time-picker)   | time-picker       | 🟡    |
-| [URL input](https://peacock.redvars.com/components/url-input)       | url-input.      | 🔴    |
+| [Number](https://peacock.redvars.com/components/number)             | wc-number-field | 🟢    |
+| [Select](https://peacock.redvars.com/components/select)             | base-select     | 🟢    |
+| [Textarea](https://peacock.redvars.com/components/textarea)         | wc-textarea     | 🟢    |
+| [Time picker](https://peacock.redvars.com/components/time-picker)   | wc-time-picker  | 🟡    |
+| [URL input](https://peacock.redvars.com/components/url-input)       | url-input       | 🔴    |
 | Week picker                                                         | week-picker     | 🔴    |
 
 ## Navigation
@@ -93,10 +93,10 @@ include menus, tabs, and breadcrumbs.
 
 | Name                                                   | Component       | State |
 |--------------------------------------------------------|-----------------|-------|
-| [Breadcrumb](https://peacock.redvars.com/components/breadcrumb) | base-breadcrumb | 🟢    |
+| [Breadcrumb](https://peacock.redvars.com/components/breadcrumb) | wc-breadcrumb   | 🟢    |
 | [Dropdown](https://peacock.redvars.com/components/dropdown)     | base-dropdown   | 🟡    |
-| [Menu](https://peacock.redvars.com/components/menu)             | base-menu       | 🟡    |
-| [Tabs](https://peacock.redvars.com/components/tabs)             | base-tabs       | 🟢    |
+| [Menu](https://peacock.redvars.com/components/menu)             | wc-base-menu    | 🟡    |
+| [Tabs](https://peacock.redvars.com/components/tabs)             | wc-tabs         | 🟢    |
 
 ## Informational
 
@@ -106,11 +106,11 @@ include notifications, tooltips, and progress bars.
 
 | Name                                                                                | Component              | State |
 |-------------------------------------------------------------------------------------|------------------------|-------|
-| [Badge](https://peacock.redvars.com/components/badge)                               | base-badge             | 🟢    |
-| [Linear Progress](https://peacock.redvars.com/components/linear-progress)           | linear-progress        | 🟢    |
-| [Circular Progress](https://peacock.redvars.com/components/circular-progress)       | circular-progress      | 🟢    |
-| [Spinner](https://peacock.redvars.com/components/spinner)                           | base-spinner              | 🟢    |
-| [Tooltip](https://peacock.redvars.com/components/tooltip)                           | base-tooltip           | 🟢    |
+| [Badge](https://peacock.redvars.com/components/badge)                               | wc-badge                  | 🟢    |
+| [Linear Progress](https://peacock.redvars.com/components/linear-progress)           | wc-linear-progress        | 🟢    |
+| [Circular Progress](https://peacock.redvars.com/components/circular-progress)       | wc-circular-progress      | 🟢    |
+| [Spinner](https://peacock.redvars.com/components/spinner)                           | wc-spinner                | 🟢    |
+| [Tooltip](https://peacock.redvars.com/components/tooltip)                           | wc-tooltip                | 🟢    |
 | [Notification](https://peacock.redvars.com/components/notification)                 | base-notification         | 🟢    |
 | [Notification Manager](https://peacock.redvars.com/components/notification-manager) | base-notification-manager | 🟢    |
 
@@ -123,8 +123,8 @@ organization to the content.
 
 | Name                                                          | Component      | State |
 |---------------------------------------------------------------|----------------|-------|
-| [Accordion](https://peacock.redvars.com/components/accordion) | base-accordion | 🟢    |
-| Card                                                          | base-card         | 🟡    |
+| [Accordion](https://peacock.redvars.com/components/accordion) | wc-accordion   | 🟢    |
+| Card                                                          | base-card      | 🟡    |
 
 ## General
 
@@ -132,34 +132,34 @@ These components are used for general purpose. They include
 
 | Name                                                                                | Component                 | State |
 |-------------------------------------------------------------------------------------|---------------------------|-------|
-| [Avatar](https://peacock.redvars.com/components/avatar)                             | base-avatar               | 🟢    |
-| [Button](https://peacock.redvars.com/components/button)                             | base-button               | 🟢    |
-| [Button Group](https://peacock.redvars.com/components/button-group)                 | button-group         | 🟢    |
+| [Avatar](https://peacock.redvars.com/components/avatar)                             | wc-avatar                 | 🟢    |
+| [Button](https://peacock.redvars.com/components/button)                             | wc-button                 | 🟢    |
+| [Button Group](https://peacock.redvars.com/components/button-group)                 | wc-button-group           | 🟢    |
 | [Calendar](https://peacock.redvars.com/components/calendar)                         | base-calendar             | 🟢    |
 | Card Select                                                                         | base-cardselect           | 🔴    |
-| [Code Highlighter](https://peacock.redvars.com/components/code-highlighter)         | code-highlighter     | 🟢    |
+| [Code Highlighter](https://peacock.redvars.com/components/code-highlighter)         | wc-code-highlighter       | 🟢    |
 | Column                                                                              | base-col                  | 🔴    |
-| [Empty State](https://peacock.redvars.com/components/empty-state)                   | empty-state          | 🟡    |
-| [Flow Designer ](https://peacock.redvars.com/components/flow-designer)              | flow-designer        | 🔵    |
+| [Empty State](https://peacock.redvars.com/components/empty-state)                   | wc-empty-state            | 🟡    |
+| [Flow Designer ](https://peacock.redvars.com/components/flow-designer)              | flow-designer             | 🔵    |
 | Grid                                                                                | base-grid                 | 🔴    |
 | Group                                                                               | base-group                | 🔴    |
 | [Header](https://peacock.redvars.com/components/header)                             | base-header               | 🟢    |
-| [Icon](https://peacock.redvars.com/components/icon)                                 | base-icon                 | 🟢    |
-| [Link](https://peacock.redvars.com/components/link)                                 | base-link                 | 🟢    |
+| [Icon](https://peacock.redvars.com/components/icon)                                 | wc-icon                   | 🟢    |
+| [Link](https://peacock.redvars.com/components/link)                                 | wc-link                   | 🟢    |
 | [Modal](https://peacock.redvars.com/components/modal)                               | base-modal                | 🟢    |
-| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | notification-manager | 🟡    |
+| [Notification Manager](https://peacock.redvars.com/components/notification-manager) | notification-manager      | 🟡    |
 | Observer                                                                            | base-observer             | 🔴    |
-| Pagination                                                                          | base-pagination           | 🔴    |
+| Pagination                                                                          | wc-pagination             | 🔴    |
 | Radio Group                                                                         | base-radiogroup           | 🔴    |
 | Row                                                                                 | base-row                  | 🔴    |
-| [Slider](https://peacock.redvars.com/components/slider)                             | base-slider               | 🟡    |
+| [Slider](https://peacock.redvars.com/components/slider)                             | wc-slider                 | 🟡    |
 | Spoiler                                                                             | base-spoiler              | 🔴    |
 | Stepper                                                                             | base-stepper              | 🔴    |
-| [Table](https://peacock.redvars.com/components/table)                               | base-table                | 🟡    |
-| [Tag](https://peacock.redvars.com/components/tag) / Chip                            | base-tag                  | 🟢    |
+| [Table](https://peacock.redvars.com/components/table)                               | wc-table                  | 🟡    |
+| [Tag](https://peacock.redvars.com/components/tag) / Chip                            | wc-tag                    | 🟢    |
 | [Text](https://peacock.redvars.com/components/text)                                 | base-text                 | 🟢    |
-| [Tree View](https://peacock.redvars.com/components/tree-view)                       | tree-view            | 🟡    |
-| [Switch](https://peacock.redvars.com/components/switch)                             | base-switch               | 🟢    |
+| [Tree View](https://peacock.redvars.com/components/tree-view)                       | wc-tree-view              | 🟡    |
+| [Switch](https://peacock.redvars.com/components/switch)                             | wc-switch                 | 🟢    |
 
 ## Charts
 
@@ -167,8 +167,8 @@ These components are used to display data in a graphical format. They include
 
 | Name                                                           | Component           | State |
 |----------------------------------------------------------------|---------------------|-------|
-| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut) | chart-doughnut | 🟢    |
-| [Pie Chart ](https://peacock.redvars.com/components/chart-pie)          | chart-pie      | 🟢    |
+| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut) | wc-chart-doughnut | 🟢    |
+| [Pie Chart ](https://peacock.redvars.com/components/chart-pie)          | wc-chart-pie      | 🟢    |
 
 
 ## 📄 License
