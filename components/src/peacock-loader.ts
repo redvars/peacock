@@ -52,6 +52,7 @@ import { Table } from './table/table.js';
 import { Pagination } from './pagination/pagination.js';
 import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
+import { Snackbar } from './snackbar/snackbar.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -230,11 +231,20 @@ const loaderConfig: LoaderConfig = {
     'wc-tree-node': {
       CustomElementClass: TreeView.Node,
     },
+    'wc-snackbar': {
+      CustomElementClass: Snackbar,
+    },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
     },
     'wc-chart-pie': {
       importPath: `${distDirectory}/chart-pie.js`,
+    },
+    'wc-chart-bar': {
+      importPath: `${distDirectory}/chart-bar.js`,
+    },
+    'wc-chart-stacked-bar': {
+      importPath: `${distDirectory}/chart-stacked-bar.js`,
     },
   },
 };
