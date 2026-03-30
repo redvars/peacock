@@ -22,7 +22,6 @@ import { Checkbox } from './checkbox/checkbox.js';
 
 import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
-import { MenuList } from './menu/menu-list/menu-list.js';
 
 import { Accordion } from './accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -196,14 +195,11 @@ const loaderConfig: LoaderConfig = {
     'wc-empty-state': {
       CustomElementClass: EmptyState,
     },
-    'wc-base-menu': {
+    'wc-menu': {
       CustomElementClass: Menu,
     },
     'wc-menu-item': {
       CustomElementClass: MenuItem,
-    },
-    'wc-menu-list': {
-      CustomElementClass: MenuList,
     },
     'wc-container': {
       CustomElementClass: Container,

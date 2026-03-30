@@ -11,14 +11,14 @@ const { sections, title } = Astro.props;
 
     <p class="text-body-large">On this page</p>
     <h2 class="text-headline">{title}</h2>
-    <wc-menu-list id="overview-navigation" variant="vibrant">
+    <wc-menu id="overview-navigation" variant="vibrant">
       {
         sections.map((section: any) => {
           const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
           return <wc-menu-item href={`#section-${sectionValue}`} value={sectionValue}>{section.title}</wc-menu-item>
         })
       }
-    </wc-menu-list>
+    </wc-menu>
 
     <script>
       const overviewNavigation = document.getElementById('overview-navigation');
