@@ -3,8 +3,9 @@
 :host {
   display: block;
   padding-bottom: var(--spacing-100);
-  --card-border-color: var(--color-outline);
   --card-background: var(--color-surface);
+  --card-border-color: transparent;
+  --card-shadow-color: none;
 }
 
 .card {
@@ -15,31 +16,45 @@
   overflow: clip;
   height: 100%;
   background-color: var(--card-background);
+  box-shadow: var(--card-shadow-color);
+}
+
+:host([variant="elevated"]) {
+  --card-background: var(--color-surface-container-low);
+  --card-shadow-color: v(--shadow-sm);
+}
+
+:host([variant="filled"]) {
+  --card-background: var(--color-surface-container-highest);
+}
+
+:host([variant="outlined"]) {
+  --card-border-color: var(--color-outline);
 }
 
 :host([shadow-level="xxl"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-xxl);
 }
 
 :host([shadow-level="xl"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-xl);
 }
 
 :host([shadow-level="lg"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-lg);
 }
 
 :host([shadow-level="md"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-md);
 }
 
 :host([shadow-level="sm"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-sm);
 }
 
 
 :host([shadow-level="xs"]) .card {
-  box-shadow: v(--shadow-xl);
+  --card-shadow-color: v(--shadow-xs);
 }
 
 slot::slotted(pc-card-content) {

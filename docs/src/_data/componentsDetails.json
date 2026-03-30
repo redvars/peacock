@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-30T12:48:25",
+  "timestamp": "2026-03-30T15:27:54",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -7,11 +7,11 @@
   },
   "components": [
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-compound-expression",
       "filePath": "src/components/application/condition-builder/cb-compound-expression/cb-compound-expression.tsx",
       "fileName": "cb-compound-expression.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-compound-expression/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-compound-expression/usage",
       "tag": "goat-cb-compound-expression",
       "readme": "# p-icon\n\n\n",
       "overview": "",
@@ -124,11 +124,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-divider",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-divider",
       "filePath": "src/components/application/condition-builder/cb-divider/cb-divider.tsx",
       "fileName": "cb-divider.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-divider/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-divider/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-divider/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-divider/usage",
       "tag": "goat-cb-divider",
       "readme": "# p-icon\n\n\n",
       "overview": "",
@@ -250,11 +250,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-expression",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-expression",
       "filePath": "src/components/application/condition-builder/cb-expression/cb-expression.tsx",
       "fileName": "cb-expression.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-expression/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-expression/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-expression/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-expression/usage",
       "tag": "goat-cb-expression",
       "readme": "# p-icon\n\n\n",
       "overview": "",
@@ -332,11 +332,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-predicate",
       "filePath": "src/components/application/condition-builder/cb-predicate/cb-predicate.tsx",
       "fileName": "cb-predicate.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-predicate/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/cb-predicate/usage",
       "tag": "goat-cb-predicate",
       "readme": "# p-icon\n\n\n",
       "overview": "",
@@ -420,11 +420,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/condition-builder",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/condition-builder",
       "filePath": "src/components/application/condition-builder/condition-builder/condition-builder.tsx",
       "fileName": "condition-builder.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/condition-builder/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/condition-builder/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/condition-builder/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/condition-builder/condition-builder/usage",
       "tag": "goat-condition-builder",
       "readme": "# p-icon\n\n\n",
       "overview": "",
@@ -485,11 +485,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer",
       "filePath": "src/components/application/footer/footer/footer.tsx",
       "fileName": "footer.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/footer/footer/usage",
       "tag": "goat-footer",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -576,11 +576,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer-copyright",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-copyright",
       "filePath": "src/components/application/footer/footer-copyright/footer-copyright.tsx",
       "fileName": "footer-copyright.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer-copyright/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer-copyright/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-copyright/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-copyright/usage",
       "tag": "goat-footer-copyright",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -676,11 +676,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer-links",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-links",
       "filePath": "src/components/application/footer/footer-links/footer-links.tsx",
       "fileName": "footer-links.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer-links/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer-links/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-links/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/footer/footer-links/usage",
       "tag": "goat-footer-links",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -729,11 +729,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header-action",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/header/header-action",
       "filePath": "src/components/application/header/header-action/header-action.tsx",
       "fileName": "header-action.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header-action/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header-action/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/header/header-action/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/header/header-action/usage",
       "tag": "goat-header-action",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -978,11 +978,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header-brand",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/header/header-brand",
       "filePath": "src/components/application/header/header-brand/header-brand.tsx",
       "fileName": "header-brand.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header-brand/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header-brand/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/header/header-brand/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/header/header-brand/usage",
       "tag": "goat-header-brand",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -1142,11 +1142,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/html-editor",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/html-editor",
       "filePath": "src/components/input-controls/html-editor/html-editor.tsx",
       "fileName": "html-editor.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/html-editor/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/html-editor/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/html-editor/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/html-editor/usage",
       "tag": "goat-html-editor",
       "readme": "# pc-code-editor\n\n\n",
       "overview": "",
@@ -1724,11 +1724,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/sidenav",
       "filePath": "src/components/application/sidenav/sidenav.tsx",
       "fileName": "sidenav.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/sidenav/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/sidenav/usage",
       "tag": "goat-sidenav",
       "readme": "# pc-menu\n\n\n",
       "overview": "",
@@ -1782,11 +1782,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav-menu",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu",
       "filePath": "src/components/application/sidenav-menu/sidenav-menu.tsx",
       "fileName": "sidenav-menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav-menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav-menu/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu/usage",
       "tag": "goat-sidenav-menu",
       "readme": "# pc-menu\n\n\n",
       "overview": "",
@@ -1956,11 +1956,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav-menu-item",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu-item",
       "filePath": "src/components/application/sidenav-menu-item/sidenav-menu-item.tsx",
       "fileName": "sidenav-menu-item.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav-menu-item/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav-menu-item/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu-item/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/sidenav-menu-item/usage",
       "tag": "goat-sidenav-menu-item",
       "readme": "# pc-menu-item\n\n\n",
       "overview": "",
@@ -2138,11 +2138,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/typography/text",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/typography/text",
       "filePath": "src/components/typography/text/text.tsx",
       "fileName": "text.tsx",
-      "readmePath": "/workspaces/peacock/src/components/typography/text/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/typography/text/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/typography/text/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/typography/text/usage",
       "tag": "goat-text",
       "readme": "# goat-heading\n\n\n",
       "overview": "",
@@ -2463,11 +2463,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/button",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/button",
       "filePath": "src/components/button/button.tsx",
       "fileName": "button.tsx",
-      "readmePath": "/workspaces/peacock/src/components/button/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/button/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/button/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/button/usage",
       "tag": "pc-button",
       "readme": "# pc-button\n\n\n",
       "overview": "",
@@ -3051,7 +3051,58 @@
           "docsTags": []
         }
       ],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-theme-button-border-radius",
+          "annotation": "prop",
+          "docs": "Theme level button border radius. (applies to all buttons)"
+        },
+        {
+          "name": "--goat-theme-button-border-style",
+          "annotation": "prop",
+          "docs": "Theme level button border style. (applies to all buttons)"
+        },
+        {
+          "name": "--pc-button-border-radius",
+          "annotation": "prop",
+          "docs": "IconButton border radius."
+        },
+        {
+          "name": "--pc-button-border-style",
+          "annotation": "prop",
+          "docs": "IconButton border style."
+        },
+        {
+          "name": "--pc-button-color",
+          "annotation": "prop",
+          "docs": "IconButton filling color."
+        },
+        {
+          "name": "--pc-button-color-active",
+          "annotation": "prop",
+          "docs": "IconButton filling color on active."
+        },
+        {
+          "name": "--pc-button-color-hover",
+          "annotation": "prop",
+          "docs": "IconButton filling color on hover."
+        },
+        {
+          "name": "--pc-button-color-light",
+          "annotation": "prop",
+          "docs": "IconButton filling color for light variant."
+        },
+        {
+          "name": "--pc-button-padding",
+          "annotation": "prop",
+          "docs": "IconButton padding."
+        },
+        {
+          "name": "--pc-button-support-contrast-color",
+          "annotation": "prop",
+          "docs": "IconButton support color (text or border). Should be white or black based on weight of button filling color."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -3081,11 +3132,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar",
       "filePath": "src/components/application/calendar/calendar/calendar.tsx",
       "fileName": "calendar.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/usage",
       "tag": "pc-calendar",
       "readme": "# pc-avatar\n\n\n",
       "overview": "",
@@ -3367,11 +3418,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view",
       "filePath": "src/components/application/calendar/calendar/column-view/column-view.tsx",
       "fileName": "column-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view/usage",
       "tag": "pc-calendar-column-view",
       "readme": "# pc-calendar-column-view\n\n\n",
       "overview": "",
@@ -3601,11 +3652,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view/column-view-background",
       "filePath": "src/components/application/calendar/calendar/column-view/column-view-background/column-view-background.tsx",
       "fileName": "column-view-background.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view/column-view-background/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/column-view/column-view-background/usage",
       "tag": "pc-calendar-column-view-background",
       "readme": "# pc-calendar-column-view-background\n\n\n",
       "overview": "",
@@ -3682,11 +3733,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view",
       "filePath": "src/components/application/calendar/calendar/month-view/month-view.tsx",
       "fileName": "month-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view/usage",
       "tag": "pc-calendar-month-view",
       "readme": "# pc-calendar-column-view\n\n\n",
       "overview": "",
@@ -3853,11 +3904,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view/month-view-background",
       "filePath": "src/components/application/calendar/calendar/month-view/month-view-background/month-view-background.tsx",
       "fileName": "month-view-background.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view/month-view-background/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/calendar/calendar/month-view/month-view-background/usage",
       "tag": "pc-calendar-month-view-background",
       "readme": "# pc-calendar-column-view-background\n\n\n",
       "overview": "",
@@ -3907,11 +3958,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/flow-designer/canvas",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/canvas",
       "filePath": "src/components/application/flow-designer/canvas/canvas.tsx",
       "fileName": "canvas.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/flow-designer/canvas/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/flow-designer/canvas/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/canvas/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/canvas/usage",
       "tag": "pc-canvas",
       "readme": "# goat-flow-designer\n\n\n",
       "overview": "",
@@ -4047,13 +4098,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/card",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/card",
       "filePath": "src/components/card/card.tsx",
       "fileName": "card.tsx",
-      "readmePath": "/workspaces/peacock/src/components/card/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/card/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/card/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/card/usage",
       "tag": "pc-card",
-      "readme": "# goat-heading\n\n\n",
+      "readme": "# card\n\n\n",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4105,6 +4156,44 @@
           "required": false,
           "getter": false,
           "setter": false
+        },
+        {
+          "name": "variant",
+          "type": "\"elevated\" | \"filled\" | \"outlined\"",
+          "complexType": {
+            "original": "'elevated' | 'filled' | 'outlined'",
+            "resolved": "\"elevated\" | \"filled\" | \"outlined\"",
+            "references": {}
+          },
+          "mutable": false,
+          "attr": "variant",
+          "reflectToAttr": true,
+          "docs": "",
+          "docsTags": [
+            {
+              "name": "default",
+              "text": "'elevated'"
+            }
+          ],
+          "default": "'elevated'",
+          "values": [
+            {
+              "value": "elevated",
+              "type": "string"
+            },
+            {
+              "value": "filled",
+              "type": "string"
+            },
+            {
+              "value": "outlined",
+              "type": "string"
+            }
+          ],
+          "optional": false,
+          "required": false,
+          "getter": false,
+          "setter": false
         }
       ],
       "methods": [],
@@ -4116,11 +4205,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/dropdown/dropdown",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown",
       "filePath": "src/components/dropdown/dropdown/dropdown.tsx",
       "fileName": "dropdown.tsx",
-      "readmePath": "/workspaces/peacock/src/components/dropdown/dropdown/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/dropdown/dropdown/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown/usage",
       "tag": "pc-dropdown",
       "readme": "# pc-dropdown\n\n\n",
       "overview": "",
@@ -4382,11 +4471,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/dropdown/dropdown-menu",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown-menu",
       "filePath": "src/components/dropdown/dropdown-menu/dropdown-menu.tsx",
       "fileName": "dropdown-menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/dropdown/dropdown-menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/dropdown/dropdown-menu/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown-menu/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/dropdown/dropdown-menu/usage",
       "tag": "pc-dropdown-menu",
       "readme": "# pc-dropdown\n\n\n",
       "overview": "",
@@ -4428,7 +4517,13 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-dropdown-menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -4442,11 +4537,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/empty-state",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/empty-state",
       "filePath": "src/components/application/empty-state/empty-state.tsx",
       "fileName": "empty-state.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/empty-state/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/empty-state/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/empty-state/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/empty-state/usage",
       "tag": "pc-empty-state",
       "readme": "# goat-heading\n\n\n",
       "overview": "",
@@ -4692,11 +4787,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/flow-designer/flow-designer",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/flow-designer",
       "filePath": "src/components/application/flow-designer/flow-designer/flow-designer.tsx",
       "fileName": "flow-designer.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/flow-designer/flow-designer/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/flow-designer/flow-designer/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/flow-designer/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/flow-designer/flow-designer/usage",
       "tag": "pc-flow-designer",
       "readme": "# goat-flow-designer\n\n\n",
       "overview": "",
@@ -4822,11 +4917,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/form-control",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/form-control",
       "filePath": "src/components/input-controls/form-control/form-control.tsx",
       "fileName": "form-control.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/form-control/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/form-control/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/form-control/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/form-control/usage",
       "tag": "pc-form-control",
       "readme": "# goat-field-group\n\n\n",
       "overview": "",
@@ -5093,11 +5188,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/application/header/header",
       "filePath": "src/components/application/header/header/header.tsx",
       "fileName": "header.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/application/header/header/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/application/header/header/usage",
       "tag": "pc-header",
       "readme": "# p4-top-navigation\n\n\n",
       "overview": "",
@@ -5192,7 +5287,18 @@
       ],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--goat-header-height",
+          "annotation": "prop",
+          "docs": "Height of the header. Defaults to 3rem."
+        },
+        {
+          "name": "--goat-header-width",
+          "annotation": "prop",
+          "docs": "Width of the header. Defaults to 100%."
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -5206,11 +5312,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/input",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input",
       "filePath": "src/components/input-controls/input/input/input.tsx",
       "fileName": "input.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/input/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/input/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input/usage",
       "tag": "pc-input",
       "readme": "# pc-input\n\n\n",
       "overview": "",
@@ -5918,11 +6024,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/input-url",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input-url",
       "filePath": "src/components/input-controls/input/input-url/input-url.tsx",
       "fileName": "input-url.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/input-url/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/input-url/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input-url/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/input/input-url/usage",
       "tag": "pc-input-url",
       "readme": "# goat-url-input\n\nA specialized input component for URL validation. This component provides real-time validation for URL inputs and visual feedback when an invalid URL is entered.\n\n## Basic Usage\n\n```html\n<goat-url-input placeholder=\"Enter website URL\"></goat-url-input>\n```\n\n## With initial value\n\n```html\n<goat-url-input value=\"https://example.com\" placeholder=\"Enter website URL\"></goat-url-input>\n```\n\n## Disabled state\n\n```html\n<goat-url-input disabled value=\"https://example.com\"></goat-url-input>\n```\n",
       "overview": "",
@@ -6337,11 +6443,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/menu/menu",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/menu/menu",
       "filePath": "src/components/menu/menu/menu.tsx",
       "fileName": "menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/menu/menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/menu/menu/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/menu/menu/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/menu/menu/usage",
       "tag": "pc-menu",
       "readme": "# pc-menu\n\n\n",
       "overview": "",
@@ -6604,7 +6710,23 @@
         }
       ],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--menu-background",
+          "annotation": "prop",
+          "docs": "Background color of the menu"
+        },
+        {
+          "name": "--menu-max-height",
+          "annotation": "prop",
+          "docs": "Maximum height of the menu"
+        },
+        {
+          "name": "--menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of the menu"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [
@@ -6626,11 +6748,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/menu/menu-item",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/menu/menu-item",
       "filePath": "src/components/menu/menu-item/menu-item.tsx",
       "fileName": "menu-item.tsx",
-      "readmePath": "/workspaces/peacock/src/components/menu/menu-item/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/menu/menu-item/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/menu/menu-item/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/menu/menu-item/usage",
       "tag": "pc-menu-item",
       "readme": "# pc-menu-item\n\n\n",
       "overview": "",
@@ -6996,11 +7118,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/modal/modal",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/modal/modal",
       "filePath": "src/components/modal/modal/modal.tsx",
       "fileName": "modal.tsx",
-      "readmePath": "/workspaces/peacock/src/components/modal/modal/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/modal/modal/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/modal/modal/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/modal/modal/usage",
       "tag": "pc-modal",
       "readme": "# p4-modal\n\n\n",
       "overview": "",
@@ -7247,11 +7369,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/modal/modal-content",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/modal/modal-content",
       "filePath": "src/components/modal/modal-content/modal-content.tsx",
       "fileName": "modal-content.tsx",
-      "readmePath": "/workspaces/peacock/src/components/modal/modal-content/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/modal/modal-content/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/modal/modal-content/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/modal/modal-content/usage",
       "tag": "pc-modal-content",
       "readme": "# p4-modal\n\n\n",
       "overview": "",
@@ -7317,11 +7439,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/notification",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/notification",
       "filePath": "src/components/notification/notification.tsx",
       "fileName": "notification.tsx",
-      "readmePath": "/workspaces/peacock/src/components/notification/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/notification/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/notification/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/notification/usage",
       "tag": "pc-notification",
       "readme": "# goat-alert\n\n\n",
       "overview": "",
@@ -7572,11 +7694,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/notification-manager",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/notification-manager",
       "filePath": "src/components/notification-manager/notification-manager.tsx",
       "fileName": "notification-manager.tsx",
-      "readmePath": "/workspaces/peacock/src/components/notification-manager/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/notification-manager/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/notification-manager/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/notification-manager/usage",
       "tag": "pc-notification-manager",
       "readme": "# goat-alert\n\n\n",
       "overview": "",
@@ -7700,11 +7822,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/popover/popover",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/popover/popover",
       "filePath": "src/components/popover/popover/popover.tsx",
       "fileName": "popover.tsx",
-      "readmePath": "/workspaces/peacock/src/components/popover/popover/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/popover/popover/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/popover/popover/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/popover/popover/usage",
       "tag": "pc-popover",
       "readme": "# pc-dropdown\n\n\n",
       "overview": "",
@@ -8051,11 +8173,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/popover/popover-content",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/popover/popover-content",
       "filePath": "src/components/popover/popover-content/popover-content.tsx",
       "fileName": "popover-content.tsx",
-      "readmePath": "/workspaces/peacock/src/components/popover/popover-content/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/popover/popover-content/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/popover/popover-content/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/popover/popover-content/usage",
       "tag": "pc-popover-content",
       "readme": "# pc-dropdown\n\n\n",
       "overview": "",
@@ -8068,7 +8190,28 @@
       "props": [],
       "methods": [],
       "events": [],
-      "styles": [],
+      "styles": [
+        {
+          "name": "--pc-menu-shadow",
+          "annotation": "prop",
+          "docs": "Shadow of popover content"
+        },
+        {
+          "name": "--popover-content-background",
+          "annotation": "prop",
+          "docs": "Background color of the popover content"
+        },
+        {
+          "name": "--popover-content-border-radius",
+          "annotation": "prop",
+          "docs": "Border radius of the popover content"
+        },
+        {
+          "name": "--popover-padding",
+          "annotation": "prop",
+          "docs": "Padding of the popover content"
+        }
+      ],
       "slots": [],
       "parts": [],
       "listeners": [],
@@ -8082,11 +8225,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/select",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/select",
       "filePath": "src/components/input-controls/select/select.tsx",
       "fileName": "select.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/select/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/select/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/select/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/select/usage",
       "tag": "pc-select",
       "readme": "# goat-select\n\n\n",
       "overview": "",
@@ -9059,11 +9202,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/slider",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/slider",
       "filePath": "src/components/input-controls/slider/slider.tsx",
       "fileName": "slider.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/slider/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/slider/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/slider/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/slider/usage",
       "tag": "pc-slider",
       "readme": "# goat-select\n\n\n",
       "overview": "",
@@ -9542,11 +9685,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tab",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tabs/tab",
       "filePath": "src/components/tabs/tab/tab.tsx",
       "fileName": "tab.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tab/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tab/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tabs/tab/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tabs/tab/usage",
       "tag": "pc-tab",
       "readme": "# pc-tab\n\n\n",
       "overview": "",
@@ -9909,11 +10052,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tab-panel",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tabs/tab-panel",
       "filePath": "src/components/tabs/tab-panel/tab-panel.tsx",
       "fileName": "tab-panel.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tab-panel/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tab-panel/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tabs/tab-panel/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tabs/tab-panel/usage",
       "tag": "pc-tab-panel",
       "readme": "# pc-tab\n\n\n",
       "overview": "",
@@ -10018,11 +10161,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/table",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/table",
       "filePath": "src/components/table/table.tsx",
       "fileName": "table.tsx",
-      "readmePath": "/workspaces/peacock/src/components/table/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/table/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/table/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/table/usage",
       "tag": "pc-table",
       "readme": "# pc-table\n\n\n",
       "overview": "",
@@ -10567,11 +10710,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tabs",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tabs/tabs",
       "filePath": "src/components/tabs/tabs/tabs.tsx",
       "fileName": "tabs.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tabs/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tabs/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tabs/tabs/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tabs/tabs/usage",
       "tag": "pc-tabs",
       "readme": "# pc-tabs\n\n\n",
       "overview": "",
@@ -10677,11 +10820,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tabs-list",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tabs/tabs-list",
       "filePath": "src/components/tabs/tabs-list/tabs-list.tsx",
       "fileName": "tabs-list.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tabs-list/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tabs-list/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tabs/tabs-list/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tabs/tabs-list/usage",
       "tag": "pc-tabs-list",
       "readme": "# pc-tabs\n\n\n",
       "overview": "",
@@ -10775,11 +10918,11 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/textarea",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/textarea",
       "filePath": "src/components/input-controls/input/textarea/textarea.tsx",
       "fileName": "textarea.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/textarea/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/textarea/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/input-controls/input/textarea/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/input-controls/input/textarea/usage",
       "tag": "pc-textarea",
       "readme": "# goat-textarea\n\n\n",
       "overview": "",
@@ -11491,11 +11634,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tree-view/tree-node",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-node",
       "filePath": "src/components/tree-view/tree-node/tree-node.tsx",
       "fileName": "tree-node.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tree-view/tree-node/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tree-view/tree-node/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-node/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-node/usage",
       "tag": "pc-tree-node",
       "readme": "# pc-menu\n\n\n",
       "overview": "",
@@ -11838,11 +11981,11 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tree-view/tree-view",
+      "dirPath": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-view",
       "filePath": "src/components/tree-view/tree-view/tree-view.tsx",
       "fileName": "tree-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tree-view/tree-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tree-view/tree-view/usage",
+      "readmePath": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-view/readme.md",
+      "usagesDir": "/home/runner/work/peacock/peacock/src/components/tree-view/tree-view/usage",
       "tag": "pc-tree-view",
       "readme": "# pc-menu\n\n\n",
       "overview": "",
