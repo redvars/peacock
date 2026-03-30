@@ -122,13 +122,13 @@ function jumpingSentence(sentence: string) {
           <li class='text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</li>
         </ul>
         <div class='container-code'>
-          <pc-tabs>
-            <pc-tabs-list>
-              <pc-tab>Usage</pc-tab>
-              <pc-tab selected='true'>Load single component</pc-tab>
-            </pc-tabs-list>
+          <wc-tab-group>
+            <wc-tabs>
+              <wc-tab>Usage</wc-tab>
+              <wc-tab selected='true'>Load single component</wc-tab>
+            </wc-tabs>
 
-            <pc-tab-panel>
+            <wc-tab-panel>
               <wc-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('get-started-code').value = `<!DOCTYPE html>
@@ -156,9 +156,9 @@ function jumpingSentence(sentence: string) {
                  &lt;/body>
                  &lt;/html>`;
               </script>
-            </pc-tab-panel>
+            </wc-tab-panel>
 
-            <pc-tab-panel>
+            <wc-tab-panel>
               <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
               <script is:inline define:vars={{ site, envProps }}>
                 document.getElementById('load-single-component-code').value = `<!DOCTYPE html>
@@ -195,8 +195,8 @@ function jumpingSentence(sentence: string) {
                  &lt;/body>
                  &lt;/html>`;
               </script>
-            </pc-tab-panel>
-          </pc-tabs>
+            </wc-tab-panel>
+          </wc-tab-group>
         </div>
       </div>
 

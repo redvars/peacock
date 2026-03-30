@@ -5,12 +5,12 @@ import ApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('accordion-item');
 ---
 <Layout componentDetails={componentDetails}>
-  <pc-tabs class='page-tabs'>
-    <pc-tabs-list>
-      <pc-tab>API</pc-tab>
-    </pc-tabs-list>
-    <pc-tab-panel>
+  <wc-tab-group class='page-tabs'>
+    <wc-tabs>
+      <wc-tab>API</wc-tab>
+    </wc-tabs>
+    <wc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />
-    </pc-tab-panel>
-  </pc-tabs>
+    </wc-tab-panel>
+  </wc-tab-group>
 </Layout>

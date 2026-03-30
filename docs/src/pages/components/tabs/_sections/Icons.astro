@@ -4,32 +4,32 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 <pc-text type="body" expressive>Here are several predefined button styles, each serving its own semantic purpose. </pc-text>
 
 <HighlighterCard lang={'html'}>
-<pc-tabs>
-  <pc-tabs-list>
-    <pc-tab>First tab</pc-tab>
-    <pc-tab selected="true">Second tab</pc-tab>
-    <pc-tab disabled>Disabled tab</pc-tab>
-    <pc-tab>Last tab</pc-tab>
-  </pc-tabs-list>
+<wc-tab-group>
+  <wc-tabs>
+    <wc-tab>First tab</wc-tab>
+    <wc-tab selected="true">Second tab</wc-tab>
+    <wc-tab disabled>Disabled tab</wc-tab>
+    <wc-tab>Last tab</wc-tab>
+  </wc-tabs>
 
-  <pc-tab-panel>
+  <wc-tab-panel>
     <pc-text type="heading"> First tab content </pc-text>
-  </pc-tab-panel>
+  </wc-tab-panel>
 
-  <pc-tab-panel>
+  <wc-tab-panel>
     <pc-text type="heading"> Second tab content </pc-text>
-  </pc-tab-panel>
-</pc-tabs>
+  </wc-tab-panel>
+</wc-tab-group>
 
 <br />
 <br />
 
-<pc-tabs>
-  <pc-tabs-list>
-    <pc-tab icon="home"></pc-tab>
-    <pc-tab icon="circle--solid" selected="true">Circle</pc-tab>
-    <pc-tab disabled icon="email">Email</pc-tab>
-    <pc-tab icon="star--filled"></pc-tab>
-  </pc-tabs-list>
-</pc-tabs>
+<wc-tab-group>
+  <wc-tabs>
+    <wc-tab icon="home"></wc-tab>
+    <wc-tab icon="circle--solid" selected="true">Circle</wc-tab>
+    <wc-tab disabled icon="email">Email</wc-tab>
+    <wc-tab icon="star--filled"></wc-tab>
+  </wc-tabs>
+</wc-tab-group>
 </HighlighterCard>
