@@ -3,20 +3,23 @@
 
 @include mixin.base-styles;
 
-.tooltip {
-  pointer-events: none;
-  transition: transform var(--duration-short2) ease-in-out, opacity var(--duration-short2) ease-in-out;
-  transform: scale(0);
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
 
-.tooltip.open {
-  pointer-events: auto;
-  transform: scale(1);
-  opacity: 1;
+:host([for]) {
+  .tooltip {
+    pointer-events: none;
+    transition: transform var(--duration-short2) ease-in-out, opacity var(--duration-short2) ease-in-out;
+    transform: scale(0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  .tooltip.open {
+    pointer-events: auto;
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .variant-plain .tooltip-content {

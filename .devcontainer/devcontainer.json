@@ -1,16 +1,17 @@
 {
   "name": "Node.js Development",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:24.14.0",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
   "features": {
     "ghcr.io/devcontainers/features/git:1": { "version": "latest" }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [4000, 8000],
   "postCreateCommand": ["bash", "./.devcontainer/postCreateCommand.sh"],
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
-        "streetsidesoftware.code-spell-checker"
+        "streetsidesoftware.code-spell-checker",
+        "astro-build.astro-vscode"
       ]
     }
   },

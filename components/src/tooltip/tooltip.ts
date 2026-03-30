@@ -16,9 +16,7 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
  *
  * @example
  * ```html
- * <wc-tooltip content="Tooltip text">
- *   <button>Hover me</button>
- * </wc-tooltip>
+ * <wc-tooltip content="Tooltip text" preview></wc-tooltip>
  * ```
  */
 export class Tooltip extends LitElement {
@@ -58,13 +56,13 @@ export class Tooltip extends LitElement {
 
   // Define listeners as arrow functions to maintain 'this' context
   private _onMouseEnter = () => {
-    if (!this.hasTrigger('hover')) return;
+    if (this.preview || !this.hasTrigger('hover')) return;
     window.clearTimeout(this._hideTimeout); // Cancel any pending close
     this.show();
   };
 
   private _onMouseLeave = () => {
-    if (!this.hasTrigger('hover')) return;
+    if (this.preview || !this.hasTrigger('hover')) return;
 
     // Small delay allows the mouse to move from target -> tooltip
     // without the tooltip vanishing instantly.
@@ -79,17 +77,17 @@ export class Tooltip extends LitElement {
     }, 100); // 100ms is usually enough for a smooth transition
   };
 
-  private _onFocusIn = () => this.hasTrigger('focus') && this.show();
+  private _onFocusIn = () => this.preview && this.hasTrigger('focus') && this.show();
 
   private _onFocusOut = (e: FocusEvent) => {
-    if (!this.hasTrigger('focus')) return;
+    if (this.preview || !this.hasTrigger('focus')) return;
     if (this._target && !this._target.contains(e.relatedTarget as Node)) {
       this.hide();
     }
   };
 
   private _onClick = (e: MouseEvent) => {
-    if (!this.hasTrigger('click')) return;
+    if (this.preview || !this.hasTrigger('click')) return;
     e.stopPropagation();
     this.toggle();
   };
@@ -176,7 +174,7 @@ export class Tooltip extends LitElement {
       this.attachListeners();
     }
 
-    if (changedProps.has('open') && this.open && this._target && !this.preview) {
+    if (changedProps.has('open') && this.open && this._target) {
       this._popover.updatePosition(this._target, this.floatingEl);
     }
   }

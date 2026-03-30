@@ -23,5 +23,8 @@
     "sass-embedded-linux-arm64": "1.93.2",
     "sass-embedded-linux-musl-x64": "1.93.2",
     "sass-embedded-linux-x64": "1.93.2"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.98.0"
   }
 }

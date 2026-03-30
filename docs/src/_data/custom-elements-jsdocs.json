@@ -389,6 +389,12 @@
       "members": [
         {
           "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "BreadcrumbItem"
+        },
+        {
+          "kind": "field",
           "name": "label",
           "type": {
             "text": "string"
@@ -442,6 +448,12 @@
         {
           "kind": "text",
           "text": "breadcrumb-item"
+        }
+      ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "breadcrumb"
         }
       ],
       "@summary": [
@@ -1321,6 +1333,18 @@
       "description": "",
       "name": "ButtonGroup",
       "members": [
+        {
+          "kind": "field",
+          "name": "Button",
+          "static": true,
+          "default": "Button"
+        },
+        {
+          "kind": "field",
+          "name": "IconButton",
+          "static": true,
+          "default": "IconButton"
+        },
         {
           "kind": "field",
           "name": "size",
@@ -8271,6 +8295,12 @@
           "text": "tab"
         }
       ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "tabs"
+        }
+      ],
       "@summary": [
         {
           "kind": "text",
@@ -8623,6 +8653,18 @@
       "description": "",
       "name": "TabGroup",
       "members": [
+        {
+          "kind": "field",
+          "name": "Tabs",
+          "static": true,
+          "default": "Tabs"
+        },
+        {
+          "kind": "field",
+          "name": "TabPanel",
+          "static": true,
+          "default": "TabPanel"
+        },
         {
           "kind": "field",
           "name": "variant",
@@ -9295,6 +9337,12 @@
           "text": "tab-panel"
         }
       ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "tab-group"
+        }
+      ],
       "@summary": [
         {
           "kind": "text",
@@ -9409,6 +9457,12 @@
       "description": "",
       "name": "Tabs",
       "members": [
+        {
+          "kind": "field",
+          "name": "Tab",
+          "static": true,
+          "default": "Tab"
+        },
         {
           "kind": "field",
           "name": "managed",
@@ -10662,7 +10716,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-tooltip content=\"Tooltip text\">\n  <button>Hover me</button>\n</wc-tooltip>\n```"
+          "text": "```html\n<wc-tooltip content=\"Tooltip text\" preview></wc-tooltip>\n```"
         }
       ]
     },
@@ -10940,6 +10994,12 @@
         {
           "kind": "text",
           "text": "tree-node"
+        }
+      ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "tree-view"
         }
       ],
       "@summary": [
