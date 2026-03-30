@@ -29,6 +29,7 @@ export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';
 export { Tooltip } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
+export { Menu, MenuItem, SubMenu } from './menu/index.js';
 
 export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';

@@ -1,24 +1,85 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <DemoComponentCard lang={'html'}>
+  <wc-button id='menu-anchor' variant='filled'>Open Menu</wc-button>
 
-  <wc-menu>
-    <wc-menu-item value="profile"><wc-icon name="home" slot="leading-icon"></wc-icon>Profile</wc-menu-item>
-    <wc-menu-item value="account">Account Settings</wc-menu-item>
-    <wc-menu-item value="account" selected>Notification Settings</wc-menu-item>
-    <wc-divider />
+  <wc-menu id='usage-menu' anchor='menu-anchor' aria-label='Main actions menu'>
+    <wc-menu-item value='profile'>
+      <wc-icon name='home' slot='leading-icon'></wc-icon>
+      Profile
+    </wc-menu-item>
+    <wc-menu-item value='account'>Account Settings</wc-menu-item>
+    <wc-menu-item value='notifications' selected>
+      Notification Settings
+    </wc-menu-item>
+    <wc-divider></wc-divider>
+    <wc-sub-menu>
+      <wc-menu-item slot='item' value='appearance'>
+        Appearance
+        <wc-icon name='arrow_right' slot='trailing-supporting-text'></wc-icon>
+      </wc-menu-item>
+
+      <wc-menu slot='menu' aria-label='Appearance settings'>
+        <wc-menu-item value='theme-light'>Light</wc-menu-item>
+        <wc-menu-item value='theme-dark'>Dark</wc-menu-item>
+        <wc-menu-item value='theme-system' selected>System</wc-menu-item>
+      </wc-menu>
+    </wc-sub-menu>
     <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
-    <wc-menu-item value="logout">Logout</wc-menu-item>
+    <wc-menu-item value='logout'>Logout</wc-menu-item>
   </wc-menu>
 
-  <wc-menu variant='vibrant'>
-    <wc-menu-item value="profile">Profile</wc-menu-item>
-    <wc-menu-item value="account">Account Settings</wc-menu-item>
-    <wc-menu-item value="account" selected>Notification Settings</wc-menu-item>
-    <wc-divider />
+  <wc-button id='vibrant-menu-anchor' variant='tonal'>Open Vibrant Menu</wc-button>
+
+  <wc-menu id='vibrant-menu' variant='vibrant' aria-label='Vibrant style preview'>
+    <wc-menu-item value='profile'>Profile</wc-menu-item>
+    <wc-menu-item value='account'>Account Settings</wc-menu-item>
+    <wc-menu-item value='notifications' selected>
+      Notification Settings
+    </wc-menu-item>
+    <wc-divider></wc-divider>
     <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
-    <wc-menu-item value="logout">Logout</wc-menu-item>
+    <wc-menu-item value='logout'>Logout</wc-menu-item>
   </wc-menu>
+
+  <script is:inline>
+    const wireMenu = ({
+      menuId,
+      anchorId,
+    }) => {
+      const menu = document.querySelector(`#${menuId}`);
+      const anchor = document.querySelector(`#${anchorId}`);
+
+      if (!menu || !anchor) {
+        return;
+      }
+
+      const toggleMenu = event => {
+        if (event.type === 'keydown' && event.key !== 'ArrowDown') {
+          return;
+        }
+
+        menu.open = !menu.open;
+        anchor.setAttribute('aria-expanded', String(menu.open));
+
+        if (event.type === 'keydown') {
+          event.preventDefault();
+        }
+      };
+
+      anchor.setAttribute('aria-haspopup', 'menu');
+      anchor.setAttribute('aria-controls', menuId);
+      anchor.setAttribute('aria-expanded', 'false');
+      anchor.addEventListener('click', toggleMenu);
+      anchor.addEventListener('keydown', toggleMenu);
+
+      menu.addEventListener('closed', () => {
+        anchor.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    wireMenu({ menuId: 'usage-menu', anchorId: 'menu-anchor' });
+    wireMenu({ menuId: 'vibrant-menu', anchorId: 'vibrant-menu-anchor' });
+  </script>
 </DemoComponentCard>

@@ -22,19 +22,25 @@ export class PopoverController implements ReactiveController {
   }
 
   // Set up the floating logic
-  async updatePosition(reference: HTMLElement | null, floating: HTMLElement) {
+  async updatePosition(
+    reference: HTMLElement | null,
+    floating: HTMLElement,
+    options?: {
+      placement?: Placement;
+      offset?: number;
+    },
+  ) {
     if (!reference) return;
 
     this.cleanup?.();
 
+    const placement = options?.placement ?? this.options.placement;
+    const spacing = options?.offset ?? this.options.offset;
+
     this.cleanup = autoUpdate(reference, floating, async () => {
       const { x, y } = await computePosition(reference, floating, {
-        placement: this.options.placement,
-        middleware: [
-          offset(this.options.offset),
-          flip(),
-          shift({ padding: 4 }),
-        ],
+        placement,
+        middleware: [offset(spacing), flip(), shift({ padding: 4 })],
       });
 
       Object.assign(floating.style, {

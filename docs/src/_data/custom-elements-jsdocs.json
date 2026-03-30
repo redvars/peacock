@@ -6208,6 +6208,742 @@
     }
   },
   {
+    "rawTag": "menu",
+    "label": "Menu",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Menu"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-menu"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "menu"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A list of menu items."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-menu>\n  <wc-menu-item>Item 1</wc-menu-item>\n  <wc-menu-item>Item 2</wc-menu-item>\n</wc-menu>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Menu",
+      "members": [
+        {
+          "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "MenuItem"
+        },
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "anchor",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "anchor"
+        },
+        {
+          "kind": "field",
+          "name": "stayOpenOnOutsideClick",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "stay-open-on-outside-click"
+        },
+        {
+          "kind": "field",
+          "name": "stayOpenOnFocusout",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "stay-open-on-focusout"
+        },
+        {
+          "kind": "field",
+          "name": "isSubmenu",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "is-submenu"
+        },
+        {
+          "kind": "field",
+          "name": "placement",
+          "type": {
+            "text": "Placement"
+          },
+          "default": "'bottom-start'",
+          "attribute": "placement"
+        },
+        {
+          "kind": "field",
+          "name": "offset",
+          "type": {
+            "text": "number"
+          },
+          "default": "6",
+          "attribute": "offset"
+        },
+        {
+          "kind": "field",
+          "name": "activeIndex",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "-1"
+        },
+        {
+          "kind": "field",
+          "name": "menuListElement",
+          "type": {
+            "text": "HTMLElement"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "anchorElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_popover",
+          "privacy": "private",
+          "readonly": true,
+          "default": "new PopoverController(this, { placement: 'bottom-start', offset: 6, })"
+        },
+        {
+          "kind": "field",
+          "name": "_lastFocusedElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_closeReason",
+          "type": {
+            "text": "CloseReason"
+          },
+          "privacy": "private",
+          "default": "{ kind: 'programmatic' }"
+        },
+        {
+          "kind": "field",
+          "name": "items",
+          "type": {
+            "text": "MenuItem[]"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "close",
+          "parameters": [
+            {
+              "name": "reason",
+              "default": "{ kind: 'programmatic' }",
+              "type": {
+                "text": "CloseReason"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "_resolveAnchorElement",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_enabledItems",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_syncRovingTabIndex",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_setActiveByOffset",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "offset",
+              "type": {
+                "text": "1 | -1"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_setBoundaryActive",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getActiveItem",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getFirstEnabledItem",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onItemActivate",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onItemRequestClose",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onKeyDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onWindowClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onFocusOut",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onSlotChange",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "opened",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "close-menu",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "closed",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "open"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "anchor",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "anchor"
+        },
+        {
+          "name": "stay-open-on-outside-click",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "stayOpenOnOutsideClick"
+        },
+        {
+          "name": "stay-open-on-focusout",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "stayOpenOnFocusout"
+        },
+        {
+          "name": "is-submenu",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "isSubmenu"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "Placement"
+          },
+          "default": "'bottom-start'",
+          "fieldName": "placement"
+        },
+        {
+          "name": "offset",
+          "type": {
+            "text": "number"
+          },
+          "default": "6",
+          "fieldName": "offset"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-menu",
+      "customElement": true,
+      "summary": "A list of menu items.",
+      "rawTag": {
+        "name": "menu",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "menu-item",
+    "label": "Menu Item",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Menu Item"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-menu-item"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "menu-item"
+        }
+      ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "menu-list"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "An item in a menu list."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "navigation"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-menu-item>Menu Item</wc-menu-item>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "MenuItem",
+      "members": [
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value"
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "keepOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "keep-open"
+        },
+        {
+          "kind": "field",
+          "name": "hasSubmenu",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "has-submenu"
+        },
+        {
+          "kind": "field",
+          "name": "submenuOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "submenu-open"
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "emitActivate",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "'click' | 'keydown'"
+              }
+            },
+            {
+              "name": "key",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "requestClose",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "'click' | 'keydown'"
+              }
+            },
+            {
+              "name": "key",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "requestSubmenuKey",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "key",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleKeyDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "field",
+          "name": "menuItemElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "renderContent"
+        }
+      ],
+      "events": [
+        {
+          "name": "menu-item-activate",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "menu-item-request-close",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "menu-item-submenu-keydown",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected"
+        },
+        {
+          "name": "keep-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "keepOpen"
+        },
+        {
+          "name": "has-submenu",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "hasSubmenu"
+        },
+        {
+          "name": "submenu-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "submenuOpen"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "fieldName": "variant"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-menu-item",
+      "customElement": true,
+      "summary": "An item in a menu list.",
+      "rawTag": {
+        "name": "menu-item",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "number-counter",
     "label": "Number Counter",
     "jsdoc": {
@@ -7805,6 +8541,217 @@
       "summary": "A spinner component that animates a circular shape.",
       "rawTag": {
         "name": "spinner",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "sub-menu",
+    "label": "Sub Menu",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Sub Menu"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-sub-menu"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "sub-menu"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Connects a menu item to a nested menu."
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SubMenu",
+      "members": [
+        {
+          "kind": "field",
+          "name": "hoverOpenDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "120",
+          "attribute": "hover-open-delay"
+        },
+        {
+          "kind": "field",
+          "name": "hoverCloseDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "180",
+          "attribute": "hover-close-delay"
+        },
+        {
+          "kind": "field",
+          "name": "anchorCorner",
+          "type": {
+            "text": "string"
+          },
+          "default": "'start-end'",
+          "attribute": "anchor-corner"
+        },
+        {
+          "kind": "field",
+          "name": "menuCorner",
+          "type": {
+            "text": "string"
+          },
+          "default": "'start-start'",
+          "attribute": "menu-corner"
+        },
+        {
+          "kind": "field",
+          "name": "_items",
+          "type": {
+            "text": "Element[]"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_menus",
+          "type": {
+            "text": "Element[]"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_openTimeout",
+          "type": {
+            "text": "number | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_closeTimeout",
+          "type": {
+            "text": "number | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "item",
+          "type": {
+            "text": "MenuItem | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "menu",
+          "type": {
+            "text": "Menu | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "close"
+        },
+        {
+          "kind": "field",
+          "name": "_onSlotChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onItemClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onItemKeyDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMenuKeyDown",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onCloseMenu",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMouseEnter",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMouseLeave",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "hover-open-delay",
+          "type": {
+            "text": "number"
+          },
+          "default": "120",
+          "fieldName": "hoverOpenDelay"
+        },
+        {
+          "name": "hover-close-delay",
+          "type": {
+            "text": "number"
+          },
+          "default": "180",
+          "fieldName": "hoverCloseDelay"
+        },
+        {
+          "name": "anchor-corner",
+          "type": {
+            "text": "string"
+          },
+          "default": "'start-end'",
+          "fieldName": "anchorCorner"
+        },
+        {
+          "name": "menu-corner",
+          "type": {
+            "text": "string"
+          },
+          "default": "'start-start'",
+          "fieldName": "menuCorner"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-sub-menu",
+      "customElement": true,
+      "summary": "Connects a menu item to a nested menu.",
+      "rawTag": {
+        "name": "sub-menu",
         "description": ""
       }
     }

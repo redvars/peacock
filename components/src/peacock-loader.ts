@@ -22,6 +22,7 @@ import { Checkbox } from './checkbox/checkbox.js';
 
 import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
+import { SubMenu } from './menu/sub-menu/sub-menu.js';
 
 import { Accordion } from './accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -200,6 +201,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-menu-item': {
       CustomElementClass: MenuItem,
+    },
+    'wc-sub-menu': {
+      CustomElementClass: SubMenu,
     },
     'wc-container': {
       CustomElementClass: Container,
