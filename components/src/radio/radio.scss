@@ -1,0 +1,181 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  --radio-size: 20px;
+  --radio-dot-size: 12px;
+  --radio-selected-color: var(--color-primary);
+  --radio-unselected-color: var(--color-on-surface-variant);
+  --radio-state-layer-size: 40px;
+  --radio-disabled-opacity: 0.38;
+}
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  gap: 8px;
+
+  @include mixin.get-typography('body-medium');
+
+  .input-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--radio-state-layer-size);
+    height: var(--radio-state-layer-size);
+    cursor: inherit;
+    outline: none;
+    flex-shrink: 0;
+  }
+
+  .state-layer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity var(--duration-short2) var(--easing-standard);
+  }
+
+  .outer-circle {
+    position: absolute;
+    width: var(--radio-size);
+    height: var(--radio-size);
+    border: 2px solid var(--radio-unselected-color);
+    border-radius: 50%;
+    box-sizing: border-box;
+    transition: border-color var(--duration-short2) var(--easing-standard);
+  }
+
+  .inner-circle {
+    position: absolute;
+    width: var(--radio-dot-size);
+    height: var(--radio-dot-size);
+    background: var(--radio-selected-color);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      transform var(--duration-short2) var(--easing-standard),
+      opacity var(--duration-short2) var(--easing-standard);
+  }
+
+  .label {
+    color: var(--color-on-surface);
+    cursor: inherit;
+  }
+
+  // Hover state
+  &:hover:not(.disabled):not(.readonly) {
+    .state-layer {
+      opacity: 0.08;
+      background: var(--color-on-surface);
+    }
+
+    &.state-checked .state-layer {
+      background: var(--radio-selected-color);
+    }
+  }
+
+  // Focus state
+  &.has-focus:not(.active):not(.disabled):not(.readonly) {
+    .state-layer {
+      opacity: 0.12;
+      background: var(--color-on-surface);
+    }
+
+    .container {
+      outline: 3px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: 50%;
+    }
+
+    &.state-checked .state-layer {
+      background: var(--radio-selected-color);
+    }
+  }
+
+  // Active/pressed state
+  &.active:not(.disabled):not(.readonly) {
+    .state-layer {
+      opacity: 0.12;
+      background: var(--color-on-surface);
+    }
+
+    &.state-checked .state-layer {
+      background: var(--radio-selected-color);
+    }
+  }
+}
+
+// Checked state
+.radio.state-checked {
+  .outer-circle {
+    border-color: var(--radio-selected-color);
+  }
+
+  .inner-circle {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Readonly state
+.radio.readonly {
+  cursor: default;
+
+  .state-layer {
+    display: none;
+  }
+
+  .outer-circle {
+    border-color: var(--color-on-surface-variant);
+  }
+
+  &.state-checked {
+    .inner-circle {
+      background: var(--color-on-surface-variant);
+    }
+  }
+}
+
+// Disabled state
+.radio.disabled {
+  cursor: not-allowed;
+  opacity: var(--radio-disabled-opacity);
+
+  .state-layer {
+    display: none;
+  }
+
+  .label {
+    color: var(--color-on-surface);
+  }
+
+  .outer-circle {
+    border-color: var(--color-on-surface);
+  }
+
+  &.state-checked {
+    .inner-circle {
+      background: var(--color-on-surface);
+    }
+  }
+}

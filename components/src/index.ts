@@ -46,3 +46,4 @@ export { Pagination } from './pagination/index.js';
 export { TreeView, TreeNode } from './tree-view/index.js';
 export { Card } from './card/index.js';
 export { Snackbar } from './snackbar/index.js';
+export { Radio } from './radio/index.js';
