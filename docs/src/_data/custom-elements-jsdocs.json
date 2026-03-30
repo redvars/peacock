@@ -6642,7 +6642,7 @@
       "@parentRawTag": [
         {
           "kind": "text",
-          "text": "menu-list"
+          "text": "menu"
         }
       ],
       "@summary": [
@@ -9647,11 +9647,6 @@
         },
         {
           "kind": "field",
-          "name": "uid",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
           "name": "onTabClick",
           "privacy": "private"
         },
@@ -9669,11 +9664,23 @@
         },
         {
           "kind": "method",
+          "name": "selectTabByIndex",
+          "parameters": [
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "getTabs",
           "privacy": "private",
           "return": {
             "type": {
-              "text": "NodeListOf<HTMLElement>"
+              "text": "HTMLElement[]"
             }
           }
         },
@@ -9683,7 +9690,7 @@
           "privacy": "private",
           "return": {
             "type": {
-              "text": "NodeListOf<HTMLElement>"
+              "text": "HTMLElement[]"
             }
           }
         },
@@ -10351,6 +10358,16 @@
           },
           "attribute": "value",
           "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "active",
+          "reflects": true
         }
       ],
       "attributes": [
@@ -10360,6 +10377,14 @@
             "text": "string | undefined"
           },
           "fieldName": "value"
+        },
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "active"
         }
       ],
       "superclass": {

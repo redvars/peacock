@@ -49,11 +49,23 @@ export class Tabs extends LitElement {
 
     if (!clickedTab) return;
 
-    const tabs: NodeListOf<Tab> = this.querySelectorAll('wc-tab');
-    tabs.forEach(tab => {
+    const tabs = Array.from(this.querySelectorAll('wc-tab')) as Tab[];
+    let clickedIndex = -1;
+    for (let index = 0; index < tabs.length; index += 1) {
+      const tab = tabs[index];
       tab.active = false;
-    });
+      if (tab === clickedTab) clickedIndex = index;
+    }
     (clickedTab as Tab).active = true;
+
+    this.dispatchEvent(new CustomEvent('tab-click', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        index: clickedIndex,
+        value: (clickedTab as Tab).value,
+      },
+    }));
   };
 
   render() {

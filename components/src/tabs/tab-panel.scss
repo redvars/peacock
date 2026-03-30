@@ -3,10 +3,10 @@
 @include mixin.base-styles;
 
 :host {
-  display: block;
+  display: none;
   flex: 1;
 }
 
-:host([hidden]) {
-  display: none;
+:host([active]) {
+  display: block;
 }

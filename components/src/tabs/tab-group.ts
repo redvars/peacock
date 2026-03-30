@@ -38,15 +38,13 @@ export class TabGroup extends LitElement {
   @property({ reflect: true }) 
   variant: 'line' | 'line-secondary' | 'contained' | 'pill' = 'line';
 
-  private uid = crypto.randomUUID();
-
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('tab-click', this.onTabClick as EventListener);
+    this.addEventListener('tab-click', this.onTabClick);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('tab-click', this.onTabClick as EventListener);
+    this.removeEventListener('tab-click', this.onTabClick);
     super.disconnectedCallback();
   }
 
@@ -60,15 +58,18 @@ export class TabGroup extends LitElement {
     const targetValue = custom.detail?.target || custom.detail?.value;
     if (targetValue) {
       this.selectTab(targetValue);
+    } else if (typeof custom.detail?.index === 'number') {
+      this.selectTabByIndex(custom.detail.index);
     }
   };
 
   selectTab(target: string) {
     const tabs = this.getTabs();
-    tabs.forEach((tab: HTMLElement) => {
+    for (const tab of tabs) {
+      (tab as any).active = false;
       (tab as any).selected = false;
       tab.classList.remove('previous-tab', 'next-tab');
-    });
+    }
 
     let selectedIndex = -1;
     tabs.forEach((tab: HTMLElement, index: number) => {
@@ -80,6 +81,7 @@ export class TabGroup extends LitElement {
 
     if (selectedIndex >= 0) {
       const selectedTab = tabs[selectedIndex];
+      (selectedTab as any).active = true;
       (selectedTab as any).selected = true;
       if (tabs[selectedIndex - 1]) {
         tabs[selectedIndex - 1].classList.add('previous-tab');
@@ -90,18 +92,40 @@ export class TabGroup extends LitElement {
     }
 
     const panels = this.getTabPanels();
-    panels.forEach(panel => {
+    for (const panel of panels) {
       const panelValue = panel.getAttribute('value');
       (panel as any).active = panelValue === target;
-    });
+    }
   }
 
-  private getTabs(): NodeListOf<HTMLElement> {
-    return this.querySelectorAll(':scope > tabs-list wc-tab');
+  selectTabByIndex(index: number) {
+    const tabs = this.getTabs();
+    for (const tab of tabs) {
+      (tab as any).active = false;
+      (tab as any).selected = false;
+      tab.classList.remove('previous-tab', 'next-tab');
+    }
+
+    if (index >= 0 && index < tabs.length) {
+      (tabs[index] as any).active = true;
+      (tabs[index] as any).selected = true;
+      if (tabs[index - 1]) tabs[index - 1].classList.add('previous-tab');
+      if (tabs[index + 1]) tabs[index + 1].classList.add('next-tab');
+    }
+
+    const panels = this.getTabPanels();
+    for (let i = 0; i < panels.length; i += 1) {
+      const panel = panels[i];
+      (panel as any).active = i === index;
+    }
   }
 
-  private getTabPanels(): NodeListOf<HTMLElement> {
-    return this.querySelectorAll(':scope > wc-tab-panel');
+  private getTabs(): HTMLElement[] {
+    return Array.from(this.querySelectorAll(':scope > tabs-list wc-tab'));
+  }
+
+  private getTabPanels(): HTMLElement[] {
+    return Array.from(this.querySelectorAll(':scope > wc-tab-panel'));
   }
 
   private getTabList(): HTMLElement | null {
@@ -115,24 +139,29 @@ export class TabGroup extends LitElement {
   private initializeTabs() {
     const tabs = Array.from(this.getTabs());
     if (!this.tabsHaveTarget()) {
-     
-      this.getTabPanels().forEach((panel, index) => {
-        if (!panel.getAttribute('value')) {
-          panel.setAttribute('value', `tab-${this.uid}-${index}`);
-        }
-      });
-
-      if (tabs.length > 0) {
-        const firstTarget = tabs[0].getAttribute('target');
-        if (firstTarget) {
-          this.selectTab(firstTarget);
-        }
-      }
+      // No target/value attributes — use index-based activation
+      const selectedIndex = tabs.findIndex(
+        tab =>
+          tab.hasAttribute('active') ||
+          (tab as any).active ||
+          tab.hasAttribute('selected') ||
+          (tab as any).selected,
+      );
+      this.selectTabByIndex(selectedIndex >= 0 ? selectedIndex : 0);
     } else {
-      const selectedTab = this.querySelector(':scope > tabs-list wc-tab[selected]') as HTMLElement;
+      const selectedTab = tabs.find(
+        tab =>
+          tab.hasAttribute('active') ||
+          (tab as any).active ||
+          tab.hasAttribute('selected') ||
+          (tab as any).selected,
+      );
       if (selectedTab) {
         const selectedTarget = selectedTab.getAttribute('target');
         if (selectedTarget) this.selectTab(selectedTarget);
+      } else if (tabs.length > 0) {
+        const firstTarget = tabs[0].getAttribute('target');
+        if (firstTarget) this.selectTab(firstTarget);
       }
     }
   }

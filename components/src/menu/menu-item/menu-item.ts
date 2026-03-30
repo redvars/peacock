@@ -8,7 +8,7 @@ import colorStyles from './menu-item-colors.scss';
  * @label Menu Item
  * @tag wc-menu-item
  * @rawTag menu-item
- * @parentRawTag menu-list
+ * @parentRawTag menu
  * @summary An item in a menu list.
  * @tags navigation
  *
