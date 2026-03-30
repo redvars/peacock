@@ -6361,10 +6361,10 @@
         },
         {
           "kind": "field",
-          "name": "_popover",
+          "name": "_surfaceController",
           "privacy": "private",
           "readonly": true,
-          "default": "new PopoverController(this, { placement: 'bottom-start', offset: 6, })"
+          "default": "new MenuSurfaceController(this)"
         },
         {
           "kind": "field",
@@ -6416,6 +6416,11 @@
         {
           "kind": "method",
           "name": "_resolveAnchorElement",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_syncAnchorAria",
           "privacy": "private"
         },
         {
@@ -6485,6 +6490,19 @@
           "privacy": "private"
         },
         {
+          "kind": "method",
+          "name": "_isWithinMenuTree",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "node",
+              "type": {
+                "text": "Node | null"
+              }
+            }
+          ]
+        },
+        {
           "kind": "field",
           "name": "_onFocusOut",
           "privacy": "private"
@@ -6492,6 +6510,11 @@
         {
           "kind": "field",
           "name": "_onSlotChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_applyPositioning",
           "privacy": "private"
         }
       ],
@@ -8648,6 +8671,18 @@
             "text": "number | undefined"
           },
           "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onChildMenuOpened",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_onChildMenuClosed",
+          "privacy": "private",
+          "readonly": true
         },
         {
           "kind": "field",

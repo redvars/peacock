@@ -149,6 +149,7 @@ export class MenuItem extends LitElement {
     };
 
     const itemTabIndex = this.disabled ? -1 : this.tabIndex;
+    const controls = this.getAttribute('aria-controls');
 
     if (isLink) {
       return html`<a
@@ -156,7 +157,9 @@ export class MenuItem extends LitElement {
         href=${this.href}
         target=${this.target}
         tabindex=${itemTabIndex}
+        aria-disabled=${String(this.disabled)}
         aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
+        aria-controls=${this.hasSubmenu && controls ? controls : nothing}
         aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
         @click=${this._handleClick}
         @keydown=${this._handleKeyDown}
@@ -168,7 +171,9 @@ export class MenuItem extends LitElement {
     return html`<div
       class=${classMap(cssClasses)}
       tabindex=${itemTabIndex}
+      aria-disabled=${String(this.disabled)}
       aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
+      aria-controls=${this.hasSubmenu && controls ? controls : nothing}
       aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
       @click=${this._handleClick}
       @keydown=${this._handleKeyDown}

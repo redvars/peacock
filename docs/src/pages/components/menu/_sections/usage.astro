@@ -32,7 +32,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <wc-button id='vibrant-menu-anchor' variant='tonal'>Open Vibrant Menu</wc-button>
 
-  <wc-menu id='vibrant-menu' variant='vibrant' aria-label='Vibrant style preview'>
+  <wc-menu id='vibrant-menu' anchor='vibrant-menu-anchor' variant='vibrant' aria-label='Vibrant style preview'>
     <wc-menu-item value='profile'>Profile</wc-menu-item>
     <wc-menu-item value='account'>Account Settings</wc-menu-item>
     <wc-menu-item value='notifications' selected>
@@ -67,10 +67,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
           event.preventDefault();
         }
       };
-
-      anchor.setAttribute('aria-haspopup', 'menu');
-      anchor.setAttribute('aria-controls', menuId);
-      anchor.setAttribute('aria-expanded', 'false');
       anchor.addEventListener('click', toggleMenu);
       anchor.addEventListener('keydown', toggleMenu);
 

@@ -37,6 +37,26 @@ export class SubMenu extends LitElement {
 
   private _closeTimeout?: number;
 
+  private readonly _onChildMenuOpened = () => {
+    const { item } = this;
+    if (!item) {
+      return;
+    }
+
+    item.submenuOpen = true;
+    item.setAttribute('aria-expanded', 'true');
+  };
+
+  private readonly _onChildMenuClosed = () => {
+    const { item } = this;
+    if (!item) {
+      return;
+    }
+
+    item.submenuOpen = false;
+    item.setAttribute('aria-expanded', 'false');
+  };
+
   get item(): MenuItem | null {
     const [candidate] = this._items ?? [];
     return candidate instanceof MenuItem ? candidate : null;
@@ -54,6 +74,9 @@ export class SubMenu extends LitElement {
   }
 
   disconnectedCallback() {
+    const { menu } = this;
+    menu?.removeEventListener('opened', this._onChildMenuOpened);
+    menu?.removeEventListener('closed', this._onChildMenuClosed);
     this.removeEventListener('mouseenter', this._onMouseEnter);
     this.removeEventListener('mouseleave', this._onMouseLeave);
     window.clearTimeout(this._openTimeout);
@@ -121,6 +144,11 @@ export class SubMenu extends LitElement {
     item.setAttribute('aria-haspopup', 'menu');
     item.setAttribute('aria-expanded', String(menu.open));
     item.setAttribute('aria-controls', menu.id);
+
+    menu.removeEventListener('opened', this._onChildMenuOpened);
+    menu.removeEventListener('closed', this._onChildMenuClosed);
+    menu.addEventListener('opened', this._onChildMenuOpened);
+    menu.addEventListener('closed', this._onChildMenuClosed);
 
     menu.isSubmenu = true;
     menu.anchorElement = item;

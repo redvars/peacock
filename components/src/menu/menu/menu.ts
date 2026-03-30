@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
 import { MenuItem } from '../menu-item/menu-item.js';
-import { PopoverController } from '../../popover/PopoverController.js';
+import { MenuSurfaceController } from './MenuSurfaceController.js';
 
 type CloseReason =
   | { kind: 'click-selection' }
@@ -54,14 +54,11 @@ export class Menu extends LitElement {
 
   @state() private activeIndex = -1;
 
-  @query('.menu-list') private readonly menuListElement!: HTMLElement;
+  @query('.menu') private readonly menuListElement!: HTMLElement;
 
   anchorElement: HTMLElement | null = null;
 
-  private readonly _popover = new PopoverController(this, {
-    placement: 'bottom-start',
-    offset: 6,
-  });
+  private readonly _surfaceController = new MenuSurfaceController(this);
 
   private _lastFocusedElement: HTMLElement | null = null;
 
@@ -77,6 +74,7 @@ export class Menu extends LitElement {
     this.addEventListener('menu-item-activate', this._onItemActivate);
     this.addEventListener('menu-item-request-close', this._onItemRequestClose);
     window.addEventListener('click', this._onWindowClick, { capture: true });
+    this._syncAnchorAria();
   }
 
   disconnectedCallback() {
@@ -111,6 +109,10 @@ export class Menu extends LitElement {
   }
 
   show() {
+    if (this.open) {
+      return;
+    }
+
     this._closeReason = { kind: 'programmatic' };
     this.open = true;
   }
@@ -144,6 +146,21 @@ export class Menu extends LitElement {
     }
 
     return document.getElementById(this.anchor);
+  }
+
+  private _syncAnchorAria() {
+    const anchorEl = this._resolveAnchorElement();
+    if (!anchorEl) {
+      return;
+    }
+
+    if (!this.id) {
+      this.id = `wc-menu-${Math.random().toString(36).slice(2, 9)}`;
+    }
+
+    anchorEl.setAttribute('aria-haspopup', 'menu');
+    anchorEl.setAttribute('aria-controls', this.id);
+    anchorEl.setAttribute('aria-expanded', String(this.open));
   }
 
   private _enabledItems() {
@@ -277,12 +294,38 @@ export class Menu extends LitElement {
 
     const path = event.composedPath();
     const anchorEl = this._resolveAnchorElement();
-    if (path.includes(this) || (anchorEl && path.includes(anchorEl))) {
+    const inMenuTree = path.some(
+      target => target === this || (target instanceof Node && this.contains(target)),
+    );
+
+    if (inMenuTree || (anchorEl && path.includes(anchorEl))) {
       return;
     }
 
     this.close({ kind: 'outside-click' });
   };
+
+  private _isWithinMenuTree(node: Node | null) {
+    if (!node) {
+      return false;
+    }
+
+    let current: Node | null = node;
+    while (current) {
+      if (current === this || this.contains(current)) {
+        return true;
+      }
+
+      const root = current.getRootNode();
+      if (root instanceof ShadowRoot) {
+        current = root.host;
+      } else {
+        current = null;
+      }
+    }
+
+    return false;
+  }
 
   private _onFocusOut = (event: FocusEvent) => {
     if (!this.open || this.stayOpenOnFocusout) {
@@ -294,7 +337,7 @@ export class Menu extends LitElement {
       return;
     }
 
-    if (next instanceof Node && this.contains(next)) {
+    if (next instanceof Node && this._isWithinMenuTree(next)) {
       return;
     }
 
@@ -305,7 +348,30 @@ export class Menu extends LitElement {
     this._syncRovingTabIndex();
   };
 
+  private _applyPositioning() {
+    if (!this.open || !this.menuListElement) {
+      return;
+    }
+
+    const anchorEl = this._resolveAnchorElement();
+    if (!anchorEl) {
+      return;
+    }
+
+    this._surfaceController.start({
+      reference: anchorEl,
+      floating: this.menuListElement,
+      placement: this.placement,
+      offset: this.offset,
+      strategy: 'fixed',
+    });
+  }
+
   protected override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('anchor') || changedProperties.has('open')) {
+      this._syncAnchorAria();
+    }
+
     if (changedProperties.has('open')) {
       if (this.open) {
         this._lastFocusedElement = document.activeElement as HTMLElement | null;
@@ -317,14 +383,10 @@ export class Menu extends LitElement {
           }),
         );
 
-        const anchorEl = this._resolveAnchorElement();
-        if (anchorEl && this.menuListElement) {
-          this._popover.updatePosition(anchorEl, this.menuListElement, {
-            placement: this.placement,
-            offset: this.offset,
-          });
-        }
+        this._applyPositioning();
       } else {
+        this._surfaceController.stop();
+
         const reason = this._closeReason;
         this.dispatchEvent(
           new CustomEvent('close-menu', {
@@ -351,23 +413,20 @@ export class Menu extends LitElement {
     }
 
     if (
-      (changedProperties.has('open') || changedProperties.has('anchor')) &&
+      (changedProperties.has('open') ||
+        changedProperties.has('anchor') ||
+        changedProperties.has('placement') ||
+        changedProperties.has('offset')) &&
       this.open
     ) {
-      const anchorEl = this._resolveAnchorElement();
-      if (anchorEl && this.menuListElement) {
-        this._popover.updatePosition(anchorEl, this.menuListElement, {
-          placement: this.placement,
-          offset: this.offset,
-        });
-      }
+      this._applyPositioning();
     }
   }
 
   render() {
     return html`<div
       class=${classMap({
-        'menu-list': true,
+        'menu': true,
         open: this.open,
         closed: !this.open,
         [`variant-${this.variant}`]: true,
@@ -377,7 +436,7 @@ export class Menu extends LitElement {
       <div class="background"></div>
       <wc-elevation class="elevation"></wc-elevation>
 
-      <div class="menu-list-content">
+      <div class="menu-content">
         <slot @slotchange=${this._onSlotChange}></slot>
       </div>
     </div>`;
