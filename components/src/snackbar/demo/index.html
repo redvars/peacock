@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <style>
+    body {
+      background: #fafafa;
+      padding: 2rem;
+      display: grid;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <wc-snackbar open message="File archived" action-label="Undo"></wc-snackbar>
+  <wc-snackbar open multiline show-close-icon>
+    Network connection was lost. Please try again when you are back online.
+  </wc-snackbar>
+
+  <script type='module'>
+    import { Snackbar, Icon } from '/dist/index.js';
+
+    window.customElements.define('wc-snackbar', Snackbar);
+    window.customElements.define('wc-icon', Icon);
+  </script>
+</body>
+</html>
