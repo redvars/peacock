@@ -19,13 +19,6 @@ Type: `Promise<void>`
 
 
 
-## CSS Custom Properties
-
-| Name                            | Description                |
-| ------------------------------- | -------------------------- |
-| `--pc-dropdown-menu-max-height` | Maximum height of the menu |
-
-
 ## Dependencies
 
 ### Depends on
