@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '../IndividualComponent.js';
 import styles from './card.scss';
 
 type CardVariant = 'elevated' | 'filled' | 'outlined';
