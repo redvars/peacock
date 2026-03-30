@@ -51,6 +51,7 @@ import { Slider } from './slider/slider.js';
 import { Table } from './table/table.js';
 import { Pagination } from './pagination/pagination.js';
 import { TreeView } from './tree-view/tree-view.js';
+import { Card } from './card/card.js';
 import { Snackbar } from './snackbar/snackbar.js';
 
 const distDirectory = `${import.meta.url}/..`;
@@ -135,6 +136,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-chip': {
       CustomElementClass: Chip,
+    },
+    'wc-card': {
+      CustomElementClass: Card,
     },
     'wc-tag': {
       CustomElementClass: Tag,

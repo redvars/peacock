@@ -42,4 +42,5 @@ export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export { TreeView, TreeNode } from './tree-view/index.js';
+export { Card } from './card/index.js';
 export { Snackbar } from './snackbar/index.js';
