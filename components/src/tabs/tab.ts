@@ -34,8 +34,6 @@ export class Tab extends LitElement {
 
   @property({ type: String }) disabledReason = '';
 
-  @property({ type: String }) icon?: string;
-
   @property({ type: String }) label?: string;
 
   @property({ type: String }) value?: string;
@@ -58,6 +56,10 @@ export class Tab extends LitElement {
   @state() hasFocus = false;
 
   @state() slotHasContent = false;
+
+  @state() slotHasIcon = false;
+
+  @state() slotHasBadge = false;
 
    /**
      * States
@@ -92,6 +94,22 @@ export class Tab extends LitElement {
       this.renderRoot.querySelector('slot'),
       hasContent => {
         this.slotHasContent = hasContent;
+        this.requestUpdate();
+      },
+    );
+
+    observerSlotChangesWithCallback(
+      this.renderRoot.querySelector('slot[name="icon"]'),
+      hasContent => {
+        this.slotHasIcon = hasContent;
+        this.requestUpdate();
+      },
+    );
+
+    observerSlotChangesWithCallback(
+      this.renderRoot.querySelector('slot[name="badge"]'),
+      hasContent => {
+        this.slotHasBadge = hasContent;
         this.requestUpdate();
       },
     );
@@ -159,7 +177,9 @@ export class Tab extends LitElement {
       disabled: this.disabled,
       pressed: this.isPressed,
       active: this.active,
-      'has-content': this.slotHasContent
+      'has-content': this.slotHasContent || !!this.label,
+      'has-icon': this.slotHasIcon,
+      'has-badge': this.slotHasBadge,
     };
 
 
@@ -206,16 +226,18 @@ export class Tab extends LitElement {
       <wc-ripple class="ripple"></wc-ripple>
       
       <div class="tab-content">
+        <slot name="icon"></slot>
+
         <div class="slot-container">
-          <slot></slot>
+          <slot>${this.label || nothing}</slot>
         </div>
 
-        <slot name="icon"></slot>
+        <slot name="badge"></slot>
 
         <div class="indicator"></div>
       </div>
 
-      <div class="indicator"></div>
+      <div class="secondary indicator"></div>
 
       ${this.__renderDisabledReason()}
     `;

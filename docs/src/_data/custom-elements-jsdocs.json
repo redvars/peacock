@@ -6642,7 +6642,7 @@
       "@parentRawTag": [
         {
           "kind": "text",
-          "text": "menu-list"
+          "text": "menu"
         }
       ],
       "@summary": [
@@ -9345,6 +9345,14 @@
         },
         {
           "kind": "field",
+          "name": "badge",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "badge"
+        },
+        {
+          "kind": "field",
           "name": "label",
           "type": {
             "text": "string | undefined"
@@ -9408,6 +9416,22 @@
         {
           "kind": "field",
           "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasIcon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasBadge",
           "type": {
             "text": "boolean"
           },
@@ -9510,6 +9534,13 @@
             "text": "string | undefined"
           },
           "fieldName": "icon"
+        },
+        {
+          "name": "badge",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "badge"
         },
         {
           "name": "label",
@@ -9647,11 +9678,6 @@
         },
         {
           "kind": "field",
-          "name": "uid",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
           "name": "onTabClick",
           "privacy": "private"
         },
@@ -9669,11 +9695,23 @@
         },
         {
           "kind": "method",
+          "name": "selectTabByIndex",
+          "parameters": [
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "getTabs",
           "privacy": "private",
           "return": {
             "type": {
-              "text": "NodeListOf<HTMLElement>"
+              "text": "HTMLElement[]"
             }
           }
         },
@@ -9683,7 +9721,7 @@
           "privacy": "private",
           "return": {
             "type": {
-              "text": "NodeListOf<HTMLElement>"
+              "text": "HTMLElement[]"
             }
           }
         },
@@ -10351,6 +10389,16 @@
           },
           "attribute": "value",
           "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "active",
+          "reflects": true
         }
       ],
       "attributes": [
@@ -10360,6 +10408,14 @@
             "text": "string | undefined"
           },
           "fieldName": "value"
+        },
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "active"
         }
       ],
       "superclass": {

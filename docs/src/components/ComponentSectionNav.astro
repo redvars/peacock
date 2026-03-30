@@ -11,50 +11,24 @@ const { sections, title } = Astro.props;
 
     <p class="text-body-large">On this page</p>
     <h2 class="text-headline">{title}</h2>
-    <wc-menu id="overview-navigation" variant="vibrant">
+    <ul class="section-nav-links">
       {
         sections.map((section: any) => {
           const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
-          return <wc-menu-item href={`#section-${sectionValue}`} value={sectionValue}>{section.title}</wc-menu-item>
+          return <li><wc-link href={`#section-${sectionValue}`}>{section.title}</wc-link></li>
         })
       }
-    </wc-menu>
+    </ul>
 
-    <script>
-      const overviewNavigation = document.getElementById('overview-navigation');
-
-      const nodes = overviewNavigation?.querySelectorAll('wc-menu-item');
-      if (nodes?.length) {
-        //@ts-ignore
-        let selectedValue = location.hash?.replace("#section-", "");
-
-        setTimeout(function() {
-          selectNode(selectedValue)
-        });
-
-        nodes.forEach(function(node) {
-            node.addEventListener('click', function() {
-              nodes.forEach(function(node) {
-              node.selected = false;
-            });
-              this.selected = true;
-            })
-          });
-        
+    <style>
+      .section-nav-links {
+        list-style: disc;
+        padding-left: 1.25rem;
       }
-
-      function selectNode(selectedValue) {
-          const overviewNavigation = document.getElementById('overview-navigation');
-          const nodes = overviewNavigation?.querySelectorAll('wc-menu-item');
-
-          if (selectedValue)
-            nodes.forEach(function(node) {
-              node.selected = node.value == selectedValue;
-            });
-          else
-            nodes[0].selected = true;
+      .section-nav-links li {
+        margin-block: 0.5rem;
       }
-    </script>
+    </style>
 
     <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script is:inline>

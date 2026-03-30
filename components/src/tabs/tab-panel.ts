@@ -23,6 +23,8 @@ export class TabPanel extends LitElement {
 
   @property({ reflect: true }) value?: string;
 
+  @property({ type: Boolean, reflect: true }) active = false;
+
   render() {
     return html`<slot></slot>`;
   }
