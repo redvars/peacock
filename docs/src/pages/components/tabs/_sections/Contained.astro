@@ -4,57 +4,57 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 <pc-text type="body" expressive>Here are several predefined button styles, each serving its own semantic purpose. </pc-text>
 
 <HighlighterCard lang={'html'}  cssClasses='demo-canvas'>
-<pc-tabs type='contained'>
-  <pc-tabs-list>
-    <pc-tab>First tab</pc-tab>
-    <pc-tab selected="true">Second tab</pc-tab>
-    <pc-tab disabled>Disabled tab</pc-tab>
-    <pc-tab>Last tab</pc-tab>
-  </pc-tabs-list>
+<wc-tab-group variant='contained'>
+  <wc-tabs>
+    <wc-tab>First tab</wc-tab>
+    <wc-tab selected="true">Second tab</wc-tab>
+    <wc-tab disabled>Disabled tab</wc-tab>
+    <wc-tab>Last tab</wc-tab>
+  </wc-tabs>
 
-  <pc-tab-panel class='layer-01'>
+  <wc-tab-panel class='layer-01'>
     <pc-text type="heading"> First content </pc-text>
-  </pc-tab-panel>
+  </wc-tab-panel>
 
-  <pc-tab-panel class='layer-01'>
+  <wc-tab-panel class='layer-01'>
     <pc-text type="heading"> Second content </pc-text>
-  </pc-tab-panel>
+  </wc-tab-panel>
 
-  <pc-tab-panel class='layer-01'>
+  <wc-tab-panel class='layer-01'>
     <pc-text type="heading"> Disabled </pc-text>
-  </pc-tab-panel>
+  </wc-tab-panel>
 
-  <pc-tab-panel class='layer-01'>
+  <wc-tab-panel class='layer-01'>
     <pc-text type="heading"> Last content </pc-text>
-  </pc-tab-panel>
+  </wc-tab-panel>
 
-</pc-tabs>
+</wc-tab-group>
 
   <br/>
 
 
-  <pc-tabs type='contained-bottom'>
-    <pc-tab-panel class='layer-01'>
+  <wc-tab-group variant='contained'>
+    <wc-tab-panel class='layer-01'>
       <pc-text type="heading"> First content </pc-text>
-    </pc-tab-panel>
+    </wc-tab-panel>
 
-    <pc-tab-panel class='layer-01'>
+    <wc-tab-panel class='layer-01'>
       <pc-text type="heading"> Second content </pc-text>
-    </pc-tab-panel>
+    </wc-tab-panel>
 
-    <pc-tab-panel class='layer-01'>
+    <wc-tab-panel class='layer-01'>
       <pc-text type="heading"> Disabled </pc-text>
-    </pc-tab-panel>
+    </wc-tab-panel>
 
-    <pc-tab-panel class='layer-01'>
+    <wc-tab-panel class='layer-01'>
       <pc-text type="heading"> Last content </pc-text>
-    </pc-tab-panel>
+    </wc-tab-panel>
 
-    <pc-tabs-list>
-      <pc-tab>First tab</pc-tab>
-      <pc-tab selected="true">Second tab</pc-tab>
-      <pc-tab disabled>Disabled tab</pc-tab>
-      <pc-tab>Last tab</pc-tab>
-    </pc-tabs-list>
-  </pc-tabs>
+    <wc-tabs>
+      <wc-tab>First tab</wc-tab>
+      <wc-tab selected="true">Second tab</wc-tab>
+      <wc-tab disabled>Disabled tab</wc-tab>
+      <wc-tab>Last tab</wc-tab>
+    </wc-tabs>
+  </wc-tab-group>
 </HighlighterCard>
