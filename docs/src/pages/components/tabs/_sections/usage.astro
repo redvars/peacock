@@ -10,18 +10,30 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
     <wc-tabs>
-      <wc-tab>First tab</wc-tab>
-      <wc-tab active="true">Second tab</wc-tab>
-      <wc-tab disabled>Disabled tab</wc-tab>
-      <wc-tab href='https://shivajivarma.com'>External link</wc-tab>
+      <wc-tab icon="home">Home</wc-tab>
+      <wc-tab active="true" badge="3">Updates</wc-tab>
+      <wc-tab>
+        Inbox
+        <wc-icon slot="icon" name="mail"></wc-icon>
+        <wc-badge slot="badge" value="99+"></wc-badge>
+      </wc-tab>
+      <wc-tab disabled icon="block" badge="!">Disabled</wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
-      <pc-text type="heading"> First content </pc-text>
+      <pc-text type="heading"> Home content </pc-text>
     </wc-tab-panel>
 
     <wc-tab-panel>
-      <pc-text type="heading"> Second content </pc-text>
+      <pc-text type="heading"> Updates content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Inbox content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Disabled content </pc-text>
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>
@@ -29,18 +41,30 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
     <wc-tabs variant="line-secondary">
-      <wc-tab>First tab</wc-tab>
-      <wc-tab active="true">Second tab</wc-tab>
-      <wc-tab disabled>Disabled tab</wc-tab>
-      <wc-tab href='https://shivajivarma.com'>External link</wc-tab>
+      <wc-tab icon="dashboard">Overview</wc-tab>
+      <wc-tab active="true" badge="7">Activity</wc-tab>
+      <wc-tab>
+        Messages
+        <wc-icon slot="icon" name="chat"></wc-icon>
+        <wc-badge slot="badge" value="12"></wc-badge>
+      </wc-tab>
+      <wc-tab disabled icon="lock">Restricted</wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
-      <pc-text type="heading"> First content </pc-text>
+      <pc-text type="heading"> Overview content </pc-text>
     </wc-tab-panel>
 
     <wc-tab-panel>
-      <pc-text type="heading"> Second content </pc-text>
+      <pc-text type="heading"> Activity content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Messages content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Restricted content </pc-text>
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>

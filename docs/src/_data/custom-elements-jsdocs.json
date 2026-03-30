@@ -9345,6 +9345,14 @@
         },
         {
           "kind": "field",
+          "name": "badge",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "badge"
+        },
+        {
+          "kind": "field",
           "name": "label",
           "type": {
             "text": "string | undefined"
@@ -9408,6 +9416,22 @@
         {
           "kind": "field",
           "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasIcon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasBadge",
           "type": {
             "text": "boolean"
           },
@@ -9510,6 +9534,13 @@
             "text": "string | undefined"
           },
           "fieldName": "icon"
+        },
+        {
+          "name": "badge",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "badge"
         },
         {
           "name": "label",

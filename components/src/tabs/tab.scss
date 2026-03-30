@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--_tab-icon-label-spacing);
+    gap: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
@@ -46,6 +46,25 @@
 
     .slot-container {
       display: none;
+    }
+
+    ::slotted([slot='icon']) {
+      flex: none;
+      color: var(--_label-text-color);
+      --icon-size: var(--tab-icon-size, var(--_tab-icon-size));
+      --icon-color: var(--_label-text-color);
+    }
+
+    ::slotted([slot='badge']) {
+      flex: none;
+      margin-inline-start: var(--_tab-badge-label-spacing, 0);
+      --badge-color: var(--_tab-badge-color, var(--color-error));
+    }
+  }
+
+  &.has-icon {
+    .tab-content {
+      gap: var(--_tab-icon-label-spacing);
     }
   }
 
@@ -112,6 +131,10 @@
 :host-context([variant='line']) .tab {
   --_tab-height: 100%;
   --_container-padding: 1rem;
+  --_tab-icon-size: 1.5rem;
+  --_tab-icon-label-spacing: 0.5rem;
+  --_tab-badge-label-spacing: 0.25rem;
+  --_tab-badge-color: var(--color-error);
 
   --_label-text-color: var(--color-on-surface);
   --_container-state-color: var(--_label-text-color);
@@ -159,6 +182,10 @@
 :host-context([variant='line-secondary']) .tab {
   --_tab-height: 100%;
   --_container-padding: 1rem;
+  --_tab-icon-size: 1.25rem;
+  --_tab-icon-label-spacing: 0.5rem;
+  --_tab-badge-label-spacing: 0.25rem;
+  --_tab-badge-color: var(--color-error);
 
   --_label-text-color: var(--color-on-surface);
   --_container-state-color: var(--_label-text-color);
