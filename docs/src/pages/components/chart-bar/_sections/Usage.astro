@@ -1,0 +1,32 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='refresh-bars'>Randomize</wc-button>
+  <br />
+
+  <wc-chart-bar id='sales-bar' width='520' height='320' margin='24' show-values></wc-chart-bar>
+
+  <script is:inline>
+    const chart = document.querySelector('#sales-bar');
+    chart.data = [
+      { name: 'apples', label: 'Apples', value: 28 },
+      { name: 'bananas', label: 'Bananas', value: 36 },
+      { name: 'cherries', label: 'Cherries', value: 22 },
+      { name: 'dates', label: 'Dates', value: 18 },
+    ];
+
+    function randomNumber(min, max) {
+      return parseInt(Math.random() * (max - min) + min);
+    }
+
+    document.querySelector('#refresh-bars').addEventListener('click', () => {
+      chart.data = chart.data.map(d => ({
+        ...d,
+        value: randomNumber(12, 72),
+      }));
+      chart.width = randomNumber(460, 620);
+    });
+  </script>
+</DemoComponentCard>
