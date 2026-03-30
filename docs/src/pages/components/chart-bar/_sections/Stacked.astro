@@ -1,0 +1,52 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='toggle-values'>Toggle values</wc-button>
+  <wc-button id='toggle-legend'>Toggle legend</wc-button>
+  <br />
+
+  <wc-chart-stacked-bar id='stacked-bar' width='560' height='340' margin='28' show-values show-legend></wc-chart-stacked-bar>
+
+  <script is:inline>
+    const stacked = document.querySelector('#stacked-bar');
+    stacked.data = [
+      {
+        name: 'q1',
+        label: 'Q1',
+        segments: [
+          { name: 'mobile', label: 'Mobile', value: 40 },
+          { name: 'web', label: 'Web', value: 24 },
+          { name: 'store', label: 'Store', value: 16 },
+        ],
+      },
+      {
+        name: 'q2',
+        label: 'Q2',
+        segments: [
+          { name: 'mobile', label: 'Mobile', value: 32 },
+          { name: 'web', label: 'Web', value: 30 },
+          { name: 'store', label: 'Store', value: 18 },
+        ],
+      },
+      {
+        name: 'q3',
+        label: 'Q3',
+        segments: [
+          { name: 'mobile', label: 'Mobile', value: 44 },
+          { name: 'web', label: 'Web', value: 28 },
+          { name: 'store', label: 'Store', value: 20 },
+        ],
+      },
+    ];
+
+    document.querySelector('#toggle-values').addEventListener('click', () => {
+      stacked.showValues = !stacked.showValues;
+    });
+
+    document.querySelector('#toggle-legend').addEventListener('click', () => {
+      stacked.showLegend = !stacked.showLegend;
+    });
+  </script>
+</DemoComponentCard>

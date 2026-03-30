@@ -1,0 +1,48 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-basic'>Show snackbar</wc-button>
+  <wc-button id='show-action'>Show action</wc-button>
+  <br />
+
+  <wc-snackbar id='basic-snackbar' message='Message archived' duration='3500'></wc-snackbar>
+  <wc-snackbar id='action-snackbar' multiline action-label='Undo' show-close-icon duration='0'>
+    Unable to save changes. Check your connection and try again.
+  </wc-snackbar>
+
+  <p id='snackbar-log' class='text-body'> </p>
+
+  <script is:inline>
+    const basic = document.querySelector('#basic-snackbar');
+    const action = document.querySelector('#action-snackbar');
+    const log = document.querySelector('#snackbar-log');
+
+    function updateLog(message) {
+      log.textContent = message;
+    }
+
+    document.querySelector('#show-basic').addEventListener('click', () => {
+      basic.show();
+      updateLog('Showing basic snackbar');
+    });
+
+    document.querySelector('#show-action').addEventListener('click', () => {
+      action.show();
+      updateLog('Showing snackbar with action');
+    });
+
+    basic.addEventListener('snackbar-close', event => {
+      updateLog(`Basic snackbar closed (${event.detail.reason})`);
+    });
+
+    action.addEventListener('snackbar-action', () => {
+      updateLog('Undo clicked');
+    });
+
+    action.addEventListener('snackbar-close', event => {
+      updateLog(`Action snackbar closed (${event.detail.reason})`);
+    });
+  </script>
+</DemoComponentCard>

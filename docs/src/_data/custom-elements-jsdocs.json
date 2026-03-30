@@ -1381,6 +1381,113 @@
     }
   },
   {
+    "rawTag": "chart-bar",
+    "label": "Chart Bar",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chart Bar"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-chart-bar"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chart-bar"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A vertical bar chart that follows Material Design 3 color and spacing tokens."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "charts"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chart-bar width=\"520\" height=\"320\"></wc-chart-bar>\n<script>\n  document.querySelector('wc-chart-bar').data = [\n    { name: 'apples', label: 'Apples', value: 20 },\n    { name: 'bananas', label: 'Bananas', value: 35 },\n    { name: 'cherries', label: 'Cherries', value: 15 },\n  ];\n</script>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChartBar",
+      "members": [],
+      "attributes": [
+        {
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width of the chart in pixels.",
+          "fieldName": "width"
+        },
+        {
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "320",
+          "description": "Height of the chart in pixels.",
+          "fieldName": "height"
+        },
+        {
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "24",
+          "description": "Margin around the chart drawing area.",
+          "fieldName": "margin"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartBarItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "fieldName": "data"
+        },
+        {
+          "name": "show-values",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render value labels above bars.",
+          "fieldName": "showValues"
+        }
+      ],
+      "events": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chart-bar",
+      "customElement": true,
+      "summary": "A vertical bar chart that follows Material Design 3 color and spacing tokens.",
+      "rawTag": {
+        "name": "chart-bar",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "chart-doughnut",
     "label": "Chart Doughnut",
     "jsdoc": {
@@ -8209,6 +8316,163 @@
       "summary": "Adds a skeleton effect to an element.",
       "rawTag": {
         "name": "skeleton",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "snackbar",
+    "label": "Snackbar",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Snackbar"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-snackbar"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "snackbar"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Snackbars provide brief messages about app processes at the bottom of the screen."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display"
+        },
+        {
+          "kind": "text",
+          "text": "feedback"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Snackbar",
+      "members": [],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the snackbar is visible.",
+          "fieldName": "open"
+        },
+        {
+          "name": "message",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Message text displayed inside the snackbar.",
+          "fieldName": "message"
+        },
+        {
+          "name": "action-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional label for the action button.",
+          "fieldName": "actionLabel"
+        },
+        {
+          "name": "show-close-icon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show a dismiss icon button.",
+          "fieldName": "showCloseIcon"
+        },
+        {
+          "name": "duration",
+          "type": {
+            "text": "number"
+          },
+          "default": "4000",
+          "description": "Auto-dismiss duration in milliseconds. Set to 0 to disable auto-hide.",
+          "fieldName": "duration"
+        },
+        {
+          "name": "multiline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Render the snackbar using the multiline layout.",
+          "fieldName": "multiline"
+        }
+      ],
+      "events": [
+        {
+          "name": "snackbar-close",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the snackbar closes. Detail includes the close reason."
+        },
+        {
+          "name": "snackbar-action",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the action button is clicked."
+        }
+      ],
+      "cssProperties": [
+        {
+          "name": "--snackbar-container-color",
+          "description": "Container color for the snackbar."
+        },
+        {
+          "name": "--snackbar-label-text-color",
+          "description": "Label text color for the snackbar."
+        },
+        {
+          "name": "--snackbar-action-text-color",
+          "description": "Action text color."
+        },
+        {
+          "name": "--snackbar-close-icon-color",
+          "description": "Close icon color."
+        },
+        {
+          "name": "--snackbar-border-radius",
+          "description": "Border radius of the snackbar surface."
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-snackbar",
+      "customElement": true,
+      "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
+      "rawTag": {
+        "name": "snackbar",
         "description": ""
       }
     }
