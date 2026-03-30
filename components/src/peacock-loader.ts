@@ -19,6 +19,7 @@ import { TimePicker } from './time-picker/time-picker.js';
 import { Textarea } from './textarea/textarea.js';
 import { Switch } from './switch/switch.js';
 import { Checkbox } from './checkbox/checkbox.js';
+import { Radio } from './radio/radio.js';
 
 import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
@@ -194,6 +195,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-checkbox': {
       CustomElementClass: Checkbox,
+    },
+    'wc-radio': {
+      CustomElementClass: Radio,
     },
     'wc-spinner': {
       CustomElementClass: Spinner,
