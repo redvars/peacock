@@ -76,7 +76,7 @@ export class EmptyState extends LitElement {
       <div class="${classMap(classes)}">
         <div class="empty-state-container">
           <div class="illustration">
-            <wc-icon src="${illustrationPath}"></wc-icon>
+            <wc-icon class="illustration-svg" src="${illustrationPath}"></wc-icon>
           </div>
 
           <div class="content">

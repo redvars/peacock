@@ -44,12 +44,12 @@ export class Tabs extends LitElement {
     const detailEvent = event as CustomEvent;
     const path = detailEvent.composedPath();
     const clickedTab: Tab | undefined = path.find(
-      node => node instanceof Element && (node as Element).tagName.toLowerCase() === 'base-tab',
+      node => node instanceof Element && (node as Element).tagName.toLowerCase() === 'wc-tab',
     ) as Tab | undefined;
 
     if (!clickedTab) return;
 
-    const tabs: NodeListOf<Tab> = this.querySelectorAll('base-tab');
+    const tabs: NodeListOf<Tab> = this.querySelectorAll('wc-tab');
     tabs.forEach(tab => {
       tab.active = false;
     });

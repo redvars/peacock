@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
@@ -45,8 +45,6 @@ export class MenuItem extends LitElement {
 
   static styles = [styles, colorStyles];
 
-  private _menuItemTabIndex = -1;
-
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
@@ -58,12 +56,14 @@ export class MenuItem extends LitElement {
       this.tabIndex = -1;
     }
 
-    this._menuItemTabIndex = this.disabled ? -1 : this.tabIndex;
+    this.addEventListener('click', this._handleClick);
+    this.addEventListener('keydown', this._handleKeyDown);
   }
 
-  setMenuItemTabIndex(value: number) {
-    this._menuItemTabIndex = value;
-    this.requestUpdate();
+  disconnectedCallback() {
+    this.removeEventListener('click', this._handleClick);
+    this.removeEventListener('keydown', this._handleKeyDown);
+    super.disconnectedCallback();
   }
 
   private emitActivate(source: 'click' | 'keydown', key?: string) {
@@ -138,14 +138,8 @@ export class MenuItem extends LitElement {
     return !!this.href;
   }
 
-  @query('.menu-item') private readonly menuItemElement!: HTMLElement | null;
-
-  override focus() {
-    this.menuItemElement?.focus();
-  }
-
-  override blur() {
-    this.menuItemElement?.blur();
+  get focusTarget() {
+    return this;
   }
 
   render() {
@@ -157,7 +151,6 @@ export class MenuItem extends LitElement {
       selected: this.selected,
     };
 
-    const itemTabIndex = this.disabled ? -1 : this._menuItemTabIndex;
     const controls = this.getAttribute('aria-controls');
 
     if (isLink) {
@@ -165,13 +158,10 @@ export class MenuItem extends LitElement {
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
-        tabindex=${itemTabIndex}
         aria-disabled=${String(this.disabled)}
         aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
         aria-controls=${this.hasSubmenu && controls ? controls : nothing}
         aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
-        @click=${this._handleClick}
-        @keydown=${this._handleKeyDown}
       >
         ${this.renderContent()}
       </a> `;
@@ -179,13 +169,10 @@ export class MenuItem extends LitElement {
 
     return html`<div
       class=${classMap(cssClasses)}
-      tabindex=${itemTabIndex}
       aria-disabled=${String(this.disabled)}
       aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
       aria-controls=${this.hasSubmenu && controls ? controls : nothing}
       aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
-      @click=${this._handleClick}
-      @keydown=${this._handleKeyDown}
     >
       ${this.renderContent()}
     </div>`;
@@ -196,7 +183,7 @@ export class MenuItem extends LitElement {
       <wc-focus-ring
         class="focus-ring"
         .control=${this}
-        element="menuItemElement"
+        element="focusTarget"
       ></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>

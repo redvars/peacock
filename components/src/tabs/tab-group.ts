@@ -42,11 +42,11 @@ export class TabGroup extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('base-tab-click', this.onTabClick as EventListener);
+    this.addEventListener('tab-click', this.onTabClick as EventListener);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('base-tab-click', this.onTabClick as EventListener);
+    this.removeEventListener('tab-click', this.onTabClick as EventListener);
     super.disconnectedCallback();
   }
 
@@ -97,11 +97,11 @@ export class TabGroup extends LitElement {
   }
 
   private getTabs(): NodeListOf<HTMLElement> {
-    return this.querySelectorAll(':scope > tabs-list base-tab');
+    return this.querySelectorAll(':scope > tabs-list wc-tab');
   }
 
   private getTabPanels(): NodeListOf<HTMLElement> {
-    return this.querySelectorAll(':scope > base-tab-panel');
+    return this.querySelectorAll(':scope > wc-tab-panel');
   }
 
   private getTabList(): HTMLElement | null {
@@ -109,7 +109,7 @@ export class TabGroup extends LitElement {
   }
 
   private tabsHaveTarget(): boolean {
-    return !!this.querySelector(':scope > tabs-list base-tab[target]');
+    return !!this.querySelector(':scope > tabs-list wc-tab[target]');
   }
 
   private initializeTabs() {
@@ -129,7 +129,7 @@ export class TabGroup extends LitElement {
         }
       }
     } else {
-      const selectedTab = this.querySelector(':scope > tabs-list base-tab[selected]') as HTMLElement;
+      const selectedTab = this.querySelector(':scope > tabs-list wc-tab[selected]') as HTMLElement;
       if (selectedTab) {
         const selectedTarget = selectedTab.getAttribute('target');
         if (selectedTarget) this.selectTab(selectedTarget);

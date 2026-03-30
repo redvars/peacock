@@ -2,11 +2,22 @@
 import Layout from '../layouts/Base.astro';
 ---
 <Layout>
-  <empty-state illustration="page"
+  <style is:inline>
+    wc-empty-state {
+      height: 100vh;
+      width: 100vw;
+    }
+  </style>
+  <wc-empty-state illustration="page"
                     headline="404 : Page not found :("
-                    description="The requested page could not be found."
-                    action="Go to home page" action-url="/">
-  </empty-state>
+                    description="The requested page could not be found.">
+    <wc-button 
+      slot="actions"
+      href="/"
+      >Go to home page
+      <wc-icon name="arrow_right_alt" slot="icon"></wc-icon>
+    </wc-button>
+  </wc-empty-state>
 </Layout>
 <style is:inline>
   empty-state {

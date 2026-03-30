@@ -6755,27 +6755,6 @@
           "reflects": true
         },
         {
-          "kind": "field",
-          "name": "_menuItemTabIndex",
-          "type": {
-            "text": "number"
-          },
-          "privacy": "private",
-          "default": "-1"
-        },
-        {
-          "kind": "method",
-          "name": "setMenuItemTabIndex",
-          "parameters": [
-            {
-              "name": "value",
-              "type": {
-                "text": "number"
-              }
-            }
-          ]
-        },
-        {
           "kind": "method",
           "name": "emitActivate",
           "privacy": "private",
@@ -6860,20 +6839,8 @@
         },
         {
           "kind": "field",
-          "name": "menuItemElement",
-          "type": {
-            "text": "HTMLElement | null"
-          },
-          "privacy": "private",
+          "name": "focusTarget",
           "readonly": true
-        },
-        {
-          "kind": "method",
-          "name": "focus"
-        },
-        {
-          "kind": "method",
-          "name": "blur"
         },
         {
           "kind": "method",

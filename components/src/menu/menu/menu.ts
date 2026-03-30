@@ -180,7 +180,7 @@ export class Menu extends LitElement {
 
     for (let index = 0; index < enabledItems.length; index += 1) {
       const currentItem = enabledItems[index];
-      currentItem.setMenuItemTabIndex(index === this.activeIndex ? 0 : -1);
+      currentItem.tabIndex = index === this.activeIndex ? 0 : -1;
       currentItem.selected = index === this.activeIndex;
     }
   }

@@ -185,7 +185,7 @@ export class SubMenu extends LitElement {
     await this.show();
     const firstItem = this.menu?.items.find(menuItem => !menuItem.disabled);
     if (firstItem) {
-      firstItem.setMenuItemTabIndex(0);
+      firstItem.tabIndex = 0;
       firstItem.focus();
     }
   };
@@ -205,7 +205,7 @@ export class SubMenu extends LitElement {
 
     const { item } = this;
     if (item) {
-      item.setMenuItemTabIndex(0);
+      item.tabIndex = 0;
       item.focus();
     }
   };
