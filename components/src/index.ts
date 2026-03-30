@@ -41,3 +41,4 @@ export { ChartPie } from './chart-pie/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export { TreeView, TreeNode } from './tree-view/index.js';
+export { Card } from './card/index.js';
