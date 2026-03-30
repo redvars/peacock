@@ -215,7 +215,7 @@ export class Tab extends LitElement {
         <div class="indicator"></div>
       </div>
 
-      <div class="indicator"></div>
+      <div class="secondary indicator"></div>
 
       ${this.__renderDisabledReason()}
     `;

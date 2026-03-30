@@ -121,7 +121,7 @@
   --_container-shape-end-end: var(--shape-corner-small);
   --_active-indicator-color: var(--color-primary);
   --_active-indicator-shape: 3px 3px 0 0;
-  --_active-indicator-height: 2px;
+  --_active-indicator-height: 3px;
 
   .focus-ring {
     inset: 3px 3px 4px 3px;
@@ -130,6 +130,53 @@
   &.active {
 
     .tab-content .indicator {
+      opacity: 1;
+    }
+
+    .focus-ring {
+      inset: 3px 3px calc(4px + var(--_active-indicator-height)) 3px;
+    }
+  }
+
+  &:hover:not(:where(.disabled)) {
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled)) {
+    --_container-state-opacity: 0.12;
+  }
+
+  &.disabled {
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host-context([variant='line-secondary']) .tab {
+  --_tab-height: 100%;
+  --_container-padding: 1rem;
+
+  --_label-text-color: var(--color-on-surface);
+  --_container-state-color: var(--_label-text-color);
+  --_container-shape-start-start: var(--shape-corner-small);
+  --_container-shape-start-end: var(--shape-corner-small);
+  --_container-shape-end-start: var(--shape-corner-small);
+  --_container-shape-end-end: var(--shape-corner-small);
+  --_active-indicator-color: var(--color-primary);
+  --_active-indicator-shape: 0;
+  --_active-indicator-height: 2px;
+
+  .focus-ring {
+    inset: 3px 3px 4px 3px;
+  }
+
+  &.active {
+
+    .indicator.secondary {
       opacity: 1;
     }
 

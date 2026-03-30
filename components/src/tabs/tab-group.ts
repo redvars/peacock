@@ -121,7 +121,7 @@ export class TabGroup extends LitElement {
   }
 
   private getTabs(): HTMLElement[] {
-    return Array.from(this.querySelectorAll(':scope > tabs-list wc-tab'));
+    return Array.from(this.querySelectorAll(':scope > wc-tabs wc-tab'));
   }
 
   private getTabPanels(): HTMLElement[] {
@@ -129,11 +129,11 @@ export class TabGroup extends LitElement {
   }
 
   private getTabList(): HTMLElement | null {
-    return this.querySelector(':scope > tabs-list');
+    return this.querySelector(':scope > wc-tabs');
   }
 
   private tabsHaveTarget(): boolean {
-    return !!this.querySelector(':scope > tabs-list wc-tab[target]');
+    return !!this.querySelector(':scope > wc-tabs wc-tab[target]');
   }
 
   private initializeTabs() {
