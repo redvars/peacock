@@ -7,7 +7,7 @@
 
   --divider-color: var(--color-outline-variant);
   --divider-spacing: var(--spacing-200);
-  --divider-line-thinkness: 2px;
+  --divider-line-thickness: 1px;
 }
 
 .divider {
@@ -16,7 +16,7 @@
   @include mixin.get-typography(body-medium);
   color: var(--divider-color);
 
-  --_line-border: var(--divider-line-thinkness) solid var(--divider-color);
+  --_line-border: var(--divider-line-thickness) solid var(--divider-color);
 
   &:not(.vertical) {
     width: 100%;

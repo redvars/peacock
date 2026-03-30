@@ -6755,6 +6755,27 @@
           "reflects": true
         },
         {
+          "kind": "field",
+          "name": "_menuItemTabIndex",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "-1"
+        },
+        {
+          "kind": "method",
+          "name": "setMenuItemTabIndex",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
           "kind": "method",
           "name": "emitActivate",
           "privacy": "private",

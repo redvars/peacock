@@ -39,7 +39,7 @@
       --menu-item-container-shape-end-end: var(--shape-corner-medium);
     }
 
-    ::slotted(base-divider) {
+    ::slotted(wc-divider) {
       --divider-spacing: var(--spacing-100);
       padding-inline: var(--spacing-050);
     }

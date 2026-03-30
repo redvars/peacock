@@ -45,6 +45,8 @@ export class MenuItem extends LitElement {
 
   static styles = [styles, colorStyles];
 
+  private _menuItemTabIndex = -1;
+
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
@@ -55,6 +57,13 @@ export class MenuItem extends LitElement {
     if (!this.hasAttribute('tabindex')) {
       this.tabIndex = -1;
     }
+
+    this._menuItemTabIndex = this.disabled ? -1 : this.tabIndex;
+  }
+
+  setMenuItemTabIndex(value: number) {
+    this._menuItemTabIndex = value;
+    this.requestUpdate();
   }
 
   private emitActivate(source: 'click' | 'keydown', key?: string) {
@@ -148,7 +157,7 @@ export class MenuItem extends LitElement {
       selected: this.selected,
     };
 
-    const itemTabIndex = this.disabled ? -1 : this.tabIndex;
+    const itemTabIndex = this.disabled ? -1 : this._menuItemTabIndex;
     const controls = this.getAttribute('aria-controls');
 
     if (isLink) {
