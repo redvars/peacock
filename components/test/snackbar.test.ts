@@ -45,7 +45,7 @@ describe('Snackbar', () => {
 
   it('auto closes after duration', async () => {
     const el = await fixture<Snackbar>(html`
-      <wc-snackbar open message="Saved" .duration=${1}></wc-snackbar>
+      <wc-snackbar open message="Saved" .duration=${50}></wc-snackbar>
     `);
     await el.updateComplete;
 
@@ -55,7 +55,7 @@ describe('Snackbar', () => {
     });
 
     await new Promise(resolve => {
-      setTimeout(resolve, 10);
+      setTimeout(resolve, 80);
     });
     await el.updateComplete;
 

@@ -101,7 +101,7 @@ export class Snackbar extends LitElement {
   }
 
   protected updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has('open') || changedProperties.has('duration')) {
+    if (changedProperties.has('open')) {
       this.scheduleAutoHide();
     }
   }
@@ -112,6 +112,9 @@ export class Snackbar extends LitElement {
   }
 
   render() {
+    const liveRole =
+      this.actionLabel || this.showCloseIcon ? 'alert' : 'status';
+
     return html`
       <div
         class=${classMap({
@@ -119,9 +122,8 @@ export class Snackbar extends LitElement {
           open: this.open,
           multiline: this.multiline,
         })}
-        role="status"
+        role=${liveRole}
         aria-live="polite"
-        aria-hidden=${String(!this.open)}
       >
         <div class="label">
           <slot>${this.message}</slot>
