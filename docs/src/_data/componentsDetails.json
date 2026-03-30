@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-30T12:48:25",
+  "timestamp": "2026-03-30T16:52:48",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.41.2",
@@ -7,13 +7,13 @@
   },
   "components": [
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression",
+      "dirPath": "/root/peacock/src/components/application/condition-builder/cb-compound-expression",
       "filePath": "src/components/application/condition-builder/cb-compound-expression/cb-compound-expression.tsx",
       "fileName": "cb-compound-expression.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-compound-expression/usage",
+      "readmePath": "/root/peacock/src/components/application/condition-builder/cb-compound-expression/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/condition-builder/cb-compound-expression/usage",
       "tag": "goat-cb-compound-expression",
-      "readme": "# p-icon\n\n\n",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -124,13 +124,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-divider",
+      "dirPath": "/root/peacock/src/components/application/condition-builder/cb-divider",
       "filePath": "src/components/application/condition-builder/cb-divider/cb-divider.tsx",
       "fileName": "cb-divider.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-divider/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-divider/usage",
+      "readmePath": "/root/peacock/src/components/application/condition-builder/cb-divider/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/condition-builder/cb-divider/usage",
       "tag": "goat-cb-divider",
-      "readme": "# p-icon\n\n\n",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -250,13 +250,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-expression",
+      "dirPath": "/root/peacock/src/components/application/condition-builder/cb-expression",
       "filePath": "src/components/application/condition-builder/cb-expression/cb-expression.tsx",
       "fileName": "cb-expression.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-expression/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-expression/usage",
+      "readmePath": "/root/peacock/src/components/application/condition-builder/cb-expression/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/condition-builder/cb-expression/usage",
       "tag": "goat-cb-expression",
-      "readme": "# p-icon\n\n\n",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -332,13 +332,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate",
+      "dirPath": "/root/peacock/src/components/application/condition-builder/cb-predicate",
       "filePath": "src/components/application/condition-builder/cb-predicate/cb-predicate.tsx",
       "fileName": "cb-predicate.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/cb-predicate/usage",
+      "readmePath": "/root/peacock/src/components/application/condition-builder/cb-predicate/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/condition-builder/cb-predicate/usage",
       "tag": "goat-cb-predicate",
-      "readme": "# p-icon\n\n\n",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -420,13 +420,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/condition-builder/condition-builder",
+      "dirPath": "/root/peacock/src/components/application/condition-builder/condition-builder",
       "filePath": "src/components/application/condition-builder/condition-builder/condition-builder.tsx",
       "fileName": "condition-builder.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/condition-builder/condition-builder/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/condition-builder/condition-builder/usage",
+      "readmePath": "/root/peacock/src/components/application/condition-builder/condition-builder/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/condition-builder/condition-builder/usage",
       "tag": "goat-condition-builder",
-      "readme": "# p-icon\n\n\n",
+      "readme": "# p-icon\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -485,13 +485,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer",
+      "dirPath": "/root/peacock/src/components/application/footer/footer",
       "filePath": "src/components/application/footer/footer/footer.tsx",
       "fileName": "footer.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer/usage",
+      "readmePath": "/root/peacock/src/components/application/footer/footer/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/footer/footer/usage",
       "tag": "goat-footer",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -576,13 +576,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer-copyright",
+      "dirPath": "/root/peacock/src/components/application/footer/footer-copyright",
       "filePath": "src/components/application/footer/footer-copyright/footer-copyright.tsx",
       "fileName": "footer-copyright.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer-copyright/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer-copyright/usage",
+      "readmePath": "/root/peacock/src/components/application/footer/footer-copyright/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/footer/footer-copyright/usage",
       "tag": "goat-footer-copyright",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -676,13 +676,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/footer/footer-links",
+      "dirPath": "/root/peacock/src/components/application/footer/footer-links",
       "filePath": "src/components/application/footer/footer-links/footer-links.tsx",
       "fileName": "footer-links.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/footer/footer-links/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/footer/footer-links/usage",
+      "readmePath": "/root/peacock/src/components/application/footer/footer-links/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/footer/footer-links/usage",
       "tag": "goat-footer-links",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -729,13 +729,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header-action",
+      "dirPath": "/root/peacock/src/components/application/header/header-action",
       "filePath": "src/components/application/header/header-action/header-action.tsx",
       "fileName": "header-action.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header-action/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header-action/usage",
+      "readmePath": "/root/peacock/src/components/application/header/header-action/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/header/header-action/usage",
       "tag": "goat-header-action",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -842,7 +842,7 @@
           "mutable": false,
           "attr": "icon",
           "reflectToAttr": false,
-          "docs": "Icon which will displayed on button.\nPossible values are icon names.",
+          "docs": "Icon which will displayed on button.\r\nPossible values are icon names.",
           "docsTags": [],
           "values": [
             {
@@ -865,7 +865,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": false,
-          "docs": "IconButton size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`, `\"xxl\"`, `\"none\"`. Defaults to `\"md\"`.",
+          "docs": "IconButton size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`, `\"xxl\"`, `\"none\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -978,13 +978,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header-brand",
+      "dirPath": "/root/peacock/src/components/application/header/header-brand",
       "filePath": "src/components/application/header/header-brand/header-brand.tsx",
       "fileName": "header-brand.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header-brand/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header-brand/usage",
+      "readmePath": "/root/peacock/src/components/application/header/header-brand/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/header/header-brand/usage",
       "tag": "goat-header-brand",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -1142,13 +1142,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/html-editor",
+      "dirPath": "/root/peacock/src/components/input-controls/html-editor",
       "filePath": "src/components/input-controls/html-editor/html-editor.tsx",
       "fileName": "html-editor.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/html-editor/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/html-editor/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/html-editor/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/html-editor/usage",
       "tag": "goat-html-editor",
-      "readme": "# pc-code-editor\n\n\n",
+      "readme": "# pc-code-editor\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -1650,7 +1650,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -1672,7 +1672,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -1724,13 +1724,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav",
+      "dirPath": "/root/peacock/src/components/application/sidenav",
       "filePath": "src/components/application/sidenav/sidenav.tsx",
       "fileName": "sidenav.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav/usage",
+      "readmePath": "/root/peacock/src/components/application/sidenav/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/sidenav/usage",
       "tag": "goat-sidenav",
-      "readme": "# pc-menu\n\n\n",
+      "readme": "# pc-menu\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -1782,13 +1782,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav-menu",
+      "dirPath": "/root/peacock/src/components/application/sidenav-menu",
       "filePath": "src/components/application/sidenav-menu/sidenav-menu.tsx",
       "fileName": "sidenav-menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav-menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav-menu/usage",
+      "readmePath": "/root/peacock/src/components/application/sidenav-menu/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/sidenav-menu/usage",
       "tag": "goat-sidenav-menu",
-      "readme": "# pc-menu\n\n\n",
+      "readme": "# pc-menu\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -1847,10 +1847,10 @@
           "docsTags": [
             {
               "name": "default",
-              "text": "`{\n    \"headline\": \"No items\",\n    \"description\": \"There are no items to display\"\n  }`"
+              "text": "`{\r\n    \"headline\": \"No items\",\r\n    \"description\": \"There are no items to display\"\r\n  }`"
             }
           ],
-          "default": "`{\n    \"headline\": \"No items\",\n    \"description\": \"There are no items to display\"\n  }`",
+          "default": "`{\r\n    \"headline\": \"No items\",\r\n    \"description\": \"There are no items to display\"\r\n  }`",
           "values": [
             {
               "type": "any"
@@ -1937,7 +1937,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on first menu item. Use this method instead of the global\n`element.focus()`.",
+          "docs": "Sets focus on first menu item. Use this method instead of the global\r\n`element.focus()`.",
           "docsTags": []
         }
       ],
@@ -1956,13 +1956,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/sidenav-menu-item",
+      "dirPath": "/root/peacock/src/components/application/sidenav-menu-item",
       "filePath": "src/components/application/sidenav-menu-item/sidenav-menu-item.tsx",
       "fileName": "sidenav-menu-item.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/sidenav-menu-item/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/sidenav-menu-item/usage",
+      "readmePath": "/root/peacock/src/components/application/sidenav-menu-item/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/sidenav-menu-item/usage",
       "tag": "goat-sidenav-menu-item",
-      "readme": "# pc-menu-item\n\n\n",
+      "readme": "# pc-menu-item\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -2076,7 +2076,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -2098,7 +2098,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -2138,13 +2138,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/typography/text",
+      "dirPath": "/root/peacock/src/components/typography/text",
       "filePath": "src/components/typography/text/text.tsx",
       "fileName": "text.tsx",
-      "readmePath": "/workspaces/peacock/src/components/typography/text/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/typography/text/usage",
+      "readmePath": "/root/peacock/src/components/typography/text/readme.md",
+      "usagesDir": "/root/peacock/src/components/typography/text/usage",
       "tag": "goat-text",
-      "readme": "# goat-heading\n\n\n",
+      "readme": "# goat-heading\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -2157,7 +2157,7 @@
           "name": "color",
           "type": "\"error\" | \"helper\" | \"inverse\" | \"on-color\" | \"primary\" | \"secondary\" | \"tertiary\"",
           "complexType": {
-            "original": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'helper'\n    | 'error'\n    | 'on-color'\n    | 'inverse'",
+            "original": "| 'primary'\r\n    | 'secondary'\r\n    | 'tertiary'\r\n    | 'helper'\r\n    | 'error'\r\n    | 'on-color'\r\n    | 'inverse'",
             "resolved": "\"error\" | \"helper\" | \"inverse\" | \"on-color\" | \"primary\" | \"secondary\" | \"tertiary\"",
             "references": {}
           },
@@ -2390,7 +2390,7 @@
           "name": "type",
           "type": "\"body\" | \"body-compact\" | \"code\" | \"fluid-heading\" | \"heading\" | \"heading-compact\" | \"helper-text\" | \"label\" | \"legal\"",
           "complexType": {
-            "original": "| 'code'\n    | 'helper-text'\n    | 'label'\n    | 'legal'\n    | 'heading'\n    | 'body'\n    | 'body-compact'\n    | 'heading-compact'\n    | 'fluid-heading'",
+            "original": "| 'code'\r\n    | 'helper-text'\r\n    | 'label'\r\n    | 'legal'\r\n    | 'heading'\r\n    | 'body'\r\n    | 'body-compact'\r\n    | 'heading-compact'\r\n    | 'fluid-heading'",
             "resolved": "\"body\" | \"body-compact\" | \"code\" | \"fluid-heading\" | \"heading\" | \"heading-compact\" | \"helper-text\" | \"label\" | \"legal\"",
             "references": {}
           },
@@ -2463,13 +2463,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/button",
+      "dirPath": "/root/peacock/src/components/button",
       "filePath": "src/components/button/button.tsx",
       "fileName": "button.tsx",
-      "readmePath": "/workspaces/peacock/src/components/button/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/button/usage",
+      "readmePath": "/root/peacock/src/components/button/readme.md",
+      "usagesDir": "/root/peacock/src/components/button/usage",
       "tag": "pc-button",
-      "readme": "# pc-button\n\n\n",
+      "readme": "# pc-button\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -2551,7 +2551,7 @@
           "name": "color",
           "type": "\"black\" | \"danger\" | \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"white\"",
           "complexType": {
-            "original": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'",
+            "original": "| 'primary'\r\n    | 'secondary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'white'\r\n    | 'black'",
             "resolved": "\"black\" | \"danger\" | \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"white\"",
             "references": {}
           },
@@ -2722,7 +2722,7 @@
           "mutable": false,
           "attr": "icon-align",
           "reflectToAttr": false,
-          "docs": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
+          "docs": "Icon alignment.\r\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -2756,7 +2756,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": false,
-          "docs": "IconButton size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "IconButton size.\r\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -2920,14 +2920,14 @@
           "name": "variant",
           "type": "\"elevated\" | \"filled\" | \"neo\" | \"outlined\" | \"text\" | \"tonal\"",
           "complexType": {
-            "original": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'",
+            "original": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'\r\n    | 'neo'",
             "resolved": "\"elevated\" | \"filled\" | \"neo\" | \"outlined\" | \"text\" | \"tonal\"",
             "references": {}
           },
           "mutable": false,
           "attr": "variant",
           "reflectToAttr": false,
-          "docs": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.",
+          "docs": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.",
           "docsTags": [
             {
               "name": "default",
@@ -2987,7 +2987,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `button` in `pc-button`. Use this method instead of the global\n`button.blur()`.",
+          "docs": "Sets blur on the native `button` in `pc-button`. Use this method instead of the global\r\n`button.blur()`.",
           "docsTags": []
         },
         {
@@ -3009,7 +3009,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `button` in `pc-button`. Use this method instead of the global\n`button.focus()`.",
+          "docs": "Sets focus on the native `button` in `pc-button`. Use this method instead of the global\r\n`button.focus()`.",
           "docsTags": []
         },
         {
@@ -3031,7 +3031,7 @@
           },
           "signature": "triggerClick() => Promise<void>",
           "parameters": [],
-          "docs": "Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global\n`button.click()`.",
+          "docs": "Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global\r\n`button.click()`.",
           "docsTags": []
         }
       ],
@@ -3041,7 +3041,7 @@
           "detail": "{ appendData: any; }",
           "bubbles": true,
           "complexType": {
-            "original": "{\n    appendData: any;\n  }",
+            "original": "{\r\n    appendData: any;\r\n  }",
             "resolved": "{ appendData: any; }",
             "references": {}
           },
@@ -3077,17 +3077,17 @@
         "tags": [
           "controls"
         ],
-        "example": "<pc-button>\nIconButton\n</pc-button>"
+        "example": "<pc-button>\r\nIconButton\r\n</pc-button>"
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar",
+      "dirPath": "/root/peacock/src/components/application/calendar/calendar",
       "filePath": "src/components/application/calendar/calendar/calendar.tsx",
       "fileName": "calendar.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/usage",
+      "readmePath": "/root/peacock/src/components/application/calendar/calendar/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/calendar/calendar/usage",
       "tag": "pc-calendar",
-      "readme": "# pc-avatar\n\n\n",
+      "readme": "# pc-avatar\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3130,10 +3130,10 @@
           "docsTags": [
             {
               "name": "default",
-              "text": "[\n    {\n      label: 'Day',\n      value: 'day',\n      type: 'column',\n      days: 1,\n    },\n    {\n      label: 'Week',\n      value: 'week',\n      type: 'column',\n      days: 7,\n    },\n    {\n      label: 'Month',\n      value: 'month',\n      type: 'month',\n    },\n  ]"
+              "text": "[\r\n    {\r\n      label: 'Day',\r\n      value: 'day',\r\n      type: 'column',\r\n      days: 1,\r\n    },\r\n    {\r\n      label: 'Week',\r\n      value: 'week',\r\n      type: 'column',\r\n      days: 7,\r\n    },\r\n    {\r\n      label: 'Month',\r\n      value: 'month',\r\n      type: 'month',\r\n    },\r\n  ]"
             }
           ],
-          "default": "[\n    {\n      label: 'Day',\n      value: 'day',\n      type: 'column',\n      days: 1,\n    },\n    {\n      label: 'Week',\n      value: 'week',\n      type: 'column',\n      days: 7,\n    },\n    {\n      label: 'Month',\n      value: 'month',\n      type: 'month',\n    },\n  ]",
+          "default": "[\r\n    {\r\n      label: 'Day',\r\n      value: 'day',\r\n      type: 'column',\r\n      days: 1,\r\n    },\r\n    {\r\n      label: 'Week',\r\n      value: 'week',\r\n      type: 'column',\r\n      days: 7,\r\n    },\r\n    {\r\n      label: 'Month',\r\n      value: 'month',\r\n      type: 'month',\r\n    },\r\n  ]",
           "values": [
             {
               "type": "CalendarViewType[]"
@@ -3367,13 +3367,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view",
+      "dirPath": "/root/peacock/src/components/application/calendar/calendar/column-view",
       "filePath": "src/components/application/calendar/calendar/column-view/column-view.tsx",
       "fileName": "column-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/usage",
+      "readmePath": "/root/peacock/src/components/application/calendar/calendar/column-view/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/calendar/calendar/column-view/usage",
       "tag": "pc-calendar-column-view",
-      "readme": "# pc-calendar-column-view\n\n\n",
+      "readme": "# pc-calendar-column-view\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3601,13 +3601,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background",
+      "dirPath": "/root/peacock/src/components/application/calendar/calendar/column-view/column-view-background",
       "filePath": "src/components/application/calendar/calendar/column-view/column-view-background/column-view-background.tsx",
       "fileName": "column-view-background.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/column-view/column-view-background/usage",
+      "readmePath": "/root/peacock/src/components/application/calendar/calendar/column-view/column-view-background/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/calendar/calendar/column-view/column-view-background/usage",
       "tag": "pc-calendar-column-view-background",
-      "readme": "# pc-calendar-column-view-background\n\n\n",
+      "readme": "# pc-calendar-column-view-background\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3682,13 +3682,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view",
+      "dirPath": "/root/peacock/src/components/application/calendar/calendar/month-view",
       "filePath": "src/components/application/calendar/calendar/month-view/month-view.tsx",
       "fileName": "month-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/usage",
+      "readmePath": "/root/peacock/src/components/application/calendar/calendar/month-view/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/calendar/calendar/month-view/usage",
       "tag": "pc-calendar-month-view",
-      "readme": "# pc-calendar-column-view\n\n\n",
+      "readme": "# pc-calendar-column-view\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3853,13 +3853,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background",
+      "dirPath": "/root/peacock/src/components/application/calendar/calendar/month-view/month-view-background",
       "filePath": "src/components/application/calendar/calendar/month-view/month-view-background/month-view-background.tsx",
       "fileName": "month-view-background.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/calendar/calendar/month-view/month-view-background/usage",
+      "readmePath": "/root/peacock/src/components/application/calendar/calendar/month-view/month-view-background/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/calendar/calendar/month-view/month-view-background/usage",
       "tag": "pc-calendar-month-view-background",
-      "readme": "# pc-calendar-column-view-background\n\n\n",
+      "readme": "# pc-calendar-column-view-background\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -3907,13 +3907,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/flow-designer/canvas",
+      "dirPath": "/root/peacock/src/components/application/flow-designer/canvas",
       "filePath": "src/components/application/flow-designer/canvas/canvas.tsx",
       "fileName": "canvas.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/flow-designer/canvas/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/flow-designer/canvas/usage",
+      "readmePath": "/root/peacock/src/components/application/flow-designer/canvas/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/flow-designer/canvas/usage",
       "tag": "pc-canvas",
-      "readme": "# goat-flow-designer\n\n\n",
+      "readme": "# goat-flow-designer\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4047,13 +4047,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/card",
+      "dirPath": "/root/peacock/src/components/card",
       "filePath": "src/components/card/card.tsx",
       "fileName": "card.tsx",
-      "readmePath": "/workspaces/peacock/src/components/card/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/card/usage",
+      "readmePath": "/root/peacock/src/components/card/readme.md",
+      "usagesDir": "/root/peacock/src/components/card/usage",
       "tag": "pc-card",
-      "readme": "# goat-heading\n\n\n",
+      "readme": "# goat-heading\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4116,13 +4116,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/dropdown/dropdown",
+      "dirPath": "/root/peacock/src/components/dropdown/dropdown",
       "filePath": "src/components/dropdown/dropdown/dropdown.tsx",
       "fileName": "dropdown.tsx",
-      "readmePath": "/workspaces/peacock/src/components/dropdown/dropdown/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/dropdown/dropdown/usage",
+      "readmePath": "/root/peacock/src/components/dropdown/dropdown/readme.md",
+      "usagesDir": "/root/peacock/src/components/dropdown/dropdown/usage",
       "tag": "pc-dropdown",
-      "readme": "# pc-dropdown\n\n\n",
+      "readme": "# pc-dropdown\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4382,13 +4382,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/dropdown/dropdown-menu",
+      "dirPath": "/root/peacock/src/components/dropdown/dropdown-menu",
       "filePath": "src/components/dropdown/dropdown-menu/dropdown-menu.tsx",
       "fileName": "dropdown-menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/dropdown/dropdown-menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/dropdown/dropdown-menu/usage",
+      "readmePath": "/root/peacock/src/components/dropdown/dropdown-menu/readme.md",
+      "usagesDir": "/root/peacock/src/components/dropdown/dropdown-menu/usage",
       "tag": "pc-dropdown-menu",
-      "readme": "# pc-dropdown\n\n\n",
+      "readme": "# pc-dropdown\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4423,7 +4423,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on first menu item. Use this method instead of the global\n`element.focus()`.",
+          "docs": "Sets focus on first menu item. Use this method instead of the global\r\n`element.focus()`.",
           "docsTags": []
         }
       ],
@@ -4442,13 +4442,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/empty-state",
+      "dirPath": "/root/peacock/src/components/application/empty-state",
       "filePath": "src/components/application/empty-state/empty-state.tsx",
       "fileName": "empty-state.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/empty-state/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/empty-state/usage",
+      "readmePath": "/root/peacock/src/components/application/empty-state/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/empty-state/usage",
       "tag": "pc-empty-state",
-      "readme": "# goat-heading\n\n\n",
+      "readme": "# goat-heading\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4692,13 +4692,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/flow-designer/flow-designer",
+      "dirPath": "/root/peacock/src/components/application/flow-designer/flow-designer",
       "filePath": "src/components/application/flow-designer/flow-designer/flow-designer.tsx",
       "fileName": "flow-designer.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/flow-designer/flow-designer/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/flow-designer/flow-designer/usage",
+      "readmePath": "/root/peacock/src/components/application/flow-designer/flow-designer/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/flow-designer/flow-designer/usage",
       "tag": "pc-flow-designer",
-      "readme": "# goat-flow-designer\n\n\n",
+      "readme": "# goat-flow-designer\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -4822,13 +4822,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/form-control",
+      "dirPath": "/root/peacock/src/components/input-controls/form-control",
       "filePath": "src/components/input-controls/form-control/form-control.tsx",
       "fileName": "form-control.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/form-control/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/form-control/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/form-control/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/form-control/usage",
       "tag": "pc-form-control",
-      "readme": "# goat-field-group\n\n\n",
+      "readme": "# goat-field-group\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -5089,17 +5089,17 @@
         "tags": [
           "form"
         ],
-        "example": "<pc-form-control label='Full Name' required>\n<pc-input type='text'></pc-input>\n</pc-form-control>"
+        "example": "<pc-form-control label='Full Name' required>\r\n<pc-input type='text'></pc-input>\r\n</pc-form-control>"
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/application/header/header",
+      "dirPath": "/root/peacock/src/components/application/header/header",
       "filePath": "src/components/application/header/header/header.tsx",
       "fileName": "header.tsx",
-      "readmePath": "/workspaces/peacock/src/components/application/header/header/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/application/header/header/usage",
+      "readmePath": "/root/peacock/src/components/application/header/header/readme.md",
+      "usagesDir": "/root/peacock/src/components/application/header/header/usage",
       "tag": "pc-header",
-      "readme": "# p4-top-navigation\n\n\n",
+      "readme": "# p4-top-navigation\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -5112,7 +5112,7 @@
           "name": "color",
           "type": "string",
           "complexType": {
-            "original": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'\n    | string",
+            "original": "| 'primary'\r\n    | 'secondary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'white'\r\n    | 'black'\r\n    | string",
             "resolved": "string",
             "references": {}
           },
@@ -5141,7 +5141,7 @@
           "name": "darkModeColor",
           "type": "string",
           "complexType": {
-            "original": "| 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'\n    | string",
+            "original": "| 'primary'\r\n    | 'secondary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'white'\r\n    | 'black'\r\n    | string",
             "resolved": "string",
             "references": {}
           },
@@ -5206,13 +5206,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/input",
+      "dirPath": "/root/peacock/src/components/input-controls/input/input",
       "filePath": "src/components/input-controls/input/input/input.tsx",
       "fileName": "input.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/input/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/input/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/input/input/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/input/input/usage",
       "tag": "pc-input",
-      "readme": "# pc-input\n\n\n",
+      "readme": "# pc-input\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -5601,7 +5601,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The input field size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The input field size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -5668,7 +5668,7 @@
           "mutable": false,
           "attr": "type",
           "reflectToAttr": false,
-          "docs": "The type of control to display.\nPossible values are: `\"text\"`, `\"password\"`, `\"email\"`, `\"tel\"`. Defaults to `\"text\"`.",
+          "docs": "The type of control to display.\r\nPossible values are: `\"text\"`, `\"password\"`, `\"email\"`, `\"tel\"`. Defaults to `\"text\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -5817,7 +5817,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -5839,7 +5839,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -5918,13 +5918,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/input-url",
+      "dirPath": "/root/peacock/src/components/input-controls/input/input-url",
       "filePath": "src/components/input-controls/input/input-url/input-url.tsx",
       "fileName": "input-url.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/input-url/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/input-url/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/input/input-url/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/input/input-url/usage",
       "tag": "pc-input-url",
-      "readme": "# goat-url-input\n\nA specialized input component for URL validation. This component provides real-time validation for URL inputs and visual feedback when an invalid URL is entered.\n\n## Basic Usage\n\n```html\n<goat-url-input placeholder=\"Enter website URL\"></goat-url-input>\n```\n\n## With initial value\n\n```html\n<goat-url-input value=\"https://example.com\" placeholder=\"Enter website URL\"></goat-url-input>\n```\n\n## Disabled state\n\n```html\n<goat-url-input disabled value=\"https://example.com\"></goat-url-input>\n```\n",
+      "readme": "# goat-url-input\r\n\r\nA specialized input component for URL validation. This component provides real-time validation for URL inputs and visual feedback when an invalid URL is entered.\r\n\r\n## Basic Usage\r\n\r\n```html\r\n<goat-url-input placeholder=\"Enter website URL\"></goat-url-input>\r\n```\r\n\r\n## With initial value\r\n\r\n```html\r\n<goat-url-input value=\"https://example.com\" placeholder=\"Enter website URL\"></goat-url-input>\r\n```\r\n\r\n## Disabled state\r\n\r\n```html\r\n<goat-url-input disabled value=\"https://example.com\"></goat-url-input>\r\n```\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "A specialized input component for URL validation. This component provides real-time validation for URL inputs and visual feedback when an invalid URL is entered.",
@@ -6141,7 +6141,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The input field size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The input field size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -6263,7 +6263,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -6285,7 +6285,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -6337,13 +6337,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/menu/menu",
+      "dirPath": "/root/peacock/src/components/menu/menu",
       "filePath": "src/components/menu/menu/menu.tsx",
       "fileName": "menu.tsx",
-      "readmePath": "/workspaces/peacock/src/components/menu/menu/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/menu/menu/usage",
+      "readmePath": "/root/peacock/src/components/menu/menu/readme.md",
+      "usagesDir": "/root/peacock/src/components/menu/menu/usage",
       "tag": "pc-menu",
-      "readme": "# pc-menu\n\n\n",
+      "readme": "# pc-menu\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -6525,7 +6525,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The menu item size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The menu item size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -6599,7 +6599,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on first menu item. Use this method instead of the global\n`element.focus()`.",
+          "docs": "Sets focus on first menu item. Use this method instead of the global\r\n`element.focus()`.",
           "docsTags": []
         }
       ],
@@ -6626,13 +6626,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/menu/menu-item",
+      "dirPath": "/root/peacock/src/components/menu/menu-item",
       "filePath": "src/components/menu/menu-item/menu-item.tsx",
       "fileName": "menu-item.tsx",
-      "readmePath": "/workspaces/peacock/src/components/menu/menu-item/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/menu/menu-item/usage",
+      "readmePath": "/root/peacock/src/components/menu/menu-item/readme.md",
+      "usagesDir": "/root/peacock/src/components/menu/menu-item/usage",
       "tag": "pc-menu-item",
-      "readme": "# pc-menu-item\n\n\n",
+      "readme": "# pc-menu-item\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -6655,7 +6655,7 @@
           "name": "color",
           "type": "\"black\" | \"danger\" | \"default\" | \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"white\"",
           "complexType": {
-            "original": "| 'default'\n    | 'primary'\n    | 'secondary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'white'\n    | 'black'",
+            "original": "| 'default'\r\n    | 'primary'\r\n    | 'secondary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'white'\r\n    | 'black'",
             "resolved": "\"black\" | \"danger\" | \"default\" | \"primary\" | \"secondary\" | \"success\" | \"warning\" | \"white\"",
             "references": {}
           },
@@ -6927,7 +6927,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -6949,7 +6949,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -6996,13 +6996,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/modal/modal",
+      "dirPath": "/root/peacock/src/components/modal/modal",
       "filePath": "src/components/modal/modal/modal.tsx",
       "fileName": "modal.tsx",
-      "readmePath": "/workspaces/peacock/src/components/modal/modal/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/modal/modal/usage",
+      "readmePath": "/root/peacock/src/components/modal/modal/readme.md",
+      "usagesDir": "/root/peacock/src/components/modal/modal/usage",
       "tag": "pc-modal",
-      "readme": "# p4-modal\n\n\n",
+      "readme": "# p4-modal\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -7247,13 +7247,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/modal/modal-content",
+      "dirPath": "/root/peacock/src/components/modal/modal-content",
       "filePath": "src/components/modal/modal-content/modal-content.tsx",
       "fileName": "modal-content.tsx",
-      "readmePath": "/workspaces/peacock/src/components/modal/modal-content/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/modal/modal-content/usage",
+      "readmePath": "/root/peacock/src/components/modal/modal-content/readme.md",
+      "usagesDir": "/root/peacock/src/components/modal/modal-content/usage",
       "tag": "pc-modal-content",
-      "readme": "# p4-modal\n\n\n",
+      "readme": "# p4-modal\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -7317,13 +7317,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/notification",
+      "dirPath": "/root/peacock/src/components/notification",
       "filePath": "src/components/notification/notification.tsx",
       "fileName": "notification.tsx",
-      "readmePath": "/workspaces/peacock/src/components/notification/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/notification/usage",
+      "readmePath": "/root/peacock/src/components/notification/readme.md",
+      "usagesDir": "/root/peacock/src/components/notification/usage",
       "tag": "pc-notification",
-      "readme": "# goat-alert\n\n\n",
+      "readme": "# goat-alert\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -7493,7 +7493,7 @@
           "mutable": false,
           "attr": "state",
           "reflectToAttr": true,
-          "docs": "The state of the notification.\nPossible values are: 'success', 'error', 'info', 'warning'",
+          "docs": "The state of the notification.\r\nPossible values are: 'success', 'error', 'info', 'warning'",
           "docsTags": [
             {
               "name": "default",
@@ -7568,17 +7568,17 @@
         "tags": [
           "notification"
         ],
-        "example": "<pc-notification state=\"success\">\n     <div slot='title'>Successful saved the record</div>\n   </pc-notification>"
+        "example": "<pc-notification state=\"success\">\r\n     <div slot='title'>Successful saved the record</div>\r\n   </pc-notification>"
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/notification-manager",
+      "dirPath": "/root/peacock/src/components/notification-manager",
       "filePath": "src/components/notification-manager/notification-manager.tsx",
       "fileName": "notification-manager.tsx",
-      "readmePath": "/workspaces/peacock/src/components/notification-manager/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/notification-manager/usage",
+      "readmePath": "/root/peacock/src/components/notification-manager/readme.md",
+      "usagesDir": "/root/peacock/src/components/notification-manager/usage",
       "tag": "pc-notification-manager",
-      "readme": "# goat-alert\n\n\n",
+      "readme": "# goat-alert\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -7629,7 +7629,7 @@
           "name": "position",
           "type": "\"bottom-left\" | \"bottom-right\" | \"top-left\" | \"top-right\"",
           "complexType": {
-            "original": "| 'top-right'\n    | 'top-left'\n    | 'bottom-right'\n    | 'bottom-left'",
+            "original": "| 'top-right'\r\n    | 'top-left'\r\n    | 'bottom-right'\r\n    | 'bottom-left'",
             "resolved": "\"bottom-left\" | \"bottom-right\" | \"top-left\" | \"top-right\"",
             "references": {}
           },
@@ -7700,13 +7700,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/popover/popover",
+      "dirPath": "/root/peacock/src/components/popover/popover",
       "filePath": "src/components/popover/popover/popover.tsx",
       "fileName": "popover.tsx",
-      "readmePath": "/workspaces/peacock/src/components/popover/popover/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/popover/popover/usage",
+      "readmePath": "/root/peacock/src/components/popover/popover/readme.md",
+      "usagesDir": "/root/peacock/src/components/popover/popover/usage",
       "tag": "pc-popover",
-      "readme": "# pc-dropdown\n\n\n",
+      "readme": "# pc-dropdown\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -7755,7 +7755,7 @@
           "mutable": false,
           "attr": "offset",
           "reflectToAttr": false,
-          "docs": "The offset of the popover relative to the trigger element.\nThis value is used to adjust the position of the popover along the axis of the trigger element.",
+          "docs": "The offset of the popover relative to the trigger element.\r\nThis value is used to adjust the position of the popover along the axis of the trigger element.",
           "docsTags": [
             {
               "name": "default",
@@ -7842,7 +7842,7 @@
           "mutable": true,
           "attr": "placements",
           "reflectToAttr": false,
-          "docs": "The placement of the popover relative to the trigger element.\nPossible values are:\n- `\"top\"`: The popover is placed above the trigger element.\n- `\"top-start\"`: The popover is placed above the trigger element, aligned to the start.\n- `\"top-end\"`: The popover is placed above the trigger element, aligned to the end.\n- `\"right\"`: The popover is placed to the right of the trigger element.\n- `\"right-start\"`: The popover is placed to the right of the trigger element, aligned to the start.\n- `\"right-end\"`: The popover is placed to the right of the trigger element, aligned to the end.\n- `\"bottom\"`: The popover is placed below the trigger element.\n- `\"bottom-start\"`: The popover is placed below the trigger element, aligned to the start.\n- `\"bottom-end\"`: The popover is placed below the trigger element, aligned to the end.\n- `\"left\"`: The popover is placed to the left of the trigger element.\n- `\"left-start\"`: The popover is placed to the left of the trigger element, aligned to the start.\n- `\"left-end\"`: The popover is placed to the left of the trigger element, aligned to the end.",
+          "docs": "The placement of the popover relative to the trigger element.\r\nPossible values are:\r\n- `\"top\"`: The popover is placed above the trigger element.\r\n- `\"top-start\"`: The popover is placed above the trigger element, aligned to the start.\r\n- `\"top-end\"`: The popover is placed above the trigger element, aligned to the end.\r\n- `\"right\"`: The popover is placed to the right of the trigger element.\r\n- `\"right-start\"`: The popover is placed to the right of the trigger element, aligned to the start.\r\n- `\"right-end\"`: The popover is placed to the right of the trigger element, aligned to the end.\r\n- `\"bottom\"`: The popover is placed below the trigger element.\r\n- `\"bottom-start\"`: The popover is placed below the trigger element, aligned to the start.\r\n- `\"bottom-end\"`: The popover is placed below the trigger element, aligned to the end.\r\n- `\"left\"`: The popover is placed to the left of the trigger element.\r\n- `\"left-start\"`: The popover is placed to the left of the trigger element, aligned to the start.\r\n- `\"left-end\"`: The popover is placed to the left of the trigger element, aligned to the end.",
           "docsTags": [],
           "values": [
             {
@@ -7865,7 +7865,7 @@
           "mutable": false,
           "attr": "tip",
           "reflectToAttr": true,
-          "docs": "The tip of the popover.\nPossible values are:\n- `\"caret\"`: A triangle tip.\n- `\"tab\"`: A tab tip.\n- `\"none\"`: No tip.",
+          "docs": "The tip of the popover.\r\nPossible values are:\r\n- `\"caret\"`: A triangle tip.\r\n- `\"tab\"`: A tab tip.\r\n- `\"none\"`: No tip.",
           "docsTags": [
             {
               "name": "default",
@@ -7903,7 +7903,7 @@
           "mutable": false,
           "attr": "trigger",
           "reflectToAttr": false,
-          "docs": "Determines how the popover is triggered.\nPossible values are:\n- `\"click\"`: The popover is shown or hidden when the trigger element is clicked.\n- `\"hover\"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves.\n- `\"manual\"`: The visibility of the popover must be manually controlled through the `open` property.",
+          "docs": "Determines how the popover is triggered.\r\nPossible values are:\r\n- `\"click\"`: The popover is shown or hidden when the trigger element is clicked.\r\n- `\"hover\"`: The popover is shown when the mouse hovers over the trigger element and hidden when it leaves.\r\n- `\"manual\"`: The visibility of the popover must be manually controlled through the `open` property.",
           "docsTags": [
             {
               "name": "default",
@@ -7989,7 +7989,7 @@
               "docs": ""
             }
           ],
-          "docs": "Shows the popover.\nThis method is particularly useful when the trigger mode is set to `\"manual\"`.\nIt allows for programmatic control over the visibility of the popover, making it visible regardless of the trigger mode.\nOptionally, a target HTMLElement can be provided to dynamically set the trigger element for the popover.",
+          "docs": "Shows the popover.\r\nThis method is particularly useful when the trigger mode is set to `\"manual\"`.\r\nIt allows for programmatic control over the visibility of the popover, making it visible regardless of the trigger mode.\r\nOptionally, a target HTMLElement can be provided to dynamically set the trigger element for the popover.",
           "docsTags": []
         }
       ],
@@ -8051,13 +8051,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/popover/popover-content",
+      "dirPath": "/root/peacock/src/components/popover/popover-content",
       "filePath": "src/components/popover/popover-content/popover-content.tsx",
       "fileName": "popover-content.tsx",
-      "readmePath": "/workspaces/peacock/src/components/popover/popover-content/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/popover/popover-content/usage",
+      "readmePath": "/root/peacock/src/components/popover/popover-content/readme.md",
+      "usagesDir": "/root/peacock/src/components/popover/popover-content/usage",
       "tag": "pc-popover-content",
-      "readme": "# pc-dropdown\n\n\n",
+      "readme": "# pc-dropdown\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -8082,13 +8082,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/select",
+      "dirPath": "/root/peacock/src/components/input-controls/select",
       "filePath": "src/components/input-controls/select/select.tsx",
       "fileName": "select.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/select/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/select/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/select/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/select/usage",
       "tag": "pc-select",
-      "readme": "# goat-select\n\n\n",
+      "readme": "# goat-select\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -8360,13 +8360,13 @@
           "name": "items",
           "type": "{ label: string | number; value: string | number; icon?: string; }[]",
           "complexType": {
-            "original": "{\n    label: string | number;\n    value: string | number;\n    icon?: string;\n  }[]",
+            "original": "{\r\n    label: string | number;\r\n    value: string | number;\r\n    icon?: string;\r\n  }[]",
             "resolved": "{ label: string | number; value: string | number; icon?: string; }[]",
             "references": {}
           },
           "mutable": false,
           "reflectToAttr": false,
-          "docs": "[{\n  label: 'Shivaji Varma',\n  value: 'shivaji-varma',\n  icon: 'person'\n}]",
+          "docs": "[{\r\n  label: 'Shivaji Varma',\r\n  value: 'shivaji-varma',\r\n  icon: 'person'\r\n}]",
           "docsTags": [
             {
               "name": "default",
@@ -8653,7 +8653,7 @@
           "mutable": false,
           "attr": "search",
           "reflectToAttr": false,
-          "docs": "Search type\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`.",
+          "docs": "Search type\r\nPossible values are `\"none\"`, `\"initial\"`, `\"contains\"`, `\"managed\"`. Defaults to `\"none\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -8724,7 +8724,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The select input size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The select input size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -8762,7 +8762,7 @@
           "mutable": false,
           "attr": "state",
           "reflectToAttr": true,
-          "docs": "The input state.\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
+          "docs": "The input state.\r\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -8942,7 +8942,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -8964,7 +8964,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\n`input.focus()`.t",
+          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\r\n`input.focus()`.t",
           "docsTags": []
         }
       ],
@@ -9059,13 +9059,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/slider",
+      "dirPath": "/root/peacock/src/components/input-controls/slider",
       "filePath": "src/components/input-controls/slider/slider.tsx",
       "fileName": "slider.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/slider/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/slider/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/slider/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/slider/usage",
       "tag": "pc-slider",
-      "readme": "# goat-select\n\n\n",
+      "readme": "# goat-select\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -9461,7 +9461,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -9483,7 +9483,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `ion-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -9542,13 +9542,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tab",
+      "dirPath": "/root/peacock/src/components/tabs/tab",
       "filePath": "src/components/tabs/tab/tab.tsx",
       "fileName": "tab.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tab/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tab/usage",
+      "readmePath": "/root/peacock/src/components/tabs/tab/readme.md",
+      "usagesDir": "/root/peacock/src/components/tabs/tab/usage",
       "tag": "pc-tab",
-      "readme": "# pc-tab\n\n\n",
+      "readme": "# pc-tab\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -9649,7 +9649,7 @@
           "mutable": false,
           "attr": "icon",
           "reflectToAttr": false,
-          "docs": "Icon which will displayed on button.\nPossible values are bootstrap icon names.",
+          "docs": "Icon which will displayed on button.\r\nPossible values are bootstrap icon names.",
           "docsTags": [],
           "values": [
             {
@@ -9909,13 +9909,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tab-panel",
+      "dirPath": "/root/peacock/src/components/tabs/tab-panel",
       "filePath": "src/components/tabs/tab-panel/tab-panel.tsx",
       "fileName": "tab-panel.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tab-panel/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tab-panel/usage",
+      "readmePath": "/root/peacock/src/components/tabs/tab-panel/readme.md",
+      "usagesDir": "/root/peacock/src/components/tabs/tab-panel/usage",
       "tag": "pc-tab-panel",
-      "readme": "# pc-tab\n\n\n",
+      "readme": "# pc-tab\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -10018,13 +10018,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/table",
+      "dirPath": "/root/peacock/src/components/table",
       "filePath": "src/components/table/table.tsx",
       "fileName": "table.tsx",
-      "readmePath": "/workspaces/peacock/src/components/table/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/table/usage",
+      "readmePath": "/root/peacock/src/components/table/readme.md",
+      "usagesDir": "/root/peacock/src/components/table/usage",
       "tag": "pc-table",
-      "readme": "# pc-table\n\n\n",
+      "readme": "# pc-table\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -10051,7 +10051,7 @@
           },
           "mutable": false,
           "reflectToAttr": false,
-          "docs": "Grid columns configuration.\n[\n{\n  \"name\":\"name\",\n  \"label\":\"Name\",\n  \"width\":300,\n  \"fixed\":true,\n  \"template\": function(row, column) { return row[column.name];}\n },\n{\n  \"name\":\"age\",\n  \"label\":\"Age\"\n}\n]",
+          "docs": "Grid columns configuration.\r\n[\r\n{\r\n  \"name\":\"name\",\r\n  \"label\":\"Name\",\r\n  \"width\":300,\r\n  \"fixed\":true,\r\n  \"template\": function(row, column) { return row[column.name];}\r\n },\r\n{\r\n  \"name\":\"age\",\r\n  \"label\":\"Age\"\r\n}\r\n]",
           "docsTags": [
             {
               "name": "default",
@@ -10079,7 +10079,7 @@
           },
           "mutable": false,
           "reflectToAttr": false,
-          "docs": "Grid data to display on table\n[{\n 'id': '5e7118ddce4b3d577956457f',\n 'age': 21,\n 'name': 'John',\n 'company': 'India',\n 'email': 'john@example.com',\n 'phone': '+1 (839) 560-3581',\n 'address': '326 Irving Street, Grimsley, Texas, 4048'\n }]",
+          "docs": "Grid data to display on table\r\n[{\r\n 'id': '5e7118ddce4b3d577956457f',\r\n 'age': 21,\r\n 'name': 'John',\r\n 'company': 'India',\r\n 'email': 'john@example.com',\r\n 'phone': '+1 (839) 560-3581',\r\n 'address': '326 Irving Street, Grimsley, Texas, 4048'\r\n }]",
           "docsTags": [
             {
               "name": "default",
@@ -10567,13 +10567,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tabs",
+      "dirPath": "/root/peacock/src/components/tabs/tabs",
       "filePath": "src/components/tabs/tabs/tabs.tsx",
       "fileName": "tabs.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tabs/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tabs/usage",
+      "readmePath": "/root/peacock/src/components/tabs/tabs/readme.md",
+      "usagesDir": "/root/peacock/src/components/tabs/tabs/usage",
       "tag": "pc-tabs",
-      "readme": "# pc-tabs\n\n\n",
+      "readme": "# pc-tabs\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -10673,17 +10673,17 @@
         "tags": [
           "navigation"
         ],
-        "example": "<pc-tabs>\n<pc-tabs-list>\n<pc-tab selected >Tab 1</pc-tab>\n<pc-tab>Tab 2</pc-tab>\n</pc-tabs-list>\n</pc-tabs>"
+        "example": "<pc-tabs>\r\n<pc-tabs-list>\r\n<pc-tab selected >Tab 1</pc-tab>\r\n<pc-tab>Tab 2</pc-tab>\r\n</pc-tabs-list>\r\n</pc-tabs>"
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tabs/tabs-list",
+      "dirPath": "/root/peacock/src/components/tabs/tabs-list",
       "filePath": "src/components/tabs/tabs-list/tabs-list.tsx",
       "fileName": "tabs-list.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tabs/tabs-list/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tabs/tabs-list/usage",
+      "readmePath": "/root/peacock/src/components/tabs/tabs-list/readme.md",
+      "usagesDir": "/root/peacock/src/components/tabs/tabs-list/usage",
       "tag": "pc-tabs-list",
-      "readme": "# pc-tabs\n\n\n",
+      "readme": "# pc-tabs\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -10775,13 +10775,13 @@
       "metadata": {}
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/input-controls/input/textarea",
+      "dirPath": "/root/peacock/src/components/input-controls/input/textarea",
       "filePath": "src/components/input-controls/input/textarea/textarea.tsx",
       "fileName": "textarea.tsx",
-      "readmePath": "/workspaces/peacock/src/components/input-controls/input/textarea/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/input-controls/input/textarea/usage",
+      "readmePath": "/root/peacock/src/components/input-controls/input/textarea/readme.md",
+      "usagesDir": "/root/peacock/src/components/input-controls/input/textarea/usage",
       "tag": "pc-textarea",
-      "readme": "# goat-textarea\n\n\n",
+      "readme": "# goat-textarea\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -11160,7 +11160,7 @@
           "mutable": false,
           "attr": "size",
           "reflectToAttr": true,
-          "docs": "The input field size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "docs": "The input field size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -11227,7 +11227,7 @@
           "mutable": false,
           "attr": "state",
           "reflectToAttr": true,
-          "docs": "The input state.\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
+          "docs": "The input state.\r\nPossible values are: `\"success\"`, `\"error\"`, `\"warning\"`, 'default'. Defaults to `\"default\"`.",
           "docsTags": [
             {
               "name": "default",
@@ -11376,7 +11376,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `textarea` in `goat-textarea`. Use this method instead of the global\n`textarea.blur()`.",
+          "docs": "Sets blur on the native `textarea` in `goat-textarea`. Use this method instead of the global\r\n`textarea.blur()`.",
           "docsTags": []
         },
         {
@@ -11398,7 +11398,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `textarea` in `goat-textarea`. Use this method instead of the global\n`textarea.focus()`.",
+          "docs": "Sets focus on the native `textarea` in `goat-textarea`. Use this method instead of the global\r\n`textarea.focus()`.",
           "docsTags": []
         }
       ],
@@ -11491,13 +11491,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tree-view/tree-node",
+      "dirPath": "/root/peacock/src/components/tree-view/tree-node",
       "filePath": "src/components/tree-view/tree-node/tree-node.tsx",
       "fileName": "tree-node.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tree-view/tree-node/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tree-view/tree-node/usage",
+      "readmePath": "/root/peacock/src/components/tree-view/tree-node/readme.md",
+      "usagesDir": "/root/peacock/src/components/tree-view/tree-node/usage",
       "tag": "pc-tree-node",
-      "readme": "# pc-menu\n\n\n",
+      "readme": "# pc-menu\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -11598,7 +11598,7 @@
           "mutable": false,
           "attr": "icon",
           "reflectToAttr": false,
-          "docs": "Icon which will displayed on button.\nPossible values are icon names.",
+          "docs": "Icon which will displayed on button.\r\nPossible values are icon names.",
           "docsTags": [],
           "values": [
             {
@@ -11767,7 +11767,7 @@
           },
           "signature": "setBlur() => Promise<void>",
           "parameters": [],
-          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\n`input.blur()`.",
+          "docs": "Sets blur on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.blur()`.",
           "docsTags": []
         },
         {
@@ -11789,7 +11789,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\n`input.focus()`.",
+          "docs": "Sets focus on the native `input` in `pc-input`. Use this method instead of the global\r\n`input.focus()`.",
           "docsTags": []
         }
       ],
@@ -11838,13 +11838,13 @@
       }
     },
     {
-      "dirPath": "/workspaces/peacock/src/components/tree-view/tree-view",
+      "dirPath": "/root/peacock/src/components/tree-view/tree-view",
       "filePath": "src/components/tree-view/tree-view/tree-view.tsx",
       "fileName": "tree-view.tsx",
-      "readmePath": "/workspaces/peacock/src/components/tree-view/tree-view/readme.md",
-      "usagesDir": "/workspaces/peacock/src/components/tree-view/tree-view/usage",
+      "readmePath": "/root/peacock/src/components/tree-view/tree-view/readme.md",
+      "usagesDir": "/root/peacock/src/components/tree-view/tree-view/usage",
       "tag": "pc-tree-view",
-      "readme": "# pc-menu\n\n\n",
+      "readme": "# pc-menu\r\n\r\n\r\n\r",
       "overview": "",
       "usage": {},
       "docs": "",
@@ -11903,10 +11903,10 @@
           "docsTags": [
             {
               "name": "default",
-              "text": "`{\n    \"headline\": \"No items\",\n    \"description\": \"There are no items to display\"\n  }`"
+              "text": "`{\r\n    \"headline\": \"No items\",\r\n    \"description\": \"There are no items to display\"\r\n  }`"
             }
           ],
-          "default": "`{\n    \"headline\": \"No items\",\n    \"description\": \"There are no items to display\"\n  }`",
+          "default": "`{\r\n    \"headline\": \"No items\",\r\n    \"description\": \"There are no items to display\"\r\n  }`",
           "values": [
             {
               "type": "string"
@@ -11983,7 +11983,7 @@
           },
           "signature": "setFocus() => Promise<void>",
           "parameters": [],
-          "docs": "Sets focus on first menu item. Use this method instead of the global\n`element.focus()`.",
+          "docs": "Sets focus on first menu item. Use this method instead of the global\r\n`element.focus()`.",
           "docsTags": []
         },
         {
@@ -12051,12 +12051,12 @@
   ],
   "typeLibrary": {
     "src/components/application/calendar/calendar/types.tsx::EventType": {
-      "declaration": "{\n  start: Date;\n  end: Date;\n  title: string;\n  color?: string;\n  [key: string]: any;\n}",
+      "declaration": "{\r\n  start: Date;\r\n  end: Date;\r\n  title: string;\r\n  color?: string;\r\n  [key: string]: any;\r\n}",
       "docstring": "",
       "path": "src/components/application/calendar/calendar/types.tsx"
     },
     "src/components/application/calendar/calendar/types.tsx::CalendarViewType": {
-      "declaration": "{\n  label: string;\n  value: string;\n  type: string;\n  days?: number;\n}",
+      "declaration": "{\r\n  label: string;\r\n  value: string;\r\n  type: string;\r\n  days?: number;\r\n}",
       "docstring": "",
       "path": "src/components/application/calendar/calendar/types.tsx"
     }
