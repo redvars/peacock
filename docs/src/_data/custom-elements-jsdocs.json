@@ -10716,7 +10716,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-tooltip content=\"Tooltip text\" preview></wc-tooltip>\n```"
+          "text": "```html\n<wc-tooltip preview>Tooltip</wc-tooltip>\n```"
         }
       ]
     },

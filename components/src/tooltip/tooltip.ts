@@ -16,7 +16,7 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
  *
  * @example
  * ```html
- * <wc-tooltip content="Tooltip text" preview></wc-tooltip>
+ * <wc-tooltip preview>Tooltip</wc-tooltip>
  * ```
  */
 export class Tooltip extends LitElement {
