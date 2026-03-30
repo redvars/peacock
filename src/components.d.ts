@@ -518,10 +518,6 @@ export namespace Components {
     }
     interface PcCard {
         "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
-        /**
-          * @default 'elevated'
-         */
-        "variant": 'elevated' | 'filled' | 'outlined';
     }
     /**
      * @label Dropdown
@@ -3054,10 +3050,6 @@ declare namespace LocalJSX {
     }
     interface PcCard {
         "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
-        /**
-          * @default 'elevated'
-         */
-        "variant"?: 'elevated' | 'filled' | 'outlined';
     }
     /**
      * @label Dropdown
