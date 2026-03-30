@@ -236,6 +236,12 @@ const loaderConfig: LoaderConfig = {
     'wc-chart-pie': {
       importPath: `${distDirectory}/chart-pie.js`,
     },
+    'wc-chart-bar': {
+      importPath: `${distDirectory}/chart-bar.js`,
+    },
+    'wc-chart-stacked-bar': {
+      importPath: `${distDirectory}/chart-stacked-bar.js`,
+    },
   },
 };
 
