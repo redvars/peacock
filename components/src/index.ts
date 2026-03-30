@@ -22,6 +22,7 @@ export { DatePicker } from './date-picker/index.js';
 export { TimePicker } from './time-picker/index.js';
 export { Textarea } from './textarea/index.js';
 export { Switch } from './switch/index.js';
+export { Checkbox } from './checkbox/index.js';
 export { Spinner } from './spinner/index.js';
 export { Container } from './container/index.js';
 
@@ -36,6 +37,7 @@ export { CodeEditor } from './code-editor/index.js';
 export { Image } from './image/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
+export { ChartDonut } from './chart-donut/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
