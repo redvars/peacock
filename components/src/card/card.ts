@@ -5,8 +5,6 @@ import styles from './card.scss';
 
 type CardVariant = 'elevated' | 'filled' | 'outlined';
 type CardElevation = 0 | 1 | 2 | 3 | 4 | 5;
-
-// @IndividualComponent
 /**
  * @label Card
  * @tag wc-card

@@ -17,4 +17,14 @@ describe('Card (Lit)', () => {
     const el = await fixture<Card>(html`<wc-card variant="outlined"></wc-card>`);
     expect(el.variant).to.equal('outlined');
   });
+
+  it('supports filled variant', async () => {
+    const el = await fixture<Card>(html`<wc-card variant="filled"></wc-card>`);
+    expect(el.variant).to.equal('filled');
+  });
+
+  it('reflects elevation attribute values', async () => {
+    const el = await fixture<Card>(html`<wc-card elevation="3"></wc-card>`);
+    expect(el.elevation).to.equal(3);
+  });
 });
