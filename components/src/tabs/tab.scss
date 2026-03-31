@@ -179,6 +179,53 @@
       display: none;
     }
   }
+
+  .tab-content {
+    text-align: center;
+  }
+
+  &.has-icon,
+  &.has-badge {
+    .tab-content {
+      display: grid;
+      grid-template-areas:
+        'icon'
+        'label';
+      justify-items: center;
+      align-content: center;
+      row-gap: var(--_tab-icon-label-spacing);
+    }
+
+    ::slotted([slot='icon']) {
+      grid-area: icon;
+    }
+
+    ::slotted([slot='badge']) {
+      grid-area: icon;
+      align-self: start;
+      justify-self: end;
+      margin-inline-start: 0;
+      transform: translate(
+        var(--_tab-badge-offset-inline, 35%),
+        var(--_tab-badge-offset-block, -35%)
+      );
+      z-index: 1;
+    }
+
+    &.has-content {
+      .slot-container {
+        grid-area: label;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &:not(.has-content) {
+      .tab-content {
+        row-gap: 0;
+      }
+    }
+  }
 }
 
 :host-context([variant='line-secondary']) .tab {
@@ -230,54 +277,50 @@
       display: none;
     }
   }
-}
 
-:host-context([variant='line']) {
-  .tab {
+  .tab-content {
+    text-align: center;
+  }
+
+  &.has-icon,
+  &.has-badge {
     .tab-content {
-      text-align: center;
+      display: grid;
+      grid-template-areas:
+        'icon'
+        'label';
+      justify-items: center;
+      align-content: center;
+      row-gap: var(--_tab-icon-label-spacing);
     }
 
-    &.has-icon,
-    &.has-badge {
+    ::slotted([slot='icon']) {
+      grid-area: icon;
+    }
+
+    ::slotted([slot='badge']) {
+      grid-area: icon;
+      align-self: start;
+      justify-self: end;
+      margin-inline-start: 0;
+      transform: translate(
+        var(--_tab-badge-offset-inline, 35%),
+        var(--_tab-badge-offset-block, -35%)
+      );
+      z-index: 1;
+    }
+
+    &.has-content {
+      .slot-container {
+        grid-area: label;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &:not(.has-content) {
       .tab-content {
-        display: grid;
-        grid-template-areas:
-          'icon'
-          'label';
-        justify-items: center;
-        align-content: center;
-        row-gap: var(--_tab-icon-label-spacing);
-      }
-
-      ::slotted([slot='icon']) {
-        grid-area: icon;
-      }
-
-      ::slotted([slot='badge']) {
-        grid-area: icon;
-        align-self: start;
-        justify-self: end;
-        margin-inline-start: 0;
-        transform: translate(
-          var(--_tab-badge-offset-inline, 35%),
-          var(--_tab-badge-offset-block, -35%)
-        );
-        z-index: 1;
-      }
-
-      &.has-content {
-        .slot-container {
-          grid-area: label;
-          justify-content: center;
-          text-align: center;
-        }
-      }
-
-      &:not(.has-content) {
-        .tab-content {
-          row-gap: 0;
-        }
+        row-gap: 0;
       }
     }
   }
