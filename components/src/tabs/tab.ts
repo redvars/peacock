@@ -34,8 +34,6 @@ export class Tab extends LitElement {
 
   @property({ type: String }) disabledReason = '';
 
-  @property({ type: String }) label?: string;
-
   @property({ type: String }) value?: string;
 
   @property({ reflect: true })
@@ -177,7 +175,7 @@ export class Tab extends LitElement {
       disabled: this.disabled,
       pressed: this.isPressed,
       active: this.active,
-      'has-content': this.slotHasContent || !!this.label,
+      'has-content': this.slotHasContent,
       'has-icon': this.slotHasIcon,
       'has-badge': this.slotHasBadge,
     };
@@ -229,15 +227,15 @@ export class Tab extends LitElement {
         <slot name="icon"></slot>
 
         <div class="slot-container">
-          <slot>${this.label || nothing}</slot>
+          <slot></slot>
         </div>
 
         <slot name="badge"></slot>
 
-        <div class="indicator"></div>
+        <div class="indicator indicator-primary"></div>
       </div>
 
-      <div class="secondary indicator"></div>
+      <div class="indicator indicator-secondary"></div>
 
       ${this.__renderDisabledReason()}
     `;

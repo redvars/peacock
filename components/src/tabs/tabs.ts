@@ -26,6 +26,9 @@ export class Tabs extends LitElement {
 
   static Tab = Tab;
 
+  @property({ reflect: true }) 
+  variant: 'primary' | 'secondary' | 'contained' | 'pill' = 'primary';
+
   @property({ type: Boolean }) managed = false;
 
   connectedCallback() {

@@ -2,58 +2,6 @@
 
 @include mixin.base-styles;
 
-$tab-icon-badge-offset-inline-default: 35%;
-$tab-icon-badge-offset-block-default: -35%;
-
-@mixin tab-variant-icon-badge-layout {
-  .tab-content {
-    text-align: center;
-  }
-
-  &.has-icon,
-  &.has-badge {
-    .tab-content {
-      display: grid;
-      grid-template-areas:
-        'icon'
-        'label';
-      justify-items: center;
-      align-content: center;
-      row-gap: var(--_tab-icon-label-spacing);
-    }
-
-    ::slotted([slot='icon']) {
-      grid-area: icon;
-    }
-
-    ::slotted([slot='badge']) {
-      grid-area: icon;
-      align-self: start;
-      justify-self: end;
-      margin-inline-start: 0;
-      transform: translate(
-        var(--_tab-badge-offset-inline, $tab-icon-badge-offset-inline-default),
-        var(--_tab-badge-offset-block, $tab-icon-badge-offset-block-default)
-      );
-      z-index: 1;
-    }
-
-    &.has-content {
-      .slot-container {
-        grid-area: label;
-        justify-content: center;
-        text-align: center;
-      }
-    }
-
-    &:not(.has-content) {
-      .tab-content {
-        row-gap: 0;
-      }
-    }
-  }
-}
-
 :host {
   display: inline-block;
   height: 100%;
@@ -75,7 +23,7 @@ $tab-icon-badge-offset-block-default: -35%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: var(--_tab-height);
+  height: 100%;
   padding: 0 var(--_container-padding);
   width: 100%;
   cursor: pointer;
@@ -86,7 +34,6 @@ $tab-icon-badge-offset-block-default: -35%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
@@ -96,27 +43,14 @@ $tab-icon-badge-offset-block-default: -35%;
     --icon-size: var(--tab-icon-size, var(--_tab-icon-size));
     --icon-color: var(--_label-text-color);
 
-    .slot-container {
-      display: none;
-    }
-
     ::slotted([slot='icon']) {
-      flex: none;
       color: var(--_label-text-color);
       --icon-size: var(--tab-icon-size, var(--_tab-icon-size));
       --icon-color: var(--_label-text-color);
     }
 
     ::slotted([slot='badge']) {
-      flex: none;
-      margin-inline-start: var(--_tab-badge-label-spacing, 0);
       --badge-color: var(--_tab-badge-color, var(--color-error));
-    }
-  }
-
-  &.has-icon {
-    .tab-content {
-      gap: var(--_tab-icon-label-spacing);
     }
   }
 
@@ -131,6 +65,12 @@ $tab-icon-badge-offset-block-default: -35%;
     height: var(--_active-indicator-height);
     inset: auto 0px 0px;
     opacity: 0;
+  }
+
+  &.has-icon {
+    .tab-content {
+      gap: var(--_tab-icon-label-spacing);
+    }
   }
 
   &.has-content {
@@ -181,14 +121,11 @@ $tab-icon-badge-offset-block-default: -35%;
 
 
 :host-context([variant='line']) .tab {
-  --_tab-height: 100%;
   --_container-padding: 1rem;
   --_tab-icon-size: 1.5rem;
   --_tab-icon-label-spacing: 0.5rem;
   --_tab-badge-label-spacing: 0.25rem;
   --_tab-badge-color: var(--color-error);
-  --_tab-badge-offset-inline: 35%;
-  --_tab-badge-offset-block: -35%;
 
   --_label-text-color: var(--color-on-surface);
   --_container-state-color: var(--_label-text-color);
@@ -204,9 +141,34 @@ $tab-icon-badge-offset-block-default: -35%;
     inset: 3px 3px 4px 3px;
   }
 
+
+  .tab-content {
+
+    flex-direction: column;
+
+    ::slotted([slot='icon']) {
+      margin-inline-end: var(--_tab-icon-label-spacing);
+    }
+
+    ::slotted([slot='badge']) {
+      position: absolute;
+      top: 0;
+      left: calc(100% - 16px);
+    }
+
+    ::slotted([slot='badge'][value]) {
+      position: absolute;
+      top: 10px;
+      left: calc(100% - 20px);
+    }
+  }
+
+    
+
+  
   &.active {
 
-    .tab-content .indicator {
+    .indicator-primary {
       opacity: 1;
     }
 
@@ -231,12 +193,9 @@ $tab-icon-badge-offset-block-default: -35%;
       display: none;
     }
   }
-
-  @include tab-variant-icon-badge-layout;
 }
 
 :host-context([variant='line-secondary']) .tab {
-  --_tab-height: 100%;
   --_container-padding: 1rem;
   --_tab-icon-size: 1.25rem;
   --_tab-icon-label-spacing: 0.5rem;
@@ -257,9 +216,21 @@ $tab-icon-badge-offset-block-default: -35%;
     inset: 3px 3px 4px 3px;
   }
 
+  .tab-content {
+
+    ::slotted([slot='icon']) {
+      margin-inline-end: var(--_tab-icon-label-spacing);
+    }
+
+    ::slotted([slot='badge']) {
+      margin-inline-start: var(--_tab-badge-label-spacing);
+    }
+  }
+
+
   &.active {
 
-    .indicator.secondary {
+    .indicator-secondary {
       opacity: 1;
     }
 
@@ -284,6 +255,4 @@ $tab-icon-badge-offset-block-default: -35%;
       display: none;
     }
   }
-
-  @include tab-variant-icon-badge-layout;
 }

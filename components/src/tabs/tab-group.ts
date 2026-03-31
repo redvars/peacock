@@ -35,9 +35,6 @@ export class TabGroup extends LitElement {
 
   static TabPanel = TabPanel;
 
-  @property({ reflect: true }) 
-  variant: 'line' | 'line-secondary' | 'contained' | 'pill' = 'line';
-
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('tab-click', this.onTabClick);
