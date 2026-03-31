@@ -31,14 +31,99 @@ export class Tabs extends LitElement {
 
   @property({ type: Boolean }) managed = false;
 
+  private __mutationObserver?: MutationObserver;
+
+  private __lastActiveTab?: Tab;
+
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.__handleTabClick);
   }
 
+  firstUpdated() {
+    this.__mutationObserver = new MutationObserver(() => {
+      this.__syncIndicatorsFromActiveState();
+    });
+
+    this.__mutationObserver.observe(this, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['active', 'disabled'],
+    });
+
+    this.__lastActiveTab = this.__getActiveTab();
+  }
+
+  updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('variant')) {
+      this.__lastActiveTab = this.__getActiveTab();
+    }
+  }
+
   disconnectedCallback() {
+    this.__mutationObserver?.disconnect();
+
     this.removeEventListener('click', this.__handleTabClick);
     super.disconnectedCallback();
+  }
+
+  private __getTabs() {
+    return Array.from(this.querySelectorAll('wc-tab')) as Tab[];
+  }
+
+  private __getActiveTab() {
+    return this.__getTabs().find(tab => tab.active && !tab.disabled);
+  }
+
+  private static __getTabIndicator(tab?: Tab) {
+    if (!tab?.shadowRoot) return undefined;
+    return tab.shadowRoot.querySelector('.indicator') as HTMLElement | null;
+  }
+
+  private __animateIndicatorTransition(previousTab?: Tab, nextTab?: Tab) {
+    if (!(this.variant === 'primary' || this.variant === 'secondary')) return;
+    if (!previousTab || !nextTab || previousTab === nextTab) return;
+
+    const previousIndicator = Tabs.__getTabIndicator(previousTab);
+    const nextIndicator = Tabs.__getTabIndicator(nextTab);
+    if (!previousIndicator || !nextIndicator) return;
+
+    const previousRect = previousTab.getBoundingClientRect();
+    const nextRect = nextTab.getBoundingClientRect();
+
+    const incomingOffset = previousRect.left - nextRect.left;
+    const outgoingOffset = nextRect.left - previousRect.left;
+    const incomingScale = previousRect.width / nextRect.width;
+    const outgoingScale = nextRect.width / previousRect.width;
+
+    nextIndicator.style.transition = 'none';
+    nextIndicator.style.opacity = '0';
+    nextIndicator.style.transform = `translateX(${incomingOffset}px) scaleX(${incomingScale})`;
+
+    previousIndicator.style.transition = 'none';
+    previousIndicator.style.opacity = '1';
+    previousIndicator.style.transform = 'translateX(0) scaleX(1)';
+
+    requestAnimationFrame(() => {
+      nextIndicator.style.transition = '';
+      previousIndicator.style.transition = '';
+
+      nextIndicator.style.opacity = '1';
+      nextIndicator.style.transform = 'translateX(0) scaleX(1)';
+
+      previousIndicator.style.opacity = '0';
+      previousIndicator.style.transform = `translateX(${outgoingOffset}px) scaleX(${outgoingScale})`;
+    });
+  }
+
+  private __syncIndicatorsFromActiveState() {
+    const activeTab = this.__getActiveTab();
+    if (this.__lastActiveTab && activeTab && this.__lastActiveTab !== activeTab) {
+      this.__animateIndicatorTransition(this.__lastActiveTab, activeTab);
+    }
+
+    this.__lastActiveTab = activeTab;
   }
 
   private __handleTabClick = (event: Event) => {
@@ -52,7 +137,8 @@ export class Tabs extends LitElement {
 
     if (!clickedTab) return;
 
-    const tabs = Array.from(this.querySelectorAll('wc-tab')) as Tab[];
+    const previousActiveTab = this.__getActiveTab();
+    const tabs = this.__getTabs();
     let clickedIndex = -1;
     for (let index = 0; index < tabs.length; index += 1) {
       const tab = tabs[index];
@@ -60,6 +146,8 @@ export class Tabs extends LitElement {
       if (tab === clickedTab) clickedIndex = index;
     }
     (clickedTab as Tab).active = true;
+    this.__animateIndicatorTransition(previousActiveTab, clickedTab);
+    this.__lastActiveTab = clickedTab;
 
     this.dispatchEvent(new CustomEvent('tab-click', {
       bubbles: true,

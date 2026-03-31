@@ -12050,6 +12050,73 @@
         },
         {
           "kind": "field",
+          "name": "__mutationObserver",
+          "type": {
+            "text": "MutationObserver | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "__lastActiveTab",
+          "type": {
+            "text": "Tab | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__getTabs",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__getActiveTab",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__getTabIndicator",
+          "privacy": "private",
+          "static": true,
+          "parameters": [
+            {
+              "name": "tab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__animateIndicatorTransition",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "previousTab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            },
+            {
+              "name": "nextTab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__syncIndicatorsFromActiveState",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
           "name": "__handleTabClick",
           "privacy": "private"
         }
