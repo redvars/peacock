@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles.css' />
+  <style>
+    body {
+      background: #fafafa;
+      padding: 2rem;
+      display: grid;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  
+   <wc-tabs>
+    <wc-tab icon="home">Home</wc-tab>
+    <wc-tab active="true" badge="3">Updates</wc-tab>
+    <wc-tab>
+      Inbox
+      <wc-icon slot="icon" name="mail"></wc-icon>
+      <wc-badge slot="badge" value="99+"></wc-badge>
+    </wc-tab>
+    <wc-tab disabled="true" icon="block" badge="!">Disabled</wc-tab>
+  </wc-tabs>
+  
+
+  <wc-tab-group>
+  <wc-tabs>
+    <wc-tab icon="home">Home</wc-tab>
+    <wc-tab active="true" badge="3">Updates</wc-tab>
+    <wc-tab>
+      Inbox
+      <wc-icon slot="icon" name="mail"></wc-icon>
+      <wc-badge slot="badge" value="99+"></wc-badge>
+    </wc-tab>
+    <wc-tab disabled="true" icon="block" badge="!">Disabled</wc-tab>
+  </wc-tabs>
+
+  <wc-tab-panel>
+    <pc-text type="heading"> Home content </pc-text>
+  </wc-tab-panel>
+
+  <wc-tab-panel>
+    <pc-text type="heading"> Updates content </pc-text>
+  </wc-tab-panel>
+
+  <wc-tab-panel>
+    <pc-text type="heading"> Inbox content </pc-text>
+  </wc-tab-panel>
+
+  <wc-tab-panel>
+    <pc-text type="heading"> Disabled content </pc-text>
+  </wc-tab-panel>
+</wc-tab-group>
+
+
+  <script type='module' src='/dist/peacock-loader.js'></script>
+</body>
+</html>
