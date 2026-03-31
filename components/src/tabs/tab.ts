@@ -228,8 +228,8 @@ export class Tab extends LitElement {
         return this.renderSecondaryTabContent();
       case 'contained':
         return this.renderContainedTabContent();
-      case 'pill':
-        return this.renderPillTabContent();
+      case 'filled':
+        return this.renderFilledTabContent();
       case 'primary':
       default:
         return this.renderPrimaryTabContent();
@@ -291,7 +291,7 @@ export class Tab extends LitElement {
     return this.renderPrimaryTabContent();
   }
 
-  renderPillTabContent() {
+  renderFilledTabContent() {
     return this.renderPrimaryTabContent();
   }
 
