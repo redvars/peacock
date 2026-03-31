@@ -7,13 +7,21 @@
   display: flex;
   position: relative;
   width: 100%;
+  height: var(--tabs-height);
 }
 
-:host-context([variant='line']), :host([variant='line']) {
+:host([variant='primary']) {
   --tabs-height: 3rem;
   
   .tabs {
-    height: var(--tabs-height);
     border-bottom: 1px solid var(--color-surface-variant);
   }
 }
+
+:host([variant='secondary']) {
+  --tabs-height: 4rem;
+  .tabs {
+    border-bottom: 1px solid var(--color-surface-variant);
+  }
+}
+
