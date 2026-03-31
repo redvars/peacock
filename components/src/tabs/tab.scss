@@ -120,7 +120,7 @@
 
 
 
-:host-context([variant='line']) .tab {
+:host-context([variant='primary']) .tab {
   --_container-padding: 1rem;
   --_tab-icon-size: 1.5rem;
   --_tab-icon-label-spacing: 0.5rem;
@@ -195,7 +195,7 @@
   }
 }
 
-:host-context([variant='line-secondary']) .tab {
+:host-context([variant='secondary']) .tab {
   --_container-padding: 1rem;
   --_tab-icon-size: 1.25rem;
   --_tab-icon-label-spacing: 0.5rem;
