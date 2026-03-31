@@ -2,6 +2,58 @@
 
 @include mixin.base-styles;
 
+$tab-icon-badge-offset-inline-default: 35%;
+$tab-icon-badge-offset-block-default: -35%;
+
+@mixin tab-variant-icon-badge-layout {
+  .tab-content {
+    text-align: center;
+  }
+
+  &.has-icon,
+  &.has-badge {
+    .tab-content {
+      display: grid;
+      grid-template-areas:
+        'icon'
+        'label';
+      justify-items: center;
+      align-content: center;
+      row-gap: var(--_tab-icon-label-spacing);
+    }
+
+    ::slotted([slot='icon']) {
+      grid-area: icon;
+    }
+
+    ::slotted([slot='badge']) {
+      grid-area: icon;
+      align-self: start;
+      justify-self: end;
+      margin-inline-start: 0;
+      transform: translate(
+        var(--_tab-badge-offset-inline, $tab-icon-badge-offset-inline-default),
+        var(--_tab-badge-offset-block, $tab-icon-badge-offset-block-default)
+      );
+      z-index: 1;
+    }
+
+    &.has-content {
+      .slot-container {
+        grid-area: label;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    &:not(.has-content) {
+      .tab-content {
+        row-gap: 0;
+      }
+    }
+  }
+}
+
 :host {
   display: inline-block;
   height: 100%;
@@ -180,52 +232,7 @@
     }
   }
 
-  .tab-content {
-    text-align: center;
-  }
-
-  &.has-icon,
-  &.has-badge {
-    .tab-content {
-      display: grid;
-      grid-template-areas:
-        'icon'
-        'label';
-      justify-items: center;
-      align-content: center;
-      row-gap: var(--_tab-icon-label-spacing);
-    }
-
-    ::slotted([slot='icon']) {
-      grid-area: icon;
-    }
-
-    ::slotted([slot='badge']) {
-      grid-area: icon;
-      align-self: start;
-      justify-self: end;
-      margin-inline-start: 0;
-      transform: translate(
-        var(--_tab-badge-offset-inline, 35%),
-        var(--_tab-badge-offset-block, -35%)
-      );
-      z-index: 1;
-    }
-
-    &.has-content {
-      .slot-container {
-        grid-area: label;
-        justify-content: center;
-        text-align: center;
-      }
-    }
-
-    &:not(.has-content) {
-      .tab-content {
-        row-gap: 0;
-      }
-    }
-  }
+  @include tab-variant-icon-badge-layout;
 }
 
 :host-context([variant='line-secondary']) .tab {
@@ -278,50 +285,5 @@
     }
   }
 
-  .tab-content {
-    text-align: center;
-  }
-
-  &.has-icon,
-  &.has-badge {
-    .tab-content {
-      display: grid;
-      grid-template-areas:
-        'icon'
-        'label';
-      justify-items: center;
-      align-content: center;
-      row-gap: var(--_tab-icon-label-spacing);
-    }
-
-    ::slotted([slot='icon']) {
-      grid-area: icon;
-    }
-
-    ::slotted([slot='badge']) {
-      grid-area: icon;
-      align-self: start;
-      justify-self: end;
-      margin-inline-start: 0;
-      transform: translate(
-        var(--_tab-badge-offset-inline, 35%),
-        var(--_tab-badge-offset-block, -35%)
-      );
-      z-index: 1;
-    }
-
-    &.has-content {
-      .slot-container {
-        grid-area: label;
-        justify-content: center;
-        text-align: center;
-      }
-    }
-
-    &:not(.has-content) {
-      .tab-content {
-        row-gap: 0;
-      }
-    }
-  }
+  @include tab-variant-icon-badge-layout;
 }
