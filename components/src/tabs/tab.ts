@@ -91,7 +91,7 @@ export class Tab extends LitElement {
       this.throttleDelay,
     );
     observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot'),
+      this.renderRoot.querySelector('slot:not([name])'),
       hasContent => {
         this.slotHasContent = hasContent;
         this.requestUpdate();
