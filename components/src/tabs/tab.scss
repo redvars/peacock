@@ -188,8 +188,6 @@
   --_tab-icon-label-spacing: 0.5rem;
   --_tab-badge-label-spacing: 0.25rem;
   --_tab-badge-color: var(--color-error);
-  --_tab-badge-offset-inline: 35%;
-  --_tab-badge-offset-block: -35%;
 
   --_label-text-color: var(--color-on-surface);
   --_container-state-color: var(--_label-text-color);
@@ -234,8 +232,7 @@
   }
 }
 
-:host-context([variant='line']),
-:host-context([variant='line-secondary']) {
+:host-context([variant='line']) {
   .tab {
     .tab-content {
       text-align: center;
