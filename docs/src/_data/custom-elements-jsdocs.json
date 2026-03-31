@@ -845,6 +845,7 @@
           },
           "default": "false",
           "attribute": "skeleton",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -922,12 +923,27 @@
         },
         {
           "kind": "field",
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "toggle",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "selected",
           "type": {
             "text": "boolean"
           },
           "default": "false",
           "attribute": "selected",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1232,6 +1248,18 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "toggle",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5961,6 +5989,7 @@
           },
           "default": "false",
           "attribute": "skeleton",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -6038,12 +6067,27 @@
         },
         {
           "kind": "field",
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "toggle",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "selected",
           "type": {
             "text": "boolean"
           },
           "default": "false",
           "attribute": "selected",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -6361,6 +6405,18 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "toggle",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"

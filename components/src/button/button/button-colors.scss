@@ -18,24 +18,95 @@
   --neo-button-label-text-color: var(--color-on-#{$color});
 }
 
-:host([color=primary]) {
+@mixin _button-color-toggle-unselected($color) {
+
+  --filled-button-container-color: var(--color-surface-container);
+  --filled-button-label-text-color: var(--color-surface-container-variant);
+
+  --tonal-button-container-color: var(--color-#{$color}-container);
+  --tonal-button-label-text-color: var(--color-on-#{$color}-container);
+
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-#{$color});
+
+  --outlined-button-outline-color: var(--color-#{$color});
+  --outlined-button-label-text-color:  var(--color-#{$color});
+}
+
+@mixin _button-color-toggle-selected($color) {
+
+  --filled-button-container-color: var(--color-#{$color});
+  --filled-button-label-text-color: var(--color-on-#{$color});
+
+  --tonal-button-container-color: var(--color-#{$color});
+  --tonal-button-label-text-color: var(--color-on-#{$color});
+
+  --elevated-button-container-color: var(--color-#{$color});
+  --elevated-button-label-text-color: var(--color-on-#{$color});
+
+  --outlined-button-outline-color: var(--color-inverse-surface);
+  --outlined-button-label-text-color:  var(--color-inverse-on-surface);
+}
+
+:host([color=primary]:not([toggle])) {
   @include _button-color(primary);
 }
 
-:host([color=secondary]) {
+:host([color=primary][toggle][selected]) {
+  @include _button-color-toggle-selected(primary);
+}
+
+:host([color=primary][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(primary);
+}
+
+:host([color=secondary]:not([toggle])) {
   @include _button-color(secondary);
 }
 
-:host([color=tertiary]) {
+:host([color=secondary][toggle][selected]) {
+  @include _button-color-toggle-selected(secondary);
+}
+
+:host([color=secondary][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(secondary);
+}
+
+:host([color=tertiary]:not([toggle])) {
   @include _button-color(tertiary);
 }
 
-:host([color=success]) {
+:host([color=tertiary][toggle][selected]) {
+  @include _button-color-toggle-selected(tertiary);
+}
+
+:host([color=tertiary][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(tertiary);
+}
+
+:host([color=success]:not([toggle])) {
   @include _button-color(success);
 }
 
-:host([color=danger]) {
+:host([color=success][toggle][selected]) {
+  @include _button-color-toggle-selected(success);
+}
+
+:host([color=success][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(success);
+}
+
+
+:host([color=danger]:not([toggle])) {
   @include _button-color(error);
+}
+
+:host([color=danger][toggle][selected]) {
+  @include _button-color-toggle-selected(error);
+}
+
+:host([color=danger][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(error);
 }
 
 

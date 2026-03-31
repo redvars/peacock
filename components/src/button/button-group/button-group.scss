@@ -10,24 +10,25 @@ $border-width: 0.0625rem;
 
 
   slot::slotted(:first-child) {
-    --button-container-shape-start-start: 50%;
-    --button-container-shape-end-start: 50%;
+    --button-container-shape-start-start: var(--shape-corner-full);
+    --button-container-shape-end-start: var(--shape-corner-full);
     --button-container-shape-start-end: var(--shape-corner-medium);
     --button-container-shape-end-end: var(--shape-corner-medium);
-    --button-container-shape-variant: unset;
+    --button-container-shape-variant: initial;
   }
 
   slot::slotted(:last-child) {
-    --button-container-shape-end-end: 50%;
-    --button-container-shape-start-end: 50%;
+    --button-container-shape-end-end: var(--shape-corner-full);
+    --button-container-shape-start-end: var(--shape-corner-full);
 
     --button-container-shape-end-start: var(--shape-corner-medium);
     --button-container-shape-start-start: var(--shape-corner-medium);
-    --button-container-shape-variant: unset;
+    --button-container-shape-variant: initial;
   }
 
   slot::slotted(:only-child) {
-    --button-container-shape: 50%;
+    --button-container-shape: var(--shape-corner-full);
+    --button-container-shape-variant: initial;
   }
 }
 
@@ -41,6 +42,7 @@ $border-width: 0.0625rem;
 .button-group.size-sm,
 .button-group.size-small {
   --_button-group-gap: 0.125rem;
+  --button-container-padding: 1.5rem;
 }
 
 .button-group.size-md,

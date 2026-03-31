@@ -55,12 +55,12 @@ export class BaseButton extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
-  @property() skeleton: boolean = false;
+  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
   /**
    * If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.
    */
-  @property({ reflect: true, attribute: 'soft-disabled' })
+  @property({ type: Boolean, reflect: true, attribute: 'soft-disabled' })
   softDisabled: boolean = false;
 
   /**
@@ -82,7 +82,9 @@ export class BaseButton extends LitElement {
    */
   @property() target: string = '_self';
 
-  @property() selected: boolean = false;
+  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
+
+  @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
   /**
    * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
