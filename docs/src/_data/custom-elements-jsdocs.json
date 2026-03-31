@@ -1381,6 +1381,118 @@
     }
   },
   {
+    "rawTag": "card",
+    "label": "Card",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Card"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-card"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "card"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A Material 3 inspired card surface for grouping related content."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--card-gap - Gap between slotted children."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-card variant=\"outlined\">\n  <h3>Title</h3>\n  <p>Supportive text</p>\n</wc-card>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Card",
+      "cssProperties": [
+        {
+          "description": "Inner padding for the card container. Defaults to 1rem.",
+          "name": "--card-padding"
+        },
+        {
+          "description": "Corner radius for the card container. Defaults to a large radius.",
+          "name": "--card-shape"
+        },
+        {
+          "description": "Gap between slotted children.",
+          "name": "--card-gap"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "CardVariant"
+          },
+          "default": "'elevated'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "elevation",
+          "type": {
+            "text": "CardElevation"
+          },
+          "default": "1",
+          "attribute": "elevation",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "CardVariant"
+          },
+          "default": "'elevated'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "elevation",
+          "type": {
+            "text": "CardElevation"
+          },
+          "default": "1",
+          "fieldName": "elevation"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-card",
+      "customElement": true,
+      "summary": "A Material 3 inspired card surface for grouping related content.",
+      "rawTag": {
+        "name": "card",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "chart-bar",
     "label": "Chart Bar",
     "jsdoc": {
@@ -1425,7 +1537,125 @@
       "kind": "class",
       "description": "",
       "name": "ChartBar",
-      "members": [],
+      "members": [
+        {
+          "kind": "field",
+          "name": "svgElement",
+          "type": {
+            "text": "SVGElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width of the chart in pixels.",
+          "attribute": "width",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "320",
+          "description": "Height of the chart in pixels.",
+          "attribute": "height",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "24",
+          "description": "Margin around the chart drawing area.",
+          "attribute": "margin"
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "ChartBarItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "showValues",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render value labels above bars.",
+          "attribute": "show-values"
+        },
+        {
+          "kind": "field",
+          "name": "_initialized",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_debouncedRenderChart",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getPaletteScale",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_resolveColor",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "override",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "name": "scale",
+              "type": {
+                "text": "d3.ScaleOrdinal<string, string>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderChart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "animate",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        }
+      ],
       "attributes": [
         {
           "name": "width",
@@ -1441,7 +1671,7 @@
           "type": {
             "text": "number"
           },
-          "default": "320",
+          "default": "DEFAULT_HEIGHT",
           "description": "Height of the chart in pixels.",
           "fieldName": "height"
         },
@@ -1473,7 +1703,6 @@
           "fieldName": "showValues"
         }
       ],
-      "events": [],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
@@ -1483,6 +1712,229 @@
       "summary": "A vertical bar chart that follows Material Design 3 color and spacing tokens.",
       "rawTag": {
         "name": "chart-bar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "chart-donut",
+    "label": "Chart Donut",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chart Donut"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-chart-donut"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chart-donut"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A donut chart is a circular chart with a blank center. The area in the center can be used to display information."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "charts"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chart-donut width=\"400\" label=\"Total\"></wc-chart-donut>\n<script>\n  document.querySelector('wc-chart-donut').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChartDonut",
+      "members": [
+        {
+          "kind": "field",
+          "name": "svgElement",
+          "type": {
+            "text": "SVGElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "attribute": "width",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "attribute": "margin",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showLabels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "attribute": "show-labels",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "ChartDonutItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Label displayed in the center of the donut.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "_initialized",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_debouncedRenderChart",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getRadius",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getTotal",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getPieData",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getColorScale",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderChart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "animate",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width (and height) of the chart in pixels.",
+          "fieldName": "width"
+        },
+        {
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "10",
+          "description": "Margin around the chart.",
+          "fieldName": "margin"
+        },
+        {
+          "name": "show-labels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show labels outside the chart.",
+          "fieldName": "showLabels"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartDonutItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item should have name, value, and optional label and color.",
+          "fieldName": "data"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Label displayed in the center of the donut.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chart-donut",
+      "customElement": true,
+      "summary": "A donut chart is a circular chart with a blank center. The area in the center can be used to display information.",
+      "rawTag": {
+        "name": "chart-donut",
         "description": ""
       }
     }
@@ -1902,6 +2354,700 @@
       "summary": "A pie chart is a circular statistical graphic that visually represents numerical proportions.",
       "rawTag": {
         "name": "chart-pie",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "chart-stacked-bar",
+    "label": "Chart Stacked Bar",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Chart Stacked Bar"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-chart-stacked-bar"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "chart-stacked-bar"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A stacked bar chart that groups series by category using Material Design 3 tokens."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "charts"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-chart-stacked-bar width=\"560\" height=\"360\"></wc-chart-stacked-bar>\n<script>\n  document.querySelector('wc-chart-stacked-bar').data = [\n    {\n      name: 'q1',\n      label: 'Q1',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 40 },\n        { name: 'web', label: 'Web', value: 25 },\n        { name: 'store', label: 'Store', value: 15 },\n      ],\n    },\n    {\n      name: 'q2',\n      label: 'Q2',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 32 },\n        { name: 'web', label: 'Web', value: 30 },\n        { name: 'store', label: 'Store', value: 18 },\n      ],\n    },\n  ];\n</script>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChartStackedBar",
+      "members": [
+        {
+          "kind": "field",
+          "name": "svgElement",
+          "type": {
+            "text": "SVGElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width of the chart in pixels.",
+          "attribute": "width",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "360",
+          "description": "Height of the chart in pixels.",
+          "attribute": "height",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "28",
+          "description": "Margin around the chart drawing area.",
+          "attribute": "margin"
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "ChartStackedBarItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item holds the stacked segments for a category.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "showValues",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render total value labels above each stack.",
+          "attribute": "show-values"
+        },
+        {
+          "kind": "field",
+          "name": "showLegend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render the legend.",
+          "attribute": "show-legend"
+        },
+        {
+          "kind": "field",
+          "name": "_initialized",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_debouncedRenderChart",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getSegmentKeys",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getColorScale",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "keys",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getColorMap",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "keys",
+              "type": {
+                "text": "string[]"
+              }
+            },
+            {
+              "name": "scale",
+              "type": {
+                "text": "d3.ScaleOrdinal<string, string>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getSegmentLabel",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "key",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getTotals",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderChart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "animate",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "width",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Width of the chart in pixels.",
+          "fieldName": "width"
+        },
+        {
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "DEFAULT_HEIGHT",
+          "description": "Height of the chart in pixels.",
+          "fieldName": "height"
+        },
+        {
+          "name": "margin",
+          "type": {
+            "text": "number"
+          },
+          "default": "28",
+          "description": "Margin around the chart drawing area.",
+          "fieldName": "margin"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartStackedBarItem[]"
+          },
+          "default": "[]",
+          "description": "Chart data array. Each item holds the stacked segments for a category.",
+          "fieldName": "data"
+        },
+        {
+          "name": "show-values",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render total value labels above each stack.",
+          "fieldName": "showValues"
+        },
+        {
+          "name": "show-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to render the legend.",
+          "fieldName": "showLegend"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chart-stacked-bar",
+      "customElement": true,
+      "summary": "A stacked bar chart that groups series by category using Material Design 3 tokens.",
+      "rawTag": {
+        "name": "chart-stacked-bar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "checkbox",
+    "label": "Checkbox",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Checkbox"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-checkbox"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "checkbox"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Captures boolean input with an optional indeterminate mode."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>\n<p>Material Design 3 checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--checkbox-state-layer-size: Size of the state layer for touch target."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "focus - Dispatched when the checkbox receives focus."
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "input, form"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-checkbox label=\"Accept terms\"></wc-checkbox>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Checkbox",
+      "cssProperties": [
+        {
+          "description": "Size of the checkbox container.",
+          "name": "--checkbox-size:"
+        },
+        {
+          "description": "Color of the checkbox when selected.",
+          "name": "--checkbox-selected-color:"
+        },
+        {
+          "description": "Color of the checkbox border when unselected.",
+          "name": "--checkbox-unselected-color:"
+        },
+        {
+          "description": "Color of the checkmark icon.",
+          "name": "--checkbox-checkmark-color:"
+        },
+        {
+          "description": "Size of the state layer for touch target.",
+          "name": "--checkbox-state-layer-size:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The input field name.",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The checkbox label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "The input field value (checked state).",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, displays the checkbox in an indeterminate state.",
+          "attribute": "indeterminate",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "rounded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the checkbox has rounded corners. Defaults to `false`.",
+          "attribute": "rounded"
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The checkbox size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size"
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, required icon is shown. Defaults to `false`.",
+          "attribute": "required",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the checkbox is readonly. Defaults to `false`.",
+          "attribute": "readonly",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the checkbox. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "Configuration object for aria attributes.",
+          "attribute": "configAria"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isActive",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "containerElement",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "nativeElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "tabindex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleInitialAttributes",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "windowMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "windowKeyUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "mouseDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "keyDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "clickHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "blurHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "focusHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "handleKeyUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "description": "Sets focus on the checkbox."
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "description": "Removes focus from the checkbox."
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the checkbox value changes.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the checkbox loses focus.",
+          "name": "blur"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the checkbox receives focus.",
+          "name": "focus"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The input field name.",
+          "fieldName": "name"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The checkbox label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "The input field value (checked state).",
+          "fieldName": "value"
+        },
+        {
+          "name": "indeterminate",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, displays the checkbox in an indeterminate state.",
+          "fieldName": "indeterminate"
+        },
+        {
+          "name": "rounded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the checkbox has rounded corners. Defaults to `false`.",
+          "fieldName": "rounded"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The checkbox size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size"
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, required icon is shown. Defaults to `false`.",
+          "fieldName": "required"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the checkbox is readonly. Defaults to `false`.",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the checkbox. Defaults to `false`.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "Configuration object for aria attributes.",
+          "fieldName": "configAria"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-checkbox",
+      "customElement": true,
+      "summary": "Captures boolean input with an optional indeterminate mode.",
+      "rawTag": {
+        "name": "checkbox",
         "description": ""
       }
     }
@@ -8321,163 +9467,6 @@
     }
   },
   {
-    "rawTag": "snackbar",
-    "label": "Snackbar",
-    "jsdoc": {
-      "@label": [
-        {
-          "kind": "text",
-          "text": "Snackbar"
-        }
-      ],
-      "@tag": [
-        {
-          "kind": "text",
-          "text": "wc-snackbar"
-        }
-      ],
-      "@rawTag": [
-        {
-          "kind": "text",
-          "text": "snackbar"
-        }
-      ],
-      "@summary": [
-        {
-          "kind": "text",
-          "text": "Snackbars provide brief messages about app processes at the bottom of the screen."
-        }
-      ],
-      "@tags": [
-        {
-          "kind": "text",
-          "text": "display"
-        },
-        {
-          "kind": "text",
-          "text": "feedback"
-        }
-      ],
-      "@example": [
-        {
-          "kind": "code",
-          "text": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```"
-        }
-      ]
-    },
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "Snackbar",
-      "members": [],
-      "attributes": [
-        {
-          "name": "open",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether the snackbar is visible.",
-          "fieldName": "open"
-        },
-        {
-          "name": "message",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Message text displayed inside the snackbar.",
-          "fieldName": "message"
-        },
-        {
-          "name": "action-label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Optional label for the action button.",
-          "fieldName": "actionLabel"
-        },
-        {
-          "name": "show-close-icon",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Show a dismiss icon button.",
-          "fieldName": "showCloseIcon"
-        },
-        {
-          "name": "duration",
-          "type": {
-            "text": "number"
-          },
-          "default": "4000",
-          "description": "Auto-dismiss duration in milliseconds. Set to 0 to disable auto-hide.",
-          "fieldName": "duration"
-        },
-        {
-          "name": "multiline",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Render the snackbar using the multiline layout.",
-          "fieldName": "multiline"
-        }
-      ],
-      "events": [
-        {
-          "name": "snackbar-close",
-          "type": {
-            "text": "CustomEvent"
-          },
-          "description": "Fired when the snackbar closes. Detail includes the close reason."
-        },
-        {
-          "name": "snackbar-action",
-          "type": {
-            "text": "CustomEvent"
-          },
-          "description": "Fired when the action button is clicked."
-        }
-      ],
-      "cssProperties": [
-        {
-          "name": "--snackbar-container-color",
-          "description": "Container color for the snackbar."
-        },
-        {
-          "name": "--snackbar-label-text-color",
-          "description": "Label text color for the snackbar."
-        },
-        {
-          "name": "--snackbar-action-text-color",
-          "description": "Action text color."
-        },
-        {
-          "name": "--snackbar-close-icon-color",
-          "description": "Close icon color."
-        },
-        {
-          "name": "--snackbar-border-radius",
-          "description": "Border radius of the snackbar surface."
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-snackbar",
-      "customElement": true,
-      "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
-      "rawTag": {
-        "name": "snackbar",
-        "description": ""
-      }
-    }
-  },
-  {
     "rawTag": "slider",
     "label": "Slider",
     "jsdoc": {
@@ -8741,6 +9730,269 @@
       "summary": "Sliders allow users to make selections from a range of values.",
       "rawTag": {
         "name": "slider",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "snackbar",
+    "label": "Snackbar",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Snackbar"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-snackbar"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "snackbar"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "Snackbars provide brief messages about app processes at the bottom of the screen."
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--snackbar-border-radius - Border radius of the snackbar surface."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "display, feedback"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Snackbar",
+      "cssProperties": [
+        {
+          "description": "Container color for the snackbar.",
+          "name": "--snackbar-container-color"
+        },
+        {
+          "description": "Label text color for the snackbar.",
+          "name": "--snackbar-label-text-color"
+        },
+        {
+          "description": "Action text color.",
+          "name": "--snackbar-action-text-color"
+        },
+        {
+          "description": "Close icon color.",
+          "name": "--snackbar-close-icon-color"
+        },
+        {
+          "description": "Border radius of the snackbar surface.",
+          "name": "--snackbar-border-radius"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "message",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "message"
+        },
+        {
+          "kind": "field",
+          "name": "actionLabel",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "action-label"
+        },
+        {
+          "kind": "field",
+          "name": "showCloseIcon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "show-close-icon"
+        },
+        {
+          "kind": "field",
+          "name": "duration",
+          "type": {
+            "text": "number"
+          },
+          "default": "4000",
+          "attribute": "duration"
+        },
+        {
+          "kind": "field",
+          "name": "multiline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "multiline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "hideTimer",
+          "type": {
+            "text": "ReturnType<typeof setTimeout> | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "hide"
+        },
+        {
+          "kind": "method",
+          "name": "close",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "SnackbarCloseReason"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "dispatchActionEvent",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleActionClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleCloseClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "clearTimer",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "scheduleAutoHide",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "snackbar-close",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "snackbar-action",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "open"
+        },
+        {
+          "name": "message",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "message"
+        },
+        {
+          "name": "action-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "actionLabel"
+        },
+        {
+          "name": "show-close-icon",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "showCloseIcon"
+        },
+        {
+          "name": "duration",
+          "type": {
+            "text": "number"
+          },
+          "default": "4000",
+          "fieldName": "duration"
+        },
+        {
+          "name": "multiline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "multiline"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-snackbar",
+      "customElement": true,
+      "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
+      "rawTag": {
+        "name": "snackbar",
         "description": ""
       }
     }
@@ -9601,30 +10853,6 @@
         },
         {
           "kind": "field",
-          "name": "icon",
-          "type": {
-            "text": "string | undefined"
-          },
-          "attribute": "icon"
-        },
-        {
-          "kind": "field",
-          "name": "badge",
-          "type": {
-            "text": "string | undefined"
-          },
-          "attribute": "badge"
-        },
-        {
-          "kind": "field",
-          "name": "label",
-          "type": {
-            "text": "string | undefined"
-          },
-          "attribute": "label"
-        },
-        {
-          "kind": "field",
           "name": "value",
           "type": {
             "text": "string | undefined"
@@ -9756,7 +10984,40 @@
         },
         {
           "kind": "method",
-          "name": "renderTabContent"
+          "name": "__getParentTabsVariant",
+          "return": {
+            "type": {
+              "text": "Tabs['variant']"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "renderTabContent",
+          "parameters": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "Tabs['variant']"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "renderPrimaryTabContent"
+        },
+        {
+          "kind": "method",
+          "name": "renderSecondaryTabContent"
+        },
+        {
+          "kind": "method",
+          "name": "renderContainedTabContent"
+        },
+        {
+          "kind": "method",
+          "name": "renderPillTabContent"
         },
         {
           "kind": "method",
@@ -9791,27 +11052,6 @@
           },
           "default": "''",
           "fieldName": "disabledReason"
-        },
-        {
-          "name": "icon",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "icon"
-        },
-        {
-          "name": "badge",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "badge"
-        },
-        {
-          "name": "label",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "label"
         },
         {
           "name": "value",
@@ -9932,16 +11172,6 @@
         },
         {
           "kind": "field",
-          "name": "variant",
-          "type": {
-            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
-          },
-          "default": "'line'",
-          "attribute": "variant",
-          "reflects": true
-        },
-        {
-          "kind": "field",
           "name": "onTabClick",
           "privacy": "private"
         },
@@ -10013,16 +11243,6 @@
           "kind": "method",
           "name": "initializeTabs",
           "privacy": "private"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "variant",
-          "type": {
-            "text": "'line' | 'line-secondary' | 'contained' | 'pill'"
-          },
-          "default": "'line'",
-          "fieldName": "variant"
         }
       ],
       "superclass": {
@@ -10755,6 +11975,16 @@
         },
         {
           "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'primary' | 'secondary' | 'contained' | 'pill'"
+          },
+          "default": "'primary'",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
           "name": "managed",
           "type": {
             "text": "boolean"
@@ -10769,6 +11999,14 @@
         }
       ],
       "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'primary' | 'secondary' | 'contained' | 'pill'"
+          },
+          "default": "'primary'",
+          "fieldName": "variant"
+        },
         {
           "name": "managed",
           "type": {

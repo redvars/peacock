@@ -11,7 +11,7 @@
 }
 
 :host([variant='primary']) {
-  --tabs-height: 3rem;
+  --tabs-height: 4rem;
   
   .tabs {
     border-bottom: 1px solid var(--color-surface-variant);
@@ -19,7 +19,7 @@
 }
 
 :host([variant='secondary']) {
-  --tabs-height: 4rem;
+  --tabs-height: 3rem;
   .tabs {
     border-bottom: 1px solid var(--color-surface-variant);
   }

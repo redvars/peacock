@@ -5,6 +5,7 @@ import { dispatchActivationClick, isActivationClick } from 'src/utils/dispatch-e
 import { observerSlotChangesWithCallback, throttle } from 'src/utils.js';
 import { spread } from 'src/spread.js';
 import styles from './tab.scss';
+import type { Tabs } from './tabs.js';
 
 /**
  * @label Tab
@@ -155,6 +156,10 @@ export class Tab extends LitElement {
     return !!this.href;
   }
 
+  __getParentTabsVariant(): Tabs['variant'] {
+    return (this.closest('wc-tabs') as Tabs | null)?.variant ?? 'primary';
+  }
+
   // private handleKeyDown(evt: KeyboardEvent) {
   //   if (this.disabled || this.showLoader) return;
   //   if (evt.key === 'Enter' || evt.key === ' ') {
@@ -168,6 +173,7 @@ export class Tab extends LitElement {
   render() {
 
     const isLink = this.__isLink();
+    const variant = this.__getParentTabsVariant();
 
     const cssClasses = {
       tab: true,
@@ -175,6 +181,7 @@ export class Tab extends LitElement {
       disabled: this.disabled,
       pressed: this.isPressed,
       active: this.active,
+      [`variant-${variant}`]: true,
       'has-content': this.slotHasContent,
       'has-icon': this.slotHasIcon,
       'has-badge': this.slotHasBadge,
@@ -193,7 +200,7 @@ export class Tab extends LitElement {
               ?disabled=${this.disabled}
               ${spread(this.configAria)}
             >
-              ${this.renderTabContent()}
+              ${this.renderTabContent(variant)}
             </button>`;
         }
 
@@ -211,11 +218,25 @@ export class Tab extends LitElement {
         aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >
-        ${this.renderTabContent()}
+        ${this.renderTabContent(variant)}
       </a>`;
   }
 
-  renderTabContent() {
+  renderTabContent(variant: Tabs['variant']) {
+    switch (variant) {
+      case 'secondary':
+        return this.renderSecondaryTabContent();
+      case 'contained':
+        return this.renderContainedTabContent();
+      case 'pill':
+        return this.renderPillTabContent();
+      case 'primary':
+      default:
+        return this.renderPrimaryTabContent();
+    }
+  }
+
+  renderPrimaryTabContent() {
     return html`
       <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
@@ -224,6 +245,33 @@ export class Tab extends LitElement {
       <wc-ripple class="ripple"></wc-ripple>
       
       <div class="tab-content">
+
+        <div class="icon-section">
+          <slot name="badge"></slot>
+          <slot name="icon"></slot>
+        </div>
+        <div class="slot-container">
+          <slot></slot>
+        </div>
+
+        <div class="indicator"></div>
+        
+      </div>
+
+      ${this.__renderDisabledReason()}
+    `;
+  }
+
+  renderSecondaryTabContent() {
+    return html`
+      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple"></wc-ripple>
+      
+      <div class="tab-content">
+
         <slot name="icon"></slot>
 
         <div class="slot-container">
@@ -231,14 +279,20 @@ export class Tab extends LitElement {
         </div>
 
         <slot name="badge"></slot>
-
-        <div class="indicator indicator-primary"></div>
       </div>
 
-      <div class="indicator indicator-secondary"></div>
+      <div class="indicator"></div>
 
       ${this.__renderDisabledReason()}
     `;
+  }
+
+  renderContainedTabContent() {
+    return this.renderPrimaryTabContent();
+  }
+
+  renderPillTabContent() {
+    return this.renderPrimaryTabContent();
   }
 
   __getDisabledReasonID() {

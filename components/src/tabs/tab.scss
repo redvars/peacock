@@ -67,12 +67,6 @@
     opacity: 0;
   }
 
-  &.has-icon {
-    .tab-content {
-      gap: var(--_tab-icon-label-spacing);
-    }
-  }
-
   &.has-content {
     .slot-container {
       display: flex;
@@ -146,20 +140,20 @@
 
     flex-direction: column;
 
-    ::slotted([slot='icon']) {
-      margin-inline-end: var(--_tab-icon-label-spacing);
-    }
+    .icon-section {
+      position: relative;
 
-    ::slotted([slot='badge']) {
-      position: absolute;
-      top: 0;
-      left: calc(100% - 16px);
-    }
+      ::slotted([slot='badge']) {
+        position: absolute;
+        top: 0;
+        left: calc(100% - 3px);
+      }
 
-    ::slotted([slot='badge'][value]) {
-      position: absolute;
-      top: 10px;
-      left: calc(100% - 20px);
+      ::slotted([slot='badge'][value]) {
+        position: absolute;
+        top: 0;
+        left: calc(100% - 6px);
+      }
     }
   }
 
@@ -168,7 +162,7 @@
   
   &.active {
 
-    .indicator-primary {
+    .indicator {
       opacity: 1;
     }
 
@@ -217,7 +211,6 @@
   }
 
   .tab-content {
-
     ::slotted([slot='icon']) {
       margin-inline-end: var(--_tab-icon-label-spacing);
     }
@@ -230,7 +223,7 @@
 
   &.active {
 
-    .indicator-secondary {
+    .indicator {
       opacity: 1;
     }
 

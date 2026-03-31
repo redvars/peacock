@@ -10,14 +10,22 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
     <wc-tabs>
-      <wc-tab icon="home">Home</wc-tab>
-      <wc-tab active="true" badge="3">Updates</wc-tab>
+      <wc-tab>Home <wc-icon slot="icon" name="home"></wc-icon></wc-tab>
+      <wc-tab active="true">
+        Updates
+        <wc-icon slot="icon" name="update"></wc-icon>
+        <wc-badge slot="badge"></wc-badge>
+      </wc-tab>
       <wc-tab>
         Inbox
         <wc-icon slot="icon" name="mail"></wc-icon>
         <wc-badge slot="badge" value="99+"></wc-badge>
       </wc-tab>
-      <wc-tab disabled icon="block" badge="!">Disabled</wc-tab>
+      <wc-tab disabled>
+        Disabled
+        <wc-icon slot="icon" name="block"></wc-icon>
+        <wc-badge slot="badge" value="!"></wc-badge>
+      </wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
@@ -40,15 +48,24 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
-    <wc-tabs variant="line-secondary">
-      <wc-tab icon="dashboard">Overview</wc-tab>
-      <wc-tab active="true" badge="7">Activity</wc-tab>
+    <wc-tabs variant="secondary">
+      <wc-tab>
+        Overview
+        <wc-icon slot="icon" name="dashboard"></wc-icon>
+      </wc-tab>
+      <wc-tab active="true">
+        Activity
+        <wc-badge slot="badge" value="7"></wc-badge>
+      </wc-tab>
       <wc-tab>
         Messages
         <wc-icon slot="icon" name="chat"></wc-icon>
         <wc-badge slot="badge" value="12"></wc-badge>
       </wc-tab>
-      <wc-tab disabled icon="lock">Restricted</wc-tab>
+      <wc-tab disabled>
+        Restricted
+        <wc-icon slot="icon" name="lock"></wc-icon>
+      </wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
