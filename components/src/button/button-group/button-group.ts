@@ -98,7 +98,7 @@ export class ButtonGroup extends LitElement {
       }
 
       if (this.variant === 'connected') {
-        child.style.setProperty('--button-container-shape-variant', 'initial');
+        child.style.setProperty('--button-container-shape-variant', 'round');
 
         if (isOnly) {
           child.style.setProperty('--button-container-shape', 'var(--shape-corner-full)');

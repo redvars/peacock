@@ -1390,8 +1390,19 @@
             "text": "'standard' | 'connected'"
           },
           "default": "'standard'",
-          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together without a gap, sharing edges.\nDefaults to `\"standard\"`.",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together with a 2px gap; outer buttons have fully rounded outer corners\nwhile middle buttons keep standard rounded corners.\nDefaults to `\"standard\"`.",
           "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Orientation of the button group.\n`\"horizontal\"` lays buttons out in a row.\n`\"vertical\"` stacks buttons in a column.\nDefaults to `\"horizontal\"`.",
+          "attribute": "orientation",
           "reflects": true
         },
         {
@@ -1446,8 +1457,17 @@
             "text": "'standard' | 'connected'"
           },
           "default": "'standard'",
-          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together without a gap, sharing edges.\nDefaults to `\"standard\"`.",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together with a 2px gap; outer buttons have fully rounded outer corners\nwhile middle buttons keep standard rounded corners.\nDefaults to `\"standard\"`.",
           "fieldName": "variant"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Orientation of the button group.\n`\"horizontal\"` lays buttons out in a row.\n`\"vertical\"` stacks buttons in a column.\nDefaults to `\"horizontal\"`.",
+          "fieldName": "orientation"
         },
         {
           "name": "color",
