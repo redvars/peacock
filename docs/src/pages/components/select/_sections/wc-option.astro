@@ -2,61 +2,54 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <p class='text-body-large'>
-  Use <code>&lt;wc-option&gt;</code> child elements as a declarative alternative to the
-  <code>options</code> property. Both can be combined — declarative children are merged
-  with any programmatic <code>options</code>.
+  Place <code>&lt;wc-option&gt;</code> elements directly inside <code>&lt;wc-select&gt;</code> to
+  declare options in HTML. Each option requires a <code>value</code> attribute; the text content
+  becomes the visible label.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="declarative-select"
-    label="Fruit"
-    placeholder="Pick a fruit..."
+    label="Country"
+    placeholder="Choose a country..."
     clearable
-    style="width: 20rem"
+    style="width: 22rem"
   >
-    <wc-option value="apple">Apple</wc-option>
-    <wc-option value="banana">Banana</wc-option>
-    <wc-option value="cherry">Cherry</wc-option>
-    <wc-option value="dragonfruit">Dragonfruit</wc-option>
+    <wc-option value="us">United States</wc-option>
+    <wc-option value="gb">United Kingdom</wc-option>
+    <wc-option value="de">Germany</wc-option>
+    <wc-option value="fr">France</wc-option>
+    <wc-option value="jp">Japan</wc-option>
   </wc-select>
 </DemoComponentCard>
 
 <p class='text-body-large'>
-  Options can include an icon by setting the <code>icon</code> attribute to a
-  Material Symbol name.
+  Add an <code>icon</code> attribute with a Material Symbol name to show a leading icon.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="declarative-icons-select"
-    label="Action"
-    placeholder="Choose an action..."
-    clearable
+    label="Priority"
+    placeholder="Set priority..."
     style="width: 20rem"
   >
-    <wc-option value="new" icon="add">New file</wc-option>
-    <wc-option value="save" icon="save">Save</wc-option>
-    <wc-option value="delete" icon="delete">Delete</wc-option>
+    <wc-option value="high" icon="arrow_upward">High</wc-option>
+    <wc-option value="medium" icon="remove">Medium</wc-option>
+    <wc-option value="low" icon="arrow_downward">Low</wc-option>
   </wc-select>
 </DemoComponentCard>
 
 <p class='text-body-large'>
-  Declarative <code>&lt;wc-option&gt;</code> elements also work in multi-select mode.
+  Disable individual options with the <code>disabled</code> attribute.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="declarative-multi-select"
-    label="Tags"
-    placeholder="Pick tags..."
-    multiple
-    clearable
-    style="width: 24rem"
+    label="Plan"
+    placeholder="Choose a plan..."
+    style="width: 20rem"
   >
-    <wc-option value="js">JavaScript</wc-option>
-    <wc-option value="ts">TypeScript</wc-option>
-    <wc-option value="python">Python</wc-option>
-    <wc-option value="rust">Rust</wc-option>
+    <wc-option value="free">Free</wc-option>
+    <wc-option value="pro">Pro</wc-option>
+    <wc-option value="enterprise" disabled>Enterprise (contact sales)</wc-option>
   </wc-select>
 </DemoComponentCard>

@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './select.scss';
 import type { Menu } from '../menu/menu/menu.js';
-import type { SelectOptionElement } from './option.js';
+import { SelectOptionElement } from './option.js';
 
 export interface SelectOption {
   label: string;
@@ -29,13 +29,10 @@ export interface SelectOption {
  *
  * @example
  * ```html
- * <wc-select label="Fruit" placeholder="Pick a fruit..."></wc-select>
- * <script>
- *   document.querySelector('wc-select').options = [
- *     { label: 'Apple', value: 'apple' },
- *     { label: 'Banana', value: 'banana' },
- *   ];
- * </script>
+ * <wc-select label="Fruit" placeholder="Pick a fruit...">
+ *   <wc-option value="apple">Apple</wc-option>
+ *   <wc-option value="banana">Banana</wc-option>
+ * </wc-select>
  * ```
  * @tags form
  */
@@ -44,6 +41,7 @@ export class Select extends BaseInput {
 
   /**
    * Array of options to display in the dropdown.
+   * Setting this property creates matching `<wc-option>` children automatically.
    */
   @property({ type: Array })
   options: SelectOption[] = [];
@@ -119,8 +117,9 @@ export class Select extends BaseInput {
   @state()
   private _searchQuery: string = '';
 
+  /** True when all options are filtered out by the current search query. */
   @state()
-  private _slottedOptions: SelectOption[] = [];
+  private _noOptionsVisible: boolean = false;
 
   @query('.select-trigger')
   private _triggerEl?: HTMLElement;
@@ -140,26 +139,63 @@ export class Select extends BaseInput {
     this._triggerEl?.blur();
   }
 
-  /** Merged list of declarative `<wc-option>` children and programmatic `options`. */
-  private get _allOptions(): SelectOption[] {
-    return [...this._slottedOptions, ...this.options];
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  protected override updated(changedProperties: Map<string, unknown>) {
+    super.updated(changedProperties);
+    if (changedProperties.has('options')) {
+      this._syncProgrammaticOptions();
+    }
+    this._syncOptionStates();
   }
 
-  private _handleSlotChange(event: Event) {
-    const slot = event.target as HTMLSlotElement;
-    const assigned = slot.assignedElements({ flatten: true });
-    this._slottedOptions = assigned
-      .filter(el => el.tagName.toLowerCase() === 'wc-option')
-      .map(el => {
-        const opt = el as SelectOptionElement;
-        return {
-          value: opt.value ?? el.getAttribute('value') ?? '',
-          label: el.textContent?.trim() ?? '',
-          icon: opt.icon || el.getAttribute('icon') || undefined,
-        };
-      })
-      .filter(opt => !!opt.value);
+  // ── Programmatic options ───────────────────────────────────────────────────
+
+  /**
+   * Reconciles the `options` property with auto-generated `<wc-option>` light-DOM
+   * children (marked `data-generated`).  Declarative children placed by the
+   * consumer are left untouched.
+   */
+  private _syncProgrammaticOptions() {
+    this.querySelectorAll('wc-option[data-generated]').forEach(el => el.remove());
+    for (const opt of this.options) {
+      const el = new SelectOptionElement();
+      el.value = opt.value;
+      if (opt.icon) el.icon = opt.icon;
+      el.textContent = opt.label;
+      el.dataset.generated = '';
+      this.appendChild(el);
+    }
   }
+
+  // ── Option state sync ──────────────────────────────────────────────────────
+
+  /**
+   * Pushes `selected`, `keepOpen`, and `filtered` state onto every `<wc-option>`
+   * child element so each one can render itself correctly.
+   */
+  private _syncOptionStates() {
+    const optEls = Array.from(
+      this.querySelectorAll<SelectOptionElement>('wc-option'),
+    );
+    let visibleCount = 0;
+    for (const opt of optEls) {
+      opt.selected = this._isSelected(opt.value);
+      opt.keepOpen = this.multiple;
+      if (this.search && this.search !== 'managed' && this._searchQuery) {
+        const q = this._searchQuery.toLowerCase();
+        const label = opt.textContent?.trim() ?? '';
+        opt.filtered = !label.toLowerCase().includes(q);
+        if (!opt.filtered) visibleCount++;
+      } else {
+        opt.filtered = false;
+        visibleCount++;
+      }
+    }
+    this._noOptionsVisible = optEls.length > 0 && visibleCount === 0;
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
 
   private get _selectedValues(): string[] {
     if (!this.value) return [];
@@ -173,26 +209,27 @@ export class Select extends BaseInput {
     return this._selectedValues.includes(value);
   }
 
-  private get _displayLabel(): string {
-    if (!this.value) return '';
-    const values = this._selectedValues;
-    const item = this._allOptions.find(i => i.value === values[0]);
-    return item?.label ?? values[0] ?? '';
+  /** Returns the display label for a given option value. */
+  private _getLabelForValue(val: string): string {
+    for (const opt of this.querySelectorAll<SelectOptionElement>('wc-option')) {
+      if (opt.value === val) return opt.textContent?.trim() ?? val;
+    }
+    // Fallback to options array (before wc-option children are created)
+    return this.options.find(o => o.value === val)?.label ?? val;
   }
 
-  private get _filteredItems(): SelectOption[] {
-    if (!this.search || this.search === 'managed' || !this._searchQuery) {
-      return this._allOptions;
-    }
-    const q = this._searchQuery.toLowerCase();
-    return this._allOptions.filter(item =>
-      item.label.toLowerCase().includes(q),
-    );
+  private get _displayLabel(): string {
+    if (!this.value) return '';
+    const firstValue = this._selectedValues[0];
+    if (!firstValue) return '';
+    return this._getLabelForValue(firstValue);
   }
 
   private get _isPopulated(): boolean {
     return !!this.value;
   }
+
+  // ── Menu open/close ────────────────────────────────────────────────────────
 
   private _openMenu() {
     if (this.disabled || this.readonly) return;
@@ -222,6 +259,8 @@ export class Select extends BaseInput {
     this._searchQuery = '';
     this._menu?.close();
   }
+
+  // ── Event handlers ─────────────────────────────────────────────────────────
 
   private _handleTriggerClick(event: MouseEvent) {
     // Ignore clicks that originated inside the search input — those should not
@@ -330,6 +369,8 @@ export class Select extends BaseInput {
     this._dispatchChange();
   }
 
+  // ── Render helpers ─────────────────────────────────────────────────────────
+
   private _renderTriggerContent() {
     // Typeahead: when open, show a text input for filtering
     if (this.search && this._open) {
@@ -351,7 +392,7 @@ export class Select extends BaseInput {
               value=${val}
               @tag--dismiss=${(e: CustomEvent) =>
                 this._handleChipDismiss(e, val)}
-            >${this._allOptions.find(i => i.value === val)?.label ?? val}</wc-chip
+            >${this._getLabelForValue(val)}</wc-chip
             >
           `,
         )}
@@ -432,37 +473,12 @@ export class Select extends BaseInput {
         @menu-item-activate=${(e: CustomEvent) =>
           this._handleMenuItemActivate(e)}
       >
-        ${this._filteredItems.length === 0
+        <slot></slot>
+        ${this._noOptionsVisible
           ? html`<wc-menu-item disabled>No options</wc-menu-item>`
-          : this._filteredItems.map(
-              item => html`
-                <wc-menu-item
-                  value=${item.value}
-                  ?selected=${this._isSelected(item.value)}
-                  ?keep-open=${this.multiple}
-                >
-                  ${item.icon
-                    ? html`<wc-icon
-                        name=${item.icon}
-                        slot="leading-icon"
-                      ></wc-icon>`
-                    : nothing}
-                  ${item.label}
-                  ${this.multiple && this._isSelected(item.value)
-                    ? html`<wc-icon
-                        name="check"
-                        slot="trailing-supporting-text"
-                      ></wc-icon>`
-                    : nothing}
-                </wc-menu-item>
-              `,
-            )}
+          : nothing}
       </wc-menu>
-
-      <slot
-        style="display:none"
-        @slotchange=${this._handleSlotChange}
-      ></slot>
     `;
   }
 }
+

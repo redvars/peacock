@@ -8,27 +8,18 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="multi-select"
     label="Fruits"
     placeholder="Pick fruits..."
     multiple
     clearable
     style="width: 24rem"
-  ></wc-select>
-
-  <script is:inline>
-    const multiSel = document.getElementById('multi-select');
-    multiSel.options = [
-      { label: 'Apple', value: 'apple' },
-      { label: 'Banana', value: 'banana' },
-      { label: 'Cherry', value: 'cherry' },
-      { label: 'Dragonfruit', value: 'dragonfruit' },
-      { label: 'Elderberry', value: 'elderberry' },
-    ];
-    multiSel.addEventListener('change', function (evt) {
-      console.log('change', evt.detail);
-    });
-  </script>
+  >
+    <wc-option value="apple">Apple</wc-option>
+    <wc-option value="banana">Banana</wc-option>
+    <wc-option value="cherry">Cherry</wc-option>
+    <wc-option value="dragonfruit">Dragonfruit</wc-option>
+    <wc-option value="elderberry">Elderberry</wc-option>
+  </wc-select>
 </DemoComponentCard>
 
 <p class='text-body-large'>
@@ -37,24 +28,18 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="multi-search-select"
     label="Tags"
     placeholder="Search and pick tags..."
     multiple
     search="contains"
     clearable
     style="width: 24rem"
-  ></wc-select>
-
-  <script is:inline>
-    const multiSearchSel = document.getElementById('multi-search-select');
-    multiSearchSel.options = [
-      { label: 'JavaScript', value: 'js' },
-      { label: 'TypeScript', value: 'ts' },
-      { label: 'Python', value: 'python' },
-      { label: 'Rust', value: 'rust' },
-      { label: 'Go', value: 'go' },
-      { label: 'Elixir', value: 'elixir' },
-    ];
-  </script>
+  >
+    <wc-option value="js">JavaScript</wc-option>
+    <wc-option value="ts">TypeScript</wc-option>
+    <wc-option value="python">Python</wc-option>
+    <wc-option value="rust">Rust</wc-option>
+    <wc-option value="go">Go</wc-option>
+    <wc-option value="elixir">Elixir</wc-option>
+  </wc-select>
 </DemoComponentCard>

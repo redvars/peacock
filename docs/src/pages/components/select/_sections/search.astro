@@ -5,26 +5,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-select
-    id="search-select"
     label="Action"
     placeholder="Type to filter..."
     search="contains"
     clearable
     style="width: 20rem"
-  ></wc-select>
-
-  <script is:inline>
-    const searchSel = document.getElementById('search-select');
-    searchSel.options = [
-      { label: 'New file', value: 'new', icon: 'add' },
-      { label: 'Save', value: 'save', icon: 'save' },
-      { label: 'Save As', value: 'save-as' },
-      { label: 'Nadine Brooks', value: 'nadine' },
-      { label: 'Laura Ballard', value: 'laura' },
-      { label: 'Jack Thompson', value: 'jack' },
-    ];
-    searchSel.addEventListener('change', function (evt) {
-      console.log('change', evt.detail);
-    });
-  </script>
+  >
+    <wc-option value="new" icon="add">New file</wc-option>
+    <wc-option value="save" icon="save">Save</wc-option>
+    <wc-option value="save-as">Save As</wc-option>
+    <wc-option value="nadine">Nadine Brooks</wc-option>
+    <wc-option value="laura">Laura Ballard</wc-option>
+    <wc-option value="jack">Jack Thompson</wc-option>
+  </wc-select>
 </DemoComponentCard>

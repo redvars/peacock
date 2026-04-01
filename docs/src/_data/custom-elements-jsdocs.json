@@ -10696,6 +10696,38 @@
           "description": "Disables the option so it cannot be selected.",
           "attribute": "disabled",
           "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Reflects whether this option is currently selected. Managed by wc-select.",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "keepOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true the menu stays open after selection (multi-select mode). Managed by wc-select.",
+          "attribute": "keep-open"
+        },
+        {
+          "kind": "field",
+          "name": "filtered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true the option is hidden because it does not match the current search query. Managed by wc-select.",
+          "attribute": "filtered",
+          "reflects": true
         }
       ],
       "events": [],
@@ -10726,6 +10758,33 @@
           "default": "false",
           "description": "Disables the option so it cannot be selected.",
           "fieldName": "disabled"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Reflects whether this option is currently selected. Managed by wc-select.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "keep-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true the menu stays open after selection (multi-select mode). Managed by wc-select.",
+          "fieldName": "keepOpen"
+        },
+        {
+          "name": "filtered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true the option is hidden because it does not match the current search query. Managed by wc-select.",
+          "fieldName": "filtered"
         }
       ],
       "tagName": "wc-option",
