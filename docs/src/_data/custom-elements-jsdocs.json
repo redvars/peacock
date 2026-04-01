@@ -9549,6 +9549,425 @@
     }
   },
   {
+    "rawTag": "segmented-button",
+    "label": "Segmented Button",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Segmented Button"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-segmented-button"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "segmented-button"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "An individual segment within a segmented button group."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--segmented-button-disabled-opacity: Opacity when the segment is disabled."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "segmented-button--change - Dispatched when the selected state changes."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "controls"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SegmentedButton",
+      "cssProperties": [
+        {
+          "description": "Height of the segmented button.",
+          "name": "--segmented-button-height:"
+        },
+        {
+          "description": "Background color when the segment is selected.",
+          "name": "--segmented-button-selected-container-color:"
+        },
+        {
+          "description": "Text color when the segment is selected.",
+          "name": "--segmented-button-selected-label-text-color:"
+        },
+        {
+          "description": "Text color when the segment is unselected.",
+          "name": "--segmented-button-unselected-label-text-color:"
+        },
+        {
+          "description": "Outline / border color.",
+          "name": "--segmented-button-outline-color:"
+        },
+        {
+          "description": "Opacity when the segment is disabled.",
+          "name": "--segmented-button-disabled-opacity:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value associated with this segment.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this segment is currently selected.",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with this segment.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional icon name to display (uses wc-icon).",
+          "attribute": "icon"
+        },
+        {
+          "kind": "field",
+          "name": "hasFocus",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isActive",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_windowMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_mouseDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_keyDownHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_clickHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_toggle",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "ev",
+              "type": {
+                "text": "MouseEvent | KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_blurHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_focusHandler",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "description": "Sets focus on the segment."
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "description": "Removes focus from the segment."
+        }
+      ],
+      "events": [
+        {
+          "name": "segmented-button--change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the selected state changes."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value associated with this segment.",
+          "fieldName": "value"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this segment is currently selected.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with this segment.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional icon name to display (uses wc-icon).",
+          "fieldName": "icon"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-segmented-button",
+      "customElement": true,
+      "summary": "An individual segment within a segmented button group.",
+      "rawTag": {
+        "name": "segmented-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "rawTag": "segmented-button-group",
+    "label": "Segmented Button Group",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Segmented Button Group"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-segmented-button-group"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "segmented-button-group"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A container for segmented buttons following Material Design 3."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Segmented buttons help people select options, switch views, or sort elements. They follow the Material Design 3 specification.</p>\n<p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>"
+        }
+      ],
+      "@cssprop": [
+        {
+          "kind": "text",
+          "text": "--segmented-button-group-shape: Border-radius of the group container."
+        }
+      ],
+      "@fires": [
+        {
+          "kind": "text",
+          "text": "change - Dispatched when the selection changes. Detail contains <code>{ value, values }</code>."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "controls"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SegmentedButtonGroup",
+      "cssProperties": [
+        {
+          "description": "Border-radius of the group container.",
+          "name": "--segmented-button-group-shape:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "SegmentedButton",
+          "static": true,
+          "default": "SegmentedButton"
+        },
+        {
+          "kind": "field",
+          "name": "multiSelect",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, multiple segments can be selected simultaneously.\nDefaults to single-select mode.",
+          "attribute": "multi-select",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "nullable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, in single-select mode the currently selected segment can be\ndeselected by clicking it again (allowing an empty selection).\nDefaults to `false`.",
+          "attribute": "nullable",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "_getSegments",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "SegmentedButton[]"
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": "_onSegmentChange",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the selection changes. Detail contains <code>{ value, values }</code>.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "multi-select",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, multiple segments can be selected simultaneously.\nDefaults to single-select mode.",
+          "fieldName": "multiSelect"
+        },
+        {
+          "name": "nullable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, in single-select mode the currently selected segment can be\ndeselected by clicking it again (allowing an empty selection).\nDefaults to `false`.",
+          "fieldName": "nullable"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-segmented-button-group",
+      "customElement": true,
+      "summary": "A container for segmented buttons following Material Design 3.",
+      "rawTag": {
+        "name": "segmented-button-group",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "skeleton",
     "label": "Skeleton",
     "jsdoc": {
