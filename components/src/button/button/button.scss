@@ -45,7 +45,7 @@ slot::slotted(*) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: var(--button-height, var(--_button-height));
+  height: var(--button-height);
   padding: 0 var(--button-container-padding, var(--_container-padding));
   width: 100%;
   font-family: var(--font-family-sans) !important;

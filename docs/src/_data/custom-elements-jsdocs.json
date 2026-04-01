@@ -817,6 +817,7 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1390,7 +1391,7 @@
             "text": "'standard' | 'connected'"
           },
           "default": "'standard'",
-          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together with a 2px gap; outer buttons have fully rounded outer corners\nwhile middle buttons keep standard rounded corners.\nDefaults to `\"standard\"`.",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` places buttons with a 2px gap; in horizontal orientation outer buttons have fully\nrounded outer corners and middle buttons keep standard rounded corners. In vertical orientation\nall buttons keep their default corner shape.\nDefaults to `\"standard\"`.",
           "attribute": "variant",
           "reflects": true
         },
@@ -1457,7 +1458,7 @@
             "text": "'standard' | 'connected'"
           },
           "default": "'standard'",
-          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together with a 2px gap; outer buttons have fully rounded outer corners\nwhile middle buttons keep standard rounded corners.\nDefaults to `\"standard\"`.",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` places buttons with a 2px gap; in horizontal orientation outer buttons have fully\nrounded outer corners and middle buttons keep standard rounded corners. In vertical orientation\nall buttons keep their default corner shape.\nDefaults to `\"standard\"`.",
           "fieldName": "variant"
         },
         {
@@ -6052,6 +6053,7 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"

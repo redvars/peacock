@@ -116,8 +116,8 @@ export class ButtonGroup extends LitElement {
             child.style.removeProperty('--button-container-shape-end-end');
           } else {
             // Left button in horizontal group: round left corners, standard right corners
-            child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-full)');
-            child.style.setProperty('--button-container-shape-end-start', 'var(--shape-corner-full)');
+            child.style.setProperty('--button-container-shape-start-start', 'calc(var(--button-height) / 2)');
+            child.style.setProperty('--button-container-shape-end-start', 'calc(var(--button-height) / 2)');
             child.style.setProperty('--button-container-shape-start-end', 'var(--shape-corner-medium)');
             child.style.setProperty('--button-container-shape-end-end', 'var(--shape-corner-medium)');
           }
@@ -133,8 +133,8 @@ export class ButtonGroup extends LitElement {
             // Right button in horizontal group: standard left corners, round right corners
             child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-medium)');
             child.style.setProperty('--button-container-shape-end-start', 'var(--shape-corner-medium)');
-            child.style.setProperty('--button-container-shape-start-end', 'var(--shape-corner-full)');
-            child.style.setProperty('--button-container-shape-end-end', 'var(--shape-corner-full)');
+            child.style.setProperty('--button-container-shape-start-end', 'calc(var(--button-height) / 2)');
+            child.style.setProperty('--button-container-shape-end-end', 'calc(var(--button-height) / 2)');
           }
         } else {
           // Middle buttons: standard rounded corners on all sides
