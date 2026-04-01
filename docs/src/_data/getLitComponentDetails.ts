@@ -9,23 +9,25 @@ export function getComponentDetails(name: string): any {
 }
 
 export function getTextTag(component: any, tag: string) {
-  if (component?.jsdoc[tag] && component?.jsdoc[tag][0])
-    return component.jsdoc[tag][0].text;
+  const value = component?.[tag];
+  if (value) return value;
   console.log(
     `No text found for tag ${tag} in component ${component?.rawTag}. Using default text instead.`,
   );
   return null;
 }
 
-export function getCodeBlock(component: any, tag: string) {
-  if (component?.jsdoc[tag] && component?.jsdoc[tag][0]) {
-    const markdownString = component.jsdoc[tag][0].text;
-    // 1. Convert Markdown into an array of tokens
+export function getMarkdown(component: any, tag: string) {
+  const markdownString = component?.[tag];
+  if (markdownString) {
+    // For fenced examples, return the code block content so set:html can render live preview.
+    // For prose markdown (overview/summary), render to HTML.
     const tokens = marked.lexer(markdownString);
     const codeBlocks: any = tokens.filter(
       (token: any) => token.type === 'code',
     );
-    return codeBlocks[0].text;
+    if (codeBlocks[0]?.text) return codeBlocks[0].text;
+    return marked.parse(markdownString) as string;
   }
   return 'Web Component';
 }

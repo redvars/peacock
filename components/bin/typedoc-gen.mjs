@@ -15,7 +15,7 @@ async function run() {
       '@tags',
       '@summary',
       '@overview',
-      '@parentRawTag'
+      '@parentRawTag',
     ],
   });
 
@@ -34,23 +34,16 @@ async function run() {
     const components = data.children
       .filter(child => child)
       .map(child => {
-        const result = {};
+        const component = {};
         child.comment?.blockTags.forEach(tag => {
-          result[tag.tag] = tag.content;
+          // Strip '@' prefix: '@rawTag' → 'rawTag'
+          const key = tag.tag.slice(1);
+          // Concatenate all content items into a single string
+          component[key] = tag.content.map(c => c.text).join('');
         });
-        return {
-          rawTag:
-            result['@rawTag'] && result['@rawTag'][0]
-              ? result['@rawTag'][0].text
-              : null,
-          label:
-            result['@label'] && result['@label'][0]
-              ? result['@label'][0].text
-              : '',
-          jsdoc: result,
-        };
+        return component;
       })
-      .filter(child => !!child.rawTag)
+      .filter(comp => !!comp.rawTag)
       .map(component => {
         const customElement = customElementsInfo.modules.find(m => {
           return m.declarations.find(

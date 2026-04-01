@@ -1,5 +1,5 @@
 ---
-import { getLitComponentDetails, getTextTag } from '../_data/getLitComponentDetails.ts';
+import { getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
 interface Props {
   componentDetails: any;
 }
@@ -9,12 +9,11 @@ import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
 const {componentDetails} = Astro.props;
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
-import { getCategoriesTree, getComponentDetails } from '../_data/getComponentDetails';
 import Footer from '../components/Footer.astro';
 
-const title = getTextTag(componentDetails, '@label');
-const rawTag = getTextTag(componentDetails, '@rawTag');
-const description = getTextTag(componentDetails, '@summary');
+const title = getTextTag(componentDetails, 'label');
+const rawTag = getTextTag(componentDetails, 'rawTag');
+const description = getTextTag(componentDetails, 'summary');
 ---
 
 <Layout title={title} description={description} classes='surface'>
@@ -49,8 +48,8 @@ const description = getTextTag(componentDetails, '@summary');
       </div>
 
       <div class='component-description'>
-        <div class='text-title-large'
-             set:html={getTextTag(componentDetails, '@overview') ? getTextTag(componentDetails, '@overview') : getTextTag(componentDetails, '@summary')}>
+           <div class='text-title-large'
+             set:html={getTextTag(componentDetails, 'overview') ? getMarkdown(componentDetails, 'overview') : getTextTag(componentDetails, 'summary')}>
 
         </div>
       </div>
