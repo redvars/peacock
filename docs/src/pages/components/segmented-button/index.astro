@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+import UsageSection from './_sections/Usage.astro';
+import SingleSelectSection from './_sections/SingleSelect.astro';
+import MultiSelectSection from './_sections/MultiSelect.astro';
+import WithIconsSection from './_sections/WithIcons.astro';
+
+const componentDetails = getComponentDetails('segmented-button-group');
+
+const sections = [
+  { title: 'Usage', Component: UsageSection },
+  { title: 'Single Select', Component: SingleSelectSection },
+  { title: 'Multi Select', Component: MultiSelectSection },
+  { title: 'With Icons', Component: WithIconsSection },
+];
+---
+
+<Layout componentDetails={componentDetails}>
+  <wc-tab-group class='page-tabs'>
+    <wc-tabs>
+      <wc-tab selected='true'>Overview</wc-tab>
+      <wc-tab>API</wc-tab>
+    </wc-tabs>
+    <wc-tab-panel>
+      <OverviewPanel sections={sections} />
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </wc-tab-panel>
+  </wc-tab-group>
+</Layout>

@@ -1,0 +1,116 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: contents;
+
+  --_segmented-button-height: 2.5rem;
+  --_segmented-button-outline-color: var(--color-outline, #79747e);
+  --_segmented-button-selected-container-color: var(--color-secondary-container, #e8def8);
+  --_segmented-button-selected-label-text-color: var(--color-on-secondary-container, #1d192b);
+  --_segmented-button-unselected-label-text-color: var(--color-on-surface, #1c1b1f);
+  --_segmented-button-disabled-opacity: 0.38;
+  --_segmented-button-state-layer-color: var(--color-on-surface, #1c1b1f);
+  --_segmented-button-selected-state-layer-color: var(--color-on-secondary-container, #1d192b);
+}
+
+.segment {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--segmented-button-height, var(--_segmented-button-height));
+  padding: 0 1.5rem;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  background: transparent;
+  overflow: hidden;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    @include mixin.get-typography(label-large);
+    color: var(--segmented-button-unselected-label-text-color, var(--_segmented-button-unselected-label-text-color));
+
+    .check-icon,
+    .leading-icon {
+      --icon-size: 1.125rem;
+      --icon-color: currentColor;
+      flex-shrink: 0;
+    }
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .state-layer {
+    position: absolute;
+    inset: 0;
+    background: var(--_segmented-button-state-layer-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+
+  /* right-side divider between segments */
+  .segment-outline {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    width: 1px;
+    height: 100%;
+    background: var(--segmented-button-outline-color, var(--_segmented-button-outline-color));
+    pointer-events: none;
+  }
+
+  &:last-of-type .segment-outline,
+  :host(:last-child) .segment-outline {
+    display: none;
+  }
+
+  &:hover:not(.disabled) .state-layer {
+    opacity: 0.08;
+  }
+
+  &.has-focus:not(.disabled) .state-layer {
+    opacity: 0.12;
+  }
+
+  &.active:not(.disabled) .state-layer {
+    opacity: 0.16;
+  }
+
+  /* Selected state */
+  &.selected {
+    background-color: var(--segmented-button-selected-container-color, var(--_segmented-button-selected-container-color));
+
+    .content {
+      color: var(--segmented-button-selected-label-text-color, var(--_segmented-button-selected-label-text-color));
+    }
+
+    .state-layer {
+      background: var(--_segmented-button-selected-state-layer-color);
+    }
+  }
+
+  /* Disabled state */
+  &.disabled {
+    cursor: not-allowed;
+    opacity: var(--segmented-button-disabled-opacity, var(--_segmented-button-disabled-opacity));
+    pointer-events: none;
+  }
+}

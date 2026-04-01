@@ -1,0 +1,21 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  --_segmented-button-group-shape: var(--shape-corner-full, 9999px);
+}
+
+.segmented-button-group {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--segmented-button-group-shape, var(--_segmented-button-group-shape));
+  border: 1px solid var(--segmented-button-outline-color, var(--color-outline, #79747e));
+  overflow: hidden;
+  min-width: max-content;
+
+  ::slotted(wc-segmented-button) {
+    flex: 1;
+  }
+}

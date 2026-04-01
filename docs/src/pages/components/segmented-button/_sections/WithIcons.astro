@@ -1,0 +1,32 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  Segments can include an icon alongside the label. When selected, the icon is
+  replaced by a checkmark to indicate the active state.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-segmented-button-group>
+    <wc-segmented-button value="list" icon="list">List</wc-segmented-button>
+    <wc-segmented-button value="grid" icon="grid_view" selected>Grid</wc-segmented-button>
+    <wc-segmented-button value="table" icon="table_chart">Table</wc-segmented-button>
+  </wc-segmented-button-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-segmented-button-group>
+    <wc-segmented-button value="day" icon="calendar_today">Day</wc-segmented-button>
+    <wc-segmented-button value="week" icon="calendar_view_week" selected>Week</wc-segmented-button>
+    <wc-segmented-button value="month" icon="calendar_month">Month</wc-segmented-button>
+  </wc-segmented-button-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-segmented-button-group multi-select>
+    <wc-segmented-button value="bold" icon="format_bold" selected>Bold</wc-segmented-button>
+    <wc-segmented-button value="italic" icon="format_italic">Italic</wc-segmented-button>
+    <wc-segmented-button value="underline" icon="format_underlined" selected>Underline</wc-segmented-button>
+  </wc-segmented-button-group>
+</DemoComponentCard>
