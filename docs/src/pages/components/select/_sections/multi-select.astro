@@ -18,7 +18,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     const multiSel = document.getElementById('multi-select');
-    multiSel.items = [
+    multiSel.options = [
       { label: 'Apple', value: 'apple' },
       { label: 'Banana', value: 'banana' },
       { label: 'Cherry', value: 'cherry' },
@@ -48,7 +48,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     const multiSearchSel = document.getElementById('multi-search-select');
-    multiSearchSel.items = [
+    multiSearchSel.options = [
       { label: 'JavaScript', value: 'js' },
       { label: 'TypeScript', value: 'ts' },
       { label: 'Python', value: 'python' },

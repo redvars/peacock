@@ -30,7 +30,7 @@ export interface SelectOption {
  * ```html
  * <wc-select label="Fruit" placeholder="Pick a fruit..."></wc-select>
  * <script>
- *   document.querySelector('wc-select').items = [
+ *   document.querySelector('wc-select').options = [
  *     { label: 'Apple', value: 'apple' },
  *     { label: 'Banana', value: 'banana' },
  *   ];
@@ -45,7 +45,7 @@ export class Select extends BaseInput {
    * Array of options to display in the dropdown.
    */
   @property({ type: Array })
-  items: SelectOption[] = [];
+  options: SelectOption[] = [];
 
   /**
    * The selected value. For multi-select, a comma-separated list of values.
@@ -151,16 +151,16 @@ export class Select extends BaseInput {
   private get _displayLabel(): string {
     if (!this.value) return '';
     const values = this._selectedValues;
-    const item = this.items.find(i => i.value === values[0]);
+    const item = this.options.find(i => i.value === values[0]);
     return item?.label ?? values[0] ?? '';
   }
 
   private get _filteredItems(): SelectOption[] {
     if (!this.search || this.search === 'managed' || !this._searchQuery) {
-      return this.items;
+      return this.options;
     }
     const q = this._searchQuery.toLowerCase();
-    return this.items.filter(item =>
+    return this.options.filter(item =>
       item.label.toLowerCase().includes(q),
     );
   }
@@ -180,8 +180,12 @@ export class Select extends BaseInput {
     }
     if (this.search) {
       this._searchQuery = '';
+      // Use rAF so that the search input receives focus *after* wc-menu has
+      // finished showing and potentially focused a menu item.
       this.updateComplete.then(() => {
-        this._searchInputEl?.focus();
+        requestAnimationFrame(() => {
+          this._searchInputEl?.focus();
+        });
       });
     }
   }
@@ -322,7 +326,7 @@ export class Select extends BaseInput {
               value=${val}
               @tag--dismiss=${(e: CustomEvent) =>
                 this._handleChipDismiss(e, val)}
-            >${this.items.find(i => i.value === val)?.label ?? val}</wc-chip
+            >${this.options.find(i => i.value === val)?.label ?? val}</wc-chip
             >
           `,
         )}

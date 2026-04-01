@@ -20,13 +20,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     const managedSel = document.getElementById('managed-select');
     let counter = 1;
 
-    managedSel.items = [];
+    managedSel.options = [];
 
     managedSel.addEventListener('select-search', function (evt) {
       const query = evt.detail.value;
       // Simulate an async server call
       setTimeout(function () {
-        managedSel.items = Array.from({ length: 5 }, function (_, i) {
+        managedSel.options = Array.from({ length: 5 }, function (_, i) {
           return { label: `${query} result ${counter + i}`, value: String(counter + i) };
         });
         counter += 5;

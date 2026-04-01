@@ -10004,7 +10004,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\"></wc-select>\n<script>\n  document.querySelector('wc-select').items = [\n    { label: 'Apple', value: 'apple' },\n    { label: 'Banana', value: 'banana' },\n  ];\n</script>\n```"
+          "text": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\"></wc-select>\n<script>\n  document.querySelector('wc-select').options = [\n    { label: 'Apple', value: 'apple' },\n    { label: 'Banana', value: 'banana' },\n  ];\n</script>\n```"
         }
       ],
       "@tags": [
@@ -10021,13 +10021,13 @@
       "members": [
         {
           "kind": "field",
-          "name": "items",
+          "name": "options",
           "type": {
             "text": "SelectOption[]"
           },
           "default": "[]",
           "description": "Array of options to display in the dropdown.",
-          "attribute": "items"
+          "attribute": "options"
         },
         {
           "kind": "field",
@@ -10444,13 +10444,13 @@
       ],
       "attributes": [
         {
-          "name": "items",
+          "name": "options",
           "type": {
             "text": "SelectOption[]"
           },
           "default": "[]",
           "description": "Array of options to display in the dropdown.",
-          "fieldName": "items"
+          "fieldName": "options"
         },
         {
           "name": "value",

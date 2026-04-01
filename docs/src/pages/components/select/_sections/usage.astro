@@ -14,7 +14,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     const sel = document.getElementById('basic-select');
-    sel.items = [
+    sel.options = [
       { label: 'Apple', value: 'apple' },
       { label: 'Banana', value: 'banana' },
       { label: 'Cherry', value: 'cherry' },
@@ -39,7 +39,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     const outlinedSel = document.getElementById('outlined-select');
-    outlinedSel.items = [
+    outlinedSel.options = [
       { label: 'Apple', value: 'apple' },
       { label: 'Banana', value: 'banana' },
       { label: 'Cherry', value: 'cherry' },
@@ -58,7 +58,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <script is:inline>
     const iconsSel = document.getElementById('icons-select');
-    iconsSel.items = [
+    iconsSel.options = [
       { label: 'New file', value: 'new', icon: 'add' },
       { label: 'Save', value: 'save', icon: 'save' },
       { label: 'Delete', value: 'delete', icon: 'delete' },
