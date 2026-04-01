@@ -1,0 +1,24 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  In single-select mode (default), only one segment can be active at a time.
+  Clicking the active segment has no effect unless <code>nullable</code> is set.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-segmented-button-group>
+    <wc-segmented-button value="songs">Songs</wc-segmented-button>
+    <wc-segmented-button value="albums" selected>Albums</wc-segmented-button>
+    <wc-segmented-button value="podcasts">Podcasts</wc-segmented-button>
+  </wc-segmented-button-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-segmented-button-group nullable>
+    <wc-segmented-button value="map">Map</wc-segmented-button>
+    <wc-segmented-button value="satellite">Satellite</wc-segmented-button>
+    <wc-segmented-button value="terrain">Terrain</wc-segmented-button>
+  </wc-segmented-button-group>
+</DemoComponentCard>
