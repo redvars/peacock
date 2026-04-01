@@ -1,0 +1,40 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-modal-bottom'>Open modal bottom sheet</wc-button>
+  <wc-button id='show-standard-bottom' variant='outlined'>Open standard bottom sheet</wc-button>
+  <br />
+
+  <wc-bottom-sheet id='modal-bottom-sheet' variant='modal' show-handle>
+    <h3 style='margin: 0 0 0.5rem;'>Modal Bottom Sheet</h3>
+    <p>This is a modal bottom sheet. Tap the scrim or drag down to close.</p>
+    <wc-button id='close-modal-bottom' variant='outlined'>Close</wc-button>
+  </wc-bottom-sheet>
+
+  <div style='position: relative; height: 200px; overflow: hidden; border: 1px solid var(--color-outline, #ccc); border-radius: 8px; margin-top: 1rem;'>
+    <p style='padding: 1rem; margin: 0;'>Page content area (standard sheet is positioned relative to its container)</p>
+    <wc-bottom-sheet id='standard-bottom-sheet' variant='standard' show-handle>
+      <h3 style='margin: 0 0 0.5rem;'>Standard Bottom Sheet</h3>
+      <p>This coexists with the page content.</p>
+    </wc-bottom-sheet>
+  </div>
+
+  <script is:inline>
+    const modal = document.querySelector('#modal-bottom-sheet');
+    const standard = document.querySelector('#standard-bottom-sheet');
+
+    document.querySelector('#show-modal-bottom').addEventListener('click', () => {
+      modal.show();
+    });
+
+    document.querySelector('#show-standard-bottom').addEventListener('click', () => {
+      standard.open = !standard.open;
+    });
+
+    document.querySelector('#close-modal-bottom').addEventListener('click', () => {
+      modal.hide();
+    });
+  </script>
+</DemoComponentCard>

@@ -54,6 +54,8 @@ import { Pagination } from './pagination/pagination.js';
 import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
 import { Snackbar } from './snackbar/snackbar.js';
+import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
+import { SideSheet } from './side-sheet/side-sheet.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -237,6 +239,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-snackbar': {
       CustomElementClass: Snackbar,
+    },
+    'wc-bottom-sheet': {
+      CustomElementClass: BottomSheet,
+    },
+    'wc-side-sheet': {
+      CustomElementClass: SideSheet,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

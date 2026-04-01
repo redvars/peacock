@@ -1,0 +1,42 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-modal-side-right'>Open right modal sheet</wc-button>
+  <wc-button id='show-modal-side-left' variant='outlined'>Open left modal sheet</wc-button>
+  <br />
+
+  <wc-side-sheet id='modal-side-right' variant='modal' position='right'>
+    <h3 style='margin: 0 0 0.5rem;'>Right Side Sheet</h3>
+    <p>This modal side sheet slides in from the right. Tap the scrim to close.</p>
+    <wc-button id='close-side-right' variant='outlined'>Close</wc-button>
+  </wc-side-sheet>
+
+  <wc-side-sheet id='modal-side-left' variant='modal' position='left'>
+    <h3 style='margin: 0 0 0.5rem;'>Left Side Sheet</h3>
+    <p>This modal side sheet slides in from the left. Tap the scrim to close.</p>
+    <wc-button id='close-side-left' variant='outlined'>Close</wc-button>
+  </wc-side-sheet>
+
+  <script is:inline>
+    const right = document.querySelector('#modal-side-right');
+    const left = document.querySelector('#modal-side-left');
+
+    document.querySelector('#show-modal-side-right').addEventListener('click', () => {
+      right.show();
+    });
+
+    document.querySelector('#show-modal-side-left').addEventListener('click', () => {
+      left.show();
+    });
+
+    document.querySelector('#close-side-right').addEventListener('click', () => {
+      right.hide();
+    });
+
+    document.querySelector('#close-side-left').addEventListener('click', () => {
+      left.hide();
+    });
+  </script>
+</DemoComponentCard>
