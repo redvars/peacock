@@ -44,8 +44,9 @@ export class ButtonGroup extends LitElement {
   /**
    * Layout variant of the button group.
    * `"standard"` shows buttons with a small gap between them.
-   * `"connected"` joins buttons together with a 2px gap; outer buttons have fully rounded outer corners
-   * while middle buttons keep standard rounded corners.
+   * `"connected"` places buttons with a 2px gap; in horizontal orientation outer buttons have fully
+   * rounded outer corners and middle buttons keep standard rounded corners. In vertical orientation
+   * all buttons keep their default corner shape.
    * Defaults to `"standard"`.
    */
   @property({ reflect: true }) variant: 'standard' | 'connected' = 'standard';
@@ -108,11 +109,11 @@ export class ButtonGroup extends LitElement {
         } else if (isFirst) {
           child.style.removeProperty('--button-container-shape');
           if (isVertical) {
-            // Top button in vertical group: round top corners, standard bottom corners
-            child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-full)');
-            child.style.setProperty('--button-container-shape-start-end', 'var(--shape-corner-full)');
-            child.style.setProperty('--button-container-shape-end-start', 'var(--shape-corner-medium)');
-            child.style.setProperty('--button-container-shape-end-end', 'var(--shape-corner-medium)');
+            // Top button in vertical group: leave default corner shape
+            child.style.removeProperty('--button-container-shape-start-start');
+            child.style.removeProperty('--button-container-shape-start-end');
+            child.style.removeProperty('--button-container-shape-end-start');
+            child.style.removeProperty('--button-container-shape-end-end');
           } else {
             // Left button in horizontal group: round left corners, standard right corners
             child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-full)');
@@ -123,11 +124,11 @@ export class ButtonGroup extends LitElement {
         } else if (isLast) {
           child.style.removeProperty('--button-container-shape');
           if (isVertical) {
-            // Bottom button in vertical group: standard top corners, round bottom corners
-            child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-medium)');
-            child.style.setProperty('--button-container-shape-start-end', 'var(--shape-corner-medium)');
-            child.style.setProperty('--button-container-shape-end-start', 'var(--shape-corner-full)');
-            child.style.setProperty('--button-container-shape-end-end', 'var(--shape-corner-full)');
+            // Bottom button in vertical group: leave default corner shape
+            child.style.removeProperty('--button-container-shape-start-start');
+            child.style.removeProperty('--button-container-shape-start-end');
+            child.style.removeProperty('--button-container-shape-end-start');
+            child.style.removeProperty('--button-container-shape-end-end');
           } else {
             // Right button in horizontal group: standard left corners, round right corners
             child.style.setProperty('--button-container-shape-start-start', 'var(--shape-corner-medium)');
