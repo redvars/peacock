@@ -26,3 +26,28 @@
   }
 }
 
+:host([variant='filled']) {
+  --tabs-height: 3rem;
+
+  .tabs {
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: var(--shape-corner-small);
+    background: var(--color-surface-container-high);
+  }
+}
+
+:host([variant='contained']) {
+  --tabs-height: 3rem;
+
+  .tabs {
+    align-items: stretch;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: var(--shape-corner-extra-small);
+    border: 1px solid var(--color-outline-variant);
+    background: var(--color-surface);
+  }
+}
+

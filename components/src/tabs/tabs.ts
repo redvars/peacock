@@ -15,7 +15,7 @@ import { Tab } from './tab.js';
  * @example
  * ```html
  * <wc-tabs>
- *   <wc-tab>Tab 1</wc-tab>
+ *   <wc-tab active>Tab 1</wc-tab>
  *   <wc-tab>Tab 2</wc-tab>
  * </wc-tabs>
  * ```
@@ -81,13 +81,38 @@ export class Tabs extends LitElement {
     return tab.shadowRoot.querySelector('.indicator') as HTMLElement | null;
   }
 
+  private static __getTabBackground(tab?: Tab) {
+    if (!tab?.shadowRoot) return undefined;
+    return tab.shadowRoot.querySelector('.background') as HTMLElement | null;
+  }
+
+  private __getAnimationElements(previousTab?: Tab, nextTab?: Tab) {
+    if (this.variant === 'primary' || this.variant === 'secondary') {
+      return {
+        previous: Tabs.__getTabIndicator(previousTab),
+        next: Tabs.__getTabIndicator(nextTab),
+      };
+    }
+
+    if (this.variant === 'filled' || this.variant === 'contained') {
+      return {
+        previous: Tabs.__getTabBackground(previousTab),
+        next: Tabs.__getTabBackground(nextTab),
+      };
+    }
+
+    return {
+      previous: undefined,
+      next: undefined,
+    };
+  }
+
   private __animateIndicatorTransition(previousTab?: Tab, nextTab?: Tab) {
-    if (!(this.variant === 'primary' || this.variant === 'secondary')) return;
     if (!previousTab || !nextTab || previousTab === nextTab) return;
 
-    const previousIndicator = Tabs.__getTabIndicator(previousTab);
-    const nextIndicator = Tabs.__getTabIndicator(nextTab);
-    if (!previousIndicator || !nextIndicator) return;
+    const { previous: previousAnimationElement, next: nextAnimationElement } =
+      this.__getAnimationElements(previousTab, nextTab);
+    if (!previousAnimationElement || !nextAnimationElement) return;
 
     const previousRect = previousTab.getBoundingClientRect();
     const nextRect = nextTab.getBoundingClientRect();
@@ -97,23 +122,23 @@ export class Tabs extends LitElement {
     const incomingScale = previousRect.width / nextRect.width;
     const outgoingScale = nextRect.width / previousRect.width;
 
-    nextIndicator.style.transition = 'none';
-    nextIndicator.style.opacity = '0';
-    nextIndicator.style.transform = `translateX(${incomingOffset}px) scaleX(${incomingScale})`;
+    nextAnimationElement.style.transition = 'none';
+    nextAnimationElement.style.opacity = '0';
+    nextAnimationElement.style.transform = `translateX(${incomingOffset}px) scaleX(${incomingScale})`;
 
-    previousIndicator.style.transition = 'none';
-    previousIndicator.style.opacity = '1';
-    previousIndicator.style.transform = 'translateX(0) scaleX(1)';
+    previousAnimationElement.style.transition = 'none';
+    previousAnimationElement.style.opacity = '1';
+    previousAnimationElement.style.transform = 'translateX(0) scaleX(1)';
 
     requestAnimationFrame(() => {
-      nextIndicator.style.transition = '';
-      previousIndicator.style.transition = '';
+      nextAnimationElement.style.transition = '';
+      previousAnimationElement.style.transition = '';
 
-      nextIndicator.style.opacity = '1';
-      nextIndicator.style.transform = 'translateX(0) scaleX(1)';
+      nextAnimationElement.style.opacity = '1';
+      nextAnimationElement.style.transform = 'translateX(0) scaleX(1)';
 
-      previousIndicator.style.opacity = '0';
-      previousIndicator.style.transform = `translateX(${outgoingOffset}px) scaleX(${outgoingScale})`;
+      previousAnimationElement.style.opacity = '0';
+      previousAnimationElement.style.transform = `translateX(${outgoingOffset}px) scaleX(${outgoingScale})`;
     });
   }
 

@@ -11073,7 +11073,11 @@
         },
         {
           "kind": "method",
-          "name": "renderPillTabContent"
+          "name": "renderFilledTabContent"
+        },
+        {
+          "kind": "method",
+          "name": "renderSegmentedTabContent"
         },
         {
           "kind": "method",
@@ -12033,7 +12037,7 @@
           "kind": "field",
           "name": "variant",
           "type": {
-            "text": "'primary' | 'secondary' | 'contained' | 'pill'"
+            "text": "'primary' | 'secondary' | 'contained' | 'filled'"
           },
           "default": "'primary'",
           "attribute": "variant",
@@ -12091,6 +12095,42 @@
         },
         {
           "kind": "method",
+          "name": "__getTabBackground",
+          "privacy": "private",
+          "static": true,
+          "parameters": [
+            {
+              "name": "tab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__getAnimationElements",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "previousTab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            },
+            {
+              "name": "nextTab",
+              "optional": true,
+              "type": {
+                "text": "Tab"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "__animateIndicatorTransition",
           "privacy": "private",
           "parameters": [
@@ -12125,7 +12165,7 @@
         {
           "name": "variant",
           "type": {
-            "text": "'primary' | 'secondary' | 'contained' | 'pill'"
+            "text": "'primary' | 'secondary' | 'contained' | 'filled'"
           },
           "default": "'primary'",
           "fieldName": "variant"

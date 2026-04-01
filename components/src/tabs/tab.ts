@@ -288,11 +288,33 @@ export class Tab extends LitElement {
   }
 
   renderContainedTabContent() {
-    return this.renderPrimaryTabContent();
+    return this.renderSegmentedTabContent();
   }
 
   renderFilledTabContent() {
-    return this.renderPrimaryTabContent();
+    return this.renderSegmentedTabContent();
+  }
+
+  renderSegmentedTabContent() {
+    return html`
+      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple"></wc-ripple>
+
+      <div class="tab-content">
+        <slot name="icon"></slot>
+
+        <div class="slot-container">
+          <slot></slot>
+        </div>
+
+        <slot name="badge"></slot>
+      </div>
+
+      ${this.__renderDisabledReason()}
+    `;
   }
 
   __getDisabledReasonID() {
