@@ -92,3 +92,97 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>
+
+<DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
+  <wc-tab-group>
+    <wc-tabs variant="filled">
+      <wc-tab>
+        Overview
+        <wc-icon slot="icon" name="dashboard"></wc-icon>
+      </wc-tab>
+      <wc-tab active="true">
+        Activity
+        <wc-badge slot="badge" value="7"></wc-badge>
+      </wc-tab>
+      <wc-tab>
+        Messages
+        <wc-icon slot="icon" name="chat"></wc-icon>
+        <wc-badge slot="badge" value="12"></wc-badge>
+      </wc-tab>
+      <wc-tab disabled>
+        Restricted
+        <wc-icon slot="icon" name="lock"></wc-icon>
+      </wc-tab>
+    </wc-tabs>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> First content </pc-text>
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <pc-text type="heading"> Overview content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Activity content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Messages content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Second content </pc-text>
+    </wc-tab-panel>
+  </wc-tab-group>
+    <wc-tab-panel>
+      <pc-text type="heading"> Restricted content </pc-text>
+    </wc-tab-panel>
+  </wc-tab-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
+  <wc-tab-group>
+    <wc-tabs variant="contained">
+      <wc-tab>
+        Overview
+        <wc-icon slot="icon" name="dashboard"></wc-icon>
+      </wc-tab>
+      <wc-tab active="true">
+        Activity
+        <wc-badge slot="badge" value="7"></wc-badge>
+      </wc-tab>
+      <wc-tab>
+        Messages
+        <wc-icon slot="icon" name="chat"></wc-icon>
+        <wc-badge slot="badge" value="12"></wc-badge>
+      </wc-tab>
+      <wc-tab disabled>
+        Restricted
+        <wc-icon slot="icon" name="lock"></wc-icon>
+      </wc-tab>
+    </wc-tabs>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> First content </pc-text>
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <pc-text type="heading"> Overview content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Activity content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Messages content </pc-text>
+    </wc-tab-panel>
+
+    <wc-tab-panel>
+      <pc-text type="heading"> Second content </pc-text>
+    </wc-tab-panel>
+  </wc-tab-group>
+    <wc-tab-panel>
+      <pc-text type="heading"> Restricted content </pc-text>
+    </wc-tab-panel>
+  </wc-tab-group>
+</DemoComponentCard>
