@@ -20,6 +20,8 @@
   outline: none;
   cursor: pointer;
   user-select: none;
+  overflow: hidden;
+  min-width: 0;
 
   &:focus-visible {
     outline: none;
@@ -88,20 +90,21 @@
   --button-container-shape: var(--shape-corner-full);
 }
 
-/* Multi-select chips area */
+/* Multi-select chips area — single scrollable row, no vertical growth */
 .chips-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
   gap: var(--spacing-050);
   padding-block: var(--spacing-050);
   align-items: center;
-  min-height: 2.5rem;
-}
+  flex: 1;
+  min-width: 0;
 
-/* When chips are present, allow the field to grow */
-:host .select-field.multi-chips {
-  --field-height: unset;
-  --field-padding-block: var(--spacing-050);
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Disabled state */

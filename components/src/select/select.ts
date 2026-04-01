@@ -194,7 +194,12 @@ export class Select extends BaseInput {
     this._menu?.close();
   }
 
-  private _handleTriggerClick() {
+  private _handleTriggerClick(event: MouseEvent) {
+    // Ignore clicks that originated inside the search input — those should not
+    // toggle the menu (the input needs to stay open so the user can type).
+    if (event.target instanceof HTMLInputElement) {
+      return;
+    }
     if (this._open) {
       this._closeMenu();
     } else {
@@ -203,6 +208,15 @@ export class Select extends BaseInput {
   }
 
   private _handleTriggerKeyDown(event: KeyboardEvent) {
+    // When the typeahead search input is active, let the input handle its own
+    // keys (Space, Enter, etc.). Only intercept Escape to close the menu.
+    if (event.target instanceof HTMLInputElement) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        this._closeMenu();
+      }
+      return;
+    }
     switch (event.key) {
       case 'Enter':
       case ' ':
@@ -295,12 +309,6 @@ export class Select extends BaseInput {
         .value=${this._searchQuery}
         placeholder=${this._displayLabel || this.placeholder}
         @input=${this._handleSearchInput}
-        @keydown=${(e: KeyboardEvent) => {
-          if (e.key === 'Escape') {
-            e.stopPropagation();
-            this._closeMenu();
-          }
-        }}
       />`;
     }
 
@@ -353,9 +361,6 @@ export class Select extends BaseInput {
   }
 
   render() {
-    const isMultiWithChips =
-      this.multiple && this._selectedValues.length > 0;
-
     return html`
       <wc-field
         label=${this.label}
@@ -372,10 +377,7 @@ export class Select extends BaseInput {
         ?populated=${this._isPopulated || this._open}
         ?focused=${this._focused}
         .host=${this}
-        class=${classMap({
-          'select-field': true,
-          'multi-chips': isMultiWithChips,
-        })}
+        class="select-field"
       >
         <div
           class="select-trigger"
