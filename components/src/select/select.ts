@@ -19,13 +19,12 @@ export interface SelectOption {
  *
  * @summary A dropdown select component supporting single and multi-select with optional typeahead search.
  * @overview
- * <p>Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.</p>
- * <ul>
- *   <li>Single and multi-select modes</li>
- *   <li>Client-side typeahead with <code>search="contains"</code></li>
- *   <li>Server-side typeahead with <code>search="managed"</code></li>
- *   <li>Multi-select chips display</li>
- * </ul>
+ * Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.
+ *
+ * - Single and multi-select modes
+ * - Client-side typeahead with `search="contains"`
+ * - Server-side typeahead with `search="managed"`
+ * - Multi-select chips display
  *
  * @example
  * ```html
@@ -79,7 +78,7 @@ export class Select extends BaseInput {
   label: string = '';
 
   /**
-   * Show a clear button when a value is selected.
+    * Show a clear button in single-select mode when a value is selected.
    */
   @property({ type: Boolean })
   clearable: boolean = false;
@@ -409,7 +408,11 @@ export class Select extends BaseInput {
 
   private _renderFieldEnd() {
     const showClear =
-      this.clearable && !!this.value && !this.disabled && !this.readonly;
+      this.clearable &&
+      !this.multiple &&
+      !!this.value &&
+      !this.disabled &&
+      !this.readonly;
     return html`
       ${showClear
         ? html`<wc-icon-button

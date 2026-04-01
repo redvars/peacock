@@ -21,6 +21,9 @@ import type { MenuItem } from '../menu/menu-item/menu-item.js';
 export class SelectOptionElement extends LitElement {
   static override styles = [
     css`
+      :host {
+        display: contents;
+      }
       :host([filtered]) {
         display: none;
       }

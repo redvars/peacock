@@ -10004,7 +10004,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\"></wc-select>\n<script>\n  document.querySelector('wc-select').options = [\n    { label: 'Apple', value: 'apple' },\n    { label: 'Banana', value: 'banana' },\n  ];\n</script>\n```"
+          "text": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```"
         }
       ],
       "@tags": [
@@ -10026,7 +10026,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.",
+          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
           "attribute": "options"
         },
         {
@@ -10092,7 +10092,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Show a clear button when a value is selected.",
+          "description": "Show a clear button in single-select mode when a value is selected.",
           "attribute": "clearable"
         },
         {
@@ -10180,6 +10180,16 @@
         },
         {
           "kind": "field",
+          "name": "_noOptionsVisible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false",
+          "description": "True when all options are filtered out by the current search query."
+        },
+        {
+          "kind": "field",
           "name": "_triggerEl",
           "type": {
             "text": "HTMLElement | undefined"
@@ -10212,6 +10222,18 @@
           "name": "blur"
         },
         {
+          "kind": "method",
+          "name": "_syncProgrammaticOptions",
+          "privacy": "private",
+          "description": "Reconciles the `options` property with auto-generated `<wc-option>` light-DOM\nchildren (marked `data-generated`).  Declarative children placed by the\nconsumer are left untouched."
+        },
+        {
+          "kind": "method",
+          "name": "_syncOptionStates",
+          "privacy": "private",
+          "description": "Pushes `selected`, `keepOpen`, and `filtered` state onto every `<wc-option>`\nchild element so each one can render itself correctly."
+        },
+        {
           "kind": "field",
           "name": "_selectedValues",
           "type": {
@@ -10239,19 +10261,29 @@
           ]
         },
         {
+          "kind": "method",
+          "name": "_getLabelForValue",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "val",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Returns the display label for a given option value."
+        },
+        {
           "kind": "field",
           "name": "_displayLabel",
           "type": {
             "text": "string"
-          },
-          "privacy": "private",
-          "readonly": true
-        },
-        {
-          "kind": "field",
-          "name": "_filteredItems",
-          "type": {
-            "text": "SelectOption[]"
           },
           "privacy": "private",
           "readonly": true
@@ -10278,7 +10310,15 @@
         {
           "kind": "method",
           "name": "_handleTriggerClick",
-          "privacy": "private"
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
@@ -10449,7 +10489,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.",
+          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -10503,7 +10543,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Show a clear button when a value is selected.",
+          "description": "Show a clear button in single-select mode when a value is selected.",
           "fieldName": "clearable"
         },
         {
@@ -10704,7 +10744,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Reflects whether this option is currently selected. Managed by wc-select.",
+          "description": "Reflects whether this option is currently selected. Set by wc-select.",
           "attribute": "selected",
           "reflects": true
         },
@@ -10715,7 +10755,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (multi-select mode). Managed by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
           "attribute": "keep-open"
         },
         {
@@ -10725,12 +10765,29 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden because it does not match the current search query. Managed by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
           "attribute": "filtered",
           "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_menuItemEl",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "item",
+          "type": {
+            "text": "MenuItem | null"
+          },
+          "description": "Returns the inner `wc-menu-item` element.\n`wc-menu` discovers this via its `items` getter which checks `el.item`\nas a `MenuItem` proxy, so keyboard navigation and activation work\nwithout `wc-option` extending `MenuItem` directly.",
+          "readonly": true
         }
       ],
-      "events": [],
       "attributes": [
         {
           "name": "value",
@@ -10765,7 +10822,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Reflects whether this option is currently selected. Managed by wc-select.",
+          "description": "Reflects whether this option is currently selected. Set by wc-select.",
           "fieldName": "selected"
         },
         {
@@ -10774,7 +10831,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (multi-select mode). Managed by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -10783,10 +10840,14 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden because it does not match the current search query. Managed by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
       "tagName": "wc-option",
       "customElement": true,
       "summary": "A declarative option element for use inside wc-select.",
