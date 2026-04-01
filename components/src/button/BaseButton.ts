@@ -47,7 +47,7 @@ export class BaseButton extends LitElement {
    * Button size.
    * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
    */
-  @property() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
    * If true, the user cannot interact with the button. Defaults to `false`.
@@ -157,6 +157,10 @@ export class BaseButton extends LitElement {
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
+    }
+
+    if (this.toggle) {
+      this.selected = !this.selected;
     }
 
     this.focus();

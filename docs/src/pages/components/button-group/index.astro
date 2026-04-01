@@ -5,12 +5,20 @@ import ApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('button-group');
 
 import UsageSection from './_sections/Usage.astro';
+import VariantsSection from './_sections/Variants.astro';
+import ColorsSection from './_sections/Colors.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 const sections = [
   {
     'title': 'Usage',
     'Component': UsageSection,
+  }, {
+    'title': 'Variants',
+    'Component': VariantsSection,
+  }, {
+    'title': 'Colors',
+    'Component': ColorsSection,
   }];
 ---
 <Layout componentDetails={componentDetails}>

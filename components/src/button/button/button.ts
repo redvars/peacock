@@ -105,6 +105,7 @@ export class Button extends BaseButton {
           id="button"
           tabindex=${this.#tabindex}
           type=${this.htmlType}
+          @click=${this.__dispatchClickWithThrottle}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
@@ -123,6 +124,7 @@ export class Button extends BaseButton {
         tabindex=${this.#tabindex}
         href=${this.href}
         target=${this.target}
+          @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
