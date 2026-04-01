@@ -1347,7 +1347,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-button-group>\n <wc-icon-button name=\"home\"></wc-icon-button>\n <wc-icon-button name=\"alarm\"></wc-icon-button>\n</wc-button-group>\n```"
+          "text": "```html\n<wc-button-group variant=\"connected\">\n <wc-icon-button name=\"home\" toggle selected></wc-icon-button>\n <wc-icon-button name=\"alarm\" toggle></wc-icon-button>\n</wc-button-group>\n```"
         }
       ],
       "@tags": [

@@ -3,10 +3,31 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <p class='text-body-large'> Here are several predefined button styles, each serving its own semantic purpose.</p>
 
+
+<style>
+  .demo-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-300);
+  }
+</style>
+
 <DemoComponentCard lang={'html'}>
-  <wc-button-group>
-    <wc-icon-button color='secondary' name='home'></wc-icon-button>
-    <wc-icon-button color='secondary' name='alarm'></wc-icon-button>
-    <wc-icon-button color='secondary' name='box'></wc-icon-button>
+
+  <div class="demo-stack">
+  <wc-button-group variant='connected'>
+    <wc-icon-button name='home' toggle selected></wc-icon-button>
+    <wc-icon-button name='alarm' toggle></wc-icon-button>
+    <wc-icon-button name='box' toggle></wc-icon-button>
   </wc-button-group>
+
+  <wc-button-group>
+    <wc-icon-button name='home'></wc-icon-button>
+    <wc-icon-button name='alarm'></wc-icon-button>
+    <wc-icon-button name='box'></wc-icon-button>
+  </wc-button-group>
+
+  </div>
 </DemoComponentCard>

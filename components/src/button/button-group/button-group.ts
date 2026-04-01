@@ -16,9 +16,9 @@ import { BaseButton } from '../BaseButton.js';
 
  * @example
  * ```html
- * <wc-button-group>
- *  <wc-icon-button name="home"></wc-icon-button>
- *  <wc-icon-button name="alarm"></wc-icon-button>
+ * <wc-button-group variant="connected">
+ *  <wc-icon-button name="home" toggle selected></wc-icon-button>
+ *  <wc-icon-button name="alarm" toggle></wc-icon-button>
  * </wc-button-group>
  * ```
  *

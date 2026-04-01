@@ -6,33 +6,52 @@
   --_container-padding: 0;
 }
 
+:host([size='xs']),
+:host([size='extra-small']) {
+  --button-height: 2rem;
+}
+
 :host([size='xs']) .button,
 :host([size='extra-small']) .button {
-  --button-height: 2rem;
   --_button-icon-size: 1rem;
 }
 
 
+:host([size='sm']),
+:host([size='small']) {
+  --button-height: 2.5rem;
+}
+
 :host([size='sm']) .button,
 :host([size='small']) .button {
-  --button-height: 2.5rem;
   --_button-icon-size: 1.25rem;
   --_button-icon-label-spacing: 0.5rem;
 }
 
+:host([size='md']),
+:host([size='medium']) {
+  --button-height: 3.5rem;
+}
+
 :host([size='md']) .button,
 :host([size='medium']) .button {
-  --button-height: 3.5rem;
   --_button-icon-size: 1.5rem;
+}
+
+:host([size='lg']),
+:host([size='large']) {
+  --button-height: 6rem;
 }
 
 :host([size='lg']) .button,
 :host([size='large']) .button {
-  --button-height: 6rem;
   --_button-icon-size: 2rem;
 }
 
-:host([size='xl']) .button {
+:host([size='xl']) {
   --button-height: 8.5rem;
+}
+
+:host([size='xl']) .button {
   --_button-icon-size: 2.5rem;
 }
