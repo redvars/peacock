@@ -1,0 +1,76 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>Use the <code-highlighter inline="true">button-variant</code-highlighter> attribute to apply a consistent visual style to all buttons in the group: <strong>filled</strong>, <strong>tonal</strong>, or <strong>outlined</strong>.</p>
+
+<p class='text-body-large'><strong>Filled</strong></p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group button-variant='filled' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'><strong>Tonal</strong></p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group button-variant='tonal' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'><strong>Outlined</strong></p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group button-variant='outlined' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'>Combine <code-highlighter inline="true">button-variant</code-highlighter> with <code-highlighter inline="true">variant="connected"</code-highlighter> for a connected group with a shared visual style.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected' button-variant='filled' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected' button-variant='tonal' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected' button-variant='outlined' color='primary'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'>Apply different colors using the <code-highlighter inline="true">color</code-highlighter> attribute.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button-group button-variant='filled' color='success'>
+    <wc-button>Save</wc-button>
+    <wc-button>Cancel</wc-button>
+  </wc-button-group>
+  <wc-button-group button-variant='filled' color='danger'>
+    <wc-button>Delete</wc-button>
+    <wc-button>Archive</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<style is:inline>
+  strong {
+    font-weight: bold;
+  }
+</style>

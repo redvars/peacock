@@ -1,0 +1,37 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>The button group supports two layout variants: <strong>standard</strong> (buttons with a gap) and <strong>connected</strong> (buttons joined together).</p>
+
+<p class='text-body-large'><strong>Standard</strong> — buttons are independent with a visible gap between them.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='standard'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'><strong>Connected</strong> — buttons share edges and form a single visual unit.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'>Connected variant also works with icon buttons.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected'>
+    <wc-icon-button name='format_bold'></wc-icon-button>
+    <wc-icon-button name='format_italic'></wc-icon-button>
+    <wc-icon-button name='format_underlined'></wc-icon-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<style is:inline>
+  strong {
+    font-weight: bold;
+  }
+</style>
