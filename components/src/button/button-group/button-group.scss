@@ -44,31 +44,21 @@ $border-width: 0.0625rem;
 }
 
 
-// Connected variant: buttons joined together with shared edges (no gap)
+// Connected variant: buttons with a 2px gap; outer buttons have fully rounded outer
+// corners while middle buttons keep standard rounded corners (handled via JS for
+// per-position corner overrides, including vertical orientation).
 .button-group.variant-connected {
-  --_button-group-gap: 0;
-
-  slot::slotted(:first-child) {
-    --button-container-shape-start-start: var(--shape-corner-full);
-    --button-container-shape-end-start: var(--shape-corner-full);
-    --button-container-shape-start-end: 0;
-    --button-container-shape-end-end: 0;
-    --button-container-shape-variant: initial;
-  }
-
-  slot::slotted(:last-child) {
-    --button-container-shape-end-end: var(--shape-corner-full);
-    --button-container-shape-start-end: var(--shape-corner-full);
-    --button-container-shape-end-start: 0;
-    --button-container-shape-start-start: 0;
-    --button-container-shape-variant: initial;
-  }
-
-  slot::slotted(:only-child) {
-    --button-container-shape: var(--shape-corner-full);
-    --button-container-shape-variant: initial;
-  }
+  --_button-group-gap: 0.125rem;
 }
 
+
+// Orientation
+.button-group.orientation-horizontal {
+  flex-direction: row;
+}
+
+.button-group.orientation-vertical {
+  flex-direction: column;
+}
 
 

@@ -1,7 +1,7 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p class='text-body-large'>The button group supports two layout variants: <strong>standard</strong> (buttons with a gap) and <strong>connected</strong> (buttons joined together).</p>
+<p class='text-body-large'>The button group supports two layout variants: <strong>standard</strong> (buttons with a gap) and <strong>connected</strong> (buttons with a 2px gap; outer buttons have fully rounded outer corners, middle buttons keep standard rounded corners).</p>
 
 <p class='text-body-large'><strong>Standard</strong> — buttons are independent with a visible gap between them.</p>
 <DemoComponentCard lang={'html'}>
@@ -12,7 +12,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </wc-button-group>
 </DemoComponentCard>
 
-<p class='text-body-large'><strong>Connected</strong> — buttons share edges and form a single visual unit.</p>
+<p class='text-body-large'><strong>Connected</strong> — buttons share a 2px gap; outer buttons have fully rounded outer corners and middle buttons use standard rounded corners.</p>
 <DemoComponentCard lang={'html'}>
   <wc-button-group variant='connected'>
     <wc-button toggle>First</wc-button>
@@ -27,6 +27,24 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <wc-icon-button toggle name='format_bold'></wc-icon-button>
     <wc-icon-button toggle name='format_italic'></wc-icon-button>
     <wc-icon-button toggle name='format_underlined'></wc-icon-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'><strong>Orientation</strong> — use the <code-highlighter inline="true">orientation</code-highlighter> attribute to stack buttons vertically.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group orientation='vertical'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
+  </wc-button-group>
+</DemoComponentCard>
+
+<p class='text-body-large'>Connected + vertical — outer buttons have rounded top/bottom corners, middle buttons keep standard shape.</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button-group variant='connected' orientation='vertical'>
+    <wc-button>First</wc-button>
+    <wc-button>Second</wc-button>
+    <wc-button>Third</wc-button>
   </wc-button-group>
 </DemoComponentCard>
 
