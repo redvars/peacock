@@ -159,6 +159,10 @@ export class BaseButton extends LitElement {
       return;
     }
 
+    if (this.toggle) {
+      this.selected = !this.selected;
+    }
+
     this.focus();
     dispatchActivationClick(this.buttonElement);
   };

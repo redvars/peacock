@@ -81,9 +81,10 @@ export function isActivationClick(event: Event) {
     return false;
   }
   // Event must not be retargeted from shadowRoot.
-  if (event.composedPath()[0] !== event.target) {
+  /*if (event.composedPath()[0] !== event.target) {
     return false;
-  }
+  }*/
+ 
   // Target must not be disabled; this should only occur for a synthetically
   // dispatched click.
   if ((event.target as EventTarget & { disabled: boolean }).disabled) {
