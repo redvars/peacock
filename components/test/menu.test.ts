@@ -86,4 +86,5 @@ describe('Menu', () => {
     expect(el.open).to.equal(false);
     anchor.remove();
   });
+
 });
