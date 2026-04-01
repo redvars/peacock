@@ -29,10 +29,10 @@ export class Card extends LitElement {
   @property({ type: String, reflect: true })
   variant: CardVariant = 'elevated';
 
-  @property({ type: Number, reflect: true })
-  elevation: CardElevation = 1;
-
   render() {
-    return html`<div class="card"><slot></slot></div>`;
+    return html`<div class="card">
+
+        <slot></slot>
+    </div>`;
   }
 }

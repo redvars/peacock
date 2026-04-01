@@ -1,24 +1,75 @@
 :host {
   display: block;
-  --card-background: var(--color-surface, #ffffff);
-  --card-border-color: transparent;
-  --card-shadow: none;
-  --card-shape: var(--global-shape-corner-large, 1rem);
-  --card-padding: 1rem;
   --card-gap: 0;
+
+  --z-index-card: 0;
+  --card-padding: 1rem;
+  --card-container-shape: var(--shape-corner-large);
+  --card-container-shape-start-start: unset;
+  --card-container-shape-start-end: unset;
+  --card-container-shape-end-start: unset;
+  --card-container-shape-end-end: unset;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   gap: var(--card-gap);
-  background: var(--card-background);
   border-radius: var(--card-shape);
   border: 1px solid var(--card-border-color);
   box-shadow: var(--card-shadow);
   color: var(--color-on-surface, inherit);
   padding: var(--card-padding);
   transition: box-shadow 150ms ease, transform 150ms ease;
+
+  /*
+    Background layers
+   */
+  .focus-ring {
+    z-index: 2;
+    --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
+    --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
+    --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
+    --focus-ring-container-shape-end-end: var(--_container-shape-end-end);
+    --focus-ring-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+
+  .ripple {
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
+    --ripple-state-opacity: var(--_container-state-opacity, 0);
+    --ripple-pressed-color: var(--_container-state-color);
+  }
+
+  .skeleton {
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    --skeleton-container-shape-start-start: var(--_container-shape-start-start);
+    --skeleton-container-shape-start-end: var(--_container-shape-start-end);
+    --skeleton-container-shape-end-start: var(--_container-shape-end-start);
+    --skeleton-container-shape-end-end: var(--_container-shape-end-end);
+    --skeleton-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+
+  .elevation {
+    --elevation-level: var(--_container-elevation-level);
+    transition-duration: 280ms;
+    --elevation-container-shape-start-start: var(--_container-shape-start-start);
+    --elevation-container-shape-start-end: var(--_container-shape-start-end);
+    --elevation-container-shape-end-start: var(--_container-shape-end-start);
+    --elevation-container-shape-end-end: var(--_container-shape-end-end);
+    --elevation-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+
+
 }
 
 :host([variant='elevated']) {
@@ -34,28 +85,4 @@
 :host([variant='outlined']) {
   --card-border-color: var(--color-outline, rgba(0, 0, 0, 0.12));
   --card-shadow: none;
-}
-
-:host([elevation='0']) {
-  --card-shadow: none;
-}
-
-:host([elevation='1']) {
-  --card-shadow: var(--shadow-sm, 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06));
-}
-
-:host([elevation='2']) {
-  --card-shadow: var(--shadow-md, 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06));
-}
-
-:host([elevation='3']) {
-  --card-shadow: var(--shadow-lg, 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03));
-}
-
-:host([elevation='4']) {
-  --card-shadow: var(--shadow-xl, 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03));
-}
-
-:host([elevation='5']) {
-  --card-shadow: var(--shadow-xxl, 0px 24px 48px -12px rgba(16, 24, 40, 0.18));
 }
