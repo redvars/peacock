@@ -10619,6 +10619,125 @@
     }
   },
   {
+    "rawTag": "option",
+    "label": "Select Option",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Select Option"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-option"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "option"
+        }
+      ],
+      "@parentRawTag": [
+        {
+          "kind": "text",
+          "text": "select"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A declarative option element for use inside wc-select."
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SelectOptionElement",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The option's submitted value.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional Material Symbol icon name shown before the label.",
+          "attribute": "icon",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables the option so it cannot be selected.",
+          "attribute": "disabled",
+          "reflects": true
+        }
+      ],
+      "events": [],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The option's submitted value.",
+          "fieldName": "value"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional Material Symbol icon name shown before the label.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables the option so it cannot be selected.",
+          "fieldName": "disabled"
+        }
+      ],
+      "tagName": "wc-option",
+      "customElement": true,
+      "summary": "A declarative option element for use inside wc-select.",
+      "rawTag": {
+        "name": "option",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "skeleton",
     "label": "Skeleton",
     "jsdoc": {

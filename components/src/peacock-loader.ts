@@ -57,6 +57,7 @@ import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { Select } from './select/select.js';
+import { SelectOptionElement } from './select/option.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -249,6 +250,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-select': {
       CustomElementClass: Select,
+    },
+    'wc-option': {
+      CustomElementClass: SelectOptionElement,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

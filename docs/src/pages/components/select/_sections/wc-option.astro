@@ -1,0 +1,62 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>
+  Use <code>&lt;wc-option&gt;</code> child elements as a declarative alternative to the
+  <code>options</code> property. Both can be combined — declarative children are merged
+  with any programmatic <code>options</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="declarative-select"
+    label="Fruit"
+    placeholder="Pick a fruit..."
+    clearable
+    style="width: 20rem"
+  >
+    <wc-option value="apple">Apple</wc-option>
+    <wc-option value="banana">Banana</wc-option>
+    <wc-option value="cherry">Cherry</wc-option>
+    <wc-option value="dragonfruit">Dragonfruit</wc-option>
+  </wc-select>
+</DemoComponentCard>
+
+<p class='text-body-large'>
+  Options can include an icon by setting the <code>icon</code> attribute to a
+  Material Symbol name.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="declarative-icons-select"
+    label="Action"
+    placeholder="Choose an action..."
+    clearable
+    style="width: 20rem"
+  >
+    <wc-option value="new" icon="add">New file</wc-option>
+    <wc-option value="save" icon="save">Save</wc-option>
+    <wc-option value="delete" icon="delete">Delete</wc-option>
+  </wc-select>
+</DemoComponentCard>
+
+<p class='text-body-large'>
+  Declarative <code>&lt;wc-option&gt;</code> elements also work in multi-select mode.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="declarative-multi-select"
+    label="Tags"
+    placeholder="Pick tags..."
+    multiple
+    clearable
+    style="width: 24rem"
+  >
+    <wc-option value="js">JavaScript</wc-option>
+    <wc-option value="ts">TypeScript</wc-option>
+    <wc-option value="python">Python</wc-option>
+    <wc-option value="rust">Rust</wc-option>
+  </wc-select>
+</DemoComponentCard>

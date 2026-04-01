@@ -50,3 +50,5 @@ export { Snackbar } from './snackbar/index.js';
 export { Radio } from './radio/index.js';
 export { Select } from './select/index.js';
 export type { SelectOption } from './select/index.js';
+export { SelectOptionElement } from './select/index.js';
+

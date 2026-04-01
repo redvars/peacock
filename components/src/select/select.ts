@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './select.scss';
 import type { Menu } from '../menu/menu/menu.js';
+import type { SelectOptionElement } from './option.js';
 
 export interface SelectOption {
   label: string;
@@ -118,6 +119,9 @@ export class Select extends BaseInput {
   @state()
   private _searchQuery: string = '';
 
+  @state()
+  private _slottedOptions: SelectOption[] = [];
+
   @query('.select-trigger')
   private _triggerEl?: HTMLElement;
 
@@ -136,6 +140,27 @@ export class Select extends BaseInput {
     this._triggerEl?.blur();
   }
 
+  /** Merged list of declarative `<wc-option>` children and programmatic `options`. */
+  private get _allOptions(): SelectOption[] {
+    return [...this._slottedOptions, ...this.options];
+  }
+
+  private _handleSlotChange(event: Event) {
+    const slot = event.target as HTMLSlotElement;
+    const assigned = slot.assignedElements({ flatten: true });
+    this._slottedOptions = assigned
+      .filter(el => el.tagName.toLowerCase() === 'wc-option')
+      .map(el => {
+        const opt = el as SelectOptionElement;
+        return {
+          value: opt.value ?? el.getAttribute('value') ?? '',
+          label: el.textContent?.trim() ?? '',
+          icon: opt.icon || el.getAttribute('icon') || undefined,
+        };
+      })
+      .filter(opt => !!opt.value);
+  }
+
   private get _selectedValues(): string[] {
     if (!this.value) return [];
     return this.value
@@ -151,16 +176,16 @@ export class Select extends BaseInput {
   private get _displayLabel(): string {
     if (!this.value) return '';
     const values = this._selectedValues;
-    const item = this.options.find(i => i.value === values[0]);
+    const item = this._allOptions.find(i => i.value === values[0]);
     return item?.label ?? values[0] ?? '';
   }
 
   private get _filteredItems(): SelectOption[] {
     if (!this.search || this.search === 'managed' || !this._searchQuery) {
-      return this.options;
+      return this._allOptions;
     }
     const q = this._searchQuery.toLowerCase();
-    return this.options.filter(item =>
+    return this._allOptions.filter(item =>
       item.label.toLowerCase().includes(q),
     );
   }
@@ -326,7 +351,7 @@ export class Select extends BaseInput {
               value=${val}
               @tag--dismiss=${(e: CustomEvent) =>
                 this._handleChipDismiss(e, val)}
-            >${this.options.find(i => i.value === val)?.label ?? val}</wc-chip
+            >${this._allOptions.find(i => i.value === val)?.label ?? val}</wc-chip
             >
           `,
         )}
@@ -433,6 +458,11 @@ export class Select extends BaseInput {
               `,
             )}
       </wc-menu>
+
+      <slot
+        style="display:none"
+        @slotchange=${this._handleSlotChange}
+      ></slot>
     `;
   }
 }

@@ -9,6 +9,7 @@ import UsageSection from './_sections/usage.astro';
 import SearchSection from './_sections/search.astro';
 import ManagedSearchSection from './_sections/managed.astro';
 import MultiSelectSection from './_sections/multi-select.astro';
+import WcOptionSection from './_sections/wc-option.astro';
 
 const sections = [{
   'title': 'Usage',
@@ -22,6 +23,9 @@ const sections = [{
 }, {
   'title': 'Multi Select',
   'Component': MultiSelectSection,
+}, {
+  'title': 'Declarative Options',
+  'Component': WcOptionSection,
 }];
 ---
 
