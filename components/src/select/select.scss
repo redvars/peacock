@@ -1,0 +1,117 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Make the field wrapper behave as a select (pointer cursor) */
+.select-field {
+  cursor: pointer;
+}
+
+.select-trigger {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 1.5rem;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.display-value {
+  @include mixin.get-typography(body-large);
+  color: var(--color-on-surface);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  @include mixin.get-typography(body-large);
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Typeahead search input */
+.search-input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  @include mixin.get-typography(body-large);
+  color: var(--color-on-surface);
+  cursor: pointer;
+
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+
+  &:focus {
+    cursor: text;
+  }
+}
+
+/* Field end slot wrapper */
+.field-end-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-050);
+}
+
+/* Dropdown chevron icon */
+.dropdown-icon {
+  --icon-size: 1.5rem;
+  --icon-color: var(--color-on-surface-variant);
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+
+  &.dropdown-icon--open {
+    transform: rotate(180deg);
+  }
+}
+
+/* Clear button */
+.clear-btn {
+  --button-container-shape: var(--shape-corner-full);
+}
+
+/* Multi-select chips area */
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-050);
+  padding-block: var(--spacing-050);
+  align-items: center;
+  min-height: 2.5rem;
+}
+
+/* When chips are present, allow the field to grow */
+:host .select-field.multi-chips {
+  --field-height: unset;
+  --field-padding-block: var(--spacing-050);
+}
+
+/* Disabled state */
+:host([disabled]) .select-trigger,
+:host([disabled]) .select-field {
+  cursor: not-allowed;
+}
+
+/* Readonly state */
+:host([readonly]) .select-trigger,
+:host([readonly]) .select-field {
+  cursor: default;
+}

@@ -1,73 +1,40 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<goat-card>
-  <pc-card-content>
-    <goat-select id="managed-selected" placeholder="Search" search="managed" clearable style="width: 20rem"></goat-select>
-    <script is:inline>
-      const $managed = document.getElementById('managed-selected');
-      $managed.items = [];
-      $managed.addEventListener('goat-select--search', function (evt) {
-        $managed.showLoader = true;
-        fakeServerCall(evt.detail.value, function (items) {
-          $managed.items = items;
-          $managed.showLoader = false;
+<p class='text-body-large'>
+  Use <code>search="managed"</code> for server-side filtering. The component emits a
+  <code>select-search</code> event with the current query so you can load options asynchronously.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="managed-select"
+    label="User"
+    placeholder="Type to search users..."
+    search="managed"
+    clearable
+    style="width: 20rem"
+  ></wc-select>
+
+  <script is:inline>
+    const managedSel = document.getElementById('managed-select');
+    let counter = 1;
+
+    managedSel.items = [];
+
+    managedSel.addEventListener('select-search', function (evt) {
+      const query = evt.detail.value;
+      // Simulate an async server call
+      setTimeout(function () {
+        managedSel.items = Array.from({ length: 5 }, function (_, i) {
+          return { label: `${query} result ${counter + i}`, value: String(counter + i) };
         });
-      });
-      $managed.addEventListener('goat-select--change', function (evt) {
-        myConsole.log(JSON.stringify(evt.detail, null, 4));
-      });
+        counter += 5;
+      }, 300);
+    });
 
-      let currentOptionNumber = 2;
-      function fakeServerCall(searchString, callback) {
-        setTimeout(() => {
-          const result = [];
-          for (let i = 0; i < 8; i++, currentOptionNumber++) {
-            result.push({
-              label: `${searchString} ${currentOptionNumber}`,
-              value: currentOptionNumber,
-            });
-          }
-          callback(result);
-        }, 1000);
-      }
-    </script>
-  </pc-card-content>
-
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-    <goat-select id="managed-selected" placeholder="Search" search="managed" clearable style="width: 20rem"></goat-select>
-    </Highlighter>
-  </pc-card-content>
-
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw>
-const $managed = document.getElementById('managed-selected');
-$managed.items = [];
-$managed.addEventListener('goat-select--search', function (evt) {
-  $managed.showLoader = true;
-  fakeServerCall(evt.detail.value, function (items) {
-    $managed.items = items;
-    $managed.showLoader = false;
-  });
-});
-$managed.addEventListener('goat-select--change', function (evt) {
-  myConsole.log(JSON.stringify(evt.detail, null, 4));
-});
-
-let currentOptionNumber = 2;
-function fakeServerCall(searchString, callback) {
-  setTimeout(() => {
-    const result = [];
-    for (let i = 0; i < 8; i++, currentOptionNumber++) {
-      result.push({
-        label: searchString + " " + currentOptionNumber,
-        value: currentOptionNumber,
-      });
-    }
-    callback(result);
-  }, 1000);
-}
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+    managedSel.addEventListener('change', function (evt) {
+      console.log('change', evt.detail);
+    });
+  </script>
+</DemoComponentCard>

@@ -1,12 +1,12 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 const componentDetails = getComponentDetails('select');
 
 import UsageSection from './_sections/usage.astro';
-import SizesSection from './_sections/search.astro';
+import SearchSection from './_sections/search.astro';
 import ManagedSearchSection from './_sections/managed.astro';
 import MultiSelectSection from './_sections/multi-select.astro';
 
@@ -14,10 +14,10 @@ const sections = [{
   'title': 'Usage',
   'Component': UsageSection,
 }, {
-  'title': 'Search',
-  'Component': SizesSection,
+  'title': 'Search / Typeahead',
+  'Component': SearchSection,
 }, {
-  'title': 'Managed search',
+  'title': 'Managed Search',
   'Component': ManagedSearchSection,
 }, {
   'title': 'Multi Select',
@@ -29,14 +29,10 @@ const sections = [{
   <wc-tab-group class='page-tabs'>
     <wc-tabs>
       <wc-tab selected='true'>Overview</wc-tab>
-      <wc-tab>Playground</wc-tab>
       <wc-tab>API</wc-tab>
     </wc-tabs>
     <wc-tab-panel>
-      <OverviewPanel  sections={sections} />
-    </wc-tab-panel>
-    <wc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
+      <OverviewPanel sections={sections} />
     </wc-tab-panel>
     <wc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

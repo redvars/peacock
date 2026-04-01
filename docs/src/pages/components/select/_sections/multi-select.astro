@@ -1,42 +1,60 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<goat-card>
-  <pc-card-content>
-    <goat-select id="multi-select" value="new,save" multiple placeholder="Search" search="contains" clearable style="width: 30rem"></goat-select>
-    <script is:inline>
-      const $multiSelect = document.getElementById('multi-select');
-      $multiSelect.items = [
-        { label: 'New', value: 'new', icon: 'add' },
-        { label: 'Save', value: 'save', icon: 'save' },
-        { label: 'Save As', value: 'save-as', icon: 'save--series' },
-        {
-          label: 'Nadine Brooks',
-          value: 'nadine',
-          icon: 'pin',
-        },
-        {
-          label: 'Laura Ballard',
-          value: 'laura',
-          icon: 'calculator',
-        },
-      ];
-      $multiSelect.addEventListener('goat:change', function (evt) {
-        myConsole.log(JSON.stringify(evt.detail, null, 4));
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-<goat-select
-  id="multi-selected"
-  value="new,save"
-  multiple
-  placeholder="Search"
-  search="contains"
-  clearable
-  style="width: 20rem"
-></goat-select>
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<p class='text-body-large'>
+  Add the <code>multiple</code> attribute to enable multi-select. Selected options are shown as
+  dismissible chips inside the field.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="multi-select"
+    label="Fruits"
+    placeholder="Pick fruits..."
+    multiple
+    clearable
+    style="width: 24rem"
+  ></wc-select>
+
+  <script is:inline>
+    const multiSel = document.getElementById('multi-select');
+    multiSel.items = [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana' },
+      { label: 'Cherry', value: 'cherry' },
+      { label: 'Dragonfruit', value: 'dragonfruit' },
+      { label: 'Elderberry', value: 'elderberry' },
+    ];
+    multiSel.addEventListener('change', function (evt) {
+      console.log('change', evt.detail);
+    });
+  </script>
+</DemoComponentCard>
+
+<p class='text-body-large'>
+  Multi-select also works with typeahead (<code>search="contains"</code>).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="multi-search-select"
+    label="Tags"
+    placeholder="Search and pick tags..."
+    multiple
+    search="contains"
+    clearable
+    style="width: 24rem"
+  ></wc-select>
+
+  <script is:inline>
+    const multiSearchSel = document.getElementById('multi-search-select');
+    multiSearchSel.items = [
+      { label: 'JavaScript', value: 'js' },
+      { label: 'TypeScript', value: 'ts' },
+      { label: 'Python', value: 'python' },
+      { label: 'Rust', value: 'rust' },
+      { label: 'Go', value: 'go' },
+      { label: 'Elixir', value: 'elixir' },
+    ];
+  </script>
+</DemoComponentCard>

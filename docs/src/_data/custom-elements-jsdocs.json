@@ -9549,6 +9549,657 @@
     }
   },
   {
+    "rawTag": "select",
+    "label": "Select",
+    "jsdoc": {
+      "@label": [
+        {
+          "kind": "text",
+          "text": "Select"
+        }
+      ],
+      "@tag": [
+        {
+          "kind": "text",
+          "text": "wc-select"
+        }
+      ],
+      "@rawTag": [
+        {
+          "kind": "text",
+          "text": "select"
+        }
+      ],
+      "@summary": [
+        {
+          "kind": "text",
+          "text": "A dropdown select component supporting single and multi-select with optional typeahead search."
+        }
+      ],
+      "@overview": [
+        {
+          "kind": "text",
+          "text": "<p>Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.</p>\n<ul>\n  <li>Single and multi-select modes</li>\n  <li>Client-side typeahead with <code>search=\"contains\"</code></li>\n  <li>Server-side typeahead with <code>search=\"managed\"</code></li>\n  <li>Multi-select chips display</li>\n</ul>"
+        }
+      ],
+      "@example": [
+        {
+          "kind": "code",
+          "text": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\"></wc-select>\n<script>\n  document.querySelector('wc-select').items = [\n    { label: 'Apple', value: 'apple' },\n    { label: 'Banana', value: 'banana' },\n  ];\n</script>\n```"
+        }
+      ],
+      "@tags": [
+        {
+          "kind": "text",
+          "text": "form"
+        }
+      ]
+    },
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Select",
+      "members": [
+        {
+          "kind": "field",
+          "name": "items",
+          "type": {
+            "text": "SelectOption[]"
+          },
+          "default": "[]",
+          "description": "Array of options to display in the dropdown.",
+          "attribute": "items"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "any | undefined"
+          },
+          "default": "''",
+          "description": "The selected value. For multi-select, a comma-separated list of values.",
+          "attribute": "value",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "multiple",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable multi-select mode.",
+          "attribute": "multiple",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "search",
+          "type": {
+            "text": "'' | 'contains' | 'managed'"
+          },
+          "default": "''",
+          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "attribute": "search"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Placeholder text shown when no value is selected.",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label displayed above the field.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show a clear button when a value is selected.",
+          "attribute": "clearable"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text displayed below the field.",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "_open",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_searchQuery",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "_triggerEl",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_menu",
+          "type": {
+            "text": "Menu | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_searchInputEl",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "_selectedValues",
+          "type": {
+            "text": "string[]"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "_isSelected",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_displayLabel",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_filteredItems",
+          "type": {
+            "text": "SelectOption[]"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_isPopulated",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "_openMenu",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_closeMenu",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleTriggerClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleTriggerKeyDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleMenuClosed",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleMenuItemActivate",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_dispatchChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleSearchInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleClear",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleChipDismiss",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "chipValue",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderTriggerContent",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderFieldEnd",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "select-search",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "items",
+          "type": {
+            "text": "SelectOption[]"
+          },
+          "default": "[]",
+          "description": "Array of options to display in the dropdown.",
+          "fieldName": "items"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The selected value. For multi-select, a comma-separated list of values.",
+          "fieldName": "value"
+        },
+        {
+          "name": "multiple",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable multi-select mode.",
+          "fieldName": "multiple"
+        },
+        {
+          "name": "search",
+          "type": {
+            "text": "'' | 'contains' | 'managed'"
+          },
+          "default": "''",
+          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "fieldName": "search"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Placeholder text shown when no value is selected.",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label displayed above the field.",
+          "fieldName": "label"
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show a clear button when a value is selected.",
+          "fieldName": "clearable"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text displayed below the field.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "wc-select",
+      "customElement": true,
+      "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
+      "rawTag": {
+        "name": "select",
+        "description": ""
+      }
+    }
+  },
+  {
     "rawTag": "skeleton",
     "label": "Skeleton",
     "jsdoc": {

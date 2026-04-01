@@ -1,39 +1,30 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<goat-card>
-  <pc-card-content>
-    <goat-select id="search-select" placeholder="Search" search="contains" clearable style="width: 20rem"></goat-select>
-    <script is:inline>
-      const $search = document.getElementById('search-select');
-      $search.items = [
-        { label: 'New', value: 'new', icon: 'add' },
-        { label: 'Save', value: 'save', icon: 'save' },
-        { label: 'Save As', value: 'save-as', icon: 'save--series' },
-        {
-          label: 'Nadine Brooks',
-          value: 'nadine',
-          icon: 'pin',
-        },
-        {
-          label: 'Laura Ballard',
-          value: 'laura',
-          icon: 'calculator',
-        },
-      ];
-      $search.addEventListener('goat:change', function (evt) {
-        myConsole.log(JSON.stringify(evt.detail, null, 4));
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-    <goat-select
-      id="search-selected"
-      placeholder="Search"
-      search="contains"
-      clearable>
-    </goat-select>
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<p class='text-body-large'>Use <code>search="contains"</code> for client-side typeahead filtering.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="search-select"
+    label="Action"
+    placeholder="Type to filter..."
+    search="contains"
+    clearable
+    style="width: 20rem"
+  ></wc-select>
+
+  <script is:inline>
+    const searchSel = document.getElementById('search-select');
+    searchSel.items = [
+      { label: 'New file', value: 'new', icon: 'add' },
+      { label: 'Save', value: 'save', icon: 'save' },
+      { label: 'Save As', value: 'save-as' },
+      { label: 'Nadine Brooks', value: 'nadine' },
+      { label: 'Laura Ballard', value: 'laura' },
+      { label: 'Jack Thompson', value: 'jack' },
+    ];
+    searchSel.addEventListener('change', function (evt) {
+      console.log('change', evt.detail);
+    });
+  </script>
+</DemoComponentCard>

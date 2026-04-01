@@ -1,78 +1,67 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<goat-card>
-  <pc-card-content>
-    <goat-select id="select" placeholder="Select" clearable style="width: 20rem"></goat-select>
-    <script is:inline>
-      let $dropDown = document.getElementById('select');
-      $dropDown.items = [
-        { label: 'New', value: 'new', icon: 'add' },
-        { label: 'Save', value: 'save', icon: 'save' },
-        { label: 'Save As', value: 'save-as', icon: 'save--series' },
-        {
-          label: 'Nadine Brooks',
-          value: 'nadine',
-          icon: 'pin',
-        },
-        {
-          label: 'Laura Ballard',
-          value: 'laura',
-          icon: 'calculator',
-        },
-        {
-          label: 'LONG STRING LauraBallardLauraBallardLauraBallardLauraBallardLauraBallardLauraBallard',
-          value: 'long',
-          icon: 'calculator',
-        }
-      ];
-      $dropDown.addEventListener('goat:change', function (evt) {
-        myConsole.log(JSON.stringify(evt.detail, null, 4));
-      });
+<p class='text-body-large'>A basic single-select dropdown backed by an options array.</p>
 
-      $dropDown = document.getElementById('select2');
-      $dropDown.items = [
-        { label: 'New', value: 'new' },
-        { label: 'Save', value: 'save' },
-        { label: 'Save As', value: 'save-as'},
-        {
-          label: 'Nadine Brooks',
-          value: 'nadine'
-        },
-        {
-          label: 'Laura Ballard',
-          value: 'laura'
-        },
-      ];
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-    <goat-select id="select" placeholder="Select" clearable style="width: 20rem"></goat-select>
-<goat-select id="select2" class='no-border' placeholder="Select"  style="width: 20rem"></goat-select>
-    </Highlighter>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw>
-const $dropDown = document.getElementById('select');
-$dropDown.items = [
-  { label: 'New', value: 'new', icon: 'add' },
-  { label: 'Save', value: 'save', icon: 'save' },
-  { label: 'Save As', value: 'save-as', icon: 'save--series' },
-  {
-    label: 'Nadine Brooks',
-    value: 'nadine',
-    icon: 'pin',
-  },
-  {
-    label: 'Laura Ballard',
-    value: 'laura',
-    icon: 'calculator',
-  },
-];
-$dropDown.addEventListener('goat:change', function (evt) {
-  myConsole.log(JSON.stringify(evt.detail, null, 4));
-});
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="basic-select"
+    label="Fruit"
+    placeholder="Pick a fruit..."
+    clearable
+    style="width: 20rem"
+  ></wc-select>
+
+  <script is:inline>
+    const sel = document.getElementById('basic-select');
+    sel.items = [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana' },
+      { label: 'Cherry', value: 'cherry' },
+      { label: 'Dragonfruit', value: 'dragonfruit' },
+      { label: 'Elderberry', value: 'elderberry' },
+    ];
+    sel.addEventListener('change', function (evt) {
+      console.log('change', evt.detail);
+    });
+  </script>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="outlined-select"
+    label="Fruit"
+    placeholder="Pick a fruit..."
+    variant="outlined"
+    clearable
+    style="width: 20rem"
+  ></wc-select>
+
+  <script is:inline>
+    const outlinedSel = document.getElementById('outlined-select');
+    outlinedSel.items = [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana' },
+      { label: 'Cherry', value: 'cherry' },
+    ];
+  </script>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select
+    id="icons-select"
+    label="Action"
+    placeholder="Choose an action..."
+    clearable
+    style="width: 20rem"
+  ></wc-select>
+
+  <script is:inline>
+    const iconsSel = document.getElementById('icons-select');
+    iconsSel.items = [
+      { label: 'New file', value: 'new', icon: 'add' },
+      { label: 'Save', value: 'save', icon: 'save' },
+      { label: 'Delete', value: 'delete', icon: 'delete' },
+    ];
+  </script>
+</DemoComponentCard>
