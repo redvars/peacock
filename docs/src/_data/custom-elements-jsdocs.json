@@ -1382,6 +1382,52 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "attribute": "size"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'connected'"
+          },
+          "default": "'standard'",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together without a gap, sharing edges.\nDefaults to `\"standard\"`.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'light' | 'dark' | undefined"
+          },
+          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"light\"`, `\"dark\"`.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "buttonVariant",
+          "type": {
+            "text": "'filled' | 'tonal' | 'outlined' | undefined"
+          },
+          "description": "Visual style applied to all buttons in the group.\nPossible values are `\"filled\"`, `\"tonal\"`, `\"outlined\"`.",
+          "attribute": "button-variant",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "_getSlottedElements",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "HTMLElement[]"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_syncChildren",
+          "privacy": "private"
         }
       ],
       "attributes": [
@@ -1393,6 +1439,31 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'connected'"
+          },
+          "default": "'standard'",
+          "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` joins buttons together without a gap, sharing edges.\nDefaults to `\"standard\"`.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'light' | 'dark' | undefined"
+          },
+          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"light\"`, `\"dark\"`.",
+          "fieldName": "color"
+        },
+        {
+          "name": "button-variant",
+          "type": {
+            "text": "'filled' | 'tonal' | 'outlined' | undefined"
+          },
+          "description": "Visual style applied to all buttons in the group.\nPossible values are `\"filled\"`, `\"tonal\"`, `\"outlined\"`.",
+          "fieldName": "buttonVariant"
         }
       ],
       "superclass": {
@@ -12012,7 +12083,7 @@
       "@example": [
         {
           "kind": "code",
-          "text": "```html\n<wc-tabs>\n  <wc-tab>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```"
+          "text": "```html\n<wc-tabs>\n  <wc-tab active>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```"
         }
       ],
       "@tags": [
