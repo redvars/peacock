@@ -7872,6 +7872,19 @@
           "privacy": "private"
         },
         {
+          "kind": "method",
+          "name": "_ownsKeyboardEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
           "kind": "field",
           "name": "_onItemActivate",
           "privacy": "private"

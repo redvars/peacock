@@ -181,7 +181,6 @@ export class Menu extends LitElement {
     for (let index = 0; index < enabledItems.length; index += 1) {
       const currentItem = enabledItems[index];
       currentItem.tabIndex = index === this.activeIndex ? 0 : -1;
-      currentItem.selected = index === this.activeIndex;
     }
   }
 
@@ -226,10 +225,23 @@ export class Menu extends LitElement {
     return this._enabledItems()[0] ?? null;
   }
 
+  private _ownsKeyboardEvent(event: KeyboardEvent) {
+    const path = event.composedPath();
+    const ownedItems = this.items;
+
+    return path.some(target => target instanceof MenuItem && ownedItems.includes(target));
+  }
+
   private _onItemActivate = (event: Event) => {
     const customEvent = event as CustomEvent<{ item: MenuItem }>;
+    const { item } = customEvent.detail;
+    const ownedItems = this.items;
+    if (!ownedItems.includes(item)) {
+      return;
+    }
+
     const enabledItems = this._enabledItems();
-    const nextIndex = enabledItems.indexOf(customEvent.detail.item);
+    const nextIndex = enabledItems.indexOf(item);
     if (nextIndex >= 0) {
       this.activeIndex = nextIndex;
       this._syncRovingTabIndex();
@@ -238,9 +250,14 @@ export class Menu extends LitElement {
 
   private _onItemRequestClose = (event: Event) => {
     const customEvent = event as CustomEvent<{
+      item: MenuItem;
       reason: 'click-selection' | 'keydown';
       key?: string;
     }>;
+
+    if (!this.items.includes(customEvent.detail.item)) {
+      return;
+    }
 
     if (customEvent.defaultPrevented) {
       return;
@@ -256,6 +273,10 @@ export class Menu extends LitElement {
 
   private _onKeyDown = (event: KeyboardEvent) => {
     if (!this.open) {
+      return;
+    }
+
+    if (!this._ownsKeyboardEvent(event)) {
       return;
     }
 
