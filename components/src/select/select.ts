@@ -141,7 +141,6 @@ export class Select extends BaseInput {
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   protected override updated(changedProperties: Map<string, unknown>) {
-    super.updated(changedProperties);
     if (changedProperties.has('options')) {
       this._syncProgrammaticOptions();
     }

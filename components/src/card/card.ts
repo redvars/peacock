@@ -98,7 +98,6 @@ export class Card extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues<this>) {
-    super.updated(changedProperties);
     if (changedProperties.has('actionable') || changedProperties.has('href')) {
       this.__syncSlottedChildrenTabIndex();
     }
@@ -107,8 +106,8 @@ export class Card extends LitElement {
   __syncSlottedChildrenTabIndex() {
     if (!this.contentSlot) return;
 
-    const assignedChildren = this.contentSlot.assignedElements({ flatten: true });
     const shouldDisableTabbing = this.actionable || this.__isLink();
+    const assignedChildren = this.contentSlot.assignedElements({ flatten: true });
 
     assignedChildren.forEach(node => {
       if (!(node instanceof HTMLElement)) return;
@@ -117,16 +116,25 @@ export class Card extends LitElement {
         if (!this.#slottedTabIndexMap.has(node)) {
           this.#slottedTabIndexMap.set(node, node.getAttribute('tabindex'));
         }
-        node.setAttribute('tabindex', '-1');
+
+        if (node.getAttribute('tabindex') !== '-1') {
+          node.setAttribute('tabindex', '-1');
+        }
         return;
       }
 
       const originalTabIndex = this.#slottedTabIndexMap.get(node);
       if (originalTabIndex === null) {
-        node.removeAttribute('tabindex');
+        if (node.hasAttribute('tabindex')) {
+          node.removeAttribute('tabindex');
+        }
       } else if (originalTabIndex !== undefined) {
-        node.setAttribute('tabindex', originalTabIndex);
+        if (node.getAttribute('tabindex') !== originalTabIndex) {
+          node.setAttribute('tabindex', originalTabIndex);
+        }
       }
+
+      this.#slottedTabIndexMap.delete(node);
     });
   }
 
@@ -252,8 +260,10 @@ export class Card extends LitElement {
       <wc-ripple class="ripple"></wc-ripple> 
 
       <div class="card-content">
-      
-      <slot @slotchange=${this.__syncSlottedChildrenTabIndex}></slot>
+
+        <div class="slot-container">
+          <slot @slotchange=${this.__syncSlottedChildrenTabIndex}></slot>
+        </div>
 
       </div>
       `;

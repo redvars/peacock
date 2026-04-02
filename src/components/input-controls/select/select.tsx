@@ -582,7 +582,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
                 </div>
 
                 {this.clearable && !this.multiple && this.hasValue() && (
-                  <pc-button
+                  <wc-button
                     class="clear clear-action"
                     color={'secondary'}
                     size={'xs'}
@@ -590,7 +590,7 @@ export class Select implements ComponentInterface, InputComponentInterface {
                     onClick={this.clearInput}
                   >
                     <p-icon name="close" />
-                  </pc-button>
+                  </wc-button>
                 )}
 
                 <div class="slot-container end">

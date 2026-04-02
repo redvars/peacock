@@ -95,14 +95,12 @@ Type: `Promise<void>`
 
 ### Depends on
 
-- [pc-button](../../button)
 - [pc-menu](../../menu/menu)
 - [pc-menu-item](../../menu/menu-item)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-select --> pc-button
   pc-select --> pc-menu
   pc-select --> pc-menu-item
   style pc-select fill:#f9f,stroke:#333,stroke-width:4px

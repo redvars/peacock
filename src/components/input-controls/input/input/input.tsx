@@ -275,7 +275,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
           <pc-tooltip
             content={this.passwordVisible ? 'Show password' : 'Hide password'}
           >
-            <pc-button
+            <wc-button
               color={'secondary'}
               variant="text"
               size={this.size}
@@ -287,7 +287,7 @@ export class Input implements ComponentInterface, InputComponentInterface {
                 slot="icon"
                 name={this.passwordVisible ? 'view--off' : 'view'}
               />
-            </pc-button>
+            </wc-button>
           </pc-tooltip>
         )}
 

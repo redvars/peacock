@@ -278,7 +278,7 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
 
         <div class={'actions-container'}>
           {this.clearable && this.hasValue() && (
-            <pc-button
+            <wc-button
               class="clear clear-action"
               color={'secondary'}
               variant="text"
@@ -286,7 +286,7 @@ export class Textarea implements ComponentInterface, InputComponentInterface {
               onClick={this.clearInput}
             >
               <p-icon name="close" />
-            </pc-button>
+            </wc-button>
           )}
         </div>
 

@@ -78,6 +78,16 @@
     padding-bottom: var(--spacing-300);
   }
 
+  .card-header {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
+  }
+
   .header {
     position: relative;
     cursor: pointer;

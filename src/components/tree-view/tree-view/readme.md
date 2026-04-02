@@ -54,19 +54,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-empty-state](../../application/empty-state)
-
-### Graph
-```mermaid
-graph TD;
-  pc-tree-view --> pc-empty-state
-  style pc-tree-view fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

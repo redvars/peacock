@@ -24,6 +24,7 @@
   margin: 0;
   outline: none;
   text-decoration: none;
+  text-align: unset;
 }
 
 .card {
@@ -31,7 +32,6 @@
   display: flex;
   height: 100%;
   width: 100%;
-  padding: var(--card-padding);
 
   --_container-shape-start-start: var(--card-container-shape-start-start, var(--card-container-shape));
   --_container-shape-start-end: var(--card-container-shape-start-end, var(--card-container-shape));
@@ -41,12 +41,10 @@
 
   .card-content {
     z-index: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--card-gap);
     width: 100%;
     height: 100%;
     overflow: hidden;
+    padding: var(--card-padding);
 
     border: 1px solid transparent; /* Fixes overflow issues with border */
     border-start-start-radius: var(--_container-shape-start-start);
@@ -57,6 +55,14 @@
     color: var(--_label-text-color);
     opacity: var(--_label-text-opacity, 1);
     --icon-color: var(--_label-text-color);
+
+    .slot-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--card-gap);
+      width: 100%;
+      height: 100%;
+    }
   }
 
   /*

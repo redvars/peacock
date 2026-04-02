@@ -24,7 +24,6 @@
 graph TD;
   goat-condition-builder --> pc-input
   goat-condition-builder --> goat-cb-divider
-  pc-input --> pc-button
   style goat-condition-builder fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

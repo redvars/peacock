@@ -114,7 +114,7 @@ export class Notification implements ComponentInterface {
     if (this.action) {
       return (
         <div class="actions">
-          <pc-button
+          <wc-button
             size="sm"
             class="action"
             variant={this.inline ? 'text' : 'outlined'}
@@ -124,7 +124,7 @@ export class Notification implements ComponentInterface {
             }}
           >
             {this.action}
-          </pc-button>
+          </wc-button>
         </div>
       );
     }
@@ -134,7 +134,7 @@ export class Notification implements ComponentInterface {
     if (this.dismissible) {
       return (
         <div class="close-button-container">
-          <pc-button
+          <wc-button
             class="close-button"
             aria-label="Close alert"
             variant="text"
@@ -149,7 +149,7 @@ export class Notification implements ComponentInterface {
             }}
           >
             <p-icon class="icon" name="close" />
-          </pc-button>
+          </wc-button>
         </div>
       );
     }

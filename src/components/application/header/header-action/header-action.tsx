@@ -59,7 +59,7 @@ export class HeaderAction {
 
   render() {
     return (
-      <pc-button
+      <wc-button
         class="header-action"
         color={this.color}
         href={this.href}
@@ -68,7 +68,7 @@ export class HeaderAction {
       >
         <p-icon slot="icon" name={this.icon}></p-icon>
         {this.slotHasContent && <slot></slot>}
-      </pc-button>
+      </wc-button>
     );
   }
 }

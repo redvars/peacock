@@ -153,30 +153,30 @@ export class Calendar implements ComponentInterface {
     return (
       <div class="calendar-header-classic">
         <div class="header-left">
-          <pc-button
+          <wc-button
             variant="outlined"
             size="sm"
             class="color-secondary"
             onClick={() => (this.contextDate = this.#currentTime)}
           >
             Today
-          </pc-button>
-          <pc-button
+          </wc-button>
+          <wc-button
             variant="text"
             size="sm"
             class="color-secondary"
             onClick={() => this.previous()}
           >
             <p-icon slot="icon" name="chevron--left"></p-icon>
-          </pc-button>
-          <pc-button
+          </wc-button>
+          <wc-button
             variant="text"
             size="sm"
             class="color-secondary"
             onClick={() => this.next()}
           >
             <p-icon slot="icon" name="chevron--right"></p-icon>
-          </pc-button>
+          </wc-button>
           <div class="title">{format(this.contextDate, 'MMMM d, yyyy')}</div>
         </div>
         <div class="header-right">

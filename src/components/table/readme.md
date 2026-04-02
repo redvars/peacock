@@ -37,21 +37,6 @@
 | `pc-table--sort`             | Emitted when the table is sorted.     | `CustomEvent<any>` |
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-button](../button)
-- [pc-empty-state](../application/empty-state)
-
-### Graph
-```mermaid
-graph TD;
-  pc-table --> pc-button
-  pc-table --> pc-empty-state
-  style pc-table fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

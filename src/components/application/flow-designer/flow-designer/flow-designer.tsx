@@ -296,8 +296,8 @@ export class FlowDesigner {
             </div>
           </div>
           <div class="action-bar">
-            <pc-button-group>
-              <pc-button
+            <wc-button-group>
+              <wc-button
                 size="sm"
                 variant="outlined"
                 onButton--click={() => {
@@ -305,8 +305,8 @@ export class FlowDesigner {
                 }}
               >
                 <p-icon slot="icon" name="plus"></p-icon>
-              </pc-button>
-              <pc-button
+              </wc-button>
+              <wc-button
                 size="sm"
                 variant="outlined"
                 onButton--click={() => {
@@ -314,8 +314,8 @@ export class FlowDesigner {
                 }}
               >
                 <p-icon slot="icon" name="dash"></p-icon>
-              </pc-button>
-            </pc-button-group>
+              </wc-button>
+            </wc-button-group>
           </div>
         </div>
       </Host>
