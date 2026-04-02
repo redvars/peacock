@@ -1,0 +1,79 @@
+@use "../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: contents;
+
+  --side-sheet-container-color: var(--color-surface-container-low, #f7f2fa);
+  --side-sheet-scrim-color: rgba(0, 0, 0, 0.32);
+  --side-sheet-shape: var(--shape-corner-extra-large, 28px);
+  --side-sheet-width: 360px;
+  --side-sheet-transition-duration: var(--duration-medium2, 300ms);
+  --side-sheet-transition-easing: var(--easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.scrim {
+  inset: 0;
+  position: fixed;
+  background-color: var(--side-sheet-scrim-color);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--side-sheet-transition-duration) var(--side-sheet-transition-easing);
+  z-index: 1000;
+}
+
+.scrim.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  background-color: var(--side-sheet-container-color);
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  transition:
+    transform var(--side-sheet-transition-duration) var(--side-sheet-transition-easing);
+  width: var(--side-sheet-width);
+  will-change: transform;
+  z-index: 1001;
+}
+
+.sheet.variant-standard {
+  position: relative;
+  z-index: 1;
+}
+
+/* Position: right */
+.sheet.position-right {
+  border-radius: var(--side-sheet-shape) 0 0 var(--side-sheet-shape);
+  right: 0;
+  transform: translateX(100%);
+}
+
+.sheet.position-right.open {
+  transform: translateX(0);
+}
+
+/* Position: left */
+.sheet.position-left {
+  border-radius: 0 var(--side-sheet-shape) var(--side-sheet-shape) 0;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.sheet.position-left.open {
+  transform: translateX(0);
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--spacing-300, 1.5rem);
+}

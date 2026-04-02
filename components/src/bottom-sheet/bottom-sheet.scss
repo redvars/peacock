@@ -1,0 +1,88 @@
+@use "../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: contents;
+
+  --bottom-sheet-container-color: var(--color-surface-container-low, #f7f2fa);
+  --bottom-sheet-scrim-color: rgba(0, 0, 0, 0.32);
+  --bottom-sheet-shape: var(--shape-corner-extra-large, 28px);
+  --bottom-sheet-max-height: 90dvh;
+  --bottom-sheet-handle-color: var(--color-on-surface-variant, #49454f);
+  --bottom-sheet-transition-duration: var(--duration-medium2, 300ms);
+  --bottom-sheet-transition-easing: var(--easing-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.scrim {
+  inset: 0;
+  position: fixed;
+  background-color: var(--bottom-sheet-scrim-color);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--bottom-sheet-transition-duration) var(--bottom-sheet-transition-easing);
+  z-index: 1000;
+}
+
+.scrim.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  background-color: var(--bottom-sheet-container-color);
+  border-radius: var(--bottom-sheet-shape) var(--bottom-sheet-shape) 0 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  max-height: var(--bottom-sheet-max-height);
+  overflow: hidden;
+  position: fixed;
+  right: 0;
+  transform: translateY(100%);
+  transition:
+    transform var(--bottom-sheet-transition-duration) var(--bottom-sheet-transition-easing);
+  will-change: transform;
+  z-index: 1001;
+}
+
+.sheet.variant-standard {
+  position: relative;
+  z-index: 1;
+}
+
+.sheet.open {
+  transform: translateY(0);
+}
+
+.sheet.dragging {
+  transition: none;
+}
+
+.handle-area {
+  cursor: grab;
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-100, 0.5rem) var(--spacing-200, 1rem);
+  touch-action: none;
+}
+
+.handle-area:active {
+  cursor: grabbing;
+}
+
+.handle {
+  background-color: var(--bottom-sheet-handle-color);
+  border-radius: var(--shape-corner-full, 9999px);
+  height: 4px;
+  opacity: 0.4;
+  width: 2rem;
+}
+
+.content {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--spacing-100, 0.5rem) var(--spacing-300, 1.5rem) var(--spacing-300, 1.5rem);
+}
