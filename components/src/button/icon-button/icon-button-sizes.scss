@@ -2,36 +2,56 @@
 
 .button {
   --_container-padding: 0.75rem;
-  width: var(--_button-height);
+  width: var(--button-height);
   --_container-padding: 0;
 }
-.button.size-xs,
-.button.size-extra-small {
-  --_button-height: 2rem;
+
+:host([size='xs']),
+:host([size='extra-small']) {
+  --button-height: 2rem;
+}
+
+:host([size='xs']) .button,
+:host([size='extra-small']) .button {
   --_button-icon-size: 1rem;
 }
 
 
-.button.size-sm,
-.button.size-small {
-  --_button-height: 2.5rem;
+:host([size='sm']),
+:host([size='small']) {
+  --button-height: 2.5rem;
+}
+
+:host([size='sm']) .button,
+:host([size='small']) .button {
   --_button-icon-size: 1.25rem;
   --_button-icon-label-spacing: 0.5rem;
 }
 
-.button.size-md,
-.button.size-medium {
-  --_button-height: 3.5rem;
+:host([size='md']),
+:host([size='medium']) {
+  --button-height: 3.5rem;
+}
+
+:host([size='md']) .button,
+:host([size='medium']) .button {
   --_button-icon-size: 1.5rem;
 }
 
-.button.size-lg,
-.button.size-large {
-  --_button-height: 6rem;
+:host([size='lg']),
+:host([size='large']) {
+  --button-height: 6rem;
+}
+
+:host([size='lg']) .button,
+:host([size='large']) .button {
   --_button-icon-size: 2rem;
 }
 
-.button.size-xl {
-  --_button-height: 8.5rem;
+:host([size='xl']) {
+  --button-height: 8.5rem;
+}
+
+:host([size='xl']) .button {
   --_button-icon-size: 2.5rem;
 }

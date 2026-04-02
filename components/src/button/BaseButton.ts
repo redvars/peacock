@@ -47,7 +47,7 @@ export class BaseButton extends LitElement {
    * Button size.
    * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
    */
-  @property() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
    * If true, the user cannot interact with the button. Defaults to `false`.
@@ -74,13 +74,16 @@ export class BaseButton extends LitElement {
    */
   @property({ reflect: true }) href?: string;
 
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
-
   /**
    * Sets or retrieves the window or frame at which to target content.
    */
   @property() target: string = '_self';
+  
+
+  @property({ reflect: true })
+  configAria?: { [key: string]: any };
+
+  
 
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
@@ -157,6 +160,10 @@ export class BaseButton extends LitElement {
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
+    }
+
+    if (this.toggle) {
+      this.selected = !this.selected;
     }
 
     this.focus();

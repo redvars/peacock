@@ -5,17 +5,17 @@
 
 :host {
   display: inline-flex;
-  --z-index-button: 0;
 
 
   --button-height: unset;
   --button-icon-size: unset;
-  --button-container-shape: unset;
+  --button-container-padding: unset;
+  --button-container-shape: var(--shape-corner-medium);
   --button-container-shape-start-start: unset;
   --button-container-shape-start-end: unset;
   --button-container-shape-end-start: unset;
   --button-container-shape-end-end: unset;
-  --button-container-shape-variant: unset;
+  --button-container-shape-variant: squircle;
 }
 
 /**
@@ -45,23 +45,24 @@ slot::slotted(*) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: var(--button-height, var(--_button-height));
+  height: var(--button-height);
   padding: 0 var(--button-container-padding, var(--_container-padding));
   width: 100%;
   font-family: var(--font-family-sans) !important;
   cursor: pointer;
 
-  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape, var(--shape-corner-medium)));
-  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape, var(--shape-corner-medium)));
-  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape, var(--shape-corner-medium)));
-  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape, var(--shape-corner-medium)));
-  --_container-corner-shape-variant: var(--button-container-shape-variant, squircle);
+  --_container-shape-start-start: var(--button-container-shape-start-start, var(--button-container-shape));
+  --_container-shape-start-end: var(--button-container-shape-start-end, var(--button-container-shape));
+  --_container-shape-end-start: var(--button-container-shape-end-start, var(--button-container-shape));
+  --_container-shape-end-end: var(--button-container-shape-end-end, var(--button-container-shape));
+  --_container-corner-shape-variant: var(--button-container-shape-variant);
 
 
   .button-content {
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
     gap: var(--_button-icon-label-spacing);
     width: 100%;
     height: 100%;

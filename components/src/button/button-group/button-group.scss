@@ -7,32 +7,10 @@ $border-width: 0.0625rem;
 .button-group {
   display: flex;
   gap: var(--_button-group-gap);
-
-
-  slot::slotted(:first-child) {
-    --button-container-shape-start-start: var(--shape-corner-full);
-    --button-container-shape-end-start: var(--shape-corner-full);
-    --button-container-shape-start-end: var(--shape-corner-medium);
-    --button-container-shape-end-end: var(--shape-corner-medium);
-    --button-container-shape-variant: initial;
-  }
-
-  slot::slotted(:last-child) {
-    --button-container-shape-end-end: var(--shape-corner-full);
-    --button-container-shape-start-end: var(--shape-corner-full);
-
-    --button-container-shape-end-start: var(--shape-corner-medium);
-    --button-container-shape-start-start: var(--shape-corner-medium);
-    --button-container-shape-variant: initial;
-  }
-
-  slot::slotted(:only-child) {
-    --button-container-shape: var(--shape-corner-full);
-    --button-container-shape-variant: initial;
-  }
 }
 
 
+// Size-specific rules (can be overridden by variant rules below)
 .button-group.size-xs,
 .button-group.size-extra-small {
   --_button-group-gap: 0.125rem;
@@ -59,5 +37,28 @@ $border-width: 0.0625rem;
   --_button-group-gap: 0.125rem;
 }
 
+
+// Standard variant: buttons with a visible gap, each keeping their own shape
+.button-group.variant-standard {
+  --_button-group-gap: 0.5rem;
+}
+
+
+// Connected variant: buttons with a 2px gap; outer buttons have fully rounded outer
+// corners while middle buttons keep standard rounded corners (handled via JS for
+// per-position corner overrides, including vertical orientation).
+.button-group.variant-connected {
+  --_button-group-gap: 0.125rem;
+}
+
+
+// Orientation
+.button-group.orientation-horizontal {
+  flex-direction: row;
+}
+
+.button-group.orientation-vertical {
+  flex-direction: column;
+}
 
 

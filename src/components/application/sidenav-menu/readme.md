@@ -29,19 +29,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-empty-state](../empty-state)
-
-### Graph
-```mermaid
-graph TD;
-  goat-sidenav-menu --> pc-empty-state
-  style goat-sidenav-menu fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

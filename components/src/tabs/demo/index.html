@@ -14,8 +14,8 @@
   </style>
 </head>
 <body>
-  
-  <wc-tabs variant="line">
+
+  <wc-tabs variant="primary">
     <wc-tab icon="home">Home</wc-tab>
     <wc-tab active="true" badge="3">Updates</wc-tab>
     <wc-tab>
@@ -24,6 +24,34 @@
       <wc-badge slot="badge" value="99+"></wc-badge>
     </wc-tab>
     <wc-tab disabled="true" icon="block" badge="!">Disabled</wc-tab>
+  </wc-tabs>
+
+  <wc-tabs variant="secondary">
+    <wc-tab active="true">Overview</wc-tab>
+    <wc-tab>
+      Activity
+      <wc-icon slot="icon" name="timeline"></wc-icon>
+    </wc-tab>
+    <wc-tab>Settings</wc-tab>
+  </wc-tabs>
+
+  <wc-tabs variant="filled">
+    <wc-tab active="true">Daily</wc-tab>
+    <wc-tab>Weekly</wc-tab>
+    <wc-tab>
+      Monthly
+      <wc-badge slot="badge" value="3"></wc-badge>
+    </wc-tab>
+    <wc-tab disabled="true">Archived</wc-tab>
+  </wc-tabs>
+
+  <wc-tabs variant="contained">
+    <wc-tab active="true">Summary</wc-tab>
+    <wc-tab>
+      Reports
+      <wc-icon slot="icon" name="bar_chart"></wc-icon>
+    </wc-tab>
+    <wc-tab>Exports</wc-tab>
   </wc-tabs>
 
 

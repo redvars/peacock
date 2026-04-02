@@ -380,13 +380,13 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
             <div class={'action-group'}>
               {actionGroup.actions.map(action => {
                 return (
-                  <pc-button
+                  <wc-button
                     class={'action'}
                     color="white"
                     onButton--click={action.action}
                   >
                     <p-icon slot="icon" name={action.icon} />
-                  </pc-button>
+                  </wc-button>
                 );
               })}
             </div>
@@ -394,7 +394,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
         })}
 
         {/*<div class={'action-group'}>
-              <pc-button
+              <wc-button
                 icon="cut"
                 variant="light"
                 color="secondary"
@@ -405,9 +405,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.editorInstance.state.doc.textBetween(from, to);
                   document.execCommand('cut');
                 }}
-              ></pc-button>
+              ></wc-button>
 
-              <pc-button
+              <wc-button
                 icon="copy"
                 variant="light"
                 color="secondary"
@@ -418,9 +418,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.editorInstance.state.doc.textBetween(from, to);
                   document.execCommand('copy');
                 }}
-              ></pc-button>
+              ></wc-button>
 
-              <pc-button
+              <wc-button
                 icon="paste"
                 variant="light"
                 color="secondary"
@@ -430,10 +430,10 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                     this.copiedContent,
                   );
                 }}
-              ></pc-button>
+              ></wc-button>
             </div>*/}
 
-        {/* <pc-button
+        {/* <wc-button
                 icon="text--align--left"
                 variant="outline"
                 color="secondary"
@@ -441,9 +441,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   // this.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
                 }}
-              ></pc-button>
+              ></wc-button>
 
-              <pc-button
+              <wc-button
                 icon="text--align--center"
                 variant="outline"
                 color="secondary"
@@ -451,9 +451,9 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   // this.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center');
                 }}
-              ></pc-button>
+              ></wc-button>
 
-              <pc-button
+              <wc-button
                 icon="text--align--right"
                 variant="outline"
                 color="secondary"
@@ -461,7 +461,7 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
                 onGoat:click={() => {
                   //.editorInstance.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right');
                 }}
-              ></pc-button> */}
+              ></wc-button> */}
       </div>
     );
   }

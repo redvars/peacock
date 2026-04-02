@@ -217,7 +217,7 @@ export class Table {
                   else icon = 'arrow--down';
                 }
                 return (
-                  <pc-button
+                  <wc-button
                     class="col-action"
                     color="secondary"
                     dark-mode-color="white"
@@ -237,7 +237,7 @@ export class Table {
                     }}
                   >
                     <p-icon slot="icon" name={icon}></p-icon>
-                  </pc-button>
+                  </wc-button>
                 );
               })()}
             </div>
@@ -399,7 +399,7 @@ export class Table {
           <div class="pagination-right">
             <div class="table-footer-right-content">
               <div class="table-footer-right-content-pagination">
-                <pc-button
+                <wc-button
                   class="arrows"
                   color="secondary"
                   dark-mode-color="light"
@@ -414,8 +414,8 @@ export class Table {
                   }}
                 >
                   <p-icon slot="icon" name="arrow--left"></p-icon>
-                </pc-button>
-                <pc-button
+                </wc-button>
+                <wc-button
                   color="secondary"
                   dark-mode-color="light"
                   variant="text"
@@ -430,7 +430,7 @@ export class Table {
                   }}
                 >
                   <p-icon slot="icon" name="arrow--right"></p-icon>
-                </pc-button>
+                </wc-button>
               </div>
             </div>
           </div>

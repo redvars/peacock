@@ -60,6 +60,7 @@
 
 .card {
   height: 100%;
+  --card-padding: 0;
 }
 
 
@@ -69,16 +70,22 @@
   --link-decoration: none;
   --link-decoration-hover: none;
 
-  goat-card {
-    padding: 0;
-  }
-
   .component-title {
     margin-bottom: var(--spacing-050);
   }
 
   .component-category-container {
     padding-bottom: var(--spacing-300);
+  }
+
+  .card-header {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden;
   }
 
   .header {
@@ -110,7 +117,8 @@
 
 
   .body {
-    height: 100%;
+    flex: 1;
+    padding: var(--spacing-200);
     background: var(--color-surface-container-high);
     display: flex;
     flex-direction: column;

@@ -91,10 +91,26 @@ const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
  *
  * @example
  * ```html
- * <button style="position: relative;">
+ * <style>
+ * .ripple-surface {
+ *   position: relative;
+ *   display: inline-flex;
+ *   align-items: center;
+ *   justify-content: center;
+ *   width: 220px;
+ *   height: 64px;
+ *   border-radius: 12px;
+ *   background: var(--color-surface-container-high);
+ *   color: var(--color-on-surface);
+ *   overflow: hidden;
+ *   cursor: pointer;
+ *   user-select: none;
+ * }
+ * </style>
+ * <div class="ripple-surface">
  *   <wc-ripple></wc-ripple>
- *   Click me
- * </button>
+ *   Ripple Effect
+ * </div>
  * ```
  * @tags display
  */

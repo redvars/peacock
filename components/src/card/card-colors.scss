@@ -1,0 +1,10 @@
+:host {
+  --filled-card-container-color: var(--color-surface-container-highest);
+  --filled-card-label-text-color: var(--color-on-surface);
+
+  --elevated-card-container-color: var(--color-surface-container-low);
+  --elevated-card-label-text-color: var(--color-on-surface);
+
+  --outlined-card-outline-color: var(--color-outline-variant);
+  --outlined-card-label-text-color:  var(--color-on-surface);
+}

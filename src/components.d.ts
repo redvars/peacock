@@ -311,104 +311,6 @@ export namespace Components {
     | 'fluid-heading';
     }
     /**
-     * @label IconButton
-     * @name button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <pc-button>
-     * IconButton
-     * </pc-button>
-     */
-    interface PcButton {
-        /**
-          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
-         */
-        "appendData": any;
-        /**
-          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-          * @default 'primary'
-         */
-        "color": | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * If button is disabled, the reason why it is disabled.
-          * @default ''
-         */
-        "disabledReason": string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
-          * @default 'end'
-         */
-        "iconAlign": 'start' | 'end';
-        /**
-          * Sets blur on the native `button` in `pc-button`. Use this method instead of the global `button.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `button` in `pc-button`. Use this method instead of the global `button.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'sm'
-         */
-        "size": 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target": string;
-        /**
-          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
-          * @default 200
-         */
-        "throttleDelay": number;
-        /**
-          * If true, the button will be in a toggled state.
-          * @default false
-         */
-        "toggle": boolean;
-        /**
-          * Triggers a click event on the native `button` in `pc-button`. Use this method instead of the global `button.click()`.
-         */
-        "triggerClick": () => Promise<void>;
-        /**
-          * IconButton type based on which actions are performed when the button is clicked.
-          * @default 'button'
-         */
-        "type": 'button' | 'submit' | 'reset';
-        /**
-          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
-          * @default 'filled'
-         */
-        "variant": | 'elevated'
-    | 'filled'
-    | 'tonal'
-    | 'outlined'
-    | 'text'
-    | 'neo';
-    }
-    /**
      * @label Calendar
      * @name calendar
      * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -565,32 +467,6 @@ export namespace Components {
           * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
          */
         "setFocus": () => Promise<void>;
-    }
-    /**
-     * @label Empty State
-     * @name empty-state
-     * @description A message that displays when there is no information to display.
-     * @category Data Display
-     * @img /assets/img/empty-state.webp
-     * @imgDark /assets/img/empty-state-dark.webp
-     */
-    interface PcEmptyState {
-        "action": string;
-        /**
-          * @default false
-         */
-        "actionDisabled": boolean;
-        "actionUrl": string;
-        /**
-          * @default 'filled'
-         */
-        "actionVariant": 'filled' | 'outlined' | 'text';
-        "description": string;
-        "headline": string;
-        /**
-          * @default 'no-document'
-         */
-        "illustration": 'no-document' | 'page' | 'search';
     }
     /**
      * @label Flow Designer
@@ -1312,52 +1188,6 @@ export namespace Components {
          */
         "value"?: number;
     }
-    interface PcTab {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * @default ''
-         */
-        "disabledReason": string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Icon which will displayed on button. Possible values are bootstrap icon names.
-         */
-        "icon": string;
-        "label": string;
-        /**
-          * IconButton selection state.
-          * @default false
-         */
-        "selected": boolean;
-        "setFocus": () => Promise<void>;
-        /**
-          * Show loader.
-          * @default false
-         */
-        "showLoader": boolean;
-        "target": string;
-        "triggerClick": () => Promise<void>;
-        /**
-          * @default 'default'
-         */
-        "type": 'contained' | 'contained-bottom' | 'default';
-        "value": string;
-    }
-    interface PcTabPanel {
-        /**
-          * @default false
-         */
-        "active": boolean;
-        "layer"?: 'background' | '01' | '02';
-        "value": string;
-    }
     /**
      * @label Table
      * @name table
@@ -1421,36 +1251,6 @@ export namespace Components {
          */
         "sortable": boolean;
         "totalItems": any;
-    }
-    /**
-     * @label Tabs
-     * @name tabs
-     * @description The tabs component is used to display multiple panels of content in a container.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-tabs>
-     * <pc-tabs-list>
-     * <pc-tab selected >Tab 1</pc-tab>
-     * <pc-tab>Tab 2</pc-tab>
-     * </pc-tabs-list>
-     * </pc-tabs>
-     */
-    interface PcTabs {
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default 'default'
-         */
-        "type": 'contained' | 'contained-bottom' | 'default';
-    }
-    interface PcTabsList {
-        /**
-          * @default false
-         */
-        "managed": boolean;
-        /**
-          * @default 'default'
-         */
-        "type": 'contained' | 'contained-bottom' | 'default';
     }
     /**
      * @label Textarea
@@ -1636,10 +1436,6 @@ export interface GoatSidenavMenuItemCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatSidenavMenuItemElement;
 }
-export interface PcButtonCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcButtonElement;
-}
 export interface PcCalendarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcCalendarElement;
@@ -1687,10 +1483,6 @@ export interface PcSelectCustomEvent<T> extends CustomEvent<T> {
 export interface PcSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcSliderElement;
-}
-export interface PcTabCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTabElement;
 }
 export interface PcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1853,36 +1645,6 @@ declare global {
         prototype: HTMLGoatTextElement;
         new (): HTMLGoatTextElement;
     };
-    interface HTMLPcButtonElementEventMap {
-        "button--click": {
-    appendData: any;
-  };
-    }
-    /**
-     * @label IconButton
-     * @name button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <pc-button>
-     * IconButton
-     * </pc-button>
-     */
-    interface HTMLPcButtonElement extends Components.PcButton, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcButtonElementEventMap>(type: K, listener: (this: HTMLPcButtonElement, ev: PcButtonCustomEvent<HTMLPcButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcButtonElementEventMap>(type: K, listener: (this: HTMLPcButtonElement, ev: PcButtonCustomEvent<HTMLPcButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcButtonElement: {
-        prototype: HTMLPcButtonElement;
-        new (): HTMLPcButtonElement;
-    };
     interface HTMLPcCalendarElementEventMap {
         "pc-calendar--event-click": any;
     }
@@ -2017,20 +1779,6 @@ declare global {
     var HTMLPcDropdownMenuElement: {
         prototype: HTMLPcDropdownMenuElement;
         new (): HTMLPcDropdownMenuElement;
-    };
-    /**
-     * @label Empty State
-     * @name empty-state
-     * @description A message that displays when there is no information to display.
-     * @category Data Display
-     * @img /assets/img/empty-state.webp
-     * @imgDark /assets/img/empty-state-dark.webp
-     */
-    interface HTMLPcEmptyStateElement extends Components.PcEmptyState, HTMLStencilElement {
-    }
-    var HTMLPcEmptyStateElement: {
-        prototype: HTMLPcEmptyStateElement;
-        new (): HTMLPcEmptyStateElement;
     };
     /**
      * @label Flow Designer
@@ -2349,29 +2097,6 @@ declare global {
         prototype: HTMLPcSliderElement;
         new (): HTMLPcSliderElement;
     };
-    interface HTMLPcTabElementEventMap {
-        "pc-tab--click": any;
-    }
-    interface HTMLPcTabElement extends Components.PcTab, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTabElementEventMap>(type: K, listener: (this: HTMLPcTabElement, ev: PcTabCustomEvent<HTMLPcTabElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTabElementEventMap>(type: K, listener: (this: HTMLPcTabElement, ev: PcTabCustomEvent<HTMLPcTabElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTabElement: {
-        prototype: HTMLPcTabElement;
-        new (): HTMLPcTabElement;
-    };
-    interface HTMLPcTabPanelElement extends Components.PcTabPanel, HTMLStencilElement {
-    }
-    var HTMLPcTabPanelElement: {
-        prototype: HTMLPcTabPanelElement;
-        new (): HTMLPcTabPanelElement;
-    };
     interface HTMLPcTableElementEventMap {
         "pc-table--cell-click": any;
         "pc-table--selection-change": any;
@@ -2399,31 +2124,6 @@ declare global {
     var HTMLPcTableElement: {
         prototype: HTMLPcTableElement;
         new (): HTMLPcTableElement;
-    };
-    /**
-     * @label Tabs
-     * @name tabs
-     * @description The tabs component is used to display multiple panels of content in a container.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-tabs>
-     * <pc-tabs-list>
-     * <pc-tab selected >Tab 1</pc-tab>
-     * <pc-tab>Tab 2</pc-tab>
-     * </pc-tabs-list>
-     * </pc-tabs>
-     */
-    interface HTMLPcTabsElement extends Components.PcTabs, HTMLStencilElement {
-    }
-    var HTMLPcTabsElement: {
-        prototype: HTMLPcTabsElement;
-        new (): HTMLPcTabsElement;
-    };
-    interface HTMLPcTabsListElement extends Components.PcTabsList, HTMLStencilElement {
-    }
-    var HTMLPcTabsListElement: {
-        prototype: HTMLPcTabsListElement;
-        new (): HTMLPcTabsListElement;
     };
     interface HTMLPcTextareaElementEventMap {
         "goat-textarea--input": any;
@@ -2512,7 +2212,6 @@ declare global {
         "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
         "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
         "goat-text": HTMLGoatTextElement;
-        "pc-button": HTMLPcButtonElement;
         "pc-calendar": HTMLPcCalendarElement;
         "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
         "pc-calendar-column-view-background": HTMLPcCalendarColumnViewBackgroundElement;
@@ -2522,7 +2221,6 @@ declare global {
         "pc-card": HTMLPcCardElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
-        "pc-empty-state": HTMLPcEmptyStateElement;
         "pc-flow-designer": HTMLPcFlowDesignerElement;
         "pc-form-control": HTMLPcFormControlElement;
         "pc-header": HTMLPcHeaderElement;
@@ -2538,11 +2236,7 @@ declare global {
         "pc-popover-content": HTMLPcPopoverContentElement;
         "pc-select": HTMLPcSelectElement;
         "pc-slider": HTMLPcSliderElement;
-        "pc-tab": HTMLPcTabElement;
-        "pc-tab-panel": HTMLPcTabPanelElement;
         "pc-table": HTMLPcTableElement;
-        "pc-tabs": HTMLPcTabsElement;
-        "pc-tabs-list": HTMLPcTabsListElement;
         "pc-textarea": HTMLPcTextareaElement;
         "pc-tree-node": HTMLPcTreeNodeElement;
         "pc-tree-view": HTMLPcTreeViewElement;
@@ -2841,98 +2535,6 @@ declare namespace LocalJSX {
     | 'fluid-heading';
     }
     /**
-     * @label IconButton
-     * @name button
-     * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-     * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
-     * @category Buttons
-     * @tags controls
-     * @example <pc-button>
-     * IconButton
-     * </pc-button>
-     */
-    interface PcButton {
-        /**
-          * The `appendData` property allows you to attach additional data to the button component. This data can be of any type, making it versatile for various use cases. It's particularly useful for passing extra context or information that can be accessed in event handlers or other component logic.
-         */
-        "appendData"?: any;
-        /**
-          * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-          * @default 'primary'
-         */
-        "color"?: | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * If button is disabled, the reason why it is disabled.
-          * @default ''
-         */
-        "disabledReason"?: string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Icon alignment. Possible values are `"start"`, `"end"`. Defaults to `"end"`.
-          * @default 'end'
-         */
-        "iconAlign"?: 'start' | 'end';
-        /**
-          * Triggered when the button is clicked.
-         */
-        "onButton--click"?: (event: PcButtonCustomEvent<{
-    appendData: any;
-  }>) => void;
-        /**
-          * IconButton size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'sm'
-         */
-        "size"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target"?: string;
-        /**
-          * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
-          * @default 200
-         */
-        "throttleDelay"?: number;
-        /**
-          * If true, the button will be in a toggled state.
-          * @default false
-         */
-        "toggle"?: boolean;
-        /**
-          * IconButton type based on which actions are performed when the button is clicked.
-          * @default 'button'
-         */
-        "type"?: 'button' | 'submit' | 'reset';
-        /**
-          * The visual style of the button.   Possible variant values: `"filled"` is a filled button. `"outlined"` is an outlined button. `"text"` is a transparent button. `"tonal"` is a light color button.
-          * @default 'filled'
-         */
-        "variant"?: | 'elevated'
-    | 'filled'
-    | 'tonal'
-    | 'outlined'
-    | 'text'
-    | 'neo';
-    }
-    /**
      * @label Calendar
      * @name calendar
      * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -3101,32 +2703,6 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcDropdownMenu {
-    }
-    /**
-     * @label Empty State
-     * @name empty-state
-     * @description A message that displays when there is no information to display.
-     * @category Data Display
-     * @img /assets/img/empty-state.webp
-     * @imgDark /assets/img/empty-state-dark.webp
-     */
-    interface PcEmptyState {
-        "action"?: string;
-        /**
-          * @default false
-         */
-        "actionDisabled"?: boolean;
-        "actionUrl"?: string;
-        /**
-          * @default 'filled'
-         */
-        "actionVariant"?: 'filled' | 'outlined' | 'text';
-        "description"?: string;
-        "headline"?: string;
-        /**
-          * @default 'no-document'
-         */
-        "illustration"?: 'no-document' | 'page' | 'search';
     }
     /**
      * @label Flow Designer
@@ -3850,54 +3426,6 @@ declare namespace LocalJSX {
          */
         "value"?: number;
     }
-    interface PcTab {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * @default ''
-         */
-        "disabledReason"?: string;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Icon which will displayed on button. Possible values are bootstrap icon names.
-         */
-        "icon"?: string;
-        "label"?: string;
-        /**
-          * On click of tab, a CustomEvent 'pc-tab-click' will be triggered.
-         */
-        "onPc-tab--click"?: (event: PcTabCustomEvent<any>) => void;
-        /**
-          * IconButton selection state.
-          * @default false
-         */
-        "selected"?: boolean;
-        /**
-          * Show loader.
-          * @default false
-         */
-        "showLoader"?: boolean;
-        "target"?: string;
-        /**
-          * @default 'default'
-         */
-        "type"?: 'contained' | 'contained-bottom' | 'default';
-        "value"?: string;
-    }
-    interface PcTabPanel {
-        /**
-          * @default false
-         */
-        "active"?: boolean;
-        "layer"?: 'background' | '01' | '02';
-        "value"?: string;
-    }
     /**
      * @label Table
      * @name table
@@ -3977,36 +3505,6 @@ declare namespace LocalJSX {
          */
         "sortable"?: boolean;
         "totalItems"?: any;
-    }
-    /**
-     * @label Tabs
-     * @name tabs
-     * @description The tabs component is used to display multiple panels of content in a container.
-     * @category Navigation
-     * @tags navigation
-     * @example <pc-tabs>
-     * <pc-tabs-list>
-     * <pc-tab selected >Tab 1</pc-tab>
-     * <pc-tab>Tab 2</pc-tab>
-     * </pc-tabs-list>
-     * </pc-tabs>
-     */
-    interface PcTabs {
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default 'default'
-         */
-        "type"?: 'contained' | 'contained-bottom' | 'default';
-    }
-    interface PcTabsList {
-        /**
-          * @default false
-         */
-        "managed"?: boolean;
-        /**
-          * @default 'default'
-         */
-        "type"?: 'contained' | 'contained-bottom' | 'default';
     }
     /**
      * @label Textarea
@@ -4200,7 +3698,6 @@ declare namespace LocalJSX {
         "goat-sidenav-menu": GoatSidenavMenu;
         "goat-sidenav-menu-item": GoatSidenavMenuItem;
         "goat-text": GoatText;
-        "pc-button": PcButton;
         "pc-calendar": PcCalendar;
         "pc-calendar-column-view": PcCalendarColumnView;
         "pc-calendar-column-view-background": PcCalendarColumnViewBackground;
@@ -4210,7 +3707,6 @@ declare namespace LocalJSX {
         "pc-card": PcCard;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
-        "pc-empty-state": PcEmptyState;
         "pc-flow-designer": PcFlowDesigner;
         "pc-form-control": PcFormControl;
         "pc-header": PcHeader;
@@ -4226,11 +3722,7 @@ declare namespace LocalJSX {
         "pc-popover-content": PcPopoverContent;
         "pc-select": PcSelect;
         "pc-slider": PcSlider;
-        "pc-tab": PcTab;
-        "pc-tab-panel": PcTabPanel;
         "pc-table": PcTable;
-        "pc-tabs": PcTabs;
-        "pc-tabs-list": PcTabsList;
         "pc-textarea": PcTextarea;
         "pc-tree-node": PcTreeNode;
         "pc-tree-view": PcTreeView;
@@ -4291,18 +3783,6 @@ declare module "@stencil/core" {
              */
             "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
             /**
-             * @label IconButton
-             * @name button
-             * @description Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
-             * @overview  <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
-             * @category Buttons
-             * @tags controls
-             * @example <pc-button>
-             * IconButton
-             * </pc-button>
-             */
-            "pc-button": LocalJSX.PcButton & JSXBase.HTMLAttributes<HTMLPcButtonElement>;
-            /**
              * @label Calendar
              * @name calendar
              * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -4344,15 +3824,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "pc-dropdown-menu": LocalJSX.PcDropdownMenu & JSXBase.HTMLAttributes<HTMLPcDropdownMenuElement>;
-            /**
-             * @label Empty State
-             * @name empty-state
-             * @description A message that displays when there is no information to display.
-             * @category Data Display
-             * @img /assets/img/empty-state.webp
-             * @imgDark /assets/img/empty-state-dark.webp
-             */
-            "pc-empty-state": LocalJSX.PcEmptyState & JSXBase.HTMLAttributes<HTMLPcEmptyStateElement>;
             /**
              * @label Flow Designer
              * @name flow-designer
@@ -4498,8 +3969,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/slider-dark.webp
              */
             "pc-slider": LocalJSX.PcSlider & JSXBase.HTMLAttributes<HTMLPcSliderElement>;
-            "pc-tab": LocalJSX.PcTab & JSXBase.HTMLAttributes<HTMLPcTabElement>;
-            "pc-tab-panel": LocalJSX.PcTabPanel & JSXBase.HTMLAttributes<HTMLPcTabPanelElement>;
             /**
              * @label Table
              * @name table
@@ -4509,21 +3978,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/table-dark.webp
              */
             "pc-table": LocalJSX.PcTable & JSXBase.HTMLAttributes<HTMLPcTableElement>;
-            /**
-             * @label Tabs
-             * @name tabs
-             * @description The tabs component is used to display multiple panels of content in a container.
-             * @category Navigation
-             * @tags navigation
-             * @example <pc-tabs>
-             * <pc-tabs-list>
-             * <pc-tab selected >Tab 1</pc-tab>
-             * <pc-tab>Tab 2</pc-tab>
-             * </pc-tabs-list>
-             * </pc-tabs>
-             */
-            "pc-tabs": LocalJSX.PcTabs & JSXBase.HTMLAttributes<HTMLPcTabsElement>;
-            "pc-tabs-list": LocalJSX.PcTabsList & JSXBase.HTMLAttributes<HTMLPcTabsListElement>;
             /**
              * @label Textarea
              * @name textarea

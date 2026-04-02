@@ -81,14 +81,9 @@ Type: `Promise<void>`
 
  - [goat-condition-builder](../../../application/condition-builder/condition-builder)
 
-### Depends on
-
-- [pc-button](../../../button)
-
 ### Graph
 ```mermaid
 graph TD;
-  pc-input --> pc-button
   goat-condition-builder --> pc-input
   style pc-input fill:#f9f,stroke:#333,stroke-width:4px
 ```

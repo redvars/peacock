@@ -209,7 +209,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
           >
             {this.value}
           </base-link>
-          <pc-button
+          <wc-button
             size="sm"
             variant="text"
             onButton--click={() => {
@@ -217,7 +217,7 @@ export class InputUrl implements ComponentInterface, InputComponentInterface {
             }}
           >
             <p-icon slot="icon" name="edit" />
-          </pc-button>
+          </wc-button>
         </div>
 
         <div

@@ -228,8 +228,8 @@ export class Tab extends LitElement {
         return this.renderSecondaryTabContent();
       case 'contained':
         return this.renderContainedTabContent();
-      case 'pill':
-        return this.renderPillTabContent();
+      case 'filled':
+        return this.renderFilledTabContent();
       case 'primary':
       default:
         return this.renderPrimaryTabContent();
@@ -238,7 +238,7 @@ export class Tab extends LitElement {
 
   renderPrimaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
@@ -264,7 +264,7 @@ export class Tab extends LitElement {
 
   renderSecondaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
@@ -288,11 +288,33 @@ export class Tab extends LitElement {
   }
 
   renderContainedTabContent() {
-    return this.renderPrimaryTabContent();
+    return this.renderSegmentedTabContent();
   }
 
-  renderPillTabContent() {
-    return this.renderPrimaryTabContent();
+  renderFilledTabContent() {
+    return this.renderSegmentedTabContent();
+  }
+
+  renderSegmentedTabContent() {
+    return html`
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple"></wc-ripple>
+
+      <div class="tab-content">
+        <slot name="icon"></slot>
+
+        <div class="slot-container">
+          <slot></slot>
+        </div>
+
+        <slot name="badge"></slot>
+      </div>
+
+      ${this.__renderDisabledReason()}
+    `;
   }
 
   __getDisabledReasonID() {

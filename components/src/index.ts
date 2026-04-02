@@ -5,6 +5,7 @@ export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
 export { Button, ButtonGroup, IconButton } from './button/index.js';
+export { SegmentedButton, SegmentedButtonGroup } from './segmented-button/index.js';
 
 export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
@@ -37,7 +38,6 @@ export { CodeEditor } from './code-editor/index.js';
 export { Image } from './image/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
-export { ChartDonut } from './chart-donut/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
@@ -49,3 +49,7 @@ export { Snackbar } from './snackbar/index.js';
 export { Radio } from './radio/index.js';
 export { BottomSheet } from './bottom-sheet/index.js';
 export { SideSheet } from './side-sheet/index.js';
+export { Select } from './select/index.js';
+export type { SelectOption } from './select/index.js';
+export { SelectOptionElement } from './select/index.js';
+

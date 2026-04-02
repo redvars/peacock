@@ -138,10 +138,6 @@ export class MenuItem extends LitElement {
     return !!this.href;
   }
 
-  get focusTarget() {
-    return this;
-  }
-
   render() {
     const isLink = this.__isLink();
 
@@ -180,11 +176,7 @@ export class MenuItem extends LitElement {
 
   renderContent() {
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .control=${this}
-        element="focusTarget"
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this}></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>
 

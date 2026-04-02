@@ -11,6 +11,8 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import { ButtonGroup } from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
+import { SegmentedButton } from './segmented-button/segmented-button.js';
+import { SegmentedButtonGroup } from './segmented-button/segmented-button-group.js';
 import { Input } from './input/input.js';
 import { Field } from './field/field.js';
 import { NumberField } from './number-field/number-field.js';
@@ -56,6 +58,8 @@ import { Card } from './card/card.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
+import { Select } from './select/select.js';
+import { SelectOptionElement } from './select/option.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -103,6 +107,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-button-group': {
       CustomElementClass: ButtonGroup,
+    },
+    'wc-segmented-button': {
+      CustomElementClass: SegmentedButton,
+    },
+    'wc-segmented-button-group': {
+      CustomElementClass: SegmentedButtonGroup,
     },
     'wc-divider': {
       CustomElementClass: Divider,
@@ -245,6 +255,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-side-sheet': {
       CustomElementClass: SideSheet,
+    },
+    'wc-select': {
+      CustomElementClass: Select,
+    },
+    'wc-option': {
+      CustomElementClass: SelectOptionElement,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

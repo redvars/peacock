@@ -29,14 +29,12 @@
 
 ### Depends on
 
-- [pc-button](../../../button)
 - [pc-calendar-column-view](column-view)
 - [pc-calendar-month-view](month-view)
 
 ### Graph
 ```mermaid
 graph TD;
-  pc-calendar --> pc-button
   pc-calendar --> pc-calendar-column-view
   pc-calendar --> pc-calendar-month-view
   pc-calendar-column-view --> pc-calendar-column-view-background

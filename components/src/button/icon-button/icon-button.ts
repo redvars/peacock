@@ -65,6 +65,26 @@ export class IconButton extends BaseButton {
 
   @property({ type: String }) provider: IconProvider = 'material-symbols';
 
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    window.addEventListener('mouseup', this.__handlePress);
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('mouseup', this.__handlePress);
+    this.removeEventListener('click', this.__dispatchClickWithThrottle);
+    super.disconnectedCallback();
+  }
+  
   override firstUpdated() {
     this.__dispatchClickWithThrottle = throttle(
       this.__dispatchClick,
@@ -133,7 +153,7 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="buttonElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.buttonElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

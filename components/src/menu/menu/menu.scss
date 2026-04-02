@@ -4,23 +4,37 @@
 
 .menu {
   display: flex;
-  position: relative;
+  position: fixed;
   z-index: var(--menu-z-index, 1000);
   min-width: 112px;
   padding-block: var(--spacing-050);
+  transform-origin: top center;
+
+  --_menu-enter-duration: var(--duration-medium1, 250ms);
+  --_menu-exit-duration: var(--duration-short4, 200ms);
+  --_menu-enter-easing: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --_menu-exit-easing: cubic-bezier(0.3, 0, 0.8, 0.15);
+
+  transition-property: opacity, transform, visibility;
+  transition-duration: var(--_menu-exit-duration), var(--_menu-exit-duration), 0ms;
+  transition-delay: 0ms, 0ms, var(--_menu-exit-duration);
+  transition-timing-function: var(--_menu-exit-easing), var(--_menu-exit-easing), linear;
 
   &.closed {
-    display: none;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+    transform: translateY(-4px) scale(0.97);
   }
 
   &.open {
-    display: flex;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-duration: var(--_menu-enter-duration), var(--_menu-enter-duration), 0ms;
+    transition-delay: 0ms, 0ms, 0ms;
+    transition-timing-function: var(--_menu-enter-easing), var(--_menu-enter-easing), linear;
   }
 
   .menu-content {
@@ -70,6 +84,13 @@
     --elevation-container-shape-end-start: var(--_container-shape-end-start);
     --elevation-container-shape-end-end: var(--_container-shape-end-end);
     --elevation-container-shape-variant: var(--_container-corner-shape-variant);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu {
+    transition: none;
+    transform: none;
   }
 }
 

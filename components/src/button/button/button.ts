@@ -67,6 +67,26 @@ export class Button extends BaseButton {
   @state()
   private slotHasContent = false;
 
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    window.addEventListener('mouseup', this.__handlePress);
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('mouseup', this.__handlePress);
+    this.removeEventListener('click', this.__dispatchClickWithThrottle);
+    super.disconnectedCallback();
+  }
+
   override firstUpdated() {
     this.__dispatchClickWithThrottle = throttle(
       this.__dispatchClick,
@@ -105,6 +125,7 @@ export class Button extends BaseButton {
           id="button"
           tabindex=${this.#tabindex}
           type=${this.htmlType}
+          @click=${this.__dispatchClickWithThrottle}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
@@ -123,6 +144,7 @@ export class Button extends BaseButton {
         tabindex=${this.#tabindex}
         href=${this.href}
         target=${this.target}
+          @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
@@ -138,7 +160,7 @@ export class Button extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="buttonElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.buttonElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

@@ -36,19 +36,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-button](../../../button)
-
-### Graph
-```mermaid
-graph TD;
-  goat-header-action --> pc-button
-  style goat-header-action fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*
