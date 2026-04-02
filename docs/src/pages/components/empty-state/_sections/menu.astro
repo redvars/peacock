@@ -3,12 +3,17 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <style is:inline>
-  pc-menu {
+  .menu {
     width: 12rem;
   }
 </style>
 <DemoComponentCard lang='html'>
-  <pc-menu empty='true'
+  <wc-menu class="menu" empty='true'
+          open
              empty-state-headline="Empty test"
-             empty-state-description="You items list is empty"></pc-menu>
+             empty-state-description="You items list is empty">
+
+             <wc-menu-item value="1">Item 1</wc-menu-item>
+            
+   </wc-menu>
 </DemoComponentCard>
