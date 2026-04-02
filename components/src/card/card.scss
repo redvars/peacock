@@ -5,8 +5,7 @@
 :host {
   display: block;
   --card-gap: 0;
-
-  --card-padding: 1rem;
+  --card-padding: 0;
   --card-container-shape: var(--shape-corner-large);
   --card-container-shape-start-start: unset;
   --card-container-shape-start-end: unset;

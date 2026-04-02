@@ -7,22 +7,66 @@ interface Props {
 const {component} = Astro.props;
 ---
 
+
+<style>
+  .component-card {
+    height: 100%;
+  }
+
+  .component-card-header {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 14rem;
+    background: var(--color-surface);
+    overflow: hidden;
+    padding: .5rem 1rem;
+    border-bottom: 1px solid var(--color-outline-variant);
+
+    .component-image {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  .component-card-body {
+    .component-card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .link-icon {
+      --icon-size: 1.5rem;
+    }
+  }
+
+</style>
+
+
 { component &&
-<div class='card-wrapper' data-category={getTextTag(component, 'rawTag')}>
-  <wc-card variant="outlined" class='card' href={`/components/${getTextTag(component, 'rawTag')}/#`}>
-    <pc-card-content class='header card-header'>
+  
+  <wc-card class='component-card' href={`/components/${getTextTag(component, 'rawTag')}/#`}>
+    <div class='component-card-header'>
 
       <Fragment set:html={getMarkdown(component, 'example')} />
      <!-- {
         declaration.example
           ? <Fragment set:html={declaration.example} />
-          : <wc-image src={component.img} dark-src={component.imgDark}/>
+          : <wc-image class="component-image" src={component.img} dark-src={component.imgDark}/>
       }-->
-    </pc-card-content>
+    </div>
 
-    <pc-card-content class='body'>
-      <h3 class='component-title text-headline-small' >{getTextTag(component, 'label')}</h3>
-      <p class='text-body component-description'>{getTextTag(component, 'summary')}</p>
-    </pc-card-content>
+    <wc-card-content class='component-card-body'>
+      <h3 class='component-card-title text-headline-small' >
+        {getTextTag(component, 'label')}
+
+        <wc-icon class="link-icon" name="arrow_outward"></wc-icon>
+      </h3>
+      <p class='text-body'>{getTextTag(component, 'summary')}</p>
+    </wc-card-content>
   </wc-card>
-</div>}
+ }

@@ -16,7 +16,7 @@ type ContainerSize = 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
  *
  * @example
  * ```html
- * <wc-container size="lg">Content</wc-container>
+ * <wc-container style="width: 80%; border: 1px dotted black;" size="md">Content</wc-container>
  * ```
  */
 export class Container extends LitElement {

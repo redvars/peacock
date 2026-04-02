@@ -8,6 +8,7 @@ import styles from './segmented-button.scss';
  * @tag wc-segmented-button
  * @rawTag segmented-button
  * @summary An individual segment within a segmented button group.
+ * @parentRawTag segmented-button-group
  * @overview
  * <p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>
  *

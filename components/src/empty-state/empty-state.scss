@@ -64,6 +64,10 @@
     .content {
       width: 50%;
     }
+
+    .headline {
+      @include mixin.get-typography(title-medium);
+    }
   }
 }
 
@@ -78,6 +82,10 @@
         width: 100%;
         justify-content: center;
       }
+    }
+
+    .headline {
+      @include mixin.get-typography(title-small);
     }
   }
 }

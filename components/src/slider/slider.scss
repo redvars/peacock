@@ -42,7 +42,6 @@
     position: absolute;
     height: 100%;
     background-color: var(--_active-track-color);
-    transition: width 0.1s ease-out;
     will-change: width;
   }
 }

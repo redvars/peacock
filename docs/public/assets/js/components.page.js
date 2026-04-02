@@ -9,7 +9,7 @@ $componentSearchElm.addEventListener('input', function (e) {
     top: 0,
     behavior: 'instant',
   });
-  document.querySelectorAll('.cards .card-wrapper').forEach(elm => {
+  document.querySelectorAll('.cards .component-card').forEach(elm => {
     elm.classList.remove('hidden');
     if (
       elm.innerText.toLowerCase().indexOf(e.target.value.toLowerCase()) === -1

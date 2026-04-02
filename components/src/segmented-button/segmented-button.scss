@@ -70,16 +70,11 @@
   .segment-outline {
     position: absolute;
     top: 0;
-    right: -1px;
+    right: 0;
     width: 1px;
     height: 100%;
     background: var(--segmented-button-outline-color, var(--_segmented-button-outline-color));
     pointer-events: none;
-  }
-
-  &:last-of-type .segment-outline,
-  :host(:last-child) .segment-outline {
-    display: none;
   }
 
   &:hover:not(.disabled) .state-layer {
@@ -113,4 +108,8 @@
     opacity: var(--segmented-button-disabled-opacity, var(--_segmented-button-disabled-opacity));
     pointer-events: none;
   }
+}
+
+:host(:last-child) .segment-outline {
+  display: none;
 }

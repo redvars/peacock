@@ -21,7 +21,7 @@ import styles from './code-editor.scss';
  *
  * @example
  * ```html
- * <wc-code-editor language="javascript"></wc-code-editor>
+ * <wc-code-editor language="javascript" style="width: 80%;--code-editor-height: 9rem;height: 9rem;" ></wc-code-editor>
  * ```
  */
 
