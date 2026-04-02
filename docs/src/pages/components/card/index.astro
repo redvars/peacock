@@ -3,29 +3,18 @@ import Layout from '../../../layouts/LitComponent.astro';
 import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 import ApiPanel from '../../../components/LitApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
-const componentDetails = getComponentDetails('select');
 
 import UsageSection from './_sections/usage.astro';
-import SearchSection from './_sections/search.astro';
-import ManagedSearchSection from './_sections/managed.astro';
-import MultiSelectSection from './_sections/multi-select.astro';
-import WcOptionSection from './_sections/wc-option.astro';
+import VariantsSection from './_sections/variants.astro';
+
+const componentDetails = getComponentDetails('card');
 
 const sections = [{
-  'title': 'wc-option',
-  'Component': WcOptionSection,
-}, {
   'title': 'Usage',
   'Component': UsageSection,
 }, {
-  'title': 'Search / Typeahead',
-  'Component': SearchSection,
-}, {
-  'title': 'Managed Search',
-  'Component': ManagedSearchSection,
-}, {
-  'title': 'Multi Select',
-  'Component': MultiSelectSection,
+  'title': 'Variants',
+  'Component': VariantsSection,
 }];
 ---
 

@@ -18,7 +18,7 @@ export class FocusRing extends LitElement {
 
   @property({ type: Boolean, reflect: true }) visible: boolean = false;
 
-  @property({ type: String}) element = '';
+  @property({ type: String }) for = '';
 
 
   render() {
@@ -26,6 +26,8 @@ export class FocusRing extends LitElement {
   }
 
   _control?: HTMLElement;
+
+  _focusTarget?: HTMLElement;
 
   get control() {
     return this._control || null;
@@ -35,6 +37,15 @@ export class FocusRing extends LitElement {
     if (control) {
       this._control = control;
     } else {
+      this.detach();
+    }
+  }
+
+  set forElement(value: HTMLElement | null) {
+    if (value) {
+      this._focusTarget = value;
+      this.attach();
+    } else {      
       this.detach();
     }
   }
@@ -50,8 +61,8 @@ export class FocusRing extends LitElement {
   }
 
   __focusin() {
-    // @ts-ignore
-    this.visible = this._control[this.element].matches(':focus-visible') ?? false;
+    const focusTarget = this.__getFocusTarget();
+    this.visible = focusTarget?.matches(':focus-visible') ?? false;
   }
 
   __focusout() {
@@ -62,27 +73,34 @@ export class FocusRing extends LitElement {
     this.visible = false;
   }
 
+  __getFocusTarget(): HTMLElement | undefined {
+
+    if (this._focusTarget) {
+      return this._focusTarget;
+    }
+
+    const focusTarget = document.getElementById(this.for);
+     if (focusTarget) {
+      return focusTarget
+     }
+     return undefined;
+  }
+
   attach() {
-    // @ts-ignore
-    if (this._control && this._control[this.element]) {
-      // @ts-ignore
-      this._control[this.element].addEventListener('focusin', this.__focusin.bind(this));
-      // @ts-ignore
-      this._control[this.element].addEventListener('focusout', this.__focusin.bind(this));
-      // @ts-ignore
-      this._control[this.element].addEventListener('pointerdown', this.__focusin.bind(this));
+    const focusTarget = this.__getFocusTarget();
+    if (focusTarget) {
+      focusTarget.addEventListener('focusin', this.__focusin.bind(this));
+      focusTarget.addEventListener('focusout', this.__focusout.bind(this));
+      focusTarget.addEventListener('pointerdown', this.__pointerdown.bind(this));
     }
   }
 
   detach() {
-    // @ts-ignore
-    if (this._control && this._control[this.element]) {
-      // @ts-ignore
-      this._control[this.element].removeEventListener('focusin', this.__focusin);
-      // @ts-ignore
-      this._control[this.element].removeEventListener('focusout', this.__focusout);
-      // @ts-ignore
-      this._control[this.element].removeEventListener('pointerdown', this.__pointerdown);
+    const focusTarget = this.__getFocusTarget();
+    if (focusTarget) {
+      focusTarget.removeEventListener('focusin', this.__focusin.bind(this));
+      focusTarget.removeEventListener('focusout', this.__focusout.bind(this));
+      focusTarget.removeEventListener('pointerdown', this.__pointerdown.bind(this));
     }
     this._control = undefined;
   }

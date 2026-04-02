@@ -22,6 +22,11 @@
   background: #555;
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+
 * {
   box-sizing: border-box;
 }

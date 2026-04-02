@@ -238,7 +238,7 @@ export class Tab extends LitElement {
 
   renderPrimaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
@@ -264,7 +264,7 @@ export class Tab extends LitElement {
 
   renderSecondaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
@@ -297,7 +297,7 @@ export class Tab extends LitElement {
 
   renderSegmentedTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} element="tabElement"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.tabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
