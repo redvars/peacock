@@ -224,6 +224,204 @@
     }
   },
   {
+    "label": "Bottom Sheet",
+    "tag": "wc-bottom-sheet",
+    "rawTag": "bottom-sheet",
+    "summary": "Bottom sheets slide up from the bottom of the screen to reveal additional content. Supports standard and modal variants per Material Design 3.",
+    "cssprop": "--bottom-sheet-max-height - Maximum height of the sheet.",
+    "example": "```html\n<wc-bottom-sheet open variant=\"modal\">\n  <p>Sheet content here</p>\n</wc-bottom-sheet>\n```",
+    "tags": "navigation, overlay",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "BottomSheet",
+      "cssProperties": [
+        {
+          "description": "Background color of the sheet container.",
+          "name": "--bottom-sheet-container-color"
+        },
+        {
+          "description": "Color of the modal scrim overlay.",
+          "name": "--bottom-sheet-scrim-color"
+        },
+        {
+          "description": "Corner radius of the top edge.",
+          "name": "--bottom-sheet-shape"
+        },
+        {
+          "description": "Maximum height of the sheet.",
+          "name": "--bottom-sheet-max-height"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the sheet is visible.",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'modal'"
+          },
+          "default": "'modal'",
+          "description": "Sheet variant.\n- `\"standard\"`: Coexists with page content; no scrim.\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showHandle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show the drag handle.",
+          "attribute": "show-handle"
+        },
+        {
+          "kind": "field",
+          "name": "_dragging",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_dragStartY",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_dragOffsetY",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "hide"
+        },
+        {
+          "kind": "method",
+          "name": "_close",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleScrimClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleDragStart",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleDragMove",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "PointerEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleDragEnd",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "bottom-sheet-close",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the sheet is visible.",
+          "fieldName": "open"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'modal'"
+          },
+          "default": "'modal'",
+          "description": "Sheet variant.\n- `\"standard\"`: Coexists with page content; no scrim.\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "show-handle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show the drag handle.",
+          "fieldName": "showHandle"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-bottom-sheet",
+      "customElement": true,
+      "summary": "Bottom sheets slide up from the bottom of the screen to reveal additional content. Supports standard and modal variants per Material Design 3.",
+      "rawTag": {
+        "name": "bottom-sheet",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Breadcrumb",
     "tag": "wc-breadcrumb",
     "rawTag": "breadcrumb",
@@ -9262,6 +9460,147 @@
       "summary": "A declarative option element for use inside wc-select.",
       "rawTag": {
         "name": "option",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Side Sheet",
+    "tag": "wc-side-sheet",
+    "rawTag": "side-sheet",
+    "summary": "Side sheets slide in from the edge of the screen to reveal supplemental content. Supports standard and modal variants per Material Design 3.",
+    "cssprop": "--side-sheet-width - Width of the side sheet.",
+    "example": "```html\n<wc-side-sheet open variant=\"modal\" position=\"right\">\n  <p>Sheet content here</p>\n</wc-side-sheet>\n```",
+    "tags": "navigation, overlay",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SideSheet",
+      "cssProperties": [
+        {
+          "description": "Background color of the sheet container.",
+          "name": "--side-sheet-container-color"
+        },
+        {
+          "description": "Color of the modal scrim overlay.",
+          "name": "--side-sheet-scrim-color"
+        },
+        {
+          "description": "Corner radius of the leading edge.",
+          "name": "--side-sheet-shape"
+        },
+        {
+          "description": "Width of the side sheet.",
+          "name": "--side-sheet-width"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the sheet is visible.",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'modal'"
+          },
+          "default": "'modal'",
+          "description": "Sheet variant.\n- `\"standard\"`: Coexists with page content; no scrim.\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "position",
+          "type": {
+            "text": "'left' | 'right'"
+          },
+          "default": "'right'",
+          "description": "Side from which the sheet slides in.\n- `\"left\"`: Sheet opens from the left edge.\n- `\"right\"`: Sheet opens from the right edge.",
+          "attribute": "position",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "hide"
+        },
+        {
+          "kind": "method",
+          "name": "_close",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleScrimClick",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "side-sheet-close",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the sheet is visible.",
+          "fieldName": "open"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'modal'"
+          },
+          "default": "'modal'",
+          "description": "Sheet variant.\n- `\"standard\"`: Coexists with page content; no scrim.\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "position",
+          "type": {
+            "text": "'left' | 'right'"
+          },
+          "default": "'right'",
+          "description": "Side from which the sheet slides in.\n- `\"left\"`: Sheet opens from the left edge.\n- `\"right\"`: Sheet opens from the right edge.",
+          "fieldName": "position"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-side-sheet",
+      "customElement": true,
+      "summary": "Side sheets slide in from the edge of the screen to reveal supplemental content. Supports standard and modal variants per Material Design 3.",
+      "rawTag": {
+        "name": "side-sheet",
         "description": ""
       }
     }

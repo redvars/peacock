@@ -17,9 +17,7 @@ import styles from './bottom-sheet.scss';
  *
  * @example
  * ```html
- * <wc-bottom-sheet open variant="modal">
- *   <p>Sheet content here</p>
- * </wc-bottom-sheet>
+ * Bottom Sheet
  * ```
  * @tags navigation, overlay
  */

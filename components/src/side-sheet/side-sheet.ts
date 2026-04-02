@@ -17,9 +17,8 @@ import styles from './side-sheet.scss';
  *
  * @example
  * ```html
- * <wc-side-sheet open variant="modal" position="right">
- *   <p>Sheet content here</p>
- * </wc-side-sheet>
+ * Side Sheet
+
  * ```
  * @tags navigation, overlay
  */
