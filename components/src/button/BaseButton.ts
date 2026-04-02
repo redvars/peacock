@@ -74,13 +74,16 @@ export class BaseButton extends LitElement {
    */
   @property({ reflect: true }) href?: string;
 
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
-
   /**
    * Sets or retrieves the window or frame at which to target content.
    */
   @property() target: string = '_self';
+  
+
+  @property({ reflect: true })
+  configAria?: { [key: string]: any };
+
+  
 
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 

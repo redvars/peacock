@@ -503,6 +503,22 @@
         },
         {
           "kind": "method",
+          "name": "focus",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
           "name": "renderButtonContent"
         },
         {
@@ -658,19 +674,6 @@
         },
         {
           "kind": "field",
-          "name": "configAria",
-          "type": {
-            "text": "{ [key: string]: any } | undefined"
-          },
-          "attribute": "configAria",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "target",
           "type": {
             "text": "string"
@@ -678,6 +681,19 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -757,22 +773,6 @@
             "text": "HTMLElement | null"
           },
           "readonly": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
-          "name": "focus",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
-          "name": "blur",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -992,17 +992,6 @@
           }
         },
         {
-          "name": "configAria",
-          "type": {
-            "text": "{ [key: string]: any } | undefined"
-          },
-          "fieldName": "configAria",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "name": "target",
           "type": {
             "text": "string"
@@ -1010,6 +999,17 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "fieldName": "configAria",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1255,6 +1255,11 @@
       "members": [
         {
           "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
           "name": "variant",
           "type": {
             "text": "CardVariant"
@@ -1265,13 +1270,147 @@
         },
         {
           "kind": "field",
-          "name": "elevation",
+          "name": "disabled",
           "type": {
-            "text": "CardElevation"
+            "text": "boolean"
           },
-          "default": "1",
-          "attribute": "elevation",
+          "default": "false",
+          "attribute": "disabled",
           "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "actionable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "actionable",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "attribute": "disabled-reason"
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States"
+        },
+        {
+          "kind": "field",
+          "name": "slotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "cardElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "contentSlot",
+          "type": {
+            "text": "HTMLSlotElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "#tabindex",
+          "privacy": "private",
+          "type": {
+            "text": "number | undefined"
+          },
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "#slottedTabIndexMap",
+          "privacy": "private",
+          "default": "new WeakMap<HTMLElement, string | null>()"
+        },
+        {
+          "kind": "method",
+          "name": "__syncSlottedChildrenTabIndex"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "renderCardContent"
         }
       ],
       "attributes": [
@@ -1284,12 +1423,55 @@
           "fieldName": "variant"
         },
         {
-          "name": "elevation",
+          "name": "disabled",
           "type": {
-            "text": "CardElevation"
+            "text": "boolean"
           },
-          "default": "1",
-          "fieldName": "elevation"
+          "default": "false",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "actionable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "actionable"
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "If button is disabled, the reason why it is disabled.",
+          "fieldName": "disabledReason"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
         }
       ],
       "superclass": {
@@ -4576,12 +4758,12 @@
         },
         {
           "kind": "field",
-          "name": "element",
+          "name": "for",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "attribute": "element"
+          "attribute": "for"
         },
         {
           "kind": "field",
@@ -4592,7 +4774,18 @@
         },
         {
           "kind": "field",
+          "name": "_focusTarget",
+          "type": {
+            "text": "HTMLElement | undefined"
+          }
+        },
+        {
+          "kind": "field",
           "name": "control"
+        },
+        {
+          "kind": "field",
+          "name": "forElement"
         },
         {
           "kind": "method",
@@ -4605,6 +4798,15 @@
         {
           "kind": "method",
           "name": "__pointerdown"
+        },
+        {
+          "kind": "method",
+          "name": "__getFocusTarget",
+          "return": {
+            "type": {
+              "text": "HTMLElement | undefined"
+            }
+          }
         },
         {
           "kind": "method",
@@ -4625,12 +4827,12 @@
           "fieldName": "visible"
         },
         {
-          "name": "element",
+          "name": "for",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "fieldName": "element"
+          "fieldName": "for"
         }
       ],
       "superclass": {
@@ -4922,6 +5124,22 @@
         },
         {
           "kind": "method",
+          "name": "focus",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
           "name": "renderButtonContent"
         },
         {
@@ -5068,19 +5286,6 @@
         },
         {
           "kind": "field",
-          "name": "configAria",
-          "type": {
-            "text": "{ [key: string]: any } | undefined"
-          },
-          "attribute": "configAria",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "target",
           "type": {
             "text": "string"
@@ -5088,6 +5293,19 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "attribute": "configAria",
+          "reflects": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5167,22 +5385,6 @@
             "text": "HTMLElement | null"
           },
           "readonly": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
-          "name": "focus",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
-          "name": "blur",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5415,17 +5617,6 @@
           }
         },
         {
-          "name": "configAria",
-          "type": {
-            "text": "{ [key: string]: any } | undefined"
-          },
-          "fieldName": "configAria",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "name": "target",
           "type": {
             "text": "string"
@@ -5433,6 +5624,17 @@
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
           "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "fieldName": "configAria",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -6977,11 +7179,6 @@
         {
           "kind": "method",
           "name": "__isLink"
-        },
-        {
-          "kind": "field",
-          "name": "focusTarget",
-          "readonly": true
         },
         {
           "kind": "method",

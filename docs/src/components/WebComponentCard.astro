@@ -9,8 +9,8 @@ const {component} = Astro.props;
 
 { component &&
 <div class='card-wrapper' data-category={getTextTag(component, 'rawTag')}>
-  <pc-card shadow-level='md' class='card'>
-    <pc-card-content class='header card-header' data-tag={getTextTag(component, 'rawTag')}>
+  <wc-card variant="outlined" class='card' href={`/components/${getTextTag(component, 'rawTag')}/#`}>
+    <pc-card-content class='header card-header'>
 
       <Fragment set:html={getMarkdown(component, 'example')} />
      <!-- {
@@ -21,14 +21,8 @@ const {component} = Astro.props;
     </pc-card-content>
 
     <pc-card-content class='body'>
-
       <h3 class='component-title text-headline-small' >{getTextTag(component, 'label')}</h3>
-
-
       <p class='text-body component-description'>{getTextTag(component, 'summary')}</p>
-
-
-      <wc-button size='sm' color='dark' dark-mode-color="white" href={`/components/${getTextTag(component, 'rawTag')}/#`}  icon="arrow--right">Read more</wc-button>
     </pc-card-content>
-  </pc-card>
+  </wc-card>
 </div>}

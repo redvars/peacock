@@ -1,8 +1,11 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
 :host {
   display: block;
   --card-gap: 0;
 
-  --z-index-card: 0;
   --card-padding: 1rem;
   --card-container-shape: var(--shape-corner-large);
   --card-container-shape-start-start: unset;
@@ -11,22 +14,57 @@
   --card-container-shape-end-end: unset;
 }
 
+/*
+  * Reset native button/link styles
+  */
 .card {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  text-decoration: none;
+}
+
+.card {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: var(--card-gap);
-  border-radius: var(--card-shape);
-  border: 1px solid var(--card-border-color);
-  box-shadow: var(--card-shadow);
-  color: var(--color-on-surface, inherit);
+  height: 100%;
+  width: 100%;
   padding: var(--card-padding);
-  transition: box-shadow 150ms ease, transform 150ms ease;
+
+  --_container-shape-start-start: var(--card-container-shape-start-start, var(--card-container-shape));
+  --_container-shape-start-end: var(--card-container-shape-start-end, var(--card-container-shape));
+  --_container-shape-end-start: var(--card-container-shape-end-start, var(--card-container-shape));
+  --_container-shape-end-end: var(--card-container-shape-end-end, var(--card-container-shape));
+
+
+  .card-content {
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    border: 1px solid transparent; /* Fixes overflow issues with border */
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+
+    color: var(--_label-text-color);
+    opacity: var(--_label-text-opacity, 1);
+    --icon-color: var(--_label-text-color);
+  }
 
   /*
     Background layers
    */
   .focus-ring {
     z-index: 2;
+    display: none;
     --focus-ring-container-shape-start-start: var(--_container-shape-start-start);
     --focus-ring-container-shape-start-end: var(--_container-shape-start-end);
     --focus-ring-container-shape-end-start: var(--_container-shape-end-start);
@@ -35,6 +73,7 @@
   }
 
   .ripple {
+    display: none;
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
@@ -44,19 +83,23 @@
     --ripple-pressed-color: var(--_container-state-color);
   }
 
-  .skeleton {
-    display: none;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
+  .background {
+    z-index: 0;
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    --skeleton-container-shape-start-start: var(--_container-shape-start-start);
-    --skeleton-container-shape-start-end: var(--_container-shape-start-end);
-    --skeleton-container-shape-end-start: var(--_container-shape-end-start);
-    --skeleton-container-shape-end-end: var(--_container-shape-end-end);
-    --skeleton-container-shape-variant: var(--_container-corner-shape-variant);
+    width: 100%;
+    height: 100%;
+    background-color: var(--_container-color);
+    opacity: var(--_container-opacity, 1);
+
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
+    pointer-events: none;
   }
 
   .elevation {
@@ -69,20 +112,125 @@
     --elevation-container-shape-variant: var(--_container-corner-shape-variant);
   }
 
+  .outline {
+    z-index: 0;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border: var(--_outline-width) solid var(--_outline-color);
+    opacity: var(--_outline-opacity, 1);
+    border-start-start-radius: var(--_container-shape-start-start);
+    border-start-end-radius: var(--_container-shape-start-end);
+    border-end-start-radius: var(--_container-shape-end-start);
+    border-end-end-radius: var(--_container-shape-end-end);
+    corner-shape: var(--_container-corner-shape-variant);
+  }
+
 
 }
 
-:host([variant='elevated']) {
-  --card-background: var(--color-surface-container-low, #fdfcfe);
-  --card-shadow: var(--shadow-sm, 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06));
+.card.actionable {
+
+  .focus-ring,
+  .ripple {
+    display: block;
+  }
+
+  .card-content {
+    pointer-events: none;
+  }
 }
 
-:host([variant='filled']) {
-  --card-background: var(--color-surface-container-highest, #f5f5f5);
-  --card-shadow: none;
+.card.variant-elevated {
+  --_container-color: var(--elevated-card-container-color);
+  --_label-text-color: var(--elevated-card-label-text-color);
+  --_container-elevation-level: 1;
+
+  --_container-state-color: var(--_label-text-color);
+
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-elevation-level: 2;
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-elevation-level: 1;
+    --_container-state-opacity: 0.12;
+  }
+
+  &.disabled {
+    --_container-color: var(--color-on-surface);
+    --_container-opacity: 0.1;
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
 }
 
-:host([variant='outlined']) {
-  --card-border-color: var(--color-outline, rgba(0, 0, 0, 0.12));
-  --card-shadow: none;
+
+.card.variant-filled {
+  --_container-color: var(--filled-card-container-color);
+  --_label-text-color: var(--filled-card-label-text-color);
+  --_container-state-color: var(--_label-text-color);
+
+
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-elevation-level: 1;
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-elevation-level: 0;
+    --_container-state-opacity: 0.1;
+  }
+
+  &.disabled {
+    --_container-color: var(--color-on-surface);
+    --_container-opacity: 0.1;
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+
+.card.variant-outlined {
+  --_outline-width: var(--outlined-card-outline-width, 0.0675rem);
+  --_outline-color: var(--outlined-card-outline-color);
+  --_label-text-color: var(--outlined-card-label-text-color);
+
+  --_container-state-color: var(--_label-text-color);
+
+  .outline {
+    display: block;
+  }
+
+  &:hover:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled, .soft-disabled, .show-skeleton)) {
+    --_container-state-opacity: 0.12;
+  }
+
+  &.disabled {
+    --_outline-color: var(--color-on-surface);
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+    --_outline-opacity: 0.12;
+
+    .ripple {
+      display: none;
+    }
+  }
 }
