@@ -1,0 +1,19 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  A docked toolbar behaves like a mobile bottom panel. Render actions directly as children, with
+  one tonal action to indicate the current or emphasized destination.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
+    <wc-toolbar>
+      <wc-icon-button variant='text' name='home'></wc-icon-button>
+      <wc-icon-button variant='tonal' name='search'></wc-icon-button>
+      <wc-icon-button variant='text' name='favorite'></wc-icon-button>
+      <wc-icon-button variant='text' name='account_circle'></wc-icon-button>
+    </wc-toolbar>
+  </div>
+</DemoComponentCard>

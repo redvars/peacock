@@ -1,0 +1,16 @@
+:host {
+  /* Docked toolbar */
+  --toolbar-container-color: var(--color-surface-container);
+  --toolbar-title-color: var(--color-on-surface);
+  --toolbar-icon-color: var(--color-on-surface-variant);
+
+  /* Internal aliases used by styles */
+  --_toolbar-container-color: var(--toolbar-container-color);
+  --_toolbar-title-color: var(--toolbar-title-color);
+  --_toolbar-icon-color: var(--toolbar-icon-color);
+}
+
+/* Floating variant uses surface-container-high for a visible pill */
+:host([variant='floating']) {
+  --toolbar-container-color: var(--color-surface-container-high);
+}
