@@ -1,0 +1,19 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4 class='text-title'>Filled</h4>
+<p class='text-body-large'>The default variant. Uses a surface container as background, suitable for use on a plain surface.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search variant='filled' placeholder='Filled search' style='width: 24rem;'></wc-search>
+</DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Outlined</h4>
+<p class='text-body-large'>A bordered variant that works well on coloured or patterned backgrounds.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search variant='outlined' placeholder='Outlined search' style='width: 24rem;'></wc-search>
+</DemoComponentCard>

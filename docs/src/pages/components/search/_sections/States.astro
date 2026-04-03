@@ -1,0 +1,22 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4 class='text-title'>Disabled</h4>
+<p class='text-body-large'>Add the <code>disabled</code> boolean attribute to prevent user interaction.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search disabled placeholder='Disabled search' style='width: 24rem;'></wc-search>
+</DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Clear button</h4>
+<p class='text-body-large'>
+  A clear button appears automatically when the input has a value. Set <code>clearable="false"</code> to hide it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search value='Clear me' style='width: 24rem;'></wc-search>
+  <wc-search value='No clear button' .clearable=${false} style='width: 24rem;'></wc-search>
+</DemoComponentCard>

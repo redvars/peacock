@@ -1,0 +1,19 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  A docked toolbar spans the full width of its container. Use the <code>start</code> slot for
+  navigation icons, the default slot for a title, and the <code>end</code> slot for action icons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
+    <wc-toolbar>
+      <wc-icon-button slot='start' name='menu'></wc-icon-button>
+      <span class='text-title-large'>My App</span>
+      <wc-icon-button slot='end' name='search'></wc-icon-button>
+      <wc-icon-button slot='end' name='account_circle'></wc-icon-button>
+    </wc-toolbar>
+  </div>
+</DemoComponentCard>

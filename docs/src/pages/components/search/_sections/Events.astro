@@ -1,0 +1,30 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  The search bar dispatches four events: <code>input</code> (on every keystroke), <code>change</code> (on blur or Enter),
+  <code>search</code> (on Enter), and <code>clear</code> (when the clear button is activated).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search id='events-search' placeholder='Type something...' style='width: 24rem;'></wc-search>
+  <p id='search-event-log' class='text-body' style='min-height: 1.5rem;'></p>
+
+  <script is:inline>
+    const searchEl = document.querySelector('#events-search');
+    const log = document.querySelector('#search-event-log');
+
+    searchEl.addEventListener('input', (e) => {
+      log.textContent = `input: "${e.detail.value}"`;
+    });
+
+    searchEl.addEventListener('search', (e) => {
+      log.textContent = `search submitted: "${e.detail.value}"`;
+    });
+
+    searchEl.addEventListener('clear', () => {
+      log.textContent = 'clear fired';
+    });
+  </script>
+</DemoComponentCard>
