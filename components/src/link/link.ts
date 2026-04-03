@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import BaseHyperlink from '../__base_element/BaseHyperlink.js';
 import styles from './link.scss';
@@ -16,7 +16,7 @@ import styles from './link.scss';
  * <wc-link href="#">Link</wc-link>
  * ```
  */
-export class Link extends BaseHyperlink {
+export class Link extends BaseHyperlink(LitElement) {
   static styles = [styles];
 
   render() {

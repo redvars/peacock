@@ -130,7 +130,7 @@ export class Button extends BaseButton {
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          ?aria-describedby=${this.__getDisabledReasonID()}
+          aria-describedby=${this.__disabledReasonID}
           aria-disabled=${`${this.disabled || this.softDisabled}`}
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
@@ -150,7 +150,7 @@ export class Button extends BaseButton {
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        ?aria-describedby=${this.__getDisabledReasonID()}
+        aria-describedby=${this.__disabledReasonID}
         aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >

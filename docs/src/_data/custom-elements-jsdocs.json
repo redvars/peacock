@@ -721,6 +721,45 @@
         },
         {
           "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "#id",
           "privacy": "private",
           "inheritedFrom": {
@@ -858,34 +897,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -985,14 +996,6 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__isLink",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "kind": "field",
           "name": "__dispatchClickWithThrottle",
           "type": {
@@ -1062,6 +1065,29 @@
           "default": "'end'",
           "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
           "fieldName": "iconAlign"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "htmlType",
@@ -1172,31 +1198,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "fieldName": "disabledReason",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5531,6 +5532,45 @@
         },
         {
           "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "htmlType",
           "type": {
             "text": "'button' | 'submit' | 'reset'"
@@ -5659,34 +5699,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -5786,14 +5798,6 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__isLink",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "kind": "field",
           "name": "__dispatchClickWithThrottle",
           "type": {
@@ -5876,6 +5880,29 @@
           },
           "default": "'material-symbols'",
           "fieldName": "provider"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "htmlType",
@@ -5986,31 +6013,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "fieldName": "disabledReason",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -6943,7 +6945,6 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "Hyperlink to navigate to on click.",
           "attribute": "href",
           "reflects": true,
           "inheritedFrom": {
@@ -6958,7 +6959,6 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
           "attribute": "target",
           "inheritedFrom": {
             "name": "BaseHyperlink",
@@ -6967,23 +6967,27 @@
         },
         {
           "kind": "method",
-          "name": "isLink",
-          "privacy": "protected",
+          "name": "__isLink",
           "return": {
             "type": {
               "text": "boolean"
             }
           },
-          "description": "Indicates whether the element should render as a navigable link.",
           "inheritedFrom": {
             "name": "BaseHyperlink",
             "module": "src/__base_element/BaseHyperlink.ts"
           }
         }
       ],
+      "mixins": [
+        {
+          "name": "BaseHyperlink",
+          "module": "/src/__base_element/BaseHyperlink.js"
+        }
+      ],
       "superclass": {
-        "name": "BaseHyperlink",
-        "module": "/src/__base_element/BaseHyperlink.js"
+        "name": "LitElement",
+        "package": "lit"
       },
       "tagName": "wc-link",
       "customElement": true,
@@ -6998,7 +7002,6 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "Hyperlink to navigate to on click.",
           "fieldName": "href",
           "inheritedFrom": {
             "name": "BaseHyperlink",
@@ -7011,7 +7014,6 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
           "fieldName": "target",
           "inheritedFrom": {
             "name": "BaseHyperlink",

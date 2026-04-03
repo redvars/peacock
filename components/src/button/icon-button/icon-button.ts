@@ -55,8 +55,6 @@ import { IconProvider } from '../../icon/icon.js';
 export class IconButton extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 
-  #id = crypto.randomUUID();
-
   #tabindex?: number = 0;
 
   @property({ type: String, reflect: true }) name?: string;
@@ -117,10 +115,7 @@ export class IconButton extends BaseButton {
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          ?aria-describedby=${(this.disabled || this.softDisabled) &&
-          this.disabledReason
-            ? `disabled-reason-${this.#id}`
-            : null}
+          aria-describedby=${this.__disabledReasonID}
           aria-disabled=${`${this.disabled || this.softDisabled}`}
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
@@ -140,9 +135,7 @@ export class IconButton extends BaseButton {
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        aria-describedby=${this.disabled && this.disabledReason
-          ? `disabled-reason-${this.#id}`
-          : null}
+        aria-describedby=${this.__disabledReasonID}
         aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >
