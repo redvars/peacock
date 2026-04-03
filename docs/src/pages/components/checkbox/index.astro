@@ -44,14 +44,10 @@ const sections = [
   <wc-tab-group class='page-tabs'>
     <wc-tabs>
       <wc-tab selected='true'>Overview</wc-tab>
-      <wc-tab>Playground</wc-tab>
       <wc-tab>API</wc-tab>
     </wc-tabs>
     <wc-tab-panel>
       <OverviewPanel  sections={sections} />
-    </wc-tab-panel>
-    <wc-tab-panel>
-      <pc-notification type='warning'>Work in progress</pc-notification>
     </wc-tab-panel>
     <wc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />
