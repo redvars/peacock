@@ -4404,6 +4404,384 @@
     }
   },
   {
+    "label": "FAB",
+    "tag": "wc-fab",
+    "rawTag": "fab",
+    "summary": "The FAB (Floating Action Button) represents the primary action on a screen.",
+    "overview": "<p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and comes in three sizes and four color variants.</p>",
+    "cssprop": "--fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.",
+    "fires": "click - Dispatched when the FAB is clicked.",
+    "example": "```html\n<wc-fab name=\"add\"></wc-fab>\n```",
+    "tags": "controls",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Fab",
+      "cssProperties": [
+        {
+          "description": "Background color of the FAB container.",
+          "name": "--fab-container-color:"
+        },
+        {
+          "description": "Text and icon color of the FAB label.",
+          "name": "--fab-label-text-color:"
+        },
+        {
+          "description": "Corner radius of the FAB. Defaults to var(--shape-corner-large).",
+          "name": "--fab-container-shape:"
+        },
+        {
+          "description": "Elevation level of the FAB. Defaults to 3.",
+          "name": "--fab-container-elevation-level:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#tabindex",
+          "privacy": "private",
+          "type": {
+            "text": "number | undefined"
+          },
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Name of the icon to display inside the FAB.",
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Source URL for a custom icon.",
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
+          "attribute": "provider"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional label text for the extended FAB variant.\nWhen set, the FAB displays both the icon and a text label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+          },
+          "default": "'surface'",
+          "description": "The color variant of the FAB.\n`\"surface\"` uses the surface container high color (default).\n`\"primary\"` uses the primary container color.\n`\"secondary\"` uses the secondary container color.\n`\"tertiary\"` uses the tertiary container color.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "lowered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the FAB is in a lowered (resting) state with reduced elevation.",
+          "attribute": "lowered",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the user cannot interact with the FAB.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "attribute": "configAria",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Tooltip text shown on hover.",
+          "attribute": "tooltip"
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "fabElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID"
+        },
+        {
+          "kind": "method",
+          "name": "__renderFabContent",
+          "parameters": [
+            {
+              "name": "isExtended",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "MouseEvent"
+          },
+          "description": "Dispatched when the FAB is clicked.",
+          "name": "click"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Name of the icon to display inside the FAB.",
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Source URL for a custom icon.",
+          "fieldName": "src"
+        },
+        {
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
+          "fieldName": "provider"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional label text for the extended FAB variant.\nWhen set, the FAB displays both the icon and a text label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+          },
+          "default": "'surface'",
+          "description": "The color variant of the FAB.\n`\"surface\"` uses the surface container high color (default).\n`\"primary\"` uses the primary container color.\n`\"secondary\"` uses the secondary container color.\n`\"tertiary\"` uses the tertiary container color.",
+          "fieldName": "color"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "fieldName": "size"
+        },
+        {
+          "name": "lowered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the FAB is in a lowered (resting) state with reduced elevation.",
+          "fieldName": "lowered"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the user cannot interact with the FAB.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
+        },
+        {
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Tooltip text shown on hover.",
+          "fieldName": "tooltip"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-fab",
+      "customElement": true,
+      "summary": "The FAB (Floating Action Button) represents the primary action on a screen.",
+      "rawTag": {
+        "name": "fab",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Field",
     "tag": "wc-field",
     "rawTag": "field",

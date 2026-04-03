@@ -1,0 +1,30 @@
+:host {
+  /* Surface (default) */
+  --fab-container-color: var(--color-surface-container-high);
+  --fab-label-text-color: var(--color-on-surface);
+}
+
+:host([color='surface']) {
+  --fab-container-color: var(--color-surface-container-high);
+  --fab-label-text-color: var(--color-on-surface);
+}
+
+:host([color='primary']) {
+  --fab-container-color: var(--color-primary-container);
+  --fab-label-text-color: var(--color-on-primary-container);
+}
+
+:host([color='secondary']) {
+  --fab-container-color: var(--color-secondary-container);
+  --fab-label-text-color: var(--color-on-secondary-container);
+}
+
+:host([color='tertiary']) {
+  --fab-container-color: var(--color-tertiary-container);
+  --fab-label-text-color: var(--color-on-tertiary-container);
+}
+
+.fab {
+  --_fab-container-color: var(--fab-container-color);
+  --_fab-label-text-color: var(--fab-label-text-color);
+}

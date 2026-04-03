@@ -1,0 +1,27 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The FAB supports four color variants following the Material Design 3 color system.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab name='add'></wc-fab>
+  <wc-fab name='add' color='primary'></wc-fab>
+  <wc-fab name='add' color='secondary'></wc-fab>
+  <wc-fab name='add' color='tertiary'></wc-fab>
+</DemoComponentCard>
+
+<p class='text-body-large'>Extended FABs include a label alongside the icon.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab name='edit' label='Compose' color='primary'></wc-fab>
+  <wc-fab name='add' label='Create' color='secondary'></wc-fab>
+  <wc-fab name='share' label='Share' color='tertiary'></wc-fab>
+</DemoComponentCard>
+
+<p class='text-body-large'>Use <code>lowered</code> to reduce the elevation when the FAB is in a scrolled or resting state.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab name='add' lowered></wc-fab>
+  <wc-fab name='add' color='primary' label='Lowered' lowered></wc-fab>
+</DemoComponentCard>
