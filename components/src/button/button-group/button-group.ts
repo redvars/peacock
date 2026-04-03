@@ -61,9 +61,9 @@ export class ButtonGroup extends LitElement {
 
   /**
    * Color applied to all buttons in the group.
-   * Possible values are `"primary"`, `"success"`, `"danger"`, `"warning"`, `"light"`, `"dark"`.
+   * Possible values are `"primary"`, `"success"`, `"danger"`, `"warning"`, `"surface"`, `"on-surface"`.
    */
-  @property({ reflect: true }) color?: 'primary' | 'success' | 'danger' | 'warning' | 'light' | 'dark';
+  @property({ reflect: true }) color?: 'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface';
 
   /**
    * Visual style applied to all buttons in the group.
