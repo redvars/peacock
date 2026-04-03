@@ -5,9 +5,10 @@
 :host {
   display: block;
   --toolbar-container-shape: var(--shape-corner-full);
-  --toolbar-height: 3.5rem;       /* 56dp - small/default */
-  --toolbar-padding-inline: 0.25rem;
-  --toolbar-gap: 0.25rem;
+  --toolbar-docked-container-shape: var(--shape-corner-extra-large) var(--shape-corner-extra-large) var(--shape-corner-none) var(--shape-corner-none);
+  --toolbar-height: 5rem; /* 80dp - small/default docked */
+  --toolbar-padding-inline: 0.75rem;
+  --toolbar-gap: 0.5rem;
   --toolbar-shadow: none;
 }
 
@@ -27,6 +28,14 @@
   box-shadow: var(--toolbar-shadow);
 }
 
+.toolbar-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
 .background {
   position: absolute;
   inset: 0;
@@ -40,73 +49,52 @@
 .toolbar.variant-docked {
   width: 100%;
   padding-inline: var(--toolbar-padding-inline);
+  padding-block-start: 0.5rem;
+  padding-block-end: calc(0.5rem + env(safe-area-inset-bottom, 0px));
 
-  .toolbar-start,
-  .toolbar-end {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    z-index: 1;
-    position: relative;
+  .background {
+    border-radius: var(--toolbar-docked-container-shape);
   }
 
-  .toolbar-center {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    z-index: 1;
+  .toolbar-content {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--toolbar-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  ::slotted(*) {
     position: relative;
-    overflow: hidden;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  ::slotted(wc-icon-button) {
+    --button-container-shape: var(--shape-corner-full);
+    --button-container-shape-variant: round;
   }
 
   /* Size variants */
   &.size-small {
-    --toolbar-height: 3.5rem;
+    --toolbar-height: 5rem;
   }
 
   &.size-medium {
-    --toolbar-height: 7rem;
-    align-items: flex-end;
-    padding-block-end: 1rem;
-
-    .toolbar-start {
-      align-self: flex-start;
-      padding-block-start: 0.5rem;
-    }
-
-    .toolbar-end {
-      align-self: flex-start;
-      padding-block-start: 0.5rem;
-    }
-
-    .toolbar-center {
-      align-items: flex-end;
-    }
+    --toolbar-height: 6rem;
   }
 
   &.size-large {
-    --toolbar-height: 9.5rem;
-    align-items: flex-end;
-    padding-block-end: 1.25rem;
-
-    .toolbar-start {
-      align-self: flex-start;
-      padding-block-start: 0.5rem;
-    }
-
-    .toolbar-end {
-      align-self: flex-start;
-      padding-block-start: 0.5rem;
-    }
-
-    .toolbar-center {
-      align-items: flex-end;
-    }
+    --toolbar-height: 7rem;
   }
 
   &.elevated {
-    --toolbar-shadow: var(--elevation-shadow-level-2, 0 2px 4px rgba(0, 0, 0, 0.12));
+    --toolbar-shadow: var(--elevation-shadow-level-3, 0 4px 8px rgba(0, 0, 0, 0.15));
   }
 }
 
@@ -121,14 +109,21 @@
   padding: 0.75rem;
   gap: 0.5rem;
 
+  .elevation {
+    --elevation-level: 3;
+    --elevation-container-shape: var(--toolbar-container-shape);
+    --elevation-container-shape-variant: round;
+  }
+
   .background {
     border-radius: var(--toolbar-container-shape);
   }
 
-  /* Elevated is always on for floating */
-  box-shadow: var(--toolbar-shadow, var(--elevation-shadow-level-3, 0 4px 8px rgba(0, 0, 0, 0.15)));
+  .toolbar-content {
+    width: auto;
+    gap: 0.5rem;
+  }
 
-  /* Floating slots are positioned relative */
   ::slotted(*) {
     position: relative;
     z-index: 1;
@@ -140,23 +135,31 @@
   }
 
   &.orientation-horizontal {
-    flex-direction: row;
-    align-items: center;
     min-height: auto;
     padding-block: 0.5rem;
     padding-inline: 0.75rem;
+
+    .toolbar-content {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   &.orientation-vertical {
-    flex-direction: column;
-    align-items: center;
     min-height: auto;
     width: auto;
     padding-block: 0.75rem;
     padding-inline: 0.5rem;
+
+    .toolbar-content {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &.elevated {
-    box-shadow: var(--elevation-shadow-level-4, 0 6px 12px rgba(0, 0, 0, 0.2));
+    .elevation {
+      --elevation-level: 4;
+    }
   }
 }

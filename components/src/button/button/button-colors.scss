@@ -110,15 +110,15 @@
 }
 
 
-:host([color=dark]) {
+:host([color=on-surface]) {
   --filled-button-container-color: var(--color-on-surface);
   --filled-button-label-text-color: var(--color-surface);
 
-  --tonal-button-container-color: var(--color-surface-container);
-  --tonal-button-label-text-color: var(--color-on-surface-container);
+  --tonal-button-container-color: var(--color-on-surface-container);
+  --tonal-button-label-text-color: var(--color-surface-container-high);
 
-  --elevated-button-container-color: var(--color-surface-container-low);
-  --elevated-button-label-text-color: var(--color-on-surface);
+  --elevated-button-container-color: var(--color-on-surface);
+  --elevated-button-label-text-color: var(--color-surface);
 
   --outlined-button-outline-color: var(--color-on-surface);
   --outlined-button-label-text-color: var(--color-on-surface);
@@ -129,20 +129,20 @@
   --neo-button-label-text-color: var(--color-surface);
 }
 
-:host([color=light]) {
-  --filled-button-container-color: var(--color-surface);
+:host([color=surface]) {
+  --filled-button-container-color: var(--color-surface-container-high);
   --filled-button-label-text-color: var(--color-on-surface);
 
-  --tonal-button-container-color: var(--color-on-surface-container);
-  --tonal-button-label-text-color: var(--color-surface-container);
+  --tonal-button-container-color: var(--color-surface-container-high);
+  --tonal-button-label-text-color: var(--color-on-surface-container);
 
-  --elevated-button-container-color: var(--color-surface-container-low);
-  --elevated-button-label-text-color: var(--color-white);
+  --elevated-button-container-color: var(--color-surface);
+  --elevated-button-label-text-color: var(--color-on-surface);
 
-  --outlined-button-outline-color: var(--color-surface);
-  --outlined-button-label-text-color: var(--color-surface);
+  --outlined-button-outline-color: var(--color-on-surface);
+  --outlined-button-label-text-color: var(--color-on-surface);
 
-  --text-button-label-text-color: var(--color-surface);
+  --text-button-label-text-color: var(--color-on-surface);
 
   --neo-button-container-color: var(--color-surface);
   --neo-button-label-text-color: var(--color-on-surface);

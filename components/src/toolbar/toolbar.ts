@@ -1,10 +1,9 @@
 import { LitElement, html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './toolbar.scss';
 import colorStyles from './toolbar-colors.scss';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 
 /**
  * @label Toolbar
@@ -14,12 +13,12 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  * @summary A Material 3 toolbar / app bar for navigation and actions.
  * @overview
  * <p>The toolbar component implements the Material 3 app bar pattern. It supports a
- * docked (attached) variant for top navigation and a floating (detached pill-shaped)
+ * docked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)
  * variant. The floating variant supports both horizontal and vertical orientations.</p>
  *
- * <p>Use the <code>start</code> slot for navigation icons or leading actions,
- * the default slot for a title or central content, and the <code>end</code> slot
- * for trailing action icons.</p>
+ * <p>Render toolbar actions directly as children of the component. The docked variant is
+ * optimized for a horizontal action row, while the floating variant supports both horizontal
+ * and vertical layouts.</p>
  *
  * @cssprop --toolbar-container-color - Background color of the toolbar.
  * @cssprop --toolbar-container-shape - Border radius of the toolbar. Relevant for the floating variant.
@@ -34,9 +33,10 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  * ```html
  * <!-- Docked toolbar -->
  * <wc-toolbar>
- *   <wc-icon-button variant="text" slot="start" name="menu"></wc-icon-button>
- *   <span>My App</span>
- *   <wc-icon-button variant="text" slot="end" name="account_circle"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="home"></wc-icon-button>
+ *   <wc-icon-button variant="tonal" name="search"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="favorite"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="account_circle"></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
@@ -83,9 +83,9 @@ export class Toolbar extends LitElement {
 
   /**
    * Size of the docked toolbar.
-   * - `"small"`: 56dp height (default).
-   * - `"medium"`: 112dp height – suitable for a two-line header.
-   * - `"large"`: 152dp height – suitable for a prominent header.
+    * - `"small"`: 80dp height (default).
+    * - `"medium"`: 96dp height.
+    * - `"large"`: 112dp height.
    */
   @property({ type: String, reflect: true })
   size: 'small' | 'medium' | 'large' = 'small';
@@ -96,29 +96,6 @@ export class Toolbar extends LitElement {
   @property({ type: Boolean, reflect: true })
   elevated: boolean = false;
 
-  @state()
-  private startSlotHasContent: boolean = false;
-
-  @state()
-  private endSlotHasContent: boolean = false;
-
-  override firstUpdated() {
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot[name="start"]'),
-      hasContent => {
-        this.startSlotHasContent = hasContent;
-        this.requestUpdate();
-      },
-    );
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot[name="end"]'),
-      hasContent => {
-        this.endSlotHasContent = hasContent;
-        this.requestUpdate();
-      },
-    );
-  }
-
   override render() {
     const cssClasses = {
       toolbar: true,
@@ -126,41 +103,34 @@ export class Toolbar extends LitElement {
       [`orientation-${this.orientation}`]: true,
       [`size-${this.size}`]: true,
       elevated: this.elevated,
-      'has-start': this.startSlotHasContent,
-      'has-end': this.endSlotHasContent,
     };
 
     if (this.variant === 'floating') {
-      return this.__renderFloating(cssClasses);
+      return Toolbar.__renderFloating(cssClasses);
     }
 
-    return this.__renderDocked(cssClasses);
+    return Toolbar.__renderDocked(cssClasses);
   }
 
-  private __renderDocked(cssClasses: Record<string, boolean>) {
+  private static __renderDocked(cssClasses: Record<string, boolean>) {
     return html`
       <div class=${classMap(cssClasses)} role="toolbar">
         <div class="background"></div>
-        <div class="toolbar-start">
-          <slot name="start"></slot>
-        </div>
-        <div class="toolbar-center">
+        <div class="toolbar-content">
           <slot></slot>
-        </div>
-        <div class="toolbar-end">
-          <slot name="end"></slot>
         </div>
       </div>
     `;
   }
 
-  private __renderFloating(cssClasses: Record<string, boolean>) {
+  private static __renderFloating(cssClasses: Record<string, boolean>) {
     return html`
       <div class=${classMap(cssClasses)} role="toolbar">
+        <wc-elevation class="elevation"></wc-elevation>
         <div class="background"></div>
-        <slot name="start"></slot>
-        <slot></slot>
-        <slot name="end"></slot>
+        <div class="toolbar-content">
+          <slot></slot>
+        </div>
       </div>
     `;
   }

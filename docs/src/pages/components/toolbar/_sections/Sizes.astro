@@ -3,29 +3,31 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p class='text-body-large'>
-  The <code>size</code> attribute controls the height of a docked toolbar.
-  Use <code>"medium"</code> or <code>"large"</code> for prominent headers where the title should
-  sit at the bottom of the bar.
+  The <code>size</code> attribute controls the height of a docked toolbar. Larger sizes add more
+  vertical breathing room while keeping the same action-row layout.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <div style='width: 100%; display: flex; flex-direction: column; gap: 1rem; overflow: hidden; border-radius: 0.5rem;'>
     <wc-toolbar size='small'>
-      <wc-icon-button variant='text' slot='start' name='arrow_back'></wc-icon-button>
-      <span class='text-title-large'>Small (56dp)</span>
-      <wc-icon-button variant='text' slot='end' name='more_vert'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='home'></wc-icon-button>
+      <wc-icon-button variant='tonal' name='search'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='favorite'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='account_circle'></wc-icon-button>
     </wc-toolbar>
 
     <wc-toolbar size='medium'>
-      <wc-icon-button variant='text' slot='start' name='arrow_back'></wc-icon-button>
-      <span class='text-headline-small'>Medium (112dp)</span>
-      <wc-icon-button variant='text' slot='end' name='more_vert'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='home'></wc-icon-button>
+      <wc-icon-button variant='tonal' name='search'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='favorite'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='account_circle'></wc-icon-button>
     </wc-toolbar>
 
     <wc-toolbar size='large'>
-      <wc-icon-button variant='text' slot='start' name='arrow_back'></wc-icon-button>
-      <span class='text-display-small'>Large (152dp)</span>
-      <wc-icon-button variant='text' slot='end' name='more_vert'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='home'></wc-icon-button>
+      <wc-icon-button variant='tonal' name='search'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='favorite'></wc-icon-button>
+      <wc-icon-button variant='text' color="dark" name='account_circle'></wc-icon-button>
     </wc-toolbar>
   </div>
 </DemoComponentCard>

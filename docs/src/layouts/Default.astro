@@ -23,9 +23,16 @@ const searchItems = componentsDetails.components.map(component => ({
 
 <Layout title={title} description={description} keywords={keywords}>
   <div class="page">
-    <div class='side-navigation-container'>
+    <div class='side-navigation-container hide-tablet-portrait-below'>
       <SideNavigation/>
     </div>
+
+    <wc-toolbar class="mobile-bottom-nav show-tablet-portrait-below" elevated>
+      <wc-icon-button variant="text" color="surface" name="home"></wc-icon-button>
+      <wc-icon-button variant="tonal" color="surface" name="search"></wc-icon-button>
+      <wc-icon-button variant="text" color="surface" name="favorite"></wc-icon-button>
+      <wc-icon-button variant="text" color="surface" name="account_circle"></wc-icon-button>
+    </wc-toolbar>
 
     <div class="page-context-wrapper">
       <!--<nav class="top-nav">
@@ -73,6 +80,9 @@ const searchItems = componentsDetails.components.map(component => ({
         <slot />
       </main>
     </div>
+
+   
+   
   </div>
 
   <div slot="page-end">

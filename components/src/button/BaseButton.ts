@@ -41,8 +41,8 @@ export class BaseButton extends BaseHyperlink(LitElement) {
     | 'success'
     | 'danger'
     | 'warning'
-    | 'light'
-    | 'dark' = 'primary';
+    | 'surface'
+    | 'on-surface' = 'primary';
 
   /**
    * Button size.
@@ -162,8 +162,8 @@ export class BaseButton extends BaseHyperlink(LitElement) {
       this.color = 'primary';
       this.variant = 'filled';
     } else if (this.type === 'secondary') {
-      this.color = 'dark';
-      this.variant = 'outlined';
+      this.color = 'surface';
+      this.variant = 'filled';
     } else if (this.type === 'tertiary') {
       this.color = 'primary';
       this.variant = 'text';
