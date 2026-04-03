@@ -1,10 +1,10 @@
 import { LitElement, html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import IndividualComponent from '../IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './toolbar.scss';
 import colorStyles from './toolbar-colors.scss';
-import { observerSlotChangesWithCallback } from '../utils.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 
 /**
  * @label Toolbar

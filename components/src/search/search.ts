@@ -2,10 +2,10 @@ import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
-import IndividualComponent from '../IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './search.scss';
 import colorStyles from './search-colors.scss';
-import { observerSlotChangesWithCallback } from '../utils.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 
 /**
  * @label Search
