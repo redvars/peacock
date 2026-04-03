@@ -9178,6 +9178,13 @@
       "members": [
         {
           "kind": "field",
+          "name": "_menuId",
+          "privacy": "private",
+          "readonly": true,
+          "default": "`wc-select-menu-${Math.random().toString(36).slice(2, 9)}`"
+        },
+        {
+          "kind": "field",
           "name": "options",
           "type": {
             "text": "SelectOption[]"
@@ -9479,6 +9486,19 @@
         },
         {
           "kind": "method",
+          "name": "_handleFieldClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "_handleTriggerKeyDown",
           "privacy": "private",
           "parameters": [
@@ -9557,6 +9577,11 @@
               }
             }
           ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderEmptyState",
+          "privacy": "private"
         },
         {
           "kind": "method",

@@ -38,6 +38,8 @@ export interface SelectOption {
 export class Select extends BaseInput {
   static styles = [styles];
 
+  private readonly _menuId = `wc-select-menu-${Math.random().toString(36).slice(2, 9)}`;
+
   /**
    * Array of options to display in the dropdown.
    * Setting this property creates matching `<wc-option>` children automatically.
@@ -184,13 +186,13 @@ export class Select extends BaseInput {
         const q = this._searchQuery.toLowerCase();
         const label = opt.textContent?.trim() ?? '';
         opt.filtered = !label.toLowerCase().includes(q);
-        if (!opt.filtered) visibleCount++;
+        if (!opt.filtered) visibleCount += 1;
       } else {
         opt.filtered = false;
-        visibleCount++;
+        visibleCount += 1;
       }
     }
-    this._noOptionsVisible = optEls.length > 0 && visibleCount === 0;
+    this._noOptionsVisible = visibleCount === 0;
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -233,9 +235,16 @@ export class Select extends BaseInput {
     if (this.disabled || this.readonly) return;
     this._open = true;
     this._focused = true;
+    this._triggerEl?.focus();
     const menu = this._menu;
     if (menu && this._triggerEl) {
       menu.anchorElement = this._triggerEl;
+      const triggerWidth = this._triggerEl.getBoundingClientRect().width;
+      if (triggerWidth < 240) {
+        menu.style.setProperty('--menu-width', '240px');
+      } else {
+        menu.style.setProperty('--menu-width', `${Math.ceil(triggerWidth)}px`);
+      }
       menu.show();
     }
     if (this.search) {
@@ -261,11 +270,35 @@ export class Select extends BaseInput {
   // ── Event handlers ─────────────────────────────────────────────────────────
 
   private _handleTriggerClick(event: MouseEvent) {
+    event.stopPropagation();
     // Ignore clicks that originated inside the search input — those should not
     // toggle the menu (the input needs to stay open so the user can type).
     if (event.target instanceof HTMLInputElement) {
       return;
     }
+    if (this._open) {
+      this._closeMenu();
+    } else {
+      this._openMenu();
+    }
+  }
+
+  private _handleFieldClick(event: MouseEvent) {
+    const eventPath = event.composedPath();
+
+    if (
+      eventPath.includes(this._triggerEl as EventTarget) ||
+      eventPath.some(
+        target =>
+          target instanceof HTMLInputElement ||
+          (target instanceof HTMLElement &&
+            (target.closest('.clear-btn') != null ||
+              target.matches('wc-icon-button'))),
+      )
+    ) {
+      return;
+    }
+
     if (this._open) {
       this._closeMenu();
     } else {
@@ -367,6 +400,21 @@ export class Select extends BaseInput {
     this._dispatchChange();
   }
 
+  private _renderEmptyState() {
+    const hasSearchQuery = this._searchQuery.trim().length > 0;
+
+    return html`
+      <wc-empty-state
+        class="select-empty-state content-center"
+        illustration="no-document"
+        headline=${hasSearchQuery ? 'No results found' : 'No options available'}
+        description=${hasSearchQuery
+          ? 'Try a different search term.'
+          : 'There is nothing to select right now.'}
+      ></wc-empty-state>
+    `;
+  }
+
   // ── Render helpers ─────────────────────────────────────────────────────────
 
   private _renderTriggerContent() {
@@ -450,11 +498,14 @@ export class Select extends BaseInput {
         ?focused=${this._focused}
         .host=${this}
         class="select-field"
+        @click=${this._handleFieldClick}
       >
         <div
           class="select-trigger"
           tabindex=${this.disabled ? -1 : 0}
           role="combobox"
+          aria-label=${this.label || this.placeholder || 'Select option'}
+          aria-controls=${this._menuId}
           aria-expanded=${String(this._open)}
           aria-haspopup="listbox"
           @click=${this._handleTriggerClick}
@@ -469,6 +520,7 @@ export class Select extends BaseInput {
       </wc-field>
 
       <wc-menu
+        id=${this._menuId}
         placement="bottom-start"
         aria-label=${this.label || 'Options'}
         @closed=${this._handleMenuClosed}
@@ -476,9 +528,7 @@ export class Select extends BaseInput {
           this._handleMenuItemActivate(e)}
       >
         <slot></slot>
-        ${this._noOptionsVisible
-          ? html`<wc-menu-item disabled>No options</wc-menu-item>`
-          : nothing}
+        ${this._noOptionsVisible ? this._renderEmptyState() : nothing}
       </wc-menu>
     `;
   }

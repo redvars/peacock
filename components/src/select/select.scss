@@ -73,6 +73,11 @@
   gap: var(--spacing-050);
 }
 
+.select-empty-state {
+  display: block;
+  inline-size: min(22rem, 100%);
+}
+
 /* Dropdown chevron icon */
 .dropdown-icon {
   --icon-size: 1.5rem;

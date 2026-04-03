@@ -6,6 +6,8 @@
   display: flex;
   position: fixed;
   z-index: var(--menu-z-index, 1000);
+  width: var(--menu-width, max-content);
+  max-width: 100vw;
   min-width: 112px;
   padding-block: var(--spacing-050);
   transform-origin: top center;
