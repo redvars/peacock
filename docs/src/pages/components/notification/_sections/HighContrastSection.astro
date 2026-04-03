@@ -1,23 +1,25 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import NotificationContent from './notification-content.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body' expressive>High contrast notifications are designed to be more accessible for users with visual
-  impairments. They have a higher contrast ratio between the text and background color.
-</pc-text>
+<p class='text-body-large'>Enable high contrast mode for stronger separation between text and container colors.</p>
 
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: var(--spacing-100); width: min(100%, 36rem);'>
+    <wc-notification high-contrast dismissible>
+      <span slot='title'>System message</span>
+      <span slot='subtitle'>A restart is required to apply updates.</span>
+    </wc-notification>
 
-<HighlighterCard lang={'html'} cssClasses='notification-container'>
-  <pc-notification high-contrast dismissible>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification high-contrast state='success'>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification high-contrast state='warning'>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification high-contrast state='error'>
-    <NotificationContent />
-  </pc-notification>
-</HighlighterCard>
+    <wc-notification high-contrast variant='success'>
+      <span slot='title'>Deployment completed</span>
+    </wc-notification>
+
+    <wc-notification high-contrast variant='warning'>
+      <span slot='title'>Quota reaches 90%</span>
+    </wc-notification>
+
+    <wc-notification high-contrast variant='error'>
+      <span slot='title'>Unable to sync files</span>
+    </wc-notification>
+  </div>
+</DemoComponentCard>

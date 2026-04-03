@@ -2,10 +2,38 @@
 
 @include mixin.base-styles;
 
+@keyframes snackbar-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes snackbar-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
 :host {
-  display: inline-flex;
-  max-width: 42rem;
-  min-width: 21.5rem;
+  display: flex;
+  inset-block-end: calc(var(--snackbar-offset-bottom, 1rem) + env(safe-area-inset-bottom, 0px));
+  inset-inline: var(--snackbar-offset-inline, 1rem);
+  justify-content: center;
+  pointer-events: none;
+  position: fixed;
+  z-index: var(--snackbar-z-index, 1000);
 
   --snackbar-container-color: var(--color-inverse-surface);
   --snackbar-label-text-color: var(--color-inverse-on-surface);
@@ -20,54 +48,57 @@
   background-color: var(--snackbar-container-color);
   border-radius: var(--snackbar-border-radius);
   color: var(--snackbar-label-text-color);
-  display: inline-flex;
+  display: none;
   gap: var(--spacing-100);
+  max-width: min(42rem, 100%);
+  min-width: min(21.5rem, 100%);
   min-height: 3rem;
-  opacity: 0;
   padding: var(--spacing-100) var(--spacing-200);
   pointer-events: none;
-  transform: translateY(0.5rem);
-  transition: opacity var(--duration-short2) var(--easing-standard),
-    transform var(--duration-short2) var(--easing-standard);
 }
 
 .snackbar.open {
-  opacity: 1;
+  animation: snackbar-enter var(--duration-medium1, 300ms) var(--easing-standard, cubic-bezier(0.2, 0, 0, 1)) both;
+  display: inline-flex;
   pointer-events: auto;
-  transform: translateY(0);
+}
+
+.snackbar.open.dismissing {
+  animation: snackbar-exit var(--duration-short2, 150ms) var(--easing-standard, cubic-bezier(0.2, 0, 0, 1)) forwards;
+  pointer-events: none;
 }
 
 .label {
   flex: 1 1 auto;
   color: inherit;
-}
-
-.action,
-.close {
-  @include mixin.get-typography(label-large);
+  min-height: 32px;
   align-items: center;
-  background: transparent;
-  border: none;
-  color: var(--snackbar-action-text-color);
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  margin: 0;
-  min-height: 2rem;
-  min-width: 2rem;
-  padding: 0 var(--spacing-100);
+  display: flex;
+}
+
+.action {
+  --text-button-label-text-color: var(--snackbar-action-text-color);
 }
 
 .close {
-  color: var(--snackbar-close-icon-color);
-  padding: 0;
-}
-
-.close wc-icon {
-  --icon-size: 1.125rem;
-  color: inherit;
+  --text-button-label-text-color: var(--snackbar-close-icon-color);
 }
 
 .snackbar.multiline {
   align-items: flex-start;
+
+  .label {
+    height: 100%;
+  }
+}
+
+:host([preview]) {
+  position: relative;
+  inset-inline: unset;
+  inset-block-end: unset;
+
+  .snackbar {
+    display: inline-flex;
+    pointer-events: auto;
+  }
 }

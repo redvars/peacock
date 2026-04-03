@@ -2,15 +2,34 @@
 
 @include mixin.base-styles;
 
+// ─── Host ────────────────────────────────────────────────────────────────────
+
 :host {
   display: block;
 }
 
-slot::slotted(:not(:last-child)) {
-  border-block-start: 1px solid var(--color-outline);
+// ─── Default display mode ────────────────────────────────────────────────────
+// Each item is a fully-bordered rounded container (M3 expansion panel shape).
+// Items are stacked with a gap; no shared dividers.
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100); // 8dp gap between panels
 }
 
-slot::slotted(:last-child) {
-  border-block-start: 1px solid var(--color-outline);
-  border-block-end: 1px solid var(--color-outline);
+// ─── Flat display mode ───────────────────────────────────────────────────────
+// Removes the gap and the per-item border/background — for use inside cards.
+
+:host([display-mode='flat']) {
+  .accordion {
+    gap: 0;
+  }
+
+  // Push overrides into each item via inherited CSS custom properties.
+  // wc-accordion-item reads --_accordion-item-border / --_accordion-item-background.
+  slot::slotted(wc-accordion-item) {
+    --_accordion-item-border: none;
+    --_accordion-item-background: transparent;
+  }
 }

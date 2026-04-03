@@ -6,6 +6,8 @@
   display: flex;
   position: fixed;
   z-index: var(--menu-z-index, 1000);
+  width: var(--menu-width, max-content);
+  max-width: 100vw;
   min-width: 112px;
   padding-block: var(--spacing-050);
   transform-origin: top center;
@@ -35,6 +37,11 @@
     transition-duration: var(--_menu-enter-duration), var(--_menu-enter-duration), 0ms;
     transition-delay: 0ms, 0ms, 0ms;
     transition-timing-function: var(--_menu-enter-easing), var(--_menu-enter-easing), linear;
+  }
+
+  &.preview {
+    position: relative;
+    pointer-events: auto;
   }
 
   .menu-content {

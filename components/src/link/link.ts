@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
-import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import BaseHyperlink from '../__base_element/BaseHyperlink.js';
 import styles from './link.scss';
 
 /**
@@ -16,21 +16,8 @@ import styles from './link.scss';
  * <wc-link href="#">Link</wc-link>
  * ```
  */
-export class Link extends LitElement {
+export class Link extends BaseHyperlink(LitElement) {
   static styles = [styles];
-
-  /**
-   * Hyperlink to navigate to on click.
-   */
-  @property({ reflect: true }) href?: string;
-
-  /**
-   * Sets or retrieves the window or frame at which to target content.
-   */
-  @property() target: '_self' | '_parent' | '_blank' | '_top' | string =
-    '_self';
-
-  @state() tabIndexValue?: number;
 
   render() {
     return html`<a

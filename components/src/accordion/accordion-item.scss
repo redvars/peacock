@@ -1,111 +1,182 @@
 @use '../../scss/mixin';
 
-
 @include mixin.base-styles;
+
+// ─── Host ────────────────────────────────────────────────────────────────────
 
 :host {
   display: block;
-
-  --accordion-item-title-align: start;
 }
 
-.accordion-item {
+// ─── Expansion Panel ─────────────────────────────────────────────────────────
 
-  .accordion-heading {
-    cursor: pointer;
-    width: 100%;
-    border-radius: 0;
-    border: 0;
-    padding: 0 var(--spacing-200);
-    background: var(--accordion-item-heading-background, transparent);
+.expansion-panel {
+  border: var(--_accordion-item-border, 1px solid var(--color-outline-variant));
+  border-radius: var(--shape-corner-medium); // 12dp — M3 medium shape
+  background-color: var(--_accordion-item-background, var(--color-surface-container-low));
+  overflow: hidden; // clip children to border-radius
+  transition:
+    background-color var(--duration-medium1) var(--easing-standard),
+    border-color var(--duration-medium1) var(--easing-standard);
 
+  // ─── Header Button ─────────────────────────────────────────────────────────
+
+  .header-button {
+    position: relative;
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
+    width: 100%;
+    min-height: 3rem; // 48dp — grows with description
+    padding: 0 var(--spacing-300); // 0 24dp
+    gap: var(--spacing-200); // 16dp between label and icon
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    text-align: start;
     color: var(--color-on-surface);
-    justify-content: flex-start;
-    gap: 0.5rem;
-    @include mixin.get-typography(title-medium);
+    overflow: hidden;
 
-    .accordion-title {
-      width: 100%;
-      text-align: var(--accordion-item-title-align);
+    // M3 state layer
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--color-on-surface);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-short4) var(--easing-standard);
+    }
+
+    &:not(:disabled):hover::before {
+      opacity: 0.08;
     }
 
     &:focus-visible {
+      outline: none;
       @include mixin.focus-ring();
     }
 
-    .accordion-icon {
-      --icon-size: 1.5rem;
-      --icon-color: currentColor;
-      transition: transform var(--duration-short2) var(--easing-standard);
+    &:focus-visible::before {
+      opacity: 0.12;
     }
-
   }
 
-  .item-section {
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-    text-align: start;
-    transition: all var(--duration-short2) var(--easing-standard);
+  // ─── Header Label (title + description column) ──────────────────────────────
+
+  .header-label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--spacing-150) 0; // 12dp vertical padding
+    min-width: 0;
   }
 
-  &:not(.disabled) .accordion-heading:hover {
-    --accordion-item-heading-background: var(--color-inverse-primary);
+  .panel-title {
+    @include mixin.get-typography(body-large);
+    color: var(--color-on-surface);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  &.disabled .accordion-heading {
-    cursor: not-allowed;
-    opacity: 0.38;
+  .panel-description {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &[hidden] {
+      display: none;
+    }
   }
+
+  // ─── Header Actions slot ────────────────────────────────────────────────────
+
+  ::slotted([slot='header-actions']) {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: var(--spacing-100);
+  }
+
+  // ─── Toggle Icon ────────────────────────────────────────────────────────────
+
+  .toggle-icon {
+    --icon-size: 1.5rem;
+    --icon-color: var(--color-on-surface-variant);
+    flex-shrink: 0;
+    transition: transform var(--duration-medium1) var(--easing-standard);
+  }
+
+  // ─── Expandable Content ─────────────────────────────────────────────────────
+
+  .panel-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-medium1) var(--easing-standard);
+  }
+
+  .content-inner {
+    overflow: hidden;
+    min-height: 0;
+    @include mixin.get-typography(body-medium);
+    color: var(--color-on-surface-variant);
+  }
+
+  // ─── Disabled State ─────────────────────────────────────────────────────────
+
+  &.disabled {
+    background-color: color-mix(in srgb, var(--color-surface-container-low) 38%, transparent);
+    border-color: color-mix(in srgb, var(--color-outline-variant) 38%, transparent);
+
+    .header-button {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.38;
+    }
+  }
+
+  // ─── Expanded / Open State (must come after disabled so .open wins) ─────────
 
   &.open {
-    .item-section {
-      height: 100%;
-      pointer-events: auto;
-      opacity: 1;
-      padding: var(--spacing-100) var(--spacing-800) var(--spacing-300) var(--spacing-200);
+    background-color: var(--color-surface-container);
+    border-color: transparent; // border fades out when expanded, matching M3
+
+    .panel-content {
+      grid-template-rows: 1fr;
+      border-block-start: 1px solid var(--color-outline-variant); // header–content divider
     }
 
-    .accordion-icon {
+    .content-inner {
+      padding: 0 var(--spacing-300) var(--spacing-200); // 0 24dp 16dp
+    }
+
+    .toggle-icon {
       transform: rotate(180deg);
     }
   }
 
-}
+  // ─── Disabled State (border + bg dimmed) ────────────────────────────────────
 
-/*
- * Sizes
- */
-.accordion-item {
-  .accordion-heading {
-    height: 2.5rem;
+  &.disabled {
+    background-color: color-mix(in srgb, var(--color-surface-container-low) 38%, transparent);
+    border-color: color-mix(in srgb, var(--color-outline-variant) 38%, transparent);
   }
 }
 
-:host-context([size="sm"]) {
-  .accordion-item {
-    .accordion-heading {
-      height: 2rem;
-    }
+// ─── Toggle position: before ─────────────────────────────────────────────────
+
+:host([toggle-position='before']) {
+  .header-button {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
   }
-}
 
-:host-context([size="lg"]) {
-  .accordion-item {
-    .accordion-heading {
-      height: 3rem;
-    }
-  }
-}
-
-
-:host-context(p-accordion[align="start"]) {
-  .accordion-item {
-    .accordion-heading {
-      flex-direction: row;
-    }
+  .header-label {
+    flex: 1;
   }
 }

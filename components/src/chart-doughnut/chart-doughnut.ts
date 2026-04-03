@@ -1,6 +1,6 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import * as d3 from 'd3';
 import styles from './chart-donut.scss';
 

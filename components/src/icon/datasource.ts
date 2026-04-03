@@ -1,4 +1,4 @@
-import { createCacheFetch } from '../utils.js';
+import { createCacheFetch } from '@/__utils/cache-fetch.js';
 
 const PROVIDERS: Record<string, (name: string) => string> = {
   'material-symbols': (name: string) =>

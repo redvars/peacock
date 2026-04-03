@@ -1,0 +1,29 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<h4 class='text-title'>Common placeholders</h4>
+
+<p class='text-body-large'>Use skeleton blocks to reserve layout space while content is loading. Adjust the width and height inline to match the shape of the final content.</p>
+
+<DemoComponentCard lang={'html'} alignStart>
+  <div style='display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: center; width: min(100%, 28rem);'>
+    <wc-skeleton
+      style='width: 4rem; height: 4rem; --skeleton-container-shape-start-start: 999px; --skeleton-container-shape-start-end: 999px; --skeleton-container-shape-end-start: 999px; --skeleton-container-shape-end-end: 999px;'
+    ></wc-skeleton>
+
+    <div style='display: grid; gap: 0.5rem;'>
+      <wc-skeleton style='width: 70%; height: 1rem;'></wc-skeleton>
+      <wc-skeleton style='width: 100%; height: 0.875rem;'></wc-skeleton>
+      <wc-skeleton style='width: 55%; height: 0.875rem;'></wc-skeleton>
+    </div>
+  </div>
+
+  <br />
+
+  <div style='display: grid; gap: 0.75rem; width: min(100%, 28rem);'>
+    <wc-skeleton style='width: 100%; height: 10rem;'></wc-skeleton>
+    <wc-skeleton style='width: 45%; height: 1rem;'></wc-skeleton>
+    <wc-skeleton style='width: 100%; height: 0.875rem;'></wc-skeleton>
+    <wc-skeleton style='width: 88%; height: 0.875rem;'></wc-skeleton>
+  </div>
+</DemoComponentCard>

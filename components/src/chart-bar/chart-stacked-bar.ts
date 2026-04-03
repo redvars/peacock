@@ -1,8 +1,10 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import IndividualComponent from 'src/IndividualComponent.js';
 import * as d3 from 'd3';
+
+import IndividualComponent from '@/IndividualComponent.js';
+
 import styles from './chart-bar.scss';
 
 export type ChartStackedSegment = {

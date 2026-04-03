@@ -3,8 +3,8 @@
     "label": "Accordion",
     "tag": "wc-accordion",
     "rawTag": "accordion",
-    "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
-    "example": "```html\n<wc-accordion>\n    <wc-accordion-item heading=\"Accordion\">\n        Content\n    </wc-accordion-item>\n</wc-accordion>\n```",
+    "summary": "A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.",
+    "example": "```html\n<wc-accordion>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 1</span>\n    <span slot=\"description\">Summary text</span>\n    Content\n  </wc-accordion-item>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 2</span>\n    Content\n  </wc-accordion-item>\n</wc-accordion>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -13,12 +13,25 @@
       "members": [
         {
           "kind": "field",
-          "name": "allowMultiple",
+          "name": "multi",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "attribute": "allow-multiple"
+          "description": "Whether multiple panels can be expanded simultaneously.\nWhen `false` (default), expanding one panel collapses all others.",
+          "attribute": "multi",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "displayMode",
+          "type": {
+            "text": "'default' | 'flat'"
+          },
+          "default": "'default'",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "attribute": "display-mode",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -62,12 +75,22 @@
       ],
       "attributes": [
         {
-          "name": "allow-multiple",
+          "name": "multi",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "allowMultiple"
+          "description": "Whether multiple panels can be expanded simultaneously.\nWhen `false` (default), expanding one panel collapses all others.",
+          "fieldName": "multi"
+        },
+        {
+          "name": "display-mode",
+          "type": {
+            "text": "'default' | 'flat'"
+          },
+          "default": "'default'",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "fieldName": "displayMode"
         }
       ],
       "superclass": {
@@ -76,7 +99,7 @@
       },
       "tagName": "wc-accordion",
       "customElement": true,
-      "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
+      "summary": "A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.",
       "rawTag": {
         "name": "accordion",
         "description": ""
@@ -219,6 +242,162 @@
       "summary": "The badge component is used to display a small amount of information to the user.",
       "rawTag": {
         "name": "badge",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Banner",
+    "tag": "wc-banner",
+    "rawTag": "banner",
+    "summary": "Banners show short, prominent contextual messages with optional icon and description.",
+    "cssprop": "--banner-border-radius - Border radius of the banner surface.",
+    "example": "```html\n<wc-banner variant=\"note\" description=\"Use semantic roles that preserve a 3:1 contrast ratio.\"></wc-banner>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Banner",
+      "cssProperties": [
+        {
+          "description": "Background color of the banner container.",
+          "name": "--banner-container-color"
+        },
+        {
+          "description": "Label text color.",
+          "name": "--banner-label-text-color"
+        },
+        {
+          "description": "Description text color.",
+          "name": "--banner-description-text-color"
+        },
+        {
+          "description": "Icon color.",
+          "name": "--banner-icon-color"
+        },
+        {
+          "description": "Border radius of the banner surface.",
+          "name": "--banner-border-radius"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "BannerVariant"
+          },
+          "default": "'note'",
+          "description": "Visual intent of the banner.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit label text. Falls back to a variant-based label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit icon name. Falls back to a variant-based icon.",
+          "attribute": "icon"
+        },
+        {
+          "kind": "field",
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional description text when a default slot is not provided.",
+          "attribute": "description"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, label and description are rendered on a single line.",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "resolvedLabel",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "resolvedIcon",
+          "privacy": "private",
+          "readonly": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "BannerVariant"
+          },
+          "default": "'note'",
+          "description": "Visual intent of the banner.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit label text. Falls back to a variant-based label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit icon name. Falls back to a variant-based icon.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional description text when a default slot is not provided.",
+          "fieldName": "description"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, label and description are rendered on a single line.",
+          "fieldName": "inline"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-banner",
+      "customElement": true,
+      "summary": "Banners show short, prominent contextual messages with optional icon and description.",
+      "rawTag": {
+        "name": "banner",
         "description": ""
       }
     }
@@ -721,8 +900,53 @@
         },
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -858,34 +1082,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -985,14 +1181,6 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__isLink",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "kind": "field",
           "name": "__dispatchClickWithThrottle",
           "type": {
@@ -1020,8 +1208,13 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__getDisabledReasonID",
+          "kind": "field",
+          "name": "__disabledReasonID",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "protected",
+          "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1062,6 +1255,29 @@
           "default": "'end'",
           "description": "Icon alignment.\nPossible values are `\"start\"`, `\"end\"`. Defaults to `\"end\"`.",
           "fieldName": "iconAlign"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "htmlType",
@@ -1172,31 +1388,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "fieldName": "disabledReason",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -4305,7 +4496,7 @@
     "rawTag": "empty-state",
     "summary": "A message that displays when there is no information to display.",
     "tags": "display",
-    "example": "```html\n<wc-empty-state width=\"80%\" headline=\"No items found\"></wc-empty-state>\n```",
+    "example": "```html\n<wc-empty-state style=\"width:100%\" headline=\"No items found\"></wc-empty-state>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -4399,6 +4590,404 @@
       "summary": "A message that displays when there is no information to display.",
       "rawTag": {
         "name": "empty-state",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "FAB",
+    "tag": "wc-fab",
+    "rawTag": "fab",
+    "summary": "The FAB (Floating Action Button) represents the primary action on a screen.",
+    "overview": "<p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and supports four color roles and two variants.</p>",
+    "cssprop": "--fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.",
+    "fires": "click - Dispatched when the FAB is clicked.",
+    "example": "```html\n<wc-fab name=\"add\"></wc-fab>\n```",
+    "tags": "controls",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Fab",
+      "cssProperties": [
+        {
+          "description": "Background color of the FAB container.",
+          "name": "--fab-container-color:"
+        },
+        {
+          "description": "Text and icon color of the FAB label.",
+          "name": "--fab-label-text-color:"
+        },
+        {
+          "description": "Corner radius of the FAB. Defaults to var(--shape-corner-large).",
+          "name": "--fab-container-shape:"
+        },
+        {
+          "description": "Elevation level of the FAB. Defaults to 3.",
+          "name": "--fab-container-elevation-level:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "#tabindex",
+          "privacy": "private",
+          "type": {
+            "text": "number | undefined"
+          },
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Name of the icon to display inside the FAB.",
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Source URL for a custom icon.",
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
+          "attribute": "provider"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional label text for the extended FAB variant.\nWhen set, the FAB displays both the icon and a text label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+          },
+          "default": "'surface'",
+          "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'tonal' | 'filled'"
+          },
+          "default": "'tonal'",
+          "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "lowered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the FAB is in a lowered (resting) state with reduced elevation.",
+          "attribute": "lowered",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the user cannot interact with the FAB.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "attribute": "configAria",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Tooltip text shown on hover.",
+          "attribute": "tooltip"
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "fabElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID"
+        },
+        {
+          "kind": "method",
+          "name": "__renderFabContent",
+          "parameters": [
+            {
+              "name": "isExtended",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "MouseEvent"
+          },
+          "description": "Dispatched when the FAB is clicked.",
+          "name": "click"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Name of the icon to display inside the FAB.",
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Source URL for a custom icon.",
+          "fieldName": "src"
+        },
+        {
+          "name": "provider",
+          "type": {
+            "text": "IconProvider"
+          },
+          "default": "'material-symbols'",
+          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
+          "fieldName": "provider"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional label text for the extended FAB variant.\nWhen set, the FAB displays both the icon and a text label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+          },
+          "default": "'surface'",
+          "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
+          "fieldName": "color"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'tonal' | 'filled'"
+          },
+          "default": "'tonal'",
+          "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "fieldName": "size"
+        },
+        {
+          "name": "lowered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the FAB is in a lowered (resting) state with reduced elevation.",
+          "fieldName": "lowered"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If `true`, the user cannot interact with the FAB.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "{ [key: string]: any } | undefined"
+          },
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
+        },
+        {
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Tooltip text shown on hover.",
+          "fieldName": "tooltip"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-fab",
+      "customElement": true,
+      "summary": "The FAB (Floating Action Button) represents the primary action on a screen.",
+      "rawTag": {
+        "name": "fab",
         "description": ""
       }
     }
@@ -5088,15 +5677,6 @@
       "members": [
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "#tabindex",
           "privacy": "private",
           "type": {
@@ -5150,6 +5730,60 @@
         {
           "kind": "method",
           "name": "renderButtonContent"
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -5281,34 +5915,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -5408,14 +6014,6 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__isLink",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
           "kind": "field",
           "name": "__dispatchClickWithThrottle",
           "type": {
@@ -5443,8 +6041,13 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__getDisabledReasonID",
+          "kind": "field",
+          "name": "__disabledReasonID",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "protected",
+          "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5498,6 +6101,29 @@
           },
           "default": "'material-symbols'",
           "fieldName": "provider"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "htmlType",
@@ -5608,31 +6234,6 @@
           "default": "''",
           "description": "If button is disabled, the reason why it is disabled.",
           "fieldName": "disabledReason",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -6565,9 +7166,12 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "Hyperlink to navigate to on click.",
           "attribute": "href",
-          "reflects": true
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
         },
         {
           "kind": "field",
@@ -6576,34 +7180,30 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target"
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
         },
         {
-          "kind": "field",
-          "name": "tabIndexValue",
-          "type": {
-            "text": "number | undefined"
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
           }
         }
       ],
-      "attributes": [
+      "mixins": [
         {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href"
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
+          "name": "BaseHyperlink",
+          "module": "/src/__base_element/BaseHyperlink.js"
         }
       ],
       "superclass": {
@@ -6616,7 +7216,32 @@
       "rawTag": {
         "name": "link",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
+        }
+      ]
     }
   },
   {
@@ -6625,7 +7250,7 @@
     "rawTag": "menu",
     "summary": "A list of menu items.",
     "tags": "navigation",
-    "example": "```html\n<wc-menu>\n  <wc-menu-item>Item 1</wc-menu-item>\n  <wc-menu-item>Item 2</wc-menu-item>\n</wc-menu>\n```",
+    "example": "```html\n<wc-menu preview>\n  <wc-menu-item>Item 1</wc-menu-item>\n  <wc-menu-item selected>Item 2</wc-menu-item>\n</wc-menu>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -6665,6 +7290,16 @@
           },
           "default": "''",
           "attribute": "anchor"
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "preview",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -6953,6 +7588,14 @@
           },
           "default": "''",
           "fieldName": "anchor"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "preview"
         },
         {
           "name": "stay-open-on-outside-click",
@@ -7297,6 +7940,264 @@
       "summary": "An item in a menu list.",
       "rawTag": {
         "name": "menu-item",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Notification",
+    "tag": "wc-notification",
+    "rawTag": "notification",
+    "summary": "Notifications communicate contextual status, errors, warnings, and success messages.",
+    "cssprop": "--notification-border-radius - Border radius of the notification container.",
+    "fires": "notification-action-click - Fired when the action button is clicked.",
+    "example": "```html\n<wc-notification variant=\"success\" action=\"Undo\" dismissible>\n  <span slot=\"title\">Record saved</span>\n</wc-notification>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Notification",
+      "cssProperties": [
+        {
+          "description": "Surface color for the notification container.",
+          "name": "--notification-container-color"
+        },
+        {
+          "description": "Label and supporting text color.",
+          "name": "--notification-text-color"
+        },
+        {
+          "description": "Leading state icon color.",
+          "name": "--notification-leading-icon-color"
+        },
+        {
+          "description": "Start border color for status emphasis.",
+          "name": "--notification-accent-color"
+        },
+        {
+          "description": "Border radius of the notification container.",
+          "name": "--notification-border-radius"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, content and actions are laid out in a single row.",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "NotificationVariant"
+          },
+          "default": "'info'",
+          "description": "The visual variant of the notification.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "highContrast",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enables a high contrast appearance.",
+          "attribute": "high-contrast",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, renders a dismiss icon button.",
+          "attribute": "dismissible",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "action",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Action label text. When provided, an action button is shown.",
+          "attribute": "action"
+        },
+        {
+          "kind": "field",
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the host controls visibility when dismissed.",
+          "attribute": "managed",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "isHidden",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "hasSubtitle",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "show",
+          "description": "Programmatically reveals the notification."
+        },
+        {
+          "kind": "method",
+          "name": "dismiss",
+          "description": "Programmatically dismisses the notification."
+        },
+        {
+          "kind": "field",
+          "name": "variantIcon",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "variantLabel",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "emitActionClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "hideAndEmitDismiss",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "'dismiss' | 'programmatic'"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleSubtitleSlotChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "notification-action-click",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the action button is clicked."
+        },
+        {
+          "name": "notification-dismiss",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the notification is dismissed."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, content and actions are laid out in a single row.",
+          "fieldName": "inline"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "NotificationVariant"
+          },
+          "default": "'info'",
+          "description": "The visual variant of the notification.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "high-contrast",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enables a high contrast appearance.",
+          "fieldName": "highContrast"
+        },
+        {
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, renders a dismiss icon button.",
+          "fieldName": "dismissible"
+        },
+        {
+          "name": "action",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Action label text. When provided, an action button is shown.",
+          "fieldName": "action"
+        },
+        {
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the host controls visibility when dismissed.",
+          "fieldName": "managed"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-notification",
+      "customElement": true,
+      "summary": "Notifications communicate contextual status, errors, warnings, and success messages.",
+      "rawTag": {
+        "name": "notification",
         "description": ""
       }
     }
@@ -7905,7 +8806,7 @@
     "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
     "overview": "<p>The pagination component provides controls for navigating through paged data sets.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
-    "example": "```html\n<wc-pagination page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
+    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
     "tags": "navigation, data",
     "customElement": {
       "kind": "class",
@@ -7951,6 +8852,52 @@
           "default": "[10, 25, 50, 100]",
           "description": "Supported page size options.",
           "attribute": "page-sizes"
+        },
+        {
+          "kind": "method",
+          "name": "getTotalPages",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "setPage",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "nextPage",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handlePageSizeChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CustomEvent<{ value?: string }>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "handlePreviousPage",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "handleNextPage",
+          "privacy": "private"
         },
         {
           "kind": "method",
@@ -8663,6 +9610,13 @@
       "members": [
         {
           "kind": "field",
+          "name": "_menuId",
+          "privacy": "private",
+          "readonly": true,
+          "default": "`wc-select-menu-${Math.random().toString(36).slice(2, 9)}`"
+        },
+        {
+          "kind": "field",
           "name": "options",
           "type": {
             "text": "SelectOption[]"
@@ -8726,16 +9680,6 @@
           "default": "''",
           "description": "Label displayed above the field.",
           "attribute": "label"
-        },
-        {
-          "kind": "field",
-          "name": "clearable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Show a clear button in single-select mode when a value is selected.",
-          "attribute": "clearable"
         },
         {
           "kind": "field",
@@ -8964,6 +9908,19 @@
         },
         {
           "kind": "method",
+          "name": "_handleFieldClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "_handleTriggerKeyDown",
           "privacy": "private",
           "parameters": [
@@ -9013,19 +9970,6 @@
         },
         {
           "kind": "method",
-          "name": "_handleClear",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
           "name": "_handleChipDismiss",
           "privacy": "private",
           "parameters": [
@@ -9042,6 +9986,11 @@
               }
             }
           ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderEmptyState",
+          "privacy": "private"
         },
         {
           "kind": "method",
@@ -9178,15 +10127,6 @@
           "default": "''",
           "description": "Label displayed above the field.",
           "fieldName": "label"
-        },
-        {
-          "name": "clearable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Show a clear button in single-select mode when a value is selected.",
-          "fieldName": "clearable"
         },
         {
           "name": "variant",
@@ -9728,6 +10668,16 @@
         },
         {
           "kind": "field",
+          "name": "showValue",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show the current value beside the slider.",
+          "attribute": "show-value"
+        },
+        {
+          "kind": "field",
           "name": "isDragging",
           "type": {
             "text": "boolean"
@@ -9871,6 +10821,15 @@
           "default": "true",
           "description": "Whether to show labels on the slider.",
           "fieldName": "labeled"
+        },
+        {
+          "name": "show-value",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show the current value beside the slider.",
+          "fieldName": "showValue"
         }
       ],
       "superclass": {
@@ -9891,8 +10850,8 @@
     "tag": "wc-snackbar",
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
-    "cssprop": "--snackbar-border-radius - Border radius of the snackbar surface.",
-    "example": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
+    "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
+    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -9918,9 +10877,43 @@
         {
           "description": "Border radius of the snackbar surface.",
           "name": "--snackbar-border-radius"
+        },
+        {
+          "description": "Inline offset from viewport edges.",
+          "name": "--snackbar-offset-inline"
+        },
+        {
+          "description": "Bottom offset from viewport edge.",
+          "name": "--snackbar-offset-bottom"
+        },
+        {
+          "description": "Stacking order for the snackbar.",
+          "name": "--snackbar-z-index"
         }
       ],
       "members": [
+        {
+          "kind": "field",
+          "name": "GLOBAL_OPEN_EVENT",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "static": true,
+          "readonly": true,
+          "default": "'wc-snackbar-will-open'"
+        },
+        {
+          "kind": "field",
+          "name": "EXIT_ANIMATION_MS",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "static": true,
+          "readonly": true,
+          "default": "180"
+        },
         {
           "kind": "field",
           "name": "open",
@@ -9979,12 +10972,46 @@
         },
         {
           "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "preview",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "dismissing",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
           "name": "hideTimer",
           "type": {
             "text": "ReturnType<typeof setTimeout> | null"
           },
           "privacy": "private",
           "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "exitTimer",
+          "type": {
+            "text": "ReturnType<typeof setTimeout> | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "handleGlobalSnackbarOpen",
+          "privacy": "private",
+          "readonly": true
         },
         {
           "kind": "method",
@@ -10009,6 +11036,11 @@
         },
         {
           "kind": "method",
+          "name": "completeDismiss",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
           "name": "dispatchActionEvent",
           "privacy": "private"
         },
@@ -10026,6 +11058,24 @@
           "kind": "method",
           "name": "clearTimer",
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "clearExitTimer",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleAnimationEnd",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "AnimationEvent"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
@@ -10095,6 +11145,14 @@
           },
           "default": "false",
           "fieldName": "multiline"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "preview"
         }
       ],
       "superclass": {
@@ -10150,6 +11208,7 @@
     "label": "Sub Menu",
     "tag": "wc-sub-menu",
     "rawTag": "sub-menu",
+    "parentRawTag": "menu",
     "summary": "Connects a menu item to a nested menu.",
     "customElement": {
       "kind": "class",

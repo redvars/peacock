@@ -1,18 +1,25 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import NotificationContent from './notification-content.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'} cssClasses='notification-container'>
-  <pc-notification>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification state='success'>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification state='warning'>
-    <NotificationContent />
-  </pc-notification>
-  <pc-notification state='error'>
-    <NotificationContent />
-  </pc-notification>
-</HighlighterCard>
+<p class='text-body-large'>Set the state to communicate intent clearly: informational, success, warning, or error.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: var(--spacing-100); width: min(100%, 36rem);'>
+    <wc-notification variant='info'>
+      <span slot='title'>New sign-in from Chrome</span>
+    </wc-notification>
+
+    <wc-notification variant='success'>
+      <span slot='title'>Profile updated</span>
+    </wc-notification>
+
+    <wc-notification variant='warning'>
+      <span slot='title'>Storage is almost full</span>
+    </wc-notification>
+
+    <wc-notification variant='error'>
+      <span slot='title'>Payment failed</span>
+      <span slot='subtitle'>Try a different card or retry later.</span>
+    </wc-notification>
+  </div>
+</DemoComponentCard>

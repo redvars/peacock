@@ -9,9 +9,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <wc-select
     label="Fruit"
     placeholder="Pick a fruit..."
-    clearable
     style="width: 20rem"
   >
+    <wc-option value="">None</wc-option>
     <wc-option value="apple">Apple</wc-option>
     <wc-option value="banana">Banana</wc-option>
     <wc-option value="cherry">Cherry</wc-option>
@@ -26,9 +26,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <wc-select
     label="Action"
     placeholder="Choose an action..."
-    clearable
     style="width: 20rem"
   >
+    <wc-option value="">None</wc-option>
     <wc-option value="new" icon="add">New file</wc-option>
     <wc-option value="save" icon="save">Save</wc-option>
     <wc-option value="delete" icon="delete">Delete</wc-option>
@@ -46,13 +46,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     label="Fruit"
     placeholder="Pick a fruit..."
     variant="outlined"
-    clearable
     style="width: 20rem"
   ></wc-select>
 
   <script is:inline>
     const sel = document.getElementById('basic-select');
     sel.options = [
+      { label: 'None', value: '' },
       { label: 'Apple', value: 'apple' },
       { label: 'Banana', value: 'banana' },
       { label: 'Cherry', value: 'cherry' },

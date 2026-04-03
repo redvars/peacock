@@ -1,8 +1,10 @@
 import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
+
+import { sanitizeSvg } from '@/__utils/sanitize-svg.js';
+
 import { fetchIcon, fetchSVG } from './datasource.js';
-import { sanitizeSvg } from '../utils.js';
 import styles from './icon.scss';
 
 export type IconProvider = 'material-symbols' | 'material-icons';

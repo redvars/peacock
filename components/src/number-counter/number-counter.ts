@@ -1,7 +1,9 @@
 import { html, LitElement, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+
+import IndividualComponent from '@/IndividualComponent.js';
+
 import styles from './number-counter.scss';
 
 /**

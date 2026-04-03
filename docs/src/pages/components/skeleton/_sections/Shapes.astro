@@ -1,0 +1,20 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<h4 class='text-title'>Shape customization</h4>
+
+<p class='text-body-large'>Use the skeleton shape tokens to match the destination component. This is useful for circular avatars, rounded cards, or sharper input placeholders.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-skeleton
+    style='width: 3.5rem; height: 3.5rem; --skeleton-container-shape-start-start: 999px; --skeleton-container-shape-start-end: 999px; --skeleton-container-shape-end-start: 999px; --skeleton-container-shape-end-end: 999px;'
+  ></wc-skeleton>
+
+  <wc-skeleton
+    style='width: 8rem; height: 3rem; --skeleton-container-shape-start-start: 0.75rem; --skeleton-container-shape-start-end: 0.75rem; --skeleton-container-shape-end-start: 0.75rem; --skeleton-container-shape-end-end: 0.75rem;'
+  ></wc-skeleton>
+
+  <wc-skeleton
+    style='width: 10rem; height: 3rem; --skeleton-container-shape-start-start: 0.25rem; --skeleton-container-shape-start-end: 0.25rem; --skeleton-container-shape-end-start: 0.25rem; --skeleton-container-shape-end-end: 0.25rem;'
+  ></wc-skeleton>
+</DemoComponentCard>

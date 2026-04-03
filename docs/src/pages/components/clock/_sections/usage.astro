@@ -25,13 +25,15 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
    }
 </style>
 
-<p class='text-body-large'>Use the clock with the local timezone or set a specific IANA timezone string.</p>
+<p class='text-body-large'>Display the current local time with the default timezone.</p>
 
 <DemoComponentCard lang={'html'}>
    <wc-clock></wc-clock>
 </DemoComponentCard>
 
-<DemoComponentCard lang={'html'} alignStart={true}>
+<p class='text-body-large'>Use a specific IANA timezone string to display time in different regions.</p>
+
+<DemoComponentCard lang={'html'} >
    <div class='clock-grid'>
       <div class='clock-card'>
          <span class='clock-label'>Berlin</span>

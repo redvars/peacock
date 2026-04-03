@@ -1,0 +1,137 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+
+  --fab-container-shape: var(--shape-corner-large);
+  --fab-container-elevation-level: 3;
+}
+
+/*
+  * Reset native button/link styles
+  */
+.fab-element {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--fab-container-shape);
+  font-family: var(--font-family-sans) !important;
+
+  .fab-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 0;
+    gap: 0.75rem;
+
+    color: var(--_fab-label-text-color);
+    --icon-size: var(--_fab-icon-size);
+    --icon-color: var(--_fab-label-text-color);
+  }
+
+  .fab-label {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.25rem;
+    letter-spacing: 0.00625em;
+    white-space: nowrap;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  /*
+    Background layers
+   */
+  .focus-ring {
+    z-index: 2;
+    --focus-ring-container-shape-start-start: var(--fab-container-shape);
+    --focus-ring-container-shape-start-end: var(--fab-container-shape);
+    --focus-ring-container-shape-end-start: var(--fab-container-shape);
+    --focus-ring-container-shape-end-end: var(--fab-container-shape);
+  }
+
+  .ripple {
+    border-radius: var(--fab-container-shape);
+    --ripple-state-opacity: var(--_fab-container-state-opacity, 0);
+    --ripple-pressed-color: var(--_fab-label-text-color);
+  }
+
+  .background {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background-color: var(--_fab-container-color);
+    opacity: var(--_fab-container-opacity, 1);
+    border-radius: var(--fab-container-shape);
+    pointer-events: none;
+  }
+
+  .elevation {
+    --elevation-level: var(--_fab-container-elevation-level, var(--fab-container-elevation-level));
+    transition-duration: 280ms;
+    --elevation-container-shape-start-start: var(--fab-container-shape);
+    --elevation-container-shape-start-end: var(--fab-container-shape);
+    --elevation-container-shape-end-start: var(--fab-container-shape);
+    --elevation-container-shape-end-end: var(--fab-container-shape);
+  }
+
+  &:hover:not(.disabled) {
+    --_fab-container-elevation-level: 4;
+    --_fab-container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(.disabled) {
+    --_fab-container-elevation-level: 3;
+    --_fab-container-state-opacity: 0.12;
+  }
+
+  &.lowered {
+    --fab-container-elevation-level: 1;
+
+    &:hover:not(.disabled) {
+      --_fab-container-elevation-level: 2;
+    }
+
+    &.pressed:not(.disabled) {
+      --_fab-container-elevation-level: 1;
+    }
+  }
+
+  &.disabled {
+    --_fab-container-color: var(--color-on-surface);
+    --_fab-container-opacity: 0.12;
+    --_fab-label-text-color: var(--color-on-surface);
+    --_fab-label-text-opacity: 0.38;
+    --_fab-container-elevation-level: 0;
+
+    .ripple {
+      display: none;
+    }
+
+    .fab-content {
+      opacity: 0.38;
+    }
+  }
+}
+
+/* Extended FAB */
+.fab.extended {
+  padding: 0 1rem;
+  border-radius: var(--fab-container-shape);
+}

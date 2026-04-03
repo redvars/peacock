@@ -15,6 +15,17 @@
   touch-action: none; // Prevent scrolling while dragging
 }
 
+.slider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  width: 100%;
+}
+
+.slider.with-value .slider-container {
+  flex: 1;
+}
+
 .slider-container {
   position: relative;
   display: flex;
@@ -27,6 +38,14 @@
     pointer-events: none;
     opacity: 0.38;
   }
+}
+
+.value-display {
+  min-width: 2.25rem;
+  text-align: end;
+  color: var(--color-on-surface-variant);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .track {

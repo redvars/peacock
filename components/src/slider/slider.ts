@@ -51,9 +51,15 @@ export class Slider extends LitElement {
    */
   @property({ type: Boolean }) labeled = true;
 
+  /**
+   * Whether to show the current value beside the slider.
+   */
+  @property({ type: Boolean, attribute: 'show-value' }) showValue = false;
+
   @state() private isDragging = false;
 
   @query('.slider-container') private container!: HTMLElement;
+  
   @query('.thumb') private thumbElement!: HTMLElement;
 
   private handleInput(event: MouseEvent | TouchEvent) {
@@ -150,28 +156,33 @@ export class Slider extends LitElement {
     const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
 
     return html`
-      <div 
-        class="slider-container ${this.disabled ? 'disabled' : ''}"
-        @mousedown=${this.onMouseDown}
-        @touchstart=${this.onMouseDown}
-      >
-        <div class="track">
-          <div class="track-active" style=${styleMap({ width: `${percentage}%` })}></div>
+      <div class="slider ${this.showValue ? 'with-value' : ''}">
+        <div 
+          class="slider-container ${this.disabled ? 'disabled' : ''}"
+          @mousedown=${this.onMouseDown}
+          @touchstart=${this.onMouseDown}
+        >
+          <div class="track">
+            <div class="track-active" style=${styleMap({ width: `${percentage}%` })}></div>
+          </div>
+
+          <div 
+            class="thumb" 
+            role="slider"
+            aria-label="Slider"
+            tabindex="${this.disabled ? -1 : 0}"
+            aria-valuemin=${this.min}
+            aria-valuemax=${this.max}
+            aria-valuenow=${this.value}
+            aria-disabled=${this.disabled}
+            style=${styleMap({ left: `calc(${percentage}% - var(--thumb-half))` })}
+            @keydown=${this.handleKeyDown}
+          >
+            ${this.labeled ? html`<div class="value-label">${this.value}</div>` : ''}
+          </div>
         </div>
 
-        <div 
-          class="thumb" 
-          role="slider"
-          tabindex="${this.disabled ? -1 : 0}"
-          aria-valuemin=${this.min}
-          aria-valuemax=${this.max}
-          aria-valuenow=${this.value}
-          aria-disabled=${this.disabled}
-          style=${styleMap({ left: `calc(${percentage}% - var(--thumb-half))` })}
-          @keydown=${this.handleKeyDown}
-        >
-          ${this.labeled ? html`<div class="value-label">${this.value}</div>` : ''}
-        </div>
+        ${this.showValue ? html`<output class="value-display" aria-live="polite">${this.value}</output>` : ''}
       </div>
     `;
   }

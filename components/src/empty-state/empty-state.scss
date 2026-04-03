@@ -38,8 +38,8 @@
   flex-direction: column;
   justify-content: center;
 
-  .title {
-    @include mixin.get-typography(headline-medium-emphasized);
+  .headline {
+    @include mixin.get-typography(headline-medium);
     margin-bottom: var(--spacing-200);
     color: var(--color-on-surface)
   }
@@ -64,10 +64,6 @@
     .content {
       width: 50%;
     }
-
-    .headline {
-      @include mixin.get-typography(title-medium);
-    }
   }
 }
 
@@ -75,7 +71,7 @@
   .empty-state {
     .empty-state-container {
       flex-direction: column;
-      gap: var(--spacing-200);
+      gap: var(--spacing-150);
 
       .illustration {
         height: auto;
@@ -84,8 +80,10 @@
       }
     }
 
-    .headline {
-      @include mixin.get-typography(title-small);
+    .content {
+      .headline {
+        @include mixin.get-typography(headline-small);
+      }
     }
   }
 }
