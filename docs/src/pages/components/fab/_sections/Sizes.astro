@@ -1,0 +1,19 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The FAB comes in three sizes: small (40dp), standard (56dp), and large (96dp).</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab name='add' size='sm'></wc-fab>
+  <wc-fab name='add'></wc-fab>
+  <wc-fab name='add' size='lg'></wc-fab>
+</DemoComponentCard>
+
+<p class='text-body-large'>Extended FABs with different sizes.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab name='add' size='sm' label='Small'></wc-fab>
+  <wc-fab name='add' label='Standard'></wc-fab>
+  <wc-fab name='add' size='lg' label='Large'></wc-fab>
+</DemoComponentCard>

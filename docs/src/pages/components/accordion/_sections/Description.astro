@@ -1,0 +1,23 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>Set the <code>description</code> attribute to add a short summary line below the panel title. The header grows to 64dp to accommodate both lines.</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion>
+    <wc-accordion-item>
+      <span slot="heading">Shipping</span>
+      <span slot="description">Standard delivery, 3–5 business days</span>
+      <p class='text-body-large'>Choose your preferred delivery slot below.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Payment</span>
+      <span slot="description">Visa ending in 4242</span>
+      <p class='text-body-large'>Review or update your payment method.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Review order</span>
+      <p class='text-body-large'>No description — standard 48dp header height.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>

@@ -1,0 +1,13 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Add the <code>inline</code> attribute to render the label and description on a single line.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-banner inline description='These color roles were chosen to create design coherence and familiarity.'></wc-banner>
+  
+  <wc-banner inline variant='warning' description='Check this value before continuing.'></wc-banner>
+  
+  <wc-banner inline variant='error' description='We could not complete your request.'></wc-banner>
+</DemoComponentCard>

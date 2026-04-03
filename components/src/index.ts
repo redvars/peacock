@@ -5,6 +5,7 @@ export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
 export { Button, ButtonGroup, IconButton } from './button/index.js';
+export { Fab } from './fab/index.js';
 export { SegmentedButton, SegmentedButtonGroup } from './segmented-button/index.js';
 
 export { FocusRing } from './focus-ring/index.js';
@@ -45,6 +46,8 @@ export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export { TreeView, TreeNode } from './tree-view/index.js';
 export { Card } from './card/index.js';
+export { Banner } from './banner/index.js';
+export { Notification } from './notification/index.js';
 export { Snackbar } from './snackbar/index.js';
 export { Radio } from './radio/index.js';
 export { BottomSheet } from './bottom-sheet/index.js';

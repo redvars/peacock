@@ -1,7 +1,8 @@
 import { LitElement, html } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { isDarkMode } from '../utils.js';
-import { observeThemeChange } from '../utils/observe-theme-change.js';
+
+import { isDarkMode } from '@/__utils/is-dark-mode.js';
+import { observeThemeChange } from '@/__utils/observe-theme-change.js';
 
 import styles from './image.scss';
 

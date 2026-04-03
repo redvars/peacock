@@ -1,0 +1,15 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<h4 class='text-title'>Flexible dimensions</h4>
+
+<p class='text-body-large'>The skeleton uses the host element for sizing, so width and height can be set directly with inline styles or utility classes.</p>
+
+<DemoComponentCard lang={'html'} alignStart>
+  <div style='display: grid; gap: 1rem; width: min(100%, 30rem);'>
+    <wc-skeleton style='width: 8rem; height: 0.75rem;'></wc-skeleton>
+    <wc-skeleton style='width: 14rem; height: 1rem;'></wc-skeleton>
+    <wc-skeleton style='width: 100%; height: 1.25rem;'></wc-skeleton>
+    <wc-skeleton style='width: 100%; height: 12rem;'></wc-skeleton>
+  </div>
+</DemoComponentCard>

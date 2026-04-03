@@ -1,0 +1,47 @@
+/* Small FAB: 40x40dp, shape-corner-medium */
+:host([size='sm']) {
+  --fab-container-shape: var(--shape-corner-medium);
+}
+
+:host([size='sm']) .fab {
+  width: 2.5rem;
+  height: 2.5rem;
+  --_fab-icon-size: 1.5rem;
+}
+
+/* Standard/Medium FAB: 56x56dp, shape-corner-large (default) */
+:host([size='md']) .fab {
+  width: 3.5rem;
+  height: 3.5rem;
+  --_fab-icon-size: 1.5rem;
+}
+
+/* Large FAB: 96x96dp, shape-corner-extra-large */
+:host([size='lg']) {
+  --fab-container-shape: var(--shape-corner-extra-large);
+}
+
+:host([size='lg']) .fab {
+  width: 6rem;
+  height: 6rem;
+  --_fab-icon-size: 2.25rem;
+}
+
+/* Extended FAB overrides (height fixed, width auto) */
+:host([size='sm']) .fab.extended {
+  width: auto;
+  min-width: 4rem;
+  height: 2.5rem;
+}
+
+:host([size='md']) .fab.extended {
+  width: auto;
+  min-width: 5rem;
+  height: 3.5rem;
+}
+
+:host([size='lg']) .fab.extended {
+  width: auto;
+  min-width: 6rem;
+  height: 6rem;
+}

@@ -1,12 +1,13 @@
 import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
 import colorStyles from './button-colors.scss';
 import sizeStyles from './button-sizes.scss';
-import { observerSlotChangesWithCallback, throttle } from '../../utils.js';
-import { spread } from '../../spread.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { throttle } from '@/__utils/throttle.js';
+import { spread } from '@/__directive/spread.js';
 import { BaseButton } from '../BaseButton.js';
 
 /**
@@ -129,7 +130,7 @@ export class Button extends BaseButton {
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          ?aria-describedby=${this.__getDisabledReasonID()}
+          aria-describedby=${this.__disabledReasonID}
           aria-disabled=${`${this.disabled || this.softDisabled}`}
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
@@ -149,7 +150,7 @@ export class Button extends BaseButton {
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        ?aria-describedby=${this.__getDisabledReasonID()}
+        aria-describedby=${this.__disabledReasonID}
         aria-disabled=${`${this.disabled}`}
         ${spread(this.configAria)}
       >

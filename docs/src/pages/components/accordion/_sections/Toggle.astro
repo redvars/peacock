@@ -1,0 +1,32 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>By default the toggle icon appears at the <strong>trailing end</strong> of the header (<code>toggle-position="after"</code>, matching M3). Set <code>toggle-position="before"</code> to move the icon to the leading start.</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion>
+    <wc-accordion-item toggle-position="after">
+      <span slot="heading">Trailing icon (default)</span>
+      <p class='text-body-large'>The expand icon sits at the end of the header row.</p>
+    </wc-accordion-item>
+    <wc-accordion-item toggle-position="before">
+      <span slot="heading">Leading icon</span>
+      <p class='text-body-large'>The expand icon sits at the start of the header row.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>
+
+<p class='text-body-large'>Set <code>hide-toggle</code> to remove the indicator entirely. This is useful when the expand interaction is implied by context.</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion>
+    <wc-accordion-item hide-toggle>
+      <span slot="heading">No indicator</span>
+      <p class='text-body-large'>Click the header to toggle — no icon is shown.</p>
+    </wc-accordion-item>
+    <wc-accordion-item hide-toggle>
+      <span slot="heading">Another panel</span>
+      <p class='text-body-large'>Useful inside navigation or filter lists.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>

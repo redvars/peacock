@@ -38,6 +38,8 @@ export interface SelectOption {
 export class Select extends BaseInput {
   static styles = [styles];
 
+  private readonly _menuId = `wc-select-menu-${Math.random().toString(36).slice(2, 9)}`;
+
   /**
    * Array of options to display in the dropdown.
    * Setting this property creates matching `<wc-option>` children automatically.
@@ -76,12 +78,6 @@ export class Select extends BaseInput {
    */
   @property({ type: String })
   label: string = '';
-
-  /**
-    * Show a clear button in single-select mode when a value is selected.
-   */
-  @property({ type: Boolean })
-  clearable: boolean = false;
 
   /**
    * Visual variant of the field.
@@ -160,7 +156,7 @@ export class Select extends BaseInput {
       const el = new SelectOptionElement();
       el.value = opt.value;
       if (opt.icon) el.icon = opt.icon;
-      el.textContent = opt.label;
+      el.textContent = opt.label || (opt.value === '' ? 'None' : '');
       el.dataset.generated = '';
       this.appendChild(el);
     }
@@ -184,13 +180,13 @@ export class Select extends BaseInput {
         const q = this._searchQuery.toLowerCase();
         const label = opt.textContent?.trim() ?? '';
         opt.filtered = !label.toLowerCase().includes(q);
-        if (!opt.filtered) visibleCount++;
+        if (!opt.filtered) visibleCount += 1;
       } else {
         opt.filtered = false;
-        visibleCount++;
+        visibleCount += 1;
       }
     }
-    this._noOptionsVisible = optEls.length > 0 && visibleCount === 0;
+    this._noOptionsVisible = visibleCount === 0;
   }
 
   // ── Helpers ────────────────────────────────────────────────────────────────
@@ -204,16 +200,25 @@ export class Select extends BaseInput {
   }
 
   private _isSelected(value: string): boolean {
+    if (!this.multiple) {
+      return this.value === value;
+    }
     return this._selectedValues.includes(value);
   }
 
   /** Returns the display label for a given option value. */
   private _getLabelForValue(val: string): string {
     for (const opt of this.querySelectorAll<SelectOptionElement>('wc-option')) {
-      if (opt.value === val) return opt.textContent?.trim() ?? val;
+      if (opt.value === val) {
+        const label = opt.textContent?.trim();
+        if (label) return label;
+        return val === '' ? 'None' : val;
+      }
     }
     // Fallback to options array (before wc-option children are created)
-    return this.options.find(o => o.value === val)?.label ?? val;
+    const programmaticLabel = this.options.find(o => o.value === val)?.label;
+    if (programmaticLabel) return programmaticLabel;
+    return val === '' ? 'None' : val;
   }
 
   private get _displayLabel(): string {
@@ -233,9 +238,16 @@ export class Select extends BaseInput {
     if (this.disabled || this.readonly) return;
     this._open = true;
     this._focused = true;
+    this._triggerEl?.focus();
     const menu = this._menu;
     if (menu && this._triggerEl) {
       menu.anchorElement = this._triggerEl;
+      const triggerWidth = this._triggerEl.getBoundingClientRect().width;
+      if (triggerWidth < 240) {
+        menu.style.setProperty('--menu-width', '240px');
+      } else {
+        menu.style.setProperty('--menu-width', `${Math.ceil(triggerWidth)}px`);
+      }
       menu.show();
     }
     if (this.search) {
@@ -261,11 +273,35 @@ export class Select extends BaseInput {
   // ── Event handlers ─────────────────────────────────────────────────────────
 
   private _handleTriggerClick(event: MouseEvent) {
+    event.stopPropagation();
     // Ignore clicks that originated inside the search input — those should not
     // toggle the menu (the input needs to stay open so the user can type).
     if (event.target instanceof HTMLInputElement) {
       return;
     }
+    if (this._open) {
+      this._closeMenu();
+    } else {
+      this._openMenu();
+    }
+  }
+
+  private _handleFieldClick(event: MouseEvent) {
+    const eventPath = event.composedPath();
+
+    if (
+      eventPath.includes(this._triggerEl as EventTarget) ||
+      eventPath.some(
+        target =>
+          target instanceof HTMLInputElement ||
+          (target instanceof HTMLElement &&
+            (target.closest('.clear-btn') != null ||
+              target.matches('wc-icon-button'))),
+      )
+    ) {
+      return;
+    }
+
     if (this._open) {
       this._closeMenu();
     } else {
@@ -312,9 +348,11 @@ export class Select extends BaseInput {
     if (!item) return;
 
     const val = item.value;
-    if (!val) return;
+
+    if (val === undefined) return;
 
     if (this.multiple) {
+      if (val === '') return;
       const values = this._selectedValues;
       const idx = values.indexOf(val);
       if (idx >= 0) {
@@ -354,17 +392,26 @@ export class Select extends BaseInput {
     }
   }
 
-  private _handleClear(event: MouseEvent) {
-    event.stopPropagation();
-    this.value = '';
-    this._dispatchChange();
-  }
-
   private _handleChipDismiss(event: CustomEvent, chipValue: string) {
     event.stopPropagation();
     const values = this._selectedValues.filter(v => v !== chipValue);
     this.value = values.join(',');
     this._dispatchChange();
+  }
+
+  private _renderEmptyState() {
+    const hasSearchQuery = this._searchQuery.trim().length > 0;
+
+    return html`
+      <wc-empty-state
+        class="select-empty-state content-center"
+        illustration="no-document"
+        headline=${hasSearchQuery ? 'No results found' : 'No options available'}
+        description=${hasSearchQuery
+          ? 'Try a different search term.'
+          : 'There is nothing to select right now.'}
+      ></wc-empty-state>
+    `;
   }
 
   // ── Render helpers ─────────────────────────────────────────────────────────
@@ -406,22 +453,7 @@ export class Select extends BaseInput {
   }
 
   private _renderFieldEnd() {
-    const showClear =
-      this.clearable &&
-      !this.multiple &&
-      !!this.value &&
-      !this.disabled &&
-      !this.readonly;
     return html`
-      ${showClear
-        ? html`<wc-icon-button
-            class="clear-btn"
-            variant="text"
-            size="sm"
-            name="close"
-            @click=${this._handleClear}
-          ></wc-icon-button>`
-        : nothing}
       <wc-icon
         class=${classMap({
           'dropdown-icon': true,
@@ -450,11 +482,14 @@ export class Select extends BaseInput {
         ?focused=${this._focused}
         .host=${this}
         class="select-field"
+        @click=${this._handleFieldClick}
       >
         <div
           class="select-trigger"
           tabindex=${this.disabled ? -1 : 0}
           role="combobox"
+          aria-label=${this.label || this.placeholder || 'Select option'}
+          aria-controls=${this._menuId}
           aria-expanded=${String(this._open)}
           aria-haspopup="listbox"
           @click=${this._handleTriggerClick}
@@ -469,6 +504,7 @@ export class Select extends BaseInput {
       </wc-field>
 
       <wc-menu
+        id=${this._menuId}
         placement="bottom-start"
         aria-label=${this.label || 'Options'}
         @closed=${this._handleMenuClosed}
@@ -476,9 +512,7 @@ export class Select extends BaseInput {
           this._handleMenuItemActivate(e)}
       >
         <slot></slot>
-        ${this._noOptionsVisible
-          ? html`<wc-menu-item disabled>No options</wc-menu-item>`
-          : nothing}
+        ${this._noOptionsVisible ? this._renderEmptyState() : nothing}
       </wc-menu>
     `;
   }

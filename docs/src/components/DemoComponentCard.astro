@@ -1,10 +1,11 @@
 ---
 interface Props {
   lang: any;
-  alignStart?: boolean
+  alignStart?: boolean,
+  cssClasses?: string,
 }
 
-const { lang, alignStart } = Astro.props;
+let { lang, inline } = Astro.props;
 
 let html = '';
 if (Astro.slots.has('default')) {
@@ -13,40 +14,51 @@ if (Astro.slots.has('default')) {
   html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
 }
 let cssClasses = '';
-if (alignStart) {
-  cssClasses = 'align-start';
+if (inline) {
+  cssClasses = 'inline';
 }
 ---
 <style>
-  .demo-component-card {
+  .demo-card {
+    container: democardcontainer / inline-size;
+    margin-bottom: var(--spacing-200);
+
     .demo-area {
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
       min-height: 10rem;
       gap: var(--spacing-200);
       background: var(--color-surface);
+      padding: var(--spacing-200);
+      border-bottom: 1px solid var(--color-outline-variant);
     }
-    .demo-area.align-start {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0;
+
+    .demo-area.inline {
+      flex-direction: row;
     }
-    .body {
-      padding: 0;
+
+    .demo-component-divider {
+      --divider-spacing: 0;
     }
-    .demo-area .full-width {
-      width: 100%;
+  }
+
+  @container democardcontainer (max-width: 691px) {
+    .demo-card {
+      .demo-area {
+        flex-direction: column !important;
+      }
     }
   }
 </style>
-<pc-card class='demo-component-card'>
-  <pc-card-content class={'demo-area ' + cssClasses}>
+<wc-card variant="outlined" class='demo-card'>
+  <wc-card-content class={'demo-area ' + cssClasses}>
     <slot></slot>
-  </pc-card-content>
-  <pc-card-content class='body'>
+  </wc-card-content>
+  <div class='body'>
     <wc-code-highlighter language={lang}>
       <pre><code><Fragment set:html={html} /></code></pre>
     </wc-code-highlighter>
-  </pc-card-content>
-</pc-card>
+  </div>
+</wc-card>

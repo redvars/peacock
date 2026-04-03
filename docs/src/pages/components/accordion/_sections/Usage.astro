@@ -1,37 +1,44 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p class='text-body-large'>An accordion renders a list of expansion panels. By default, only one panel can be open at a time — expanding a new panel collapses the previous one.</p>
+
 <DemoComponentCard lang={"html"}>
   <wc-accordion>
-    <wc-accordion-item heading="Title 1">
+    <wc-accordion-item>
+      <span slot="heading">Personal information</span>
+      <span slot="description">Fill in your personal details</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive
-        disclosure.
-        The user gets key details about the underlying content and can choose to expand that content
-        within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        Type your name, address, and contact details below.
       </p>
     </wc-accordion-item>
-    <wc-accordion-item heading="Title 2">
+    <wc-accordion-item>
+      <span slot="heading">Shipping address</span>
+      <span slot="description">Where should we send your order?</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive
-        disclosure.
-        The user gets key details about the underlying content and can choose to expand that content
-        within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        Add your shipping address to continue with checkout.
       </p>
     </wc-accordion-item>
-    <wc-accordion-item heading="Title Disabled" disabled="true">
+    <wc-accordion-item disabled="true">
+      <span slot="heading">Billing address</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive
-        disclosure.
-        The user gets key details about the underlying content and can choose to expand that content
-        within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        This section is currently unavailable.
       </p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>
+
+<p class='text-body-large'>Use the <code>open</code> attribute to expand a panel by default.</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion>
+    <wc-accordion-item open="true">
+      <span slot="heading">Open by default</span>
+      <p class='text-body-large'>This panel is expanded on load.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Collapsed by default</span>
+      <p class='text-body-large'>This panel starts collapsed.</p>
     </wc-accordion-item>
   </wc-accordion>
 </DemoComponentCard>

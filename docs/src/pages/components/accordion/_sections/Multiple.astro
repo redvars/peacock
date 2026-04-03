@@ -1,32 +1,26 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p class='text-body-large'>A user can independently expand each section of the accordion allowing for multiple sections to be open at once.</p>
+<p class='text-body-large'>Add the <code>multi</code> attribute to allow any number of panels to be open simultaneously.</p>
 
 <DemoComponentCard lang={"html"}>
-  <wc-accordion allow-multiple='true'>
-    <wc-accordion-item heading="Title 1">
+  <wc-accordion multi>
+    <wc-accordion-item>
+      <span slot="heading">Panel A</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive disclosure.
-        The user gets key details about the underlying content and can choose to expand that content within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        Content for panel A. With <code>multi</code>, expanding this panel does not collapse Panel B.
       </p>
     </wc-accordion-item>
-    <wc-accordion-item heading="Title 2">
+    <wc-accordion-item open="true">
+      <span slot="heading">Panel B</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive disclosure.
-        The user gets key details about the underlying content and can choose to expand that content within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        This panel is open by default and stays open when other panels expand.
       </p>
     </wc-accordion-item>
-    <wc-accordion-item heading="Title Disabled" disabled>
+    <wc-accordion-item disabled>
+      <span slot="heading">Panel C (disabled)</span>
       <p class='text-body-large'>
-        The accordion component delivers large amounts of content in a small space through progressive disclosure.
-        The user gets key details about the underlying content and can choose to expand that content within the
-        constraints of the accordion.
-        Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
+        This panel cannot be interacted with.
       </p>
     </wc-accordion-item>
   </wc-accordion>

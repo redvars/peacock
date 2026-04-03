@@ -1,0 +1,34 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Inline mode keeps title, subtitle, and actions in a tighter row for compact surfaces.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: var(--spacing-100); width: min(100%, 40rem);'>
+    <wc-notification
+      inline
+      dismissible
+      action='Undo'
+      variant='success'
+      id='inline-notification-demo'>
+      <span slot='title'>Changes saved.</span>
+      <span slot='subtitle'>Your preferences are now live.</span>
+    </wc-notification>
+
+    <p id='notification-log' class='text-body'>Waiting for interaction...</p>
+  </div>
+
+  <script is:inline>
+    const notification = document.querySelector('#inline-notification-demo');
+    const log = document.querySelector('#notification-log');
+
+    notification.addEventListener('notification-action-click', () => {
+      log.textContent = 'Action clicked: Undo';
+    });
+
+    notification.addEventListener('notification-dismiss', event => {
+      log.textContent = `Notification dismissed (${event.detail.reason})`;
+    });
+  </script>
+</DemoComponentCard>

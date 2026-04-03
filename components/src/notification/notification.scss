@@ -1,0 +1,201 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --notification-container-color: var(--color-primary-container);
+  --notification-text-color: var(--color-on-primary-container);
+  --notification-leading-icon-color: var(--color-on-primary-container);
+  --notification-accent-color: var(--color-primary);
+  --notification-border-radius: var(--shape-corner-medium);
+
+  display: block;
+}
+
+:host(:not([inline])) {
+  width: min(100%, 28rem);
+}
+
+.notification {
+  align-items: flex-start;
+  background: var(--notification-container-color);
+  border-inline-start: 4px solid var(--notification-accent-color);
+  border-radius: var(--notification-border-radius);
+  color: var(--notification-text-color);
+  display: grid;
+  gap: var(--spacing-100);
+  grid-template-columns: auto 1fr auto;
+  padding: var(--spacing-150) var(--spacing-100) var(--spacing-150) var(--spacing-150);
+}
+
+.state-icon {
+  align-items: center;
+  color: var(--notification-leading-icon-color);
+  display: inline-flex;
+  justify-content: center;
+  min-height: 2rem;
+
+  --icon-size: 1.25rem;
+  --icon-color: var(--notification-leading-icon-color);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+
+.content-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  min-width: 0;
+}
+
+.title {
+  @include mixin.get-typography(label-large);
+  color: var(--notification-text-color);
+  overflow-wrap: anywhere;
+}
+
+.subtitle {
+  @include mixin.get-typography(body-medium);
+  color: var(--notification-text-color);
+  opacity: 0.88;
+  overflow-wrap: anywhere;
+}
+
+.title ::slotted(*),
+.subtitle ::slotted(*) {
+  margin: 0;
+}
+
+.actions {
+  display: inline-flex;
+  gap: var(--spacing-100);
+}
+
+.action {
+  --outlined-button-label-text-color: var(--notification-text-color);
+  --outlined-button-outline-color: color-mix(in srgb, var(--notification-text-color) 40%, transparent);
+  --text-button-label-text-color: var(--notification-text-color);
+}
+
+.close-button-container {
+  display: inline-flex;
+}
+
+.close-button {
+  --text-button-label-text-color: var(--notification-text-color);
+}
+
+.notification.inline {
+  align-items: center;
+}
+
+.notification.inline .content {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-150);
+}
+
+.notification.inline .content-text {
+  display: inline;
+  flex: 1;
+}
+
+.notification.inline .title,
+.notification.inline .subtitle,
+.notification.inline .title ::slotted(*),
+.notification.inline .subtitle ::slotted(*) {
+  display: inline;
+}
+
+.notification:not(.has-subtitle) {
+  align-items: center;
+}
+
+.notification:not(.has-subtitle) .content {
+  gap: 0;
+}
+
+.notification.variant-info {
+  --notification-container-color: var(--color-primary-container);
+  --notification-text-color: var(--color-on-primary-container);
+  --notification-leading-icon-color: var(--color-on-primary-container);
+  --notification-accent-color: var(--color-primary);
+}
+
+.notification.variant-success {
+  --notification-container-color: var(--color-success-container);
+  --notification-text-color: var(--color-on-success-container);
+  --notification-leading-icon-color: var(--color-on-success-container);
+  --notification-accent-color: var(--color-success);
+}
+
+.notification.variant-warning {
+  --notification-container-color: var(--color-warning-container);
+  --notification-text-color: var(--color-on-warning-container);
+  --notification-leading-icon-color: var(--color-on-warning-container);
+  --notification-accent-color: var(--color-warning);
+}
+
+.notification.variant-error {
+  --notification-container-color: var(--color-error-container);
+  --notification-text-color: var(--color-on-error-container);
+  --notification-leading-icon-color: var(--color-on-error-container);
+  --notification-accent-color: var(--color-error);
+}
+
+.notification.high-contrast {
+  --notification-container-color: var(--color-inverse-surface);
+  --notification-text-color: var(--color-inverse-on-surface);
+  --notification-leading-icon-color: var(--color-inverse-on-surface);
+}
+
+.notification.high-contrast.variant-info {
+  --notification-accent-color: var(--color-primary);
+}
+
+.notification.high-contrast.variant-success {
+  --notification-accent-color: var(--color-success);
+}
+
+.notification.high-contrast.variant-warning {
+  --notification-accent-color: var(--color-warning);
+}
+
+.notification.high-contrast.variant-error {
+  --notification-accent-color: var(--color-error);
+}
+
+@media (max-width: 640px) {
+  :host(:not([inline])) {
+    width: 100%;
+  }
+
+  .notification.inline {
+    align-items: flex-start;
+  }
+
+  .notification.inline .content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+
+  .notification.inline .content-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-025);
+  }
+
+  .notification.inline .title,
+  .notification.inline .subtitle,
+  .notification.inline .title ::slotted(*),
+  .notification.inline .subtitle ::slotted(*) {
+    display: initial;
+  }
+}

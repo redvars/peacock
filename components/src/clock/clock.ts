@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import { ClockController } from './ClockController.js';
 
 import styles from './clock.scss';

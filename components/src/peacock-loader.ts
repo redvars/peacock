@@ -11,6 +11,7 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import { ButtonGroup } from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
+import { Fab } from './fab/fab.js';
 import { SegmentedButton } from './segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from './segmented-button/segmented-button-group.js';
 import { Input } from './input/input.js';
@@ -56,6 +57,8 @@ import { Pagination } from './pagination/pagination.js';
 import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
+import { Banner } from './banner/banner.js';
+import { Notification } from './notification/notification.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
@@ -108,6 +111,9 @@ const loaderConfig: LoaderConfig = {
     'wc-icon-button': {
       CustomElementClass: IconButton,
     },
+    'wc-fab': {
+      CustomElementClass: Fab,
+    },
     'wc-button-group': {
       CustomElementClass: ButtonGroup,
     },
@@ -158,6 +164,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-card-content': {
       CustomElementClass: CardContent,
+    },
+    'wc-banner': {
+      CustomElementClass: Banner,
+    },
+    'wc-notification': {
+      CustomElementClass: Notification,
     },
     'wc-tag': {
       CustomElementClass: Tag,

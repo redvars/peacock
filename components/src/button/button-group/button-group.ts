@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button-group.scss';
 import { Button } from '../button/button.js';
 import { IconButton } from '../icon-button/icon-button.js';

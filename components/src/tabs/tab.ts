@@ -1,9 +1,12 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchActivationClick, isActivationClick } from 'src/utils/dispatch-event-utils.js';
-import { observerSlotChangesWithCallback, throttle } from 'src/utils.js';
-import { spread } from 'src/spread.js';
+
+import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { throttle } from '@/__utils/throttle.js';
+import { spread } from '@/__directive/spread.js';
+
 import styles from './tab.scss';
 import type { Tabs } from './tabs.js';
 

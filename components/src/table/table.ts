@@ -2,7 +2,9 @@ import { html, LitElement, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { throttle } from '../utils.js';
+
+import { throttle } from '@/__utils/throttle.js';
+
 import styles from './table.scss';
 
 const DEFAULT_CELL_WIDTH = 16; // in rem

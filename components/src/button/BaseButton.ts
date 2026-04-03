@@ -1,9 +1,10 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
-import { dispatchActivationClick, isActivationClick } from '../utils/dispatch-event-utils.js';
+import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
+import BaseHyperlink from '@/__base_element/BaseHyperlink.js';
 
-export class BaseButton extends LitElement {
-  #id = crypto.randomUUID();
+export class BaseButton extends BaseHyperlink(LitElement) {
+  protected static readonly DISABLED_REASON_ID = 'disabled-reason';
 
   @property({ type: String }) htmlType: 'button' | 'submit' | 'reset' =
     'button';
@@ -68,16 +69,6 @@ export class BaseButton extends LitElement {
    */
   @property({ attribute: 'disabled-reason' })
   disabledReason: string = '';
-
-  /**
-   * Hyperlink to navigate to on click.
-   */
-  @property({ reflect: true }) href?: string;
-
-  /**
-   * Sets or retrieves the window or frame at which to target content.
-   */
-  @property() target: string = '_self';
   
 
   @property({ reflect: true })
@@ -139,10 +130,6 @@ export class BaseButton extends LitElement {
     }
   };
 
-  __isLink() {
-    return !!this.href;
-  }
-
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
       this.__dispatchClick(event);
@@ -186,22 +173,22 @@ export class BaseButton extends LitElement {
     }
   }
 
-  __getDisabledReasonID() {
+  protected get __disabledReasonID(): string | undefined {
     return this.disabled && this.disabledReason
-      ? `disabled-reason-${this.#id}`
-      : nothing;
+      ? BaseButton.DISABLED_REASON_ID
+      : undefined;
   }
 
   __renderDisabledReason() {
-    const disabledReasonID = this.__getDisabledReasonID();
+    const disabledReasonID = this.__disabledReasonID;
     if (disabledReasonID)
       return html`<div
-        id="disabled-reason-${this.#id}"
+        id=${disabledReasonID}
         role="tooltip"
         aria-label=${this.disabledReason}
         class="screen-reader-only"
       >
-        {this.disabledReason}
+        ${this.disabledReason}
       </div>`;
     return nothing;
   }

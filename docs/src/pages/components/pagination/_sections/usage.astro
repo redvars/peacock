@@ -1,0 +1,40 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Use pagination to control page navigation, adjust rows per page, and display the current item range.</p>
+<p class='text-body-large'>Set <code>pageSizes</code> as a property to customize options shown in the rows-per-page <code>wc-select</code>.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-pagination
+    id="pagination-sizes-demo"
+    style="width: 100%;"
+    page="1"
+    page-size="10"
+    total-items="128"
+  ></wc-pagination>
+
+  <script is:inline>
+    const paginationSizesEl = document.getElementById('pagination-sizes-demo');
+    paginationSizesEl.pageSizes = [5, 10, 25, 50];
+  </script>
+</DemoComponentCard>
+
+<p class='text-body-large'>Listen to the <code>page</code> event to react to page changes in parent components.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-pagination
+    id="pagination-demo"
+    style="width: 100%;"
+    page="1"
+    page-size="25"
+    total-items="230"
+  ></wc-pagination>
+
+  <script is:inline>
+    const paginationEl = document.getElementById('pagination-demo');
+    paginationEl.addEventListener('page', (event) => {
+      console.log('Pagination changed:', event.detail);
+    });
+  </script>
+</DemoComponentCard>

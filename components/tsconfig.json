@@ -17,8 +17,10 @@
     "declaration": true,
     "incremental": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "5.0",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["**/*.ts"]
 }
