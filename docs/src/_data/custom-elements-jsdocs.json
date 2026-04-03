@@ -4,7 +4,7 @@
     "tag": "wc-accordion",
     "rawTag": "accordion",
     "summary": "A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.",
-    "example": "```html\n<wc-accordion>\n  <wc-accordion-item heading=\"Panel 1\" description=\"Summary text\">\n    Content\n  </wc-accordion-item>\n  <wc-accordion-item heading=\"Panel 2\">\n    Content\n  </wc-accordion-item>\n</wc-accordion>\n```",
+    "example": "```html\n<wc-accordion>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 1</span>\n    <span slot=\"description\">Summary text</span>\n    Content\n  </wc-accordion-item>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 2</span>\n    Content\n  </wc-accordion-item>\n</wc-accordion>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -4340,7 +4340,7 @@
     "rawTag": "empty-state",
     "summary": "A message that displays when there is no information to display.",
     "tags": "display",
-    "example": "```html\n<wc-empty-state style=\"width:80%\" headline=\"No items found\"></wc-empty-state>\n```",
+    "example": "```html\n<wc-empty-state style=\"width:100%\" headline=\"No items found\"></wc-empty-state>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8374,7 +8374,7 @@
     "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
     "overview": "<p>The pagination component provides controls for navigating through paged data sets.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
-    "example": "```html\n<wc-pagination page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
+    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
     "tags": "navigation, data",
     "customElement": {
       "kind": "class",
@@ -8420,6 +8420,52 @@
           "default": "[10, 25, 50, 100]",
           "description": "Supported page size options.",
           "attribute": "page-sizes"
+        },
+        {
+          "kind": "method",
+          "name": "getTotalPages",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "setPage",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "nextPage",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handlePageSizeChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CustomEvent<{ value?: string }>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "handlePreviousPage",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "handleNextPage",
+          "privacy": "private"
         },
         {
           "kind": "method",

@@ -12,7 +12,7 @@ import styles from './empty-state.scss';
  *
  * @example
  * ```html
- * <wc-empty-state style="width:80%" headline="No items found"></wc-empty-state>
+ * <wc-empty-state style="width:100%" headline="No items found"></wc-empty-state>
  * ```
  */
 export class EmptyState extends LitElement {
