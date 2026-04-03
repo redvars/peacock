@@ -14377,7 +14377,7 @@
     "summary": "A Material 3 toolbar / app bar for navigation and actions.",
     "overview": "<p>The toolbar component implements the Material 3 app bar pattern. It supports a\ndocked (attached) variant for top navigation and a floating (detached pill-shaped)\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\n\n<p>Use the <code>start</code> slot for navigation icons or leading actions,\nthe default slot for a title or central content, and the <code>end</code> slot\nfor trailing action icons.</p>",
     "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
-    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button name=\"home\"></wc-icon-button>\n  <wc-icon-button name=\"search\"></wc-icon-button>\n  <wc-icon-button name=\"favorite\"></wc-icon-button>\n</wc-toolbar>\n```",
+    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button variant=\"tonal\" name=\"home\"></wc-icon-button>\n  <wc-icon-button variant=\"text\" name=\"search\"></wc-icon-button>\n  <wc-icon-button variant=\"text\" name=\"favorite\"></wc-icon-button>\n</wc-toolbar>\n```",
     "tags": "display navigation",
     "customElement": {
       "kind": "class",

@@ -34,9 +34,9 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  * ```html
  * <!-- Docked toolbar -->
  * <wc-toolbar>
- *   <wc-icon-button slot="start" name="menu"></wc-icon-button>
+ *   <wc-icon-button variant="text" slot="start" name="menu"></wc-icon-button>
  *   <span>My App</span>
- *   <wc-icon-button slot="end" name="account_circle"></wc-icon-button>
+ *   <wc-icon-button variant="text" slot="end" name="account_circle"></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
@@ -44,9 +44,9 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  * ```html
  * <!-- Floating horizontal toolbar -->
  * <wc-toolbar variant="floating" orientation="horizontal">
- *   <wc-icon-button name="home"></wc-icon-button>
- *   <wc-icon-button name="search"></wc-icon-button>
- *   <wc-icon-button name="favorite"></wc-icon-button>
+ *   <wc-icon-button variant="tonal" name="home"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="search"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="favorite"></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
@@ -54,9 +54,9 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  * ```html
  * <!-- Floating vertical toolbar -->
  * <wc-toolbar variant="floating" orientation="vertical">
- *   <wc-icon-button name="home"></wc-icon-button>
- *   <wc-icon-button name="search"></wc-icon-button>
- *   <wc-icon-button name="favorite"></wc-icon-button>
+ *   <wc-icon-button variant="tonal" name="home"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="search"></wc-icon-button>
+ *   <wc-icon-button variant="text" name="favorite"></wc-icon-button>
  * </wc-toolbar>
  * ```
  * @tags display navigation

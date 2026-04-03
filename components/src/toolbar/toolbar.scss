@@ -134,6 +134,11 @@
     z-index: 1;
   }
 
+  ::slotted(wc-icon-button) {
+    --button-container-shape: var(--shape-corner-full);
+    --button-container-shape-variant: round;
+  }
+
   &.orientation-horizontal {
     flex-direction: row;
     align-items: center;
