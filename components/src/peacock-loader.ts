@@ -66,6 +66,8 @@ import { Select } from './select/select.js';
 import { SelectOptionElement } from './select/option.js';
 import { Search } from './search/search.js';
 import { Toolbar } from './toolbar/toolbar.js';
+import { NavigationRail } from './navigation-rail/navigation-rail.js';
+import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -285,6 +287,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,
+    },
+    'wc-navigation-rail': {
+      CustomElementClass: NavigationRail,
+    },
+    'wc-navigation-rail-item': {
+      CustomElementClass: NavigationRailItem,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

@@ -1,0 +1,34 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+
+import UsageSection from './_sections/usage.astro';
+import VariantsSection from './_sections/variants.astro';
+
+const componentDetails = getComponentDetails('navigation-rail');
+
+const sections = [{
+  'title': 'Usage',
+  'Component': UsageSection,
+}, {
+  'title': 'Variants',
+  'Component': VariantsSection,
+}];
+---
+
+<Layout componentDetails={componentDetails}>
+  <wc-tab-group class='page-tabs'>
+    <wc-tabs>
+      <wc-tab selected='true'>Overview</wc-tab>
+      <wc-tab>API</wc-tab>
+    </wc-tabs>
+    <wc-tab-panel>
+      <OverviewPanel sections={sections} />
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </wc-tab-panel>
+  </wc-tab-group>
+</Layout>

@@ -1,0 +1,70 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  height: 100%;
+  width: var(--nav-rail-width, 5rem); /* 80dp */
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: var(--nav-rail-container-color, var(--color-surface));
+  padding-block: var(--nav-rail-padding-block, 0.75rem); /* 12dp */
+  box-sizing: border-box;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  wc-divider {
+    width: calc(100% - 1rem);
+    margin-block: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0.75rem; /* 12dp between items */
+    flex: 1;
+
+    ::slotted(wc-navigation-rail-item) {
+      width: 100%;
+    }
+  }
+
+  /* Alignment variants */
+  &.align-top {
+    .items {
+      justify-content: flex-start;
+    }
+  }
+
+  &.align-center {
+    .items {
+      justify-content: center;
+    }
+  }
+
+  &.align-bottom {
+    .items {
+      justify-content: flex-end;
+    }
+  }
+}

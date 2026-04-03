@@ -57,4 +57,5 @@ export type { SelectOption } from './select/index.js';
 export { SelectOptionElement } from './select/index.js';
 export { Search } from './search/index.js';
 export { Toolbar } from './toolbar/index.js';
+export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';
 

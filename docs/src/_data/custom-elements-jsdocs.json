@@ -7945,6 +7945,380 @@
     }
   },
   {
+    "label": "Navigation Rail",
+    "tag": "wc-navigation-rail",
+    "rawTag": "navigation-rail",
+    "summary": "A vertical side navigation for medium-sized screens, following Material Design 3 specs.",
+    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
+    "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
+    "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\">home</wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">search</wc-icon>\n    Search\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">settings</wc-icon>\n    Settings\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "NavigationRail",
+      "cssProperties": [
+        {
+          "description": "Width of the rail container. Defaults to 5rem (80dp).",
+          "name": "--nav-rail-width"
+        },
+        {
+          "description": "Background color of the rail. Defaults to surface color.",
+          "name": "--nav-rail-container-color"
+        },
+        {
+          "description": "Color of the active indicator. Defaults to secondary-container.",
+          "name": "--nav-rail-indicator-color"
+        },
+        {
+          "description": "Shape (border-radius) of the active indicator. Defaults to full (pill).",
+          "name": "--nav-rail-indicator-shape"
+        },
+        {
+          "description": "Width of the active indicator. Defaults to 3.5rem (56dp).",
+          "name": "--nav-rail-indicator-width"
+        },
+        {
+          "description": "Height of the active indicator. Defaults to 2rem (32dp).",
+          "name": "--nav-rail-indicator-height"
+        },
+        {
+          "description": "Color of inactive icons. Defaults to on-surface-variant.",
+          "name": "--nav-rail-inactive-icon-color"
+        },
+        {
+          "description": "Color of active icons. Defaults to on-secondary-container.",
+          "name": "--nav-rail-active-icon-color"
+        },
+        {
+          "description": "Color of inactive labels. Defaults to on-surface-variant.",
+          "name": "--nav-rail-inactive-label-color"
+        },
+        {
+          "description": "Color of active labels. Defaults to on-surface.",
+          "name": "--nav-rail-active-label-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "NavigationRailItem"
+        },
+        {
+          "kind": "field",
+          "name": "alignment",
+          "type": {
+            "text": "'top' | 'center' | 'bottom'"
+          },
+          "default": "'center'",
+          "description": "Vertical alignment of items within the rail.\n- `\"top\"`: Items align to the top.\n- `\"center\"`: Items are centered (default).\n- `\"bottom\"`: Items align to the bottom.",
+          "attribute": "alignment",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showDivider",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show a divider between the header and items sections.",
+          "attribute": "show-divider"
+        },
+        {
+          "kind": "field",
+          "name": "_handleItemClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getItems",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "NavigationRailItem[]"
+            }
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "alignment",
+          "type": {
+            "text": "'top' | 'center' | 'bottom'"
+          },
+          "default": "'center'",
+          "description": "Vertical alignment of items within the rail.\n- `\"top\"`: Items align to the top.\n- `\"center\"`: Items are centered (default).\n- `\"bottom\"`: Items align to the bottom.",
+          "fieldName": "alignment"
+        },
+        {
+          "name": "show-divider",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show a divider between the header and items sections.",
+          "fieldName": "showDivider"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-navigation-rail",
+      "customElement": true,
+      "summary": "A vertical side navigation for medium-sized screens, following Material Design 3 specs.",
+      "rawTag": {
+        "name": "navigation-rail",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Navigation Rail Item",
+    "tag": "wc-navigation-rail-item",
+    "rawTag": "navigation-rail-item",
+    "parentRawTag": "navigation-rail",
+    "summary": "An individual item within a navigation rail.",
+    "overview": "<p>Navigation rail items display a destination with an icon and optional label.</p>",
+    "example": "```html\n<wc-navigation-rail-item>\n  <wc-icon slot=\"icon\">home</wc-icon>\n  Home\n</wc-navigation-rail-item>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "NavigationRailItem",
+      "members": [
+        {
+          "kind": "field",
+          "name": "#id",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is currently active/selected.",
+          "attribute": "active",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "If provided, the item renders as a link.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Link target.",
+          "attribute": "target"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Value used for identification when managing active state externally.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Reason the item is disabled (shown to screen readers).",
+          "attribute": "disabled-reason"
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay"
+        },
+        {
+          "kind": "field",
+          "name": "_isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_hasLabel",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_hasActiveIcon",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "itemElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "__isLink"
+        },
+        {
+          "kind": "method",
+          "name": "__getDisabledReasonID"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason"
+        },
+        {
+          "kind": "method",
+          "name": "__renderItemContent"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is currently active/selected.",
+          "fieldName": "active"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "If provided, the item renders as a link.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Link target.",
+          "fieldName": "target"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Value used for identification when managing active state externally.",
+          "fieldName": "value"
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Reason the item is disabled (shown to screen readers).",
+          "fieldName": "disabledReason"
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-navigation-rail-item",
+      "customElement": true,
+      "summary": "An individual item within a navigation rail.",
+      "rawTag": {
+        "name": "navigation-rail-item",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Notification",
     "tag": "wc-notification",
     "rawTag": "notification",
