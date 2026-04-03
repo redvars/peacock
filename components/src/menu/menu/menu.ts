@@ -22,9 +22,9 @@ type CloseReason =
  *
  * @example
  * ```html
- * <wc-menu>
+ * <wc-menu preview>
  *   <wc-menu-item>Item 1</wc-menu-item>
- *   <wc-menu-item>Item 2</wc-menu-item>
+ *   <wc-menu-item selected>Item 2</wc-menu-item>
  * </wc-menu>
  * ```
  */
@@ -39,6 +39,8 @@ export class Menu extends LitElement {
     'standard';
 
   @property({ type: String }) anchor = '';
+
+  @property({ type: Boolean, reflect: true }) preview = false;
 
   @property({ type: Boolean, attribute: 'stay-open-on-outside-click' })
   stayOpenOnOutsideClick = false;
@@ -448,8 +450,9 @@ export class Menu extends LitElement {
     return html`<div
       class=${classMap({
         'menu': true,
-        open: this.open,
-        closed: !this.open,
+        open: !this.preview && this.open,
+        closed: !this.preview && !this.open,
+        preview: this.preview,
         [`variant-${this.variant}`]: true,
       })}
       aria-hidden=${String(!this.open)}

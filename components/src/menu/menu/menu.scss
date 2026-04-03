@@ -39,6 +39,11 @@
     transition-timing-function: var(--_menu-enter-easing), var(--_menu-enter-easing), linear;
   }
 
+  &.preview {
+    position: relative;
+    pointer-events: auto;
+  }
+
   .menu-content {
     display: flex;
     flex-direction: column;

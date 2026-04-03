@@ -91,3 +91,14 @@
     height: 100%;
   }
 }
+
+:host([preview]) {
+  position: relative;
+  inset-inline: unset;
+  inset-block-end: unset;
+
+  .snackbar {
+    display: inline-flex;
+    pointer-events: auto;
+  }
+}

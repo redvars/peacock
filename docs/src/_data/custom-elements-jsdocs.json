@@ -7094,7 +7094,7 @@
     "rawTag": "menu",
     "summary": "A list of menu items.",
     "tags": "navigation",
-    "example": "```html\n<wc-menu>\n  <wc-menu-item>Item 1</wc-menu-item>\n  <wc-menu-item>Item 2</wc-menu-item>\n</wc-menu>\n```",
+    "example": "```html\n<wc-menu preview>\n  <wc-menu-item>Item 1</wc-menu-item>\n  <wc-menu-item selected>Item 2</wc-menu-item>\n</wc-menu>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7134,6 +7134,16 @@
           },
           "default": "''",
           "attribute": "anchor"
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "preview",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -7422,6 +7432,14 @@
           },
           "default": "''",
           "fieldName": "anchor"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "preview"
         },
         {
           "name": "stay-open-on-outside-click",
@@ -10419,7 +10437,7 @@
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
     "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
+    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -10536,6 +10554,16 @@
           },
           "default": "false",
           "attribute": "multiline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "preview",
           "reflects": true
         },
         {
@@ -10703,6 +10731,14 @@
           },
           "default": "false",
           "fieldName": "multiline"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "preview"
         }
       ],
       "superclass": {
@@ -10758,6 +10794,7 @@
     "label": "Sub Menu",
     "tag": "wc-sub-menu",
     "rawTag": "sub-menu",
+    "parentRawTag": "menu",
     "summary": "Connects a menu item to a nested menu.",
     "customElement": {
       "kind": "class",

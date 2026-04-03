@@ -1,0 +1,80 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+
+  --banner-container-color: var(--color-tertiary-container);
+  --banner-label-text-color: var(--color-on-tertiary-container);
+  --banner-description-text-color: var(--color-on-tertiary-container);
+  --banner-icon-color: var(--color-on-tertiary-container);
+  --banner-border-radius: var(--shape-corner-small);
+}
+
+.fr-banner {
+  align-items: flex-start;
+  background: var(--banner-container-color);
+  border-radius: var(--banner-border-radius);
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: auto 1fr;
+  padding: var(--spacing-200);
+}
+
+.fr-banner-icon {
+  align-items: center;
+  color: var(--banner-icon-color);
+  display: inline-flex;
+  justify-content: center;
+  min-width: 1.5rem;
+  padding-top: 0.1rem;
+}
+
+.fr-banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+}
+
+.fr-banner-label {
+  @include mixin.get-typography(label-large);
+  color: var(--banner-label-text-color);
+}
+
+.fr-banner-description {
+  @include mixin.get-typography(body-medium);
+  color: var(--banner-description-text-color);
+}
+
+.fr-banner.info,
+.fr-banner-content.info {
+  --banner-container-color: var(--color-primary-container);
+  --banner-label-text-color: var(--color-on-primary-container);
+  --banner-description-text-color: var(--color-on-primary-container);
+  --banner-icon-color: var(--color-on-primary-container);
+}
+
+.fr-banner.success,
+.fr-banner-content.success {
+  --banner-container-color: var(--color-success-container);
+  --banner-label-text-color: var(--color-on-success-container);
+  --banner-description-text-color: var(--color-on-success-container);
+  --banner-icon-color: var(--color-on-success-container);
+}
+
+.fr-banner.warning,
+.fr-banner-content.warning {
+  --banner-container-color: var(--color-warning-container);
+  --banner-label-text-color: var(--color-on-warning-container);
+  --banner-description-text-color: var(--color-on-warning-container);
+  --banner-icon-color: var(--color-on-warning-container);
+}
+
+.fr-banner.error,
+.fr-banner-content.error {
+  --banner-container-color: var(--color-error-container);
+  --banner-label-text-color: var(--color-on-error-container);
+  --banner-description-text-color: var(--color-on-error-container);
+  --banner-icon-color: var(--color-on-error-container);
+}

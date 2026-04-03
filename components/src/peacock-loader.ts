@@ -57,6 +57,7 @@ import { Pagination } from './pagination/pagination.js';
 import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
+import { Banner } from './banner/banner.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
@@ -160,6 +161,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-card-content': {
       CustomElementClass: CardContent,
+    },
+    'wc-banner': {
+      CustomElementClass: Banner,
     },
     'wc-tag': {
       CustomElementClass: Tag,

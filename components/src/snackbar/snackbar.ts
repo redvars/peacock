@@ -22,7 +22,7 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  *
  * @example
  * ```html
- * <wc-snackbar open message="Message archived" action-label="Undo"></wc-snackbar>
+ * <wc-snackbar preview message="Message archived" action-label="Undo"></wc-snackbar>
  * ```
  * @tags display, feedback
  */
@@ -46,7 +46,10 @@ export class Snackbar extends LitElement {
 
   @property({ type: Boolean, reflect: true }) multiline = false;
 
+  @property({ type: Boolean, reflect: true }) preview = false;
+
   @state() private dismissing = false;
+  
 
   private hideTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -192,7 +195,8 @@ export class Snackbar extends LitElement {
       <div
         class=${classMap({
           snackbar: true,
-          open: this.open,
+          open: !this.preview && this.open,
+          preview: this.preview,
           dismissing: this.dismissing,
           multiline: this.multiline,
         })}
@@ -217,9 +221,9 @@ export class Snackbar extends LitElement {
               size='small'
               aria-label="Dismiss notification"
               @click=${this.handleCloseClick}
-              name="close-icon"
+              name="close"
             >
-            </button>`
+            </wc-icon-button>`
           : nothing}
       </div>
     `;
