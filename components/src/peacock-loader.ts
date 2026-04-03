@@ -61,6 +61,8 @@ import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
 import { Select } from './select/select.js';
 import { SelectOptionElement } from './select/option.js';
+import { Search } from './search/search.js';
+import { Toolbar } from './toolbar/toolbar.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -265,6 +267,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-option': {
       CustomElementClass: SelectOptionElement,
+    },
+    'wc-search': {
+      CustomElementClass: Search,
+    },
+    'wc-toolbar': {
+      CustomElementClass: Toolbar,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

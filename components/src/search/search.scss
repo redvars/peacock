@@ -1,0 +1,204 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --search-container-shape: var(--shape-corner-full);
+  --search-container-shape-start-start: unset;
+  --search-container-shape-start-end: unset;
+  --search-container-shape-end-start: unset;
+  --search-container-shape-end-end: unset;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.25rem;
+
+  --_container-shape-start-start: var(--search-container-shape-start-start, var(--search-container-shape));
+  --_container-shape-start-end: var(--search-container-shape-start-end, var(--search-container-shape));
+  --_container-shape-end-start: var(--search-container-shape-end-start, var(--search-container-shape));
+  --_container-shape-end-end: var(--search-container-shape-end-end, var(--search-container-shape));
+
+  border-start-start-radius: var(--_container-shape-start-start);
+  border-start-end-radius: var(--_container-shape-start-end);
+  border-end-start-radius: var(--_container-shape-end-start);
+  border-end-end-radius: var(--_container-shape-end-end);
+
+  padding-inline: 1rem;
+
+  /* size-md default */
+  --_height: 3.5rem;
+
+  &.size-sm {
+    --_height: 2.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  &.size-lg {
+    --_height: 4rem;
+    padding-inline: 1.25rem;
+  }
+
+  min-height: var(--_height);
+}
+
+/* Background layer */
+.background {
+  position: absolute;
+  inset: 0;
+  background-color: var(--_container-color);
+  border-start-start-radius: var(--_container-shape-start-start);
+  border-start-end-radius: var(--_container-shape-start-end);
+  border-end-start-radius: var(--_container-shape-end-start);
+  border-end-end-radius: var(--_container-shape-end-end);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Outline layer (outlined variant) */
+.outline {
+  display: none;
+  position: absolute;
+  inset: 0;
+  border: var(--_outline-width, 0.0675rem) solid var(--_outline-color);
+  border-start-start-radius: var(--_container-shape-start-start);
+  border-start-end-radius: var(--_container-shape-start-end);
+  border-end-start-radius: var(--_container-shape-end-start);
+  border-end-end-radius: var(--_container-shape-end-end);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Input element */
+.search-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  position: relative;
+  color: var(--_input-text-color);
+  caret-color: var(--_caret-color, var(--color-primary));
+
+  @include mixin.get-typography-not-important(body-large);
+
+  &::placeholder {
+    color: var(--_placeholder-color);
+  }
+
+  /* Remove browser default search input styling */
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+    display: none;
+  }
+}
+
+/* Leading icon area */
+.leading-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 1;
+  position: relative;
+  color: var(--_icon-color);
+  --icon-color: var(--_icon-color);
+  margin-inline-end: 0.5rem;
+}
+
+/* Trailing actions area (clear button + trailing slot) */
+.trailing-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  z-index: 1;
+  position: relative;
+  color: var(--_icon-color);
+  --icon-color: var(--_icon-color);
+}
+
+/* Clear button */
+.clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  color: var(--_icon-color);
+  --icon-color: var(--_icon-color);
+  outline: none;
+  transition: background-color 150ms;
+
+  &:hover:not([disabled]) {
+    background-color: color-mix(in srgb, var(--_icon-color) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+
+  &[disabled] {
+    cursor: default;
+    opacity: 0.38;
+    pointer-events: none;
+  }
+}
+
+/* ---- Variants ---- */
+
+.search.variant-filled {
+  --_container-color: var(--search-container-color);
+  --_input-text-color: var(--search-input-text-color);
+  --_placeholder-color: var(--search-placeholder-color);
+  --_icon-color: var(--search-icon-color);
+
+  &.focused {
+    --_outline-color: var(--color-primary);
+    .outline {
+      display: block;
+      border-width: 2px;
+    }
+  }
+}
+
+.search.variant-outlined {
+  --_container-color: var(--search-outlined-container-color);
+  --_input-text-color: var(--search-outlined-input-text-color);
+  --_placeholder-color: var(--search-outlined-placeholder-color);
+  --_icon-color: var(--search-outlined-icon-color);
+  --_outline-color: var(--search-outline-color);
+
+  .outline {
+    display: block;
+  }
+
+  &.focused {
+    --_outline-color: var(--color-primary);
+    .outline {
+      border-width: 2px;
+    }
+  }
+}
+
+/* ---- Disabled state ---- */
+
+.search.disabled {
+  pointer-events: none;
+  opacity: 0.38;
+
+  .search-input {
+    cursor: not-allowed;
+  }
+}

@@ -8327,6 +8327,314 @@
     }
   },
   {
+    "label": "Search",
+    "tag": "wc-search",
+    "rawTag": "search",
+    "summary": "A Material 3 search bar for filtering and finding content.",
+    "overview": "<p>The search component provides a text input designed for search interactions.\nIt supports outlined and filled variants, an optional clear button, and leading/trailing icon slots.</p>",
+    "cssprop": "--search-outline-width - Border width for the outlined variant.",
+    "fires": "search - Dispatched when the user submits the search (presses Enter).",
+    "example": "```html\n<wc-search placeholder=\"Search...\"></wc-search>\n```",
+    "tags": "form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Search",
+      "cssProperties": [
+        {
+          "description": "Border radius of the search bar. Defaults to full (pill shape).",
+          "name": "--search-container-shape"
+        },
+        {
+          "description": "Background color of the search container.",
+          "name": "--search-container-color"
+        },
+        {
+          "description": "Color of the input text.",
+          "name": "--search-input-text-color"
+        },
+        {
+          "description": "Color of the placeholder text.",
+          "name": "--search-placeholder-color"
+        },
+        {
+          "description": "Color of the leading and trailing icons.",
+          "name": "--search-icon-color"
+        },
+        {
+          "description": "Border color for the outlined variant.",
+          "name": "--search-outline-color"
+        },
+        {
+          "description": "Border width for the outlined variant.",
+          "name": "--search-outline-width"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'outlined' | 'filled'"
+          },
+          "default": "'filled'",
+          "description": "Visual style variant.\nPossible values: `\"outlined\"`, `\"filled\"`. Defaults to `\"filled\"`.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Search'",
+          "description": "Placeholder text shown when the input is empty.",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Current search value.",
+          "attribute": "value"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the search bar is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether a clear button is shown when the input has a value.",
+          "attribute": "clearable"
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "Size of the search bar.\nPossible values: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "leadingSlotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus",
+          "description": "Focuses the internal input element."
+        },
+        {
+          "kind": "method",
+          "name": "blur",
+          "description": "Blurs the internal input element."
+        },
+        {
+          "kind": "method",
+          "name": "__handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__handleChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__handleKeydown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "KeyboardEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__handleFocus",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__handleBlur",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__clearValue",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderClearButton",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderLeadingIcon",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "input",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the search value changes."
+        },
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the search input loses focus or Enter is pressed."
+        },
+        {
+          "name": "search",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the user submits the search (presses Enter)."
+        },
+        {
+          "name": "clear",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the clear button is activated."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'outlined' | 'filled'"
+          },
+          "default": "'filled'",
+          "description": "Visual style variant.\nPossible values: `\"outlined\"`, `\"filled\"`. Defaults to `\"filled\"`.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Search'",
+          "description": "Placeholder text shown when the input is empty.",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Current search value.",
+          "fieldName": "value"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the search bar is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether a clear button is shown when the input has a value.",
+          "fieldName": "clearable"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "Size of the search bar.\nPossible values: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "fieldName": "size"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-search",
+      "customElement": true,
+      "summary": "A Material 3 search bar for filtering and finding content.",
+      "rawTag": {
+        "name": "search",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Segmented Button",
     "tag": "wc-segmented-button",
     "rawTag": "segmented-button",
@@ -12999,6 +13307,194 @@
       "summary": "The Time Picker component is used to capture time user input.",
       "rawTag": {
         "name": "time-picker",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Toolbar",
+    "tag": "wc-toolbar",
+    "rawTag": "toolbar",
+    "summary": "A Material 3 toolbar / app bar for navigation and actions.",
+    "overview": "<p>The toolbar component implements the Material 3 app bar pattern. It supports a\ndocked (attached) variant for top navigation and a floating (detached pill-shaped)\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\n\n<p>Use the <code>start</code> slot for navigation icons or leading actions,\nthe default slot for a title or central content, and the <code>end</code> slot\nfor trailing action icons.</p>",
+    "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
+    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button name=\"home\"></wc-icon-button>\n  <wc-icon-button name=\"search\"></wc-icon-button>\n  <wc-icon-button name=\"favorite\"></wc-icon-button>\n</wc-toolbar>\n```",
+    "tags": "display navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Toolbar",
+      "cssProperties": [
+        {
+          "description": "Background color of the toolbar.",
+          "name": "--toolbar-container-color"
+        },
+        {
+          "description": "Border radius of the toolbar. Relevant for the floating variant.",
+          "name": "--toolbar-container-shape"
+        },
+        {
+          "description": "Height of the toolbar (docked horizontal / floating horizontal).",
+          "name": "--toolbar-height"
+        },
+        {
+          "description": "Inline padding of the toolbar.",
+          "name": "--toolbar-padding-inline"
+        },
+        {
+          "description": "Gap between toolbar sections.",
+          "name": "--toolbar-gap"
+        },
+        {
+          "description": "Color of icon slots.",
+          "name": "--toolbar-icon-color"
+        },
+        {
+          "description": "Color of the title (default slot) text.",
+          "name": "--toolbar-title-color"
+        },
+        {
+          "description": "Box-shadow of the toolbar.",
+          "name": "--toolbar-shadow"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'docked' | 'floating'"
+          },
+          "default": "'docked'",
+          "description": "Visual and layout variant of the toolbar.\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Orientation of the toolbar content.\n- `\"horizontal\"`: Items are laid out left to right (default).\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "attribute": "orientation",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'small' | 'medium' | 'large'"
+          },
+          "default": "'small'",
+          "description": "Size of the docked toolbar.\n- `\"small\"`: 56dp height (default).\n- `\"medium\"`: 112dp height – suitable for a two-line header.\n- `\"large\"`: 152dp height – suitable for a prominent header.",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "elevated",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the toolbar is visually elevated (adds a shadow).",
+          "attribute": "elevated",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "startSlotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "endSlotHasContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "__renderDocked",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "cssClasses",
+              "type": {
+                "text": "Record<string, boolean>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__renderFloating",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "cssClasses",
+              "type": {
+                "text": "Record<string, boolean>"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'docked' | 'floating'"
+          },
+          "default": "'docked'",
+          "description": "Visual and layout variant of the toolbar.\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Orientation of the toolbar content.\n- `\"horizontal\"`: Items are laid out left to right (default).\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "fieldName": "orientation"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'small' | 'medium' | 'large'"
+          },
+          "default": "'small'",
+          "description": "Size of the docked toolbar.\n- `\"small\"`: 56dp height (default).\n- `\"medium\"`: 112dp height – suitable for a two-line header.\n- `\"large\"`: 152dp height – suitable for a prominent header.",
+          "fieldName": "size"
+        },
+        {
+          "name": "elevated",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the toolbar is visually elevated (adds a shadow).",
+          "fieldName": "elevated"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-toolbar",
+      "customElement": true,
+      "summary": "A Material 3 toolbar / app bar for navigation and actions.",
+      "rawTag": {
+        "name": "toolbar",
         "description": ""
       }
     }

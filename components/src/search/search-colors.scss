@@ -1,0 +1,14 @@
+:host {
+  /* Filled variant tokens */
+  --search-container-color: var(--color-surface-container-high);
+  --search-input-text-color: var(--color-on-surface);
+  --search-placeholder-color: var(--color-on-surface-variant);
+  --search-icon-color: var(--color-on-surface-variant);
+
+  /* Outlined variant tokens */
+  --search-outlined-container-color: var(--color-surface);
+  --search-outlined-input-text-color: var(--color-on-surface);
+  --search-outlined-placeholder-color: var(--color-on-surface-variant);
+  --search-outlined-icon-color: var(--color-on-surface-variant);
+  --search-outline-color: var(--color-outline);
+}
