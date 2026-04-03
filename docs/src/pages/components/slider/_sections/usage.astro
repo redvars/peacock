@@ -4,21 +4,30 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 
 <style is:inline>
-  #slider {
+  #slider,
+  #slider-with-value {
     padding: 0 3rem;
   }
 </style>
 
+<p class='text-body-large'>Default slider behavior with hover/focus tooltip label.</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-slider id='slider' value='100' step='1'></pc-slider>
+  <wc-slider id='slider' value='60' step='1'></wc-slider>
+</DemoComponentCard>
+
+<p class='text-body-large'>Enable a persistent value display with <code>show-value</code>.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-slider id='slider-with-value' value='25' min='0' max='100' step='1' show-value></wc-slider>
 </DemoComponentCard>
 
 <script is:inline>
   const slider = document.querySelector('#slider');
-  slider.addEventListener('goat-slider--change', e => {
+  slider.addEventListener('change', e => {
     myConsole.warn(JSON.stringify(e.detail, null, 4), e.type);
   });
-  slider.addEventListener('goat-slider--input', e => {
+  slider.addEventListener('input', e => {
     myConsole.log(JSON.stringify(e.detail, null, 4), e.type);
   });
 </script>

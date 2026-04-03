@@ -12,7 +12,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     label="User"
     placeholder="Type to search users..."
     search="managed"
-    clearable
     style="width: 20rem"
   ></wc-select>
 
@@ -26,9 +25,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       const query = evt.detail.value;
       // Simulate an async server call
       setTimeout(function () {
-        managedSel.options = Array.from({ length: 5 }, function (_, i) {
-          return { label: `${query} result ${counter + i}`, value: String(counter + i) };
-        });
+        managedSel.options = [
+          { label: 'None', value: '' },
+          ...Array.from({ length: 5 }, function (_, i) {
+            return { label: `${query} result ${counter + i}`, value: String(counter + i) };
+          }),
+        ];
         counter += 5;
       }, 300);
     });

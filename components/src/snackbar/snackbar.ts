@@ -1,5 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './snackbar.scss';
 
@@ -16,6 +16,9 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  * @cssprop --snackbar-action-text-color - Action text color.
  * @cssprop --snackbar-close-icon-color - Close icon color.
  * @cssprop --snackbar-border-radius - Border radius of the snackbar surface.
+ * @cssprop --snackbar-offset-inline - Inline offset from viewport edges.
+ * @cssprop --snackbar-offset-bottom - Bottom offset from viewport edge.
+ * @cssprop --snackbar-z-index - Stacking order for the snackbar.
  *
  * @example
  * ```html
@@ -25,6 +28,10 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  */
 export class Snackbar extends LitElement {
   static styles = [styles];
+
+  private static readonly GLOBAL_OPEN_EVENT = 'wc-snackbar-will-open';
+
+  private static readonly EXIT_ANIMATION_MS = 180;
 
   @property({ type: Boolean, reflect: true }) open = false;
 
@@ -39,10 +46,38 @@ export class Snackbar extends LitElement {
 
   @property({ type: Boolean, reflect: true }) multiline = false;
 
+  @state() private dismissing = false;
+
   private hideTimer: ReturnType<typeof setTimeout> | null = null;
 
+  private exitTimer: ReturnType<typeof setTimeout> | null = null;
+
+  private readonly handleGlobalSnackbarOpen = (
+    event: Event,
+  ) => {
+    const { source } = (event as CustomEvent<{ source?: Snackbar }>).detail;
+    if (source && source !== this) {
+      this.hide();
+    }
+  };
+
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener(
+      Snackbar.GLOBAL_OPEN_EVENT,
+      this.handleGlobalSnackbarOpen,
+    );
+  }
+
   show() {
-    this.open = true;
+    this.dismissing = false;
+    this.clearExitTimer();
+    if (!this.open) {
+      this.open = true;
+      return;
+    }
+
+    this.scheduleAutoHide();
   }
 
   hide() {
@@ -50,11 +85,17 @@ export class Snackbar extends LitElement {
   }
 
   private close(reason: SnackbarCloseReason) {
-    if (!this.open) {
+    if (!this.open || this.dismissing) {
       return;
     }
 
-    this.open = false;
+    this.clearTimer();
+    this.dismissing = true;
+    this.clearExitTimer();
+    this.exitTimer = setTimeout(() => {
+      this.completeDismiss();
+    }, Snackbar.EXIT_ANIMATION_MS);
+
     this.dispatchEvent(
       new CustomEvent('snackbar-close', {
         detail: { reason },
@@ -62,6 +103,12 @@ export class Snackbar extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  private completeDismiss() {
+    this.clearExitTimer();
+    this.dismissing = false;
+    this.open = false;
   }
 
   private dispatchActionEvent() {
@@ -89,6 +136,19 @@ export class Snackbar extends LitElement {
     }
   }
 
+  private clearExitTimer() {
+    if (this.exitTimer !== null) {
+      clearTimeout(this.exitTimer);
+      this.exitTimer = null;
+    }
+  }
+
+  private handleAnimationEnd(event: AnimationEvent) {
+    if (event.animationName === 'snackbar-exit' && this.dismissing) {
+      this.completeDismiss();
+    }
+  }
+
   private scheduleAutoHide() {
     this.clearTimer();
     if (!this.open || this.duration <= 0) {
@@ -102,11 +162,24 @@ export class Snackbar extends LitElement {
 
   protected updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has('open')) {
+      if (this.open) {
+        document.dispatchEvent(
+          new CustomEvent(Snackbar.GLOBAL_OPEN_EVENT, {
+            detail: { source: this },
+          }),
+        );
+      }
+
       this.scheduleAutoHide();
     }
   }
 
   disconnectedCallback() {
+    document.removeEventListener(
+      Snackbar.GLOBAL_OPEN_EVENT,
+      this.handleGlobalSnackbarOpen,
+    );
+    this.clearExitTimer();
     this.clearTimer();
     super.disconnectedCallback();
   }
@@ -120,29 +193,32 @@ export class Snackbar extends LitElement {
         class=${classMap({
           snackbar: true,
           open: this.open,
+          dismissing: this.dismissing,
           multiline: this.multiline,
         })}
         role=${liveRole}
         aria-live="polite"
+        @animationend=${this.handleAnimationEnd}
       >
         <div class="label">
           <slot>${this.message}</slot>
         </div>
 
         ${this.actionLabel
-          ? html`<button class="action" type="button" @click=${this.handleActionClick}>
+          ? html`<wc-button class="action" variant='text' size='small' @click=${this.handleActionClick}>
               ${this.actionLabel}
-            </button>`
+            </wc-button>`
           : nothing}
 
         ${this.showCloseIcon
-          ? html`<button
+          ? html`<wc-icon-button
               class="close"
-              type="button"
+              variant='text' 
+              size='small'
               aria-label="Dismiss notification"
               @click=${this.handleCloseClick}
+              name="close-icon"
             >
-              <wc-icon name="close"></wc-icon>
             </button>`
           : nothing}
       </div>

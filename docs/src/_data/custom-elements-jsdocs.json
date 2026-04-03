@@ -9251,16 +9251,6 @@
         },
         {
           "kind": "field",
-          "name": "clearable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Show a clear button in single-select mode when a value is selected.",
-          "attribute": "clearable"
-        },
-        {
-          "kind": "field",
           "name": "variant",
           "type": {
             "text": "'filled' | 'outlined' | 'default'"
@@ -9548,19 +9538,6 @@
         },
         {
           "kind": "method",
-          "name": "_handleClear",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
           "name": "_handleChipDismiss",
           "privacy": "private",
           "parameters": [
@@ -9718,15 +9695,6 @@
           "default": "''",
           "description": "Label displayed above the field.",
           "fieldName": "label"
-        },
-        {
-          "name": "clearable",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Show a clear button in single-select mode when a value is selected.",
-          "fieldName": "clearable"
         },
         {
           "name": "variant",
@@ -10268,6 +10236,16 @@
         },
         {
           "kind": "field",
+          "name": "showValue",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show the current value beside the slider.",
+          "attribute": "show-value"
+        },
+        {
+          "kind": "field",
           "name": "isDragging",
           "type": {
             "text": "boolean"
@@ -10411,6 +10389,15 @@
           "default": "true",
           "description": "Whether to show labels on the slider.",
           "fieldName": "labeled"
+        },
+        {
+          "name": "show-value",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show the current value beside the slider.",
+          "fieldName": "showValue"
         }
       ],
       "superclass": {
@@ -10431,7 +10418,7 @@
     "tag": "wc-snackbar",
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
-    "cssprop": "--snackbar-border-radius - Border radius of the snackbar surface.",
+    "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
     "example": "```html\n<wc-snackbar open message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
@@ -10458,9 +10445,43 @@
         {
           "description": "Border radius of the snackbar surface.",
           "name": "--snackbar-border-radius"
+        },
+        {
+          "description": "Inline offset from viewport edges.",
+          "name": "--snackbar-offset-inline"
+        },
+        {
+          "description": "Bottom offset from viewport edge.",
+          "name": "--snackbar-offset-bottom"
+        },
+        {
+          "description": "Stacking order for the snackbar.",
+          "name": "--snackbar-z-index"
         }
       ],
       "members": [
+        {
+          "kind": "field",
+          "name": "GLOBAL_OPEN_EVENT",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "static": true,
+          "readonly": true,
+          "default": "'wc-snackbar-will-open'"
+        },
+        {
+          "kind": "field",
+          "name": "EXIT_ANIMATION_MS",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "static": true,
+          "readonly": true,
+          "default": "180"
+        },
         {
           "kind": "field",
           "name": "open",
@@ -10519,12 +10540,36 @@
         },
         {
           "kind": "field",
+          "name": "dismissing",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
           "name": "hideTimer",
           "type": {
             "text": "ReturnType<typeof setTimeout> | null"
           },
           "privacy": "private",
           "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "exitTimer",
+          "type": {
+            "text": "ReturnType<typeof setTimeout> | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "handleGlobalSnackbarOpen",
+          "privacy": "private",
+          "readonly": true
         },
         {
           "kind": "method",
@@ -10549,6 +10594,11 @@
         },
         {
           "kind": "method",
+          "name": "completeDismiss",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
           "name": "dispatchActionEvent",
           "privacy": "private"
         },
@@ -10566,6 +10616,24 @@
           "kind": "method",
           "name": "clearTimer",
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "clearExitTimer",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleAnimationEnd",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "AnimationEvent"
+              }
+            }
+          ]
         },
         {
           "kind": "method",

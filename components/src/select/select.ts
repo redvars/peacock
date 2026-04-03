@@ -80,12 +80,6 @@ export class Select extends BaseInput {
   label: string = '';
 
   /**
-    * Show a clear button in single-select mode when a value is selected.
-   */
-  @property({ type: Boolean })
-  clearable: boolean = false;
-
-  /**
    * Visual variant of the field.
    */
   @property({ type: String })
@@ -162,7 +156,7 @@ export class Select extends BaseInput {
       const el = new SelectOptionElement();
       el.value = opt.value;
       if (opt.icon) el.icon = opt.icon;
-      el.textContent = opt.label;
+      el.textContent = opt.label || (opt.value === '' ? 'None' : '');
       el.dataset.generated = '';
       this.appendChild(el);
     }
@@ -206,16 +200,25 @@ export class Select extends BaseInput {
   }
 
   private _isSelected(value: string): boolean {
+    if (!this.multiple) {
+      return this.value === value;
+    }
     return this._selectedValues.includes(value);
   }
 
   /** Returns the display label for a given option value. */
   private _getLabelForValue(val: string): string {
     for (const opt of this.querySelectorAll<SelectOptionElement>('wc-option')) {
-      if (opt.value === val) return opt.textContent?.trim() ?? val;
+      if (opt.value === val) {
+        const label = opt.textContent?.trim();
+        if (label) return label;
+        return val === '' ? 'None' : val;
+      }
     }
     // Fallback to options array (before wc-option children are created)
-    return this.options.find(o => o.value === val)?.label ?? val;
+    const programmaticLabel = this.options.find(o => o.value === val)?.label;
+    if (programmaticLabel) return programmaticLabel;
+    return val === '' ? 'None' : val;
   }
 
   private get _displayLabel(): string {
@@ -345,9 +348,11 @@ export class Select extends BaseInput {
     if (!item) return;
 
     const val = item.value;
-    if (!val) return;
+
+    if (val === undefined) return;
 
     if (this.multiple) {
+      if (val === '') return;
       const values = this._selectedValues;
       const idx = values.indexOf(val);
       if (idx >= 0) {
@@ -385,12 +390,6 @@ export class Select extends BaseInput {
         }),
       );
     }
-  }
-
-  private _handleClear(event: MouseEvent) {
-    event.stopPropagation();
-    this.value = '';
-    this._dispatchChange();
   }
 
   private _handleChipDismiss(event: CustomEvent, chipValue: string) {
@@ -454,22 +453,7 @@ export class Select extends BaseInput {
   }
 
   private _renderFieldEnd() {
-    const showClear =
-      this.clearable &&
-      !this.multiple &&
-      !!this.value &&
-      !this.disabled &&
-      !this.readonly;
     return html`
-      ${showClear
-        ? html`<wc-icon-button
-            class="clear-btn"
-            variant="text"
-            size="sm"
-            name="close"
-            @click=${this._handleClear}
-          ></wc-icon-button>`
-        : nothing}
       <wc-icon
         class=${classMap({
           'dropdown-icon': true,
