@@ -7945,6 +7945,264 @@
     }
   },
   {
+    "label": "Notification",
+    "tag": "wc-notification",
+    "rawTag": "notification",
+    "summary": "Notifications communicate contextual status, errors, warnings, and success messages.",
+    "cssprop": "--notification-border-radius - Border radius of the notification container.",
+    "fires": "notification-action-click - Fired when the action button is clicked.",
+    "example": "```html\n<wc-notification variant=\"success\" action=\"Undo\" dismissible>\n  <span slot=\"title\">Record saved</span>\n</wc-notification>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Notification",
+      "cssProperties": [
+        {
+          "description": "Surface color for the notification container.",
+          "name": "--notification-container-color"
+        },
+        {
+          "description": "Label and supporting text color.",
+          "name": "--notification-text-color"
+        },
+        {
+          "description": "Leading state icon color.",
+          "name": "--notification-leading-icon-color"
+        },
+        {
+          "description": "Start border color for status emphasis.",
+          "name": "--notification-accent-color"
+        },
+        {
+          "description": "Border radius of the notification container.",
+          "name": "--notification-border-radius"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, content and actions are laid out in a single row.",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "NotificationVariant"
+          },
+          "default": "'info'",
+          "description": "The visual variant of the notification.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "highContrast",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enables a high contrast appearance.",
+          "attribute": "high-contrast",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, renders a dismiss icon button.",
+          "attribute": "dismissible",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "action",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Action label text. When provided, an action button is shown.",
+          "attribute": "action"
+        },
+        {
+          "kind": "field",
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the host controls visibility when dismissed.",
+          "attribute": "managed",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "isHidden",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "hasSubtitle",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "show",
+          "description": "Programmatically reveals the notification."
+        },
+        {
+          "kind": "method",
+          "name": "dismiss",
+          "description": "Programmatically dismisses the notification."
+        },
+        {
+          "kind": "field",
+          "name": "variantIcon",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "variantLabel",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "emitActionClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "hideAndEmitDismiss",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "'dismiss' | 'programmatic'"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleSubtitleSlotChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "notification-action-click",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the action button is clicked."
+        },
+        {
+          "name": "notification-dismiss",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the notification is dismissed."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, content and actions are laid out in a single row.",
+          "fieldName": "inline"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "NotificationVariant"
+          },
+          "default": "'info'",
+          "description": "The visual variant of the notification.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "high-contrast",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enables a high contrast appearance.",
+          "fieldName": "highContrast"
+        },
+        {
+          "name": "dismissible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, renders a dismiss icon button.",
+          "fieldName": "dismissible"
+        },
+        {
+          "name": "action",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Action label text. When provided, an action button is shown.",
+          "fieldName": "action"
+        },
+        {
+          "name": "managed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the host controls visibility when dismissed.",
+          "fieldName": "managed"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-notification",
+      "customElement": true,
+      "summary": "Notifications communicate contextual status, errors, warnings, and success messages.",
+      "rawTag": {
+        "name": "notification",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Number Counter",
     "tag": "wc-number-counter",
     "rawTag": "number-counter",

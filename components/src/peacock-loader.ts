@@ -58,6 +58,7 @@ import { TreeView } from './tree-view/tree-view.js';
 import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
 import { Banner } from './banner/banner.js';
+import { Notification } from './notification/notification.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
@@ -164,6 +165,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-banner': {
       CustomElementClass: Banner,
+    },
+    'wc-notification': {
+      CustomElementClass: Notification,
     },
     'wc-tag': {
       CustomElementClass: Tag,

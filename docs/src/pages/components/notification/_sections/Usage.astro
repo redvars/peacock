@@ -1,13 +1,11 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import NotificationContent from './notification-content.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-  <pc-notification inline dismissible action='View Changelog'>
-    <NotificationContent />
-  </pc-notification>
+<p class='text-body-large'>Use notifications to surface concise status updates and next steps without interrupting the flow.</p>
 
-  <pc-notification dismissible action='View Changelog'>
-    <NotificationContent />
-  </pc-notification>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <wc-notification dismissible action='View details'>
+    <span slot='title'>Backup completed</span>
+    <span slot='subtitle'>All files were saved to cloud storage.</span>
+  </wc-notification>
+</DemoComponentCard>
