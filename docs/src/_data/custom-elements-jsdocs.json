@@ -3,8 +3,8 @@
     "label": "Accordion",
     "tag": "wc-accordion",
     "rawTag": "accordion",
-    "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
-    "example": "```html\n<wc-accordion>\n    <wc-accordion-item heading=\"Accordion\">\n        Content\n    </wc-accordion-item>\n</wc-accordion>\n```",
+    "summary": "A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.",
+    "example": "```html\n<wc-accordion>\n  <wc-accordion-item heading=\"Panel 1\" description=\"Summary text\">\n    Content\n  </wc-accordion-item>\n  <wc-accordion-item heading=\"Panel 2\">\n    Content\n  </wc-accordion-item>\n</wc-accordion>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -13,12 +13,25 @@
       "members": [
         {
           "kind": "field",
-          "name": "allowMultiple",
+          "name": "multi",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "attribute": "allow-multiple"
+          "description": "Whether multiple panels can be expanded simultaneously.\nWhen `false` (default), expanding one panel collapses all others.",
+          "attribute": "multi",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "displayMode",
+          "type": {
+            "text": "'default' | 'flat'"
+          },
+          "default": "'default'",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "attribute": "display-mode",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -62,12 +75,22 @@
       ],
       "attributes": [
         {
-          "name": "allow-multiple",
+          "name": "multi",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "allowMultiple"
+          "description": "Whether multiple panels can be expanded simultaneously.\nWhen `false` (default), expanding one panel collapses all others.",
+          "fieldName": "multi"
+        },
+        {
+          "name": "display-mode",
+          "type": {
+            "text": "'default' | 'flat'"
+          },
+          "default": "'default'",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "fieldName": "displayMode"
         }
       ],
       "superclass": {
@@ -76,7 +99,7 @@
       },
       "tagName": "wc-accordion",
       "customElement": true,
-      "summary": "An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.",
+      "summary": "A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.",
       "rawTag": {
         "name": "accordion",
         "description": ""

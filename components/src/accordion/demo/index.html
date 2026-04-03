@@ -9,50 +9,89 @@
   <style>
     body {
       background: #fafafa;
+      padding: 2rem;
+      max-width: 640px;
+      margin: 0 auto;
     }
-    .text-body {
-      padding: 0;
-      margin: 0 !important;
+    h3 {
+      margin: 1.5rem 0 0.5rem;
+      font-family: sans-serif;
+      font-size: 0.875rem;
+      color: #666;
     }
   </style>
 </head>
 <body>
 
-<p-accordion>
-  <p-accordion-item heading="Title 1">
-    <p class='text-body'>
-      The accordion component delivers large amounts of content in a small space through progressive
-      disclosure.
-      The user gets key details about the underlying content and can choose to expand that content
-      within the
-      constraints of the accordion.
-      Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
-    </p>
-  </p-accordion-item>
+  <h3>Default</h3>
+  <wc-accordion>
+    <wc-accordion-item>
+      <span slot="heading">Personal information</span>
+      <span slot="description">Fill in your personal details</span>
+      <p>Type in your name and address below.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Shipping address</span>
+      <span slot="description">Where should we send your order?</span>
+      <p>Add your shipping address to continue.</p>
+    </wc-accordion-item>
+    <wc-accordion-item disabled>
+      <span slot="heading">Billing address</span>
+      <p>This section is unavailable.</p>
+    </wc-accordion-item>
+  </wc-accordion>
 
-  <p-accordion-item heading="Title 1">
-    <p class='text-body'>
-      The accordion component delivers large amounts of content in a small space through progressive
-      disclosure.
-      The user gets key details about the underlying content and can choose to expand that content
-      within the
-      constraints of the accordion.
-      Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
-    </p>
-  </p-accordion-item>
+  <h3>Multi (allow multiple panels open)</h3>
+  <wc-accordion multi>
+    <wc-accordion-item>
+      <span slot="heading">Panel A</span>
+      <p>Content for panel A.</p>
+    </wc-accordion-item>
+    <wc-accordion-item open>
+      <span slot="heading">Panel B</span>
+      <p>Content for panel B (initially open).</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Panel C</span>
+      <p>Content for panel C.</p>
+    </wc-accordion-item>
+  </wc-accordion>
 
-  <p-accordion-item heading="Title 1" disabled>
-    <p class='text-body'>
-      The accordion component delivers large amounts of content in a small space through progressive
-      disclosure.
-      The user gets key details about the underlying content and can choose to expand that content
-      within the
-      constraints of the accordion.
-      Accordions work especially well on mobile interfaces or whenever vertical space is at a premium.
-    </p>
-  </p-accordion-item>
-</p-accordion>
+  <h3>Toggle position: before</h3>
+  <wc-accordion>
+    <wc-accordion-item toggle-position="before">
+      <span slot="heading">Panel 1</span>
+      <p>Icon appears at the leading start.</p>
+    </wc-accordion-item>
+    <wc-accordion-item toggle-position="before">
+      <span slot="heading">Panel 2</span>
+      <p>Icon appears at the leading start.</p>
+    </wc-accordion-item>
+  </wc-accordion>
 
+  <h3>Hide toggle</h3>
+  <wc-accordion>
+    <wc-accordion-item hide-toggle>
+      <span slot="heading">No toggle icon</span>
+      <p>The expand indicator is hidden.</p>
+    </wc-accordion-item>
+    <wc-accordion-item hide-toggle>
+      <span slot="heading">Another panel</span>
+      <p>Click the header to toggle.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+
+  <h3>Flat display mode</h3>
+  <wc-accordion display-mode="flat">
+    <wc-accordion-item>
+      <span slot="heading">Flat Panel 1</span>
+      <p>No borders between panels. Suitable inside cards.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Flat Panel 2</span>
+      <p>Content here.</p>
+    </wc-accordion-item>
+  </wc-accordion>
 
 <script type='module' src='/dist/peacock-loader.js'></script>
 </body>

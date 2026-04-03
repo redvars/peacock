@@ -1,14 +1,17 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
 import ApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('accordion');
 
-
 import UsageSection from './_sections/Usage.astro';
 import MultipleSection from './_sections/Multiple.astro';
+import DescriptionSection from './_sections/Description.astro';
+import ToggleSection from './_sections/Toggle.astro';
+import DisplayModeSection from './_sections/DisplayMode.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
+const title = getTextTag(componentDetails, 'label');
 
 const sections = [
   {
@@ -16,8 +19,20 @@ const sections = [
     'Component': UsageSection,
   },
   {
+    'title': 'Description',
+    'Component': DescriptionSection,
+  },
+  {
     'title': 'Multiple',
     'Component': MultipleSection,
+  },
+  {
+    'title': 'Toggle',
+    'Component': ToggleSection,
+  },
+  {
+    'title': 'Display Mode',
+    'Component': DisplayModeSection,
   },
 ];
 ---
@@ -28,7 +43,7 @@ const sections = [
       <wc-tab>API</wc-tab>
     </wc-tabs>
     <wc-tab-panel>
-      <OverviewPanel  sections={sections} />
+      <OverviewPanel sections={sections} title={title} />
     </wc-tab-panel>
     <wc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

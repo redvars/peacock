@@ -7,14 +7,20 @@ import { AccordionItem } from './accordion-item.js';
  * @label Accordion
  * @tag wc-accordion
  * @rawTag accordion
- * @summary An accordion is a vertically stacked list of headers that reveal or hide associated sections of content.
+ * @summary A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.
  *
  * @example
  * ```html
  * <wc-accordion>
- *     <wc-accordion-item heading="Accordion">
- *         Content
- *     </wc-accordion-item>
+ *   <wc-accordion-item>
+ *     <span slot="heading">Panel 1</span>
+ *     <span slot="description">Summary text</span>
+ *     Content
+ *   </wc-accordion-item>
+ *   <wc-accordion-item>
+ *     <span slot="heading">Panel 2</span>
+ *     Content
+ *   </wc-accordion-item>
  * </wc-accordion>
  * ```
  * @tags display
@@ -22,10 +28,22 @@ import { AccordionItem } from './accordion-item.js';
 export class Accordion extends LitElement {
   static styles = [styles];
 
-  @property({ type: Boolean, attribute: 'allow-multiple' })
-  allowMultiple = false;
+  /**
+   * Whether multiple panels can be expanded simultaneously.
+   * When `false` (default), expanding one panel collapses all others.
+   */
+  @property({ type: Boolean, reflect: true })
+  multi = false;
 
-  @queryAssignedElements({ selector: 'p-accordion-item' })
+  /**
+   * Display mode for the accordion.
+   * `'default'` renders panels with a subtle background on expand and dividers between items.
+   * `'flat'` renders panels without borders or background changes — suitable for use inside cards.
+   */
+  @property({ type: String, reflect: true, attribute: 'display-mode' })
+  displayMode: 'default' | 'flat' = 'default';
+
+  @queryAssignedElements({ selector: 'wc-accordion-item' })
   items!: Array<AccordionItem>;
 
   connectedCallback() {
@@ -39,7 +57,6 @@ export class Accordion extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     // @ts-ignore
-    // eslint-disable-next-line no-undef
     this.removeEventListener('accordion-item:toggle', this._onItemToggle);
     this.removeEventListener('keydown', this._onKeyDown);
   }
@@ -47,11 +64,10 @@ export class Accordion extends LitElement {
   private _onItemToggle(e: CustomEvent) {
     const targetItem = e.target as AccordionItem;
 
-    // Stop event bubbling if it came from a nested accordion
-    // We check if the target item is a direct child of *this* accordion
+    // Ignore events from nested accordions — only handle direct children
     if (targetItem.parentElement !== this) return;
 
-    if (!this.allowMultiple && targetItem.open) {
+    if (!this.multi && targetItem.open) {
       this.items.forEach(item => {
         if (item !== targetItem && item.open) {
           // eslint-disable-next-line no-param-reassign
@@ -62,17 +78,11 @@ export class Accordion extends LitElement {
   }
 
   private _onKeyDown(e: KeyboardEvent) {
-    // 1. Find which item currently has its HEADER focused.
-    // We check the shadowRoot of each item to see if the internal <button> is the active element.
     const focusedItemIndex = this.items.findIndex(item => {
-      // Access the Shadow DOM of the item
       const root = item.shadowRoot;
-      // Check if the focused element inside that shadow DOM is the toggle button
-      return root?.activeElement?.classList.contains('accordion-heading');
+      return root?.activeElement?.classList.contains('header-button');
     });
 
-    // 2. If no header is focused (e.g., focus is on body content or outside), do nothing.
-    // This prevents stealing focus when the user is typing in a form inside the accordion.
     if (focusedItemIndex === -1) return;
 
     let nextIndex = -1;
@@ -81,12 +91,10 @@ export class Accordion extends LitElement {
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        // Cycle next
         nextIndex = (focusedItemIndex + 1) % this.items.length;
         break;
       case 'ArrowUp':
         e.preventDefault();
-        // Cycle previous
         nextIndex =
           (focusedItemIndex - 1 + this.items.length) % this.items.length;
         break;
@@ -100,12 +108,10 @@ export class Accordion extends LitElement {
         break;
     }
 
-    // 3. Apply Focus
     if (nextIndex !== -1) {
       const itemToFocus = this.items[nextIndex];
-      // Select the button inside the Shadow DOM of the target item
       const button = itemToFocus.shadowRoot?.querySelector(
-        '.accordion-heading',
+        '.header-button',
       ) as HTMLElement;
       button?.focus();
     }

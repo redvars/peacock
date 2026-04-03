@@ -1,0 +1,21 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p class='text-body-large'>Set <code>display-mode="flat"</code> on the accordion to remove dividers between panels. This is suitable when embedding an accordion inside a card, sheet, or other contained surface.</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion display-mode="flat">
+    <wc-accordion-item>
+      <span slot="heading">Section A</span>
+      <p class='text-body-large'>Content for section A. No borders between panels.</p>
+    </wc-accordion-item>
+    <wc-accordion-item open="true">
+      <span slot="heading">Section B</span>
+      <p class='text-body-large'>Content for section B.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Section C</span>
+      <p class='text-body-large'>Content for section C.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>
