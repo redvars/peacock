@@ -2,13 +2,13 @@ import { html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import {init} from 'modern-monaco';
-import IndividualComponent from 'src/IndividualComponent.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
-import { observeThemeChange } from '../utils/observe-theme-change.js';
-import { redispatchEvent } from '../utils/dispatch-event-utils.js';
+import { observeThemeChange } from '../__utils/observe-theme-change.js';
+import { redispatchEvent } from '../__utils/dispatch-event-utils.js';
 import {
   isDarkMode,
-} from '../utils.js';
+} from '@/__utils/is-dark-mode.js';
 
 import styles from './code-editor.scss';
 

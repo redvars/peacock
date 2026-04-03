@@ -1,6 +1,6 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
-import { dispatchActivationClick, isActivationClick } from '../utils/dispatch-event-utils.js';
+import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
 
 export class BaseButton extends LitElement {
   #id = crypto.randomUUID();

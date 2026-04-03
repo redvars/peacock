@@ -1,9 +1,10 @@
 import { LitElement, html, nothing, PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchActivationClick, isActivationClick } from '../utils/dispatch-event-utils.js';
-import { observerSlotChangesWithCallback, throttle } from '../utils.js';
-import IndividualComponent from '../IndividualComponent.js';
+import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { throttle } from '@/__utils/throttle.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './card.scss';
 import colorStyles from './card-colors.scss';
 

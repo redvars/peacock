@@ -1,7 +1,7 @@
 import { html, LitElement, svg } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { spread } from '../spread.js';
+import { spread } from '@/__directive/spread.js';
 import styles from './checkbox.scss';
 
 /**

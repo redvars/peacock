@@ -2,10 +2,12 @@ import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import IndividualComponent from 'src/IndividualComponent.js';
-import { dispatchActivationClick, isActivationClick } from '../utils/dispatch-event-utils.js';
-import { throttle } from '../utils.js';
-import { spread } from '../spread.js';
+
+import IndividualComponent from '@/IndividualComponent.js';
+import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import { throttle } from '@/__utils/throttle.js';
+import { spread } from '@/__directive/spread.js';
+
 import { IconProvider } from '../icon/icon.js';
 import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';

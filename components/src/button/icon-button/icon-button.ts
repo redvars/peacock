@@ -4,10 +4,10 @@ import { classMap } from 'lit/directives/class-map.js';
 import styles from '../button/button.scss';
 import colorStyles from '../button/button-colors.scss';
 import sizeStyles from './icon-button-sizes.scss';
-import { spread } from '../../spread.js';
+import { spread } from '@/__directive/spread.js';
+import { throttle } from '@/__utils/throttle.js';
 import { BaseButton } from '../BaseButton.js';
 import { IconProvider } from '../../icon/icon.js';
-import { throttle } from '../../utils.js';
 
 /**
  * @label Icon Button

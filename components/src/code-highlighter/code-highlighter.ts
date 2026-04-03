@@ -12,8 +12,8 @@ import * as prettierPluginEstree from 'prettier/plugins/estree';
 
 import { BundledLanguage, codeToHtml, ShikiTransformer } from 'shiki';
 
-import IndividualComponent from 'src/IndividualComponent.js';
-import { copyToClipboard } from '../utils/copy-to-clipboard.js';
+import IndividualComponent from '@/IndividualComponent.js';
+import { copyToClipboard } from '@/__utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
 
 const locale = {

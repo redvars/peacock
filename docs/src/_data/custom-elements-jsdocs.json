@@ -6945,7 +6945,11 @@
           },
           "description": "Hyperlink to navigate to on click.",
           "attribute": "href",
-          "reflects": true
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
         },
         {
           "kind": "field",
@@ -6955,38 +6959,31 @@
           },
           "default": "'_self'",
           "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target"
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
         },
         {
-          "kind": "field",
-          "name": "tabIndexValue",
-          "type": {
-            "text": "number | undefined"
+          "kind": "method",
+          "name": "isLink",
+          "privacy": "protected",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Indicates whether the element should render as a navigable link.",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
           }
         }
       ],
-      "attributes": [
-        {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href"
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
-        }
-      ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "BaseHyperlink",
+        "module": "/src/__base_element/BaseHyperlink.js"
       },
       "tagName": "wc-link",
       "customElement": true,
@@ -6994,7 +6991,34 @@
       "rawTag": {
         "name": "link",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Hyperlink to navigate to on click.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlink",
+            "module": "src/__base_element/BaseHyperlink.ts"
+          }
+        }
+      ]
     }
   },
   {
