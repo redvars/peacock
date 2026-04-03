@@ -31,20 +31,20 @@ type CardVariant = 'elevated' | 'filled' | 'outlined';
 export class Card extends LitElement {
   static styles = [styles, colorStyles];
 
-   #id = crypto.randomUUID();
-   
+  #id = crypto.randomUUID();
+
   @property({ type: String, reflect: true })
   variant: CardVariant = 'elevated';
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   @property({ type: Boolean, reflect: true })
   actionable: boolean = false;
 
-   /**
-   * If button is disabled, the reason why it is disabled.
-   */
+  /**
+  * If button is disabled, the reason why it is disabled.
+  */
   @property({ attribute: 'disabled-reason' })
   disabledReason: string = '';
 
@@ -145,22 +145,22 @@ export class Card extends LitElement {
     };
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-      // If the button is soft-disabled or a disabled link, we need to explicitly
-      // prevent the click from propagating to other event listeners as well as
-      // prevent the default action.
-      if (this.disabled && this.href) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-        return;
-      }
-  
-      if (!isActivationClick(event) || !this.cardElement) {
-        return;
-      }
-  
-      this.focus();
-      dispatchActivationClick(this.cardElement);
-    };
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.disabled && this.href) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    if (!isActivationClick(event) || !this.cardElement) {
+      return;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.cardElement);
+  };
 
   __isLink() {
     return !!this.href;
@@ -202,7 +202,7 @@ export class Card extends LitElement {
   };
 
 
-    
+
 
   render() {
 
@@ -218,10 +218,19 @@ export class Card extends LitElement {
       'has-content': this.slotHasContent,
     };
 
-    if (!isLink) {
-          return html`<button
+    if (!this.actionable && !isLink) {
+      return html`<div
               class=${classMap(cssClasses)}
-              id="button"
+              id="card"
+              >
+              ${this.renderCardContent()}
+            </div>`;
+    }
+
+    if (!isLink) {
+      return html`<button
+              class=${classMap(cssClasses)}
+              id="card"
               tabindex=${this.#tabindex}
               @click=${this.__dispatchClickWithThrottle}
               @mousedown=${this.__handlePress}
@@ -233,10 +242,10 @@ export class Card extends LitElement {
             >
               ${this.renderCardContent()}
             </button>`;
-        }
-        return html`<a
+    }
+    return html`<a
             class=${classMap(cssClasses)}
-            id="button"
+            id="card"
             tabindex=${this.#tabindex}
             href=${this.href}
             target=${this.target}
