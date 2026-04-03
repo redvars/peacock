@@ -247,6 +247,162 @@
     }
   },
   {
+    "label": "Banner",
+    "tag": "wc-banner",
+    "rawTag": "banner",
+    "summary": "Banners show short, prominent contextual messages with optional icon and description.",
+    "cssprop": "--banner-border-radius - Border radius of the banner surface.",
+    "example": "```html\n<wc-banner variant=\"note\" description=\"Use semantic roles that preserve a 3:1 contrast ratio.\"></wc-banner>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Banner",
+      "cssProperties": [
+        {
+          "description": "Background color of the banner container.",
+          "name": "--banner-container-color"
+        },
+        {
+          "description": "Label text color.",
+          "name": "--banner-label-text-color"
+        },
+        {
+          "description": "Description text color.",
+          "name": "--banner-description-text-color"
+        },
+        {
+          "description": "Icon color.",
+          "name": "--banner-icon-color"
+        },
+        {
+          "description": "Border radius of the banner surface.",
+          "name": "--banner-border-radius"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "BannerVariant"
+          },
+          "default": "'note'",
+          "description": "Visual intent of the banner.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit label text. Falls back to a variant-based label.",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit icon name. Falls back to a variant-based icon.",
+          "attribute": "icon"
+        },
+        {
+          "kind": "field",
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional description text when a default slot is not provided.",
+          "attribute": "description"
+        },
+        {
+          "kind": "field",
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, label and description are rendered on a single line.",
+          "attribute": "inline",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "resolvedLabel",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "resolvedIcon",
+          "privacy": "private",
+          "readonly": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "BannerVariant"
+          },
+          "default": "'note'",
+          "description": "Visual intent of the banner.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit label text. Falls back to a variant-based label.",
+          "fieldName": "label"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional explicit icon name. Falls back to a variant-based icon.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional description text when a default slot is not provided.",
+          "fieldName": "description"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, label and description are rendered on a single line.",
+          "fieldName": "inline"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-banner",
+      "customElement": true,
+      "summary": "Banners show short, prominent contextual messages with optional icon and description.",
+      "rawTag": {
+        "name": "banner",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Bottom Sheet",
     "tag": "wc-bottom-sheet",
     "rawTag": "bottom-sheet",

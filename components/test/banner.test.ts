@@ -15,8 +15,8 @@ describe('Banner', () => {
     await el.updateComplete;
 
     const root = el.shadowRoot;
-    const label = root?.querySelector('.fr-banner-label')?.textContent ?? '';
-    const description = root?.querySelector('.fr-banner-description')?.textContent ?? '';
+    const label = root?.querySelector('.banner-label')?.textContent ?? '';
+    const description = root?.querySelector('.banner-description')?.textContent ?? '';
 
     expect(label.trim()).to.equal('Note:');
     expect(description.trim()).to.equal('Use semantic roles with adequate contrast.');
@@ -28,7 +28,7 @@ describe('Banner', () => {
     `);
     await el.updateComplete;
 
-    const surface = el.shadowRoot?.querySelector('.fr-banner');
+    const surface = el.shadowRoot?.querySelector('.banner');
     expect(surface?.classList.contains('warning')).to.equal(true);
   });
 
@@ -42,9 +42,9 @@ describe('Banner', () => {
     `);
     await el.updateComplete;
 
-    const label = el.shadowRoot?.querySelector('.fr-banner-label')?.textContent ?? '';
-    const icon = el.shadowRoot?.querySelector('.fr-banner-icon')?.textContent ?? '';
-    const description = el.shadowRoot?.querySelector('.fr-banner-description')?.textContent ?? '';
+    const label = el.shadowRoot?.querySelector('.banner-label')?.textContent ?? '';
+    const icon = el.shadowRoot?.querySelector('.banner-icon')?.textContent ?? '';
+    const description = el.shadowRoot?.querySelector('.banner-description')?.textContent ?? '';
 
     expect(label.trim()).to.equal('Heads up:');
     expect(icon.trim()).to.equal('priority_high');

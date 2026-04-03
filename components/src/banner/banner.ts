@@ -69,6 +69,12 @@ export class Banner extends LitElement {
   @property({ type: String })
   description = '';
 
+  /**
+   * When true, label and description are rendered on a single line.
+   */
+  @property({ type: Boolean, reflect: true })
+  inline = false;
+
   private get resolvedLabel() {
     return this.label || VARIANT_LABELS[this.variant];
   }
@@ -79,19 +85,19 @@ export class Banner extends LitElement {
 
   render() {
     return html`
-      <div class=${classMap({ 'fr-banner': true, [this.variant]: true })} role="status" aria-live="polite">
-        <div class="fr-banner-icon" aria-hidden="true">
+      <div class=${classMap({ 'banner': true, [this.variant]: true })} role="status" aria-live="polite">
+        <div class="banner-icon" aria-hidden="true">
           <slot name="icon">
             <wc-icon name=${this.resolvedIcon}></wc-icon>
           </slot>
         </div>
 
-        <div class=${classMap({ 'fr-banner-content': true, [this.variant]: true })}>
-          <div class="fr-banner-label">
+        <div class=${classMap({ 'banner-content': true, [this.variant]: true, inline: this.inline })}>
+          <div class="banner-label">
             <slot name="label">${this.resolvedLabel}:</slot>
           </div>
 
-          <div class="fr-banner-description">
+          <div class="banner-description">
             <slot>${this.description || nothing}</slot>
           </div>
         </div>
