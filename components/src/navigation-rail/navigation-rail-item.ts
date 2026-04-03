@@ -185,10 +185,9 @@ export class NavigationRailItem extends LitElement {
     if (!isLink) {
       return html`<button
         class=${classMap(cssClasses)}
-        role="option"
-        aria-selected=${`${this.active}`}
         ?disabled=${this.disabled}
         aria-disabled=${`${this.disabled}`}
+        aria-current=${this.active ? 'page' : nothing}
         ?aria-describedby=${this.__getDisabledReasonID()}
         @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
@@ -203,8 +202,7 @@ export class NavigationRailItem extends LitElement {
       class=${classMap(cssClasses)}
       href=${this.href}
       target=${this.target}
-      role="option"
-      aria-selected=${`${this.active}`}
+      aria-current=${this.active ? 'page' : nothing}
       aria-disabled=${`${this.disabled}`}
       ?aria-describedby=${this.__getDisabledReasonID()}
       @click=${this.__dispatchClickWithThrottle}

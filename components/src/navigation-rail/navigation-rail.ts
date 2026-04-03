@@ -65,8 +65,8 @@ export class NavigationRail extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this._handleItemClick);
-    this.setAttribute('role', 'listbox');
-    this.setAttribute('aria-orientation', 'vertical');
+    this.setAttribute('role', 'navigation');
+    this.setAttribute('aria-label', this.getAttribute('aria-label') ?? 'Main navigation');
   }
 
   disconnectedCallback() {
