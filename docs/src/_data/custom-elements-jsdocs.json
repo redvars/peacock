@@ -996,7 +996,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -1319,7 +1319,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -1526,9 +1526,9 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "'primary' | 'success' | 'danger' | 'warning' | 'light' | 'dark' | undefined"
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface' | undefined"
           },
-          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"light\"`, `\"dark\"`.",
+          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"surface\"`, `\"on-surface\"`.",
           "attribute": "color",
           "reflects": true
         },
@@ -1589,9 +1589,9 @@
         {
           "name": "color",
           "type": {
-            "text": "'primary' | 'success' | 'danger' | 'warning' | 'light' | 'dark' | undefined"
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface' | undefined"
           },
-          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"light\"`, `\"dark\"`.",
+          "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"surface\"`, `\"on-surface\"`.",
           "fieldName": "color"
         },
         {
@@ -5829,7 +5829,7 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -6165,7 +6165,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'light'\n    | 'dark'"
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
