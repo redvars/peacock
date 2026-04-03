@@ -20,7 +20,7 @@ import sizeStyles from './fab-sizes.scss';
  *
  * @summary The FAB (Floating Action Button) represents the primary action on a screen.
  * @overview
- * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and comes in three sizes and four color variants.</p>
+ * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and supports four color roles and two variants.</p>
  *
  * @cssprop --fab-container-color: Background color of the FAB container.
  * @cssprop --fab-label-text-color: Text and icon color of the FAB label.
@@ -65,13 +65,20 @@ export class Fab extends LitElement {
   @property({ type: String }) label?: string;
 
   /**
-   * The color variant of the FAB.
-   * `"surface"` uses the surface container high color (default).
-   * `"primary"` uses the primary container color.
-   * `"secondary"` uses the secondary container color.
-   * `"tertiary"` uses the tertiary container color.
+   * The color role of the FAB.
+   * `"surface"` uses the surface color role.
+   * `"primary"` uses the primary color role.
+   * `"secondary"` uses the secondary color role.
+   * `"tertiary"` uses the tertiary color role.
    */
   @property({ reflect: true }) color: 'surface' | 'primary' | 'secondary' | 'tertiary' = 'surface';
+
+  /**
+   * The style variant of the FAB.
+   * `"tonal"` uses container colors.
+   * `"filled"` uses solid role colors.
+   */
+  @property({ reflect: true }) variant: 'tonal' | 'filled' = 'tonal';
 
   /**
    * The size of the FAB.
@@ -200,6 +207,8 @@ export class Fab extends LitElement {
       fab: true,
       'fab-element': true,
       [`size-${this.size}`]: true,
+      [`color-${this.color}`]: true,
+      [`variant-${this.variant}`]: true,
       extended: isExtended,
       lowered: this.lowered,
       disabled: this.disabled,

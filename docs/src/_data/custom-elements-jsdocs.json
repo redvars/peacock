@@ -760,8 +760,14 @@
         },
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1023,8 +1029,13 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__getDisabledReasonID",
+          "kind": "field",
+          "name": "__disabledReasonID",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "protected",
+          "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -4306,7 +4317,7 @@
     "rawTag": "empty-state",
     "summary": "A message that displays when there is no information to display.",
     "tags": "display",
-    "example": "```html\n<wc-empty-state width=\"80%\" headline=\"No items found\"></wc-empty-state>\n```",
+    "example": "```html\n<wc-empty-state style=\"width:80%\" headline=\"No items found\"></wc-empty-state>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -4409,7 +4420,7 @@
     "tag": "wc-fab",
     "rawTag": "fab",
     "summary": "The FAB (Floating Action Button) represents the primary action on a screen.",
-    "overview": "<p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and comes in three sizes and four color variants.</p>",
+    "overview": "<p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and supports four color roles and two variants.</p>",
     "cssprop": "--fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.",
     "fires": "click - Dispatched when the FAB is clicked.",
     "example": "```html\n<wc-fab name=\"add\"></wc-fab>\n```",
@@ -4497,8 +4508,19 @@
             "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
           },
           "default": "'surface'",
-          "description": "The color variant of the FAB.\n`\"surface\"` uses the surface container high color (default).\n`\"primary\"` uses the primary container color.\n`\"secondary\"` uses the secondary container color.\n`\"tertiary\"` uses the tertiary container color.",
+          "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
           "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'tonal' | 'filled'"
+          },
+          "default": "'tonal'",
+          "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
+          "attribute": "variant",
           "reflects": true
         },
         {
@@ -4696,8 +4718,17 @@
             "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
           },
           "default": "'surface'",
-          "description": "The color variant of the FAB.\n`\"surface\"` uses the surface container high color (default).\n`\"primary\"` uses the primary container color.\n`\"secondary\"` uses the secondary container color.\n`\"tertiary\"` uses the tertiary container color.",
+          "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
           "fieldName": "color"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'tonal' | 'filled'"
+          },
+          "default": "'tonal'",
+          "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
+          "fieldName": "variant"
         },
         {
           "name": "size",
@@ -5467,15 +5498,6 @@
       "members": [
         {
           "kind": "field",
-          "name": "#id",
-          "privacy": "private",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "#tabindex",
           "privacy": "private",
           "type": {
@@ -5564,6 +5586,21 @@
               "text": "boolean"
             }
           },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -5825,8 +5862,13 @@
           }
         },
         {
-          "kind": "method",
-          "name": "__getDisabledReasonID",
+          "kind": "field",
+          "name": "__disabledReasonID",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "protected",
+          "readonly": true,
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"

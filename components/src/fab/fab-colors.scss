@@ -1,30 +1,49 @@
 :host {
-  /* Surface (default) */
-  --fab-container-color: var(--color-surface-container-high);
-  --fab-label-text-color: var(--color-on-surface);
+  --tonal-fab-container-color: var(--color-surface-container-high);
+  --tonal-fab-label-text-color: var(--color-on-surface);
+
+  --filled-fab-container-color: var(--color-surface);
+  --filled-fab-label-text-color: var(--color-on-surface);
 }
 
 :host([color='surface']) {
-  --fab-container-color: var(--color-surface-container-high);
-  --fab-label-text-color: var(--color-on-surface);
+  --tonal-fab-container-color: var(--color-surface-container-high);
+  --tonal-fab-label-text-color: var(--color-on-surface);
+
+  --filled-fab-container-color: var(--color-surface);
+  --filled-fab-label-text-color: var(--color-on-surface);
 }
 
 :host([color='primary']) {
-  --fab-container-color: var(--color-primary-container);
-  --fab-label-text-color: var(--color-on-primary-container);
+  --tonal-fab-container-color: var(--color-primary-container);
+  --tonal-fab-label-text-color: var(--color-on-primary-container);
+
+  --filled-fab-container-color: var(--color-primary);
+  --filled-fab-label-text-color: var(--color-on-primary);
 }
 
 :host([color='secondary']) {
-  --fab-container-color: var(--color-secondary-container);
-  --fab-label-text-color: var(--color-on-secondary-container);
+  --tonal-fab-container-color: var(--color-secondary-container);
+  --tonal-fab-label-text-color: var(--color-on-secondary-container);
+
+  --filled-fab-container-color: var(--color-secondary);
+  --filled-fab-label-text-color: var(--color-on-secondary);
 }
 
 :host([color='tertiary']) {
-  --fab-container-color: var(--color-tertiary-container);
-  --fab-label-text-color: var(--color-on-tertiary-container);
+  --tonal-fab-container-color: var(--color-tertiary-container);
+  --tonal-fab-label-text-color: var(--color-on-tertiary-container);
+
+  --filled-fab-container-color: var(--color-tertiary);
+  --filled-fab-label-text-color: var(--color-on-tertiary);
 }
 
-.fab {
-  --_fab-container-color: var(--fab-container-color);
-  --_fab-label-text-color: var(--fab-label-text-color);
+.fab.variant-tonal {
+  --_fab-container-color: var(--tonal-fab-container-color);
+  --_fab-label-text-color: var(--tonal-fab-label-text-color);
+}
+
+.fab.variant-filled {
+  --_fab-container-color: var(--filled-fab-container-color);
+  --_fab-label-text-color: var(--filled-fab-label-text-color);
 }
