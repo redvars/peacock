@@ -1,6 +1,6 @@
-# Base Element
+# Mixins
 
-The base element is an abstract foundation for component families.
+The mixin element is an abstract foundation for component families.
 
 It defines shared component contracts such as:
 

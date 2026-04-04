@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './navigation-rail.scss';
@@ -58,6 +58,13 @@ export class NavigationRail extends LitElement {
   @property({ reflect: true }) alignment: 'top' | 'center' | 'bottom' = 'center';
 
   /**
+   * Display mode of the navigation rail.
+   * - `"expanded"`: shows labels.
+   * - `"collapsed"`: hides labels.
+   */
+  @property({ reflect: true }) mode: 'expanded' | 'collapsed' = 'expanded';
+
+  /**
    * Whether to show a divider between the header and items sections.
    */
   @property({ type: Boolean, attribute: 'show-divider' }) showDivider = false;
@@ -74,6 +81,16 @@ export class NavigationRail extends LitElement {
     super.disconnectedCallback();
   }
 
+  protected override firstUpdated() {
+    this._syncItemMode();
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('mode')) {
+      this._syncItemMode();
+    }
+  }
+
   private _handleItemClick = (event: Event) => {
     const target = event.target as HTMLElement;
     const item = target.closest('wc-navigation-rail-item') as NavigationRailItem | null;
@@ -81,9 +98,9 @@ export class NavigationRail extends LitElement {
     if (!item || item.disabled) return;
 
     // Deactivate all items and activate the clicked one
-    this._getItems().forEach(i => {
-      i.active = i === item;
-    });
+    for (const railItem of this._getItems()) {
+      railItem.active = railItem === item;
+    }
 
     this.dispatchEvent(
       new CustomEvent('nav-change', {
@@ -103,10 +120,18 @@ export class NavigationRail extends LitElement {
     ) as NavigationRailItem[];
   }
 
+  private _syncItemMode = () => {
+    const isCollapsed = this.mode === 'collapsed';
+    for (const railItem of this._getItems()) {
+      railItem.collapsed = isCollapsed;
+    }
+  };
+
   render() {
     const cssClasses = {
       rail: true,
       [`align-${this.alignment}`]: true,
+      [`mode-${this.mode}`]: true,
     };
 
     return html`
@@ -116,7 +141,7 @@ export class NavigationRail extends LitElement {
         </div>
         ${this.showDivider ? html`<wc-divider></wc-divider>` : ''}
         <nav class="items" role="presentation">
-          <slot></slot>
+          <slot @slotchange=${this._syncItemMode}></slot>
         </nav>
       </div>
     `;

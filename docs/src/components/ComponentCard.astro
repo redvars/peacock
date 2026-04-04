@@ -47,7 +47,7 @@ const {component} = Astro.props;
 
 
 { component &&
-<wc-card class='component-card' href={`/components/${component.tag}/#`}>
+<wc-card class='component-card' href={`/components/${component.metadata.name}/#`}>
     <div class='component-card-header' data-tag={component.tag}>
       {
         component.metadata.example

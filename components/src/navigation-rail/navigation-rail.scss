@@ -6,6 +6,7 @@
   display: block;
   height: 100%;
   width: var(--nav-rail-width, 5rem); /* 80dp */
+  overflow: hidden;
 }
 
 .rail {
@@ -14,6 +15,7 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  border-radius: inherit;
   background-color: var(--nav-rail-container-color, var(--color-surface));
   padding-block: var(--nav-rail-padding-block, 0.75rem); /* 12dp */
   box-sizing: border-box;

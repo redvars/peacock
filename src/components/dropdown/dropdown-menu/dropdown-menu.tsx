@@ -25,7 +25,7 @@ export class DropdownMenu implements ComponentInterface {
   @Element() host!: HTMLElement;
 
   gid: string = getComponentIndex();
-  menuRef: HTMLPcMenuElement;
+  menuRef: any;
 
   /**
    * Sets focus on first menu item. Use this method instead of the global

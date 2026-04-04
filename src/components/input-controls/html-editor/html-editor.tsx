@@ -551,5 +551,5 @@ export class HtmlEditor implements ComponentInterface, InputComponentInterface {
 
   mentionProps: any;
   queryRange: any;
-  dropdownContent: HTMLPcMenuElement;
+  dropdownContent: any;
 }

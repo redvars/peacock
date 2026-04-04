@@ -8,6 +8,7 @@ import { spread } from '@/__directive/spread.js';
 import { throttle } from '@/__utils/throttle.js';
 import { BaseButton } from '../BaseButton.js';
 import { IconProvider } from '../../icon/icon.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 /**
  * @label Icon Button
@@ -55,32 +56,12 @@ import { IconProvider } from '../../icon/icon.js';
 export class IconButton extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 
-  #tabindex?: number = 0;
-
-  @property({ type: String, reflect: true }) name?: string;
-
-  @property({ type: String, reflect: true }) src?: string;
-
-  @property({ type: String }) provider: IconProvider = 'material-symbols';
-
   override focus() {
     this.buttonElement?.focus();
   }
 
   override blur() {
     this.buttonElement?.blur();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
-    super.disconnectedCallback();
   }
   
   override firstUpdated() {
@@ -109,14 +90,15 @@ export class IconButton extends BaseButton {
       return html`<button
           class=${classMap(cssClasses)}
           id="button"
-          tabindex=${this.#tabindex}
           type=${this.htmlType}
           @click=${this.__dispatchClickWithThrottle}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          aria-describedby=${this.__disabledReasonID}
-          aria-disabled=${`${this.disabled || this.softDisabled}`}
+          
+          aria-describedby=${ifDefined(this.softDisabled ? this.__disabledReasonID : undefined)}
+          ?aria-disabled=${this.softDisabled}
+
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
         >
@@ -127,16 +109,18 @@ export class IconButton extends BaseButton {
     return html`<a
         class=${classMap(cssClasses)}
         id="button"
-        tabindex=${this.#tabindex}
         href=${this.href}
         target=${this.target}
-        @click=${this.__dispatchClickWithThrottle}
+        tabindex=${this.disabled ? '-1' : '0'}
+        @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        aria-describedby=${this.__disabledReasonID}
-        aria-disabled=${`${this.disabled}`}
+        
+        aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+        ?aria-disabled=${this.softDisabled}
+
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
@@ -155,14 +139,10 @@ export class IconButton extends BaseButton {
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       <div class="button-content">
-        <wc-icon
-          name=${this.name}
-          src=${this.src}
-          provider=${this.provider}
-        ></wc-icon>
+        <slot></slot>
       </div>
 
-      ${this.__renderDisabledReason()}
+      ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }
 }

@@ -8019,6 +8019,17 @@
         },
         {
           "kind": "field",
+          "name": "mode",
+          "type": {
+            "text": "'expanded' | 'collapsed'"
+          },
+          "default": "'expanded'",
+          "description": "Display mode of the navigation rail.\n- `\"expanded\"`: shows labels.\n- `\"collapsed\"`: hides labels.",
+          "attribute": "mode",
+          "reflects": true
+        },
+        {
+          "kind": "field",
           "name": "showDivider",
           "type": {
             "text": "boolean"
@@ -8041,6 +8052,11 @@
               "text": "NavigationRailItem[]"
             }
           }
+        },
+        {
+          "kind": "field",
+          "name": "_syncItemMode",
+          "privacy": "private"
         }
       ],
       "attributes": [
@@ -8052,6 +8068,15 @@
           "default": "'center'",
           "description": "Vertical alignment of items within the rail.\n- `\"top\"`: Items align to the top.\n- `\"center\"`: Items are centered (default).\n- `\"bottom\"`: Items align to the bottom.",
           "fieldName": "alignment"
+        },
+        {
+          "name": "mode",
+          "type": {
+            "text": "'expanded' | 'collapsed'"
+          },
+          "default": "'expanded'",
+          "description": "Display mode of the navigation rail.\n- `\"expanded\"`: shows labels.\n- `\"collapsed\"`: hides labels.",
+          "fieldName": "mode"
         },
         {
           "name": "show-divider",
@@ -8115,6 +8140,17 @@
           "default": "false",
           "description": "Whether this item is disabled.",
           "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the parent rail is in collapsed mode (labels hidden).",
+          "attribute": "collapsed",
           "reflects": true
         },
         {
@@ -8260,6 +8296,15 @@
           "default": "false",
           "description": "Whether this item is disabled.",
           "fieldName": "disabled"
+        },
+        {
+          "name": "collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the parent rail is in collapsed mode (labels hidden).",
+          "fieldName": "collapsed"
         },
         {
           "name": "href",

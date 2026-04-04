@@ -110,6 +110,8 @@ export class Search extends LitElement {
   private __handleInput(event: InputEvent) {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    // Prevent the native input event from escaping in addition to our API event.
+    event.stopPropagation();
     this.dispatchEvent(
       new CustomEvent('input', {
         detail: { value: this.value },
@@ -122,6 +124,8 @@ export class Search extends LitElement {
   private __handleChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    // Prevent the native change event from escaping in addition to our API event.
+    event.stopPropagation();
     this.dispatchEvent(
       new CustomEvent('change', {
         detail: { value: this.value },

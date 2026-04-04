@@ -57,3 +57,19 @@
     @content;
   }
 }
+
+@mixin apply-container-shape($name) {
+  border-start-start-radius: var(--#{$name}-container-shape-start-start, var(--#{$name}-container-shape));
+  border-start-end-radius: var(--#{$name}-container-shape-start-end, var(--#{$name}-container-shape));
+  border-end-start-radius: var(--#{$name}-container-shape-end-start, var(--#{$name}-container-shape));
+  border-end-end-radius: var(--#{$name}-container-shape-end-end, var(--#{$name}-container-shape));
+  corner-shape: var(--#{$name}-container-shape-variant);
+}
+
+@mixin copy-container-shape($from, $to) {
+  --#{$to}-container-shape-start-start: var(--#{$from}-container-shape-start-start, var(--#{$from}-container-shape));
+  --#{$to}-container-shape-start-end: var(--#{$from}-container-shape-start-end, var(--#{$from}-container-shape));
+  --#{$to}-container-shape-end-start: var(--#{$from}-container-shape-end-start, var(--#{$from}-container-shape));
+  --#{$to}-container-shape-end-end: var(--#{$from}-container-shape-end-end, var(--#{$from}-container-shape));
+  --#{$to}-container-shape-variant: var(--#{$from}-container-shape-variant);
+}

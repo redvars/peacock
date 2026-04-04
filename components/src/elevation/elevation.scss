@@ -1,3 +1,7 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
 /**
  * Derived from Material Design Elevation
  * https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
@@ -7,11 +11,7 @@
 .shadow,
 .shadow::before,
 .shadow::after {
-  border-start-start-radius: var(--elevation-container-shape-start-start, var(--elevation-container-shape));
-  border-start-end-radius: var(--elevation-container-shape-start-end, var(--elevation-container-shape));
-  border-end-start-radius: var(--elevation-container-shape-end-start, var(--elevation-container-shape));
-  border-end-end-radius: var(--elevation-container-shape-end-end, var(--elevation-container-shape));
-  corner-shape: var(--elevation-container-shape-variant);
+  @include mixin.apply-container-shape(elevation);
 
   inset: 0;
   position: absolute;

@@ -71,7 +71,9 @@ describe('Search', () => {
     await el.updateComplete;
 
     let receivedDetail: { value: string } | null = null;
+    let eventCount = 0;
     el.addEventListener('input', (e: Event) => {
+      eventCount += 1;
       receivedDetail = (e as CustomEvent).detail;
     });
 
@@ -82,8 +84,32 @@ describe('Search', () => {
     input.dispatchEvent(new InputEvent('input', { bubbles: true }));
 
     await el.updateComplete;
+    expect(eventCount).to.equal(1);
     expect(receivedDetail).to.not.be.null;
     expect(receivedDetail!.value).to.equal('test');
+  });
+
+  it('dispatches change event once with value detail', async () => {
+    const el = await fixture<Search>(html`<wc-search></wc-search>`);
+    await el.updateComplete;
+
+    let receivedDetail: { value: string } | null = null;
+    let eventCount = 0;
+    el.addEventListener('change', (e: Event) => {
+      eventCount += 1;
+      receivedDetail = (e as CustomEvent).detail;
+    });
+
+    const input = el.shadowRoot!.querySelector(
+      '.search-input',
+    ) as HTMLInputElement;
+    input.value = 'changed';
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    await el.updateComplete;
+    expect(eventCount).to.equal(1);
+    expect(receivedDetail).to.not.be.null;
+    expect(receivedDetail!.value).to.equal('changed');
   });
 
   it('shows clear button when value is present', async () => {

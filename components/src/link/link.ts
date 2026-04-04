@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import BaseHyperlink from '../__base_element/BaseHyperlink.js';
+import BaseHyperlinkMixin from '../__mixins/BaseHyperlinkMixin.js';
 import styles from './link.scss';
 
 /**
@@ -16,7 +16,7 @@ import styles from './link.scss';
  * <wc-link href="#">Link</wc-link>
  * ```
  */
-export class Link extends BaseHyperlink(LitElement) {
+export class Link extends BaseHyperlinkMixin(LitElement) {
   static styles = [styles];
 
   render() {

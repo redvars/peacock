@@ -84,12 +84,16 @@
   /* State layer for hover/press */
   .state-layer {
     position: absolute;
-    inset: 0;
+    top: 0.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--_indicator-width);
+    height: var(--_indicator-height);
     pointer-events: none;
     background-color: var(--_state-color);
     opacity: 0;
     z-index: 0;
-    border-radius: var(--shape-corner-small, 4px);
+    border-radius: var(--_indicator-shape);
     transition: opacity var(--duration-short4, 200ms) var(--easing-standard, ease);
   }
 

@@ -3,21 +3,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+  <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
     <wc-navigation-rail-item active>
-      <wc-icon slot="icon">home</wc-icon>
+      <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>
     <wc-navigation-rail-item>
-      <wc-icon slot="icon">search</wc-icon>
+      <wc-icon slot="icon" name="search"></wc-icon>
       Search
     </wc-navigation-rail-item>
     <wc-navigation-rail-item>
-      <wc-icon slot="icon">bookmark</wc-icon>
+      <wc-icon slot="icon" name="bookmark"></wc-icon>
       Saved
     </wc-navigation-rail-item>
     <wc-navigation-rail-item>
-      <wc-icon slot="icon">settings</wc-icon>
+      <wc-icon slot="icon" name="settings"></wc-icon>
       Settings
     </wc-navigation-rail-item>
   </wc-navigation-rail>

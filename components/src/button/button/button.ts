@@ -1,6 +1,7 @@
 import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
 import colorStyles from './button-colors.scss';
@@ -56,8 +57,6 @@ import { BaseButton } from '../BaseButton.js';
 export class Button extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 
-  #tabindex?: number = 0;
-
   /**
    * Icon alignment.
    * Possible values are `"start"`, `"end"`. Defaults to `"end"`.
@@ -74,18 +73,6 @@ export class Button extends BaseButton {
 
   override blur() {
     this.buttonElement?.blur();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
-    super.disconnectedCallback();
   }
 
   override firstUpdated() {
@@ -124,14 +111,15 @@ export class Button extends BaseButton {
       return html`<button
           class=${classMap(cssClasses)}
           id="button"
-          tabindex=${this.#tabindex}
           type=${this.htmlType}
           @click=${this.__dispatchClickWithThrottle}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          aria-describedby=${this.__disabledReasonID}
-          aria-disabled=${`${this.disabled || this.softDisabled}`}
+
+          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+          ?aria-disabled=${this.softDisabled}
+
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
         >
@@ -142,16 +130,18 @@ export class Button extends BaseButton {
     return html`<a
         class=${classMap(cssClasses)}
         id="button"
-        tabindex=${this.#tabindex}
         href=${this.href}
         target=${this.target}
-          @click=${this.__dispatchClickWithThrottle}
+        tabindex=${this.disabled ? '-1' : '0'}
+        @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        aria-describedby=${this.__disabledReasonID}
-        aria-disabled=${`${this.disabled}`}
+
+        aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+        ?aria-disabled=${this.softDisabled}
+
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
@@ -177,7 +167,7 @@ export class Button extends BaseButton {
         <slot name="icon"></slot>
       </div>
 
-      ${this.__renderDisabledReason()}
+      ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }
 }

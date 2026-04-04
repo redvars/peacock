@@ -719,101 +719,6 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @label Menu
-     * @name menu
-     * @description Menus display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @img /assets/img/menu.webp
-     * @imgDark /assets/img/menu-dark.webp
-     */
-    interface PcMenu {
-        /**
-          * @default false
-         */
-        "empty": boolean;
-        /**
-          * @default 'There are no items to display'
-         */
-        "emptyStateDescription": string;
-        /**
-          * @default 'No items'
-         */
-        "emptyStateHeadline": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * @default false
-         */
-        "showLoader": boolean;
-        /**
-          * The menu item size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        "value"?: string | number;
-    }
-    /**
-     * @label Menu Item
-     * @name menu-item
-     * @description Menu items display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @childComponent true
-     */
-    interface PcMenuItem {
-        /**
-          * @default 'default'
-         */
-        "color": | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "selectable": boolean;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "selected": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target": string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
      * @label Modal
      * @name modal
      * @description Modals are used to display content in a layer above the app.
@@ -988,205 +893,6 @@ export namespace Components {
      * @childComponent true
      */
     interface PcPopoverContent {
-    }
-    /**
-     * @label Select
-     * @name select
-     * @description Allows the user to select one or more options using a dropdown.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/select.webp
-     * @imgDark /assets/img/select-dark.webp
-     */
-    interface PcSelect {
-        /**
-          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
-          * @default false
-         */
-        "clearable": boolean;
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "helperText": string;
-        /**
-          * @default false
-         */
-        "hideDropdownIcon": boolean;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * @default false
-         */
-        "invalid": boolean;
-        "invalidText": string;
-        /**
-          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma',   icon: 'person' }]
-          * @default []
-         */
-        "items": {
-    label: string | number;
-    value: string | number;
-    icon?: string;
-  }[];
-        "label": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "multiple": boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * @default false
-         */
-        "open": boolean;
-        "openSelectList": () => Promise<void>;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * @default 'bottom-start,top-start,bottom-end,top-end'
-         */
-        "placements": string;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
-          * @default 'none'
-         */
-        "search": 'none' | 'initial' | 'contains' | 'managed';
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.t
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * @default false
-         */
-        "showLoader": boolean;
-        /**
-          * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state": 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number;
-        /**
-          * @default false
-         */
-        "warn": boolean;
-        "warnText": string;
-    }
-    /**
-     * @label Slider
-     * @name slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface PcSlider {
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * function to format the value of the input
-         */
-        "formatter": (value: string | number) => string;
-        "getComponentId": () => Promise<string>;
-        /**
-          * @default 100
-         */
-        "max": number;
-        /**
-          * @default 0
-         */
-        "min": number;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `ion-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * @default false
-         */
-        "showOnlySlider": boolean;
-        /**
-          * @default 1
-         */
-        "step": number;
-        /**
-          * The input field value.
-          * @default 0
-         */
-        "value"?: number;
     }
     /**
      * @label Table
@@ -1460,10 +1166,6 @@ export interface PcInputUrlCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcInputUrlElement;
 }
-export interface PcMenuItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcMenuItemElement;
-}
 export interface PcModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcModalElement;
@@ -1475,14 +1177,6 @@ export interface PcNotificationCustomEvent<T> extends CustomEvent<T> {
 export interface PcPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcPopoverElement;
-}
-export interface PcSelectCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcSelectElement;
-}
-export interface PcSliderCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcSliderElement;
 }
 export interface PcTableCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1877,46 +1571,6 @@ declare global {
         prototype: HTMLPcInputUrlElement;
         new (): HTMLPcInputUrlElement;
     };
-    /**
-     * @label Menu
-     * @name menu
-     * @description Menus display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @img /assets/img/menu.webp
-     * @imgDark /assets/img/menu-dark.webp
-     */
-    interface HTMLPcMenuElement extends Components.PcMenu, HTMLStencilElement {
-    }
-    var HTMLPcMenuElement: {
-        prototype: HTMLPcMenuElement;
-        new (): HTMLPcMenuElement;
-    };
-    interface HTMLPcMenuItemElementEventMap {
-        "pc-menu-item--click": any;
-    }
-    /**
-     * @label Menu Item
-     * @name menu-item
-     * @description Menu items display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @childComponent true
-     */
-    interface HTMLPcMenuItemElement extends Components.PcMenuItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcMenuItemElementEventMap>(type: K, listener: (this: HTMLPcMenuItemElement, ev: PcMenuItemCustomEvent<HTMLPcMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcMenuItemElementEventMap>(type: K, listener: (this: HTMLPcMenuItemElement, ev: PcMenuItemCustomEvent<HTMLPcMenuItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcMenuItemElement: {
-        prototype: HTMLPcMenuItemElement;
-        new (): HTMLPcMenuItemElement;
-    };
     interface HTMLPcModalElementEventMap {
         "pc-modal--close": any;
     }
@@ -2041,61 +1695,6 @@ declare global {
     var HTMLPcPopoverContentElement: {
         prototype: HTMLPcPopoverContentElement;
         new (): HTMLPcPopoverContentElement;
-    };
-    interface HTMLPcSelectElementEventMap {
-        "goat-select--change": any;
-        "goat-select--search": any;
-        "goat-select--enter": any;
-    }
-    /**
-     * @label Select
-     * @name select
-     * @description Allows the user to select one or more options using a dropdown.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/select.webp
-     * @imgDark /assets/img/select-dark.webp
-     */
-    interface HTMLPcSelectElement extends Components.PcSelect, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcSelectElementEventMap>(type: K, listener: (this: HTMLPcSelectElement, ev: PcSelectCustomEvent<HTMLPcSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcSelectElementEventMap>(type: K, listener: (this: HTMLPcSelectElement, ev: PcSelectCustomEvent<HTMLPcSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcSelectElement: {
-        prototype: HTMLPcSelectElement;
-        new (): HTMLPcSelectElement;
-    };
-    interface HTMLPcSliderElementEventMap {
-        "goat-slider--change": any;
-        "goat-slider--input": any;
-    }
-    /**
-     * @label Slider
-     * @name slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface HTMLPcSliderElement extends Components.PcSlider, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcSliderElementEventMap>(type: K, listener: (this: HTMLPcSliderElement, ev: PcSliderCustomEvent<HTMLPcSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcSliderElementEventMap>(type: K, listener: (this: HTMLPcSliderElement, ev: PcSliderCustomEvent<HTMLPcSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcSliderElement: {
-        prototype: HTMLPcSliderElement;
-        new (): HTMLPcSliderElement;
     };
     interface HTMLPcTableElementEventMap {
         "pc-table--cell-click": any;
@@ -2226,16 +1825,12 @@ declare global {
         "pc-header": HTMLPcHeaderElement;
         "pc-input": HTMLPcInputElement;
         "pc-input-url": HTMLPcInputUrlElement;
-        "pc-menu": HTMLPcMenuElement;
-        "pc-menu-item": HTMLPcMenuItemElement;
         "pc-modal": HTMLPcModalElement;
         "pc-modal-content": HTMLPcModalContentElement;
         "pc-notification": HTMLPcNotificationElement;
         "pc-notification-manager": HTMLPcNotificationManagerElement;
         "pc-popover": HTMLPcPopoverElement;
         "pc-popover-content": HTMLPcPopoverContentElement;
-        "pc-select": HTMLPcSelectElement;
-        "pc-slider": HTMLPcSliderElement;
         "pc-table": HTMLPcTableElement;
         "pc-textarea": HTMLPcTextareaElement;
         "pc-tree-node": HTMLPcTreeNodeElement;
@@ -2958,93 +2553,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @label Menu
-     * @name menu
-     * @description Menus display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @img /assets/img/menu.webp
-     * @imgDark /assets/img/menu-dark.webp
-     */
-    interface PcMenu {
-        /**
-          * @default false
-         */
-        "empty"?: boolean;
-        /**
-          * @default 'There are no items to display'
-         */
-        "emptyStateDescription"?: string;
-        /**
-          * @default 'No items'
-         */
-        "emptyStateHeadline"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "showLoader"?: boolean;
-        /**
-          * The menu item size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        "value"?: string | number;
-    }
-    /**
-     * @label Menu Item
-     * @name menu-item
-     * @description Menu items display a list of choices on temporary surfaces.
-     * @category Navigation
-     * @subcategory Menu
-     * @childComponent true
-     */
-    interface PcMenuItem {
-        /**
-          * @default 'default'
-         */
-        "color"?: | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'white'
-    | 'black';
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onPc-menu-item--click"?: (event: PcMenuItemCustomEvent<any>) => void;
-        /**
-          * @default false
-         */
-        "selectable"?: boolean;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "selected"?: boolean;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target"?: string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
      * @label Modal
      * @name modal
      * @description Modals are used to display content in a layer above the app.
@@ -3228,203 +2736,6 @@ declare namespace LocalJSX {
      * @childComponent true
      */
     interface PcPopoverContent {
-    }
-    /**
-     * @label Select
-     * @name select
-     * @description Allows the user to select one or more options using a dropdown.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/select.webp
-     * @imgDark /assets/img/select-dark.webp
-     */
-    interface PcSelect {
-        /**
-          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
-          * @default false
-         */
-        "clearable"?: boolean;
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        "helperText"?: string;
-        /**
-          * @default false
-         */
-        "hideDropdownIcon"?: boolean;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * @default false
-         */
-        "invalid"?: boolean;
-        "invalidText"?: string;
-        /**
-          * [{   label: 'Shivaji Varma',   value: 'shivaji-varma',   icon: 'person' }]
-          * @default []
-         */
-        "items"?: {
-    label: string | number;
-    value: string | number;
-    icon?: string;
-  }[];
-        "label"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "multiple"?: boolean;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-select--change"?: (event: PcSelectCustomEvent<any>) => void;
-        "onGoat-select--enter"?: (event: PcSelectCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-select--search"?: (event: PcSelectCustomEvent<any>) => void;
-        /**
-          * @default false
-         */
-        "open"?: boolean;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * @default 'bottom-start,top-start,bottom-end,top-end'
-         */
-        "placements"?: string;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * Search type Possible values are `"none"`, `"initial"`, `"contains"`, `"managed"`. Defaults to `"none"`.
-          * @default 'none'
-         */
-        "search"?: 'none' | 'initial' | 'contains' | 'managed';
-        /**
-          * @default false
-         */
-        "showLoader"?: boolean;
-        /**
-          * The select input size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state"?: 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-          * @default ''
-         */
-        "value"?: string | number;
-        /**
-          * @default false
-         */
-        "warn"?: boolean;
-        "warnText"?: string;
-    }
-    /**
-     * @label Slider
-     * @name slider
-     * @description Sliders allow users to make selections from a range of values.
-     * @category Form Inputs
-     * @tags input, form
-     * @img /assets/img/slider.webp
-     * @imgDark /assets/img/slider-dark.webp
-     */
-    interface PcSlider {
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goatChange` event after each keystroke.
-          * @default 300
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * function to format the value of the input
-         */
-        "formatter"?: (value: string | number) => string;
-        /**
-          * @default 100
-         */
-        "max"?: number;
-        /**
-          * @default 0
-         */
-        "min"?: number;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the value has changed.
-         */
-        "onGoat-slider--change"?: (event: PcSliderCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-slider--input"?: (event: PcSliderCustomEvent<any>) => void;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * @default false
-         */
-        "showOnlySlider"?: boolean;
-        /**
-          * @default 1
-         */
-        "step"?: number;
-        /**
-          * The input field value.
-          * @default 0
-         */
-        "value"?: number;
     }
     /**
      * @label Table
@@ -3712,16 +3023,12 @@ declare namespace LocalJSX {
         "pc-header": PcHeader;
         "pc-input": PcInput;
         "pc-input-url": PcInputUrl;
-        "pc-menu": PcMenu;
-        "pc-menu-item": PcMenuItem;
         "pc-modal": PcModal;
         "pc-modal-content": PcModalContent;
         "pc-notification": PcNotification;
         "pc-notification-manager": PcNotificationManager;
         "pc-popover": PcPopover;
         "pc-popover-content": PcPopoverContent;
-        "pc-select": PcSelect;
-        "pc-slider": PcSlider;
         "pc-table": PcTable;
         "pc-textarea": PcTextarea;
         "pc-tree-node": PcTreeNode;
@@ -3871,25 +3178,6 @@ declare module "@stencil/core" {
              */
             "pc-input-url": LocalJSX.PcInputUrl & JSXBase.HTMLAttributes<HTMLPcInputUrlElement>;
             /**
-             * @label Menu
-             * @name menu
-             * @description Menus display a list of choices on temporary surfaces.
-             * @category Navigation
-             * @subcategory Menu
-             * @img /assets/img/menu.webp
-             * @imgDark /assets/img/menu-dark.webp
-             */
-            "pc-menu": LocalJSX.PcMenu & JSXBase.HTMLAttributes<HTMLPcMenuElement>;
-            /**
-             * @label Menu Item
-             * @name menu-item
-             * @description Menu items display a list of choices on temporary surfaces.
-             * @category Navigation
-             * @subcategory Menu
-             * @childComponent true
-             */
-            "pc-menu-item": LocalJSX.PcMenuItem & JSXBase.HTMLAttributes<HTMLPcMenuItemElement>;
-            /**
              * @label Modal
              * @name modal
              * @description Modals are used to display content in a layer above the app.
@@ -3949,26 +3237,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "pc-popover-content": LocalJSX.PcPopoverContent & JSXBase.HTMLAttributes<HTMLPcPopoverContentElement>;
-            /**
-             * @label Select
-             * @name select
-             * @description Allows the user to select one or more options using a dropdown.
-             * @category Form Inputs
-             * @tags input, form
-             * @img /assets/img/select.webp
-             * @imgDark /assets/img/select-dark.webp
-             */
-            "pc-select": LocalJSX.PcSelect & JSXBase.HTMLAttributes<HTMLPcSelectElement>;
-            /**
-             * @label Slider
-             * @name slider
-             * @description Sliders allow users to make selections from a range of values.
-             * @category Form Inputs
-             * @tags input, form
-             * @img /assets/img/slider.webp
-             * @imgDark /assets/img/slider-dark.webp
-             */
-            "pc-slider": LocalJSX.PcSlider & JSXBase.HTMLAttributes<HTMLPcSliderElement>;
             /**
              * @label Table
              * @name table

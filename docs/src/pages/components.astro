@@ -12,7 +12,7 @@ const description = 'The overview page is the first page you see when you visit 
 ---
 
 
-<Layout title={title} description={description} classes='surface-container'>
+<Layout title={title} description={description} classes='surface'>
 
   <div class='main-content'>
     <div class='page-wrapper'>
@@ -25,9 +25,8 @@ const description = 'The overview page is the first page you see when you visit 
 
 
         <div id='search-container'>
-          <wc-input id='component-search' layer='01' placeholder='Search'>
-            <wc-icon slot='start' name='search'></wc-icon>
-          </wc-input>
+          <wc-search id='component-search' layer='01' placeholder='Search'>
+          </wc-search>
         </div>
 
 

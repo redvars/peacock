@@ -1,13 +1,13 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
-import BaseHyperlink from '@/__base_element/BaseHyperlink.js';
+import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
 
-export class BaseButton extends BaseHyperlink(LitElement) {
+
+
+export class BaseButton extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   protected static readonly DISABLED_REASON_ID = 'disabled-reason';
-
-  @property({ type: String }) htmlType: 'button' | 'submit' | 'reset' =
-    'button';
 
   /**
    * Type is preset of color and variant. Type will be only applied.
@@ -50,32 +50,11 @@ export class BaseButton extends BaseHyperlink(LitElement) {
    */
   @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
-  /**
-   * If true, the user cannot interact with the button. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
-
-  /**
-   * If true, the user cannot interact with the button and the button is visually styled as disabled. But the button is still focusable. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true, attribute: 'soft-disabled' })
-  softDisabled: boolean = false;
-
-  /**
-   * If button is disabled, the reason why it is disabled.
-   */
-  @property({ attribute: 'disabled-reason' })
-  disabledReason: string = '';
-  
 
   @property({ reflect: true })
   configAria?: { [key: string]: any };
-
   
-
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
@@ -94,14 +73,6 @@ export class BaseButton extends BaseHyperlink(LitElement) {
   isPressed = false;
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
-
-  override focus() {
-    this.buttonElement?.focus();
-  }
-
-  override blur() {
-    this.buttonElement?.blur();
-  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -173,17 +144,10 @@ export class BaseButton extends BaseHyperlink(LitElement) {
     }
   }
 
-  protected get __disabledReasonID(): string | undefined {
-    return this.disabled && this.disabledReason
-      ? BaseButton.DISABLED_REASON_ID
-      : undefined;
-  }
-
-  __renderDisabledReason() {
-    const disabledReasonID = this.__disabledReasonID;
-    if (disabledReasonID)
+  __renderDisabledReason(softDisabled: boolean) {
+    if (softDisabled)
       return html`<div
-        id=${disabledReasonID}
+        id=${BaseButton.DISABLED_REASON_ID}
         role="tooltip"
         aria-label=${this.disabledReason}
         class="screen-reader-only"

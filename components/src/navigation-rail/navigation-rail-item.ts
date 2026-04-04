@@ -36,6 +36,9 @@ export class NavigationRailItem extends LitElement {
   /** Whether this item is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** Whether the parent rail is in collapsed mode (labels hidden). */
+  @property({ type: Boolean, reflect: true }) collapsed = false;
+
   /** If provided, the item renders as a link. */
   @property({ reflect: true }) href?: string;
 
@@ -52,7 +55,9 @@ export class NavigationRailItem extends LitElement {
   @property({ type: Number }) throttleDelay = 200;
 
   @state() private _isPressed = false;
+
   @state() private _hasLabel = false;
+
   @state() private _hasActiveIcon = false;
 
   @query('.item-element') readonly itemElement!: HTMLElement | null;
@@ -160,7 +165,7 @@ export class NavigationRailItem extends LitElement {
             <slot name="icon" class="icon-slot"></slot>
           </div>
         </div>
-        ${this._hasLabel
+        ${this._hasLabel && !this.collapsed
           ? html`<div class="label"><slot></slot></div>`
           : html`<slot class="hidden-slot"></slot>`}
       </div>
