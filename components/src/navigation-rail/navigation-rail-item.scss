@@ -1,0 +1,212 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+/* Reset native button/link styles */
+.item-element {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  text-decoration: none;
+  text-align: unset;
+  color: inherit;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3.5rem; /* 56dp */
+  padding-block: 0.25rem; /* 4dp vertical padding */
+  cursor: pointer;
+  gap: 0.25rem; /* 4dp gap between indicator and label */
+  box-sizing: border-box;
+
+  /* Color tokens */
+  --_inactive-icon-color: var(--nav-rail-inactive-icon-color, var(--color-on-surface-variant));
+  --_active-icon-color: var(--nav-rail-active-icon-color, var(--color-on-secondary-container));
+  --_inactive-label-color: var(--nav-rail-inactive-label-color, var(--color-on-surface-variant));
+  --_active-label-color: var(--nav-rail-active-label-color, var(--color-on-surface));
+  --_indicator-color: var(--nav-rail-indicator-color, var(--color-secondary-container));
+  --_indicator-shape: var(--nav-rail-indicator-shape, var(--shape-corner-full));
+  --_indicator-width: var(--nav-rail-indicator-width, 3.5rem); /* 56dp */
+  --_indicator-height: var(--nav-rail-indicator-height, 2rem); /* 32dp */
+  --_state-color: var(--_inactive-icon-color);
+
+  /* Focus ring */
+  .focus-ring {
+    z-index: 3;
+    --focus-ring-container-shape-start-start: var(--shape-corner-small);
+    --focus-ring-container-shape-start-end: var(--shape-corner-small);
+    --focus-ring-container-shape-end-start: var(--shape-corner-small);
+    --focus-ring-container-shape-end-end: var(--shape-corner-small);
+  }
+
+  /* Active indicator (pill behind icon) */
+  .indicator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--_indicator-width);
+    height: var(--_indicator-height);
+    border-radius: var(--_indicator-shape);
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: background-color var(--duration-short4, 200ms) var(--easing-standard, ease);
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      position: relative;
+      pointer-events: none;
+
+      ::slotted(*) {
+        --icon-size: 1.5rem; /* 24dp */
+        --icon-color: var(--_inactive-icon-color);
+        color: var(--_inactive-icon-color);
+        display: flex;
+      }
+    }
+  }
+
+  /* State layer for hover/press */
+  .state-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-color: var(--_state-color);
+    opacity: 0;
+    z-index: 0;
+    border-radius: var(--shape-corner-small, 4px);
+    transition: opacity var(--duration-short4, 200ms) var(--easing-standard, ease);
+  }
+
+  .ripple {
+    z-index: 1;
+    --ripple-pressed-color: var(--_state-color);
+    --ripple-state-opacity: 0;
+    border-radius: var(--shape-corner-small, 4px);
+  }
+
+  /* Label */
+  .label {
+    @include mixin.get-typography('label-medium');
+    color: var(--_inactive-label-color);
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+    transition: color var(--duration-short4, 200ms) var(--easing-standard, ease),
+      font-weight var(--duration-short4, 200ms) var(--easing-standard, ease);
+  }
+
+  /* Active icon slot: hidden by default */
+  .active-icon-slot {
+    display: none;
+  }
+
+  .hidden-slot {
+    display: none;
+  }
+
+  /* Item content layout */
+  .item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    z-index: 1;
+  }
+
+  /* Active state */
+  &.active {
+    --_state-color: var(--_active-icon-color);
+
+    .indicator {
+      background-color: var(--_indicator-color);
+
+      .icon-container {
+        ::slotted(*) {
+          --icon-color: var(--_active-icon-color);
+          color: var(--_active-icon-color);
+        }
+      }
+    }
+
+    .label {
+      color: var(--_active-label-color);
+      font-weight: var(--typography-label-medium-font-weight-bold, 700);
+    }
+  }
+
+  /* Active icon slot: show when active and slot has content */
+  &.active.has-active-icon {
+    .active-icon-slot {
+      display: flex;
+    }
+
+    .icon-slot {
+      display: none;
+    }
+  }
+
+  /* Hover state */
+  &:hover:not(.disabled) {
+    .state-layer {
+      opacity: 0.08;
+    }
+  }
+
+  /* Pressed state */
+  &.pressed:not(.disabled) {
+    .state-layer {
+      opacity: 0.12;
+    }
+  }
+
+  /* Disabled state */
+  &.disabled {
+    cursor: not-allowed;
+
+    .indicator {
+      .icon-container {
+        ::slotted(*) {
+          --icon-color: var(--color-on-surface);
+          color: var(--color-on-surface);
+          opacity: 0.38;
+        }
+      }
+    }
+
+    .label {
+      color: var(--color-on-surface);
+      opacity: 0.38;
+    }
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    .indicator,
+    .state-layer,
+    .label {
+      transition: none;
+    }
+  }
+}

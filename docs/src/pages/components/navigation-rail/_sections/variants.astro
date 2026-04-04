@@ -1,0 +1,111 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h3>Alignment</h3>
+<p>Items can be aligned to the top, center (default), or bottom of the rail.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; gap: 1rem; height: 400px;">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+      <span class="text-label" style="font-size: 0.75rem; color: var(--color-on-surface-variant);">Top</span>
+      <wc-navigation-rail alignment="top" style="height: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+        <wc-navigation-rail-item active>
+          <wc-icon slot="icon">home</wc-icon>
+          Home
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">search</wc-icon>
+          Search
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">settings</wc-icon>
+          Settings
+        </wc-navigation-rail-item>
+      </wc-navigation-rail>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+      <span class="text-label" style="font-size: 0.75rem; color: var(--color-on-surface-variant);">Center</span>
+      <wc-navigation-rail alignment="center" style="height: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+        <wc-navigation-rail-item active>
+          <wc-icon slot="icon">home</wc-icon>
+          Home
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">search</wc-icon>
+          Search
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">settings</wc-icon>
+          Settings
+        </wc-navigation-rail-item>
+      </wc-navigation-rail>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+      <span class="text-label" style="font-size: 0.75rem; color: var(--color-on-surface-variant);">Bottom</span>
+      <wc-navigation-rail alignment="bottom" style="height: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+        <wc-navigation-rail-item active>
+          <wc-icon slot="icon">home</wc-icon>
+          Home
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">search</wc-icon>
+          Search
+        </wc-navigation-rail-item>
+        <wc-navigation-rail-item>
+          <wc-icon slot="icon">settings</wc-icon>
+          Settings
+        </wc-navigation-rail-item>
+      </wc-navigation-rail>
+    </div>
+  </div>
+</DemoComponentCard>
+
+<h3>With FAB Header</h3>
+<p>A FAB or other header content can be placed in the header slot above the items.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-navigation-rail alignment="top" style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+    <wc-fab slot="header" style="margin-bottom: 0.5rem;" size="medium">
+      <wc-icon>edit</wc-icon>
+    </wc-fab>
+    <wc-navigation-rail-item active>
+      <wc-icon slot="icon">inbox</wc-icon>
+      Inbox
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot="icon">send</wc-icon>
+      Outbox
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot="icon">drafts</wc-icon>
+      Drafts
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item disabled>
+      <wc-icon slot="icon">delete</wc-icon>
+      Trash
+    </wc-navigation-rail-item>
+  </wc-navigation-rail>
+</DemoComponentCard>
+
+<h3>Icons Only</h3>
+<p>Labels can be omitted to show only icons for a more compact rail.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-navigation-rail style="height: 300px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;">
+    <wc-navigation-rail-item active>
+      <wc-icon slot="icon">home</wc-icon>
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot="icon">search</wc-icon>
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot="icon">bookmark</wc-icon>
+    </wc-navigation-rail-item>
+    <wc-navigation-rail-item>
+      <wc-icon slot="icon">settings</wc-icon>
+    </wc-navigation-rail-item>
+  </wc-navigation-rail>
+</DemoComponentCard>
