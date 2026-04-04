@@ -2,19 +2,23 @@
 
 @include mixin.base-styles;
 
-:host,
-.skeleton,
-.skeleton::before {
-  @include mixin.apply-container-shape(skeleton);
-  inset: 0;
-  position: absolute;
-}
+
+
 
 :host {
+  position: relative;
+  inset: 0;
   --skeleton-container-color: var(--color-surface-container);
   --skeleton-element: var(--color-on-surface);
   display: flex;
   pointer-events: none;
+}
+
+.skeleton,
+.skeleton::before {
+  inset: 0;
+  position: absolute;
+  @include mixin.apply-container-shape(skeleton);
 }
 
 .skeleton {

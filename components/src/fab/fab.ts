@@ -12,6 +12,7 @@ import { IconProvider } from '../icon/icon.js';
 import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';
 import sizeStyles from './fab-sizes.scss';
+import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
 
 /**
  * @label FAB
@@ -36,7 +37,7 @@ import sizeStyles from './fab-sizes.scss';
  * @tags controls
  */
 @IndividualComponent
-export class Fab extends LitElement {
+export class Fab extends BaseHyperlinkMixin(LitElement) {
   static override styles = [styles, colorStyles, sizeStyles];
 
   #id = crypto.randomUUID();
@@ -82,11 +83,11 @@ export class Fab extends LitElement {
 
   /**
    * The size of the FAB.
-   * `"sm"` renders a small FAB (40×40dp).
-   * `"md"` renders a standard FAB (56×56dp). This is the default.
-   * `"lg"` renders a large FAB (96×96dp).
+   * `"s"` renders a small FAB (40×40dp).
+   * `"m"` renders a standard FAB (56×56dp). This is the default.
+   * `"l"` renders a large FAB (96×96dp).
    */
-  @property({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
+  @property({ reflect: true }) size: 's' | 'm' | 'l' = 'm';
 
   /**
    * If `true`, the FAB is in a lowered (resting) state with reduced elevation.
@@ -97,16 +98,6 @@ export class Fab extends LitElement {
    * If `true`, the user cannot interact with the FAB.
    */
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
-
-  /**
-   * Hyperlink to navigate to on click.
-   */
-  @property({ reflect: true }) href?: string;
-
-  /**
-   * Sets or retrieves the window or frame at which to target content.
-   */
-  @property() target: string = '_self';
 
   /**
    * Additional ARIA attributes to pass to the inner button/anchor element.
@@ -127,7 +118,7 @@ export class Fab extends LitElement {
   @state()
   isPressed = false;
 
-  @query('.fab') readonly fabElement!: HTMLElement | null;
+  @query('#fab') readonly fabElement!: HTMLElement | null;
 
   override focus() {
     this.fabElement?.focus();
@@ -170,10 +161,7 @@ export class Fab extends LitElement {
       this.isPressed = false;
     }
   };
-
-  __isLink() {
-    return !!this.href;
-  }
+  
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -257,7 +245,7 @@ export class Fab extends LitElement {
 
   __renderFabContent(isExtended: boolean) {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.fabElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this.fabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>

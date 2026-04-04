@@ -175,10 +175,10 @@ export class CodeHighlighter extends LitElement {
               variant="text"
               size="xs"
               aria-label=${locale.copyToClipboard}
-              name="content_copy"
               tooltip=${locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
+              <wc-icon name="content_copy"></wc-icon>
             </wc-icon-button>
           </div>
         </div>

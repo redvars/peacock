@@ -178,11 +178,13 @@ export class Input extends BaseInput {
                 <wc-icon-button
                   class="password-toggle"
                   variant="text"
-                  name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
                   @click=${() => {
                     this.passwordVisible = !this.passwordVisible;
                   }}
                 >
+                  <wc-icon
+                    name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
+                  ></wc-icon>
                 </wc-icon-button>
               </pc-tooltip>
             `

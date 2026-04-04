@@ -263,7 +263,7 @@ export class Card extends LitElement {
 
   renderCardContent() {
     return html`
-    <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.cardElement}></wc-focus-ring>
+    <wc-focus-ring class="focus-ring" .control=${this.cardElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>

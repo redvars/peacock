@@ -78,7 +78,7 @@ import dataSource from '../_data-source.json';
           'label': 'Actions',
           'template': function(row, column) {
             return `<pc-dropdown id='dropdown'>
-      <wc-icon-button color='secondary' variant='outlined' name='more_vert'></wc-icon-button>
+      <wc-icon-button color='secondary' variant='outlined'><wc-icon name='more_vert'></wc-icon></wc-icon-button>
       <pc-menu slot='dropdown-content' class='menu' style='width: 200px'>
         <pc-menu-item value='cut'>
           <wc-icon name='scissors' slot='start'></wc-icon>

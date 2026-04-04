@@ -167,7 +167,6 @@ export class TimePicker extends BaseInput {
           slot="field-end"
           color="secondary"
           variant="text"
-          name="calendar_today"
           ?disabled=${this.disabled}
           @click=${() => {
             setTimeout(() => {
@@ -176,6 +175,7 @@ export class TimePicker extends BaseInput {
             });
           }}
         >
+          <wc-icon name="calendar_today"></wc-icon>
         </wc-icon-button>
       </wc-field>
     `;

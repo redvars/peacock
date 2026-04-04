@@ -68,6 +68,7 @@ export class SidenavMenu implements ComponentInterface {
   @Method()
   async setFocus() {
     const firstMenuItem = this.getFirstItem();
+    // @ts-ignore
     firstMenuItem?.setFocus();
   }
 

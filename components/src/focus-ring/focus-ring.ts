@@ -20,34 +20,11 @@ export class FocusRing extends LitElement {
 
   @property({ type: String }) for = '';
 
+  @property({ type: Object}) forElement?: HTMLElement;
+
 
   render() {
     return nothing;
-  }
-
-  _control?: HTMLElement;
-
-  _focusTarget?: HTMLElement;
-
-  get control() {
-    return this._control || null;
-  }
-
-  set control(control: HTMLElement | null) {
-    if (control) {
-      this._control = control;
-    } else {
-      this.detach();
-    }
-  }
-
-  set forElement(value: HTMLElement | null) {
-    if (value) {
-      this._focusTarget = value;
-      this.attach();
-    } else {      
-      this.detach();
-    }
   }
 
   connectedCallback() {
@@ -73,17 +50,36 @@ export class FocusRing extends LitElement {
     this.visible = false;
   }
 
+  /**
+   * Resolves the element that should receive focus-ring event listeners.
+   * Prefers a `for` lookup from the current control's root node, then falls
+   * back to the control itself or a document-level `for` lookup.
+   *
+   * @returns The resolved focus target, if one can be found.
+   */
   __getFocusTarget(): HTMLElement | undefined {
 
-    if (this._focusTarget) {
-      return this._focusTarget;
+    if (this.forElement) {
+      // Without a `for` target, the control itself owns the focus ring.
+      return this.forElement;
     }
 
-    const focusTarget = document.getElementById(this.for);
-     if (focusTarget) {
-      return focusTarget
-     }
-     return undefined;
+    if (this.for) {
+      // Resolve the referenced target within the control's current root.
+      const root = this.parentElement?.getRootNode() as ShadowRoot | Document;
+      if (root) {
+        const focusTarget = root.getElementById(this.for);
+        if (focusTarget) {
+          return focusTarget
+        }
+      }
+      const focusTarget = document.getElementById(this.for);
+      if (focusTarget) {
+        return focusTarget
+      }
+    }
+    
+    return undefined;
   }
 
   attach() {
@@ -102,6 +98,5 @@ export class FocusRing extends LitElement {
       focusTarget.removeEventListener('focusout', this.__focusout.bind(this));
       focusTarget.removeEventListener('pointerdown', this.__pointerdown.bind(this));
     }
-    this._control = undefined;
   }
 }

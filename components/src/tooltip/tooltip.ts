@@ -133,6 +133,30 @@ export class Tooltip extends LitElement {
     this._target = null;
   }
 
+  _focusTarget?: HTMLElement;
+
+  set forElement(value: HTMLElement | null) {
+    if (value) {
+      this._focusTarget = value;
+    } else {      
+      this._focusTarget = undefined;
+    }
+  }
+
+  __getFocusTarget(): HTMLElement | null {
+
+    if (this._focusTarget) {
+      return this._focusTarget;
+    }
+
+    const focusTarget = document.getElementById(this.for);
+     if (focusTarget) {
+      return focusTarget
+     }
+
+     return this.parentElement;
+  }
+
   private attachListeners() {
     this.detachListeners(); // Cleanup old target if it exists
 

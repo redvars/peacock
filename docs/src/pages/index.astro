@@ -61,19 +61,17 @@ function jumpingSentence(sentence: string) {
         variant='text'
         target='_blank'
         aria-label='Github'
-        name='logo--github'
-        provider='carbon'
         href={`https://www.github.com/${site.github_username}`}
       >
+        <wc-icon name='logo--github' provider='carbon'></wc-icon>
       </wc-icon-button>
       <wc-icon-button
         variant='text'
         target='_blank'
         aria-label='Twitter'
-        name='logo--x'
-        provider='carbon'
         href={`https://x.com/${site.twitter_username}`}
       >
+        <wc-icon name='logo--x' provider='carbon'></wc-icon>
       </wc-icon-button>
     </div>
 
@@ -115,8 +113,7 @@ function jumpingSentence(sentence: string) {
         <ul style='padding-inline-start: 1.5rem'>
           <li class='text-body-large'>
               Put a script tag similar to this
-              <code class='text-code-block'>&lt;script type="module"
-                src="{envProps.script}"&gt;&lt;/script&gt;</code>
+              <code class='text-code-block'>&lt;script type="module" src="{envProps.script}"&gt;&lt;/script&gt;</code>
               in the head of your index.html
           </li>
           <li class='text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</li>

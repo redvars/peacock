@@ -166,21 +166,23 @@ export class Pagination extends LitElement {
             color="secondary"
             variant="text"
             size="sm"
-            name="keyboard_arrow_left"
             title="Previous page"
             ?disabled=${isFirstPage}
             @click=${this.handlePreviousPage}
-          ></wc-icon-button>
+          >
+            <wc-icon name="keyboard_arrow_left"></wc-icon>
+          </wc-icon-button>
           <wc-icon-button
             class="nav-button"
             color="secondary"
             variant="text"
             size="sm"
-            name="keyboard_arrow_right"
             title="Next page"
             ?disabled=${isLastPage}
             @click=${this.handleNextPage}
-          ></wc-icon-button>
+          >
+            <wc-icon name="keyboard_arrow_right"></wc-icon>
+          </wc-icon-button>
         </div>
       </div>
     `;

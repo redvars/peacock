@@ -176,7 +176,7 @@ export class MenuItem extends LitElement {
 
   renderContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this}></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>
 

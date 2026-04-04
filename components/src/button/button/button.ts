@@ -64,6 +64,18 @@ export class Button extends BaseButton {
   @property({ attribute: 'icon-align' })
   iconAlign: 'start' | 'end' = 'end';
 
+  /**
+   * Button size.
+   * Possible values are `"xs"`, `"m"`, `"l"`. Defaults to `"s"`.
+   */
+  @property({ reflect: true }) size: 'xs' | 's' | 'm' | 'l' | 'xl' = 's';
+
+  /**
+   * Additional ARIA attributes to pass to the inner button/anchor element.
+   */
+  @property({ reflect: true })
+  configAria?: { [key: string]: any };
+
   @state()
   private slotHasContent = false;
 
@@ -151,7 +163,7 @@ export class Button extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this} .forElement=${this.buttonElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .control=${this.buttonElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

@@ -221,8 +221,8 @@ export class Snackbar extends LitElement {
               size='small'
               aria-label="Dismiss notification"
               @click=${this.handleCloseClick}
-              name="close"
             >
+              <wc-icon name="close"></wc-icon>
             </wc-icon-button>`
           : nothing}
       </div>

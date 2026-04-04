@@ -44,16 +44,11 @@ export class BaseButton extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) 
     | 'surface'
     | 'on-surface' = 'primary';
 
-  /**
-   * Button size.
-   * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-   */
-  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  
 
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
+  
   
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 

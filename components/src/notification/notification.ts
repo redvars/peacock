@@ -193,11 +193,12 @@ export class Notification extends LitElement {
                 variant="text"
                 size="sm"
                 aria-label="Close notification"
-                name="close"
                 @click=${() => {
                   this.hideAndEmitDismiss('dismiss');
                 }}
-              ></wc-icon-button>
+              >
+                <wc-icon name="close"></wc-icon>
+              </wc-icon-button>
             </div>`
           : nothing}
       </div>
