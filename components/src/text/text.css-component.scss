@@ -49,11 +49,17 @@ $sizes: "large", "medium", 'small';
 }
 
 .text-code-block {
-  display: inline-flex;
   background-color: var(--color-surface-variant);
   text-shadow: 0 1px 1px var(--color-surface-variant);
   color: var(--color-on-surface);
   border-radius: var(--shape-corner-extra-small);
   padding: var(--spacing-050);
   font-family: var(--font-family-monospace);
+
+  display: inline-block;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
 }
