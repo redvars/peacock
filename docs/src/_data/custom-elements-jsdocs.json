@@ -5549,14 +5549,11 @@
         },
         {
           "kind": "field",
-          "name": "_control",
+          "name": "forElement",
           "type": {
             "text": "HTMLElement | undefined"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "control"
+          },
+          "attribute": "forElement"
         },
         {
           "kind": "method",
@@ -5605,6 +5602,13 @@
           },
           "default": "''",
           "fieldName": "for"
+        },
+        {
+          "name": "forElement",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "fieldName": "forElement"
         }
       ],
       "superclass": {
