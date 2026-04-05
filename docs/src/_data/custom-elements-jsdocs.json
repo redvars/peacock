@@ -864,10 +864,10 @@
           "kind": "field",
           "name": "size",
           "type": {
-            "text": "'xs' | 's' | 'm' | 'l' | 'xl'"
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
-          "default": "'s'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"m\"`, `\"l\"`. Defaults to `\"s\"`.",
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "attribute": "size",
           "reflects": true
         },
@@ -1302,10 +1302,10 @@
         {
           "name": "size",
           "type": {
-            "text": "'xs' | 's' | 'm' | 'l' | 'xl'"
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
-          "default": "'s'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"m\"`, `\"l\"`. Defaults to `\"s\"`.",
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
         },
         {
@@ -2089,7 +2089,7 @@
             {
               "name": "scale",
               "type": {
-                "text": "d3.ScaleOrdinal<string, string>"
+                "text": "ScaleOrdinal<string, string>"
               }
             }
           ]
@@ -2647,7 +2647,7 @@
             {
               "name": "scale",
               "type": {
-                "text": "d3.ScaleOrdinal<string, string>"
+                "text": "ScaleOrdinal<string, string>"
               }
             }
           ]
@@ -4808,10 +4808,10 @@
           "kind": "field",
           "name": "size",
           "type": {
-            "text": "'s' | 'm' | 'l'"
+            "text": "'sm' | 'md' | 'lg'"
           },
-          "default": "'m'",
-          "description": "The size of the FAB.\n`\"s\"` renders a small FAB (40×40dp).\n`\"m\"` renders a standard FAB (56×56dp). This is the default.\n`\"l\"` renders a large FAB (96×96dp).",
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
           "attribute": "size",
           "reflects": true
         },
@@ -5058,10 +5058,10 @@
         {
           "name": "size",
           "type": {
-            "text": "'s' | 'm' | 'l'"
+            "text": "'sm' | 'md' | 'lg'"
           },
-          "default": "'m'",
-          "description": "The size of the FAB.\n`\"s\"` renders a small FAB (40×40dp).\n`\"m\"` renders a standard FAB (56×56dp). This is the default.\n`\"l\"` renders a large FAB (96×96dp).",
+          "default": "'md'",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
           "fieldName": "size"
         },
         {
@@ -5556,6 +5556,21 @@
           "attribute": "forElement"
         },
         {
+          "kind": "field",
+          "name": "__boundFocusin",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "__boundFocusout",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "__boundPointerdown",
+          "privacy": "private"
+        },
+        {
           "kind": "method",
           "name": "__focusin"
         },
@@ -5857,10 +5872,10 @@
           "kind": "field",
           "name": "size",
           "type": {
-            "text": "'xs' | 's' | 'm' | 'l' | 'xl'"
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
-          "default": "'s'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"m\"`, `\"l\"`. Defaults to `\"s\"`.",
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "attribute": "size",
           "reflects": true
         },
@@ -6277,10 +6292,10 @@
         {
           "name": "size",
           "type": {
-            "text": "'xs' | 's' | 'm' | 'l' | 'xl'"
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
-          "default": "'s'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"m\"`, `\"l\"`. Defaults to `\"s\"`.",
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
         },
         {

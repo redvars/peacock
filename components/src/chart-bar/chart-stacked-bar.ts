@@ -1,7 +1,7 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import * as d3 from 'd3';
+import { select, max, scaleBand, scaleLinear, scaleOrdinal, axisLeft, axisBottom, stack, Series, SeriesPoint, ScaleOrdinal } from 'd3';
 
 import IndividualComponent from '@/IndividualComponent.js';
 
@@ -135,15 +135,14 @@ export class ChartStackedBar extends LitElement {
   }
 
   private _getColorScale(keys: string[]) {
-    return d3
-      .scaleOrdinal<string, string>()
+    return scaleOrdinal<string, string>()
       .domain(keys)
       .range(chartColors);
   }
 
   private _getColorMap(
     keys: string[],
-    scale: d3.ScaleOrdinal<string, string>,
+    scale: ScaleOrdinal<string, string>,
   ) {
     const map = new Map<string, string>();
     keys.forEach(key => {
@@ -176,7 +175,7 @@ export class ChartStackedBar extends LitElement {
     const margin = Math.max(this.margin, 16);
     const data = this.data ?? [];
 
-    const svg = d3.select(this.svgElement);
+    const svg = select(this.svgElement);
     svg.attr('width', width).attr('height', height);
 
     const innerWidth = Math.max(width - margin * 2, 0);
@@ -198,20 +197,17 @@ export class ChartStackedBar extends LitElement {
     const colorMap = this._getColorMap(keys, colorScale);
 
     const totals = this._getTotals();
-    const xScale = d3
-      .scaleBand<string>()
+    const xScale = scaleBand<string>()
       .domain(data.map(d => d.name))
       .range([0, innerWidth])
       .padding(0.3);
-    const maxValue = d3.max(totals) ?? 0;
-    const yScale = d3
-      .scaleLinear()
+    const maxValue = max(totals) ?? 0;
+    const yScale = scaleLinear()
       .domain([0, maxValue || 1])
       .nice()
       .range([innerHeight, 0]);
 
-    const stackedSeries = d3
-      .stack<ChartStackedBarItem, string>()
+    const stackedSeries = stack<ChartStackedBarItem, string>()
       .keys(keys)
       .value(
         (d, key) => d.segments.find(segment => segment.name === key)?.value ?? 0,
@@ -220,8 +216,7 @@ export class ChartStackedBar extends LitElement {
     const yGrid = container.select<SVGGElement>('.y-grid');
     yGrid
       .call(
-        d3
-          .axisLeft(yScale)
+        axisLeft(yScale)
           .ticks(5)
           .tickSize(-innerWidth)
           .tickFormat(() => ''),
@@ -235,8 +230,7 @@ export class ChartStackedBar extends LitElement {
     xAxis
       .attr('transform', `translate(0,${innerHeight})`)
       .call(
-        d3
-          .axisBottom(xScale)
+        axisBottom(xScale)
           .tickSizeOuter(0)
           .tickFormat(name => {
             const entry = data.find(d => d.name === name);
@@ -252,7 +246,7 @@ export class ChartStackedBar extends LitElement {
 
     const barGroups = container
       .select('.bars')
-      .selectAll<SVGGElement, d3.Series<ChartStackedBarItem, string>>(
+      .selectAll<SVGGElement, Series<ChartStackedBarItem, string>>(
         '.bar-group',
       )
       .data(stackedSeries, series => series.key)
@@ -268,7 +262,7 @@ export class ChartStackedBar extends LitElement {
       .style('fill', series => colorMap.get(series.key) ?? colorScale(series.key));
 
     const segmentJoin = barGroups
-      .selectAll<SVGRectElement, d3.SeriesPoint<ChartStackedBarItem>>('rect')
+      .selectAll<SVGRectElement, SeriesPoint<ChartStackedBarItem>>('rect')
       .data(series => series, d => d.data.name)
       .join(
         enter =>

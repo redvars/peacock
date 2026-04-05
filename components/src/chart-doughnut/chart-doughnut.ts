@@ -1,7 +1,7 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
+import { select, arc, pie, scaleOrdinal, easeCubicInOut, interpolateNumber, PieArcDatum, BaseType } from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
-import * as d3 from 'd3';
 import styles from './chart-donut.scss';
 
 export type ChartDoughnutColor = {
@@ -24,7 +24,7 @@ const chartColors: ChartDoughnutColor[] = [];
 
 /** SVGPathElement augmented with the last rendered arc datum for smooth tween interpolation. */
 interface ArcPathElement extends SVGPathElement {
-  _prevDatum?: d3.PieArcDatum<ChartDoughnutItem>;
+  _prevDatum?: PieArcDatum<ChartDoughnutItem>;
 }
 
 function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
@@ -108,16 +108,14 @@ export class ChartDoughnut extends LitElement {
   }
 
   private _getPieData() {
-    const pie = d3
-      .pie<ChartDoughnutItem>()
+    const pieGenerator = pie<ChartDoughnutItem>()
       .sort(null)
       .value(d => d.value);
-    return pie(this.data);
+    return pieGenerator(this.data);
   }
 
   private _getColorScale() {
-    return d3
-      .scaleOrdinal<string, ChartDoughnutColor>()
+    return scaleOrdinal<string, ChartDoughnutColor>()
       .domain(this.data.map(d => d.name))
       .range(chartColors);
   }
@@ -131,15 +129,13 @@ export class ChartDoughnut extends LitElement {
     const colorScale = this._getColorScale();
     const total = this._getTotal();
 
-    const svg = d3.select(this.svgElement);
+    const svg = select(this.svgElement);
 
-    const doughnutArc = d3
-      .arc<d3.PieArcDatum<ChartDoughnutItem>>()
+    const doughnutArc = arc<PieArcDatum<ChartDoughnutItem>>()
       .innerRadius(radius * 0.72)
       .outerRadius(radius);
 
-    const labelsArc = d3
-      .arc<d3.PieArcDatum<ChartDoughnutItem>>()
+    const labelsArc = arc<PieArcDatum<ChartDoughnutItem>>()
       .innerRadius(radius + 10)
       .outerRadius(radius + 10);
 
@@ -152,7 +148,7 @@ export class ChartDoughnut extends LitElement {
     // Arc paths — keyed by name so D3 matches elements across updates
     const $paths = svg
       .select('.arc-container')
-      .selectAll<SVGPathElement, d3.PieArcDatum<ChartDoughnutItem>>('.arc')
+      .selectAll<SVGPathElement, PieArcDatum<ChartDoughnutItem>>('.arc')
       .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
@@ -162,7 +158,7 @@ export class ChartDoughnut extends LitElement {
       $paths
         .transition()
         .duration(DURATION)
-        .ease(d3.easeCubicInOut)
+        .ease(easeCubicInOut)
         .attrTween('d', function (this: SVGPathElement, d) {
           const self = this as ArcPathElement;
           // Interpolate from the last rendered angles to the new ones.
@@ -173,8 +169,8 @@ export class ChartDoughnut extends LitElement {
               endAngle: d.startAngle,
             };
           self._prevDatum = d;
-          const iStart = d3.interpolateNumber(prev.startAngle, d.startAngle);
-          const iEnd = d3.interpolateNumber(prev.endAngle, d.endAngle);
+          const iStart = interpolateNumber(prev.startAngle, d.startAngle);
+          const iEnd = interpolateNumber(prev.endAngle, d.endAngle);
           return (t: number) =>
             doughnutArc({ ...d, startAngle: iStart(t), endAngle: iEnd(t) }) ??
             '';
@@ -194,11 +190,11 @@ export class ChartDoughnut extends LitElement {
       $title
         .transition()
         .duration(DURATION)
-        .ease(d3.easeCubicInOut)
-        .tween('text', function (this: d3.BaseType) {
-          const sel = d3.select(this as SVGTextElement);
+        .ease(easeCubicInOut)
+        .tween('text', function (this: BaseType) {
+          const sel = select(this as SVGTextElement);
           const start = parseFloat(sel.text()) || 0;
-          const interp = d3.interpolateNumber(start, total);
+          const interp = interpolateNumber(start, total);
           return function (t: number) {
             sel.text(Math.round(interp(t)));
           };
@@ -211,7 +207,7 @@ export class ChartDoughnut extends LitElement {
     const $chartContainer = svg.select('.chart-container');
 
     if (this.showLabels) {
-      const pointsFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
+      const pointsFn = (d: PieArcDatum<ChartDoughnutItem>) => {
         const posA = doughnutArc.centroid(d);
         const posB = labelsArc.centroid(d);
         const posC = posB.slice() as [number, number];
@@ -220,20 +216,20 @@ export class ChartDoughnut extends LitElement {
         return [posA, posB, posC].map(p => p.join(',')).join(' ');
       };
 
-      const transformFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
+      const transformFn = (d: PieArcDatum<ChartDoughnutItem>) => {
         const pos = labelsArc.centroid(d);
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
       };
 
-      const anchorFn = (d: d3.PieArcDatum<ChartDoughnutItem>) => {
+      const anchorFn = (d: PieArcDatum<ChartDoughnutItem>) => {
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         return midAngle < Math.PI ? 'start' : 'end';
       };
 
       const $polylines = $chartContainer
-        .selectAll<SVGPolylineElement, d3.PieArcDatum<ChartDoughnutItem>>(
+        .selectAll<SVGPolylineElement, PieArcDatum<ChartDoughnutItem>>(
           '.item-polyline',
         )
         .data(pieData, d => d.data.name)
@@ -241,7 +237,7 @@ export class ChartDoughnut extends LitElement {
         .attr('class', 'item-polyline');
 
       const $labels = $chartContainer
-        .selectAll<SVGTextElement, d3.PieArcDatum<ChartDoughnutItem>>('.item-label')
+        .selectAll<SVGTextElement, PieArcDatum<ChartDoughnutItem>>('.item-label')
         .data(pieData, d => d.data.name)
         .join('text')
         .attr('class', 'item-label')
@@ -251,12 +247,12 @@ export class ChartDoughnut extends LitElement {
         $polylines
           .transition()
           .duration(DURATION)
-          .ease(d3.easeCubicInOut)
+          .ease(easeCubicInOut)
           .attr('points', pointsFn);
         $labels
           .transition()
           .duration(DURATION)
-          .ease(d3.easeCubicInOut)
+          .ease(easeCubicInOut)
           .attr('transform', transformFn)
           .style('text-anchor', anchorFn);
       } else {

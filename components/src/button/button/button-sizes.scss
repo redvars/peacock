@@ -67,11 +67,13 @@
   letter-spacing: 0 !important;
 }
 
-:host([size='xl']) {
+:host([size='xl']),
+:host([size='extra-large']) {
   --button-height: 8.5rem;
 }
 
-:host([size='xl']) .button {
+:host([size='xl']) .button,
+:host([size='extra-large']) .button {
   --_button-icon-size: 2.5rem;
   --_button_container-padding: 4rem;
 

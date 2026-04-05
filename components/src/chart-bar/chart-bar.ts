@@ -1,8 +1,8 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { select, max, scaleBand, scaleLinear, scaleOrdinal, axisLeft, axisBottom, ScaleOrdinal } from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
-import * as d3 from 'd3';
 import styles from './chart-bar.scss';
 
 export type ChartBarItem = {
@@ -94,8 +94,7 @@ export class ChartBar extends LitElement {
   }
 
   private _getPaletteScale() {
-    return d3
-      .scaleOrdinal<string, string>()
+    return scaleOrdinal<string, string>()
       .domain(this.data.map(d => d.name))
       .range(chartColors);
   }
@@ -103,7 +102,7 @@ export class ChartBar extends LitElement {
   private _resolveColor(
     name: string,
     override: string | undefined,
-    scale: d3.ScaleOrdinal<string, string>,
+    scale: ScaleOrdinal<string, string>,
   ) {
     return override || scale(name);
   }
@@ -116,7 +115,7 @@ export class ChartBar extends LitElement {
     const margin = Math.max(this.margin, 12);
     const data = this.data ?? [];
 
-    const svg = d3.select(this.svgElement);
+    const svg = select(this.svgElement);
     svg.attr('width', width).attr('height', height);
 
     const innerWidth = Math.max(width - margin * 2, 0);
@@ -134,15 +133,13 @@ export class ChartBar extends LitElement {
       return;
     }
 
-    const xScale = d3
-      .scaleBand<string>()
+    const xScale = scaleBand<string>()
       .domain(data.map(d => d.name))
       .range([0, innerWidth])
       .padding(0.28);
 
-    const maxValue = d3.max(data, d => d.value) ?? 0;
-    const yScale = d3
-      .scaleLinear()
+    const maxValue = max(data, d => d.value) ?? 0;
+    const yScale = scaleLinear()
       .domain([0, maxValue || 1])
       .nice()
       .range([innerHeight, 0]);
@@ -150,8 +147,7 @@ export class ChartBar extends LitElement {
     const yGrid = container.select<SVGGElement>('.y-grid');
     yGrid
       .call(
-        d3
-          .axisLeft(yScale)
+        axisLeft(yScale)
           .ticks(5)
           .tickSize(-innerWidth)
           .tickFormat(() => ''),
@@ -165,8 +161,7 @@ export class ChartBar extends LitElement {
     xAxis
       .attr('transform', `translate(0,${innerHeight})`)
       .call(
-        d3
-          .axisBottom(xScale)
+        axisBottom(xScale)
           .tickSizeOuter(0)
           .tickFormat(name => {
             const entry = data.find(d => d.name === name);

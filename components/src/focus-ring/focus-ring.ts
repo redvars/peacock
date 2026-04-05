@@ -22,6 +22,11 @@ export class FocusRing extends LitElement {
 
   @property({ type: Object}) forElement?: HTMLElement;
 
+  private __boundFocusin = this.__focusin.bind(this);
+
+  private __boundFocusout = this.__focusout.bind(this);
+
+  private __boundPointerdown = this.__pointerdown.bind(this);
 
   render() {
     return nothing;
@@ -35,6 +40,32 @@ export class FocusRing extends LitElement {
   disconnectedCallback() {
     this.detach();
     super.disconnectedCallback();
+  }
+
+  updated(changed: Map<string, unknown>) {
+    if (changed.has('for') || changed.has('forElement')) {
+      // Detach from the previous target before attaching to the new one.
+      if (changed.has('forElement')) {
+        const prevEl = changed.get('forElement') as HTMLElement | undefined;
+        if (prevEl) {
+          prevEl.removeEventListener('focusin', this.__boundFocusin);
+          prevEl.removeEventListener('focusout', this.__boundFocusout);
+          prevEl.removeEventListener('pointerdown', this.__boundPointerdown);
+        }
+      } else if (changed.has('for')) {
+        const prevId = changed.get('for') as string;
+        if (prevId) {
+          const root = this.parentElement?.getRootNode() as ShadowRoot | Document;
+          const prevEl = root?.getElementById(prevId) ?? document.getElementById(prevId);
+          if (prevEl) {
+            prevEl.removeEventListener('focusin', this.__boundFocusin);
+            prevEl.removeEventListener('focusout', this.__boundFocusout);
+            prevEl.removeEventListener('pointerdown', this.__boundPointerdown);
+          }
+        }
+      }
+      this.attach();
+    }
   }
 
   __focusin() {
@@ -85,18 +116,18 @@ export class FocusRing extends LitElement {
   attach() {
     const focusTarget = this.__getFocusTarget();
     if (focusTarget) {
-      focusTarget.addEventListener('focusin', this.__focusin.bind(this));
-      focusTarget.addEventListener('focusout', this.__focusout.bind(this));
-      focusTarget.addEventListener('pointerdown', this.__pointerdown.bind(this));
+      focusTarget.addEventListener('focusin', this.__boundFocusin);
+      focusTarget.addEventListener('focusout', this.__boundFocusout);
+      focusTarget.addEventListener('pointerdown', this.__boundPointerdown);
     }
   }
 
   detach() {
     const focusTarget = this.__getFocusTarget();
     if (focusTarget) {
-      focusTarget.removeEventListener('focusin', this.__focusin.bind(this));
-      focusTarget.removeEventListener('focusout', this.__focusout.bind(this));
-      focusTarget.removeEventListener('pointerdown', this.__pointerdown.bind(this));
+      focusTarget.removeEventListener('focusin', this.__boundFocusin);
+      focusTarget.removeEventListener('focusout', this.__boundFocusout);
+      focusTarget.removeEventListener('pointerdown', this.__boundPointerdown);
     }
   }
 }

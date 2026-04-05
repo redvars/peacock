@@ -154,7 +154,7 @@ export class NavigationRailItem extends LitElement {
 
   __renderItemContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this.itemElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .forElement=${this.itemElement}></wc-focus-ring>
       <div class="state-layer"></div>
       <wc-ripple class="ripple"></wc-ripple>
 

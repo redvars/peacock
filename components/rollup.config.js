@@ -8,6 +8,19 @@ import postcssLit from 'rollup-plugin-postcss-lit';
 import postcss from 'rollup-plugin-postcss';
 import commonjs from '@rollup/plugin-commonjs';
 
+function isD3CircularDependencyWarning(warning) {
+  if (warning.code !== 'CIRCULAR_DEPENDENCY') {
+    return false;
+  }
+
+  const dependencyIds = Array.isArray(warning.ids) ? warning.ids : [];
+
+  return (
+    dependencyIds.length > 0 &&
+    dependencyIds.every(id => id.includes('/node_modules/d3-'))
+  );
+}
+
 export default async function () {
   const files = await findLitComponents();
   return [
@@ -17,6 +30,13 @@ export default async function () {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
         sourcemap: true,
+      },
+      onwarn(warning, warn) {
+        if (isD3CircularDependencyWarning(warning)) {
+          return;
+        }
+
+        warn(warning);
       },
       plugins: [
         typescript(), // The plugin loads options from tsconfig.json by default

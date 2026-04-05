@@ -57,9 +57,9 @@ export class IconButton extends BaseButton {
 
   /**
    * Button size.
-   * Possible values are `"xs"`, `"m"`, `"l"`. Defaults to `"s"`.
+   * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
    */
-  @property({ reflect: true }) size: 'xs' | 's' | 'm' | 'l' | 'xl' = 's';
+  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
    * Additional ARIA attributes to pass to the inner button/anchor element.
@@ -141,7 +141,7 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this.buttonElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .forElement=${this.buttonElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

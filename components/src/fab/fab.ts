@@ -83,11 +83,11 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
 
   /**
    * The size of the FAB.
-   * `"s"` renders a small FAB (40×40dp).
-   * `"m"` renders a standard FAB (56×56dp). This is the default.
-   * `"l"` renders a large FAB (96×96dp).
+   * `"sm"` renders a small FAB (40×40dp).
+   * `"md"` renders a standard FAB (56×56dp). This is the default.
+   * `"lg"` renders a large FAB (96×96dp).
    */
-  @property({ reflect: true }) size: 's' | 'm' | 'l' = 'm';
+  @property({ reflect: true }) size: 'sm' | 'md' | 'lg' = 'md';
 
   /**
    * If `true`, the FAB is in a lowered (resting) state with reduced elevation.
@@ -245,7 +245,7 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
 
   __renderFabContent(isExtended: boolean) {
     return html`
-      <wc-focus-ring class="focus-ring" .control=${this.fabElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" .forElement=${this.fabElement}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>

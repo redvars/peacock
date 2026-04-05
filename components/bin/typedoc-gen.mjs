@@ -16,7 +16,8 @@ async function run() {
       '@summary',
       '@overview',
       '@parentRawTag',
-    ],
+      "@cssprop"
+    ]
   });
 
   const project = await app.convert();

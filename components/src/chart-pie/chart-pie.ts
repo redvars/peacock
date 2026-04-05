@@ -1,7 +1,7 @@
 import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
+import { select, arc, pie, scaleOrdinal, PieArcDatum, easeCubicInOut, interpolateNumber } from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
-import * as d3 from 'd3';
 import styles from './chart-pie.scss';
 
 export type ChartPieColor = {
@@ -24,7 +24,7 @@ const chartColors: ChartPieColor[] = [];
 
 /** SVGPathElement augmented with the last rendered arc datum for smooth tween interpolation. */
 interface ArcPathElement extends SVGPathElement {
-  _prevDatum?: d3.PieArcDatum<ChartPieItem>;
+  _prevDatum?: PieArcDatum<ChartPieItem>;
 }
 
 function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
@@ -102,16 +102,14 @@ export class ChartPie extends LitElement {
   }
 
   private _getPieData() {
-    const pie = d3
-      .pie<ChartPieItem>()
+    const pieGenerator = pie<ChartPieItem>()
       .sort(null)
       .value(d => d.value);
-    return pie(this.data);
+    return pieGenerator(this.data);
   }
 
   private _getColorScale() {
-    return d3
-      .scaleOrdinal<string, ChartPieColor>()
+    return scaleOrdinal<string, ChartPieColor>()
       .domain(this.data.map(d => d.name))
       .range(chartColors);
   }
@@ -124,15 +122,13 @@ export class ChartPie extends LitElement {
     const pieData = this._getPieData();
     const colorScale = this._getColorScale();
 
-    const svg = d3.select(this.svgElement);
+    const svg = select(this.svgElement);
 
-    const pieArc = d3
-      .arc<d3.PieArcDatum<ChartPieItem>>()
+    const pieArc = arc<PieArcDatum<ChartPieItem>>()
       .innerRadius(0)
       .outerRadius(radius);
 
-    const labelsArc = d3
-      .arc<d3.PieArcDatum<ChartPieItem>>()
+    const labelsArc = arc<PieArcDatum<ChartPieItem>>()
       .innerRadius(radius + 10)
       .outerRadius(radius + 10);
 
@@ -145,7 +141,7 @@ export class ChartPie extends LitElement {
     // Arc paths — keyed by name so D3 matches elements across updates
     const $paths = svg
       .select('.arc-container')
-      .selectAll<SVGPathElement, d3.PieArcDatum<ChartPieItem>>('.arc')
+      .selectAll<SVGPathElement, PieArcDatum<ChartPieItem>>('.arc')
       .data(pieData, d => d.data.name)
       .join('path')
       .attr('class', 'arc')
@@ -155,7 +151,7 @@ export class ChartPie extends LitElement {
       $paths
         .transition()
         .duration(DURATION)
-        .ease(d3.easeCubicInOut)
+        .ease(easeCubicInOut)
         .attrTween('d', function (this: SVGPathElement, d) {
           const self = this as ArcPathElement;
           // Interpolate from the last rendered angles to the new ones.
@@ -166,8 +162,8 @@ export class ChartPie extends LitElement {
               endAngle: d.startAngle,
             };
           self._prevDatum = d;
-          const iStart = d3.interpolateNumber(prev.startAngle, d.startAngle);
-          const iEnd = d3.interpolateNumber(prev.endAngle, d.endAngle);
+          const iStart = interpolateNumber(prev.startAngle, d.startAngle);
+          const iEnd = interpolateNumber(prev.endAngle, d.endAngle);
           return (t: number) =>
             pieArc({ ...d, startAngle: iStart(t), endAngle: iEnd(t) }) ?? '';
         });
@@ -184,7 +180,7 @@ export class ChartPie extends LitElement {
     const $chartContainer = svg.select('.chart-container');
 
     if (this.showLabels) {
-      const pointsFn = (d: d3.PieArcDatum<ChartPieItem>) => {
+      const pointsFn = (d: PieArcDatum<ChartPieItem>) => {
         const posA = pieArc.centroid(d);
         const posB = labelsArc.centroid(d);
         const posC = posB.slice() as [number, number];
@@ -193,20 +189,20 @@ export class ChartPie extends LitElement {
         return [posA, posB, posC].map(p => p.join(',')).join(' ');
       };
 
-      const transformFn = (d: d3.PieArcDatum<ChartPieItem>) => {
+      const transformFn = (d: PieArcDatum<ChartPieItem>) => {
         const pos = labelsArc.centroid(d);
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         pos[0] = radius * (midAngle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
       };
 
-      const anchorFn = (d: d3.PieArcDatum<ChartPieItem>) => {
+      const anchorFn = (d: PieArcDatum<ChartPieItem>) => {
         const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
         return midAngle < Math.PI ? 'start' : 'end';
       };
 
       const $polylines = $chartContainer
-        .selectAll<SVGPolylineElement, d3.PieArcDatum<ChartPieItem>>(
+        .selectAll<SVGPolylineElement, PieArcDatum<ChartPieItem>>(
           '.item-polyline',
         )
         .data(pieData, d => d.data.name)
@@ -214,7 +210,7 @@ export class ChartPie extends LitElement {
         .attr('class', 'item-polyline');
 
       const $labels = $chartContainer
-        .selectAll<SVGTextElement, d3.PieArcDatum<ChartPieItem>>('.item-label')
+        .selectAll<SVGTextElement, PieArcDatum<ChartPieItem>>('.item-label')
         .data(pieData, d => d.data.name)
         .join('text')
         .attr('class', 'item-label')
@@ -224,12 +220,12 @@ export class ChartPie extends LitElement {
         $polylines
           .transition()
           .duration(DURATION)
-          .ease(d3.easeCubicInOut)
+          .ease(easeCubicInOut)
           .attr('points', pointsFn);
         $labels
           .transition()
           .duration(DURATION)
-          .ease(d3.easeCubicInOut)
+          .ease(easeCubicInOut)
           .attr('transform', transformFn)
           .style('text-anchor', anchorFn);
       } else {
