@@ -1,5 +1,5 @@
-import { html, LitElement, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { html, nothing } from 'lit';
+import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
@@ -8,11 +8,10 @@ import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-e
 import { throttle } from '@/__utils/throttle.js';
 import { spread } from '@/__directive/spread.js';
 
-import { IconProvider } from '../icon/icon.js';
 import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';
 import sizeStyles from './fab-sizes.scss';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import { BaseButton } from '@/button/BaseButton.js';
 
 /**
  * @label FAB
@@ -37,27 +36,12 @@ import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
  * @tags controls
  */
 @IndividualComponent
-export class Fab extends BaseHyperlinkMixin(LitElement) {
+export class Fab extends BaseButton {
   static override styles = [styles, colorStyles, sizeStyles];
 
   #id = crypto.randomUUID();
+  
 
-  #tabindex?: number = 0;
-
-  /**
-   * Name of the icon to display inside the FAB.
-   */
-  @property({ type: String, reflect: true }) name?: string;
-
-  /**
-   * Source URL for a custom icon.
-   */
-  @property({ type: String, reflect: true }) src?: string;
-
-  /**
-   * Icon provider. Defaults to `"material-symbols"`.
-   */
-  @property({ type: String }) provider: IconProvider = 'material-symbols';
 
   /**
    * Optional label text for the extended FAB variant.
@@ -95,11 +79,6 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
   @property({ type: Boolean, reflect: true }) lowered: boolean = false;
 
   /**
-   * If `true`, the user cannot interact with the FAB.
-   */
-  @property({ type: Boolean, reflect: true }) disabled: boolean = false;
-
-  /**
    * Additional ARIA attributes to pass to the inner button/anchor element.
    */
   @property({ reflect: true })
@@ -118,26 +97,12 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
   @state()
   isPressed = false;
 
-  @query('#fab') readonly fabElement!: HTMLElement | null;
-
   override focus() {
-    this.fabElement?.focus();
+    this.buttonElement?.focus();
   }
 
   override blur() {
-    this.fabElement?.blur();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
-    super.disconnectedCallback();
+    this.buttonElement?.blur();
   }
 
   override firstUpdated() {
@@ -147,27 +112,6 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
     );
   }
 
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
-  
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
-
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     if (this.disabled && this.href) {
       event.stopImmediatePropagation();
@@ -175,12 +119,12 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
       return;
     }
 
-    if (!isActivationClick(event) || !this.fabElement) {
+    if (!isActivationClick(event) || !this.buttonElement) {
       return;
     }
 
     this.focus();
-    dispatchActivationClick(this.fabElement);
+    dispatchActivationClick(this.buttonElement);
   };
 
   __getDisabledReasonID() {
@@ -192,6 +136,7 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
     const isExtended = !!this.label;
 
     const cssClasses = {
+      button: true,
       fab: true,
       'fab-element': true,
       [`size-${this.size}`]: true,
@@ -206,15 +151,16 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
     if (!isLink) {
       return html`<button
           class=${classMap(cssClasses)}
-          id="fab"
-          tabindex=${this.#tabindex}
+          id="button"
           type="button"
           @click=${this.__dispatchClickWithThrottle}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handlePress}
           @keyup=${this.__handlePress}
-          aria-label=${this.label ?? this.name ?? nothing}
-          aria-disabled=${`${this.disabled}`}
+          
+          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+          ?aria-disabled=${this.softDisabled}
+
           ?disabled=${this.disabled}
           ${spread(this.configAria)}
         >
@@ -225,17 +171,19 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
 
     return html`<a
         class=${classMap(cssClasses)}
-        id="fab"
-        tabindex=${this.#tabindex}
+        id="button"
+        tabindex=${this.disabled ? '-1' : '0'}
         href=${ifDefined(this.href)}
         target=${this.target}
-        @click=${this.__dispatchClickWithThrottle}
+        @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-        aria-label=${this.label ?? this.name ?? nothing}
-        aria-disabled=${`${this.disabled}`}
+
+        aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+        ?aria-disabled=${this.softDisabled}
+
         ${spread(this.configAria)}
       >
         ${this.__renderFabContent(isExtended)}
@@ -245,29 +193,22 @@ export class Fab extends BaseHyperlinkMixin(LitElement) {
 
   __renderFabContent(isExtended: boolean) {
     return html`
-      <wc-focus-ring class="focus-ring" .forElement=${this.fabElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
 
       <div class="fab-content">
-        <wc-icon
-          class="fab-icon"
-          name=${ifDefined(this.name)}
-          src=${ifDefined(this.src)}
-          provider=${this.provider}
-        ></wc-icon>
+
+        <slot></slot>
         ${isExtended
           ? html`<span class="fab-label">${this.label}</span>`
           : nothing}
       </div>
+
+      ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }
 
-  __renderTooltip() {
-    if (this.tooltip) {
-      return html`<wc-tooltip for="fab">${this.tooltip}</wc-tooltip>`;
-    }
-    return nothing;
-  }
 }

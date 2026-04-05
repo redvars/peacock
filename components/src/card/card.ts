@@ -1,4 +1,4 @@
-import { LitElement, html, nothing, PropertyValues } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
@@ -7,6 +7,7 @@ import { throttle } from '@/__utils/throttle.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './card.scss';
 import colorStyles from './card-colors.scss';
+import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
 
 type CardVariant = 'elevated' | 'filled' | 'outlined';
 
@@ -28,7 +29,7 @@ type CardVariant = 'elevated' | 'filled' | 'outlined';
  * ```
  */
 @IndividualComponent
-export class Card extends LitElement {
+export class Card extends BaseHyperlinkMixin(LitElement) {
   static styles = [styles, colorStyles];
 
   #id = crypto.randomUUID();
@@ -49,17 +50,6 @@ export class Card extends LitElement {
   disabledReason: string = '';
 
   /**
-   * Hyperlink to navigate to on click.
-   */
-  @property({ reflect: true }) href?: string;
-
-  /**
-   * Sets or retrieves the window or frame at which to target content.
-   */
-  @property() target: string = '_self';
-
-
-  /**
    * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
    */
   @property() throttleDelay = 200;
@@ -76,11 +66,7 @@ export class Card extends LitElement {
 
   @query('.card') readonly cardElement!: HTMLElement | null;
 
-  @query('slot') readonly contentSlot!: HTMLSlotElement | null;
-
   #tabindex?: number = 0;
-
-  #slottedTabIndexMap = new WeakMap<HTMLElement, string | null>();
 
   override firstUpdated() {
     this.__dispatchClickWithThrottle = throttle(
@@ -91,52 +77,9 @@ export class Card extends LitElement {
       this.renderRoot.querySelector('slot'),
       hasContent => {
         this.slotHasContent = hasContent;
-        this.__syncSlottedChildrenTabIndex();
         this.requestUpdate();
       },
     );
-    this.__syncSlottedChildrenTabIndex();
-  }
-
-  override updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('actionable') || changedProperties.has('href')) {
-      this.__syncSlottedChildrenTabIndex();
-    }
-  }
-
-  __syncSlottedChildrenTabIndex() {
-    if (!this.contentSlot) return;
-
-    const shouldDisableTabbing = this.actionable || this.__isLink();
-    const assignedChildren = this.contentSlot.assignedElements({ flatten: true });
-
-    assignedChildren.forEach(node => {
-      if (!(node instanceof HTMLElement)) return;
-
-      if (shouldDisableTabbing) {
-        if (!this.#slottedTabIndexMap.has(node)) {
-          this.#slottedTabIndexMap.set(node, node.getAttribute('tabindex'));
-        }
-
-        if (node.getAttribute('tabindex') !== '-1') {
-          node.setAttribute('tabindex', '-1');
-        }
-        return;
-      }
-
-      const originalTabIndex = this.#slottedTabIndexMap.get(node);
-      if (originalTabIndex === null) {
-        if (node.hasAttribute('tabindex')) {
-          node.removeAttribute('tabindex');
-        }
-      } else if (originalTabIndex !== undefined) {
-        if (node.getAttribute('tabindex') !== originalTabIndex) {
-          node.setAttribute('tabindex', originalTabIndex);
-        }
-      }
-
-      this.#slottedTabIndexMap.delete(node);
-    });
   }
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
@@ -161,10 +104,6 @@ export class Card extends LitElement {
     this.focus();
     dispatchActivationClick(this.cardElement);
   };
-
-  __isLink() {
-    return !!this.href;
-  }
 
   __getDisabledReasonID() {
     return this.disabled && this.disabledReason
@@ -207,6 +146,7 @@ export class Card extends LitElement {
   render() {
 
     const isLink = this.__isLink();
+    const disableSlotTabbing = this.actionable || isLink;
 
     const cssClasses = {
       card: true,
@@ -223,7 +163,7 @@ export class Card extends LitElement {
               class=${classMap(cssClasses)}
               id="card"
               >
-              ${this.renderCardContent()}
+              ${this.renderCardContent(disableSlotTabbing)}
             </div>`;
     }
 
@@ -240,7 +180,7 @@ export class Card extends LitElement {
               aria-disabled=${`${this.disabled}`}
               ?disabled=${this.disabled}
             >
-              ${this.renderCardContent()}
+              ${this.renderCardContent(disableSlotTabbing)}
             </button>`;
     }
     return html`<a
@@ -257,13 +197,13 @@ export class Card extends LitElement {
             ?aria-describedby=${this.__getDisabledReasonID()}
             aria-disabled=${`${this.disabled}`}
           >
-            ${this.renderCardContent()}
+            ${this.renderCardContent(disableSlotTabbing)}
           </a>`;
   }
 
-  renderCardContent() {
+  renderCardContent(disableSlotTabbing: boolean) {
     return html`
-    <wc-focus-ring class="focus-ring" .forElement=${this.cardElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for='card'></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
@@ -271,8 +211,8 @@ export class Card extends LitElement {
 
       <div class="card-content">
 
-        <div class="slot-container">
-          <slot @slotchange=${this.__syncSlottedChildrenTabIndex}></slot>
+        <div class="slot-container" ?inert=${disableSlotTabbing}>
+          <slot></slot>
         </div>
 
       </div>

@@ -151,6 +151,7 @@ export class MenuItem extends LitElement {
 
     if (isLink) {
       return html`<a
+        id="item"
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
@@ -164,6 +165,7 @@ export class MenuItem extends LitElement {
     }
 
     return html`<div
+      id="item"
       class=${classMap(cssClasses)}
       aria-disabled=${String(this.disabled)}
       aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
@@ -176,7 +178,7 @@ export class MenuItem extends LitElement {
 
   renderContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .forElement=${this}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>
 

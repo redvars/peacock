@@ -238,6 +238,7 @@ export class Checkbox extends LitElement {
     return html`
       <label class=${classMap(cssClasses)}>
         <div
+          id="container"
           class="container"
           tabindex=${this.tabindex || 0}
           @keyup=${this.handleKeyUp}
@@ -255,7 +256,8 @@ export class Checkbox extends LitElement {
               : 'false'}
           ${spread(this.configAria)}
         >
-          <div class="state-layer"></div>
+          <wc-ripple class="ripple"></wc-ripple>
+          <wc-focus-ring class="focus-ring" for='container'></wc-focus-ring>
           <div class="outline"></div>
           <div class="background"></div>
           <svg class="icon" viewBox="0 0 12 12">

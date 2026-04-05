@@ -873,6 +873,44 @@
         },
         {
           "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "attribute": "type"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "string | undefined"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "attribute": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "string | undefined"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -897,6 +935,10 @@
         {
           "kind": "method",
           "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__convertTypeToVariantAndColor"
         },
         {
           "kind": "method",
@@ -1087,48 +1129,6 @@
         },
         {
           "kind": "field",
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "attribute": "type",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "attribute": "variant",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "attribute": "color",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "skeleton",
           "type": {
             "text": "boolean"
@@ -1249,14 +1249,6 @@
         },
         {
           "kind": "method",
-          "name": "__convertTypeToVariantAndColor",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
           "name": "__renderDisabledReason",
           "parameters": [
             {
@@ -1307,6 +1299,32 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "fieldName": "type"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n      | 'filled'\n      | 'tonal'\n      | 'outlined'\n      | 'text'\n      | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n      | 'success'\n      | 'danger'\n      | 'warning'\n      | 'surface'\n      | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color"
         },
         {
           "name": "configAria",
@@ -1451,44 +1469,6 @@
           },
           "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
           "fieldName": "download",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "fieldName": "type",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "fieldName": "variant",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"
@@ -1791,26 +1771,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target"
-        },
-        {
-          "kind": "field",
           "name": "throttleDelay",
           "type": {
             "text": "number"
@@ -1847,30 +1807,12 @@
         },
         {
           "kind": "field",
-          "name": "contentSlot",
-          "type": {
-            "text": "HTMLSlotElement | null"
-          },
-          "readonly": true
-        },
-        {
-          "kind": "field",
           "name": "#tabindex",
           "privacy": "private",
           "type": {
             "text": "number | undefined"
           },
           "default": "0"
-        },
-        {
-          "kind": "field",
-          "name": "#slottedTabIndexMap",
-          "privacy": "private",
-          "default": "new WeakMap<HTMLElement, string | null>()"
-        },
-        {
-          "kind": "method",
-          "name": "__syncSlottedChildrenTabIndex"
         },
         {
           "kind": "field",
@@ -1882,10 +1824,6 @@
         {
           "kind": "field",
           "name": "__dispatchClick"
-        },
-        {
-          "kind": "method",
-          "name": "__isLink"
         },
         {
           "kind": "method",
@@ -1901,7 +1839,83 @@
         },
         {
           "kind": "method",
-          "name": "renderCardContent"
+          "name": "renderCardContent",
+          "parameters": [
+            {
+              "name": "disableSlotTabbing",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "attribute": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "attribute": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
         }
       ],
       "attributes": [
@@ -1939,23 +1953,6 @@
           "fieldName": "disabledReason"
         },
         {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Hyperlink to navigate to on click.",
-          "fieldName": "href"
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
-        },
-        {
           "name": "throttleDelay",
           "type": {
             "text": "number"
@@ -1963,6 +1960,61 @@
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
           "fieldName": "throttleDelay"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "fieldName": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "fieldName": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "BaseHyperlinkMixin",
+          "package": "@/__mixins/BaseHyperlinkMixin.js"
         }
       ],
       "superclass": {
@@ -4736,45 +4788,6 @@
         },
         {
           "kind": "field",
-          "name": "#tabindex",
-          "privacy": "private",
-          "type": {
-            "text": "number | undefined"
-          },
-          "default": "0"
-        },
-        {
-          "kind": "field",
-          "name": "name",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Name of the icon to display inside the FAB.",
-          "attribute": "name",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "src",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Source URL for a custom icon.",
-          "attribute": "src",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "provider",
-          "type": {
-            "text": "IconProvider"
-          },
-          "default": "'material-symbols'",
-          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
-          "attribute": "provider"
-        },
-        {
-          "kind": "field",
           "name": "label",
           "type": {
             "text": "string | undefined"
@@ -4786,23 +4799,31 @@
           "kind": "field",
           "name": "color",
           "type": {
-            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+            "text": "string | undefined"
           },
           "default": "'surface'",
           "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
           "attribute": "color",
-          "reflects": true
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
           "name": "variant",
           "type": {
-            "text": "'tonal' | 'filled'"
+            "text": "string | undefined"
           },
           "default": "'tonal'",
           "description": "The style variant of the FAB.\n`\"tonal\"` uses container colors.\n`\"filled\"` uses solid role colors.",
           "attribute": "variant",
-          "reflects": true
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -4828,17 +4849,6 @@
         },
         {
           "kind": "field",
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If `true`, the user cannot interact with the FAB.",
-          "attribute": "disabled",
-          "reflects": true
-        },
-        {
-          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -4855,7 +4865,11 @@
           },
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
-          "attribute": "throttleDelay"
+          "attribute": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -4863,8 +4877,12 @@
           "type": {
             "text": "string | undefined"
           },
+          "attribute": "tooltip",
           "description": "Tooltip text shown on hover.",
-          "attribute": "tooltip"
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -4872,15 +4890,12 @@
           "type": {
             "text": "boolean"
           },
-          "default": "false"
-        },
-        {
-          "kind": "field",
-          "name": "fabElement",
-          "type": {
-            "text": "HTMLElement | null"
-          },
-          "readonly": true
+          "default": "false",
+          "description": "States",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "method",
@@ -4892,18 +4907,11 @@
         },
         {
           "kind": "field",
-          "name": "__handlePress"
-        },
-        {
-          "kind": "field",
-          "name": "__dispatchClickWithThrottle",
-          "type": {
-            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          "name": "__dispatchClick",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
-        },
-        {
-          "kind": "field",
-          "name": "__dispatchClick"
         },
         {
           "kind": "method",
@@ -4922,8 +4930,104 @@
           ]
         },
         {
-          "kind": "method",
-          "name": "__renderTooltip"
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "attribute": "form",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "attribute": "name",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "kind": "field",
@@ -4935,8 +5039,8 @@
           "attribute": "href",
           "reflects": true,
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -4949,8 +5053,8 @@
           "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
           "attribute": "target",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -4962,8 +5066,8 @@
           "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
           "attribute": "rel",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -4975,8 +5079,8 @@
           "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
           "attribute": "download",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -4989,8 +5093,120 @@
           },
           "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "toggle",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "buttonElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason",
+          "parameters": [
+            {
+              "name": "softDisabled",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ],
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         }
       ],
@@ -5004,31 +5220,6 @@
         }
       ],
       "attributes": [
-        {
-          "name": "name",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Name of the icon to display inside the FAB.",
-          "fieldName": "name"
-        },
-        {
-          "name": "src",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Source URL for a custom icon.",
-          "fieldName": "src"
-        },
-        {
-          "name": "provider",
-          "type": {
-            "text": "IconProvider"
-          },
-          "default": "'material-symbols'",
-          "description": "Icon provider. Defaults to `\"material-symbols\"`.",
-          "fieldName": "provider"
-        },
         {
           "name": "label",
           "type": {
@@ -5074,15 +5265,6 @@
           "fieldName": "lowered"
         },
         {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If `true`, the user cannot interact with the FAB.",
-          "fieldName": "disabled"
-        },
-        {
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -5097,15 +5279,114 @@
           },
           "default": "200",
           "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
-          "fieldName": "throttleDelay"
+          "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "tooltip",
           "type": {
             "text": "string | undefined"
           },
+          "fieldName": "tooltip",
           "description": "Tooltip text shown on hover.",
-          "fieldName": "tooltip"
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "fieldName": "form",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "href",
@@ -5115,8 +5396,8 @@
           "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
           "fieldName": "href",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -5128,8 +5409,8 @@
           "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
           "fieldName": "target",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -5140,8 +5421,8 @@
           "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
           "fieldName": "rel",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         },
         {
@@ -5152,20 +5433,50 @@
           "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
           "fieldName": "download",
           "inheritedFrom": {
-            "name": "BaseHyperlinkMixin",
-            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "toggle",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
           }
         }
       ],
-      "mixins": [
-        {
-          "name": "BaseHyperlinkMixin",
-          "package": "@/__mixins/BaseHyperlinkMixin.js"
-        }
-      ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "BaseButton",
+        "package": "@/button/BaseButton.js"
       },
       "tagName": "wc-fab",
       "customElement": true,
@@ -5549,14 +5860,6 @@
         },
         {
           "kind": "field",
-          "name": "forElement",
-          "type": {
-            "text": "HTMLElement | undefined"
-          },
-          "attribute": "forElement"
-        },
-        {
-          "kind": "field",
           "name": "__boundFocusin",
           "privacy": "private"
         },
@@ -5590,7 +5893,7 @@
               "text": ""
             }
           },
-          "description": "Resolves the element that should receive focus-ring event listeners.\nPrefers a `for` lookup from the current control's root node, then falls\nback to the control itself or a document-level `for` lookup."
+          "description": "Resolves the element that should receive focus-ring event listeners by id.\nPrefers lookup from the current control's root node, then falls back to a\ndocument-level lookup."
         },
         {
           "kind": "method",
@@ -5617,13 +5920,6 @@
           },
           "default": "''",
           "fieldName": "for"
-        },
-        {
-          "name": "forElement",
-          "type": {
-            "text": "HTMLElement | undefined"
-          },
-          "fieldName": "forElement"
         }
       ],
       "superclass": {
@@ -5881,6 +6177,44 @@
         },
         {
           "kind": "field",
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "attribute": "type"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "string | undefined"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "attribute": "variant",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "string | undefined"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "attribute": "color",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
           "name": "configAria",
           "type": {
             "text": "{ [key: string]: any } | undefined"
@@ -5896,6 +6230,10 @@
         {
           "kind": "method",
           "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__convertTypeToVariantAndColor"
         },
         {
           "kind": "method",
@@ -6086,48 +6424,6 @@
         },
         {
           "kind": "field",
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "attribute": "type",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "attribute": "variant",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "attribute": "color",
-          "reflects": true,
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "field",
           "name": "skeleton",
           "type": {
             "text": "boolean"
@@ -6248,14 +6544,6 @@
         },
         {
           "kind": "method",
-          "name": "__convertTypeToVariantAndColor",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "kind": "method",
           "name": "__renderDisabledReason",
           "parameters": [
             {
@@ -6297,6 +6585,32 @@
           "default": "'sm'",
           "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
+          },
+          "description": "Type is preset of color and variant. Type will be only applied.",
+          "fieldName": "type"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n      | 'filled'\n      | 'tonal'\n      | 'outlined'\n      | 'text'\n      | 'neo'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n      | 'success'\n      | 'danger'\n      | 'warning'\n      | 'surface'\n      | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
+          "fieldName": "color"
         },
         {
           "name": "configAria",
@@ -6441,44 +6755,6 @@
           },
           "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
           "fieldName": "download",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "type",
-          "type": {
-            "text": "'primary' | 'secondary' | 'tertiary' | undefined"
-          },
-          "description": "Type is preset of color and variant. Type will be only applied.",
-          "fieldName": "type",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "variant",
-          "type": {
-            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
-          },
-          "default": "'filled'",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "fieldName": "variant",
-          "inheritedFrom": {
-            "name": "BaseButton",
-            "module": "src/button/BaseButton.ts"
-          }
-        },
-        {
-          "name": "color",
-          "type": {
-            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
-          },
-          "default": "'primary'",
-          "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color",
           "inheritedFrom": {
             "name": "BaseButton",
             "module": "src/button/BaseButton.ts"

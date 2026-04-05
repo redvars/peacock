@@ -154,7 +154,7 @@ export class NavigationRailItem extends LitElement {
 
   __renderItemContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .forElement=${this.itemElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
       <div class="state-layer"></div>
       <wc-ripple class="ripple"></wc-ripple>
 
@@ -189,6 +189,7 @@ export class NavigationRailItem extends LitElement {
 
     if (!isLink) {
       return html`<button
+        id="item"
         class=${classMap(cssClasses)}
         ?disabled=${this.disabled}
         aria-disabled=${`${this.disabled}`}
@@ -204,6 +205,7 @@ export class NavigationRailItem extends LitElement {
     }
 
     return html`<a
+      id="item"
       class=${classMap(cssClasses)}
       href=${this.href}
       target=${this.target}

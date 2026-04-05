@@ -51,12 +51,9 @@
     flex-shrink: 0;
   }
 
-  .state-layer {
-    position: absolute;
-    inset: 0;
+  .ripple {
     border-radius: 50%;
-    opacity: 0;
-    transition: opacity var(--duration-short2) var(--easing-standard);
+    --ripple-pressed-color: var(--color-on-surface);
   }
 
   .outline {
@@ -115,46 +112,32 @@
 
   // Hover state
   &:hover:not(.disabled):not(.readonly) {
-    .state-layer {
-      opacity: 0.08;
-      background: var(--color-on-surface);
+    &.state-checked .ripple,
+    &.state-indeterminate .ripple {
+      --ripple-pressed-color: var(--checkbox-selected-color);
     }
+  }
 
-    &.state-checked .state-layer,
-    &.state-indeterminate .state-layer {
-      background: var(--checkbox-selected-color);
-    }
+  .focus-ring {
+    --focus-ring-container-shape-start-start: 50%;
+    --focus-ring-container-shape-start-end: 50%;
+    --focus-ring-container-shape-end-start: 50%;
+    --focus-ring-container-shape-end-end: 50%;
   }
 
   // Focus state
   &.has-focus:not(.active):not(.disabled):not(.readonly) {
-    .state-layer {
-      opacity: 0.12;
-      background: var(--color-on-surface);
-    }
-
-    .container {
-      outline: 3px solid var(--color-primary);
-      outline-offset: 2px;
-      border-radius: 50%;
-    }
-
-    &.state-checked .state-layer,
-    &.state-indeterminate .state-layer {
-      background: var(--checkbox-selected-color);
+    &.state-checked .ripple,
+    &.state-indeterminate .ripple {
+      --ripple-pressed-color: var(--checkbox-selected-color);
     }
   }
 
   // Active/pressed state
   &.active:not(.disabled):not(.readonly) {
-    .state-layer {
-      opacity: 0.12;
-      background: var(--color-on-surface);
-    }
-
-    &.state-checked .state-layer,
-    &.state-indeterminate .state-layer {
-      background: var(--checkbox-selected-color);
+    &.state-checked .ripple,
+    &.state-indeterminate .ripple {
+      --ripple-pressed-color: var(--checkbox-selected-color);
     }
   }
 

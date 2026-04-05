@@ -9,46 +9,12 @@ import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
 export class BaseButton extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   protected static readonly DISABLED_REASON_ID = 'disabled-reason';
 
-  /**
-   * Type is preset of color and variant. Type will be only applied.
-   *
-   */
-  @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
-
-  /**
-   * The visual style of the button.
-   *
-   *  Possible variant values:
-   * `"filled"` is a filled button.
-   * `"outlined"` is an outlined button.
-   * `"text"` is a transparent button.
-   * `"tonal"` is a light color button.
-   * `"elevated"` is elevated button
-   */
-  @property() variant:
-    | 'elevated'
-    | 'filled'
-    | 'tonal'
-    | 'outlined'
-    | 'text'
-    | 'neo' = 'filled';
-
-  /**
-   * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-   */
-  @property({ reflect: true }) color:
-    | 'primary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'surface'
-    | 'on-surface' = 'primary';
-
   
+  color?: string;
+
+  variant?: string;
 
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
-
-  
   
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
@@ -123,21 +89,7 @@ export class BaseButton extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) 
     dispatchActivationClick(this.buttonElement);
   };
 
-  __convertTypeToVariantAndColor() {
-    if (this.type === 'primary') {
-      this.color = 'primary';
-      this.variant = 'filled';
-    } else if (this.type === 'secondary') {
-      this.color = 'surface';
-      this.variant = 'filled';
-    } else if (this.type === 'tertiary') {
-      this.color = 'primary';
-      this.variant = 'text';
-    } else if (this.type === 'danger') {
-      this.color = 'danger';
-      this.variant = 'filled';
-    }
-  }
+  
 
   __renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)

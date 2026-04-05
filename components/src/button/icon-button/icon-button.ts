@@ -62,6 +62,41 @@ export class IconButton extends BaseButton {
   @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
+     * Type is preset of color and variant. Type will be only applied.
+     *
+     */
+    @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+  
+    /**
+     * The visual style of the button.
+     *
+     *  Possible variant values:
+     * `"filled"` is a filled button.
+     * `"outlined"` is an outlined button.
+     * `"text"` is a transparent button.
+     * `"tonal"` is a light color button.
+     * `"elevated"` is elevated button
+     */
+    @property() variant:
+      | 'elevated'
+      | 'filled'
+      | 'tonal'
+      | 'outlined'
+      | 'text'
+      | 'neo' = 'filled';
+  
+    /**
+     * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+     */
+    @property({ reflect: true }) color:
+      | 'primary'
+      | 'success'
+      | 'danger'
+      | 'warning'
+      | 'surface'
+      | 'on-surface' = 'primary';
+
+  /**
    * Additional ARIA attributes to pass to the inner button/anchor element.
    */
   @property({ reflect: true })
@@ -81,6 +116,22 @@ export class IconButton extends BaseButton {
       this.throttleDelay,
     );
     this.__convertTypeToVariantAndColor();
+  }
+
+  __convertTypeToVariantAndColor() {
+    if (this.type === 'primary') {
+      this.color = 'primary';
+      this.variant = 'filled';
+    } else if (this.type === 'secondary') {
+      this.color = 'surface';
+      this.variant = 'filled';
+    } else if (this.type === 'tertiary') {
+      this.color = 'primary';
+      this.variant = 'text';
+    } else if (this.type === 'danger') {
+      this.color = 'danger';
+      this.variant = 'filled';
+    }
   }
 
   override render() {
@@ -141,7 +192,7 @@ export class IconButton extends BaseButton {
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" .forElement=${this.buttonElement}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

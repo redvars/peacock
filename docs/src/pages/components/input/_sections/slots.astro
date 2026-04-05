@@ -5,14 +5,14 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p class='text-body-large'>Fancy larger or smaller input? Add size attribute for additional sizes.</p>
 <DemoComponentCard lang={'html'}>
 
-    <input-field label='Email' type='text' size='lg'>
+    <wc-input label='Email' type='text' size='lg'>
       <wc-icon slot='start' name='mail'></wc-icon>
       <div slot='end'>@example.com</div>
-    </input-field>
+    </wc-input>
 
-    <input-field type='text' label='Card Number'>
+    <wc-input type='text' label='Card Number'>
       <wc-icon slot='start' name='credit_card'></wc-icon>
       <circular-progress slot='end' indeterminate></circular-progress>
-    </input-field>
+    </wc-input>
 
 </DemoComponentCard>
