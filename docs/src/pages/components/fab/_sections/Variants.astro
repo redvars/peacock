@@ -5,23 +5,23 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p class='text-body-large'>The FAB supports four colors (<code>surface</code>, <code>primary</code>, <code>secondary</code>, <code>tertiary</code>) and two variants (<code>tonal</code>, <code>filled</code>).</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-fab name='add' color='surface' variant='tonal'></wc-fab>
-  <wc-fab name='add' color='primary' variant='tonal'></wc-fab>
-  <wc-fab name='add' color='secondary' variant='tonal'></wc-fab>
-  <wc-fab name='add' color='tertiary' variant='tonal'></wc-fab>
+  <wc-fab color='surface' variant='tonal'><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab color='primary' variant='tonal'><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab color='secondary' variant='tonal'><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab color='tertiary' variant='tonal'><wc-icon name='add'></wc-icon></wc-fab>
 </DemoComponentCard>
 
 <p class='text-body-large'>Use <code>variant="filled"</code> for higher-emphasis FABs with the selected color role.</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-fab name='edit' label='Compose' color='primary' variant='filled'></wc-fab>
-  <wc-fab name='add' label='Create' color='secondary' variant='filled'></wc-fab>
-  <wc-fab name='share' label='Share' color='tertiary' variant='filled'></wc-fab>
+  <wc-fab label='Compose' color='primary' variant='filled'><wc-icon name='edit'></wc-icon></wc-fab>
+  <wc-fab label='Create' color='secondary' variant='filled'><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab label='Share' color='tertiary' variant='filled'><wc-icon name='share'></wc-icon></wc-fab>
 </DemoComponentCard>
 
 <p class='text-body-large'>Use <code>lowered</code> to reduce the elevation when the FAB is in a scrolled or resting state.</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-fab name='add' color='surface' variant='tonal' lowered></wc-fab>
-  <wc-fab name='add' color='primary' variant='filled' label='Lowered' lowered></wc-fab>
+  <wc-fab color='surface' variant='tonal' lowered><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab color='primary' variant='filled' label='Lowered' lowered><wc-icon name='add'></wc-icon></wc-fab>
 </DemoComponentCard>

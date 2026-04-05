@@ -31,7 +31,7 @@ import { BaseButton } from '@/button/BaseButton.js';
  *
  * @example
  * ```html
- * <wc-fab name="add"></wc-fab>
+ * <wc-fab><wc-icon name="add"></wc-icon></wc-fab>
  * ```
  * @tags controls
  */
