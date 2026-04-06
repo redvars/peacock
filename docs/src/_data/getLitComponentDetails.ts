@@ -1,6 +1,15 @@
 import componentsDetails from './custom-elements-jsdocs.json';
 import { marked } from 'marked';
 
+// @ts-ignore
+componentsDetails.push({
+  rawTag: 'footer',
+  label: 'Footer',
+  summary: 'The footer component represents the bottom section of a web page.',
+  tag: 'footer',
+})
+
+
 export function getComponentDetails(name: string): any {
   const comp = componentsDetails.find((component: any) => {
     return component.rawTag == name;

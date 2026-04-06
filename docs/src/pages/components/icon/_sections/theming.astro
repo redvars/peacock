@@ -3,8 +3,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <h3 class='text-headline-small'>Color</h3>
-<p class='text-body'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
-<DemoComponentCard lang={'html'}>
+<p class='text-body-large'>You can change the color of the icon using the <code>--icon-color</code> CSS variable.</p>
+
+<DemoComponentCard lang={'html'} inline>
   <wc-icon name='alarm' style='--icon-color: var(--color-on-surface)'></wc-icon>
 
   <wc-icon name='alarm' style='--icon-color: var(--color-info)'></wc-icon>
@@ -18,8 +19,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </DemoComponentCard>
 
 <h3 class='text-headline-small'>Size</h3>
-<p class='text-body'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
-<DemoComponentCard lang={'html'}>
+<p class='text-body-large'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
+
+<DemoComponentCard lang={'html'} inline>
   <wc-icon name="alarm"></wc-icon>
   <wc-icon name="alarm" style="--icon-size: 3rem"></wc-icon>
   <wc-icon name="alarm" style="--icon-size: 100px"></wc-icon>

@@ -22,7 +22,7 @@ const description = getTextTag(componentDetails, 'summary');
 
     <div class='sidenav-components'>
 
-      <wc-sidebar-menu layer='01' selected-node={rawTag}>
+      <wc-sidebar-menu layer='01' selected-item={title}>
         <wc-sidebar-menu-item label="Overview" href='/components'></wc-sidebar-menu-item>
 
         {
@@ -30,7 +30,7 @@ const description = getTextTag(componentDetails, 'summary');
               if (component.parentRawTag) {
                 return;
               }
-              return <wc-sidebar-menu-item label={component?.label} value={component?.rawTag}
+              return <wc-sidebar-menu-item label={component?.label}
                                                href={`/components/${component?.rawTag}/`}></wc-sidebar-menu-item>
             })
         }
@@ -44,7 +44,7 @@ const description = getTextTag(componentDetails, 'summary');
 
       <div class='comp-header'>
         <h1 class='heading-scrollable text-display'>{title}</h1>
-        { componentDetails?.stats == 'WIP' ? <pc-tag color='red'>Work in progress</pc-tag>  : '' }
+        { componentDetails?.stats == 'WIP' ? <wc-tag color='red'>Work in progress</wc-tag>  : '' }
       </div>
 
       <div class='component-description'>

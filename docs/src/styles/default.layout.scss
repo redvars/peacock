@@ -25,4 +25,11 @@
 .page-context-wrapper {
   flex: 1;
   overflow: auto;
+  margin-block-end: 5rem;
+}
+
+@include mixin.for-tablet-landscape-up {
+  .page-context-wrapper {
+    margin-block-end: 0;
+  }
 }

@@ -1,17 +1,40 @@
 ---
 import site from '../_data/site.json';
 ---
-<goat-footer class="simple">
-  <goat-footer-copyright slot="start" copyright={site.author}
-                         copyright-href={site.author_url}></goat-footer-copyright>
-  <goat-footer-links id="footer-links" slot="end"></goat-footer-links>
-  <script type='text/javascript'>
-    document.getElementById('footer-links').links = [{
-      'name': 'Privacy',
-      'href': '/privacy'
-    }, {
-      'name': 'License',
-      'href': '/license',
-    }];
-  </script>
-</goat-footer>
+
+<style>
+  .footer-simple {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .text-body-large {
+    display: flex;
+    align-items: center;
+    margin-block-end: 0!important;
+  }
+  .text-body-large .author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin-inline-start: var(--spacing-100);
+  }
+</style>
+
+<div class="footer-simple">
+  <div class="text-body-large">
+    Built by
+    <wc-link href={site.author_url} target="_blank">
+      <div class="author">
+        <wc-avatar
+          src="https://peacock.redvars.com/assets/img/avatar.xs.webp"
+          name={site.author}></wc-avatar>{site.author}
+      </div>
+    </wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>. Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
+  </div>
+</div>

@@ -12,9 +12,6 @@
   --sidebar-menu-item-selected-background: var(--color-secondary-container);
   --sidebar-menu-item-selected-color: var(--color-on-secondary-container);
   --sidebar-menu-item-focus-ring-color: var(--color-primary);
-
-  --sidebar-menu-item-transition-duration: 300ms;
-  --sidebar-menu-item-transition-easing: cubic-bezier(0.2, 0, 0, 1);
 }
 
 .sidebar-sub-menu {
@@ -110,7 +107,7 @@
   flex-shrink: 0;
   width: var(--sidebar-menu-item-height);
   height: var(--sidebar-menu-item-height);
-  transition: transform var(--sidebar-menu-item-transition-duration) var(--sidebar-menu-item-transition-easing);
+  transition: transform var(--duration-medium1) var(--easing-standard);
 }
 
 :host([expanded]) .expand-icon {
@@ -123,8 +120,8 @@
   margin-left: var(--spacing-200);
   max-height: 9999px;
   opacity: 1;
-  transition: max-height 350ms cubic-bezier(0.2, 0, 0, 1),
-              opacity 350ms cubic-bezier(0.2, 0, 0, 1);
+  transition: max-height var(--duration-medium1) var(--easing-standard),
+              opacity var(--duration-medium1) var(--easing-standard);
 }
 
 .sidebar-sub-menu-children.hidden {

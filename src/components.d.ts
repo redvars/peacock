@@ -213,60 +213,6 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @name1 Side Navigation
-     * @description1 The side navigation component provides an easy way to navigate through your website / application.
-     * @img1 /assets/img/sidenav.webp
-     */
-    interface GoatSidenav {
-        /**
-          * @default false
-         */
-        "showLoader": boolean;
-    }
-    interface GoatSidenavMenu {
-        /**
-          * @default false
-         */
-        "empty": boolean;
-        /**
-          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
-         */
-        "emptyState": any;
-        /**
-          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * @default false
-         */
-        "showLoader": boolean;
-        "value"?: string | number;
-    }
-    interface GoatSidenavMenuItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "selected": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
      * @name Text
      * @description Typography are used for rendering headlines, paragraphs and captions.
      * @category General
@@ -1049,98 +995,10 @@ export namespace Components {
         "warn": boolean;
         "warnText": string;
     }
-    /**
-     * @label Tree Node
-     * @name tree-node
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface PcTreeNode {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * @default true
-         */
-        "expanded": boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href": string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon": string;
-        /**
-          * @default ''
-         */
-        "label": string;
-        /**
-          * @default 0
-         */
-        "level": number;
-        /**
-          * Menu item selection state.
-         */
-        "selected": boolean;
-        /**
-          * Sets blur on the native `input` in `pc-input`. Use this method instead of the global `input.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `input` in `pc-input`. Use this method instead of the global `input.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target": string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
-     * @label Tree View
-     * @name tree-view
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface PcTreeView {
-        /**
-          * @default false
-         */
-        "empty": boolean;
-        /**
-          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
-         */
-        "emptyState": string;
-        "getSelectedNode": () => Promise<string>;
-        "selectedNode": string;
-        /**
-          * Sets focus on first menu item. Use this method instead of the global `element.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        "subscribeToSelect": (cb: any) => Promise<void>;
-    }
 }
 export interface GoatHtmlEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatHtmlEditorElement;
-}
-export interface GoatSidenavMenuItemCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLGoatSidenavMenuItemElement;
 }
 export interface PcCalendarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1185,10 +1043,6 @@ export interface PcTableCustomEvent<T> extends CustomEvent<T> {
 export interface PcTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcTextareaElement;
-}
-export interface PcTreeNodeCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTreeNodeElement;
 }
 declare global {
     interface HTMLGoatCbCompoundExpressionElement extends Components.GoatCbCompoundExpression, HTMLStencilElement {
@@ -1292,40 +1146,6 @@ declare global {
     var HTMLGoatHtmlEditorElement: {
         prototype: HTMLGoatHtmlEditorElement;
         new (): HTMLGoatHtmlEditorElement;
-    };
-    /**
-     * @name1 Side Navigation
-     * @description1 The side navigation component provides an easy way to navigate through your website / application.
-     * @img1 /assets/img/sidenav.webp
-     */
-    interface HTMLGoatSidenavElement extends Components.GoatSidenav, HTMLStencilElement {
-    }
-    var HTMLGoatSidenavElement: {
-        prototype: HTMLGoatSidenavElement;
-        new (): HTMLGoatSidenavElement;
-    };
-    interface HTMLGoatSidenavMenuElement extends Components.GoatSidenavMenu, HTMLStencilElement {
-    }
-    var HTMLGoatSidenavMenuElement: {
-        prototype: HTMLGoatSidenavMenuElement;
-        new (): HTMLGoatSidenavMenuElement;
-    };
-    interface HTMLGoatSidenavMenuItemElementEventMap {
-        "goat:sidenav-menu-item-click": any;
-    }
-    interface HTMLGoatSidenavMenuItemElement extends Components.GoatSidenavMenuItem, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLGoatSidenavMenuItemElementEventMap>(type: K, listener: (this: HTMLGoatSidenavMenuItemElement, ev: GoatSidenavMenuItemCustomEvent<HTMLGoatSidenavMenuItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLGoatSidenavMenuItemElementEventMap>(type: K, listener: (this: HTMLGoatSidenavMenuItemElement, ev: GoatSidenavMenuItemCustomEvent<HTMLGoatSidenavMenuItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLGoatSidenavMenuItemElement: {
-        prototype: HTMLGoatSidenavMenuItemElement;
-        new (): HTMLGoatSidenavMenuItemElement;
     };
     /**
      * @name Text
@@ -1753,48 +1573,6 @@ declare global {
         prototype: HTMLPcTextareaElement;
         new (): HTMLPcTextareaElement;
     };
-    interface HTMLPcTreeNodeElementEventMap {
-        "tree-node--click": any;
-    }
-    /**
-     * @label Tree Node
-     * @name tree-node
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface HTMLPcTreeNodeElement extends Components.PcTreeNode, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTreeNodeElementEventMap>(type: K, listener: (this: HTMLPcTreeNodeElement, ev: PcTreeNodeCustomEvent<HTMLPcTreeNodeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTreeNodeElementEventMap>(type: K, listener: (this: HTMLPcTreeNodeElement, ev: PcTreeNodeCustomEvent<HTMLPcTreeNodeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTreeNodeElement: {
-        prototype: HTMLPcTreeNodeElement;
-        new (): HTMLPcTreeNodeElement;
-    };
-    /**
-     * @label Tree View
-     * @name tree-view
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface HTMLPcTreeViewElement extends Components.PcTreeView, HTMLStencilElement {
-    }
-    var HTMLPcTreeViewElement: {
-        prototype: HTMLPcTreeViewElement;
-        new (): HTMLPcTreeViewElement;
-    };
     interface HTMLElementTagNameMap {
         "goat-cb-compound-expression": HTMLGoatCbCompoundExpressionElement;
         "goat-cb-divider": HTMLGoatCbDividerElement;
@@ -1807,9 +1585,6 @@ declare global {
         "goat-header-action": HTMLGoatHeaderActionElement;
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
-        "goat-sidenav": HTMLGoatSidenavElement;
-        "goat-sidenav-menu": HTMLGoatSidenavMenuElement;
-        "goat-sidenav-menu-item": HTMLGoatSidenavMenuItemElement;
         "goat-text": HTMLGoatTextElement;
         "pc-calendar": HTMLPcCalendarElement;
         "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
@@ -1833,8 +1608,6 @@ declare global {
         "pc-popover-content": HTMLPcPopoverContentElement;
         "pc-table": HTMLPcTableElement;
         "pc-textarea": HTMLPcTextareaElement;
-        "pc-tree-node": HTMLPcTreeNodeElement;
-        "pc-tree-view": HTMLPcTreeViewElement;
     }
 }
 declare namespace LocalJSX {
@@ -2038,52 +1811,6 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string;
-    }
-    /**
-     * @name1 Side Navigation
-     * @description1 The side navigation component provides an easy way to navigate through your website / application.
-     * @img1 /assets/img/sidenav.webp
-     */
-    interface GoatSidenav {
-        /**
-          * @default false
-         */
-        "showLoader"?: boolean;
-    }
-    interface GoatSidenavMenu {
-        /**
-          * @default false
-         */
-        "empty"?: boolean;
-        /**
-          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
-         */
-        "emptyState"?: any;
-        /**
-          * @default false
-         */
-        "showLoader"?: boolean;
-        "value"?: string | number;
-    }
-    interface GoatSidenavMenuItem {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onGoat:sidenav-menu-item-click"?: (event: GoatSidenavMenuItemCustomEvent<any>) => void;
-        /**
-          * Menu item selection state.
-          * @default false
-         */
-        "selected"?: boolean;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
     }
     /**
      * @name Text
@@ -2919,80 +2646,6 @@ declare namespace LocalJSX {
         "warn"?: boolean;
         "warnText"?: string;
     }
-    /**
-     * @label Tree Node
-     * @name tree-node
-     * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @childComponent true
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface PcTreeNode {
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * @default true
-         */
-        "expanded"?: boolean;
-        /**
-          * Hyperlink to navigate to on click.
-         */
-        "href"?: string;
-        /**
-          * Icon which will displayed on button. Possible values are icon names.
-         */
-        "icon"?: string;
-        /**
-          * @default ''
-         */
-        "label"?: string;
-        /**
-          * @default 0
-         */
-        "level"?: number;
-        /**
-          * Emitted when the menu item is clicked.
-         */
-        "onTree-node--click"?: (event: PcTreeNodeCustomEvent<any>) => void;
-        /**
-          * Menu item selection state.
-         */
-        "selected"?: boolean;
-        /**
-          * Sets or retrieves the window or frame at which to target content.
-          * @default '_self'
-         */
-        "target"?: string;
-        /**
-          * The menu item value.
-         */
-        "value"?: string | number | null;
-    }
-    /**
-     * @label Tree View
-     * @name tree-view
-     * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-     * @category Navigation
-     * @subcategory Tree View
-     * @img /assets/img/tree-view.webp
-     * @imgDark /assets/img/tree-view-dark.webp
-     */
-    interface PcTreeView {
-        /**
-          * @default false
-         */
-        "empty"?: boolean;
-        /**
-          * @default `{     "headline": "No items",     "description": "There are no items to display"   }`
-         */
-        "emptyState"?: string;
-        "selectedNode"?: string;
-    }
     interface IntrinsicElements {
         "goat-cb-compound-expression": GoatCbCompoundExpression;
         "goat-cb-divider": GoatCbDivider;
@@ -3005,9 +2658,6 @@ declare namespace LocalJSX {
         "goat-header-action": GoatHeaderAction;
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
-        "goat-sidenav": GoatSidenav;
-        "goat-sidenav-menu": GoatSidenavMenu;
-        "goat-sidenav-menu-item": GoatSidenavMenuItem;
         "goat-text": GoatText;
         "pc-calendar": PcCalendar;
         "pc-calendar-column-view": PcCalendarColumnView;
@@ -3031,8 +2681,6 @@ declare namespace LocalJSX {
         "pc-popover-content": PcPopoverContent;
         "pc-table": PcTable;
         "pc-textarea": PcTextarea;
-        "pc-tree-node": PcTreeNode;
-        "pc-tree-view": PcTreeView;
     }
 }
 export { LocalJSX as JSX };
@@ -3074,14 +2722,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/html-editor-dark.webp
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
-            /**
-             * @name1 Side Navigation
-             * @description1 The side navigation component provides an easy way to navigate through your website / application.
-             * @img1 /assets/img/sidenav.webp
-             */
-            "goat-sidenav": LocalJSX.GoatSidenav & JSXBase.HTMLAttributes<HTMLGoatSidenavElement>;
-            "goat-sidenav-menu": LocalJSX.GoatSidenavMenu & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuElement>;
-            "goat-sidenav-menu-item": LocalJSX.GoatSidenavMenuItem & JSXBase.HTMLAttributes<HTMLGoatSidenavMenuItemElement>;
             /**
              * @name Text
              * @description Typography are used for rendering headlines, paragraphs and captions.
@@ -3255,27 +2895,6 @@ declare module "@stencil/core" {
              * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
              */
             "pc-textarea": LocalJSX.PcTextarea & JSXBase.HTMLAttributes<HTMLPcTextareaElement>;
-            /**
-             * @label Tree Node
-             * @name tree-node
-             * @description A tree node is a hierarchical structure that provides nested levels of navigation.
-             * @category Navigation
-             * @subcategory Tree View
-             * @childComponent true
-             * @img /assets/img/tree-view.webp
-             * @imgDark /assets/img/tree-view-dark.webp
-             */
-            "pc-tree-node": LocalJSX.PcTreeNode & JSXBase.HTMLAttributes<HTMLPcTreeNodeElement>;
-            /**
-             * @label Tree View
-             * @name tree-view
-             * @description A tree view is a hierarchical structure that provides nested levels of navigation.
-             * @category Navigation
-             * @subcategory Tree View
-             * @img /assets/img/tree-view.webp
-             * @imgDark /assets/img/tree-view-dark.webp
-             */
-            "pc-tree-view": LocalJSX.PcTreeView & JSXBase.HTMLAttributes<HTMLPcTreeViewElement>;
         }
     }
 }

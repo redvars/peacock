@@ -24,7 +24,8 @@ $sideBarWidth: 15rem;
 }
 
 .sidenav-components {
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--spacing-150);
+  padding-inline: var(--spacing-100);
 }
 
 .category-name {

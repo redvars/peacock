@@ -6,19 +6,11 @@ import OverviewPanel from '../../../components/OverviewPanel.astro';
 const componentDetails = getComponentDetails('html-editor');
 
 import UsageSection from './_sections/usage.astro';
-import ThemeSection from './_sections/theme.astro';
-import DisabledSection from './_sections/disabled.astro';
 
 const sections = [
   {
     'title': 'Usage',
     'Component': UsageSection,
-  }, {
-    'title': 'Theme',
-    'Component': ThemeSection,
-  }, {
-    'title': 'Disabled State',
-    'Component': DisabledSection,
   }];
 ---
 <style is:inline>

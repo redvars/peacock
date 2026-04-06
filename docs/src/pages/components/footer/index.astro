@@ -1,12 +1,10 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 const componentDetails = getComponentDetails('footer');
 
 import UsageSection from './_sections/usage.astro';
-import AppHeaderSection from './_sections/app-header.astro';
 
 const sections = [
   {
