@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #fafafa;
+      padding: 2rem;
+      font-family: 'Noto Sans', sans-serif;
+    }
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Basic Sidebar Menu</h2>
+<wc-sidebar-menu>
+  <wc-sidebar-sub-menu label="Documents" icon="folder" expanded>
+    <wc-sidebar-sub-menu label="Work" icon="folder" expanded>
+      <wc-sidebar-menu-item label="Project A" icon="description"></wc-sidebar-menu-item>
+      <wc-sidebar-menu-item label="Project B" icon="description"></wc-sidebar-menu-item>
+    </wc-sidebar-sub-menu>
+    <wc-sidebar-menu-item label="Personal" icon="folder"></wc-sidebar-menu-item>
+  </wc-sidebar-sub-menu>
+  <wc-sidebar-sub-menu label="Pictures" icon="image" expanded>
+    <wc-sidebar-menu-item label="Vacation 2024" icon="image"></wc-sidebar-menu-item>
+    <wc-sidebar-menu-item label="Family" icon="image"></wc-sidebar-menu-item>
+  </wc-sidebar-sub-menu>
+</wc-sidebar-menu>
+
+<h2>Sidebar Menu without icons</h2>
+<wc-sidebar-menu>
+  <wc-sidebar-sub-menu label="Category 1" expanded>
+    <wc-sidebar-menu-item label="Subcategory 1.1"></wc-sidebar-menu-item>
+    <wc-sidebar-menu-item label="Subcategory 1.2"></wc-sidebar-menu-item>
+  </wc-sidebar-sub-menu>
+  <wc-sidebar-menu-item label="Category 2"></wc-sidebar-menu-item>
+</wc-sidebar-menu>
+
+<h2>Disabled items</h2>
+<wc-sidebar-menu>
+  <wc-sidebar-sub-menu label="Enabled" expanded>
+    <wc-sidebar-menu-item label="Child 1"></wc-sidebar-menu-item>
+    <wc-sidebar-menu-item label="Child 2" disabled></wc-sidebar-menu-item>
+  </wc-sidebar-sub-menu>
+  <wc-sidebar-menu-item label="Disabled" disabled></wc-sidebar-menu-item>
+</wc-sidebar-menu>
+
+<script type='module'>
+  import '/dist/index.es2017.js';
+
+  const menu = document.querySelector('wc-sidebar-menu');
+  if (menu) {
+    menu.addEventListener('sidebar-menu:change', (e) => {
+      console.log('Selected item:', e.detail);
+    });
+  }
+</script>
+
+</body>
+</html>

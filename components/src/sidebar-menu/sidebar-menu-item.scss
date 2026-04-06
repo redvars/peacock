@@ -1,0 +1,102 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+
+  // M3 sidebar menu item sizing
+  --sidebar-menu-item-height: 3rem;
+  --sidebar-menu-item-icon-size: 1.25rem;
+  --sidebar-menu-item-border-radius: var(--global-shape-corner-full, 9999px);
+
+  // M3 color tokens
+  --sidebar-menu-item-label-color: var(--color-on-surface);
+  --sidebar-menu-item-icon-color: var(--color-on-surface-variant);
+  --sidebar-menu-item-selected-background: var(--color-secondary-container);
+  --sidebar-menu-item-selected-color: var(--color-on-secondary-container);
+  --sidebar-menu-item-focus-ring-color: var(--color-primary);
+
+  // M3 animation timing
+  --sidebar-menu-item-transition-duration: 200ms;
+  --sidebar-menu-item-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--sidebar-menu-item-height);
+  border-radius: var(--sidebar-menu-item-border-radius);
+  color: var(--_label-color);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  outline: none;
+
+  --_container-color: transparent;
+  --_container-opacity: 1;
+  --_label-color: var(--sidebar-menu-item-label-color);
+
+  @include mixin.get-typography(label-large);
+
+  &.selected {
+    --_container-color: var(--sidebar-menu-item-selected-background);
+    --_label-color: var(--sidebar-menu-item-selected-color);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+.sidebar-menu-item-content {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1;
+  min-height: var(--sidebar-menu-item-height);
+  padding-inline: 0.75rem;
+  color: inherit;
+  z-index: 1;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background-color: var(--_container-color);
+  opacity: var(--_container-opacity);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.focus-ring {
+  z-index: 2;
+  --focus-ring-color: var(--sidebar-menu-item-focus-ring-color);
+  --focus-ring-container-shape-start-start: var(--sidebar-menu-item-border-radius);
+  --focus-ring-container-shape-start-end: var(--sidebar-menu-item-border-radius);
+  --focus-ring-container-shape-end-start: var(--sidebar-menu-item-border-radius);
+  --focus-ring-container-shape-end-end: var(--sidebar-menu-item-border-radius);
+}
+
+.ripple {
+  --ripple-pressed-color: var(--color-on-surface);
+  border-radius: inherit;
+}
+
+.sidebar-menu-item.selected .ripple {
+  --ripple-pressed-color: var(--sidebar-menu-item-selected-color);
+}
+
+.sidebar-menu-item-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

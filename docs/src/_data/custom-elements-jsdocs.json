@@ -322,17 +322,6 @@
         },
         {
           "kind": "field",
-          "name": "inline",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "When true, label and description are rendered on a single line.",
-          "attribute": "inline",
-          "reflects": true
-        },
-        {
-          "kind": "field",
           "name": "resolvedLabel",
           "privacy": "private",
           "readonly": true
@@ -378,15 +367,6 @@
           "default": "''",
           "description": "Optional description text when a default slot is not provided.",
           "fieldName": "description"
-        },
-        {
-          "name": "inline",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "When true, label and description are rendered on a single line.",
-          "fieldName": "inline"
         }
       ],
       "superclass": {
@@ -4756,7 +4736,7 @@
     "overview": "<p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and supports four color roles and two variants.</p>",
     "cssprop": "--fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.",
     "fires": "click - Dispatched when the FAB is clicked.",
-    "example": "```html\n<wc-fab name=\"add\"></wc-fab>\n```",
+    "example": "```html\n<wc-fab><wc-icon name=\"add\"></wc-icon></wc-fab>\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -11710,6 +11690,559 @@
     }
   },
   {
+    "label": "Sidebar Menu",
+    "tag": "wc-sidebar-menu",
+    "rawTag": "sidebar-menu",
+    "summary": "A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.",
+    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SidebarMenu",
+      "members": [
+        {
+          "kind": "field",
+          "name": "selectedItem",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the currently selected item.",
+          "attribute": "selected-item",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "_isSidebarNode",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "element is SidebarNode"
+            }
+          },
+          "parameters": [
+            {
+              "name": "element",
+              "type": {
+                "text": "Element"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getTopLevelItems",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "SidebarNode[]"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "_getChildNodes",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "SidebarNode[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "item",
+              "type": {
+                "text": "SidebarSubMenu"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getAllVisibleItems",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "SidebarNode[]"
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": "_onItemClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_updateSelectedState",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "selectedValue",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_collectAllItems",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "SidebarNode[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "items",
+              "type": {
+                "text": "SidebarNode[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_syncSelectedStateFromProperty",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onKeyDown",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selected-item",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the currently selected item.",
+          "fieldName": "selectedItem"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-sidebar-menu",
+      "customElement": true,
+      "summary": "A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.",
+      "rawTag": {
+        "name": "sidebar-menu",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Sidebar Menu Item",
+    "tag": "wc-sidebar-menu-item",
+    "rawTag": "sidebar-menu-item",
+    "parentRawTag": "sidebar-menu",
+    "summary": "A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.",
+    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SidebarMenuItem",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value used to identify this item when selected.",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The display label for this item.",
+          "attribute": "label",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional icon name to display before the label.",
+          "attribute": "icon",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional hyperlink to navigate to on click.",
+          "attribute": "href",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "attribute": "target",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the item.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item is currently selected.",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "level",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The nesting depth level (set automatically by the parent sidebar-menu).",
+          "attribute": "level",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_nativeElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "_onClick",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value used to identify this item when selected.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The display label for this item.",
+          "fieldName": "label"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional icon name to display before the label.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional hyperlink to navigate to on click.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Sets or retrieves the window or frame at which to target content.",
+          "fieldName": "target"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "If true, the user cannot interact with the item.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item is currently selected.",
+          "fieldName": "selected"
+        },
+        {
+          "name": "level",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The nesting depth level (set automatically by the parent sidebar-menu).",
+          "fieldName": "level"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-sidebar-menu-item",
+      "customElement": true,
+      "summary": "A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.",
+      "rawTag": {
+        "name": "sidebar-menu-item",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Sidebar Sub Menu",
+    "tag": "wc-sidebar-sub-menu",
+    "rawTag": "sidebar-sub-menu",
+    "parentRawTag": "sidebar-menu",
+    "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
+    "example": "```html\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n</wc-sidebar-sub-menu>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SidebarSubMenu",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "value",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "icon",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "expanded",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "level",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "attribute": "level",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_nativeElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "_getChildNodes",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "Element[]"
+            }
+          }
+        },
+        {
+          "kind": "field",
+          "name": "_updateChildLevels",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onClick",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "icon"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected"
+        },
+        {
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "expanded"
+        },
+        {
+          "name": "level",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "fieldName": "level"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-sidebar-sub-menu",
+      "customElement": true,
+      "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
+      "rawTag": {
+        "name": "sidebar-sub-menu",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Side Sheet",
     "tag": "wc-side-sheet",
     "rawTag": "side-sheet",
@@ -15815,429 +16348,6 @@
       "summary": "Displays a tooltip for an element.",
       "rawTag": {
         "name": "tooltip",
-        "description": ""
-      }
-    }
-  },
-  {
-    "label": "Tree Node",
-    "tag": "wc-tree-node",
-    "rawTag": "tree-node",
-    "parentRawTag": "tree-view",
-    "summary": "A tree node represents a single item in a hierarchical tree structure. It supports nesting, icons, links, and keyboard navigation.",
-    "example": "```html\n<wc-tree-view>\n  <wc-tree-node label=\"Parent\">\n    <wc-tree-node label=\"Child\"></wc-tree-node>\n  </wc-tree-node>\n</wc-tree-view>\n```",
-    "tags": "navigation",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "TreeNode",
-      "members": [
-        {
-          "kind": "field",
-          "name": "value",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The value used to identify this node when selected.",
-          "attribute": "value",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The display label for this node.",
-          "attribute": "label",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "icon",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Optional icon name to display before the label.",
-          "attribute": "icon",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Optional hyperlink to navigate to on click.",
-          "attribute": "href",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the node.",
-          "attribute": "disabled",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "selected",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether the node is currently selected.",
-          "attribute": "selected",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "expanded",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether child nodes are visible.",
-          "attribute": "expanded",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "level",
-          "type": {
-            "text": "number"
-          },
-          "default": "0",
-          "description": "The nesting depth level (set automatically by the parent tree-view).",
-          "attribute": "level",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "_nativeElement",
-          "type": {
-            "text": "HTMLElement | null"
-          },
-          "privacy": "private",
-          "readonly": true
-        },
-        {
-          "kind": "method",
-          "name": "focus"
-        },
-        {
-          "kind": "method",
-          "name": "blur"
-        },
-        {
-          "kind": "method",
-          "name": "_getChildNodes",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "TreeNode[]"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "_syncHostAria",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_updateChildLevels",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_handleClick",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "Event"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
-          "name": "_handleKeyDown",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "KeyboardEvent"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
-          "name": "_renderContent",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "hasChildren",
-              "type": {
-                "text": "boolean"
-              }
-            }
-          ]
-        }
-      ],
-      "events": [
-        {
-          "name": "tree-node:click",
-          "type": {
-            "text": "CustomEvent"
-          }
-        }
-      ],
-      "attributes": [
-        {
-          "name": "value",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The value used to identify this node when selected.",
-          "fieldName": "value"
-        },
-        {
-          "name": "label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The display label for this node.",
-          "fieldName": "label"
-        },
-        {
-          "name": "icon",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Optional icon name to display before the label.",
-          "fieldName": "icon"
-        },
-        {
-          "name": "href",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Optional hyperlink to navigate to on click.",
-          "fieldName": "href"
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
-        },
-        {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the node.",
-          "fieldName": "disabled"
-        },
-        {
-          "name": "selected",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether the node is currently selected.",
-          "fieldName": "selected"
-        },
-        {
-          "name": "expanded",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether child nodes are visible.",
-          "fieldName": "expanded"
-        },
-        {
-          "name": "level",
-          "type": {
-            "text": "number"
-          },
-          "default": "0",
-          "description": "The nesting depth level (set automatically by the parent tree-view).",
-          "fieldName": "level"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-tree-node",
-      "customElement": true,
-      "summary": "A tree node represents a single item in a hierarchical tree structure. It supports nesting, icons, links, and keyboard navigation.",
-      "rawTag": {
-        "name": "tree-node",
-        "description": ""
-      }
-    }
-  },
-  {
-    "label": "Tree View",
-    "tag": "wc-tree-view",
-    "rawTag": "tree-view",
-    "summary": "A tree view is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable nodes.",
-    "example": "```html\n<wc-tree-view>\n  <wc-tree-node label=\"Parent\" expanded>\n    <wc-tree-node label=\"Child 1\"></wc-tree-node>\n    <wc-tree-node label=\"Child 2\"></wc-tree-node>\n  </wc-tree-node>\n</wc-tree-view>\n```",
-    "tags": "navigation",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "TreeView",
-      "members": [
-        {
-          "kind": "field",
-          "name": "selectedNode",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The value of the currently selected node.",
-          "attribute": "selected-node",
-          "reflects": true
-        },
-        {
-          "kind": "method",
-          "name": "_getTopLevelNodes",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "TreeNode[]"
-            }
-          }
-        },
-        {
-          "kind": "method",
-          "name": "_getAllVisibleNodes",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "TreeNode[]"
-            }
-          }
-        },
-        {
-          "kind": "field",
-          "name": "_onNodeClick",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_updateSelectedState",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "selectedValue",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "method",
-          "name": "_clearSelectedState",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_syncSelectedStateFromProperty",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onSlotChange",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_collectAllNodes",
-          "privacy": "private",
-          "return": {
-            "type": {
-              "text": "TreeNode[]"
-            }
-          },
-          "parameters": [
-            {
-              "name": "nodes",
-              "type": {
-                "text": "TreeNode[]"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "field",
-          "name": "_onKeyDown",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "Node",
-          "static": true,
-          "default": "TreeNode"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "selected-node",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The value of the currently selected node.",
-          "fieldName": "selectedNode"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-tree-view",
-      "customElement": true,
-      "summary": "A tree view is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable nodes.",
-      "rawTag": {
-        "name": "tree-view",
         "description": ""
       }
     }

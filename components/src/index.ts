@@ -44,7 +44,7 @@ export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
-export { TreeView, TreeNode } from './tree-view/index.js';
+export { SidebarMenu, SidebarMenuItem, SidebarSubMenu } from './sidebar-menu/index.js';
 export { Card } from './card/index.js';
 export { Banner } from './banner/index.js';
 export { Notification } from './notification/index.js';

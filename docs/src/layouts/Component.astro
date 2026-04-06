@@ -21,43 +21,43 @@ const {nextComponent, previousComponent} = getNextAndPrevious(componentDetails?.
 
     <div class='sidenav-components'>
 
-      <wc-tree-view layer='01' value={title} selected-node={title}>
-        <wc-tree-node  label="Overview" href='/components'></wc-tree-node>
+      <wc-sidebar-menu layer='01' value={title} selected-node={title}>
+        <wc-sidebar-menu-item  label="Overview" href='/components'></wc-sidebar-menu-item>
 
         {
           getCategoriesTree().map((category) => {
             if (!category.hide) {
-              return <wc-tree-node label={category.name}  value={category.name + 'group'}>
+              return <wc-sidebar-menu-item label={category.name}  value={category.name + 'group'}>
                 {
 
                   category.children.map((componentName) => {
                     if (typeof componentName === 'string') {
                       const component = getComponentDetails(componentName);
                       if (component.metadata.name) {
-                        return <wc-tree-node label={component?.metadata.label} value={component?.metadata.name}
-                                               href={`/components/${component?.metadata.name}/`}></wc-tree-node>
+                        return <wc-sidebar-menu-item label={component?.metadata.label} value={component?.metadata.name}
+                                               href={`/components/${component?.metadata.name}/`}></wc-sidebar-menu-item>
                       }
                     } else if (componentName.children) {
-                      return <wc-tree-node label={componentName.name}  value={componentName.name + 'group'}>
+                      return <wc-sidebar-menu-item label={componentName.name}  value={componentName.name + 'group'}>
                         {
                           componentName.children.map((componentName) => {
                             const component = getComponentDetails(componentName);
                             if (component?.metadata.name) {
-                              return <wc-tree-node label={component?.metadata.label}  value={component?.metadata.name}
-                                                     href={`/components/${component?.metadata.name}/`}></wc-tree-node>
+                              return <wc-sidebar-menu-item label={component?.metadata.label}  value={component?.metadata.name}
+                                                     href={`/components/${component?.metadata.name}/`}></wc-sidebar-menu-item>
                             }
                           })
                         }
-                      </wc-tree-node>
+                      </wc-sidebar-menu-item>
                     }
                   })
                 }
-              </wc-tree-node>
+              </wc-sidebar-menu-item>
             }
           })
         }
 
-      </wc-tree-view>
+      </wc-sidebar-menu>
 
     </div>
 

@@ -165,7 +165,7 @@ These components are used for general purpose. They include
 | [Table](https://peacock.redvars.com/components/table)                       | wc-table              | 🟡    |
 | [Tag](https://peacock.redvars.com/components/tag)                           | wc-tag                | 🟢    |
 | Text                                                                        | text                  | 🔴    |
-| [Tree View](https://peacock.redvars.com/components/tree-view)               | wc-tree-view          | 🟡    |
+| [Sidebar Menu](https://peacock.redvars.com/components/sidebar-menu)         | wc-sidebar-menu       | 🟡    |
 
 ## Charts
 

@@ -1,0 +1,20 @@
+---
+import HighlighterCard from '../../../../components/HighlighterCard.astro';
+---
+<HighlighterCard lang={'html'}>
+  <wc-sidebar-menu id='sidebar-menu' style='width: 300px;' selected-item='Blockchain'>
+    <wc-sidebar-menu-item label='Artificial intelligence'></wc-sidebar-menu-item>
+    <wc-sidebar-menu-item label='Blockchain'></wc-sidebar-menu-item>
+    <wc-sidebar-sub-menu label='Cloud computing' expanded>
+      <wc-sidebar-menu-item label='Containers'></wc-sidebar-menu-item>
+      <wc-sidebar-menu-item label='Databases'></wc-sidebar-menu-item>
+    </wc-sidebar-sub-menu>
+  </wc-sidebar-menu>
+</HighlighterCard>
+
+<script is:inline>
+  const sidebarMenu = document.querySelector('#sidebar-menu');
+  sidebarMenu.addEventListener('sidebar-menu:change', function(evt) {
+    myConsole.log(JSON.stringify(evt.detail.value, null, 4),  evt.type);
+  });
+</script>

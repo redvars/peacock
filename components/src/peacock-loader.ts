@@ -54,7 +54,9 @@ import { TabPanel } from './tabs/tab-panel.js';
 import { Slider } from './slider/slider.js';
 import { Table } from './table/table.js';
 import { Pagination } from './pagination/pagination.js';
-import { TreeView } from './tree-view/tree-view.js';
+import { SidebarMenu } from './sidebar-menu/sidebar-menu.js';
+import { SidebarMenuItem } from './sidebar-menu/sidebar-menu-item.js';
+import { SidebarSubMenu } from './sidebar-menu/sidebar-sub-menu.js';
 import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
 import { Banner } from './banner/banner.js';
@@ -261,11 +263,14 @@ const loaderConfig: LoaderConfig = {
     'wc-pagination': {
       CustomElementClass: Pagination,
     },
-    'wc-tree-view': {
-      CustomElementClass: TreeView,
+    'wc-sidebar-menu': {
+      CustomElementClass: SidebarMenu,
     },
-    'wc-tree-node': {
-      CustomElementClass: TreeView.Node,
+    'wc-sidebar-menu-item': {
+      CustomElementClass: SidebarMenuItem,
+    },
+    'wc-sidebar-sub-menu': {
+      CustomElementClass: SidebarSubMenu,
     },
     'wc-snackbar': {
       CustomElementClass: Snackbar,

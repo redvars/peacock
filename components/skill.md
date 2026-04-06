@@ -162,7 +162,7 @@ Communicate status, progress, and messages.
 | Pagination         | `<wc-pagination>`      | Page navigation controls        |
 | Tag                | `<wc-tag>`             | Status or category label        |
 | Table              | `<wc-table>`           | Data table with sorting         |
-| Tree View          | `<wc-tree-view>`       | Hierarchical list               |
+| Sidebar Menu       | `<wc-sidebar-menu>`    | Hierarchical menu               |
 
 ### Charts
 

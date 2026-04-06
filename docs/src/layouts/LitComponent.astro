@@ -22,19 +22,19 @@ const description = getTextTag(componentDetails, 'summary');
 
     <div class='sidenav-components'>
 
-      <wc-tree-view layer='01' selected-node={rawTag}>
-        <wc-tree-node  label="Overview" href='/components'></wc-tree-node>
+      <wc-sidebar-menu layer='01' selected-node={rawTag}>
+        <wc-sidebar-menu-item label="Overview" href='/components'></wc-sidebar-menu-item>
 
         {
             customElementsJSDocs.map((component) => {
               if (component.parentRawTag) {
                 return;
               }
-              return <wc-tree-node label={component?.label} value={component?.rawTag}
-                                               href={`/components/${component?.rawTag}/`}></wc-tree-node>
+              return <wc-sidebar-menu-item label={component?.label} value={component?.rawTag}
+                                               href={`/components/${component?.rawTag}/`}></wc-sidebar-menu-item>
             })
         }
-      </wc-tree-view>
+      </wc-sidebar-menu>
 
     </div>
 
