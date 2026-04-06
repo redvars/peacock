@@ -1,0 +1,41 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The component supports the same field states as other Peacock inputs, and it also validates URL format automatically when editing ends.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Disabled URL'
+    value='https://example.com/disabled'
+    disabled
+  ></wc-url-field>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Read only URL'
+    value='https://example.com/read-only'
+    readonly
+  ></wc-url-field>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Warning state'
+    value='https://example.com/legacy'
+    warning
+    warning-text='This endpoint is still available, but a new URL is preferred.'
+  ></wc-url-field>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Forced error state'
+    value='https://example.com/error'
+    error
+    error-text='This URL is already in use by another record.'
+  ></wc-url-field>
+</DemoComponentCard>
+
+<p class='text-body-large'>For built-in validation, enter an invalid URL while editing and blur the field. The component emits <code>input-invalid</code> and shows <code>Please enter a valid URL</code>.</p>

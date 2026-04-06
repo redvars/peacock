@@ -1,0 +1,30 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>URL Field emits a debounced <code>value-change</code> event as the user types and an <code>input-invalid</code> event when blur validation fails.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    id='url-field-events-demo'
+    label='Project URL'
+    editing
+    placeholder='https://example.com'
+  ></wc-url-field>
+
+  <script is:inline>
+    const urlField = document.querySelector('#url-field-events-demo');
+
+    urlField.addEventListener('value-change', function(event) {
+      myConsole.log('value-change :: ' + event.detail);
+    });
+
+    urlField.addEventListener('input-invalid', function(event) {
+      myConsole.warn('input-invalid :: ' + event.detail);
+    });
+
+    urlField.addEventListener('change', function(event) {
+      myConsole.log('change :: ' + event.target.value);
+    });
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,31 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Use URL Field when a value should be editable as a URL but readable as a clickable link when not being edited.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Website'
+    value='https://peacock.redvars.com'
+    helper-text='Click the edit icon to update the URL'
+  ></wc-url-field>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Documentation link'
+    variant='outlined'
+    placeholder='https://example.com/docs'
+    helper-text='Outlined variant with an empty value'
+  ></wc-url-field>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-url-field
+    label='Editable URL'
+    editing
+    value='https://example.com/start'
+    placeholder='https://example.com'
+  ></wc-url-field>
+</DemoComponentCard>

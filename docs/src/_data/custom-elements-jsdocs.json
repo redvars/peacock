@@ -16351,5 +16351,490 @@
         "description": ""
       }
     }
+  },
+  {
+    "label": "URL Field",
+    "tag": "wc-url-field",
+    "rawTag": "url-field",
+    "summary": "A field for entering and displaying URLs with validation.",
+    "overview": "<p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.</p>",
+    "example": "```html\n<wc-url-field label=\"Website\" value=\"https://example.com\"></wc-url-field>\n```",
+    "tags": "form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "UrlField",
+      "members": [
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "any | undefined"
+          },
+          "default": "''",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "name"
+        },
+        {
+          "kind": "field",
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "placeholder"
+        },
+        {
+          "kind": "field",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "label"
+        },
+        {
+          "kind": "field",
+          "name": "editing",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "editing",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "300",
+          "attribute": "debounce"
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "attribute": "variant"
+        },
+        {
+          "kind": "field",
+          "name": "helperText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "helper-text"
+        },
+        {
+          "kind": "field",
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "error"
+        },
+        {
+          "kind": "field",
+          "name": "errorText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "error-text"
+        },
+        {
+          "kind": "field",
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "warning"
+        },
+        {
+          "kind": "field",
+          "name": "warningText",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "attribute": "warning-text"
+        },
+        {
+          "kind": "field",
+          "name": "focused",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isValid",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "true"
+        },
+        {
+          "kind": "field",
+          "name": "inputElement",
+          "type": {
+            "text": "HTMLInputElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "debounceTimer",
+          "type": {
+            "text": "ReturnType<typeof setTimeout> | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "startEditing",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "closeEditing",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "validateUrl",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleInput",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "InputEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "handleFocusChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleBlur",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "handleChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "renderDisplayValue",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "readonly",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "required",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "name": "input-invalid",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "value-change",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "value"
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "name"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "label"
+        },
+        {
+          "name": "editing",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "editing"
+        },
+        {
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "300",
+          "fieldName": "debounce"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "fieldName": "size"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "fieldName": "variant"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "warning"
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/src/input/BaseInput.js"
+      },
+      "tagName": "wc-url-field",
+      "customElement": true,
+      "summary": "A field for entering and displaying URLs with validation.",
+      "rawTag": {
+        "name": "url-field",
+        "description": ""
+      }
+    }
   }
 ]

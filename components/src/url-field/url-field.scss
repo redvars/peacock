@@ -1,0 +1,50 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.url-input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  cursor: inherit;
+  font: inherit;
+  color: inherit;
+}
+
+.url-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.url-link {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.url-placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+.edit-button {
+  --button-container-shape: var(--shape-corner-full);
+}

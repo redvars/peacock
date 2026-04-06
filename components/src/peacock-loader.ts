@@ -15,6 +15,7 @@ import { Fab } from './fab/fab.js';
 import { SegmentedButton } from './segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from './segmented-button/segmented-button-group.js';
 import { Input } from './input/input.js';
+import { UrlField } from './url-field/url-field.js';
 import { Field } from './field/field.js';
 import { NumberField } from './number-field/number-field.js';
 import { DatePicker } from './date-picker/date-picker.js';
@@ -193,6 +194,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-input': {
       CustomElementClass: Input,
+    },
+    'wc-url-field': {
+      CustomElementClass: UrlField,
     },
     'wc-number-field': {
       CustomElementClass: NumberField,

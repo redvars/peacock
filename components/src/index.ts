@@ -18,6 +18,7 @@ export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
 export { Skeleton } from './skeleton/index.js';
 export { Input } from './input/index.js';
+export { UrlField } from './url-field/index.js';
 export { Field } from './field/index.js';
 export { NumberField } from './number-field/index.js';
 export { DatePicker } from './date-picker/index.js';
