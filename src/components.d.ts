@@ -213,50 +213,6 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface GoatText {
-        /**
-          * @default 'primary'
-         */
-        "color": | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'helper'
-    | 'error'
-    | 'on-color'
-    | 'inverse';
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * @default false
-         */
-        "expressive": boolean;
-        "headingLevel": 1 | 2 | 3 | 4 | 5 | 6;
-        "headingSize": 1 | 2 | 3 | 4 | 5 | 6 | 7;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * @default 'body'
-         */
-        "type": | 'code'
-    | 'helper-text'
-    | 'label'
-    | 'legal'
-    | 'heading'
-    | 'body'
-    | 'body-compact'
-    | 'heading-compact'
-    | 'fluid-heading';
-    }
-    /**
      * @label Calendar
      * @name calendar
      * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
@@ -840,161 +796,6 @@ export namespace Components {
      */
     interface PcPopoverContent {
     }
-    /**
-     * @label Table
-     * @name table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface PcTable {
-        /**
-          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
-          * @default []
-         */
-        "columns": any[];
-        /**
-          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
-          * @default []
-         */
-        "data": any[];
-        /**
-          * @default 'There are no items to display'
-         */
-        "emptyStateDescription": string;
-        /**
-          * @default 'No items'
-         */
-        "emptyStateHeadline": string;
-        /**
-          * @default 'id'
-         */
-        "keyField": string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "managed": boolean;
-        /**
-          * @default 1
-         */
-        "page": number;
-        /**
-          * @default 10
-         */
-        "pageSize": number;
-        /**
-          * @default true
-         */
-        "paginate": boolean;
-        /**
-          * @default []
-         */
-        "selectedRowKeys": string[];
-        "selectionType": 'checkbox' | undefined;
-        "sortBy": string;
-        /**
-          * @default 'asc'
-         */
-        "sortOrder": 'asc' | 'desc';
-        /**
-          * @default true
-         */
-        "sortable": boolean;
-        "totalItems": any;
-    }
-    /**
-     * @label Textarea
-     * @name textarea
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
-     */
-    interface PcTextarea {
-        /**
-          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
-          * @default false
-         */
-        "clearable": boolean;
-        /**
-          * @default {}
-         */
-        "configAria": any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goat:change` event after each keystroke.
-          * @default 300
-         */
-        "debounce": number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled": boolean;
-        "getComponentId": () => Promise<string>;
-        "helperText": string;
-        /**
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * @default false
-         */
-        "invalid": boolean;
-        "invalidText": string;
-        "label": string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name": string;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder": string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly": boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required": boolean;
-        /**
-          * Sets blur on the native `textarea` in `goat-textarea`. Use this method instead of the global `textarea.blur()`.
-         */
-        "setBlur": () => Promise<void>;
-        /**
-          * Sets focus on the native `textarea` in `goat-textarea`. Use this method instead of the global `textarea.focus()`.
-         */
-        "setFocus": () => Promise<void>;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size": 'sm' | 'md' | 'lg';
-        /**
-          * @default false
-         */
-        "skeleton": boolean;
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state": 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-         */
-        "value": string;
-        /**
-          * @default false
-         */
-        "warn": boolean;
-        "warnText": string;
-    }
 }
 export interface GoatHtmlEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1035,14 +836,6 @@ export interface PcNotificationCustomEvent<T> extends CustomEvent<T> {
 export interface PcPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcPopoverElement;
-}
-export interface PcTableCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTableElement;
-}
-export interface PcTextareaCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcTextareaElement;
 }
 declare global {
     interface HTMLGoatCbCompoundExpressionElement extends Components.GoatCbCompoundExpression, HTMLStencilElement {
@@ -1146,18 +939,6 @@ declare global {
     var HTMLGoatHtmlEditorElement: {
         prototype: HTMLGoatHtmlEditorElement;
         new (): HTMLGoatHtmlEditorElement;
-    };
-    /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface HTMLGoatTextElement extends Components.GoatText, HTMLStencilElement {
-    }
-    var HTMLGoatTextElement: {
-        prototype: HTMLGoatTextElement;
-        new (): HTMLGoatTextElement;
     };
     interface HTMLPcCalendarElementEventMap {
         "pc-calendar--event-click": any;
@@ -1516,63 +1297,6 @@ declare global {
         prototype: HTMLPcPopoverContentElement;
         new (): HTMLPcPopoverContentElement;
     };
-    interface HTMLPcTableElementEventMap {
-        "pc-table--cell-click": any;
-        "pc-table--selection-change": any;
-        "pc-table--sort": any;
-        "pc-table--page": any;
-    }
-    /**
-     * @label Table
-     * @name table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface HTMLPcTableElement extends Components.PcTable, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTableElementEventMap>(type: K, listener: (this: HTMLPcTableElement, ev: PcTableCustomEvent<HTMLPcTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTableElementEventMap>(type: K, listener: (this: HTMLPcTableElement, ev: PcTableCustomEvent<HTMLPcTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTableElement: {
-        prototype: HTMLPcTableElement;
-        new (): HTMLPcTableElement;
-    };
-    interface HTMLPcTextareaElementEventMap {
-        "goat-textarea--input": any;
-        "goat-textarea--change": any;
-        "goat-textarea--blur": any;
-        "goat-textarea--focus": any;
-        "goat-textarea--action-click": any;
-    }
-    /**
-     * @label Textarea
-     * @name textarea
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
-     */
-    interface HTMLPcTextareaElement extends Components.PcTextarea, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcTextareaElementEventMap>(type: K, listener: (this: HTMLPcTextareaElement, ev: PcTextareaCustomEvent<HTMLPcTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcTextareaElementEventMap>(type: K, listener: (this: HTMLPcTextareaElement, ev: PcTextareaCustomEvent<HTMLPcTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcTextareaElement: {
-        prototype: HTMLPcTextareaElement;
-        new (): HTMLPcTextareaElement;
-    };
     interface HTMLElementTagNameMap {
         "goat-cb-compound-expression": HTMLGoatCbCompoundExpressionElement;
         "goat-cb-divider": HTMLGoatCbDividerElement;
@@ -1585,7 +1309,6 @@ declare global {
         "goat-header-action": HTMLGoatHeaderActionElement;
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
-        "goat-text": HTMLGoatTextElement;
         "pc-calendar": HTMLPcCalendarElement;
         "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
         "pc-calendar-column-view-background": HTMLPcCalendarColumnViewBackgroundElement;
@@ -1606,8 +1329,6 @@ declare global {
         "pc-notification-manager": HTMLPcNotificationManagerElement;
         "pc-popover": HTMLPcPopoverElement;
         "pc-popover-content": HTMLPcPopoverContentElement;
-        "pc-table": HTMLPcTableElement;
-        "pc-textarea": HTMLPcTextareaElement;
     }
 }
 declare namespace LocalJSX {
@@ -1811,50 +1532,6 @@ declare namespace LocalJSX {
           * The input field value.
          */
         "value"?: string;
-    }
-    /**
-     * @name Text
-     * @description Typography are used for rendering headlines, paragraphs and captions.
-     * @category General
-     * @example <goat-text type="heading" level="1">Heading</goat-text>
-     */
-    interface GoatText {
-        /**
-          * @default 'primary'
-         */
-        "color"?: | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'helper'
-    | 'error'
-    | 'on-color'
-    | 'inverse';
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * @default false
-         */
-        "expressive"?: boolean;
-        "headingLevel"?: 1 | 2 | 3 | 4 | 5 | 6;
-        "headingSize"?: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * @default 'body'
-         */
-        "type"?: | 'code'
-    | 'helper-text'
-    | 'label'
-    | 'legal'
-    | 'heading'
-    | 'body'
-    | 'body-compact'
-    | 'heading-compact'
-    | 'fluid-heading';
     }
     /**
      * @label Calendar
@@ -2464,188 +2141,6 @@ declare namespace LocalJSX {
      */
     interface PcPopoverContent {
     }
-    /**
-     * @label Table
-     * @name table
-     * @description A configurable component for displaying tabular data.
-     * @category Data Display
-     * @img /assets/img/table.webp
-     * @imgDark /assets/img/table-dark.webp
-     */
-    interface PcTable {
-        /**
-          * Grid columns configuration. [ {   "name":"name",   "label":"Name",   "width":300,   "fixed":true,   "template": function(row, column) { return row[column.name];}  }, {   "name":"age",   "label":"Age" } ]
-          * @default []
-         */
-        "columns"?: any[];
-        /**
-          * Grid data to display on table [{  'id': '5e7118ddce4b3d577956457f',  'age': 21,  'name': 'John',  'company': 'India',  'email': 'john@example.com',  'phone': '+1 (839) 560-3581',  'address': '326 Irving Street, Grimsley, Texas, 4048'  }]
-          * @default []
-         */
-        "data"?: any[];
-        /**
-          * @default 'There are no items to display'
-         */
-        "emptyStateDescription"?: string;
-        /**
-          * @default 'No items'
-         */
-        "emptyStateHeadline"?: string;
-        /**
-          * @default 'id'
-         */
-        "keyField"?: string;
-        "layer"?: 'background' | '01' | '02';
-        /**
-          * @default false
-         */
-        "managed"?: boolean;
-        /**
-          * Emitted when a table cell is clicked.
-         */
-        "onPc-table--cell-click"?: (event: PcTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the page changes.
-         */
-        "onPc-table--page"?: (event: PcTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the selection changes.
-         */
-        "onPc-table--selection-change"?: (event: PcTableCustomEvent<any>) => void;
-        /**
-          * Emitted when the table is sorted.
-         */
-        "onPc-table--sort"?: (event: PcTableCustomEvent<any>) => void;
-        /**
-          * @default 1
-         */
-        "page"?: number;
-        /**
-          * @default 10
-         */
-        "pageSize"?: number;
-        /**
-          * @default true
-         */
-        "paginate"?: boolean;
-        /**
-          * @default []
-         */
-        "selectedRowKeys"?: string[];
-        "selectionType"?: 'checkbox' | undefined;
-        "sortBy"?: string;
-        /**
-          * @default 'asc'
-         */
-        "sortOrder"?: 'asc' | 'desc';
-        /**
-          * @default true
-         */
-        "sortable"?: boolean;
-        "totalItems"?: any;
-    }
-    /**
-     * @label Textarea
-     * @name textarea
-     * @description Enables native inputs to be used within a Form field.
-     * @category Form Inputs
-     * @tags input, form
-     * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
-     */
-    interface PcTextarea {
-        /**
-          * If `true`, a clear icon will appear in the input when there is a value. Clicking it clears the input.
-          * @default false
-         */
-        "clearable"?: boolean;
-        /**
-          * @default {}
-         */
-        "configAria"?: any;
-        /**
-          * Set the amount of time, in milliseconds, to wait to trigger the `goat:change` event after each keystroke.
-          * @default 300
-         */
-        "debounce"?: number;
-        /**
-          * If true, the user cannot interact with the button. Defaults to `false`.
-          * @default false
-         */
-        "disabled"?: boolean;
-        "helperText"?: string;
-        /**
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * @default false
-         */
-        "invalid"?: boolean;
-        "invalidText"?: string;
-        "label"?: string;
-        /**
-          * The input field name.
-          * @default `pc-input-${this.gid}`
-         */
-        "name"?: string;
-        /**
-          * Emitted when the action button is clicked.
-         */
-        "onGoat-textarea--action-click"?: (event: PcTextareaCustomEvent<any>) => void;
-        /**
-          * Emitted when the input loses focus.
-         */
-        "onGoat-textarea--blur"?: (event: PcTextareaCustomEvent<any>) => void;
-        /**
-          * Emitted when the value has changed..
-         */
-        "onGoat-textarea--change"?: (event: PcTextareaCustomEvent<any>) => void;
-        /**
-          * Emitted when the input has focus.
-         */
-        "onGoat-textarea--focus"?: (event: PcTextareaCustomEvent<any>) => void;
-        /**
-          * Emitted when a keyboard input occurred.
-         */
-        "onGoat-textarea--input"?: (event: PcTextareaCustomEvent<any>) => void;
-        /**
-          * The input field placeholder.
-         */
-        "placeholder"?: string;
-        /**
-          * If true, the user read the value cannot modify it. Defaults to `false`.
-          * @default false
-         */
-        "readonly"?: boolean;
-        /**
-          * If true, required icon is show. Defaults to `false`.
-          * @default false
-         */
-        "required"?: boolean;
-        /**
-          * The input field size. Possible values are: `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
-          * @default 'md'
-         */
-        "size"?: 'sm' | 'md' | 'lg';
-        /**
-          * @default false
-         */
-        "skeleton"?: boolean;
-        /**
-          * The input state. Possible values are: `"success"`, `"error"`, `"warning"`, 'default'. Defaults to `"default"`.
-          * @default 'default'
-         */
-        "state"?: 'success' | 'error' | 'warning' | 'default';
-        /**
-          * The input field value.
-         */
-        "value"?: string;
-        /**
-          * @default false
-         */
-        "warn"?: boolean;
-        "warnText"?: string;
-    }
     interface IntrinsicElements {
         "goat-cb-compound-expression": GoatCbCompoundExpression;
         "goat-cb-divider": GoatCbDivider;
@@ -2658,7 +2153,6 @@ declare namespace LocalJSX {
         "goat-header-action": GoatHeaderAction;
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
-        "goat-text": GoatText;
         "pc-calendar": PcCalendar;
         "pc-calendar-column-view": PcCalendarColumnView;
         "pc-calendar-column-view-background": PcCalendarColumnViewBackground;
@@ -2679,8 +2173,6 @@ declare namespace LocalJSX {
         "pc-notification-manager": PcNotificationManager;
         "pc-popover": PcPopover;
         "pc-popover-content": PcPopoverContent;
-        "pc-table": PcTable;
-        "pc-textarea": PcTextarea;
     }
 }
 export { LocalJSX as JSX };
@@ -2722,13 +2214,6 @@ declare module "@stencil/core" {
              * @imgDark /assets/img/html-editor-dark.webp
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
-            /**
-             * @name Text
-             * @description Typography are used for rendering headlines, paragraphs and captions.
-             * @category General
-             * @example <goat-text type="heading" level="1">Heading</goat-text>
-             */
-            "goat-text": LocalJSX.GoatText & JSXBase.HTMLAttributes<HTMLGoatTextElement>;
             /**
              * @label Calendar
              * @name calendar
@@ -2877,24 +2362,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "pc-popover-content": LocalJSX.PcPopoverContent & JSXBase.HTMLAttributes<HTMLPcPopoverContentElement>;
-            /**
-             * @label Table
-             * @name table
-             * @description A configurable component for displaying tabular data.
-             * @category Data Display
-             * @img /assets/img/table.webp
-             * @imgDark /assets/img/table-dark.webp
-             */
-            "pc-table": LocalJSX.PcTable & JSXBase.HTMLAttributes<HTMLPcTableElement>;
-            /**
-             * @label Textarea
-             * @name textarea
-             * @description Enables native inputs to be used within a Form field.
-             * @category Form Inputs
-             * @tags input, form
-             * @example <pc-textarea placeholder="Enter some description over here"></pc-textarea>
-             */
-            "pc-textarea": LocalJSX.PcTextarea & JSXBase.HTMLAttributes<HTMLPcTextareaElement>;
         }
     }
 }
