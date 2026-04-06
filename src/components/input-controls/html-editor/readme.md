@@ -69,21 +69,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Depends on
-
-- [pc-menu](../../menu/menu)
-- [pc-menu-item](../../menu/menu-item)
-
-### Graph
-```mermaid
-graph TD;
-  goat-html-editor --> pc-menu
-  goat-html-editor --> pc-menu-item
-  style goat-html-editor fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*

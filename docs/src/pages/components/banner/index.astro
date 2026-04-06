@@ -6,7 +6,6 @@ import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 import UsageSection from './_sections/Usage.astro';
 import VariantsSection from './_sections/Variants.astro';
-import InlineSection from './_sections/Inline.astro';
 
 const componentDetails = getComponentDetails('banner');
 const title = getTextTag(componentDetails, 'label');
@@ -19,11 +18,7 @@ const sections = [
   {
     'title': 'Variants',
     'Component': VariantsSection,
-  },
-  {
-    'title': 'Inline',
-    'Component': InlineSection,
-  },
+  }
 ];
 ---
 

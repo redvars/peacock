@@ -1,30 +1,36 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import HeaderContent from './header-content.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <style is:inline>
-  .simple {
+
+  .footer-simple {
+  }
+  </style>
+
+
+<DemoComponentCard lang={'html'}>
+
+  <style is:inline>
+  .footer-simple {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .text-body-large {
+    margin-block-end: !important;
   }
 </style>
-<HighlighterCard lang={'html'} cssClasses='modal-demo-container'>
 
-  <div class='component-container'>
-    <goat-footer class='simple'>
-      <goat-footer-copyright slot='start'
-                             copyright='Goat UI'
-                             copyright-href='https://goatui.com'>
-      </goat-footer-copyright>
-      <goat-footer-links id='footer-links' slot='end'></goat-footer-links>
-      <script is:inline>
-        document.getElementById('footer-links').links = [{ 'name': 'Privacy', 'href': '/privacy' }, {
-          'name': 'License',
-          'href': '/license',
-        }];
-      </script>
-    </goat-footer>
-  </div>
+  <div class="footer-simple">
+    <div class="text-body-large">
+      &copy; {new Date().getFullYear()} Peacock. All rights reserved.
+    </div>
+  </div>  
 
-
-</HighlighterCard>
+</DemoComponentCard>

@@ -4,12 +4,6 @@
 
 :host {
   display: block;
-
-  --banner-container-color: var(--color-tertiary-container);
-  --banner-label-text-color: var(--color-on-tertiary-container);
-  --banner-description-text-color: var(--color-on-tertiary-container);
-  --banner-icon-color: var(--color-on-tertiary-container);
-  --banner-border-radius: var(--shape-corner-small);
 }
 
 .banner {
@@ -32,26 +26,28 @@
 }
 
 .banner-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050);
+  .banner-label {
+    display: inline;
+    @include mixin.get-typography(label-large);
+    color: var(--banner-label-text-color);
+    margin-inline-end: var(--spacing-050);
+  }
+
+  .banner-description {
+    display: inline;
+    @include mixin.get-typography(body-medium);
+    color: var(--banner-description-text-color);
+  }
 }
 
-.banner-label {
-  @include mixin.get-typography(label-large);
-  color: var(--banner-label-text-color);
-}
 
-.banner-description {
-  @include mixin.get-typography(body-medium);
-  color: var(--banner-description-text-color);
-}
-
-.banner-content.inline {
-  flex-direction: row;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.25em;
+// Default styles for the banner and content. These will be overridden by the variant-specific styles below.
+:host {
+  --banner-container-color: var(--color-tertiary-container);
+  --banner-label-text-color: var(--color-on-tertiary-container);
+  --banner-description-text-color: var(--color-on-tertiary-container);
+  --banner-icon-color: var(--color-on-tertiary-container);
+  --banner-border-radius: var(--shape-corner-small);
 }
 
 .banner.info,
