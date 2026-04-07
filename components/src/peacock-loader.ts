@@ -74,6 +74,8 @@ import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
 import { Calendar } from './calendar/calendar.js';
 import { CalendarColumnView } from './calendar/calendar-column-view.js';
 import { CalendarMonthView } from './calendar/calendar-month-view.js';
+import { Canvas } from './canvas/canvas.js';
+import { FlowDesigner } from './flow-designer/flow-designer.js';
 import { ConditionBuilder } from './condition-builder/condition-builder.js';
 import { CbPredicate } from './condition-builder/cb-predicate.js';
 import { CbCompoundExpression } from './condition-builder/cb-compound-expression.js';
@@ -319,6 +321,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-calendar-month-view': {
       CustomElementClass: CalendarMonthView,
+    },
+    'wc-canvas': {
+      CustomElementClass: Canvas,
+    },
+    'wc-flow-designer': {
+      CustomElementClass: FlowDesigner,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,

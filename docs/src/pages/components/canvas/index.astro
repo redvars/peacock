@@ -1,11 +1,12 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('canvas');
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 import UsageSection from './_sections/Usage.astro';
-import OverviewPanel from '../../../components/OverviewPanel.astro';
+
+const componentDetails = getComponentDetails('canvas');
 
 const sections = [
   {

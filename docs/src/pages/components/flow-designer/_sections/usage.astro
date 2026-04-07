@@ -1,9 +1,9 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<HighlighterCard lang={'html'}>
-  <goat-flow-designer id='workflow-editor'></goat-flow-designer>
+<DemoComponentCard lang={'html'}>
+  <wc-flow-designer id='workflow-editor'></wc-flow-designer>
 
   <script is:inline>
     const workflowEditor = document.querySelector('#workflow-editor');
@@ -19,4 +19,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       },
     ];
   </script>
-</HighlighterCard>
+</DemoComponentCard>

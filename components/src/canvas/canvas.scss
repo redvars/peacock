@@ -1,0 +1,42 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --canvas-background: var(--color-surface-container-low);
+  --canvas-dot-color: var(--color-outline-variant);
+  --canvas-line-color: var(--color-on-surface);
+  --canvas-hover-color: var(--color-primary);
+  --canvas-arrow-color: var(--color-on-surface);
+}
+
+.canvas-wrapper {
+  background: var(--canvas-background);
+  border-radius: var(--shape-corner-medium);
+}
+
+#canvas-background circle {
+  fill: var(--canvas-dot-color);
+}
+
+#endarrow polyline {
+  fill: none;
+  stroke: var(--canvas-arrow-color);
+  vector-effect: non-scaling-stroke;
+  stroke-width: 2;
+}
+
+.line {
+  &.no-color {
+    stroke: var(--canvas-line-color);
+  }
+}
+
+.clickable {
+  cursor: pointer;
+
+  &:hover .line {
+    stroke: var(--canvas-hover-color);
+  }
+}
