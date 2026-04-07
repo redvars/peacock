@@ -1,9 +1,9 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<HighlighterCard lang={'html'}>
-  <goat-canvas id='canvas'></goat-canvas>
+<DemoComponentCard lang={'html'}>
+  <wc-canvas id='canvas'></wc-canvas>
   <script is:inline>
     const canvas = document.querySelector('#canvas');
     canvas.shapes = [
@@ -24,4 +24,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       },
     ];
   </script>
-</HighlighterCard>
+</DemoComponentCard>

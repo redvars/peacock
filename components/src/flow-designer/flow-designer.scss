@@ -1,0 +1,143 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --flow-designer-height: 400px;
+  --flow-designer-border-color: var(--color-outline-variant);
+  --flow-designer-background: var(--color-surface);
+  --flow-designer-border-radius: var(--shape-corner-medium);
+  --flow-designer-action-bar-bg: var(--color-surface-container);
+}
+
+.flow-designer-container {
+  position: relative;
+  width: 100%;
+  height: var(--flow-designer-height);
+}
+
+.action-bar {
+  position: absolute;
+  right: 0.625rem;
+  top: 0.625rem;
+  background: var(--flow-designer-action-bar-bg);
+  border-radius: var(--shape-corner-small);
+  z-index: 2;
+}
+
+.flow-designer {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--flow-designer-border-radius);
+  background-color: var(--flow-designer-background);
+  border: 1px solid var(--flow-designer-border-color);
+
+  .canvas-container {
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .clear {
+    clear: both;
+  }
+}
+
+.flow-lines,
+.flow-items {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.flow-items {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  .flow-items-container {
+    position: relative;
+  }
+
+  .new-activity {
+    pointer-events: auto;
+    position: absolute;
+    background: var(--color-surface-container-highest);
+    border-radius: 50%;
+    line-height: 0;
+    box-sizing: border-box;
+    border: 2px solid var(--color-surface-container-highest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 200ms ease;
+
+    &:hover {
+      border-color: var(--color-primary);
+      cursor: pointer;
+    }
+  }
+
+  .activity {
+    pointer-events: auto;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+
+    .activity-icon {
+      background: var(--color-surface);
+      border: 2px solid var(--color-outline-variant);
+      border-radius: var(--shape-corner-small);
+      transition: border-color 200ms ease;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .activity-content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0.625rem;
+
+      .activity-title {
+        margin: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-weight: 500;
+        color: var(--color-on-surface);
+      }
+
+      .activity-description {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0;
+        color: var(--color-on-surface-variant);
+      }
+    }
+
+    &:hover {
+      .activity-icon {
+        border-color: var(--color-primary);
+      }
+      cursor: pointer;
+    }
+  }
+}
+
+:host([disabled]) {
+  pointer-events: none;
+  opacity: 0.38;
+}

@@ -74,6 +74,8 @@ import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
 import { Calendar } from './calendar/calendar.js';
 import { CalendarColumnView } from './calendar/calendar-column-view.js';
 import { CalendarMonthView } from './calendar/calendar-month-view.js';
+import { Canvas } from './canvas/canvas.js';
+import { FlowDesigner } from './flow-designer/flow-designer.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -314,6 +316,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-calendar-month-view': {
       CustomElementClass: CalendarMonthView,
+    },
+    'wc-canvas': {
+      CustomElementClass: Canvas,
+    },
+    'wc-flow-designer': {
+      CustomElementClass: FlowDesigner,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
