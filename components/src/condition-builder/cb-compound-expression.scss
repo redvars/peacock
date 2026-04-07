@@ -1,0 +1,37 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.compound-expression {
+  display: flex;
+  padding-top: var(--spacing-200);
+
+  .field-name-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--spacing-100);
+    padding-right: var(--spacing-200);
+
+    .field-label {
+      @include mixin.get-typography-not-important(label-medium);
+      color: var(--color-on-surface-variant);
+    }
+
+    .field-compound-type {
+      flex: 1;
+      padding-bottom: var(--spacing-250);
+    }
+  }
+
+  .conditions {
+    flex: 1;
+  }
+}
+
+.slot-end {
+  display: block;
+}

@@ -65,4 +65,5 @@ export { Canvas } from './canvas/index.js';
 export type { CanvasShape } from './canvas/index.js';
 export { FlowDesigner } from './flow-designer/index.js';
 export type { FlowActivity } from './flow-designer/index.js';
+export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider } from './condition-builder/index.js';
 

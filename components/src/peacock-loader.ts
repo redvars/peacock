@@ -76,6 +76,11 @@ import { CalendarColumnView } from './calendar/calendar-column-view.js';
 import { CalendarMonthView } from './calendar/calendar-month-view.js';
 import { Canvas } from './canvas/canvas.js';
 import { FlowDesigner } from './flow-designer/flow-designer.js';
+import { ConditionBuilder } from './condition-builder/condition-builder.js';
+import { CbPredicate } from './condition-builder/cb-predicate.js';
+import { CbCompoundExpression } from './condition-builder/cb-compound-expression.js';
+import { CbExpression } from './condition-builder/cb-expression.js';
+import { CbDivider } from './condition-builder/cb-divider.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -334,6 +339,21 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-chart-stacked-bar': {
       importPath: `${distDirectory}/chart-stacked-bar.js`,
+    },
+    'wc-condition-builder': {
+      CustomElementClass: ConditionBuilder,
+    },
+    'wc-cb-predicate': {
+      CustomElementClass: CbPredicate,
+    },
+    'wc-cb-compound-expression': {
+      CustomElementClass: CbCompoundExpression,
+    },
+    'wc-cb-expression': {
+      CustomElementClass: CbExpression,
+    },
+    'wc-cb-divider': {
+      CustomElementClass: CbDivider,
     },
   },
 };
