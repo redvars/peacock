@@ -1,0 +1,27 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Split buttons come in different colors to indicate the action or the type of button.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-split-button color='primary'>
+    Primary
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button color='success'>
+    Success
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button color='danger'>
+    Danger
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button color='surface'>
+    Surface
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+</DemoComponentCard>

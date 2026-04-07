@@ -1,0 +1,25 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The split button supports filled, tonal, and outlined variants, following M3 Material Design guidelines.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-split-button variant='filled'>
+    Filled
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button variant='tonal'>
+    Tonal
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button variant='outlined'>
+    Outlined
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-split-button>
+</DemoComponentCard>

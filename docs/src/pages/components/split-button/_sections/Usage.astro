@@ -1,0 +1,14 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The split button combines a default action button with a dropdown menu for additional actions. Click the primary area to trigger the default action, or click the dropdown arrow to reveal more options.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-split-button>
+    Save
+    <wc-menu-item slot="menu">Save as draft</wc-menu-item>
+    <wc-menu-item slot="menu">Save and publish</wc-menu-item>
+    <wc-menu-item slot="menu">Save as template</wc-menu-item>
+  </wc-split-button>
+</DemoComponentCard>

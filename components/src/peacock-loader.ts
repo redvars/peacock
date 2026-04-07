@@ -14,6 +14,7 @@ import { IconButton } from './button/icon-button/icon-button.js';
 import { Fab } from './fab/fab.js';
 import { SegmentedButton } from './segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from './segmented-button/segmented-button-group.js';
+import { SplitButton } from './split-button/split-button.js';
 import { Input } from './input/input.js';
 import { UrlField } from './url-field/url-field.js';
 import { Field } from './field/field.js';
@@ -137,6 +138,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-segmented-button-group': {
       CustomElementClass: SegmentedButtonGroup,
+    },
+    'wc-split-button': {
+      CustomElementClass: SplitButton,
     },
     'wc-divider': {
       CustomElementClass: Divider,

@@ -1,0 +1,23 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4 class='text-title'>Disabled</h4>
+<p class='text-body-large'>Make split buttons look inactive by adding the disabled <code>boolean</code> attribute. Both the primary action and the dropdown trigger become non-interactive.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-split-button disabled>
+    Filled
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button variant='tonal' disabled>
+    Tonal
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+
+  <wc-split-button variant='outlined' disabled>
+    Outlined
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-split-button>
+</DemoComponentCard>

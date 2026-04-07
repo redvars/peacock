@@ -2491,6 +2491,211 @@
     }
   },
   {
+    "label": "Canvas",
+    "tag": "wc-canvas",
+    "rawTag": "canvas",
+    "summary": "A Material 3 inspired SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
+    "cssprop": "--canvas-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
+    "example": "```html\n<wc-canvas id=\"my-canvas\"></wc-canvas>\n<script>\n  document.querySelector('#my-canvas').shapes = [\n    { type: 'circle', x: 0, y: 0, radius: 0.25, color: 'red' },\n  ];\n</script>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Canvas",
+      "cssProperties": [
+        {
+          "description": "Background color for the canvas wrapper. Defaults to surface-container-low.",
+          "name": "--canvas-background"
+        },
+        {
+          "description": "Color of the background grid dots. Defaults to outline-variant.",
+          "name": "--canvas-dot-color"
+        },
+        {
+          "description": "Default stroke color for lines and connectors. Defaults to on-surface.",
+          "name": "--canvas-line-color"
+        },
+        {
+          "description": "Stroke color on hover for clickable shapes. Defaults to primary.",
+          "name": "--canvas-hover-color"
+        },
+        {
+          "description": "Stroke color for arrow markers. Defaults to on-surface.",
+          "name": "--canvas-arrow-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "shapes",
+          "type": {
+            "text": "CanvasShape[]"
+          },
+          "default": "[]",
+          "description": "Array of shape objects to render on the canvas.",
+          "attribute": "shapes"
+        },
+        {
+          "kind": "field",
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Padding around the computed viewbox (in grid units).",
+          "attribute": "padding",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Zoom multiplier for the canvas dimensions.",
+          "attribute": "zoom",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "viewbox",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional viewbox override string (e.g. \"0 0 100 100\").",
+          "attribute": "viewbox"
+        },
+        {
+          "kind": "field",
+          "name": "unitSize",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "1"
+        },
+        {
+          "kind": "field",
+          "name": "gap",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "getNextPoint",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "{ x: number; y: number }"
+            }
+          },
+          "parameters": [
+            {
+              "name": "point",
+              "type": {
+                "text": "{ x: number; y: number }"
+              }
+            },
+            {
+              "name": "direction",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "length",
+              "type": {
+                "text": "number"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "updateComputationArea",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "point",
+              "type": {
+                "text": "{ x: number; y: number }"
+              }
+            },
+            {
+              "name": "area",
+              "type": {
+                "text": "{ x: number; y: number; width: number; height: number }"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "computeShapes",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "computedViewbox",
+              "type": {
+                "text": "{\n    x: number;\n    y: number;\n    width: number;\n    height: number;\n  }"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "shapes",
+          "type": {
+            "text": "CanvasShape[]"
+          },
+          "default": "[]",
+          "description": "Array of shape objects to render on the canvas.",
+          "fieldName": "shapes"
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Padding around the computed viewbox (in grid units).",
+          "fieldName": "padding"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Zoom multiplier for the canvas dimensions.",
+          "fieldName": "zoom"
+        },
+        {
+          "name": "viewbox",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Optional viewbox override string (e.g. \"0 0 100 100\").",
+          "fieldName": "viewbox"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-canvas",
+      "customElement": true,
+      "summary": "A Material 3 inspired SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
+      "rawTag": {
+        "name": "canvas",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Card",
     "tag": "wc-card",
     "rawTag": "card",
@@ -6970,6 +7175,266 @@
       "summary": "Wrapper for form fields with label and help text.",
       "rawTag": {
         "name": "field",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Flow Designer",
+    "tag": "wc-flow-designer",
+    "rawTag": "flow-designer",
+    "summary": "A Material 3 inspired flow diagram designer for creating and editing workflow activities with drag-to-scroll canvas interaction.",
+    "cssprop": "--flow-designer-action-bar-bg - Background color of the action bar. Defaults to surface-container.",
+    "example": "```html\n<wc-flow-designer id=\"editor\"></wc-flow-designer>\n<script>\n  document.querySelector('#editor').data = [\n    { name: 'step1', title: 'First Step', type: 'activity' },\n  ];\n</script>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "FlowDesigner",
+      "cssProperties": [
+        {
+          "description": "Height of the flow designer container. Defaults to 400px.",
+          "name": "--flow-designer-height"
+        },
+        {
+          "description": "Border color of the flow designer. Defaults to outline-variant.",
+          "name": "--flow-designer-border-color"
+        },
+        {
+          "description": "Background color of the designer. Defaults to surface.",
+          "name": "--flow-designer-background"
+        },
+        {
+          "description": "Corner radius. Defaults to medium shape.",
+          "name": "--flow-designer-border-radius"
+        },
+        {
+          "description": "Background color of the action bar. Defaults to surface-container.",
+          "name": "--flow-designer-action-bar-bg"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "blockSize",
+          "type": {
+            "text": "number"
+          },
+          "default": "16",
+          "description": "The grid block size in pixels.",
+          "attribute": "block-size"
+        },
+        {
+          "kind": "field",
+          "name": "data",
+          "type": {
+            "text": "FlowActivity[]"
+          },
+          "default": "[]",
+          "description": "Array of activity data objects to render in the flow.",
+          "attribute": "data"
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the flow designer is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_zoom",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "1"
+        },
+        {
+          "kind": "field",
+          "name": "scrollElm",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "isDrag",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "isMouseInside",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_startX",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_startY",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_scrollLeftPos",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_scrollTopPos",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "gap",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "10"
+        },
+        {
+          "kind": "field",
+          "name": "_handleMouseUp",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleMouseDown",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleMouseMove",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleMouseEnter",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleMouseLeave",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_zoomIn",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_zoomOut",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_processData",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "block-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "16",
+          "description": "The grid block size in pixels.",
+          "fieldName": "blockSize"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "FlowActivity[]"
+          },
+          "default": "[]",
+          "description": "Array of activity data objects to render in the flow.",
+          "fieldName": "data"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the flow designer is disabled.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-flow-designer",
+      "customElement": true,
+      "summary": "A Material 3 inspired flow diagram designer for creating and editing workflow activities with drag-to-scroll canvas interaction.",
+      "rawTag": {
+        "name": "flow-designer",
         "description": ""
       }
     }
@@ -14203,6 +14668,241 @@
       "summary": "A spinner component that animates a circular shape.",
       "rawTag": {
         "name": "spinner",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Split Button",
+    "tag": "wc-split-button",
+    "rawTag": "split-button",
+    "summary": "A split button lets users perform a default action or choose from a set of related actions via a dropdown menu.",
+    "overview": "<p>A split button combines a primary action button with a dropdown arrow that opens a menu. Following M3 Material Design, the split button provides a default action alongside a set of secondary options, reducing clutter while keeping alternative actions accessible.</p>",
+    "cssprop": "--tonal-split-button-label-text-color: Text color of the tonal split button label.",
+    "fires": "toggle-menu - Dispatched when the dropdown menu is opened or closed.",
+    "example": "```html\n<wc-split-button>\n  Save\n  <wc-menu-item slot=\"menu\">Save as draft</wc-menu-item>\n  <wc-menu-item slot=\"menu\">Save and publish</wc-menu-item>\n</wc-split-button>\n```",
+    "tags": "controls",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "SplitButton",
+      "cssProperties": [
+        {
+          "description": "Defines the border radius of the split button container shape.",
+          "name": "--split-button-container-shape:"
+        },
+        {
+          "description": "Color of the filled split button container.",
+          "name": "--filled-split-button-container-color:"
+        },
+        {
+          "description": "Text color of the filled split button label.",
+          "name": "--filled-split-button-label-text-color:"
+        },
+        {
+          "description": "Color of the outlined split button container.",
+          "name": "--outlined-split-button-container-color:"
+        },
+        {
+          "description": "Text color of the outlined split button label.",
+          "name": "--outlined-split-button-label-text-color:"
+        },
+        {
+          "description": "Color of the tonal split button container.",
+          "name": "--tonal-split-button-container-color:"
+        },
+        {
+          "description": "Text color of the tonal split button label.",
+          "name": "--tonal-split-button-label-text-color:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'tonal' | 'outlined'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the split button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"tonal\"` is a light color button.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the split button.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the split button is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_menuOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_dropdownButton",
+          "type": {
+            "text": "HTMLButtonElement"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_menu",
+          "type": {
+            "text": "HTMLElement & {\n    open: boolean;\n    anchorElement: HTMLElement | null;\n    show: () => void;\n    close: () => void;\n  }"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_menuId",
+          "privacy": "private",
+          "default": "`split-menu-${Math.random().toString(36).slice(2, 9)}`"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "_onActionClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_onDropdownClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_onMenuOpened",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMenuClosed",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onKeyDown",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "MouseEvent"
+          },
+          "description": "Dispatched when the primary action button is clicked.",
+          "name": "click"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the dropdown menu is opened or closed.",
+          "name": "toggle-menu"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "fieldName": "size"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'tonal' | 'outlined'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the split button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"tonal\"` is a light color button.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the split button.",
+          "fieldName": "color"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the split button is disabled.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-split-button",
+      "customElement": true,
+      "summary": "A split button lets users perform a default action or choose from a set of related actions via a dropdown menu.",
+      "rawTag": {
+        "name": "split-button",
         "description": ""
       }
     }
