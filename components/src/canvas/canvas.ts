@@ -213,7 +213,7 @@ export class Canvas extends LitElement {
 
           return svg`<g class=${classMap({ clickable: !!shape.clickable })}>
             <path
-              class=${'line' + (!shape.color ? ' no-color' : '')}
+              class=${classMap({ line: true, 'no-color': !shape.color })}
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"

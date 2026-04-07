@@ -134,7 +134,7 @@ export class FlowDesigner extends LitElement {
     const shapes: CanvasShape[] = [];
     let currentPosition = { x: 5, y: 2 };
 
-    const activities = this.data.map((activity) => {
+    const renderedActivities = this.data.map((activity) => {
       shapes.push({
         type: 'connector',
         start: { x: currentPosition.x + 3, y: currentPosition.y + 7 },
@@ -182,10 +182,13 @@ export class FlowDesigner extends LitElement {
         </div>
       `;
 
+      // Advance position for next activity (7 grid units for activity + 7 for connector)
+      currentPosition = { x: currentPosition.x, y: currentPosition.y + 14 };
+
       return activityTemplate;
     });
 
-    return { shapes, activities };
+    return { shapes, activities: renderedActivities };
   }
 
   protected render() {
