@@ -22,6 +22,7 @@ import styles from './calendar-column-view.scss';
  * @label Calendar Column View
  * @tag wc-calendar-column-view
  * @rawTag calendar-column-view
+ * @parentRawTag calendar
  * @summary Internal column view component for the calendar (day/week views).
  */
 @IndividualComponent
@@ -148,9 +149,11 @@ export class CalendarColumnView extends LitElement {
     styles: Record<string, string>,
     color: string,
   ) {
-    styles['--calendar-event-bg-color'] = `var(--color-${color}-90)`;
-    styles['--calendar-event-bg-color--hover'] = `var(--color-${color}-80)`;
+    styles['--calendar-event-bg-color'] = `var(--color-${color}-container)`;
+    styles['--calendar-event-bg-color--hover'] = `var(--color-inverse-${color})`;
     styles['--calendar-event-border-color'] = `var(--color-${color})`;
+    styles['--calendar-event-text-color'] = `var(--color-on-${color}-container)`;
+    styles['--calendar-event-text-color--hover'] = `var(--color-on-${color})`;
   }
 
   private _emitDateClick(date: Date) {

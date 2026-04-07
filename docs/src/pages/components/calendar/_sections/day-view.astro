@@ -3,7 +3,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-calendar id='day-calendar' view='day' style='height: 700px'></wc-calendar>
+  <wc-calendar id='day-calendar' view='day' style='height: 700px; width: 100%'></wc-calendar>
   <script is:inline>
     (function() {
       const $calendar = document.getElementById('day-calendar');

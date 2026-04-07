@@ -21,6 +21,7 @@ import styles from './calendar-month-view.scss';
  * @label Calendar Month View
  * @tag wc-calendar-month-view
  * @rawTag calendar-month-view
+ * @parentRawTag calendar
  * @summary Internal month view component for the calendar.
  */
 @IndividualComponent
@@ -114,9 +115,11 @@ export class CalendarMonthView extends LitElement {
     styles: Record<string, string>,
     color: string,
   ) {
-    styles['--calendar-event-bg-color'] = `var(--color-${color}-90)`;
-    styles['--calendar-event-bg-color--hover'] = `var(--color-${color}-80)`;
+    styles['--calendar-event-bg-color'] = `var(--color-${color}-container)`;
+    styles['--calendar-event-bg-color--hover'] = `var(--color-inverse-${color})`;
     styles['--calendar-event-border-color'] = `var(--color-${color})`;
+    styles['--calendar-event-text-color'] = `var(--color-on-${color}-container)`;
+    styles['--calendar-event-text-color--hover'] = `var(--color-on-${color})`;
   }
 
   private _emitEventClick(event: any) {

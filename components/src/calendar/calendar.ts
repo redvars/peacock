@@ -181,9 +181,9 @@ export class Calendar extends LitElement {
     );
   }
 
-  private _onViewSelect(evt: Event) {
-    const select = evt.target as HTMLSelectElement;
-    this.view = select.value;
+  private _onViewSegmentChange(evt: CustomEvent<{ value: string | null }>) {
+    if (!evt.detail.value) return;
+    this.view = evt.detail.value;
     this.dispatchEvent(
       new CustomEvent('view-change', {
         detail: { view: this.view },
@@ -228,19 +228,17 @@ export class Calendar extends LitElement {
           </div>
         </div>
         <div class="header-right">
-          <wc-select
-            size="sm"
-            .value=${this.view}
-            @change=${this._onViewSelect}
-          >
+          <wc-segmented-button-group @change=${this._onViewSegmentChange}>
             ${this.availableViews.map(
               v =>
-                html`<wc-option
+                html`<wc-segmented-button
                   .value=${v.value}
-                  label=${v.label}
-                ></wc-option>`,
+                  ?selected=${this.view === v.value}
+                >
+                  ${v.label}
+                </wc-segmented-button>`,
             )}
-          </wc-select>
+          </wc-segmented-button-group>
         </div>
       </div>
     `;

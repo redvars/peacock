@@ -1,22 +1,27 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
-const componentDetails = getComponentDetails('calendar');
-
-import UsageSection from './_sections/Usage.astro';
-import MonthViewSection from './_sections/Month.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
-const sections = [
-  {
-    'title': 'Usage',
-    'Component': UsageSection,
-  }, {
-    'title': 'Month view',
-    'Component': MonthViewSection,
-  }];
+import UsageSection from './_sections/usage.astro';
+import MonthViewSection from './_sections/month-view.astro';
+import DayViewSection from './_sections/day-view.astro';
+
+const componentDetails = getComponentDetails('calendar');
+
+const sections = [{
+  'title': 'Week View',
+  'Component': UsageSection,
+}, {
+  'title': 'Month View',
+  'Component': MonthViewSection,
+}, {
+  'title': 'Day View',
+  'Component': DayViewSection,
+}];
 ---
+
 <Layout componentDetails={componentDetails}>
   <wc-tab-group class='page-tabs'>
     <wc-tabs>
@@ -24,7 +29,7 @@ const sections = [
       <wc-tab>API</wc-tab>
     </wc-tabs>
     <wc-tab-panel>
-      <OverviewPanel  sections={sections} />
+      <OverviewPanel sections={sections} />
     </wc-tab-panel>
     <wc-tab-panel>
       <ApiPanel componentDetails={componentDetails} />

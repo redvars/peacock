@@ -169,12 +169,13 @@
   background: var(--calendar-event-bg-color);
   border-inline-start: 0.25rem solid var(--calendar-event-border-color);
   border-radius: var(--shape-corner-extra-small);
-  color: var(--color-on-surface);
+  color: var(--calendar-event-text-color);
   transition: background 150ms ease;
 
   &.clickable {
     &:hover {
       background: var(--calendar-event-bg-color--hover);
+      color: var(--calendar-event-text-color--hover);
     }
   }
 }
