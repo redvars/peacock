@@ -1,0 +1,63 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-calendar id='month-calendar' view='month' style='height: 700px'></wc-calendar>
+  <script is:inline>
+    (function() {
+      const $calendar = document.getElementById('month-calendar');
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
+
+      function addHours(date, hours) {
+        var result = new Date(date);
+        result.setHours(result.getHours() + hours);
+        return result;
+      }
+
+      $calendar.events = [
+        {
+          start: addHours(today, 9),
+          end: addHours(today, 11),
+          title: 'Team Standup',
+        },
+        {
+          start: addDays(today, 2),
+          end: addDays(today, 5),
+          title: 'Sprint Week',
+          color: 'green'
+        },
+        {
+          start: addDays(today, -3),
+          end: addDays(today, -1),
+          title: 'Training',
+          color: 'blue'
+        },
+        {
+          start: addHours(addDays(today, 7), 14),
+          end: addHours(addDays(today, 7), 16),
+          title: 'All Hands Meeting',
+          color: 'red'
+        },
+        {
+          start: addDays(today, 10),
+          end: addDays(today, 12),
+          title: 'Hackathon',
+          color: 'orange'
+        },
+      ];
+
+      $calendar.addEventListener('event-click', function(evt) {
+        console.log('Event clicked:', evt.detail);
+      });
+    })();
+  </script>
+</DemoComponentCard>

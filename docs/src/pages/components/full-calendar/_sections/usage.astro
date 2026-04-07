@@ -1,0 +1,73 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-calendar id='week-calendar' view='week' style='height: 700px'></wc-calendar>
+  <script is:inline>
+    (function() {
+      const $calendar = document.getElementById('week-calendar');
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+      }
+
+      function addHours(date, hours) {
+        var result = new Date(date);
+        result.setHours(result.getHours() + hours);
+        return result;
+      }
+
+      $calendar.events = [
+        {
+          start: addHours(today, 9),
+          end: addHours(today, 11),
+          title: 'Team Standup',
+        },
+        {
+          start: addHours(today, 10),
+          end: addHours(today, 12),
+          title: 'Design Review',
+          color: 'red'
+        },
+        {
+          start: addHours(today, 14),
+          end: addHours(today, 15),
+          title: 'Sprint Planning',
+          color: 'green'
+        },
+        {
+          start: addHours(addDays(today, 1), 8),
+          end: addHours(addDays(today, 1), 10),
+          title: 'Code Review',
+        },
+        {
+          start: addHours(addDays(today, 1), 13),
+          end: addHours(addDays(today, 1), 16),
+          title: 'Workshop',
+          color: 'orange'
+        },
+        {
+          start: addHours(addDays(today, -1), 10),
+          end: addHours(addDays(today, -1), 11),
+          title: 'Retrospective',
+        },
+        {
+          start: addDays(today, -1),
+          end: addDays(today, 2),
+          title: 'Conference (multi-day)',
+          color: 'blue'
+        },
+      ];
+
+      $calendar.addEventListener('event-click', function(evt) {
+        console.log('Event clicked:', evt.detail);
+      });
+    })();
+  </script>
+</DemoComponentCard>

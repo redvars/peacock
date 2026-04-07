@@ -1,0 +1,57 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-calendar id='day-calendar' view='day' style='height: 700px'></wc-calendar>
+  <script is:inline>
+    (function() {
+      const $calendar = document.getElementById('day-calendar');
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      function addHours(date, hours) {
+        var result = new Date(date);
+        result.setHours(result.getHours() + hours);
+        return result;
+      }
+
+      $calendar.events = [
+        {
+          start: addHours(today, 8),
+          end: addHours(today, 9),
+          title: 'Morning Standup',
+        },
+        {
+          start: addHours(today, 10),
+          end: addHours(today, 12),
+          title: 'Focus Time',
+          color: 'blue'
+        },
+        {
+          start: addHours(today, 10),
+          end: addHours(today, 11),
+          title: 'Quick Sync',
+          color: 'green'
+        },
+        {
+          start: addHours(today, 13),
+          end: addHours(today, 14),
+          title: 'Lunch & Learn',
+          color: 'orange'
+        },
+        {
+          start: addHours(today, 15),
+          end: addHours(today, 17),
+          title: 'Code Review Session',
+          color: 'red'
+        },
+      ];
+
+      $calendar.addEventListener('event-click', function(evt) {
+        console.log('Event clicked:', evt.detail);
+      });
+    })();
+  </script>
+</DemoComponentCard>
