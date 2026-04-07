@@ -6,21 +6,71 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <wc-canvas id='canvas'></wc-canvas>
   <script is:inline>
     const canvas = document.querySelector('#canvas');
+    canvas.padding = 2;
+    canvas.zoom = 1.1;
+
     canvas.shapes = [
-      { type: 'circle', x: 0, y: 0, radius: 0.25, color: 'red' },
-      { type: 'rect', x: -20, y: 20, height: 10, width: 15, color: 'green' },
+      // Services
+      { type: 'rect', x: 0, y: 0, width: 6, height: 4, color: 'var(--color-primary-container)' },
+      { type: 'rect', x: 12, y: 0, width: 6, height: 4, color: 'var(--color-secondary-container)' },
+      { type: 'rect', x: 24, y: -5, width: 7, height: 4, color: 'var(--color-tertiary-container)' },
+      { type: 'rect', x: 24, y: 5, width: 7, height: 4, color: 'var(--color-success-container)' },
+      { type: 'circle', x: 36, y: 2, radius: 2.1, color: 'var(--color-surface-container-high)' },
+
+      // Main request path
       {
         type: 'connector',
-        start: { x: -10, y: -10 },
+        start: { x: 6, y: 2 },
         showArrow: true,
+        color: 'var(--color-primary)',
         path: [
-          { direction: 'down', length: 3 },
-          { direction: 'right', length: 3 },
-          { direction: 'up', length: 10 },
-          { direction: 'right', length: 10 },
-          { direction: 'down', length: 21 },
+          { direction: 'right', length: 6 },
         ],
         clickable: true,
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 0 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'up', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 4 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'down', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+
+      // Async side effects and storage
+      {
+        type: 'connector',
+        start: { x: 31, y: -3 },
+        showArrow: true,
+        dashed: true,
+        color: 'var(--color-tertiary)',
+        path: [
+          { direction: 'right', length: 5 },
+          { direction: 'down', length: 3 },
+        ],
+      },
+      {
+        type: 'connector',
+        start: { x: 31, y: 7 },
+        showArrow: true,
+        dashed: true,
+        color: 'var(--color-success)',
+        path: [
+          { direction: 'right', length: 5 },
+          { direction: 'up', length: 3 },
+        ],
       },
     ];
   </script>
