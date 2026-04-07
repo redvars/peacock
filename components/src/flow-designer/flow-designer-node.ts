@@ -10,6 +10,7 @@ import type { WorkflowNode } from './types.js';
  *
  * @tag wc-flow-designer-node
  * @rawTag flow-designer-node
+ * @wip true
  */
 @IndividualComponent
 export class FlowDesignerNode extends LitElement {
