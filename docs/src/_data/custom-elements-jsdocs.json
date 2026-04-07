@@ -1833,13 +1833,13 @@
         },
         {
           "kind": "method",
-          "name": "_onViewSelect",
+          "name": "_onViewSegmentChange",
           "privacy": "private",
           "parameters": [
             {
               "name": "evt",
               "type": {
-                "text": "Event"
+                "text": "CustomEvent<{ value: string | null }>"
               }
             }
           ]
@@ -1951,6 +1951,7 @@
     "label": "Calendar Column View",
     "tag": "wc-calendar-column-view",
     "rawTag": "calendar-column-view",
+    "parentRawTag": "calendar",
     "summary": "Internal column view component for the calendar (day/week views).",
     "customElement": {
       "kind": "class",
@@ -2272,6 +2273,7 @@
     "label": "Calendar Month View",
     "tag": "wc-calendar-month-view",
     "rawTag": "calendar-month-view",
+    "parentRawTag": "calendar",
     "summary": "Internal month view component for the calendar.",
     "customElement": {
       "kind": "class",
