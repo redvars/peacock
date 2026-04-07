@@ -1,0 +1,69 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 20em;
+
+  --calendar-border-color: var(--color-outline-variant);
+  --calendar-scale-color: var(--color-outline-variant);
+
+  --calendar-event-bg-color: var(--color-primary-90);
+  --calendar-event-bg-color--hover: var(--color-primary-80);
+  --calendar-event-border-color: var(--color-primary);
+
+  --calendar-surface: var(--color-surface);
+  --calendar-surface-variant: var(--color-surface-variant);
+  --calendar-on-surface: var(--color-on-surface);
+  --calendar-on-surface-variant: var(--color-on-surface-variant);
+}
+
+.calendar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--calendar-surface);
+  border-radius: var(--shape-corner-large);
+  overflow: hidden;
+}
+
+.calendar-header {
+  .calendar-header-classic {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+
+    .header-left {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex: 1;
+
+      .title {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--calendar-on-surface);
+        padding-inline-start: 0.5rem;
+      }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.calendar-body {
+  flex: 1;
+  overflow: auto;
+
+  .view-container {
+    height: 100%;
+  }
+}

@@ -71,6 +71,9 @@ import { Search } from './search/search.js';
 import { Toolbar } from './toolbar/toolbar.js';
 import { NavigationRail } from './navigation-rail/navigation-rail.js';
 import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
+import { Calendar } from './calendar/calendar.js';
+import { CalendarColumnView } from './calendar/calendar-column-view.js';
+import { CalendarMonthView } from './calendar/calendar-month-view.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -302,6 +305,15 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-navigation-rail-item': {
       CustomElementClass: NavigationRailItem,
+    },
+    'wc-calendar': {
+      CustomElementClass: Calendar,
+    },
+    'wc-calendar-column-view': {
+      CustomElementClass: CalendarColumnView,
+    },
+    'wc-calendar-month-view': {
+      CustomElementClass: CalendarMonthView,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
