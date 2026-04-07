@@ -1,0 +1,14 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.expression {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  padding-bottom: var(--spacing-200);
+}

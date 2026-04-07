@@ -1,5 +1,5 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <style is:inline>
   #simple-condition-builder {
@@ -7,72 +7,65 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   }
 </style>
 
-<HighlighterCard lang={'html'}>
-  <goat-condition-builder id='simple-condition-builder'>
+<DemoComponentCard lang={'html'}>
+  <wc-condition-builder id='simple-condition-builder'>
 
-    <goat-cb-predicate condition-operator='or'>
-      <goat-cb-predicate vertical='true' condition-operator='and'>
-        <goat-cb-compound-expression field-label='Age' condition-operator='or'>
-          <goat-cb-expression id='age'>
-            <pc-input inline='true' placeholder='Select Value'></pc-input>
-          </goat-cb-expression>
-          <goat-cb-expression id='age'>
-            <pc-input inline='true' placeholder='Select Value'></pc-input>
-          </goat-cb-expression>
+    <wc-cb-predicate condition-operator='or'>
+      <wc-cb-predicate vertical='true' condition-operator='and'>
+        <wc-cb-compound-expression field-label='Age' condition-operator='or'>
+          <wc-cb-expression id='age'>
+            <wc-input inline placeholder='Select Value'></wc-input>
+          </wc-cb-expression>
+          <wc-cb-expression id='age2'>
+            <wc-input inline placeholder='Select Value'></wc-input>
+          </wc-cb-expression>
           <wc-button size='sm' icon='add' slot='end'>Add expression</wc-button>
-        </goat-cb-compound-expression>
-        <goat-cb-compound-expression field-label='State'>
-          <goat-cb-expression id='age'>
-            <pc-input inline='true' placeholder='Select Value'></pc-input>
-          </goat-cb-expression>
-        </goat-cb-compound-expression>
-
+        </wc-cb-compound-expression>
+        <wc-cb-compound-expression field-label='State'>
+          <wc-cb-expression id='state'>
+            <wc-input inline placeholder='Select Value'></wc-input>
+          </wc-cb-expression>
+        </wc-cb-compound-expression>
 
         <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-      </goat-cb-predicate>
+      </wc-cb-predicate>
+    </wc-cb-predicate>
 
-
-    </goat-cb-predicate>
-
-    <goat-cb-predicate condition-operator='or'>
-      <goat-cb-predicate vertical='true'>
-        <goat-cb-compound-expression field-label='State'>
-          <goat-cb-expression id='age'>
-            <pc-input inline='true' placeholder='Select Value'></pc-input>
-          </goat-cb-expression>
-        </goat-cb-compound-expression>
+    <wc-cb-predicate condition-operator='or'>
+      <wc-cb-predicate vertical='true'>
+        <wc-cb-compound-expression field-label='State'>
+          <wc-cb-expression id='state2'>
+            <wc-input inline placeholder='Select Value'></wc-input>
+          </wc-cb-expression>
+        </wc-cb-compound-expression>
         <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-      </goat-cb-predicate>
-    </goat-cb-predicate>
+      </wc-cb-predicate>
+    </wc-cb-predicate>
 
-    <goat-cb-predicate>
-      <goat-cb-compound-expression field-label='City'>
-        <goat-cb-expression id='age'>
-          <pc-input inline='true' placeholder='Select Value'></pc-input>
-        </goat-cb-expression>
-      </goat-cb-compound-expression>
+    <wc-cb-predicate>
+      <wc-cb-compound-expression field-label='City'>
+        <wc-cb-expression id='city'>
+          <wc-input inline placeholder='Select Value'></wc-input>
+        </wc-cb-expression>
+      </wc-cb-compound-expression>
       <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-    </goat-cb-predicate>
+    </wc-cb-predicate>
 
     <wc-button size='sm' icon='add'>Add rule</wc-button>
 
-  </goat-condition-builder>
+  </wc-condition-builder>
 
   <script is:inline>
-    const conditionBuilder = document.querySelector('goat-condition-builder');
-    conditionBuilder.addEventListener('condition-builder:change', (event) => {
-      console.log(event.detail);
-    });
-
-    document.querySelector('#age').operators = [{
-      label: 'Less than',
-      value: 'new',
-      icon: 'file-earmark',
-    },
-      {
-        label: 'More than',
-        value: 'save',
-        icon: 'person-circle',
-      }];
+    const ageExpression = document.querySelector('#age');
+    if (ageExpression) {
+      ageExpression.operators = [{
+        label: 'Less than',
+        value: 'less-than',
+      },
+        {
+          label: 'More than',
+          value: 'more-than',
+        }];
+    }
   </script>
-</HighlighterCard>
+</DemoComponentCard>
