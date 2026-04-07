@@ -64,7 +64,19 @@ export { Calendar, CalendarColumnView, CalendarMonthView } from './calendar/inde
 export type { CalendarViewType, EventType } from './calendar/index.js';
 export { Canvas } from './canvas/index.js';
 export type { CanvasShape } from './canvas/index.js';
-export { FlowDesigner } from './flow-designer/index.js';
-export type { FlowActivity } from './flow-designer/index.js';
+export { FlowDesigner, FlowDesignerNode } from './flow-designer/index.js';
+export type {
+  Workflow,
+  WorkflowNode,
+  WorkflowCommand,
+  PositionedNode,
+  ValidationError,
+  HistoryEntry,
+  EditorState,
+  NodeType,
+  WorkflowChangeEvent,
+  SwimlaneConfig,
+  NodeTemplate,
+} from './flow-designer/index.js';
 export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider } from './condition-builder/index.js';
 

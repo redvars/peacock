@@ -3,20 +3,64 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-flow-designer id='workflow-editor'></wc-flow-designer>
+  <wc-flow-designer style="width:100%" id='workflow-editor'></wc-flow-designer>
 
   <script is:inline>
     const workflowEditor = document.querySelector('#workflow-editor');
-    workflowEditor.data = [
-      {
-        'name': 'new-github-issue',
-        'title': 'New issue in github',
-        type: 'activity',
-      }, {
-        'name': 'new-github-issue',
-        'title': 'New issue in github',
-        type: 'activity',
+    workflowEditor.workflow = {
+      workflow_id: 'ui_designer_demo',
+      nodes: {
+        id: 'node_1',
+        type: 'trigger',
+        label: 'Input Received',
+        children: [
+          {
+            id: 'loop_start_01',
+            type: 'loop_start',
+            label: 'Process Batch Loop',
+            children: [
+              {
+                id: 'node_2',
+                type: 'decision',
+                label: 'Data Valid?',
+                branches: {
+                  yes: [
+                    {
+                      id: 'fork_01',
+                      type: 'fork',
+                      label: 'Parallel Sync',
+                      tasks: [
+                        { id: 'task_a', type: 'action', label: 'Upload to S3' },
+                        { id: 'task_b', type: 'action', label: 'Update DB' },
+                      ],
+                      join: {
+                        id: 'node_3',
+                        type: 'join',
+                        label: 'Merge Results',
+                        children: [
+                          {
+                            id: 'loop_end_01',
+                            type: 'loop_end',
+                            label: 'Back to Start',
+                            target_id: 'loop_start_01',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  no: [
+                    {
+                      id: 'node_error',
+                      type: 'action',
+                      label: 'Discard Record',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       },
-    ];
+    };
   </script>
 </DemoComponentCard>

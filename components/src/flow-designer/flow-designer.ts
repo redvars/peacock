@@ -1,22 +1,37 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import styles from './flow-designer.scss';
-import type { CanvasShape } from '../canvas/canvas.js';
 
-export interface FlowActivity {
-  name: string;
-  title: string;
-  description?: string;
-  icon?: string;
-  type?: string;
-}
+import '../toolbar/toolbar.js';
+import '../button/icon-button/icon-button.js';
+import '../icon/icon.js';
+import './flow-designer-node.js';
+
+import styles from './flow-designer.scss';
+import type {
+  Workflow,
+  WorkflowNode,
+  PositionedNode,
+  WorkflowChangeEvent,
+  HistoryEntry,
+  EditorState,
+  WorkflowCommand,
+} from './types.js';
+import {
+  AddNodeCommand,
+  DeleteNodeCommand,
+  EditNodeCommand,
+  MoveNodeCommand,
+} from './commands.js';
+import { SwimlaneLayout } from './layout.js';
+import { WorkflowValidator } from './validation.js';
+import { cloneWorkflow } from './workflow-utils.js';
 
 /**
  * @label Flow Designer
  * @tag wc-flow-designer
  * @rawTag flow-designer
- * @summary A Material 3 inspired flow diagram designer for creating and editing workflow activities with drag-to-scroll canvas interaction.
+ * @summary Low-code business process flow designer with swimlane layout, undo/redo, and interactive editing.
  *
  * @cssprop --flow-designer-height - Height of the flow designer container. Defaults to 400px.
  * @cssprop --flow-designer-border-color - Border color of the flow designer. Defaults to outline-variant.
@@ -28,9 +43,15 @@ export interface FlowActivity {
  * ```html
  * <wc-flow-designer id="editor"></wc-flow-designer>
  * <script>
- *   document.querySelector('#editor').data = [
- *     { name: 'step1', title: 'First Step', type: 'activity' },
- *   ];
+ *   const workflow = {
+ *     workflow_id: "demo",
+ *     nodes: {
+ *       id: "node_1",
+ *       type: "trigger",
+ *       label: "Start"
+ *     }
+ *   };
+ *   document.querySelector('#editor').workflow = workflow;
  * </script>
  * ```
  */
@@ -39,232 +60,552 @@ export class FlowDesigner extends LitElement {
   static styles = [styles];
 
   /**
-   * The grid block size in pixels.
+   * The workflow definition to display and edit
    */
-  @property({ type: Number, attribute: 'block-size' })
-  blockSize: number = 16;
+  @property({ type: Object })
+  workflow: Workflow = { workflow_id: '', nodes: { id: 'root', type: 'trigger', label: 'Start' } };
 
   /**
-   * Array of activity data objects to render in the flow.
+   * Whether the flow designer is in read-only mode
    */
-  @property({ type: Array })
-  data: FlowActivity[] = [];
+  @property({ type: Boolean, reflect: true, attribute: 'readonly' })
+  readonly: boolean = false;
 
   /**
-   * Whether the flow designer is disabled.
+   * Whether the flow designer is disabled
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
+  /**
+   * Show validation errors/warnings
+   */
+  @property({ type: Boolean, attribute: 'show-validation' })
+  showValidation: boolean = false;
+
   @state()
-  private _zoom: number = 1;
+  private _editor: EditorState = {
+    selectedNodeId: null,
+    isEditing: false,
+    editingNode: null,
+    hoveredNodeId: null,
+    isDragging: false,
+    draggedNodeId: null,
+    zoom: 1,
+    panX: 0,
+    panY: 0,
+  };
+
+  @state()
+  private _positionedNodes: PositionedNode[] = [];
+
+  @state()
+  private _history: HistoryEntry[] = [];
+
+  @state()
+  private _historyIndex: number = -1;
 
   @query('.flow-designer')
   private scrollElm?: HTMLElement;
 
-  private isDrag: boolean = false;
-  private isMouseInside: boolean = false;
-  private _startX: number = 0;
-  private _startY: number = 0;
-  private _scrollLeftPos: number = 0;
-  private _scrollTopPos: number = 0;
-  private gap: number = 10;
-
-  private _handleMouseUp = () => {
-    this.isDrag = false;
-  };
+  private _isDragScrolling: boolean = false;
+  private _dragStartX: number = 0;
+  private _dragStartY: number = 0;
+  private _scrollStartX: number = 0;
+  private _scrollStartY: number = 0;
 
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('mouseup', this._handleMouseUp);
+    window.addEventListener('keydown', this._handleKeyDown);
+    this._recalculateLayout();
   }
 
   disconnectedCallback() {
     window.removeEventListener('mouseup', this._handleMouseUp);
+    window.removeEventListener('keydown', this._handleKeyDown);
     super.disconnectedCallback();
   }
 
-  private _handleMouseDown(event: MouseEvent) {
-    if (!this.scrollElm || this.disabled) return;
-    event.preventDefault();
-    this.isDrag = true;
-    this.isMouseInside = true;
-    this._startX = event.pageX - this.scrollElm.offsetLeft;
-    this._startY = event.pageY - this.scrollElm.offsetTop;
-    this._scrollLeftPos = this.scrollElm.scrollLeft;
-    this._scrollTopPos = this.scrollElm.scrollTop;
+  protected willUpdate() {
+    this._recalculateLayout();
   }
 
-  private _handleMouseMove(event: MouseEvent) {
-    if (!this.isDrag || !this.isMouseInside || !this.scrollElm) return;
-    event.preventDefault();
-
-    const x = event.pageX - this.scrollElm.offsetLeft;
-    const walkX = x - this._startX;
-    this.scrollElm.scrollLeft = this._scrollLeftPos - walkX;
-    if (!this.scrollElm.scrollLeft)
-      this._startX = this._startX - (this._scrollLeftPos - walkX);
-
-    const y = event.pageY - this.scrollElm.offsetTop;
-    const walkY = y - this._startY;
-    this.scrollElm.scrollTop = this._scrollTopPos - walkY;
-    if (!this.scrollElm.scrollTop)
-      this._startY = this._startY - (this._scrollTopPos - walkY);
+  /**
+   * Recalculate layout when workflow changes
+   */
+  private _recalculateLayout() {
+    if (!this.workflow?.nodes) return;
+    this._positionedNodes = SwimlaneLayout.calculateLayout(this.workflow.nodes);
   }
 
-  private _handleMouseEnter(event: MouseEvent) {
-    event.preventDefault();
-    this.isMouseInside = true;
+  /**
+   * Add a new node
+   */
+  addNode(
+    newNode: WorkflowNode,
+    parentNodeId: string,
+    connectionType: 'child' | 'branch' | 'task' = 'child',
+    branchKey?: string
+  ): void {
+    const command = new AddNodeCommand(
+      newNode,
+      parentNodeId,
+      connectionType,
+      branchKey
+    );
+    this._executeCommand(command);
   }
 
-  private _handleMouseLeave(event: MouseEvent) {
-    event.preventDefault();
-    this.isMouseInside = false;
+  /**
+   * Delete a node by ID
+   */
+  deleteNode(nodeId: string): void {
+    const command = new DeleteNodeCommand(nodeId, this.workflow);
+    this._executeCommand(command);
   }
 
-  private _zoomIn() {
-    this._zoom = Math.round((this._zoom + 0.1) * 10) / 10;
+  /**
+   * Edit a node
+   */
+  editNode(nodeId: string, updates: Partial<WorkflowNode>): void {
+    const command = new EditNodeCommand(nodeId, updates, this.workflow);
+    this._executeCommand(command);
   }
 
-  private _zoomOut() {
-    this._zoom = Math.round((this._zoom - 0.1) * 10) / 10;
+  /**
+   * Move a node to a different parent/position
+   */
+  moveNode(
+    nodeId: string,
+    newParentId: string,
+    newIndex: number,
+    connectionType: 'child' | 'branch' | 'task' = 'child',
+    branchKey?: string
+  ): void {
+    const command = new MoveNodeCommand(
+      nodeId,
+      newParentId,
+      newIndex,
+      connectionType,
+      branchKey,
+      this.workflow
+    );
+    this._executeCommand(command);
   }
 
-  private _processData() {
-    const shapes: CanvasShape[] = [];
-    let currentPosition = { x: 5, y: 2 };
+  /**
+   * Execute a command and add to history
+   */
+  private _executeCommand(command: WorkflowCommand): void {
+    const newWorkflow = command.execute(this.workflow);
 
-    const renderedActivities = this.data.map((activity) => {
-      shapes.push({
-        type: 'connector',
-        start: { x: currentPosition.x + 3, y: currentPosition.y + 7 },
-        showArrow: true,
-        path: [{ direction: 'down', length: 7 }],
-        clickable: true,
-      });
+    // Validate workflow after change
+    const errors = WorkflowValidator.validate(newWorkflow);
+    const hasErrors = errors.some((e) => e.severity === 'error');
 
-      const activityTemplate = html`
-        <div
-          class="activity"
-          style="
-            top: ${this._zoom * (currentPosition.y * this.gap + 1)}px;
-            left: ${this._zoom * (currentPosition.x * this.gap + 1)}px;
-            width: ${23 * this.gap * this._zoom}px;
-            height: ${7 * this.gap * this._zoom}px;
-          "
-        >
-          <div
-            class="activity-icon"
-            style="
-              width: ${6 * this.gap * this._zoom}px;
-              height: ${6 * this.gap * this._zoom}px;
-              padding: ${this.gap * this._zoom}px;
-            "
-          >
-            ${activity.icon
-              ? html`<img src=${activity.icon} alt=${activity.title} />`
-              : html`<wc-icon name="activity" style="--icon-size: ${4 * this.gap * this._zoom}px;"></wc-icon>`}
-          </div>
-          <div class="activity-content">
-            <h1
-              class="activity-title"
-              style="font-size: ${this._zoom * 16}px;"
-            >
-              ${activity.title}
-            </h1>
-            <p
-              class="activity-description"
-              style="font-size: ${14 * this._zoom}px;"
-            >
-              ${activity.description || activity.type || 'activity'}
-            </p>
-          </div>
-        </div>
-      `;
+    if (hasErrors && !confirm('Workflow has errors. Continue anyway?')) {
+      return;
+    }
 
-      // Advance position for next activity (7 grid units for activity + 7 for connector)
-      currentPosition = { x: currentPosition.x, y: currentPosition.y + 14 };
-
-      return activityTemplate;
+    // Add to history
+    this._history = this._history.slice(0, this._historyIndex + 1);
+    this._history.push({
+      command,
+      workflow: newWorkflow,
+      timestamp: Date.now(),
     });
+    this._historyIndex++;
 
-    return { shapes, activities: renderedActivities };
+    // Update workflow
+    this.workflow = newWorkflow;
+
+    // Emit change event
+    this._emitWorkflowChange('node-edited', undefined);
   }
+
+  /**
+   * Undo last operation
+   */
+  undo(): void {
+    if (this._historyIndex <= 0) return;
+
+    this._historyIndex--;
+    const entry = this._history[this._historyIndex];
+    this.workflow = cloneWorkflow(entry.workflow);
+    this._emitWorkflowChange('undo', undefined);
+  }
+
+  /**
+   * Redo last undone operation
+   */
+  redo(): void {
+    if (this._historyIndex >= this._history.length - 1) return;
+
+    this._historyIndex++;
+    const entry = this._history[this._historyIndex];
+    this.workflow = cloneWorkflow(entry.workflow);
+    this._emitWorkflowChange('redo', undefined);
+  }
+
+  /**
+   * Check if undo is available
+   */
+  canUndo(): boolean {
+    return this._historyIndex > 0;
+  }
+
+  /**
+   * Check if redo is available
+   */
+  canRedo(): boolean {
+    return this._historyIndex < this._history.length - 1;
+  }
+
+  /**
+   * Export current workflow as JSON
+   */
+  exportWorkflow(): string {
+    return JSON.stringify(this.workflow, null, 2);
+  }
+
+  /**
+   * Validate workflow
+   */
+  validate(): void {
+    const errors = WorkflowValidator.validate(this.workflow);
+    this.dispatchEvent(
+      new CustomEvent('validation-result', {
+        detail: { errors },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  private _emitWorkflowChange(
+    type: WorkflowChangeEvent['type'],
+    nodeId?: string
+  ): void {
+    this.dispatchEvent(
+      new CustomEvent('workflow-changed', {
+        detail: {
+          type,
+          nodeId,
+          workflow: this.workflow,
+        } as WorkflowChangeEvent,
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  private _handleKeyDown = (event: KeyboardEvent) => {
+    if (this.disabled || this.readonly) return;
+
+    if (event.ctrlKey || event.metaKey) {
+      if (event.key === 'z') {
+        event.preventDefault();
+        this.undo();
+      } else if (event.key === 'y') {
+        event.preventDefault();
+        this.redo();
+      }
+    }
+
+    if (event.key === 'Delete' && this._editor.selectedNodeId) {
+      event.preventDefault();
+      this.deleteNode(this._editor.selectedNodeId);
+    }
+  };
+
+  private _handleMouseUp = () => {
+    this._isDragScrolling = false;
+  };
+
+  private _handleCanvasMouseDown = (e: MouseEvent) => {
+    if (this.disabled) return;
+
+    if (e.target === this.scrollElm || (e.target as HTMLElement).classList.contains('canvas-container')) {
+      this._isDragScrolling = true;
+      this._dragStartX = e.clientX;
+      this._dragStartY = e.clientY;
+      if (this.scrollElm) {
+        this._scrollStartX = this.scrollElm.scrollLeft;
+        this._scrollStartY = this.scrollElm.scrollTop;
+      }
+    }
+  };
+
+  private _handleCanvasMouseMove = (e: MouseEvent) => {
+    if (!this._isDragScrolling || !this.scrollElm) return;
+
+    const deltaX = e.clientX - this._dragStartX;
+    const deltaY = e.clientY - this._dragStartY;
+
+    this.scrollElm.scrollLeft = this._scrollStartX - deltaX;
+    this.scrollElm.scrollTop = this._scrollStartY - deltaY;
+  };
+
+  private _handleNodeClick = (e: CustomEvent) => {
+    const nodeId = e.detail.nodeId;
+    this._editor.selectedNodeId = nodeId;
+    this.requestUpdate();
+  };
+
+  private _handleNodeDelete = (e: CustomEvent) => {
+    const nodeId = e.detail.nodeId;
+    this.deleteNode(nodeId);
+  };
+
+  private _handleNodeEdit = (e: CustomEvent) => {
+    const nodeId = e.detail.nodeId;
+    this._editor.selectedNodeId = nodeId;
+    this._editor.isEditing = true;
+    this.requestUpdate();
+  };
+
+  private _handleZoomIn = () => {
+    this._editor.zoom = Math.min(2, this._editor.zoom + 0.1);
+    this.requestUpdate();
+  };
+
+  private _handleZoomOut = () => {
+    this._editor.zoom = Math.max(0.5, this._editor.zoom - 0.1);
+    this.requestUpdate();
+  };
 
   protected render() {
-    const { activities, shapes } = this._processData();
+    if (!this.workflow?.nodes) {
+      return html`<div class="flow-designer-container">
+        <p class="empty-state">No workflow loaded</p>
+      </div>`;
+    }
 
-    const allShapes: CanvasShape[] = [
-      ...shapes,
-      {
-        type: 'connector',
-        start: { x: 4, y: 22 },
-        showArrow: true,
-        path: [{ direction: 'down', length: 7 }],
-        clickable: true,
-        variant: 'dashed',
-      },
-    ];
+    const validationErrors = this.showValidation
+      ? WorkflowValidator.validate(this.workflow)
+      : [];
+    const canvasBounds = SwimlaneLayout.getCanvasBounds(this._positionedNodes);
 
     return html`
       <div class="flow-designer-container">
-        <div class="flow-designer">
+        <wc-toolbar
+          class="editor-toolbar"
+          variant="floating"
+          orientation="horizontal"
+          elevated
+        >
+          <wc-icon-button
+            variant="text"
+            ?disabled=${this._editor.zoom <= 0.5}
+            @click=${this._handleZoomOut}
+            title="Zoom Out (Ctrl+-)"
+          >
+            <wc-icon name="remove"></wc-icon>
+          </wc-icon-button>
+          <span class="zoom-display">${Math.round(this._editor.zoom * 100)}%</span>
+          <wc-icon-button
+            variant="text"
+            ?disabled=${this._editor.zoom >= 2}
+            @click=${this._handleZoomIn}
+            title="Zoom In (Ctrl++)"
+          >
+            <wc-icon name="add"></wc-icon>
+          </wc-icon-button>
+          <wc-icon-button
+            variant="text"
+            ?disabled=${!this.canUndo()}
+            @click=${() => this.undo()}
+            title="Undo (Ctrl+Z)"
+          >
+            <wc-icon name="undo"></wc-icon>
+          </wc-icon-button>
+          <wc-icon-button
+            variant="text"
+            ?disabled=${!this.canRedo()}
+            @click=${() => this.redo()}
+            title="Redo (Ctrl+Y)"
+          >
+            <wc-icon name="redo"></wc-icon>
+          </wc-icon-button>
+          ${!this.readonly
+            ? html`
+                <wc-icon-button
+                  variant="text"
+                  @click=${() => this.validate()}
+                  title="Validate Workflow"
+                >
+                  <wc-icon name="check_circle"></wc-icon>
+                </wc-icon-button>
+              `
+            : nothing}
+        </wc-toolbar>
+
+        <!-- Validation messages -->
+        ${validationErrors.length > 0
+          ? html`
+              <div class="validation-panel">
+                ${validationErrors.map(
+                  (error) =>
+                    html`
+                      <div class="validation-item ${error.severity}">
+                        <wc-icon
+                          name=${error.severity === 'error' ? 'error' : 'warning'}
+                        ></wc-icon>
+                        <span>${error.message}</span>
+                      </div>
+                    `
+                )}
+              </div>
+            `
+          : nothing}
+
+        <!-- Flow canvas -->
+        <div
+          class="flow-designer"
+          @mousedown=${this._handleCanvasMouseDown}
+          @mousemove=${this._handleCanvasMouseMove}
+        >
           <div
             class="canvas-container"
-            @mousedown=${this._handleMouseDown}
-            @mousemove=${this._handleMouseMove}
-            @mouseenter=${this._handleMouseEnter}
-            @mouseleave=${this._handleMouseLeave}
+            style="
+              transform: scale(${this._editor.zoom});
+              width: ${canvasBounds.width}px;
+              height: ${canvasBounds.height}px;
+            "
           >
-            <wc-canvas
-              class="flow-lines"
-              .padding=${0}
-              .zoom=${this._zoom}
-              .shapes=${allShapes}
-            ></wc-canvas>
-
-            <div class="flow-items">
-              <div class="flow-items-container">
-                ${activities}
-
-                <div
-                  class="new-activity"
-                  style="
-                    top: ${101 * this._zoom}px;
-                    left: ${31 * this._zoom}px;
-                    width: ${20 * this._zoom}px;
-                    height: ${20 * this._zoom}px;
-                  "
+            <!-- SVG Connectors -->
+            <svg
+              class="connectors-layer"
+              width="${canvasBounds.width}"
+              height="${canvasBounds.height}"
+              viewBox="0 0 ${canvasBounds.width} ${canvasBounds.height}"
+            >
+              <defs>
+                <marker
+                  id="arrowhead"
+                  markerWidth="10"
+                  markerHeight="10"
+                  refX="9"
+                  refY="3"
+                  orient="auto"
                 >
-                  <wc-icon
-                    name="plus"
-                    style="--icon-size: ${this._zoom * 20}px;"
-                  ></wc-icon>
-                </div>
-              </div>
+                  <polygon points="0 0, 10 3, 0 6" fill="currentColor"></polygon>
+                </marker>
+              </defs>
+              ${this._renderConnectors()}
+            </svg>
+
+            <!-- Swimlane backgrounds -->
+            <div class="swimlanes-container">
+              ${this._renderSwimlanes()}
             </div>
-            <div class="clear"></div>
+
+            <!-- Positioned nodes -->
+            <div class="nodes-layer">
+              ${this._renderNodes()}
+            </div>
           </div>
-        </div>
-        <div class="action-bar">
-          <wc-button-group>
-            <wc-button
-              size="sm"
-              variant="outlined"
-              @click=${this._zoomIn}
-            >
-              <wc-icon slot="icon" name="plus"></wc-icon>
-            </wc-button>
-            <wc-button
-              size="sm"
-              variant="outlined"
-              @click=${this._zoomOut}
-            >
-              <wc-icon slot="icon" name="dash"></wc-icon>
-            </wc-button>
-          </wc-button-group>
         </div>
       </div>
     `;
+  }
+
+  private _renderConnectors() {
+    return this._positionedNodes.flatMap((node) => {
+      if (!node.connectorPoints) return [];
+
+      return node.connectorPoints.map((connector, idx) => {
+        const { from, to, type } = connector;
+        const isLoopback = type === 'curved';
+
+        if (isLoopback) {
+          // Render curved path for loop back
+          const midY = (from.y + to.y) / 2;
+          const d =
+            `M ${from.x} ${from.y} ` +
+            `L ${from.x + 30} ${from.y} ` +
+            `Q ${from.x + 60} ${midY} ${to.x - 30} ${to.y} ` +
+            `L ${to.x} ${to.y}`;
+
+          return html`
+            <path
+              key=${`${node.node.id}-connector-${idx}`}
+              d=${d}
+              class="connector ${type}"
+              marker-end="url(#arrowhead)"
+              vector-effect="non-scaling-stroke"
+            ></path>
+          `;
+        }
+
+        // Render straight connector
+        const d = `M ${from.x} ${from.y} L ${to.x} ${to.y}`;
+        return html`
+          <path
+            key=${`${node.node.id}-connector-${idx}`}
+            d=${d}
+            class="connector ${type}"
+            marker-end="url(#arrowhead)"
+            vector-effect="non-scaling-stroke"
+          ></path>
+        `;
+      });
+    });
+  }
+
+  private _renderSwimlanes() {
+    const swimlanes = SwimlaneLayout.getSwimlanes(this._positionedNodes);
+
+    return swimlanes.map(
+      (lane) => {
+        const laneTop = Math.min(...lane.nodes.map((n) => n.y)) - 14;
+        const laneBottom = Math.max(...lane.nodes.map((n) => n.y + n.height)) + 14;
+        const laneHeight = Math.max(120, laneBottom - laneTop);
+
+        return html`
+          <div
+            class="swimlane ${lane.isParallel ? 'parallel' : ''}"
+            style="top: ${laneTop}px; height: ${laneHeight}px;"
+          >
+            <div class="swimlane-header">${lane.name}</div>
+          </div>
+        `;
+      }
+    );
+  }
+
+  private _renderNodes() {
+    return this._positionedNodes.map(
+      (posNode) =>
+        html`
+          <div
+            class="positioned-node"
+            style="
+              left: ${posNode.x}px;
+              top: ${posNode.y}px;
+              width: ${posNode.width}px;
+              height: ${posNode.height}px;
+            "
+          >
+            <wc-flow-designer-node
+              .node=${posNode.node}
+              ?selected=${posNode.node.id === this._editor.selectedNodeId}
+              ?editing=${this._editor.isEditing &&
+              posNode.node.id === this._editor.selectedNodeId}
+              ?disabled=${this.disabled}
+              @node-click=${this._handleNodeClick}
+              @node-delete=${this._handleNodeDelete}
+              @node-edit-start=${this._handleNodeEdit}
+            ></wc-flow-designer-node>
+          </div>
+        `
+    );
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'wc-flow-designer': FlowDesigner;
   }
 }

@@ -17,7 +17,9 @@
   "private": false,
   "exports": {
     ".": "./dist/src/index.js",
-    "./icon.js": "./dist/src/index.js"
+    "./icon.js": "./dist/src/index.js",
+    "./flow-designer.js": "./dist/src/flow-designer/flow-designer.js",
+    "./flow-designer-node.js": "./dist/src/flow-designer/flow-designer-node.js"
   },
   "files": [
     "src",
