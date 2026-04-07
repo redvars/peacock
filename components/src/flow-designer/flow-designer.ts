@@ -202,7 +202,7 @@ export class FlowDesigner extends LitElement {
         showArrow: true,
         path: [{ direction: 'down', length: 7 }],
         clickable: true,
-        dashed: true,
+        variant: 'dashed',
       },
     ];
 

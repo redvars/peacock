@@ -10,6 +10,7 @@ import styles from './cb-predicate.scss';
  * @rawTag cb-predicate
  * @summary A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.
  * @tags condition-builder
+ * @parentRawTag compound-expression
  *
  * @example
  * ```html

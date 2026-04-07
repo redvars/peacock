@@ -19,13 +19,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
       // Main request path
       {
-        type: 'connector',
+        type: 'line',
         start: { x: 6, y: 2 },
+        end: { x: 12, y: 2 },
         showArrow: true,
+        variant: 'solid',
         color: 'var(--color-primary)',
-        path: [
-          { direction: 'right', length: 6 },
-        ],
         clickable: true,
       },
       {
@@ -54,7 +53,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         type: 'connector',
         start: { x: 31, y: -3 },
         showArrow: true,
-        dashed: true,
+        variant: 'dashed',
         color: 'var(--color-tertiary)',
         path: [
           { direction: 'right', length: 5 },
@@ -65,7 +64,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         type: 'connector',
         start: { x: 31, y: 7 },
         showArrow: true,
-        dashed: true,
+        variant: 'animated-dashed',
         color: 'var(--color-success)',
         path: [
           { direction: 'right', length: 5 },

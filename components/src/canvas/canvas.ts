@@ -1,23 +1,71 @@
 import { html, LitElement, svg, nothing } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './canvas.scss';
 
-export interface CanvasShape {
-  type: 'circle' | 'rect' | 'line' | 'connector';
+export type CanvasDirection = 'up' | 'down' | 'left' | 'right';
+
+export type CanvasStrokeVariant = 'solid' | 'dashed' | 'animated-dashed';
+
+export interface CanvasPoint {
+  x: number;
+  y: number;
+}
+
+export interface CanvasPathSegment {
+  direction: CanvasDirection;
+  length: number;
+}
+
+interface BaseCanvasShape {
+  color?: string;
+}
+
+interface BaseCanvasStrokeShape extends BaseCanvasShape {
+  variant?: CanvasStrokeVariant;
+  showArrow?: boolean;
+  clickable?: boolean;
+}
+
+export interface CanvasCircleShape extends BaseCanvasShape {
+  type: 'circle';
   x?: number;
   y?: number;
   radius?: number;
+}
+
+export interface CanvasRectShape extends BaseCanvasShape {
+  type: 'rect';
+  x?: number;
+  y?: number;
   width?: number;
   height?: number;
-  color?: string;
-  start?: { x: number; y: number };
-  end?: { x: number; y: number };
-  path?: { direction: 'up' | 'down' | 'left' | 'right'; length: number }[];
-  showArrow?: boolean;
-  dashed?: boolean;
-  clickable?: boolean;
+}
+
+export interface CanvasLineShape extends BaseCanvasStrokeShape {
+  type: 'line';
+  start?: CanvasPoint;
+  end?: CanvasPoint;
+}
+
+export interface CanvasConnectorShape extends BaseCanvasStrokeShape {
+  type: 'connector';
+  start?: CanvasPoint;
+  path?: CanvasPathSegment[];
+}
+
+export type CanvasShape =
+  | CanvasCircleShape
+  | CanvasRectShape
+  | CanvasLineShape
+  | CanvasConnectorShape;
+
+interface CanvasBounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 /**
@@ -71,13 +119,14 @@ export class Canvas extends LitElement {
   viewbox?: string;
 
   private unitSize: number = 1;
+
   private gap: number = this.unitSize * 10;
 
-  private getNextPoint(
-    point: { x: number; y: number },
-    direction: string,
+  private static getNextPoint(
+    point: CanvasPoint,
+    direction: CanvasDirection,
     length: number,
-  ): { x: number; y: number } {
+  ): CanvasPoint {
     if (direction === 'down') return { x: point.x, y: point.y + length };
     if (direction === 'up') return { x: point.x, y: point.y - length };
     if (direction === 'left') return { x: point.x - length, y: point.y };
@@ -85,25 +134,32 @@ export class Canvas extends LitElement {
     return { x: point.x, y: point.y };
   }
 
-  private updateComputationArea(
-    point: { x: number; y: number },
-    area: { x: number; y: number; width: number; height: number },
-  ) {
-    if (point.x > area.width) area.width = point.x;
-    else if (point.x < area.x) area.x = point.x;
-    if (point.y > area.height) area.height = point.y;
-    else if (point.y < area.y) area.y = point.y;
+  private static updateComputationArea(
+    point: CanvasPoint,
+    area: CanvasBounds,
+  ): CanvasBounds {
+    const nextArea = { ...area };
+    if (point.x > nextArea.width) nextArea.width = point.x;
+    else if (point.x < nextArea.x) nextArea.x = point.x;
+    if (point.y > nextArea.height) nextArea.height = point.y;
+    else if (point.y < nextArea.y) nextArea.y = point.y;
+    return nextArea;
   }
 
-  private computeShapes(computedViewbox: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) {
-    const dotRadius = this.unitSize;
+  private static getStrokeVariantClasses(variant?: CanvasStrokeVariant) {
+    return {
+      line: true,
+      'no-color': false,
+      'variant-dashed': variant === 'dashed' || variant === 'animated-dashed',
+      'variant-animated-dashed': variant === 'animated-dashed',
+    };
+  }
 
-    const shapes = this.shapes.map((shape, index) => {
+  private computeShapes(initialBounds: CanvasBounds) {
+    const dotRadius = this.unitSize;
+    let computedViewbox = { ...initialBounds };
+
+    const shapes = this.shapes.map(shape => {
       switch (shape.type) {
         case 'circle': {
           const r = shape.radius || 1;
@@ -151,14 +207,23 @@ export class Canvas extends LitElement {
           const start = shape.start || { x: 0, y: 0 };
           const end = shape.end || { x: 0, y: 0 };
           const pathString = `M${start.x * this.gap + dotRadius} ${start.y * this.gap + dotRadius} L${end.x * this.gap + dotRadius} ${end.y * this.gap + dotRadius}`;
+          const strokeColor =
+            shape.color ||
+            'var(--canvas-line-color, var(--color-on-surface))';
 
           return svg`<path
-            class="line clickable"
+            class=${classMap({
+              ...Canvas.getStrokeVariantClasses(shape.variant),
+              clickable: !!shape.clickable,
+              'no-color': !shape.color,
+            })}
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke="var(--canvas-line-color, var(--color-on-surface))"
+            stroke=${strokeColor}
+            marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
             d=${pathString}
+            stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
             fill="none"
           />`;
         }
@@ -166,44 +231,44 @@ export class Canvas extends LitElement {
           const start = shape.start || { x: 0, y: 0 };
           let pathString = `M${start.x * this.gap + dotRadius} ${start.y * this.gap + dotRadius}`;
           let current = { ...start };
-          this.updateComputationArea(current, computedViewbox);
+          computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
 
           const pathSegments = shape.path || [];
-          for (let i = 0; i < pathSegments.length; i++) {
+          for (let i = 0; i < pathSegments.length; i += 1) {
             const path = pathSegments[i];
 
             if (i === 0) {
-              const point = this.getNextPoint(current, path.direction, 1);
+              const point = Canvas.getNextPoint(current, path.direction, 1);
               pathString += ` L${point.x * this.gap + dotRadius} ${point.y * this.gap + dotRadius}`;
               current = { ...point };
-              this.updateComputationArea(current, computedViewbox);
+              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
             }
 
-            const point = this.getNextPoint(
+            const point = Canvas.getNextPoint(
               current,
               path.direction,
               path.length - 2,
             );
             pathString += ` L${point.x * this.gap + dotRadius} ${point.y * this.gap + dotRadius}`;
             current = { ...point };
-            this.updateComputationArea(current, computedViewbox);
+            computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
 
             if (i === pathSegments.length - 1) {
-              const endPoint = this.getNextPoint(current, path.direction, 1);
+              const endPoint = Canvas.getNextPoint(current, path.direction, 1);
               pathString += ` L${endPoint.x * this.gap + dotRadius} ${endPoint.y * this.gap + dotRadius}`;
               current = { ...endPoint };
-              this.updateComputationArea(current, computedViewbox);
+              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
             } else {
               const nextPath = pathSegments[i + 1];
-              const midPoint = this.getNextPoint(current, path.direction, 1);
-              const nextPoint = this.getNextPoint(
+              const midPoint = Canvas.getNextPoint(current, path.direction, 1);
+              const nextPoint = Canvas.getNextPoint(
                 midPoint,
                 nextPath.direction,
                 1,
               );
               pathString += ` Q ${midPoint.x * this.gap + dotRadius} ${midPoint.y * this.gap + dotRadius} ${nextPoint.x * this.gap + dotRadius} ${nextPoint.y * this.gap + dotRadius}`;
               current = { ...nextPoint };
-              this.updateComputationArea(current, computedViewbox);
+              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
             }
           }
 
@@ -213,14 +278,17 @@ export class Canvas extends LitElement {
 
           return svg`<g class=${classMap({ clickable: !!shape.clickable })}>
             <path
-              class=${classMap({ line: true, 'no-color': !shape.color })}
+              class=${classMap({
+                ...Canvas.getStrokeVariantClasses(shape.variant),
+                'no-color': !shape.color,
+              })}
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke=${strokeColor}
               marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
               d=${pathString}
-              stroke-dasharray=${shape.dashed ? '6,6' : nothing}
+              stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
               fill="none"
             />
             <path
@@ -239,21 +307,22 @@ export class Canvas extends LitElement {
     });
 
     // Padding
-    computedViewbox.x = computedViewbox.x - this.padding;
-    computedViewbox.y = computedViewbox.y - this.padding;
-    computedViewbox.width = computedViewbox.width + this.padding;
-    computedViewbox.height = computedViewbox.height + this.padding;
-    computedViewbox.width = computedViewbox.width - computedViewbox.x;
-    computedViewbox.height = computedViewbox.height - computedViewbox.y;
+    computedViewbox.x -= this.padding;
+    computedViewbox.y -= this.padding;
+    computedViewbox.width += this.padding;
+    computedViewbox.height += this.padding;
+    computedViewbox.width -= computedViewbox.x;
+    computedViewbox.height -= computedViewbox.y;
 
-    return shapes;
+    return { shapes, computedViewbox };
   }
 
   protected render() {
     const dotRadius = this.unitSize;
     let computedViewBox = { width: 0, height: 0, x: 0, y: 0 };
 
-    const shapes = this.computeShapes(computedViewBox);
+    const { shapes, computedViewbox } = this.computeShapes(computedViewBox);
+    computedViewBox = computedViewbox;
 
     if (this.viewbox) {
       const viewBox = this.viewbox.split(' ');

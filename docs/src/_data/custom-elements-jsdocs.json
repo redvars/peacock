@@ -2588,22 +2588,23 @@
           "kind": "method",
           "name": "getNextPoint",
           "privacy": "private",
+          "static": true,
           "return": {
             "type": {
-              "text": "{ x: number; y: number }"
+              "text": "CanvasPoint"
             }
           },
           "parameters": [
             {
               "name": "point",
               "type": {
-                "text": "{ x: number; y: number }"
+                "text": "CanvasPoint"
               }
             },
             {
               "name": "direction",
               "type": {
-                "text": "string"
+                "text": "CanvasDirection"
               }
             },
             {
@@ -2618,17 +2619,38 @@
           "kind": "method",
           "name": "updateComputationArea",
           "privacy": "private",
+          "static": true,
+          "return": {
+            "type": {
+              "text": "CanvasBounds"
+            }
+          },
           "parameters": [
             {
               "name": "point",
               "type": {
-                "text": "{ x: number; y: number }"
+                "text": "CanvasPoint"
               }
             },
             {
               "name": "area",
               "type": {
-                "text": "{ x: number; y: number; width: number; height: number }"
+                "text": "CanvasBounds"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "getStrokeVariantClasses",
+          "privacy": "private",
+          "static": true,
+          "parameters": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": {
+                "text": "CanvasStrokeVariant"
               }
             }
           ]
@@ -2639,9 +2661,9 @@
           "privacy": "private",
           "parameters": [
             {
-              "name": "computedViewbox",
+              "name": "initialBounds",
               "type": {
-                "text": "{\n    x: number;\n    y: number;\n    width: number;\n    height: number;\n  }"
+                "text": "CanvasBounds"
               }
             }
           ]
@@ -3035,6 +3057,7 @@
     "rawTag": "cb-compound-expression",
     "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
     "tags": "condition-builder",
+    "parentRawTag": "compound-builder",
     "example": "```html\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n  <wc-cb-expression>\n    <wc-input placeholder=\"Enter value\"></wc-input>\n  </wc-cb-expression>\n</wc-cb-compound-expression>\n```",
     "customElement": {
       "kind": "class",
@@ -3129,6 +3152,7 @@
     "rawTag": "cb-divider",
     "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
     "tags": "condition-builder",
+    "parentRawTag": "compound-builder",
     "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
     "customElement": {
       "kind": "class",
@@ -3217,6 +3241,7 @@
     "rawTag": "cb-expression",
     "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
     "tags": "condition-builder",
+    "parentRawTag": "compound-builder",
     "example": "```html\n<wc-cb-expression>\n  <wc-input placeholder=\"Enter value\"></wc-input>\n</wc-cb-expression>\n```",
     "customElement": {
       "kind": "class",
@@ -3283,6 +3308,7 @@
     "rawTag": "cb-predicate",
     "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
     "tags": "condition-builder",
+    "parentRawTag": "compound-expression",
     "example": "```html\n<wc-cb-predicate condition-operator=\"and\" vertical>\n  <wc-cb-compound-expression field-label=\"Age\">\n    <wc-cb-expression></wc-cb-expression>\n  </wc-cb-compound-expression>\n</wc-cb-predicate>\n```",
     "customElement": {
       "kind": "class",

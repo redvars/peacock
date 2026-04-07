@@ -31,6 +31,14 @@
   &.no-color {
     stroke: var(--canvas-line-color);
   }
+
+  &.variant-dashed {
+    stroke-dasharray: 6 6;
+  }
+
+  &.variant-animated-dashed {
+    animation: canvas-dash-flow 600ms linear infinite;
+  }
 }
 
 .clickable {
@@ -38,5 +46,15 @@
 
   &:hover .line {
     stroke: var(--canvas-hover-color);
+  }
+}
+
+.line.clickable:hover {
+  stroke: var(--canvas-hover-color);
+}
+
+@keyframes canvas-dash-flow {
+  to {
+    stroke-dashoffset: -12;
   }
 }

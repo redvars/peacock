@@ -9,6 +9,7 @@ import styles from './cb-compound-expression.scss';
  * @rawTag cb-compound-expression
  * @summary A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.
  * @tags condition-builder
+ * @parentRawTag compound-builder
  *
  * @example
  * ```html
