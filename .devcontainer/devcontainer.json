@@ -11,7 +11,8 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "streetsidesoftware.code-spell-checker",
-        "astro-build.astro-vscode"
+        "astro-build.astro-vscode",
+        "wc-toolkit.web-components-language-server"
       ]
     }
   },
