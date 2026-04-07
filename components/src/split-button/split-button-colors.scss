@@ -1,0 +1,56 @@
+@mixin _split-button-color($color) {
+  --filled-split-button-container-color: var(--color-#{$color});
+  --filled-split-button-label-text-color: var(--color-on-#{$color});
+
+  --tonal-split-button-container-color: var(--color-#{$color}-container);
+  --tonal-split-button-label-text-color: var(--color-on-#{$color}-container);
+
+  --outlined-split-button-outline-color: var(--color-#{$color});
+  --outlined-split-button-label-text-color: var(--color-#{$color});
+}
+
+:host([color=primary]) {
+  @include _split-button-color(primary);
+}
+
+:host([color=secondary]) {
+  @include _split-button-color(secondary);
+}
+
+:host([color=tertiary]) {
+  @include _split-button-color(tertiary);
+}
+
+:host([color=success]) {
+  @include _split-button-color(success);
+}
+
+:host([color=danger]) {
+  @include _split-button-color(error);
+}
+
+:host([color=warning]) {
+  @include _split-button-color(warning);
+}
+
+:host([color=on-surface]) {
+  --filled-split-button-container-color: var(--color-on-surface);
+  --filled-split-button-label-text-color: var(--color-surface);
+
+  --tonal-split-button-container-color: var(--color-on-surface-container);
+  --tonal-split-button-label-text-color: var(--color-surface-container-high);
+
+  --outlined-split-button-outline-color: var(--color-on-surface);
+  --outlined-split-button-label-text-color: var(--color-on-surface);
+}
+
+:host([color=surface]) {
+  --filled-split-button-container-color: var(--color-surface-container-high);
+  --filled-split-button-label-text-color: var(--color-on-surface);
+
+  --tonal-split-button-container-color: var(--color-surface-container-high);
+  --tonal-split-button-label-text-color: var(--color-on-surface-container);
+
+  --outlined-split-button-outline-color: var(--color-on-surface);
+  --outlined-split-button-label-text-color: var(--color-on-surface);
+}

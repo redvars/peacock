@@ -1,0 +1,48 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+
+import UsageSection from './_sections/Usage.astro';
+import VariantsSection from './_sections/Variants.astro';
+import ColorsSection from './_sections/Colors.astro';
+import SizesSection from './_sections/Sizes.astro';
+import StatesSection from './_sections/States.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+
+const componentDetails = getComponentDetails('split-button');
+
+const title = getTextTag(componentDetails, 'label');
+
+const sections = [
+  {
+    'title': 'Usage',
+    'Component': UsageSection,
+  }, {
+    'title': 'Variants',
+    'Component': VariantsSection,
+  }, {
+    'title': 'Colors',
+    'Component': ColorsSection,
+  }, {
+    'title': 'Sizes',
+    'Component': SizesSection,
+  }, {
+    'title': 'States',
+    'Component': StatesSection,
+  }];
+---
+<Layout componentDetails={componentDetails}>
+  <wc-tab-group class='page-tabs'>
+    <wc-tabs>
+      <wc-tab selected='true'>Overview</wc-tab>
+      <wc-tab>API</wc-tab>
+    </wc-tabs>
+    <wc-tab-panel>
+      <OverviewPanel  sections={sections} title={title} />
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </wc-tab-panel>
+  </wc-tab-group>
+</Layout>

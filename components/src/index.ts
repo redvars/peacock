@@ -7,6 +7,7 @@ export { Elevation } from './elevation/index.js';
 export { Button, ButtonGroup, IconButton } from './button/index.js';
 export { Fab } from './fab/index.js';
 export { SegmentedButton, SegmentedButtonGroup } from './segmented-button/index.js';
+export { SplitButton } from './split-button/index.js';
 
 export { FocusRing } from './focus-ring/index.js';
 export { Ripple } from './ripple/index.js';
