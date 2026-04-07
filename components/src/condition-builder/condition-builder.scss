@@ -1,0 +1,13 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.condition-builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}

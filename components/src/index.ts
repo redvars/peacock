@@ -61,4 +61,5 @@ export { Toolbar } from './toolbar/index.js';
 export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';
 export { Calendar, CalendarColumnView, CalendarMonthView } from './calendar/index.js';
 export type { CalendarViewType, EventType } from './calendar/index.js';
+export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider } from './condition-builder/index.js';
 

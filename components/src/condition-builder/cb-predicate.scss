@@ -1,0 +1,35 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.predicate:not(.vertical) {
+  .predicate-body {
+    padding-top: var(--spacing-200);
+  }
+
+  .predicate-condition-operator {
+    padding: var(--spacing-200) var(--spacing-400) 0 var(--spacing-400);
+  }
+}
+
+.predicate.vertical {
+  display: flex;
+  align-items: stretch;
+
+  .predicate-condition-operator {
+    padding: var(--spacing-400) 0 var(--spacing-200) 0;
+    padding-inline-end: var(--spacing-200);
+  }
+
+  .predicate-body {
+    flex: 1;
+  }
+}
+
+.slot-end {
+  display: block;
+}

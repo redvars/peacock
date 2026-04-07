@@ -1,0 +1,93 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  --cb-divider-line-color: var(--color-outline-variant);
+}
+
+.divider {
+  display: flex;
+}
+
+.divider:not(.vertical) {
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: var(--spacing-200);
+
+  .line {
+    height: 100%;
+  }
+
+  &.connect-start .line-start {
+    width: 1rem;
+    margin-left: 1rem;
+    border-inline-start: 1px solid var(--cb-divider-line-color);
+    border-top: 1px solid var(--cb-divider-line-color);
+    border-radius: var(--shape-corner-extra-small) 0 0 0;
+  }
+
+  &:not(.connect-start) .line-start {
+    border-inline-start: 1px solid var(--cb-divider-line-color);
+  }
+
+  &.connect-end .line-end {
+    width: 1rem;
+    margin-left: 1rem;
+    border-inline-start: 1px solid var(--cb-divider-line-color);
+    border-bottom: 1px solid var(--cb-divider-line-color);
+    border-radius: 0 0 0 var(--shape-corner-extra-small);
+  }
+
+  &:not(.connect-end) .line-end {
+    border-inline-start: 1px solid var(--cb-divider-line-color);
+  }
+
+  .content {
+    padding: var(--spacing-050) 0;
+  }
+}
+
+.divider.vertical {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .line {
+    width: 100%;
+  }
+
+  &.connect-start .line-start {
+    height: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--cb-divider-line-color);
+    border-left: 1px solid var(--cb-divider-line-color);
+    border-radius: var(--shape-corner-extra-small) 0 0 0;
+  }
+
+  &:not(.connect-start) .line-start {
+    border-top: 1px solid var(--cb-divider-line-color);
+  }
+
+  &.connect-end .line-end {
+    height: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--cb-divider-line-color);
+    border-right: 1px solid var(--cb-divider-line-color);
+    border-radius: 0 var(--shape-corner-extra-small) 0 0;
+  }
+
+  &:not(.connect-end) .line-end {
+    border-top: 1px solid var(--cb-divider-line-color);
+  }
+
+  .content {
+    padding: 0 var(--spacing-050);
+  }
+}

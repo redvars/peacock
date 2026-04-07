@@ -1679,6 +1679,818 @@
     }
   },
   {
+    "label": "Calendar",
+    "tag": "wc-calendar",
+    "rawTag": "calendar",
+    "summary": "A Material 3 inspired full calendar component for displaying events in day, week, or month views.",
+    "cssprop": "--calendar-event-border-color - Left border color for calendar events.",
+    "fires": "date-change - Dispatched when the context date changes. Detail contains `{ date }`.",
+    "example": "```html\n<wc-calendar view=\"week\" style=\"height: 600px\"></wc-calendar>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Calendar",
+      "cssProperties": [
+        {
+          "description": "Border color used throughout the calendar grid.",
+          "name": "--calendar-border-color"
+        },
+        {
+          "description": "Background color for calendar events.",
+          "name": "--calendar-event-bg-color"
+        },
+        {
+          "description": "Left border color for calendar events.",
+          "name": "--calendar-event-border-color"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "events",
+          "type": {
+            "text": "EventType[]"
+          },
+          "default": "[]",
+          "description": "Calendar events array.",
+          "attribute": "events"
+        },
+        {
+          "kind": "field",
+          "name": "availableViews",
+          "type": {
+            "text": "CalendarViewType[]"
+          },
+          "default": "[ { label: 'Day', value: 'day', type: 'column', days: 1 }, { label: 'Week', value: 'week', type: 'column', days: 7 }, { label: 'Month', value: 'month', type: 'month' }, ]",
+          "description": "Available views configuration.",
+          "attribute": "available-views"
+        },
+        {
+          "kind": "field",
+          "name": "view",
+          "type": {
+            "text": "string"
+          },
+          "default": "'week'",
+          "description": "Current calendar view.",
+          "attribute": "view",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "eventClickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether events are clickable.",
+          "attribute": "event-clickable"
+        },
+        {
+          "kind": "field",
+          "name": "showLoader",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show loading state.",
+          "attribute": "show-loader"
+        },
+        {
+          "kind": "field",
+          "name": "timezone",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Timezone string (e.g. 'America/New_York').",
+          "attribute": "timezone"
+        },
+        {
+          "kind": "field",
+          "name": "contextDate",
+          "type": {
+            "text": "Date | null"
+          },
+          "default": "null",
+          "description": "The context date for the calendar view."
+        },
+        {
+          "kind": "field",
+          "name": "_currentTime",
+          "type": {
+            "text": "Date"
+          },
+          "privacy": "private",
+          "default": "new Date()"
+        },
+        {
+          "kind": "field",
+          "name": "_currentView",
+          "type": {
+            "text": "CalendarViewType | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_onColumnViewDateClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "evt",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_onEventClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "evt",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "previous"
+        },
+        {
+          "kind": "method",
+          "name": "next"
+        },
+        {
+          "kind": "method",
+          "name": "_goToToday",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_onViewSelect",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "evt",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderHeader",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderCalendarView",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "view-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the calendar view changes. Detail contains `{ view }`."
+        },
+        {
+          "name": "date-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the context date changes. Detail contains `{ date }`."
+        },
+        {
+          "name": "event-click",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when a calendar event is clicked. Detail contains `{ event }`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "events",
+          "type": {
+            "text": "EventType[]"
+          },
+          "default": "[]",
+          "description": "Calendar events array.",
+          "fieldName": "events"
+        },
+        {
+          "name": "available-views",
+          "type": {
+            "text": "CalendarViewType[]"
+          },
+          "default": "[ { label: 'Day', value: 'day', type: 'column', days: 1 }, { label: 'Week', value: 'week', type: 'column', days: 7 }, { label: 'Month', value: 'month', type: 'month' }, ]",
+          "description": "Available views configuration.",
+          "fieldName": "availableViews"
+        },
+        {
+          "name": "view",
+          "type": {
+            "text": "string"
+          },
+          "default": "'week'",
+          "description": "Current calendar view.",
+          "fieldName": "view"
+        },
+        {
+          "name": "event-clickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether events are clickable.",
+          "fieldName": "eventClickable"
+        },
+        {
+          "name": "show-loader",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show loading state.",
+          "fieldName": "showLoader"
+        },
+        {
+          "name": "timezone",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Timezone string (e.g. 'America/New_York').",
+          "fieldName": "timezone"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-calendar",
+      "customElement": true,
+      "summary": "A Material 3 inspired full calendar component for displaying events in day, week, or month views.",
+      "rawTag": {
+        "name": "calendar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Calendar Column View",
+    "tag": "wc-calendar-column-view",
+    "rawTag": "calendar-column-view",
+    "summary": "Internal column view component for the calendar (day/week views).",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CalendarColumnView",
+      "members": [
+        {
+          "kind": "field",
+          "name": "events",
+          "type": {
+            "text": "CalendarEvent[]"
+          },
+          "default": "[]",
+          "attribute": "events"
+        },
+        {
+          "kind": "field",
+          "name": "view",
+          "type": {
+            "text": "string"
+          },
+          "default": "'week'",
+          "attribute": "view"
+        },
+        {
+          "kind": "field",
+          "name": "days",
+          "type": {
+            "text": "number"
+          },
+          "default": "7",
+          "attribute": "days"
+        },
+        {
+          "kind": "field",
+          "name": "eventClickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "attribute": "event-clickable"
+        },
+        {
+          "kind": "field",
+          "name": "currentTime",
+          "type": {
+            "text": "Date"
+          },
+          "default": "new Date()"
+        },
+        {
+          "kind": "field",
+          "name": "contextDate",
+          "type": {
+            "text": "Date"
+          },
+          "default": "new Date()"
+        },
+        {
+          "kind": "field",
+          "name": "dateRange",
+          "type": {
+            "text": "any"
+          },
+          "privacy": "private",
+          "default": "{}"
+        },
+        {
+          "kind": "field",
+          "name": "singleDayEvents",
+          "type": {
+            "text": "Record<string, ColumnEvent[][]>"
+          },
+          "privacy": "private",
+          "default": "{}"
+        },
+        {
+          "kind": "field",
+          "name": "multiDayEvents",
+          "type": {
+            "text": "ColumnEvent[][]"
+          },
+          "privacy": "private",
+          "default": "[]"
+        },
+        {
+          "kind": "method",
+          "name": "_processEvents",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_forEachDayInRange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "callback",
+              "type": {
+                "text": "(d: Date) => void"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getDateOnly",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getDatePercent",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getDayClass",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_populateColorVars",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "styles",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_emitDateClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_emitEventClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "any"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderHeader",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderMultiDayBackground",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderScale",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderBackgroundGrid",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderEvents",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderMultiDayEvents",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderCurrentTime",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_styleMap",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "styles",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "column-view-date-click",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "column-view-event-click",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "events",
+          "type": {
+            "text": "CalendarEvent[]"
+          },
+          "default": "[]",
+          "fieldName": "events"
+        },
+        {
+          "name": "view",
+          "type": {
+            "text": "string"
+          },
+          "default": "'week'",
+          "fieldName": "view"
+        },
+        {
+          "name": "days",
+          "type": {
+            "text": "number"
+          },
+          "default": "7",
+          "fieldName": "days"
+        },
+        {
+          "name": "event-clickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "fieldName": "eventClickable"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-calendar-column-view",
+      "customElement": true,
+      "summary": "Internal column view component for the calendar (day/week views).",
+      "rawTag": {
+        "name": "calendar-column-view",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Calendar Month View",
+    "tag": "wc-calendar-month-view",
+    "rawTag": "calendar-month-view",
+    "summary": "Internal month view component for the calendar.",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CalendarMonthView",
+      "members": [
+        {
+          "kind": "field",
+          "name": "events",
+          "type": {
+            "text": "CalendarEvent[]"
+          },
+          "default": "[]",
+          "attribute": "events"
+        },
+        {
+          "kind": "field",
+          "name": "eventClickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "attribute": "event-clickable"
+        },
+        {
+          "kind": "field",
+          "name": "currentTime",
+          "type": {
+            "text": "Date"
+          },
+          "default": "new Date()"
+        },
+        {
+          "kind": "field",
+          "name": "contextDate",
+          "type": {
+            "text": "Date"
+          },
+          "default": "new Date()"
+        },
+        {
+          "kind": "field",
+          "name": "dateRange",
+          "type": {
+            "text": "any"
+          },
+          "privacy": "private",
+          "default": "{}"
+        },
+        {
+          "kind": "field",
+          "name": "weekDayEvents",
+          "type": {
+            "text": "ColumnEvent[][][]"
+          },
+          "privacy": "private",
+          "default": "[]"
+        },
+        {
+          "kind": "method",
+          "name": "_processEvents",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_getDatePercent",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            },
+            {
+              "name": "dateRangeStartDate",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getDayClass",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "date",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_populateColorVars",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "styles",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            },
+            {
+              "name": "color",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_emitEventClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "any"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderHeader",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderMultiDayBackground",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "sd",
+              "type": {
+                "text": "Date"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_renderEvents",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_styleMap",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "styles",
+              "type": {
+                "text": "Record<string, string>"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "month-view-event-click",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "events",
+          "type": {
+            "text": "CalendarEvent[]"
+          },
+          "default": "[]",
+          "fieldName": "events"
+        },
+        {
+          "name": "event-clickable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "fieldName": "eventClickable"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-calendar-month-view",
+      "customElement": true,
+      "summary": "Internal month view component for the calendar.",
+      "rawTag": {
+        "name": "calendar-month-view",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Card",
     "tag": "wc-card",
     "rawTag": "card",
@@ -2006,6 +2818,335 @@
       "summary": "A Material 3 inspired card surface for grouping related content.",
       "rawTag": {
         "name": "card",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "CB Compound Expression",
+    "tag": "wc-cb-compound-expression",
+    "rawTag": "cb-compound-expression",
+    "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
+    "tags": "condition-builder",
+    "example": "```html\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n  <wc-cb-expression>\n    <wc-input placeholder=\"Enter value\"></wc-input>\n  </wc-cb-expression>\n</wc-cb-compound-expression>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CbCompoundExpression",
+      "members": [
+        {
+          "kind": "field",
+          "name": "conditionOperator",
+          "type": {
+            "text": "'and' | 'or' | undefined"
+          },
+          "description": "The logical operator joining conditions in this group ('and' or 'or').",
+          "attribute": "condition-operator",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "fieldName",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The field name for the compound expression.",
+          "attribute": "field-name"
+        },
+        {
+          "kind": "field",
+          "name": "fieldLabel",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The display label for the field.",
+          "attribute": "field-label"
+        },
+        {
+          "kind": "method",
+          "name": "__adjustSlotEndPadding",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderOperatorDivider",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "condition-operator",
+          "type": {
+            "text": "'and' | 'or' | undefined"
+          },
+          "description": "The logical operator joining conditions in this group ('and' or 'or').",
+          "fieldName": "conditionOperator"
+        },
+        {
+          "name": "field-name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The field name for the compound expression.",
+          "fieldName": "fieldName"
+        },
+        {
+          "name": "field-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The display label for the field.",
+          "fieldName": "fieldLabel"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-cb-compound-expression",
+      "customElement": true,
+      "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
+      "rawTag": {
+        "name": "cb-compound-expression",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "CB Divider",
+    "tag": "wc-cb-divider",
+    "rawTag": "cb-divider",
+    "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
+    "tags": "condition-builder",
+    "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CbDivider",
+      "members": [
+        {
+          "kind": "field",
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render the divider vertically instead of horizontally.",
+          "attribute": "vertical",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "connectStart",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render a connecting line at the start.",
+          "attribute": "connect-start",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "connectEnd",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render a connecting line at the end.",
+          "attribute": "connect-end",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render the divider vertically instead of horizontally.",
+          "fieldName": "vertical"
+        },
+        {
+          "name": "connect-start",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render a connecting line at the start.",
+          "fieldName": "connectStart"
+        },
+        {
+          "name": "connect-end",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render a connecting line at the end.",
+          "fieldName": "connectEnd"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-cb-divider",
+      "customElement": true,
+      "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
+      "rawTag": {
+        "name": "cb-divider",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "CB Expression",
+    "tag": "wc-cb-expression",
+    "rawTag": "cb-expression",
+    "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
+    "tags": "condition-builder",
+    "example": "```html\n<wc-cb-expression>\n  <wc-input placeholder=\"Enter value\"></wc-input>\n</wc-cb-expression>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CbExpression",
+      "members": [
+        {
+          "kind": "field",
+          "name": "operators",
+          "type": {
+            "text": "{ label: string; value: string; icon?: string }[]"
+          },
+          "default": "[]",
+          "description": "The list of operator options to display in the operator select.\nEach item should have at least `label` and `value` properties.",
+          "attribute": "operators"
+        },
+        {
+          "kind": "field",
+          "name": "operatorValue",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The currently selected operator value.",
+          "attribute": "operator-value"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "operators",
+          "type": {
+            "text": "{ label: string; value: string; icon?: string }[]"
+          },
+          "default": "[]",
+          "description": "The list of operator options to display in the operator select.\nEach item should have at least `label` and `value` properties.",
+          "fieldName": "operators"
+        },
+        {
+          "name": "operator-value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The currently selected operator value.",
+          "fieldName": "operatorValue"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-cb-expression",
+      "customElement": true,
+      "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
+      "rawTag": {
+        "name": "cb-expression",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "CB Predicate",
+    "tag": "wc-cb-predicate",
+    "rawTag": "cb-predicate",
+    "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
+    "tags": "condition-builder",
+    "example": "```html\n<wc-cb-predicate condition-operator=\"and\" vertical>\n  <wc-cb-compound-expression field-label=\"Age\">\n    <wc-cb-expression></wc-cb-expression>\n  </wc-cb-compound-expression>\n</wc-cb-predicate>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "CbPredicate",
+      "members": [
+        {
+          "kind": "field",
+          "name": "conditionOperator",
+          "type": {
+            "text": "'and' | 'or' | undefined"
+          },
+          "description": "The logical operator shown between predicates ('and' or 'or').",
+          "attribute": "condition-operator",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render the predicate in vertical layout.",
+          "attribute": "vertical",
+          "reflects": true
+        },
+        {
+          "kind": "method",
+          "name": "__adjustSlotEndPadding",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderHorizontalOperator",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__renderVerticalOperator",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "condition-operator",
+          "type": {
+            "text": "'and' | 'or' | undefined"
+          },
+          "description": "The logical operator shown between predicates ('and' or 'or').",
+          "fieldName": "conditionOperator"
+        },
+        {
+          "name": "vertical",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to render the predicate in vertical layout.",
+          "fieldName": "vertical"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-cb-predicate",
+      "customElement": true,
+      "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
+      "rawTag": {
+        "name": "cb-predicate",
         "description": ""
       }
     }
@@ -3994,6 +5135,31 @@
       "summary": "A component that provides syntax highlighting for code snippets.",
       "rawTag": {
         "name": "code-highlighter",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Condition Builder",
+    "tag": "wc-condition-builder",
+    "rawTag": "condition-builder",
+    "summary": "A condition builder component that allows users to construct complex filter conditions using a visual rule-based interface with predicates, compound expressions, and logical operators.",
+    "tags": "condition-builder",
+    "example": "```html\n<wc-condition-builder>\n  <wc-cb-predicate condition-operator=\"or\">\n    <wc-cb-predicate vertical condition-operator=\"and\">\n      <wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n        <wc-cb-expression>\n          <wc-input inline placeholder=\"Enter value\"></wc-input>\n        </wc-cb-expression>\n      </wc-cb-compound-expression>\n    </wc-cb-predicate>\n  </wc-cb-predicate>\n</wc-condition-builder>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ConditionBuilder",
+      "members": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-condition-builder",
+      "customElement": true,
+      "summary": "A condition builder component that allows users to construct complex filter conditions using a visual rule-based interface with predicates, compound expressions, and logical operators.",
+      "rawTag": {
+        "name": "condition-builder",
         "description": ""
       }
     }
