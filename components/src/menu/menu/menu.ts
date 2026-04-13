@@ -82,14 +82,14 @@ export class Menu extends LitElement {
     super.connectedCallback();
     this.setAttribute('role', 'menu');
 
-    // this.addEventListener('keydown', this._onKeyDown);
-    // this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeyDown);
+    this.addEventListener('click', this._onClick);
     this._syncAnchorAria();
   }
 
   disconnectedCallback() {
-    // this.removeEventListener('keydown', this._onKeyDown);
-    // this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeyDown);
+    this.removeEventListener('click', this._onClick);
     this._floatingController.close();
     super.disconnectedCallback();
   }
@@ -371,8 +371,7 @@ export class Menu extends LitElement {
       placement: this.placement,
       offset: this.offset,
       strategy: 'fixed',
-      // closeOnClickOutside: !this.stayOpenOnOutsideClick,
-      closeOnClickOutside: false,
+      closeOnClickOutside: !this.stayOpenOnOutsideClick,
     });
     this._floatingController.setElements(anchorEl, this.menuListElement);
     this._floatingController.open();
