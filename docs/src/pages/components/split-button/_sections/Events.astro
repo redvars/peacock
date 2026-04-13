@@ -1,0 +1,27 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang='html'>
+  <wc-split-button id='split-button-events'>
+    Save
+    <wc-menu-item slot='menu' value='draft'>Save as draft</wc-menu-item>
+    <wc-menu-item slot='menu' value='publish'>Save and publish</wc-menu-item>
+  </wc-split-button>
+
+  <script is:inline>
+    const splitButton = document.querySelector('#split-button-events');
+    if (splitButton) {
+      splitButton.addEventListener('click', () => {
+        myConsole.log('Primary action clicked', '<wc-split-button>');
+      });
+
+      splitButton.addEventListener('toggle-menu', event => {
+        myConsole.log(
+          `Menu state: ${event.detail.open ? 'open' : 'closed'}`,
+          'toggle-menu',
+        );
+      });
+    }
+  </script>
+</DemoComponentCard>

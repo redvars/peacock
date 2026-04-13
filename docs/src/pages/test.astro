@@ -14,7 +14,32 @@
 
 <body>
 
-<wc-fab><wc-icon name="home"></wc-icon></wc-fab>
+<wc-menu id="usage-menu" preview aria-label="Main actions menu">
+  <wc-menu-item value="profile">
+    <wc-icon name="home" slot="leading-icon"></wc-icon>
+    Profile
+  </wc-menu-item>
+  <wc-menu-item value="account">Account Settings</wc-menu-item>
+  <wc-menu-item value="notifications" selected="true">
+    Notification Settings
+  </wc-menu-item>
+  <wc-divider></wc-divider>
+  <wc-sub-menu>
+    <wc-menu-item slot="item" value="appearance">
+      Appearance
+      <wc-icon name="arrow_right" slot="trailing-supporting-text"></wc-icon>
+    </wc-menu-item>
+
+    <wc-menu slot="menu" aria-label="Appearance settings">
+      <wc-menu-item value="theme-light">Light</wc-menu-item>
+      <wc-menu-item value="theme-dark">Dark</wc-menu-item>
+      <wc-menu-item value="theme-system" selected="true">System</wc-menu-item>
+    </wc-menu>
+  </wc-sub-menu>
+  <wc-menu-item disabled="true">Settings (Disabled)</wc-menu-item>
+  <wc-menu-item value="logout">Logout</wc-menu-item>
+</wc-menu>
+
 
 
 </body>

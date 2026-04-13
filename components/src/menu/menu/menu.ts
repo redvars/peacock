@@ -3,8 +3,8 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
+import { FloatingController } from '../../__controllers/floating-controller.js';
 import { MenuItem } from '../menu-item/menu-item.js';
-import { MenuSurfaceController } from './MenuSurfaceController.js';
 
 type CloseReason =
   | { kind: 'click-selection' }
@@ -60,7 +60,18 @@ export class Menu extends LitElement {
 
   anchorElement: HTMLElement | null = null;
 
-  private readonly _surfaceController = new MenuSurfaceController(this);
+  private readonly _floatingController = new FloatingController(this, {
+    trigger: 'manual',
+    closeOnClickOutside: false,
+    strategy: 'fixed',
+    onOpenChange: (isOpen) => {
+      if (isOpen || !this.open) {
+        return;
+      }
+
+      this.close({ kind: 'outside-click' });
+    },
+  });
 
   private _lastFocusedElement: HTMLElement | null = null;
 
@@ -71,23 +82,15 @@ export class Menu extends LitElement {
     super.connectedCallback();
     this.setAttribute('role', 'menu');
 
-    this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('focusout', this._onFocusOut);
-    this.addEventListener('menu-item-activate', this._onItemActivate);
-    this.addEventListener('menu-item-request-close', this._onItemRequestClose);
-    window.addEventListener('click', this._onWindowClick, { capture: true });
+    // this.addEventListener('keydown', this._onKeyDown);
+    // this.addEventListener('click', this._onClick);
     this._syncAnchorAria();
   }
 
   disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    this.removeEventListener('focusout', this._onFocusOut);
-    this.removeEventListener('menu-item-activate', this._onItemActivate);
-    this.removeEventListener(
-      'menu-item-request-close',
-      this._onItemRequestClose,
-    );
-    window.removeEventListener('click', this._onWindowClick, { capture: true });
+    // this.removeEventListener('keydown', this._onKeyDown);
+    // this.removeEventListener('click', this._onClick);
+    this._floatingController.close();
     super.disconnectedCallback();
   }
 
@@ -170,7 +173,12 @@ export class Menu extends LitElement {
   }
 
   private _syncRovingTabIndex() {
+    const ownedItems = this.items;
     const enabledItems = this._enabledItems();
+    for (const item of ownedItems) {
+      item.tabIndex = -1;
+    }
+
     if (!enabledItems.length) {
       this.activeIndex = -1;
       return;
@@ -180,10 +188,7 @@ export class Menu extends LitElement {
       this.activeIndex = 0;
     }
 
-    for (let index = 0; index < enabledItems.length; index += 1) {
-      const currentItem = enabledItems[index];
-      currentItem.tabIndex = index === this.activeIndex ? 0 : -1;
-    }
+    enabledItems[this.activeIndex].tabIndex = 0;
   }
 
   private _setActiveByOffset(offset: 1 | -1) {
@@ -227,50 +232,66 @@ export class Menu extends LitElement {
     return this._enabledItems()[0] ?? null;
   }
 
-  private _ownsKeyboardEvent(event: KeyboardEvent) {
+  private _isEventFromThisMenu(event: Event) {
+    const path = event.composedPath();
+    const sourceMenu = path.find(
+      target =>
+        target instanceof HTMLElement &&
+        target.tagName.toLowerCase() === 'wc-menu',
+    );
+
+    return sourceMenu === this;
+  }
+
+  private _ownedItemFromEvent(event: Event) {
+    if (!this._isEventFromThisMenu(event)) {
+      return null;
+    }
+
     const path = event.composedPath();
     const ownedItems = this.items;
 
-    return path.some(target => target instanceof MenuItem && ownedItems.includes(target));
+    for (const target of path) {
+      if (target instanceof HTMLElement) {
+        if (target.tagName.toLowerCase() === 'wc-menu-item') {
+          const ownedItem = ownedItems.find(item => item === target);
+          if (ownedItem) {
+            return ownedItem;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 
-  private _onItemActivate = (event: Event) => {
-    const customEvent = event as CustomEvent<{ item: MenuItem }>;
-    const { item } = customEvent.detail;
-    const ownedItems = this.items;
-    if (!ownedItems.includes(item)) {
-      return;
-    }
-
+  private _setActiveItem(item: MenuItem) {
     const enabledItems = this._enabledItems();
     const nextIndex = enabledItems.indexOf(item);
-    if (nextIndex >= 0) {
-      this.activeIndex = nextIndex;
-      this._syncRovingTabIndex();
-    }
-  };
-
-  private _onItemRequestClose = (event: Event) => {
-    const customEvent = event as CustomEvent<{
-      item: MenuItem;
-      reason: 'click-selection' | 'keydown';
-      key?: string;
-    }>;
-
-    if (!this.items.includes(customEvent.detail.item)) {
+    if (nextIndex < 0) {
       return;
     }
 
-    if (customEvent.defaultPrevented) {
+    this.activeIndex = nextIndex;
+    this._syncRovingTabIndex();
+  }
+
+  private _onClick = (event: Event) => {
+    if (!this.open) {
       return;
     }
 
-    if (customEvent.detail.reason === 'click-selection') {
-      this.close({ kind: 'click-selection' });
+    const item = this._ownedItemFromEvent(event);
+    if (!item) {
       return;
     }
 
-    this.close({ kind: 'keydown', key: customEvent.detail.key ?? 'Enter' });
+    this._setActiveItem(item);
+    if (item.keepOpen) {
+      return;
+    }
+
+    this.close({ kind: 'click-selection' });
   };
 
   private _onKeyDown = (event: KeyboardEvent) => {
@@ -278,8 +299,13 @@ export class Menu extends LitElement {
       return;
     }
 
-    if (!this._ownsKeyboardEvent(event)) {
+    if (!this._isEventFromThisMenu(event)) {
       return;
+    }
+
+    const eventItem = this._ownedItemFromEvent(event);
+    if (eventItem) {
+      this._setActiveItem(eventItem);
     }
 
     switch (event.key) {
@@ -305,67 +331,27 @@ export class Menu extends LitElement {
         event.preventDefault();
         this.close({ kind: 'keydown', key: 'Escape' });
         break;
+      case 'Tab':
+        this.close({ kind: 'keydown', key: 'Tab' });
+        break;
+      case 'Enter':
+      case ' ': {
+        event.preventDefault();
+        const activeItem = this._getActiveItem() ?? this._getFirstEnabledItem();
+        if (!activeItem) {
+          return;
+        }
+
+        this._setActiveItem(activeItem);
+        activeItem.click();
+        break;
+      }
       default:
         break;
     }
   };
 
-  private _onWindowClick = (event: MouseEvent) => {
-    if (!this.open || this.stayOpenOnOutsideClick) {
-      return;
-    }
 
-    const path = event.composedPath();
-    const anchorEl = this._resolveAnchorElement();
-    const inMenuTree = path.some(
-      target => target === this || (target instanceof Node && this.contains(target)),
-    );
-
-    if (inMenuTree || (anchorEl && path.includes(anchorEl))) {
-      return;
-    }
-
-    this.close({ kind: 'outside-click' });
-  };
-
-  private _isWithinMenuTree(node: Node | null) {
-    if (!node) {
-      return false;
-    }
-
-    let current: Node | null = node;
-    while (current) {
-      if (current === this || this.contains(current)) {
-        return true;
-      }
-
-      const root = current.getRootNode();
-      if (root instanceof ShadowRoot) {
-        current = root.host;
-      } else {
-        current = null;
-      }
-    }
-
-    return false;
-  }
-
-  private _onFocusOut = (event: FocusEvent) => {
-    if (!this.open || this.stayOpenOnFocusout) {
-      return;
-    }
-
-    const next = event.relatedTarget;
-    if (!next) {
-      return;
-    }
-
-    if (next instanceof Node && this._isWithinMenuTree(next)) {
-      return;
-    }
-
-    this.close({ kind: 'focusout' });
-  };
 
   private _onSlotChange = () => {
     this._syncRovingTabIndex();
@@ -381,13 +367,15 @@ export class Menu extends LitElement {
       return;
     }
 
-    this._surfaceController.start({
-      reference: anchorEl,
-      floating: this.menuListElement,
+    this._floatingController.setOptions({
       placement: this.placement,
       offset: this.offset,
       strategy: 'fixed',
+      // closeOnClickOutside: !this.stayOpenOnOutsideClick,
+      closeOnClickOutside: false,
     });
+    this._floatingController.setElements(anchorEl, this.menuListElement);
+    this._floatingController.open();
   }
 
   protected override updated(changedProperties: Map<string, unknown>) {
@@ -408,7 +396,7 @@ export class Menu extends LitElement {
 
         this._applyPositioning();
       } else {
-        this._surfaceController.stop();
+        this._floatingController.close();
 
         const reason = this._closeReason;
         this.dispatchEvent(
@@ -429,7 +417,10 @@ export class Menu extends LitElement {
           }),
         );
 
-        if (!this.isSubmenu) {
+        const shouldRestoreFocus =
+          reason.kind !== 'keydown' || reason.key !== 'Tab';
+
+        if (!this.isSubmenu && shouldRestoreFocus) {
           this._lastFocusedElement?.focus();
         }
       }

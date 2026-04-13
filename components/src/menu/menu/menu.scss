@@ -12,8 +12,8 @@
   padding-block: var(--spacing-050);
   transform-origin: top center;
 
-  --_menu-enter-duration: var(--duration-medium1, 250ms);
-  --_menu-exit-duration: var(--duration-short4, 200ms);
+  --_menu-enter-duration: var(--duration-medium1);
+  --_menu-exit-duration: var(--duration-medium2);
   --_menu-enter-easing: cubic-bezier(0.05, 0.7, 0.1, 1);
   --_menu-exit-easing: cubic-bezier(0.3, 0, 0.8, 0.15);
 

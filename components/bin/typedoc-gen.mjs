@@ -37,7 +37,7 @@ async function run() {
       .filter(child => child)
       .map(child => {
         const component = {};
-        child.comment?.blockTags.forEach(tag => {
+        child.comment?.blockTags?.forEach(tag => {
           // Strip '@' prefix: '@rawTag' → 'rawTag'
           const key = tag.tag.slice(1);
           // Concatenate all content items into a single string

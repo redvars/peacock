@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -80,7 +80,7 @@ export class SplitButton extends LitElement {
 
   @state() private _menuOpen = false;
 
-  @query('.dropdown-trigger') private readonly _dropdownButton!: HTMLButtonElement;
+  @query('.dropdown-trigger') private readonly _dropdownButton!: HTMLElement;
 
   @query('wc-menu') private readonly _menu!: HTMLElement & {
     open: boolean;
@@ -93,7 +93,7 @@ export class SplitButton extends LitElement {
 
   override focus() {
     const btn =
-      this.shadowRoot?.querySelector<HTMLButtonElement>('.action-button');
+      this.shadowRoot?.querySelector<HTMLElement>('.action-button');
     btn?.focus();
   }
 
@@ -179,13 +179,11 @@ export class SplitButton extends LitElement {
   override render() {
     const actionClasses = {
       'action-button': true,
-      'button-reset': true,
       disabled: this.disabled,
     };
 
     const dropdownClasses = {
       'dropdown-trigger': true,
-      'button-reset': true,
       active: this._menuOpen,
       disabled: this.disabled,
     };
@@ -198,37 +196,31 @@ export class SplitButton extends LitElement {
 
     return html`
       <div class=${classMap(containerClasses)}>
-        <button
+        <wc-button
           class=${classMap(actionClasses)}
+          size=${this.size}
+          variant=${this.variant}
           ?disabled=${this.disabled}
           @click=${this._onActionClick}
         >
-          <wc-ripple class="ripple"></wc-ripple>
-          <div class="action-content">
-            <slot></slot>
-          </div>
-        </button>
+          <slot></slot>
+        </wc-button>
 
-        <div class="divider-line"></div>
-
-        <button
+        <wc-icon-button
           class=${classMap(dropdownClasses)}
+          size=${this.size}
+          variant=${this.variant}
           ?disabled=${this.disabled}
-          aria-haspopup="menu"
-          aria-expanded=${String(this._menuOpen)}
-          aria-controls=${this._menuId}
+          .configAria=${{
+            'aria-haspopup': 'menu',
+            'aria-expanded': String(this._menuOpen),
+            'aria-controls': this._menuId,
+            'aria-label': 'Open split button menu',
+          }}
           @click=${this._onDropdownClick}
         >
-          <wc-ripple class="ripple"></wc-ripple>
-          <svg class="dropdown-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M7 10l5 5 5-5z" />
-          </svg>
-        </button>
-
-        <wc-focus-ring class="focus-ring" for="action"></wc-focus-ring>
-        <wc-elevation class="elevation"></wc-elevation>
-        <div class="background"></div>
-        <div class="outline"></div>
+          <wc-icon class="dropdown-icon" name="arrow_drop_down" aria-hidden="true"></wc-icon>
+        </wc-icon-button>
       </div>
 
       <wc-menu

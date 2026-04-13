@@ -1,103 +1,28 @@
 :host([size='xs']),
 :host([size='extra-small']) {
-  --split-button-height: 2rem;
-}
-
-:host([size='xs']) .action-button,
-:host([size='extra-small']) .action-button {
-  --_split-button-action-padding: 0.75rem;
-  font-size: 0.875rem !important;
-  font-weight: var(--font-weight-medium) !important;
-  line-height: 1.25rem !important;
-  letter-spacing: 0.1px !important;
-}
-
-:host([size='xs']) .dropdown-trigger,
-:host([size='extra-small']) .dropdown-trigger {
-  --_split-button-dropdown-padding: 0.375rem;
   --split-button-icon-size: 1rem;
 }
 
 
 :host([size='sm']),
 :host([size='small']) {
-  --split-button-height: 2.5rem;
-}
-
-:host([size='sm']) .action-button,
-:host([size='small']) .action-button {
-  --_split-button-action-padding: 1rem;
-  font-size: 0.875rem !important;
-  font-weight: var(--font-weight-medium) !important;
-  line-height: 1.25rem !important;
-  letter-spacing: 0.1px !important;
-}
-
-:host([size='sm']) .dropdown-trigger,
-:host([size='small']) .dropdown-trigger {
-  --_split-button-dropdown-padding: 0.5rem;
   --split-button-icon-size: 1.125rem;
 }
 
 
 :host([size='md']),
 :host([size='medium']) {
-  --split-button-height: 3.5rem;
-}
-
-:host([size='md']) .action-button,
-:host([size='medium']) .action-button {
-  --_split-button-action-padding: 1.5rem;
-  font-size: 1rem !important;
-  font-weight: var(--font-weight-medium) !important;
-  line-height: 1.5rem !important;
-  letter-spacing: 0.15px !important;
-}
-
-:host([size='md']) .dropdown-trigger,
-:host([size='medium']) .dropdown-trigger {
-  --_split-button-dropdown-padding: 0.625rem;
   --split-button-icon-size: 1.25rem;
 }
 
 
 :host([size='lg']),
 :host([size='large']) {
-  --split-button-height: 6rem;
-}
-
-:host([size='lg']) .action-button,
-:host([size='large']) .action-button {
-  --_split-button-action-padding: 3rem;
-  font-size: 1.5rem !important;
-  font-weight: var(--font-weight-regular) !important;
-  line-height: 2rem !important;
-  letter-spacing: 0 !important;
-}
-
-:host([size='lg']) .dropdown-trigger,
-:host([size='large']) .dropdown-trigger {
-  --_split-button-dropdown-padding: 0.75rem;
   --split-button-icon-size: 1.5rem;
 }
 
 
 :host([size='xl']),
 :host([size='extra-large']) {
-  --split-button-height: 8.5rem;
-}
-
-:host([size='xl']) .action-button,
-:host([size='extra-large']) .action-button {
-  --_split-button-action-padding: 4rem;
-  font-size: 2rem !important;
-  font-weight: var(--font-weight-regular) !important;
-  line-height: 2.5rem !important;
-  letter-spacing: 0 !important;
-}
-
-:host([size='xl']) .dropdown-trigger,
-:host([size='extra-large']) .dropdown-trigger {
-  --_split-button-dropdown-padding: 1rem;
   --split-button-icon-size: 2rem;
 }

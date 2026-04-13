@@ -196,6 +196,7 @@ export class Button extends BaseButton {
         href=${this.href}
         target=${this.target}
         tabindex=${this.disabled ? '-1' : '0'}
+        
         @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}

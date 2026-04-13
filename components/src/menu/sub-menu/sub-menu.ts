@@ -70,18 +70,18 @@ export class SubMenu extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('mouseenter', this._onMouseEnter);
-    this.addEventListener('mouseleave', this._onMouseLeave);
+    // this.addEventListener('mouseenter', this._onMouseEnter);
+    // this.addEventListener('mouseleave', this._onMouseLeave);
   }
 
   disconnectedCallback() {
-    const { menu } = this;
-    menu?.removeEventListener('opened', this._onChildMenuOpened);
-    menu?.removeEventListener('closed', this._onChildMenuClosed);
-    this.removeEventListener('mouseenter', this._onMouseEnter);
-    this.removeEventListener('mouseleave', this._onMouseLeave);
-    window.clearTimeout(this._openTimeout);
-    window.clearTimeout(this._closeTimeout);
+    // const { menu } = this;
+    // menu?.removeEventListener('opened', this._onChildMenuOpened);
+    // menu?.removeEventListener('closed', this._onChildMenuClosed);
+    // this.removeEventListener('mouseenter', this._onMouseEnter);
+    // this.removeEventListener('mouseleave', this._onMouseLeave);
+    // window.clearTimeout(this._openTimeout);
+    // window.clearTimeout(this._closeTimeout);
     super.disconnectedCallback();
   }
 
@@ -116,14 +116,10 @@ export class SubMenu extends LitElement {
       <slot
         name="item"
         @slotchange=${this._onSlotChange}
-        @click=${this._onItemClick}
-        @keydown=${this._onItemKeyDown}
       ></slot>
       <slot
         name="menu"
         @slotchange=${this._onSlotChange}
-        @close-menu=${this._onCloseMenu}
-        @keydown=${this._onMenuKeyDown}
       ></slot>
     `;
   }

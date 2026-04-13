@@ -92,6 +92,10 @@
     --_container-state-opacity: 0.08;
   }
 
+   &.pressed:not(:where(.disabled)) {
+    --_container-state-opacity: 0.12;
+  }
+
   &.selected {
     --_container-color: var(--menu-item-container-selected-color);
     --_label-text-color: var(--menu-item-label-selected-color);

@@ -1,8 +1,8 @@
 import { html, LitElement } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
-import { PopoverController } from '../popover/PopoverController.js';
+import { FloatingController } from '../__controllers/floating-controller.js';
 
 // Define a type for valid trigger combinations
 export type TooltipTrigger = 'hover' | 'focus' | 'click';
@@ -39,97 +39,30 @@ export class Tooltip extends LitElement {
 
   @property({ type: Boolean, reflect: true }) preview = false;
 
-  @query('#tooltip') floatingEl!: HTMLElement;
-
   private _target: HTMLElement | null = null;
 
-  private _popover = new PopoverController(this, {
-    placement: 'top',
-    offset: 8,
-  });
+  private _floating: FloatingController | null = null;
 
-  private static CLOSE_OTHERS_EVENT = 'tooltip--open';
+  private resolveTrigger(): 'hover' | 'click' | 'focus' | 'manual' | 'hover-focus' {
+    if (this.preview) return 'manual';
 
-  private hasTrigger(type: TooltipTrigger): boolean {
-    return this.trigger.split(' ').includes(type);
+    const triggerTokens = this.trigger.split(' ');
+    const hasHover = triggerTokens.includes('hover');
+    const hasFocus = triggerTokens.includes('focus');
+    const hasClick = triggerTokens.includes('click');
+
+    if (hasClick) return 'click';
+    if (hasHover && hasFocus) return 'hover-focus';
+    if (hasFocus) return 'focus';
+    if (hasHover) return 'hover';
+    return 'manual';
   }
-
-  // Define listeners as arrow functions to maintain 'this' context
-  private _onMouseEnter = () => {
-    if (this.preview || !this.hasTrigger('hover')) return;
-    window.clearTimeout(this._hideTimeout); // Cancel any pending close
-    this.show();
-  };
-
-  private _onMouseLeave = () => {
-    if (this.preview || !this.hasTrigger('hover')) return;
-
-    // Small delay allows the mouse to move from target -> tooltip
-    // without the tooltip vanishing instantly.
-    this._hideTimeout = window.setTimeout(() => {
-      // Only hide if the mouse isn't currently hovering the target OR the tooltip
-      const isHoveringTarget = this._target?.matches(':hover');
-      const isHoveringTooltip = this.floatingEl?.matches(':hover');
-
-      if (!isHoveringTarget && !isHoveringTooltip) {
-        this.hide();
-      }
-    }, 100); // 100ms is usually enough for a smooth transition
-  };
-
-  private _onFocusIn = () => this.preview && this.hasTrigger('focus') && this.show();
-
-  private _onFocusOut = (e: FocusEvent) => {
-    if (this.preview || !this.hasTrigger('focus')) return;
-    if (this._target && !this._target.contains(e.relatedTarget as Node)) {
-      this.hide();
-    }
-  };
-
-  private _onClick = (e: MouseEvent) => {
-    if (this.preview || !this.hasTrigger('click')) return;
-    e.stopPropagation();
-    this.toggle();
-  };
-
-  private show() {
-    if (this.open) return;
-    window.dispatchEvent(
-      new CustomEvent(Tooltip.CLOSE_OTHERS_EVENT, {
-        detail: { invoker: this },
-      }),
-    );
-    this.open = true;
-  }
-
-  private hide() {
-    if (!this.open) return;
-    this.open = false;
-  }
-
-  private toggle() {
-    // eslint-disable-next-line no-unused-expressions
-    this.open ? this.hide() : this.show();
-  }
-
-  private _handleGlobalOpen = (e: any) => {
-    if (e.detail.invoker !== this) this.hide();
-  };
-
-  private _handleDocumentClick = (e: MouseEvent) => {
-    const path = e.composedPath();
-    if (this._target && !path.includes(this._target)) {
-      this.hide();
-    }
-  };
 
   private detachListeners() {
-    if (!this._target) return;
-    this._target.removeEventListener('mouseenter', this._onMouseEnter);
-    this._target.removeEventListener('mouseleave', this._onMouseLeave);
-    this._target.removeEventListener('focusin', this._onFocusIn);
-    this._target.removeEventListener('focusout', this._onFocusOut);
-    this._target.removeEventListener('click', this._onClick);
+    if (this._floating) {
+      this._floating.close();
+      this._floating = null;
+    }
     this._target = null;
   }
 
@@ -158,7 +91,7 @@ export class Tooltip extends LitElement {
   }
 
   private attachListeners() {
-    this.detachListeners(); // Cleanup old target if it exists
+    this.detachListeners();
 
     // Resolve target: ID-based lookup or fallback to parent
     const root = this.getRootNode() as ShadowRoot | Document;
@@ -168,27 +101,28 @@ export class Tooltip extends LitElement {
 
     if (!this._target) return;
 
-    this._target.addEventListener('mouseenter', this._onMouseEnter);
-    this._target.addEventListener('mouseleave', this._onMouseLeave);
-    this._target.addEventListener('focusin', this._onFocusIn);
-    this._target.addEventListener('focusout', this._onFocusOut);
-    this._target.addEventListener('click', this._onClick);
+    this._floating = new FloatingController(this, {
+      placement: 'top',
+      strategy: 'fixed',
+      offset: 0,
+      trigger: this.resolveTrigger(),
+      closeOnClickOutside: true,
+      onOpenChange: (isOpen) => {
+        if (this.open === isOpen) return;
+        this.open = isOpen;
+      },
+    });
+
+    this._floating.setElements(this._target, this);
   }
 
   connectedCallback() {
     super.connectedCallback();
     this.attachListeners();
-    window.addEventListener(Tooltip.CLOSE_OTHERS_EVENT, this._handleGlobalOpen);
-    window.addEventListener('click', this._handleDocumentClick);
   }
 
   disconnectedCallback() {
     this.detachListeners();
-    window.removeEventListener(
-      Tooltip.CLOSE_OTHERS_EVENT,
-      this._handleGlobalOpen,
-    );
-    window.removeEventListener('click', this._handleDocumentClick);
     super.disconnectedCallback();
   }
 
@@ -198,12 +132,22 @@ export class Tooltip extends LitElement {
       this.attachListeners();
     }
 
-    if (changedProps.has('open') && this.open && this._target) {
-      this._popover.updatePosition(this._target, this.floatingEl);
+    if (changedProps.has('trigger') || changedProps.has('preview')) {
+      this.attachListeners();
+    }
+
+    if (this._floating && this._target) {
+      this._floating.setElements(this._target, this);
+
+      if (changedProps.has('open') && this.open && !this._floating.isOpen) {
+        this._floating.open();
+      }
+
+      if (changedProps.has('open') && !this.open && this._floating.isOpen) {
+        this._floating.close();
+      }
     }
   }
-
-  private _hideTimeout?: number;
 
   render() {
     return html` <div
@@ -214,8 +158,6 @@ export class Tooltip extends LitElement {
       })}
       id="tooltip"
       role="tooltip"
-      @mouseenter=${this._onMouseEnter}
-      @mouseleave=${this._onMouseLeave}
       aria-hidden=${!this.open}
       aria-labelledby="tooltip-labelledby"
     >

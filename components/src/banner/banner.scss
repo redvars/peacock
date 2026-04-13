@@ -11,7 +11,7 @@
   background: var(--banner-container-color);
   border-radius: var(--banner-border-radius);
   display: grid;
-  gap: var(--spacing-200);
+  gap: var(--spacing-100);
   grid-template-columns: auto 1fr;
   padding: var(--spacing-200);
 }
@@ -21,8 +21,7 @@
   color: var(--banner-icon-color);
   display: inline-flex;
   justify-content: center;
-  min-width: 1.5rem;
-  padding-top: 0.1rem;
+  --icon-size: 1.5rem;
 }
 
 .banner-content {

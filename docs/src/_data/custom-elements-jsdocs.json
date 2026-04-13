@@ -7211,9 +7211,9 @@
     "label": "Flow Designer",
     "tag": "wc-flow-designer",
     "rawTag": "flow-designer",
-    "summary": "A Material 3 inspired flow diagram designer for creating and editing workflow activities with drag-to-scroll canvas interaction.",
+    "summary": "Low-code business process flow designer with swimlane layout, undo/redo, and interactive editing.",
     "cssprop": "--flow-designer-action-bar-bg - Background color of the action bar. Defaults to surface-container.",
-    "example": "```html\n<wc-flow-designer id=\"editor\"></wc-flow-designer>\n<script>\n  document.querySelector('#editor').data = [\n    { name: 'step1', title: 'First Step', type: 'activity' },\n  ];\n</script>\n```",
+    "example": "```html\n<wc-flow-designer id=\"editor\"></wc-flow-designer>\n<script>\n  const workflow = {\n    workflow_id: \"demo\",\n    nodes: {\n      id: \"node_1\",\n      type: \"trigger\",\n      label: \"Start\"\n    }\n  };\n  document.querySelector('#editor').workflow = workflow;\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7243,23 +7243,24 @@
       "members": [
         {
           "kind": "field",
-          "name": "blockSize",
+          "name": "workflow",
           "type": {
-            "text": "number"
+            "text": "Workflow"
           },
-          "default": "16",
-          "description": "The grid block size in pixels.",
-          "attribute": "block-size"
+          "default": "{ workflow_id: '', nodes: { id: 'root', type: 'trigger', label: 'Start' } }",
+          "description": "The workflow definition to display and edit",
+          "attribute": "workflow"
         },
         {
           "kind": "field",
-          "name": "data",
+          "name": "readonly",
           "type": {
-            "text": "FlowActivity[]"
+            "text": "boolean"
           },
-          "default": "[]",
-          "description": "Array of activity data objects to render in the flow.",
-          "attribute": "data"
+          "default": "false",
+          "description": "Whether the flow designer is in read-only mode",
+          "attribute": "readonly",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -7268,18 +7269,55 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether the flow designer is disabled.",
+          "description": "Whether the flow designer is disabled",
           "attribute": "disabled",
           "reflects": true
         },
         {
           "kind": "field",
-          "name": "_zoom",
+          "name": "showValidation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show validation errors/warnings",
+          "attribute": "show-validation"
+        },
+        {
+          "kind": "field",
+          "name": "_editor",
+          "type": {
+            "text": "EditorState"
+          },
+          "privacy": "private",
+          "default": "{ selectedNodeId: null, isEditing: false, editingNode: null, hoveredNodeId: null, isDragging: false, draggedNodeId: null, zoom: 1, panX: 0, panY: 0, }"
+        },
+        {
+          "kind": "field",
+          "name": "_positionedNodes",
+          "type": {
+            "text": "PositionedNode[]"
+          },
+          "privacy": "private",
+          "default": "[]"
+        },
+        {
+          "kind": "field",
+          "name": "_history",
+          "type": {
+            "text": "HistoryEntry[]"
+          },
+          "privacy": "private",
+          "default": "[]"
+        },
+        {
+          "kind": "field",
+          "name": "_historyIndex",
           "type": {
             "text": "number"
           },
           "privacy": "private",
-          "default": "1"
+          "default": "-1"
         },
         {
           "kind": "field",
@@ -7291,7 +7329,7 @@
         },
         {
           "kind": "field",
-          "name": "isDrag",
+          "name": "_isDragScrolling",
           "type": {
             "text": "boolean"
           },
@@ -7300,16 +7338,7 @@
         },
         {
           "kind": "field",
-          "name": "isMouseInside",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
-          "kind": "field",
-          "name": "_startX",
+          "name": "_dragStartX",
           "type": {
             "text": "number"
           },
@@ -7318,7 +7347,7 @@
         },
         {
           "kind": "field",
-          "name": "_startY",
+          "name": "_dragStartY",
           "type": {
             "text": "number"
           },
@@ -7327,7 +7356,7 @@
         },
         {
           "kind": "field",
-          "name": "_scrollLeftPos",
+          "name": "_scrollStartX",
           "type": {
             "text": "number"
           },
@@ -7336,7 +7365,7 @@
         },
         {
           "kind": "field",
-          "name": "_scrollTopPos",
+          "name": "_scrollStartY",
           "type": {
             "text": "number"
           },
@@ -7344,13 +7373,243 @@
           "default": "0"
         },
         {
-          "kind": "field",
-          "name": "gap",
-          "type": {
-            "text": "number"
-          },
+          "kind": "method",
+          "name": "_recalculateLayout",
           "privacy": "private",
-          "default": "10"
+          "description": "Recalculate layout when workflow changes"
+        },
+        {
+          "kind": "method",
+          "name": "addNode",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "newNode",
+              "type": {
+                "text": "WorkflowNode"
+              }
+            },
+            {
+              "name": "parentNodeId",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "connectionType",
+              "default": "'child'",
+              "type": {
+                "text": "'child' | 'branch' | 'task'"
+              }
+            },
+            {
+              "name": "branchKey",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Add a new node"
+        },
+        {
+          "kind": "method",
+          "name": "deleteNode",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "nodeId",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Delete a node by ID"
+        },
+        {
+          "kind": "method",
+          "name": "editNode",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "nodeId",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "updates",
+              "type": {
+                "text": "Partial<WorkflowNode>"
+              }
+            }
+          ],
+          "description": "Edit a node"
+        },
+        {
+          "kind": "method",
+          "name": "moveNode",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "nodeId",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "newParentId",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "newIndex",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "connectionType",
+              "default": "'child'",
+              "type": {
+                "text": "'child' | 'branch' | 'task'"
+              }
+            },
+            {
+              "name": "branchKey",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Move a node to a different parent/position"
+        },
+        {
+          "kind": "method",
+          "name": "_executeCommand",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "command",
+              "type": {
+                "text": "WorkflowCommand"
+              }
+            }
+          ],
+          "description": "Execute a command and add to history"
+        },
+        {
+          "kind": "method",
+          "name": "undo",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "description": "Undo last operation"
+        },
+        {
+          "kind": "method",
+          "name": "redo",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "description": "Redo last undone operation"
+        },
+        {
+          "kind": "method",
+          "name": "canUndo",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Check if undo is available"
+        },
+        {
+          "kind": "method",
+          "name": "canRedo",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Check if redo is available"
+        },
+        {
+          "kind": "method",
+          "name": "exportWorkflow",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "description": "Export current workflow as JSON"
+        },
+        {
+          "kind": "method",
+          "name": "validate",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "description": "Validate workflow"
+        },
+        {
+          "kind": "method",
+          "name": "_emitWorkflowChange",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "type": {
+                "text": "WorkflowChangeEvent['type']"
+              }
+            },
+            {
+              "name": "nodeId",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_handleKeyDown",
+          "privacy": "private"
         },
         {
           "kind": "field",
@@ -7358,91 +7617,88 @@
           "privacy": "private"
         },
         {
-          "kind": "method",
-          "name": "_handleMouseDown",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "_handleCanvasMouseDown",
+          "privacy": "private"
         },
         {
-          "kind": "method",
-          "name": "_handleMouseMove",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "_handleCanvasMouseMove",
+          "privacy": "private"
         },
         {
-          "kind": "method",
-          "name": "_handleMouseEnter",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "_handleNodeClick",
+          "privacy": "private"
         },
         {
-          "kind": "method",
-          "name": "_handleMouseLeave",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "event",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "_handleNodeDelete",
+          "privacy": "private"
         },
         {
-          "kind": "method",
-          "name": "_zoomIn",
+          "kind": "field",
+          "name": "_handleNodeEdit",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleZoomIn",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleZoomOut",
           "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "_zoomOut",
+          "name": "_renderConnectors",
           "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "_processData",
+          "name": "_renderSwimlanes",
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderNodes",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "name": "validation-result",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "workflow-changed",
+          "type": {
+            "text": "CustomEvent"
+          }
         }
       ],
       "attributes": [
         {
-          "name": "block-size",
+          "name": "workflow",
           "type": {
-            "text": "number"
+            "text": "Workflow"
           },
-          "default": "16",
-          "description": "The grid block size in pixels.",
-          "fieldName": "blockSize"
+          "default": "{ workflow_id: '', nodes: { id: 'root', type: 'trigger', label: 'Start' } }",
+          "description": "The workflow definition to display and edit",
+          "fieldName": "workflow"
         },
         {
-          "name": "data",
+          "name": "readonly",
           "type": {
-            "text": "FlowActivity[]"
+            "text": "boolean"
           },
-          "default": "[]",
-          "description": "Array of activity data objects to render in the flow.",
-          "fieldName": "data"
+          "default": "false",
+          "description": "Whether the flow designer is in read-only mode",
+          "fieldName": "readonly"
         },
         {
           "name": "disabled",
@@ -7450,8 +7706,17 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether the flow designer is disabled.",
+          "description": "Whether the flow designer is disabled",
           "fieldName": "disabled"
+        },
+        {
+          "name": "show-validation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Show validation errors/warnings",
+          "fieldName": "showValidation"
         }
       ],
       "superclass": {
@@ -7460,9 +7725,166 @@
       },
       "tagName": "wc-flow-designer",
       "customElement": true,
-      "summary": "A Material 3 inspired flow diagram designer for creating and editing workflow activities with drag-to-scroll canvas interaction.",
+      "summary": "Low-code business process flow designer with swimlane layout, undo/redo, and interactive editing.",
       "rawTag": {
         "name": "flow-designer",
+        "description": ""
+      }
+    }
+  },
+  {
+    "tag": "wc-flow-designer-node",
+    "rawTag": "flow-designer-node",
+    "wip": "true",
+    "customElement": {
+      "kind": "class",
+      "description": "Individual node component for flow designer\nRenders a single workflow node with customizable slot templates",
+      "name": "FlowDesignerNode",
+      "members": [
+        {
+          "kind": "field",
+          "name": "node",
+          "type": {
+            "text": "WorkflowNode"
+          },
+          "default": "{ id: '', type: 'action', label: '' }",
+          "description": "The workflow node to render",
+          "attribute": "node"
+        },
+        {
+          "kind": "field",
+          "name": "isSelected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is currently selected",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "isEditing",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is in edit mode",
+          "attribute": "editing",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is disabled",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showDelete",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show the delete button",
+          "attribute": "show-delete"
+        },
+        {
+          "kind": "field",
+          "name": "_handleClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleDoubleClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleDelete",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleMouseEnter",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleMouseLeave",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderDefaultHeader",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderDefaultBody",
+          "privacy": "private"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "node",
+          "type": {
+            "text": "WorkflowNode"
+          },
+          "default": "{ id: '', type: 'action', label: '' }",
+          "description": "The workflow node to render",
+          "fieldName": "node"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is currently selected",
+          "fieldName": "isSelected"
+        },
+        {
+          "name": "editing",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is in edit mode",
+          "fieldName": "isEditing"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this node is disabled",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "show-delete",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to show the delete button",
+          "fieldName": "showDelete"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-flow-designer-node",
+      "customElement": true,
+      "rawTag": {
+        "name": "flow-designer-node",
         "description": ""
       }
     }
@@ -9590,10 +10012,10 @@
         },
         {
           "kind": "field",
-          "name": "_surfaceController",
+          "name": "_floatingController",
           "privacy": "private",
           "readonly": true,
-          "default": "new MenuSurfaceController(this)"
+          "default": "new FloatingController(this, { trigger: 'manual', closeOnClickOutside: false, strategy: 'fixed', onOpenChange: (isOpen) => { if (isOpen || !this.open) { return; } this.close({ kind: 'outside-click' }); }, })"
         },
         {
           "kind": "field",
@@ -9700,53 +10122,51 @@
         },
         {
           "kind": "method",
-          "name": "_ownsKeyboardEvent",
+          "name": "_isEventFromThisMenu",
           "privacy": "private",
           "parameters": [
             {
               "name": "event",
               "type": {
-                "text": "KeyboardEvent"
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_ownedItemFromEvent",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_setActiveItem",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "item",
+              "type": {
+                "text": "MenuItem"
               }
             }
           ]
         },
         {
           "kind": "field",
-          "name": "_onItemActivate",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onItemRequestClose",
+          "name": "_onClick",
           "privacy": "private"
         },
         {
           "kind": "field",
           "name": "_onKeyDown",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onWindowClick",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_isWithinMenuTree",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "node",
-              "type": {
-                "text": "Node | null"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "field",
-          "name": "_onFocusOut",
           "privacy": "private"
         },
         {
@@ -9882,22 +10302,17 @@
       "members": [
         {
           "kind": "field",
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "attribute": "disabled",
-          "reflects": true
-        },
-        {
-          "kind": "field",
           "name": "value",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "attribute": "value"
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
         },
         {
           "kind": "field",
@@ -9938,25 +10353,6 @@
         },
         {
           "kind": "field",
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "attribute": "href",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "attribute": "target"
-        },
-        {
-          "kind": "field",
           "name": "variant",
           "type": {
             "text": "'standard' | 'vibrant'"
@@ -9966,129 +10362,221 @@
           "reflects": true
         },
         {
-          "kind": "method",
-          "name": "emitActivate",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "source",
-              "type": {
-                "text": "'click' | 'keydown'"
-              }
-            },
-            {
-              "name": "key",
-              "optional": true,
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "itemElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States"
         },
         {
           "kind": "method",
-          "name": "requestClose",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "source",
-              "type": {
-                "text": "'click' | 'keydown'"
-              }
-            },
-            {
-              "name": "key",
-              "optional": true,
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
+          "name": "focus"
         },
         {
           "kind": "method",
-          "name": "requestSubmenuKey",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "key",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
+          "name": "blur"
         },
         {
-          "kind": "method",
-          "name": "_handleKeyDown",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "e",
-              "type": {
-                "text": "KeyboardEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          }
         },
         {
-          "kind": "method",
-          "name": "_handleClick",
-          "privacy": "private",
-          "parameters": [
-            {
-              "name": "e",
-              "type": {
-                "text": "MouseEvent"
-              }
-            }
-          ]
+          "kind": "field",
+          "name": "__dispatchClick"
         },
         {
-          "kind": "method",
-          "name": "__isLink"
+          "kind": "field",
+          "name": "__handleKeyDown"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
         },
         {
           "kind": "method",
           "name": "renderContent"
-        }
-      ],
-      "events": [
+        },
         {
-          "name": "menu-item-activate",
+          "kind": "field",
+          "name": "htmlType",
           "type": {
-            "text": "CustomEvent"
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
           }
         },
         {
-          "name": "menu-item-request-close",
-          "type": {
-            "text": "CustomEvent"
-          }
-        },
-        {
-          "name": "menu-item-submenu-keydown",
-          "type": {
-            "text": "CustomEvent"
-          }
-        }
-      ],
-      "attributes": [
-        {
+          "kind": "field",
           "name": "disabled",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "disabled"
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
         },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "attribute": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "attribute": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "attribute": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "attribute": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "attributes": [
         {
           "name": "value",
           "type": {
             "text": "string"
           },
           "default": "''",
-          "fieldName": "value"
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
         },
         {
           "name": "selected",
@@ -10123,28 +10611,149 @@
           "fieldName": "submenuOpen"
         },
         {
-          "name": "href",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "href"
-        },
-        {
-          "name": "target",
-          "type": {
-            "text": "string"
-          },
-          "default": "'_self'",
-          "description": "Sets or retrieves the window or frame at which to target content.",
-          "fieldName": "target"
-        },
-        {
           "name": "variant",
           "type": {
             "text": "'standard' | 'vibrant'"
           },
           "default": "'standard'",
           "fieldName": "variant"
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "fieldName": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "fieldName": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "fieldName": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "BaseButtonMixin",
+          "package": "@/__mixins/BaseButtonMixin.js"
+        },
+        {
+          "name": "BaseHyperlinkMixin",
+          "package": "@/__mixins/BaseHyperlinkMixin.js"
         }
       ],
       "superclass": {
@@ -14802,7 +15411,7 @@
           "kind": "field",
           "name": "_dropdownButton",
           "type": {
-            "text": "HTMLButtonElement"
+            "text": "HTMLElement"
           },
           "privacy": "private",
           "readonly": true
@@ -18037,13 +18646,6 @@
         },
         {
           "kind": "field",
-          "name": "floatingEl",
-          "type": {
-            "text": "HTMLElement"
-          }
-        },
-        {
-          "kind": "field",
           "name": "_target",
           "type": {
             "text": "HTMLElement | null"
@@ -18053,87 +18655,22 @@
         },
         {
           "kind": "field",
-          "name": "_popover",
-          "privacy": "private",
-          "default": "new PopoverController(this, { placement: 'top', offset: 8, })"
-        },
-        {
-          "kind": "field",
-          "name": "CLOSE_OTHERS_EVENT",
+          "name": "_floating",
           "type": {
-            "text": "string"
+            "text": "FloatingController | null"
           },
           "privacy": "private",
-          "static": true,
-          "default": "'tooltip--open'"
+          "default": "null"
         },
         {
           "kind": "method",
-          "name": "hasTrigger",
+          "name": "resolveTrigger",
           "privacy": "private",
           "return": {
             "type": {
-              "text": "boolean"
+              "text": "'hover' | 'click' | 'focus' | 'manual' | 'hover-focus'"
             }
-          },
-          "parameters": [
-            {
-              "name": "type",
-              "type": {
-                "text": "TooltipTrigger"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "field",
-          "name": "_onMouseEnter",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onMouseLeave",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onFocusIn",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onFocusOut",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_onClick",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "show",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "hide",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "toggle",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_handleGlobalOpen",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_handleDocumentClick",
-          "privacy": "private"
+          }
         },
         {
           "kind": "method",
@@ -18163,14 +18700,6 @@
         {
           "kind": "method",
           "name": "attachListeners",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_hideTimeout",
-          "type": {
-            "text": "number | undefined"
-          },
           "privacy": "private"
         },
         {
