@@ -6,7 +6,7 @@ const componentDetails = getComponentDetails('popover');
 
 import UsageSection from './_sections/Usage.astro';
 import PlacementsSection from './_sections/Placements.astro';
-import TriggerSection from './_sections/Tip.astro';
+import TipSection from './_sections/Tip.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 const sections = [
@@ -18,7 +18,7 @@ const sections = [
     'Component': PlacementsSection,
   }, {
     'title': 'Trigger',
-    'Component': TriggerSection,
+    'Component': TipSection,
   }];
 ---
 <Layout componentDetails={componentDetails}>

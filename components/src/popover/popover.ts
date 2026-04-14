@@ -72,9 +72,9 @@ export class Popover extends LitElement {
 
     // Resolve the trigger element: first light-DOM child that is NOT wc-popover-content
     this._triggerEl =
-      Array.from(this.children).find(
+      (Array.from(this.children).find(
         (c) => c.tagName.toLowerCase() !== 'wc-popover-content',
-      ) as HTMLElement | null ?? null;
+      ) as HTMLElement) ?? null;
 
     if (!this._triggerEl || !this._contentEl) return;
 

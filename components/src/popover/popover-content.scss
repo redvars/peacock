@@ -66,9 +66,4 @@
   position: absolute;
   z-index: -1;
   display: none;
-
-  :host([tip="caret"]) & {
-    display: block;
-    transform: rotate(45deg);
-  }
 }
