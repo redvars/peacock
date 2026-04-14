@@ -11375,7 +11375,7 @@
     "rawTag": "modal-wc",
     "summary": "A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
     "cssprop": "--modal-max-height - Maximum height of the dialog.",
-    "example": "```html\n<wc-modal open heading=\"Confirm Action\">\n  <p>Are you sure you want to continue?</p>\n  <div slot=\"footer\">\n    <wc-button variant=\"text\">Cancel</wc-button>\n    <wc-button>Confirm</wc-button>\n  </div>\n</wc-modal>\n```",
+    "example": "```html\nMODAL\n```",
     "tags": "overlay, dialog, feedback",
     "customElement": {
       "kind": "class",

@@ -21,13 +21,7 @@ type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
  *
  * @example
  * ```html
- * <wc-modal open heading="Confirm Action">
- *   <p>Are you sure you want to continue?</p>
- *   <div slot="footer">
- *     <wc-button variant="text">Cancel</wc-button>
- *     <wc-button>Confirm</wc-button>
- *   </div>
- * </wc-modal>
+ * MODAL
  * ```
  * @tags overlay, dialog, feedback
  */
