@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang='en-GB'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: var(--color-surface);
+      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+      font-family: var(--font-family-sans);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Basic usage -->
+  <wc-dropdown-button>
+    Actions
+    <wc-menu-item slot="menu">Edit</wc-menu-item>
+    <wc-menu-item slot="menu">Duplicate</wc-menu-item>
+    <wc-menu-item slot="menu">Delete</wc-menu-item>
+  </wc-dropdown-button>
+
+  <!-- Variants -->
+  <wc-dropdown-button variant="filled">Filled</wc-dropdown-button>
+  <wc-dropdown-button variant="tonal">Tonal</wc-dropdown-button>
+  <wc-dropdown-button variant="outlined">Outlined</wc-dropdown-button>
+  <wc-dropdown-button variant="text">Text</wc-dropdown-button>
+  <wc-dropdown-button variant="elevated">Elevated</wc-dropdown-button>
+
+  <!-- Colors -->
+  <wc-dropdown-button color="primary">Primary</wc-dropdown-button>
+  <wc-dropdown-button color="success">Success</wc-dropdown-button>
+  <wc-dropdown-button color="danger">Danger</wc-dropdown-button>
+
+  <!-- Sizes -->
+  <wc-dropdown-button size="xs">Extra small</wc-dropdown-button>
+  <wc-dropdown-button size="sm">Small</wc-dropdown-button>
+  <wc-dropdown-button size="md">Medium</wc-dropdown-button>
+
+  <!-- Disabled -->
+  <wc-dropdown-button disabled>Disabled</wc-dropdown-button>
+
+  <!-- Placement -->
+  <wc-dropdown-button placement="bottom-end">
+    Bottom End
+    <wc-menu-item slot="menu">Option 1</wc-menu-item>
+    <wc-menu-item slot="menu">Option 2</wc-menu-item>
+  </wc-dropdown-button>
+
+<script type='module'>
+  import '/dist/peacock-loader.js';
+</script>
+</body>
+</html>

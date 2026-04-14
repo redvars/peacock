@@ -1,0 +1,15 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The dropdown button combines a single button with a dropdown menu. Clicking the button opens a menu of actions, reducing visual clutter while keeping options accessible.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-dropdown-button>
+    Actions
+    <wc-menu-item slot="menu">Edit</wc-menu-item>
+    <wc-menu-item slot="menu">Duplicate</wc-menu-item>
+    <wc-menu-item slot="menu">Archive</wc-menu-item>
+    <wc-menu-item slot="menu">Delete</wc-menu-item>
+  </wc-dropdown-button>
+</DemoComponentCard>

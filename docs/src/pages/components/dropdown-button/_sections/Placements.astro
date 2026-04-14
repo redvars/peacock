@@ -1,0 +1,31 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The dropdown menu can be positioned relative to the button using the <code>placement</code> attribute.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-dropdown-button placement='bottom-start'>
+    Bottom Start
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button placement='bottom-end'>
+    Bottom End
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button placement='top-start'>
+    Top Start
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button placement='top-end'>
+    Top End
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+</DemoComponentCard>
