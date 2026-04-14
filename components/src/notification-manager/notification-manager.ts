@@ -74,12 +74,12 @@ export class NotificationManager extends LitElement {
     const isForUs =
       target === this.name || (!target && this.name === 'global');
 
-    if (!isForUs || detail.procced) {
+    if (!isForUs || detail.processed) {
       return;
     }
 
     evt.stopPropagation();
-    detail.procced = true;
+    detail.processed = true;
 
     const entry: NotificationEntry = {
       id: nextId(),
