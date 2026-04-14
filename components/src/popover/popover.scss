@@ -1,0 +1,7 @@
+@use "../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+}

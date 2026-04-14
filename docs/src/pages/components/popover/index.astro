@@ -1,12 +1,12 @@
 ---
-import Layout from '../../../layouts/Component.astro';
-import { getComponentDetails } from '../../../_data/getComponentDetails.ts';
-import ApiPanel from '../../../components/ApiPanel.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
 const componentDetails = getComponentDetails('popover');
 
 import UsageSection from './_sections/Usage.astro';
 import PlacementsSection from './_sections/Placements.astro';
-import TipSection from './_sections/Tip.astro';
+import TriggerSection from './_sections/Tip.astro';
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 const sections = [
@@ -17,8 +17,8 @@ const sections = [
     'title': 'Placements',
     'Component': PlacementsSection,
   }, {
-    'title': 'Tip',
-    'Component': TipSection,
+    'title': 'Trigger',
+    'Component': TriggerSection,
   }];
 ---
 <Layout componentDetails={componentDetails}>

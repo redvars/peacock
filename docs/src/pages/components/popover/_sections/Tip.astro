@@ -1,53 +1,39 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<style is:inline>
-  .demo-tip-container .demo-area {
-    height: 500px;
-    overflow: auto;
-  }
+<p class='text-body-medium'>
+  The <code>trigger</code> attribute controls how the popover opens.
+  Use <code>click</code> to toggle on click, <code>hover</code> to open on mouse-over,
+  or <code>manual</code> to drive visibility programmatically via the <code>open</code> attribute
+  or <code>show()</code> / <code>hide()</code> methods.
+</p>
 
-  .demo-tip-container .demo-area-inner {
-    height: 300%;
-    width: 300%;
+<style is:inline>
+  .demo-trigger-container .demo-area {
+    min-height: 16rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 </style>
 
-<pc-text type='body'>
-  Popover support different types of tips. You can use the <pc-text type='code'>tip</pc-text> attribute to set the tip type.
-  The possible values are: <pc-text type='code'>tab</pc-text>, <pc-text type='code'>caret</pc-text>, <pc-text type='code'>none</pc-text>.
-</pc-text>
+<DemoComponentCard lang='html' cssClasses='demo-trigger-container'>
+  <wc-popover trigger='hover'>
+    <wc-button variant='tonal'>hover</wc-button>
+    <wc-popover-content>Opens on hover</wc-popover-content>
+  </wc-popover>
 
-<HighlighterCard lang='html' cssClasses='demo-tip-container'>
+  <wc-popover trigger='click'>
+    <wc-button variant='tonal'>click</wc-button>
+    <wc-popover-content>Opens on click</wc-popover-content>
+  </wc-popover>
 
+  <wc-popover trigger='manual' open>
+    <wc-button variant='tonal'>manual (open)</wc-button>
+    <wc-popover-content>Manually controlled</wc-popover-content>
+  </wc-popover>
+</DemoComponentCard>
 
-  <pc-popover id='popover' trigger='click' tip='tab' open>
-    <wc-icon name='settings' style='cursor: pointer'></wc-icon>
-
-    <pc-popover-content>
-      <pc-input label='Name' layer='01'></pc-input>
-      <pc-input label='Email' layer='01'></pc-input>
-      <wc-button>Submit</wc-button>
-    </pc-popover-content>
-
-    <div slot='start'></div>
-  </pc-popover>
-
-
-</HighlighterCard>
-
-<script is:inline>
-
-  const $demoTipArea = document.querySelector('.demo-tip-container .demo-area');
-
-  setTimeout(() => {
-    $demoTipArea.scroll($demoTipArea.scrollWidth/ 3, $demoTipArea.scrollHeight/ 3);
-  }, 1000);
-
-</script>

@@ -6084,7 +6084,7 @@
           "kind": "field",
           "name": "_menu",
           "type": {
-            "text": "HTMLElement & {\n    open: boolean;\n    anchorElement: HTMLElement | null;\n    show: () => void;\n    close: () => void;\n  }"
+            "text": "HTMLElement & {\n    open: boolean;\n    anchorElement: HTMLElement | null;\n    show: () => void;\n    close: () => void;\n    focus: () => void;\n  }"
           },
           "privacy": "private",
           "readonly": true
@@ -11663,7 +11663,7 @@
     "rawTag": "notification-manager",
     "summary": "The Notification Manager handles the organization and display of notifications within the application.",
     "fires": "notification-manager-dismiss - Fired when a managed notification is dismissed. Detail: `{ id: string }`.",
-    "example": "```html\n<wc-notification-manager position=\"bottom-right\"></wc-notification-manager>\n<script>\n  window.dispatchEvent(new CustomEvent('wc-notification', {\n    detail: { title: 'Record saved', variant: 'success', dismissible: true }\n  }));\n</script>\n```",
+    "example": "```html\n<wc-notification-manager position=\"bottom-right\"></wc-notification-manager>\n<script>\n  window.dispatchEvent(new CustomEvent('notification', {\n    detail: { title: 'Record saved', variant: 'success', dismissible: true }\n  }));\n</script>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -12574,6 +12574,246 @@
       "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
       "rawTag": {
         "name": "pagination",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Popover",
+    "tag": "wc-popover",
+    "rawTag": "popover",
+    "summary": "Displays additional information in a floating panel anchored to a trigger element.",
+    "overview": "<p>The Popover component wraps a trigger element and a <code>wc-popover-content</code> child. It uses\nfloating-ui to compute position, keeping the panel visible inside the viewport even on scroll.</p>",
+    "tags": "display",
+    "fires": "wc-popover--close - Fired when the popover closes.",
+    "example": "```html\n<wc-popover trigger=\"click\">\n  <wc-button>Open popover</wc-button>\n  <wc-popover-content>\n    <p>Popover body text goes here.</p>\n  </wc-popover-content>\n</wc-popover>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Popover",
+      "members": [
+        {
+          "kind": "field",
+          "name": "trigger",
+          "type": {
+            "text": "'click' | 'hover' | 'manual'"
+          },
+          "default": "'click'",
+          "description": "Determines how the popover is triggered.\nPossible values are `\"click\"`, `\"hover\"`, `\"manual\"`.",
+          "attribute": "trigger",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "placement",
+          "type": {
+            "text": "Placement"
+          },
+          "default": "'bottom'",
+          "description": "Preferred placement of the popover relative to the trigger element.\nAccepts any floating-ui `Placement` string such as `\"bottom\"`, `\"top-start\"`, `\"right\"`, etc.",
+          "attribute": "placement",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the popover is open.",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "offset",
+          "type": {
+            "text": "number"
+          },
+          "default": "8",
+          "description": "Distance in pixels between the trigger element and the popover panel.",
+          "attribute": "offset"
+        },
+        {
+          "kind": "field",
+          "name": "_floating",
+          "type": {
+            "text": "FloatingController | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_contentEl",
+          "type": {
+            "text": "PopoverContent | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_triggerEl",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "method",
+          "name": "_setupFloating",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "show",
+          "description": "Programmatically opens the popover."
+        },
+        {
+          "kind": "method",
+          "name": "hide",
+          "description": "Programmatically closes the popover."
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the popover opens.",
+          "name": "wc-popover--open"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the popover closes.",
+          "name": "wc-popover--close"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "trigger",
+          "type": {
+            "text": "'click' | 'hover' | 'manual'"
+          },
+          "default": "'click'",
+          "description": "Determines how the popover is triggered.\nPossible values are `\"click\"`, `\"hover\"`, `\"manual\"`.",
+          "fieldName": "trigger"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "Placement"
+          },
+          "default": "'bottom'",
+          "description": "Preferred placement of the popover relative to the trigger element.\nAccepts any floating-ui `Placement` string such as `\"bottom\"`, `\"top-start\"`, `\"right\"`, etc.",
+          "fieldName": "placement"
+        },
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the popover is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "offset",
+          "type": {
+            "text": "number"
+          },
+          "default": "8",
+          "description": "Distance in pixels between the trigger element and the popover panel.",
+          "fieldName": "offset"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-popover",
+      "customElement": true,
+      "summary": "Displays additional information in a floating panel anchored to a trigger element.",
+      "rawTag": {
+        "name": "popover",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Popover Content",
+    "tag": "wc-popover-content",
+    "rawTag": "popover-content",
+    "summary": "Content container for the wc-popover component.",
+    "childComponent": "true",
+    "tags": "display",
+    "cssprop": "--popover-content-min-width - Minimum width of the popover content. Defaults to `10rem`.",
+    "example": "```html\n<wc-popover-content>\n  <p>Popover body text</p>\n</wc-popover-content>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "PopoverContent",
+      "cssProperties": [
+        {
+          "description": "Background color of the popover content. Defaults to `var(--color-surface-container)`.",
+          "name": "--popover-content-background"
+        },
+        {
+          "description": "Padding of the popover content. Defaults to `var(--spacing-200)`.",
+          "name": "--popover-content-padding"
+        },
+        {
+          "description": "Border radius of the popover content. Defaults to `var(--shape-corner-small)`.",
+          "name": "--popover-content-border-radius"
+        },
+        {
+          "description": "Minimum width of the popover content. Defaults to `10rem`.",
+          "name": "--popover-content-min-width"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the popover content is visible.",
+          "attribute": "open",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the popover content is visible.",
+          "fieldName": "open"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-popover-content",
+      "customElement": true,
+      "summary": "Content container for the wc-popover component.",
+      "rawTag": {
+        "name": "popover-content",
         "description": ""
       }
     }

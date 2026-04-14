@@ -39,6 +39,8 @@ import { LinearProgress } from './progress/linear-progress/linear-progress.js';
 import { CircularProgress } from './progress/circular-progress/circular-progress.js';
 
 import { Tooltip } from './tooltip/tooltip.js';
+import { Popover } from './popover/popover.js';
+import { PopoverContent } from './popover/popover-content.js';
 import { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 
 import { Skeleton } from './skeleton/skeleton.js';
@@ -235,6 +237,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-tooltip': {
       CustomElementClass: Tooltip,
+    },
+    'wc-popover': {
+      CustomElementClass: Popover,
+    },
+    'wc-popover-content': {
+      CustomElementClass: PopoverContent,
     },
     'wc-number-counter': {
       importPath: `${distDirectory}/number-counter.js`,

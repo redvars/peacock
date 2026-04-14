@@ -1,48 +1,27 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <style is:inline>
   .demo-usage-container .demo-area {
-    height: 500px;
-    overflow: auto;
-  }
-
-  .demo-usage-container .demo-area-inner {
-    height: 300%;
-    width: 300%;
+    min-height: 20rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
   }
 </style>
 
-<HighlighterCard lang='html' cssClasses='demo-usage-container'>
+<DemoComponentCard lang='html' cssClasses='demo-usage-container'>
+  <wc-popover trigger='click'>
+    <wc-button>Open popover</wc-button>
+    <wc-popover-content>
+      <div style='display:flex;flex-direction:column;gap:0.75rem;'>
+        <wc-input label='Name'></wc-input>
+        <wc-input label='Email'></wc-input>
+        <wc-button>Submit</wc-button>
+      </div>
+    </wc-popover-content>
+  </wc-popover>
+</DemoComponentCard>
 
-
-  <pc-popover id='popover' trigger='hover' open>
-    <wc-icon name='settings' style='cursor: pointer'></wc-icon>
-
-    <pc-popover-content>
-      <pc-input label='Name' layer='01'></pc-input>
-      <pc-input label='Email' layer='01'></pc-input>
-      <wc-button>Submit</wc-button>
-    </pc-popover-content>
-
-    <div slot='start'></div>
-  </pc-popover>
-
-
-</HighlighterCard>
-
-<script is:inline>
-
-  const $demoArea = document.querySelector('.demo-usage-container .demo-area');
-
-  setTimeout(() => {
-    $demoArea.scroll($demoArea.scrollWidth/ 3, $demoArea.scrollHeight/ 3);
-  }, 1000);
-
-</script>
 
