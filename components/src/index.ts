@@ -50,6 +50,7 @@ export { SidebarMenu, SidebarMenuItem, SidebarSubMenu } from './sidebar-menu/ind
 export { Card } from './card/index.js';
 export { Banner } from './banner/index.js';
 export { Notification } from './notification/index.js';
+export { NotificationManager } from './notification-manager/index.js';
 export { Snackbar } from './snackbar/index.js';
 export { Radio } from './radio/index.js';
 export { BottomSheet } from './bottom-sheet/index.js';

@@ -63,6 +63,7 @@ import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
 import { Banner } from './banner/banner.js';
 import { Notification } from './notification/notification.js';
+import { NotificationManager } from './notification-manager/notification-manager.js';
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
@@ -190,6 +191,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-notification': {
       CustomElementClass: Notification,
+    },
+    'wc-notification-manager': {
+      CustomElementClass: NotificationManager,
     },
     'wc-tag': {
       CustomElementClass: Tag,
