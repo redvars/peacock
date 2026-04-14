@@ -37,7 +37,7 @@ function nextId(): string {
  * ```html
  * <wc-notification-manager position="bottom-right"></wc-notification-manager>
  * <script>
- *   window.dispatchEvent(new CustomEvent('wc-notification', {
+ *   window.dispatchEvent(new CustomEvent('notification', {
  *     detail: { title: 'Record saved', variant: 'success', dismissible: true }
  *   }));
  * </script>
@@ -114,20 +114,20 @@ export class NotificationManager extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('wc-notification', this.handleWindowNotification);
+    window.addEventListener('notification', this.handleWindowNotification);
     window.addEventListener(
-      'wc-notification-dismiss',
+      'notification-dismiss',
       this.handleWindowDismiss,
     );
   }
 
   disconnectedCallback() {
     window.removeEventListener(
-      'wc-notification',
+      'notification',
       this.handleWindowNotification,
     );
     window.removeEventListener(
-      'wc-notification-dismiss',
+      'notification-dismiss',
       this.handleWindowDismiss,
     );
     super.disconnectedCallback();
