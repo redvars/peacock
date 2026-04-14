@@ -97,10 +97,10 @@
   border-radius: 0;
   max-height: 100dvh;
   max-width: 100vw;
+}
 
-  .dialog-wrapper {
-    padding: 0;
-  }
+.dialog-wrapper:has(.dialog.size-fullscreen) {
+  padding: 0;
 }
 
 /* Header */
