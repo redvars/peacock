@@ -93,6 +93,7 @@ export class DropdownButton extends LitElement {
     anchorElement: HTMLElement | null;
     show: () => void;
     close: () => void;
+    focus: () => void;
   };
 
   private _menuId = `dropdown-menu-${Math.random().toString(36).slice(2, 9)}`;
