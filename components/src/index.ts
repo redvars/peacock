@@ -54,6 +54,7 @@ export { Notification } from './notification/index.js';
 export { NotificationManager } from './notification-manager/index.js';
 export { Snackbar } from './snackbar/index.js';
 export { Radio } from './radio/index.js';
+export { Modal } from './modal/index.js';
 export { BottomSheet } from './bottom-sheet/index.js';
 export { SideSheet } from './side-sheet/index.js';
 export { Select } from './select/index.js';

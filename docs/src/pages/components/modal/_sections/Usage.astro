@@ -1,143 +1,83 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<style is:inline>
-  #open-modal-button {
-    --header-height: 0;
-  }
+<DemoComponentCard lang={'html'}>
+  <wc-button id='open-modal-btn'>Open Modal</wc-button>
+  <wc-button id='open-modal-loader-btn' variant='outlined'>Open with Loader</wc-button>
+  <wc-button id='open-modal-fullscreen-btn' variant='tonal'>Fullscreen</wc-button>
 
-</style>
-<HighlighterCard lang={'html'} cssClasses={'demo-canvas'}>
+  <wc-modal id='sample-modal'
+            heading='Create User'
+            subheading='User management'
+            size='sm'>
+    <p style='margin: 0 0 1rem;'>Fill in the details below to create a new user account.</p>
+    <wc-input label='Full name' style='display: block; margin-bottom: 1rem;'></wc-input>
+    <wc-input label='Email address' type='email' style='display: block;'></wc-input>
 
-
-  <wc-button id='open-modal-button'>
-    Open Modal
-  </wc-button>
-
-  <pc-modal id='sample-modal'
-              size='xs'
-              heading='Create User'
-              subheading='User management'>
-
-    <pc-modal-content type='text'>
-      <p class='text-body'>
-        Modal labels and headings should be set in sentence case. Keep all labels and headings concise and to the point.
-        Modal labels are optional.
-        <wc-icon size='sm' tooltip-target='save-tooltip-scroll' color='secondary' variant='ghost'
-                   name='warning'></wc-icon>
-        <pc-tooltip id='save-tooltip-scroll' placements='bottom,top'>Save the record</pc-tooltip>
-      </p>
-    </pc-modal-content>
-
-    <pc-modal-content>
-      <pc-input
-        type='text'
-        class='form-field'
-        layer='01'
-        label='Name'
-        id='name'
-        required></pc-input>
-
-      <goat-select label='Gender'
-                   id='gender'
-                   class='form-field'
-                   layer='01'
-                   placeholder='Select'
-                   clearable></goat-select>
-
-      <goat-checkbox  layer='01'>Do you like Ice cream?</goat-checkbox>
-
-    </pc-modal-content>
-
-    <div slot='footer'>
-      <div class='modal-footer'>
-        <wc-button class='footer-button cancel-button'
-                   variant='tonal'
-                     color='secondary'
-                     size='lg'>Cancel
-        </wc-button>
-        <wc-button id='save-button'
-                     class='footer-button'
-                     size='lg'>Save
-        </wc-button>
-      </div>
+    <div slot='footer' style='display: flex;'>
+      <wc-button id='modal-cancel'
+                 variant='tonal'
+                 color='secondary'
+                 style='flex: 1; --tonal-button-container-shape: var(--shape-corner-none);'>
+        Cancel
+      </wc-button>
+      <wc-button id='modal-save'
+                 style='flex: 1; --filled-button-container-shape: var(--shape-corner-none);'>
+        Save
+      </wc-button>
     </div>
+  </wc-modal>
 
+  <wc-modal id='loader-modal'
+            heading='Saving…'
+            hide-close
+            show-loader
+            size='xs'>
+    <p style='margin: 0;'>Please wait while we save your changes.</p>
+  </wc-modal>
 
-  </pc-modal>
-
-  <style is:inline>
-    .modal-footer {
-      display: flex;
-    }
-
-    .footer-button {
-      --filled-button-container-shape: var(--shape-corner-none);
-      --tonal-button-container-shape: var(--shape-corner-none);
-      flex: 1;
-    }
-  </style>
+  <wc-modal id='fullscreen-modal'
+            heading='Fullscreen Dialog'
+            size='fullscreen'>
+    <p style='margin: 0;'>This modal occupies the full viewport.</p>
+    <div slot='footer' style='display: flex; justify-content: flex-end; padding: 1rem;'>
+      <wc-button id='fullscreen-close'>Close</wc-button>
+    </div>
+  </wc-modal>
 
   <script is:inline>
-    const modalButton = document.querySelector('#open-modal-button');
     const modal = document.querySelector('#sample-modal');
-    const saveButton = document.querySelector('#save-button');
-    const cancelButtons = document.querySelectorAll('.cancel-button');
-    const nameElm = document.querySelector('#name');
-    const genderElm = document.querySelector('#gender');
+    const loaderModal = document.querySelector('#loader-modal');
+    const fullscreenModal = document.querySelector('#fullscreen-modal');
 
-    genderElm.items = [
-      { label: 'Male', value: 'Male' },
-      { label: 'Female', value: 'Female' },
-      { label: 'Other', value: 'Other' },
-    ];
-
-    function resetForm() {
-      modal.showLoader = false;
-      saveButton.showLoader = false;
-      saveButton.disable = false;
-      saveButton.color = 'primary';
-      cancelButtons.forEach((cancelButton) => {
-        cancelButton.disabled = false;
-      });
-      nameElm.value = '';
-      genderElm.value = '';
-    }
-
-
-    modalButton.addEventListener('click', () => {
-      modal.open = true;
-      setTimeout(() => {
-        nameElm.setFocus();
-      }, 80);
+    document.querySelector('#open-modal-btn').addEventListener('click', () => {
+      modal.show();
     });
 
-    saveButton.addEventListener('click', () => {
+    document.querySelector('#open-modal-loader-btn').addEventListener('click', () => {
+      loaderModal.show();
+      setTimeout(() => loaderModal.hide(), 2000);
+    });
+
+    document.querySelector('#open-modal-fullscreen-btn').addEventListener('click', () => {
+      fullscreenModal.show();
+    });
+
+    document.querySelector('#modal-cancel').addEventListener('click', () => {
+      modal.hide();
+    });
+
+    document.querySelector('#modal-save').addEventListener('click', () => {
       modal.showLoader = true;
-      saveButton.showLoader = true;
-      saveButton.color = 'secondary';
-      cancelButtons.forEach((cancelButton) => {
-        cancelButton.disabled = true;
-      });
-      // Mock save
       setTimeout(() => {
-        modal.open = false;
-        resetForm();
-      }, 1000);
+        modal.showLoader = false;
+        modal.hide();
+      }, 1200);
     });
 
-    modal.addEventListener('pc-modal--close', () => {
-      modal.open = false;
-      resetForm();
+    document.querySelector('#fullscreen-close').addEventListener('click', () => {
+      fullscreenModal.hide();
     });
-
-    cancelButtons.forEach((cancelButton) => {
-      cancelButton.addEventListener('click', () => {
-        modal.open = false;
-      });
-    });
-
   </script>
-
-</HighlighterCard>
+</DemoComponentCard>
