@@ -5,93 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { CalendarViewType, EventType } from "./components/application/calendar/calendar/types";
-export { CalendarViewType, EventType } from "./components/application/calendar/calendar/types";
 export namespace Components {
-    interface GoatCbCompoundExpression {
-        "conditionOperator": 'and' | 'or';
-        /**
-          * @default ''
-         */
-        "fieldLabel": string;
-        /**
-          * @default ''
-         */
-        "fieldName": string;
-    }
-    interface GoatCbDivider {
-        /**
-          * @default false
-         */
-        "connectEnd": boolean;
-        /**
-          * @default false
-         */
-        "connectStart": boolean;
-        /**
-          * @default false
-         */
-        "vertical": boolean;
-    }
-    interface GoatCbExpression {
-        /**
-          * @default ''
-         */
-        "operatorValue": string;
-        /**
-          * @default []
-         */
-        "operators": any[];
-    }
-    interface GoatCbPredicate {
-        "conditionOperator": 'and' | 'or';
-        /**
-          * @default false
-         */
-        "vertical": boolean;
-    }
-    /**
-     * @name Condition Builder
-     * @description A condition builder is a component that allows users to build a condition using a set of rules.
-     * @category Up coming
-     * @tag content
-     * @img /assets/img/condition-builder.webp
-     */
-    interface GoatConditionBuilder {
-        "content": string;
-    }
-    /**
-     * @name Footer
-     * @description The footer component provides a container for displaying additional navigation information about a site.
-     * @overview <p>The footer is one of the most underestimated sections of a website being located at the very bottom of every page, however, it can be used as a way to try to convince users to stay on your website if they haven’t found the information they’ve been looking for inside the main content area.</p>
-     * @category Navigation
-     * @img /assets/img/footer.webp
-     * @imgDark /assets/img/footer-dark.webp
-     */
-    interface GoatFooter {
-        /**
-          * @default 'simple'
-         */
-        "variant": 'simple';
-        /**
-          * @default new Date().getFullYear()
-         */
-        "year": number;
-    }
-    interface GoatFooterCopyright {
-        "copyright": string;
-        "copyrightHref": string;
-        /**
-          * @default new Date().getFullYear()
-         */
-        "year": number;
-    }
-    interface GoatFooterLinks {
-        /**
-          * @default []
-         */
-        "links": { name: string; href: string }[];
-    }
     interface GoatHeaderAction {
         /**
           * @default '_self'
@@ -213,92 +127,6 @@ export namespace Components {
         "value": string;
     }
     /**
-     * @label Calendar
-     * @name calendar
-     * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
-     * @category Data Display
-     * @tags calendar
-     * @img /assets/img/calendar.webp
-     * @imgDark /assets/img/calendar-dark.webp
-     */
-    interface PcCalendar {
-        /**
-          * Available views.
-          * @default [     {       label: 'Day',       value: 'day',       type: 'column',       days: 1,     },     {       label: 'Week',       value: 'week',       type: 'column',       days: 7,     },     {       label: 'Month',       value: 'month',       type: 'month',     },   ]
-         */
-        "availableViews": CalendarViewType[];
-        /**
-          * Context date.
-         */
-        "contextDate": Date;
-        /**
-          * Event clickable.
-          * @default true
-         */
-        "eventClickable": boolean;
-        /**
-          * Calendar events.
-          * @default []
-         */
-        "events": EventType[];
-        /**
-          * Show loader.
-          * @default false
-         */
-        "showLoader": boolean;
-        /**
-          * Timezone.
-         */
-        "timezone": string;
-        /**
-          * Calendar view.
-          * @default 'week'
-         */
-        "view": 'day' | 'week' | 'month' | string;
-    }
-    interface PcCalendarColumnView {
-        "contextDate": Date;
-        "currentTime": Date;
-        /**
-          * @default 7
-         */
-        "days": number;
-        /**
-          * @default true
-         */
-        "eventClickable": boolean;
-        /**
-          * @default []
-         */
-        "events": any[];
-        /**
-          * @default 'week'
-         */
-        "view": string;
-    }
-    interface PcCalendarColumnViewBackground {
-        "currentTime": Date;
-        "dateRange": any;
-    }
-    interface PcCalendarMonthView {
-        "contextDate": Date;
-        "currentTime": Date;
-        /**
-          * @default true
-         */
-        "eventClickable": boolean;
-        /**
-          * @default []
-         */
-        "events": any[];
-    }
-    interface PcCalendarMonthViewBackground {
-        /**
-          * @default 1
-         */
-        "columns": number;
-    }
-    /**
      * @label Canvas
      * @name canvas
      * @category Up coming
@@ -319,9 +147,6 @@ export namespace Components {
           * @default 1
          */
         "zoom": number;
-    }
-    interface PcCard {
-        "shadowLevel": 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     /**
      * @label Dropdown
@@ -671,47 +496,6 @@ export namespace Components {
         "type": 'text' | 'borderless' | 'default';
     }
     /**
-     * @label Notification
-     * @name notification
-     * @description Notifications are messages that communicate information to the user.
-     * @category Informational
-     * @tags notification
-     * @example <pc-notification state="success">
-     *      <div slot='title'>Successful saved the record</div>
-     *    </pc-notification>
-     */
-    interface PcNotification {
-        /**
-          * Action to be displayed on the notification
-         */
-        "action": string;
-        /**
-          * Whether the notification is dismissible
-          * @default false
-         */
-        "dismissible": boolean;
-        /**
-          * Whether to use high contrast mode
-          * @default false
-         */
-        "highContrast": boolean;
-        /**
-          * Whether the notification should be displayed inline
-          * @default false
-         */
-        "inline": boolean;
-        /**
-          * Whether the notification is managed by the notification manager
-          * @default false
-         */
-        "managed": boolean;
-        /**
-          * The state of the notification. Possible values are: 'success', 'error', 'info', 'warning'
-          * @default 'info'
-         */
-        "state": 'success' | 'error' | 'info' | 'warning';
-    }
-    /**
      * @label Notification Manager
      * @name notification-manager
      * @description The Notification Manager handles the organization and display of notifications within the application.
@@ -801,18 +585,6 @@ export interface GoatHtmlEditorCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLGoatHtmlEditorElement;
 }
-export interface PcCalendarCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcCalendarElement;
-}
-export interface PcCalendarColumnViewCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcCalendarColumnViewElement;
-}
-export interface PcCalendarMonthViewCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcCalendarMonthViewElement;
-}
 export interface PcDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcDropdownElement;
@@ -829,78 +601,11 @@ export interface PcModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcModalElement;
 }
-export interface PcNotificationCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLPcNotificationElement;
-}
 export interface PcPopoverCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLPcPopoverElement;
 }
 declare global {
-    interface HTMLGoatCbCompoundExpressionElement extends Components.GoatCbCompoundExpression, HTMLStencilElement {
-    }
-    var HTMLGoatCbCompoundExpressionElement: {
-        prototype: HTMLGoatCbCompoundExpressionElement;
-        new (): HTMLGoatCbCompoundExpressionElement;
-    };
-    interface HTMLGoatCbDividerElement extends Components.GoatCbDivider, HTMLStencilElement {
-    }
-    var HTMLGoatCbDividerElement: {
-        prototype: HTMLGoatCbDividerElement;
-        new (): HTMLGoatCbDividerElement;
-    };
-    interface HTMLGoatCbExpressionElement extends Components.GoatCbExpression, HTMLStencilElement {
-    }
-    var HTMLGoatCbExpressionElement: {
-        prototype: HTMLGoatCbExpressionElement;
-        new (): HTMLGoatCbExpressionElement;
-    };
-    interface HTMLGoatCbPredicateElement extends Components.GoatCbPredicate, HTMLStencilElement {
-    }
-    var HTMLGoatCbPredicateElement: {
-        prototype: HTMLGoatCbPredicateElement;
-        new (): HTMLGoatCbPredicateElement;
-    };
-    /**
-     * @name Condition Builder
-     * @description A condition builder is a component that allows users to build a condition using a set of rules.
-     * @category Up coming
-     * @tag content
-     * @img /assets/img/condition-builder.webp
-     */
-    interface HTMLGoatConditionBuilderElement extends Components.GoatConditionBuilder, HTMLStencilElement {
-    }
-    var HTMLGoatConditionBuilderElement: {
-        prototype: HTMLGoatConditionBuilderElement;
-        new (): HTMLGoatConditionBuilderElement;
-    };
-    /**
-     * @name Footer
-     * @description The footer component provides a container for displaying additional navigation information about a site.
-     * @overview <p>The footer is one of the most underestimated sections of a website being located at the very bottom of every page, however, it can be used as a way to try to convince users to stay on your website if they haven’t found the information they’ve been looking for inside the main content area.</p>
-     * @category Navigation
-     * @img /assets/img/footer.webp
-     * @imgDark /assets/img/footer-dark.webp
-     */
-    interface HTMLGoatFooterElement extends Components.GoatFooter, HTMLStencilElement {
-    }
-    var HTMLGoatFooterElement: {
-        prototype: HTMLGoatFooterElement;
-        new (): HTMLGoatFooterElement;
-    };
-    interface HTMLGoatFooterCopyrightElement extends Components.GoatFooterCopyright, HTMLStencilElement {
-    }
-    var HTMLGoatFooterCopyrightElement: {
-        prototype: HTMLGoatFooterCopyrightElement;
-        new (): HTMLGoatFooterCopyrightElement;
-    };
-    interface HTMLGoatFooterLinksElement extends Components.GoatFooterLinks, HTMLStencilElement {
-    }
-    var HTMLGoatFooterLinksElement: {
-        prototype: HTMLGoatFooterLinksElement;
-        new (): HTMLGoatFooterLinksElement;
-    };
     interface HTMLGoatHeaderActionElement extends Components.GoatHeaderAction, HTMLStencilElement {
     }
     var HTMLGoatHeaderActionElement: {
@@ -940,80 +645,6 @@ declare global {
         prototype: HTMLGoatHtmlEditorElement;
         new (): HTMLGoatHtmlEditorElement;
     };
-    interface HTMLPcCalendarElementEventMap {
-        "pc-calendar--event-click": any;
-    }
-    /**
-     * @label Calendar
-     * @name calendar
-     * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
-     * @category Data Display
-     * @tags calendar
-     * @img /assets/img/calendar.webp
-     * @imgDark /assets/img/calendar-dark.webp
-     */
-    interface HTMLPcCalendarElement extends Components.PcCalendar, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcCalendarElementEventMap>(type: K, listener: (this: HTMLPcCalendarElement, ev: PcCalendarCustomEvent<HTMLPcCalendarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcCalendarElementEventMap>(type: K, listener: (this: HTMLPcCalendarElement, ev: PcCalendarCustomEvent<HTMLPcCalendarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcCalendarElement: {
-        prototype: HTMLPcCalendarElement;
-        new (): HTMLPcCalendarElement;
-    };
-    interface HTMLPcCalendarColumnViewElementEventMap {
-        "internal-column-view-date-click": any;
-        "internal-column-view-event-click": any;
-    }
-    interface HTMLPcCalendarColumnViewElement extends Components.PcCalendarColumnView, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcCalendarColumnViewElementEventMap>(type: K, listener: (this: HTMLPcCalendarColumnViewElement, ev: PcCalendarColumnViewCustomEvent<HTMLPcCalendarColumnViewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcCalendarColumnViewElementEventMap>(type: K, listener: (this: HTMLPcCalendarColumnViewElement, ev: PcCalendarColumnViewCustomEvent<HTMLPcCalendarColumnViewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcCalendarColumnViewElement: {
-        prototype: HTMLPcCalendarColumnViewElement;
-        new (): HTMLPcCalendarColumnViewElement;
-    };
-    interface HTMLPcCalendarColumnViewBackgroundElement extends Components.PcCalendarColumnViewBackground, HTMLStencilElement {
-    }
-    var HTMLPcCalendarColumnViewBackgroundElement: {
-        prototype: HTMLPcCalendarColumnViewBackgroundElement;
-        new (): HTMLPcCalendarColumnViewBackgroundElement;
-    };
-    interface HTMLPcCalendarMonthViewElementEventMap {
-        "internal-month-view-date-click": any;
-        "internal-month-view-event-click": any;
-    }
-    interface HTMLPcCalendarMonthViewElement extends Components.PcCalendarMonthView, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcCalendarMonthViewElementEventMap>(type: K, listener: (this: HTMLPcCalendarMonthViewElement, ev: PcCalendarMonthViewCustomEvent<HTMLPcCalendarMonthViewElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcCalendarMonthViewElementEventMap>(type: K, listener: (this: HTMLPcCalendarMonthViewElement, ev: PcCalendarMonthViewCustomEvent<HTMLPcCalendarMonthViewElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcCalendarMonthViewElement: {
-        prototype: HTMLPcCalendarMonthViewElement;
-        new (): HTMLPcCalendarMonthViewElement;
-    };
-    interface HTMLPcCalendarMonthViewBackgroundElement extends Components.PcCalendarMonthViewBackground, HTMLStencilElement {
-    }
-    var HTMLPcCalendarMonthViewBackgroundElement: {
-        prototype: HTMLPcCalendarMonthViewBackgroundElement;
-        new (): HTMLPcCalendarMonthViewBackgroundElement;
-    };
     /**
      * @label Canvas
      * @name canvas
@@ -1026,12 +657,6 @@ declare global {
     var HTMLPcCanvasElement: {
         prototype: HTMLPcCanvasElement;
         new (): HTMLPcCanvasElement;
-    };
-    interface HTMLPcCardElement extends Components.PcCard, HTMLStencilElement {
-    }
-    var HTMLPcCardElement: {
-        prototype: HTMLPcCardElement;
-        new (): HTMLPcCardElement;
     };
     interface HTMLPcDropdownElementEventMap {
         "pc-dropdown--item-click": any;
@@ -1213,34 +838,6 @@ declare global {
         prototype: HTMLPcModalContentElement;
         new (): HTMLPcModalContentElement;
     };
-    interface HTMLPcNotificationElementEventMap {
-        "pc-notification--dismiss": any;
-        "pc-notification--action-click": any;
-    }
-    /**
-     * @label Notification
-     * @name notification
-     * @description Notifications are messages that communicate information to the user.
-     * @category Informational
-     * @tags notification
-     * @example <pc-notification state="success">
-     *      <div slot='title'>Successful saved the record</div>
-     *    </pc-notification>
-     */
-    interface HTMLPcNotificationElement extends Components.PcNotification, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLPcNotificationElementEventMap>(type: K, listener: (this: HTMLPcNotificationElement, ev: PcNotificationCustomEvent<HTMLPcNotificationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLPcNotificationElementEventMap>(type: K, listener: (this: HTMLPcNotificationElement, ev: PcNotificationCustomEvent<HTMLPcNotificationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLPcNotificationElement: {
-        prototype: HTMLPcNotificationElement;
-        new (): HTMLPcNotificationElement;
-    };
     /**
      * @label Notification Manager
      * @name notification-manager
@@ -1298,24 +895,10 @@ declare global {
         new (): HTMLPcPopoverContentElement;
     };
     interface HTMLElementTagNameMap {
-        "goat-cb-compound-expression": HTMLGoatCbCompoundExpressionElement;
-        "goat-cb-divider": HTMLGoatCbDividerElement;
-        "goat-cb-expression": HTMLGoatCbExpressionElement;
-        "goat-cb-predicate": HTMLGoatCbPredicateElement;
-        "goat-condition-builder": HTMLGoatConditionBuilderElement;
-        "goat-footer": HTMLGoatFooterElement;
-        "goat-footer-copyright": HTMLGoatFooterCopyrightElement;
-        "goat-footer-links": HTMLGoatFooterLinksElement;
         "goat-header-action": HTMLGoatHeaderActionElement;
         "goat-header-brand": HTMLGoatHeaderBrandElement;
         "goat-html-editor": HTMLGoatHtmlEditorElement;
-        "pc-calendar": HTMLPcCalendarElement;
-        "pc-calendar-column-view": HTMLPcCalendarColumnViewElement;
-        "pc-calendar-column-view-background": HTMLPcCalendarColumnViewBackgroundElement;
-        "pc-calendar-month-view": HTMLPcCalendarMonthViewElement;
-        "pc-calendar-month-view-background": HTMLPcCalendarMonthViewBackgroundElement;
         "pc-canvas": HTMLPcCanvasElement;
-        "pc-card": HTMLPcCardElement;
         "pc-dropdown": HTMLPcDropdownElement;
         "pc-dropdown-menu": HTMLPcDropdownMenuElement;
         "pc-flow-designer": HTMLPcFlowDesignerElement;
@@ -1325,97 +908,12 @@ declare global {
         "pc-input-url": HTMLPcInputUrlElement;
         "pc-modal": HTMLPcModalElement;
         "pc-modal-content": HTMLPcModalContentElement;
-        "pc-notification": HTMLPcNotificationElement;
         "pc-notification-manager": HTMLPcNotificationManagerElement;
         "pc-popover": HTMLPcPopoverElement;
         "pc-popover-content": HTMLPcPopoverContentElement;
     }
 }
 declare namespace LocalJSX {
-    interface GoatCbCompoundExpression {
-        "conditionOperator"?: 'and' | 'or';
-        /**
-          * @default ''
-         */
-        "fieldLabel"?: string;
-        /**
-          * @default ''
-         */
-        "fieldName"?: string;
-    }
-    interface GoatCbDivider {
-        /**
-          * @default false
-         */
-        "connectEnd"?: boolean;
-        /**
-          * @default false
-         */
-        "connectStart"?: boolean;
-        /**
-          * @default false
-         */
-        "vertical"?: boolean;
-    }
-    interface GoatCbExpression {
-        /**
-          * @default ''
-         */
-        "operatorValue"?: string;
-        /**
-          * @default []
-         */
-        "operators"?: any[];
-    }
-    interface GoatCbPredicate {
-        "conditionOperator"?: 'and' | 'or';
-        /**
-          * @default false
-         */
-        "vertical"?: boolean;
-    }
-    /**
-     * @name Condition Builder
-     * @description A condition builder is a component that allows users to build a condition using a set of rules.
-     * @category Up coming
-     * @tag content
-     * @img /assets/img/condition-builder.webp
-     */
-    interface GoatConditionBuilder {
-        "content"?: string;
-    }
-    /**
-     * @name Footer
-     * @description The footer component provides a container for displaying additional navigation information about a site.
-     * @overview <p>The footer is one of the most underestimated sections of a website being located at the very bottom of every page, however, it can be used as a way to try to convince users to stay on your website if they haven’t found the information they’ve been looking for inside the main content area.</p>
-     * @category Navigation
-     * @img /assets/img/footer.webp
-     * @imgDark /assets/img/footer-dark.webp
-     */
-    interface GoatFooter {
-        /**
-          * @default 'simple'
-         */
-        "variant"?: 'simple';
-        /**
-          * @default new Date().getFullYear()
-         */
-        "year"?: number;
-    }
-    interface GoatFooterCopyright {
-        "copyright"?: string;
-        "copyrightHref"?: string;
-        /**
-          * @default new Date().getFullYear()
-         */
-        "year"?: number;
-    }
-    interface GoatFooterLinks {
-        /**
-          * @default []
-         */
-        "links"?: { name: string; href: string }[];
-    }
     interface GoatHeaderAction {
         /**
           * @default '_self'
@@ -1534,100 +1032,6 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
-     * @label Calendar
-     * @name calendar
-     * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
-     * @category Data Display
-     * @tags calendar
-     * @img /assets/img/calendar.webp
-     * @imgDark /assets/img/calendar-dark.webp
-     */
-    interface PcCalendar {
-        /**
-          * Available views.
-          * @default [     {       label: 'Day',       value: 'day',       type: 'column',       days: 1,     },     {       label: 'Week',       value: 'week',       type: 'column',       days: 7,     },     {       label: 'Month',       value: 'month',       type: 'month',     },   ]
-         */
-        "availableViews"?: CalendarViewType[];
-        /**
-          * Context date.
-         */
-        "contextDate"?: Date;
-        /**
-          * Event clickable.
-          * @default true
-         */
-        "eventClickable"?: boolean;
-        /**
-          * Calendar events.
-          * @default []
-         */
-        "events"?: EventType[];
-        /**
-          * Calendar event click.
-         */
-        "onPc-calendar--event-click"?: (event: PcCalendarCustomEvent<any>) => void;
-        /**
-          * Show loader.
-          * @default false
-         */
-        "showLoader"?: boolean;
-        /**
-          * Timezone.
-         */
-        "timezone"?: string;
-        /**
-          * Calendar view.
-          * @default 'week'
-         */
-        "view"?: 'day' | 'week' | 'month' | string;
-    }
-    interface PcCalendarColumnView {
-        "contextDate"?: Date;
-        "currentTime"?: Date;
-        /**
-          * @default 7
-         */
-        "days"?: number;
-        /**
-          * @default true
-         */
-        "eventClickable"?: boolean;
-        /**
-          * @default []
-         */
-        "events"?: any[];
-        "onInternal-column-view-date-click"?: (event: PcCalendarColumnViewCustomEvent<any>) => void;
-        "onInternal-column-view-event-click"?: (event: PcCalendarColumnViewCustomEvent<any>) => void;
-        /**
-          * @default 'week'
-         */
-        "view"?: string;
-    }
-    interface PcCalendarColumnViewBackground {
-        "currentTime"?: Date;
-        "dateRange"?: any;
-    }
-    interface PcCalendarMonthView {
-        "contextDate"?: Date;
-        "currentTime"?: Date;
-        /**
-          * @default true
-         */
-        "eventClickable"?: boolean;
-        /**
-          * @default []
-         */
-        "events"?: any[];
-        "onInternal-month-view-date-click"?: (event: PcCalendarMonthViewCustomEvent<any>) => void;
-        "onInternal-month-view-event-click"?: (event: PcCalendarMonthViewCustomEvent<any>) => void;
-    }
-    interface PcCalendarMonthViewBackground {
-        /**
-          * @default 1
-         */
-        "columns"?: number;
-    }
-    /**
      * @label Canvas
      * @name canvas
      * @category Up coming
@@ -1648,9 +1052,6 @@ declare namespace LocalJSX {
           * @default 1
          */
         "zoom"?: number;
-    }
-    interface PcCard {
-        "shadowLevel"?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | undefined;
     }
     /**
      * @label Dropdown
@@ -2011,52 +1412,6 @@ declare namespace LocalJSX {
         "type"?: 'text' | 'borderless' | 'default';
     }
     /**
-     * @label Notification
-     * @name notification
-     * @description Notifications are messages that communicate information to the user.
-     * @category Informational
-     * @tags notification
-     * @example <pc-notification state="success">
-     *      <div slot='title'>Successful saved the record</div>
-     *    </pc-notification>
-     */
-    interface PcNotification {
-        /**
-          * Action to be displayed on the notification
-         */
-        "action"?: string;
-        /**
-          * Whether the notification is dismissible
-          * @default false
-         */
-        "dismissible"?: boolean;
-        /**
-          * Whether to use high contrast mode
-          * @default false
-         */
-        "highContrast"?: boolean;
-        /**
-          * Whether the notification should be displayed inline
-          * @default false
-         */
-        "inline"?: boolean;
-        /**
-          * Whether the notification is managed by the notification manager
-          * @default false
-         */
-        "managed"?: boolean;
-        "onPc-notification--action-click"?: (event: PcNotificationCustomEvent<any>) => void;
-        /**
-          * Emitted when the notification is dismissed
-         */
-        "onPc-notification--dismiss"?: (event: PcNotificationCustomEvent<any>) => void;
-        /**
-          * The state of the notification. Possible values are: 'success', 'error', 'info', 'warning'
-          * @default 'info'
-         */
-        "state"?: 'success' | 'error' | 'info' | 'warning';
-    }
-    /**
      * @label Notification Manager
      * @name notification-manager
      * @description The Notification Manager handles the organization and display of notifications within the application.
@@ -2142,24 +1497,10 @@ declare namespace LocalJSX {
     interface PcPopoverContent {
     }
     interface IntrinsicElements {
-        "goat-cb-compound-expression": GoatCbCompoundExpression;
-        "goat-cb-divider": GoatCbDivider;
-        "goat-cb-expression": GoatCbExpression;
-        "goat-cb-predicate": GoatCbPredicate;
-        "goat-condition-builder": GoatConditionBuilder;
-        "goat-footer": GoatFooter;
-        "goat-footer-copyright": GoatFooterCopyright;
-        "goat-footer-links": GoatFooterLinks;
         "goat-header-action": GoatHeaderAction;
         "goat-header-brand": GoatHeaderBrand;
         "goat-html-editor": GoatHtmlEditor;
-        "pc-calendar": PcCalendar;
-        "pc-calendar-column-view": PcCalendarColumnView;
-        "pc-calendar-column-view-background": PcCalendarColumnViewBackground;
-        "pc-calendar-month-view": PcCalendarMonthView;
-        "pc-calendar-month-view-background": PcCalendarMonthViewBackground;
         "pc-canvas": PcCanvas;
-        "pc-card": PcCard;
         "pc-dropdown": PcDropdown;
         "pc-dropdown-menu": PcDropdownMenu;
         "pc-flow-designer": PcFlowDesigner;
@@ -2169,7 +1510,6 @@ declare namespace LocalJSX {
         "pc-input-url": PcInputUrl;
         "pc-modal": PcModal;
         "pc-modal-content": PcModalContent;
-        "pc-notification": PcNotification;
         "pc-notification-manager": PcNotificationManager;
         "pc-popover": PcPopover;
         "pc-popover-content": PcPopoverContent;
@@ -2179,29 +1519,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "goat-cb-compound-expression": LocalJSX.GoatCbCompoundExpression & JSXBase.HTMLAttributes<HTMLGoatCbCompoundExpressionElement>;
-            "goat-cb-divider": LocalJSX.GoatCbDivider & JSXBase.HTMLAttributes<HTMLGoatCbDividerElement>;
-            "goat-cb-expression": LocalJSX.GoatCbExpression & JSXBase.HTMLAttributes<HTMLGoatCbExpressionElement>;
-            "goat-cb-predicate": LocalJSX.GoatCbPredicate & JSXBase.HTMLAttributes<HTMLGoatCbPredicateElement>;
-            /**
-             * @name Condition Builder
-             * @description A condition builder is a component that allows users to build a condition using a set of rules.
-             * @category Up coming
-             * @tag content
-             * @img /assets/img/condition-builder.webp
-             */
-            "goat-condition-builder": LocalJSX.GoatConditionBuilder & JSXBase.HTMLAttributes<HTMLGoatConditionBuilderElement>;
-            /**
-             * @name Footer
-             * @description The footer component provides a container for displaying additional navigation information about a site.
-             * @overview <p>The footer is one of the most underestimated sections of a website being located at the very bottom of every page, however, it can be used as a way to try to convince users to stay on your website if they haven’t found the information they’ve been looking for inside the main content area.</p>
-             * @category Navigation
-             * @img /assets/img/footer.webp
-             * @imgDark /assets/img/footer-dark.webp
-             */
-            "goat-footer": LocalJSX.GoatFooter & JSXBase.HTMLAttributes<HTMLGoatFooterElement>;
-            "goat-footer-copyright": LocalJSX.GoatFooterCopyright & JSXBase.HTMLAttributes<HTMLGoatFooterCopyrightElement>;
-            "goat-footer-links": LocalJSX.GoatFooterLinks & JSXBase.HTMLAttributes<HTMLGoatFooterLinksElement>;
             "goat-header-action": LocalJSX.GoatHeaderAction & JSXBase.HTMLAttributes<HTMLGoatHeaderActionElement>;
             "goat-header-brand": LocalJSX.GoatHeaderBrand & JSXBase.HTMLAttributes<HTMLGoatHeaderBrandElement>;
             /**
@@ -2215,20 +1532,6 @@ declare module "@stencil/core" {
              */
             "goat-html-editor": LocalJSX.GoatHtmlEditor & JSXBase.HTMLAttributes<HTMLGoatHtmlEditorElement>;
             /**
-             * @label Calendar
-             * @name calendar
-             * @description The calendar component is used to display information in a daily, weekly, monthly, or category view.
-             * @category Data Display
-             * @tags calendar
-             * @img /assets/img/calendar.webp
-             * @imgDark /assets/img/calendar-dark.webp
-             */
-            "pc-calendar": LocalJSX.PcCalendar & JSXBase.HTMLAttributes<HTMLPcCalendarElement>;
-            "pc-calendar-column-view": LocalJSX.PcCalendarColumnView & JSXBase.HTMLAttributes<HTMLPcCalendarColumnViewElement>;
-            "pc-calendar-column-view-background": LocalJSX.PcCalendarColumnViewBackground & JSXBase.HTMLAttributes<HTMLPcCalendarColumnViewBackgroundElement>;
-            "pc-calendar-month-view": LocalJSX.PcCalendarMonthView & JSXBase.HTMLAttributes<HTMLPcCalendarMonthViewElement>;
-            "pc-calendar-month-view-background": LocalJSX.PcCalendarMonthViewBackground & JSXBase.HTMLAttributes<HTMLPcCalendarMonthViewBackgroundElement>;
-            /**
              * @label Canvas
              * @name canvas
              * @category Up coming
@@ -2236,7 +1539,6 @@ declare module "@stencil/core" {
              * @img /assets/img/canvas.webp
              */
             "pc-canvas": LocalJSX.PcCanvas & JSXBase.HTMLAttributes<HTMLPcCanvasElement>;
-            "pc-card": LocalJSX.PcCard & JSXBase.HTMLAttributes<HTMLPcCardElement>;
             /**
              * @label Dropdown
              * @name dropdown
@@ -2322,17 +1624,6 @@ declare module "@stencil/core" {
              * @childComponent true
              */
             "pc-modal-content": LocalJSX.PcModalContent & JSXBase.HTMLAttributes<HTMLPcModalContentElement>;
-            /**
-             * @label Notification
-             * @name notification
-             * @description Notifications are messages that communicate information to the user.
-             * @category Informational
-             * @tags notification
-             * @example <pc-notification state="success">
-             *      <div slot='title'>Successful saved the record</div>
-             *    </pc-notification>
-             */
-            "pc-notification": LocalJSX.PcNotification & JSXBase.HTMLAttributes<HTMLPcNotificationElement>;
             /**
              * @label Notification Manager
              * @name notification-manager

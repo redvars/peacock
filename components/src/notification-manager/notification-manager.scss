@@ -32,7 +32,7 @@
 
 :host {
   display: block;
-  position: fixed;
+  position: var(--notification-manager-position, absolute);
   width: 20rem;
   z-index: var(--z-index-notification-manager, 9000);
   pointer-events: none;

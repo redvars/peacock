@@ -14,15 +14,15 @@
   "github_project": "components",
   "npm_package": "@redvars/peacock",
   "prod": {
-    "script": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.1/dist/peacock-loader.js",
-    "themeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.1/dist/assets/styles.css",
-    "fallbackScript": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.0/dist/peacock-loader.js",
-    "fallbackThemeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.0/dist/assets/styles.css",
-    "version": "3.5.1"
+    "script": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.6.0/dist/peacock-loader.js",
+    "themeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.6.0/dist/assets/styles.css",
+    "fallbackScript": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.1/dist/peacock-loader.js",
+    "fallbackThemeCss": "https://cdn.jsdelivr.net/npm/@redvars/peacock@3.5.1/dist/assets/styles.css",
+    "version": "3.6.0"
   },
   "dev": {
     "script": "/assets/peacock/peacock-loader.js",
     "themeCss": "/assets/peacock/assets/styles/tokens.css",
-    "version": "3.5.1"
+    "version": "3.6.0"
   }
 }

@@ -75,19 +75,6 @@ Type: `Promise<void>`
 
 
 
-## Dependencies
-
-### Used by
-
- - [goat-condition-builder](../../../application/condition-builder/condition-builder)
-
-### Graph
-```mermaid
-graph TD;
-  goat-condition-builder --> pc-input
-  style pc-input fill:#f9f,stroke:#333,stroke-width:4px
-```
-
 ----------------------------------------------
 
 *Built with love!*
