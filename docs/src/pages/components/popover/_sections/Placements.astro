@@ -1,71 +1,44 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'>
-  The popover can be positioned relative to the trigger element. Possible positions are:
-  <pc-text type='code'>top</pc-text>
-  ,
-  <pc-text type='code'>right</pc-text>
-  ,
-  <pc-text type='code'>left</pc-text>
-  ,
-  <pc-text type='code'>bottom</pc-text>
-  .
 
-  Also you can use the following modifiers: <pc-text type='code'>start</pc-text> and <pc-text type='code'>end</pc-text> to align the popover.
-
-
-</pc-text>
-<pc-text type='body'>
-  You can also use the <code class='language-html'>positions</code> attribute to set all preferred position of the
-  dropdown. On scroll, the dropdown will be repositioned to the
-  closest position.
-</pc-text>
-
+<p class='text-body-medium'>
+  The popover can be positioned relative to the trigger element. Accepted values for <code>placement</code> include:
+  <code>top</code>, <code>top-start</code>, <code>top-end</code>,
+  <code>right</code>, <code>right-start</code>, <code>right-end</code>,
+  <code>bottom</code> (default), <code>bottom-start</code>, <code>bottom-end</code>,
+  <code>left</code>, <code>left-start</code>, and <code>left-end</code>.
+  floating-ui automatically flips or shifts the panel to keep it visible inside the viewport.
+</p>
 
 <style is:inline>
-  .demo-placement-container .demo-area {
-    height: 500px;
-    overflow: auto;
-  }
-
-  .demo-placement-container .demo-area-inner {
-    height: 300%;
-    width: 300%;
+  .demo-placements-container .demo-area {
+    min-height: 16rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 </style>
 
-<HighlighterCard lang='html' cssClasses='demo-placement-container'>
+<DemoComponentCard lang='html' cssClasses='demo-placements-container'>
+  <wc-popover trigger='click' placement='top'>
+    <wc-button variant='outlined'>top</wc-button>
+    <wc-popover-content>Placed on top</wc-popover-content>
+  </wc-popover>
+  <wc-popover trigger='click' placement='bottom'>
+    <wc-button variant='outlined'>bottom</wc-button>
+    <wc-popover-content>Placed on bottom</wc-popover-content>
+  </wc-popover>
+  <wc-popover trigger='click' placement='left'>
+    <wc-button variant='outlined'>left</wc-button>
+    <wc-popover-content>Placed on left</wc-popover-content>
+  </wc-popover>
+  <wc-popover trigger='click' placement='right'>
+    <wc-button variant='outlined'>right</wc-button>
+    <wc-popover-content>Placed on right</wc-popover-content>
+  </wc-popover>
+</DemoComponentCard>
 
-
-  <pc-popover trigger='manual' open placements='top-start,bottom-end'>
-    <wc-icon name='settings' style='cursor: pointer'></wc-icon>
-
-    <pc-popover-content>
-      <pc-input label='Name' layer='01'></pc-input>
-      <pc-input label='Email' layer='01'></pc-input>
-      <wc-button>Submit</wc-button>
-    </pc-popover-content>
-
-    <div slot='start'></div>
-  </pc-popover>
-
-
-</HighlighterCard>
-
-
-<script is:inline>
-
-  const $demoPlacementArea = document.querySelector('.demo-placement-container .demo-area');
-
-  setTimeout(() => {
-    $demoPlacementArea.scroll($demoPlacementArea.scrollWidth/ 3, $demoPlacementArea.scrollHeight/ 3);
-  }, 1000);
-
-</script>
 

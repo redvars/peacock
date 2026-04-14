@@ -34,6 +34,7 @@ export { Container } from './container/index.js';
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';
 export { Tooltip } from './popover/index.js';
+export { Popover, PopoverContent } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 export { Menu, MenuItem, SubMenu } from './menu/index.js';
 
