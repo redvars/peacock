@@ -59,11 +59,11 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
   <wc-button id='clear-btn'>Clear</wc-button>
 
   <div class='application'>
-    <pc-notification-manager name='application-manager' position='bottom-right'></pc-notification-manager>
+    <wc-notification-manager name='application-manager' position='bottom-right'></wc-notification-manager>
 
     <div class='sub-container'>
 
-      <pc-notification-manager name='sub-container-manager' position='top-right'></pc-notification-manager>
+      <wc-notification-manager name='sub-container-manager' position='top-right'></wc-notification-manager>
       <wc-button id='notification-btn'>Notification</wc-button>
       <br /><br />
       <wc-button id='notification-btn-dismissible'>Dismissible notification</wc-button>
@@ -75,12 +75,12 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     let notifications = [];
     document.getElementById('notification-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('pc-notification', {
+        new CustomEvent('notification', {
           bubbles: true,
           detail: {
             target: 'application-manager',
             title: 'This is automatic closing notification ' + count++,
-            state: 'success',
+            variant: 'success',
             subtitle: `This is a subtitle for the notification message ${count - 1}`,
             callback: function(notificationId) {
               notifications.push(notificationId);
@@ -92,7 +92,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     document.getElementById('clear-btn').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('pc-notification-dismiss', {
+        new CustomEvent('notification-dismiss', {
           bubbles: true,
           detail: {
             target: 'application-manager',
@@ -106,12 +106,12 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
     document.getElementById('notification-btn-dismissible').addEventListener('click', () => {
       window.dispatchEvent(
-        new CustomEvent('pc-notification', {
+        new CustomEvent('notification', {
           bubbles: true,
           detail: {
             target: 'sub-container-manager',
             title: 'This is dismissible notification ' + count++,
-            state: 'warning',
+            variant: 'warning',
             dismissible: true,
             subtitle: `This is a subtitle for the notification message ${count - 1}`,
             action: 'Action',
@@ -121,3 +121,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     });
   </script>
 </HighlighterCard>
+

@@ -11658,6 +11658,164 @@
     }
   },
   {
+    "label": "Notification Manager",
+    "tag": "wc-notification-manager",
+    "rawTag": "notification-manager",
+    "summary": "The Notification Manager handles the organization and display of notifications within the application.",
+    "fires": "notification-manager-dismiss - Fired when a managed notification is dismissed. Detail: `{ id: string }`.",
+    "example": "```html\n<wc-notification-manager position=\"bottom-right\"></wc-notification-manager>\n<script>\n  window.dispatchEvent(new CustomEvent('wc-notification', {\n    detail: { title: 'Record saved', variant: 'success', dismissible: true }\n  }));\n</script>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "NotificationManager",
+      "members": [
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "'global'",
+          "description": "Name of this manager instance. Only notifications whose `target` matches\nthis name (or whose `target` is absent and this manager's `name` is\n`'global'`) will be handled.",
+          "attribute": "name",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "position",
+          "type": {
+            "text": "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'"
+          },
+          "default": "'bottom-right'",
+          "description": "Screen position where notifications are stacked.",
+          "attribute": "position",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "notifications",
+          "type": {
+            "text": "NotificationEntry[]"
+          },
+          "privacy": "private",
+          "default": "[]"
+        },
+        {
+          "kind": "field",
+          "name": "handleWindowNotification",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "handleWindowDismiss",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "_hideNotification",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleDismiss",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleAction",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "renderNotification",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "n",
+              "type": {
+                "text": "NotificationEntry"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "notification-manager-dismiss",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when a managed notification is dismissed. Detail: `{ id: string }`."
+        },
+        {
+          "name": "notification-manager-action",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the action button of a managed notification is clicked. Detail: `{ id: string }`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "'global'",
+          "description": "Name of this manager instance. Only notifications whose `target` matches\nthis name (or whose `target` is absent and this manager's `name` is\n`'global'`) will be handled.",
+          "fieldName": "name"
+        },
+        {
+          "name": "position",
+          "type": {
+            "text": "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'"
+          },
+          "default": "'bottom-right'",
+          "description": "Screen position where notifications are stacked.",
+          "fieldName": "position"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-notification-manager",
+      "customElement": true,
+      "summary": "The Notification Manager handles the organization and display of notifications within the application.",
+      "rawTag": {
+        "name": "notification-manager",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Number Counter",
     "tag": "wc-number-counter",
     "rawTag": "number-counter",

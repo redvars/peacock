@@ -1,0 +1,113 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+@keyframes reveal-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-1rem);
+    max-height: 0;
+  }
+
+  100% {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(1rem);
+    max-height: 0;
+  }
+
+  100% {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:host {
+  display: block;
+  position: fixed;
+  width: 20rem;
+  z-index: var(--z-index-notification-manager, 9000);
+  pointer-events: none;
+}
+
+.notification-manager {
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: var(--spacing-150);
+}
+
+.notification {
+  pointer-events: auto;
+  max-height: 500px;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+  overflow: hidden;
+}
+
+.notification.hidden {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Position variants */
+
+:host([position='bottom-right']) {
+  bottom: 0;
+  right: 0;
+
+  .notification-manager {
+    align-items: flex-end;
+  }
+
+  .notification {
+    animation: reveal-bottom 0.5s ease-in;
+  }
+}
+
+:host([position='bottom-left']) {
+  bottom: 0;
+  left: 0;
+
+  .notification-manager {
+    align-items: flex-start;
+  }
+
+  .notification {
+    animation: reveal-bottom 0.5s ease-in;
+  }
+}
+
+:host([position='top-right']) {
+  top: 0;
+  right: 0;
+
+  .notification-manager {
+    align-items: flex-end;
+  }
+
+  .notification {
+    animation: reveal-top 0.5s ease-in;
+  }
+}
+
+:host([position='top-left']) {
+  top: 0;
+  left: 0;
+
+  .notification-manager {
+    align-items: flex-start;
+  }
+
+  .notification {
+    animation: reveal-top 0.5s ease-in;
+  }
+}
