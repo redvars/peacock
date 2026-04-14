@@ -11370,6 +11370,267 @@
     }
   },
   {
+    "label": "Modal",
+    "tag": "wc-modal",
+    "rawTag": "modal-wc",
+    "summary": "A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
+    "cssprop": "--modal-max-height - Maximum height of the dialog.",
+    "example": "```html\n<wc-modal open heading=\"Confirm Action\">\n  <p>Are you sure you want to continue?</p>\n  <div slot=\"footer\">\n    <wc-button variant=\"text\">Cancel</wc-button>\n    <wc-button>Confirm</wc-button>\n  </div>\n</wc-modal>\n```",
+    "tags": "overlay, dialog, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Modal",
+      "cssProperties": [
+        {
+          "description": "Background color of the dialog container.",
+          "name": "--modal-container-color"
+        },
+        {
+          "description": "Color of the scrim backdrop.",
+          "name": "--modal-scrim-color"
+        },
+        {
+          "description": "Corner radius of the dialog container.",
+          "name": "--modal-shape"
+        },
+        {
+          "description": "Minimum width of the dialog.",
+          "name": "--modal-min-width"
+        },
+        {
+          "description": "Maximum width of the dialog.",
+          "name": "--modal-max-width"
+        },
+        {
+          "description": "Maximum height of the dialog.",
+          "name": "--modal-max-height"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the modal is open.",
+          "attribute": "open",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "heading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Heading text shown in the modal header.",
+          "attribute": "heading",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "subheading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional subheading / label text shown above the heading.",
+          "attribute": "subheading",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "ModalSize"
+          },
+          "default": "'md'",
+          "description": "Size of the modal dialog.\n- `\"xs\"`: Extra-small.\n- `\"sm\"`: Small.\n- `\"md\"`: Medium (default).\n- `\"lg\"`: Large.\n- `\"fullscreen\"`: Full-screen dialog.",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "hideClose",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, hides the close button in the header.",
+          "attribute": "hide-close",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "showLoader",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, renders a loading overlay inside the modal.",
+          "attribute": "show-loader",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "noScrimClose",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, clicking the scrim will not close the modal.",
+          "attribute": "no-scrim-close"
+        },
+        {
+          "kind": "field",
+          "name": "_visible",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "show"
+        },
+        {
+          "kind": "method",
+          "name": "hide"
+        },
+        {
+          "kind": "method",
+          "name": "_close",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "reason",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleScrimClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleCloseClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_handleKeydown",
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "method",
+          "name": "_handleAnimationEnd",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "AnimationEvent"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "modal-close",
+          "type": {
+            "text": "CustomEvent"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the modal is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "heading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Heading text shown in the modal header.",
+          "fieldName": "heading"
+        },
+        {
+          "name": "subheading",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Optional subheading / label text shown above the heading.",
+          "fieldName": "subheading"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "ModalSize"
+          },
+          "default": "'md'",
+          "description": "Size of the modal dialog.\n- `\"xs\"`: Extra-small.\n- `\"sm\"`: Small.\n- `\"md\"`: Medium (default).\n- `\"lg\"`: Large.\n- `\"fullscreen\"`: Full-screen dialog.",
+          "fieldName": "size"
+        },
+        {
+          "name": "hide-close",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, hides the close button in the header.",
+          "fieldName": "hideClose"
+        },
+        {
+          "name": "show-loader",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, renders a loading overlay inside the modal.",
+          "fieldName": "showLoader"
+        },
+        {
+          "name": "no-scrim-close",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When true, clicking the scrim will not close the modal.",
+          "fieldName": "noScrimClose"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-modal",
+      "customElement": true,
+      "summary": "A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
+      "rawTag": {
+        "name": "modal-wc",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Navigation Rail",
     "tag": "wc-navigation-rail",
     "rawTag": "navigation-rail",

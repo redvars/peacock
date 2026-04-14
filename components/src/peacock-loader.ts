@@ -68,6 +68,7 @@ import { NotificationManager } from './notification-manager/notification-manager
 import { Snackbar } from './snackbar/snackbar.js';
 import { BottomSheet } from './bottom-sheet/bottom-sheet.js';
 import { SideSheet } from './side-sheet/side-sheet.js';
+import { Modal } from './modal/modal.js';
 import { Select } from './select/select.js';
 import { SelectOptionElement } from './select/option.js';
 import { Search } from './search/search.js';
@@ -310,6 +311,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-side-sheet': {
       CustomElementClass: SideSheet,
+    },
+    'wc-modal': {
+      CustomElementClass: Modal,
     },
     'wc-select': {
       CustomElementClass: Select,
