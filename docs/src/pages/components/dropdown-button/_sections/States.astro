@@ -1,0 +1,19 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The dropdown button can be disabled to prevent user interaction.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-dropdown-button>
+    Enabled
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button disabled>
+    Disabled
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+</DemoComponentCard>

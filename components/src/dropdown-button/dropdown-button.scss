@@ -1,0 +1,22 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  position: relative;
+
+  --dropdown-button-container-shape: var(--shape-corner-medium);
+}
+
+.trigger-button {
+  --button-container-shape: var(--dropdown-button-container-shape);
+}
+
+.dropdown-icon {
+  transition: transform 200ms ease;
+}
+
+.trigger-button.active .dropdown-icon {
+  transform: rotate(180deg);
+}

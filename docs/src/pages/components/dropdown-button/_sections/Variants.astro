@@ -1,0 +1,37 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The dropdown button supports filled, tonal, outlined, text, and elevated variants, following M3 Material Design guidelines.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-dropdown-button variant='filled'>
+    Filled
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button variant='tonal'>
+    Tonal
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button variant='outlined'>
+    Outlined
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button variant='text'>
+    Text
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button variant='elevated'>
+    Elevated
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+</DemoComponentCard>

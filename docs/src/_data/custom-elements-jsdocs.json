@@ -5987,6 +5987,217 @@
     }
   },
   {
+    "label": "Dropdown Button",
+    "tag": "wc-dropdown-button",
+    "rawTag": "dropdown-button",
+    "summary": "A button that opens a dropdown menu when clicked.",
+    "overview": "<p>The dropdown button combines a single button with a dropdown menu. Clicking the button toggles a menu of actions or options. It follows M3 Material Design, keeping a compact control while exposing related actions on demand.</p>",
+    "cssprop": "--dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.",
+    "fires": "toggle-menu - Dispatched when the dropdown menu is opened or closed.",
+    "example": "```html\n<wc-dropdown-button>\n  Actions\n  <wc-menu-item slot=\"menu\">Edit</wc-menu-item>\n  <wc-menu-item slot=\"menu\">Delete</wc-menu-item>\n</wc-dropdown-button>\n```",
+    "tags": "controls",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "DropdownButton",
+      "cssProperties": [
+        {
+          "description": "Defines the border radius of the dropdown button container shape.",
+          "name": "--dropdown-button-container-shape:"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "attribute": "size",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the dropdown button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is an elevated button.",
+          "attribute": "variant",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the dropdown button.",
+          "attribute": "color",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the dropdown button is disabled.",
+          "attribute": "disabled",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "placement",
+          "type": {
+            "text": "| 'bottom-start'\n    | 'bottom-end'\n    | 'top-start'\n    | 'top-end'"
+          },
+          "default": "'bottom-start'",
+          "description": "Menu placement relative to the button.\nPossible values are `\"bottom-start\"`, `\"bottom-end\"`, `\"top-start\"`, `\"top-end\"`. Defaults to `\"bottom-start\"`.",
+          "attribute": "placement",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_menuOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_triggerButton",
+          "type": {
+            "text": "HTMLElement & {\n    focus: () => void;\n  }"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_menu",
+          "type": {
+            "text": "HTMLElement & {\n    open: boolean;\n    anchorElement: HTMLElement | null;\n    show: () => void;\n    close: () => void;\n  }"
+          },
+          "privacy": "private",
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "_menuId",
+          "privacy": "private",
+          "default": "`dropdown-menu-${Math.random().toString(36).slice(2, 9)}`"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "_onButtonClick",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "MouseEvent"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "field",
+          "name": "_onMenuOpened",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onMenuClosed",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_onKeyDown",
+          "privacy": "private"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the dropdown menu is opened or closed.",
+          "name": "toggle-menu"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "size",
+          "type": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          },
+          "default": "'sm'",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "fieldName": "size"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'"
+          },
+          "default": "'filled'",
+          "description": "The visual style of the dropdown button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is an elevated button.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
+          },
+          "default": "'primary'",
+          "description": "Defines the primary color of the dropdown button.",
+          "fieldName": "color"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the dropdown button is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "| 'bottom-start'\n    | 'bottom-end'\n    | 'top-start'\n    | 'top-end'"
+          },
+          "default": "'bottom-start'",
+          "description": "Menu placement relative to the button.\nPossible values are `\"bottom-start\"`, `\"bottom-end\"`, `\"top-start\"`, `\"top-end\"`. Defaults to `\"bottom-start\"`.",
+          "fieldName": "placement"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-dropdown-button",
+      "customElement": true,
+      "summary": "A button that opens a dropdown menu when clicked.",
+      "rawTag": {
+        "name": "dropdown-button",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Elevation",
     "tag": "wc-elevation",
     "rawTag": "elevation",

@@ -1,0 +1,32 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Fancy larger or smaller dropdown buttons? Add the size attribute for additional sizes.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-dropdown-button size='xs'>
+    Extra small
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button size='sm'>
+    Small
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button size='md'>
+    Medium
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button size='lg'>
+    Large
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button size='xl'>
+    Extra large
+    <wc-menu-item slot="menu">Option</wc-menu-item>
+  </wc-dropdown-button>
+</DemoComponentCard>
