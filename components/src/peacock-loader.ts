@@ -242,6 +242,9 @@ const loaderConfig: LoaderConfig = {
     'wc-code-editor': {
       importPath: `${distDirectory}/code-editor.js`,
     },
+    'wc-html-editor': {
+      importPath: `${distDirectory}/html-editor.js`,
+    },
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },

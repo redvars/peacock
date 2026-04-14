@@ -1,0 +1,146 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ── Field wrapper overrides ─────────────────────────────────────────────────
+
+.html-editor-field {
+  // Let the field expand to fit content vertically
+  --field-height: auto;
+  --field-padding-block: 0;
+
+  width: 100%;
+}
+
+// ── Toolbar ─────────────────────────────────────────────────────────────────
+
+.html-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-025, 0.125rem);
+  padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem);
+  background: var(
+    --html-editor-toolbar-background,
+    var(--color-surface-container, #f3edf7)
+  );
+  border-block-end: 1px solid
+    var(
+      --html-editor-toolbar-border-color,
+      var(--color-outline-variant, #cac4d0)
+    );
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+}
+
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--shape-corner-extra-small, 0.25rem);
+  background: transparent;
+  color: var(--color-on-surface-variant, #49454f);
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+
+  &:hover:not(:disabled) {
+    background: color-mix(
+      in srgb,
+      var(--color-on-surface-variant, #49454f) 8%,
+      transparent
+    );
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(
+      in srgb,
+      var(--color-primary, #6750a4) 12%,
+      transparent
+    );
+    color: var(--color-primary, #6750a4);
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  wc-icon {
+    pointer-events: none;
+  }
+}
+
+.toolbar-divider {
+  display: inline-block;
+  width: 1px;
+  height: 1.5rem;
+  background: var(--color-outline-variant, #cac4d0);
+  margin-inline: var(--spacing-025, 0.125rem);
+  flex-shrink: 0;
+}
+
+// ── Editable content area ───────────────────────────────────────────────────
+
+.html-editor-content {
+  min-height: var(--html-editor-min-height, 8rem);
+  padding: var(--spacing-200, 1rem) var(--spacing-150, 0.75rem);
+  outline: none;
+  color: var(--color-on-surface, #1c1b1f);
+  font-family: var(--typography-body-medium-font-family, inherit);
+  font-size: var(--typography-body-medium-font-size, 0.875rem);
+  line-height: var(--typography-body-medium-line-height, 1.5);
+  cursor: text;
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  // Placeholder
+  &.is-empty::before {
+    content: attr(data-placeholder);
+    color: var(--color-on-surface-variant, #49454f);
+    opacity: 0.6;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  // Sensible defaults for user-generated rich content
+  ul,
+  ol {
+    padding-inline-start: 1.5rem;
+    margin-block: 0.25rem;
+  }
+
+  a {
+    color: var(--color-primary, #6750a4);
+    text-decoration: underline;
+  }
+
+  strong,
+  b {
+    font-weight: 600;
+  }
+}
+
+// ── Read-only tag ───────────────────────────────────────────────────────────
+
+.read-only-tag {
+  margin: var(--spacing-050, 0.25rem);
+}
+
+// ── Disabled / readonly host states ────────────────────────────────────────
+
+:host([disabled]) .html-editor-content,
+:host([readonly]) .html-editor-content {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

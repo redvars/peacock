@@ -1,73 +1,25 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 ---
 
-<wc-card>
-  <pc-card-content>
-    <wc-checkbox id="disableEditor">Disable editor</goat-checkbox>
-    <wc-checkbox id="readonlyEditor">Read-only editor</goat-checkbox>
-    <goat-html-editor id="html-editor" style="height: 300px"></goat-html-editor>
-    <script is:inline>
+<wc-checkbox id="disableEditor">Disable editor</wc-checkbox>
+<wc-checkbox id="readonlyEditor">Read-only editor</wc-checkbox>
 
-      document.getElementById('html-editor').mentionsSearch = "managed";
-      document.getElementById('html-editor').mentions = [
-        {
-          label: 'Jennifer Grey',
-          value: 'jennifer-grey'
-        },
-        {
-          label: 'Winona Ryder',
-          value: 'winona-ryder'
-        },
-        {
-          label: 'Axl Rose',
-          value: 'axl-rose'
-        },
-        {
-          label: 'Christina Applegate',
-          value: 'christina-applegate'
-        }
-      ];
-      document.getElementById('html-editor').value = `<p>Hi everyone! <strong>Don’t forget the daily stand up at 8 AM.</strong></p>
-<p></p>
-<p><span class="mention" data-type="mention" data-id="Jennifer Grey">@Jennifer Grey</span> Would you mind to share what
-    you’ve been working on lately? We fear not much happened since Dirty Dancing.</p>
-<p></p>
-<p><span class="mention" data-type="mention" data-id="Winona Ryder">@Winona Ryder</span> <span class="mention"
-        data-type="mention" data-id="Axl Rose">@Axl Rose</span> Let’s go through your most important points quickly.</p>
-<p></p>
-<p>I have a meeting with <span class="mention" data-type="mention" data-id="Christina Applegate">@Christina
-        Applegate</span> and don’t want to come late.</p>
-<p></p>
-<p>– Thanks, your big boss</p>`;
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    id="html-editor"
+    label="Message"
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    document.getElementById('html-editor').value = `<p>Hi everyone! <strong>Don't forget the daily stand-up at 8 AM.</strong></p>
+<p>Please review the tasks assigned to you before the meeting.</p>`;
 
-      document.querySelector('#disableEditor').addEventListener('goat-checkbox--change', function (evt) {
-        document.getElementById('html-editor').disabled = evt.target.value;
-      });
-      document.querySelector('#readonlyEditor').addEventListener('goat-checkbox--change', function (evt) {
-        document.getElementById('html-editor').readonly = evt.target.value;
-      });
-
-      document.querySelector('#disableEditor').addEventListener('goat-checkbox--change', function (evt) {
-        document.getElementById('html-editor').disabled = evt.target.value;
-      });
-
-      document.getElementById('html-editor').addEventListener('goat-html-editor--search', function (evt) {
-        evt.detail.callback([{
-          label: 'Jennifer Grey',
-          value: 'jennifer-grey'
-        }]);
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'html'}>
-    <goat-html-editor id="html-editor" style="height: 300px"></goat-html-editor>
-    </Highlighter>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw> document.getElementById('html-editor').value =
-    "<b>Hello world</b>";
-        </Highlighter>
-  </pc-card-content>
-</wc-card>
+    document.querySelector('#disableEditor').addEventListener('change', function (evt) {
+      document.getElementById('html-editor').disabled = evt.target.value;
+    });
+    document.querySelector('#readonlyEditor').addEventListener('change', function (evt) {
+      document.getElementById('html-editor').readonly = evt.target.value;
+    });
+  </script>
+</DemoComponentCard>
