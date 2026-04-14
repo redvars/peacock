@@ -39,6 +39,7 @@ export { Menu, MenuItem, SubMenu } from './menu/index.js';
 
 export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
+export { HtmlEditor } from './html-editor/index.js';
 export { Image } from './image/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
