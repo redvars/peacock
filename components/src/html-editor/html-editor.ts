@@ -265,7 +265,9 @@ export class HtmlEditor extends BaseInput {
           @blur=${this._handleBlur}
         ></div>
 
-        ${this.disabled || this.readonly
+        ${this.disabled
+          ? html`<wc-tag class="read-only-tag" color="red">Disabled</wc-tag>`
+          : this.readonly
           ? html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`
           : nothing}
       </wc-field>
