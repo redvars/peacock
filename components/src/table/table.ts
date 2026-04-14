@@ -218,7 +218,7 @@ export class Table extends LitElement {
   }
 
   private getTotalItems(): number {
-    if (this.paginate && !this.managed) return this.data.length;
+    if (this.paginate && !this.managed && this.data) return this.data.length;
     return this.totalItems ?? 0;
   }
 
@@ -468,7 +468,7 @@ export class Table extends LitElement {
       <div class=${classMap(tableClasses)}>
         <div class="table-scroll-container" @scroll=${this.onScrollContainer}>
           ${this.renderHeader()}
-          ${this.data.length ? this.renderBody() : this.renderEmptyState()}
+          ${this.data && this.data.length ? this.renderBody() : this.renderEmptyState()}
         </div>
         <div class="table-footer">${this.renderPagination()}</div>
       </div>
