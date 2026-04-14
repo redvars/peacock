@@ -74,7 +74,7 @@ menus, checkboxes, and radio buttons.
 | Date time picker                                                    | datetime-picker | 🔴    |
 | [Field / Form control](https://peacock.redvars.com/components/field) | wc-field       | 🟡    |
 | File picker                                                         | file-picker     | 🔴    |
-| HTML editor                                                         | html-editor     | 🔴    |
+| [HTML editor](https://peacock.redvars.com/components/html-editor)   | wc-html-editor  | 🟡    |
 | [Input](https://peacock.redvars.com/components/input)               | wc-input        | 🟢    |
 | Input URL                                                           | input-url       | 🔴    |
 | Month picker                                                        | month-picker    | 🔴    |

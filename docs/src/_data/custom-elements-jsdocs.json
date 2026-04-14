@@ -8238,6 +8238,22 @@
       "members": [
         {
           "kind": "field",
+          "name": "_editor",
+          "type": {
+            "text": "Editor | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_changeTimeout",
+          "type": {
+            "text": "number | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
           "name": "value",
           "type": {
             "text": "any | undefined"
@@ -8312,12 +8328,81 @@
         },
         {
           "kind": "field",
+          "name": "showToolbar",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether toolbar controls should be displayed in visual mode.",
+          "attribute": "show-toolbar"
+        },
+        {
+          "kind": "field",
+          "name": "mentions",
+          "type": {
+            "text": "Array<{ label: string; value: string }>"
+          },
+          "default": "[]",
+          "description": "Mention suggestions used by the mention extension.",
+          "attribute": "mentions"
+        },
+        {
+          "kind": "field",
+          "name": "mentionsSearch",
+          "type": {
+            "text": "'contains' | 'managed'"
+          },
+          "default": "'contains'",
+          "description": "Mention filtering mode.",
+          "attribute": "mentions-search"
+        },
+        {
+          "kind": "field",
+          "name": "suggestionCharacter",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Character that triggers mention suggestions.",
+          "attribute": "suggestion-character"
+        },
+        {
+          "kind": "field",
+          "name": "showSuggestionCharacter",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to include the suggestion character in rendered mention text.",
+          "attribute": "show-suggestion-character"
+        },
+        {
+          "kind": "field",
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "250",
+          "description": "Debounce in milliseconds for dispatching `change`.",
+          "attribute": "debounce"
+        },
+        {
+          "kind": "field",
           "name": "_focused",
           "type": {
             "text": "boolean"
           },
           "privacy": "private",
           "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_mode",
+          "type": {
+            "text": "'visual' | 'html'"
+          },
+          "privacy": "private",
+          "default": "'visual'"
         },
         {
           "kind": "field",
@@ -8329,18 +8414,12 @@
         },
         {
           "kind": "method",
-          "name": "_execCmd",
+          "name": "_normalizeHtml",
           "privacy": "private",
+          "static": true,
           "parameters": [
             {
-              "name": "command",
-              "type": {
-                "text": "string"
-              }
-            },
-            {
               "name": "value",
-              "optional": true,
               "type": {
                 "text": "string"
               }
@@ -8349,23 +8428,93 @@
         },
         {
           "kind": "method",
-          "name": "_handleInput",
+          "name": "_destroyEditor",
           "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "_handleFocus",
+          "name": "_initializeEditor",
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "_focusEditorOnContainerClick",
           "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "_handleBlur",
+          "name": "_dispatchDebouncedChange",
           "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "_insertLink",
-          "privacy": "private"
+          "name": "_requestManagedMentions",
+          "privacy": "private",
+          "return": {
+            "type": {
+              "text": "Promise<string[]>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "mentionQuery",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_getMentionItem",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_execCommand",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "command",
+              "type": {
+                "text": "() => void"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_switchMode",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "_handleSourceChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
@@ -8385,23 +8534,25 @@
               }
             },
             {
-              "name": "command",
+              "name": "action",
               "type": {
-                "text": "string"
+                "text": "() => void"
               }
             },
             {
-              "name": "value",
-              "optional": true,
-              "type": {
-                "text": "string"
-              }
+              "name": "active",
+              "default": "false"
             }
           ]
         },
         {
           "kind": "method",
           "name": "_renderToolbar",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_renderReadonlyTag",
           "privacy": "private"
         },
         {
@@ -8462,6 +8613,12 @@
         }
       ],
       "events": [
+        {
+          "name": "search",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
         {
           "type": {
             "text": "Event"
@@ -8533,6 +8690,60 @@
           "default": "''",
           "description": "Error message text.",
           "fieldName": "errorText"
+        },
+        {
+          "name": "show-toolbar",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether toolbar controls should be displayed in visual mode.",
+          "fieldName": "showToolbar"
+        },
+        {
+          "name": "mentions",
+          "type": {
+            "text": "Array<{ label: string; value: string }>"
+          },
+          "default": "[]",
+          "description": "Mention suggestions used by the mention extension.",
+          "fieldName": "mentions"
+        },
+        {
+          "name": "mentions-search",
+          "type": {
+            "text": "'contains' | 'managed'"
+          },
+          "default": "'contains'",
+          "description": "Mention filtering mode.",
+          "fieldName": "mentionsSearch"
+        },
+        {
+          "name": "suggestion-character",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Character that triggers mention suggestions.",
+          "fieldName": "suggestionCharacter"
+        },
+        {
+          "name": "show-suggestion-character",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "true",
+          "description": "Whether to include the suggestion character in rendered mention text.",
+          "fieldName": "showSuggestionCharacter"
+        },
+        {
+          "name": "debounce",
+          "type": {
+            "text": "number"
+          },
+          "default": "250",
+          "description": "Debounce in milliseconds for dispatching `change`.",
+          "fieldName": "debounce"
         },
         {
           "name": "disabled",

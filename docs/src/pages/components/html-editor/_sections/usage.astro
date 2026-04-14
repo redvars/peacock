@@ -9,17 +9,64 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
   <wc-html-editor
     id="html-editor"
     label="Message"
+    helper-text="Use Visual mode for formatting and HTML mode for source edits"
     style="display:block;"
   ></wc-html-editor>
   <script is:inline>
-    document.getElementById('html-editor').value = `<p>Hi everyone! <strong>Don't forget the daily stand-up at 8 AM.</strong></p>
-<p>Please review the tasks assigned to you before the meeting.</p>`;
+    const editor = document.getElementById('html-editor');
+
+    editor.value = `<p>Hi everyone! <strong>Don't forget the daily stand-up at 8 AM.</strong></p>
+<p>Please review the tasks assigned to you before the meeting.</p>
+<p>Ping @Alex if you need help.</p>`;
+
+    editor.mentions = [
+      { label: 'Alex', value: 'alex' },
+      { label: 'Pat', value: 'pat' },
+      { label: 'Jordan', value: 'jordan' },
+    ];
 
     document.querySelector('#disableEditor').addEventListener('change', function (evt) {
-      document.getElementById('html-editor').disabled = evt.target.value;
+      editor.disabled = evt.target.value;
     });
+
     document.querySelector('#readonlyEditor').addEventListener('change', function (evt) {
-      document.getElementById('html-editor').readonly = evt.target.value;
+      editor.readonly = evt.target.value;
+    });
+
+    editor.addEventListener('change', () => {
+      console.log('html-editor value changed:', editor.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  The editor includes a segmented switch for <strong>Visual</strong> and
+  <strong>HTML</strong> modes. Both modes stay in sync through the <code>value</code> property.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-html-editor
+    id="html-editor-managed"
+    label="Managed Mentions"
+    mentions-search="managed"
+    placeholder="Type @ to search managed mentions"
+    style="display:block;"
+  ></wc-html-editor>
+  <script is:inline>
+    const managedEditor = document.getElementById('html-editor-managed');
+
+    managedEditor.addEventListener('search', event => {
+      const query = (event.detail?.query || '').toLowerCase();
+      const callback = event.detail?.callback;
+      const directory = [
+        { label: 'Alex Morgan', value: 'alex.morgan' },
+        { label: 'Alicia Torres', value: 'alicia.torres' },
+        { label: 'Jordan Lee', value: 'jordan.lee' },
+        { label: 'Pat Kim', value: 'pat.kim' },
+      ];
+
+      const results = directory.filter(item => item.label.toLowerCase().includes(query));
+      callback?.(results);
     });
   </script>
 </DemoComponentCard>

@@ -1,9 +1,0 @@
-/*
- * Skeleton color for text and UI elements
- */
-@include defineThemeVariable(--skeleton-element, getColor(gray, 30), getColor(gray, 30), getColor(gray, 70), getColor(gray, 70));
-
-/*
- * Skeleton color for containers
- */
-@include defineThemeVariable(--skeleton-background, getColor(gray-hover, 10), getColor(gray-hover, 10), getColor(gray-hover, 80), getColor(gray-hover, 80));

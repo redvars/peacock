@@ -81,11 +81,6 @@
 }
 
 .logo-card .title {
-  font-family: "Pacifico", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
-  font-size: 2rem;
 
   border-top: .25rem solid var(--color-on-surface);
   text-align: center;
@@ -216,7 +211,14 @@ goat-text[type='code'] {
   transform: matrix(1, 0, 0, 1, 0, 0);
   transform-origin: 50% 100%;
   display: inline-block;
-  will-change: text-shadow, transform
+  will-change: text-shadow, transform;
+  margin: 0;
+
+  font-family: "Pacifico", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  font-size: 2rem;
 }
 
 .jumping-text.hover {
