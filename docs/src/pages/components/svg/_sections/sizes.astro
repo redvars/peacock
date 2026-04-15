@@ -1,6 +1,12 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
-  <pc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg' style='width: 2rem'></pc-svg>
-</HighlighterCard>
+
+<p class='text-body-large'>Control the rendered size using the <code class="text-code-block">--svg-size</code> CSS custom property.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg' style='--svg-size: 1rem;'></wc-svg>
+  <wc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg' style='--svg-size: 2rem;'></wc-svg>
+  <wc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg' style='--svg-size: 3rem;'></wc-svg>
+  <wc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg' style='--svg-size: 4rem;'></wc-svg>
+</DemoComponentCard>

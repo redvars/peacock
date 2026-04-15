@@ -49,6 +49,7 @@ import { Spinner } from './spinner/spinner.js';
 import { EmptyState } from './empty-state/empty-state.js';
 import { Container } from './container/container.js';
 import { Image } from './image/image.js';
+import { Svg } from './svg/svg.js';
 
 import { LoaderConfig, LoaderUtils } from './LoaderUtils.js';
 import { loadCSS } from './CssLoader.js';
@@ -292,6 +293,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-image': {
       CustomElementClass: Image,
+    },
+    'wc-svg': {
+      CustomElementClass: Svg,
     },
     'wc-slider': {
       CustomElementClass: Slider,
