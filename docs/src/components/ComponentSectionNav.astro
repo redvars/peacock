@@ -35,7 +35,7 @@ const { sections, title } = Astro.props;
     <script is:inline>
       (adsbygoogle = window.adsbygoogle || []).push({});
       const interval = window.setInterval(() => {
-        if (window.document.documentElement.classList.contains('hydrated')) {
+        if (window.document.documentElement.classList.contains('hydrated') || true) {
           window.clearInterval(interval);
 
           setTimeout(function () {
