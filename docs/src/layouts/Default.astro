@@ -15,7 +15,7 @@ import site from '../_data/site.json';
 import componentsDetails from '../_data/custom-elements-jsdocs.json';
 import '../styles/default.layout.scss';
 
-const searchItems = componentsDetails.components.map(component => ({
+const searchItems = componentsDetails.map(component => ({
   label: component.label,
   value: component.rawTag
 }));
