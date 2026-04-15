@@ -29,7 +29,7 @@
             "text": "'default' | 'flat'"
           },
           "default": "'default'",
-          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes \u2014 suitable for use inside cards.",
           "attribute": "display-mode",
           "reflects": true
         },
@@ -89,7 +89,7 @@
             "text": "'default' | 'flat'"
           },
           "default": "'default'",
-          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes \u2014 suitable for use inside cards.",
           "fieldName": "displayMode"
         }
       ],
@@ -6422,7 +6422,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40\u00d740dp).\n`\"md\"` renders a standard FAB (56\u00d756dp). This is the default.\n`\"lg\"` renders a large FAB (96\u00d796dp).",
           "attribute": "size",
           "reflects": true
         },
@@ -6842,7 +6842,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40\u00d740dp).\n`\"md\"` renders a standard FAB (56\u00d756dp). This is the default.\n`\"lg\"` renders a large FAB (96\u00d796dp).",
           "fieldName": "size"
         },
         {
@@ -11635,7 +11635,7 @@
     "tag": "wc-navigation-rail",
     "rawTag": "navigation-rail",
     "summary": "A vertical side navigation for medium-sized screens, following Material Design 3 specs.",
-    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
+    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons\u2014with or without labels\u2014on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3\u20137 destinations.</p>",
     "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
     "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\">home</wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">search</wc-icon>\n    Search\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">settings</wc-icon>\n    Settings\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
     "tags": "navigation",
@@ -20515,6 +20515,104 @@
       "summary": "A field for entering and displaying URLs with validation.",
       "rawTag": {
         "name": "url-field",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "SVG",
+    "tag": "wc-svg",
+    "rawTag": "svg",
+    "summary": "An SVG component with lazy loading and optional preview support.",
+    "overview": "<p>Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.</p>",
+    "example": "```html\n<wc-svg src=\"/icons/my-icon.svg\" image-title=\"My icon\"></wc-svg>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Svg",
+      "members": [
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the SVG asset to fetch and render inline.",
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "imageTitle",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible title / alt text for the SVG.",
+          "attribute": "image-title"
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox.",
+          "attribute": "preview",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the SVG asset to fetch and render inline.",
+          "fieldName": "src"
+        },
+        {
+          "name": "image-title",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible title / alt text for the SVG.",
+          "fieldName": "imageTitle"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox.",
+          "fieldName": "preview"
+        }
+      ],
+      "cssProperties": [
+        {
+          "name": "--svg-color",
+          "description": "Controls the fill color of the SVG."
+        },
+        {
+          "name": "--svg-size",
+          "description": "Controls the size of the SVG. Defaults to \"1rem\".",
+          "default": "1rem"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-svg",
+      "customElement": true,
+      "summary": "An SVG component with lazy loading and optional preview support.",
+      "rawTag": {
+        "name": "svg",
         "description": ""
       }
     }

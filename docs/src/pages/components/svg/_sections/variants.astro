@@ -1,15 +1,16 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<HighlighterCard lang={'html'}>
 
-<pc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="color: var(--color-primary)"></pc-svg>
-<pc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="color: var(--color-success)"></pc-svg>
-<pc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="color: var(--color-warning)"></pc-svg>
-<pc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="color: var(--color-error)"></pc-svg>
+<p class='text-body-large'>Use the <code class="text-code-block">--svg-color</code> CSS custom property or the inherited <code class="text-code-block">color</code> to tint an SVG. The color cascades from a parent element when not set explicitly.</p>
 
-<span style="color: pink">
-  <pc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg"></pc-svg>
-</span>
+<DemoComponentCard lang={'html'} inline>
+  <wc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="--svg-size: 2rem; --svg-color: var(--color-primary)"></wc-svg>
+  <wc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="--svg-size: 2rem; --svg-color: var(--color-success)"></wc-svg>
+  <wc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="--svg-size: 2rem; --svg-color: var(--color-warning)"></wc-svg>
+  <wc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="--svg-size: 2rem; --svg-color: var(--color-error)"></wc-svg>
 
-</HighlighterCard>
+  <span style="color: pink; display: inline-flex;">
+    <wc-svg src="https://icons.getbootstrap.com/assets/icons/bug.svg" style="--svg-size: 2rem;"></wc-svg>
+  </span>
+</DemoComponentCard>

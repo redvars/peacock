@@ -1,8 +1,19 @@
 ---
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p class='text-body-large'>Fancy larger or smaller icons? Add size attribute for additional sizes.</p>
 
-<HighlighterCard lang={'html'}>
-  <pc-svg src='https://icons.getbootstrap.com/assets/icons/bug.svg'></pc-svg>
-</HighlighterCard>
+<p class='text-body-large'>Provide a URL to any SVG file via the <code class="text-code-block">src</code> attribute. The SVG is fetched, sanitized, and rendered inline. Use <code class="text-code-block">image-title</code> for accessible alt text and <code class="text-code-block">preview</code> to enable a click-to-enlarge lightbox.</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-svg
+    src='https://icons.getbootstrap.com/assets/icons/bug.svg'
+    image-title='Bug icon'
+    style='--svg-size: 2rem;'
+  ></wc-svg>
+  <wc-svg
+    src='https://icons.getbootstrap.com/assets/icons/heart-fill.svg'
+    image-title='Heart icon'
+    style='--svg-size: 2rem; --svg-color: var(--color-error);'
+    preview
+  ></wc-svg>
+</DemoComponentCard>
