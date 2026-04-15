@@ -1,0 +1,91 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+  --svg-size: inherit;
+  --svg-color: inherit;
+}
+
+.svg-wrapper {
+  height: var(--svg-size, 1rem);
+  width: var(--svg-size, 1rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-content {
+  height: 100%;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    fill: var(--svg-color);
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.svg-content.clickable {
+  cursor: zoom-in;
+}
+
+.placeholder {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.preview-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.preview-overlay.open {
+  display: flex;
+}
+
+.preview-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+.preview-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+
+  svg {
+    max-width: 90vw;
+    max-height: 90vh;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 4px;
+  }
+}
