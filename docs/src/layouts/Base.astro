@@ -61,9 +61,6 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
   <!-- GoatUI scripts -->
   <script type='module' src={envProps.script}></script>
 
-  <script type='module' src='/assets/goatui-dev/build/peacock.esm.js'></script>
-  <link rel='stylesheet' href='/assets/goatui-dev/build/assets/styles/theme.css'/>
-
   <!--<script type='module' define:vars={{ envProps }}>
     if (!window.customElements.get('wc-icon')) {
       import(envProps.fallbackScript);
@@ -81,7 +78,7 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
 
 <slot />
 
-<pc-notification-manager position='bottom-right'></pc-notification-manager>
+<wc-notification-manager position='bottom-right'></wc-notification-manager>
 
 <slot name='page-end'/>
 

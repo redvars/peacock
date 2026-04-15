@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@redvars/peacock-design-tokens": "^0.0.1",
-    "d3": "7.9.0"
-  },
-  "devDependencies": {
-    "@wc-toolkit/jsdoc-tags": "^1.1.0"
-  }
-}
