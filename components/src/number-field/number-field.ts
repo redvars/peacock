@@ -10,8 +10,8 @@ import styles from './number-field.scss';
 
 /**
  * @label Number Field
- * @tag number-field
- * @rawTag number
+ * @tag wc-number-field
+ * @rawTag number-field
  *
  * @summary The Number Field component is used to capture numeric user input.
  *

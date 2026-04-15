@@ -2,8 +2,6 @@
 import Layout from '../layouts/Default.astro';
 import ComponentCard from '../components/ComponentCard.astro';
 import '../styles/components.page.scss';
-import componentsDetails from '../_data/componentsDetails.json';
-
 
 
 import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
@@ -39,32 +37,6 @@ const description = 'The overview page is the first page you see when you visit 
                 return;
               }
               return <WebComponentCard component={component}></WebComponentCard>
-            })
-          }
-        </div>
-
-        <h2 class='up-coming-title text-headline'>Old stencil components</h2>
-
-        <div class='cards up-coming'>
-          {
-            componentsDetails.components.map((component) => {
-              if (component.metadata.name && !component.metadata.childComponent && component.metadata.category != 'Up coming') {
-                return (
-                  <ComponentCard component={component}></ComponentCard>);
-              }
-            })
-          }
-        </div>
-
-        <h2 class='up-coming-title text-headline'>Upcoming</h2>
-
-        <div class='cards up-coming'>
-          {
-            componentsDetails.components.map((component) => {
-              if (component.metadata.name && !component.metadata.childComponent && component.metadata.category == 'Up coming') {
-                return (
-                  <ComponentCard component={component} />);
-              }
             })
           }
         </div>

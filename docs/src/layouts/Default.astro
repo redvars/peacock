@@ -12,12 +12,12 @@ const { title, root, description, keywords, classes } = Astro.props;
 
 import Layout from './Base.astro';
 import site from '../_data/site.json';
-import componentsDetails from '../_data/componentsDetails.json';
+import componentsDetails from '../_data/custom-elements-jsdocs.json';
 import '../styles/default.layout.scss';
 
 const searchItems = componentsDetails.components.map(component => ({
-  label: component.metadata.label,
-  value: component.metadata.name
+  label: component.label,
+  value: component.rawTag
 }));
 ---
 

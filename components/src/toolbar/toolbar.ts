@@ -33,10 +33,10 @@ import colorStyles from './toolbar-colors.scss';
  * ```html
  * <!-- Docked toolbar -->
  * <wc-toolbar>
- *   <wc-icon-button variant="text"><wc-icon name="home"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface"><wc-icon name="home"></wc-icon></wc-icon-button>
  *   <wc-icon-button variant="tonal"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="favorite"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="account_circle"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface"><wc-icon name="favorite"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface"><wc-icon name="account_circle"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
  *

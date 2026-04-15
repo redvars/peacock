@@ -171,7 +171,7 @@ export class CodeHighlighter extends LitElement {
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
             <wc-icon-button
-              color="dark"
+              color="surface"
               variant="text"
               size="xs"
               aria-label=${locale.copyToClipboard}
