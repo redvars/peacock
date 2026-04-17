@@ -37,6 +37,7 @@ export { Tooltip } from './popover/index.js';
 export { Popover, PopoverContent } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 export { Menu, MenuItem, SubMenu } from './menu/index.js';
+export { List, ListItem } from './list/index.js';
 
 export { CodeHighlighter } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
@@ -85,4 +86,3 @@ export type {
   NodeTemplate,
 } from './flow-designer/index.js';
 export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider } from './condition-builder/index.js';
-

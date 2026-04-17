@@ -1,0 +1,113 @@
+@use "../../scss/mixin";
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  padding-inline: var(--spacing-050);
+}
+
+.item-element {
+  position: relative;
+  min-height: 3.5rem;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  background: transparent;
+  text-align: initial;
+  text-decoration: none;
+  cursor: pointer;
+
+  @include mixin.get-typography(body-large);
+
+  .list-item-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-height: 3.5rem;
+    padding-inline: var(--spacing-200);
+    color: var(--_label-text-color);
+    opacity: var(--_label-text-opacity, 1);
+  }
+
+  .leading,
+  .trailing {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    color: var(--_leading-trailing-color);
+  }
+
+  .trailing {
+    margin-inline-start: auto;
+  }
+
+  .content {
+    display: block;
+    flex: 1;
+    min-inline-size: 0;
+  }
+
+  .background {
+    position: absolute;
+    inset: 0;
+    background-color: var(--_container-color);
+    opacity: var(--_container-opacity, 1);
+    border-radius: var(--shape-corner-medium);
+    pointer-events: none;
+  }
+
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-medium);
+    --focus-ring-container-shape-start-end: var(--shape-corner-medium);
+    --focus-ring-container-shape-end-start: var(--shape-corner-medium);
+    --focus-ring-container-shape-end-end: var(--shape-corner-medium);
+    z-index: 2;
+  }
+
+  .ripple {
+    --ripple-state-opacity: var(--_container-state-opacity, 0);
+    --ripple-pressed-color: var(--_container-state-color);
+    border-radius: var(--shape-corner-medium);
+  }
+}
+
+.item-element {
+  --_container-color: transparent;
+  --_label-text-color: var(--color-on-surface);
+  --_leading-trailing-color: var(--color-on-surface-variant);
+  --_container-state-color: var(--color-on-surface);
+
+  &:hover:not(:where(.disabled, .selected)) {
+    --_container-state-opacity: 0.08;
+  }
+
+  &.pressed:not(:where(.disabled)) {
+    --_container-state-opacity: 0.12;
+  }
+
+  &.selected {
+    --_container-color: var(--color-secondary-container);
+    --_label-text-color: var(--color-on-secondary-container);
+    --_leading-trailing-color: var(--color-on-secondary-container);
+    --_container-state-color: var(--color-on-secondary-container);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    --_label-text-color: var(--color-on-surface);
+    --_label-text-opacity: 0.38;
+    --_leading-trailing-color: var(--color-on-surface);
+    --_container-opacity: 0.12;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
