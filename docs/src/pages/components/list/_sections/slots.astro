@@ -1,0 +1,18 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  <code>wc-list-item</code> supports <code>leading</code>, default content, and
+  <code>trailing</code> slots.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-list style='width: min(100%, 28rem);'>
+    <wc-list-item>
+      <wc-icon slot='leading' name='person'></wc-icon>
+      Profile settings
+      <wc-icon slot='trailing' name='chevron_right'></wc-icon>
+    </wc-list-item>
+  </wc-list>
+</DemoComponentCard>

@@ -1,0 +1,27 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-list style='width: min(100%, 28rem);'>
+    <wc-list-item selected>
+      <wc-icon slot='leading' name='inbox'></wc-icon>
+      Inbox
+      <span slot='trailing'>24</span>
+    </wc-list-item>
+    <wc-list-item>
+      <wc-icon slot='leading' name='star'></wc-icon>
+      Starred
+      <span slot='trailing'>7</span>
+    </wc-list-item>
+    <wc-list-item>
+      <wc-icon slot='leading' name='send'></wc-icon>
+      Sent
+      <wc-icon slot='trailing' name='chevron_right'></wc-icon>
+    </wc-list-item>
+    <wc-list-item disabled>
+      <wc-icon slot='leading' name='delete'></wc-icon>
+      Trash (Disabled)
+    </wc-list-item>
+  </wc-list>
+</DemoComponentCard>

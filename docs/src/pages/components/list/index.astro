@@ -1,0 +1,37 @@
+---
+import Layout from '../../../layouts/LitComponent.astro';
+import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
+import ApiPanel from '../../../components/LitApiPanel.astro';
+import OverviewPanel from '../../../components/OverviewPanel.astro';
+
+import UsageSection from './_sections/usage.astro';
+import SlotsSection from './_sections/slots.astro';
+
+const componentDetails = getComponentDetails('list');
+
+const sections = [
+  {
+    'title': 'Usage',
+    'Component': UsageSection,
+  },
+  {
+    'title': 'Slots',
+    'Component': SlotsSection,
+  },
+];
+---
+
+<Layout componentDetails={componentDetails}>
+  <wc-tab-group class='page-tabs'>
+    <wc-tabs>
+      <wc-tab selected='true'>Overview</wc-tab>
+      <wc-tab>API</wc-tab>
+    </wc-tabs>
+    <wc-tab-panel>
+      <OverviewPanel sections={sections} />
+    </wc-tab-panel>
+    <wc-tab-panel>
+      <ApiPanel componentDetails={componentDetails} />
+    </wc-tab-panel>
+  </wc-tab-group>
+</Layout>

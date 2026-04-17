@@ -30,6 +30,8 @@ import { Radio } from './radio/radio.js';
 import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
 import { SubMenu } from './menu/sub-menu/sub-menu.js';
+import { List } from './list/list.js';
+import { ListItem } from './list/list-item.js';
 
 import { Accordion } from './accordion/accordion.js';
 import { Link } from './link/link.js';
@@ -287,6 +289,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-sub-menu': {
       CustomElementClass: SubMenu,
+    },
+    'wc-list': {
+      CustomElementClass: List,
+    },
+    'wc-list-item': {
+      CustomElementClass: ListItem,
     },
     'wc-container': {
       CustomElementClass: Container,

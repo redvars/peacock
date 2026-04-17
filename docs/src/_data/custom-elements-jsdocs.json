@@ -29,7 +29,7 @@
             "text": "'default' | 'flat'"
           },
           "default": "'default'",
-          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes \u2014 suitable for use inside cards.",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
           "attribute": "display-mode",
           "reflects": true
         },
@@ -89,7 +89,7 @@
             "text": "'default' | 'flat'"
           },
           "default": "'default'",
-          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes \u2014 suitable for use inside cards.",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
           "fieldName": "displayMode"
         }
       ],
@@ -6422,7 +6422,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40\u00d740dp).\n`\"md\"` renders a standard FAB (56\u00d756dp). This is the default.\n`\"lg\"` renders a large FAB (96\u00d796dp).",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
           "attribute": "size",
           "reflects": true
         },
@@ -6842,7 +6842,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40\u00d740dp).\n`\"md\"` renders a standard FAB (56\u00d756dp). This is the default.\n`\"lg\"` renders a large FAB (96\u00d796dp).",
+          "description": "The size of the FAB.\n`\"sm\"` renders a small FAB (40×40dp).\n`\"md\"` renders a standard FAB (56×56dp). This is the default.\n`\"lg\"` renders a large FAB (96×96dp).",
           "fieldName": "size"
         },
         {
@@ -8211,11 +8211,11 @@
     "label": "HTML Editor",
     "tag": "wc-html-editor",
     "rawTag": "html-editor",
-    "summary": "A WYSIWYG HTML editor component with a Material 3 styled toolbar.",
-    "overview": "<p>The HTML Editor provides a rich-text editing experience using the browser's built-in\n<code>contenteditable</code> API. It wraps the editable area in a Material 3 styled\n<code>wc-field</code> and exposes a toolbar with common formatting actions.</p>\n\n<p>Get and set the HTML content via the <code>value</code> property. The component\ndispatches a <code>change</code> event whenever the content is modified.</p>",
+    "summary": "A Tiptap-powered HTML editor with visual and source editing modes.",
+    "overview": "<p>The HTML Editor provides a rich-text editing experience built on Tiptap.\nIt wraps the editable area in a Material 3 styled <code>wc-field</code>,\nexposes common formatting actions, and includes a segmented switch between\n<strong>Visual</strong> and <strong>HTML</strong> source modes.</p>\n\n<p>Get and set the HTML content via the <code>value</code> property. The component\ndispatches a <code>change</code> event whenever the content is modified.\nMention suggestions are supported through the <code>mentions</code> property,\nwith optional externally managed lookup via the <code>search</code> event.</p>",
     "cssprop": "--html-editor-toolbar-border-color - Border color between toolbar and editing area.",
-    "fires": "change - Fired whenever the editable content changes.",
-    "example": "```html\n<wc-html-editor label=\"Description\" value=\"<p>Hello <strong>world</strong></p>\"></wc-html-editor>\n```",
+    "fires": "search - Fired in managed mention mode with { query, callback } detail.",
+    "example": "```html\n<wc-html-editor\n  label=\"Description\"\n  value=\"<p>Hello <strong>world</strong></p>\"\n  .mentions=\"[{ label: 'Alex', value: 'alex' }]\"\n></wc-html-editor>\n```",
     "tags": "input editor",
     "customElement": {
       "kind": "class",
@@ -8617,7 +8617,8 @@
           "name": "search",
           "type": {
             "text": "CustomEvent"
-          }
+          },
+          "description": "Fired in managed mention mode with { query, callback } detail."
         },
         {
           "type": {
@@ -8800,7 +8801,7 @@
       },
       "tagName": "wc-html-editor",
       "customElement": true,
-      "summary": "A WYSIWYG HTML editor component with a Material 3 styled toolbar.",
+      "summary": "A Tiptap-powered HTML editor with visual and source editing modes.",
       "rawTag": {
         "name": "html-editor",
         "description": ""
@@ -10694,6 +10695,463 @@
     }
   },
   {
+    "label": "List",
+    "tag": "wc-list",
+    "rawTag": "list",
+    "summary": "A Material 3 list container for one or more list items.",
+    "example": "```html\n<wc-list>\n  <wc-list-item>\n    <wc-icon slot=\"leading\" name=\"inbox\"></wc-icon>\n    Inbox\n    <span slot=\"trailing\">24</span>\n  </wc-list-item>\n</wc-list>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "List",
+      "members": [
+        {
+          "kind": "field",
+          "name": "Item",
+          "static": true,
+          "default": "ListItem"
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "attribute": "variant",
+          "reflects": true
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'vibrant'"
+          },
+          "default": "'standard'",
+          "fieldName": "variant"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-list",
+      "customElement": true,
+      "summary": "A Material 3 list container for one or more list items.",
+      "rawTag": {
+        "name": "list",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "List Item",
+    "tag": "wc-list-item",
+    "rawTag": "list-item",
+    "parentRawTag": "list",
+    "summary": "A Material 3 list item with leading, trailing and content slots.",
+    "example": "```html\n<wc-list-item selected>\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\n  Profile\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n</wc-list-item>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ListItem",
+      "members": [
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "itemElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "field",
+          "name": "__handleKeyDown"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "renderContent"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "attribute": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "attribute": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "attribute": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "attribute": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected"
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "fieldName": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "fieldName": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "fieldName": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "BaseButtonMixin",
+          "package": "@/__mixins/BaseButtonMixin.js"
+        },
+        {
+          "name": "BaseHyperlinkMixin",
+          "package": "@/__mixins/BaseHyperlinkMixin.js"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-list-item",
+      "customElement": true,
+      "summary": "A Material 3 list item with leading, trailing and content slots.",
+      "rawTag": {
+        "name": "list-item",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Menu",
     "tag": "wc-menu",
     "rawTag": "menu",
@@ -11846,7 +12304,7 @@
     "tag": "wc-navigation-rail",
     "rawTag": "navigation-rail",
     "summary": "A vertical side navigation for medium-sized screens, following Material Design 3 specs.",
-    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons\u2014with or without labels\u2014on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3\u20137 destinations.</p>",
+    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
     "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
     "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\">home</wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">search</wc-icon>\n    Search\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">settings</wc-icon>\n    Settings\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
     "tags": "navigation",
@@ -12758,8 +13216,8 @@
   },
   {
     "label": "Number Field",
-    "tag": "number-field",
-    "rawTag": "number",
+    "tag": "wc-number-field",
+    "rawTag": "number-field",
     "summary": "The Number Field component is used to capture numeric user input.",
     "example": "```html\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\n```",
     "customElement": {
@@ -13264,11 +13722,11 @@
         "name": "BaseInput",
         "module": "/src/input/BaseInput.js"
       },
-      "tagName": "number-field",
+      "tagName": "wc-number-field",
       "customElement": true,
       "summary": "The Number Field component is used to capture numeric user input.",
       "rawTag": {
-        "name": "number",
+        "name": "number-field",
         "description": ""
       }
     }
@@ -17215,6 +17673,178 @@
     }
   },
   {
+    "label": "SVG",
+    "tag": "wc-svg",
+    "rawTag": "svg",
+    "summary": "An SVG component with lazy loading and optional preview support.",
+    "overview": "Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.",
+    "cssprop": "[--svg-size=1rem] - Controls the size of the SVG. Defaults to \"1rem\"",
+    "example": "```html\n<wc-svg src=\"/icons/my-icon.svg\" image-title=\"My icon\"></wc-svg>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Svg",
+      "cssProperties": [
+        {
+          "description": "Controls the fill color of the SVG.",
+          "name": "--svg-color"
+        },
+        {
+          "description": "Controls the size of the SVG. Defaults to \"1rem\"",
+          "name": "--svg-size",
+          "default": "1rem"
+        }
+      ],
+      "members": [
+        {
+          "kind": "field",
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the SVG asset to fetch and render inline.",
+          "attribute": "src",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "imageTitle",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible title / alt text for the SVG.",
+          "attribute": "image-title"
+        },
+        {
+          "kind": "field",
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox.",
+          "attribute": "preview",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "_loaded",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_previewOpen",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_svgContent",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "private",
+          "default": "''"
+        },
+        {
+          "kind": "field",
+          "name": "_fetchId",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "default": "0"
+        },
+        {
+          "kind": "field",
+          "name": "_intersectionObserver",
+          "type": {
+            "text": "IntersectionObserver | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "method",
+          "name": "_setupIntersectionObserver",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_fetchSvg",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_handleClick",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_closePreview",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "e",
+              "type": {
+                "text": "Event"
+              }
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "name": "src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the SVG asset to fetch and render inline.",
+          "fieldName": "src"
+        },
+        {
+          "name": "image-title",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible title / alt text for the SVG.",
+          "fieldName": "imageTitle"
+        },
+        {
+          "name": "preview",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Enable click-to-preview lightbox.",
+          "fieldName": "preview"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-svg",
+      "customElement": true,
+      "summary": "An SVG component with lazy loading and optional preview support.",
+      "rawTag": {
+        "name": "svg",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Switch",
     "tag": "wc-switch",
     "rawTag": "switch",
@@ -20726,104 +21356,6 @@
       "summary": "A field for entering and displaying URLs with validation.",
       "rawTag": {
         "name": "url-field",
-        "description": ""
-      }
-    }
-  },
-  {
-    "label": "SVG",
-    "tag": "wc-svg",
-    "rawTag": "svg",
-    "summary": "An SVG component with lazy loading and optional preview support.",
-    "overview": "<p>Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.</p>",
-    "example": "```html\n<wc-svg src=\"/icons/my-icon.svg\" image-title=\"My icon\"></wc-svg>\n```",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "name": "Svg",
-      "members": [
-        {
-          "kind": "field",
-          "name": "src",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "URL of the SVG asset to fetch and render inline.",
-          "attribute": "src",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "imageTitle",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Accessible title / alt text for the SVG.",
-          "attribute": "image-title"
-        },
-        {
-          "kind": "field",
-          "name": "preview",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Enable click-to-preview lightbox.",
-          "attribute": "preview",
-          "reflects": true
-        }
-      ],
-      "attributes": [
-        {
-          "name": "src",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "URL of the SVG asset to fetch and render inline.",
-          "fieldName": "src"
-        },
-        {
-          "name": "image-title",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Accessible title / alt text for the SVG.",
-          "fieldName": "imageTitle"
-        },
-        {
-          "name": "preview",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Enable click-to-preview lightbox.",
-          "fieldName": "preview"
-        }
-      ],
-      "cssProperties": [
-        {
-          "name": "--svg-color",
-          "description": "Controls the fill color of the SVG."
-        },
-        {
-          "name": "--svg-size",
-          "description": "Controls the size of the SVG. Defaults to \"1rem\".",
-          "default": "1rem"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-svg",
-      "customElement": true,
-      "summary": "An SVG component with lazy loading and optional preview support.",
-      "rawTag": {
-        "name": "svg",
         "description": ""
       }
     }
