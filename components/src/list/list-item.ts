@@ -155,7 +155,7 @@ export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
 
   renderContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple"></wc-ripple>
 
@@ -173,4 +173,3 @@ export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
     `;
   }
 }
-

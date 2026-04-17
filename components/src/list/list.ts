@@ -49,4 +49,3 @@ export class List extends LitElement {
     `;
   }
 }
-
