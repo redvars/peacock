@@ -1,10 +1,13 @@
-import { html, LitElement, nothing } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { html, nothing } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
 import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import { spread } from '@/__directive/spread.js';
+import { BaseButton } from '@/button/BaseButton.js';
 
 /**
  * @label Chip
@@ -18,7 +21,7 @@ import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
  * <wc-chip>Chip content</wc-chip>
  * ```
  */
-export class Chip extends BaseHyperlinkMixin(LitElement) {
+export class Chip extends BaseButton {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
   // You would typically import your tag.scss.js here or use the css tag
   static styles = [styles, sizeStyles];
@@ -26,19 +29,23 @@ export class Chip extends BaseHyperlinkMixin(LitElement) {
   /** If true, the tag will have a close icon. */
   @property({ type: Boolean }) dismissible = false;
 
-  @property({ type: Boolean, reflect: true })
-  actionable: boolean = false;
-
-  /** Tag value. */
-  @property({ type: String, reflect: true }) value = '';
-
-  /** If true, the tag will be selected. */
-  @property({ type: Boolean, reflect: true }) selected = false;
-
-  /** Image source. */
-  @property({ type: String }) imageSrc?: string;
+  /**
+   * Additional ARIA attributes to pass to the inner button/anchor element.
+   */
+  @property({ reflect: true })
+  configAria?: { [key: string]: any };
 
   @state() private _hasIconSlotContent = false;
+
+  @state() private _isPressed = false;
+
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
 
   override firstUpdated() {
     observerSlotChangesWithCallback(
@@ -64,8 +71,9 @@ export class Chip extends BaseHyperlinkMixin(LitElement) {
     );
   }
 
+
   private _renderCloseButton() {
-    if (!this.dismissible) return null;
+    if (!this.dismissible) return nothing;
 
     return html`
       <button
@@ -78,28 +86,78 @@ export class Chip extends BaseHyperlinkMixin(LitElement) {
     `;
   }
 
+  
+
   render() {
-    const classes = {
+    const cssClasses = {
       chip: true,
+      button: true,
       selected: this.selected,
       dismissible: this.dismissible,
+      pressed: this._isPressed,
       'icon-slot-has-content': this._hasIconSlotContent,
     };
 
-    return html`
-      <div class="${classMap(classes)}">
-        <wc-elevation class="elevation"></wc-elevation>
-        <div class="background"></div>
-        <div class="outline"></div>cccccdderedrktiikbggjhhtiuvkcjdrjjcvuvbghndl
-        
+     if (!this.__isLink()) {
+        return html`<button
+            class=${classMap(cssClasses)}
+            id="button"
+            type=${this.htmlType}
+            @click=${this.__dispatchClickWithThrottle}
+            @mousedown=${this.__handlePress}
+            @keydown=${this.__handlePress}
+            @keyup=${this.__handlePress}
+  
+            aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+            ?aria-disabled=${this.softDisabled}
+  
+            ?disabled=${this.disabled}
+            ${spread(this.configAria)}
+          >
+            ${this.renderChipContent()}
+          </button>`;
+      }
+      return html`<a
+          class=${classMap(cssClasses)}
+          id="button"
+          href=${this.href}
+          target=${this.target}
+          tabindex=${this.disabled ? '-1' : '0'}
+          
+          @click=${this.__dispatchClick}
+          @mousedown=${this.__handlePress}
+          @keydown=${this.__handlePress}
+          @keyup=${this.__handlePress}
+          role="button"
+  
+          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+          ?aria-disabled=${this.softDisabled}
+  
+          ${spread(this.configAria)}
+        >
+          ${this.renderChipContent()}
+        </a>`;
+    }
 
-        <div class="tag-content">
-          <div class="icon-slot-container">
-            ${this.selected ? html`<wc-icon class="selected-icon" name="check"></wc-icon>` : html`<slot name="icon"></slot>`  }
-          </div>
-          <slot></slot>
-          ${this._renderCloseButton()}
+  renderChipContent() {
+    return html`
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple"></wc-ripple>
+      <div class="tag-content">
+
+        <div class="icon-slot-container">
+          ${this.selected
+            ? html`<wc-icon class="selected-icon" name="check"></wc-icon>`
+            : html`<slot name="icon"></slot>`}
         </div>
+        <div class="label-container">
+          <slot></slot>
+        </div> 
+        
+        ${this._renderCloseButton()}
       </div>
     `;
   }

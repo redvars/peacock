@@ -4560,45 +4560,13 @@
         },
         {
           "kind": "field",
-          "name": "color",
+          "name": "configAria",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "{ [key: string]: any } | undefined"
           },
-          "default": "'default'",
-          "description": "Tag color.",
-          "attribute": "color",
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "attribute": "configAria",
           "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "value",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "Tag value.",
-          "attribute": "value",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "selected",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the tag will be selected.",
-          "attribute": "selected",
-          "reflects": true
-        },
-        {
-          "kind": "field",
-          "name": "imageSrc",
-          "type": {
-            "text": "string | undefined"
-          },
-          "description": "Image source.",
-          "attribute": "imageSrc"
         },
         {
           "kind": "field",
@@ -4608,6 +4576,23 @@
           },
           "privacy": "private",
           "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "_isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
         },
         {
           "kind": "method",
@@ -4626,6 +4611,359 @@
           "kind": "method",
           "name": "_renderCloseButton",
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "renderChipContent"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "attribute": "form",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "attribute": "name",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "attribute": "rel",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "attribute": "download",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "DISABLED_REASON_ID",
+          "type": {
+            "text": "string"
+          },
+          "privacy": "protected",
+          "static": true,
+          "readonly": true,
+          "default": "'disabled-reason'",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "color",
+          "type": {
+            "text": "string | undefined"
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "variant",
+          "type": {
+            "text": "string | undefined"
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "skeleton",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "toggle",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "attribute": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "tooltip",
+          "type": {
+            "text": "string | undefined"
+          },
+          "attribute": "tooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "States",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "buttonElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true,
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClickWithThrottle",
+          "type": {
+            "text": "(event: MouseEvent | KeyboardEvent) => void"
+          },
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderDisabledReason",
+          "parameters": [
+            {
+              "name": "softDisabled",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ],
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__renderTooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "events": [
@@ -4647,13 +4985,90 @@
           "fieldName": "dismissible"
         },
         {
-          "name": "color",
+          "name": "configAria",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "{ [key: string]: any } | undefined"
           },
-          "default": "'default'",
-          "description": "Tag color.",
-          "fieldName": "color"
+          "description": "Additional ARIA attributes to pass to the inner button/anchor element.",
+          "fieldName": "configAria"
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "fieldName": "form",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "value",
@@ -4661,8 +5076,85 @@
             "text": "string"
           },
           "default": "''",
-          "description": "Tag value.",
-          "fieldName": "value"
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "fieldName": "rel",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "fieldName": "download",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "toggle",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
           "name": "selected",
@@ -4670,21 +5162,40 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, the tag will be selected.",
-          "fieldName": "selected"
+          "fieldName": "selected",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         },
         {
-          "name": "imageSrc",
+          "name": "throttleDelay",
+          "type": {
+            "text": "number"
+          },
+          "default": "200",
+          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
+        },
+        {
+          "name": "tooltip",
           "type": {
             "text": "string | undefined"
           },
-          "description": "Image source.",
-          "fieldName": "imageSrc"
+          "fieldName": "tooltip",
+          "inheritedFrom": {
+            "name": "BaseButton",
+            "module": "src/button/BaseButton.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "BaseButton",
+        "package": "@/button/BaseButton.js"
       },
       "tagName": "wc-chip",
       "customElement": true,

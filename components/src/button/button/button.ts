@@ -155,7 +155,6 @@ export class Button extends BaseButton {
   }
 
   override render() {
-    const isLink = this.__isLink();
 
     const cssClasses = {
       button: true,
@@ -170,7 +169,7 @@ export class Button extends BaseButton {
       [`icon-align-${this.iconAlign}`]: true,
     };
 
-    if (!isLink) {
+    if (!this.__isLink()) {
       return html`<button
           class=${classMap(cssClasses)}
           id="button"
