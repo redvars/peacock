@@ -124,8 +124,8 @@
           "name": "--avatar-border-radius"
         },
         {
-          "description": "Controls the color of the avatar.",
-          "name": "--avatar-background-color"
+          "description": "Controls the color of the avatar container.",
+          "name": "--avatar-container-color"
         },
         {
           "description": "Controls the size of the avatar.",
@@ -4601,6 +4601,15 @@
           "attribute": "imageSrc"
         },
         {
+          "kind": "field",
+          "name": "_hasIconSlotContent",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
           "kind": "method",
           "name": "_dismissClickHandler",
           "privacy": "private",
@@ -4616,11 +4625,6 @@
         {
           "kind": "method",
           "name": "_renderCloseButton",
-          "privacy": "private"
-        },
-        {
-          "kind": "method",
-          "name": "_renderImage",
           "privacy": "private"
         }
       ],
@@ -4687,6 +4691,31 @@
       "summary": "Chip component for displaying compact information with optional actions.",
       "rawTag": {
         "name": "chip",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Chip Set",
+    "tag": "wc-chip-set",
+    "rawTag": "chip-set",
+    "summary": "A layout container for wrapping chips.",
+    "tags": "layout",
+    "example": "```html\n<wc-chip-set>\n  <wc-chip>One</wc-chip>\n  <wc-chip>Two</wc-chip>\n</wc-chip-set>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "ChipSet",
+      "members": [],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-chip-set",
+      "customElement": true,
+      "summary": "A layout container for wrapping chips.",
+      "rawTag": {
+        "name": "chip-set",
         "description": ""
       }
     }
@@ -5229,6 +5258,17 @@
       "members": [
         {
           "kind": "field",
+          "name": "COPY_FEEDBACK_DURATION",
+          "type": {
+            "text": "number"
+          },
+          "privacy": "private",
+          "static": true,
+          "readonly": true,
+          "default": "3000"
+        },
+        {
+          "kind": "field",
           "name": "language",
           "type": {
             "text": "BundledLanguage"
@@ -5286,9 +5326,27 @@
         },
         {
           "kind": "field",
+          "name": "_copied",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
           "name": "parsedCode",
           "type": {
             "text": "string | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "_copyFeedbackTimeout",
+          "type": {
+            "text": "number | null"
           },
           "privacy": "private",
           "default": "null"
@@ -11429,6 +11487,19 @@
           ]
         },
         {
+          "kind": "method",
+          "name": "_dispatchItemActivate",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "item",
+              "type": {
+                "text": "MenuItem"
+              }
+            }
+          ]
+        },
+        {
           "kind": "field",
           "name": "_onClick",
           "privacy": "private"
@@ -11450,6 +11521,12 @@
         }
       ],
       "events": [
+        {
+          "name": "menu-item-activate",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
         {
           "name": "opened",
           "type": {

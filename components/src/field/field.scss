@@ -95,7 +95,7 @@
       display: flex;
       align-items: center;
       flex: 1;
-      height: var(--field-height, 3.5rem);
+      min-height: var(--field-height, 3.5rem);
       padding-block: var(--field-padding-block);
       z-index: 1;
 

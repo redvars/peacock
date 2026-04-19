@@ -1,0 +1,13 @@
+@use '../../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+slot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

@@ -30,7 +30,6 @@ export class Breadcrumb extends LitElement {
 
   /**
    * Accessible label for the breadcrumb navigation landmark.
-   * @default "Breadcrumb"
    */
   @property({ type: String }) label = 'Breadcrumb';
 

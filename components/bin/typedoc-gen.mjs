@@ -17,7 +17,9 @@ async function run() {
       '@overview',
       '@parentRawTag',
       "@cssprop",
-      "@fires"
+      "@fires",
+      "@wip",
+      "@slot",
     ]
   });
 

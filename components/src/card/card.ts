@@ -189,7 +189,7 @@ export class Card extends BaseHyperlinkMixin(LitElement) {
             tabindex=${this.#tabindex}
             href=${this.href}
             target=${this.target}
-              @click=${this.__dispatchClickWithThrottle}
+            @click=${this.__dispatchClickWithThrottle}
             @mousedown=${this.__handlePress}
             @keydown=${this.__handlePress}
             @keyup=${this.__handlePress}

@@ -2,28 +2,26 @@
 @use "mixin";
 @use "device-utils";
 
-/* width */
-::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 @view-transition {
   navigation: auto;
+}
+
+body::selection {
+  color: var(--color-surface);
+  background: var(--color-primary);
+}
+
+/* width */
+body::-webkit-scrollbar {
+    background-color: transparent;
+    width: var(--scrollbar-width);
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: calc(var(--scrollbar-width) / 2);
 }
 
 
@@ -31,7 +29,13 @@
   box-sizing: border-box;
 }
 
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
+  margin:0;
+  padding:0;
+  border:0;
+  font:inherit;
+  vertical-align:baseline;
+}
 
 body {
   position: relative;
@@ -134,12 +138,13 @@ figure {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-
+  background: color-mix(in srgb, var(--color-scrim), transparent 32%);
+  
 }
 
 #site-search {
   max-width: 25rem;
+  --field-container-color: var(--color-surface);
 }
 
 .heading-scrollable::before {

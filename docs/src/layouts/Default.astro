@@ -92,9 +92,9 @@ const searchItems = componentsDetails.map(component => ({
 
   <div id="search-header-container">
     <div id="search-container-overlay"></div>
-    <goat-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
+    <wc-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
       <wc-icon slot="start" name="search"></wc-icon>
-    </goat-select>
+    </wc-select>
   </div>
 
   <script is:inline define:vars={{ searchItems }}>
@@ -113,14 +113,12 @@ const searchItems = componentsDetails.map(component => ({
       });
 
       if (search) {
-        // prettier-ignore
-        search.items = searchItems;
-        search.items = search.items.filter(item => !!item.label);
-        search.addEventListener('goat-select--change', function (e) {
+        search.options = searchItems.filter(item => !!item.label);
+        search.addEventListener('change', function (e) {
           window.location.href = '/components/' + e.detail.value;
         });
 
-        search.addEventListener('goat-select--enter', function (e) {
+        search.addEventListener('enter', function (e) {
           if (e.detail.currentItems.length > 0) window.location.href = '/components/' + e.detail.currentItems[0].value;
         });
 

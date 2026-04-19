@@ -276,6 +276,16 @@ export class Menu extends LitElement {
     this._syncRovingTabIndex();
   }
 
+  private _dispatchItemActivate(item: MenuItem) {
+    this.dispatchEvent(
+      new CustomEvent('menu-item-activate', {
+        bubbles: true,
+        composed: true,
+        detail: { item },
+      }),
+    );
+  }
+
   private _onClick = (event: Event) => {
     if (!this.open) {
       return;
@@ -287,6 +297,7 @@ export class Menu extends LitElement {
     }
 
     this._setActiveItem(item);
+    this._dispatchItemActivate(item);
     if (item.keepOpen) {
       return;
     }

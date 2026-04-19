@@ -16,6 +16,7 @@ export { Accordion } from './accordion/index.js';
 export { Link } from './link/index.js';
 export { Tag } from './chip/tag/index.js';
 export { Chip } from './chip/chip/index.js';
+export { ChipSet } from './chip/chip-set/index.js';
 export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
 export { Skeleton } from './skeleton/index.js';

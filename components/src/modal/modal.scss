@@ -5,19 +5,19 @@
 :host {
   display: contents;
 
-  --modal-container-color: var(--color-surface-container-high, #ece6f0);
-  --modal-scrim-color: rgba(0, 0, 0, 0.32);
-  --modal-shape: var(--shape-corner-extra-large, 28px);
+  --modal-container-color: var(--color-surface-container-high);
+  --modal-scrim-color: color-mix(in srgb, var(--color-scrim), transparent 32%);
+  --modal-shape: var(--shape-corner-extra-large);
   --modal-min-width: 280px;
   --modal-max-width: 560px;
   --modal-max-height: 90dvh;
-  --modal-transition-duration: var(--duration-medium2, 300ms);
-  --modal-transition-easing: var(--easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
-  --modal-heading-color: var(--color-on-surface, #1c1b1f);
-  --modal-subheading-color: var(--color-on-surface-variant, #49454f);
-  --modal-content-color: var(--color-on-surface-variant, #49454f);
-  --modal-divider-color: var(--color-outline-variant, #cac4d0);
-  --modal-elevation: var(--elevation-level3, 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3));
+  --modal-transition-duration: var(--duration-medium2);
+  --modal-transition-easing: var(--easing-emphasized);
+  --modal-heading-color: var(--color-on-surface);
+  --modal-subheading-color: var(--color-on-surface-variant);
+  --modal-content-color: var(--color-on-surface-variant);
+  --modal-divider-color: var(--color-outline-variant);
+  --modal-elevation: var(--elevation-level3);
 }
 
 /* Scrim backdrop */

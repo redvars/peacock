@@ -144,7 +144,9 @@ export class FloatingController implements ReactiveController {
     this.reference.removeEventListener('focusout', this.handleFocusOut);
   }
 
-  private toggle = () => (this.isOpen ? this.close() : this.open());
+  private toggle = () => {
+    this.isOpen ? this.close() : this.open()
+  };
 
   private handleContextMenu = (e: MouseEvent) => {
     e.preventDefault();
@@ -156,13 +158,17 @@ export class FloatingController implements ReactiveController {
     this.close();
   };
 
+  private isEventInsideElement(event: Event, element: HTMLElement) {
+    return event.composedPath().some(target => target === element);
+  }
+
   private handleOutsideClick = (e: MouseEvent) => {
     if (
       this.isOpen &&
       this.reference &&
       this.floating &&
-      !this.reference.contains(e.target as Node) &&
-      !this.floating.contains(e.target as Node)
+      !this.isEventInsideElement(e, this.reference) &&
+      !this.isEventInsideElement(e, this.floating)
     ) {
       this.close();
     }

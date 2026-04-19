@@ -46,19 +46,19 @@
   --icon-color: var(--color-on-surface-variant);
 }
 
-::selection {
+.scrollbar-primary::selection {
   color: var(--color-surface);
   background: var(--color-primary);
 }
 
 /* width */
-::-webkit-scrollbar {
+.scrollbar-primary::-webkit-scrollbar {
     background-color: transparent;
     width: var(--scrollbar-width);
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.scrollbar-primary::-webkit-scrollbar-thumb {
   background-color: var(--color-primary);
   border-radius: calc(var(--scrollbar-width) / 2);
 }

@@ -44,6 +44,8 @@ const locale = {
 export class CodeHighlighter extends LitElement {
   static styles = [styles];
 
+  private static readonly COPY_FEEDBACK_DURATION = 3000;
+
   @property({ type: String, reflect: true })
   language: BundledLanguage = 'javascript';
 
@@ -61,11 +63,23 @@ export class CodeHighlighter extends LitElement {
 
   @state() private compiledCode: string | null = null;
 
+  @state() private _copied = false;
+
   private parsedCode: string | null = null;
+
+  private _copyFeedbackTimeout: number | null = null;
 
   async connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    if (this._copyFeedbackTimeout !== null) {
+      window.clearTimeout(this._copyFeedbackTimeout);
+      this._copyFeedbackTimeout = null;
+    }
+    super.disconnectedCallback();
   }
 
   firstUpdated() {
@@ -146,19 +160,32 @@ export class CodeHighlighter extends LitElement {
   }
 
   private async __handleCopyClick() {
-    await copyToClipboard(`${this.parsedCode}`);
+    if (this.parsedCode == null) {
+      return;
+    }
+
+    await copyToClipboard(this.parsedCode);
+    this._copied = true;
+
+    if (this._copyFeedbackTimeout !== null) {
+      window.clearTimeout(this._copyFeedbackTimeout);
+    }
+
+    this._copyFeedbackTimeout = window.setTimeout(() => {
+      this._copied = false;
+      this._copyFeedbackTimeout = null;
+    }, CodeHighlighter.COPY_FEEDBACK_DURATION);
   }
 
   render() {
     if (this.compiledCode === null) {
       return html`
         <div class="code-loader">
-          <p-circular-progress indeterminate></p-circular-progress>
+          <wc-circular-progress indeterminate></wc-circular-progress>
           ${locale.loading}
         </div>
       `;
     }
-    // @click=${() => this.inline && this.handleCopyClick()}
 
     return html`
       <div
@@ -171,11 +198,11 @@ export class CodeHighlighter extends LitElement {
           <div class="header-title">${this.language}</div>
           <div class="header-actions">
             <wc-icon-button
-              color="surface"
+              color=${this._copied ? 'success' : 'surface'}
               variant="text"
               size="xs"
-              aria-label=${locale.copyToClipboard}
-              tooltip=${locale.copyToClipboard}
+              aria-label=${this._copied ? locale.copied : locale.copyToClipboard}
+              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
               <wc-icon name="content_copy"></wc-icon>

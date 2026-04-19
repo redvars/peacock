@@ -10,7 +10,7 @@ import styles from './avatar.scss';
  * @summary The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
  *
  * @cssprop --avatar-border-radius - Controls the border radius of the avatar.
- * @cssprop --avatar-background-color - Controls the color of the avatar.
+ * @cssprop --avatar-container-color - Controls the color of the avatar container.
  * @cssprop --avatar-size - Controls the size of the avatar.
  * @cssprop --avatar-text-color - Controls the color of the text inside the avatar.
  *

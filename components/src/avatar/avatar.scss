@@ -6,9 +6,9 @@
   display: inline-block;
   pointer-events: none;
   --avatar-size: 2rem;
-  --avatar-background-color: var(--color-primary);
+  --avatar-container-color: var(--color-primary);
   --avatar-text-color: var(--color-on-primary);
-  --avatar-border-radius: var(--global-avatar-border-radius);
+  --avatar-container-shape: var(--global-avatar-container-shape);
 }
 
 .avatar-container {
@@ -19,7 +19,7 @@
 }
 
 .avatar {
-  border-radius: var(--avatar-border-radius);
+  border-radius: var(--avatar-container-shape);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@
   width: var(--avatar-size);
   height: var(--avatar-size);
   @include mixin.get-typography('body-large-emphasized');
-  background-color: var(--avatar-background-color);
+  background-color: var(--avatar-container-color);
 
   font-size: calc(var(--avatar-size) * 0.5) !important;
 

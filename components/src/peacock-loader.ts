@@ -37,6 +37,7 @@ import { Accordion } from './accordion/accordion.js';
 import { Link } from './link/link.js';
 import { Tag } from './chip/tag/tag.js';
 import { Chip } from './chip/chip/chip.js';
+import { ChipSet } from './chip/chip-set/chip-set.js';
 import { LinearProgress } from './progress/linear-progress/linear-progress.js';
 import { CircularProgress } from './progress/circular-progress/circular-progress.js';
 
@@ -80,17 +81,6 @@ import { Search } from './search/search.js';
 import { Toolbar } from './toolbar/toolbar.js';
 import { NavigationRail } from './navigation-rail/navigation-rail.js';
 import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
-import { Calendar } from './calendar/calendar.js';
-import { CalendarColumnView } from './calendar/calendar-column-view.js';
-import { CalendarMonthView } from './calendar/calendar-month-view.js';
-import { Canvas } from './canvas/canvas.js';
-import { FlowDesigner } from './flow-designer/flow-designer.js';
-import { FlowDesignerNode } from './flow-designer/flow-designer-node.js';
-import { ConditionBuilder } from './condition-builder/condition-builder.js';
-import { CbPredicate } from './condition-builder/cb-predicate.js';
-import { CbCompoundExpression } from './condition-builder/cb-compound-expression.js';
-import { CbExpression } from './condition-builder/cb-expression.js';
-import { CbDivider } from './condition-builder/cb-divider.js';
 
 const distDirectory = `${import.meta.url}/..`;
 await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -190,6 +180,9 @@ const loaderConfig: LoaderConfig = {
     'wc-chip': {
       CustomElementClass: Chip,
     },
+    'wc-chip-set': {
+      CustomElementClass: ChipSet,
+    },
     'wc-card': {
       CustomElementClass: Card,
     },
@@ -256,6 +249,7 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-html-editor': {
       importPath: `${distDirectory}/html-editor.js`,
+      dependencies: ['wc-code-editor'],
     },
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
@@ -354,22 +348,24 @@ const loaderConfig: LoaderConfig = {
       CustomElementClass: NavigationRailItem,
     },
     'wc-calendar': {
-      CustomElementClass: Calendar,
+      importPath: `${distDirectory}/calendar.js`,
+      dependencies: ['wc-calendar-column-view', 'wc-calendar-month-view'],
     },
     'wc-calendar-column-view': {
-      CustomElementClass: CalendarColumnView,
+      importPath: `${distDirectory}/calendar-column-view.js`,
     },
     'wc-calendar-month-view': {
-      CustomElementClass: CalendarMonthView,
+      importPath: `${distDirectory}/calendar-month-view.js`,
     },
     'wc-canvas': {
-      CustomElementClass: Canvas,
+      importPath: `${distDirectory}/canvas.js`,
     },
     'wc-flow-designer': {
-      CustomElementClass: FlowDesigner,
+      importPath: `${distDirectory}/flow-designer.js`,
+      dependencies: ['wc-flow-designer-node'],
     },
     'wc-flow-designer-node': {
-      CustomElementClass: FlowDesignerNode,
+      importPath: `${distDirectory}/flow-designer-node.js`,
     },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
@@ -384,19 +380,25 @@ const loaderConfig: LoaderConfig = {
       importPath: `${distDirectory}/chart-stacked-bar.js`,
     },
     'wc-condition-builder': {
-      CustomElementClass: ConditionBuilder,
+      importPath: `${distDirectory}/condition-builder.js`,
+      dependencies: [
+        'wc-cb-predicate',
+        'wc-cb-compound-expression',
+        'wc-cb-expression',
+        'wc-cb-divider',
+      ],
     },
     'wc-cb-predicate': {
-      CustomElementClass: CbPredicate,
+      importPath: `${distDirectory}/cb-predicate.js`,
     },
     'wc-cb-compound-expression': {
-      CustomElementClass: CbCompoundExpression,
+      importPath: `${distDirectory}/cb-compound-expression.js`,
     },
     'wc-cb-expression': {
-      CustomElementClass: CbExpression,
+      importPath: `${distDirectory}/cb-expression.js`,
     },
     'wc-cb-divider': {
-      CustomElementClass: CbDivider,
+      importPath: `${distDirectory}/cb-divider.js`,
     },
   },
 };

@@ -7,5 +7,26 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>
-  <wc-chip selected dismissible value='Team'>Team</wc-chip>
+  <wc-chip dismissible value='Team'>
+    <wc-icon slot=icon name="home"></wc-icon>
+    Team
+  </wc-chip>
+
+  <wc-chip selected dismissible="true" value="Team">
+    <wc-icon slot="icon" name="home"></wc-icon>
+    Team
+  </wc-chip>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip selected>Team</wc-chip>
+</DemoComponentCard>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chip-set>
+    <wc-chip>Design</wc-chip>
+    <wc-chip>Engineering</wc-chip>
+    <wc-chip dismissible value="Product">Product</wc-chip>
+    <wc-chip selected>Ops</wc-chip>
+  </wc-chip-set>
 </DemoComponentCard>

@@ -256,7 +256,7 @@
   --font-weight-medium: 500; /* Slightly heavier than regular weight. 500 weight. */
   --font-weight-regular: 400; /* Standard weight for regular text. 400 weight. */
   --font-weight-semi-bold: 600; /* Heavier than medium weight. 600 weight. */
-  --global-avatar-border-radius: var(--shape-corner-full);
+  --global-avatar-container-shape: var(--shape-corner-full);
   --global-badge-color: var(--color-error);
   --scrollbar-width: 8px;
   --shape-corner-extra-large: 28px;

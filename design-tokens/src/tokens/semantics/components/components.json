@@ -7,7 +7,7 @@
       }
     },
     "avatar": {
-      "borderRadius": {
+      "container-shape": {
         "$value": "{shape-corner.full}"
       }
     }

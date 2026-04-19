@@ -69,6 +69,26 @@ describe('Menu', () => {
     expect(el.open).to.equal(false);
   });
 
+  it('emits menu-item-activate when an item is selected', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item value="one">One</wc-menu-item>
+      </wc-menu>
+    `);
+
+    let activatedItem: MenuItem | undefined;
+    el.addEventListener('menu-item-activate', (event: Event) => {
+      activatedItem = (event as CustomEvent<{ item: MenuItem }>).detail.item;
+    });
+
+    const item = el.querySelector<MenuItem>('wc-menu-item')!;
+    const target = item.shadowRoot!.querySelector('.menu-item') as HTMLElement;
+    target.click();
+
+    await el.updateComplete;
+    expect(activatedItem).to.equal(item);
+  });
+
   it('closes on outside click', async () => {
     const anchor = document.createElement('button');
     anchor.id = 'menu-anchor';

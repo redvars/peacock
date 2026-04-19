@@ -6,12 +6,11 @@
   display: inline-block;
   --chip-container-color: var(--color-surface);
   --chip-label-text-color: var(--color-on-surface);
-  --chip-outline-color: var(--color-outline);
+  --chip-outline-color: var(--color-outline-variant);
   --chip-container-shape: var(--shape-corner-small);
-}
 
-:host-context([data-theme="dark"]) {
-  --chip-hover-color: var(--color-primary-30);
+  --chip-container-padding: 1rem;
+  /* 8dp */
 }
 
 .chip {
@@ -21,7 +20,6 @@
   align-items: center;
   justify-content: center;
   height: var(--chip-height, var(--_chip-height, 2rem));
-  padding: 0 var(--_container-padding, 1rem);
   width: 100%;
   border-radius: var(--chip-container-shape);
 
@@ -32,45 +30,58 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--chip-label-text-color);
-    @include mixin.get-typography(label-small);
-    gap: .5rem;
+    padding-inline: var(--chip-container-padding);
+    color: var(--_chip-text-color);
+    @include mixin.get-typography(label-large);
 
 
-    .tag-image {
-      width: 1.125rem;
-      height: 1.125rem;
-      border-radius: 100%;
-      background: var(--chip-hover-color);
-    }
-
-  }
-
-  .close-btn {
-    border-radius: 12px;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: transparent;
-    line-height: 0;
-    cursor: pointer;
-    --icon-size: 1rem;
-
-    .close-btn-icon {
-      --icon-size: 1rem;
-    }
-
-    &:hover {
-      background: var(--chip-hover-color);
+    .close-btn {
+      height: 100%;
+      padding: 0;
+      padding-inline: calc(var(--chip-container-padding) / 2);
+      margin: 0;
+      border: none;
+      background: transparent;
+      line-height: 0;
+      cursor: pointer;
 
       .close-btn-icon {
-        color: var(--background);
+        --icon-size: 1rem;
+        --icon-color: var(--_chip-text-color);
+      }
+
+      &:hover {
+        background: var(--chip-hover-color);
       }
     }
+
+    .icon-slot-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      --icon-size: 1rem;
+      --icon-color: var(--color-primary);
+    }
+
   }
+
+  &.dismissible .tag-content {
+    padding-inline-end: 0;
+  }
+
+  &.icon-slot-has-content .tag-content, &.selected .tag-content {
+    padding-inline-start: 0;
+  }
+
+  &.icon-slot-has-content .icon-slot-container, &.selected .icon-slot-container {
+    padding-inline: calc(var(--chip-container-padding) / 2);
+  }
+
+
 
   /**
    * Tag background layers
@@ -82,7 +93,7 @@
     height: 100%;
     border-radius: inherit;
 
-    background: var(--chip-container-color);
+    background: var(--_chip-container-color);
     pointer-events: none;
   }
 
@@ -101,17 +112,16 @@
     border-radius: inherit;
   }
 
+}
 
-  &.dismissible .tag-content {
-    padding-inline-end: .25rem;
-  }
 
+/** Color state management */
+.chip {
+  --_chip-container-color: var(--chip-container-color);
+  --_chip-text-color: var(--chip-label-text-color);
+  
   &.selected {
-    color: var(--background);
-    background: var(--chip-hover-color);
-
-    .close-btn-icon {
-      color: var(--background);
-    }
+    --_chip-container-color: var(--color-secondary-container);
+    --_chip-text-color: var(--color-on-secondary-container);
   }
 }
