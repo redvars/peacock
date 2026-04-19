@@ -12041,7 +12041,7 @@
   {
     "label": "Modal",
     "tag": "wc-modal",
-    "rawTag": "modal-wc",
+    "rawTag": "modal",
     "summary": "A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
     "cssprop": "--modal-max-height - Maximum height of the dialog.",
     "example": "```html\nMODAL\n```",
@@ -12294,7 +12294,7 @@
       "customElement": true,
       "summary": "A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
       "rawTag": {
-        "name": "modal-wc",
+        "name": "modal",
         "description": ""
       }
     }

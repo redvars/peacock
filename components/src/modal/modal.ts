@@ -9,7 +9,7 @@ type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
 /**
  * @label Modal
  * @tag wc-modal
- * @rawTag modal-wc
+ * @rawTag modal
  * @summary A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.
  *
  * @cssprop --modal-container-color - Background color of the dialog container.
