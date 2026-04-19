@@ -7,6 +7,6 @@ export default defineConfig({
   devToolbar: { enabled: false },
   site: 'https://peacock.redvars.com',
   compressHTML: false,
-  server: { port: 4000, host: true },
+  server: { port: 4000, host: true, allowedHosts: ['peacockdev.redvars.com'] },
   integrations: [sitemap(), mdx()],
 });

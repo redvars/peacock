@@ -143,7 +143,7 @@ export class FlowDesignerNode extends LitElement {
 
     return html`
       <div class="node-header">
-        <wc-icon name=${icon} class="node-icon"></wc-icon>
+        <wc-icon provider="carbon" name=${icon} class="node-icon"></wc-icon>
         <span class="node-title">${node.label}</span>
       </div>
     `;

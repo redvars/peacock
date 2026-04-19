@@ -27,7 +27,8 @@ function getKeywords() {
     return 'Web component, ' + Astro.props.title;
   }
 }
-const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &middot; ${site.tagline}`
+const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &middot; ${site.tagline}`;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>

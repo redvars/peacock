@@ -14,6 +14,9 @@ import { NavigationRailItem } from './navigation-rail-item.js';
  * <p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>
  * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>
  *
+ * @slot header - Content displayed above the rail items.
+ * @slot footer - Content pinned to the bottom of the rail.
+ *
  * @cssprop --nav-rail-width - Width of the rail container. Defaults to 5rem (80dp).
  * @cssprop --nav-rail-container-color - Background color of the rail. Defaults to surface color.
  * @cssprop --nav-rail-indicator-color - Color of the active indicator. Defaults to secondary-container.
@@ -48,14 +51,6 @@ export class NavigationRail extends LitElement {
   static styles = [styles];
 
   static Item = NavigationRailItem;
-
-  /**
-   * Vertical alignment of items within the rail.
-   * - `"top"`: Items align to the top.
-   * - `"center"`: Items are centered (default).
-   * - `"bottom"`: Items align to the bottom.
-   */
-  @property({ reflect: true }) alignment: 'top' | 'center' | 'bottom' = 'center';
 
   /**
    * Display mode of the navigation rail.
@@ -130,7 +125,6 @@ export class NavigationRail extends LitElement {
   render() {
     const cssClasses = {
       rail: true,
-      [`align-${this.alignment}`]: true,
       [`mode-${this.mode}`]: true,
     };
 
@@ -143,6 +137,9 @@ export class NavigationRail extends LitElement {
         <nav class="items" role="presentation">
           <slot @slotchange=${this._syncItemMode}></slot>
         </nav>
+        <div class="footer">
+          <slot name="footer"></slot>
+        </div>
       </div>
     `;
   }

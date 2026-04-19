@@ -12305,6 +12305,7 @@
     "rawTag": "navigation-rail",
     "summary": "A vertical side navigation for medium-sized screens, following Material Design 3 specs.",
     "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
+    "slot": "footer - Content pinned to the bottom of the rail.",
     "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
     "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\">home</wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">search</wc-icon>\n    Search\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">settings</wc-icon>\n    Settings\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
     "tags": "navigation",
@@ -12354,23 +12355,22 @@
           "name": "--nav-rail-active-label-color"
         }
       ],
+      "slots": [
+        {
+          "description": "Content displayed above the rail items.",
+          "name": "header"
+        },
+        {
+          "description": "Content pinned to the bottom of the rail.",
+          "name": "footer"
+        }
+      ],
       "members": [
         {
           "kind": "field",
           "name": "Item",
           "static": true,
           "default": "NavigationRailItem"
-        },
-        {
-          "kind": "field",
-          "name": "alignment",
-          "type": {
-            "text": "'top' | 'center' | 'bottom'"
-          },
-          "default": "'center'",
-          "description": "Vertical alignment of items within the rail.\n- `\"top\"`: Items align to the top.\n- `\"center\"`: Items are centered (default).\n- `\"bottom\"`: Items align to the bottom.",
-          "attribute": "alignment",
-          "reflects": true
         },
         {
           "kind": "field",
@@ -12415,15 +12415,6 @@
         }
       ],
       "attributes": [
-        {
-          "name": "alignment",
-          "type": {
-            "text": "'top' | 'center' | 'bottom'"
-          },
-          "default": "'center'",
-          "description": "Vertical alignment of items within the rail.\n- `\"top\"`: Items align to the top.\n- `\"center\"`: Items are centered (default).\n- `\"bottom\"`: Items align to the bottom.",
-          "fieldName": "alignment"
-        },
         {
           "name": "mode",
           "type": {

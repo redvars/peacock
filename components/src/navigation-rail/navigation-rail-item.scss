@@ -64,6 +64,13 @@
     flex-shrink: 0;
     transition: background-color var(--duration-short4, 200ms) var(--easing-standard, ease);
 
+    .ripple {
+      inset: 0;
+      z-index: 0;
+      --ripple-pressed-color: var(--_state-color);
+      border-radius: inherit;
+    }
+
     .icon-container {
       display: flex;
       align-items: center;
@@ -79,29 +86,6 @@
         display: flex;
       }
     }
-  }
-
-  /* State layer for hover/press */
-  .state-layer {
-    position: absolute;
-    top: 0.25rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--_indicator-width);
-    height: var(--_indicator-height);
-    pointer-events: none;
-    background-color: var(--_state-color);
-    opacity: 0;
-    z-index: 0;
-    border-radius: var(--_indicator-shape);
-    transition: opacity var(--duration-short4, 200ms) var(--easing-standard, ease);
-  }
-
-  .ripple {
-    z-index: 1;
-    --ripple-pressed-color: var(--_state-color);
-    --ripple-state-opacity: 0;
-    border-radius: var(--shape-corner-small, 4px);
   }
 
   /* Label */
@@ -166,20 +150,6 @@
     }
   }
 
-  /* Hover state */
-  &:hover:not(.disabled) {
-    .state-layer {
-      opacity: 0.08;
-    }
-  }
-
-  /* Pressed state */
-  &.pressed:not(.disabled) {
-    .state-layer {
-      opacity: 0.12;
-    }
-  }
-
   /* Disabled state */
   &.disabled {
     cursor: not-allowed;
@@ -208,7 +178,6 @@
 @media (prefers-reduced-motion: reduce) {
   .item {
     .indicator,
-    .state-layer,
     .label {
       transition: none;
     }

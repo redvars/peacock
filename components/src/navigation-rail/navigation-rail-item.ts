@@ -155,11 +155,10 @@ export class NavigationRailItem extends LitElement {
   __renderItemContent() {
     return html`
       <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
-      <div class="state-layer"></div>
-      <wc-ripple class="ripple"></wc-ripple>
 
       <div class="item-content">
         <div class="indicator">
+          <wc-ripple class="ripple"></wc-ripple>
           <div class="icon-container">
             <slot name="active-icon" class="active-icon-slot"></slot>
             <slot name="icon" class="icon-slot"></slot>

@@ -2,21 +2,28 @@
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  Use <code>wc-navigation-rail</code> for a compact vertical set of primary
+  destinations. Items stay top-aligned, clicking an item updates the active
+  state, and the rail emits <code>nav-change</code> with the selected item and
+  value.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-    <wc-navigation-rail-item active>
+  <wc-navigation-rail aria-label="Primary" style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
+    <wc-navigation-rail-item value="home" active>
       <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>
-    <wc-navigation-rail-item>
+    <wc-navigation-rail-item value="search">
       <wc-icon slot="icon" name="search"></wc-icon>
       Search
     </wc-navigation-rail-item>
-    <wc-navigation-rail-item>
+    <wc-navigation-rail-item value="saved">
       <wc-icon slot="icon" name="bookmark"></wc-icon>
       Saved
     </wc-navigation-rail-item>
-    <wc-navigation-rail-item>
+    <wc-navigation-rail-item value="settings">
       <wc-icon slot="icon" name="settings"></wc-icon>
       Settings
     </wc-navigation-rail-item>
