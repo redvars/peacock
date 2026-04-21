@@ -1,15 +1,15 @@
 ---
-import { getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
+import { getAllComponentDetails, getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
 interface Props {
   componentDetails: any;
 }
-
-import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
 
 const {componentDetails} = Astro.props;
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
 import Footer from '../components/Footer.astro';
+
+const componentEntries = getAllComponentDetails();
 
 const title = getTextTag(componentDetails, 'label');
 const rawTag = getTextTag(componentDetails, 'rawTag');
@@ -27,7 +27,7 @@ const wip = getTextTag(componentDetails, 'wip');
         <wc-sidebar-menu-item label="Overview" href='/components'></wc-sidebar-menu-item>
 
         {
-            customElementsJSDocs.map((component) => {
+            componentEntries.map((component) => {
               if (component.parentRawTag) {
                 return;
               }

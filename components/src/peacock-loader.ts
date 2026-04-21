@@ -30,6 +30,7 @@ import { Radio } from './radio/radio.js';
 import { Menu } from './menu/menu/menu.js';
 import { MenuItem } from './menu/menu-item/menu-item.js';
 import { SubMenu } from './menu/sub-menu/sub-menu.js';
+import { Item } from './item/item.js';
 import { List } from './list/list.js';
 import { ListItem } from './list/list-item.js';
 
@@ -289,6 +290,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-list-item': {
       CustomElementClass: ListItem,
+    },
+    'wc-item': {
+      CustomElementClass: Item,
     },
     'wc-container': {
       CustomElementClass: Container,

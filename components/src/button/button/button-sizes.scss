@@ -8,8 +8,8 @@
 
 :host([size='xs']) .button,
 :host([size='extra-small']) .button {
-  --_button-icon-size: 1rem;
-  --_button_container-padding: 0.75rem;
+  --private-button-icon-size: 1rem;
+  --private-button-container-padding: 0.75rem;
 
   font-size:  0.875rem !important;
   font-weight: var(--font-weight-medium) !important;
@@ -25,9 +25,9 @@
 
 :host([size='sm']) .button,
 :host([size='small']) .button {
-  --_button-icon-size: 1.25rem;
-  --_button_container-padding: 1rem;
-  --_button-icon-label-spacing: 0.5rem;
+  --private-button-icon-size: 1.25rem;
+  --private-button-container-padding: 1rem;
+  --private-button-icon-label-spacing: 0.5rem;
 
   font-size:  0.875rem !important;
   font-weight: var(--font-weight-medium) !important;
@@ -42,8 +42,8 @@
 
 :host([size='md']) .button,
 :host([size='medium']) .button {
-  --_button-icon-size: 1.5rem;
-  --_button_container-padding: 1.5rem;
+  --private-button-icon-size: 1.5rem;
+  --private-button-container-padding: 1.5rem;
 
   font-size:  1rem !important;
   font-weight: var(--font-weight-medium) !important;
@@ -58,8 +58,8 @@
 
 :host([size='lg']) .button,
 :host([size='large']) .button {
-  --_button-icon-size: 2rem;
-  --_button_container-padding: 3rem;
+  --private-button-icon-size: 2rem;
+  --private-button-container-padding: 3rem;
 
   font-size:  1.5rem !important;
   font-weight: var(--font-weight-regular) !important;
@@ -74,8 +74,8 @@
 
 :host([size='xl']) .button,
 :host([size='extra-large']) .button {
-  --_button-icon-size: 2.5rem;
-  --_button_container-padding: 4rem;
+  --private-button-icon-size: 2.5rem;
+  --private-button-container-padding: 4rem;
 
   font-size:  2rem !important;
   font-weight: var(--font-weight-regular) !important;

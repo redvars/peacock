@@ -1,9 +1,9 @@
 @use '../../../scss/mixin';
 
 .button {
-  --_container-padding: 0.75rem;
+  --private-button-container-padding: 0.75rem;
   width: var(--button-height);
-  --_container-padding: 0;
+  --private-button-container-padding: 0;
 }
 
 :host([size='xs']),
@@ -13,7 +13,7 @@
 
 :host([size='xs']) .button,
 :host([size='extra-small']) .button {
-  --_button-icon-size: 1rem;
+  --private-button-icon-size: 1rem;
 }
 
 
@@ -24,8 +24,8 @@
 
 :host([size='sm']) .button,
 :host([size='small']) .button {
-  --_button-icon-size: 1.25rem;
-  --_button-icon-label-spacing: 0.5rem;
+  --private-button-icon-size: 1.25rem;
+  --private-button-icon-label-spacing: 0.5rem;
 }
 
 :host([size='md']),
@@ -35,7 +35,7 @@
 
 :host([size='md']) .button,
 :host([size='medium']) .button {
-  --_button-icon-size: 1.5rem;
+  --private-button-icon-size: 1.5rem;
 }
 
 :host([size='lg']),
@@ -45,7 +45,7 @@
 
 :host([size='lg']) .button,
 :host([size='large']) .button {
-  --_button-icon-size: 2rem;
+  --private-button-icon-size: 2rem;
 }
 
 :host([size='xl']) {
@@ -53,5 +53,5 @@
 }
 
 :host([size='xl']) .button {
-  --_button-icon-size: 2.5rem;
+  --private-button-icon-size: 2.5rem;
 }

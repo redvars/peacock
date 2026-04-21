@@ -4,11 +4,12 @@ import ComponentCard from '../components/ComponentCard.astro';
 import '../styles/components.page.scss';
 
 
-import customElementsJSDocs from '../_data/custom-elements-jsdocs.json';
+import { getAllComponentDetails } from '../_data/getLitComponentDetails.ts';
 import Footer from '../components/Footer.astro';
 import WebComponentCard from '../components/WebComponentCard.astro';
 const title = 'Overview';
 const description = 'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
+const componentEntries = getAllComponentDetails();
 ---
 
 
@@ -32,7 +33,7 @@ const description = 'The overview page is the first page you see when you visit 
 
         <div class='cards'>
           {
-            customElementsJSDocs.map((component) => {
+            componentEntries.map((component) => {
               if (component.parentRawTag) {
                 return;
               }

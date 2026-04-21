@@ -74,36 +74,36 @@ export class Button extends BaseButton {
      * Type is preset of color and variant. Type will be only applied.
      *
      */
-    @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
-  
-    /**
-     * The visual style of the button.
-     *
-     *  Possible variant values:
-     * `"filled"` is a filled button.
-     * `"outlined"` is an outlined button.
-     * `"text"` is a transparent button.
-     * `"tonal"` is a light color button.
-     * `"elevated"` is elevated button
-     */
-    @property() variant:
-      | 'elevated'
-      | 'filled'
-      | 'tonal'
-      | 'outlined'
-      | 'text'
-      | 'neo' = 'filled';
-  
-    /**
-     * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-     */
-    @property({ reflect: true }) color:
-      | 'primary'
-      | 'success'
-      | 'danger'
-      | 'warning'
-      | 'surface'
-      | 'on-surface' = 'primary';
+  @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+
+  /**
+   * The visual style of the button.
+   *
+   *  Possible variant values:
+   * `"filled"` is a filled button.
+   * `"outlined"` is an outlined button.
+   * `"text"` is a transparent button.
+   * `"tonal"` is a light color button.
+   * `"elevated"` is elevated button
+   */
+  @property() variant:
+    | 'elevated'
+    | 'filled'
+    | 'tonal'
+    | 'outlined'
+    | 'text'
+    | 'neo' = 'filled';
+
+  /**
+   * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
+   */
+  @property({ reflect: true }) color:
+    | 'primary'
+    | 'success'
+    | 'danger'
+    | 'warning'
+    | 'surface'
+    | 'on-surface' = 'primary';
 
   /**
    * Additional ARIA attributes to pass to the inner button/anchor element.
@@ -156,9 +156,8 @@ export class Button extends BaseButton {
 
   override render() {
 
-    const cssClasses = {
+    const cssClasses: any = {
       button: true,
-      'button-element': true,
       [`size-${this.size}`]: true,
       [`variant-${this.variant}`]: true,
       [`color-${this.color}`]: true,
@@ -170,6 +169,8 @@ export class Button extends BaseButton {
     };
 
     if (!this.__isLink()) {
+      cssClasses['native-button'] = true;
+
       return html`<button
           class=${classMap(cssClasses)}
           id="button"
@@ -188,8 +189,9 @@ export class Button extends BaseButton {
           ${this.renderButtonContent()}
         </button>
         ${this.__renderTooltip()}`;
-    }
-    return html`<a
+    } else {
+      cssClasses['native-link'] = true;
+      return html`<a
         class=${classMap(cssClasses)}
         id="button"
         href=${this.href}
@@ -210,6 +212,7 @@ export class Button extends BaseButton {
         ${this.renderButtonContent()}
       </a>
       ${this.__renderTooltip()}`;
+    }
   }
 
   renderButtonContent() {

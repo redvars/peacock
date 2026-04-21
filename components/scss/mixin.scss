@@ -8,6 +8,29 @@
   }
 }
 
+@mixin reset-button-styles {
+  background: transparent;
+  border: none;
+  appearance: none;
+  margin: 0;
+  outline: none;
+  padidng: 0;
+}
+
+@mixin reset-link-styles {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
 @mixin get-typography($name) {
   font-family: var(--typography-#{$name}-font-family) !important;
   font-size:  var(--typography-#{$name}-font-size) !important;

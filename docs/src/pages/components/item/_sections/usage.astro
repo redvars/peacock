@@ -1,0 +1,33 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: min(100%, 32rem); display: grid; gap: .5rem;'>
+    <wc-item selected>
+      <wc-icon slot='start' name='home'></wc-icon>
+      <div slot='overline'>Quick action</div>
+      <div slot='headline'>Home</div>
+      <div slot='trailing-supporting-text'>Cmd+H</div>
+      <wc-icon slot='end' name='chevron_right'></wc-icon>
+    </wc-item>
+
+    <wc-item>
+      <wc-icon slot='start' name='person'></wc-icon>
+      <div slot='headline'>Profile</div>
+      <div slot='supporting-text'>Manage your personal settings</div>
+      <wc-avatar
+        slot='end'
+        name='Shivaji Varma'
+        style='--avatar-size: 2rem;'
+      ></wc-avatar>
+    </wc-item>
+
+    <wc-item href='https://github.com/redvars/peacock' target='_blank'>
+      <wc-icon slot='start' name='link'></wc-icon>
+      <div slot='headline'>Repository</div>
+      <div slot='supporting-text'>Open the Peacock project on GitHub</div>
+      <wc-icon slot='end' name='open_in_new'></wc-icon>
+    </wc-item>
+  </div>
+</DemoComponentCard>

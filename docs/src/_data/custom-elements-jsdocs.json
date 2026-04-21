@@ -1291,7 +1291,7 @@
         {
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\n      | 'filled'\n      | 'tonal'\n      | 'outlined'\n      | 'text'\n      | 'neo'"
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'\n    | 'neo'"
           },
           "default": "'filled'",
           "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
@@ -1300,7 +1300,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\n      | 'success'\n      | 'danger'\n      | 'warning'\n      | 'surface'\n      | 'on-surface'"
+            "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
@@ -10937,6 +10937,440 @@
       "summary": "The Input component is used to capture user input.",
       "rawTag": {
         "name": "input",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Item",
+    "tag": "wc-item",
+    "rawTag": "item",
+    "summary": "A Material 3 item with start, text and end slots.",
+    "example": "```html\n<wc-item selected>\n  <wc-icon slot=\"start\" name=\"home\"></wc-icon>\n  <div slot=\"overline\">Overline</div>\n  <div slot=\"headline\">Headline</div>\n  <div slot=\"supporting-text\">Supporting text</div>\n  <div slot=\"trailing-supporting-text\">Trailing</div>\n  <wc-icon slot=\"end\" name=\"chevron_right\"></wc-icon>\n</wc-item>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "name": "Item",
+      "members": [
+        {
+          "kind": "field",
+          "name": "__contentObserver",
+          "privacy": "private",
+          "readonly": true,
+          "default": "new MutationObserver(() => { this.requestUpdate(); })"
+        },
+        {
+          "kind": "field",
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "attribute": "selected",
+          "reflects": true
+        },
+        {
+          "kind": "field",
+          "name": "itemElement",
+          "type": {
+            "text": "HTMLElement | null"
+          },
+          "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "isPressed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false"
+        },
+        {
+          "kind": "field",
+          "name": "__handleSlotChange",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "__hasNamedSlot",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "names",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__hasDefaultSlot",
+          "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "focus"
+        },
+        {
+          "kind": "method",
+          "name": "blur"
+        },
+        {
+          "kind": "field",
+          "name": "__dispatchClick"
+        },
+        {
+          "kind": "field",
+          "name": "__handleKeyDown"
+        },
+        {
+          "kind": "field",
+          "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "renderContent"
+        },
+        {
+          "kind": "field",
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "attribute": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "attribute": "disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "softDisabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "attribute": "soft-disabled",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "disabledReason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "attribute": "disabled-reason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "attribute": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "attribute": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "attribute": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "attribute": "href",
+          "reflects": true,
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "attribute": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "attribute": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "field",
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "attribute": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__isLink",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "description": "Returns `true` when `href` is set, indicating the component should render as a link.",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "selected"
+        },
+        {
+          "name": "htmlType",
+          "type": {
+            "text": "'button' | 'submit' | 'reset'"
+          },
+          "default": "'button'",
+          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
+          "fieldName": "htmlType",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "soft-disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
+          "fieldName": "softDisabled",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "form",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
+          "fieldName": "form",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "BaseButtonMixin",
+            "module": "src/__mixins/BaseButtonMixin.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "'_self' | '_parent' | '_blank' | '_top' | string"
+          },
+          "default": "'_self'",
+          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "rel",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "fieldName": "rel",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        },
+        {
+          "name": "download",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "fieldName": "download",
+          "inheritedFrom": {
+            "name": "BaseHyperlinkMixin",
+            "module": "src/__mixins/BaseHyperlinkMixin.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "BaseButtonMixin",
+          "package": "@/__mixins/BaseButtonMixin.js"
+        },
+        {
+          "name": "BaseHyperlinkMixin",
+          "package": "@/__mixins/BaseHyperlinkMixin.js"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-item",
+      "customElement": true,
+      "summary": "A Material 3 item with start, text and end slots.",
+      "rawTag": {
+        "name": "item",
         "description": ""
       }
     }

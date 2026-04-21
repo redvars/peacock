@@ -1,0 +1,20 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  <code>wc-item</code> supports <code>start</code>, <code>overline</code>,
+  <code>headline</code>, <code>supporting-text</code>,
+  <code>trailing-supporting-text</code>, default content, and <code>end</code>
+  slots.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-item style='width: min(100%, 32rem);'>
+    <wc-icon slot='start' name='notifications'></wc-icon>
+    <div slot='headline'>New build available</div>
+    <div slot='supporting-text'>Version 3.7.0 is ready to install</div>
+    <div slot='trailing-supporting-text'>2 min ago</div>
+    <wc-button tooltip="sample tooltip" slot='end' size='sm' variant='filled'>Update</wc-button>
+  </wc-item>
+</DemoComponentCard>

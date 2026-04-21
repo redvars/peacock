@@ -149,6 +149,7 @@ export class IconButton extends BaseButton {
     };
 
     if (!isLink) {
+      cssClasses['native-button'] = true;
       return html`<button
           class=${classMap(cssClasses)}
           id="button"
@@ -167,27 +168,29 @@ export class IconButton extends BaseButton {
           ${this.renderButtonContent()}
         </button>
         ${this.__renderTooltip()}`;
-    }
-    return html`<a
-        class=${classMap(cssClasses)}
-        id="button"
-        href=${this.href}
-        target=${this.target}
-        tabindex=${this.disabled ? '-1' : '0'}
-        @click=${this.__dispatchClick}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
-        role="button"
-        
-        aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
+    } else {
+      cssClasses['native-link'] = true;
+      return html`<a
+          class=${classMap(cssClasses)}
+          id="button"
+          href=${this.href}
+          target=${this.target}
+          tabindex=${this.disabled ? '-1' : '0'}
+          @click=${this.__dispatchClick}
+          @mousedown=${this.__handlePress}
+          @keydown=${this.__handlePress}
+          @keyup=${this.__handlePress}
+          role="button"
+          
+          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+          ?aria-disabled=${this.softDisabled}
 
-        ${spread(this.configAria)}
-      >
-        ${this.renderButtonContent()}
-      </a>
-      ${this.__renderTooltip()}`;
+          ${spread(this.configAria)}
+        >
+          ${this.renderButtonContent()}
+        </a>
+        ${this.__renderTooltip()}`;
+    }
   }
 
   renderButtonContent() {

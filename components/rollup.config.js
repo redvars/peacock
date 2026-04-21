@@ -2,6 +2,7 @@ import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import css from 'rollup-plugin-import-css';
 import copy from 'rollup-plugin-copy';
+import { rmSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { glob } from 'glob';
 import postcssLit from 'rollup-plugin-postcss-lit';
@@ -22,6 +23,8 @@ function isD3CircularDependencyWarning(warning) {
 }
 
 export default async function () {
+  rmSync('dist', { recursive: true, force: true });
+
   const files = await findLitComponents();
   return [
     {
@@ -30,6 +33,12 @@ export default async function () {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
         sourcemap: true,
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+        assetFileNames: 'assets/[name][extname]',
       },
       onwarn(warning, warn) {
         if (isD3CircularDependencyWarning(warning)) {

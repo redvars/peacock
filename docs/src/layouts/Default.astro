@@ -1,5 +1,6 @@
 ---
 import SideNavigation from '../components/SideNavigation.astro';
+import { getAllComponentDetails } from '../_data/getLitComponentDetails.ts';
 interface Props {
   title?: string;
   description?: string;
@@ -12,10 +13,9 @@ const { title, root, description, keywords, classes } = Astro.props;
 
 import Layout from './Base.astro';
 import site from '../_data/site.json';
-import componentsDetails from '../_data/custom-elements-jsdocs.json';
 import '../styles/default.layout.scss';
 
-const searchItems = componentsDetails.map(component => ({
+const searchItems = getAllComponentDetails().map(component => ({
   label: component.label,
   value: component.rawTag
 }));
