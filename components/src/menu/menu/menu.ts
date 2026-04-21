@@ -235,9 +235,7 @@ export class Menu extends LitElement {
   private _isEventFromThisMenu(event: Event) {
     const path = event.composedPath();
     const sourceMenu = path.find(
-      target =>
-        target instanceof HTMLElement &&
-        target.tagName.toLowerCase() === 'wc-menu',
+      target => target instanceof Menu,
     );
 
     return sourceMenu === this;
@@ -252,12 +250,10 @@ export class Menu extends LitElement {
     const ownedItems = this.items;
 
     for (const target of path) {
-      if (target instanceof HTMLElement) {
-        if (target.tagName.toLowerCase() === 'wc-menu-item') {
-          const ownedItem = ownedItems.find(item => item === target);
-          if (ownedItem) {
-            return ownedItem;
-          }
+      if (target instanceof MenuItem) {
+        const ownedItem = ownedItems.find(item => item === target);
+        if (ownedItem) {
+          return ownedItem;
         }
       }
     }

@@ -1,7 +1,11 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { Menu, MenuItem } from '../src/index.js';
+import { Item, Menu, MenuItem } from '../src/index.js';
+
+if (!customElements.get('wc-item')) {
+  customElements.define('wc-item', Item);
+}
 
 if (!customElements.get('wc-menu')) {
   customElements.define('wc-menu', Menu);
@@ -62,7 +66,9 @@ describe('Menu', () => {
     `);
 
     const item = el.querySelector<MenuItem>('wc-menu-item')!;
-    const target = item.shadowRoot!.querySelector('.menu-item') as HTMLElement;
+    const target = item.shadowRoot!
+      .querySelector('wc-item')!
+      .shadowRoot!.querySelector('.item') as HTMLElement;
     target.click();
 
     await el.updateComplete;
@@ -82,7 +88,9 @@ describe('Menu', () => {
     });
 
     const item = el.querySelector<MenuItem>('wc-menu-item')!;
-    const target = item.shadowRoot!.querySelector('.menu-item') as HTMLElement;
+    const target = item.shadowRoot!
+      .querySelector('wc-item')!
+      .shadowRoot!.querySelector('.item') as HTMLElement;
     target.click();
 
     await el.updateComplete;

@@ -8515,6 +8515,7 @@
   {
     "tag": "wc-flow-designer-node",
     "rawTag": "flow-designer-node",
+    "parentRawTag": "flow-designer",
     "wip": "true",
     "customElement": {
       "kind": "class",
@@ -10962,6 +10963,23 @@
         },
         {
           "kind": "field",
+          "name": "__capturedTabIndex",
+          "type": {
+            "text": "string | undefined"
+          },
+          "privacy": "private"
+        },
+        {
+          "kind": "field",
+          "name": "__isCapturingTabIndex",
+          "type": {
+            "text": "boolean"
+          },
+          "privacy": "private",
+          "default": "false"
+        },
+        {
+          "kind": "field",
           "name": "selected",
           "type": {
             "text": "boolean"
@@ -11028,6 +11046,24 @@
         {
           "kind": "field",
           "name": "__handlePress"
+        },
+        {
+          "kind": "method",
+          "name": "__getForwardedAttribute",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "name": "__captureHostTabIndex",
+          "privacy": "private"
         },
         {
           "kind": "method",
@@ -11203,6 +11239,9 @@
         }
       ],
       "attributes": [
+        {
+          "name": "tabindex"
+        },
         {
           "name": "selected",
           "type": {
@@ -12656,18 +12695,29 @@
           "kind": "field",
           "name": "itemElement",
           "type": {
-            "text": "HTMLElement | null"
+            "text": "Item | null"
           },
           "readonly": true
         },
         {
           "kind": "field",
-          "name": "isPressed",
+          "name": "_contentObserver",
+          "privacy": "private",
+          "readonly": true,
+          "default": "new MutationObserver(() => { this.requestUpdate(); })"
+        },
+        {
+          "kind": "field",
+          "name": "_rovingTabIndex",
           "type": {
-            "text": "boolean"
+            "text": "number"
           },
-          "default": "false",
-          "description": "States"
+          "privacy": "private",
+          "default": "-1"
+        },
+        {
+          "kind": "field",
+          "name": "tabIndex"
         },
         {
           "kind": "method",
@@ -12678,23 +12728,22 @@
           "name": "blur"
         },
         {
-          "kind": "field",
-          "name": "__dispatchClickWithThrottle",
-          "type": {
-            "text": "(event: MouseEvent | KeyboardEvent) => void"
-          }
+          "kind": "method",
+          "name": "_hasNamedSlot",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "names",
+              "type": {
+                "text": "string[]"
+              }
+            }
+          ]
         },
         {
-          "kind": "field",
-          "name": "__dispatchClick"
-        },
-        {
-          "kind": "field",
-          "name": "__handleKeyDown"
-        },
-        {
-          "kind": "field",
-          "name": "__handlePress"
+          "kind": "method",
+          "name": "_hasDefaultSlot",
+          "privacy": "private"
         },
         {
           "kind": "method",
@@ -13329,7 +13378,7 @@
     "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
     "slot": "footer - Content pinned to the bottom of the rail.",
     "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
-    "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\">home</wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">search</wc-icon>\n    Search\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\">settings</wc-icon>\n    Settings\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
+    "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\n    Search\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -15087,7 +15136,7 @@
     "tag": "wc-popover-content",
     "rawTag": "popover-content",
     "summary": "Content container for the wc-popover component.",
-    "childComponent": "true",
+    "parentRawTag": "popover",
     "tags": "display",
     "cssprop": "--popover-content-min-width - Minimum width of the popover content. Defaults to `10rem`.",
     "example": "```html\n<wc-popover-content>\n  <p>Popover body text</p>\n</wc-popover-content>\n```",
@@ -18565,6 +18614,19 @@
             "text": "number | undefined"
           },
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "_resolveAnchorElement",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "item",
+              "type": {
+                "text": "MenuItem"
+              }
+            }
+          ]
         },
         {
           "kind": "field",

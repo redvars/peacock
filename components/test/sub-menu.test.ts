@@ -1,7 +1,11 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { Menu, MenuItem, SubMenu } from '../src/index.js';
+import { Item, Menu, MenuItem, SubMenu } from '../src/index.js';
+
+if (!customElements.get('wc-item')) {
+  customElements.define('wc-item', Item);
+}
 
 if (!customElements.get('wc-menu')) {
   customElements.define('wc-menu', Menu);
@@ -32,7 +36,7 @@ describe('SubMenu', () => {
     const item = subMenu.item!;
 
     item
-      .shadowRoot!.querySelector('.menu-item')!
+      .shadowRoot!.querySelector('wc-item')!
       .dispatchEvent(
         new KeyboardEvent('keydown', {
           key: 'ArrowRight',
@@ -104,7 +108,7 @@ describe('SubMenu', () => {
     childItems[0].tabIndex = 0;
     childItems[1].tabIndex = -1;
 
-    childItems[0].shadowRoot!.querySelector('.menu-item')!.dispatchEvent(
+    childItems[0].shadowRoot!.querySelector('wc-item')!.dispatchEvent(
       new KeyboardEvent('keydown', {
         key: 'ArrowDown',
         bubbles: true,

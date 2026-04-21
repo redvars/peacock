@@ -98,18 +98,9 @@
 /* Multi-select chips area — single scrollable row, no vertical growth */
 .chips-container {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  gap: var(--spacing-050);
-  padding-block: var(--spacing-050);
   align-items: center;
   flex: 1;
-  min-width: 0;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  padding-block: .5rem;
 }
 
 /* Disabled state */

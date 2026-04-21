@@ -2,73 +2,52 @@
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 ---
 
-<style is:inline>
-  .user-info {
-    padding: .5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    pc-text {
-      margin: 0;
-    }
-  }
-</style>
-
 <HighlighterCard lang={'html'}>
-    <pc-menu class='menu'>
-      <pc-menu-item value='cut'>
+    <wc-menu class='menu' preview>
+      <wc-menu-item value='cut'>
         <wc-icon name='cut' slot='start' size='sm'></wc-icon>
         Cut
         <span slot='end'>⌘X</span>
-      </pc-menu-item>
-      <pc-menu-item value='copy'>
+      </wc-menu-item>
+      <wc-menu-item value='copy'>
         <wc-icon name='copy' slot='start' size='sm'></wc-icon>
         Copy
         <span slot='end'>⌘C</span>
-      </pc-menu-item>
-      <pc-menu-item value='paste'>
+      </wc-menu-item>
+      <wc-menu-item value='paste'>
         <wc-icon name='paste' slot='start' size='sm'></wc-icon>
         Paste
         <span slot='end'>⌘X</span>
-      </pc-menu-item>
-      <pc-menu-divider></pc-menu-divider>
-      <pc-menu-item value='delete'>
+      </wc-menu-item>
+      <wc-divider></wc-divider>
+      <wc-menu-item value='delete'>
         <wc-icon name='trash-can' slot='start' size='sm'></wc-icon>
         Delete
         <span slot='end'>←</span>
-      </pc-menu-item>
-    </pc-menu>
+      </wc-menu-item>
+    </wc-menu>
 </HighlighterCard>
 
 <HighlighterCard lang={'html'}>
-  <pc-menu class='menu' style='width: 300px'>
-    <pc-menu-item value='shivaji' selected>
+  <wc-menu class='menu' preview style='width: 300px'>
+    <wc-menu-item value='shivaji' selected>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=74943b7fc5a9da2affe8c2d8b8558812' size='40px'
                    slot='start'></pc-avatar>
-
-      <div class='user-info'>
-        <pc-text type='heading' heading-size="2" class='no-margin'>Shivaji Varma</pc-text>
-        <pc-text type='body-compact' color='secondary'>Software Engineer</pc-text>
-      </div>
-    </pc-menu-item>
-    <pc-menu-item value='john'>
+      <div slot='headline'>Shivaji Varma</div>
+      <div slot='supporting-text'>Software Engineer</div>
+    </wc-menu-item>
+    <wc-menu-item value='john'>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=6801be2ffb4809eefe713e4fefd7b9ae' size='40px'
                    slot='start'></pc-avatar>
-      <div class='user-info'>
-        <pc-text type='heading' heading-size="2" class='no-margin'>John doe</pc-text>
-        <pc-text type='body-compact' color='secondary'>Manager</pc-text>
-      </div>
-    </pc-menu-item>
+      <div slot='headline'>John doe</div>
+      <div slot='supporting-text'>Manager</div>
+    </wc-menu-item>
 
-    <pc-menu-item value='fred'>
+    <wc-menu-item value='fred'>
       <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=5ff278e220eacb10b8e37efefef406a6' size='40px'
                    slot='start'></pc-avatar>
-
-      <div class='user-info'>
-        <pc-text type='heading' heading-size="2" class='no-margin'>Fred</pc-text>
-        <pc-text type='body-compact' color='secondary'>Director</pc-text>
-      </div>
-
-    </pc-menu-item>
-  </pc-menu>
+      <div slot='headline'>Fred</div>
+      <div slot='supporting-text'>Director</div>
+    </wc-menu-item>
+  </wc-menu>
 </HighlighterCard>

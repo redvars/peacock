@@ -38,6 +38,10 @@ export class SubMenu extends LitElement {
 
   private _closeTimeout?: number;
 
+  private _resolveAnchorElement(item: MenuItem) {
+    return item.itemElement?.itemElement ?? item.itemElement ?? item;
+  }
+
   private readonly _onChildMenuOpened = () => {
     const { item } = this;
     if (!item) {
@@ -91,7 +95,7 @@ export class SubMenu extends LitElement {
       return;
     }
 
-    menu.anchorElement = item;
+    menu.anchorElement = this._resolveAnchorElement(item);
     menu.isSubmenu = true;
     menu.show();
 
@@ -152,7 +156,7 @@ export class SubMenu extends LitElement {
     menu.addEventListener('closed', this._onChildMenuClosed);
 
     menu.isSubmenu = true;
-    menu.anchorElement = item;
+    menu.anchorElement = this._resolveAnchorElement(item);
     menu.placement =
       getComputedStyle(this).direction === 'rtl' ? 'left-start' : 'right-start';
     menu.offset = 4;

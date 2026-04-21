@@ -430,6 +430,7 @@ export class Select extends BaseInput {
     // Multi-select: show chips for selected items
     if (this.multiple && this._selectedValues.length > 0) {
       return html`<div class="chips-container">
+      <wc-chip-set>
         ${this._selectedValues.map(
           val => html`
             <wc-chip
@@ -441,6 +442,7 @@ export class Select extends BaseInput {
             >
           `,
         )}
+      </wc-chip-set>
       </div>`;
     }
 

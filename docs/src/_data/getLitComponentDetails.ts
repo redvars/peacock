@@ -48,17 +48,19 @@ export function getAllComponentDetails() {
   return Array.from(detailsByTag.values());
 }
 
+export function getAllComponentsForShowcase() {
+  const components = getAllComponentDetails();
+
+  return components.filter(function(component) {
+      return !component.parentRawTag;
+  });
+}
+
 
 export function getComponentDetails(name: string): any {
-  let comp = componentsDetails.find((component: any) => {
+  return getAllComponentDetails().find((component: any) => {
     return component.rawTag == name;
   });
-  if (!comp) {
-    comp = otherComps.find((component: any) => {
-      return component.rawTag == name;
-    });
-  }
-  return comp;
 }
 
 export function getTextTag(component: any, tag: string) {

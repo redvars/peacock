@@ -1,11 +1,11 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
+import { property, query } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
 import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
 import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
-import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import { Item } from '@/item/item.js';
 
 /**
  * @label Menu Item
@@ -21,7 +21,6 @@ import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-e
  * ```
  */
 export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
-  
   @property({ type: String }) value = '';
 
   @property({ type: Boolean, reflect: true }) selected = false;
@@ -37,29 +36,38 @@ export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
 
   static styles = [styles, colorStyles];
 
-  @query('#item') readonly itemElement!: HTMLElement | null;
+  @query('wc-item') readonly itemElement!: Item | null;
 
-  /**
-     * States
-     */
-    @state()
-    isPressed = false;
+  private readonly _contentObserver = new MutationObserver(() => {
+    this.requestUpdate();
+  });
+
+  private _rovingTabIndex = -1;
 
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', 'menuitem');
-    }
-
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-    window.addEventListener('mouseup', this.__handlePress);
+    this._contentObserver.observe(this, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['slot'],
+    });
   }
 
   disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
+    this._contentObserver.disconnect();
     super.disconnectedCallback();
+  }
+
+  override get tabIndex() {
+    return this._rovingTabIndex;
+  }
+
+  override set tabIndex(value: number) {
+    this._rovingTabIndex = value;
+    this.requestUpdate();
   }
 
   override focus() {
@@ -70,129 +78,81 @@ export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
     this.itemElement?.blur();
   }
 
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-      event => {
-        this.__dispatchClick(event);
-      };
-  
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href)) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
+  private _hasNamedSlot(...names: string[]) {
+    return names.some(name =>
+      Array.from(this.children).some(child => child.getAttribute('slot') === name),
+    );
+  }
 
-    if (!isActivationClick(event) || !this.itemElement) {
-      return;
-    }
+  private _hasDefaultSlot() {
+    return Array.from(this.childNodes).some(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return Boolean(node.textContent?.trim());
+      }
 
-    this.focus();
-    dispatchActivationClick(this.itemElement);
-  };
-
-  __handleKeyDown = (event: KeyboardEvent) => {
-    this.__handlePress(event);
-
-    if (this.disabled || this.softDisabled || !this.itemElement) {
-      return;
-    }
-
-    if (event.key === ' ') {
-      event.preventDefault();
-      this.itemElement.click();
-      return;
-    }
-
-    if (event.key === 'Enter' && !this.__isLink()) {
-      event.preventDefault();
-      this.itemElement.click();
-    }
-  };
-
-   __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.softDisabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
+      return (
+        node.nodeType === Node.ELEMENT_NODE &&
+        !(node as Element).hasAttribute('slot')
+      );
+    });
+  }
 
   render() {
-    const isLink = this.__isLink();
-
-    const cssClasses = {
-      'menu-item': true,
-      disabled: this.disabled,
-      selected: this.selected,
-      pressed: this.isPressed,
-    };
-
     const controls = this.getAttribute('aria-controls');
 
-    if (isLink) {
-      return html`<a
+    return html`
+      <wc-item
         id="item"
-        class=${classMap(cssClasses)}
-        href=${this.href}
-        target=${this.target}
-        tabindex=${this.disabled ? '-1' : '0'}
-
-        @click=${this.__dispatchClickWithThrottle}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handleKeyDown}
-        @keyup=${this.__handlePress}
-
-        aria-disabled=${String(this.disabled)}
+        class="menu-item"
+        role="menuitem"
+        tabindex=${String(this.tabIndex)}
+        ?selected=${this.selected}
+        ?disabled=${this.disabled}
+        .softDisabled=${this.softDisabled}
+        .htmlType=${this.htmlType}
+        .href=${this.href}
+        .target=${this.target}
+        .rel=${this.rel}
+        .download=${this.download}
         aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
-        aria-controls=${this.hasSubmenu && controls ? controls : nothing}
-        aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
+        aria-controls=${ifDefined(this.hasSubmenu && controls ? controls : undefined)}
+        aria-expanded=${ifDefined(this.hasSubmenu ? String(this.submenuOpen) : undefined)}
       >
         ${this.renderContent()}
-      </a> `;
-    }
-
-    return html`<div
-      id="item"
-      class=${classMap(cssClasses)}
-      tabindex=${this.disabled ? '-1' : '0'}
-
-      @click=${this.__dispatchClick}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handleKeyDown}
-      @keyup=${this.__handlePress}
-
-      aria-disabled=${String(this.disabled)}
-      aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
-      aria-controls=${this.hasSubmenu && controls ? controls : nothing}
-      aria-expanded=${this.hasSubmenu ? String(this.submenuOpen) : nothing}
-    >
-      ${this.renderContent()}
-    </div>`;
+      </wc-item>
+    `;
   }
 
   renderContent() {
-    return html`
-      <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
-      <div class="background"></div>
-      <wc-ripple class="ripple"></wc-ripple>
+    const hasStart = this._hasNamedSlot('start');
+    const hasOverline = this._hasNamedSlot('overline');
+    const hasHeadline = this._hasNamedSlot('headline');
+    const hasDefault = this._hasDefaultSlot();
+    const hasSupportingText = this._hasNamedSlot('supporting-text');
+    const hasTrailingSupportingText = this._hasNamedSlot(
+      'trailing-supporting-text',
+    );
+    const hasEnd = this._hasNamedSlot('end');
 
-      <div class="menu-item-content" data-variant=${this.variant}>
-        <slot name="leading-icon"></slot>
-        <div class="slot-container">
-          <slot></slot>
-        </div>
-        <slot name="trailing-supporting-text"></slot>
-      </div>
+    return html`
+      ${hasStart ? html`<slot name="start" slot="start"></slot>` : nothing}
+      ${hasOverline
+        ? html`<slot name="overline" slot="overline"></slot>`
+        : nothing}
+      ${hasHeadline ? html`<slot name="headline" slot="headline"></slot>` : nothing}
+      ${hasDefault ? html`<slot></slot>` : nothing}
+      ${hasSupportingText
+        ? html`<slot name="supporting-text" slot="supporting-text"></slot>`
+        : nothing}
+      ${hasTrailingSupportingText
+        ? html`
+            <slot
+              name="trailing-supporting-text"
+              slot="trailing-supporting-text"
+            ></slot>
+          `
+        : nothing}
+      ${hasEnd ? html`<slot name="end" slot="end"></slot>` : nothing}
     `;
   }
 }

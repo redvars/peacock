@@ -32,7 +32,11 @@
   --private-item-container-shape-end-end: var(--item-container-shape-end-end, var(--shape-corner-extra-small));
   --private-item-container-shape-variant: var(--item-container-shape-variant, none);
 
-  @include mixin.get-typography(body-large);
+  font-family: var(--item-label-font-family, var(--typography-body-large-font-family)) !important;
+  font-size:  var(--item-label-font-size, var(--typography-body-large-font-size)) !important;
+  font-weight: var(--item-label-font-weight, var(--typography-body-large-font-weight)) !important;
+  line-height: var(--item-label-line-height, var(--typography-body-large-line-height)) !important;
+  letter-spacing: var(--item-label-letter-spacing, var(--typography-body-large-letter-spacing)) !important;
 
   .item-content {
     position: relative;

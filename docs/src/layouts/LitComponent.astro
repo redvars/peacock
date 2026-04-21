@@ -1,5 +1,5 @@
 ---
-import { getAllComponentDetails, getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
+import { getAllComponentsForShowcase, getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
 interface Props {
   componentDetails: any;
 }
@@ -9,10 +9,9 @@ import Layout from './Default.astro';
 import '../styles/component.layout.scss';
 import Footer from '../components/Footer.astro';
 
-const componentEntries = getAllComponentDetails();
+const componentEntries = getAllComponentsForShowcase();
 
 const title = getTextTag(componentDetails, 'label');
-const rawTag = getTextTag(componentDetails, 'rawTag');
 const description = getTextTag(componentDetails, 'summary');
 const wip = getTextTag(componentDetails, 'wip');
 ---
@@ -28,9 +27,6 @@ const wip = getTextTag(componentDetails, 'wip');
 
         {
             componentEntries.map((component) => {
-              if (component.parentRawTag) {
-                return;
-              }
               return <wc-sidebar-menu-item label={component?.label}
                                                href={`/components/${component?.rawTag}/`}></wc-sidebar-menu-item>
             })

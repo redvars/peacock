@@ -3,16 +3,18 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-card style='min-width: 18rem;'>
-   <wc-card-content>
+  <wc-card>
+   <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
       <h3 class="text-title">Order Summary</h3>
       <p class="text-body">3 items in your cart</p>
       <wc-button size='sm'>Checkout</wc-button>
     </wc-card-content>
   </wc-card>
 
-  <wc-card style='min-width: 18rem;' actionable>
-    <h3 class="text-title">Order Summary</h3>
-    <p class="text-body">3 items in your cart</p>
+  <wc-card  actionable>
+    <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
+      <h3 class="text-title">Order Summary</h3>
+      <p class="text-body">3 items in your cart</p>
+    </wc-card-content>
   </wc-card>
 </DemoComponentCard>

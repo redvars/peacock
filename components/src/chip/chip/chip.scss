@@ -3,7 +3,7 @@
 @include mixin.base-styles;
 
 :host {
-  display: inline-block;
+  display: inline-flex;
   --chip-container-color: var(--color-surface);
   --chip-label-text-color: var(--color-on-surface);
   --chip-outline-color: var(--color-outline-variant);

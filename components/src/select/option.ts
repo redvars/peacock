@@ -94,7 +94,7 @@ export class SelectOptionElement extends LitElement {
         ?keep-open=${this.keepOpen}
       >
         ${this.icon
-          ? html`<wc-icon name=${this.icon} slot="leading-icon"></wc-icon>`
+          ? html`<wc-icon name=${this.icon} slot="start"></wc-icon>`
           : nothing}
         <slot>${this.value === '' ? 'None' : ''}</slot>
         ${this.selected && this.keepOpen

@@ -32,13 +32,7 @@ export default async function () {
       output: {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
-        sourcemap: true,
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-        },
-        assetFileNames: 'assets/[name][extname]',
+        sourcemap: true
       },
       onwarn(warning, warn) {
         if (isD3CircularDependencyWarning(warning)) {

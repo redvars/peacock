@@ -33,9 +33,17 @@ import {
 export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   static styles = [styles];
 
+  static override get observedAttributes() {
+    return [...super.observedAttributes, 'tabindex'];
+  }
+
   private readonly __contentObserver = new MutationObserver(() => {
     this.requestUpdate();
   });
+
+  private __capturedTabIndex?: string;
+
+  private __isCapturingTabIndex = false;
 
   @property({ type: Boolean, reflect: true }) selected = false;
 
@@ -69,6 +77,7 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
+    this.__captureHostTabIndex();
 
     this.__contentObserver.observe(this, {
       subtree: true,
@@ -82,6 +91,26 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   disconnectedCallback() {
     this.__contentObserver.disconnect();
     super.disconnectedCallback();
+  }
+
+  override attributeChangedCallback(
+    name: string,
+    oldValue: string | null,
+    newValue: string | null,
+  ) {
+    if (name === 'tabindex') {
+      if (!this.__isCapturingTabIndex && newValue != null) {
+        this.__capturedTabIndex = newValue;
+        this.__isCapturingTabIndex = true;
+        this.removeAttribute('tabindex');
+        this.__isCapturingTabIndex = false;
+        this.requestUpdate();
+      }
+
+      return;
+    }
+
+    super.attributeChangedCallback(name, oldValue, newValue);
   }
 
   override focus() {
@@ -142,8 +171,30 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
     }
   };
 
+  private __getForwardedAttribute(name: string) {
+    return this.getAttribute(name) ?? undefined;
+  }
+
+  private __captureHostTabIndex() {
+    const tabIndex = this.getAttribute('tabindex');
+
+    if (tabIndex == null) {
+      return;
+    }
+
+    this.__capturedTabIndex = tabIndex;
+    this.__isCapturingTabIndex = true;
+    this.removeAttribute('tabindex');
+    this.__isCapturingTabIndex = false;
+  }
+
   render() {
     const isLink = this.__isLink();
+    const role = this.__getForwardedAttribute('role');
+    const tabIndex = this.__capturedTabIndex;
+    const ariaHasPopup = this.__getForwardedAttribute('aria-haspopup');
+    const ariaControls = this.__getForwardedAttribute('aria-controls');
+    const ariaExpanded = this.__getForwardedAttribute('aria-expanded');
 
     const cssClasses: any = {
       item: true,
@@ -160,8 +211,13 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
           id="item"
           class=${classMap(cssClasses)}
           type=${this.htmlType}
+          role=${ifDefined(role)}
+          tabindex=${ifDefined(tabIndex)}
           ?disabled=${this.disabled}
           ?aria-disabled=${this.softDisabled}
+          aria-haspopup=${ifDefined(ariaHasPopup)}
+          aria-controls=${ifDefined(ariaControls)}
+          aria-expanded=${ifDefined(ariaExpanded)}
           @click=${this.__dispatchClick}
           @mousedown=${this.__handlePress}
           @keydown=${this.__handleKeyDown}
@@ -180,8 +236,12 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
         target=${this.target}
         rel=${ifDefined(this.rel)}
         download=${ifDefined(this.download)}
-        tabindex=${this.disabled ? '-1' : '0'}
+        role=${ifDefined(role)}
+        tabindex=${ifDefined(tabIndex ?? (this.disabled ? '-1' : '0'))}
         aria-disabled=${String(this.disabled || this.softDisabled)}
+        aria-haspopup=${ifDefined(ariaHasPopup)}
+        aria-controls=${ifDefined(ariaControls)}
+        aria-expanded=${ifDefined(ariaExpanded)}
         @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handleKeyDown}

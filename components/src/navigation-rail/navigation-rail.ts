@@ -32,16 +32,12 @@ import { NavigationRailItem } from './navigation-rail-item.js';
  * ```html
  * <wc-navigation-rail>
  *   <wc-navigation-rail-item active>
- *     <wc-icon slot="icon">home</wc-icon>
+ *     <wc-icon slot="icon" name="home"></wc-icon>
  *     Home
  *   </wc-navigation-rail-item>
  *   <wc-navigation-rail-item>
- *     <wc-icon slot="icon">search</wc-icon>
+ *     <wc-icon slot="icon" name="search"></wc-icon>
  *     Search
- *   </wc-navigation-rail-item>
- *   <wc-navigation-rail-item>
- *     <wc-icon slot="icon">settings</wc-icon>
- *     Settings
  *   </wc-navigation-rail-item>
  * </wc-navigation-rail>
  * ```
