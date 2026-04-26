@@ -79,19 +79,12 @@ export class Input extends BaseInput {
   @query('.input-element')
   private inputElement?: HTMLInputElement;
 
-  private tabindex?: string;
-
   connectedCallback() {
     super.connectedCallback();
     this.handleInitialAttributes();
   }
 
   private handleInitialAttributes() {
-    if (this.hasAttribute('tabindex')) {
-      this.tabindex = this.getAttribute('tabindex') || undefined;
-      this.removeAttribute('tabindex');
-    }
-
     Array.from(this.attributes).forEach(attr => {
       if (attr.name.startsWith('aria-')) {
         this.configAria[attr.name] = attr.value;
@@ -105,21 +98,9 @@ export class Input extends BaseInput {
     this.value = (event.target as HTMLInputElement).value;
   }
 
-  override focus() {
-    this.inputElement?.focus();
-  }
-
-  override blur() {
-    this.inputElement?.blur();
-  }
-
-  private __handleFocusChange() {
-    // When calling focus() or reportValidity() during change, it's possible
-    // for blur to be called after the new focus event. Rather than set
-    // `this.focused` to true/false on focus/blur, we always set it to whether
-    // or not the input itself is focused.
-    this.focused = this.inputElement?.matches(':focus') ?? false;
-  }
+  private __handleFocusChange = (event: FocusEvent) => {
+    this.focused = event.type === 'focus';
+  };
 
   private __redispatchEvent(event: Event) {
     redispatchEvent(this, event);
@@ -156,7 +137,6 @@ export class Input extends BaseInput {
           placeholder=${this.placeholder}
           autocomplete=${this.autocomplete}
           .value=${this.value}
-          ?tabindex=${this.tabindex}
           ?readonly=${this.readonly}
           ?required=${this.required}
           ?disabled=${this.disabled}
@@ -169,7 +149,7 @@ export class Input extends BaseInput {
 
         ${this.type === 'password'
           ? html`
-              <pc-tooltip
+              <wc-tooltip
                 slot="field-end"
                 content=${this.passwordVisible
                   ? 'Hide password'
@@ -186,7 +166,7 @@ export class Input extends BaseInput {
                     name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
                   ></wc-icon>
                 </wc-icon-button>
-              </pc-tooltip>
+              </wc-tooltip>
             `
           : nothing}
 

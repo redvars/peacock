@@ -24,6 +24,12 @@ import styles from './field.scss';
  * @tags form
  */
 export class Field extends LitElement {
+
+  static shadowRootOptions: ShadowRootInit = {
+      ...LitElement.shadowRootOptions,
+      delegatesFocus: true,
+    };
+    
   static styles = [styles];
 
   @property({ type: String })

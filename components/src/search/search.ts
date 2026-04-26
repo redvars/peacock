@@ -38,6 +38,12 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  */
 @IndividualComponent
 export class Search extends LitElement {
+
+   static shadowRootOptions: ShadowRootInit = {
+      ...LitElement.shadowRootOptions,
+      delegatesFocus: true,
+    };
+
   static styles = [styles, colorStyles];
 
   /**
@@ -97,15 +103,7 @@ export class Search extends LitElement {
     );
   }
 
-  /** Focuses the internal input element. */
-  override focus() {
-    this.inputElement?.focus();
-  }
-
-  /** Blurs the internal input element. */
-  override blur() {
-    this.inputElement?.blur();
-  }
+ 
 
   private __handleInput(event: InputEvent) {
     const input = event.target as HTMLInputElement;
@@ -150,13 +148,10 @@ export class Search extends LitElement {
     }
   }
 
-  private __handleFocus() {
-    this.focused = true;
-  }
+    private __handleFocusChange = (event: FocusEvent) => {
+    this.focused = event.type === 'focus';
+  };
 
-  private __handleBlur() {
-    this.focused = false;
-  }
 
   private __clearValue() {
     this.value = '';
@@ -230,8 +225,8 @@ export class Search extends LitElement {
           @input=${this.__handleInput}
           @change=${this.__handleChange}
           @keydown=${this.__handleKeydown}
-          @focus=${this.__handleFocus}
-          @blur=${this.__handleBlur}
+          @focus=${this.__handleFocusChange}
+          @blur=${this.__handleFocusChange}
         />
 
         <div class="trailing-actions">

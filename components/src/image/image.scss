@@ -30,27 +30,32 @@ img.clickable {
   display: block;
 }
 
-/* Preview overlay — rendered in light DOM via portal, but we keep
-    a host-level overlay as a fallback when shadow DOM is used.       */
-.preview-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
-  align-items: center;
-  justify-content: center;
+/* Lightbox preview — native <dialog> renders in the top layer,
+   bypassing any stacking context on the host page.                  */
+.preview-dialog {
+  background: transparent;
+  border: none;
   cursor: zoom-out;
+  max-height: 90dvh;
+  max-width: 90dvw;
+  padding: 0;
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::backdrop {
+    background: color-mix(in srgb, var(--color-scrim), transparent 15%);
+  }
 }
 
-.preview-overlay.open {
-  display: flex;
-}
-
-.preview-overlay img {
+.preview-dialog img {
   max-width: 90vw;
   max-height: 90vh;
   object-fit: contain;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 40px color-mix(in srgb, var(--color-shadow), transparent 40%);
   border-radius: 4px;
+  cursor: auto;
 }

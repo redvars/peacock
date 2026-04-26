@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 
 import { isDarkMode } from '@/__utils/is-dark-mode.js';
 import { observeThemeChange } from '@/__utils/observe-theme-change.js';
@@ -37,7 +37,7 @@ export class Image extends LitElement {
 
   @state() private _loaded = false;
 
-  @state() private _previewOpen = false;
+  @query('.preview-dialog') private _dialog?: HTMLDialogElement;
 
   private _intersectionObserver: IntersectionObserver | null = null;
 
@@ -90,13 +90,15 @@ export class Image extends LitElement {
 
   private _handleClick() {
     if (this.preview) {
-      this._previewOpen = true;
+      this._dialog?.showModal();
     }
   }
 
-  private _closePreview(e: Event) {
-    e.stopPropagation();
-    this._previewOpen = false;
+  private _handleDialogClick(e: MouseEvent) {
+    // Close when clicking the backdrop (target is the dialog itself, not the image)
+    if (e.target === e.currentTarget) {
+      (e.currentTarget as HTMLDialogElement).close();
+    }
   }
 
   render() {
@@ -112,17 +114,14 @@ export class Image extends LitElement {
           : html`<span class="placeholder" aria-hidden="true"></span>`}
       </div>
 
-      <!-- Lightbox preview overlay (inside shadow root) -->
-      <div
-        class="preview-overlay ${this._previewOpen ? 'open' : ''}"
-        role="dialog"
-        aria-modal="true"
+      <!-- Lightbox preview dialog — uses native top-layer to avoid stacking context issues -->
+      <dialog
+        class="preview-dialog"
         aria-label="Image preview"
-        @click=${this._closePreview}
-        @keydown=${(e: KeyboardEvent) => e.key === 'Escape' && this._closePreview(e)}
+        @click=${this._handleDialogClick}
       >
         <img src=${this._activeSrc} alt=${this.imageTitle} @click=${(e: Event) => e.stopPropagation()} />
-      </div>
+      </dialog>
     `;
   }
 }

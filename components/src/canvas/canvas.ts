@@ -61,7 +61,24 @@ export type CanvasShape =
   | CanvasLineShape
   | CanvasConnectorShape;
 
+const GRID_GAP = 10;
+const GRID_DOT_RADIUS = 1;
+
 interface CanvasBounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+interface CanvasExtents {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+}
+
+interface CanvasViewBox {
   x: number;
   y: number;
   width: number;
@@ -118,10 +135,6 @@ export class Canvas extends LitElement {
   @property({ type: String })
   viewbox?: string;
 
-  private unitSize: number = 1;
-
-  private gap: number = this.unitSize * 10;
-
   private static getNextPoint(
     point: CanvasPoint,
     direction: CanvasDirection,
@@ -134,30 +147,33 @@ export class Canvas extends LitElement {
     return { x: point.x, y: point.y };
   }
 
-  private static updateComputationArea(
-    point: CanvasPoint,
-    area: CanvasBounds,
-  ): CanvasBounds {
-    const nextArea = { ...area };
-    if (point.x > nextArea.width) nextArea.width = point.x;
-    else if (point.x < nextArea.x) nextArea.x = point.x;
-    if (point.y > nextArea.height) nextArea.height = point.y;
-    else if (point.y < nextArea.y) nextArea.y = point.y;
-    return nextArea;
+  private static updateExtents(
+    extents: CanvasExtents,
+    x: number,
+    y: number,
+  ) {
+    if (x < extents.minX) extents.minX = x;
+    if (x > extents.maxX) extents.maxX = x;
+    if (y < extents.minY) extents.minY = y;
+    if (y > extents.maxY) extents.maxY = y;
   }
 
   private static getStrokeVariantClasses(variant?: CanvasStrokeVariant) {
     return {
       line: true,
-      'no-color': false,
       'variant-dashed': variant === 'dashed' || variant === 'animated-dashed',
       'variant-animated-dashed': variant === 'animated-dashed',
     };
   }
 
   private computeShapes(initialBounds: CanvasBounds) {
-    const dotRadius = this.unitSize;
-    let computedViewbox = { ...initialBounds };
+    // Track world-space bounds (grid units) as shapes are processed.
+    const extents: CanvasExtents = {
+      minX: initialBounds.x,
+      minY: initialBounds.y,
+      maxX: initialBounds.x + initialBounds.width,
+      maxY: initialBounds.y + initialBounds.height,
+    };
 
     const shapes = this.shapes.map(shape => {
       switch (shape.type) {
@@ -165,19 +181,14 @@ export class Canvas extends LitElement {
           const r = shape.radius || 1;
           const cx = shape.x || 0;
           const cy = shape.y || 0;
-          if (cx + Math.ceil(r) > computedViewbox.width)
-            computedViewbox.width = cx + Math.ceil(r);
-          if (cx - Math.ceil(r) < computedViewbox.x)
-            computedViewbox.x = cx - Math.ceil(r);
-          if (cy + Math.ceil(r) > computedViewbox.height)
-            computedViewbox.height = cy + Math.ceil(r);
-          if (cy - Math.ceil(r) < computedViewbox.y)
-            computedViewbox.y = cy - Math.ceil(r);
+          Canvas.updateExtents(extents, cx - r, cy - r);
+          Canvas.updateExtents(extents, cx + r, cy + r);
 
+          // Convert from grid units to SVG pixels using the fixed gap.
           return svg`<circle
-            cx=${cx * this.gap + dotRadius}
-            cy=${cy * this.gap + dotRadius}
-            r=${r * this.gap}
+            cx=${cx * GRID_GAP + GRID_DOT_RADIUS}
+            cy=${cy * GRID_GAP + GRID_DOT_RADIUS}
+            r=${r * GRID_GAP}
             fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
           />`;
         }
@@ -186,27 +197,23 @@ export class Canvas extends LitElement {
           const h = shape.height || 1;
           const rx = shape.x || 0;
           const ry = shape.y || 0;
-          if (rx + Math.ceil(w) > computedViewbox.width)
-            computedViewbox.width = rx + Math.ceil(w);
-          if (rx - Math.ceil(w) < computedViewbox.x)
-            computedViewbox.x = rx - Math.ceil(w);
-          if (ry + Math.ceil(h) > computedViewbox.height)
-            computedViewbox.height = ry + Math.ceil(h);
-          if (ry - Math.ceil(h) < computedViewbox.y)
-            computedViewbox.y = ry - Math.ceil(h);
+          Canvas.updateExtents(extents, rx, ry);
+          Canvas.updateExtents(extents, rx + w, ry + h);
 
           return svg`<rect
-            x=${rx * this.gap + dotRadius}
-            y=${ry * this.gap}
-            width=${w * this.gap + dotRadius}
-            height=${h * this.gap + dotRadius}
+            x=${rx * GRID_GAP + GRID_DOT_RADIUS}
+            y=${ry * GRID_GAP}
+            width=${w * GRID_GAP + GRID_DOT_RADIUS}
+            height=${h * GRID_GAP + GRID_DOT_RADIUS}
             fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
           />`;
         }
         case 'line': {
           const start = shape.start || { x: 0, y: 0 };
           const end = shape.end || { x: 0, y: 0 };
-          const pathString = `M${start.x * this.gap + dotRadius} ${start.y * this.gap + dotRadius} L${end.x * this.gap + dotRadius} ${end.y * this.gap + dotRadius}`;
+          Canvas.updateExtents(extents, start.x, start.y);
+          Canvas.updateExtents(extents, end.x, end.y);
+          const pathString = `M${start.x * GRID_GAP + GRID_DOT_RADIUS} ${start.y * GRID_GAP + GRID_DOT_RADIUS} L${end.x * GRID_GAP + GRID_DOT_RADIUS} ${end.y * GRID_GAP + GRID_DOT_RADIUS}`;
           const strokeColor =
             shape.color ||
             'var(--canvas-line-color, var(--color-on-surface))';
@@ -215,7 +222,6 @@ export class Canvas extends LitElement {
             class=${classMap({
               ...Canvas.getStrokeVariantClasses(shape.variant),
               clickable: !!shape.clickable,
-              'no-color': !shape.color,
             })}
             stroke-width="2"
             stroke-linecap="round"
@@ -229,19 +235,20 @@ export class Canvas extends LitElement {
         }
         case 'connector': {
           const start = shape.start || { x: 0, y: 0 };
-          let pathString = `M${start.x * this.gap + dotRadius} ${start.y * this.gap + dotRadius}`;
+          let pathString = `M${start.x * GRID_GAP + GRID_DOT_RADIUS} ${start.y * GRID_GAP + GRID_DOT_RADIUS}`;
           let current = { ...start };
-          computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
+          Canvas.updateExtents(extents, current.x, current.y);
 
           const pathSegments = shape.path || [];
           for (let i = 0; i < pathSegments.length; i += 1) {
             const path = pathSegments[i];
 
             if (i === 0) {
+              // Move one unit first so curved corner joins don't overlap start.
               const point = Canvas.getNextPoint(current, path.direction, 1);
-              pathString += ` L${point.x * this.gap + dotRadius} ${point.y * this.gap + dotRadius}`;
+              pathString += ` L${point.x * GRID_GAP + GRID_DOT_RADIUS} ${point.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...point };
-              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
+              Canvas.updateExtents(extents, current.x, current.y);
             }
 
             const point = Canvas.getNextPoint(
@@ -249,26 +256,28 @@ export class Canvas extends LitElement {
               path.direction,
               path.length - 2,
             );
-            pathString += ` L${point.x * this.gap + dotRadius} ${point.y * this.gap + dotRadius}`;
+            pathString += ` L${point.x * GRID_GAP + GRID_DOT_RADIUS} ${point.y * GRID_GAP + GRID_DOT_RADIUS}`;
             current = { ...point };
-            computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
+            Canvas.updateExtents(extents, current.x, current.y);
 
             if (i === pathSegments.length - 1) {
               const endPoint = Canvas.getNextPoint(current, path.direction, 1);
-              pathString += ` L${endPoint.x * this.gap + dotRadius} ${endPoint.y * this.gap + dotRadius}`;
+              pathString += ` L${endPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${endPoint.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...endPoint };
-              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
+              Canvas.updateExtents(extents, current.x, current.y);
             } else {
               const nextPath = pathSegments[i + 1];
               const midPoint = Canvas.getNextPoint(current, path.direction, 1);
+              Canvas.updateExtents(extents, midPoint.x, midPoint.y);
               const nextPoint = Canvas.getNextPoint(
                 midPoint,
                 nextPath.direction,
                 1,
               );
-              pathString += ` Q ${midPoint.x * this.gap + dotRadius} ${midPoint.y * this.gap + dotRadius} ${nextPoint.x * this.gap + dotRadius} ${nextPoint.y * this.gap + dotRadius}`;
+              // Use a quadratic segment to round corners between directions.
+              pathString += ` Q ${midPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${midPoint.y * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...nextPoint };
-              computedViewbox = Canvas.updateComputationArea(current, computedViewbox);
+              Canvas.updateExtents(extents, current.x, current.y);
             }
           }
 
@@ -280,7 +289,6 @@ export class Canvas extends LitElement {
             <path
               class=${classMap({
                 ...Canvas.getStrokeVariantClasses(shape.variant),
-                'no-color': !shape.color,
               })}
               stroke-width="2"
               stroke-linecap="round"
@@ -306,19 +314,68 @@ export class Canvas extends LitElement {
       }
     });
 
-    // Padding
-    computedViewbox.x -= this.padding;
-    computedViewbox.y -= this.padding;
-    computedViewbox.width += this.padding;
-    computedViewbox.height += this.padding;
-    computedViewbox.width -= computedViewbox.x;
-    computedViewbox.height -= computedViewbox.y;
+    // Expand bounds with padding so shapes are not flush to the edge.
+    const computedViewbox = {
+      x: extents.minX - this.padding,
+      y: extents.minY - this.padding,
+      width: Math.max(extents.maxX - extents.minX + this.padding * 2, 0),
+      height: Math.max(extents.maxY - extents.minY + this.padding * 2, 0),
+    };
 
     return { shapes, computedViewbox };
   }
 
+  private renderBackgroundSvg(computedViewBox: CanvasViewBox, svgViewBox: string) {
+    return html`
+      <svg
+        class="canvas canvas-background"
+        height="100%"
+        width="100%"
+        viewBox=${svgViewBox}
+        aria-hidden="true"
+      >
+        <defs>
+          <pattern
+            id="canvas-background"
+            patternUnits="userSpaceOnUse"
+            width=${GRID_GAP}
+            height=${GRID_GAP}
+          >
+            <circle cx="1" cy="1" r=${GRID_DOT_RADIUS} />
+          </pattern>
+        </defs>
+
+        <rect
+          x=${computedViewBox.x * GRID_GAP}
+          y=${computedViewBox.y * GRID_GAP}
+          width="100%"
+          height="100%"
+          fill="url(#canvas-background)"
+        />
+      </svg>
+    `;
+  }
+
+  private renderShapesSvg(shapes: unknown[], svgViewBox: string) {
+    return html`
+      <svg
+        class="canvas canvas-shapes"
+        height="100%"
+        width="100%"
+        viewBox=${svgViewBox}
+      >
+        <defs>
+          <marker id="endarrow" markerWidth="10" markerHeight="10" refX="5" refY="5" markerUnits="strokeWidth" orient="auto">
+            <polyline  points="0 2, 5 5, 0 8"></polyline>
+          </marker>
+        </defs>
+
+        ${shapes}
+      </svg>
+    `;
+  }
+
   protected render() {
-    const dotRadius = this.unitSize;
     let computedViewBox = { width: 0, height: 0, x: 0, y: 0 };
 
     const { shapes, computedViewbox } = this.computeShapes(computedViewBox);
@@ -334,57 +391,22 @@ export class Canvas extends LitElement {
       };
     }
 
+    // Zoom scales the outer viewport size while the SVG viewBox stays in world units.
     const wrapperWidth =
-      (computedViewBox.width * this.gap + 2) * dotRadius * this.zoom;
+      (computedViewBox.width * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
     const wrapperHeight =
-      (computedViewBox.height * this.gap + 2) * dotRadius * this.zoom;
+      (computedViewBox.height * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
 
-    const svgViewBox = `${computedViewBox.x * this.gap} ${computedViewBox.y * this.gap} ${computedViewBox.width * this.gap + 2 * dotRadius} ${computedViewBox.height * this.gap + 2 * dotRadius}`;
+    // viewBox maps world-space extents into the internal SVG coordinate system.
+    const svgViewBox = `${computedViewBox.x * GRID_GAP} ${computedViewBox.y * GRID_GAP} ${computedViewBox.width * GRID_GAP + 2 * GRID_DOT_RADIUS} ${computedViewBox.height * GRID_GAP + 2 * GRID_DOT_RADIUS}`;
 
     return html`
       <div
         class="canvas-wrapper"
         style="width: ${wrapperWidth}px; height: ${wrapperHeight}px;"
       >
-        <svg
-          class="canvas"
-          height="100%"
-          width="100%"
-          viewBox=${svgViewBox}
-        >
-          <defs>
-            <pattern
-              id="canvas-background"
-              patternUnits="userSpaceOnUse"
-              width=${this.gap}
-              height=${this.gap}
-            >
-              <circle cx="1" cy="1" r=${dotRadius} />
-            </pattern>
-
-            <marker
-              id="endarrow"
-              markerWidth="15"
-              markerHeight="22.5"
-              refX="9"
-              refY="15"
-              markerUnits="userSpaceOnUse"
-              orient="auto"
-            >
-              <polyline points="0 22.5, 7.5 15, 0 7.5"></polyline>
-            </marker>
-          </defs>
-
-          <rect
-            x=${computedViewBox.x * this.gap}
-            y=${computedViewBox.y * this.gap}
-            width="100%"
-            height="100%"
-            fill="url(#canvas-background)"
-          />
-
-          ${shapes}
-        </svg>
+        ${this.renderBackgroundSvg(computedViewBox, svgViewBox)}
+        ${this.renderShapesSvg(shapes, svgViewBox)}
       </div>
     `;
   }

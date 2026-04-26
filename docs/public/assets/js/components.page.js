@@ -1,8 +1,11 @@
 const $componentSearchElm = document.getElementById('component-search');
 
-setTimeout(() => {
-  $componentSearchElm.setFocus();
-}, 80);
+(async function() {
+  await customElements.whenDefined('component-search');
+  await $componentSearchElm.updateComplete; // Lit-specific
+  $componentSearchElm.focus();
+})();
+
 
 $componentSearchElm.addEventListener('input', function (e) {
   window.scrollTo({

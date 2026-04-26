@@ -12,8 +12,22 @@
 }
 
 .canvas-wrapper {
+  position: relative;
   background: var(--canvas-background);
-  border-radius: var(--shape-corner-medium);
+}
+
+.canvas {
+  display: block;
+}
+
+.canvas-background,
+.canvas-shapes {
+  position: absolute;
+  inset: 0;
+}
+
+.canvas-background {
+  pointer-events: none;
 }
 
 #canvas-background circle {
@@ -22,16 +36,14 @@
 
 #endarrow polyline {
   fill: none;
-  stroke: var(--canvas-arrow-color);
+  stroke: context-stroke;
   vector-effect: non-scaling-stroke;
   stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 .line {
-  &.no-color {
-    stroke: var(--canvas-line-color);
-  }
-
   &.variant-dashed {
     stroke-dasharray: 6 6;
   }
