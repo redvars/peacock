@@ -79,6 +79,15 @@ export class Input extends BaseInput {
   @query('.input-element')
   private inputElement?: HTMLInputElement;
 
+  override async focus() {
+    await Promise.all([
+      customElements.whenDefined('wc-input'),
+      customElements.whenDefined('wc-field'),
+    ]);
+    await this.updateComplete;
+    this.inputElement?.focus();
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.handleInitialAttributes();
@@ -163,7 +172,9 @@ export class Input extends BaseInput {
                   }}
                 >
                   <wc-icon
-                    name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
+                    name=${this.passwordVisible
+                      ? 'visibility_off'
+                      : 'visibility'}
                   ></wc-icon>
                 </wc-icon-button>
               </wc-tooltip>

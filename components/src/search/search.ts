@@ -38,12 +38,6 @@ import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.j
  */
 @IndividualComponent
 export class Search extends LitElement {
-
-   static shadowRootOptions: ShadowRootInit = {
-      ...LitElement.shadowRootOptions,
-      delegatesFocus: true,
-    };
-
   static styles = [styles, colorStyles];
 
   /**
@@ -103,7 +97,14 @@ export class Search extends LitElement {
     );
   }
 
- 
+  override async focus() {
+    await Promise.all([
+      customElements.whenDefined('wc-input'),
+      customElements.whenDefined('wc-field'),
+    ]);
+    await this.updateComplete;
+    this.inputElement?.focus();
+  }
 
   private __handleInput(event: InputEvent) {
     const input = event.target as HTMLInputElement;
@@ -148,10 +149,9 @@ export class Search extends LitElement {
     }
   }
 
-    private __handleFocusChange = (event: FocusEvent) => {
+  private __handleFocusChange = (event: FocusEvent) => {
     this.focused = event.type === 'focus';
   };
-
 
   private __clearValue() {
     this.value = '';

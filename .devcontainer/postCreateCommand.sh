@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 cd components
-npm i
+npm ci
 cd ../docs
-npm i
+npm ci
