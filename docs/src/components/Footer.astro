@@ -11,13 +11,16 @@ import site from '../_data/site.json';
     height: 5rem;
     background: var(--color-surface);
     border-top: 1px solid var(--color-outline-variant);
+    gap: .5rem;
+    padding-block: 1rem;
+    flex-wrap: wrap;
   }
-
   .text-body-large {
+    margin-block-end: 0 !important;
     display: flex;
     align-items: center;
-    margin-block-end: 0!important;
   }
+
   .text-body-large .author {
     display: flex;
     align-items: center;
@@ -35,6 +38,10 @@ import site from '../_data/site.json';
           src="https://peacock.redvars.com/assets/img/avatar.xs.webp"
           name={site.author}></wc-avatar>{site.author}
       </div>
-    </wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>. Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
+    </wc-link>.</div>
+
+  <div class="text-body-large">Built using&nbsp;
+    <wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
+    Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
   </div>
 </div>
