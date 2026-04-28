@@ -154,13 +154,16 @@ export class Ripple extends LitElement {
       &::before {
         background-color: var(--ripple-pressed-color, var(--color-on-surface));
         inset: 0;
-        transition: opacity 15ms linear, background-color 15ms linear;
+        transition:
+          opacity 15ms linear,
+          background-color 15ms linear;
       }
 
       &::after {
         background: radial-gradient(
           closest-side,
-          var(--ripple-pressed-color, var(--color-on-surface)) max(calc(100% - 70px), 65%),
+          var(--ripple-pressed-color, var(--color-on-surface))
+            max(calc(100% - 70px), 65%),
           transparent 100%
         );
         transform-origin: center center;
@@ -184,7 +187,7 @@ export class Ripple extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @state() private hovered = false;
-  
+
   @state() private pressed = false;
 
   @query('.surface') private readonly mdRoot!: HTMLElement | null;
@@ -201,13 +204,19 @@ export class Ripple extends LitElement {
 
   private rippleStartEvent?: PointerEvent;
 
+  private _control?: HTMLElement;
+
+  private readonly _boundHandleEvent = this.handleEvent.bind(this);
+
   override connectedCallback() {
     super.connectedCallback();
     // Needed for VoiceOver, which will create a "group" if the element is a
     // sibling to other content.
     this.setAttribute('aria-hidden', 'true');
-    // Attach to parent
-    this.attach(this.parentElement!);
+    // Attach to parent when no explicit attach target has been set
+    if (!this._control) {
+      this.attach = this.parentElement!;
+    }
   }
 
   override disconnectedCallback() {
@@ -215,25 +224,28 @@ export class Ripple extends LitElement {
     this.detach();
   }
 
-  attach(control: HTMLElement) {
+  set attach(control: HTMLElement) {
+    this.detach();
     if (!control) return;
+    this._control = control;
     EVENTS.forEach(event => {
-      control.addEventListener(event, this.handleEvent.bind(this));
+      control.addEventListener(event, this._boundHandleEvent);
     });
   }
 
   detach() {
-    const control = this.parentElement;
+    const control = this._control;
     if (!control) return;
+    this._control = undefined;
     EVENTS.forEach(event => {
-      control.removeEventListener(event, this.handleEvent.bind(this));
+      control.removeEventListener(event, this._boundHandleEvent);
     });
   }
 
   protected override render() {
     const classes = {
-      'hovered': this.hovered,
-      'pressed': this.pressed,
+      hovered: this.hovered,
+      pressed: this.pressed,
     };
 
     return html`<div class="surface ${classMap(classes)}"></div>`;
@@ -299,7 +311,7 @@ export class Ripple extends LitElement {
 
     // Wait for a hold after touch delay
     this.state = State.TOUCH_DELAY;
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, TOUCH_DELAY_MS);
     });
 
@@ -438,7 +450,7 @@ export class Ripple extends LitElement {
       return;
     }
 
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState);
     });
 

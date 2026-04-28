@@ -1,13 +1,17 @@
 import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchActivationClick, isActivationClick } from '../__utils/dispatch-event-utils.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '../__utils/dispatch-event-utils.js';
+import { isLink } from '@/__utils/is-link.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './card.scss';
 import colorStyles from './card-colors.scss';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
 
 type CardVariant = 'elevated' | 'filled' | 'outlined';
 
@@ -29,7 +33,7 @@ type CardVariant = 'elevated' | 'filled' | 'outlined';
  * ```
  */
 @IndividualComponent
-export class Card extends BaseHyperlinkMixin(LitElement) {
+export class Card extends NativeHyperlinkMixin(LitElement) {
   static styles = [styles, colorStyles];
 
   #id = crypto.randomUUID();
@@ -44,8 +48,8 @@ export class Card extends BaseHyperlinkMixin(LitElement) {
   actionable: boolean = false;
 
   /**
-  * If button is disabled, the reason why it is disabled.
-  */
+   * If button is disabled, the reason why it is disabled.
+   */
   @property({ attribute: 'disabled-reason' })
   disabledReason: string = '';
 
@@ -62,7 +66,6 @@ export class Card extends BaseHyperlinkMixin(LitElement) {
 
   @state()
   private slotHasContent = false;
-
 
   @query('.card') readonly cardElement!: HTMLElement | null;
 
@@ -140,82 +143,73 @@ export class Card extends BaseHyperlinkMixin(LitElement) {
     }
   };
 
-
-
-
   render() {
-
-    const isLink = this.__isLink();
-    const disableSlotTabbing = this.actionable || isLink;
+    const isLinkElement = isLink(this);
+    const disableSlotTabbing = this.actionable || isLinkElement;
 
     const cssClasses = {
       card: true,
       'card-element': true,
       [`variant-${this.variant}`]: true,
-      actionable: (this.actionable && !this.disabled) || isLink,
+      actionable: (this.actionable && !this.disabled) || isLinkElement,
       disabled: this.disabled,
       pressed: this.isPressed,
       'has-content': this.slotHasContent,
     };
 
-    if (!this.actionable && !isLink) {
-      return html`<div
-              class=${classMap(cssClasses)}
-              id="card"
-              >
-              ${this.renderCardContent(disableSlotTabbing)}
-            </div>`;
+    if (!this.actionable && !isLinkElement) {
+      return html`<div class=${classMap(cssClasses)} id="card">
+        ${this.renderCardContent(disableSlotTabbing)}
+      </div>`;
     }
 
-    if (!isLink) {
+    if (!isLinkElement) {
       return html`<button
-              class=${classMap(cssClasses)}
-              id="card"
-              tabindex=${this.#tabindex}
-              @click=${this.__dispatchClickWithThrottle}
-              @mousedown=${this.__handlePress}
-              @keydown=${this.__handlePress}
-              @keyup=${this.__handlePress}
-              ?aria-describedby=${this.__getDisabledReasonID()}
-              aria-disabled=${`${this.disabled}`}
-              ?disabled=${this.disabled}
-            >
-              ${this.renderCardContent(disableSlotTabbing)}
-            </button>`;
+        class=${classMap(cssClasses)}
+        id="card"
+        tabindex=${this.#tabindex}
+        @click=${this.__dispatchClickWithThrottle}
+        @mousedown=${this.__handlePress}
+        @keydown=${this.__handlePress}
+        @keyup=${this.__handlePress}
+        ?aria-describedby=${this.__getDisabledReasonID()}
+        aria-disabled=${`${this.disabled}`}
+        ?disabled=${this.disabled}
+      >
+        ${this.renderCardContent(disableSlotTabbing)}
+      </button>`;
     }
     return html`<a
-            class=${classMap(cssClasses)}
-            id="card"
-            tabindex=${this.#tabindex}
-            href=${this.href}
-            target=${this.target}
-            @click=${this.__dispatchClickWithThrottle}
-            @mousedown=${this.__handlePress}
-            @keydown=${this.__handlePress}
-            @keyup=${this.__handlePress}
-            role="button"
-            ?aria-describedby=${this.__getDisabledReasonID()}
-            aria-disabled=${`${this.disabled}`}
-          >
-            ${this.renderCardContent(disableSlotTabbing)}
-          </a>`;
+      class=${classMap(cssClasses)}
+      id="card"
+      tabindex=${this.#tabindex}
+      href=${this.href}
+      target=${this.target}
+      @click=${this.__dispatchClickWithThrottle}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
+      ?aria-describedby=${this.__getDisabledReasonID()}
+      aria-disabled=${`${this.disabled}`}
+    >
+      ${this.renderCardContent(disableSlotTabbing)}
+    </a>`;
   }
 
   renderCardContent(disableSlotTabbing: boolean) {
     return html`
-      <wc-focus-ring class="focus-ring" for='card'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="card"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
-      <wc-ripple class="ripple"></wc-ripple> 
+      <wc-ripple class="ripple"></wc-ripple>
 
       <div class="card-content">
-
         <div class="slot-container" ?inert=${disableSlotTabbing}>
           <slot></slot>
         </div>
-
       </div>
-      `;
+    `;
   }
 }

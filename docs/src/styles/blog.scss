@@ -11,9 +11,16 @@
   border-bottom: 1px solid var(--border-strong-01);
 }
 
+.main-content {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 
 .page-container {
-  min-height: calc(100vh - 67px - 48px);
+  flex: 1;
 }
 
 

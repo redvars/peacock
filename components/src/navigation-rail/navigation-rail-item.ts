@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
+import { isLink } from '@/__utils/is-link.js';
 import styles from './navigation-rail-item.scss';
 
 /**
@@ -128,10 +129,6 @@ export class NavigationRailItem extends LitElement {
     }
   };
 
-  __isLink() {
-    return !!this.href;
-  }
-
   __getDisabledReasonID() {
     return this.disabled && this.disabledReason
       ? `disabled-reason-${this.#id}`
@@ -174,8 +171,6 @@ export class NavigationRailItem extends LitElement {
   }
 
   render() {
-    const isLink = this.__isLink();
-
     const cssClasses = {
       item: true,
       'item-element': true,
@@ -186,7 +181,7 @@ export class NavigationRailItem extends LitElement {
       'has-active-icon': this._hasActiveIcon,
     };
 
-    if (!isLink) {
+    if (!isLink(this)) {
       return html`<button
         id="item"
         class=${classMap(cssClasses)}

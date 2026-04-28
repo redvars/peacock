@@ -2,26 +2,33 @@ import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import type { MixinConstructor } from './MixinConstructor.js';
 
-
 /**
  * 1. Define an interface for the members the mixin adds.
  * This makes the type annotation much cleaner.
  */
-export interface BaseHyperlinkInterface {
+export interface NativeHyperlinkInterface {
   href?: string;
   target: '_self' | '_parent' | '_blank' | '_top' | string;
   rel?: string;
   download?: string;
-  __isLink(): boolean;
 }
 
 /**
  * 2. Apply the type annotation to the variable.
  */
-const BaseHyperlinkMixin: <T extends MixinConstructor<LitElement>>(superclass: T) => T & MixinConstructor<BaseHyperlinkInterface> = <T extends MixinConstructor<LitElement>>(superclass: T) => {
-  // Naming the class (BaseHyperlinkElement) instead of using 'Mixin' or anonymous 
+const NativeHyperlinkMixin: <T extends MixinConstructor<LitElement>>(
+  superclass: T,
+) => T & MixinConstructor<NativeHyperlinkInterface> = <
+  T extends MixinConstructor<LitElement>,
+>(
+  superclass: T,
+) => {
+  // Naming the class (BaseHyperlinkElement) instead of using 'Mixin' or anonymous
   // prevents the "__childPart" visibility error.
-  class BaseHyperlinkElement extends superclass implements BaseHyperlinkInterface {
+  class BaseHyperlinkElement
+    extends superclass
+    implements NativeHyperlinkInterface
+  {
     /**
      * The URL that the hyperlink points to. When set, the component renders as an `<a>` element.
      * Maps to the native `href` attribute.
@@ -53,16 +60,9 @@ const BaseHyperlinkMixin: <T extends MixinConstructor<LitElement>>(superclass: T
      */
     @property()
     download?: string;
-
-    /**
-     * Returns `true` when `href` is set, indicating the component should render as a link.
-     */
-    __isLink(): boolean {
-      return !!this.href;
-    }
   }
 
-  return BaseHyperlinkElement as T & MixinConstructor<BaseHyperlinkInterface>;
+  return BaseHyperlinkElement as T & MixinConstructor<NativeHyperlinkInterface>;
 };
 
-export default BaseHyperlinkMixin;
+export default NativeHyperlinkMixin;

@@ -3,12 +3,13 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './item.scss';
-import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
 import {
   dispatchActivationClick,
   isActivationClick,
 } from '@/__utils/dispatch-event-utils.js';
+import { isLink } from '@/__utils/is-link.js';
 
 /**
  * @label Item
@@ -30,7 +31,7 @@ import {
  * ```
  * @tags display
  */
-export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
+export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   static styles = [styles];
 
   static override get observedAttributes() {
@@ -57,7 +58,9 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
 
   private __hasNamedSlot(...names: string[]) {
     return names.some(name =>
-      Array.from(this.children).some(child => child.getAttribute('slot') === name),
+      Array.from(this.children).some(
+        child => child.getAttribute('slot') === name,
+      ),
     );
   }
 
@@ -149,7 +152,7 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
       return;
     }
 
-    if (event.key === 'Enter' && !this.__isLink()) {
+    if (event.key === 'Enter' && !isLink(this)) {
       event.preventDefault();
       this.itemElement.click();
     }
@@ -189,7 +192,6 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   }
 
   render() {
-    const isLink = this.__isLink();
     const role = this.__getForwardedAttribute('role');
     const tabIndex = this.__capturedTabIndex;
     const ariaHasPopup = this.__getForwardedAttribute('aria-haspopup');
@@ -203,7 +205,7 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
       pressed: this.isPressed,
     };
 
-    if (!isLink) {
+    if (!isLink(this)) {
       cssClasses['native-button'] = true;
 
       return html`
@@ -226,9 +228,9 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
           ${this.renderContent()}
         </button>
       `;
-    } else {
-      cssClasses['native-link'] = true;
-      return html`
+    }
+    cssClasses['native-link'] = true;
+    return html`
       <a
         id="item"
         class=${classMap(cssClasses)}
@@ -250,9 +252,6 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
         ${this.renderContent()}
       </a>
     `;
-    }
-
-
   }
 
   renderContent() {
@@ -273,41 +272,51 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
 
       <div class="item-content">
         ${hasStart
-        ? html`
+          ? html`
               <div class="start">
-                <slot name="start" @slotchange=${this.__handleSlotChange}></slot>
+                <slot
+                  name="start"
+                  @slotchange=${this.__handleSlotChange}
+                ></slot>
               </div>
             `
-        : nothing}
+          : nothing}
         <div class="content">
-    
           ${hasOverline
-        ? html`
+            ? html`
                 <div class="overline">
-                  <slot name="overline" @slotchange=${this.__handleSlotChange}></slot>
+                  <slot
+                    name="overline"
+                    @slotchange=${this.__handleSlotChange}
+                  ></slot>
                 </div>
               `
-        : nothing}
+            : nothing}
           ${hasHeadline || hasDefault
-        ? html`
+            ? html`
                 <div class="headline-row">
                   ${hasHeadline || hasDefault
-            ? html`
+                    ? html`
                         <div class="headline">
                           ${hasHeadline
-                ? html`<slot name="headline" @slotchange=${this.__handleSlotChange}></slot>`
-                : nothing}
+                            ? html`<slot
+                                name="headline"
+                                @slotchange=${this.__handleSlotChange}
+                              ></slot>`
+                            : nothing}
                           ${hasDefault
-                ? html`<slot @slotchange=${this.__handleSlotChange}></slot>`
-                : nothing}
+                            ? html`<slot
+                                @slotchange=${this.__handleSlotChange}
+                              ></slot>`
+                            : nothing}
                         </div>
                       `
-            : nothing}
+                    : nothing}
                 </div>
               `
-        : nothing}
+            : nothing}
           ${hasSupportingText
-        ? html`
+            ? html`
                 <div class="supporting-text">
                   <slot
                     name="supporting-text"
@@ -315,10 +324,10 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
                   ></slot>
                 </div>
               `
-        : nothing}
+            : nothing}
         </div>
         ${hasTrailingSupportingText
-        ? html`
+          ? html`
               <div class="trailing-supporting-text">
                 <slot
                   name="trailing-supporting-text"
@@ -326,14 +335,14 @@ export class Item extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
                 ></slot>
               </div>
             `
-        : nothing}
+          : nothing}
         ${hasEnd
-        ? html`
+          ? html`
               <div class="end">
                 <slot name="end" @slotchange=${this.__handleSlotChange}></slot>
               </div>
             `
-        : nothing}
+          : nothing}
       </div>
     `;
   }

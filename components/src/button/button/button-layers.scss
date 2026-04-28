@@ -1,0 +1,73 @@
+@use '../../../scss/mixin';
+
+.background {
+  display: block;
+  position: absolute;
+  inset: 0;
+  background-color: var(--private-button-container-color);
+  opacity: var(--private-button-container-opacity, 1);
+  pointer-events: none;
+
+  @include mixin.apply-container-shape(private-button);
+}
+
+/*
+   Background layers
+  */
+.focus-ring {
+  z-index: 2;
+
+  @include mixin.copy-container-shape(private-button, focus-ring);
+}
+
+.ripple {
+  @include mixin.apply-container-shape(private-button);
+
+  --ripple-state-opacity: var(--private-button-state-opacity, 0);
+  --ripple-pressed-color: var(--private-button-state-color);
+}
+
+
+.skeleton {
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include mixin.copy-container-shape(private-button, skeleton);
+}
+
+.elevation {
+  transition-duration: 280ms;
+  @include mixin.copy-container-shape(private-button, elevation);
+
+  --elevation-level: var(--private-button-container-elevation-level);
+}
+
+.neo-background {
+  display: none;
+  position: absolute;
+  background: var(--color-inverse-surface);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: translateX(0.25rem) translateY(0.25rem);
+
+  @include mixin.apply-container-shape(private-button);
+}
+
+.outline {
+  z-index: 0;
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border: var(--private-button-outline-width) solid var(--private-button-outline-color);
+  opacity: var(--private-button-outline-opacity, 1);
+  @include mixin.apply-container-shape(private-button);
+}

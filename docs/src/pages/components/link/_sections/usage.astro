@@ -1,19 +1,20 @@
 ---
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import site from '../../../../_data/site.json';
 ---
 
 <p class='text-body-large'>Here are predefined variants of link, each serving its own semantic purpose.</p>
 
 <DemoComponentCard lang={'html'}>
-  <a class='link text-body' href='https://github.com/goatui/components' target='_blank'>
+  <a class='link text-body' href={site.repo_url} target='_blank'>
     Github
     <wc-icon name='arrow_right_alt'></wc-icon>
   </a>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>
-  <wc-link class='text-body' href='https://github.com/goatui/components' target='_blank'>
+  <wc-link class='text-body' href={site.repo_url} target='_blank'>
     Github
     <wc-icon name='arrow_right_alt'></wc-icon>
   </wc-link>

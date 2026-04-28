@@ -1,15 +1,24 @@
-import { html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { html, LitElement, nothing } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
+import buttonLayers from './button-layers.scss';
 import colorStyles from './button-colors.scss';
 import sizeStyles from './button-sizes.scss';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
 import { spread } from '@/__directive/spread.js';
-import { BaseButton } from '../BaseButton.js';
+import { isLink } from '@/__utils/is-link.js';
+import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '@/__utils/dispatch-event-utils.js';
+import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 
 /**
  * @label Button
@@ -54,15 +63,18 @@ import { BaseButton } from '../BaseButton.js';
  * @tags display
  */
 @IndividualComponent
-export class Button extends BaseButton {
-  static override styles = [styles, colorStyles, sizeStyles];
+export class Button
+  extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
+  implements GroupButtonInterface
+{
+  static override styles = [buttonLayers, styles, sizeStyles, colorStyles];
 
   /**
    * Icon alignment.
    * Possible values are `"start"`, `"end"`. Defaults to `"end"`.
    */
-  @property({ attribute: 'icon-align' })
-  iconAlign: 'start' | 'end' = 'end';
+  @property({ type: Boolean, reflect: true, attribute: 'trailing-icon' })
+  trailingIcon = false;
 
   /**
    * Button size.
@@ -71,9 +83,9 @@ export class Button extends BaseButton {
   @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
-     * Type is preset of color and variant. Type will be only applied.
-     *
-     */
+   * Type is preset of color and variant. Type will be only applied.
+   *
+   */
   @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
 
   /**
@@ -86,7 +98,7 @@ export class Button extends BaseButton {
    * `"tonal"` is a light color button.
    * `"elevated"` is elevated button
    */
-  @property() variant:
+  @property({ reflect: true }) variant:
     | 'elevated'
     | 'filled'
     | 'tonal'
@@ -155,85 +167,172 @@ export class Button extends BaseButton {
   }
 
   override render() {
+    return html`
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="neo-background"></div>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
+
+      ${this.renderButtonElement()} ${this.__renderTooltip()}
+    `;
+  }
+
+  renderButtonElement() {
+    const isElementLink = isLink(this);
 
     const cssClasses: any = {
       button: true,
-      [`size-${this.size}`]: true,
-      [`variant-${this.variant}`]: true,
-      [`color-${this.color}`]: true,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
       disabled: this.disabled || this.softDisabled,
-      pressed: this.isPressed,
       'has-content': this.slotHasContent,
       'show-skeleton': this.skeleton,
-      [`icon-align-${this.iconAlign}`]: true,
+      'trailing-icon': this.trailingIcon,
     };
 
-    if (!this.__isLink()) {
-      cssClasses['native-button'] = true;
-
-      return html`<button
-          class=${classMap(cssClasses)}
-          id="button"
-          type=${this.htmlType}
-          @click=${this.__dispatchClickWithThrottle}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handlePress}
-          @keyup=${this.__handlePress}
-
-          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
-          ?aria-disabled=${this.softDisabled}
-
-          ?disabled=${this.disabled}
-          ${spread(this.configAria)}
-        >
-          ${this.renderButtonContent()}
-        </button>
-        ${this.__renderTooltip()}`;
-    } else {
-      cssClasses['native-link'] = true;
+    if (isElementLink) {
       return html`<a
         class=${classMap(cssClasses)}
         id="button"
         href=${this.href}
         target=${this.target}
         tabindex=${this.disabled ? '-1' : '0'}
-        
         @click=${this.__dispatchClick}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
         role="button"
-
-        aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
+        aria-describedby=${ifDefined(
+          this.softDisabled ? DISABLED_REASON_ID : undefined,
+        )}
         ?aria-disabled=${this.softDisabled}
-
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
-      </a>
-      ${this.__renderTooltip()}`;
+      </a>`;
     }
+    return html`<button
+        class=${classMap(cssClasses)}
+        id="button"
+        type=${this.htmlType}
+        @click=${this.__dispatchClickWithThrottle}
+        @mousedown=${this.__handlePress}
+        @keydown=${this.__handlePress}
+        @keyup=${this.__handlePress}
+        aria-describedby=${ifDefined(
+          this.softDisabled ? DISABLED_REASON_ID : undefined,
+        )}
+        ?aria-disabled=${this.softDisabled}
+        ?disabled=${this.disabled}
+        ${spread(this.configAria)}
+      >
+        ${this.renderButtonContent()}
+      </button>
+      ${this.__renderTooltip()}`;
   }
 
   renderButtonContent() {
-    return html`
-      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      <div class="neo-background"></div>
-      <div class="background"></div>
-      <div class="outline"></div>
-      <wc-ripple class="ripple"></wc-ripple>
-      <wc-skeleton class="skeleton"></wc-skeleton>
+    return html` <slot name="icon"></slot>
+      <span class="label"><slot></slot></span>
 
-      <div class="button-content">
-        <div class="slot-container">
-          <slot></slot>
-        </div>
+      ${this.__renderDisabledReason(this.softDisabled)}`;
+  }
 
-        <slot name="icon"></slot>
-      </div>
+  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-      ${this.__renderDisabledReason(this.softDisabled)}
-    `;
+  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
+
+  @property({ type: Boolean, reflect: true }) selected: boolean = false;
+
+  /**
+   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   */
+  @property() throttleDelay = 200;
+
+  @property() tooltip?: string;
+
+  /**
+   * States
+   */
+  @property({ type: Boolean, reflect: true })
+  pressed = false;
+
+  @query('.button') readonly buttonElement!: HTMLElement | null;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    window.addEventListener('mouseup', this.__handlePress);
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('mouseup', this.__handlePress);
+    this.removeEventListener('click', this.__dispatchClickWithThrottle);
+    super.disconnectedCallback();
+  }
+
+  __handlePress = (event: KeyboardEvent | MouseEvent) => {
+    if (this.disabled || this.skeleton || this.softDisabled) return;
+    if (
+      event instanceof KeyboardEvent &&
+      event.type === 'keydown' &&
+      (event.key === 'Enter' || event.key === ' ')
+    ) {
+      this.pressed = true;
+    } else if (event.type === 'mousedown') {
+      this.pressed = true;
+    } else {
+      this.pressed = false;
+    }
+  };
+
+  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
+    event => {
+      this.__dispatchClick(event);
+    };
+
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    if (!isActivationClick(event) || !this.buttonElement) {
+      return;
+    }
+
+    if (this.toggle) {
+      this.selected = !this.selected;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.buttonElement);
+  };
+
+  __renderDisabledReason(softDisabled: boolean) {
+    if (softDisabled)
+      return html`<div
+        id=${DISABLED_REASON_ID}
+        role="tooltip"
+        aria-label=${this.disabledReason}
+        class="screen-reader-only"
+      >
+        ${this.disabledReason}
+      </div>`;
+    return nothing;
+  }
+
+  __renderTooltip() {
+    if (this.tooltip) {
+      return html`<wc-tooltip for="button">${this.tooltip}</wc-tooltip>`;
+    }
+    return nothing;
   }
 }

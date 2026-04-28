@@ -2,9 +2,13 @@ import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '@/__utils/dispatch-event-utils.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
+import { isLink } from '@/__utils/is-link.js';
 import { spread } from '@/__directive/spread.js';
 
 import styles from './tab.scss';
@@ -27,13 +31,12 @@ import type { Tabs } from './tabs.js';
  * @tags navigation
  */
 export class Tab extends LitElement {
-
   #id = crypto.randomUUID();
 
   static styles = [styles];
 
   @property({ type: Boolean, reflect: true }) active = false;
-  
+
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @property({ type: String }) disabledReason = '';
@@ -43,7 +46,7 @@ export class Tab extends LitElement {
   @property({ reflect: true })
   configAria?: { [key: string]: any };
 
-   /**
+  /**
    * Sets or retrieves the window or frame at which to target content.
    */
   @property() target: string = '_self';
@@ -63,11 +66,11 @@ export class Tab extends LitElement {
 
   @state() slotHasBadge = false;
 
-   /**
-     * States
-     */
-    @state()
-    isPressed = false;
+  /**
+   * States
+   */
+  @state()
+  isPressed = false;
 
   private _tabindex = 0;
 
@@ -80,7 +83,6 @@ export class Tab extends LitElement {
   override blur() {
     this.tabElement?.blur();
   }
-
 
   constructor() {
     super();
@@ -118,27 +120,27 @@ export class Tab extends LitElement {
   }
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-      event => {
-        this.__dispatchClick(event);
-      };
-  
-    __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-      // If the button is soft-disabled or a disabled link, we need to explicitly
-      // prevent the click from propagating to other event listeners as well as
-      // prevent the default action.
-      if (this.disabled && this.href) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-        return;
-      }
-  
-      if (!isActivationClick(event) || !this.tabElement) {
-        return;
-      }
-  
-      this.focus();
-      dispatchActivationClick(this.tabElement);
+    event => {
+      this.__dispatchClick(event);
     };
+
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.disabled && this.href) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    if (!isActivationClick(event) || !this.tabElement) {
+      return;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.tabElement);
+  };
 
   __handlePress = (event: KeyboardEvent | MouseEvent) => {
     if (this.disabled) return;
@@ -155,10 +157,6 @@ export class Tab extends LitElement {
     }
   };
 
-  __isLink() {
-    return !!this.href;
-  }
-
   __getParentTabsVariant(): Tabs['variant'] {
     return (this.closest('wc-tabs') as Tabs | null)?.variant ?? 'primary';
   }
@@ -172,10 +170,7 @@ export class Tab extends LitElement {
   //   }
   // }
 
-
   render() {
-
-    const isLink = this.__isLink();
     const variant = this.__getParentTabsVariant();
 
     const cssClasses = {
@@ -190,40 +185,39 @@ export class Tab extends LitElement {
       'has-badge': this.slotHasBadge,
     };
 
-
-    if (!isLink) {
-          return html`<button
-          id="button"
-              class=${classMap(cssClasses)}
-              tabindex="0"
-              @mousedown=${this.__handlePress}
-              @keydown=${this.__handlePress}
-              @keyup=${this.__handlePress}
-              ?aria-describedby=${this.__getDisabledReasonID()}
-              aria-disabled=${`${this.disabled}`}
-              ?disabled=${this.disabled}
-              ${spread(this.configAria)}
-            >
-              ${this.renderTabContent(variant)}
-            </button>`;
-        }
-
-    return html`<a
-        class=${classMap(cssClasses)}
+    if (!isLink(this)) {
+      return html`<button
         id="button"
+        class=${classMap(cssClasses)}
         tabindex="0"
-        href=${this.href}
-        target=${this.target}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        role="button"
         ?aria-describedby=${this.__getDisabledReasonID()}
         aria-disabled=${`${this.disabled}`}
+        ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
         ${this.renderTabContent(variant)}
-      </a>`;
+      </button>`;
+    }
+
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="button"
+      tabindex="0"
+      href=${this.href}
+      target=${this.target}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
+      ?aria-describedby=${this.__getDisabledReasonID()}
+      aria-disabled=${`${this.disabled}`}
+      ${spread(this.configAria)}
+    >
+      ${this.renderTabContent(variant)}
+    </a>`;
   }
 
   renderTabContent(variant: Tabs['variant']) {
@@ -242,14 +236,13 @@ export class Tab extends LitElement {
 
   renderPrimaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
       <wc-ripple class="ripple"></wc-ripple>
-      
-      <div class="tab-content">
 
+      <div class="tab-content">
         <div class="icon-section">
           <slot name="badge"></slot>
           <slot name="icon"></slot>
@@ -259,7 +252,6 @@ export class Tab extends LitElement {
         </div>
 
         <div class="indicator"></div>
-        
       </div>
 
       ${this.__renderDisabledReason()}
@@ -268,14 +260,13 @@ export class Tab extends LitElement {
 
   renderSecondaryTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
       <wc-ripple class="ripple"></wc-ripple>
-      
-      <div class="tab-content">
 
+      <div class="tab-content">
         <slot name="icon"></slot>
 
         <div class="slot-container">
@@ -301,7 +292,7 @@ export class Tab extends LitElement {
 
   renderSegmentedTabContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for='button'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>

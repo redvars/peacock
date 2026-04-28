@@ -1,13 +1,19 @@
-import { html, nothing } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
-import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '@/__utils/dispatch-event-utils.js';
+import { isLink } from '@/__utils/is-link.js';
 import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
 import { spread } from '@/__directive/spread.js';
-import { BaseButton } from '@/button/BaseButton.js';
+import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
+import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
 
 /**
  * @label Chip
@@ -21,7 +27,7 @@ import { BaseButton } from '@/button/BaseButton.js';
  * <wc-chip>Chip content</wc-chip>
  * ```
  */
-export class Chip extends BaseButton {
+export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
   // You would typically import your tag.scss.js here or use the css tag
   static styles = [styles, sizeStyles];
@@ -37,7 +43,97 @@ export class Chip extends BaseButton {
 
   @state() private _hasIconSlotContent = false;
 
-  @state() private _isPressed = false;
+  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
+
+  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
+
+  @property({ type: Boolean, reflect: true }) selected: boolean = false;
+
+  /**
+   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   */
+  @property() throttleDelay = 200;
+
+  @property() tooltip?: string;
+
+  @property({ type: Boolean, reflect: true })
+  pressed = false;
+
+  @query('.button') readonly buttonElement!: HTMLElement | null;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    window.addEventListener('mouseup', this.__handlePress);
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('mouseup', this.__handlePress);
+    this.removeEventListener('click', this.__dispatchClickWithThrottle);
+    super.disconnectedCallback();
+  }
+
+  __handlePress = (event: KeyboardEvent | MouseEvent) => {
+    if (this.disabled || this.skeleton || this.softDisabled) return;
+    if (
+      event instanceof KeyboardEvent &&
+      event.type === 'keydown' &&
+      (event.key === 'Enter' || event.key === ' ')
+    ) {
+      this.pressed = true;
+    } else if (event.type === 'mousedown') {
+      this.pressed = true;
+    } else {
+      this.pressed = false;
+    }
+  };
+
+  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
+    event => {
+      this.__dispatchClick(event);
+    };
+
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    if (!isActivationClick(event) || !this.buttonElement) {
+      return;
+    }
+
+    if (this.toggle) {
+      this.selected = !this.selected;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.buttonElement);
+  };
+
+  __renderDisabledReason(softDisabled: boolean) {
+    if (softDisabled)
+      return html`<div
+        id=${DISABLED_REASON_ID}
+        role="tooltip"
+        aria-label=${this.disabledReason}
+        class="screen-reader-only"
+      >
+        ${this.disabledReason}
+      </div>`;
+    return nothing;
+  }
+
+  __renderTooltip() {
+    if (this.tooltip) {
+      return html`<wc-tooltip for="button">${this.tooltip}</wc-tooltip>`;
+    }
+    return nothing;
+  }
 
   override focus() {
     this.buttonElement?.focus();
@@ -71,7 +167,6 @@ export class Chip extends BaseButton {
     );
   }
 
-
   private _renderCloseButton() {
     if (!this.dismissible) return nothing;
 
@@ -86,58 +181,55 @@ export class Chip extends BaseButton {
     `;
   }
 
-  
-
   render() {
     const cssClasses = {
       chip: true,
       button: true,
       selected: this.selected,
       dismissible: this.dismissible,
-      pressed: this._isPressed,
+      pressed: this.pressed,
       'icon-slot-has-content': this._hasIconSlotContent,
     };
 
-     if (!this.__isLink()) {
-        return html`<button
-            class=${classMap(cssClasses)}
-            id="button"
-            type=${this.htmlType}
-            @click=${this.__dispatchClickWithThrottle}
-            @mousedown=${this.__handlePress}
-            @keydown=${this.__handlePress}
-            @keyup=${this.__handlePress}
-  
-            aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
-            ?aria-disabled=${this.softDisabled}
-  
-            ?disabled=${this.disabled}
-            ${spread(this.configAria)}
-          >
-            ${this.renderChipContent()}
-          </button>`;
-      }
-      return html`<a
-          class=${classMap(cssClasses)}
-          id="button"
-          href=${this.href}
-          target=${this.target}
-          tabindex=${this.disabled ? '-1' : '0'}
-          
-          @click=${this.__dispatchClick}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handlePress}
-          @keyup=${this.__handlePress}
-          role="button"
-  
-          aria-describedby=${ifDefined(this.softDisabled ? BaseButton.DISABLED_REASON_ID : undefined)}
-          ?aria-disabled=${this.softDisabled}
-  
-          ${spread(this.configAria)}
-        >
-          ${this.renderChipContent()}
-        </a>`;
+    if (!isLink(this)) {
+      return html`<button
+        class=${classMap(cssClasses)}
+        id="button"
+        type=${this.htmlType}
+        @click=${this.__dispatchClickWithThrottle}
+        @mousedown=${this.__handlePress}
+        @keydown=${this.__handlePress}
+        @keyup=${this.__handlePress}
+        aria-describedby=${ifDefined(
+          this.softDisabled ? DISABLED_REASON_ID : undefined,
+        )}
+        ?aria-disabled=${this.softDisabled}
+        ?disabled=${this.disabled}
+        ${spread(this.configAria)}
+      >
+        ${this.renderChipContent()}
+      </button>`;
     }
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="button"
+      href=${this.href}
+      target=${this.target}
+      tabindex=${this.disabled ? '-1' : '0'}
+      @click=${this.__dispatchClick}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
+      aria-describedby=${ifDefined(
+        this.softDisabled ? DISABLED_REASON_ID : undefined,
+      )}
+      ?aria-disabled=${this.softDisabled}
+      ${spread(this.configAria)}
+    >
+      ${this.renderChipContent()}
+    </a>`;
+  }
 
   renderChipContent() {
     return html`
@@ -147,7 +239,6 @@ export class Chip extends BaseButton {
       <div class="outline"></div>
       <wc-ripple class="ripple"></wc-ripple>
       <div class="tag-content">
-
         <div class="icon-slot-container">
           ${this.selected
             ? html`<wc-icon class="selected-icon" name="check"></wc-icon>`
@@ -155,8 +246,8 @@ export class Chip extends BaseButton {
         </div>
         <div class="label-container">
           <slot></slot>
-        </div> 
-        
+        </div>
+
         ${this._renderCloseButton()}
       </div>
     `;

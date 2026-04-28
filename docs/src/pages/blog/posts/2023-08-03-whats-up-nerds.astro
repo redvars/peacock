@@ -1,12 +1,13 @@
 ---
 import Layout from '../../../layouts/Post.astro';
 import '../../../styles/post.scss';
+import site from '../../../_data/site.json';
 export const title = 'What\'s up nerds?';
-export const description = 'Welcome one and all to the new, official GOATUI blog. From now on, I will be posting info on new releases, documentation changes, great examples of folks using GOATUI, and more. Stay tuned for our first post on the next two updates for the project.';
+export const description = `Welcome one and all to the new, official ${site.title} blog. From now on, I will be posting info on new releases, documentation changes, great examples of folks using GOATUI, and more. Stay tuned for our first post on the next two updates for the project.`;
 export const publishedDate = "2023-08-03";
 ---
 <Layout title={title} description={description}>
   <p class='text-body-large'>
     {description}
-  </pc-text>
+  </p>
 </Layout>

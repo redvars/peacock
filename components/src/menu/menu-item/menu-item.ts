@@ -3,8 +3,8 @@ import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
-import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
 import { Item } from '@/item/item.js';
 
 /**
@@ -20,7 +20,9 @@ import { Item } from '@/item/item.js';
  * <wc-menu-item>Menu Item</wc-menu-item>
  * ```
  */
-export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
+export class MenuItem extends NativeButtonMixin(
+  NativeHyperlinkMixin(LitElement),
+) {
   @property({ type: String }) value = '';
 
   @property({ type: Boolean, reflect: true }) selected = false;
@@ -80,7 +82,9 @@ export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
 
   private _hasNamedSlot(...names: string[]) {
     return names.some(name =>
-      Array.from(this.children).some(child => child.getAttribute('slot') === name),
+      Array.from(this.children).some(
+        child => child.getAttribute('slot') === name,
+      ),
     );
   }
 
@@ -115,8 +119,12 @@ export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
         .rel=${this.rel}
         .download=${this.download}
         aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
-        aria-controls=${ifDefined(this.hasSubmenu && controls ? controls : undefined)}
-        aria-expanded=${ifDefined(this.hasSubmenu ? String(this.submenuOpen) : undefined)}
+        aria-controls=${ifDefined(
+          this.hasSubmenu && controls ? controls : undefined,
+        )}
+        aria-expanded=${ifDefined(
+          this.hasSubmenu ? String(this.submenuOpen) : undefined,
+        )}
       >
         ${this.renderContent()}
       </wc-item>
@@ -139,7 +147,9 @@ export class MenuItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
       ${hasOverline
         ? html`<slot name="overline" slot="overline"></slot>`
         : nothing}
-      ${hasHeadline ? html`<slot name="headline" slot="headline"></slot>` : nothing}
+      ${hasHeadline
+        ? html`<slot name="headline" slot="headline"></slot>`
+        : nothing}
       ${hasDefault ? html`<slot></slot>` : nothing}
       ${hasSupportingText
         ? html`<slot name="supporting-text" slot="supporting-text"></slot>`

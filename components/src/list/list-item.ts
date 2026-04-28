@@ -3,8 +3,9 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './list-item.scss';
-import BaseButtonMixin from '@/__mixins/BaseButtonMixin.js';
-import BaseHyperlinkMixin from '@/__mixins/BaseHyperlinkMixin.js';
+import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import { isLink } from '@/__utils/is-link.js';
 import {
   dispatchActivationClick,
   isActivationClick,
@@ -28,7 +29,9 @@ import {
  * ```
  * @tags display
  */
-export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
+export class ListItem extends NativeButtonMixin(
+  NativeHyperlinkMixin(LitElement),
+) {
   static styles = [styles];
 
   @property({ type: Boolean, reflect: true }) selected = false;
@@ -82,7 +85,7 @@ export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
       return;
     }
 
-    if (event.key === 'Enter' && !this.__isLink()) {
+    if (event.key === 'Enter' && !isLink(this)) {
       event.preventDefault();
       this.itemElement.click();
     }
@@ -105,8 +108,6 @@ export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
   };
 
   render() {
-    const isLink = this.__isLink();
-
     const cssClasses = {
       'list-item': true,
       'item-element': true,
@@ -115,7 +116,7 @@ export class ListItem extends BaseButtonMixin(BaseHyperlinkMixin(LitElement)) {
       pressed: this.isPressed,
     };
 
-    if (!isLink) {
+    if (!isLink(this)) {
       return html`
         <button
           id="item"
