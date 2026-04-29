@@ -168,7 +168,10 @@ export class Button
 
   override render() {
     return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
+      <wc-focus-ring
+        class="focus-ring"
+        .attach=${this.buttonElement}
+      ></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="neo-background"></div>
       <div class="background"></div>

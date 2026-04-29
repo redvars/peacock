@@ -8458,6 +8458,14 @@
           "privacy": "private"
         },
         {
+          "kind": "field",
+          "name": "_control",
+          "type": {
+            "text": "HTMLElement | undefined"
+          },
+          "privacy": "private"
+        },
+        {
           "kind": "method",
           "name": "__focusin"
         },
@@ -8470,22 +8478,26 @@
           "name": "__pointerdown"
         },
         {
-          "kind": "method",
-          "name": "__getFocusTarget",
-          "return": {
-            "type": {
-              "text": ""
-            }
-          },
-          "description": "Resolves the element that should receive focus-ring event listeners by id.\r\nPrefers lookup from the current control's root node, then falls back to a\r\ndocument-level lookup."
-        },
-        {
-          "kind": "method",
+          "kind": "field",
           "name": "attach"
         },
         {
           "kind": "method",
           "name": "detach"
+        },
+        {
+          "kind": "method",
+          "name": "__getFocusTarget",
+          "return": {
+            "type": {
+              "text": "HTMLElement | undefined"
+            }
+          }
+        },
+        {
+          "kind": "method",
+          "name": "__attach",
+          "privacy": "private"
         }
       ],
       "attributes": [

@@ -26,13 +26,15 @@ export class FocusRing extends LitElement {
 
   private __boundPointerdown = this.__pointerdown.bind(this);
 
+  private _control?: HTMLElement;
+
   render() {
     return nothing;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.attach();
+    this.__attach();
   }
 
   disconnectedCallback() {
@@ -52,7 +54,7 @@ export class FocusRing extends LitElement {
           prevEl.removeEventListener('pointerdown', this.__boundPointerdown);
         }
       }
-      this.attach();
+      this.__attach();
     }
   }
 
@@ -69,14 +71,27 @@ export class FocusRing extends LitElement {
     this.visible = false;
   }
 
-  /**
-   * Resolves the element that should receive focus-ring event listeners by id.
-   * Prefers lookup from the current control's root node, then falls back to a
-   * document-level lookup.
-   *
-   * @returns The resolved focus target, if one can be found.
-   */
+  set attach(control: HTMLElement) {
+    this.detach();
+    if (!control) return;
+    this._control = control;
+    control.addEventListener('focusin', this.__boundFocusin);
+    control.addEventListener('focusout', this.__boundFocusout);
+    control.addEventListener('pointerdown', this.__boundPointerdown);
+  }
+
+  detach() {
+    const focusTarget = this.__getFocusTarget();
+    if (focusTarget) {
+      focusTarget.removeEventListener('focusin', this.__boundFocusin);
+      focusTarget.removeEventListener('focusout', this.__boundFocusout);
+      focusTarget.removeEventListener('pointerdown', this.__boundPointerdown);
+    }
+    this._control = undefined;
+  }
+
   __getFocusTarget(): HTMLElement | undefined {
+    if (this._control) return this._control;
     if (this.for) {
       const root = this.parentElement?.getRootNode() as ShadowRoot | Document;
       if (root) {
@@ -94,21 +109,12 @@ export class FocusRing extends LitElement {
     return undefined;
   }
 
-  attach() {
+  private __attach() {
     const focusTarget = this.__getFocusTarget();
     if (focusTarget) {
       focusTarget.addEventListener('focusin', this.__boundFocusin);
       focusTarget.addEventListener('focusout', this.__boundFocusout);
       focusTarget.addEventListener('pointerdown', this.__boundPointerdown);
-    }
-  }
-
-  detach() {
-    const focusTarget = this.__getFocusTarget();
-    if (focusTarget) {
-      focusTarget.removeEventListener('focusin', this.__boundFocusin);
-      focusTarget.removeEventListener('focusout', this.__boundFocusout);
-      focusTarget.removeEventListener('pointerdown', this.__boundPointerdown);
     }
   }
 }
