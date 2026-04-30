@@ -21,7 +21,6 @@ import styles from './calendar-month-view.scss';
  * @label Calendar Month View
  * @tag wc-calendar-month-view
  * @rawTag calendar-month-view
- * @parentRawTag calendar
  * @summary Internal month view component for the calendar.
  */
 @IndividualComponent

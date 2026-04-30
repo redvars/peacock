@@ -9,7 +9,6 @@ import styles from './cb-expression.scss';
  * @rawTag cb-expression
  * @summary An expression row within a condition builder, containing an operator select and a slot for value inputs.
  * @tags condition-builder
- * @parentRawTag compound-builder
  *
  * @example
  * ```html

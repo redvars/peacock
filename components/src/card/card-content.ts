@@ -5,8 +5,7 @@ import IndividualComponent from '../IndividualComponent.js';
  * @label Card Content
  * @tag wc-card-content
  * @rawTag card-content
- * @parentRawTag 
- * 
+ *
  * @cssprop --card-content-padding - Inner padding for the card container. Defaults to 1rem.
  *
  * ```

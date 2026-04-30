@@ -14,7 +14,6 @@ import styles from './navigation-rail-item.scss';
  * @label Navigation Rail Item
  * @tag wc-navigation-rail-item
  * @rawTag navigation-rail-item
- * @parentRawTag navigation-rail
  *
  * @summary An individual item within a navigation rail.
  * @overview

@@ -6,7 +6,6 @@ import type { MenuItem } from '../menu/menu-item/menu-item.js';
  * @label Select Option
  * @tag wc-option
  * @rawTag option
- * @parentRawTag select
  *
  * @summary A declarative option element for use inside wc-select.
  *

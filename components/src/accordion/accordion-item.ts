@@ -8,7 +8,6 @@ import styles from './accordion-item.scss';
  * @tag wc-accordion-item
  * @rawTag accordion-item
  * @summary An expansion panel with a header that reveals or hides associated content. Follows Material Design 3 expansion panel guidelines.
- * @parentRawTag accordion
  *
  * @slot - The body content revealed when the panel is expanded.
  * @slot heading - The panel title. Renders as `body-large` text.

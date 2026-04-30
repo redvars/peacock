@@ -15,7 +15,6 @@ async function run() {
       '@tags',
       '@summary',
       '@overview',
-      '@parentRawTag',
       '@cssprop',
       '@fires',
       '@wip',

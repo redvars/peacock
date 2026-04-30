@@ -8,7 +8,6 @@ import styles from './breadcrumb-item.scss';
  * @label Breadcrumb Item
  * @tag wc-breadcrumb-item
  * @rawTag breadcrumb-item
- * @parentRawTag breadcrumb
  * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
  * @tags navigation
  *

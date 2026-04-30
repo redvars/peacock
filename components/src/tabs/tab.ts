@@ -18,7 +18,6 @@ import type { Tabs } from './tabs.js';
  * @label Tab
  * @tag wc-tab
  * @rawTag tab
- * @parentRawTag tabs
  *
  * @summary A tab component for use within tabs.
  * @overview

@@ -8,7 +8,6 @@ import styles from './sidebar-sub-menu.scss';
  * @label Sidebar Sub Menu
  * @tag wc-sidebar-sub-menu
  * @rawTag sidebar-sub-menu
- * @parentRawTag sidebar-menu
  * @summary A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.
  *
  * @example

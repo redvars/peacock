@@ -10,7 +10,6 @@ let subMenuIdCounter = 0;
  * @label Sub Menu
  * @tag wc-sub-menu
  * @rawTag sub-menu
- * @parentRawTag menu
  * @summary Connects a menu item to a nested menu.
  */
 export class SubMenu extends LitElement {

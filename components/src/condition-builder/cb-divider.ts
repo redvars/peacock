@@ -10,7 +10,6 @@ import styles from './cb-divider.scss';
  * @rawTag cb-divider
  * @summary A divider line used within a condition builder to visually connect expressions with operator tags.
  * @tags condition-builder
- * @parentRawTag compound-builder
  *
  * @example
  * ```html

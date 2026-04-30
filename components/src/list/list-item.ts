@@ -15,7 +15,6 @@ import {
  * @label List Item
  * @tag wc-list-item
  * @rawTag list-item
- * @parentRawTag list
  *
  * @summary A Material 3 list item with leading, trailing and content slots.
  *

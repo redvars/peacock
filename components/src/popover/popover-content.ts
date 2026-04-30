@@ -9,7 +9,6 @@ import styles from './popover-content.scss';
  * @tag wc-popover-content
  * @rawTag popover-content
  * @summary Content container for the wc-popover component.
- * @parentRawTag popover
  * @tags display
  *
  * @cssprop --popover-content-background - Background color of the popover content. Defaults to `var(--color-surface-container)`.

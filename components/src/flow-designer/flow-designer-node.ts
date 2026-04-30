@@ -10,7 +10,6 @@ import type { WorkflowNode } from './types.js';
  *
  * @tag wc-flow-designer-node
  * @rawTag flow-designer-node
- * @parentRawTag flow-designer
  * @wip true
  */
 @IndividualComponent

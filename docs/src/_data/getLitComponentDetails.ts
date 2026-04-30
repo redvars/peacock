@@ -1,40 +1,47 @@
 import componentsDetails from './custom-elements-jsdocs.json';
 import { marked } from 'marked';
 
-const otherComps = [{
-  rawTag: 'footer',
-  label: 'Footer',
-  summary: 'The footer component represents the bottom section of a web page.',
-  tag: 'footer',
-  wip: true,
-  customElement: {
-    attributes: [],
-    events: [],
-    cssProperties: [],
+const otherComps = [
+  {
+    rawTag: 'footer',
+    label: 'Footer',
+    summary:
+      'The footer component represents the bottom section of a web page.',
+    tag: 'footer',
+    wip: true,
+    customElement: {
+      attributes: [],
+      events: [],
+      cssProperties: [],
+    },
   },
-}, {
-  rawTag: 'text',
-  label: 'Text',
-  summary: 'The footer component represents the bottom section of a web page.',
-  tag: 'footer',
-  wip: true,
-  customElement: {
-    attributes: [],
-    events: [],
-    cssProperties: [],
+  {
+    rawTag: 'text',
+    label: 'Text',
+    summary:
+      'The footer component represents the bottom section of a web page.',
+    tag: 'footer',
+    wip: true,
+    customElement: {
+      attributes: [],
+      events: [],
+      cssProperties: [],
+    },
   },
-}, {
-  rawTag: 'item',
-  label: 'Item',
-  summary: 'A Material 3 item with start, text, and end slots.',
-  tag: 'wc-item',
-  example: '```html\n<wc-item selected>\n  <wc-icon slot="start" name="home"></wc-icon>\n  <div slot="overline">Overline</div>\n  <div slot="headline">Headline</div>\n  <div slot="supporting-text">Supporting text</div>\n  <div slot="trailing-supporting-text">Trailing</div>\n  <wc-icon slot="end" name="chevron_right"></wc-icon>\n</wc-item>\n```',
-  customElement: {
-    attributes: [],
-    events: [],
-    cssProperties: [],
+  {
+    rawTag: 'item',
+    label: 'Item',
+    summary: 'A Material 3 item with start, text, and end slots.',
+    tag: 'wc-item',
+    example:
+      '```html\n<wc-item selected>\n  <wc-icon slot="start" name="home"></wc-icon>\n  <div slot="overline">Overline</div>\n  <div slot="headline">Headline</div>\n  <div slot="supporting-text">Supporting text</div>\n  <div slot="trailing-supporting-text">Trailing</div>\n  <wc-icon slot="end" name="chevron_right"></wc-icon>\n</wc-item>\n```',
+    customElement: {
+      attributes: [],
+      events: [],
+      cssProperties: [],
+    },
   },
-}];
+];
 
 export function getAllComponentDetails() {
   const detailsByTag = new Map<string, any>();
@@ -51,11 +58,34 @@ export function getAllComponentDetails() {
 export function getAllComponentsForShowcase() {
   const components = getAllComponentDetails();
 
-  return components.filter(function(component) {
-      return !component.parentRawTag;
+  return components.filter(function (component) {
+    return ![
+      'tab-panel',
+      'tab-group',
+      'tab',
+      'popover-content',
+      'sidebar-menu-item',
+      'sidebar-sub-menu',
+      'segmented-button',
+      'option',
+      'navigation-rail-item',
+      'menu-item',
+      'sub-menu',
+      'list-item',
+      'flow-designer-node',
+      'cb-predicate',
+      'cb-expression',
+      'cb-divider',
+      'cb-compound-expression',
+      'card-content',
+      'calendar-column-view',
+      'calendar-month-view',
+      'breadcrumb-item',
+      'accordion-item',
+      'chip-set',
+    ].includes(component.rawTag);
   });
 }
-
 
 export function getComponentDetails(name: string): any {
   return getAllComponentDetails().find((component: any) => {

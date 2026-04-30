@@ -22,7 +22,6 @@ import styles from './calendar-column-view.scss';
  * @label Calendar Column View
  * @tag wc-calendar-column-view
  * @rawTag calendar-column-view
- * @parentRawTag calendar
  * @summary Internal column view component for the calendar (day/week views).
  */
 @IndividualComponent

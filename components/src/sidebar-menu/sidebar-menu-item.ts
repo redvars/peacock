@@ -7,7 +7,6 @@ import styles from './sidebar-menu-item.scss';
  * @label Sidebar Menu Item
  * @tag wc-sidebar-menu-item
  * @rawTag sidebar-menu-item
- * @parentRawTag sidebar-menu
  * @summary A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.
  *
  * @example
