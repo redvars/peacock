@@ -63,7 +63,7 @@
     opacity: var(--private-button-label-text-opacity, 1);
   }
 
-  slot[name=icon]::slotted(*) {
+  .icon-slot::slotted(*) {
     --icon-size: var(--button-icon-size, var(--private-button-icon-size));
     --icon-color: var(--private-button-label-text-color);
     opacity: var(--private-button-label-text-opacity, 1);

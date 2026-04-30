@@ -2,6 +2,8 @@ import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { classMap } from 'lit/directives/class-map.js';
+import pierreDark from '@pierre/theme/pierre-dark';
+import pierreLight from '@pierre/theme/pierre-light';
 
 import prettier from 'prettier/standalone';
 
@@ -148,8 +150,10 @@ export class CodeHighlighter extends LitElement {
     this.compiledCode = await codeToHtml(codeString, {
       lang: this.language,
       themes: {
-        light: 'github-light',
-        dark: 'github-dark',
+        // @ts-ignore
+        light: pierreLight,
+        // @ts-ignore
+        dark: pierreDark,
       },
       transformers,
     });
@@ -195,17 +199,23 @@ export class CodeHighlighter extends LitElement {
         })}
       >
         <div class="header">
-          <div class="header-title">${this.language}</div>
+          <div class="header-title">
+            <slot name="title">${this.language?.toUpperCase()}</slot>
+          </div>
           <div class="header-actions">
             <wc-icon-button
               color=${this._copied ? 'success' : 'surface'}
               variant="text"
               size="xs"
-              aria-label=${this._copied ? locale.copied : locale.copyToClipboard}
+              aria-label=${this._copied
+                ? locale.copied
+                : locale.copyToClipboard}
               tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
-              <wc-icon name="content_copy"></wc-icon>
+              <wc-icon
+                name=${this._copied ? 'check' : 'content_copy'}
+              ></wc-icon>
             </wc-icon-button>
           </div>
         </div>

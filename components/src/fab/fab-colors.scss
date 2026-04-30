@@ -38,12 +38,12 @@
   --filled-fab-label-text-color: var(--color-on-tertiary);
 }
 
-.fab.variant-tonal {
+:host([variant='tonal']) {
   --_fab-container-color: var(--tonal-fab-container-color);
   --_fab-label-text-color: var(--tonal-fab-label-text-color);
 }
 
-.fab.variant-filled {
+:host([variant='filled']) {
   --_fab-container-color: var(--filled-fab-container-color);
   --_fab-label-text-color: var(--filled-fab-label-text-color);
 }

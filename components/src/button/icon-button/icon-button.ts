@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import buttonLayers from '../button/button-layers.scss';
 import styles from '../button/button.scss';
 import colorStyles from '../button/button-colors.scss';
 import sizeStyles from './icon-button-sizes.scss';
@@ -64,7 +65,7 @@ export class IconButton
   extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
   implements GroupButtonInterface
 {
-  static override styles = [styles, colorStyles, sizeStyles];
+  static override styles = [buttonLayers, styles, colorStyles, sizeStyles];
 
   /**
    * Button size.
@@ -88,7 +89,7 @@ export class IconButton
    * `"tonal"` is a light color button.
    * `"elevated"` is elevated button
    */
-  @property() variant:
+  @property({ reflect: true }) variant:
     | 'elevated'
     | 'filled'
     | 'tonal'
@@ -238,6 +239,23 @@ export class IconButton
   }
 
   override render() {
+    return html`
+      <wc-focus-ring
+        class="focus-ring"
+        .attach=${this.buttonElement}
+      ></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="neo-background"></div>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
+
+      ${this.renderButtonElement()} ${this.__renderTooltip()}
+    `;
+  }
+
+  renderButtonElement() {
     const cssClasses = {
       button: true,
       'button-element': true,
@@ -252,61 +270,48 @@ export class IconButton
     if (!isLink(this)) {
       cssClasses['native-button'] = true;
       return html`<button
-          class=${classMap(cssClasses)}
-          id="button"
-          type=${this.htmlType}
-          @click=${this.__dispatchClickWithThrottle}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handlePress}
-          @keyup=${this.__handlePress}
-          aria-describedby=${ifDefined(
-            this.softDisabled ? DISABLED_REASON_ID : undefined,
-          )}
-          ?aria-disabled=${this.softDisabled}
-          ?disabled=${this.disabled}
-          ${spread(this.configAria)}
-        >
-          ${this.renderButtonContent()}
-        </button>
-        ${this.__renderTooltip()}`;
-    }
-    cssClasses['native-link'] = true;
-    return html`<a
         class=${classMap(cssClasses)}
         id="button"
-        href=${this.href}
-        target=${this.target}
-        tabindex=${this.disabled ? '-1' : '0'}
-        @click=${this.__dispatchClick}
+        type=${this.htmlType}
+        @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        role="button"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         ?aria-disabled=${this.softDisabled}
+        ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
-      </a>
-      ${this.__renderTooltip()}`;
+      </button>`;
+    }
+    cssClasses['native-link'] = true;
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="button"
+      href=${this.href}
+      target=${this.target}
+      tabindex=${this.disabled ? '-1' : '0'}
+      @click=${this.__dispatchClick}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
+      aria-describedby=${ifDefined(
+        this.softDisabled ? DISABLED_REASON_ID : undefined,
+      )}
+      ?aria-disabled=${this.softDisabled}
+      ${spread(this.configAria)}
+    >
+      ${this.renderButtonContent()}
+    </a>`;
   }
 
   renderButtonContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      <div class="neo-background"></div>
-      <div class="background"></div>
-      <div class="outline"></div>
-      <wc-ripple class="ripple"></wc-ripple>
-      <wc-skeleton class="skeleton"></wc-skeleton>
-
-      <div class="button-content">
-        <slot></slot>
-      </div>
-
+      <slot class="icon-slot"></slot>
       ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }

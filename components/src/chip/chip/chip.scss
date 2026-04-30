@@ -3,6 +3,7 @@
 @include mixin.base-styles;
 
 :host {
+  position: relative;
   display: inline-flex;
   --chip-container-color: var(--color-surface);
   --chip-label-text-color: var(--color-on-surface);
@@ -27,12 +28,12 @@
 }
 
 .chip {
-  position: relative;
   display: inline-flex;
   align-items: center;
   height: var(--chip-height, var(--_chip-height, 2rem));
   width: 100%;
   cursor: pointer;
+  z-index: 0;
 
   .tag-content {
     position: relative;
@@ -56,7 +57,6 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
 
     .close-btn {
       height: 100%;
@@ -85,20 +85,6 @@
       --icon-size: 1rem;
       --icon-color: var(--color-primary);
     }
-
-  }
-
-  .focus-ring {
-    z-index: 2;
-    display: block;
-    --focus-ring-container-shape: var(--chip-container-shape);
-  }
-
-  .ripple {
-    display: block;
-    border-radius: var(--chip-container-shape);
-    --ripple-state-opacity: var(--_chip-state-opacity, 0);
-    --ripple-pressed-color: var(--_chip-state-color);
   }
 
   &.disabled {
@@ -120,72 +106,81 @@
   &.icon-slot-has-content .icon-slot-container, &.selected .icon-slot-container {
     padding-inline: calc(var(--chip-container-padding) / 2);
   }
-
-
-
-  /**
-   * Tag background layers
-   */
-  .background {
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--chip-container-shape);
-    
-
-    background: var(--_chip-container-color);
-    pointer-events: none;
-  }
-
-  .outline {
-    z-index: 0;
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: var(--chip-container-shape);
-    border: 1px solid var(--chip-outline-color);
-  }
-
-  .elevation {
-    --elevation-level: 0;
-    transition-duration: 280ms;
-    --elevation-container-shape: var(--chip-container-shape);
-  }
-
 }
 
+/*
+  Background layers
+ */
+.focus-ring {
+  z-index: 2;
+  display: block;
+  --focus-ring-container-shape: var(--chip-container-shape);
+}
 
-/** Color state management */
-.chip {
+.ripple {
+  display: block;
+  border-radius: var(--chip-container-shape);
+  --ripple-state-opacity: var(--_chip-state-opacity, 0);
+  --ripple-pressed-color: var(--_chip-state-color);
+}
+
+.background {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--chip-container-shape);
+  background: var(--_chip-container-color);
+  pointer-events: none;
+}
+
+.outline {
+  z-index: 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--chip-container-shape);
+  border: 1px solid var(--chip-outline-color);
+}
+
+.elevation {
+  --elevation-level: 0;
+  transition-duration: 280ms;
+  --elevation-container-shape: var(--chip-container-shape);
+}
+
+/* Color/state management */
+:host {
   --_chip-container-color: var(--chip-container-color);
   --_chip-text-color: var(--chip-label-text-color);
   --_chip-state-color: var(--_chip-text-color);
+}
 
-  &:hover {
-    --_chip-state-opacity: 0.08;
-  }
+:host:hover {
+  --_chip-state-opacity: 0.08;
+}
 
-  &.pressed {
-    --_chip-state-opacity: 0.12;
-  }
-  
-  &.selected {
-    --_chip-container-color: var(--color-secondary-container);
-    --_chip-text-color: var(--color-on-secondary-container);
-  }
+:host([pressed]) {
+  --_chip-state-opacity: 0.12;
+}
 
-  &.disabled {
-    --_chip-container-color: var(--color-on-surface);
-    --_chip-container-opacity: 0.1;
-    --_chip-text-color: var(--color-on-surface);
-    --_chip-text-opacity: 0.38;
+:host([selected]) {
+  --_chip-container-color: var(--color-secondary-container);
+  --_chip-text-color: var(--color-on-secondary-container);
+}
 
-    .ripple {
-      display: none;
-    }
+:host([disabled]) {
+  --_chip-container-color: var(--color-on-surface);
+  --_chip-container-opacity: 0.1;
+  --_chip-text-color: var(--color-on-surface);
+  --_chip-text-opacity: 0.38;
+
+  .ripple {
+    display: none;
   }
 }

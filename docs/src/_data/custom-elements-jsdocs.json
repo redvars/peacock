@@ -2804,6 +2804,24 @@
         },
         {
           "kind": "method",
+          "name": "renderCardElement",
+          "parameters": [
+            {
+              "name": "isLinkElement",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "disableSlotTabbing",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "method",
           "name": "renderCardContent",
           "parameters": [
             {
@@ -4632,6 +4650,10 @@
         },
         {
           "kind": "method",
+          "name": "renderChipElement"
+        },
+        {
+          "kind": "method",
           "name": "renderChipContent"
         },
         {
@@ -5581,7 +5603,7 @@
     "tag": "wc-code-highlighter",
     "rawTag": "code-highlighter",
     "summary": "A component that provides syntax highlighting for code snippets.",
-    "example": "```html\r\n<wc-code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\r\n  function helloWorld() {\r\n    console.log('Hello, world!');\r\n  }</code></pre>\r\n</wc-code-highlighter>\r\n```",
+    "example": "```html\n<wc-code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -6935,6 +6957,18 @@
         {
           "kind": "method",
           "name": "blur"
+        },
+        {
+          "kind": "method",
+          "name": "__renderFabElement",
+          "parameters": [
+            {
+              "name": "isExtended",
+              "type": {
+                "text": "boolean"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
@@ -9389,7 +9423,8 @@
           },
           "default": "'filled'",
           "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "attribute": "variant"
+          "attribute": "variant",
+          "reflects": true
         },
         {
           "kind": "field",
@@ -9520,6 +9555,10 @@
         {
           "kind": "method",
           "name": "__convertTypeToVariantAndColor"
+        },
+        {
+          "kind": "method",
+          "name": "renderButtonElement"
         },
         {
           "kind": "method",
@@ -10719,6 +10758,48 @@
           "kind": "method",
           "name": "__captureHostTabIndex",
           "privacy": "private"
+        },
+        {
+          "kind": "method",
+          "name": "renderItemElement",
+          "parameters": [
+            {
+              "name": "cssClasses",
+              "type": {
+                "text": "any"
+              }
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "name": "tabIndex",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "name": "ariaHasPopup",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "name": "ariaControls",
+              "type": {
+                "text": "string | undefined"
+              }
+            },
+            {
+              "name": "ariaExpanded",
+              "type": {
+                "text": "string | undefined"
+              }
+            }
+          ]
         },
         {
           "kind": "method",

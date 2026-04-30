@@ -206,9 +206,23 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   }
 
   override render() {
-    const isLinkElement = isLink(this);
     const isExtended = !!this.label;
 
+    return html`
+      <wc-focus-ring
+        class="focus-ring"
+        .attach=${this.buttonElement}
+      ></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
+
+      ${this.__renderFabElement(isExtended)} ${this.__renderTooltip()}
+    `;
+  }
+
+  __renderFabElement(isExtended: boolean) {
     const cssClasses = {
       button: true,
       fab: true,
@@ -222,64 +236,55 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       pressed: this.pressed,
     };
 
-    if (!isLinkElement) {
+    if (!isLink(this)) {
       return html`<button
-          class=${classMap(cssClasses)}
-          id="button"
-          type="button"
-          @click=${this.__dispatchClickWithThrottle}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handlePress}
-          @keyup=${this.__handlePress}
-          aria-describedby=${ifDefined(
-            this.softDisabled ? DISABLED_REASON_ID : undefined,
-          )}
-          ?aria-disabled=${this.softDisabled}
-          ?disabled=${this.disabled}
-          ${spread(this.configAria)}
-        >
-          ${this.__renderFabContent(isExtended)}
-        </button>
-        ${this.__renderTooltip()}`;
-    }
-
-    return html`<a
         class=${classMap(cssClasses)}
         id="button"
-        tabindex=${this.disabled ? '-1' : '0'}
-        href=${ifDefined(this.href)}
-        target=${this.target}
-        @click=${this.__dispatchClick}
+        type="button"
+        @click=${this.__dispatchClickWithThrottle}
         @mousedown=${this.__handlePress}
         @keydown=${this.__handlePress}
         @keyup=${this.__handlePress}
-        role="button"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         ?aria-disabled=${this.softDisabled}
+        ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
         ${this.__renderFabContent(isExtended)}
-      </a>
-      ${this.__renderTooltip()}`;
+      </button>`;
+    }
+
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="button"
+      tabindex=${this.disabled ? '-1' : '0'}
+      href=${ifDefined(this.href)}
+      target=${this.target}
+      @click=${this.__dispatchClick}
+      @mousedown=${this.__handlePress}
+      @keydown=${this.__handlePress}
+      @keyup=${this.__handlePress}
+      role="button"
+      aria-describedby=${ifDefined(
+        this.softDisabled ? DISABLED_REASON_ID : undefined,
+      )}
+      ?aria-disabled=${this.softDisabled}
+      ${spread(this.configAria)}
+    >
+      ${this.__renderFabContent(isExtended)}
+    </a>`;
   }
 
   __renderFabContent(isExtended: boolean) {
     return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      <div class="background"></div>
-      <wc-ripple class="ripple"></wc-ripple>
-      <wc-skeleton class="skeleton"></wc-skeleton>
-
       <div class="fab-content">
         <slot></slot>
         ${isExtended
           ? html`<span class="fab-label">${this.label}</span>`
           : nothing}
       </div>
-
       ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }

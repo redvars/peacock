@@ -81,6 +81,12 @@
   }
 }
 
+
+// Layers
+@mixin layer-background {
+
+}
+
 @mixin apply-container-shape($name) {
   border-start-start-radius: var(--#{$name}-container-shape-start-start, var(--#{$name}-container-shape));
   border-start-end-radius: var(--#{$name}-container-shape-start-end, var(--#{$name}-container-shape));

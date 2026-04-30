@@ -205,6 +205,26 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       pressed: this.isPressed,
     };
 
+    return html`
+      <wc-focus-ring
+        class="focus-ring"
+        .attach=${this.itemElement}
+      ></wc-focus-ring>
+      <div class="background"></div>
+      <wc-ripple class="ripple" .attach=${this.itemElement}></wc-ripple>
+
+      ${this.renderItemElement(cssClasses, role, tabIndex, ariaHasPopup, ariaControls, ariaExpanded)}
+    `;
+  }
+
+  renderItemElement(
+    cssClasses: any,
+    role: string | undefined,
+    tabIndex: string | undefined,
+    ariaHasPopup: string | undefined,
+    ariaControls: string | undefined,
+    ariaExpanded: string | undefined,
+  ) {
     if (!isLink(this)) {
       cssClasses['native-button'] = true;
 
@@ -266,10 +286,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     );
 
     return html`
-      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
-      <div class="background"></div>
-      <wc-ripple class="ripple"></wc-ripple>
-
       <div class="item-content">
         ${hasStart
           ? html`

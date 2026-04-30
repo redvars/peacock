@@ -238,7 +238,7 @@ export class Button
   }
 
   renderButtonContent() {
-    return html` <slot name="icon"></slot>
+    return html` <slot class="icon-slot" name="icon"></slot>
       <span class="label"><slot></slot></span>
 
       ${this.__renderDisabledReason(this.softDisabled)}`;

@@ -42,19 +42,18 @@ $sideBarWidth: 15rem;
   flex-direction: column;
 }
 
-.page-container {
 
-  .comp-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    margin-bottom: var(--spacing-200);
+.comp-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin-bottom: var(--spacing-200);
 
-    .comp-title {
-      margin: 0;
-    }
+  .comp-title {
+    margin: 0;
   }
 }
+
 
 .footer .footer-content {
   padding: var(--spacing-200) var(--spacing-400);
@@ -74,7 +73,7 @@ pre[class*='language-'] {
 
   .component-content {
     flex: 1;
-    
+
     .component-description {
       margin-bottom: var(--spacing-600);
     }
@@ -97,7 +96,11 @@ pre[class*='language-'] {
   margin-bottom: var(--spacing-600);
 }
 
-.component-section > goat-text[type="body"] {
+.component-section > p {
+  margin-bottom: var(--spacing-200);
+}
+
+.component-section > h3 {
   margin-bottom: var(--spacing-200);
 }
 

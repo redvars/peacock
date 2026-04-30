@@ -15,17 +15,15 @@ const isHomePage = pathname === '/';
     height: 100%;
     width: 90px;
 
-
     .navigation-rail {
       position: fixed;
       --nav-rail-width: 90px;
-
-
-      --nav-rail-container-color: var(--color-surface-dim);
+      --nav-rail-container-color: var(--color-surface-container);
+      border-inline-end: 1px solid var(--color-outline-variant);
     }
 
     #search-btn {
-padding-top: 1rem;
+      margin-top: 1rem;
     }
   }
 </style>

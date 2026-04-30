@@ -182,6 +182,21 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   }
 
   render() {
+    return html`
+      <wc-focus-ring
+        class="focus-ring"
+        .attach=${this.buttonElement}
+      ></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <div class="outline"></div>
+      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+
+      ${this.renderChipElement()} ${this.__renderTooltip()}
+    `;
+  }
+
+  renderChipElement() {
     const cssClasses = {
       chip: true,
       button: true,
@@ -233,11 +248,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   renderChipContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      <div class="background"></div>
-      <div class="outline"></div>
-      <wc-ripple class="ripple"></wc-ripple>
       <div class="tag-content">
         <div class="icon-slot-container">
           ${this.selected
@@ -247,7 +257,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         <div class="label-container">
           <slot></slot>
         </div>
-
         ${this._renderCloseButton()}
       </div>
     `;

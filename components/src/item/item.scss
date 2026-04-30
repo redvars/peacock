@@ -3,9 +3,31 @@
 @include mixin.base-styles;
 
 :host {
+  position: relative;
   display: block;
   padding-inline: var(--spacing-050);
   --item-height: 3.5rem;
+
+  --item-container-color: transparent;
+  --item-label-text-color: var(--color-on-surface);
+  --item-leading-trailing-color: var(--color-on-surface-variant);
+  --item-supporting-text-color: var(--color-on-surface-variant);
+
+  --item-container-selected-color: var(--color-tertiary-container);
+  --item-label-text-selected-color: var(--color-on-tertiary-container);
+
+  --private-item-container-color: var(--item-container-color);
+  --private-item-label-text-color: var(--item-label-text-color);
+  --private-item-leading-trailing-color: var(--item-leading-trailing-color);
+  --private-item-supporting-text-color: var(--item-supporting-text-color);
+
+  --private-item-container-state-color: var(--private-item-label-text-color);
+
+  --private-item-container-shape-start-start: var(--item-container-shape-start-start, var(--shape-corner-extra-small));
+  --private-item-container-shape-start-end: var(--item-container-shape-start-end, var(--shape-corner-extra-small));
+  --private-item-container-shape-end-start: var(--item-container-shape-end-start, var(--shape-corner-extra-small));
+  --private-item-container-shape-end-end: var(--item-container-shape-end-end, var(--shape-corner-extra-small));
+  --private-item-container-shape-variant: var(--item-container-shape-variant, none);
 }
 
 /**
@@ -19,18 +41,12 @@
 }
 
 .item {
-  position: relative;
   min-height: var(--item-height);
   width: 100%;
   background: transparent;
   text-align: initial;
   cursor: pointer;
-
-  --private-item-container-shape-start-start: var(--item-container-shape-start-start, var(--shape-corner-extra-small));
-  --private-item-container-shape-start-end: var(--item-container-shape-start-end, var(--shape-corner-extra-small));
-  --private-item-container-shape-end-start: var(--item-container-shape-end-start, var(--shape-corner-extra-small));
-  --private-item-container-shape-end-end: var(--item-container-shape-end-end, var(--shape-corner-extra-small));
-  --private-item-container-shape-variant: var(--item-container-shape-variant, none);
+  z-index: 0;
 
   font-family: var(--item-label-font-family, var(--typography-body-large-font-family)) !important;
   font-size:  var(--item-label-font-size, var(--typography-body-large-font-size)) !important;
@@ -112,73 +128,57 @@
     white-space: nowrap;
     color: var(--private-item-supporting-text-color);
   }
+}
 
-  .background {
-    position: absolute;
-    inset: 0;
-    background-color: var(--private-item-container-color);
-    opacity: var(--private-item-container-opacity, 1);
-    pointer-events: none;
+/*
+  Background layers
+ */
+.background {
+  position: absolute;
+  inset: 0;
+  background-color: var(--private-item-container-color);
+  opacity: var(--private-item-container-opacity, 1);
+  pointer-events: none;
 
-    @include mixin.apply-container-shape(private-item);
-  }
+  @include mixin.apply-container-shape(private-item);
+}
 
-  .focus-ring {
-    z-index: 2;
-    @include mixin.copy-container-shape(private-item, focus-ring);
-    
-  }
+.focus-ring {
+  z-index: 2;
+  @include mixin.copy-container-shape(private-item, focus-ring);
+}
+
+.ripple {
+  @include mixin.apply-container-shape(private-item);
+  --ripple-state-opacity: var(--private-item-container-state-opacity, 0);
+  --ripple-pressed-color: var(--private-item-container-state-color);
+}
+
+/* State management */
+:host:hover:not([disabled], [selected]) {
+  --private-item-container-state-opacity: 0.08;
+}
+
+:host:has(.item.pressed):not([disabled]) {
+  --private-item-container-state-opacity: 0.12;
+}
+
+:host([selected]) {
+  --private-item-container-color: var(--item-container-selected-color);
+  --private-item-label-text-color: var(--item-label-text-selected-color);
+  --private-item-leading-trailing-color: var(--item-label-text-selected-color);
+  --private-item-supporting-text-color: var(--item-label-text-selected-color);
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  --private-item-label-text-color: var(--color-on-surface);
+  --private-item-label-text-opacity: 0.38;
+  --private-item-leading-trailing-color: var(--color-on-surface);
+  --private-item-supporting-text-color: var(--color-on-surface);
+  --private-item-container-opacity: 0.12;
 
   .ripple {
-    @include mixin.apply-container-shape(private-item);
-    --ripple-state-opacity: var(--private-item-container-state-opacity, 0);
-    --ripple-pressed-color: var(--private-item-container-state-color);
+    display: none;
   }
-}
-
-.item {
-  --private-item-container-color: var(--item-container-color);
-  --private-item-label-text-color: var(--item-label-text-color);
-  --private-item-leading-trailing-color: var(--item-leading-trailing-color);
-  --private-item-supporting-text-color: var(--item-supporting-text-color);
-
-  --private-item-container-state-color: var(--private-item-label-text-color);
-
-  &:hover:not(:where(.disabled, .selected)) {
-    --private-item-container-state-opacity: 0.08;
-  }
-
-  &.pressed:not(:where(.disabled)) {
-    --private-item-container-state-opacity: 0.12;
-  }
-
-  &.selected {
-    --private-item-container-color: var(--item-container-selected-color);
-    --private-item-label-text-color: var(--item-label-text-selected-color);
-    --private-item-leading-trailing-color: var(--item-label-text-selected-color);
-    --private-item-supporting-text-color: var(--item-label-text-selected-color);
-  }
-
-  &.disabled {
-    cursor: not-allowed;
-    --private-item-label-text-color: var(--color-on-surface);
-    --private-item-label-text-opacity: 0.38;
-    --private-item-leading-trailing-color: var(--color-on-surface);
-    --private-item-supporting-text-color: var(--color-on-surface);
-    --private-item-container-opacity: 0.12;
-
-    .ripple {
-      display: none;
-    }
-  }
-}
-
-:host {
-  --item-container-color: transparent;
-  --item-label-text-color: var(--color-on-surface);
-  --item-leading-trailing-color: var(--color-on-surface-variant);
-  --item-supporting-text-color: var(--color-on-surface-variant);
-
-  --item-container-selected-color: var(--color-tertiary-container);
-  --item-label-text-selected-color: var(--color-on-tertiary-container);
 }

@@ -32,11 +32,17 @@
     }
 
     .component-card-body {
+      flex: 1;
       .component-card-title {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .component-card-summary {
+        margin-bottom: 1rem;
       }
 
       .link-icon {
@@ -48,7 +54,7 @@
 
 
   { component &&
-    
+
     <wc-card class='component-card' href={`/components/${getTextTag(component, 'rawTag')}/#`}>
       <div class='component-card-header'>
 
@@ -69,7 +75,7 @@
             <wc-icon class="link-icon" name="arrow_outward"></wc-icon>
           </div>
         </h3>
-        <p class='text-body'>{getTextTag(component, 'summary')}</p>
+        <p class='text-body component-card-summary'>{getTextTag(component, 'summary')}</p>
       </wc-card-content>
     </wc-card>
   }
