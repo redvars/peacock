@@ -16,11 +16,11 @@ async function run() {
       '@summary',
       '@overview',
       '@parentRawTag',
-      "@cssprop",
-      "@fires",
-      "@wip",
-      "@slot",
-    ]
+      '@cssprop',
+      '@fires',
+      '@wip',
+      '@slot',
+    ],
   });
 
   const project = await app.convert();
@@ -56,6 +56,9 @@ async function run() {
         });
         if (customElement) {
           component.customElement = customElement.declarations[0];
+          delete component.customElement.summary;
+          delete component.customElement.name;
+          delete component.customElement.members;
         }
         return component;
       });

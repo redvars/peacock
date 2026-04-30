@@ -99,6 +99,11 @@
       font-weight var(--duration-short4, 200ms) var(--easing-standard, ease);
   }
 
+  /* Hide label when collapsed via class */
+  .label.hidden {
+    display: none;
+  }
+
   /* Active icon slot: hidden by default */
   .active-icon-slot {
     display: none;

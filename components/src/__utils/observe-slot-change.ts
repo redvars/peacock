@@ -32,7 +32,9 @@ export function observerSlotChangesWithCallback(
 
     const assigned = slot.assignedNodes({ flatten: true }) || [];
     assigned.forEach(node => {
-      const obs = new MutationObserver(() => callback(hasMeaningfulContent(slot)));
+      const obs = new MutationObserver(() => {
+        callback(hasMeaningfulContent(slot));
+      });
       try {
         obs.observe(node as Node, {
           attributes: true,

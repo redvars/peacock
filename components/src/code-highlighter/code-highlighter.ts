@@ -115,12 +115,17 @@ export class CodeHighlighter extends LitElement {
         codeString = await prettier.format(codeString, {
           parser: 'babel',
           plugins: [prettierPluginBabel, prettierPluginEstree],
+          bracketSameLine: true,
+          // Helps if you are writing HTML inside template literals
+          htmlWhitespaceSensitivity: 'ignore',
         });
         break;
       case 'html':
         codeString = await prettier.format(codeString, {
           parser: 'html',
           plugins: [prettierPluginHtml],
+          bracketSameLine: true,
+          htmlWhitespaceSensitivity: 'ignore',
         });
         break;
       case 'css':

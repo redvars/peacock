@@ -1,9 +1,10 @@
 ---
 import Layout from '../../layouts/Default.astro';
-const allPosts = await Astro.glob('./posts/*.astro');
 import '../../styles/blog.scss';
 import site from '../../_data/site.json';
 import Footer from '../../components/Footer.astro';
+
+const allPosts = Object.values(import.meta.glob('./posts/*.astro', { eager: true }));
 ---
 <Layout  classes='surface'>
   <div class='main-content'>
@@ -14,16 +15,16 @@ import Footer from '../../components/Footer.astro';
       <wc-divider></wc-divider>
 
       <div class='post-list'>
-        {allPosts.map(async (post: any) => {
+        {allPosts.map((post: any) => {
           return (
             <div class='item'>
               <h3 class='text-headline'>
                 <wc-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</wc-link>
               </h3>
               <p class='text-body-large'>{post.description}</p>
-              <pc-text color='secondary'>
+              <p color='secondary'>
                 Posted on {post.publishedDate}
-              </pc-text>
+              </p>
             </div>);
         })}
 

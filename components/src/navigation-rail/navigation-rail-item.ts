@@ -1,7 +1,10 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { dispatchActivationClick, isActivationClick } from '@/__utils/dispatch-event-utils.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '@/__utils/dispatch-event-utils.js';
 import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
 import { isLink } from '@/__utils/is-link.js';
@@ -78,7 +81,7 @@ export class NavigationRailItem extends LitElement {
     );
 
     observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot:not([name])'),
+      this.renderRoot.querySelector('slot.label'),
       hasContent => {
         this._hasLabel = hasContent;
         this.requestUpdate();
@@ -86,7 +89,7 @@ export class NavigationRailItem extends LitElement {
     );
 
     observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot[name="active-icon"]'),
+      this.renderRoot.querySelector('slot.active-icon-slot'),
       hasContent => {
         this._hasActiveIcon = hasContent;
         this.requestUpdate();
@@ -151,7 +154,7 @@ export class NavigationRailItem extends LitElement {
 
   __renderItemContent() {
     return html`
-      <wc-focus-ring class="focus-ring" for='item'></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
 
       <div class="item-content">
         <div class="indicator">
@@ -161,9 +164,7 @@ export class NavigationRailItem extends LitElement {
             <slot name="icon" class="icon-slot"></slot>
           </div>
         </div>
-        ${this._hasLabel && !this.collapsed
-          ? html`<div class="label"><slot></slot></div>`
-          : html`<slot class="hidden-slot"></slot>`}
+        <div class="label ${this.collapsed ? 'hidden' : ''}"><slot></slot></div>
       </div>
 
       ${this.__renderDisabledReason()}

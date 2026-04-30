@@ -14,7 +14,16 @@
 
 <body>
 
-<wc-button variant='elevated'><wc-icon name='home' slot='icon'/>Elevated</wc-button>
+<wc-navigation-rail
+  aria-label="Primary"
+  style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;"
+>
+  <wc-navigation-rail-item value="home" active="true">
+    <wc-icon slot="icon" name="home"></wc-icon>
+    Home
+  </wc-navigation-rail-item>
+</wc-navigation-rail>
+
 
 
 
