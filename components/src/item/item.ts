@@ -206,12 +206,9 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     };
 
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .attach=${this.itemElement}
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
       <div class="background"></div>
-      <wc-ripple class="ripple" .attach=${this.itemElement}></wc-ripple>
+      <wc-ripple class="ripple" for="item"></wc-ripple>
 
       ${this.renderItemElement(cssClasses, role, tabIndex, ariaHasPopup, ariaControls, ariaExpanded)}
     `;

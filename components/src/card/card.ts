@@ -148,14 +148,11 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
     const disableSlotTabbing = this.actionable || isLinkElement;
 
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .attach=${this.cardElement}
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="card"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
       <div class="outline"></div>
-      <wc-ripple class="ripple" .attach=${this.cardElement}></wc-ripple>
+      <wc-ripple class="ripple" for="card"></wc-ripple>
 
       ${this.renderCardElement(isLinkElement, disableSlotTabbing)}
     `;

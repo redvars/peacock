@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
@@ -132,11 +132,11 @@ export class Button
   configAria?: { [key: string]: any };
 
   override focus() {
-    this.buttonElement?.focus();
+    this.getControl()?.focus();
   }
 
   override blur() {
-    this.buttonElement?.blur();
+    this.getControl()?.blur();
   }
 
   override firstUpdated() {
@@ -289,7 +289,8 @@ export class Button
   @property({ type: Boolean, reflect: true })
   pressed = false;
 
-  @query('.button') readonly buttonElement!: HTMLElement | null;
+  // Query the internal control (button or link) on demand instead of
+  // keeping a persistent query reference.
 
   // cleanup functions returned by observerSlotChangesWithCallback
   private __iconSlotCleanup: (() => void) | null = null;
@@ -344,7 +345,9 @@ export class Button
       return;
     }
 
-    if (!isActivationClick(event) || !this.buttonElement) {
+    const control = this.getControl();
+
+    if (!isActivationClick(event) || !control) {
       return;
     }
 
@@ -353,8 +356,15 @@ export class Button
     }
 
     this.focus();
-    dispatchActivationClick(this.buttonElement);
+    dispatchActivationClick(control);
   };
+
+  private getControl(): HTMLElement | null {
+    return (
+      (this.renderRoot?.querySelector('#button') as HTMLElement | null) ??
+      (this.renderRoot?.querySelector('#link') as HTMLElement | null)
+    );
+  }
 
   __renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)

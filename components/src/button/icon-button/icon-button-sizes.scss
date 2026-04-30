@@ -1,5 +1,8 @@
 @use '../../../scss/mixin';
 
+.button .icon-slot {
+  overflow: initial;
+}
 
 .button {
   width: var(--button-height);

@@ -236,10 +236,7 @@ export class IconButton
 
   override render() {
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .attach=${this.buttonElement}
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       ${when(
         this.variant === 'neo',
@@ -250,7 +247,7 @@ export class IconButton
         this.variant === 'outlined' || this.variant === 'neo',
         () => html`<div class="outline"></div>`,
       )}
-      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-ripple class="ripple" for="button"></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.__renderTooltip()}

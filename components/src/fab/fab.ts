@@ -209,13 +209,10 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     const isExtended = !!this.label;
 
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .attach=${this.buttonElement}
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       <div class="background"></div>
-      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-ripple class="ripple" for="button"></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.__renderFabElement(isExtended)} ${this.__renderTooltip()}
