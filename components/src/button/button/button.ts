@@ -5,6 +5,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
+import onlyButton from './only-button.scss';
 import buttonLayers from './button-layers.scss';
 import colorStyles from './button-colors.scss';
 import sizeStyles from './button-sizes.scss';
@@ -68,7 +69,13 @@ export class Button
   extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
   implements GroupButtonInterface
 {
-  static override styles = [buttonLayers, styles, sizeStyles, colorStyles];
+  static override styles = [
+    buttonLayers,
+    styles,
+    onlyButton,
+    sizeStyles,
+    colorStyles,
+  ];
 
   /**
    * Icon alignment.
@@ -149,15 +156,21 @@ export class Button
 
     // Use MutationObserver-based helper so we react to content/character changes
     if (iconSlot) {
-      this.__iconSlotCleanup = observerSlotChangesWithCallback(iconSlot, has => {
-        this.toggleAttribute('has-icon', has);
-      });
+      this.__iconSlotCleanup = observerSlotChangesWithCallback(
+        iconSlot,
+        has => {
+          this.toggleAttribute('has-icon', has);
+        },
+      );
     }
 
     if (labelSlot) {
-      this.__labelSlotCleanup = observerSlotChangesWithCallback(labelSlot, has => {
-        this.toggleAttribute('has-label', has);
-      });
+      this.__labelSlotCleanup = observerSlotChangesWithCallback(
+        labelSlot,
+        has => {
+          this.toggleAttribute('has-label', has);
+        },
+      );
     }
   }
 

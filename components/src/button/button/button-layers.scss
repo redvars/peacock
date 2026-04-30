@@ -44,6 +44,7 @@
 
 .focus-ring {
   z-index: 2;
+  pointer-events: none;
 
   --focus-ring-container-shape-start-start: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
   --focus-ring-container-shape-start-end: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
@@ -58,6 +59,7 @@
   border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
   border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
   corner-shape: var(--private-button-container-shape-variant);
+  pointer-events: none;
 
   --ripple-state-opacity: var(--private-button-state-opacity, 0);
   --ripple-pressed-color: var(--private-button-state-color);
@@ -81,6 +83,7 @@
 
 
 .elevation {
+  pointer-events: none;
   transition-duration: 280ms;
   --elevation-container-shape-start-start: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
   --elevation-container-shape-start-end: var(--private-button-container-shape-start-end, var(--private-button-container-shape));

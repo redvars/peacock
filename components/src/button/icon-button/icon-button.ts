@@ -10,6 +10,7 @@ import sizeStyles from './icon-button-sizes.scss';
 import { spread } from '@/__directive/spread.js';
 import { throttle } from '@/__utils/throttle.js';
 import { isLink } from '@/__utils/is-link.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import {
   dispatchActivationClick,
   isActivationClick,
@@ -147,17 +148,11 @@ export class IconButton
 
   __handlePress = (event: KeyboardEvent | MouseEvent) => {
     if (this.disabled || this.skeleton || this.softDisabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.pressed = true;
-    } else if (event.type === 'mousedown') {
-      this.pressed = true;
-    } else {
-      this.pressed = false;
-    }
+    this.pressed =
+      (event instanceof KeyboardEvent &&
+        event.type === 'keydown' &&
+        (event.key === 'Enter' || event.key === ' ')) ||
+      event.type === 'mousedown';
   };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
