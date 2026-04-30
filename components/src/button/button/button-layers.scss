@@ -4,24 +4,60 @@
   display: block;
   position: absolute;
   inset: 0;
-  background-color: var(--private-button-container-color);
-  opacity: var(--private-button-container-opacity, 1);
   pointer-events: none;
 
-  @include mixin.apply-container-shape(private-button);
+  background-color: var(--private-button-container-color);
+  opacity: var(--private-button-container-opacity, 1);
+
+  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  corner-shape: var(--private-button-container-shape-variant);
+  /* Smooth resize/shape transitions */
+  transition-property: inset, width, height, transform, border-radius, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: var(--easing-standard);
+  will-change: inset, transform, border-radius, opacity;
 }
 
-/*
-   Background layers
-  */
+.neo-background {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: var(--color-inverse-surface);
+  transform: translateX(0.25rem) translateY(0.25rem);
+
+  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  corner-shape: var(--private-button-container-shape-variant);
+  /* Smooth resize/shape transitions */
+  transition-property: inset, width, height, transform, border-radius, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: var(--easing-standard);
+  will-change: inset, transform, border-radius, opacity;
+}
+
 .focus-ring {
   z-index: 2;
 
-  @include mixin.copy-container-shape(private-button, focus-ring);
+  --focus-ring-container-shape-start-start: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  --focus-ring-container-shape-start-end: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  --focus-ring-container-shape-end-start: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  --focus-ring-container-shape-end-end: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  --focus-ring-container-shape-variant: var(--private-button-container-shape-variant);
 }
 
 .ripple {
-  @include mixin.apply-container-shape(private-button);
+  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  corner-shape: var(--private-button-container-shape-variant);
 
   --ripple-state-opacity: var(--private-button-state-opacity, 0);
   --ripple-pressed-color: var(--private-button-state-color);
@@ -29,45 +65,47 @@
 
 
 .skeleton {
-  display: none;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
+  display: block;
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  pointer-events: none;
 
-  @include mixin.copy-container-shape(private-button, skeleton);
+  z-index: 2;
+
+  --skeleton-container-shape-start-start: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  --skeleton-container-shape-start-end: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  --skeleton-container-shape-end-start: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  --skeleton-container-shape-end-end: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  --skeleton-container-shape-variant: var(--private-button-container-shape-variant);
 }
+
 
 .elevation {
   transition-duration: 280ms;
-  @include mixin.copy-container-shape(private-button, elevation);
+  --elevation-container-shape-start-start: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  --elevation-container-shape-start-end: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  --elevation-container-shape-end-start: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  --elevation-container-shape-end-end: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  --elevation-container-shape-variant: var(--private-button-container-shape-variant);
 
   --elevation-level: var(--private-button-container-elevation-level);
 }
 
-.neo-background {
-  display: none;
-  position: absolute;
-  background: var(--color-inverse-surface);
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  transform: translateX(0.25rem) translateY(0.25rem);
 
-  @include mixin.apply-container-shape(private-button);
-}
 
 .outline {
-  z-index: 0;
-  display: none;
+  display: block;
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
+
+  z-index: 0;
+
   border: var(--private-button-outline-width) solid var(--private-button-outline-color);
   opacity: var(--private-button-outline-opacity, 1);
-  @include mixin.apply-container-shape(private-button);
+  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
+  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
+  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
+  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
+  corner-shape: var(--private-button-container-shape-variant);
 }

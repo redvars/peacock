@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import buttonLayers from '../button/button-layers.scss';
 import styles from '../button/button.scss';
 import colorStyles from '../button/button-colors.scss';
@@ -245,9 +246,15 @@ export class IconButton
         .attach=${this.buttonElement}
       ></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
-      <div class="neo-background"></div>
+      ${when(
+        this.variant === 'neo',
+        () => html`<div class="neo-background"></div>`,
+      )}
       <div class="background"></div>
-      <div class="outline"></div>
+      ${when(
+        this.variant === 'outlined' || this.variant === 'neo',
+        () => html`<div class="outline"></div>`,
+      )}
       <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 

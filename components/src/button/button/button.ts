@@ -1,16 +1,17 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
 import buttonLayers from './button-layers.scss';
 import colorStyles from './button-colors.scss';
 import sizeStyles from './button-sizes.scss';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import { throttle } from '@/__utils/throttle.js';
 import { spread } from '@/__directive/spread.js';
 import { isLink } from '@/__utils/is-link.js';
+import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
 import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
 import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
@@ -123,9 +124,6 @@ export class Button
   @property({ reflect: true })
   configAria?: { [key: string]: any };
 
-  @state()
-  private slotHasContent = false;
-
   override focus() {
     this.buttonElement?.focus();
   }
@@ -139,15 +137,28 @@ export class Button
       this.__dispatchClick,
       this.throttleDelay,
     );
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot'),
-      hasContent => {
-        this.slotHasContent = hasContent;
-        this.requestUpdate();
-      },
-    );
 
     this.__convertTypeToVariantAndColor();
+    // Initialize slot presence tracking for smooth transitions when label/icon are added/removed
+    const iconSlot = this.renderRoot.querySelector(
+      'slot[name="icon"]',
+    ) as HTMLSlotElement | null;
+    const labelSlot = this.renderRoot.querySelector(
+      'slot.label',
+    ) as HTMLSlotElement | null;
+
+    // Use MutationObserver-based helper so we react to content/character changes
+    if (iconSlot) {
+      this.__iconSlotCleanup = observerSlotChangesWithCallback(iconSlot, has => {
+        this.toggleAttribute('has-icon', has);
+      });
+    }
+
+    if (labelSlot) {
+      this.__labelSlotCleanup = observerSlotChangesWithCallback(labelSlot, has => {
+        this.toggleAttribute('has-label', has);
+      });
+    }
   }
 
   __convertTypeToVariantAndColor() {
@@ -173,9 +184,15 @@ export class Button
         .attach=${this.buttonElement}
       ></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
-      <div class="neo-background"></div>
+      ${when(
+        this.variant === 'neo',
+        () => html`<div class="neo-background"></div>`,
+      )}
       <div class="background"></div>
-      <div class="outline"></div>
+      ${when(
+        this.variant === 'outlined' || this.variant === 'neo',
+        () => html`<div class="outline"></div>`,
+      )}
       <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
@@ -190,9 +207,6 @@ export class Button
       button: true,
       'native-button': !isElementLink,
       'native-link': isElementLink,
-      disabled: this.disabled || this.softDisabled,
-      'has-content': this.slotHasContent,
-      'show-skeleton': this.skeleton,
       'trailing-icon': this.trailingIcon,
     };
 
@@ -239,7 +253,7 @@ export class Button
 
   renderButtonContent() {
     return html` <slot class="icon-slot" name="icon"></slot>
-      <span class="label"><slot></slot></span>
+      <slot class="label"></slot>
 
       ${this.__renderDisabledReason(this.softDisabled)}`;
   }
@@ -265,6 +279,11 @@ export class Button
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
+  // cleanup functions returned by observerSlotChangesWithCallback
+  private __iconSlotCleanup: (() => void) | null = null;
+
+  private __labelSlotCleanup: (() => void) | null = null;
+
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
@@ -272,6 +291,18 @@ export class Button
   }
 
   override disconnectedCallback() {
+    // disconnect slot observers first to avoid callbacks during teardown
+    try {
+      this.__iconSlotCleanup?.();
+    } catch (e) {
+      /* ignore */
+    }
+    try {
+      this.__labelSlotCleanup?.();
+    } catch (e) {
+      /* ignore */
+    }
+
     window.removeEventListener('mouseup', this.__handlePress);
     this.removeEventListener('click', this.__dispatchClickWithThrottle);
     super.disconnectedCallback();
@@ -279,17 +310,11 @@ export class Button
 
   __handlePress = (event: KeyboardEvent | MouseEvent) => {
     if (this.disabled || this.skeleton || this.softDisabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.pressed = true;
-    } else if (event.type === 'mousedown') {
-      this.pressed = true;
-    } else {
-      this.pressed = false;
-    }
+    this.pressed =
+      (event instanceof KeyboardEvent &&
+        event.type === 'keydown' &&
+        (event.key === 'Enter' || event.key === ' ')) ||
+      event.type === 'mousedown';
   };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =

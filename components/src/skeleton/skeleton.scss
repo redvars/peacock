@@ -18,7 +18,11 @@
 .skeleton::before {
   inset: 0;
   position: absolute;
-  @include mixin.apply-container-shape(skeleton);
+  border-start-start-radius: var(--skeleton-container-shape-start-start, var(--skeleton-container-shape));
+  border-start-end-radius: var(--skeleton-container-shape-start-end, var(--skeleton-container-shape));
+  border-end-start-radius: var(--skeleton-container-shape-end-start, var(--skeleton-container-shape));
+  border-end-end-radius: var(--skeleton-container-shape-end-end, var(--skeleton-container-shape));
+  corner-shape: var(--skeleton-container-shape-variant);
 }
 
 .skeleton {

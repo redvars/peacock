@@ -894,15 +894,6 @@
           "reflects": true
         },
         {
-          "kind": "field",
-          "name": "slotHasContent",
-          "type": {
-            "text": "boolean"
-          },
-          "privacy": "private",
-          "default": "false"
-        },
-        {
           "kind": "method",
           "name": "focus"
         },
@@ -988,6 +979,24 @@
             "text": "HTMLElement | null"
           },
           "readonly": true
+        },
+        {
+          "kind": "field",
+          "name": "__iconSlotCleanup",
+          "type": {
+            "text": "(() => void) | null"
+          },
+          "privacy": "private",
+          "default": "null"
+        },
+        {
+          "kind": "field",
+          "name": "__labelSlotCleanup",
+          "type": {
+            "text": "(() => void) | null"
+          },
+          "privacy": "private",
+          "default": "null"
         },
         {
           "kind": "field",

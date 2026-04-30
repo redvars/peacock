@@ -139,17 +139,28 @@
   background-color: var(--private-item-container-color);
   opacity: var(--private-item-container-opacity, 1);
   pointer-events: none;
-
-  @include mixin.apply-container-shape(private-item);
+  border-start-start-radius: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
+  border-start-end-radius: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
+  border-end-start-radius: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
+  border-end-end-radius: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
+  corner-shape: var(--private-item-container-shape-variant);
 }
 
 .focus-ring {
   z-index: 2;
-  @include mixin.copy-container-shape(private-item, focus-ring);
+  --focus-ring-container-shape-start-start: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
+  --focus-ring-container-shape-start-end: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
+  --focus-ring-container-shape-end-start: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
+  --focus-ring-container-shape-end-end: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
+  --focus-ring-container-shape-variant: var(--private-item-container-shape-variant);
 }
 
 .ripple {
-  @include mixin.apply-container-shape(private-item);
+  border-start-start-radius: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
+  border-start-end-radius: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
+  border-end-start-radius: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
+  border-end-end-radius: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
+  corner-shape: var(--private-item-container-shape-variant);
   --ripple-state-opacity: var(--private-item-container-state-opacity, 0);
   --ripple-pressed-color: var(--private-item-container-state-color);
 }

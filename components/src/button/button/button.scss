@@ -46,7 +46,6 @@
   z-index: 0;
 
   cursor: pointer;
-  gap: var(--private-button-icon-label-spacing);
 
 
 
@@ -61,6 +60,23 @@
     --icon-size: var(--button-icon-size, var(--private-button-icon-size));
     --icon-color: var(--private-button-label-text-color);
     opacity: var(--private-button-label-text-opacity, 1);
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    /* allow smooth collapse when label is removed */
+    max-inline-size: 1000px;
+    transition: opacity 200ms var(--easing-standard), max-inline-size 220ms var(--easing-standard), margin 200ms var(--easing-standard), padding 200ms var(--easing-standard);
+  }
+
+  /* make the icon slot itself collapsible so removal animates smoothly */
+  .icon-slot {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    /* a reasonably large default to avoid clipping */
+    max-inline-size: 3rem;
+    transition: opacity 200ms var(--easing-standard), max-inline-size 200ms var(--easing-standard), width 200ms var(--easing-standard), margin 200ms var(--easing-standard);
   }
 
   .icon-slot::slotted(*) {
@@ -69,32 +85,30 @@
     opacity: var(--private-button-label-text-opacity, 1);
   }
 
-  &.has-content {
-    .slot-container {
-      display: flex;
-      flex: none;
-      justify-content: center;
-    }
-  }
 
-  &.show-skeleton {
-    .background {
-      display: none;
-    }
-    .neo-background {
-      display: none;
-      &:before {
-        display: none;
-      }
-    }
-    .ripple {
-      display: none;
-    }
-    .skeleton {
-      display: block;
-    }
-  }
 
+}
+
+/* When icon or label are not present, collapse their space smoothly */
+:host(:not([has-label])) .label {
+  opacity: 0;
+  max-inline-size: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding: 0;
+}
+
+:host(:not([has-icon])) .icon-slot {
+  opacity: 0;
+  max-inline-size: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* When both icon and label are present, apply the configured spacing */
+:host([has-icon][has-label]) .button {
+  gap: var(--private-button-icon-label-spacing);
 }
 
 :host(:not([trailing-icon])) .button {
@@ -107,6 +121,21 @@
 
 :host([disabled]) , :host([soft-disabled]) {
   cursor: not-allowed;
+}
+
+:host(:not([skeleton])) {
+  .skeleton {
+    display: none;
+  }
+}
+
+:host([skeleton]) {
+  .background {
+    display: none;
+  }
+  .ripple {
+    display: none;
+  }
 }
 
 
@@ -206,10 +235,6 @@
 
   --private-button-state-color: var(--private-button-label-text-color);
 
-  .outline {
-    display: block;
-  }
-
   &:host(:hover:not([disabled], [soft-disabled], [show-skeleton])) {
     --private-button-state-opacity: 0.08;
   }
@@ -260,14 +285,6 @@
 
   --private-button-outline-width: var(--outlined-button-outline-width, 0.125rem);
   --private-button-outline-color: var(--color-inverse-surface);
-
-  .outline {
-    display: block;
-  }
-
-  .neo-background {
-    display: block;
-  }
 
   .focus-ring {
     --focus-ring-color: var(--color-primary-container);
