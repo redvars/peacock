@@ -1,6 +1,10 @@
-import { LitElement, html, css, PropertyValues } from 'lit';
+import { LitElement, html, css, PropertyValues, isServer } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import {
+  Attachable,
+  AttachableController,
+} from '@/__controllers/attachable-controller.js';
 
 const PRESS_GROW_MS = 450;
 const MINIMUM_PRESS_MS = 225;
@@ -114,7 +118,7 @@ const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
  * ```
  * @tags display
  */
-export class Ripple extends LitElement {
+export class Ripple extends LitElement implements Attachable {
   static styles = css`
     :host {
       display: flex;
@@ -204,19 +208,36 @@ export class Ripple extends LitElement {
 
   private rippleStartEvent?: PointerEvent;
 
-  private _control?: HTMLElement;
-
   private readonly _boundHandleEvent = this.handleEvent.bind(this);
+
+  get htmlFor() {
+    return this.attachableController.htmlFor;
+  }
+
+  set htmlFor(htmlFor: string | null) {
+    this.attachableController.htmlFor = htmlFor;
+  }
+
+  get control() {
+    return this.attachableController.control;
+  }
+
+  set control(control: HTMLElement | null) {
+    this.attachableController.control = control;
+  }
+
+  private readonly attachableController = new AttachableController(
+    // `LitElement` satisfies the ReactiveControllerHost & HTMLElement shape
+    // required by the controller.
+    this,
+    this.onControlChange.bind(this),
+  );
 
   override connectedCallback() {
     super.connectedCallback();
     // Needed for VoiceOver, which will create a "group" if the element is a
     // sibling to other content.
     this.setAttribute('aria-hidden', 'true');
-    // Attach to parent when no explicit attach target has been set
-    if (!this._control) {
-      this.attach = this.parentElement!;
-    }
   }
 
   override disconnectedCallback() {
@@ -224,22 +245,21 @@ export class Ripple extends LitElement {
     this.detach();
   }
 
-  set attach(control: HTMLElement) {
-    this.detach();
-    if (!control) return;
-    this._control = control;
-    EVENTS.forEach(event => {
-      control.addEventListener(event, this._boundHandleEvent);
-    });
+  attach(control: HTMLElement) {
+    this.attachableController.attach(control);
   }
 
   detach() {
-    const control = this._control;
-    if (!control) return;
-    this._control = undefined;
-    EVENTS.forEach(event => {
-      control.removeEventListener(event, this._boundHandleEvent);
-    });
+    this.attachableController.detach();
+  }
+
+  private onControlChange(prev: HTMLElement | null, next: HTMLElement | null) {
+    if (isServer) return;
+
+    for (const event of EVENTS) {
+      prev?.removeEventListener(event, this._boundHandleEvent);
+      next?.addEventListener(event, this._boundHandleEvent);
+    }
   }
 
   protected override render() {

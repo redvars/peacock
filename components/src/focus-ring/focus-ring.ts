@@ -1,6 +1,20 @@
-import { LitElement, nothing } from 'lit';
+import { isServer, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './focus-ring.scss';
+import {
+  Attachable,
+  AttachableController,
+} from '@/__controllers/attachable-controller.js';
+
+/**
+ * Events that the focus ring listens to.
+ */
+const EVENTS = ['focusin', 'focusout', 'pointerdown'];
+const HANDLED_BY_FOCUS_RING = Symbol('handledByFocusRing');
+
+interface FocusRingEvent extends Event {
+  [HANDLED_BY_FOCUS_RING]: true;
+}
 
 /**
  * @label Focus Ring
@@ -12,109 +26,98 @@ import styles from './focus-ring.scss';
  *
  *
  * @tags display
+ *
+ * @fires visibility-changed {Event} Fired whenever `visible` changes.
  */
-export class FocusRing extends LitElement {
+export class FocusRing extends LitElement implements Attachable {
   static styles = [styles];
 
-  @property({ type: Boolean, reflect: true }) visible: boolean = false;
+  /**
+   * Makes the focus ring visible.
+   */
+  @property({ type: Boolean, reflect: true })
+  visible = false;
 
-  @property({ type: String }) for = '';
+  /**
+   * Makes the focus ring animate inwards instead of outwards.
+   */
+  @property({ type: Boolean, reflect: true }) inward = false;
 
-  private __boundFocusin = this.__focusin.bind(this);
-
-  private __boundFocusout = this.__focusout.bind(this);
-
-  private __boundPointerdown = this.__pointerdown.bind(this);
-
-  private _control?: HTMLElement;
-
-  render() {
-    return nothing;
+  get htmlFor() {
+    return this.attachableController.htmlFor;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.__attach();
+  set htmlFor(htmlFor: string | null) {
+    this.attachableController.htmlFor = htmlFor;
   }
 
-  disconnectedCallback() {
-    this.detach();
-    super.disconnectedCallback();
+  get control() {
+    return this.attachableController.control;
   }
 
-  updated(changed: Map<string, unknown>) {
-    if (changed.has('for')) {
-      const prevId = changed.get('for') as string;
-      if (prevId) {
-        const root = this.parentElement?.getRootNode() as ShadowRoot | Document;
-        const prevEl = root?.getElementById(prevId) ?? document.getElementById(prevId);
-        if (prevEl) {
-          prevEl.removeEventListener('focusin', this.__boundFocusin);
-          prevEl.removeEventListener('focusout', this.__boundFocusout);
-          prevEl.removeEventListener('pointerdown', this.__boundPointerdown);
-        }
-      }
-      this.__attach();
-    }
+  set control(control: HTMLElement | null) {
+    this.attachableController.control = control;
   }
 
-  __focusin() {
-    const focusTarget = this.__getFocusTarget();
-    this.visible = focusTarget?.matches(':focus-visible') ?? false;
-  }
+  private readonly attachableController = new AttachableController(
+    this,
+    this.onControlChange.bind(this),
+  );
 
-  __focusout() {
-    this.visible = false;
-  }
-
-  __pointerdown() {
-    this.visible = false;
-  }
-
-  set attach(control: HTMLElement) {
-    this.detach();
-    if (!control) return;
-    this._control = control;
-    control.addEventListener('focusin', this.__boundFocusin);
-    control.addEventListener('focusout', this.__boundFocusout);
-    control.addEventListener('pointerdown', this.__boundPointerdown);
+  attach(control: HTMLElement) {
+    this.attachableController.attach(control);
   }
 
   detach() {
-    const focusTarget = this.__getFocusTarget();
-    if (focusTarget) {
-      focusTarget.removeEventListener('focusin', this.__boundFocusin);
-      focusTarget.removeEventListener('focusout', this.__boundFocusout);
-      focusTarget.removeEventListener('pointerdown', this.__boundPointerdown);
-    }
-    this._control = undefined;
+    this.attachableController.detach();
   }
 
-  __getFocusTarget(): HTMLElement | undefined {
-    if (this._control) return this._control;
-    if (this.for) {
-      const root = this.parentElement?.getRootNode() as ShadowRoot | Document;
-      if (root) {
-        const focusTarget = root.getElementById(this.for);
-        if (focusTarget) {
-          return focusTarget;
-        }
-      }
-      const focusTarget = document.getElementById(this.for);
-      if (focusTarget) {
-        return focusTarget;
-      }
-    }
-
-    return undefined;
+  override connectedCallback() {
+    super.connectedCallback();
+    // Needed for VoiceOver, which will create a "group" if the element is a
+    // sibling to other content.
+    this.setAttribute('aria-hidden', 'true');
   }
 
-  private __attach() {
-    const focusTarget = this.__getFocusTarget();
-    if (focusTarget) {
-      focusTarget.addEventListener('focusin', this.__boundFocusin);
-      focusTarget.addEventListener('focusout', this.__boundFocusout);
-      focusTarget.addEventListener('pointerdown', this.__boundPointerdown);
+  /** @private */
+  handleEvent(event: FocusRingEvent) {
+    if (event[HANDLED_BY_FOCUS_RING]) {
+      // This ensures the focus ring does not activate when multiple focus rings
+      // are used within a single component.
+      return;
     }
+
+    switch (event.type) {
+      case 'focusin':
+        this.visible = this.control?.matches(':focus-visible') ?? false;
+        break;
+      case 'focusout':
+      case 'pointerdown':
+        this.visible = false;
+        break;
+      default:
+        return;
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    event[HANDLED_BY_FOCUS_RING] = true;
+  }
+
+  private onControlChange(prev: HTMLElement | null, next: HTMLElement | null) {
+    if (isServer) return;
+
+    for (const event of EVENTS) {
+      prev?.removeEventListener(event, this);
+      next?.addEventListener(event, this);
+    }
+  }
+
+  override update(changed: PropertyValues<FocusRing>) {
+    if (changed.has('visible')) {
+      // This logic can be removed once the `:has` selector has been introduced
+      // to Firefox. This is necessary to allow correct submenu styles.
+      this.dispatchEvent(new Event('visibility-changed'));
+    }
+    super.update(changed);
   }
 }

@@ -8461,6 +8461,7 @@
     "rawTag": "focus-ring",
     "summary": "Adds a focus ring to an element.",
     "tags": "display",
+    "fires": "visibility-changed {Event} Fired whenever `visible` changes.",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8473,56 +8474,47 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Makes the focus ring visible.",
           "attribute": "visible",
           "reflects": true
         },
         {
           "kind": "field",
-          "name": "for",
+          "name": "inward",
           "type": {
-            "text": "string"
+            "text": "boolean"
           },
-          "default": "''",
-          "attribute": "for"
+          "default": "false",
+          "description": "Makes the focus ring animate inwards instead of outwards.",
+          "attribute": "inward",
+          "reflects": true
         },
         {
           "kind": "field",
-          "name": "__boundFocusin",
-          "privacy": "private"
+          "name": "htmlFor"
         },
         {
           "kind": "field",
-          "name": "__boundFocusout",
-          "privacy": "private"
+          "name": "control"
         },
         {
           "kind": "field",
-          "name": "__boundPointerdown",
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
-          "name": "_control",
-          "type": {
-            "text": "HTMLElement | undefined"
-          },
-          "privacy": "private"
+          "name": "attachableController",
+          "privacy": "private",
+          "readonly": true,
+          "default": "new AttachableController( this, this.onControlChange.bind(this), )"
         },
         {
           "kind": "method",
-          "name": "__focusin"
-        },
-        {
-          "kind": "method",
-          "name": "__focusout"
-        },
-        {
-          "kind": "method",
-          "name": "__pointerdown"
-        },
-        {
-          "kind": "field",
-          "name": "attach"
+          "name": "attach",
+          "parameters": [
+            {
+              "name": "control",
+              "type": {
+                "text": "HTMLElement"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
@@ -8530,17 +8522,44 @@
         },
         {
           "kind": "method",
-          "name": "__getFocusTarget",
-          "return": {
-            "type": {
-              "text": "HTMLElement | undefined"
+          "name": "handleEvent",
+          "parameters": [
+            {
+              "name": "event",
+              "type": {
+                "text": "FocusRingEvent"
+              }
             }
-          }
+          ],
+          "privacy": "private"
         },
         {
           "kind": "method",
-          "name": "__attach",
-          "privacy": "private"
+          "name": "onControlChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "prev",
+              "type": {
+                "text": "HTMLElement | null"
+              }
+            },
+            {
+              "name": "next",
+              "type": {
+                "text": "HTMLElement | null"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "visibility-changed",
+          "type": {
+            "text": "Event"
+          },
+          "description": "{Event} Fired whenever `visible` changes."
         }
       ],
       "attributes": [
@@ -8550,15 +8569,17 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Makes the focus ring visible.",
           "fieldName": "visible"
         },
         {
-          "name": "for",
+          "name": "inward",
           "type": {
-            "text": "string"
+            "text": "boolean"
           },
-          "default": "''",
-          "fieldName": "for"
+          "default": "false",
+          "description": "Makes the focus ring animate inwards instead of outwards.",
+          "fieldName": "inward"
         }
       ],
       "superclass": {
@@ -14985,25 +15006,59 @@
         },
         {
           "kind": "field",
-          "name": "_control",
-          "type": {
-            "text": "HTMLElement | undefined"
-          },
-          "privacy": "private"
-        },
-        {
-          "kind": "field",
           "name": "_boundHandleEvent",
           "privacy": "private",
           "readonly": true
         },
         {
           "kind": "field",
-          "name": "attach"
+          "name": "htmlFor"
+        },
+        {
+          "kind": "field",
+          "name": "control"
+        },
+        {
+          "kind": "field",
+          "name": "attachableController",
+          "privacy": "private",
+          "readonly": true,
+          "default": "new AttachableController( // `LitElement` satisfies the ReactiveControllerHost & HTMLElement shape // required by the controller. this, this.onControlChange.bind(this), )"
+        },
+        {
+          "kind": "method",
+          "name": "attach",
+          "parameters": [
+            {
+              "name": "control",
+              "type": {
+                "text": "HTMLElement"
+              }
+            }
+          ]
         },
         {
           "kind": "method",
           "name": "detach"
+        },
+        {
+          "kind": "method",
+          "name": "onControlChange",
+          "privacy": "private",
+          "parameters": [
+            {
+              "name": "prev",
+              "type": {
+                "text": "HTMLElement | null"
+              }
+            },
+            {
+              "name": "next",
+              "type": {
+                "text": "HTMLElement | null"
+              }
+            }
+          ]
         },
         {
           "kind": "method",

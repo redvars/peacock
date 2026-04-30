@@ -191,11 +191,10 @@ export class Button
   }
 
   override render() {
+    const buttonId = isLink(this) ? 'link' : 'button';
+
     return html`
-      <wc-focus-ring
-        class="focus-ring"
-        .attach=${this.buttonElement}
-      ></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       ${when(
         this.variant === 'neo',
@@ -206,7 +205,7 @@ export class Button
         this.variant === 'outlined' || this.variant === 'neo',
         () => html`<div class="outline"></div>`,
       )}
-      <wc-ripple class="ripple" .attach=${this.buttonElement}></wc-ripple>
+      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.__renderTooltip()}
@@ -226,7 +225,7 @@ export class Button
     if (isElementLink) {
       return html`<a
         class=${classMap(cssClasses)}
-        id="button"
+        id="link"
         href=${this.href}
         target=${this.target}
         tabindex=${this.disabled ? '-1' : '0'}
@@ -372,7 +371,8 @@ export class Button
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip for="button">${this.tooltip}</wc-tooltip>`;
+      const buttonId = isLink(this) ? 'link' : 'button';
+      return html`<wc-tooltip for=${buttonId}>${this.tooltip}</wc-tooltip>`;
     }
     return nothing;
   }
