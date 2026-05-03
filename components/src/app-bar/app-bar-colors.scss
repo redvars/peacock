@@ -1,0 +1,17 @@
+:host {
+  --app-bar-container-color: var(--color-surface);
+  --app-bar-headline-color: var(--color-on-surface);
+  --app-bar-leading-icon-color: var(--color-on-surface);
+  --app-bar-trailing-icon-color: var(--color-on-surface-variant);
+
+  /* Internal aliases */
+  --_app-bar-container-color: var(--app-bar-container-color);
+  --_app-bar-headline-color: var(--app-bar-headline-color);
+  --_app-bar-leading-icon-color: var(--app-bar-leading-icon-color);
+  --_app-bar-trailing-icon-color: var(--app-bar-trailing-icon-color);
+}
+
+/* Scrolled state uses surface-container for slight tonal elevation */
+:host([scrolled]) {
+  --app-bar-container-color: var(--color-surface-container);
+}

@@ -80,6 +80,7 @@ import { Select } from './select/select.js';
 import { SelectOptionElement } from './select/option.js';
 import { Search } from './search/search.js';
 import { Toolbar } from './toolbar/toolbar.js';
+import { AppBar } from './app-bar/app-bar.js';
 import { NavigationRail } from './navigation-rail/navigation-rail.js';
 import { NavigationRailItem } from './navigation-rail/navigation-rail-item.js';
 
@@ -344,6 +345,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,
+    },
+    'wc-app-bar': {
+      CustomElementClass: AppBar,
     },
     'wc-navigation-rail': {
       CustomElementClass: NavigationRail,
