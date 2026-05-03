@@ -1,7 +1,8 @@
 ---
 import site from '../_data/site.json';
+import { convertToSectionId } from '../_data/utils.ts';
 interface Props {
-  sections: any;
+  sections: string[];
   title?: string;
 }
 
@@ -29,9 +30,8 @@ const { sections, title } = Astro.props;
     <h2 class="text-headline">{title}</h2>
     <ul class="section-nav-links">
       {
-        sections.map((section: any) => {
-          const sectionValue = section.title.toLowerCase().replaceAll(' ', '-').replaceAll('/', '-');
-          return <li><wc-link href={`#section-${sectionValue}`}>{section.title}</wc-link></li>
+        sections.map((section: string) => {
+          return <li><wc-link href={`#section-${convertToSectionId(section)}`}>{section}</wc-link></li>
         })
       }
     </ul>

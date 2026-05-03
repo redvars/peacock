@@ -1,0 +1,28 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Use the <code>inward</code> attribute to animate the ring inward instead of outward — useful for elements like text fields.</p>
+
+<DemoComponentCard lang={'html'}>
+  <style is:inline>
+    .focus-surface-inward {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      background: var(--color-surface-container-high);
+      color: var(--color-on-surface);
+      cursor: pointer;
+      border: none;
+      font: inherit;
+    }
+  </style>
+
+  <button class='focus-surface-inward'>
+    Tab to focus me
+    <wc-focus-ring inward></wc-focus-ring>
+  </button>
+</DemoComponentCard>

@@ -1,0 +1,28 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Place <code>wc-focus-ring</code> inside a focusable element. Tab to the element to see the ring appear.</p>
+
+<DemoComponentCard lang={'html'}>
+  <style is:inline>
+    .focus-surface {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      background: var(--color-surface-container-high);
+      color: var(--color-on-surface);
+      cursor: pointer;
+      border: none;
+      font: inherit;
+    }
+  </style>
+
+  <button class='focus-surface'>
+    Tab to focus me
+    <wc-focus-ring></wc-focus-ring>
+  </button>
+</DemoComponentCard>

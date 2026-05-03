@@ -68,8 +68,10 @@
     min-height: 2.5rem;
     height: 100%;
     width: 100%;
-    top: auto;
-    left: 0;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   /* make the icon slot itself collapsible so removal animates smoothly */

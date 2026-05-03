@@ -1,5 +1,5 @@
 ---
-import ComponentSectionNav from './ComponentSectionNav.astro';
+import OnThisPageNavigation from './OnThisPageNavigation.astro';
 interface Props {
   sections: any;
   title?: string;
@@ -20,5 +20,5 @@ const { sections, title } = Astro.props;
         </div>))
     }
   </div>
-  <ComponentSectionNav sections={sections} title={title} />
+  <OnThisPageNavigation sections={sections.map(function(section: any){return section?.title;})} title={title} />
 </div>
