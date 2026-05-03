@@ -266,6 +266,7 @@ export class Button
   renderButtonContent() {
     return html` <slot class="icon-slot" name="icon"></slot>
       <slot class="label"></slot>
+      <div class="touch"></div>
 
       ${this.__renderDisabledReason(this.softDisabled)}`;
   }
@@ -382,7 +383,7 @@ export class Button
   __renderTooltip() {
     if (this.tooltip) {
       const buttonId = isLink(this) ? 'link' : 'button';
-      return html`<wc-tooltip for=${buttonId}>${this.tooltip}</wc-tooltip>`;
+      return html`<wc-tooltip class="tooltip" for=${buttonId}>${this.tooltip}</wc-tooltip>`;
     }
     return nothing;
   }

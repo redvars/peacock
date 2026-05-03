@@ -1,18 +1,6 @@
 ---
 import Layout from '../layouts/Default.astro';
-import BannerLogo from '../components/BannerLogo.astro';
-import site from '../_data/site.json';
-import '../styles/index.page.scss';
 import Footer from '../components/Footer.astro';
-
-const isProd = import.meta.env.PROD;
-let envProps;
-
-if (isProd) {
-  envProps = site['prod'];
-} else {
-  envProps = site['dev'];
-}
 ---
 
 <Layout classes='surface'
@@ -72,6 +60,7 @@ if (isProd) {
           left: 0;
           height: 100%;
           width: 60px;
+          border-inline-end: 1px solid var(--color-outline-variant);
         }
 
         .main {
@@ -80,9 +69,9 @@ if (isProd) {
         }
       </style>
       <div class='app surface'>
-          <div class='nav surface-variant'></div>
+          <div class='nav surface-container-highest'></div>
 
-          <div class='main surface-container-low'>
+          <div class='main surface-container'>
 
           </div>
       </div>

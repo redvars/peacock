@@ -1,0 +1,29 @@
+---
+import Layout from './Default.astro';
+const { title, description, keywords} = Astro.props.frontmatter;
+---
+
+<style>
+  .back-to-home {
+    margin-top: var(--spacing-300);
+  }
+</style>
+<Layout title={title} description={description} keywords={keywords}>
+
+  <main>
+    <wc-container size="lg">
+
+      <article class="markdown">
+        <slot />
+      </article>
+
+
+      <wc-button class='back-to-home' type="secondary" icon-align='start' href='/#'>
+        <wc-icon name='arrow_left_alt' slot='icon'></wc-icon>
+        Back to home
+      </wc-button>
+    </wc-container>
+  </main>
+
+</Layout>
+

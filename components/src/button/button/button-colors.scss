@@ -20,8 +20,8 @@
 
 @mixin _button-color-toggle-unselected($color) {
 
-  --filled-button-container-color: var(--color-surface-container);
-  --filled-button-label-text-color: var(--color-surface-container-variant);
+  --filled-button-container-color: var(--color-surface-container-high);
+  --filled-button-label-text-color: var(--color-on-surface);
 
   --tonal-button-container-color: var(--color-#{$color}-container);
   --tonal-button-label-text-color: var(--color-on-#{$color}-container);

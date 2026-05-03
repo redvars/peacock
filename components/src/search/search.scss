@@ -32,15 +32,18 @@
 
   /* size-md default */
   --_height: 3.5rem;
+  --icon-size: 1.25rem;
 
   &.size-sm {
     --_height: 2.5rem;
     padding-inline: 0.75rem;
+    --icon-size: 1rem;
   }
 
   &.size-lg {
     --_height: 4rem;
     padding-inline: 1.25rem;
+    --icon-size: 1.5rem;
   }
 
   min-height: var(--_height);

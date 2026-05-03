@@ -1,0 +1,76 @@
+@use "./mixin";
+
+.footer-with-about {
+  width: 100%;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-outline-variant);
+  padding: 1.5rem 2rem;
+  display: flex;
+  gap: 1rem;
+
+  .section-title {
+    margin-block-end: var(--spacing-200);
+  }
+
+  .about-content {
+    .section-title {
+      font-family: "Pacifico", sans-serif !important;
+    }
+    p {
+      margin-block-end: var(--spacing-200);
+    }
+  }
+
+  .footer-links {
+    .section-nav-links {
+      margin-block: 0;
+      padding-inline-start: 1.25rem;
+    }
+  }
+
+  .footer-social-links {
+    .section-nav-links {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+      gap: 1rem;
+    }
+  }
+
+
+}
+
+.footer-with-about {
+  flex-direction: column;
+  .about {
+    flex: 1;
+  }
+  .footer-links {
+    flex: 1;
+  }
+  .footer-social-links {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+
+/** Desktop and tablet landscape styles */
+@include mixin.for-tablet-landscape-up {
+  .footer-with-about {
+    flex-direction: row;
+    .about {
+      flex: 2;
+    }
+    .footer-links {
+      flex: 1;
+    }
+    .footer-social-links {
+      flex: 1;
+      justify-content: flex-start;
+    }
+  }
+}
+
+

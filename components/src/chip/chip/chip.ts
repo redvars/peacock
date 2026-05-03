@@ -130,7 +130,9 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip for="button">${this.tooltip}</wc-tooltip>`;
+      return html`<wc-tooltip class="tooltip"  for="button"
+        >${this.tooltip}</wc-tooltip
+      >`;
     }
     return nothing;
   }

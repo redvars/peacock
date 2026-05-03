@@ -8,24 +8,30 @@ interface Props {
   keywords?: string;
   classes?: string;
 }
+import '../styles/layout/default.scss';
 
-const { title, root, description, keywords, classes } = Astro.props;
+const {
+  title,
+  description,
+  keywords,
+  classes
+} = Astro.props;
 
 import Layout from './Base.astro';
-import '../styles/default.layout.scss';
 
-const searchItems = getAllComponentsForShowcase().map(component => ({
-  label: component.label,
-  value: component.rawTag
-}));
+
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
-  <div class="page">
-    <div class='side-navigation-container hide-tablet-portrait-below'>
+
+  <div class="default-layout">
+
+    <!-- For desktop and tablet -->
+    <div class='side-navigation-container'>
       <SideNavigation/>
     </div>
 
+    <!-- For mobile -->
     <wc-toolbar class="mobile-bottom-nav show-tablet-portrait-below" elevated>
       <wc-icon-button variant="text" color="surface" href="/#" aria-label="Home"><wc-icon name="home"></wc-icon></wc-icon-button>
       <wc-icon-button variant="text" color="surface" href="/components" aria-label="Components"><wc-icon name="settings"></wc-icon></wc-icon-button>
@@ -75,73 +81,14 @@ const searchItems = getAllComponentsForShowcase().map(component => ({
         </pc-menu>
       </div>-->
 
-      <main class={classes}>
-        <slot />
-      </main>
+      <slot />
     </div>
-
-   
-   
   </div>
 
-  <div slot="page-end">
-    <!-- Scripts -->
-    <script src="/assets/js/main.js" is:inline></script>
-  </div>
+  <wc-notification-manager position='bottom-right'></wc-notification-manager>
 
-  <div id="search-header-container">
-    <div id="search-container-overlay"></div>
-    <wc-select id="site-search" search="contains" layer="01" hide-dropdown-icon placeholder="Type '/' for search">
-      <wc-icon slot="start" name="search"></wc-icon>
-    </wc-select>
-  </div>
 
-  <script is:inline define:vars={{ searchItems }}>
-    document.addEventListener('DOMContentLoaded', function () {
-      const searchBtn = document.querySelector('#search-btn');
-      const searchContainerOverlay = document.querySelector('#search-container-overlay');
-      const search = document.querySelector('#site-search');
+  <!-- Scripts -->
+  <script src="/assets/js/main.js" is:inline></script>
 
-      searchBtn.addEventListener('click', function () {
-        openSearchContainer();
-      });
-
-      searchContainerOverlay.addEventListener('click', function () {
-        const searchContainer = document.querySelector('#search-header-container');
-        searchContainer.removeAttribute('open');
-      });
-
-      if (search) {
-        search.options = searchItems.filter(item => !!item.label);
-        search.addEventListener('change', function (e) {
-          window.location.href = '/components/' + e.detail.value;
-        });
-
-        search.addEventListener('enter', function (e) {
-          if (e.detail.currentItems.length > 0) window.location.href = '/components/' + e.detail.currentItems[0].value;
-        });
-
-        document.addEventListener('keydown', function (e) {
-          if (e.key === '/') {
-            const path = e.composedPath();
-            for (const elm of path) {
-              if (elm.tagName === 'GOAT-INPUT' || elm.tagName === 'GOAT-CODE-EDITOR' || elm.tagName === 'GOAT-TEXTAREA' || elm.tagName === 'INPUT') {
-                return;
-              }
-            }
-            e.preventDefault();
-            openSearchContainer();
-          }
-        });
-      }
-
-      function openSearchContainer() {
-        const searchContainer = document.querySelector('#search-header-container');
-        searchContainer.toggleAttribute('open');
-        setTimeout(() => {
-          search.openSelectList();
-        }, 300);
-      }
-    });
-  </script>
 </Layout>

@@ -25,7 +25,9 @@ export class Link extends NativeHyperlinkMixin(LitElement) {
         link: true,
       })}
       href=${this.href}
+      ?download=${this.download}
       target=${this.target}
+      ?rel=${this.rel}
       ?tabindex=${this.parentElement?.tabIndex}
     >
       <slot></slot>

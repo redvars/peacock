@@ -197,7 +197,7 @@ export class IconButton
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip for="button">${this.tooltip}</wc-tooltip>`;
+      return html`<wc-tooltip class="tooltip" for="button">${this.tooltip}</wc-tooltip>`;
     }
     return nothing;
   }
@@ -311,6 +311,7 @@ export class IconButton
   renderButtonContent() {
     return html`
       <slot class="icon-slot"></slot>
+      <div class="touch"></div>
       ${this.__renderDisabledReason(this.softDisabled)}
     `;
   }

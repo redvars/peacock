@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Default.astro';
+import Layout from '../layouts/LitComponent.astro';
 import '../styles/components.page.scss';
 
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
@@ -13,7 +13,7 @@ const componentEntries = getAllComponentsForShowcase();
 
 <Layout title={title} description={description} classes='surface-container-lowest'>
 
-  <div class='main-content'>
+
     <div class='page-wrapper'>
       <wc-container size='max' class='section'>
 
@@ -39,10 +39,5 @@ const componentEntries = getAllComponentsForShowcase();
       </wc-container>
 
     </div>
-
-    <Footer />
-
-  </div>
-
 
 </Layout>

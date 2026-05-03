@@ -6,38 +6,96 @@ const isComponentsPage =
   pathname === '/components' ||
   (pathname.startsWith('/components/') && !isTypographyPage);
 const isColorsPage = pathname === '/color';
-const isBlogPage = pathname === '/blog';
+const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
 ---
 
 <style lang="scss">
-  .side-navigation {
-    height: 100%;
-    width: 90px;
+  .navigation-rail {
+    position: fixed;
+    --nav-rail-width: var(--side-navigation-width);
+    --nav-rail-container-color: var(--color-surface-container-highest);
+    border-inline-end: 1px solid var(--color-outline-variant);
+  }
 
-    .navigation-rail {
-      position: fixed;
-      --nav-rail-width: 90px;
-      --nav-rail-container-color: var(--color-surface-container);
-      border-inline-end: 1px solid var(--color-outline-variant);
-    }
-
-    #search-btn {
-      margin-top: 1rem;
-    }
+  #search-btn {
+    margin-top: 1rem;
   }
 </style>
 
-<nav class="side-navigation">
+<wc-navigation-rail class="navigation-rail">
 
-  <wc-navigation-rail class="navigation-rail">
+  <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+
+  <script type="module">
+    // Wire the search FAB to open the Pagefind UI when clicked.
+    // Try several common selectors and call the public open/show method
+    // or set the `open` attribute as a fallback.
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('search-btn');
+      if (!btn) return;
+      btn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+
+        const candidates = [
+          'pagefind-modal',
+          'pagefind-component-ui',
+          'pagefind-ui',
+          'pagefind',
+        ];
+
+        let found = null;
+        for (const sel of candidates) {
+          const el = document.querySelector(sel);
+          if (el) {
+            found = el;
+            break;
+          }
+        }
+
+        function openFound(el) {
+          try {
+            if (!el) return;
+            if (typeof el.open === 'function') el.open();
+            else if (typeof el.show === 'function') el.show();
+            else el.setAttribute('open', '');
+          } catch (err) {
+            // ignore
+          }
+        }
+
+        if (!found) {
+          // pagefind may create its element asynchronously; try shortly after.
+          setTimeout(() => {
+            for (const sel of candidates) {
+              const el = document.querySelector(sel);
+              if (el) {
+                found = el;
+                break;
+              }
+            }
+            openFound(found);
+          }, 50);
+          return;
+        }
+
+        openFound(found);
+      });
+    });
+  </script>
 
   <wc-fab slot="header" id="search-btn" href="#"
           lowered
           color="primary"
           aria-label='Search components'
-    ><wc-icon name="search"></wc-icon
+  ><wc-icon name="search"></wc-icon
   ></wc-fab>
+
+  <pagefind-modal></pagefind-modal>
+
+
+
 
   <wc-navigation-rail-item href="/#" title='Go to Home' active={isHomePage ? true : null}>
     <img src="/assets/img/logo-plain.webp" slot="icon" class="logo" alt="peacock" style="width: 32px;">
@@ -56,21 +114,17 @@ const isHomePage = pathname === '/';
     Typography
   </wc-navigation-rail-item>
 
-    <wc-navigation-rail-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>
-      <wc-icon slot="icon" name="pages"></wc-icon>
-      Blog
-    </wc-navigation-rail-item>
+  <wc-navigation-rail-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>
+    <wc-icon slot="icon" name="pages"></wc-icon>
+    Blog
+  </wc-navigation-rail-item>
 
 
   <wc-navigation-rail-item slot="footer" class="dir-switcher" title='Toggle ltr/rtl direction'>
     <wc-icon slot="icon" class="icon"></wc-icon>
   </wc-navigation-rail-item>
 
-   <wc-navigation-rail-item slot="footer" class="theme-switcher" title='Toggle light/dark mode'>
+  <wc-navigation-rail-item slot="footer" class="theme-switcher" title='Toggle light/dark mode'>
     <wc-icon slot="icon" class="icon"></wc-icon>
   </wc-navigation-rail-item>
 </wc-navigation-rail>
-
-
-
-</nav>

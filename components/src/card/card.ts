@@ -26,9 +26,11 @@ type CardVariant = 'elevated' | 'filled' | 'outlined';
  *
  * @example
  * ```html
- * <wc-card variant="outlined">
- *   <h3>Title</h3>
- *   <p>Supportive text</p>
+ * <wc-card variant="outlined" style="padding-block: 1rem;">
+ *   <wc-card-content>
+ *     <h3 class="text-headline">Title</h3>
+ *     <p class="text-body">Supportive text</p>
+ *   </wc-card-content>
  * </wc-card>
  * ```
  */

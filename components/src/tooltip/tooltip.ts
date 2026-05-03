@@ -71,7 +71,7 @@ export class Tooltip extends LitElement {
   set forElement(value: HTMLElement | null) {
     if (value) {
       this._focusTarget = value;
-    } else {      
+    } else {
       this._focusTarget = undefined;
     }
   }
@@ -153,7 +153,6 @@ export class Tooltip extends LitElement {
     return html` <div
       class=${classMap({
         tooltip: true,
-        open: this.open,
         [`variant-${this.variant}`]: true,
       })}
       id="tooltip"

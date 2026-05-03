@@ -1,14 +1,14 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p class='text-body-large'>Add the <code>multi</code> attribute to allow any number of panels to be open simultaneously.</p>
+<p class='text-body-large'>Add the <code class="text-code-block">multi</code> attribute to allow any number of panels to be open simultaneously.</p>
 
 <DemoComponentCard lang={"html"}>
   <wc-accordion multi>
     <wc-accordion-item>
       <span slot="heading">Panel A</span>
       <p class='text-body-large'>
-        Content for panel A. With <code>multi</code>, expanding this panel does not collapse Panel B.
+        Content for panel A. With <code class="text-code-block">multi</code>, expanding this panel does not collapse Panel B.
       </p>
     </wc-accordion-item>
     <wc-accordion-item open="true">

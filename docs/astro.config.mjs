@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import pagefind from 'astro-pagefind';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,5 +9,5 @@ export default defineConfig({
   site: 'https://peacock.redvars.com',
   compressHTML: false,
   server: { port: 4000, host: true, allowedHosts: ['peacockdev.redvars.com'] },
-  integrations: [sitemap(), mdx()],
+  integrations: [pagefind(), sitemap(), mdx()],
 });

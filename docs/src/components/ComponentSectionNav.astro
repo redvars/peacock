@@ -1,4 +1,5 @@
 ---
+import site from '../_data/site.json';
 interface Props {
   sections: any;
   title?: string;
@@ -7,10 +8,24 @@ interface Props {
 const { sections, title } = Astro.props;
 ---
 
+<style>
+  .on-this-page {
+    color: var(--color-on-surface-variant);
+  }
+
+  .section-nav-links {
+    list-style: disc;
+    padding-inline-start: 1.25rem;
+  }
+  .section-nav-links li {
+    margin-block: 0.5rem;
+  }
+</style>
+
 <div class="section-nav">
   <div class="section-nav-content">
 
-    <p class="text-body-large">On this page</p>
+    <p class="text-title on-this-page">On this page</p>
     <h2 class="text-headline">{title}</h2>
     <ul class="section-nav-links">
       {
@@ -21,15 +36,10 @@ const { sections, title } = Astro.props;
       }
     </ul>
 
-    <style>
-      .section-nav-links {
-        list-style: disc;
-        padding-inline-start: 1.25rem;
-      }
-      .section-nav-links li {
-        margin-block: 0.5rem;
-      }
-    </style>
+    <wc-button href={site.sponsor_url} target="_blank" variant="outlined">
+      <wc-icon slot="icon" name="favorite"></wc-icon>
+      Sponsor
+    </wc-button>
 
     <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script is:inline>

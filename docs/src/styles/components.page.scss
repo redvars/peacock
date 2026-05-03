@@ -164,13 +164,13 @@
 
 
 #search-container {
-  position: sticky;
-  top: 100px;
-  z-index: 1000;
   margin-bottom: var(--spacing-200);
   --field-container-color: var(--color-surface);
 
   &.scrolled {
+    z-index: 1000;
+    position: sticky;
+    top: var(--spacing-200);
     padding: 1rem;
     transition: transform 3s ease-in-out;
   }

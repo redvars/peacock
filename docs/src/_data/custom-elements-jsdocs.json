@@ -180,7 +180,10 @@
           },
           "default": "'note'",
           "description": "Visual intent of the banner.",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'note' | 'info' | 'success' | 'warning' | 'error'"
+          }
         },
         {
           "name": "label",
@@ -336,7 +339,6 @@
     "label": "Breadcrumb Item",
     "tag": "wc-breadcrumb-item",
     "rawTag": "breadcrumb-item",
-    "parentRawTag": "breadcrumb",
     "summary": "A breadcrumb item component that represents a single item in a breadcrumb navigation.",
     "tags": "navigation",
     "example": "```html\r\n<wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\r\n```",
@@ -512,7 +514,10 @@
           },
           "default": "'filled'",
           "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text' | 'neo'"
+          }
         },
         {
           "name": "color",
@@ -521,7 +526,10 @@
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+          }
         },
         {
           "name": "configAria",
@@ -590,7 +598,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -603,7 +611,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -616,7 +624,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -629,7 +637,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -642,7 +650,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -655,7 +663,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -668,7 +676,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -680,7 +688,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -693,7 +701,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -705,7 +713,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -717,7 +725,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -787,7 +795,10 @@
             "text": "| 'primary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface' | undefined"
           },
           "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"surface\"`, `\"on-surface\"`.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface' | undefined"
+          }
         },
         {
           "name": "button-variant",
@@ -795,7 +806,10 @@
             "text": "| 'filled'\n    | 'tonal'\n    | 'outlined' | undefined"
           },
           "description": "Visual style applied to all buttons in the group.\nPossible values are `\"filled\"`, `\"tonal\"`, `\"outlined\"`.",
-          "fieldName": "buttonVariant"
+          "fieldName": "buttonVariant",
+          "expandedType": {
+            "text": "'filled' | 'tonal' | 'outlined' | undefined"
+          }
         }
       ],
       "superclass": {
@@ -930,7 +944,6 @@
     "label": "Calendar Column View",
     "tag": "wc-calendar-column-view",
     "rawTag": "calendar-column-view",
-    "parentRawTag": "calendar",
     "summary": "Internal column view component for the calendar (day/week views).",
     "customElement": {
       "kind": "class",
@@ -999,7 +1012,6 @@
     "label": "Calendar Month View",
     "tag": "wc-calendar-month-view",
     "rawTag": "calendar-month-view",
-    "parentRawTag": "calendar",
     "summary": "Internal month view component for the calendar.",
     "customElement": {
       "kind": "class",
@@ -1129,7 +1141,7 @@
     "rawTag": "card",
     "summary": "A Material 3 inspired card surface for grouping related content.",
     "cssprop": "--card-gap - Gap between slotted children.",
-    "example": "```html\n<wc-card variant=\"outlined\">\n  <h3>Title</h3>\n  <p>Supportive text</p>\n</wc-card>\n```",
+    "example": "```html\n<wc-card variant=\"outlined\" style=\"padding-block: 1rem;\">\n  <wc-card-content>\n    <h3 class=\"text-headline\">Title</h3>\n    <p class=\"text-body\">Supportive text</p>\n  </wc-card-content>\n</wc-card>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1154,7 +1166,10 @@
             "text": "CardVariant"
           },
           "default": "'elevated'",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'elevated' | 'filled' | 'outlined'"
+          }
         },
         {
           "name": "disabled",
@@ -1199,7 +1214,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -1212,7 +1227,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -1224,7 +1239,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -1236,7 +1251,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -1264,7 +1279,6 @@
     "rawTag": "cb-compound-expression",
     "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
     "tags": "condition-builder",
-    "parentRawTag": "compound-builder",
     "example": "```html\r\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\r\n  <wc-cb-expression>\r\n    <wc-input placeholder=\"Enter value\"></wc-input>\r\n  </wc-cb-expression>\r\n</wc-cb-compound-expression>\r\n```",
     "customElement": {
       "kind": "class",
@@ -1315,7 +1329,6 @@
     "rawTag": "cb-divider",
     "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
     "tags": "condition-builder",
-    "parentRawTag": "compound-builder",
     "example": "```html\r\n<wc-cb-divider>\r\n  <wc-tag color=\"green\">and</wc-tag>\r\n</wc-cb-divider>\r\n```",
     "customElement": {
       "kind": "class",
@@ -1367,7 +1380,6 @@
     "rawTag": "cb-expression",
     "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
     "tags": "condition-builder",
-    "parentRawTag": "compound-builder",
     "example": "```html\r\n<wc-cb-expression>\r\n  <wc-input placeholder=\"Enter value\"></wc-input>\r\n</wc-cb-expression>\r\n```",
     "customElement": {
       "kind": "class",
@@ -1410,7 +1422,6 @@
     "rawTag": "cb-predicate",
     "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
     "tags": "condition-builder",
-    "parentRawTag": "compound-expression",
     "example": "```html\r\n<wc-cb-predicate condition-operator=\"and\" vertical>\r\n  <wc-cb-compound-expression field-label=\"Age\">\r\n    <wc-cb-expression></wc-cb-expression>\r\n  </wc-cb-compound-expression>\r\n</wc-cb-predicate>\r\n```",
     "customElement": {
       "kind": "class",
@@ -1977,7 +1988,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -1990,7 +2001,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2003,7 +2014,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2016,7 +2027,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2029,7 +2040,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2042,7 +2053,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2055,7 +2066,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -2067,7 +2078,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -2080,7 +2091,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -2092,7 +2103,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -2104,7 +2115,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -2164,7 +2175,7 @@
       "description": "",
       "superclass": {
         "name": "BaseProgress",
-        "module": "/src/progress/base-progress.js"
+        "module": "/E:/git/redvars/peacock/components/src/progress/base-progress.js"
       },
       "tagName": "wc-circular-progress",
       "customElement": true,
@@ -2182,7 +2193,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -2194,7 +2205,7 @@
           "fieldName": "indeterminate",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -2206,7 +2217,7 @@
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -2217,7 +2228,7 @@
           "fieldName": "helperText",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -2229,7 +2240,7 @@
           "fieldName": "inline",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         }
       ]
@@ -2335,7 +2346,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2347,7 +2358,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2359,7 +2370,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2371,13 +2382,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-code-editor",
       "customElement": true,
@@ -2501,7 +2512,10 @@
             "text": "ContainerSize"
           },
           "default": "'full'",
-          "fieldName": "size"
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full'"
+          }
         }
       ],
       "superclass": {
@@ -2649,7 +2663,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2661,7 +2675,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2673,7 +2687,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -2685,13 +2699,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-date-picker",
       "customElement": true,
@@ -2790,7 +2804,10 @@
           },
           "default": "'filled'",
           "description": "The visual style of the dropdown button.\r\n\r\nPossible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is an elevated button.",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text'"
+          }
         },
         {
           "name": "color",
@@ -2799,7 +2816,10 @@
           },
           "default": "'primary'",
           "description": "Defines the primary color of the dropdown button.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+          }
         },
         {
           "name": "disabled",
@@ -2817,7 +2837,10 @@
           },
           "default": "'bottom-start'",
           "description": "Menu placement relative to the button.\r\nPossible values are `\"bottom-start\"`, `\"bottom-end\"`, `\"top-start\"`, `\"top-end\"`. Defaults to `\"bottom-start\"`.",
-          "fieldName": "placement"
+          "fieldName": "placement",
+          "expandedType": {
+            "text": "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'"
+          }
         }
       ],
       "superclass": {
@@ -2970,7 +2993,10 @@
           },
           "default": "'surface'",
           "description": "The color role of the FAB.\n`\"surface\"` uses the surface color role.\n`\"primary\"` uses the primary color role.\n`\"secondary\"` uses the secondary color role.\n`\"tertiary\"` uses the tertiary color role.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'surface' | 'primary' | 'secondary' | 'tertiary'"
+          }
         },
         {
           "name": "variant",
@@ -3067,7 +3093,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3080,7 +3106,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3093,7 +3119,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3106,7 +3132,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3119,7 +3145,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3132,7 +3158,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3145,7 +3171,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -3157,7 +3183,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -3170,7 +3196,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -3182,7 +3208,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -3194,7 +3220,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -3471,7 +3497,6 @@
   {
     "tag": "wc-flow-designer-node",
     "rawTag": "flow-designer-node",
-    "parentRawTag": "flow-designer",
     "wip": "true",
     "customElement": {
       "kind": "class",
@@ -3756,7 +3781,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -3768,7 +3793,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -3780,7 +3805,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -3792,13 +3817,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-html-editor",
       "customElement": true,
@@ -3860,7 +3885,10 @@
             "text": "IconProvider"
           },
           "default": "'material-symbols'",
-          "fieldName": "provider"
+          "fieldName": "provider",
+          "expandedType": {
+            "text": "'material-symbols' | 'material-icons'"
+          }
         }
       ],
       "superclass": {
@@ -3988,7 +4016,10 @@
           },
           "default": "'filled'",
           "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text' | 'neo'"
+          }
         },
         {
           "name": "color",
@@ -3997,7 +4028,10 @@
           },
           "default": "'primary'",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+          }
         },
         {
           "name": "configAria",
@@ -4065,7 +4099,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4078,7 +4112,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4091,7 +4125,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4104,7 +4138,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4117,7 +4151,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4130,7 +4164,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4143,7 +4177,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4155,7 +4189,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4168,7 +4202,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4180,7 +4214,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4192,7 +4226,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -4418,7 +4452,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -4430,7 +4464,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -4442,7 +4476,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -4454,13 +4488,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-input",
       "customElement": true,
@@ -4502,7 +4536,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4515,7 +4549,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4528,7 +4562,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4541,7 +4575,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4554,7 +4588,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4567,7 +4601,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4580,7 +4614,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4592,7 +4626,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4605,7 +4639,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4617,7 +4651,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4629,7 +4663,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -4667,7 +4701,7 @@
       "description": "",
       "superclass": {
         "name": "BaseProgress",
-        "module": "/src/progress/base-progress.js"
+        "module": "/E:/git/redvars/peacock/components/src/progress/base-progress.js"
       },
       "tagName": "wc-linear-progress",
       "customElement": true,
@@ -4685,7 +4719,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -4697,7 +4731,7 @@
           "fieldName": "indeterminate",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -4709,7 +4743,7 @@
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -4720,7 +4754,7 @@
           "fieldName": "helperText",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         },
         {
@@ -4732,7 +4766,7 @@
           "fieldName": "inline",
           "inheritedFrom": {
             "name": "BaseProgress",
-            "module": "src/progress/base-progress.ts"
+            "module": "E:/git/redvars/peacock/components/src/progress/base-progress.ts"
           }
         }
       ]
@@ -4781,7 +4815,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4794,7 +4828,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4806,7 +4840,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4818,7 +4852,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ]
@@ -4860,7 +4894,6 @@
     "label": "List Item",
     "tag": "wc-list-item",
     "rawTag": "list-item",
-    "parentRawTag": "list",
     "summary": "A Material 3 list item with leading, trailing and content slots.",
     "example": "```html\n<wc-list-item selected>\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\n  Profile\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n</wc-list-item>\n```",
     "tags": "display",
@@ -4886,7 +4919,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4899,7 +4932,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4912,7 +4945,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4925,7 +4958,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4938,7 +4971,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4951,7 +4984,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4964,7 +4997,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -4976,7 +5009,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -4989,7 +5022,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -5001,7 +5034,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -5013,7 +5046,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -5165,7 +5198,6 @@
     "label": "Menu Item",
     "tag": "wc-menu-item",
     "rawTag": "menu-item",
-    "parentRawTag": "menu",
     "summary": "An item in a menu list.",
     "tags": "navigation",
     "example": "```html\n<wc-menu-item>Menu Item</wc-menu-item>\n```",
@@ -5183,7 +5215,7 @@
           "fieldName": "value",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5236,7 +5268,7 @@
           "fieldName": "htmlType",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5249,7 +5281,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5262,7 +5294,7 @@
           "fieldName": "softDisabled",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5275,7 +5307,7 @@
           "fieldName": "disabledReason",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5288,7 +5320,7 @@
           "fieldName": "form",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5301,7 +5333,7 @@
           "fieldName": "name",
           "inheritedFrom": {
             "name": "NativeButtonMixin",
-            "module": "src/__mixins/NativeButtonMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeButtonMixin.ts"
           }
         },
         {
@@ -5313,7 +5345,7 @@
           "fieldName": "href",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -5326,7 +5358,7 @@
           "fieldName": "target",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -5338,7 +5370,7 @@
           "fieldName": "rel",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         },
         {
@@ -5350,7 +5382,7 @@
           "fieldName": "download",
           "inheritedFrom": {
             "name": "NativeHyperlinkMixin",
-            "module": "src/__mixins/NativeHyperlinkMixin.ts"
+            "module": "E:/git/redvars/peacock/components/src/__mixins/NativeHyperlinkMixin.ts"
           }
         }
       ],
@@ -5456,7 +5488,10 @@
           },
           "default": "'md'",
           "description": "Size of the modal dialog.\r\n- `\"xs\"`: Extra-small.\r\n- `\"sm\"`: Small.\r\n- `\"md\"`: Medium (default).\r\n- `\"lg\"`: Large.\r\n- `\"fullscreen\"`: Full-screen dialog.",
-          "fieldName": "size"
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'fullscreen'"
+          }
         },
         {
           "name": "hide-close",
@@ -5599,7 +5634,6 @@
     "label": "Navigation Rail Item",
     "tag": "wc-navigation-rail-item",
     "rawTag": "navigation-rail-item",
-    "parentRawTag": "navigation-rail",
     "summary": "An individual item within a navigation rail.",
     "overview": "<p>Navigation rail items display a destination with an icon and optional label.</p>",
     "example": "```html\n<wc-navigation-rail-item>\n  <wc-icon slot=\"icon\">home</wc-icon>\n  Home\n</wc-navigation-rail-item>\n```",
@@ -5758,7 +5792,10 @@
           },
           "default": "'info'",
           "description": "The visual variant of the notification.",
-          "fieldName": "variant"
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'success' | 'error' | 'info' | 'warning'"
+          }
         },
         {
           "name": "high-contrast",
@@ -6061,7 +6098,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6073,7 +6110,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6085,7 +6122,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6097,13 +6134,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-number-field",
       "customElement": true,
@@ -6272,7 +6309,6 @@
     "tag": "wc-popover-content",
     "rawTag": "popover-content",
     "summary": "Content container for the wc-popover component.",
-    "parentRawTag": "popover",
     "tags": "display",
     "cssprop": "--popover-content-min-width - Minimum width of the popover content. Defaults to `10rem`.",
     "example": "```html\r\n<wc-popover-content>\r\n  <p>Popover body text</p>\r\n</wc-popover-content>\r\n```",
@@ -6500,7 +6536,6 @@
     "tag": "wc-segmented-button",
     "rawTag": "segmented-button",
     "summary": "An individual segment within a segmented button group.",
-    "parentRawTag": "segmented-button-group",
     "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>",
     "cssprop": "--segmented-button-disabled-opacity: Opacity when the segment is disabled.",
     "fires": "segmented-button--change - Dispatched when the selected state changes.",
@@ -6792,7 +6827,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6804,7 +6839,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6816,7 +6851,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -6828,13 +6863,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-select",
       "customElement": true,
@@ -6848,7 +6883,6 @@
     "label": "Select Option",
     "tag": "wc-option",
     "rawTag": "option",
-    "parentRawTag": "select",
     "summary": "A declarative option element for use inside wc-select.",
     "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "customElement": {
@@ -6959,7 +6993,6 @@
     "label": "Sidebar Menu Item",
     "tag": "wc-sidebar-menu-item",
     "rawTag": "sidebar-menu-item",
-    "parentRawTag": "sidebar-menu",
     "summary": "A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.",
     "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
     "tags": "navigation",
@@ -7056,7 +7089,6 @@
     "label": "Sidebar Sub Menu",
     "tag": "wc-sidebar-sub-menu",
     "rawTag": "sidebar-sub-menu",
-    "parentRawTag": "sidebar-menu",
     "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
     "example": "```html\r\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n</wc-sidebar-sub-menu>\r\n```",
     "tags": "navigation",
@@ -7593,7 +7625,10 @@
           },
           "default": "'primary'",
           "description": "Defines the primary color of the split button.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+          }
         },
         {
           "name": "disabled",
@@ -7621,7 +7656,6 @@
     "label": "Sub Menu",
     "tag": "wc-sub-menu",
     "rawTag": "sub-menu",
-    "parentRawTag": "menu",
     "summary": "Connects a menu item to a nested menu.",
     "customElement": {
       "kind": "class",
@@ -7843,7 +7877,7 @@
           "description": "If true, required icon is shown. Defaults to `false`.",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -7856,7 +7890,7 @@
           "description": "If true, the toggle is readonly. Defaults to `false`.",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -7869,7 +7903,7 @@
           "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -7898,13 +7932,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-switch",
       "customElement": true,
@@ -7918,7 +7952,6 @@
     "label": "Tab",
     "tag": "wc-tab",
     "rawTag": "tab",
-    "parentRawTag": "tabs",
     "summary": "A tab component for use within tabs.",
     "overview": "<p>Tab represents an individual tab in a tabs component.</p>",
     "example": "```html\n<wc-tab>Tab Label</wc-tab>\n```",
@@ -8219,7 +8252,6 @@
     "label": "Tab Panel",
     "tag": "wc-tab-panel",
     "rawTag": "tab-panel",
-    "parentRawTag": "tab-group",
     "summary": "Content panel for tabs.",
     "overview": "<p>TabPanel contains the content associated with a tab.</p>",
     "example": "```html\r\n<wc-tab-panel>Content for this tab</wc-tab-panel>\r\n```",
@@ -8340,7 +8372,10 @@
           },
           "default": "'default'",
           "description": "Tag color.",
-          "fieldName": "color"
+          "fieldName": "color",
+          "expandedType": {
+            "text": "'default' | 'blue' | 'green' | 'red' | 'yellow' | undefined"
+          }
         },
         {
           "name": "size",
@@ -8504,7 +8539,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8516,7 +8551,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8528,7 +8563,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8540,13 +8575,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-textarea",
       "customElement": true,
@@ -8689,7 +8724,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8701,7 +8736,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8713,7 +8748,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -8725,13 +8760,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-time-picker",
       "customElement": true,
@@ -9049,7 +9084,7 @@
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -9061,7 +9096,7 @@
           "fieldName": "readonly",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -9073,7 +9108,7 @@
           "fieldName": "required",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         },
         {
@@ -9085,13 +9120,13 @@
           "fieldName": "skeleton",
           "inheritedFrom": {
             "name": "BaseInput",
-            "module": "src/input/BaseInput.ts"
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
           }
         }
       ],
       "superclass": {
         "name": "BaseInput",
-        "module": "/src/input/BaseInput.js"
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
       },
       "tagName": "wc-url-field",
       "customElement": true,

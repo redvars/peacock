@@ -9,6 +9,7 @@ const {lang, format} = Astro.props;
 let html = '';
 if (Astro.slots.has('default')) {
   html = await Astro.slots.render('default');
+  html = html.replaceAll('<', '&lt;');
   html = html.replaceAll('<script>', '&lt;script&gt;').replaceAll('</script>', '&lt;/script&gt;');
 }
 ---

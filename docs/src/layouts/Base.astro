@@ -3,45 +3,47 @@ import GoogleAnalyticsScript from '../components/analytics/GoogleAnalyticsScript
 interface Props {
   title?: string;
   description?: string;
-  root?: boolean;
   keywords?: any;
 }
 
-const { title, root, description, keywords } = Astro.props;
+const { title, description, keywords } = Astro.props;
 import site from '../_data/site.json';
-import '../styles/base.layout.scss';
+import '../styles/layout/base.scss';
+import { getScriptUrl, getFallbackScriptUrl } from '../_data/utils.ts';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
 
 const isProd = import.meta.env.PROD;
-let envProps;
-
-if (isProd) {
-  envProps = site['prod'];
-} else {
-  envProps = site['dev'];
-}
 
 function getKeywords() {
   if (keywords) {
     return Astro.props.title + ', ' + keywords;
   } else {
-    return 'Web component, ' + Astro.props.title;
+    return Astro.props.title;
   }
 }
-const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &middot; ${site.tagline}`;
+
+function getPageTitle() {
+  if (title) {
+    return `${title}  &middot; ${site.title}`;
+  } else {
+    return `${site.title} &middot; ${site.tagline}`;
+  }
+}
 ---
 
 <!DOCTYPE html>
 <html lang='en'>
 <head>
   <!-- Title -->
-  <title set:html={pageTitle}></title>
+  <title set:html={getPageTitle()}></title>
 
   <!-- Required Meta Tags Always Come First -->
   <meta charset="utf-8"/>
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
   <link rel="sitemap" href="/sitemap-index.xml" />
 
-  <link rel='canonical' href={Astro.url + ''} />
+  <link rel='canonical' href={canonicalURL} />
 
   <!-- Author Meta Tags -->
   <meta name='author' content={site.author} />
@@ -59,32 +61,27 @@ const pageTitle = title ? `${title}  &middot; ${site.title}` : `${site.title} &m
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <!-- GoatUI scripts -->
-  <script type='module' src={envProps.script}></script>
+  {isProd &&
+    (<script
+        type="module"
+        src={getScriptUrl()}
+        onerror={`let s=document.createElement('script'); s.type='module'; s.src='${getFallbackScriptUrl()}'; document.head.appendChild(s);`}>
+        </script>
+    )
+  }
 
-  <!--<script type='module' define:vars={{ envProps }}>
-    if (!window.customElements.get('wc-icon')) {
-      import(envProps.fallbackScript);
+  {!isProd &&
+    (<script
+        type="module"
+        src="/assets/peacock/peacock-loader.js"></script>
+    )
+  }
 
-      var fileref = document.createElement("link");
-      fileref.rel = "stylesheet";
-      fileref.type = "text/css";
-      fileref.href = envProps.fallbackThemeCss;
-      document.getElementsByTagName("head")[0].appendChild(fileref)
-      console.warning("USING FALLBACK PEACOCK");
-    }
-  </script>-->
 </head>
 <body>
 
 <slot />
 
-<wc-notification-manager position='bottom-right'></wc-notification-manager>
-
-<slot name='page-end'/>
-
-
 <GoogleAnalyticsScript/>
-
-
 </body>
 </html>

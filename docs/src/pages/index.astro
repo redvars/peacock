@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Default.astro';
 import site from '../_data/site.json';
-import '../styles/index.page.scss';
+import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
+import { getScriptUrl } from '../_data/utils.ts';
 
 const isProd = import.meta.env.PROD;
 let envProps;
@@ -114,7 +115,7 @@ function jumpingSentence(sentence: string) {
         <ul style='padding-inline-start: 1.5rem'>
           <li class='text-body-large'>
               Put a script tag similar to this
-              <code class='text-code-block'>&lt;script type="module" src="{envProps.script}"&gt;&lt;/script&gt;</code>
+              <code class='text-code-block'>&lt;script type="module" src="{getScriptUrl()}"&gt;&lt;/script&gt;</code>
               in the head of your index.html
           </li>
           <li class='text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</li>
@@ -128,21 +129,21 @@ function jumpingSentence(sentence: string) {
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
-              <script is:inline define:vars={{ site, envProps }}>
+              <script is:inline define:vars={{ title: site.title, scriptUrl: getScriptUrl(), themeCss:  getScriptUrl()}}>
                 document.getElementById('get-started-code').value = `<!DOCTYPE html>
                  &lt;html>
                  &lt;head>
                   <meta charset='utf-8'>
                   <meta name='viewport' content='width=device-width'>
-                  <title>${site.title}</title>
+                  <title>${title}</title>
 
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">
                   &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&amp;family=Pacifico&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-                  <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
+                  <!-- include your custom theme variable values, view variable names at ${themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
-                   &lt;script type='module' src='${envProps.script}'>&lt;/script>
+                   &lt;script type='module' src='${scriptUrl}'>&lt;/script>
 
 
                  &lt;/head>
@@ -158,13 +159,13 @@ function jumpingSentence(sentence: string) {
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
-              <script is:inline define:vars={{ site, envProps }}>
+              <script is:inline define:vars={{ title: site.title, version: site.version, themeCss:  getScriptUrl()}}>
                 document.getElementById('load-single-component-code').value = `<!DOCTYPE html>
                  &lt;html>
                  &lt;head>
                   <meta charset='utf-8'>
                   <meta name='viewport' content='width=device-width'>
-                  <title>${site.title}</title>
+                  <title>${title}</title>
 
 
 
@@ -174,12 +175,12 @@ function jumpingSentence(sentence: string) {
 
 
 
-                  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@${envProps.version}/dist/assets/styles.css">
+                  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@${-version}/dist/assets/styles.css">
 
-                  <!-- include your custom theme variable values, view variable names at ${envProps.themeCss} -->
+                  <!-- include your custom theme variable values, view variable names at ${themeCss} -->
                   <!--link rel="stylesheet" href="/custom-theme.css"></link-->
                    &lt;script type='module'>
-    import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${envProps.version}/dist/button.js";
+    import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/button.js";
     customElements.define('my-button', Button);
  &lt;/script>
 

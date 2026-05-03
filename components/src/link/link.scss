@@ -3,9 +3,7 @@
 @include mixin.base-styles;
 
 :host {
-  display: inline-block;
-  border-radius: inherit;
-  corner-shape: inherit;
+  display: inline;
   color: var(--color-primary);
 }
 
@@ -25,10 +23,3 @@
   color: inherit;
   text-decoration: none !important;
 }
-
-:host(.with-icon) .link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-}
-

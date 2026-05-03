@@ -1,47 +1,57 @@
 ---
 import site from '../_data/site.json';
+import '../styles/footer.scss';
 ---
 
-<style>
-  .footer-simple {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 5rem;
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-outline-variant);
-    gap: .5rem;
-    padding-block: 1rem;
-    flex-wrap: wrap;
-  }
-  .text-body-large {
-    margin-block-end: 0 !important;
-    display: flex;
-    align-items: center;
-  }
+<footer class="footer-with-about">
 
-  .text-body-large .author {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    margin-inline-start: var(--spacing-100);
-  }
-</style>
+  <section class="about">
+      <div class="about-content">
+        <h2 class="text-headline section-title">Peacock</h2>
+        <p class="text-body-large">Our mission is to empower developers with high-quality, customizable, and accessible web components that promote web standards and best practices.</p>
+        <p class="text-body-large">
 
-<div class="footer-simple">
-  <div class="text-body-large">
-    Built by
-    <wc-link href={site.author_url} target="_blank">
-      <div class="author">
-        <wc-avatar
-          src="https://peacock.redvars.com/assets/img/avatar.xs.webp"
-          name={site.author}></wc-avatar>{site.author}
+          Built by&nbsp;<wc-link href={site.author_url} target="_blank">{site.author}</wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
+          Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
+        </p>
       </div>
-    </wc-link>.</div>
+  </section>
 
-  <div class="text-body-large">Built using&nbsp;
-    <wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
-    Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
+  <nav class="footer-links" aria-label="Footer links">
+    <h2 class="text-title-large section-title">Links</h2>
+    <ul class="section-nav-links">
+      <li><wc-link href={site.privacy_url}>Privacy Policy</wc-link></li>
+      <li><wc-link href={site.license_url}>License</wc-link></li>
+      <li><wc-link href={site.sponsor_url} target="_blank">Sponsor</wc-link></li>
+    </ul>
+  </nav>
+
+  <div class="footer-social-links" aria-label="Social links">
+    <h2 class="text-title-large section-title">Social</h2>
+
+    <ul class="section-nav-links">
+      <li>
+        <wc-icon-button
+          variant="outlined"
+          color="surface"
+          href={`https://github.com/${site.github_username}`}
+          target="_blank"
+          aria-label="GitHub"
+        >
+          <wc-icon name="logo--github" provider="carbon"></wc-icon>
+        </wc-icon-button>
+      </li>
+      <li>
+        <wc-icon-button
+          variant="outlined"
+          color="surface"
+          href={`https://twitter.com/${site.twitter_username}`}
+          target="_blank"
+          aria-label="X (Twitter)"
+        >
+          <wc-icon name="logo--x" provider="carbon"></wc-icon>
+        </wc-icon-button>
+      </li>
+    </ul>
   </div>
-</div>
+</footer>

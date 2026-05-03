@@ -1,5 +1,17 @@
 @use '../../../scss/mixin';
 
+// Mixin for the shared transition logic
+@mixin button-transition {
+  transition-property: inset, width, height, transform, border-radius, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: var(--easing-standard);
+  will-change: inset, transform, border-radius, opacity;
+}
+
+.button {
+  @include button-transition;
+}
+
 .background {
   display: block;
   position: absolute;
@@ -14,11 +26,7 @@
   border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
   border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
   corner-shape: var(--private-button-container-shape-variant);
-  /* Smooth resize/shape transitions */
-  transition-property: inset, width, height, transform, border-radius, opacity;
-  transition-duration: 200ms;
-  transition-timing-function: var(--easing-standard);
-  will-change: inset, transform, border-radius, opacity;
+  @include button-transition;
 }
 
 .neo-background {
@@ -35,11 +43,7 @@
   border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
   border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
   corner-shape: var(--private-button-container-shape-variant);
-  /* Smooth resize/shape transitions */
-  transition-property: inset, width, height, transform, border-radius, opacity;
-  transition-duration: 200ms;
-  transition-timing-function: var(--easing-standard);
-  will-change: inset, transform, border-radius, opacity;
+  @include button-transition;
 }
 
 .focus-ring {
@@ -111,4 +115,10 @@
   border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
   border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
   corner-shape: var(--private-button-container-shape-variant);
+
+  @include button-transition;
+}
+
+.tooltip {
+  z-index: 1;
 }
