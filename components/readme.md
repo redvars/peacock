@@ -109,7 +109,7 @@ include notifications, tooltips, and progress bars.
 | Name                                                                          | Component            | State |
 |-------------------------------------------------------------------------------|----------------------|-------|
 | [Badge](https://peacock.redvars.com/components/badge)                         | wc-badge             | 🟢    |
-| [Banner](https://peacock.redvars.com/components/banner)                       | wc-banner            | 🟡    |
+| [Alert](https://peacock.redvars.com/components/alert)                         | wc-alert             | 🟡    |
 | [Circular Progress](https://peacock.redvars.com/components/circular-progress) | wc-circular-progress | 🟢    |
 | [Linear Progress](https://peacock.redvars.com/components/linear-progress)     | wc-linear-progress   | 🟢    |
 | [Notification](https://peacock.redvars.com/components/notification)           | wc-notification      | 🟢    |

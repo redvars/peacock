@@ -136,7 +136,7 @@ Communicate status, progress, and messages.
 | Component         | Tag                    | Notes                       |
 |-------------------|------------------------|-----------------------------|
 | Badge             | `<wc-badge>`           | Numeric or dot indicator    |
-| Banner            | `<wc-banner>`          | Page-level alert message    |
+| Alert             | `<wc-alert>`           | Page-level alert message    |
 | Circular Progress | `<wc-circular-progress>`| Spinner or determinate ring |
 | Linear Progress   | `<wc-linear-progress>` | Horizontal progress bar     |
 | Notification      | `<wc-notification>`    | Alert / toast message       |

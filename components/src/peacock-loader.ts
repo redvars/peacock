@@ -69,7 +69,7 @@ import { SidebarMenuItem } from './sidebar-menu/sidebar-menu-item.js';
 import { SidebarSubMenu } from './sidebar-menu/sidebar-sub-menu.js';
 import { Card } from './card/card.js';
 import { CardContent } from './card/card-content.js';
-import { Banner } from './banner/banner.js';
+import { Alert } from './alert/alert.js';
 import { Notification } from './notification/notification.js';
 import { NotificationManager } from './notification-manager/notification-manager.js';
 import { Snackbar } from './snackbar/snackbar.js';
@@ -191,8 +191,8 @@ const loaderConfig: LoaderConfig = {
     'wc-card-content': {
       CustomElementClass: CardContent,
     },
-    'wc-banner': {
-      CustomElementClass: Banner,
+    'wc-alert': {
+      CustomElementClass: Alert,
     },
     'wc-notification': {
       CustomElementClass: Notification,

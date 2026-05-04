@@ -55,7 +55,7 @@ export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export { SidebarMenu, SidebarMenuItem, SidebarSubMenu } from './sidebar-menu/index.js';
 export { Card } from './card/index.js';
-export { Banner } from './banner/index.js';
+export { Alert } from './alert/index.js';
 export { Notification } from './notification/index.js';
 export { NotificationManager } from './notification-manager/index.js';
 export { Snackbar } from './snackbar/index.js';
