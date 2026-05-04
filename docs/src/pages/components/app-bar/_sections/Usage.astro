@@ -1,0 +1,26 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>
+  The top app bar provides content and actions related to the current screen. Use the
+  <code>leading</code> slot for a navigation icon, the default slot for the headline, and the
+  <code>trailing</code> slot for action icon buttons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
+    <wc-app-bar>
+      <wc-icon-button slot='leading' variant='text'>
+        <wc-icon name='menu'></wc-icon>
+      </wc-icon-button>
+      Page Title
+      <wc-icon-button slot='trailing' variant='text'>
+        <wc-icon name='search'></wc-icon>
+      </wc-icon-button>
+      <wc-icon-button slot='trailing' variant='text'>
+        <wc-icon name='more_vert'></wc-icon>
+      </wc-icon-button>
+    </wc-app-bar>
+  </div>
+</DemoComponentCard>

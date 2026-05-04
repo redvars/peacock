@@ -1,0 +1,48 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4 class='text-title'>Medium</h4>
+<p class='text-body-large'>
+  A two-row bar (112dp total) where the headline sits in a second row below the action row.
+  Suitable for screens with rich context, such as article or inbox views.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
+    <wc-app-bar variant='medium'>
+      <wc-icon-button slot='leading' variant='text'>
+        <wc-icon name='menu'></wc-icon>
+      </wc-icon-button>
+      Medium Headline
+      <wc-icon-button slot='trailing' variant='text'>
+        <wc-icon name='search'></wc-icon>
+      </wc-icon-button>
+      <wc-icon-button slot='trailing' variant='text'>
+        <wc-icon name='more_vert'></wc-icon>
+      </wc-icon-button>
+    </wc-app-bar>
+  </div>
+</DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Large</h4>
+<p class='text-body-large'>
+  A two-row bar (152dp total) with a larger headline (headline-medium type scale). Use for
+  primary screens where the page title deserves strong visual prominence.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
+    <wc-app-bar variant='large'>
+      <wc-icon-button slot='leading' variant='text'>
+        <wc-icon name='arrow_back'></wc-icon>
+      </wc-icon-button>
+      Large Headline
+      <wc-icon-button slot='trailing' variant='text'>
+        <wc-icon name='more_vert'></wc-icon>
+      </wc-icon-button>
+    </wc-app-bar>
+  </div>
+</DemoComponentCard>
