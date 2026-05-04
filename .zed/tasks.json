@@ -1,0 +1,7 @@
+[
+  {
+    "label": "Install Peacock",
+    "command": "cmd /c npm run install_peacock",
+    "cwd": "$ZED_WORKTREE_ROOT/docs",
+  },
+]
