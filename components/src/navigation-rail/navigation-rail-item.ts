@@ -54,8 +54,8 @@ export class NavigationRailItem extends LitElement {
   /** Reason the item is disabled (shown to screen readers). */
   @property({ attribute: 'disabled-reason' }) disabledReason: string = '';
 
-  /** Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds. */
-  @property({ type: Number }) throttleDelay = 200;
+  /** Sets the delay for throttle in milliseconds. When null (default), no throttle is applied. */
+  @property({ type: Number }) throttleDelay: number | null = null;
 
   @state() private _isPressed = false;
 
@@ -64,6 +64,14 @@ export class NavigationRailItem extends LitElement {
   @state() private _hasActiveIcon = false;
 
   @query('.item-element') readonly itemElement!: HTMLElement | null;
+
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('mousedown', this.__handlePress as EventListener);
+    this.addEventListener('keydown', this.__handlePress as EventListener);
+    this.addEventListener('keyup', this.__handlePress as EventListener);
+  }
 
   override focus() {
     this.itemElement?.focus();
@@ -74,10 +82,12 @@ export class NavigationRailItem extends LitElement {
   }
 
   override firstUpdated() {
-    this.__dispatchClickWithThrottle = throttle(
-      this.__dispatchClick,
-      this.throttleDelay,
-    );
+    if (this.throttleDelay !== null) {
+      this.__dispatchClickWithThrottle = throttle(
+        this.__dispatchClick,
+        this.throttleDelay,
+      );
+    }
 
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot.label'),
@@ -189,10 +199,6 @@ export class NavigationRailItem extends LitElement {
         aria-disabled=${`${this.disabled}`}
         aria-current=${this.active ? 'page' : nothing}
         ?aria-describedby=${this.__getDisabledReasonID()}
-        @click=${this.__dispatchClickWithThrottle}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
       >
         ${this.__renderItemContent()}
       </button>`;
@@ -206,10 +212,6 @@ export class NavigationRailItem extends LitElement {
       aria-current=${this.active ? 'page' : nothing}
       aria-disabled=${`${this.disabled}`}
       ?aria-describedby=${this.__getDisabledReasonID()}
-      @click=${this.__dispatchClickWithThrottle}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
     >
       ${this.__renderItemContent()}
     </a>`;

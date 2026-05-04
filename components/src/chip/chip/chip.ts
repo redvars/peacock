@@ -8,6 +8,7 @@ import {
   isActivationClick,
 } from '@/__utils/dispatch-event-utils.js';
 import { isLink } from '@/__utils/is-link.js';
+import { throttle } from '@/__utils/throttle.js';
 import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
 import { spread } from '@/__directive/spread.js';
@@ -50,9 +51,9 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
   /**
-   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay = 200;
+  @property() throttleDelay: number | null = null;
 
   @property() tooltip?: string;
 
@@ -61,15 +62,21 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('mousedown', this.__handlePress as EventListener);
+    this.addEventListener('keydown', this.__handlePress as EventListener);
+    this.addEventListener('keyup', this.__handlePress as EventListener);
+  }
+
   override connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
     window.addEventListener('mouseup', this.__handlePress);
   }
 
   override disconnectedCallback() {
     window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
     super.disconnectedCallback();
   }
 
@@ -146,6 +153,12 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   }
 
   override firstUpdated() {
+    if (this.throttleDelay !== null) {
+      this.__dispatchClickWithThrottle = throttle(
+        this.__dispatchClick,
+        this.throttleDelay,
+      );
+    }
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot[name="icon"]'),
       hasContent => {
@@ -210,10 +223,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         class=${classMap(cssClasses)}
         id="button"
         type=${this.htmlType}
-        @click=${this.__dispatchClickWithThrottle}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
@@ -230,10 +239,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       href=${this.href}
       target=${this.target}
       tabindex=${this.disabled ? '-1' : '0'}
-      @click=${this.__dispatchClick}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
       role="button"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,

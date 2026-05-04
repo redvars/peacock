@@ -53,9 +53,9 @@ export class Tab extends LitElement {
   @property({ type: String, reflect: true }) href?: string;
 
   /**
-   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay = 200;
+  @property() throttleDelay: number | null = null;
 
   @state() hasFocus = false;
 
@@ -86,13 +86,19 @@ export class Tab extends LitElement {
   constructor() {
     super();
     this._tabindex = 0;
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('mousedown', this.__handlePress as EventListener);
+    this.addEventListener('keydown', this.__handlePress as EventListener);
+    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
 
   override firstUpdated() {
-    this.__dispatchClickWithThrottle = throttle(
-      this.__dispatchClick,
-      this.throttleDelay,
-    );
+    if (this.throttleDelay !== null) {
+      this.__dispatchClickWithThrottle = throttle(
+        this.__dispatchClick,
+        this.throttleDelay,
+      );
+    }
     observerSlotChangesWithCallback(
       this.renderRoot.querySelector('slot:not([name])'),
       hasContent => {
@@ -189,9 +195,6 @@ export class Tab extends LitElement {
         id="button"
         class=${classMap(cssClasses)}
         tabindex="0"
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
         ?aria-describedby=${this.__getDisabledReasonID()}
         aria-disabled=${`${this.disabled}`}
         ?disabled=${this.disabled}
@@ -207,9 +210,6 @@ export class Tab extends LitElement {
       tabindex="0"
       href=${this.href}
       target=${this.target}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
       role="button"
       ?aria-describedby=${this.__getDisabledReasonID()}
       aria-disabled=${`${this.disabled}`}

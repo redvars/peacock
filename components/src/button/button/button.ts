@@ -140,10 +140,12 @@ export class Button
   }
 
   override firstUpdated() {
-    this.__dispatchClickWithThrottle = throttle(
-      this.__dispatchClick,
-      this.throttleDelay,
-    );
+    if (this.throttleDelay !== null) {
+      this.__dispatchClickWithThrottle = throttle(
+        this.__dispatchClick,
+        this.throttleDelay,
+      );
+    }
 
     this.__convertTypeToVariantAndColor();
     // Initialize slot presence tracking for smooth transitions when label/icon are added/removed
@@ -229,10 +231,6 @@ export class Button
         href=${this.href}
         target=${this.target}
         tabindex=${this.disabled ? '-1' : '0'}
-        @click=${this.__dispatchClick}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
         role="button"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
@@ -247,10 +245,6 @@ export class Button
         class=${classMap(cssClasses)}
         id="button"
         type=${this.htmlType}
-        @click=${this.__dispatchClickWithThrottle}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
@@ -278,9 +272,9 @@ export class Button
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
   /**
-   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay = 200;
+  @property() throttleDelay: number | null = null;
 
   @property() tooltip?: string;
 
@@ -298,9 +292,16 @@ export class Button
 
   private __labelSlotCleanup: (() => void) | null = null;
 
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('mousedown', this.__handlePress as EventListener);
+    this.addEventListener('keydown', this.__handlePress as EventListener);
+    this.addEventListener('keyup', this.__handlePress as EventListener);
+  }
+
   override connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
     window.addEventListener('mouseup', this.__handlePress);
   }
 
@@ -318,7 +319,6 @@ export class Button
     }
 
     window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
     super.disconnectedCallback();
   }
 

@@ -651,10 +651,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -1284,10 +1284,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -2042,10 +2042,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -3121,10 +3121,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -4153,10 +4153,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -5791,10 +5791,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         }
       ],
@@ -8102,10 +8102,10 @@
         {
           "name": "throttleDelay",
           "type": {
-            "text": "number"
+            "text": "number | null"
           },
-          "default": "200",
-          "description": "Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.",
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
           "fieldName": "throttleDelay"
         }
       ],

@@ -93,9 +93,9 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   configAria?: { [key: string]: any };
 
   /**
-   * Sets the delay for throttle in milliseconds. Defaults to 200 milliseconds.
+   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay = 200;
+  @property() throttleDelay: number | null = null;
 
   /**
    * Tooltip text shown on hover.
@@ -116,15 +116,21 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+    this.addEventListener('mousedown', this.__handlePress as EventListener);
+    this.addEventListener('keydown', this.__handlePress as EventListener);
+    this.addEventListener('keyup', this.__handlePress as EventListener);
+  }
+
   override connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
     window.addEventListener('mouseup', this.__handlePress);
   }
 
   override disconnectedCallback() {
     window.removeEventListener('mouseup', this.__handlePress);
-    this.removeEventListener('click', this.__dispatchClickWithThrottle);
     super.disconnectedCallback();
   }
 
@@ -201,10 +207,12 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   }
 
   override firstUpdated() {
-    this.__dispatchClickWithThrottle = throttle(
-      this.__dispatchClick,
-      this.throttleDelay,
-    );
+    if (this.throttleDelay !== null) {
+      this.__dispatchClickWithThrottle = throttle(
+        this.__dispatchClick,
+        this.throttleDelay,
+      );
+    }
   }
 
   override render() {
@@ -240,10 +248,6 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         class=${classMap(cssClasses)}
         id="button"
         type="button"
-        @click=${this.__dispatchClickWithThrottle}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handlePress}
-        @keyup=${this.__handlePress}
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
@@ -261,10 +265,6 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       tabindex=${this.disabled ? '-1' : '0'}
       href=${ifDefined(this.href)}
       target=${this.target}
-      @click=${this.__dispatchClick}
-      @mousedown=${this.__handlePress}
-      @keydown=${this.__handlePress}
-      @keyup=${this.__handlePress}
       role="button"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
