@@ -1,0 +1,82 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.alert {
+  align-items: flex-start;
+  background: var(--alert-container-color);
+  border-radius: var(--alert-border-radius);
+  display: grid;
+  gap: var(--spacing-100);
+  grid-template-columns: auto 1fr;
+  padding: var(--spacing-200);
+}
+
+.alert-icon {
+  align-items: center;
+  color: var(--alert-icon-color);
+  display: inline-flex;
+  justify-content: center;
+  --icon-size: 1.5rem;
+}
+
+.alert-content {
+  .alert-label {
+    display: inline;
+    @include mixin.get-typography(label-large);
+    color: var(--alert-label-text-color);
+    margin-inline-end: var(--spacing-050);
+  }
+
+  .alert-description {
+    display: inline;
+    @include mixin.get-typography(body-medium);
+    color: var(--alert-description-text-color);
+  }
+}
+
+
+// Default styles for the alert and content. These will be overridden by the variant-specific styles below.
+:host {
+  --alert-container-color: var(--color-tertiary-container);
+  --alert-label-text-color: var(--color-on-tertiary-container);
+  --alert-description-text-color: var(--color-on-tertiary-container);
+  --alert-icon-color: var(--color-on-tertiary-container);
+  --alert-border-radius: var(--shape-corner-small);
+}
+
+.alert.info,
+.alert-content.info {
+  --alert-container-color: var(--color-primary-container);
+  --alert-label-text-color: var(--color-on-primary-container);
+  --alert-description-text-color: var(--color-on-primary-container);
+  --alert-icon-color: var(--color-on-primary-container);
+}
+
+.alert.success,
+.alert-content.success {
+  --alert-container-color: var(--color-success-container);
+  --alert-label-text-color: var(--color-on-success-container);
+  --alert-description-text-color: var(--color-on-success-container);
+  --alert-icon-color: var(--color-on-success-container);
+}
+
+.alert.warning,
+.alert-content.warning {
+  --alert-container-color: var(--color-warning-container);
+  --alert-label-text-color: var(--color-on-warning-container);
+  --alert-description-text-color: var(--color-on-warning-container);
+  --alert-icon-color: var(--color-on-warning-container);
+}
+
+.alert.error,
+.alert-content.error {
+  --alert-container-color: var(--color-error-container);
+  --alert-label-text-color: var(--color-on-error-container);
+  --alert-description-text-color: var(--color-on-error-container);
+  --alert-icon-color: var(--color-on-error-container);
+}

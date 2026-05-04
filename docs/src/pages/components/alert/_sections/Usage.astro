@@ -1,0 +1,21 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Alerts highlight short, contextual messages with a leading icon and a clear label.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-alert
+    description='These color roles were chosen to create design coherence and familiarity.'>
+  </wc-alert>
+</DemoComponentCard>
+
+<p class='text-body-large'>Use slots to customize icon, label, and content.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-alert>
+    <wc-icon slot='icon' name='campaign'></wc-icon>
+    <span slot='label'>Announcement:</span>
+    Scheduled maintenance starts at 12:00 UTC.
+  </wc-alert>
+</DemoComponentCard>
