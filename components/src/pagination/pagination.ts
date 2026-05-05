@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import type { PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './pagination.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
 
@@ -21,6 +22,7 @@ const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
  * ```
  * @tags navigation, data
  */
+@IndividualComponent
 export class Pagination extends LitElement {
   static styles = [styles];
 

@@ -10,6 +10,7 @@ import {
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
 import { isLink } from '@/__internal/utils/is-link.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Item
@@ -30,6 +31,7 @@ import { isLink } from '@/__internal/utils/is-link.js';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   static styles = [styles];
 

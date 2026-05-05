@@ -5,6 +5,7 @@ import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
 import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
 import styles from './image.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Image
@@ -18,6 +19,7 @@ import styles from './image.scss';
  * <wc-image src="image.jpg" alt="Description"></wc-image>
  * ```
  */
+@IndividualComponent
 export class Image extends LitElement {
   static styles = [styles];
 

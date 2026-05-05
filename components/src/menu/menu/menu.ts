@@ -5,6 +5,7 @@ import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
 import { FloatingController } from '../../__internal/controllers/floating-controller.js';
 import { MenuItem } from '../menu-item/menu-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 type CloseReason =
   | { kind: 'click-selection' }
@@ -28,6 +29,7 @@ type CloseReason =
  * </wc-menu>
  * ```
  */
+@IndividualComponent
 export class Menu extends LitElement {
   static styles = [styles];
 

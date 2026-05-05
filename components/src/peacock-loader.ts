@@ -11,7 +11,7 @@ import { Divider } from './divider/divider.js';
 import { Button } from './button/button/button.js';
 import ButtonGroup from './button/button-group/button-group.js';
 import { IconButton } from './button/icon-button/icon-button.js';
-import { Fab } from './fab/fab.js';
+import { Fab } from './button/fab/fab.js';
 import { SegmentedButton } from './segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from './segmented-button/segmented-button-group.js';
 import { SplitButton } from './split-button/split-button.js';

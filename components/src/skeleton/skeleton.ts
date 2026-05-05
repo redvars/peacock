@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './skeleton.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Skeleton
@@ -14,6 +15,7 @@ import styles from './skeleton.scss';
  * <wc-skeleton visible></wc-skeleton>
  * ```
  */
+@IndividualComponent
 export class Skeleton extends LitElement {
   static styles = [styles];
 

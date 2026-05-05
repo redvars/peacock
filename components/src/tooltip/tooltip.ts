@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
 import { FloatingController } from '../__internal/controllers/floating-controller.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 // Define a type for valid trigger combinations
 export type TooltipTrigger = 'hover' | 'focus' | 'click';
@@ -19,6 +20,7 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
  * <wc-tooltip preview>Tooltip</wc-tooltip>
  * ```
  */
+@IndividualComponent
 export class Tooltip extends LitElement {
   static styles = [styles];
 

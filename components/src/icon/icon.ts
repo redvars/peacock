@@ -6,6 +6,7 @@ import { sanitizeSvg } from '@/__internal/utils/sanitize-svg.js';
 
 import { fetchIcon, fetchSVG } from './datasource.js';
 import styles from './icon.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 export type IconProvider = 'material-symbols' | 'material-icons';
 /**
@@ -24,6 +25,7 @@ export type IconProvider = 'material-symbols' | 'material-icons';
  * ```
  *
  */
+@IndividualComponent
 export class Icon extends LitElement {
   static styles = [styles];
 

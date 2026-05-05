@@ -11,10 +11,14 @@ import {
   dispatchActivationClick,
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
-import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
+import IndividualComponent from '@/IndividualComponent.js';
+import { mixinBaseButton } from '../base-button/base-button.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
+import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 
 /**
  * @label Icon Button
@@ -59,10 +63,16 @@ import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
  * ```
  * @tags display
  */
-export class IconButton
-  extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
-  implements GroupButtonInterface
-{
+@IndividualComponent
+export class IconButton extends mixinBaseButton(
+  mixinHyperlink(
+    mixinDelegatesAria(
+      mixinFormSubmitter(
+        mixinFormAssociated(mixinElementInternals(LitElement)),
+      ),
+    ),
+  ),
+) {
   static override styles = [styles];
 
   /**
@@ -75,7 +85,7 @@ export class IconButton
    * Type is preset of color and variant. Type will be only applied.
    *
    */
-  @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+  @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
 
   @property({ type: String, reflect: true }) shape?: 'round' | 'square' =
     'square';
@@ -121,11 +131,6 @@ export class IconButton
 
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
-  /**
-   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
-   */
-  @property() throttleDelay: number | null = null;
-
   @property() tooltip?: string;
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
@@ -134,11 +139,6 @@ export class IconButton
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     // If the button is soft-disabled or a disabled link, we need to explicitly
@@ -152,10 +152,6 @@ export class IconButton
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
-    }
-
-    if (this.toggle) {
-      this.selected = !this.selected;
     }
 
     this.focus();
@@ -219,8 +215,10 @@ export class IconButton
   }
 
   override render() {
+    const buttonId = isLink(this) ? 'link' : 'button';
+
     return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       ${when(
         this.variant === 'neo',
@@ -239,22 +237,18 @@ export class IconButton
   }
 
   renderButtonElement() {
+    const isElementLink = isLink(this);
+
     const cssClasses = {
       button: true,
-      'button-element': true,
-      [`size-${this.size}`]: true,
-      [`variant-${this.variant}`]: true,
-      [`color-${this.color}`]: true,
-      disabled: this.disabled || this.softDisabled,
-      skeleton: this.skeleton,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
     };
 
     if (!isLink(this)) {
-      cssClasses['native-button'] = true;
       return html`<button
         class=${classMap(cssClasses)}
         id="button"
-        type=${this.htmlType}
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
@@ -265,14 +259,12 @@ export class IconButton
         ${this.renderButtonContent()}
       </button>`;
     }
-    cssClasses['native-link'] = true;
     return html`<a
       class=${classMap(cssClasses)}
-      id="button"
+      id="link"
       href=${this.href}
       target=${this.target}
       tabindex=${this.disabled ? '-1' : '0'}
-      role="button"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}

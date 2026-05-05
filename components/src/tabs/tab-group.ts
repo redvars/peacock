@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import styles from './tab-group.scss';
 import { Tabs } from './tabs.js';
 import { TabPanel } from './tab-panel.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Tab Group
@@ -28,6 +29,7 @@ import { TabPanel } from './tab-panel.js';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class TabGroup extends LitElement {
   static styles = [styles];
 

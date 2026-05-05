@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import sliderStyles from './slider.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Slider
@@ -18,6 +19,7 @@ import sliderStyles from './slider.scss';
  * <wc-slider min="0" max="100" value="50"></wc-slider>
  * ```
  */
+@IndividualComponent
 export class Slider extends LitElement {
   static styles = [sliderStyles];
 

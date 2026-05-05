@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './container.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 type ContainerSize = 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
 
@@ -19,6 +20,7 @@ type ContainerSize = 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
  * <wc-container style="width: 80%; border: 1px dotted black;" size="md">Content</wc-container>
  * ```
  */
+@IndividualComponent
 export class Container extends LitElement {
   @property({ type: String, reflect: true })
   size: ContainerSize = 'full';

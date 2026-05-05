@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { spread } from '@/__internal/directive/spread.js';
 import styles from './checkbox.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Checkbox
@@ -27,6 +28,7 @@ import styles from './checkbox.scss';
  * <wc-checkbox label="Accept terms"></wc-checkbox>
  * ```
  */
+@IndividualComponent
 export class Checkbox extends LitElement {
   static styles = [styles];
 

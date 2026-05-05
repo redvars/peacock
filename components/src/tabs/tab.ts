@@ -13,6 +13,7 @@ import { spread } from '@/__internal/directive/spread.js';
 
 import styles from './tab.scss';
 import type { Tabs } from './tabs.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Tab
@@ -29,6 +30,7 @@ import type { Tabs } from './tabs.js';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class Tab extends LitElement {
   #id = crypto.randomUUID();
 

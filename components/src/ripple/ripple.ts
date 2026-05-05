@@ -2,6 +2,7 @@ import { LitElement, html, css, PropertyValues, isServer } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import {
+import IndividualComponent from '@/IndividualComponent.js';
   Attachable,
   AttachableController,
 } from '@/__internal/controllers/attachable-controller.js';
@@ -118,6 +119,7 @@ const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Ripple extends LitElement implements Attachable {
   static styles = css`
     :host {

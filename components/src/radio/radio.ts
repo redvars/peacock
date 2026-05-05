@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { spread } from '@/__internal/directive/spread.js';
 
 import styles from './radio.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Radio
@@ -33,6 +34,7 @@ import styles from './radio.scss';
  */
 type RadioDirection = 1 | -1;
 
+@IndividualComponent
 export class Radio extends LitElement {
   private static readonly DIRECTION_NEXT: RadioDirection = 1;
   private static readonly DIRECTION_PREVIOUS: RadioDirection = -1;

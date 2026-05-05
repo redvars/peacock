@@ -9,6 +9,7 @@ import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot
 import { throttle } from '@/__internal/utils/throttle.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import styles from './navigation-rail-item.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Navigation Rail Item
@@ -28,6 +29,7 @@ import styles from './navigation-rail-item.scss';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class NavigationRailItem extends LitElement {
   #id = crypto.randomUUID();
 

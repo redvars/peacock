@@ -6,6 +6,7 @@ import { sanitizeSvg } from '@/__internal/utils/sanitize-svg.js';
 import { fetchSVG } from '../icon/datasource.js';
 
 import styles from './svg.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label SVG
@@ -22,6 +23,7 @@ import styles from './svg.scss';
  * <wc-svg src="/icons/my-icon.svg" image-title="My icon"></wc-svg>
  * ```
  */
+@IndividualComponent
 export class Svg extends LitElement {
   static styles = [styles];
 

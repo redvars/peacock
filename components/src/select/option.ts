@@ -1,6 +1,7 @@
 import { css, html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import type { MenuItem } from '../menu/menu-item/menu-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Select Option
@@ -17,6 +18,7 @@ import type { MenuItem } from '../menu/menu-item/menu-item.js';
  * </wc-select>
  * ```
  */
+@IndividualComponent
 export class SelectOptionElement extends LitElement {
   static override styles = [
     css`

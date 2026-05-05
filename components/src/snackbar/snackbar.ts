@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './snackbar.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
 
@@ -26,6 +27,7 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  * ```
  * @tags display, feedback
  */
+@IndividualComponent
 export class Snackbar extends LitElement {
   static styles = [styles];
 

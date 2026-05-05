@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 
 import styles from './divider.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Divider
@@ -25,6 +26,7 @@ import styles from './divider.scss';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Divider extends LitElement {
   static styles = [styles];
 

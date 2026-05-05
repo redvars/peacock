@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 
 import styles from './spinner.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Spinner
@@ -16,6 +17,7 @@ import styles from './spinner.scss';
  * <wc-spinner></wc-spinner>
  * ```
  */
+@IndividualComponent
 export class Spinner extends LitElement {
   static styles = [styles];
 

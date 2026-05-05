@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import styles from './elevation.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Elevation
@@ -23,6 +24,7 @@ import styles from './elevation.scss';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Elevation extends LitElement {
   static styles = [styles];
 

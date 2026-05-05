@@ -3,6 +3,7 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './breadcrumb-item.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Breadcrumb Item
@@ -16,6 +17,7 @@ import styles from './breadcrumb-item.scss';
  * <wc-breadcrumb-item href="#">Home</wc-breadcrumb-item>
  * ```
  */
+@IndividualComponent
 export class BreadcrumbItem extends LitElement {
   static styles = [styles];
 

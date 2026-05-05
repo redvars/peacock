@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './accordion.scss';
 import { AccordionItem } from './accordion-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Accordion
@@ -25,6 +26,7 @@ import { AccordionItem } from './accordion-item.js';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Accordion extends LitElement {
   static styles = [styles];
 

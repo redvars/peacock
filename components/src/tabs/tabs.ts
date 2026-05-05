@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './tabs.scss';
 import { Tab } from './tab.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Tabs
@@ -21,6 +22,7 @@ import { Tab } from './tab.js';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class Tabs extends LitElement {
   static styles = [styles];
 

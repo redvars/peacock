@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './empty-state.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Empty State
@@ -15,6 +16,7 @@ import styles from './empty-state.scss';
  * <wc-empty-state style="width:100%" headline="No items found"></wc-empty-state>
  * ```
  */
+@IndividualComponent
 export class EmptyState extends LitElement {
   // Lit handles styles in a static property for better performance
   static styles = [styles];

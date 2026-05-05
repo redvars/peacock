@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './avatar.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Avatar
@@ -22,6 +23,7 @@ import styles from './avatar.scss';
  *
  * @tags display
  */
+@IndividualComponent
 export class Avatar extends LitElement {
   static styles = [styles];
 

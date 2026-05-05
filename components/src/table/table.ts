@@ -6,6 +6,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { throttle } from '@/__internal/utils/throttle.js';
 
 import styles from './table.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 const DEFAULT_CELL_WIDTH = 16; // in rem
 
@@ -36,6 +37,7 @@ export interface TableColumn {
  * ```
  * @tags display, data
  */
+@IndividualComponent
 export class Table extends LitElement {
   static styles = [styles];
 

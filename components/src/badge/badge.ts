@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './badge.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Badge
@@ -17,6 +18,7 @@ import styles from './badge.scss';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class Badge extends LitElement {
   static styles = [styles];
 

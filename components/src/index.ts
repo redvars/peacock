@@ -5,8 +5,11 @@ export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
 export { Button, ButtonGroup, IconButton } from './button/index.js';
-export { Fab } from './fab/index.js';
-export { SegmentedButton, SegmentedButtonGroup } from './segmented-button/index.js';
+export { Fab } from './button/fab/index.js';
+export {
+  SegmentedButton,
+  SegmentedButtonGroup,
+} from './segmented-button/index.js';
 export { SplitButton } from './split-button/index.js';
 export { DropdownButton } from './dropdown-button/index.js';
 
@@ -53,7 +56,11 @@ export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
-export { SidebarMenu, SidebarMenuItem, SidebarSubMenu } from './sidebar-menu/index.js';
+export {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarSubMenu,
+} from './sidebar-menu/index.js';
 export { Card } from './card/index.js';
 export { Alert } from './alert/index.js';
 export { Notification } from './notification/index.js';
@@ -70,7 +77,11 @@ export { Search } from './search/index.js';
 export { Toolbar } from './toolbar/index.js';
 export { AppBar } from './app-bar/index.js';
 export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';
-export { Calendar, CalendarColumnView, CalendarMonthView } from './calendar/index.js';
+export {
+  Calendar,
+  CalendarColumnView,
+  CalendarMonthView,
+} from './calendar/index.js';
 export type { CalendarViewType, EventType } from './calendar/index.js';
 export { Canvas } from './canvas/index.js';
 export type { CanvasShape } from './canvas/index.js';
@@ -88,4 +99,10 @@ export type {
   SwimlaneConfig,
   NodeTemplate,
 } from './flow-designer/index.js';
-export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider } from './condition-builder/index.js';
+export {
+  ConditionBuilder,
+  CbPredicate,
+  CbCompoundExpression,
+  CbExpression,
+  CbDivider,
+} from './condition-builder/index.js';

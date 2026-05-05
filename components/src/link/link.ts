@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import styles from './link.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Link
@@ -16,6 +17,7 @@ import styles from './link.scss';
  * <wc-link href="#">Link</wc-link>
  * ```
  */
+@IndividualComponent
 export class Link extends NativeHyperlinkMixin(LitElement) {
   static styles = [styles];
 

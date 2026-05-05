@@ -2,6 +2,7 @@ import { isServer, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './focus-ring.scss';
 import {
+import IndividualComponent from '@/IndividualComponent.js';
   Attachable,
   AttachableController,
 } from '@/__internal/controllers/attachable-controller.js';
@@ -29,6 +30,7 @@ interface FocusRingEvent extends Event {
  *
  * @fires visibility-changed {Event} Fired whenever `visible` changes.
  */
+@IndividualComponent
 export class FocusRing extends LitElement implements Attachable {
   static styles = [styles];
 

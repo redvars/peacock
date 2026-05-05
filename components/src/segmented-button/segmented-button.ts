@@ -2,6 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './segmented-button.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Segmented Button
@@ -31,6 +32,7 @@ import styles from './segmented-button.scss';
  *
  * @tags controls
  */
+@IndividualComponent
 export class SegmentedButton extends LitElement {
   static styles = [styles];
 

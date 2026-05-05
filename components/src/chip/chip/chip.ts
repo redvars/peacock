@@ -15,6 +15,7 @@ import { spread } from '@/__internal/directive/spread.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
 import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Chip
@@ -28,6 +29,7 @@ import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
  * <wc-chip>Chip content</wc-chip>
  * ```
  */
+@IndividualComponent
 export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   // Define styles (Lit handles Scoping via Shadow DOM by default)
   // You would typically import your tag.scss.js here or use the css tag

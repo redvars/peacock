@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './breadcrumb.scss';
 import { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Breadcrumb
@@ -23,6 +24,7 @@ import { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
  * </wc-breadcrumb>
  * ```
  */
+@IndividualComponent
 export class Breadcrumb extends LitElement {
   static styles = [styles];
 

@@ -3,6 +3,7 @@ import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './sub-menu.scss';
 import { MenuItem } from '../menu-item/menu-item.js';
 import { Menu } from '../menu/menu.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 let subMenuIdCounter = 0;
 
@@ -12,6 +13,7 @@ let subMenuIdCounter = 0;
  * @rawTag sub-menu
  * @summary Connects a menu item to a nested menu.
  */
+@IndividualComponent
 export class SubMenu extends LitElement {
   static styles = [styles];
 

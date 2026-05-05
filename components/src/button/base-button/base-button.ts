@@ -8,17 +8,31 @@ import { MixinBase, MixinReturn } from '@/__internal/mixins/mixin.js';
  * This makes the type annotation much cleaner.
  */
 export interface BaseButton {
+  variant: string;
+
   disabled: boolean;
 
   softDisabled: boolean;
 
   disabledReason: string;
+
+  throttleDelay: number | null;
+
+  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void;
+
+  __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
 }
 
 export function mixinBaseButton<
   T extends MixinBase<LitElement & WithElementInternals>,
 >(base: T): MixinReturn<T, BaseButton> {
   abstract class BaseButtonElement extends base implements BaseButton {
+    @property({ type: String, reflect: true })
+    variant: string = '';
+
+    @property({ type: String, reflect: true })
+    color: string = '';
+
     /**
      * When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.
      */
@@ -40,6 +54,18 @@ export function mixinBaseButton<
      */
     @property({ attribute: 'disabled-reason' })
     disabledReason: string = '';
+
+    /**
+     * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
+     */
+    @property() throttleDelay: number | null = null;
+
+    __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
+      event => {
+        this.__dispatchClick(event);
+      };
+
+    abstract __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
   }
 
   return BaseButtonElement;

@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './tab-panel.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Tab Panel
@@ -17,6 +18,7 @@ import styles from './tab-panel.scss';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class TabPanel extends LitElement {
   static styles = [styles];
 

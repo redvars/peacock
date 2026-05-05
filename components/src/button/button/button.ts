@@ -8,8 +8,6 @@ import styles from './button.scss';
 import { throttle } from '@/__internal/utils/throttle.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
-import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
 import {
   dispatchActivationClick,
   isActivationClick,
@@ -21,6 +19,7 @@ import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { mixinBaseButton } from '../base-button/base-button.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 
 /**
  * @label Button
@@ -65,18 +64,15 @@ import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
  * @tags display
  */
 @IndividualComponent
-export class Button
-  extends mixinBaseButton(
+export class Button extends mixinBaseButton(
+  mixinHyperlink(
     mixinDelegatesAria(
       mixinFormSubmitter(
-        mixinFormAssociated(
-          mixinElementInternals(NativeHyperlinkMixin(LitElement)),
-        ),
+        mixinFormAssociated(mixinElementInternals(LitElement)),
       ),
     ),
-  )
-  implements GroupButtonInterface
-{
+  ),
+) {
   /** @nocollapse */ // eslint-disable-next-line
   static override shadowRootOptions: ShadowRootInit = {
     mode: 'open',
@@ -281,11 +277,6 @@ export class Button
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
-
-  /**
-   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
-   */
-  @property() throttleDelay: number | null = null;
 
   @property() tooltip?: string;
 

@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 
 import styles from './field.scss';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Field
@@ -23,6 +24,7 @@ import styles from './field.scss';
  * ```
  * @tags form
  */
+@IndividualComponent
 export class Field extends LitElement {
   static shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './list.scss';
 import { ListItem } from './list-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label List
@@ -23,6 +24,7 @@ import { ListItem } from './list-item.js';
  * ```
  * @tags display
  */
+@IndividualComponent
 export class List extends LitElement {
   static styles = [styles];
 

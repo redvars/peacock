@@ -6,6 +6,7 @@ import colorStyles from './menu-item-colors.scss';
 import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
 import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { Item } from '@/item/item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Menu Item
@@ -19,6 +20,7 @@ import { Item } from '@/item/item.js';
  * <wc-menu-item>Menu Item</wc-menu-item>
  * ```
  */
+@IndividualComponent
 export class MenuItem extends NativeButtonMixin(
   NativeHyperlinkMixin(LitElement),
 ) {

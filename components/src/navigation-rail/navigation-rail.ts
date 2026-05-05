@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './navigation-rail.scss';
 import { NavigationRailItem } from './navigation-rail-item.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 /**
  * @label Navigation Rail
@@ -43,6 +44,7 @@ import { NavigationRailItem } from './navigation-rail-item.js';
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class NavigationRail extends LitElement {
   static styles = [styles];
 
