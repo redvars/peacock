@@ -1,0 +1,35 @@
+:host([shape='square']) {
+  --button-container-shape: var(--shape-corner-medium);
+  --button-container-shape-start-start: unset;
+  --button-container-shape-start-end: unset;
+  --button-container-shape-end-start: unset;
+  --button-container-shape-end-end: unset;
+  --button-container-shape-variant: squircle;
+}
+
+:host([shape='square']:active) {
+  --button-container-shape: var(--shape-corner-small);
+  --button-container-shape-start-start: unset;
+  --button-container-shape-start-end: unset;
+  --button-container-shape-end-start: unset;
+  --button-container-shape-end-end: unset;
+  --button-container-shape-variant: squircle;
+}
+
+:host([shape='round']) {
+  --button-container-shape: var(--shape-corner-full);
+  --button-container-shape-start-start: unset;
+  --button-container-shape-start-end: unset;
+  --button-container-shape-end-start: unset;
+  --button-container-shape-end-end: unset;
+  --button-container-shape-variant: round;
+}
+
+:host([shape='round']:active) {
+  --button-container-shape: var(--shape-corner-medium);
+  --button-container-shape-start-start: unset;
+  --button-container-shape-start-end: unset;
+  --button-container-shape-end-start: unset;
+  --button-container-shape-end-end: unset;
+  --button-container-shape-variant: round;
+}

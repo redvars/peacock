@@ -1,0 +1,305 @@
+@use '../../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --button-icon-size: unset;
+  --button-container-padding: unset;
+}
+
+:host {
+  position: relative;
+  display: inline-flex;
+  min-height: var(--button-height);
+
+  --private-button-container-shape-start-start: var(
+    --button-container-shape-start-start,
+    var(--button-container-shape)
+  );
+  --private-button-container-shape-start-end: var(
+    --button-container-shape-start-end,
+    var(--button-container-shape)
+  );
+  --private-button-container-shape-end-start: var(
+    --button-container-shape-end-start,
+    var(--button-container-shape)
+  );
+  --private-button-container-shape-end-end: var(
+    --button-container-shape-end-end,
+    var(--button-container-shape)
+  );
+  --private-button-container-shape-variant: var(
+    --button-container-shape-variant
+  );
+}
+
+/*
+  * Reset native button/link styles
+  */
+.native-button {
+  @include mixin.reset-button-styles;
+}
+.native-link {
+  @include mixin.reset-link-styles;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height);
+  padding: 0
+    var(--button-container-padding, var(--private-button-container-padding));
+  width: 100%;
+  z-index: 0;
+
+  .label {
+    font-family: var(--font-family-sans) !important;
+    font-size: var(--private-button-font-size);
+    font-weight: var(--private-button-font-weight);
+    line-height: var(--private-button-line-height);
+    letter-spacing: var(--private-button-letter-spacing);
+    color: var(--private-button-label-text-color);
+
+    --icon-size: var(--button-icon-size, var(--private-button-icon-size));
+    --icon-color: var(--private-button-label-text-color);
+
+    pointer-events: none;
+  }
+
+  .touch {
+    position: absolute;
+    min-height: 2.5rem;
+    height: 100%;
+    width: 100%;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: var(--private-button-cursor, pointer);
+  }
+
+  /* make the icon slot itself collapsible so removal animates smoothly */
+  .icon-slot {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .icon-slot::slotted(*) {
+    --icon-size: var(--button-icon-size, var(--private-button-icon-size));
+    --icon-color: var(--private-button-label-text-color);
+    opacity: var(--private-button-label-text-opacity, 1);
+  }
+}
+
+:host(:not([skeleton])) {
+  .skeleton {
+    display: none;
+  }
+}
+
+:host([skeleton]) {
+  .background {
+    display: none;
+  }
+  .ripple {
+    display: none;
+  }
+}
+
+/**
+ * Button variant definitions
+ */
+:host([variant='elevated']) {
+  --private-button-container-color: var(--elevated-button-container-color);
+  --private-button-label-text-color: var(--elevated-button-label-text-color);
+  --private-button-container-elevation-level: 1;
+
+  --private-button-state-color: var(--private-button-label-text-color);
+
+  &:host(:hover:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 2;
+    --private-button-state-opacity: 0.08;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 1;
+    --private-button-state-opacity: 0.12;
+  }
+
+  &:host([disabled]),
+  &:host([soft-disabled]) {
+    --private-button-cursor: not-allowed;
+    --private-button-container-color: var(--color-on-surface);
+    --private-button-container-opacity: 0.1;
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([variant='filled']) {
+  --private-button-container-color: var(--filled-button-container-color);
+  --private-button-label-text-color: var(--filled-button-label-text-color);
+  --private-button-state-color: var(--private-button-label-text-color);
+
+  &:host(:hover:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 1;
+    --private-button-state-opacity: 0.08;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 0;
+    --private-button-state-opacity: 0.1;
+  }
+
+  &:host([disabled]),
+  &:host([soft-disabled]) {
+    --private-button-cursor: not-allowed;
+    --private-button-container-color: var(--color-on-surface);
+    --private-button-container-opacity: 0.1;
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([variant='tonal']) {
+  --private-button-container-color: var(--tonal-button-container-color);
+  --private-button-label-text-color: var(--tonal-button-label-text-color);
+
+  --private-button-state-color: var(--private-button-label-text-color);
+
+  &:host(:hover:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 1;
+    --private-button-state-opacity: 0.08;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-container-elevation-level: 0;
+    --private-button-state-opacity: 0.12;
+  }
+
+  &:host([disabled]),
+  &:host([soft-disabled]) {
+    --private-button-cursor: not-allowed;
+    --private-button-container-color: var(--color-on-surface);
+    --private-button-container-opacity: 0.1;
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([variant='outlined']) {
+  --private-button-outline-width: var(
+    --outlined-button-outline-width,
+    0.0675rem
+  );
+  --private-button-container-color: var(--outlined-button-container-color);
+  --private-button-outline-color: var(--outlined-button-outline-color);
+  --private-button-label-text-color: var(--outlined-button-label-text-color);
+
+  --private-button-state-color: var(--private-button-label-text-color);
+
+  &:host(:hover:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-state-opacity: 0.08;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-state-opacity: 0.12;
+  }
+
+  &:host([disabled]),
+  &:host([soft-disabled]) {
+    --private-button-cursor: not-allowed;
+    --private-button-outline-color: var(--color-on-surface);
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+    --private-button-outline-opacity: 0.12;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([variant='text']) {
+  --private-button-label-text-color: var(--text-button-label-text-color);
+  --private-button-state-color: var(--private-button-label-text-color);
+
+  &:host(:hover:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-state-opacity: 0.08;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    --private-button-state-opacity: 0.12;
+  }
+
+  &:host([disabled]),
+  &:host([soft-disabled]) {
+    --private-button-cursor: not-allowed;
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([variant='neo']) {
+  --private-button-container-color: var(--neo-button-container-color);
+  --private-button-label-text-color: var(--neo-button-label-text-color);
+
+  --private-button-outline-width: var(
+    --outlined-button-outline-width,
+    0.125rem
+  );
+  --private-button-outline-color: var(--color-inverse-surface);
+
+  .focus-ring {
+    --focus-ring-color: var(--color-primary-container);
+    --focus-ring-inset: -2px;
+  }
+
+  .ripple {
+    display: none;
+  }
+
+  &:host(:active:not([disabled], [soft-disabled], [skeleton])) {
+    .background,
+    .button,
+    .outline,
+    .focus-ring {
+      transform: translateX(0.25rem) translateY(0.25rem);
+    }
+  }
+
+  &:host([disabled]) {
+    --private-button-container-color: var(--color-on-surface);
+    --private-button-container-opacity: 0.1;
+    --private-button-label-text-color: var(--color-on-surface);
+    --private-button-label-text-opacity: 0.38;
+    --private-button-outline-opacity: 0.12;
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+:host([block]) {
+  width: 100%;
+}
