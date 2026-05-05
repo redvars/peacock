@@ -22,7 +22,6 @@ import { isLink } from '@/__utils/is-link.js';
  * ```html
  * <wc-item selected>
  *   <wc-icon slot="start" name="home"></wc-icon>
- *   <div slot="overline">Overline</div>
  *   <div slot="headline">Headline</div>
  *   <div slot="supporting-text">Supporting text</div>
  *   <div slot="trailing-supporting-text">Trailing</div>
@@ -198,33 +197,40 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     const ariaControls = this.__getForwardedAttribute('aria-controls');
     const ariaExpanded = this.__getForwardedAttribute('aria-expanded');
 
-    const cssClasses: any = {
-      item: true,
-      selected: this.selected,
-      disabled: this.disabled || this.softDisabled,
-      pressed: this.isPressed,
-    };
-
     return html`
       <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
       <div class="background"></div>
       <wc-ripple class="ripple" for="item"></wc-ripple>
 
-      ${this.renderItemElement(cssClasses, role, tabIndex, ariaHasPopup, ariaControls, ariaExpanded)}
+      ${this.renderItemElement(
+        role,
+        tabIndex,
+        ariaHasPopup,
+        ariaControls,
+        ariaExpanded,
+      )}
     `;
   }
 
   renderItemElement(
-    cssClasses: any,
     role: string | undefined,
     tabIndex: string | undefined,
     ariaHasPopup: string | undefined,
     ariaControls: string | undefined,
     ariaExpanded: string | undefined,
   ) {
-    if (!isLink(this)) {
-      cssClasses['native-button'] = true;
+    const isElementLink = isLink(this);
 
+    const cssClasses: any = {
+      item: true,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
+      selected: this.selected,
+      disabled: this.disabled || this.softDisabled,
+      pressed: this.isPressed,
+    };
+
+    if (!isLink(this)) {
       return html`
         <button
           id="item"
@@ -246,7 +252,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         </button>
       `;
     }
-    cssClasses['native-link'] = true;
     return html`
       <a
         id="item"

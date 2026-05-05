@@ -6,11 +6,13 @@
     log: function (message, title) {
       console.log(message);
       window.dispatchEvent(
-        new CustomEvent('pc-notification', {
+        new CustomEvent('notification', {
+          bubbles: true,
           detail: {
+            target: 'global',
             title: title ? title : undefined,
             subtitle: `<pre>${message}</pre>`,
-            state: 'success',
+            variant: 'success',
           },
         }),
       );
@@ -18,11 +20,13 @@
     warn: function (message, title) {
       console.warn(message);
       window.dispatchEvent(
-        new CustomEvent('pc-notification', {
+        new CustomEvent('notification', {
+          bubbles: true,
           detail: {
+            target: 'global',
             title: title ? title : undefined,
             subtitle: `<pre>${message}</pre>`,
-            state: 'warning',
+            variant: 'warning',
           },
         }),
       );

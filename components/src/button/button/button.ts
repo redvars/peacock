@@ -5,10 +5,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
-import onlyButton from './only-button.scss';
-import buttonLayers from './button-layers.scss';
-import colorStyles from './button-colors.scss';
-import sizeStyles from './button-sizes.scss';
 import { throttle } from '@/__utils/throttle.js';
 import { spread } from '@/__directive/spread.js';
 import { isLink } from '@/__utils/is-link.js';
@@ -69,13 +65,7 @@ export class Button
   extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
   implements GroupButtonInterface
 {
-  static override styles = [
-    buttonLayers,
-    styles,
-    onlyButton,
-    sizeStyles,
-    colorStyles,
-  ];
+  static override styles = [styles];
 
   /**
    * Icon alignment.
@@ -95,6 +85,9 @@ export class Button
    *
    */
   @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+
+  @property({ type: String, reflect: true }) shape: 'round' | 'square' =
+    'square';
 
   /**
    * The visual style of the button.
@@ -295,14 +288,10 @@ export class Button
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    window.addEventListener('mouseup', this.__handlePress);
   }
 
   override disconnectedCallback() {
@@ -318,18 +307,8 @@ export class Button
       /* ignore */
     }
 
-    window.removeEventListener('mouseup', this.__handlePress);
     super.disconnectedCallback();
   }
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.skeleton || this.softDisabled) return;
-    this.pressed =
-      (event instanceof KeyboardEvent &&
-        event.type === 'keydown' &&
-        (event.key === 'Enter' || event.key === ' ')) ||
-      event.type === 'mousedown';
-  };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -350,10 +329,6 @@ export class Button
 
     if (!isActivationClick(event) || !control) {
       return;
-    }
-
-    if (this.toggle) {
-      this.selected = !this.selected;
     }
 
     this.focus();
@@ -383,7 +358,9 @@ export class Button
   __renderTooltip() {
     if (this.tooltip) {
       const buttonId = isLink(this) ? 'link' : 'button';
-      return html`<wc-tooltip class="tooltip" for=${buttonId}>${this.tooltip}</wc-tooltip>`;
+      return html`<wc-tooltip class="tooltip" for=${buttonId}
+        >${this.tooltip}</wc-tooltip
+      >`;
     }
     return nothing;
   }

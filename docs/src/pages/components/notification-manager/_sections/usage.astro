@@ -1,21 +1,19 @@
 ---
-import Highlighter from '../../../../components/Highlighter.astro';
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <style is:inline>
 
-  .demo-container .demo-area-inner {
+  .demo-area-content {
     position: relative;
   }
-  .demo-container .application {
+  .application {
     height: 20rem;
     display: flex;
     align-items: center;
     justify-content: center;
-
   }
 
-  .demo-container .application::before {
+  .application::before {
     content: 'application container';
     pointer-events: none;
     position: absolute;
@@ -25,8 +23,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     bottom: 0;
   }
 
-
-  .demo-container .sub-container {
+  .sub-container {
     position: relative;
     height: 13rem;
     border: 1px dashed var(--color-outline);
@@ -34,7 +31,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
     padding: 1rem;
   }
 
-  .demo-container .sub-container::before {
+  .sub-container::before {
     content: 'sub container';
     position: absolute;
     top: 0;
@@ -54,9 +51,9 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 
 
 
-<HighlighterCard lang='html' cssClasses='demo-container'>
+<DemoComponentCard lang='html' cssClasses='demo-container'>
 
-  <wc-button id='clear-btn'>Clear</wc-button>
+  <wc-button color=danger id='clear-btn'>Clear</wc-button>
 
   <div class='application'>
     <wc-notification-manager name='application-manager' position='bottom-right'></wc-notification-manager>
@@ -120,5 +117,4 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
       );
     });
   </script>
-</HighlighterCard>
-
+</DemoComponentCard>

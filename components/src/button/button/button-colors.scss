@@ -1,5 +1,4 @@
 @mixin _button-color($color) {
-
   --filled-button-container-color: var(--color-#{$color});
   --filled-button-label-text-color: var(--color-on-#{$color});
 
@@ -10,7 +9,7 @@
   --elevated-button-label-text-color: var(--color-#{$color});
 
   --outlined-button-outline-color: var(--color-#{$color});
-  --outlined-button-label-text-color:  var(--color-#{$color});
+  --outlined-button-label-text-color: var(--color-#{$color});
 
   --text-button-label-text-color: var(--color-#{$color});
 
@@ -19,7 +18,6 @@
 }
 
 @mixin _button-color-toggle-unselected($color) {
-
   --filled-button-container-color: var(--color-surface-container-high);
   --filled-button-label-text-color: var(--color-on-surface);
 
@@ -30,87 +28,85 @@
   --elevated-button-label-text-color: var(--color-#{$color});
 
   --outlined-button-outline-color: var(--color-#{$color});
-  --outlined-button-label-text-color:  var(--color-#{$color});
+  --outlined-button-label-text-color: var(--color-#{$color});
 }
 
 @mixin _button-color-toggle-selected($color) {
-
   --filled-button-container-color: var(--color-#{$color});
   --filled-button-label-text-color: var(--color-on-#{$color});
 
-  --tonal-button-container-color: var(--color-#{$color});
-  --tonal-button-label-text-color: var(--color-on-#{$color});
+  --tonal-button-container-color: var(--color-secondary);
+  --tonal-button-label-text-color: var(--color-on-secondary);
 
   --elevated-button-container-color: var(--color-#{$color});
   --elevated-button-label-text-color: var(--color-on-#{$color});
 
   --outlined-button-outline-color: var(--color-inverse-surface);
-  --outlined-button-label-text-color:  var(--color-inverse-on-surface);
+  --outlined-button-container-color: var(--color-inverse-surface);
+  --outlined-button-label-text-color: var(--color-inverse-on-surface);
 }
 
-:host([color=primary]:not([toggle])) {
+:host([color='primary']:not([toggle])) {
   @include _button-color(primary);
 }
 
-:host([color=primary][toggle][selected]) {
+:host([color='primary'][toggle][selected]) {
   @include _button-color-toggle-selected(primary);
 }
 
-:host([color=primary][toggle]:not([selected])) {
+:host([color='primary'][toggle]:not([selected])) {
   @include _button-color-toggle-unselected(primary);
 }
 
-:host([color=secondary]:not([toggle])) {
+:host([color='secondary']:not([toggle])) {
   @include _button-color(secondary);
 }
 
-:host([color=secondary][toggle][selected]) {
+:host([color='secondary'][toggle][selected]) {
   @include _button-color-toggle-selected(secondary);
 }
 
-:host([color=secondary][toggle]:not([selected])) {
+:host([color='secondary'][toggle]:not([selected])) {
   @include _button-color-toggle-unselected(secondary);
 }
 
-:host([color=tertiary]:not([toggle])) {
+:host([color='tertiary']:not([toggle])) {
   @include _button-color(tertiary);
 }
 
-:host([color=tertiary][toggle][selected]) {
+:host([color='tertiary'][toggle][selected]) {
   @include _button-color-toggle-selected(tertiary);
 }
 
-:host([color=tertiary][toggle]:not([selected])) {
+:host([color='tertiary'][toggle]:not([selected])) {
   @include _button-color-toggle-unselected(tertiary);
 }
 
-:host([color=success]:not([toggle])) {
+:host([color='success']:not([toggle])) {
   @include _button-color(success);
 }
 
-:host([color=success][toggle][selected]) {
+:host([color='success'][toggle][selected]) {
   @include _button-color-toggle-selected(success);
 }
 
-:host([color=success][toggle]:not([selected])) {
+:host([color='success'][toggle]:not([selected])) {
   @include _button-color-toggle-unselected(success);
 }
 
-
-:host([color=danger]:not([toggle])) {
+:host([color='danger']:not([toggle])) {
   @include _button-color(error);
 }
 
-:host([color=danger][toggle][selected]) {
+:host([color='danger'][toggle][selected]) {
   @include _button-color-toggle-selected(error);
 }
 
-:host([color=danger][toggle]:not([selected])) {
+:host([color='danger'][toggle]:not([selected])) {
   @include _button-color-toggle-unselected(error);
 }
 
-
-:host([color=on-surface]) {
+:host([color='on-surface']) {
   --filled-button-container-color: var(--color-on-surface);
   --filled-button-label-text-color: var(--color-surface);
 
@@ -129,7 +125,7 @@
   --neo-button-label-text-color: var(--color-surface);
 }
 
-:host([color=surface]) {
+:host([color='surface']) {
   --filled-button-container-color: var(--color-surface-container-high);
   --filled-button-label-text-color: var(--color-on-surface);
 
@@ -147,4 +143,3 @@
   --neo-button-container-color: var(--color-surface);
   --neo-button-label-text-color: var(--color-on-surface);
 }
-

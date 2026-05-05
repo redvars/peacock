@@ -3,14 +3,10 @@ import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
-import buttonLayers from '../button/button-layers.scss';
-import styles from '../button/button.scss';
-import colorStyles from '../button/button-colors.scss';
-import sizeStyles from './icon-button-sizes.scss';
+import styles from './icon-button.scss';
 import { spread } from '@/__directive/spread.js';
 import { throttle } from '@/__utils/throttle.js';
 import { isLink } from '@/__utils/is-link.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
 import {
   dispatchActivationClick,
   isActivationClick,
@@ -67,7 +63,7 @@ export class IconButton
   extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
   implements GroupButtonInterface
 {
-  static override styles = [buttonLayers, styles, colorStyles, sizeStyles];
+  static override styles = [styles];
 
   /**
    * Button size.
@@ -80,6 +76,9 @@ export class IconButton
    *
    */
   @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+
+  @property({ type: String, reflect: true }) shape?: 'round' | 'square' =
+    'square';
 
   /**
    * The visual style of the button.
@@ -203,7 +202,9 @@ export class IconButton
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip class="tooltip" for="button">${this.tooltip}</wc-tooltip>`;
+      return html`<wc-tooltip class="tooltip" for="button"
+        >${this.tooltip}</wc-tooltip
+      >`;
     }
     return nothing;
   }

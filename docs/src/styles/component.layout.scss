@@ -1,7 +1,6 @@
 @charset "utf-8";
-@use "mixin.scss";
-@use "device-utils.scss";
-
+@use 'mixin.scss';
+@use 'device-utils.scss';
 
 :root {
   --header-height: 3rem;
@@ -11,7 +10,6 @@
   box-shadow: var(--shadow-sm);
   border-bottom: 1px solid var(--border-strong-01);
 }
-
 
 $sideBarWidth: 15rem;
 
@@ -42,7 +40,6 @@ $sideBarWidth: 15rem;
   flex-direction: column;
 }
 
-
 .comp-header {
   display: flex;
   align-items: center;
@@ -54,6 +51,13 @@ $sideBarWidth: 15rem;
   }
 }
 
+.component-description {
+  margin-bottom: var(--spacing-600);
+
+  p {
+    margin-bottom: var(--spacing-200);
+  }
+}
 
 .footer .footer-content {
   padding: var(--spacing-200) var(--spacing-400);
@@ -73,10 +77,6 @@ pre[class*='language-'] {
 
   .component-content {
     flex: 1;
-
-    .component-description {
-      margin-bottom: var(--spacing-600);
-    }
   }
 
   .section-nav {
@@ -88,9 +88,7 @@ pre[class*='language-'] {
       width: 100%;
     }
   }
-
 }
-
 
 .component-section {
   margin-bottom: var(--spacing-600);
@@ -111,8 +109,6 @@ pre[class*='language-'] {
   flex-wrap: wrap;
   gap: 1rem;
 }
-
-
 
 .playground-container {
   border: 1px solid var(--color-outline);
@@ -142,11 +138,8 @@ pre[class*='language-'] {
       flex-wrap: wrap;
       padding: 1rem;
       width: 100%;
-
     }
-
   }
-
 
   .code-editor-container {
     padding: 1px;
@@ -155,7 +148,6 @@ pre[class*='language-'] {
       height: 10rem;
     }
   }
-
 }
 
 @include mixin.for-tablet-landscape-up {
@@ -197,14 +189,17 @@ pre[class*='language-'] {
   align-items: center;
   justify-content: center;
   padding-block: var(--spacing-1200);
-  background: linear-gradient(120deg, var(--color-primary-95), var(--color-secondary-95));
+  background: linear-gradient(
+    120deg,
+    var(--color-primary-95),
+    var(--color-secondary-95)
+  );
 }
 
 .demo-input .demo-area-inner {
   max-width: 20rem;
   margin: auto;
 }
-
 
 .demo-components .demo-area {
   display: flex;
@@ -223,7 +218,6 @@ pre[class*='language-'] {
 .previous-next-nav pc-button {
   --filled-button-container-color: var(--color-secondary);
 }
-
 
 @media only screen and (max-width: 1055px) {
   .sidenav {

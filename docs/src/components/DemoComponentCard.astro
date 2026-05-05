@@ -17,7 +17,8 @@ if (inline) {
   cssClasses = 'inline';
 }
 ---
-<style>
+
+<style is:inline>
   .demo-card {
     container: democardcontainer / inline-size;
     margin-bottom: var(--spacing-200);
@@ -26,12 +27,20 @@ if (inline) {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       min-height: 10rem;
-      gap: var(--spacing-200);
+
       background: var(--color-surface);
       padding: var(--spacing-200);
       border-bottom: 1px solid var(--color-outline-variant);
+    }
+
+    .demo-area-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: start;
+      justify-content: center;
+      gap: var(--spacing-200);
+      width: 100%;
     }
 
     .demo-area.inline {
@@ -42,18 +51,13 @@ if (inline) {
       --divider-spacing: 0;
     }
   }
-
-  @container democardcontainer (max-width: 691px) {
-    .demo-card {
-      .demo-area {
-        flex-direction: column !important;
-      }
-    }
-  }
 </style>
+
 <wc-card variant="outlined" class='demo-card'>
   <wc-card-content class={'demo-area ' + cssClasses}>
-    <slot></slot>
+    <div class='demo-area-content'>
+       <slot></slot>
+    </div>
   </wc-card-content>
   <div class='body'>
     <wc-code-highlighter language={lang}>

@@ -31,6 +31,7 @@
   "scripts": {
     "analyze": "cem analyze --config \"./custom-elements-manifest.config.mjs\" && node bin/typedoc-gen.mjs",
     "start": "rollup -c && concurrently -k -r \"rollup -c -w\" \"web-dev-server\"",
+    "start:for-docs": "rollup -c -w",
     "build": "npm run build:lit && npm run analyze -- --exclude dist && npm run build:scss",
     "build:lit": "rollup -c",
     "build:scss": "node ./bin/scss-build.mjs",

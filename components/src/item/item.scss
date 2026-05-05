@@ -1,11 +1,10 @@
-@use "../../scss/mixin";
+@use '../../scss/mixin';
 
 @include mixin.base-styles;
 
 :host {
   position: relative;
   display: block;
-  padding-inline: var(--spacing-050);
   --item-height: 3.5rem;
 
   --item-container-color: transparent;
@@ -23,11 +22,28 @@
 
   --private-item-container-state-color: var(--private-item-label-text-color);
 
-  --private-item-container-shape-start-start: var(--item-container-shape-start-start, var(--shape-corner-extra-small));
-  --private-item-container-shape-start-end: var(--item-container-shape-start-end, var(--shape-corner-extra-small));
-  --private-item-container-shape-end-start: var(--item-container-shape-end-start, var(--shape-corner-extra-small));
-  --private-item-container-shape-end-end: var(--item-container-shape-end-end, var(--shape-corner-extra-small));
-  --private-item-container-shape-variant: var(--item-container-shape-variant, none);
+  --private-item-container-shape-start-start: var(
+    --item-container-shape-start-start,
+    var(--shape-corner-extra-small)
+  );
+  --private-item-container-shape-start-end: var(
+    --item-container-shape-start-end,
+    var(--shape-corner-extra-small)
+  );
+  --private-item-container-shape-end-start: var(
+    --item-container-shape-end-start,
+    var(--shape-corner-extra-small)
+  );
+  --private-item-container-shape-end-end: var(
+    --item-container-shape-end-end,
+    var(--shape-corner-extra-small)
+  );
+  --private-item-container-shape-variant: var(
+    --item-container-shape-variant,
+    none
+  );
+
+  --item-padding: var(--spacing-200);
 }
 
 /**
@@ -48,11 +64,26 @@
   cursor: pointer;
   z-index: 0;
 
-  font-family: var(--item-label-font-family, var(--typography-body-large-font-family)) !important;
-  font-size:  var(--item-label-font-size, var(--typography-body-large-font-size)) !important;
-  font-weight: var(--item-label-font-weight, var(--typography-body-large-font-weight)) !important;
-  line-height: var(--item-label-line-height, var(--typography-body-large-line-height)) !important;
-  letter-spacing: var(--item-label-letter-spacing, var(--typography-body-large-letter-spacing)) !important;
+  font-family: var(
+    --item-label-font-family,
+    var(--typography-body-large-font-family)
+  ) !important;
+  font-size: var(
+    --item-label-font-size,
+    var(--typography-body-large-font-size)
+  ) !important;
+  font-weight: var(
+    --item-label-font-weight,
+    var(--typography-body-large-font-weight)
+  ) !important;
+  line-height: var(
+    --item-label-line-height,
+    var(--typography-body-large-line-height)
+  ) !important;
+  letter-spacing: var(
+    --item-label-letter-spacing,
+    var(--typography-body-large-letter-spacing)
+  ) !important;
 
   .item-content {
     position: relative;
@@ -62,7 +93,7 @@
     gap: var(--spacing-200);
     min-height: var(--item-height);
 
-    padding-inline: var(--spacing-200);
+    padding-inline: var(--item-padding);
     color: var(--private-item-label-text-color);
     opacity: var(--private-item-label-text-opacity, 1);
     --icon-size: var(--item-icon-size, 1.5rem);
@@ -139,27 +170,66 @@
   background-color: var(--private-item-container-color);
   opacity: var(--private-item-container-opacity, 1);
   pointer-events: none;
-  border-start-start-radius: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
-  border-start-end-radius: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
-  border-end-start-radius: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
-  border-end-end-radius: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
+  border-start-start-radius: var(
+    --private-item-container-shape-start-start,
+    var(--private-item-container-shape)
+  );
+  border-start-end-radius: var(
+    --private-item-container-shape-start-end,
+    var(--private-item-container-shape)
+  );
+  border-end-start-radius: var(
+    --private-item-container-shape-end-start,
+    var(--private-item-container-shape)
+  );
+  border-end-end-radius: var(
+    --private-item-container-shape-end-end,
+    var(--private-item-container-shape)
+  );
   corner-shape: var(--private-item-container-shape-variant);
 }
 
 .focus-ring {
   z-index: 2;
-  --focus-ring-container-shape-start-start: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
-  --focus-ring-container-shape-start-end: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
-  --focus-ring-container-shape-end-start: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
-  --focus-ring-container-shape-end-end: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
-  --focus-ring-container-shape-variant: var(--private-item-container-shape-variant);
+  --focus-ring-inset: 0px;
+  --focus-ring-container-shape-start-start: var(
+    --private-item-container-shape-start-start,
+    var(--private-item-container-shape)
+  );
+  --focus-ring-container-shape-start-end: var(
+    --private-item-container-shape-start-end,
+    var(--private-item-container-shape)
+  );
+  --focus-ring-container-shape-end-start: var(
+    --private-item-container-shape-end-start,
+    var(--private-item-container-shape)
+  );
+  --focus-ring-container-shape-end-end: var(
+    --private-item-container-shape-end-end,
+    var(--private-item-container-shape)
+  );
+  --focus-ring-container-shape-variant: var(
+    --private-item-container-shape-variant
+  );
 }
 
 .ripple {
-  border-start-start-radius: var(--private-item-container-shape-start-start, var(--private-item-container-shape));
-  border-start-end-radius: var(--private-item-container-shape-start-end, var(--private-item-container-shape));
-  border-end-start-radius: var(--private-item-container-shape-end-start, var(--private-item-container-shape));
-  border-end-end-radius: var(--private-item-container-shape-end-end, var(--private-item-container-shape));
+  border-start-start-radius: var(
+    --private-item-container-shape-start-start,
+    var(--private-item-container-shape)
+  );
+  border-start-end-radius: var(
+    --private-item-container-shape-start-end,
+    var(--private-item-container-shape)
+  );
+  border-end-start-radius: var(
+    --private-item-container-shape-end-start,
+    var(--private-item-container-shape)
+  );
+  border-end-end-radius: var(
+    --private-item-container-shape-end-end,
+    var(--private-item-container-shape)
+  );
   corner-shape: var(--private-item-container-shape-variant);
   --ripple-state-opacity: var(--private-item-container-state-opacity, 0);
   --ripple-pressed-color: var(--private-item-container-state-color);

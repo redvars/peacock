@@ -5,14 +5,61 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p class='text-body-large'>Here are several predefined button styles, each serving its own semantic purpose.</p>
 
+<style is:inline>
+  .button-demo-title {
+    margin-block-end: 1rem;
+  }
+
+
+  .button-demo-area {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    height: 100%;
+  }
+</style>
+
 <DemoComponentCard lang={'html'} inline>
-  <wc-button variant='elevated'>Elevated</wc-button>
-  <wc-button>Filled / Default</wc-button>
-  <wc-button variant='tonal'>Tonal</wc-button>
-  <wc-button variant='outlined'>Outlined</wc-button>
-  <wc-button variant='text'>Text</wc-button>
-  <wc-button variant='neo'>Neo-Brutalism</wc-button>
+
+<div class='button-demo-container'>
+  <h3 class='text-title button-demo-title'>Default Variants</h3>
+  <div class='button-demo-area'>
+    <wc-button variant='elevated'>Elevated</wc-button>
+    <wc-button>Filled / Default</wc-button>
+    <wc-button variant='tonal'>Tonal</wc-button>
+    <wc-button variant='outlined'>Outlined</wc-button>
+    <wc-button variant='text'>Text</wc-button>
+    <wc-button variant='neo'>Neo-Brutalism</wc-button>
+  </div>
+</div>
+
+
+
+  <div class='button-demo-container'>
+   <h3 class='text-title button-demo-title'>Toggle Variants - Unselected</h3>
+   <div class='button-demo-area'>
+   <wc-button variant='elevated' toggle>Elevated</wc-button>
+   <wc-button toggle selected>Filled / Default</wc-button>
+   <wc-button variant='tonal' toggle>Tonal</wc-button>
+   <wc-button variant='outlined' toggle>Outlined</wc-button>
+   </div>
+  </div>
+
+  <div class='button-demo-container'>
+   <h3 class='text-title button-demo-title'>Toggle Variants - Selected</h3>
+   <div class='button-demo-area'>
+    <wc-button variant='elevated' toggle selected>Elevated</wc-button>
+    <wc-button toggle selected>Filled / Default</wc-button>
+    <wc-button variant='tonal' toggle selected>Tonal</wc-button>
+    <wc-button variant='outlined' toggle selected>Outlined</wc-button>
+   </div>
+  </div>
+
+</div>
+
 </DemoComponentCard>
+
 
 <DemoComponentCard lang={'html'}>
   <wc-button block>Block</wc-button>
