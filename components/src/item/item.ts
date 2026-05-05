@@ -39,12 +39,17 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     return [...super.observedAttributes, 'tabindex'];
   }
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** MutationObserver that triggers a re-render when slotted content changes. */
   private readonly __contentObserver = new MutationObserver(() => {
     this.requestUpdate();
   });
 
+  /** Tabindex value captured from the host element and forwarded to the inner button/link. */
   private __capturedTabIndex?: string;
 
+  /** Guard flag preventing recursive attribute changes during tabindex capture. */
   private __isCapturingTabIndex = false;
 
   @property({ type: Boolean, reflect: true }) selected = false;

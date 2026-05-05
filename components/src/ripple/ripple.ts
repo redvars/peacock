@@ -1,8 +1,8 @@
 import { LitElement, html, css, PropertyValues, isServer } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import {
 import IndividualComponent from '@/IndividualComponent.js';
+import {
   Attachable,
   AttachableController,
 } from '@/__internal/controllers/attachable-controller.js';
@@ -192,24 +192,35 @@ export class Ripple extends LitElement implements Attachable {
    */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** True while the pointer is hovering over the host element. */
   @state() private hovered = false;
 
+  /** True while a press animation is playing. */
   @state() private pressed = false;
 
   @query('.surface') private readonly mdRoot!: HTMLElement | null;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** CSS size string (e.g. `"48px"`) for the growing ripple circle. */
   private rippleSize = '';
 
+  /** CSS scale factor applied to the ripple at the end of its animation. */
   private rippleScale = '';
 
+  /** Pixel size of the ripple at its initial (pre-grow) state. */
   private initialSize = 0;
 
+  /** Reference to the currently running grow animation, if any. */
   private growAnimation?: Animation;
 
+  /** Current interaction state of the ripple state machine. */
   private state = State.INACTIVE;
 
+  /** Pointer event that initiated the current press, used to calculate start coordinates. */
   private rippleStartEvent?: PointerEvent;
 
+  /** Bound reference to `handleEvent` passed to `addEventListener` / `removeEventListener`. */
   private readonly _boundHandleEvent = this.handleEvent.bind(this);
 
   get htmlFor() {

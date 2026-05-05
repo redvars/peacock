@@ -33,7 +33,7 @@
 
 @mixin get-typography($name) {
   font-family: var(--typography-#{$name}-font-family) !important;
-  font-size:  var(--typography-#{$name}-font-size) !important;
+  font-size: var(--typography-#{$name}-font-size) !important;
   font-weight: var(--typography-#{$name}-font-weight) !important;
   line-height: var(--typography-#{$name}-line-height) !important;
   letter-spacing: var(--typography-#{$name}-letter-spacing) !important;
@@ -41,13 +41,13 @@
 
 @mixin get-typography-not-important($name) {
   font-family: var(--typography-#{$name}-font-family);
-  font-size:  var(--typography-#{$name}-font-size);
+  font-size: var(--typography-#{$name}-font-size);
   font-weight: var(--typography-#{$name}-font-weight);
   line-height: var(--typography-#{$name}-line-height);
   letter-spacing: var(--typography-#{$name}-letter-spacing);
 }
 
-@mixin focus-ring($color:var(--color-black)) {
+@mixin focus-ring($color: var(--color-black)) {
   outline: 2px solid $color;
 }
 
@@ -81,13 +81,11 @@
   }
 }
 
-
 // Layers
 @mixin layer-background {
-
 }
 
- // NOTE: `apply-container-shape` and `copy-container-shape` were removed.
+// NOTE: `apply-container-shape` and `copy-container-shape` were removed.
 // These helpers previously copied container-shape custom properties and
 // applied them as physical border radii. They are intentionally deleted
 // because the loader now manages container shape via CSS custom properties

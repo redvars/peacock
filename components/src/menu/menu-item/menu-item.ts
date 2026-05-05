@@ -24,27 +24,43 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class MenuItem extends NativeButtonMixin(
   NativeHyperlinkMixin(LitElement),
 ) {
-  @property({ type: String }) value = '';
-
-  @property({ type: Boolean, reflect: true }) selected = false;
-
-  @property({ type: Boolean, attribute: 'keep-open' }) keepOpen = false;
-
-  @property({ type: Boolean, attribute: 'has-submenu' }) hasSubmenu = false;
-
-  @property({ type: Boolean, attribute: 'submenu-open' }) submenuOpen = false;
-
-  @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
-    'standard';
+  // ── Static ───────────────────────────────────────────────────────────────
 
   static styles = [styles, colorStyles];
 
+  // ── Properties ───────────────────────────────────────────────────────────
+
+  /** The value associated with this menu item, used to identify it on selection. */
+  @property({ type: String }) value = '';
+
+  /** Whether this menu item is currently selected/highlighted. */
+  @property({ type: Boolean, reflect: true }) selected = false;
+
+  /** When true, the menu stays open after this item is activated. */
+  @property({ type: Boolean, attribute: 'keep-open' }) keepOpen = false;
+
+  /** When true, indicates this item has an associated submenu. */
+  @property({ type: Boolean, attribute: 'has-submenu' }) hasSubmenu = false;
+
+  /** Whether the associated submenu is currently open. */
+  @property({ type: Boolean, attribute: 'submenu-open' }) submenuOpen = false;
+
+  /** Visual variant of the menu item. */
+  @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
+    'standard';
+
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('wc-item') readonly itemElement!: Item | null;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** MutationObserver that triggers re-render when slotted content changes. */
   private readonly _contentObserver = new MutationObserver(() => {
     this.requestUpdate();
   });
 
+  /** Roving tabindex value managed by the parent Menu. */
   private _rovingTabIndex = -1;
 
   connectedCallback() {

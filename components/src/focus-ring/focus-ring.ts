@@ -1,8 +1,8 @@
 import { isServer, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './focus-ring.scss';
-import {
 import IndividualComponent from '@/IndividualComponent.js';
+import {
   Attachable,
   AttachableController,
 } from '@/__internal/controllers/attachable-controller.js';
@@ -34,15 +34,11 @@ interface FocusRingEvent extends Event {
 export class FocusRing extends LitElement implements Attachable {
   static styles = [styles];
 
-  /**
-   * Makes the focus ring visible.
-   */
+  /** When true, the focus ring is visible. Toggled automatically based on `:focus-visible` state. */
   @property({ type: Boolean, reflect: true })
   visible = false;
 
-  /**
-   * Makes the focus ring animate inwards instead of outwards.
-   */
+  /** When true, the ring animates inward instead of outward (for use inside containers). */
   @property({ type: Boolean, reflect: true }) inward = false;
 
   get htmlFor() {

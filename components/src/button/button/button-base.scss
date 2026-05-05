@@ -77,7 +77,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     cursor: var(--private-button-cursor, pointer);
-    pointer-events: none;
   }
 
   /* make the icon slot itself collapsible so removal animates smoothly */

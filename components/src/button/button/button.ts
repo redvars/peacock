@@ -73,6 +73,8 @@ export class Button extends mixinBaseButton(
     ),
   ),
 ) {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   /** @nocollapse */ // eslint-disable-next-line
   static override shadowRootOptions: ShadowRootInit = {
     mode: 'open',
@@ -80,6 +82,8 @@ export class Button extends mixinBaseButton(
   };
 
   static override styles = [styles];
+
+  // ── Properties ───────────────────────────────────────────────────────────
 
   /**
    * Icon alignment.
@@ -99,6 +103,7 @@ export class Button extends mixinBaseButton(
    */
   @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
 
+  /** Shape of the button container. */
   @property({ type: String, reflect: true }) shape: 'round' | 'square' =
     'square';
 
@@ -131,14 +136,53 @@ export class Button extends mixinBaseButton(
     | 'surface'
     | 'on-surface' = 'primary';
 
+  /** When true, renders the button in a loading skeleton state. */
+  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
+
+  /** When true, the button acts as a toggle. Use with `selected`. */
+  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
+
+  /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+  @property({ type: Boolean, reflect: true }) selected: boolean = false;
+
+  /** Optional tooltip text displayed on hover. */
+  @property() tooltip?: string;
+
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('.button') private readonly buttonElement!: HTMLElement | null;
 
-  override focus() {
-    this.buttonElement?.focus();
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Cleanup returned by observerSlotChangesWithCallback for the icon slot. */
+  private __iconSlotCleanup: (() => void) | null = null;
+
+  /** Cleanup returned by observerSlotChangesWithCallback for the label slot. */
+  private __labelSlotCleanup: (() => void) | null = null;
+
+  // ── Constructor ───────────────────────────────────────────────────────────
+
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
 
-  override blur() {
-    this.buttonElement?.blur();
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  override disconnectedCallback() {
+    // disconnect slot observers first to avoid callbacks during teardown
+    try {
+      this.__iconSlotCleanup?.();
+    } catch (e) {
+      /* ignore */
+    }
+    try {
+      this.__labelSlotCleanup?.();
+    } catch (e) {
+      /* ignore */
+    }
+
+    super.disconnectedCallback();
   }
 
   override firstUpdated() {
@@ -178,6 +222,18 @@ export class Button extends mixinBaseButton(
     }
   }
 
+  // ── Public methods ────────────────────────────────────────────────────────
+
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  // ── Private methods ───────────────────────────────────────────────────────
+
   __convertTypeToVariantAndColor() {
     if (this.level === 'primary') {
       this.color = 'primary';
@@ -194,27 +250,37 @@ export class Button extends mixinBaseButton(
     }
   }
 
-  override render() {
-    const buttonId = isLink(this) ? 'link' : 'button';
+  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
+    event => {
+      this.__dispatchClick(event);
+    };
 
-    return html`
-      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      ${when(
-        this.variant === 'neo',
-        () => html`<div class="neo-background"></div>`,
-      )}
-      <div class="background"></div>
-      ${when(
-        this.variant === 'outlined' || this.variant === 'neo',
-        () => html`<div class="outline"></div>`,
-      )}
-      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
-      <wc-skeleton class="skeleton"></wc-skeleton>
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
 
-      ${this.renderButtonElement()} ${this.__renderTooltip()}
-    `;
+    if (!isActivationClick(event) || !this.buttonElement) {
+      return;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.buttonElement);
+  };
+
+  private getControl(): HTMLElement | null {
+    return (
+      (this.renderRoot?.querySelector('#button') as HTMLElement | null) ??
+      (this.renderRoot?.querySelector('#link') as HTMLElement | null)
+    );
   }
+
+  // ── Render helpers ────────────────────────────────────────────────────────
 
   renderButtonElement() {
     const isElementLink = isLink(this);
@@ -272,73 +338,6 @@ export class Button extends mixinBaseButton(
       ${this.__renderDisabledReason(this.softDisabled)}`;
   }
 
-  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
-
-  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
-
-  @property({ type: Boolean, reflect: true }) selected: boolean = false;
-
-  @property() tooltip?: string;
-
-  // Query the internal control (button or link) on demand instead of
-  // keeping a persistent query reference.
-
-  // cleanup functions returned by observerSlotChangesWithCallback
-  private __iconSlotCleanup: (() => void) | null = null;
-
-  private __labelSlotCleanup: (() => void) | null = null;
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
-  override disconnectedCallback() {
-    // disconnect slot observers first to avoid callbacks during teardown
-    try {
-      this.__iconSlotCleanup?.();
-    } catch (e) {
-      /* ignore */
-    }
-    try {
-      this.__labelSlotCleanup?.();
-    } catch (e) {
-      /* ignore */
-    }
-
-    super.disconnectedCallback();
-  }
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
-
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
-    if (!isActivationClick(event) || !this.buttonElement) {
-      return;
-    }
-
-    this.focus();
-    dispatchActivationClick(this.buttonElement);
-  };
-
-  private getControl(): HTMLElement | null {
-    return (
-      (this.renderRoot?.querySelector('#button') as HTMLElement | null) ??
-      (this.renderRoot?.querySelector('#link') as HTMLElement | null)
-    );
-  }
-
   __renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)
       return html`<div
@@ -360,5 +359,29 @@ export class Button extends mixinBaseButton(
       >`;
     }
     return nothing;
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
+  override render() {
+    const buttonId = isLink(this) ? 'link' : 'button';
+
+    return html`
+      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      ${when(
+        this.variant === 'neo',
+        () => html`<div class="neo-background"></div>`,
+      )}
+      <div class="background"></div>
+      ${when(
+        this.variant === 'outlined' || this.variant === 'neo',
+        () => html`<div class="outline"></div>`,
+      )}
+      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
+
+      ${this.renderButtonElement()} ${this.__renderTooltip()}
+    `;
   }
 }

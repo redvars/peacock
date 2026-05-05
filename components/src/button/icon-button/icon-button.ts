@@ -87,6 +87,7 @@ export class IconButton extends mixinBaseButton(
    */
   @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
 
+  /** Shape of the button container. */
   @property({ type: String, reflect: true }) shape?: 'round' | 'square' =
     'square';
 
@@ -125,12 +126,16 @@ export class IconButton extends mixinBaseButton(
   @property({ reflect: true })
   configAria?: { [key: string]: any };
 
+  /** When true, renders the button in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
+  /** When true, the button acts as a toggle. Use with `selected`. */
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
+  /** When true (and `toggle` is set), the button is in the selected/pressed state. */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
+  /** Optional tooltip text displayed on hover. */
   @property() tooltip?: string;
 
   @query('.button') readonly buttonElement!: HTMLElement | null;

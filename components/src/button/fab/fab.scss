@@ -1,4 +1,4 @@
-@use '../../scss/mixin';
+@use '../../../scss/mixin';
 
 @include mixin.base-styles;
 
@@ -95,7 +95,10 @@
 }
 
 .elevation {
-  --elevation-level: var(--_fab-container-elevation-level, var(--fab-container-elevation-level));
+  --elevation-level: var(
+    --_fab-container-elevation-level,
+    var(--fab-container-elevation-level)
+  );
   transition-duration: 280ms;
   --elevation-container-shape-start-start: var(--fab-container-shape);
   --elevation-container-shape-start-end: var(--fab-container-shape);

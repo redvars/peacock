@@ -10,6 +10,8 @@ import { MixinBase, MixinReturn } from '@/__internal/mixins/mixin.js';
 export interface BaseButton {
   variant: string;
 
+  color: string;
+
   disabled: boolean;
 
   softDisabled: boolean;

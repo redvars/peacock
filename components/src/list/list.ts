@@ -30,6 +30,7 @@ export class List extends LitElement {
 
   static Item = ListItem;
 
+  /** Visual variant of the list. `"vibrant"` applies stronger color emphasis. */
   @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
     'standard';
 

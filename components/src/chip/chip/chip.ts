@@ -44,12 +44,16 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   @property({ reflect: true })
   configAria?: { [key: string]: any };
 
+  /** True when the `icon` slot contains at least one node. */
   @state() private _hasIconSlotContent = false;
 
+  /** When true, renders the chip in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
+  /** When true, the chip acts as a toggle. Use with `selected`. */
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
+  /** When true (and `toggle` is set), the chip is in the selected/pressed state. */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
   /**
@@ -57,6 +61,7 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
    */
   @property() throttleDelay: number | null = null;
 
+  /** Optional tooltip text displayed on hover. */
   @property() tooltip?: string;
 
   @query('.button') readonly buttonElement!: HTMLElement | null;

@@ -33,57 +33,75 @@ export class Field extends LitElement {
 
   static styles = [styles];
 
+  /** Label text shown above the field input. */
   @property({ type: String })
   label: string = '';
 
+  /** Help text (deprecated — prefer `helperText`). */
   @property({ type: String })
   help: string = '';
 
+  /** When true, marks the field as required and shows a required indicator. */
   @property({ type: Boolean })
   required: boolean = false;
 
+  /** When true, the field and its slotted input are disabled. */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
+  /** When true, the field and its slotted input are read-only. */
   @property({ type: Boolean, reflect: true })
   readonly: boolean = false;
 
+  /** When true, renders the field in a loading skeleton state. */
   @property({ type: Boolean })
   skeleton: boolean = false;
 
+  /** Helper/hint text shown in the field footer. */
   @property({ type: String, attribute: 'helper-text' })
   helperText: string = '';
 
+  /** When true, the field is in an error state and `errorText` is shown. */
   @property({ type: Boolean })
   error: boolean = false;
 
+  /** Error message displayed when `error` is true. */
   @property({ type: String, attribute: 'error-text' })
   errorText: string = '';
 
+  /** When true, the field is in a warning state and `warningText` is shown. */
   @property({ type: Boolean })
   warning: boolean = false;
 
+  /** Warning message displayed when `warning` is true. */
   @property({ type: String, attribute: 'warning-text' })
   warningText: string = '';
 
+  /** Character / word count string displayed at the trailing end of the footer. */
   @property({ type: String, attribute: 'text-count' })
   textCount: string = '';
 
+  /** When true, applies focused styling (controlled externally by the slotted input). */
   @property({ type: Boolean })
   focused: boolean = false;
 
+  /** When true, applies populated styling (controlled externally by the slotted input). */
   @property({ type: Boolean })
   populated: boolean = false;
 
+  /** Visual variant of the field container. */
   @property({ type: String })
   variant: 'filled' | 'outlined' | 'default' = 'default';
 
+  /** Reference to the host input element; used to forward click-on-label focus. */
   @property({ type: Object })
   host?: HTMLElement;
 
+  /** True when the `field-start` slot contains at least one node. */
   @state()
   slotStartHasContent: boolean = false;
 
+  /** True when the `field-end` slot contains at least one node. */
   @state()
   slotEndHasContent: boolean = false;
 
@@ -137,6 +155,33 @@ export class Field extends LitElement {
     </div>`;
   }
 
+  __renderFieldFooter() {
+    if (
+      !this.textCount &&
+      !this.helperText &&
+      !this.errorText &&
+      !this.warningText
+    )
+      return nothing;
+    return html`<div class="field-footer">
+      ${this.__renderHelperText()} ${this.__renderWordCount()}
+    </div>`;
+  }
+
+  __renderHelperText() {
+    if (this.error) return html`<div class="helper">${this.errorText}</div>`;
+    if (this.warning)
+      return html`<div class="helper">${this.warningText}</div>`;
+    if (this.helperText || this.helperText === '')
+      return html`<div class="helper">${this.helperText}</div>`;
+    return nothing;
+  }
+
+  __renderWordCount() {
+    if (!this.textCount) return nothing;
+    return html`<div class="text-count">${this.textCount}</div>`;
+  }
+
   render() {
     const classes = {
       field: true,
@@ -186,32 +231,5 @@ export class Field extends LitElement {
         ${this.__renderFieldFooter()}
       </div>
     `;
-  }
-
-  __renderFieldFooter() {
-    if (
-      !this.textCount &&
-      !this.helperText &&
-      !this.errorText &&
-      !this.warningText
-    )
-      return nothing;
-    return html`<div class="field-footer">
-      ${this.__renderHelperText()} ${this.__renderWordCount()}
-    </div>`;
-  }
-
-  __renderHelperText() {
-    if (this.error) return html`<div class="helper">${this.errorText}</div>`;
-    if (this.warning)
-      return html`<div class="helper">${this.warningText}</div>`;
-    if (this.helperText || this.helperText === '')
-      return html`<div class="helper">${this.helperText}</div>`;
-    return nothing;
-  }
-
-  __renderWordCount() {
-    if (!this.textCount) return nothing;
-    return html`<div class="text-count">${this.textCount}</div>`;
   }
 }

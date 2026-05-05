@@ -11,7 +11,7 @@ export interface Hyperlink {
    * The URL the hyperlink points to. When set, the component renders as an
    * `<a>` element. Maps to the native `href` attribute.
    */
-  href: string;
+  href?: string;
 
   /**
    * Where to display the linked URL. Maps to the native `target` attribute.
@@ -50,7 +50,7 @@ export function mixinHyperlink<T extends MixinBase<LitElement>>(
   base: T,
 ): MixinReturn<T, Hyperlink> {
   abstract class HyperlinkElement extends base implements Hyperlink {
-    @property({ reflect: true }) href = '';
+    @property() href?: string;
 
     @property() target: '_self' | '_parent' | '_blank' | '_top' | string =
       '_self';

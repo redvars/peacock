@@ -132,18 +132,25 @@ export class Table extends LitElement {
   @property({ type: String, attribute: 'empty-state-description' })
   emptyStateDescription: string = 'There are no items to display';
 
+  /** Tracks the currently hovered row and column for hover-highlight CSS. */
   @state()
   private hoveredCell: { row?: any; column?: any } = {};
 
+  /** True when all rows on the current page are selected. */
   @state()
   private isSelectAll: boolean = false;
 
+  /** True when some (but not all) rows on the current page are selected. */
   @state()
   private isSelectAllIntermediate: boolean = false;
 
+  /** True when the scroll container has been scrolled horizontally. */
   @state()
   private isHorizontallyScrolled: boolean = false;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Throttled version of the cell-mouseover handler to avoid excessive state updates. */
   private onCellMouseOverThrottled = throttle((row: any, column: any) => {
     this.hoveredCell = { row, column };
   }, 30);

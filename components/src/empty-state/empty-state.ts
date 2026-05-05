@@ -30,6 +30,7 @@ export class EmptyState extends LitElement {
   @property({ type: String, reflect: true })
   description = '';
 
+  /** True when the component width is below 768px; triggers a stacked layout. */
   @state()
   private vertical = false;
 

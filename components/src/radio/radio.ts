@@ -89,15 +89,19 @@ export class Radio extends LitElement {
   @property({ type: Object })
   configAria: Record<string, string> = {};
 
+  /** True while the radio container has keyboard focus. */
   @state()
   private hasFocus = false;
 
+  /** True while the user is actively pressing the radio (mouse/keyboard). */
   @state()
   private isActive = false;
 
+  /** True when slotted label content or `label` property is present. */
   @state()
   private slotHasContent = false;
 
+  /** True for the one radio in the group that should receive tab focus (roving tabindex). */
   @state()
   private isGroupFocusTarget = false;
 
@@ -107,6 +111,9 @@ export class Radio extends LitElement {
   @query('.input-native')
   private nativeElement?: HTMLInputElement;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Captured `tabindex` attribute value forwarded to the inner container. */
   private tabindex?: number;
 
   connectedCallback() {

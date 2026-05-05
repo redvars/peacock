@@ -35,26 +35,37 @@ export class Snackbar extends LitElement {
 
   private static readonly EXIT_ANIMATION_MS = 180;
 
+  /** Whether the snackbar is currently visible. */
   @property({ type: Boolean, reflect: true }) open = false;
 
+  /** The message text to display. Can also be provided via the default slot. */
   @property({ type: String }) message = '';
 
+  /** Label for the optional action button. When empty, no action button is rendered. */
   @property({ type: String, attribute: 'action-label' }) actionLabel = '';
 
+  /** When true, a dismiss icon button is shown on the trailing end. */
   @property({ type: Boolean, attribute: 'show-close-icon' })
   showCloseIcon = false;
 
+  /** Auto-hide duration in milliseconds. Set to `0` to disable auto-hide. */
   @property({ type: Number }) duration = 4000;
 
+  /** When true, the snackbar content is allowed to wrap to multiple lines. */
   @property({ type: Boolean, reflect: true }) multiline = false;
 
+  /** When true, renders the snackbar in a static preview state (always visible, no animation). */
   @property({ type: Boolean, reflect: true }) preview = false;
 
+  /** True while the exit animation is running before the snackbar fully closes. */
   @state() private dismissing = false;
-  
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Timer handle for the auto-hide timeout. */
   private hideTimer: ReturnType<typeof setTimeout> | null = null;
 
+  /** Timer handle for the exit animation duration timeout. */
   private exitTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly handleGlobalSnackbarOpen = (
@@ -73,6 +84,32 @@ export class Snackbar extends LitElement {
       this.handleGlobalSnackbarOpen,
     );
   }
+
+  disconnectedCallback() {
+    document.removeEventListener(
+      Snackbar.GLOBAL_OPEN_EVENT,
+      this.handleGlobalSnackbarOpen,
+    );
+    this.clearExitTimer();
+    this.clearTimer();
+    super.disconnectedCallback();
+  }
+
+  protected updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('open')) {
+      if (this.open) {
+        document.dispatchEvent(
+          new CustomEvent(Snackbar.GLOBAL_OPEN_EVENT, {
+            detail: { source: this },
+          }),
+        );
+      }
+
+      this.scheduleAutoHide();
+    }
+  }
+
+  // ── Public methods ────────────────────────────────────────────────────────
 
   show() {
     this.dismissing = false;
@@ -163,30 +200,6 @@ export class Snackbar extends LitElement {
     this.hideTimer = setTimeout(() => {
       this.close('timeout');
     }, this.duration);
-  }
-
-  protected updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has('open')) {
-      if (this.open) {
-        document.dispatchEvent(
-          new CustomEvent(Snackbar.GLOBAL_OPEN_EVENT, {
-            detail: { source: this },
-          }),
-        );
-      }
-
-      this.scheduleAutoHide();
-    }
-  }
-
-  disconnectedCallback() {
-    document.removeEventListener(
-      Snackbar.GLOBAL_OPEN_EVENT,
-      this.handleGlobalSnackbarOpen,
-    );
-    this.clearExitTimer();
-    this.clearTimer();
-    super.disconnectedCallback();
   }
 
   render() {

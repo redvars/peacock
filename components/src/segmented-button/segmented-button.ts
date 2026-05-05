@@ -60,9 +60,11 @@ export class SegmentedButton extends LitElement {
   @property({ type: String })
   icon?: string;
 
+  /** True while the segment has keyboard focus. */
   @state()
   private hasFocus = false;
 
+  /** True while the user is actively pressing the segment. */
   @state()
   private isActive = false;
 

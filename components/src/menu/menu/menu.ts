@@ -35,33 +35,45 @@ export class Menu extends LitElement {
 
   static Item = MenuItem;
 
+  /** Whether the menu is currently visible. */
   @property({ type: Boolean, reflect: true }) open = false;
 
+  /** Visual variant of the menu. `"vibrant"` applies stronger color emphasis. */
   @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
     'standard';
 
+  /** ID of the anchor element the menu is positioned relative to. */
   @property({ type: String }) anchor = '';
 
+  /** When true, renders the menu in a static preview state (always visible, no animation). */
   @property({ type: Boolean, reflect: true }) preview = false;
 
+  /** When true, the menu will not close when a click occurs outside it. */
   @property({ type: Boolean, attribute: 'stay-open-on-outside-click' })
   stayOpenOnOutsideClick = false;
 
+  /** When true, the menu will not close when focus leaves it. */
   @property({ type: Boolean, attribute: 'stay-open-on-focusout' })
   stayOpenOnFocusout = false;
 
+  /** Set to true when this menu is being used as a submenu inside another menu. */
   @property({ type: Boolean, attribute: 'is-submenu' }) isSubmenu = false;
 
+  /** Floating UI placement of the menu relative to its anchor. */
   @property({ type: String }) placement: Placement = 'bottom-start';
 
+  /** Distance in pixels between the menu and its anchor element. */
   @property({ type: Number }) offset = 6;
 
+  /** Index of the currently focused/active item within the enabled items list. */
   @state() private activeIndex = -1;
 
   @query('.menu') private readonly menuListElement!: HTMLElement;
 
+  /** Direct reference to the anchor element; takes precedence over the `anchor` ID property. */
   anchorElement: HTMLElement | null = null;
 
+  /** Controller managing floating-UI positioning. */
   private readonly _floatingController = new FloatingController(this, {
     trigger: 'manual',
     closeOnClickOutside: false,
@@ -75,8 +87,10 @@ export class Menu extends LitElement {
     },
   });
 
+  /** Element that had focus before the menu opened; restored on close. */
   private _lastFocusedElement: HTMLElement | null = null;
 
+  /** Reason that triggered the most recent close, included in the `closed` event detail. */
   private _closeReason: CloseReason = { kind: 'programmatic' };
 
   connectedCallback() {

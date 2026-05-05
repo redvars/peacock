@@ -59,8 +59,10 @@ export class NavigationRailItem extends LitElement {
   /** Sets the delay for throttle in milliseconds. When null (default), no throttle is applied. */
   @property({ type: Number }) throttleDelay: number | null = null;
 
+  /** True when the default slot contains label content. */
   @state() private _hasLabel = false;
 
+  /** True when the `active-icon` slot contains content. */
   @state() private _hasActiveIcon = false;
 
   @query('.item-element') readonly itemElement!: HTMLElement | null;

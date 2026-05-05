@@ -19,6 +19,7 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class Skeleton extends LitElement {
   static styles = [styles];
 
+  /** When true, the skeleton animation is shown. */
   @property({ type: Boolean, reflect: true }) visible: boolean = false;
 
   render() {

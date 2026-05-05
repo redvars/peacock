@@ -58,10 +58,11 @@ export class Slider extends LitElement {
    */
   @property({ type: Boolean, attribute: 'show-value' }) showValue = false;
 
+  /** True while the user is actively dragging the thumb. */
   @state() private isDragging = false;
 
   @query('.slider-container') private container!: HTMLElement;
-  
+
   @query('.thumb') private thumbElement!: HTMLElement;
 
   private handleInput(event: MouseEvent | TouchEvent) {

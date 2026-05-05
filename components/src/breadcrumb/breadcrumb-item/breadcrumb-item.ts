@@ -41,6 +41,7 @@ export class BreadcrumbItem extends LitElement {
    */
   @property({ type: String }) separator?: string;
 
+  /** 1-based position among sibling breadcrumb items, used for schema.org `ListItem` metadata. */
   @state()
   private position = 1;
 

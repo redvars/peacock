@@ -35,14 +35,20 @@ export class Image extends LitElement {
   /** Enable click-to-preview lightbox */
   @property({ type: Boolean, reflect: true }) preview = false;
 
+  /** True when the OS/app theme is dark, used to select `darkSrc`. */
   @state() private _isDarkMode: boolean = isDarkMode();
 
+  /** True once the image has entered the viewport and the `<img>` element has been rendered. */
   @state() private _loaded = false;
 
   @query('.preview-dialog') private _dialog?: HTMLDialogElement;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** IntersectionObserver for lazy-loading the image when it enters the viewport. */
   private _intersectionObserver: IntersectionObserver | null = null;
 
+  /** Cleanup function returned by `observeThemeChange`. */
   private _themeCleanup: (() => void) | null = null;
 
   connectedCallback() {

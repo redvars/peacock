@@ -22,10 +22,14 @@ type ContainerSize = 'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full';
  */
 @IndividualComponent
 export class Container extends LitElement {
+  static styles = [styles];
+
+  /**
+   * Max-width breakpoint of the container.
+   * Possible values are `"max"`, `"xl"`, `"lg"`, `"md"`, `"sm"`, `"full"`. Defaults to `"full"`.
+   */
   @property({ type: String, reflect: true })
   size: ContainerSize = 'full';
-
-  static styles = [styles];
 
   render() {
     const wrapperClasses = {

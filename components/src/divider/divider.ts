@@ -30,8 +30,10 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class Divider extends LitElement {
   static styles = [styles];
 
+  /** When true, renders the divider vertically. Defaults to horizontal. */
   @property({ type: Boolean, reflect: true }) vertical = false;
 
+  /** True when the default slot contains content, used to show the label variant. */
   @state()
   slotHasContent = false;
 

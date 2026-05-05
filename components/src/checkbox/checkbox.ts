@@ -93,12 +93,15 @@ export class Checkbox extends LitElement {
   @property({ type: Object })
   configAria: Record<string, string> = {};
 
+  /** True while the checkbox container has keyboard focus. */
   @state()
   private hasFocus = false;
 
+  /** True while the user is actively pressing the checkbox (mouse/keyboard). */
   @state()
   private isActive = false;
 
+  /** True when slotted label content is present. */
   @state()
   private slotHasContent = false;
 
@@ -108,6 +111,9 @@ export class Checkbox extends LitElement {
   @query('.input-native')
   private nativeElement?: HTMLInputElement;
 
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Captured `tabindex` attribute value forwarded to the inner container. */
   private tabindex?: string;
 
   connectedCallback() {

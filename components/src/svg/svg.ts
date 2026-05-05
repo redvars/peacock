@@ -36,15 +36,21 @@ export class Svg extends LitElement {
   /** Enable click-to-preview lightbox. */
   @property({ type: Boolean, reflect: true }) preview = false;
 
+  /** True once the element has entered the viewport and the SVG fetch has been initiated. */
   @state() private _loaded = false;
 
+  /** True when the lightbox preview overlay is visible. */
   @state() private _previewOpen = false;
 
+  /** Sanitized inline SVG markup ready for rendering. */
   @state() private _svgContent: string = '';
 
-  // token to avoid stale fetch results
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Monotonically incrementing token used to discard stale fetch results. */
   private _fetchId = 0;
 
+  /** IntersectionObserver that triggers the SVG fetch when the element enters the viewport. */
   private _intersectionObserver: IntersectionObserver | null = null;
 
   disconnectedCallback() {

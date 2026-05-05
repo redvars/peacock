@@ -5,7 +5,6 @@ import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button-group.scss';
 import { Button } from '../button/button.js';
 import { IconButton } from '../icon-button/icon-button.js';
-import type { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
 
 /**
  * @label Button Group
@@ -100,11 +99,11 @@ class ButtonGroup extends LitElement {
       const isOnly = children.length === 1;
 
       if (this.color && 'color' in child) {
-        (child as GroupButtonInterface).color = this.color;
+        (child as any).color = this.color;
       }
 
       if (this.buttonVariant && 'variant' in child) {
-        (child as GroupButtonInterface).variant = this.buttonVariant;
+        (child as any).variant = this.buttonVariant;
       }
 
       if (this.variant === 'connected') {

@@ -35,25 +35,33 @@ export class Icon extends LitElement {
    */
   @property({ type: String, reflect: true }) name?: string;
 
+  /** URL of an external SVG file to fetch and render inline. */
   @property({ type: String, reflect: true }) src?: string;
 
+  /** Icon library provider. Defaults to `"material-symbols"`. */
   @property({ type: String }) provider: IconProvider = 'material-symbols';
 
+  /** Rendered SVG markup, updated after each successful fetch. */
   @state()
   private svgContent: string = '';
 
-  // loading + error states for consumers/tests
+  /** True while an SVG fetch is in-flight. */
   @state() // @ts-ignore
   private loading: boolean = false;
 
+  /** Holds the last fetch error, if any. */
   @state()
   private error: Error | null = null;
 
-  // token to avoid race conditions when multiple fetches overlap
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Monotonically incrementing token used to discard stale fetch results. */
   private _fetchId = 0;
 
-  // optional debounce for rapid property changes
+  /** Timer handle for debouncing rapid property changes. */
   private _debounceTimer: number | undefined;
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   firstUpdated() {
     // perform initial fetch once component is connected and rendered
@@ -67,14 +75,7 @@ export class Icon extends LitElement {
     }
   }
 
-  render() {
-    // accessible wrapper; consumers can provide a fallback via <slot name="fallback">.
-    return html` <div class="icon">
-      ${this.svgContent
-        ? unsafeSVG(this.svgContent)
-        : html`<slot name="fallback"></slot>`}
-    </div>`;
-  }
+  // ── Private methods ───────────────────────────────────────────────────────
 
   // small debounce to coalesce rapid changes (50ms)
   private __scheduleUpdate() {
@@ -85,9 +86,7 @@ export class Icon extends LitElement {
     this._debounceTimer = window.setTimeout(() => this.__updateSvg(), 50);
   }
 
-  /**
-   * @internal
-   */
+  /** @internal */
   private async __updateSvg() {
     this._fetchId += 1;
     const currentId = this._fetchId;
@@ -131,5 +130,16 @@ export class Icon extends LitElement {
         this.loading = false;
       }
     }
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
+  render() {
+    // accessible wrapper; consumers can provide a fallback via <slot name="fallback">.
+    return html` <div class="icon">
+      ${this.svgContent
+        ? unsafeSVG(this.svgContent)
+        : html`<slot name="fallback"></slot>`}
+    </div>`;
   }
 }

@@ -64,9 +64,11 @@ export class AccordionItem extends LitElement {
   @property({ type: String, reflect: true, attribute: 'toggle-position' })
   togglePosition: 'before' | 'after' = 'after';
 
+  /** True when the `description` slot contains at least one non-empty node. */
   @state()
   private _hasDescriptionSlot = false;
 
+  /** True when the `heading` slot contains at least one non-empty node. */
   @state()
   private _hasHeadingSlot = false;
 

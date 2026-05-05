@@ -27,8 +27,10 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class Avatar extends LitElement {
   static styles = [styles];
 
+  /** Full name of the person. Used to derive initials when no `src` is provided. */
   @property({ type: String, reflect: true }) name: string = '';
 
+  /** URL of the avatar image. When provided, the image is displayed instead of initials. */
   @property({ type: String, reflect: true }) src?: string;
 
   render() {
