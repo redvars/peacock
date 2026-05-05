@@ -3,13 +3,13 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './list-item.scss';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
-import { isLink } from '@/__utils/is-link.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
+import { isLink } from '@/__internal/utils/is-link.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
 
 /**
  * @label List Item

@@ -3,8 +3,8 @@ import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { Item } from '@/item/item.js';
 
 /**

@@ -1,15 +1,15 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './item.scss';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import { isLink } from '@/__utils/is-link.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import { isLink } from '@/__internal/utils/is-link.js';
 
 /**
  * @label Item
@@ -49,8 +49,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   @query('#item') readonly itemElement!: HTMLElement | null;
 
-  @state() isPressed = false;
-
   private __handleSlotChange = () => {
     this.requestUpdate();
   };
@@ -74,6 +72,11 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         !(node as Element).hasAttribute('slot')
       );
     });
+  }
+
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClick);
   }
 
   connectedCallback() {
@@ -138,41 +141,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     dispatchActivationClick(this.itemElement);
   };
 
-  __handleKeyDown = (event: KeyboardEvent) => {
-    this.__handlePress(event);
-
-    if (this.disabled || this.softDisabled || !this.itemElement) {
-      return;
-    }
-
-    if (event.key === ' ') {
-      event.preventDefault();
-      this.itemElement.click();
-      return;
-    }
-
-    if (event.key === 'Enter' && !isLink(this)) {
-      event.preventDefault();
-      this.itemElement.click();
-    }
-  };
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.softDisabled) return;
-
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
-
   private __getForwardedAttribute(name: string) {
     return this.getAttribute(name) ?? undefined;
   }
@@ -227,7 +195,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       'native-link': isElementLink,
       selected: this.selected,
       disabled: this.disabled || this.softDisabled,
-      pressed: this.isPressed,
     };
 
     if (!isLink(this)) {
@@ -243,10 +210,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
           aria-haspopup=${ifDefined(ariaHasPopup)}
           aria-controls=${ifDefined(ariaControls)}
           aria-expanded=${ifDefined(ariaExpanded)}
-          @click=${this.__dispatchClick}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handleKeyDown}
-          @keyup=${this.__handlePress}
         >
           ${this.renderContent()}
         </button>
@@ -266,10 +229,6 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         aria-haspopup=${ifDefined(ariaHasPopup)}
         aria-controls=${ifDefined(ariaControls)}
         aria-expanded=${ifDefined(ariaExpanded)}
-        @click=${this.__dispatchClick}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handleKeyDown}
-        @keyup=${this.__handlePress}
       >
         ${this.renderContent()}
       </a>

@@ -109,7 +109,7 @@
   --_fab-container-state-opacity: 0.08;
 }
 
-:host([pressed]):not([disabled]) {
+:host(:active):not([disabled]) {
   --_fab-container-elevation-level: 3;
   --_fab-container-state-opacity: 0.12;
 }
@@ -121,7 +121,7 @@
     --_fab-container-elevation-level: 2;
   }
 
-  &[pressed]:not([disabled]) {
+  &:active:not([disabled]) {
     --_fab-container-elevation-level: 1;
   }
 }

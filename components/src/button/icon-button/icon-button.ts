@@ -4,15 +4,15 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import styles from './icon-button.scss';
-import { spread } from '@/__directive/spread.js';
-import { throttle } from '@/__utils/throttle.js';
-import { isLink } from '@/__utils/is-link.js';
+import { spread } from '@/__internal/directive/spread.js';
+import { throttle } from '@/__internal/utils/throttle.js';
+import { isLink } from '@/__internal/utils/is-link.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 
@@ -128,37 +128,12 @@ export class IconButton
 
   @property() tooltip?: string;
 
-  @property({ type: Boolean, reflect: true })
-  pressed = false;
-
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    super.disconnectedCallback();
-  }
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.skeleton || this.softDisabled) return;
-    this.pressed =
-      (event instanceof KeyboardEvent &&
-        event.type === 'keydown' &&
-        (event.key === 'Enter' || event.key === ' ')) ||
-      event.type === 'mousedown';
-  };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -271,7 +246,6 @@ export class IconButton
       [`variant-${this.variant}`]: true,
       [`color-${this.color}`]: true,
       disabled: this.disabled || this.softDisabled,
-      pressed: this.pressed,
       skeleton: this.skeleton,
     };
 

@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import styles from './link.scss';
 
 /**

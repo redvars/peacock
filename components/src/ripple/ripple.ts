@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import {
   Attachable,
   AttachableController,
-} from '@/__controllers/attachable-controller.js';
+} from '@/__internal/controllers/attachable-controller.js';
 
 const PRESS_GROW_MS = 450;
 const MINIMUM_PRESS_MS = 225;

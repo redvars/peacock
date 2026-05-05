@@ -4,14 +4,14 @@ import { classMap } from 'lit/directives/class-map.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '../__utils/dispatch-event-utils.js';
-import { isLink } from '@/__utils/is-link.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
-import { throttle } from '@/__utils/throttle.js';
+} from '../__internal/utils/dispatch-event-utils.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
+import { throttle } from '@/__internal/utils/throttle.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './card.scss';
 import colorStyles from './card-colors.scss';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 
 type CardVariant = 'elevated' | 'filled' | 'outlined';
 
@@ -64,9 +64,6 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
    * States
    */
   @state()
-  isPressed = false;
-
-  @state()
   private slotHasContent = false;
 
   @query('.card') readonly cardElement!: HTMLElement | null;
@@ -76,9 +73,6 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
 
   override firstUpdated() {
@@ -140,21 +134,6 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
     return nothing;
   }
 
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
-
   render() {
     const isLinkElement = isLink(this);
     const disableSlotTabbing = this.actionable || isLinkElement;
@@ -177,7 +156,6 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
       [`variant-${this.variant}`]: true,
       actionable: (this.actionable && !this.disabled) || isLinkElement,
       disabled: this.disabled,
-      pressed: this.isPressed,
       'has-content': this.slotHasContent,
     };
 

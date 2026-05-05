@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
-import { isDarkMode } from '@/__utils/is-dark-mode.js';
-import { observeThemeChange } from '@/__utils/observe-theme-change.js';
+import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
+import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
 import styles from './image.scss';
 
@@ -72,13 +72,13 @@ export class Image extends LitElement {
     if (!wrapper) return;
 
     this._intersectionObserver = new IntersectionObserver(
-      (entries) => {
+      entries => {
         if (entries[0].isIntersecting) {
           this._loaded = true;
           this._intersectionObserver?.disconnect();
         }
       },
-      { rootMargin: '200px' } // start loading slightly before entering viewport
+      { rootMargin: '200px' }, // start loading slightly before entering viewport
     );
 
     this._intersectionObserver.observe(wrapper);
@@ -120,7 +120,11 @@ export class Image extends LitElement {
         aria-label="Image preview"
         @click=${this._handleDialogClick}
       >
-        <img src=${this._activeSrc} alt=${this.imageTitle} @click=${(e: Event) => e.stopPropagation()} />
+        <img
+          src=${this._activeSrc}
+          alt=${this.imageTitle}
+          @click=${(e: Event) => e.stopPropagation()}
+        />
       </dialog>
     `;
   }

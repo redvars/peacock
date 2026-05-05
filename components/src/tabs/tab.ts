@@ -5,11 +5,11 @@ import { classMap } from 'lit/directives/class-map.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
-import { throttle } from '@/__utils/throttle.js';
-import { isLink } from '@/__utils/is-link.js';
-import { spread } from '@/__directive/spread.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
+import { throttle } from '@/__internal/utils/throttle.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+import { spread } from '@/__internal/directive/spread.js';
 
 import styles from './tab.scss';
 import type { Tabs } from './tabs.js';
@@ -65,12 +65,6 @@ export class Tab extends LitElement {
 
   @state() slotHasBadge = false;
 
-  /**
-   * States
-   */
-  @state()
-  isPressed = false;
-
   private _tabindex = 0;
 
   @query('.tab-element') readonly tabElement!: HTMLElement | null;
@@ -87,9 +81,6 @@ export class Tab extends LitElement {
     super();
     this._tabindex = 0;
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
 
   override firstUpdated() {
@@ -147,21 +138,6 @@ export class Tab extends LitElement {
     dispatchActivationClick(this.tabElement);
   };
 
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
-
   __getParentTabsVariant(): Tabs['variant'] {
     return (this.closest('wc-tabs') as Tabs | null)?.variant ?? 'primary';
   }
@@ -182,7 +158,6 @@ export class Tab extends LitElement {
       tab: true,
       'tab-element': true,
       disabled: this.disabled,
-      pressed: this.isPressed,
       active: this.active,
       [`variant-${variant}`]: true,
       'has-content': this.slotHasContent,

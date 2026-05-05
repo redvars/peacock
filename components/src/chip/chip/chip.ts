@@ -2,19 +2,19 @@ import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import { isLink } from '@/__utils/is-link.js';
-import { throttle } from '@/__utils/throttle.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+import { throttle } from '@/__internal/utils/throttle.js';
 import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
-import { spread } from '@/__directive/spread.js';
+import { spread } from '@/__internal/directive/spread.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 
 /**
  * @label Chip
@@ -57,43 +57,12 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   @property() tooltip?: string;
 
-  @property({ type: Boolean, reflect: true })
-  pressed = false;
-
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    super.disconnectedCallback();
-  }
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.skeleton || this.softDisabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.pressed = true;
-    } else if (event.type === 'mousedown') {
-      this.pressed = true;
-    } else {
-      this.pressed = false;
-    }
-  };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -137,7 +106,7 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip class="tooltip"  for="button"
+      return html`<wc-tooltip class="tooltip" for="button"
         >${this.tooltip}</wc-tooltip
       >`;
     }
@@ -214,7 +183,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       button: true,
       selected: this.selected,
       dismissible: this.dismissible,
-      pressed: this.pressed,
       'icon-slot-has-content': this._hasIconSlotContent,
     };
 

@@ -5,7 +5,7 @@ import { live } from 'lit/directives/live.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './search.scss';
 import colorStyles from './search-colors.scss';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 
 /**
  * @label Search

@@ -165,7 +165,7 @@
   --_chip-state-opacity: 0.08;
 }
 
-:host([pressed]) {
+:host(:active) {
   --_chip-state-opacity: 0.12;
 }
 

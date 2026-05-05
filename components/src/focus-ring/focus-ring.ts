@@ -4,7 +4,7 @@ import styles from './focus-ring.scss';
 import {
   Attachable,
   AttachableController,
-} from '@/__controllers/attachable-controller.js';
+} from '@/__internal/controllers/attachable-controller.js';
 
 /**
  * Events that the focus ring listens to.

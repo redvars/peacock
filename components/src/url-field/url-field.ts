@@ -1,7 +1,7 @@
 import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
-import { redispatchEvent } from '@/__utils/dispatch-event-utils.js';
+import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 
 import BaseInput from '../input/BaseInput.js';
 import styles from './url-field.scss';
@@ -217,7 +217,6 @@ export class UrlField extends BaseInput {
               />
             `
           : html`<div class="url-display">${this.renderDisplayValue()}</div>`}
-
         ${!this.editing && !this.disabled && !this.readonly
           ? html`
               <wc-icon-button

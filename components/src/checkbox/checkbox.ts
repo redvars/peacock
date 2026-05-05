@@ -1,7 +1,7 @@
 import { html, LitElement, svg } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { spread } from '@/__directive/spread.js';
+import { spread } from '@/__internal/directive/spread.js';
 import styles from './checkbox.scss';
 
 /**
@@ -257,7 +257,7 @@ export class Checkbox extends LitElement {
           ${spread(this.configAria)}
         >
           <wc-ripple class="ripple"></wc-ripple>
-          <wc-focus-ring class="focus-ring" for='container'></wc-focus-ring>
+          <wc-focus-ring class="focus-ring" for="container"></wc-focus-ring>
           <div class="outline"></div>
           <div class="background"></div>
           <svg class="icon" viewBox="0 0 12 12">

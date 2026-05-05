@@ -3,7 +3,7 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
-import { throttle } from '@/__utils/throttle.js';
+import { throttle } from '@/__internal/utils/throttle.js';
 
 import styles from './table.scss';
 
@@ -224,7 +224,9 @@ export class Table extends LitElement {
 
   private getSortIcon(col: TableColumn): string {
     if (this.sortBy === col.name) {
-      return this.sortOrder === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+      return this.sortOrder === 'asc'
+        ? 'keyboard_arrow_up'
+        : 'keyboard_arrow_down';
     }
     return '';
   }
@@ -468,7 +470,9 @@ export class Table extends LitElement {
       <div class=${classMap(tableClasses)}>
         <div class="table-scroll-container" @scroll=${this.onScrollContainer}>
           ${this.renderHeader()}
-          ${this.data && this.data.length ? this.renderBody() : this.renderEmptyState()}
+          ${this.data && this.data.length
+            ? this.renderBody()
+            : this.renderEmptyState()}
         </div>
         <div class="table-footer">${this.renderPagination()}</div>
       </div>

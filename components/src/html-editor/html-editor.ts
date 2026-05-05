@@ -10,7 +10,7 @@ import { html as beautifyHtml } from 'js-beautify';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
-import { redispatchEvent } from '../__utils/dispatch-event-utils.js';
+import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
 
 import styles from './html-editor.scss';
 
@@ -170,7 +170,10 @@ export class HtmlEditor extends BaseInput {
 
   private _destroyEditor() {
     if (!this._editor) return;
-    this._editorEl?.removeEventListener('click', this._focusEditorOnContainerClick);
+    this._editorEl?.removeEventListener(
+      'click',
+      this._focusEditorOnContainerClick,
+    );
     this._editor.destroy();
     this._editor = undefined;
   }
@@ -194,7 +197,10 @@ export class HtmlEditor extends BaseInput {
             const item = this._getMentionItem(node.attrs.id);
             return [
               'a',
-              mergeAttributes({ contenteditable: false }, options.HTMLAttributes),
+              mergeAttributes(
+                { contenteditable: false },
+                options.HTMLAttributes,
+              ),
               `${this.showSuggestionCharacter ? options.suggestion.char : ''}${
                 item ? item.label : node.attrs.id
               }`,
@@ -210,7 +216,9 @@ export class HtmlEditor extends BaseInput {
 
               return this.mentions
                 .filter(item =>
-                  item.label.toLowerCase().startsWith(mentionQuery.toLowerCase()),
+                  item.label
+                    .toLowerCase()
+                    .startsWith(mentionQuery.toLowerCase()),
                 )
                 .map(item => item.value)
                 .slice(0, 5);
@@ -254,7 +262,10 @@ export class HtmlEditor extends BaseInput {
     }
 
     this._changeTimeout = window.setTimeout(() => {
-      redispatchEvent(this, new Event('change', { bubbles: true, composed: true }));
+      redispatchEvent(
+        this,
+        new Event('change', { bubbles: true, composed: true }),
+      );
     }, this.debounce);
   }
 
@@ -351,15 +362,11 @@ export class HtmlEditor extends BaseInput {
         role="toolbar"
         aria-label="Formatting toolbar"
       >
-        ${this._toolbarButton(
-          'undo',
-          'Undo',
-          () => this._editor?.commands.undo(),
+        ${this._toolbarButton('undo', 'Undo', () =>
+          this._editor?.commands.undo(),
         )}
-        ${this._toolbarButton(
-          'redo',
-          'Redo',
-          () => this._editor?.commands.redo(),
+        ${this._toolbarButton('redo', 'Redo', () =>
+          this._editor?.commands.redo(),
         )}
 
         <span class="toolbar-divider"></span>
@@ -474,7 +481,12 @@ export class HtmlEditor extends BaseInput {
           <div class="tiptap-root"></div>
         </div>
 
-        <div class=${classMap({ 'html-source': true, hidden: this._mode !== 'html' })}>
+        <div
+          class=${classMap({
+            'html-source': true,
+            hidden: this._mode !== 'html',
+          })}
+        >
           <wc-code-editor
             language="html"
             .value=${this.value}

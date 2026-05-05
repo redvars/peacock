@@ -1,14 +1,12 @@
 import { html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import {init} from 'modern-monaco';
+import { init } from 'modern-monaco';
 import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
-import { observeThemeChange } from '../__utils/observe-theme-change.js';
-import { redispatchEvent } from '../__utils/dispatch-event-utils.js';
-import {
-  isDarkMode,
-} from '@/__utils/is-dark-mode.js';
+import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
+import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
+import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
 
 import styles from './code-editor.scss';
 
@@ -32,14 +30,19 @@ import styles from './code-editor.scss';
   getWorkerUrl(moduleId: string, label: string) {
     const workersDir = new URL('monaco/workers/', import.meta.url);
     switch (label) {
-      case 'json':       return `${workersDir}json.worker.js`;
-      case 'css':        return `${workersDir}css.worker.js`;
-      case 'html':       return `${workersDir}html.worker.js`;
+      case 'json':
+        return `${workersDir}json.worker.js`;
+      case 'css':
+        return `${workersDir}css.worker.js`;
+      case 'html':
+        return `${workersDir}html.worker.js`;
       case 'typescript':
-      case 'javascript': return `${workersDir}ts.worker.js`;
-      default:           return `${workersDir}editor.worker.js`;
+      case 'javascript':
+        return `${workersDir}ts.worker.js`;
+      default:
+        return `${workersDir}editor.worker.js`;
     }
-  }
+  },
 };
 
 /**
@@ -67,31 +70,30 @@ import styles from './code-editor.scss';
  */
 @IndividualComponent
 export default class CodeEditor extends BaseInput {
-
   static styles = [styles];
 
-  @property({ type: String }) 
-  name = "";
+  @property({ type: String })
+  name = '';
 
-  @property({ type: String }) 
+  @property({ type: String })
   value = '';
 
-  @property({ type: String }) 
+  @property({ type: String })
   language: 'javascript' | 'json' | 'html' = 'javascript';
 
-  @property({ type: Object }) 
+  @property({ type: Object })
   libSource: any;
 
-  @property({ type: String }) 
+  @property({ type: String })
   lineNumbers: 'off' | 'on' = 'on';
 
-  @property({ type: Boolean }) 
+  @property({ type: Boolean })
   minimap = false;
 
   @state() private _isDarkMode: boolean = isDarkMode();
 
   @state() private hasFocus = false;
-  
+
   // Type the instance correctly using the npm package types
   @state() private editorMonacoInstance?: any;
 
@@ -120,36 +122,39 @@ export default class CodeEditor extends BaseInput {
   protected updated(changedProperties: any) {
     if (changedProperties.has('libSource')) this.libSourceChanged();
 
-    if (changedProperties.has('disabled') || changedProperties.has('readonly')) {
+    if (
+      changedProperties.has('disabled') ||
+      changedProperties.has('readonly')
+    ) {
       this.editorMonacoInstance?.updateOptions({
         readOnly: this.disabled || this.readonly,
       });
     }
 
     if (changedProperties.has('value')) {
-      if (this.editorMonacoInstance && this.editorMonacoInstance.getValue() !== this.value) {
+      if (
+        this.editorMonacoInstance &&
+        this.editorMonacoInstance.getValue() !== this.value
+      ) {
         this.editorMonacoInstance.setValue(this.value || '');
       }
     }
-  } 
-
-
+  }
 
   private libSourceChanged() {
     const libUri = 'java://peacock.redvars.com/lib.java';
     const libModel = this.monaco.editor.getModel(this.monaco.Uri.parse(libUri));
-    
+
     if (libModel) libModel.dispose();
-    
+
     if (this.libSource) {
       this.monaco.editor.createModel(
         this.libSource,
         this.language,
-        this.monaco.Uri.parse(libUri)
+        this.monaco.Uri.parse(libUri),
       );
     }
   }
-
 
   private getTheme() {
     return this._isDarkMode ? 'github-dark' : 'github-light';
@@ -157,12 +162,8 @@ export default class CodeEditor extends BaseInput {
 
   async initializeMonaco() {
     this.monaco = await init({
-  themes: [
-    "github-light",
-    "github-dark",
-  ],
-});
-
+      themes: ['github-light', 'github-dark'],
+    });
 
     this.editorMonacoInstance = this.monaco.editor.create(this.editorElement, {
       value: this.value,
@@ -170,11 +171,9 @@ export default class CodeEditor extends BaseInput {
       language: this.language,
       minimap: { enabled: this.minimap },
       theme: this.getTheme(),
-      readOnly: this.disabled || this.readonly
+      readOnly: this.disabled || this.readonly,
     });
 
-
-    
     if (this.libSource) {
       this.libSourceChanged();
     }
@@ -183,7 +182,10 @@ export default class CodeEditor extends BaseInput {
       if (!e.isFlush) {
         const newValue = this.editorMonacoInstance!.getValue();
         this.value = newValue;
-        redispatchEvent(this, new Event('change', { bubbles: true, composed: true }));
+        redispatchEvent(
+          this,
+          new Event('change', { bubbles: true, composed: true }),
+        );
       }
     });
 
@@ -192,18 +194,25 @@ export default class CodeEditor extends BaseInput {
     });
 
     this.editorMonacoInstance.onDidBlurEditorText(() => {
-      this.hasFocus = false
+      this.hasFocus = false;
     });
   }
 
+  async setFocus() {
+    this.editorMonacoInstance?.focus();
+  }
 
-  async setFocus() { this.editorMonacoInstance?.focus(); }
-
-  async setBlur() { this.editorMonacoInstance?.trigger('keyboard', 'type', ''); /* Focus hack or use blur if available */ }
+  async setBlur() {
+    this.editorMonacoInstance?.trigger(
+      'keyboard',
+      'type',
+      '',
+    ); /* Focus hack or use blur if available */
+  }
 
   render() {
     return html`
-    <wc-field
+      <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -211,20 +220,21 @@ export default class CodeEditor extends BaseInput {
         ?focused=${this.hasFocus}
         .host=${this}
         class="${classMap({
-        'code-editor-component': true,
-        'disabled': this.disabled,
-      })}"
+          'code-editor-component': true,
+          disabled: this.disabled,
+        })}"
       >
-        ${(this.disabled || this.readonly) 
-          ? html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>` 
-          : nothing
-        }
+        ${this.disabled || this.readonly
+          ? html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`
+          : nothing}
         <div class="editor"></div>
-        ${!this.editorMonacoInstance ? html`
-          <div class="code-editor-loader">
-            <wc-spinner></wc-spinner> Loading...
-          </div>
-        ` : nothing}
+        ${!this.editorMonacoInstance
+          ? html`
+              <div class="code-editor-loader">
+                <wc-spinner></wc-spinner> Loading...
+              </div>
+            `
+          : nothing}
       </wc-field>
     `;
   }

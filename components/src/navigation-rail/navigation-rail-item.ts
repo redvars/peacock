@@ -4,10 +4,10 @@ import { classMap } from 'lit/directives/class-map.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
-import { throttle } from '@/__utils/throttle.js';
-import { isLink } from '@/__utils/is-link.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
+import { throttle } from '@/__internal/utils/throttle.js';
+import { isLink } from '@/__internal/utils/is-link.js';
 import styles from './navigation-rail-item.scss';
 
 /**
@@ -57,8 +57,6 @@ export class NavigationRailItem extends LitElement {
   /** Sets the delay for throttle in milliseconds. When null (default), no throttle is applied. */
   @property({ type: Number }) throttleDelay: number | null = null;
 
-  @state() private _isPressed = false;
-
   @state() private _hasLabel = false;
 
   @state() private _hasActiveIcon = false;
@@ -68,9 +66,6 @@ export class NavigationRailItem extends LitElement {
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
 
   override focus() {
@@ -126,21 +121,6 @@ export class NavigationRailItem extends LitElement {
     dispatchActivationClick(this.itemElement);
   };
 
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this._isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this._isPressed = true;
-    } else {
-      this._isPressed = false;
-    }
-  };
-
   __getDisabledReasonID() {
     return this.disabled && this.disabledReason
       ? `disabled-reason-${this.#id}`
@@ -186,7 +166,6 @@ export class NavigationRailItem extends LitElement {
       'item-element': true,
       active: this.active,
       disabled: this.disabled,
-      pressed: this._isPressed,
       'has-label': this._hasLabel,
       'has-active-icon': this._hasActiveIcon,
     };

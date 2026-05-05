@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { spread } from '@/__directive/spread.js';
+import { spread } from '@/__internal/directive/spread.js';
 
 import styles from './radio.scss';
 
@@ -269,8 +269,7 @@ export class Radio extends LitElement {
       return;
     }
 
-    const target =
-      enabledGroup.find(radio => radio.checked) || enabledGroup[0];
+    const target = enabledGroup.find(radio => radio.checked) || enabledGroup[0];
 
     group.forEach(radio => {
       radio.isGroupFocusTarget = radio === target;

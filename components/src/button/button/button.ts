@@ -1,22 +1,26 @@
 import { html, LitElement, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
-import { throttle } from '@/__utils/throttle.js';
-import { spread } from '@/__directive/spread.js';
-import { isLink } from '@/__utils/is-link.js';
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import { throttle } from '@/__internal/utils/throttle.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { GroupButtonInterface } from '@/button/GroupButtonInterface.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
+import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import { mixinBaseButton } from '../base-button/base-button.js';
+import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 
 /**
  * @label Button
@@ -62,9 +66,23 @@ import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
  */
 @IndividualComponent
 export class Button
-  extends NativeButtonMixin(NativeHyperlinkMixin(LitElement))
+  extends mixinBaseButton(
+    mixinDelegatesAria(
+      mixinFormSubmitter(
+        mixinFormAssociated(
+          mixinElementInternals(NativeHyperlinkMixin(LitElement)),
+        ),
+      ),
+    ),
+  )
   implements GroupButtonInterface
 {
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    mode: 'open',
+    delegatesFocus: true,
+  };
+
   static override styles = [styles];
 
   /**
@@ -81,10 +99,9 @@ export class Button
   @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
-   * Type is preset of color and variant. Type will be only applied.
-   *
+   * Level is preset of color and variant. If Level provided it overrides the default color and variant.
    */
-  @property({ type: String }) type?: 'primary' | 'secondary' | 'tertiary';
+  @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
 
   @property({ type: String, reflect: true }) shape: 'round' | 'square' =
     'square';
@@ -118,18 +135,14 @@ export class Button
     | 'surface'
     | 'on-surface' = 'primary';
 
-  /**
-   * Additional ARIA attributes to pass to the inner button/anchor element.
-   */
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
+  @query('.button') private readonly buttonElement!: HTMLElement | null;
 
   override focus() {
-    this.getControl()?.focus();
+    this.buttonElement?.focus();
   }
 
   override blur() {
-    this.getControl()?.blur();
+    this.buttonElement?.blur();
   }
 
   override firstUpdated() {
@@ -170,16 +183,16 @@ export class Button
   }
 
   __convertTypeToVariantAndColor() {
-    if (this.type === 'primary') {
+    if (this.level === 'primary') {
       this.color = 'primary';
       this.variant = 'filled';
-    } else if (this.type === 'secondary') {
+    } else if (this.level === 'secondary') {
       this.color = 'surface';
-      this.variant = 'filled';
-    } else if (this.type === 'tertiary') {
+      this.variant = 'tonal';
+    } else if (this.level === 'tertiary') {
       this.color = 'primary';
       this.variant = 'text';
-    } else if (this.type === 'danger') {
+    } else if (this.level === 'danger') {
       this.color = 'danger';
       this.variant = 'filled';
     }
@@ -217,6 +230,9 @@ export class Button
       'trailing-icon': this.trailingIcon,
     };
 
+    // Needed for closure conformance
+    const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
+
     if (isElementLink) {
       return html`<a
         class=${classMap(cssClasses)}
@@ -224,12 +240,13 @@ export class Button
         href=${this.href}
         target=${this.target}
         tabindex=${this.disabled ? '-1' : '0'}
-        role="button"
+        aria-label="${ariaLabel || nothing}"
+        aria-haspopup="${ariaHasPopup || nothing}"
+        aria-expanded="${ariaExpanded || nothing}"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         ?aria-disabled=${this.softDisabled}
-        ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
       </a>`;
@@ -237,13 +254,14 @@ export class Button
     return html`<button
         class=${classMap(cssClasses)}
         id="button"
-        type=${this.htmlType}
+        aria-label="${ariaLabel || nothing}"
+        aria-haspopup="${ariaHasPopup || nothing}"
+        aria-expanded="${ariaExpanded || nothing}"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         ?aria-disabled=${this.softDisabled}
         ?disabled=${this.disabled}
-        ${spread(this.configAria)}
       >
         ${this.renderButtonContent()}
       </button>
@@ -271,12 +289,6 @@ export class Button
 
   @property() tooltip?: string;
 
-  /**
-   * States
-   */
-  @property({ type: Boolean, reflect: true })
-  pressed = false;
-
   // Query the internal control (button or link) on demand instead of
   // keeping a persistent query reference.
 
@@ -288,10 +300,6 @@ export class Button
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
   }
 
   override disconnectedCallback() {
@@ -325,14 +333,12 @@ export class Button
       return;
     }
 
-    const control = this.getControl();
-
-    if (!isActivationClick(event) || !control) {
+    if (!isActivationClick(event) || !this.buttonElement) {
       return;
     }
 
     this.focus();
-    dispatchActivationClick(control);
+    dispatchActivationClick(this.buttonElement);
   };
 
   private getControl(): HTMLElement | null {

@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import type { Placement } from '@floating-ui/dom';
 import IndividualComponent from '@/IndividualComponent.js';
-import { FloatingController } from '../__controllers/floating-controller.js';
+import { FloatingController } from '../__internal/controllers/floating-controller.js';
 import styles from './popover.scss';
 import type { PopoverContent } from './popover-content.js';
 
@@ -73,7 +73,7 @@ export class Popover extends LitElement {
     // Resolve the trigger element: first light-DOM child that is NOT wc-popover-content
     this._triggerEl =
       (Array.from(this.children).find(
-        (c) => c.tagName.toLowerCase() !== 'wc-popover-content',
+        c => c.tagName.toLowerCase() !== 'wc-popover-content',
       ) as HTMLElement) ?? null;
 
     if (!this._triggerEl || !this._contentEl) return;
@@ -89,7 +89,7 @@ export class Popover extends LitElement {
       offset: this.offset,
       trigger: triggerMode,
       closeOnClickOutside: true,
-      onOpenChange: (isOpen) => {
+      onOpenChange: isOpen => {
         this.open = isOpen;
         if (this._contentEl) {
           this._contentEl.open = isOpen;

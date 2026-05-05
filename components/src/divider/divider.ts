@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 
 import styles from './divider.scss';
 

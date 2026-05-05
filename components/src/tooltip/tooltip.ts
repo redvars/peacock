@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
-import { FloatingController } from '../__controllers/floating-controller.js';
+import { FloatingController } from '../__internal/controllers/floating-controller.js';
 
 // Define a type for valid trigger combinations
 export type TooltipTrigger = 'hover' | 'focus' | 'click';
@@ -43,7 +43,12 @@ export class Tooltip extends LitElement {
 
   private _floating: FloatingController | null = null;
 
-  private resolveTrigger(): 'hover' | 'click' | 'focus' | 'manual' | 'hover-focus' {
+  private resolveTrigger():
+    | 'hover'
+    | 'click'
+    | 'focus'
+    | 'manual'
+    | 'hover-focus' {
     if (this.preview) return 'manual';
 
     const triggerTokens = this.trigger.split(' ');
@@ -77,17 +82,16 @@ export class Tooltip extends LitElement {
   }
 
   __getFocusTarget(): HTMLElement | null {
-
     if (this._focusTarget) {
       return this._focusTarget;
     }
 
     const focusTarget = document.getElementById(this.for);
-     if (focusTarget) {
-      return focusTarget
-     }
+    if (focusTarget) {
+      return focusTarget;
+    }
 
-     return this.parentElement;
+    return this.parentElement;
   }
 
   private attachListeners() {
@@ -107,7 +111,7 @@ export class Tooltip extends LitElement {
       offset: 0,
       trigger: this.resolveTrigger(),
       closeOnClickOutside: true,
-      onOpenChange: (isOpen) => {
+      onOpenChange: isOpen => {
         if (this.open === isOpen) return;
         this.open = isOpen;
       },

@@ -2,7 +2,7 @@ import { html, LitElement, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-import { observerSlotChangesWithCallback } from '@/__utils/observe-slot-change.js';
+import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 
 import styles from './field.scss';
 
@@ -24,12 +24,11 @@ import styles from './field.scss';
  * @tags form
  */
 export class Field extends LitElement {
-
   static shadowRootOptions: ShadowRootInit = {
-      ...LitElement.shadowRootOptions,
-      delegatesFocus: true,
-    };
-    
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   static styles = [styles];
 
   @property({ type: String })

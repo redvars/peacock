@@ -6,6 +6,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang='html' inline>
   <wc-button id='click-me-btn'>Click me</wc-button>
   <wc-button disabled id='disabled-btn'>Disabled Button</wc-button>
+   <wc-button toggle id='toggle-btn'><wc-icon name="home" slot="icon"></wc-icon>Toggle Button</wc-button>
 
   <script is:inline>
     document.querySelector('#click-me-btn').addEventListener('click', (event) => {
@@ -13,6 +14,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     });
     document.querySelector('#disabled-btn').addEventListener('click', (event) => {
       myConsole.log('IconButton clicked', '<wc-button disabled>');
+    });
+    const $toggleBtn = document.querySelector('#toggle-btn');
+    $toggleBtn.addEventListener('click', (event) => {
+      $toggleBtn.selected = !$toggleBtn.selected;
+      debugger;
+      if ($toggleBtn.selected) {
+        $toggleBtn.querySelector('wc-icon').name = 'home-fill';
+      } else {
+        $toggleBtn.querySelector('wc-icon').name = 'home';
+      }
+      myConsole.log('ToggleButton clicked', '<wc-button toggle>');
     });
   </script>
 </DemoComponentCard>

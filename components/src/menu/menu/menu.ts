@@ -3,7 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
-import { FloatingController } from '../../__controllers/floating-controller.js';
+import { FloatingController } from '../../__internal/controllers/floating-controller.js';
 import { MenuItem } from '../menu-item/menu-item.js';
 
 type CloseReason =
@@ -64,7 +64,7 @@ export class Menu extends LitElement {
     trigger: 'manual',
     closeOnClickOutside: false,
     strategy: 'fixed',
-    onOpenChange: (isOpen) => {
+    onOpenChange: isOpen => {
       if (isOpen || !this.open) {
         return;
       }
@@ -234,9 +234,7 @@ export class Menu extends LitElement {
 
   private _isEventFromThisMenu(event: Event) {
     const path = event.composedPath();
-    const sourceMenu = path.find(
-      target => target instanceof Menu,
-    );
+    const sourceMenu = path.find(target => target instanceof Menu);
 
     return sourceMenu === this;
   }
@@ -358,8 +356,6 @@ export class Menu extends LitElement {
     }
   };
 
-
-
   private _onSlotChange = () => {
     this._syncRovingTabIndex();
   };
@@ -446,7 +442,7 @@ export class Menu extends LitElement {
   render() {
     return html`<div
       class=${classMap({
-        'menu': true,
+        menu: true,
         open: !this.preview && this.open,
         closed: !this.preview && !this.open,
         preview: this.preview,

@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
-import { sanitizeSvg } from '@/__utils/sanitize-svg.js';
+import { sanitizeSvg } from '@/__internal/utils/sanitize-svg.js';
 import { fetchSVG } from '../icon/datasource.js';
 
 import styles from './svg.scss';
@@ -70,7 +70,7 @@ export class Svg extends LitElement {
     if (!wrapper) return;
 
     this._intersectionObserver = new IntersectionObserver(
-      (entries) => {
+      entries => {
         if (entries[0].isIntersecting) {
           this._loaded = true;
           this._intersectionObserver?.disconnect();
@@ -106,7 +106,8 @@ export class Svg extends LitElement {
       this._previewOpen = true;
       // Move focus into the dialog after render
       this.updateComplete.then(() => {
-        const closeBtn = this.shadowRoot?.querySelector<HTMLElement>('.preview-close');
+        const closeBtn =
+          this.shadowRoot?.querySelector<HTMLElement>('.preview-close');
         closeBtn?.focus();
       });
     }
@@ -118,7 +119,8 @@ export class Svg extends LitElement {
     this._previewOpen = false;
     if (wasOpen) {
       // Return focus to the trigger
-      const trigger = this.shadowRoot?.querySelector<HTMLElement>('.svg-content');
+      const trigger =
+        this.shadowRoot?.querySelector<HTMLElement>('.svg-content');
       trigger?.focus();
     }
   }
@@ -142,16 +144,24 @@ export class Svg extends LitElement {
         class="preview-overlay ${this._previewOpen ? 'open' : ''}"
         role="dialog"
         aria-modal="true"
-        aria-label=${this.imageTitle ? `Preview: ${this.imageTitle}` : 'SVG preview'}
+        aria-label=${this.imageTitle
+          ? `Preview: ${this.imageTitle}`
+          : 'SVG preview'}
         @click=${this._closePreview}
-        @keydown=${(e: KeyboardEvent) => e.key === 'Escape' && this._closePreview(e)}
+        @keydown=${(e: KeyboardEvent) =>
+          e.key === 'Escape' && this._closePreview(e)}
       >
         <button
           class="preview-close"
           aria-label="Close preview"
           @click=${this._closePreview}
-        >&#x2715;</button>
-        <div class="preview-content" @click=${(e: Event) => e.stopPropagation()}>
+        >
+          &#x2715;
+        </button>
+        <div
+          class="preview-content"
+          @click=${(e: Event) => e.stopPropagation()}
+        >
           ${unsafeSVG(this._svgContent)}
         </div>
       </div>

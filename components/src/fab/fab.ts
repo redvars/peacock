@@ -7,16 +7,16 @@ import IndividualComponent from '@/IndividualComponent.js';
 import {
   dispatchActivationClick,
   isActivationClick,
-} from '@/__utils/dispatch-event-utils.js';
-import { isLink } from '@/__utils/is-link.js';
-import { throttle } from '@/__utils/throttle.js';
-import { spread } from '@/__directive/spread.js';
+} from '@/__internal/utils/dispatch-event-utils.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+import { throttle } from '@/__internal/utils/throttle.js';
+import { spread } from '@/__internal/directive/spread.js';
 
 import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';
 import sizeStyles from './fab-sizes.scss';
-import NativeButtonMixin from '@/__mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__mixins/NativeHyperlinkMixin.js';
+import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
+import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 
 /**
@@ -108,46 +108,12 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
-  /**
-   * States
-   */
-  @property({ type: Boolean, reflect: true })
-  pressed = false;
-
   @query('.button') readonly buttonElement!: HTMLElement | null;
 
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-    this.addEventListener('mousedown', this.__handlePress as EventListener);
-    this.addEventListener('keydown', this.__handlePress as EventListener);
-    this.addEventListener('keyup', this.__handlePress as EventListener);
   }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('mouseup', this.__handlePress);
-  }
-
-  override disconnectedCallback() {
-    window.removeEventListener('mouseup', this.__handlePress);
-    super.disconnectedCallback();
-  }
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.skeleton || this.softDisabled) return;
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.pressed = true;
-    } else if (event.type === 'mousedown') {
-      this.pressed = true;
-    } else {
-      this.pressed = false;
-    }
-  };
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
     event => {
@@ -191,7 +157,7 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   __renderTooltip() {
     if (this.tooltip) {
-      return html`<wc-tooltip class="tooltip"  for="button"
+      return html`<wc-tooltip class="tooltip" for="button"
         >${this.tooltip}</wc-tooltip
       >`;
     }
@@ -240,7 +206,6 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       extended: isExtended,
       lowered: this.lowered,
       disabled: this.disabled,
-      pressed: this.pressed,
     };
 
     if (!isLink(this)) {
