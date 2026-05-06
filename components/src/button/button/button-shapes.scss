@@ -1,35 +1,73 @@
-:host([shape='square']) {
-  --button-container-shape: var(--shape-corner-medium);
-  --button-container-shape-start-start: unset;
-  --button-container-shape-start-end: unset;
-  --button-container-shape-end-start: unset;
-  --button-container-shape-end-end: unset;
-  --button-container-shape-variant: squircle;
+@mixin square-shape-sizes {
+  &:host {
+    --button-container-shape-variant: squircle;
+  }
+
+  &:host([size='xs']),
+  &:host([size='extra-small']),
+  &:host([size='sm']),
+  &:host([size='small']) {
+    --button-container-shape: var(--shape-corner-medium);
+  }
+
+  &:host([size='xs']:active),
+  &:host([size='extra-small']:active),
+  &:host([size='sm']:active),
+  &:host([size='small']:active) {
+    --button-container-shape: var(--shape-corner-small);
+  }
+
+  &:host([size='md']),
+  &:host([size='medium']),
+  &:host([size='lg']),
+  &:host([size='large']) {
+    --button-container-shape: var(--shape-corner-large);
+  }
+
+  &:host([size='md']:active),
+  &:host([size='medium']:active),
+  &:host([size='lg']:active),
+  &:host([size='large']:active) {
+    --button-container-shape: var(--shape-corner-medium);
+  }
+
+  &:host([size='xl']),
+  &:host([size='extra']) {
+    --button-container-shape: var(--shape-corner-extra-large);
+  }
+
+  &:host([size='xl']:active),
+  &:host([size='extra']:active) {
+    --button-container-shape: var(--shape-corner-large);
+  }
 }
 
-:host([shape='square']:active) {
-  --button-container-shape: var(--shape-corner-small);
-  --button-container-shape-start-start: unset;
-  --button-container-shape-start-end: unset;
-  --button-container-shape-end-start: unset;
-  --button-container-shape-end-end: unset;
-  --button-container-shape-variant: squircle;
+/* -- Square Shape -- */
+
+:host([shape='square']:not([selected])) {
+  @include square-shape-sizes;
 }
 
-:host([shape='round']) {
+:host([shape='square'][selected]),
+:host([shape='square'][selected]:active) {
   --button-container-shape: var(--shape-corner-full);
-  --button-container-shape-start-start: unset;
-  --button-container-shape-start-end: unset;
-  --button-container-shape-end-start: unset;
-  --button-container-shape-end-end: unset;
   --button-container-shape-variant: round;
 }
 
-:host([shape='round']:active) {
-  --button-container-shape: var(--shape-corner-medium);
-  --button-container-shape-start-start: unset;
-  --button-container-shape-start-end: unset;
-  --button-container-shape-end-start: unset;
-  --button-container-shape-end-end: unset;
+/* -- Round Shape -- */
+
+:host([shape='round']:not([selected])),
+:host([shape='round']:not([selected]):active),
+:host([shape='narrow']:not([selected])),
+:host([shape='narrow']:not([selected]):active),
+:host([shape='wide']:not([selected])),
+:host([shape='wide']:not([selected]):active) {
+  --button-container-shape: var(--shape-corner-full);
   --button-container-shape-variant: round;
+}
+
+:host([shape='round'][selected]),
+:host([shape='narrow'][selected]),
+:host([shape='wide'][selected]) {
+  @include square-shape-sizes;
 }

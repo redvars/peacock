@@ -8,6 +8,22 @@
 
   --fab-container-shape: var(--shape-corner-large);
   --fab-container-elevation-level: 3;
+
+  --private-button-container-shape-start-start: var(--fab-container-shape);
+  --private-button-container-shape-start-end: var(--fab-container-shape);
+  --private-button-container-shape-end-start: var(--fab-container-shape);
+  --private-button-container-shape-end-end: var(--fab-container-shape);
+  --private-button-container-shape-variant: var(--fab-container-shape-variant);
+}
+
+/*
+  * Reset native button/link styles
+  */
+.native-button {
+  @include mixin.reset-button-styles;
+}
+.native-link {
+  @include mixin.reset-link-styles;
 }
 
 /*
@@ -41,16 +57,16 @@
     z-index: 0;
     gap: 0.75rem;
 
-    color: var(--_fab-label-text-color);
-    --icon-size: var(--_fab-icon-size);
-    --icon-color: var(--_fab-label-text-color);
+    color: var(--private-button-label-text-color);
+    --icon-size: var(--private-button-icon-size);
+    --icon-color: var(--private-button-label-text-color);
   }
 
   .fab-label {
-    font-size: var(--_fab-font-size) !important;
-    font-weight: var(--_fab-font-weight) !important;
-    line-height: var(--_fab-line-height) !important;
-    letter-spacing: var(--_fab-letter-spacing) !important;
+    font-size: var(--private-button-font-size) !important;
+    font-weight: var(--private-button-font-weight) !important;
+    line-height: var(--private-button-line-height) !important;
+    letter-spacing: var(--private-button-letter-spacing) !important;
     white-space: nowrap;
   }
 
@@ -80,23 +96,23 @@
 
 .ripple {
   border-radius: var(--fab-container-shape);
-  --ripple-state-opacity: var(--_fab-container-state-opacity, 0);
-  --ripple-pressed-color: var(--_fab-label-text-color);
+  --ripple-state-opacity: var(--private-button-container-state-opacity, 0);
+  --ripple-pressed-color: var(--private-button-label-text-color);
 }
 
 .background {
   display: block;
   position: absolute;
   inset: 0;
-  background-color: var(--_fab-container-color);
-  opacity: var(--_fab-container-opacity, 1);
+  background-color: var(--private-button-container-color);
+  opacity: var(--private-button-container-opacity, 1);
   border-radius: var(--fab-container-shape);
   pointer-events: none;
 }
 
 .elevation {
   --elevation-level: var(
-    --_fab-container-elevation-level,
+    --private-button-container-elevation-level,
     var(--fab-container-elevation-level)
   );
   transition-duration: 280ms;
@@ -108,33 +124,33 @@
 
 /* State management */
 :host:hover:not([disabled]) {
-  --_fab-container-elevation-level: 4;
-  --_fab-container-state-opacity: 0.08;
+  --private-button-container-elevation-level: 4;
+  --private-button-container-state-opacity: 0.08;
 }
 
 :host(:active):not([disabled]) {
-  --_fab-container-elevation-level: 3;
-  --_fab-container-state-opacity: 0.12;
+  --private-button-container-elevation-level: 3;
+  --private-button-container-state-opacity: 0.12;
 }
 
 :host([lowered]) {
   --fab-container-elevation-level: 1;
 
   &:hover:not([disabled]) {
-    --_fab-container-elevation-level: 2;
+    --private-button-container-elevation-level: 2;
   }
 
   &:active:not([disabled]) {
-    --_fab-container-elevation-level: 1;
+    --private-button-container-elevation-level: 1;
   }
 }
 
 :host([disabled]) {
-  --_fab-container-color: var(--color-on-surface);
-  --_fab-container-opacity: 0.12;
-  --_fab-label-text-color: var(--color-on-surface);
-  --_fab-label-text-opacity: 0.38;
-  --_fab-container-elevation-level: 0;
+  --private-button-container-color: var(--color-on-surface);
+  --private-button-container-opacity: 0.12;
+  --private-button-label-text-color: var(--color-on-surface);
+  --private-button-label-text-opacity: 0.38;
+  --private-button-container-elevation-level: 0;
 
   .ripple {
     display: none;
@@ -143,4 +159,14 @@
   .fab-content {
     opacity: 0.38;
   }
+}
+
+:host([variant='tonal']) {
+  --private-button-container-color: var(--tonal-fab-container-color);
+  --private-button-label-text-color: var(--tonal-fab-label-text-color);
+}
+
+:host([variant='filled']) {
+  --private-button-container-color: var(--filled-fab-container-color);
+  --private-button-label-text-color: var(--filled-fab-label-text-color);
 }

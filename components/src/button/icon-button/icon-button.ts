@@ -4,8 +4,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import styles from './icon-button.scss';
-import { spread } from '@/__internal/directive/spread.js';
-import { throttle } from '@/__internal/utils/throttle.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import {
   dispatchActivationClick,
@@ -19,6 +17,14 @@ import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
+import {
+  ButtonColor,
+  ButtonLevel,
+  ButtonShape,
+  ButtonSize,
+  ButtonVariant,
+} from '../button/button.js';
 
 /**
  * @label Icon Button
@@ -73,23 +79,30 @@ export class IconButton extends mixinBaseButton(
     ),
   ),
 ) {
+  // ── Static ───────────────────────────────────────────────────────────────
+
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    mode: 'open',
+    delegatesFocus: true,
+  };
+
   static override styles = [styles];
 
   /**
    * Button size.
    * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
    */
-  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  @property({ reflect: true }) size: ButtonSize = 'sm';
 
   /**
    * Type is preset of color and variant. Type will be only applied.
    *
    */
-  @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
+  @property({ type: String }) level?: ButtonLevel;
 
   /** Shape of the button container. */
-  @property({ type: String, reflect: true }) shape?: 'round' | 'square' =
-    'square';
+  @property({ type: String, reflect: true }) shape?: ButtonShape = 'square';
 
   /**
    * The visual style of the button.
@@ -101,30 +114,12 @@ export class IconButton extends mixinBaseButton(
    * `"tonal"` is a light color button.
    * `"elevated"` is elevated button
    */
-  @property({ reflect: true }) variant:
-    | 'elevated'
-    | 'filled'
-    | 'tonal'
-    | 'outlined'
-    | 'text'
-    | 'neo' = 'filled';
+  @property({ reflect: true }) variant: ButtonVariant = 'filled';
 
   /**
    * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
    */
-  @property({ reflect: true }) color:
-    | 'primary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'surface'
-    | 'on-surface' = 'primary';
-
-  /**
-   * Additional ARIA attributes to pass to the inner button/anchor element.
-   */
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
+  @property({ reflect: true }) color: ButtonColor = 'primary';
 
   /** When true, renders the button in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
@@ -163,28 +158,6 @@ export class IconButton extends mixinBaseButton(
     dispatchActivationClick(this.buttonElement);
   };
 
-  __renderDisabledReason(softDisabled: boolean) {
-    if (softDisabled)
-      return html`<div
-        id=${DISABLED_REASON_ID}
-        role="tooltip"
-        aria-label=${this.disabledReason}
-        class="screen-reader-only"
-      >
-        ${this.disabledReason}
-      </div>`;
-    return nothing;
-  }
-
-  __renderTooltip() {
-    if (this.tooltip) {
-      return html`<wc-tooltip class="tooltip" for="button"
-        >${this.tooltip}</wc-tooltip
-      >`;
-    }
-    return nothing;
-  }
-
   override focus() {
     this.buttonElement?.focus();
   }
@@ -193,13 +166,8 @@ export class IconButton extends mixinBaseButton(
     this.buttonElement?.blur();
   }
 
-  override firstUpdated() {
-    if (this.throttleDelay !== null) {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
+  override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+    super.firstUpdated(changedProperties);
     this.__convertTypeToVariantAndColor();
   }
 
@@ -219,6 +187,83 @@ export class IconButton extends mixinBaseButton(
     }
   }
 
+  renderDisabledReason(softDisabled: boolean) {
+    if (softDisabled)
+      return html`<div
+        id=${DISABLED_REASON_ID}
+        role="tooltip"
+        aria-label=${this.disabledReason}
+        class="screen-reader-only"
+      >
+        ${this.disabledReason}
+      </div>`;
+    return nothing;
+  }
+
+  renderTooltip() {
+    if (this.tooltip) {
+      const buttonId = isLink(this) ? 'link' : 'button';
+      return html`<wc-tooltip class="tooltip" for=${buttonId}
+        >${this.tooltip}</wc-tooltip
+      >`;
+    }
+    return nothing;
+  }
+
+  renderButtonContent() {
+    return html`
+      <slot class="icon-slot"></slot>
+      <div class="touch"></div>
+      ${this.renderDisabledReason(this.softDisabled)}
+    `;
+  }
+
+  renderButtonElement() {
+    const isElementLink = isLink(this);
+    const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
+
+    const cssClasses = {
+      button: true,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
+    };
+
+    if (!isLink(this)) {
+      return html`<button
+        class=${classMap(cssClasses)}
+        id="button"
+        aria-label="${ariaLabel || nothing}"
+        aria-haspopup="${ariaHasPopup || nothing}"
+        aria-expanded="${ariaExpanded || nothing}"
+        aria-describedby=${ifDefined(
+          this.softDisabled ? DISABLED_REASON_ID : undefined,
+        )}
+        ?aria-disabled=${this.softDisabled}
+        ?disabled=${this.disabled}
+      >
+        ${this.renderButtonContent()}
+      </button>`;
+    }
+    return html`<a
+      class=${classMap(cssClasses)}
+      id="link"
+      href=${this.href}
+      target=${this.target}
+      tabindex=${this.disabled ? '-1' : '0'}
+      aria-label="${ariaLabel || nothing}"
+      aria-haspopup="${ariaHasPopup || nothing}"
+      aria-expanded="${ariaExpanded || nothing}"
+      aria-describedby=${ifDefined(
+        this.softDisabled ? DISABLED_REASON_ID : undefined,
+      )}
+      ?aria-disabled=${this.softDisabled}
+    >
+      ${this.renderButtonContent()}
+    </a>`;
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
   override render() {
     const buttonId = isLink(this) ? 'link' : 'button';
 
@@ -237,54 +282,7 @@ export class IconButton extends mixinBaseButton(
       <wc-ripple class="ripple" for="button"></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
-      ${this.renderButtonElement()} ${this.__renderTooltip()}
-    `;
-  }
-
-  renderButtonElement() {
-    const isElementLink = isLink(this);
-
-    const cssClasses = {
-      button: true,
-      'native-button': !isElementLink,
-      'native-link': isElementLink,
-    };
-
-    if (!isLink(this)) {
-      return html`<button
-        class=${classMap(cssClasses)}
-        id="button"
-        aria-describedby=${ifDefined(
-          this.softDisabled ? DISABLED_REASON_ID : undefined,
-        )}
-        ?aria-disabled=${this.softDisabled}
-        ?disabled=${this.disabled}
-        ${spread(this.configAria)}
-      >
-        ${this.renderButtonContent()}
-      </button>`;
-    }
-    return html`<a
-      class=${classMap(cssClasses)}
-      id="link"
-      href=${this.href}
-      target=${this.target}
-      tabindex=${this.disabled ? '-1' : '0'}
-      aria-describedby=${ifDefined(
-        this.softDisabled ? DISABLED_REASON_ID : undefined,
-      )}
-      ?aria-disabled=${this.softDisabled}
-      ${spread(this.configAria)}
-    >
-      ${this.renderButtonContent()}
-    </a>`;
-  }
-
-  renderButtonContent() {
-    return html`
-      <slot class="icon-slot"></slot>
-      <div class="touch"></div>
-      ${this.__renderDisabledReason(this.softDisabled)}
+      ${this.renderButtonElement()} ${this.renderTooltip()}
     `;
   }
 }

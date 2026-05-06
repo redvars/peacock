@@ -66,7 +66,9 @@ export class SegmentedButtonGroup extends LitElement {
   }
 
   private _getSegments(): SegmentedButton[] {
-    return Array.from(this.querySelectorAll<SegmentedButton>('wc-segmented-button'));
+    return Array.from(
+      this.querySelectorAll<SegmentedButton>('wc-segmented-button'),
+    );
   }
 
   private _onSegmentChange = (ev: CustomEvent) => {

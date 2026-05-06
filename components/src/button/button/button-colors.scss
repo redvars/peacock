@@ -1,15 +1,15 @@
 @mixin _button-color($color) {
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-#{$color});
+
   --filled-button-container-color: var(--color-#{$color});
   --filled-button-label-text-color: var(--color-on-#{$color});
 
   --tonal-button-container-color: var(--color-#{$color}-container);
   --tonal-button-label-text-color: var(--color-on-#{$color}-container);
 
-  --elevated-button-container-color: var(--color-surface-container-low);
-  --elevated-button-label-text-color: var(--color-#{$color});
-
-  --outlined-button-outline-color: var(--color-#{$color});
-  --outlined-button-label-text-color: var(--color-#{$color});
+  --outlined-button-outline-color: var(--color-outline-variant);
+  --outlined-button-label-text-color: var(--color-on-surface-variant);
 
   --text-button-label-text-color: var(--color-#{$color});
 
@@ -27,8 +27,8 @@
   --elevated-button-container-color: var(--color-surface-container-low);
   --elevated-button-label-text-color: var(--color-#{$color});
 
-  --outlined-button-outline-color: var(--color-#{$color});
-  --outlined-button-label-text-color: var(--color-#{$color});
+  --outlined-button-outline-color: var(--color-outline-variant);
+  --outlined-button-label-text-color: var(--color-on-surface-variant);
 }
 
 @mixin _button-color-toggle-selected($color) {

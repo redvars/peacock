@@ -4,61 +4,60 @@
 
 $border-width: 0.0625rem;
 
-.button-group {
+:host {
+  --button-group-spacing: unset;
   display: flex;
-  gap: var(--_button-group-gap);
+  gap: var(--button-group-spacing, var(--private-button-group-spacing));
 }
-
 
 // Size-specific rules (can be overridden by variant rules below)
-.button-group.size-xs,
-.button-group.size-extra-small {
-  --_button-group-gap: 0.125rem;
+:host([size='xs']),
+:host([size='extra-small']) {
+  --private-button-group-spacing: var(--spacing-200);
 }
 
-
-.button-group.size-sm,
-.button-group.size-small {
-  --_button-group-gap: 0.125rem;
-  --button-container-padding: 1.5rem;
+:host([size='sm']),
+:host([size='small']) {
+  --private-button-group-spacing: var(--spacing-150);
 }
 
-.button-group.size-md,
-.button-group.size-medium {
-  --_button-group-gap: 0.125rem;
+:host([size='md']),
+:host([size='medium']),
+:host([size='lg']),
+:host([size='large']),
+:host([size='xl']),
+:host([size='extra-large']) {
+  --private-button-group-spacing: var(--spacing-100);
 }
-
-.button-group.size-lg,
-.button-group.size-large {
-  --_button-group-gap: 0.125rem;
-}
-
-.button-group.size-xl {
-  --_button-group-gap: 0.125rem;
-}
-
 
 // Standard variant: buttons with a visible gap, each keeping their own shape
-.button-group.variant-standard {
-  --_button-group-gap: 0.5rem;
+:host([connected]) {
+  --private-button-group-spacing: var(--spacing-025);
 }
-
 
 // Connected variant: buttons with a 2px gap; outer buttons have fully rounded outer
 // corners while middle buttons keep standard rounded corners (handled via JS for
 // per-position corner overrides, including vertical orientation).
-.button-group.variant-connected {
-  --_button-group-gap: 0.125rem;
+:host([connected]) slot::slotted(:first-child:not([selected])) {
+  --button-container-shape-start-start: calc(var(--button-height) / 2);
+  --button-container-shape-end-start: calc(var(--button-height) / 2);
+  --button-container-shape-start-end: var(--shape-corner-medium);
+  --button-container-shape-end-end: var(--shape-corner-medium);
+  --button-container-shape-variant: round;
 }
 
-
-// Orientation
-.button-group.orientation-horizontal {
-  flex-direction: row;
+:host([connected]) slot::slotted(:last-child:not([selected])) {
+  --button-container-shape-start-start: var(--shape-corner-medium);
+  --button-container-shape-end-start: var(--shape-corner-medium);
+  --button-container-shape-start-end: calc(var(--button-height) / 2);
+  --button-container-shape-end-end: calc(var(--button-height) / 2);
+  --button-container-shape-variant: round;
 }
 
-.button-group.orientation-vertical {
-  flex-direction: column;
+:host([connected]) slot::slotted(:only-child:not([selected])) {
+  --button-container-shape-start-start: var(--shape-corner-medium);
+  --button-container-shape-end-start: var(--shape-corner-medium);
+  --button-container-shape-start-end: var(--shape-corner-medium);
+  --button-container-shape-end-end: var(--shape-corner-medium);
+  --button-container-shape-variant: round;
 }
-
-

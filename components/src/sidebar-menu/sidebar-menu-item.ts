@@ -117,7 +117,7 @@ export class SidebarMenuItem extends LitElement {
           href="${this.href}"
           target="${this.target}"
           class="${classes}"
-          aria-disabled="${this.disabled}"
+          ?aria-disabled=${this.disabled}
           tabindex="${this.disabled ? -1 : 0}"
           @click="${this._onClick}"
         >
@@ -133,7 +133,8 @@ export class SidebarMenuItem extends LitElement {
         role="treeitem"
         aria-label="${this.label}"
         aria-selected="${String(this.selected)}"
-        aria-disabled="${this.disabled}"
+        ?aria-disabled=${this.disabled}
+        ?disabled=${this.disabled}
         tabindex="${this.disabled ? -1 : 0}"
         @click="${this._onClick}"
         @keydown="${(e: KeyboardEvent) => {

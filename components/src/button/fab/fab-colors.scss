@@ -37,13 +37,3 @@
   --filled-fab-container-color: var(--color-tertiary);
   --filled-fab-label-text-color: var(--color-on-tertiary);
 }
-
-:host([variant='tonal']) {
-  --_fab-container-color: var(--tonal-fab-container-color);
-  --_fab-label-text-color: var(--tonal-fab-label-text-color);
-}
-
-:host([variant='filled']) {
-  --_fab-container-color: var(--filled-fab-container-color);
-  --_fab-label-text-color: var(--filled-fab-label-text-color);
-}

@@ -58,7 +58,7 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
   /**
    * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay: number | null = null;
+  @property() throttleDelay?: number;
 
   /**
    * States
@@ -76,7 +76,7 @@ export class Card extends NativeHyperlinkMixin(LitElement) {
   }
 
   override firstUpdated() {
-    if (this.throttleDelay !== null) {
+    if (typeof this.throttleDelay === 'number') {
       this.__dispatchClickWithThrottle = throttle(
         this.__dispatchClick,
         this.throttleDelay,

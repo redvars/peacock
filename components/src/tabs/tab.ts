@@ -57,7 +57,7 @@ export class Tab extends LitElement {
   /**
    * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay: number | null = null;
+  @property() throttleDelay?: number;
 
   @state() hasFocus = false;
 
@@ -86,7 +86,7 @@ export class Tab extends LitElement {
   }
 
   override firstUpdated() {
-    if (this.throttleDelay !== null) {
+    if (typeof this.throttleDelay === 'number') {
       this.__dispatchClickWithThrottle = throttle(
         this.__dispatchClick,
         this.throttleDelay,

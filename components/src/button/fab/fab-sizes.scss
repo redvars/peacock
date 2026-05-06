@@ -2,36 +2,36 @@
 :host([size='sm']) {
   --fab-container-shape: var(--shape-corner-medium);
   --fab-container-size: 2.5rem;
-  --_fab-icon-size: 1.5rem;
+  --private-button-icon-size: 1.5rem;
   --fab-extended-min-width: 4rem;
 
-  --_fab-font-size: 0.875rem;
-  --_fab-font-weight: var(--font-weight-medium);
-  --_fab-line-height: 1.25rem;
-  --_fab-letter-spacing: 0.1px;
+  --private-button-font-size: 0.875rem;
+  --private-button-font-weight: var(--font-weight-medium);
+  --private-button-line-height: 1.25rem;
+  --private-button-letter-spacing: 0.1px;
 }
 
 /* Standard/Medium FAB: 56×56dp, shape-corner-large (default) */
 :host([size='md']) {
   --fab-container-size: 3.5rem;
-  --_fab-icon-size: 1.5rem;
+  --private-button-icon-size: 1.5rem;
   --fab-extended-min-width: 5rem;
 
-  --_fab-font-size: 0.875rem;
-  --_fab-font-weight: var(--font-weight-medium);
-  --_fab-line-height: 1.25rem;
-  --_fab-letter-spacing: 0.1px;
+  --private-button-font-size: 0.875rem;
+  --private-button-font-weight: var(--font-weight-medium);
+  --private-button-line-height: 1.25rem;
+  --private-button-letter-spacing: 0.1px;
 }
 
 /* Large FAB: 96×96dp, shape-corner-extra-large */
 :host([size='lg']) {
   --fab-container-shape: var(--shape-corner-extra-large);
   --fab-container-size: 6rem;
-  --_fab-icon-size: 2.25rem;
+  --private-button-icon-size: 2.25rem;
   --fab-extended-min-width: 6rem;
 
-  --_fab-font-size: 1rem;
-  --_fab-font-weight: var(--font-weight-medium);
-  --_fab-line-height: 1.5rem;
-  --_fab-letter-spacing: 0.15px;
+  --private-button-font-size: 1rem;
+  --private-button-font-weight: var(--font-weight-medium);
+  --private-button-line-height: 1.5rem;
+  --private-button-letter-spacing: 0.15px;
 }

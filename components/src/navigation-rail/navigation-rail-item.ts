@@ -81,7 +81,7 @@ export class NavigationRailItem extends LitElement {
   }
 
   override firstUpdated() {
-    if (this.throttleDelay !== null) {
+    if (typeof this.throttleDelay === 'number') {
       this.__dispatchClickWithThrottle = throttle(
         this.__dispatchClick,
         this.throttleDelay,

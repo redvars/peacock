@@ -5,7 +5,6 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
-import { throttle } from '@/__internal/utils/throttle.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 import {
@@ -20,6 +19,24 @@ import { mixinElementInternals } from '@/__internal/mixins/element-internals.js'
 import { mixinBaseButton } from '../base-button/base-button.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ButtonLevel = 'primary' | 'secondary' | 'tertiary' | 'danger';
+export type ButtonShape = 'round' | 'square';
+export type ButtonVariant =
+  | 'elevated'
+  | 'filled'
+  | 'tonal'
+  | 'outlined'
+  | 'text'
+  | 'neo';
+export type ButtonColor =
+  | 'primary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'surface'
+  | 'on-surface';
 
 /**
  * @label Button
@@ -96,16 +113,15 @@ export class Button extends mixinBaseButton(
    * Button size.
    * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
    */
-  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  @property({ reflect: true }) size: ButtonSize = 'sm';
 
   /**
    * Level is preset of color and variant. If Level provided it overrides the default color and variant.
    */
-  @property({ type: String }) level?: 'primary' | 'secondary' | 'tertiary';
+  @property({ type: String }) level?: ButtonLevel;
 
   /** Shape of the button container. */
-  @property({ type: String, reflect: true }) shape: 'round' | 'square' =
-    'square';
+  @property({ type: String, reflect: true }) shape: ButtonShape = 'square';
 
   /**
    * The visual style of the button.
@@ -117,24 +133,12 @@ export class Button extends mixinBaseButton(
    * `"tonal"` is a light color button.
    * `"elevated"` is elevated button
    */
-  @property({ reflect: true }) variant:
-    | 'elevated'
-    | 'filled'
-    | 'tonal'
-    | 'outlined'
-    | 'text'
-    | 'neo' = 'filled';
+  @property({ reflect: true }) variant: ButtonVariant = 'filled';
 
   /**
    * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
    */
-  @property({ reflect: true }) color:
-    | 'primary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'surface'
-    | 'on-surface' = 'primary';
+  @property({ reflect: true }) color: ButtonColor = 'primary';
 
   /** When true, renders the button in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
@@ -185,14 +189,8 @@ export class Button extends mixinBaseButton(
     super.disconnectedCallback();
   }
 
-  override firstUpdated() {
-    if (this.throttleDelay !== null) {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
-
+  override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+    super.firstUpdated(changedProperties);
     this.__convertTypeToVariantAndColor();
     // Initialize slot presence tracking for smooth transitions when label/icon are added/removed
     const iconSlot = this.renderRoot.querySelector(
@@ -273,13 +271,6 @@ export class Button extends mixinBaseButton(
     dispatchActivationClick(this.buttonElement);
   };
 
-  private getControl(): HTMLElement | null {
-    return (
-      (this.renderRoot?.querySelector('#button') as HTMLElement | null) ??
-      (this.renderRoot?.querySelector('#link') as HTMLElement | null)
-    );
-  }
-
   // ── Render helpers ────────────────────────────────────────────────────────
 
   renderButtonElement() {
@@ -327,7 +318,7 @@ export class Button extends mixinBaseButton(
       >
         ${this.renderButtonContent()}
       </button>
-      ${this.__renderTooltip()}`;
+      ${this.renderTooltip()}`;
   }
 
   renderButtonContent() {
@@ -335,10 +326,10 @@ export class Button extends mixinBaseButton(
       <slot class="label"></slot>
       <div class="touch"></div>
 
-      ${this.__renderDisabledReason(this.softDisabled)}`;
+      ${this.renderDisabledReason(this.softDisabled)}`;
   }
 
-  __renderDisabledReason(softDisabled: boolean) {
+  renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)
       return html`<div
         id=${DISABLED_REASON_ID}
@@ -351,7 +342,7 @@ export class Button extends mixinBaseButton(
     return nothing;
   }
 
-  __renderTooltip() {
+  renderTooltip() {
     if (this.tooltip) {
       const buttonId = isLink(this) ? 'link' : 'button';
       return html`<wc-tooltip class="tooltip" for=${buttonId}
@@ -381,7 +372,7 @@ export class Button extends mixinBaseButton(
       <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
-      ${this.renderButtonElement()} ${this.__renderTooltip()}
+      ${this.renderButtonElement()} ${this.renderTooltip()}
     `;
   }
 }

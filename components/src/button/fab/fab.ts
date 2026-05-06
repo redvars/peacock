@@ -9,15 +9,17 @@ import {
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
 import { isLink } from '@/__internal/utils/is-link.js';
-import { throttle } from '@/__internal/utils/throttle.js';
-import { spread } from '@/__internal/directive/spread.js';
-
 import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';
 import sizeStyles from './fab-sizes.scss';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
+import { mixinBaseButton } from '../base-button/base-button.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
+import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
 
 /**
  * @label FAB
@@ -42,10 +44,24 @@ import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
  * @tags controls
  */
 @IndividualComponent
-export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
-  static override styles = [styles, colorStyles, sizeStyles];
+export class Fab extends mixinBaseButton(
+  mixinHyperlink(
+    mixinDelegatesAria(
+      mixinFormSubmitter(
+        mixinFormAssociated(mixinElementInternals(LitElement)),
+      ),
+    ),
+  ),
+) {
+  // ── Static ───────────────────────────────────────────────────────────────
 
-  #id = crypto.randomUUID();
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    mode: 'open',
+    delegatesFocus: true,
+  };
+
+  static override styles = [styles, colorStyles, sizeStyles];
 
   /**
    * Optional label text for the extended FAB variant.
@@ -87,17 +103,6 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   @property({ type: Boolean, reflect: true }) lowered: boolean = false;
 
   /**
-   * Additional ARIA attributes to pass to the inner button/anchor element.
-   */
-  @property({ reflect: true })
-  configAria?: { [key: string]: any };
-
-  /**
-   * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
-   */
-  @property() throttleDelay: number | null = null;
-
-  /**
    * Tooltip text shown on hover.
    */
   @property() tooltip?: string;
@@ -114,11 +119,6 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     // If the button is soft-disabled or a disabled link, we need to explicitly
@@ -142,7 +142,15 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     dispatchActivationClick(this.buttonElement);
   };
 
-  __renderDisabledReason(softDisabled: boolean) {
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)
       return html`<div
         id=${DISABLED_REASON_ID}
@@ -155,7 +163,7 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     return nothing;
   }
 
-  __renderTooltip() {
+  renderTooltip() {
     if (this.tooltip) {
       return html`<wc-tooltip class="tooltip" for="button"
         >${this.tooltip}</wc-tooltip
@@ -164,38 +172,9 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     return nothing;
   }
 
-  override focus() {
-    this.buttonElement?.focus();
-  }
+  renderFabElement(isExtended: boolean) {
+    const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
 
-  override blur() {
-    this.buttonElement?.blur();
-  }
-
-  override firstUpdated() {
-    if (this.throttleDelay !== null) {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
-  }
-
-  override render() {
-    const isExtended = !!this.label;
-
-    return html`
-      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
-      <wc-elevation class="elevation"></wc-elevation>
-      <div class="background"></div>
-      <wc-ripple class="ripple" for="button"></wc-ripple>
-      <wc-skeleton class="skeleton"></wc-skeleton>
-
-      ${this.__renderFabElement(isExtended)} ${this.__renderTooltip()}
-    `;
-  }
-
-  __renderFabElement(isExtended: boolean) {
     const cssClasses = {
       button: true,
       fab: true,
@@ -213,14 +192,16 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
         class=${classMap(cssClasses)}
         id="button"
         type="button"
+        aria-label="${ariaLabel || nothing}"
+        aria-haspopup="${ariaHasPopup || nothing}"
+        aria-expanded="${ariaExpanded || nothing}"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         ?aria-disabled=${this.softDisabled}
         ?disabled=${this.disabled}
-        ${spread(this.configAria)}
       >
-        ${this.__renderFabContent(isExtended)}
+        ${this.renderFabContent(isExtended)}
       </button>`;
     }
 
@@ -231,17 +212,19 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       href=${ifDefined(this.href)}
       target=${this.target}
       role="button"
+      aria-label="${ariaLabel || nothing}"
+      aria-haspopup="${ariaHasPopup || nothing}"
+      aria-expanded="${ariaExpanded || nothing}"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
       ?aria-disabled=${this.softDisabled}
-      ${spread(this.configAria)}
     >
-      ${this.__renderFabContent(isExtended)}
+      ${this.renderFabContent(isExtended)}
     </a>`;
   }
 
-  __renderFabContent(isExtended: boolean) {
+  renderFabContent(isExtended: boolean) {
     return html`
       <div class="fab-content">
         <slot></slot>
@@ -249,7 +232,23 @@ export class Fab extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
           ? html`<span class="fab-label">${this.label}</span>`
           : nothing}
       </div>
-      ${this.__renderDisabledReason(this.softDisabled)}
+      ${this.renderDisabledReason(this.softDisabled)}
+    `;
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
+  override render() {
+    const isExtended = !!this.label;
+
+    return html`
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
+      <wc-elevation class="elevation"></wc-elevation>
+      <div class="background"></div>
+      <wc-ripple class="ripple" for="button"></wc-ripple>
+      <wc-skeleton class="skeleton"></wc-skeleton>
+
+      ${this.renderFabElement(isExtended)} ${this.renderTooltip()}
     `;
   }
 }

@@ -1,6 +1,7 @@
-import { LitElement } from 'lit';
+import { LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import { WithElementInternals } from '@/__internal/mixins/element-internals.js';
+import { throttle } from '@/__internal/utils/throttle.js';
 import { MixinBase, MixinReturn } from '@/__internal/mixins/mixin.js';
 
 /**
@@ -18,7 +19,7 @@ export interface BaseButton {
 
   disabledReason: string;
 
-  throttleDelay: number | null;
+  throttleDelay?: number;
 
   __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void;
 
@@ -58,9 +59,9 @@ export function mixinBaseButton<
     disabledReason: string = '';
 
     /**
-     * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
+     * Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.
      */
-    @property() throttleDelay: number | null = null;
+    @property() throttleDelay?: number;
 
     __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
       event => {
@@ -68,6 +69,16 @@ export function mixinBaseButton<
       };
 
     abstract __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
+
+    override firstUpdated(changedProperties: PropertyValues) {
+      super.firstUpdated(changedProperties);
+      if (typeof this.throttleDelay === 'number') {
+        this.__dispatchClickWithThrottle = throttle(
+          this.__dispatchClick,
+          this.throttleDelay,
+        );
+      }
+    }
   }
 
   return BaseButtonElement;

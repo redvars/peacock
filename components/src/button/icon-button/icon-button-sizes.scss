@@ -5,7 +5,7 @@
 }
 
 .button {
-  width: var(--button-height);
+  width: var(--button-width, var(--button-height));
 
   --private-button-container-padding: 0.75rem;
   --private-button-container-padding: 0;
@@ -14,14 +14,29 @@
 :host([size='xs']),
 :host([size='extra-small']) {
   --button-height: 2rem;
-  --private-button-icon-size: 1rem;
-}
+  --private-button-icon-size: 1.25rem;
 
+  &:host([shape='narrow']) {
+    --button-width: 1.75rem;
+  }
+
+  &:host([shape='wide']) {
+    --button-width: 2rem;
+  }
+}
 
 :host([size='sm']),
 :host([size='small']) {
   --button-height: 2.5rem;
   --private-button-icon-size: 1.25rem;
+
+  &:host([shape='narrow']) {
+    --button-width: 2rem;
+  }
+
+  &:host([shape='wide']) {
+    --button-width: 3.25rem;
+  }
 }
 
 :host([size='md']),

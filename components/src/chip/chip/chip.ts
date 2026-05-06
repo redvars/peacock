@@ -59,7 +59,7 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   /**
    * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay: number | null = null;
+  @property() throttleDelay?: number;
 
   /** Optional tooltip text displayed on hover. */
   @property() tooltip?: string;
@@ -129,7 +129,7 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   }
 
   override firstUpdated() {
-    if (this.throttleDelay !== null) {
+    if (typeof this.throttleDelay === 'number') {
       this.__dispatchClickWithThrottle = throttle(
         this.__dispatchClick,
         this.throttleDelay,
