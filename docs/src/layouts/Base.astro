@@ -9,7 +9,7 @@ interface Props {
 const { title, description, keywords } = Astro.props;
 import site from '../_data/site.json';
 import '../styles/layout/base.scss';
-import { getScriptUrl, getFallbackScriptUrl } from '../_data/utils.ts';
+import { getScriptUrl, getFallbackScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 

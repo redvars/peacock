@@ -3,7 +3,7 @@ import Layout from '../layouts/Default.astro';
 import site from '../_data/site.json';
 import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
-import { getScriptUrl } from '../_data/utils.ts';
+import { getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
 
 const isProd = import.meta.env.PROD;
 let envProps;
@@ -129,21 +129,17 @@ function jumpingSentence(sentence: string) {
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
-              <script is:inline define:vars={{ title: site.title, scriptUrl: getScriptUrl(), themeCss:  getScriptUrl()}}>
-                document.getElementById('get-started-code').value = `<!DOCTYPE html>
-                 &lt;html>
+              <script is:inline define:vars={{ title: site.title, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
+                document.getElementById('get-started-code').value = `
                  &lt;head>
-                  <meta charset='utf-8'>
-                  <meta name='viewport' content='width=device-width'>
-                  <title>${title}</title>
-
+                  
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">
                   &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                   &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
                   <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  <!--link rel="stylesheet" href="/custom-theme.css"></link-->
-                   &lt;script type='module' src='${scriptUrl}'>&lt;/script>
+                  &lt;link rel="stylesheet" href='${themeCss}'/>
+                  &lt;script type='module' src='${scriptUrl}'>&lt;/script>
 
 
                  &lt;/head>
@@ -152,34 +148,23 @@ function jumpingSentence(sentence: string) {
 
                   <wc-button size='lg' color='primary'>Click me</wc-button>
 
-                 &lt;/body>
-                 &lt;/html>`;
+                 &lt;/body>`;
               </script>
             </wc-tab-panel>
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
-              <script is:inline define:vars={{ title: site.title, version: site.version, themeCss:  getScriptUrl()}}>
-                document.getElementById('load-single-component-code').value = `<!DOCTYPE html>
-                 &lt;html>
-                 &lt;head>
-                  <meta charset='utf-8'>
-                  <meta name='viewport' content='width=device-width'>
-                  <title>${title}</title>
-
-
-
+              <script is:inline define:vars={{ title: site.title, version: site.version, themeCss:  getThemeCssUrl()}}>
+                document.getElementById('load-single-component-code').value = `&lt;head>
+                  
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">
                   &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                   &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&amp;family=Pacifico&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
 
-
-
-                  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@${-version}/dist/assets/styles.css">
-
                   <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  <!--link rel="stylesheet" href="/custom-theme.css"></link-->
-                   &lt;script type='module'>
+                  &lt;link rel="stylesheet" href='${themeCss}' />
+                  
+                  &lt;script type='module'>
     import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/button.js";
     customElements.define('my-button', Button);
  &lt;/script>
@@ -187,12 +172,11 @@ function jumpingSentence(sentence: string) {
 
                  &lt;/head>
 
-                <body>
+                &lt;body>
 
                   <my-button size='lg' color='primary'>Click me</my-button>
 
-                 &lt;/body>
-                 &lt;/html>`;
+                 &lt;/body>`;
               </script>
             </wc-tab-panel>
           </wc-tab-group>
