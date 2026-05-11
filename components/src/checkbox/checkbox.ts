@@ -1,4 +1,4 @@
-import { html, LitElement, svg } from 'lit';
+﻿import { html, LitElement, svg } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { spread } from '@/__internal/directive/spread.js';
@@ -12,7 +12,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @summary Captures boolean input with an optional indeterminate mode.
  * @overview
  * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
- * <p>Material Design 3 checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
+ * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.

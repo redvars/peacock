@@ -17,8 +17,23 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
 
   <div class="demo-stack">
-    <wc-button-group variant='connected'>
-    <wc-button toggle>
+    <wc-button-group connected>
+      <wc-button toggle>
+        <wc-icon slot=icon name='star'></wc-icon>
+        Label
+      </wc-button>
+      <wc-button toggle>
+        <wc-icon slot=icon name='star'></wc-icon>
+        Label
+      </wc-button>
+      <wc-button toggle>
+        <wc-icon slot=icon name='star'></wc-icon>
+        Label
+      </wc-button>
+    </wc-button-group>
+
+  <wc-button-group>
+    <wc-button toggle selected>
       <wc-icon slot=icon name='star'></wc-icon>
       Label
     </wc-button>
@@ -31,21 +46,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       Label
     </wc-button>
   </wc-button-group>
-
-  <wc-button-group variant='connected'>
-  <wc-button toggle selected>
-    <wc-icon slot=icon name='star'></wc-icon>
-    Label
-  </wc-button>
-  <wc-button toggle>
-    <wc-icon slot=icon name='star'></wc-icon>
-    Label
-  </wc-button>
-  <wc-button toggle>
-    <wc-icon slot=icon name='star'></wc-icon>
-    Label
-  </wc-button>
-</wc-button-group>
 
   </div>
 </DemoComponentCard>

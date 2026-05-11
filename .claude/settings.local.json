@@ -1,9 +1,22 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "model": "sonnet",
   "permissions": {
     "allow": [
       "Bash(xargs grep *)",
-      "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(node -e ' *)"
+      "Bash(npm run test)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npx tsc*)",
+      "Bash(npx lit-analyzer*)",
+      "Bash(git status)",
+      "Bash(git diff*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Read(.env*)",
+      "Read(*.pem)"
     ]
   }
 }

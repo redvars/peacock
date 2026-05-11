@@ -6,6 +6,10 @@
   .screen-reader-only {
     display: none !important;
   }
+
+  [hidden] {
+    display: none !important;
+  }
 }
 
 @mixin reset-button-styles {

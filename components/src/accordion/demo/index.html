@@ -1,98 +1,103 @@
 <!doctype html>
-<html lang='en-GB'>
-<head>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
-  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="/dist/assets/styles/tokens.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    body {
-      background: #fafafa;
-      padding: 2rem;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    h3 {
-      margin: 1.5rem 0 0.5rem;
-      font-family: sans-serif;
-      font-size: 0.875rem;
-      color: #666;
-    }
-  </style>
-</head>
-<body>
+    <style>
+      body {
+        background: #fafafa;
+        padding: 2rem;
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      h3 {
+        margin: 1.5rem 0 0.5rem;
+        font-family: sans-serif;
+        font-size: 0.875rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Default</h3>
+    <wc-accordion>
+      <wc-accordion-item>
+        <span slot="heading">Personal information</span>
+        <span slot="description">Fill in your personal details</span>
+        <p>Type in your name and address below.</p>
+      </wc-accordion-item>
+      <wc-accordion-item>
+        <span slot="heading">Shipping address</span>
+        <span slot="description">Where should we send your order?</span>
+        <p>Add your shipping address to continue.</p>
+      </wc-accordion-item>
+      <wc-accordion-item disabled>
+        <span slot="heading">Billing address</span>
+        <p>This section is unavailable.</p>
+      </wc-accordion-item>
+    </wc-accordion>
 
-  <h3>Default</h3>
-  <wc-accordion>
-    <wc-accordion-item>
-      <span slot="heading">Personal information</span>
-      <span slot="description">Fill in your personal details</span>
-      <p>Type in your name and address below.</p>
-    </wc-accordion-item>
-    <wc-accordion-item>
-      <span slot="heading">Shipping address</span>
-      <span slot="description">Where should we send your order?</span>
-      <p>Add your shipping address to continue.</p>
-    </wc-accordion-item>
-    <wc-accordion-item disabled>
-      <span slot="heading">Billing address</span>
-      <p>This section is unavailable.</p>
-    </wc-accordion-item>
-  </wc-accordion>
+    <h3>Multi (allow multiple panels open)</h3>
+    <wc-accordion multi>
+      <wc-accordion-item>
+        <span slot="heading">Panel A</span>
+        <p>Content for panel A.</p>
+      </wc-accordion-item>
+      <wc-accordion-item open>
+        <span slot="heading">Panel B</span>
+        <p>Content for panel B (initially open).</p>
+      </wc-accordion-item>
+      <wc-accordion-item>
+        <span slot="heading">Panel C</span>
+        <p>Content for panel C.</p>
+      </wc-accordion-item>
+    </wc-accordion>
 
-  <h3>Multi (allow multiple panels open)</h3>
-  <wc-accordion multi>
-    <wc-accordion-item>
-      <span slot="heading">Panel A</span>
-      <p>Content for panel A.</p>
-    </wc-accordion-item>
-    <wc-accordion-item open>
-      <span slot="heading">Panel B</span>
-      <p>Content for panel B (initially open).</p>
-    </wc-accordion-item>
-    <wc-accordion-item>
-      <span slot="heading">Panel C</span>
-      <p>Content for panel C.</p>
-    </wc-accordion-item>
-  </wc-accordion>
+    <h3>Toggle position: before</h3>
+    <wc-accordion>
+      <wc-accordion-item toggle-position="before">
+        <span slot="heading">Panel 1</span>
+        <p>Icon appears at the leading start.</p>
+      </wc-accordion-item>
+      <wc-accordion-item toggle-position="before">
+        <span slot="heading">Panel 2</span>
+        <p>Icon appears at the leading start.</p>
+      </wc-accordion-item>
+    </wc-accordion>
 
-  <h3>Toggle position: before</h3>
-  <wc-accordion>
-    <wc-accordion-item toggle-position="before">
-      <span slot="heading">Panel 1</span>
-      <p>Icon appears at the leading start.</p>
-    </wc-accordion-item>
-    <wc-accordion-item toggle-position="before">
-      <span slot="heading">Panel 2</span>
-      <p>Icon appears at the leading start.</p>
-    </wc-accordion-item>
-  </wc-accordion>
+    <h3>Hide toggle</h3>
+    <wc-accordion>
+      <wc-accordion-item hide-toggle>
+        <span slot="heading">No toggle icon</span>
+        <p>The expand indicator is hidden.</p>
+      </wc-accordion-item>
+      <wc-accordion-item hide-toggle>
+        <span slot="heading">Another panel</span>
+        <p>Click the header to toggle.</p>
+      </wc-accordion-item>
+    </wc-accordion>
 
-  <h3>Hide toggle</h3>
-  <wc-accordion>
-    <wc-accordion-item hide-toggle>
-      <span slot="heading">No toggle icon</span>
-      <p>The expand indicator is hidden.</p>
-    </wc-accordion-item>
-    <wc-accordion-item hide-toggle>
-      <span slot="heading">Another panel</span>
-      <p>Click the header to toggle.</p>
-    </wc-accordion-item>
-  </wc-accordion>
+    <h3>Flat display mode</h3>
+    <wc-accordion display-mode="flat">
+      <wc-accordion-item>
+        <span slot="heading">Flat Panel 1</span>
+        <p>No borders between panels. Suitable inside cards.</p>
+      </wc-accordion-item>
+      <wc-accordion-item>
+        <span slot="heading">Flat Panel 2</span>
+        <p>Content here.</p>
+      </wc-accordion-item>
+    </wc-accordion>
 
-  <h3>Flat display mode</h3>
-  <wc-accordion display-mode="flat">
-    <wc-accordion-item>
-      <span slot="heading">Flat Panel 1</span>
-      <p>No borders between panels. Suitable inside cards.</p>
-    </wc-accordion-item>
-    <wc-accordion-item>
-      <span slot="heading">Flat Panel 2</span>
-      <p>Content here.</p>
-    </wc-accordion-item>
-  </wc-accordion>
-
-<script type='module' src='/dist/peacock-loader.js'></script>
-</body>
+    <script type="module" src="/dist/loader.js"></script>
+  </body>
 </html>

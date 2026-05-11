@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+﻿import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './segmented-button-group.scss';
 import { SegmentedButton } from './segmented-button.js';
@@ -8,9 +8,9 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Segmented Button Group
  * @tag wc-segmented-button-group
  * @rawTag segmented-button-group
- * @summary A container for segmented buttons following Material Design 3.
+ * @summary A container for segmented buttons.
  * @overview
- * <p>Segmented buttons help people select options, switch views, or sort elements. They follow the Material Design 3 specification.</p>
+ * <p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>
  * <p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>
  *
  * @cssprop --segmented-button-group-shape: Border-radius of the group container.

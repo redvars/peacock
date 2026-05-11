@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+﻿import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './accordion-item.scss';
@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Accordion Item
  * @tag wc-accordion-item
  * @rawTag accordion-item
- * @summary An expansion panel with a header that reveals or hides associated content. Follows Material Design 3 expansion panel guidelines.
+ * @summary An expansion panel with a header that reveals or hides associated content.
  *
  * @slot - The body content revealed when the panel is expanded.
  * @slot heading - The panel title. Renders as `body-large` text.

@@ -175,7 +175,7 @@ export class DropdownButton extends LitElement {
         size=${this.size}
         variant=${this.variant}
         color=${this.color}
-        icon-align="end"
+        trailing-icon
         ?disabled=${this.disabled}
         .configAria=${{
           'aria-haspopup': 'menu',

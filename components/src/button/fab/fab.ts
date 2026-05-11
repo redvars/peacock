@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+﻿import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -28,7 +28,7 @@ import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
  *
  * @summary The FAB (Floating Action Button) represents the primary action on a screen.
  * @overview
- * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the Material Design 3 specification and supports four color roles and two variants.</p>
+ * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the specification and supports four color roles and two variants.</p>
  *
  * @cssprop --fab-container-color: Background color of the FAB container.
  * @cssprop --fab-label-text-color: Text and icon color of the FAB label.

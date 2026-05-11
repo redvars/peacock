@@ -46,7 +46,7 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.1/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.1/dist/peacock-loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.1/dist/loader.js'></script>
 </head>
 
 <wc-button>Button</wc-button>

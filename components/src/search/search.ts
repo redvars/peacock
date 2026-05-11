@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
@@ -12,7 +12,7 @@ import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot
  * @tag wc-search
  * @rawTag search
  *
- * @summary A Material 3 search bar for filtering and finding content.
+ * @summary A search bar for filtering and finding content.
  * @overview
  * <p>The search component provides a text input designed for search interactions.
  * It supports outlined and filled variants, an optional clear button, and leading/trailing icon slots.</p>

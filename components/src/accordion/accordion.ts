@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+﻿import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './accordion.scss';
 import { AccordionItem } from './accordion-item.js';
@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Accordion
  * @tag wc-accordion
  * @rawTag accordion
- * @summary A vertically stacked set of expansion panels. Follows Material Design 3 expansion panel guidelines.
+ * @summary A vertically stacked set of expansion panels.
  *
  * @example
  * ```html

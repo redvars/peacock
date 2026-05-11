@@ -1,64 +1,50 @@
-import { html, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
+﻿import { html, LitElement } from 'lit';
+import { property, queryAll } from 'lit/decorators.js';
 import styles from './item.scss';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
-import {
-  dispatchActivationClick,
-  isActivationClick,
-} from '@/__internal/utils/dispatch-event-utils.js';
-import { isLink } from '@/__internal/utils/is-link.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+
+import { hasMeaningfulContent } from '@/__internal/utils/observe-slot-change.js';
 
 /**
  * @label Item
  * @tag wc-item
  * @rawTag item
  *
- * @summary A Material 3 item with start, text and end slots.
+ * @summary A primitive element used to build higher-level item components such as menu-item, navigation-item, and list-item. Provides start, text, and end slots for flexible content composition.
  *
  * @example
  * ```html
- * <wc-item selected>
- *   <wc-icon slot="start" name="home"></wc-icon>
- *   <div slot="headline">Headline</div>
- *   <div slot="supporting-text">Supporting text</div>
- *   <div slot="trailing-supporting-text">Trailing</div>
+ * <wc-item>
+ *   <wc-icon slot="start" name="notifications"></wc-icon>
+ *
+ *   <span slot="overline">Settings</span>
+ *   <span slot="headline">Notifications</span>
+ *   <span slot="supporting-text">Manage alerts and reminders</span>
+ *
+ *   <span slot="trailing-supporting-text">3</span>
  *   <wc-icon slot="end" name="chevron_right"></wc-icon>
  * </wc-item>
  * ```
  * @tags display
  */
 @IndividualComponent
-export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
+export class Item extends mixinDelegatesAria(
+  mixinElementInternals(LitElement),
+) {
   static styles = [styles];
 
-  static override get observedAttributes() {
-    return [...super.observedAttributes, 'tabindex'];
-  }
+  /**
+   * Only needed for SSR.
+   *
+   * Add this attribute when an item has two lines to avoid a Flash Of Unstyled
+   * Content. This attribute is not needed for single line items or items with
+   * three or more lines.
+   */
+  @property({ type: Boolean, reflect: true }) multiline = false;
 
-  // ── Private fields ────────────────────────────────────────────────────────
-
-  /** MutationObserver that triggers a re-render when slotted content changes. */
-  private readonly __contentObserver = new MutationObserver(() => {
-    this.requestUpdate();
-  });
-
-  /** Tabindex value captured from the host element and forwarded to the inner button/link. */
-  private __capturedTabIndex?: string;
-
-  /** Guard flag preventing recursive attribute changes during tabindex capture. */
-  private __isCapturingTabIndex = false;
-
-  @property({ type: Boolean, reflect: true }) selected = false;
-
-  @query('#item') readonly itemElement!: HTMLElement | null;
-
-  private __handleSlotChange = () => {
-    this.requestUpdate();
-  };
+  @queryAll('.text slot') private readonly textSlots!: HTMLSlotElement[];
 
   private __hasNamedSlot(...names: string[]) {
     return names.some(name =>
@@ -68,266 +54,56 @@ export class Item extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
     );
   }
 
-  private __hasDefaultSlot() {
-    return Array.from(this.childNodes).some(node => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        return Boolean(node.textContent?.trim());
-      }
-
-      return (
-        node.nodeType === Node.ELEMENT_NODE &&
-        !(node as Element).hasAttribute('slot')
-      );
-    });
-  }
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClick);
-  }
-
-  connectedCallback() {
-    // eslint-disable-next-line wc/guard-super-call
-    super.connectedCallback();
-    this.__captureHostTabIndex();
-
-    this.__contentObserver.observe(this, {
-      subtree: true,
-      childList: true,
-      characterData: true,
-      attributes: true,
-      attributeFilter: ['slot'],
-    });
-  }
-
-  disconnectedCallback() {
-    this.__contentObserver.disconnect();
-    super.disconnectedCallback();
-  }
-
-  override attributeChangedCallback(
-    name: string,
-    oldValue: string | null,
-    newValue: string | null,
-  ) {
-    if (name === 'tabindex') {
-      if (!this.__isCapturingTabIndex && newValue != null) {
-        this.__capturedTabIndex = newValue;
-        this.__isCapturingTabIndex = true;
-        this.removeAttribute('tabindex');
-        this.__isCapturingTabIndex = false;
-        this.requestUpdate();
-      }
-
-      return;
-    }
-
-    super.attributeChangedCallback(name, oldValue, newValue);
-  }
-
-  override focus() {
-    this.itemElement?.focus();
-  }
-
-  override blur() {
-    this.itemElement?.blur();
-  }
-
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    if (this.softDisabled || (this.disabled && this.href)) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
-    if (!isActivationClick(event) || !this.itemElement) {
-      return;
-    }
-
-    this.focus();
-    dispatchActivationClick(this.itemElement);
-  };
-
-  private __getForwardedAttribute(name: string) {
-    return this.getAttribute(name) ?? undefined;
-  }
-
-  private __captureHostTabIndex() {
-    const tabIndex = this.getAttribute('tabindex');
-
-    if (tabIndex == null) {
-      return;
-    }
-
-    this.__capturedTabIndex = tabIndex;
-    this.__isCapturingTabIndex = true;
-    this.removeAttribute('tabindex');
-    this.__isCapturingTabIndex = false;
-  }
-
-  render() {
-    const role = this.__getForwardedAttribute('role');
-    const tabIndex = this.__capturedTabIndex;
-    const ariaHasPopup = this.__getForwardedAttribute('aria-haspopup');
-    const ariaControls = this.__getForwardedAttribute('aria-controls');
-    const ariaExpanded = this.__getForwardedAttribute('aria-expanded');
-
-    return html`
-      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
-      <div class="background"></div>
-      <wc-ripple class="ripple" for="item"></wc-ripple>
-
-      ${this.renderItemElement(
-        role,
-        tabIndex,
-        ariaHasPopup,
-        ariaControls,
-        ariaExpanded,
-      )}
-    `;
-  }
-
-  renderItemElement(
-    role: string | undefined,
-    tabIndex: string | undefined,
-    ariaHasPopup: string | undefined,
-    ariaControls: string | undefined,
-    ariaExpanded: string | undefined,
-  ) {
-    const isElementLink = isLink(this);
-
-    const cssClasses: any = {
-      item: true,
-      'native-button': !isElementLink,
-      'native-link': isElementLink,
-      selected: this.selected,
-      disabled: this.disabled || this.softDisabled,
-    };
-
-    if (!isLink(this)) {
-      return html`
-        <button
-          id="item"
-          class=${classMap(cssClasses)}
-          type=${this.htmlType}
-          role=${ifDefined(role)}
-          tabindex=${ifDefined(tabIndex)}
-          ?disabled=${this.disabled}
-          ?aria-disabled=${this.softDisabled}
-          aria-haspopup=${ifDefined(ariaHasPopup)}
-          aria-controls=${ifDefined(ariaControls)}
-          aria-expanded=${ifDefined(ariaExpanded)}
-        >
-          ${this.renderContent()}
-        </button>
-      `;
-    }
-    return html`
-      <a
-        id="item"
-        class=${classMap(cssClasses)}
-        href=${this.href}
-        target=${this.target}
-        rel=${ifDefined(this.rel)}
-        download=${ifDefined(this.download)}
-        role=${ifDefined(role)}
-        tabindex=${ifDefined(tabIndex ?? (this.disabled ? '-1' : '0'))}
-        aria-disabled=${String(this.disabled || this.softDisabled)}
-        aria-haspopup=${ifDefined(ariaHasPopup)}
-        aria-controls=${ifDefined(ariaControls)}
-        aria-expanded=${ifDefined(ariaExpanded)}
-      >
-        ${this.renderContent()}
-      </a>
-    `;
-  }
-
-  renderContent() {
+  override render() {
     const hasStart = this.__hasNamedSlot('start');
     const hasEnd = this.__hasNamedSlot('end');
-    const hasOverline = this.__hasNamedSlot('overline');
-    const hasHeadline = this.__hasNamedSlot('headline');
-    const hasDefault = this.__hasDefaultSlot();
-    const hasSupportingText = this.__hasNamedSlot('supporting-text');
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
     );
 
     return html`
-      <div class="item-content">
-        ${hasStart
-          ? html`
-              <div class="start">
-                <slot
-                  name="start"
-                  @slotchange=${this.__handleSlotChange}
-                ></slot>
-              </div>
-            `
-          : nothing}
-        <div class="content">
-          ${hasOverline
-            ? html`
-                <div class="overline">
-                  <slot
-                    name="overline"
-                    @slotchange=${this.__handleSlotChange}
-                  ></slot>
-                </div>
-              `
-            : nothing}
-          ${hasHeadline || hasDefault
-            ? html`
-                <div class="headline-row">
-                  ${hasHeadline || hasDefault
-                    ? html`
-                        <div class="headline">
-                          ${hasHeadline
-                            ? html`<slot
-                                name="headline"
-                                @slotchange=${this.__handleSlotChange}
-                              ></slot>`
-                            : nothing}
-                          ${hasDefault
-                            ? html`<slot
-                                @slotchange=${this.__handleSlotChange}
-                              ></slot>`
-                            : nothing}
-                        </div>
-                      `
-                    : nothing}
-                </div>
-              `
-            : nothing}
-          ${hasSupportingText
-            ? html`
-                <div class="supporting-text">
-                  <slot
-                    name="supporting-text"
-                    @slotchange=${this.__handleSlotChange}
-                  ></slot>
-                </div>
-              `
-            : nothing}
+      <slot name="container"></slot>
+
+      <div class="item">
+        <slot class="non-text" name="start" ?hidden=${!hasStart}></slot>
+        <div class="text">
+          <slot name="overline" @slotchange=${this.handleTextSlotChange}></slot>
+          <slot
+            class="default-slot"
+            @slotchange=${this.handleTextSlotChange}
+          ></slot>
+          <slot name="headline" @slotchange=${this.handleTextSlotChange}></slot>
+          <slot
+            name="supporting-text"
+            @slotchange=${this.handleTextSlotChange}
+          ></slot>
         </div>
-        ${hasTrailingSupportingText
-          ? html`
-              <div class="trailing-supporting-text">
-                <slot
-                  name="trailing-supporting-text"
-                  @slotchange=${this.__handleSlotChange}
-                ></slot>
-              </div>
-            `
-          : nothing}
-        ${hasEnd
-          ? html`
-              <div class="end">
-                <slot name="end" @slotchange=${this.__handleSlotChange}></slot>
-              </div>
-            `
-          : nothing}
+        <slot
+          class="non-text"
+          name="trailing-supporting-text"
+          ?hidden=${!hasTrailingSupportingText}
+        ></slot>
+        <slot class="non-text" name="end" ?hidden=${!hasEnd}></slot>
       </div>
     `;
+  }
+
+  private handleTextSlotChange() {
+    // Check if there's more than one text slot with content. If so, the item is
+    // multiline, which has a different min-height than single line items.
+    let isMultiline = false;
+    let slotsWithContent = 0;
+    for (const slot of this.textSlots) {
+      if (hasMeaningfulContent(slot)) {
+        slotsWithContent += 1;
+      }
+
+      if (slotsWithContent > 1) {
+        isMultiline = true;
+        break;
+      }
+    }
+
+    this.multiline = isMultiline;
   }
 }

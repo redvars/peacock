@@ -127,7 +127,8 @@
         {
           "ignorePackages": true
         }
-      ]
+      ],
+      "class-methods-use-this": "off"
     }
   },
   "prettier": {

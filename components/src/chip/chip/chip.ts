@@ -13,9 +13,11 @@ import styles from './chip.scss';
 import sizeStyles from './chip-sizes.scss';
 import { spread } from '@/__internal/directive/spread.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { mixinBaseButton } from '@/button/base-button/base-button.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 
 /**
  * @label Chip
@@ -30,7 +32,15 @@ import IndividualComponent from '@/IndividualComponent.js';
  * ```
  */
 @IndividualComponent
-export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
+export class Chip extends mixinBaseButton(
+  mixinHyperlink(mixinDelegatesAria(mixinElementInternals(LitElement))),
+) {
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    mode: 'open',
+    delegatesFocus: true,
+  };
+
   // Define styles (Lit handles Scoping via Shadow DOM by default)
   // You would typically import your tag.scss.js here or use the css tag
   static styles = [styles, sizeStyles];
@@ -50,10 +60,7 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
   /** When true, renders the chip in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-  /** When true, the chip acts as a toggle. Use with `selected`. */
-  @property({ type: Boolean, reflect: true }) toggle: boolean = false;
-
-  /** When true (and `toggle` is set), the chip is in the selected/pressed state. */
+  /** When true, the chip is in the selected/pressed state. */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
   /**
@@ -88,10 +95,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
-    }
-
-    if (this.toggle) {
-      this.selected = !this.selected;
     }
 
     this.focus();
@@ -146,12 +149,10 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
 
   private _dismissClickHandler(e: MouseEvent) {
     e.stopPropagation();
-    const detail = { value: this.value || this.textContent?.trim() };
 
     // Custom Event: tag--dismiss
     this.dispatchEvent(
       new CustomEvent('tag--dismiss', {
-        detail,
         bubbles: true,
         composed: true,
       }),
@@ -197,7 +198,6 @@ export class Chip extends NativeButtonMixin(NativeHyperlinkMixin(LitElement)) {
       return html`<button
         class=${classMap(cssClasses)}
         id="button"
-        type=${this.htmlType}
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}

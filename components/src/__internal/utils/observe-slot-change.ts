@@ -1,14 +1,11 @@
-function hasMeaningfulContent(slotElement: HTMLSlotElement | null) {
+export function hasMeaningfulContent(slotElement: HTMLSlotElement | null) {
   const nodes = slotElement?.assignedNodes({ flatten: true }) || [];
 
   for (const node of nodes) {
     if (node.nodeType === Node.ELEMENT_NODE) {
       return true;
     }
-    if (
-      node.nodeType === Node.TEXT_NODE &&
-      (node.textContent?.trim().length || 0) > 0
-    ) {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent?.match(/\S/)) {
       return true;
     }
   }

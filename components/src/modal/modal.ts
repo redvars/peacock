@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
@@ -10,7 +10,7 @@ type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
  * @label Modal
  * @tag wc-modal
  * @rawTag modal
- * @summary A Material Design 3 dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.
+ * @summary A dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.
  *
  * @cssprop --modal-container-color - Background color of the dialog container.
  * @cssprop --modal-scrim-color - Color of the scrim backdrop.

@@ -1,4 +1,4 @@
-import { html, LitElement, PropertyValues } from 'lit';
+﻿import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { select, max, scaleBand, scaleLinear, scaleOrdinal, axisLeft, axisBottom, ScaleOrdinal } from 'd3';
@@ -34,7 +34,7 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
  * @label Chart Bar
  * @tag wc-chart-bar
  * @rawTag chart-bar
- * @summary A vertical bar chart that follows Material Design 3 color and spacing tokens.
+ * @summary A vertical bar chart that follows color and spacing tokens.
  * @tags charts
  *
  * @example

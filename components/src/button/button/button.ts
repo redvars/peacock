@@ -5,6 +5,14 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
+
+import type {
+  ButtonSize,
+  ButtonLevel,
+  ButtonShape,
+  ButtonVariant,
+  ButtonColor,
+} from '@/button/ButtonTypes.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 import {
@@ -19,24 +27,13 @@ import { mixinElementInternals } from '@/__internal/mixins/element-internals.js'
 import { mixinBaseButton } from '../base-button/base-button.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
-
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ButtonLevel = 'primary' | 'secondary' | 'tertiary' | 'danger';
-export type ButtonShape = 'round' | 'square';
-export type ButtonVariant =
-  | 'elevated'
-  | 'filled'
-  | 'tonal'
-  | 'outlined'
-  | 'text'
-  | 'neo';
-export type ButtonColor =
-  | 'primary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'surface'
-  | 'on-surface';
+export type {
+  ButtonSize,
+  ButtonLevel,
+  ButtonShape,
+  ButtonVariant,
+  ButtonColor,
+} from '@/button/ButtonTypes.js';
 
 /**
  * @label Button
@@ -247,11 +244,6 @@ export class Button extends mixinBaseButton(
       this.variant = 'filled';
     }
   }
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
     // If the button is soft-disabled or a disabled link, we need to explicitly

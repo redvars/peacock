@@ -56,13 +56,23 @@ function getPageTitle() {
   <!-- Favicon -->
   <link rel='shortcut icon' href='/favicon.svg' />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+
+  <style>
+    body {
+      background: var(--color-surface-container-highest);
+    }
+  </style>
+
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <!-- GoatUI scripts -->
   {isProd &&
-    (<script
+    (
+    <link href={getThemeCssUrl()} rel="stylesheet" />
+    <script
         type="module"
         src={getScriptUrl()}
         onerror={`let s=document.createElement('script'); s.type='module'; s.src='${getFallbackScriptUrl()}'; document.head.appendChild(s);`}>
@@ -70,10 +80,15 @@ function getPageTitle() {
     )
   }
 
+
+
   {!isProd &&
-    (<script
+    (
+
+    <link href="/assets/peacock/assets/styles.css" rel="stylesheet" />
+    <script
         type="module"
-        src="/assets/peacock/peacock-loader.js"></script>
+        src="/assets/peacock/loader.js"></script>
     )
   }
 

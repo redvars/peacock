@@ -40,6 +40,7 @@ export class SubMenu extends LitElement {
   private _closeTimeout?: number;
 
   private _resolveAnchorElement(item: MenuItem) {
+    //@ts-ignore
     return item.itemElement?.itemElement ?? item.itemElement ?? item;
   }
 

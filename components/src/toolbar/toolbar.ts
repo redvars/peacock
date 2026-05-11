@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+﻿import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -10,9 +10,9 @@ import colorStyles from './toolbar-colors.scss';
  * @tag wc-toolbar
  * @rawTag toolbar
  *
- * @summary A Material 3 toolbar / app bar for navigation and actions.
+ * @summary A toolbar / app bar for navigation and actions.
  * @overview
- * <p>The toolbar component implements the Material 3 app bar pattern. It supports a
+ * <p>The toolbar component implements the app bar pattern. It supports a
  * docked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)
  * variant. The floating variant supports both horizontal and vertical orientations.</p>
  *

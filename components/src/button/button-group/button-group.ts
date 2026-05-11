@@ -1,6 +1,5 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button-group.scss';
 import { Button, ButtonColor } from '../button/button.js';
@@ -15,9 +14,16 @@ import { IconButton } from '../icon-button/icon-button.js';
 
  * @example
  * ```html
- * <wc-button-group variant="connected">
- *  <wc-icon-button toggle selected><wc-icon name="home"></wc-icon></wc-icon-button>
- *  <wc-icon-button toggle><wc-icon name="alarm"></wc-icon></wc-icon-button>
+ * <wc-button-group connected="true">
+ *  <wc-icon-button toggle="true" shaped="wide">
+ *    <wc-icon name="format_bold"></wc-icon>
+ *  </wc-icon-button>
+ *  <wc-icon-button toggle="true" shaped="wide">
+ *    <wc-icon name="format_italic"></wc-icon>
+ *  </wc-icon-button>
+ *  <wc-icon-button toggle="true" shaped="wide">
+ *    <wc-icon name="format_underlined"></wc-icon>
+ *  </wc-icon-button>
  * </wc-button-group>
  * ```
  *
@@ -38,7 +44,7 @@ class ButtonGroup extends LitElement {
    * Button size.
    * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
    */
-  @property() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
+  @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   /**
    * Layout variant of the button group.
@@ -47,7 +53,7 @@ class ButtonGroup extends LitElement {
    * rounded outer corners and middle buttons keep standard rounded corners.
    * Defaults to `"standard"`.
    */
-  @property({ type: Boolean, reflect: true }) connected = true;
+  @property({ type: Boolean, reflect: true }) connected = false;
 
   /**
    * Color applied to all buttons in the group.
@@ -64,7 +70,6 @@ class ButtonGroup extends LitElement {
     | 'tonal'
     | 'outlined';
 
-  @property()
   override updated() {
     this._syncButtonProperties();
   }

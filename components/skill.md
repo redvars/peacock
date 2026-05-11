@@ -19,7 +19,7 @@ Peacock components are distributed as standard web components (Custom Elements) 
 
   <!-- Peacock styles and components -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/assets/styles.css">
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/peacock-loader.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/loader.js"></script>
 </head>
 ```
 
@@ -32,7 +32,7 @@ npm install @redvars/peacock
 Then import the loader in your entry file:
 
 ```js
-import '@redvars/peacock/dist/peacock-loader.js';
+import '@redvars/peacock/dist/loader.js';
 import '@redvars/peacock/dist/assets/styles.css';
 ```
 
@@ -185,7 +185,7 @@ Communicate status, progress, and messages.
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/assets/styles.css">
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/peacock-loader.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@redvars/peacock@latest/dist/loader.js"></script>
   <style>
     body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: var(--md-sys-color-surface); }
     .login-card { width: 360px; display: flex; flex-direction: column; gap: 1rem; }
@@ -413,7 +413,7 @@ wc-card.hero-card {
 ### React (with JSX)
 
 ```tsx
-import '@redvars/peacock/dist/peacock-loader.js';
+import '@redvars/peacock/dist/loader.js';
 
 export function LoginForm() {
   const handleLogin = () => {
@@ -443,7 +443,7 @@ export function LoginForm() {
 </template>
 
 <script setup>
-import '@redvars/peacock/dist/peacock-loader.js';
+import '@redvars/peacock/dist/loader.js';
 import { ref } from 'vue';
 
 const username = ref('');
@@ -458,7 +458,7 @@ function submit() {
 ```ts
 import { LitElement, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import '@redvars/peacock/dist/peacock-loader.js';
+import '@redvars/peacock/dist/loader.js';
 
 @customElement('my-page')
 export class MyPage extends LitElement {

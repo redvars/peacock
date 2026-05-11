@@ -1,4 +1,4 @@
-import { html, nothing } from 'lit';
+﻿import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { Editor, mergeAttributes } from '@tiptap/core';
@@ -22,7 +22,7 @@ import styles from './html-editor.scss';
  * @summary A Tiptap-powered HTML editor with visual and source editing modes.
  * @overview
  * <p>The HTML Editor provides a rich-text editing experience built on Tiptap.
- * It wraps the editable area in a Material 3 styled <code>wc-field</code>,
+ * It wraps the editable area in A styled <code>wc-field</code>,
  * exposes common formatting actions, and includes a segmented switch between
  * <strong>Visual</strong> and <strong>HTML</strong> source modes.</p>
  *

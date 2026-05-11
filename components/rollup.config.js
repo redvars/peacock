@@ -28,11 +28,11 @@ export default async function () {
   const files = await findLitComponents();
   return [
     {
-      input: ['src/index.ts', 'src/peacock-loader.ts', ...files], // Your main TypeScript entry file
+      input: ['src/index.ts', 'src/loader.ts', ...files], // Your main TypeScript entry file
       output: {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
-        sourcemap: true
+        sourcemap: true,
       },
       onwarn(warning, warn) {
         if (isD3CircularDependencyWarning(warning)) {
@@ -68,7 +68,7 @@ export default async function () {
             {
               src: './assets/*',
               dest: './dist/assets/',
-            }
+            },
           ],
         }),
       ],
@@ -98,10 +98,15 @@ async function findLitComponents(searchDir = 'src') {
     for (const file of files) {
       const content = await readFile(file, 'utf8');
 
-      const codeWithoutComments = content?.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
+      const codeWithoutComments = content?.replace(
+        /\/\*[\s\S]*?\*\/|\/\/.*/g,
+        '',
+      );
 
       // Check if any Lit-specific pattern exists in the file
-      const isLit = LIT_SIGNATURES.some(pattern => pattern.test(codeWithoutComments));
+      const isLit = LIT_SIGNATURES.some(pattern =>
+        pattern.test(codeWithoutComments),
+      );
 
       if (isLit) {
         results.push(file);

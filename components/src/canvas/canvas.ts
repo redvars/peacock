@@ -1,4 +1,4 @@
-import { html, LitElement, svg, nothing } from 'lit';
+﻿import { html, LitElement, svg, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -89,7 +89,7 @@ interface CanvasViewBox {
  * @label Canvas
  * @tag wc-canvas
  * @rawTag canvas
- * @summary A Material 3 inspired SVG canvas for drawing shapes, lines, and connectors on a dotted grid.
+ * @summary A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.
  *
  * @cssprop --canvas-background - Background color for the canvas wrapper. Defaults to surface-container-low.
  * @cssprop --canvas-dot-color - Color of the background grid dots. Defaults to outline-variant.

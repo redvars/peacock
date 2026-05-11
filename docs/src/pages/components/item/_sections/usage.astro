@@ -3,19 +3,29 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <div style='width: min(100%, 32rem); display: grid; gap: .5rem;'>
-    <wc-item selected>
-      <wc-icon slot='start' name='home'></wc-icon>
-      <div slot='overline'>Quick action</div>
-      <div slot='headline'>Home</div>
-      <div slot='trailing-supporting-text'>Cmd+H</div>
+  <div style='width: min(100%, 24rem); display: grid; gap: .5rem;'>
+    <wc-item selected id=item1>
+
+      <div slot="container">
+        <div style='background: var(--color-red-container); position: absolute; inset: 0;'></div>
+        <wc-ripple for=item1></wc-ripple>
+      </div>
+
+      <wc-icon slot='start' name='notifications'></wc-icon>
+      <div slot='overline'>Settings</div>
+      <div slot='headline'>Notifications</div>
+      <div slot='supporting-text'>Manage alerts and reminders</div>
+      <div slot='trailing-supporting-text'>Ctrl + O</div>
       <wc-icon slot='end' name='chevron_right'></wc-icon>
     </wc-item>
 
+    <wc-divider></wc-divider>
+
     <wc-item>
       <wc-icon slot='start' name='person'></wc-icon>
+      <div slot='overline'>Account</div>
       <div slot='headline'>Profile</div>
-      <div slot='supporting-text'>Manage your personal settings</div>
+      <div slot='supporting-text' style='white-space: nowrap;'>Update your name, photo, personal details and bank details</div>
       <wc-avatar
         slot='end'
         name='Shivaji Varma'
@@ -23,18 +33,18 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       ></wc-avatar>
     </wc-item>
 
-    <wc-item href='https://github.com/redvars/peacock' target='_blank'>
-      <wc-icon slot='start' name='link'></wc-icon>
-      <div slot='headline'>Repository</div>
-      <div slot='supporting-text'>Open the Peacock project on GitHub</div>
-      <wc-icon slot='end' name='open_in_new'></wc-icon>
-    </wc-item>
+    <wc-divider></wc-divider>
 
-    <wc-item href='https://github.com/redvars/peacock' disabled target='_blank'>
-      <wc-icon slot='start' name='link'></wc-icon>
-      <div slot='headline'>Disabled</div>
-      <div slot='supporting-text'>Open the Peacock project on GitHub</div>
-      <wc-icon slot='end' name='open_in_new'></wc-icon>
+    <wc-item>
+      <wc-icon slot='start' name='person'></wc-icon>
+      <div slot='overline'>Account</div>
+      <div slot='headline'>Profile</div>
+      <div slot='supporting-text'>Update your name, photo, personal details and bank details</div>
+      <wc-avatar
+        slot='end'
+        name='Shivaji Varma'
+        style='--avatar-size: 2rem;'
+      ></wc-avatar>
     </wc-item>
   </div>
 </DemoComponentCard>

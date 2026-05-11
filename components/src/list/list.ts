@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+﻿import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './list.scss';
@@ -10,7 +10,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-list
  * @rawTag list
  *
- * @summary A Material 3 list container for one or more list items.
+ * @summary A list container for one or more list items.
  *
  * @example
  * ```html
@@ -30,8 +30,8 @@ export class List extends LitElement {
 
   static Item = ListItem;
 
-  /** Visual variant of the list. `"vibrant"` applies stronger color emphasis. */
-  @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
+  /**  */
+  @property({ type: String, reflect: true }) variant: 'standard' | 'segmented' =
     'standard';
 
   connectedCallback() {

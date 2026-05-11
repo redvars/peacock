@@ -38,6 +38,14 @@ $border-width: 0.0625rem;
 // Connected variant: buttons with a 2px gap; outer buttons have fully rounded outer
 // corners while middle buttons keep standard rounded corners (handled via JS for
 // per-position corner overrides, including vertical orientation).
+:host([connected]) slot::slotted(*) {
+  --button-container-shape-start-start: var(--shape-corner-medium);
+  --button-container-shape-end-start: var(--shape-corner-medium);
+  --button-container-shape-start-end: var(--shape-corner-medium);
+  --button-container-shape-end-end: var(--shape-corner-medium);
+  --button-container-shape-variant: round;
+}
+
 :host([connected]) slot::slotted(:first-child:not([selected])) {
   --button-container-shape-start-start: calc(var(--button-height) / 2);
   --button-container-shape-end-start: calc(var(--button-height) / 2);

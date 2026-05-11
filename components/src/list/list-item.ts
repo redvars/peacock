@@ -1,22 +1,25 @@
-import { html, LitElement } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+﻿import { html, LitElement, nothing } from 'lit';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './list-item.scss';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import {
   dispatchActivationClick,
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
+import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
+import { mixinBaseButton } from '@/button/base-button/base-button.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 
 /**
  * @label List Item
  * @tag wc-list-item
  * @rawTag list-item
  *
- * @summary A Material 3 list item with leading, trailing and content slots.
+ * @summary A list item with leading, trailing and content slots.
  *
  * @example
  * ```html
@@ -28,16 +31,30 @@ import {
  * ```
  * @tags display
  */
-export class ListItem extends NativeButtonMixin(
-  NativeHyperlinkMixin(LitElement),
+export class ListItem extends mixinBaseButton(
+  mixinHyperlink(mixinDelegatesAria(mixinElementInternals(LitElement))),
 ) {
+  // ── Static ───────────────────────────────────────────────────────────────
+
+  /** @nocollapse */ // eslint-disable-next-line
+  static override shadowRootOptions: ShadowRootInit = {
+    mode: 'open',
+    delegatesFocus: true,
+  };
+
   static styles = [styles];
 
   @property({ type: Boolean, reflect: true }) selected = false;
 
-  @query('#item') readonly itemElement!: HTMLElement | null;
+  /** When true, renders the list-item in a loading skeleton state. */
+  @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-  @state() isPressed = false;
+  @query('#list-item') readonly itemElement!: HTMLElement | null;
+
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+  }
 
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
@@ -57,7 +74,10 @@ export class ListItem extends NativeButtonMixin(
   }
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    if (this.softDisabled || (this.disabled && this.href)) {
+    // If the button is soft-disabled or a disabled link, we need to explicitly
+    // prevent the click from propagating to other event listeners as well as
+    // prevent the default action.
+    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
       event.stopImmediatePropagation();
       event.preventDefault();
       return;
@@ -71,62 +91,35 @@ export class ListItem extends NativeButtonMixin(
     dispatchActivationClick(this.itemElement);
   };
 
-  __handleKeyDown = (event: KeyboardEvent) => {
-    this.__handlePress(event);
-
-    if (this.disabled || this.softDisabled || !this.itemElement) {
-      return;
-    }
-
-    if (event.key === ' ') {
-      event.preventDefault();
-      this.itemElement.click();
-      return;
-    }
-
-    if (event.key === 'Enter' && !isLink(this)) {
-      event.preventDefault();
-      this.itemElement.click();
-    }
-  };
-
-  __handlePress = (event: KeyboardEvent | MouseEvent) => {
-    if (this.disabled || this.softDisabled) return;
-
-    if (
-      event instanceof KeyboardEvent &&
-      event.type === 'keydown' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
-      this.isPressed = true;
-    } else if (event.type === 'mousedown') {
-      this.isPressed = true;
-    } else {
-      this.isPressed = false;
-    }
-  };
+  private __hasNamedSlot(...names: string[]) {
+    return names.some(name =>
+      Array.from(this.children).some(
+        child => child.getAttribute('slot') === name,
+      ),
+    );
+  }
 
   render() {
+    const isElementLink = isLink(this);
+
     const cssClasses = {
       'list-item': true,
-      'item-element': true,
-      selected: this.selected,
-      disabled: this.disabled || this.softDisabled,
-      pressed: this.isPressed,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
     };
 
-    if (!isLink(this)) {
+    // Needed for closure conformance
+    const { ariaLabel } = this as ARIAMixinStrict;
+
+    if (!isElementLink) {
       return html`
         <button
-          id="item"
+          id="list-item"
           class=${classMap(cssClasses)}
-          type=${this.htmlType}
           ?disabled=${this.disabled}
+          aria-label="${ariaLabel || nothing}"
           ?aria-disabled=${this.softDisabled}
           @click=${this.__dispatchClick}
-          @mousedown=${this.__handlePress}
-          @keydown=${this.__handleKeyDown}
-          @keyup=${this.__handlePress}
         >
           ${this.renderContent()}
         </button>
@@ -135,7 +128,7 @@ export class ListItem extends NativeButtonMixin(
 
     return html`
       <a
-        id="item"
+        id="list-item"
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
@@ -144,9 +137,6 @@ export class ListItem extends NativeButtonMixin(
         tabindex=${this.disabled ? '-1' : '0'}
         aria-disabled=${String(this.disabled || this.softDisabled)}
         @click=${this.__dispatchClick}
-        @mousedown=${this.__handlePress}
-        @keydown=${this.__handleKeyDown}
-        @keyup=${this.__handlePress}
       >
         ${this.renderContent()}
       </a>
@@ -154,22 +144,36 @@ export class ListItem extends NativeButtonMixin(
   }
 
   renderContent() {
-    return html`
-      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
-      <div class="background"></div>
-      <wc-ripple class="ripple"></wc-ripple>
+    const hasLeading = this.__hasNamedSlot('leading');
+    const hasTrailingSupportingText = this.__hasNamedSlot(
+      'trailing-supporting-text',
+    );
+    const hasTrailing = this.__hasNamedSlot('trailing');
 
-      <div class="list-item-content">
-        <div class="leading">
-          <slot name="leading"></slot>
-        </div>
-        <div class="content">
-          <slot></slot>
-        </div>
-        <div class="trailing">
-          <slot name="trailing"></slot>
-        </div>
-      </div>
+    return html`
+      <wc-item class="list-item-content">
+        <wc-focus-ring
+          class="focus-ring"
+          for="list-item"
+          slot="container"
+        ></wc-focus-ring>
+        <div class="background" slot="container"></div>
+        <wc-ripple class="ripple" for="list-item" slot="container"></wc-ripple>
+        <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
+
+        <slot name="leading" slot="start" ?hidden=${!hasLeading}></slot>
+        <slot name="overline" slot="overline"></slot>
+        <slot name="headline" slot="headline"></slot>
+        <slot></slot>
+        <slot name="supporting-text" slot="supporting-text"></slot>
+
+        <slot
+          name="trailing-supporting-text"
+          slot="trailing-supporting-text"
+          ?hidden=${!hasTrailingSupportingText}
+        ></slot>
+        <slot name="trailing" slot="end" ?hidden=${!hasTrailing}></slot>
+      </wc-item>
     `;
   }
 }

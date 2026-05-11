@@ -1,4 +1,4 @@
-import { html, LitElement, PropertyValues } from 'lit';
+﻿import { html, LitElement, PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './navigation-rail.scss';
@@ -10,7 +10,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-navigation-rail
  * @rawTag navigation-rail
  *
- * @summary A vertical side navigation for medium-sized screens, following Material Design 3 specs.
+ * @summary A vertical side navigation for medium-sized screens,.
  * @overview
  * <p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>
  * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>

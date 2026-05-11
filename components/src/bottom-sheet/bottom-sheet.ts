@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
@@ -8,7 +8,7 @@ import styles from './bottom-sheet.scss';
  * @label Bottom Sheet
  * @tag wc-bottom-sheet
  * @rawTag bottom-sheet
- * @summary Bottom sheets slide up from the bottom of the screen to reveal additional content. Supports standard and modal variants per Material Design 3.
+ * @summary Bottom sheets slide up from the bottom of the screen to reveal additional content. Supports standard and modal variants.
  *
  * @cssprop --bottom-sheet-container-color - Background color of the sheet container.
  * @cssprop --bottom-sheet-scrim-color - Color of the modal scrim overlay.
@@ -40,7 +40,9 @@ export class BottomSheet extends LitElement {
   @property({ type: Boolean, attribute: 'show-handle' }) showHandle = true;
 
   @state() private _dragging = false;
+
   @state() private _dragStartY = 0;
+
   @state() private _dragOffsetY = 0;
 
   show() {
@@ -99,6 +101,9 @@ export class BottomSheet extends LitElement {
         ? html`<div
             class=${classMap({ scrim: true, visible: this.open })}
             @click=${this._handleScrimClick}
+            @keydown=${(e: KeyboardEvent) => {
+              if (e.key === 'Escape') this._close('esc');
+            }}
           ></div>`
         : nothing}
 
@@ -111,6 +116,7 @@ export class BottomSheet extends LitElement {
         })}
         style=${translateY ? `transform: translateY(${translateY})` : ''}
         role="dialog"
+        aria-label="${this.ariaLabel ?? 'Bottom sheet'}"
         aria-modal=${this.variant === 'modal' ? 'true' : 'false'}
         aria-hidden=${!this.open ? 'true' : 'false'}
       >

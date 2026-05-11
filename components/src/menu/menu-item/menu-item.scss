@@ -1,4 +1,4 @@
-@use "../../../scss/mixin";
+@use '../../../scss/mixin';
 
 @include mixin.base-styles;
 
@@ -13,8 +13,10 @@
 
 .menu-item {
   width: 100%;
-  --item-height: 3rem;
-  --item-container-shape-start-start: var(--menu-item-container-shape-start-start);
+  --item-padding-inline: 10px;
+  --item-container-shape-start-start: var(
+    --menu-item-container-shape-start-start
+  );
   --item-container-shape-start-end: var(--menu-item-container-shape-start-end);
   --item-container-shape-end-start: var(--menu-item-container-shape-end-start);
   --item-container-shape-end-end: var(--menu-item-container-shape-end-end);
@@ -32,6 +34,36 @@
   --item-container-selected-color: var(--menu-item-container-selected-color);
   --item-label-text-selected-color: var(--menu-item-label-selected-color);
   --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
+
+  .background {
+    background-color: var(--_container-color);
+    opacity: var(--_container-opacity, 1);
+    border-radius: var(--shape-corner-medium);
+  }
+
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-medium);
+    --focus-ring-container-shape-start-end: var(--shape-corner-medium);
+    --focus-ring-container-shape-end-start: var(--shape-corner-medium);
+    --focus-ring-container-shape-end-end: var(--shape-corner-medium);
+    z-index: 2;
+    --focus-ring-inset: 0px;
+  }
+
+  .ripple {
+    --ripple-state-opacity: var(--_container-state-opacity, 0);
+    --ripple-pressed-color: var(--_container-state-color);
+    border-radius: var(--shape-corner-medium);
+  }
+
+  .skeleton {
+    z-index: 2;
+
+    --skeleton-container-shape-start-start: var(--shape-corner-medium);
+    --skeleton-container-shape-start-end: var(--shape-corner-medium);
+    --skeleton-container-shape-end-start: var(--shape-corner-medium);
+    --skeleton-container-shape-end-end: var(--shape-corner-medium);
+  }
 }
 
 :host([selected]) {

@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { addDays, addMonths, formatDate } from './utils.js';
 import { CalendarEvent } from './calendar-event.js';
@@ -10,7 +10,7 @@ import styles from './calendar.scss';
  * @label Calendar
  * @tag wc-calendar
  * @rawTag calendar
- * @summary A Material 3 inspired full calendar component for displaying events in day, week, or month views.
+ * @summary A full calendar component for displaying events in day, week, or month views.
  *
  * @cssprop --calendar-border-color - Border color used throughout the calendar grid.
  * @cssprop --calendar-event-bg-color - Background color for calendar events.

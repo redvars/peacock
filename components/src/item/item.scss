@@ -3,66 +3,30 @@
 @include mixin.base-styles;
 
 :host {
-  position: relative;
-  display: block;
-  --item-height: 3.5rem;
-
   --item-container-color: transparent;
-  --item-label-text-color: var(--color-on-surface);
-  --item-leading-trailing-color: var(--color-on-surface-variant);
-  --item-supporting-text-color: var(--color-on-surface-variant);
-
-  --item-container-selected-color: var(--color-tertiary-container);
-  --item-label-text-selected-color: var(--color-on-tertiary-container);
-
-  --private-item-container-color: var(--item-container-color);
-  --private-item-label-text-color: var(--item-label-text-color);
-  --private-item-leading-trailing-color: var(--item-leading-trailing-color);
-  --private-item-supporting-text-color: var(--item-supporting-text-color);
-
-  --private-item-container-state-color: var(--private-item-label-text-color);
-
-  --private-item-container-shape-start-start: var(
-    --item-container-shape-start-start,
-    var(--shape-corner-extra-small)
-  );
-  --private-item-container-shape-start-end: var(
-    --item-container-shape-start-end,
-    var(--shape-corner-extra-small)
-  );
-  --private-item-container-shape-end-start: var(
-    --item-container-shape-end-start,
-    var(--shape-corner-extra-small)
-  );
-  --private-item-container-shape-end-end: var(
-    --item-container-shape-end-end,
-    var(--shape-corner-extra-small)
-  );
-  --private-item-container-shape-variant: var(
-    --item-container-shape-variant,
-    none
-  );
-
-  --item-padding: var(--spacing-200);
+  --item-height: 3rem;
+  --item-multiline-height: 4rem;
 }
 
-/**
- * Reset native button/link styles
- */
-.native-button {
-  @include mixin.reset-button-styles;
-}
-.native-link {
-  @include mixin.reset-link-styles;
+:host {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .item {
-  min-height: var(--item-height);
-  width: 100%;
-  background: transparent;
-  text-align: initial;
-  cursor: pointer;
-  z-index: 0;
+  position: relative;
+  display: flex;
+  flex: 1;
+  gap: var(--item-spacing, 1rem);
+  padding-block: 0.625rem;
+  padding-inline: var(--item-padding-inline, 1rem);
+
+  overflow: hidden;
+
+  color: var(--item-label-text-color, var(--color-on-surface));
+  opacity: var(--item-label-text-opacity, 1);
 
   font-family: var(
     --item-label-font-family,
@@ -85,181 +49,111 @@
     var(--typography-body-large-letter-spacing)
   ) !important;
 
-  .item-content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    min-height: var(--item-height);
-
-    padding-inline: var(--item-padding);
-    color: var(--private-item-label-text-color);
-    opacity: var(--private-item-label-text-opacity, 1);
-    --icon-size: var(--item-icon-size, 1.5rem);
-    --icon-color: var(--private-item-leading-trailing-color);
+  [name='overline'] {
+    color: var(--item-outline-text-color);
+    font-family: var(
+      --item-outline-label-font-family,
+      var(--typography-body-medium-font-family)
+    ) !important;
+    font-size: var(
+      --item-outline-label-font-size,
+      var(--typography-body-medium-font-size)
+    ) !important;
+    font-weight: var(
+      --item-outline-label-font-weight,
+      var(--typography-body-medium-font-weight)
+    ) !important;
+    line-height: var(
+      --item-outline-label-line-height,
+      var(--typography-body-medium-line-height)
+    ) !important;
+    letter-spacing: var(
+      --item-outline-label-letter-spacing,
+      var(--typography-body-medium-letter-spacing)
+    ) !important;
   }
 
-  .start,
-  .end {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--private-item-leading-trailing-color);
+  [name='supporting-text'] {
+    color: var(--item-supporting-text-color, var(--color-on-surface-variant));
+    font-family: var(
+      --item-supporting-text-font-family,
+      var(--typography-body-medium-font-family)
+    ) !important;
+    font-size: var(
+      --item-supporting-text-font-size,
+      var(--typography-body-medium-font-size)
+    ) !important;
+    font-weight: var(
+      --item-supporting-text-font-weight,
+      var(--typography-body-medium-font-weight)
+    ) !important;
+    line-height: var(
+      --item-supporting-text-line-height,
+      var(--typography-body-medium-line-height)
+    ) !important;
+    letter-spacing: var(
+      --item-supporting-text-letter-spacing,
+      var(--typography-body-medium-letter-spacing)
+    ) !important;
   }
 
-  .end {
-    margin-inline-start: auto;
+  [name='trailing-supporting-text'] {
+    color: var(
+      --item-trailing-supporting-text-color,
+      var(--color-on-surface-variant)
+    );
+    font-family: var(--item-trailing-supporting-text-font-family) !important;
+    font-size: var(--item-trailing-supporting-text-font-size) !important;
+    font-weight: var(--item-trailing-supporting-text-font-weight) !important;
+    line-height: var(--item-trailing-supporting-text-line-height) !important;
+    letter-spacing: var(
+      --item-trailing-supporting-text-letter-spacing
+    ) !important;
   }
 
-  .content {
+  .default-slot {
+    // Needed since the default slot can have just text content, and ellipsis
+    // need an inline display.
+    display: inline;
+  }
+
+  .default-slot,
+  .text ::slotted(*) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .text {
     display: flex;
     flex: 1;
     flex-direction: column;
+    overflow: hidden;
     justify-content: center;
-    gap: 0.125rem;
-    min-inline-size: 0;
   }
 
-  .headline-row {
-    display: flex;
-    min-inline-size: 0;
-  }
-
-  .headline,
-  .overline,
-  .supporting-text,
-  .trailing-supporting-text {
-    min-inline-size: 0;
-  }
-
-  .headline {
-    flex: 1;
-    color: var(--private-item-label-text-color);
-  }
-
-  .overline,
-  .supporting-text,
-  .trailing-supporting-text {
-    color: var(--private-item-supporting-text-color);
-  }
-
-  .overline {
-    @include mixin.get-typography(label-small);
-  }
-
-  .supporting-text,
-  .trailing-supporting-text {
-    @include mixin.get-typography(body-medium);
-  }
-
-  .trailing-supporting-text {
-    display: inline-flex;
+  .non-text {
     align-items: center;
-    white-space: nowrap;
-    color: var(--private-item-supporting-text-color);
+    display: flex;
+    height: fit-content;
+    --icon-size: 1.5rem;
+  }
+
+  .non-text,
+  .text {
+    z-index: 0;
+    min-height: var(--item-height);
   }
 }
 
-/*
-  Background layers
- */
-.background {
-  position: absolute;
+:host([multiline]) {
+  .non-text,
+  .text {
+    min-height: var(--item-multiline-height);
+  }
+}
+
+// A slot for background container elements, such as ripples and focus rings.
+[name='container']::slotted(*) {
   inset: 0;
-  background-color: var(--private-item-container-color);
-  opacity: var(--private-item-container-opacity, 1);
-  pointer-events: none;
-  border-start-start-radius: var(
-    --private-item-container-shape-start-start,
-    var(--private-item-container-shape)
-  );
-  border-start-end-radius: var(
-    --private-item-container-shape-start-end,
-    var(--private-item-container-shape)
-  );
-  border-end-start-radius: var(
-    --private-item-container-shape-end-start,
-    var(--private-item-container-shape)
-  );
-  border-end-end-radius: var(
-    --private-item-container-shape-end-end,
-    var(--private-item-container-shape)
-  );
-  corner-shape: var(--private-item-container-shape-variant);
-}
-
-.focus-ring {
-  z-index: 2;
-  --focus-ring-inset: 0px;
-  --focus-ring-container-shape-start-start: var(
-    --private-item-container-shape-start-start,
-    var(--private-item-container-shape)
-  );
-  --focus-ring-container-shape-start-end: var(
-    --private-item-container-shape-start-end,
-    var(--private-item-container-shape)
-  );
-  --focus-ring-container-shape-end-start: var(
-    --private-item-container-shape-end-start,
-    var(--private-item-container-shape)
-  );
-  --focus-ring-container-shape-end-end: var(
-    --private-item-container-shape-end-end,
-    var(--private-item-container-shape)
-  );
-  --focus-ring-container-shape-variant: var(
-    --private-item-container-shape-variant
-  );
-}
-
-.ripple {
-  border-start-start-radius: var(
-    --private-item-container-shape-start-start,
-    var(--private-item-container-shape)
-  );
-  border-start-end-radius: var(
-    --private-item-container-shape-start-end,
-    var(--private-item-container-shape)
-  );
-  border-end-start-radius: var(
-    --private-item-container-shape-end-start,
-    var(--private-item-container-shape)
-  );
-  border-end-end-radius: var(
-    --private-item-container-shape-end-end,
-    var(--private-item-container-shape)
-  );
-  corner-shape: var(--private-item-container-shape-variant);
-  --ripple-state-opacity: var(--private-item-container-state-opacity, 0);
-  --ripple-pressed-color: var(--private-item-container-state-color);
-}
-
-/* State management */
-:host:hover:not([disabled], [selected]) {
-  --private-item-container-state-opacity: 0.08;
-}
-
-:host:has(.item.pressed):not([disabled]) {
-  --private-item-container-state-opacity: 0.12;
-}
-
-:host([selected]) {
-  --private-item-container-color: var(--item-container-selected-color);
-  --private-item-label-text-color: var(--item-label-text-selected-color);
-  --private-item-leading-trailing-color: var(--item-label-text-selected-color);
-  --private-item-supporting-text-color: var(--item-label-text-selected-color);
-}
-
-:host([disabled]) {
-  cursor: not-allowed;
-  --private-item-label-text-color: var(--color-on-surface);
-  --private-item-label-text-opacity: 0.38;
-  --private-item-leading-trailing-color: var(--color-on-surface);
-  --private-item-supporting-text-color: var(--color-on-surface);
-  --private-item-container-opacity: 0.12;
-
-  .ripple {
-    display: none;
-  }
+  position: absolute;
 }

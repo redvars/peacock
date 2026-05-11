@@ -123,7 +123,7 @@ export class MenuItem extends NativeButtonMixin(
 
     return html`
       <wc-item
-        id="item"
+        id="menu-item"
         class="menu-item"
         role="menuitem"
         tabindex=${String(this.tabIndex)}
@@ -143,43 +143,31 @@ export class MenuItem extends NativeButtonMixin(
           this.hasSubmenu ? String(this.submenuOpen) : undefined,
         )}
       >
+        <wc-focus-ring
+          class="focus-ring"
+          for="menu-item"
+          slot="container"
+        ></wc-focus-ring>
+        <div class="background" slot="container"></div>
+        <wc-ripple class="ripple" for="menu-item" slot="container"></wc-ripple>
+
         ${this.renderContent()}
       </wc-item>
     `;
   }
 
   renderContent() {
-    const hasStart = this._hasNamedSlot('start');
-    const hasOverline = this._hasNamedSlot('overline');
-    const hasHeadline = this._hasNamedSlot('headline');
-    const hasDefault = this._hasDefaultSlot();
-    const hasSupportingText = this._hasNamedSlot('supporting-text');
-    const hasTrailingSupportingText = this._hasNamedSlot(
-      'trailing-supporting-text',
-    );
-    const hasEnd = this._hasNamedSlot('end');
-
     return html`
-      ${hasStart ? html`<slot name="start" slot="start"></slot>` : nothing}
-      ${hasOverline
-        ? html`<slot name="overline" slot="overline"></slot>`
-        : nothing}
-      ${hasHeadline
-        ? html`<slot name="headline" slot="headline"></slot>`
-        : nothing}
-      ${hasDefault ? html`<slot></slot>` : nothing}
-      ${hasSupportingText
-        ? html`<slot name="supporting-text" slot="supporting-text"></slot>`
-        : nothing}
-      ${hasTrailingSupportingText
-        ? html`
-            <slot
-              name="trailing-supporting-text"
-              slot="trailing-supporting-text"
-            ></slot>
-          `
-        : nothing}
-      ${hasEnd ? html`<slot name="end" slot="end"></slot>` : nothing}
+      <slot name="start" slot="start"></slot>
+      <slot name="overline" slot="overline"></slot>
+      <slot name="headline" slot="headline"></slot>
+      <slot></slot>
+      <slot name="supporting-text" slot="supporting-text"></slot>
+      <slot
+        name="trailing-supporting-text"
+        slot="trailing-supporting-text"
+      ></slot>
+      <slot name="end" slot="end"></slot>
     `;
   }
 }

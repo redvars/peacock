@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+﻿import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -10,9 +10,9 @@ import colorStyles from './app-bar-colors.scss';
  * @tag wc-app-bar
  * @rawTag app-bar
  *
- * @summary A Material 3 top app bar for page-level navigation and actions.
+ * @summary A top app bar for page-level navigation and actions.
  * @overview
- * <p>The app bar component implements the Material 3 top app bar pattern. It provides a
+ * <p>The app bar component implements the top app bar pattern. It provides a
  * consistent header for screens, housing a navigation icon, a page title/headline, and
  * optional trailing action icons.</p>
  *

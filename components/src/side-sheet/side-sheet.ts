@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
@@ -8,7 +8,7 @@ import styles from './side-sheet.scss';
  * @label Side Sheet
  * @tag wc-side-sheet
  * @rawTag side-sheet
- * @summary Side sheets slide in from the edge of the screen to reveal supplemental content. Supports standard and modal variants per Material Design 3.
+ * @summary Side sheets slide in from the edge of the screen to reveal supplemental content. Supports standard and modal variants.
  *
  * @cssprop --side-sheet-container-color - Background color of the sheet container.
  * @cssprop --side-sheet-scrim-color - Color of the modal scrim overlay.

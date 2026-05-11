@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+﻿import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import {
@@ -19,7 +19,7 @@ type CardVariant = 'elevated' | 'filled' | 'outlined';
  * @label Card
  * @tag wc-card
  * @rawTag card
- * @summary A Material 3 inspired card surface for grouping related content.
+ * @summary A card surface for grouping related content.
  * @cssprop --card-padding - Inner padding for the card container. Defaults to 1rem.
  * @cssprop --card-shape - Corner radius for the card container. Defaults to a large radius.
  * @cssprop --card-gap - Gap between slotted children.

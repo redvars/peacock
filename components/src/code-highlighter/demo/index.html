@@ -1,28 +1,31 @@
 <!doctype html>
-<html lang='en-GB'>
-<head>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
-  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="stylesheet" href="/dist/assets/styles/tokens.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-  <style>
-    body {
-      background: #fafafa;
-    }
-  </style>
-</head>
-<body>
-
-
-<p-code-highlighter language="javascript">
-    <pre><code>
+    <style>
+      body {
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <body>
+    <p-code-highlighter language="javascript">
+      <pre><code>
       const helloWorld = () => alert ('Hello World!');
       export { helloWorld };
 </code></pre>
-</p-code-highlighter>
+    </p-code-highlighter>
 
-
-<script type='module' src='/dist/peacock-loader.js'></script>
-</body>
+    <script type="module" src="/dist/loader.js"></script>
+  </body>
 </html>

@@ -1,4 +1,4 @@
-import { html, LitElement, PropertyValues } from 'lit';
+﻿import { html, LitElement, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { select, max, scaleBand, scaleLinear, scaleOrdinal, axisLeft, axisBottom, stack, Series, SeriesPoint, ScaleOrdinal } from 'd3';
@@ -42,7 +42,7 @@ function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
  * @label Chart Stacked Bar
  * @tag wc-chart-stacked-bar
  * @rawTag chart-stacked-bar
- * @summary A stacked bar chart that groups series by category using Material Design 3 tokens.
+ * @summary A stacked bar chart that groups series by category using tokens.
  * @tags charts
  *
  * @example

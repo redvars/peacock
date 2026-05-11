@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+﻿import { html, LitElement } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
@@ -13,7 +13,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @rawTag radio
  * @summary Allows selection of a single option from a set.
  * @overview
- * <p>Radio buttons follow the Material Design 3 specifications with clear focus, hover, and selected states.</p>
+ * <p>Radio buttons follow the specifications with clear focus, hover, and selected states.</p>
  *
  * @cssprop --radio-size: Size of the outer radio circle.
  * @cssprop --radio-dot-size: Size of the inner dot when selected.

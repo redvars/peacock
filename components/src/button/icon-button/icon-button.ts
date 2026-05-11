@@ -18,13 +18,13 @@ import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
-import {
+import type {
   ButtonColor,
   ButtonLevel,
   ButtonShape,
   ButtonSize,
   ButtonVariant,
-} from '../button/button.js';
+} from '@/button/ButtonTypes.js';
 
 /**
  * @label Icon Button
