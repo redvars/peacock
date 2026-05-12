@@ -1,13 +1,10 @@
 @charset "utf-8";
-@use "../mixin";
-@use "../device-utils";
-
+@use '../mixin';
+@use '../device-utils';
 
 .default-layout {
   display: flex;
   min-height: 100vh;
-  background: var(--color-surface);
-  color: var(--color-on-surface);
   --side-navigation-width: 90px;
 }
 
@@ -24,7 +21,6 @@
   }
 }
 
-
 /** Desktop and tablet landscape styles */
 @include mixin.for-tablet-landscape-up {
   .default-layout {
@@ -40,14 +36,13 @@
   }
 }
 
-html[dir="ltr"] [data-pf-sr-hidden] {
-  left: -10000px
+html[dir='ltr'] [data-pf-sr-hidden] {
+  left: -10000px;
 }
 
-html[dir="ltr"] [data-pf-sr-hidden] {
-  right: -10000px
+html[dir='ltr'] [data-pf-sr-hidden] {
+  right: -10000px;
 }
-
 
 .heading-scrollable::before {
   content: '';
@@ -60,28 +55,20 @@ html[dir="ltr"] [data-pf-sr-hidden] {
 
 .sections-wrapper {
   padding-block: var(--spacing-1000);
+
+  .section {
+    padding-bottom: var(--spacing-600);
+  }
+
+  .section:last-child {
+    padding-bottom: 0;
+  }
 }
 
 @include mixin.for-phone-only {
   .container-code {
     margin-inline: -1rem;
   }
-}
-
-
-.page-wrapper {
-  position: relative;
-  flex: 1;
-  margin-block: var(--spacing-200);
-}
-
-
-.sections-wrapper .section {
-  padding-bottom: var(--spacing-600);
-}
-
-.sections-wrapper .section:last-child {
-  padding-bottom: 0;
 }
 
 main {
@@ -91,11 +78,14 @@ main {
 
 .main-content {
   position: relative;
+  background: var(--color-surface);
+
+  .page-wrapper {
+    position: relative;
+    flex: 1;
+    margin-block: var(--spacing-200);
+  }
 }
-
-
-
-
 
 .mobile-bottom-nav {
   position: fixed;
@@ -104,5 +94,3 @@ main {
   right: 0;
   z-index: 1000;
 }
-
-

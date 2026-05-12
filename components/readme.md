@@ -44,9 +44,9 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.1/dist/assets/styles.css"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.2/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.1/dist/loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.8.2/dist/loader.js'></script>
 </head>
 
 <wc-button>Button</wc-button>
@@ -69,7 +69,7 @@ menus, checkboxes, and radio buttons.
 |---------------------------------------------------------------------|-----------------|-------|
 | [Checkbox](https://peacock.redvars.com/components/checkbox)         | wc-checkbox     | 🟢    |
 | [Code editor](https://peacock.redvars.com/components/code-editor)   | wc-code-editor  | 🟢    |
-| Color picker                                                        | color-picker    | 🔴    |
+| [Color picker](https://peacock.redvars.com/components/color-picker) | wc-color-picker | 🟡    |
 | [Date picker](https://peacock.redvars.com/components/date-picker)   | wc-date-picker  | 🟡    |
 | Date time picker                                                    | datetime-picker | 🔴    |
 | [Field / Form control](https://peacock.redvars.com/components/field) | wc-field       | 🟡    |

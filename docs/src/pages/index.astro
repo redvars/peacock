@@ -37,7 +37,7 @@ function jumpingSentence(sentence: string) {
 
       <div class="logo-card-container">
         <div class="logo-card">
-          <img alt="GOAT UI LOGO" src="/assets/img/logo-plain.webp">
+          <img alt="Peacock LOGO" src="/assets/img/logo-plain.webp">
           <div class="title"><Fragment set:html={jumpingSentence('Peacock')} /></div>
         </div>
       </div>
@@ -93,10 +93,10 @@ function jumpingSentence(sentence: string) {
   </div>
 
 
-  <div class='sections-wrapper surface-container-high'>
+  <div class='intro-section sections-wrapper'>
     <wc-container size='max'>
       <div class='section'>
-        <h2 class='text-headline'>Introduction</h2>
+        <h2 class='text-headline-large heading-scrollable' id='introduction'>Introduction</h2>
         <p class='text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
           include any additional framework dependencies, You can simply import required
           component js, and right away start using it.
@@ -111,7 +111,7 @@ function jumpingSentence(sentence: string) {
       </div>
 
       <div class='section'>
-        <h3 class='text-headline-small heading-scrollable'id='getting-started'>Getting Started</h3>
+        <h3 class='text-title-large heading-scrollable' id='getting-started'>Getting Started</h3>
         <ul style='padding-inline-start: 1.5rem'>
           <li class='text-body-large'>
               Put a script tag similar to this
@@ -132,7 +132,7 @@ function jumpingSentence(sentence: string) {
               <script is:inline define:vars={{ title: site.title, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
                 document.getElementById('get-started-code').value = `
                  &lt;head>
-                  
+
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">
                   &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                   &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -156,14 +156,14 @@ function jumpingSentence(sentence: string) {
               <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
               <script is:inline define:vars={{ title: site.title, version: site.version, themeCss:  getThemeCssUrl()}}>
                 document.getElementById('load-single-component-code').value = `&lt;head>
-                  
+
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">
                   &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&amp;family=Pacifico&amp;family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
                   <!-- include your custom theme variable values, view variable names at ${themeCss} -->
                   &lt;link rel="stylesheet" href='${themeCss}' />
-                  
+
                   &lt;script type='module'>
     import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/button.js";
     customElements.define('my-button', Button);
@@ -201,16 +201,6 @@ function jumpingSentence(sentence: string) {
 
   <script is:inline>
     document.addEventListener('DOMContentLoaded', function() {
-      document.body.addEventListener('mousemove', evt => {
-        document.querySelectorAll('.banner-logo .head').forEach(headPath => {
-          headPath.style.transform = `rotate(${15 - (evt.clientY / document.body.clientHeight) * 60}deg)`;
-          if ((evt.clientX / document.body.clientWidth) * 100 > 50) {
-            document.querySelector('.banner-logo').style.transform = ' rotateY(180deg)';
-          } else {
-            document.querySelector('.banner-logo').style.transform = ' rotateY(0deg)';
-          }
-        });
-      });
 
       document.querySelectorAll('.jumping-text').forEach((elm, index) => {
 

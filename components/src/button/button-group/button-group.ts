@@ -14,14 +14,14 @@ import { IconButton } from '../icon-button/icon-button.js';
 
  * @example
  * ```html
- * <wc-button-group connected="true">
- *  <wc-icon-button toggle="true" shaped="wide">
+ * <wc-button-group connected>
+ *  <wc-icon-button toggle="true" shape="wide" selected>
  *    <wc-icon name="format_bold"></wc-icon>
  *  </wc-icon-button>
- *  <wc-icon-button toggle="true" shaped="wide">
+ *  <wc-icon-button toggle="true" shape="wide">
  *    <wc-icon name="format_italic"></wc-icon>
  *  </wc-icon-button>
- *  <wc-icon-button toggle="true" shaped="wide">
+ *  <wc-icon-button toggle="true" shape="wide">
  *    <wc-icon name="format_underlined"></wc-icon>
  *  </wc-icon-button>
  * </wc-button-group>

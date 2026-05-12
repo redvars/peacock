@@ -51,6 +51,7 @@ export { Image } from './image/index.js';
 export { Svg } from './svg/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
+export { ColorPicker } from './color-picker/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';

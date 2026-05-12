@@ -61,6 +61,7 @@ import { Tabs } from '@/tabs/tabs.js';
 import { Tab } from '@/tabs/tab.js';
 import { TabPanel } from '@/tabs/tab-panel.js';
 import { Slider } from '@/slider/slider.js';
+import { ColorPicker } from '@/color-picker/color-picker.js';
 import { Table } from '@/table/table.js';
 import { Pagination } from '@/pagination/pagination.js';
 import { SidebarMenu } from '@/sidebar-menu/sidebar-menu.js';
@@ -314,6 +315,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-slider': {
       CustomElementClass: Slider,
+    },
+    'wc-color-picker': {
+      CustomElementClass: ColorPicker,
     },
     'wc-table': {
       CustomElementClass: Table,

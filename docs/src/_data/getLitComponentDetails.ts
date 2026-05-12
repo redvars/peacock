@@ -28,19 +28,6 @@ const otherComps = [
       cssProperties: [],
     },
   },
-  {
-    rawTag: 'item',
-    label: 'Item',
-    summary: 'A Material 3 item with start, text, and end slots.',
-    tag: 'wc-item',
-    example:
-      '```html\n<wc-item selected>\n  <wc-icon slot="start" name="home"></wc-icon>\n  <div slot="overline">Overline</div>\n  <div slot="headline">Headline</div>\n  <div slot="supporting-text">Supporting text</div>\n  <div slot="trailing-supporting-text">Trailing</div>\n  <wc-icon slot="end" name="chevron_right"></wc-icon>\n</wc-item>\n```',
-    customElement: {
-      attributes: [],
-      events: [],
-      cssProperties: [],
-    },
-  },
 ];
 
 export function getAllComponentDetails() {

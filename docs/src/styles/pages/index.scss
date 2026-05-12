@@ -1,5 +1,5 @@
 @charset "utf-8";
-@use "../mixin";
+@use '../mixin';
 
 @keyframes reveal {
   0% {
@@ -19,101 +19,77 @@
 }
 
 .banner {
+  box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  height: 100vh;
-  min-height: fit-content;
-}
-
-.banner-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-.banner-actions {
-  display: flex;
-  gap: 1rem;
-  padding-top: 2rem;
-}
-
-.banner-content {
-  animation: reveal 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.25s backwards;
-}
-
-.banner-logo {
-  width: 15rem;
-  height: 15rem;
-}
-
-.banner-logo path,
-.banner-logo circle {
-  stroke: var(--color-dark);
-}
-
-.banner-content .banner-title {
-  margin-bottom: 1rem;
-}
-
-.logo-card-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.logo-card {
-  border-radius: var(--shape-corner-medium);
-  border: 4px solid var(--color-on-surface);
-  background: #EFBF04; /* gold */
-  overflow: hidden;
-}
-
-.logo-card img {
-  width: 18rem;
-}
-
-.logo-card .title {
-
-  border-top: .25rem solid var(--color-on-surface);
-  text-align: center;
-
   background: var(--color-surface);
-  padding: 1rem;
-}
+  min-height: 100vh;
 
-@include mixin.for-phone-only {
-  .banner-actions {
-    flex-direction: column;
-    width: 100%;
+  @include mixin.for-tablet-landscape-up {
+    border-radius: var(--shape-corner-medium);
+    margin-block: 1rem;
+    margin-inline-end: 1rem;
+    min-height: calc(100vh - 2rem /* margin */);
   }
-}
 
+  .banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 3rem;
+    animation: reveal 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.25s backwards;
 
-.container .section {
-  padding: 0 var(--spacing-2000);
-  padding-bottom: var(--spacing-600);
-}
+    .logo-card-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
 
-.container .code-highlighter {
-  padding: 0 var(--spacing-2000);
-  padding-bottom: var(--spacing-600);
-}
+      .logo-card {
+        border-radius: var(--shape-corner-medium);
+        border: 4px solid var(--color-on-surface);
+        background: #efbf04; /* gold */
+        overflow: hidden;
 
-goat-text[type='code'] {
-  background: var(--layer-03);
+        img {
+          width: 18rem;
+        }
+
+        .title {
+          border-top: 0.25rem solid var(--color-on-surface);
+          text-align: center;
+
+          background: var(--color-surface);
+          padding: 1rem;
+        }
+      }
+    }
+
+    .banner-title {
+      margin-bottom: 1rem;
+    }
+
+    .banner-actions {
+      display: flex;
+      gap: 1rem;
+      padding-top: 2rem;
+
+      @include mixin.for-phone-only {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  }
 }
 
 .made-in-india {
   position: absolute;
-  display: flex;
+  display: none;
   align-items: center;
   text-align: center;
   p {
@@ -123,20 +99,18 @@ goat-text[type='code'] {
     display: flex;
     align-items: center;
   }
+  .country-flag {
+    padding: 0 var(--spacing-150);
+  }
 }
 
-
-.made-in-india .country-flag {
-  padding: 0 var(--spacing-150);
+.social-icons {
+  display: none;
 }
 
-.banner-logo .head {
-  transform-origin: center;
-}
-
-
-@media (min-width: 1024px) {
+@include mixin.for-tablet-landscape-up {
   .made-in-india {
+    display: flex;
     font-size: 1rem;
     transform-origin: bottom left;
     transform: rotate(-90deg);
@@ -148,7 +122,7 @@ goat-text[type='code'] {
   .social-icons {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.5rem;
 
     position: absolute;
     bottom: 2rem;
@@ -178,65 +152,74 @@ goat-text[type='code'] {
     width: 1px;
     background: var(--color-outline);
   }
-
 }
-
-
-@media only screen and (max-width: 1024px) {
-  .container {
-    .section {
-      padding: var(--spacing-600) var(--spacing-400);
-    }
-    .code-highlighter {
-      padding: 0;
-    }
-  }
-
-  .social-icons {
-    display: none;
-  }
-  .made-in-india {
-    display: none;
-  }
-}
-
 
 .jumping-word {
   display: inline-block;
-  padding-inline: .2rem;
+  padding-inline: 0.2rem;
 }
 
 .jumping-text {
-  position:relative;
+  position: relative;
   transform: matrix(1, 0, 0, 1, 0, 0);
   transform-origin: 50% 100%;
   display: inline-block;
   will-change: text-shadow, transform;
   margin: 0;
 
-  font-family: "Pacifico", sans-serif;
+  font-family: 'Pacifico', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-  font-variation-settings: "wdth" 100;
+  font-variation-settings: 'wdth' 100;
   font-size: 2rem;
 }
 
 .jumping-text.hover {
-  animation: jumpAnimation 1.5s 1 alternate forwards cubic-bezier(.175, .885, .32, 1.275);
+  animation: jumpAnimation 1.5s 1 alternate forwards
+    cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes jumpAnimation {
-  0%, to {
-    transform: matrix(1, 0, 0, 1, 0, 0)
+  0%,
+  to {
+    transform: matrix(1, 0, 0, 1, 0, 0);
   }
 
-  25%, 75% {
-    text-shadow: -5px 2px 2px rgba(0, 0, 0, .3), 0 5px 12px rgba(0, 0, 0, .3);
-    transform: matrix(1.1, 0, 0, .8, 0, 0)
+  25%,
+  75% {
+    text-shadow:
+      -5px 2px 2px rgba(0, 0, 0, 0.3),
+      0 5px 12px rgba(0, 0, 0, 0.3);
+    transform: matrix(1.1, 0, 0, 0.8, 0, 0);
   }
 
   50% {
-    transform: matrix(.8, 0, 0, 1.2, 0, 0) translateY(-10px);
-    text-shadow: -40px 20px 20px rgba(0, 0, 0, .3), 0 40px 100px rgba(0, 0, 0, .3)
+    transform: matrix(0.8, 0, 0, 1.2, 0, 0) translateY(-10px);
+    text-shadow:
+      -40px 20px 20px rgba(0, 0, 0, 0.3),
+      0 40px 100px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.intro-section {
+  background-color: var(--color-surface-container-high);
+
+  @include mixin.for-tablet-landscape-up {
+    border-radius: var(--shape-corner-medium) var(--shape-corner-medium) 0 0;
+    margin-block-start: 1rem;
+    margin-inline-end: 1rem;
+    min-height: calc(100vh - 2rem /* margin */);
+  }
+
+  h2,
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.footer-with-about {
+  border-top: 0 !important;
+  @include mixin.for-tablet-landscape-up {
+    width: calc(100% - 1rem) !important;
   }
 }

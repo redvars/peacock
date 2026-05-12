@@ -853,7 +853,7 @@
     "tag": "wc-button-group",
     "rawTag": "button-group",
     "summary": "Group a series of buttons together on a single line with the button group, and super-power.",
-    "example": "```html\n<wc-button-group variant=\"connected\">\n <wc-icon-button toggle selected><wc-icon name=\"home\"></wc-icon></wc-icon-button>\n <wc-icon-button toggle><wc-icon name=\"alarm\"></wc-icon></wc-icon-button>\n</wc-button-group>\n```",
+    "example": "```html\n<wc-button-group connected>\n <wc-icon-button toggle=\"true\" shape=\"wide\" selected>\n   <wc-icon name=\"format_bold\"></wc-icon>\n </wc-icon-button>\n <wc-icon-button toggle=\"true\" shape=\"wide\">\n   <wc-icon name=\"format_italic\"></wc-icon>\n </wc-icon-button>\n <wc-icon-button toggle=\"true\" shape=\"wide\">\n   <wc-icon name=\"format_underlined\"></wc-icon>\n </wc-icon-button>\n</wc-button-group>\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -873,7 +873,7 @@
           "type": {
             "text": "boolean"
           },
-          "default": "true",
+          "default": "false",
           "description": "Layout variant of the button group.\n`\"standard\"` shows buttons with a small gap between them.\n`\"connected\"` places buttons with a 2px gap;\nrounded outer corners and middle buttons keep standard rounded corners.\nDefaults to `\"standard\"`.",
           "fieldName": "connected"
         },
@@ -898,10 +898,6 @@
           "expandedType": {
             "text": "'filled' | 'tonal' | 'outlined' | undefined"
           }
-        },
-        {
-          "name": "updated",
-          "fieldName": "updated"
         }
       ],
       "superclass": {
@@ -2522,6 +2518,91 @@
     }
   },
   {
+    "label": "Color Picker",
+    "tag": "wc-color-picker",
+    "rawTag": "color-picker",
+    "summary": "A color picker component for selecting colors via a hue/saturation/value interface.",
+    "overview": "<p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.\nAn optional alpha slider allows controlling opacity. The current hex value is displayed in\nan editable text field.</p>",
+    "cssprop": "--color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.",
+    "fires": "change - Dispatched when a color change is committed (pointer up, key, or input blur).",
+    "example": "```html\n<wc-color-picker value=\"#ff573380\" alpha></wc-color-picker>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Overall width of the component. Defaults to 240px.",
+          "name": "--color-picker-width"
+        },
+        {
+          "description": "Height of the saturation/brightness panel. Defaults to 160px.",
+          "name": "--color-picker-sv-height"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, alpha: number}>"
+          },
+          "description": "Dispatched continuously while the color is being changed.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, alpha: number}>"
+          },
+          "description": "Dispatched when a color change is committed (pointer up, key, or input blur).",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "'#2352d5'",
+          "description": "The current color as a 6-digit hex string (e.g. `\"#ff5733\"`).",
+          "fieldName": "value"
+        },
+        {
+          "name": "alpha",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether to show the alpha (opacity) slider and input.",
+          "fieldName": "alpha"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the color picker is disabled.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-color-picker",
+      "customElement": true,
+      "rawTag": {
+        "name": "color-picker",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Condition Builder",
     "tag": "wc-condition-builder",
     "rawTag": "condition-builder",
@@ -2828,7 +2909,7 @@
     "overview": "<p>The dropdown button combines a single button with a dropdown menu. Clicking the button toggles a menu of actions or options. It follows M3 Material Design, keeping a compact control while exposing related actions on demand.</p>",
     "cssprop": "--dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.",
     "fires": "toggle-menu - Dispatched when the dropdown menu is opened or closed.",
-    "example": "```html\r\n<wc-dropdown-button>\r\n  Actions\r\n  <wc-menu-item slot=\"menu\">Edit</wc-menu-item>\r\n  <wc-menu-item slot=\"menu\">Delete</wc-menu-item>\r\n</wc-dropdown-button>\r\n```",
+    "example": "```html\n<wc-dropdown-button>\n  Actions\n  <wc-menu-item slot=\"menu\">Edit</wc-menu-item>\n  <wc-menu-item slot=\"menu\">Delete</wc-menu-item>\n</wc-dropdown-button>\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -2855,16 +2936,16 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\r\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
         },
         {
           "name": "variant",
           "type": {
-            "text": "| 'elevated'\r\n    | 'filled'\r\n    | 'tonal'\r\n    | 'outlined'\r\n    | 'text'"
+            "text": "| 'elevated'\n    | 'filled'\n    | 'tonal'\n    | 'outlined'\n    | 'text'"
           },
           "default": "'filled'",
-          "description": "The visual style of the dropdown button.\r\n\r\nPossible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is an elevated button.",
+          "description": "The visual style of the dropdown button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is an elevated button.",
           "fieldName": "variant",
           "expandedType": {
             "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text'"
@@ -2873,7 +2954,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\r\n    | 'secondary'\r\n    | 'tertiary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'surface'\r\n    | 'on-surface'"
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the dropdown button.",
@@ -2894,10 +2975,10 @@
         {
           "name": "placement",
           "type": {
-            "text": "| 'bottom-start'\r\n    | 'bottom-end'\r\n    | 'top-start'\r\n    | 'top-end'"
+            "text": "| 'bottom-start'\n    | 'bottom-end'\n    | 'top-start'\n    | 'top-end'"
           },
           "default": "'bottom-start'",
-          "description": "Menu placement relative to the button.\r\nPossible values are `\"bottom-start\"`, `\"bottom-end\"`, `\"top-start\"`, `\"top-end\"`. Defaults to `\"bottom-start\"`.",
+          "description": "Menu placement relative to the button.\nPossible values are `\"bottom-start\"`, `\"bottom-end\"`, `\"top-start\"`, `\"top-end\"`. Defaults to `\"bottom-start\"`.",
           "fieldName": "placement",
           "expandedType": {
             "text": "'bottom-start' | 'bottom-end' | 'top-start' | 'top-end'"
@@ -4846,16 +4927,36 @@
           "fieldName": "selected"
         },
         {
-          "name": "htmlType",
+          "name": "skeleton",
           "type": {
-            "text": "'button' | 'submit' | 'reset'"
+            "text": "boolean"
           },
-          "default": "'button'",
-          "description": "The type of the underlying `<button>` element. Maps to the native `type` attribute.\nPossible values are `\"button\"`, `\"submit\"`, `\"reset\"`. Defaults to `\"button\"`.",
-          "fieldName": "htmlType",
+          "default": "false",
+          "description": "When true, renders the list-item in a loading skeleton state.",
+          "fieldName": "skeleton"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "variant",
           "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
+          }
+        },
+        {
+          "name": "color",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "color",
+          "inheritedFrom": {
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
           }
         },
         {
@@ -4867,8 +4968,8 @@
           "description": "When `true`, the button is disabled and cannot be interacted with. Reflects to the `disabled` attribute. Defaults to `false`.",
           "fieldName": "disabled",
           "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
           }
         },
         {
@@ -4880,8 +4981,8 @@
           "description": "When `true`, the button is visually styled as disabled and cannot be interacted with, but remains focusable.\nUse this in combination with `disabledReason` to communicate why the button is unavailable.\nReflects to the `soft-disabled` attribute. Defaults to `false`.",
           "fieldName": "softDisabled",
           "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
           }
         },
         {
@@ -4893,47 +4994,20 @@
           "description": "A human-readable explanation of why the button is disabled or soft-disabled.\nRendered as a visually hidden tooltip and linked via `aria-describedby` for accessibility.\nMaps to the `disabled-reason` attribute.",
           "fieldName": "disabledReason",
           "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
           }
         },
         {
-          "name": "form",
+          "name": "throttleDelay",
           "type": {
-            "text": "string"
+            "text": "number | undefined"
           },
-          "default": "''",
-          "description": "The `id` of the `<form>` element to associate the button with.\nIf omitted, the button is associated with its nearest ancestor form.\nMaps to the native `form` attribute.",
-          "fieldName": "form",
+          "description": "Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.",
+          "fieldName": "throttleDelay",
           "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
-          }
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The name of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `name` attribute.",
-          "fieldName": "name",
-          "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
-          }
-        },
-        {
-          "name": "value",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The value of the button, submitted as part of a name/value pair when the associated form is submitted.\nMaps to the native `value` attribute.",
-          "fieldName": "value",
-          "inheritedFrom": {
-            "name": "NativeButtonMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeButtonMixin.ts"
+            "name": "mixinBaseButton",
+            "module": "E:/git/redvars/peacock/components/src/button/base-button/base-button.ts"
           }
         },
         {
@@ -4941,11 +5015,10 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "The URL that the hyperlink points to. When set, the component renders as an `<a>` element.\nMaps to the native `href` attribute.",
           "fieldName": "href",
           "inheritedFrom": {
-            "name": "NativeHyperlinkMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeHyperlinkMixin.ts"
+            "name": "mixinHyperlink",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/hyperlink.ts"
           }
         },
         {
@@ -4954,46 +5027,53 @@
             "text": "'_self' | '_parent' | '_blank' | '_top' | string"
           },
           "default": "'_self'",
-          "description": "Where to display the linked URL. Maps to the native `target` attribute.\nPossible values are `\"_self\"`, `\"_blank\"`, `\"_parent\"`, `\"_top\"`, or a custom frame name.\nWhen using `\"_blank\"`, consider setting `rel=\"noopener noreferrer\"` for security. Defaults to `\"_self\"`.",
           "fieldName": "target",
           "inheritedFrom": {
-            "name": "NativeHyperlinkMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeHyperlinkMixin.ts"
+            "name": "mixinHyperlink",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/hyperlink.ts"
           }
         },
         {
           "name": "rel",
           "type": {
-            "text": "string | undefined"
+            "text": "string"
           },
-          "description": "The relationship between the current document and the linked URL.\nMaps to the native `rel` attribute on the rendered `<a>` element.\nWhen `target=\"_blank\"`, use `\"noopener noreferrer\"` to prevent tab-napping attacks.",
+          "default": "''",
           "fieldName": "rel",
           "inheritedFrom": {
-            "name": "NativeHyperlinkMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeHyperlinkMixin.ts"
+            "name": "mixinHyperlink",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/hyperlink.ts"
           }
         },
         {
           "name": "download",
           "type": {
-            "text": "string | undefined"
+            "text": "string"
           },
-          "description": "Causes the browser to download the linked URL instead of navigating to it.\nIf a string value is provided, it is used as the suggested filename.\nOmit or leave undefined to preserve normal navigation behaviour.\nMaps to the native `download` attribute. Only applies when `href` is set.",
+          "default": "''",
           "fieldName": "download",
           "inheritedFrom": {
-            "name": "NativeHyperlinkMixin",
-            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/NativeHyperlinkMixin.ts"
+            "name": "mixinHyperlink",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/hyperlink.ts"
           }
         }
       ],
       "mixins": [
         {
-          "name": "NativeButtonMixin",
-          "package": "@/__internal/mixins/NativeButtonMixin.js"
+          "name": "mixinBaseButton",
+          "package": "@/button/base-button/base-button.js"
         },
         {
-          "name": "NativeHyperlinkMixin",
-          "package": "@/__internal/mixins/NativeHyperlinkMixin.js"
+          "name": "mixinHyperlink",
+          "package": "@/__internal/mixins/hyperlink.js"
+        },
+        {
+          "name": "mixinDelegatesAria",
+          "package": "@/__internal/aria/delegate.js"
+        },
+        {
+          "name": "mixinElementInternals",
+          "package": "@/__internal/mixins/element-internals.js"
         }
       ],
       "superclass": {

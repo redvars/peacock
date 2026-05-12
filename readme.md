@@ -69,7 +69,7 @@ menus, checkboxes, and radio buttons.
 |---------------------------------------------------------------------|-----------------|-------|
 | [Checkbox](https://peacock.redvars.com/components/checkbox)         | wc-checkbox     | 🟢    |
 | [Code editor](https://peacock.redvars.com/components/code-editor)   | wc-code-editor  | 🟢    |
-| Color picker                                                        | color-picker    | 🔴    |
+| [Color picker](https://peacock.redvars.com/components/color-picker) | wc-color-picker | 🟡    |
 | [Date picker](https://peacock.redvars.com/components/date-picker)   | wc-date-picker  | 🟡    |
 | Date time picker                                                    | datetime-picker | 🔴    |
 | [Field / Form control](https://peacock.redvars.com/components/field) | wc-field       | 🟡    |

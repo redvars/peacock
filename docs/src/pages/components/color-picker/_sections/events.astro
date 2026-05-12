@@ -1,0 +1,36 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import Highlighter from '../../../../components/Highlighter.astro';
+---
+
+<p class='text-body-large'>
+  The color picker fires two events: <code>input</code> continuously while the user is dragging a handle or typing in the hex field, and <code>change</code> when the interaction is committed (pointer up, keyboard, or input blur). Both carry <code>event.detail.value</code> (hex string) and <code>event.detail.alpha</code> (0–1 opacity).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-color-picker id='events-picker' alpha></wc-color-picker>
+</DemoComponentCard>
+
+<Highlighter lang='javascript' is:raw>
+const picker = document.querySelector('#events-picker');
+
+picker.addEventListener('input', (event) => {
+  console.log('input', event.detail.value, 'alpha:', event.detail.alpha);
+});
+
+picker.addEventListener('change', (event) => {
+  console.log('change', event.detail.value, 'alpha:', event.detail.alpha);
+});
+</Highlighter>
+
+<script is:inline>
+  const picker = document.querySelector('#events-picker');
+  if (picker) {
+    picker.addEventListener('input', function (event) {
+      myConsole.log(JSON.stringify(event.detail, null, 4), event.type);
+    });
+    picker.addEventListener('change', function (event) {
+      myConsole.warn(JSON.stringify(event.detail, null, 4), event.type);
+    });
+  }
+</script>

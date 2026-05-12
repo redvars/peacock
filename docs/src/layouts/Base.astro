@@ -63,32 +63,20 @@ function getPageTitle() {
   <style>
     body {
       background: var(--color-surface-container-highest);
+      color: var(--color-on-surface);
     }
   </style>
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <!-- GoatUI scripts -->
-  {isProd &&
+  <!-- Peacock styles -->
+  {isProd ?
     (
     <link href={getThemeCssUrl()} rel="stylesheet" />
-    <script
-        type="module"
-        src={getScriptUrl()}
-        onerror={`let s=document.createElement('script'); s.type='module'; s.src='${getFallbackScriptUrl()}'; document.head.appendChild(s);`}>
-        </script>
     )
-  }
-
-
-
-  {!isProd &&
+    :
     (
-
     <link href="/assets/peacock/assets/styles.css" rel="stylesheet" />
-    <script
-        type="module"
-        src="/assets/peacock/loader.js"></script>
     )
   }
 
@@ -96,6 +84,24 @@ function getPageTitle() {
 <body>
 
 <slot />
+
+<!-- GoatUI scripts -->
+{isProd ?
+  (
+  <script
+      type="module"
+      src={getScriptUrl()}
+      onerror={`let s=document.createElement('script'); s.type='module'; s.src='${getFallbackScriptUrl()}'; document.head.appendChild(s);`}>
+      </script>
+  )
+  :
+  (
+  <script
+      type="module"
+      src="/assets/peacock/loader.js"></script>
+  )
+}
+
 
 <GoogleAnalyticsScript/>
 </body>

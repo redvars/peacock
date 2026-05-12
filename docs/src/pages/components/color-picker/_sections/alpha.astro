@@ -1,0 +1,11 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>Add the <code>alpha</code> boolean attribute to reveal an opacity slider and percentage input. The checkerboard backdrop on the preview swatch and slider track indicates transparency.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-color-picker alpha value='#2352d5'></wc-color-picker>
+</DemoComponentCard>
+
+<p class='text-body-large'>The current opacity is exposed as <code>event.detail.alpha</code> (a number from 0 to 1) in both the <code>input</code> and <code>change</code> events.</p>

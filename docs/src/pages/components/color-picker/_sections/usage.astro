@@ -1,0 +1,17 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p class='text-body-large'>The default color picker presents a 2D saturation/brightness panel, a hue slider, and a hex input field.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-color-picker></wc-color-picker>
+</DemoComponentCard>
+
+<p class='text-body-large'>Set an initial color with the <code>value</code> attribute (6-digit hex).</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-color-picker value='#e53935'></wc-color-picker>
+  <wc-color-picker value='#43a047'></wc-color-picker>
+  <wc-color-picker value='#1e88e5'></wc-color-picker>
+</DemoComponentCard>
