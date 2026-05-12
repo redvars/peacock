@@ -19,7 +19,6 @@
 .list-item {
   position: relative;
   width: 100%;
-  cursor: pointer;
   text-align: start;
 
   .list-item-content {
@@ -79,6 +78,11 @@
     --skeleton-container-shape-end-start: var(--shape-corner-medium);
     --skeleton-container-shape-end-end: var(--shape-corner-medium);
   }
+}
+
+:host([actionable]:not([disabled]):not([soft-disabled])),
+:host([href]:not([disabled]):not([soft-disabled])) {
+  cursor: pointer;
 }
 
 :host(:not([skeleton])) {

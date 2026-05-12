@@ -1,7 +1,11 @@
-@use "../../../scss/mixin";
+@use '../../../scss/mixin';
 
 @include mixin.base-styles;
 
 :host {
+  display: contents;
+}
+
+slot::slotted(wc-menu) {
   display: contents;
 }

@@ -74,26 +74,14 @@
     display: block;
     position: absolute;
     inset: 0;
-    background-color: var(--_container-color);
-    opacity: var(--_container-opacity, 1);
+
+    border: 1px solid var(--color-red);
 
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
     border-end-end-radius: var(--_container-shape-end-end);
     pointer-events: none;
-  }
-
-  .elevation {
-    --elevation-level: 2;
-    transition-duration: 280ms;
-    --elevation-container-shape-start-start: var(
-      --_container-shape-start-start
-    );
-    --elevation-container-shape-start-end: var(--_container-shape-start-end);
-    --elevation-container-shape-end-start: var(--_container-shape-end-start);
-    --elevation-container-shape-end-end: var(--_container-shape-end-end);
-    --elevation-container-shape-variant: var(--_container-corner-shape-variant);
   }
 }
 
@@ -111,10 +99,10 @@
   --_container-shape-end-end: var(--shape-corner-large);
 
   &.variant-standard {
-    --_container-color: var(--color-surface-container);
+    --menu-item-container-color: var(--color-surface-container);
   }
 
   &.variant-vibrant {
-    --_container-color: var(--color-tertiary-container);
+    --menu-item-container-color: var(--color-tertiary-container);
   }
 }

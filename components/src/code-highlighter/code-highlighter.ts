@@ -2,21 +2,43 @@ import { html, LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { classMap } from 'lit/directives/class-map.js';
-import pierreDark from '@pierre/theme/pierre-dark';
-import pierreLight from '@pierre/theme/pierre-light';
-
-import prettier from 'prettier/standalone';
-
-import prettierPluginBabel from 'prettier/plugins/babel';
-import prettierPluginHtml from 'prettier/plugins/html';
-import prettierPluginPostcss from 'prettier/plugins/postcss';
-import * as prettierPluginEstree from 'prettier/plugins/estree';
-
-import { BundledLanguage, codeToHtml, ShikiTransformer } from 'shiki';
-
+import type { BundledLanguage, ShikiTransformer } from 'shiki';
 import IndividualComponent from '@/IndividualComponent.js';
 import { copyToClipboard } from '@/__internal/utils/copy-to-clipboard.js';
 import styles from './code-highlighter.scss';
+
+// Module-level promises – Rollup splits each import() specifier into a separate chunk.
+// Caching here prevents parallel loads when multiple instances initialise at the same time.
+let _shiki: Promise<typeof import('shiki')> | null = null;
+let _themes: Promise<
+  [
+    typeof import('@pierre/theme/pierre-dark'),
+    typeof import('@pierre/theme/pierre-light'),
+  ]
+> | null = null;
+let _prettier: Promise<typeof import('prettier/standalone')> | null = null;
+let _pluginBabel: Promise<typeof import('prettier/plugins/babel')> | null =
+  null;
+let _pluginHtml: Promise<typeof import('prettier/plugins/html')> | null = null;
+let _pluginPostcss: Promise<typeof import('prettier/plugins/postcss')> | null =
+  null;
+let _pluginEstree: Promise<typeof import('prettier/plugins/estree')> | null =
+  null;
+
+const loadShiki = () => (_shiki ??= import('shiki'));
+const loadThemes = () =>
+  (_themes ??= Promise.all([
+    import('@pierre/theme/pierre-dark'),
+    import('@pierre/theme/pierre-light'),
+  ]));
+const loadPrettier = () => (_prettier ??= import('prettier/standalone'));
+const loadPluginBabel = () =>
+  (_pluginBabel ??= import('prettier/plugins/babel'));
+const loadPluginHtml = () => (_pluginHtml ??= import('prettier/plugins/html'));
+const loadPluginPostcss = () =>
+  (_pluginPostcss ??= import('prettier/plugins/postcss'));
+const loadPluginEstree = () =>
+  (_pluginEstree ??= import('prettier/plugins/estree'));
 
 const locale = {
   loading: 'Loading code...',
@@ -109,31 +131,48 @@ export class CodeHighlighter extends LitElement {
 
     codeString = this.decode(codeString);
 
-    // eslint-disable-next-line default-case
-    switch (this.language) {
-      case 'javascript':
-        codeString = await prettier.format(codeString, {
-          parser: 'babel',
-          plugins: [prettierPluginBabel, prettierPluginEstree],
-          bracketSameLine: true,
-          // Helps if you are writing HTML inside template literals
-          htmlWhitespaceSensitivity: 'ignore',
-        });
-        break;
-      case 'html':
-        codeString = await prettier.format(codeString, {
-          parser: 'html',
-          plugins: [prettierPluginHtml],
-          bracketSameLine: true,
-          htmlWhitespaceSensitivity: 'ignore',
-        });
-        break;
-      case 'css':
-        codeString = await prettier.format(codeString, {
-          parser: 'css',
-          plugins: [prettierPluginPostcss],
-        });
-        break;
+    if (this.format !== false) {
+      // eslint-disable-next-line default-case
+      switch (this.language) {
+        case 'javascript': {
+          const [prettier, pluginBabel, pluginEstree] = await Promise.all([
+            loadPrettier(),
+            loadPluginBabel(),
+            loadPluginEstree(),
+          ]);
+          codeString = await prettier.format(codeString, {
+            parser: 'babel',
+            plugins: [pluginBabel, pluginEstree],
+            bracketSameLine: true,
+            htmlWhitespaceSensitivity: 'ignore',
+          });
+          break;
+        }
+        case 'html': {
+          const [prettier, pluginHtml] = await Promise.all([
+            loadPrettier(),
+            loadPluginHtml(),
+          ]);
+          codeString = await prettier.format(codeString, {
+            parser: 'html',
+            plugins: [pluginHtml],
+            bracketSameLine: true,
+            htmlWhitespaceSensitivity: 'ignore',
+          });
+          break;
+        }
+        case 'css': {
+          const [prettier, pluginPostcss] = await Promise.all([
+            loadPrettier(),
+            loadPluginPostcss(),
+          ]);
+          codeString = await prettier.format(codeString, {
+            parser: 'css',
+            plugins: [pluginPostcss],
+          });
+          break;
+        }
+      }
     }
 
     this.parsedCode = codeString;
@@ -152,6 +191,11 @@ export class CodeHighlighter extends LitElement {
       });
     }
 
+    const [
+      { codeToHtml },
+      [{ default: pierreDark }, { default: pierreLight }],
+    ] = await Promise.all([loadShiki(), loadThemes()]);
+
     this.compiledCode = await codeToHtml(codeString, {
       lang: this.language,
       themes: {
@@ -164,8 +208,17 @@ export class CodeHighlighter extends LitElement {
     });
   }
 
-  protected updated() {
-    this.__highlightCode();
+  protected updated(changed: Map<PropertyKey, unknown>) {
+    // Only re-highlight when the source content or rendering options change,
+    // not on unrelated state updates like the copy-button feedback toggle.
+    if (
+      changed.has('value') ||
+      changed.has('language') ||
+      changed.has('lineNumbers') ||
+      changed.has('format')
+    ) {
+      this.__highlightCode();
+    }
   }
 
   private async __handleCopyClick() {

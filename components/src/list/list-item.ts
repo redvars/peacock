@@ -49,6 +49,9 @@ export class ListItem extends mixinBaseButton(
   /** When true, renders the list-item in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
+  @property({ type: Boolean, reflect: true })
+  actionable: boolean = false;
+
   @query('#list-item') readonly itemElement!: HTMLElement | null;
 
   constructor() {
@@ -99,8 +102,13 @@ export class ListItem extends mixinBaseButton(
     );
   }
 
+  isClickable() {
+    return this.actionable || isLink(this);
+  }
+
   render() {
     const isElementLink = isLink(this);
+    const clickable = this.isClickable();
 
     const cssClasses = {
       'list-item': true,
@@ -110,6 +118,18 @@ export class ListItem extends mixinBaseButton(
 
     // Needed for closure conformance
     const { ariaLabel } = this as ARIAMixinStrict;
+
+    if (!clickable) {
+      return html`
+        <div
+          id="list-item"
+          class=${classMap(cssClasses)}
+          aria-label="${ariaLabel || nothing}"
+        >
+          ${this.renderContent(clickable)}
+        </div>
+      `;
+    }
 
     if (!isElementLink) {
       return html`
@@ -121,7 +141,7 @@ export class ListItem extends mixinBaseButton(
           ?aria-disabled=${this.softDisabled}
           @click=${this.__dispatchClick}
         >
-          ${this.renderContent()}
+          ${this.renderContent(clickable)}
         </button>
       `;
     }
@@ -138,12 +158,12 @@ export class ListItem extends mixinBaseButton(
         aria-disabled=${String(this.disabled || this.softDisabled)}
         @click=${this.__dispatchClick}
       >
-        ${this.renderContent()}
+        ${this.renderContent(clickable)}
       </a>
     `;
   }
 
-  renderContent() {
+  renderContent(clickable: boolean) {
     const hasLeading = this.__hasNamedSlot('leading');
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
@@ -151,15 +171,21 @@ export class ListItem extends mixinBaseButton(
     const hasTrailing = this.__hasNamedSlot('trailing');
 
     return html`
-      <wc-item class="list-item-content">
-        <wc-focus-ring
-          class="focus-ring"
-          for="list-item"
-          slot="container"
-        ></wc-focus-ring>
-        <div class="background" slot="container"></div>
-        <wc-ripple class="ripple" for="list-item" slot="container"></wc-ripple>
-        <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
+      <wc-item class="list-item-content" ?inert=${clickable}>
+        ${clickable
+          ? html`<wc-focus-ring
+                class="focus-ring"
+                for="list-item"
+                slot="container"
+              ></wc-focus-ring>
+              <div class="background" slot="container"></div>
+              <wc-ripple
+                class="ripple"
+                for="list-item"
+                slot="container"
+              ></wc-ripple>
+              <wc-skeleton class="skeleton" slot="container"></wc-skeleton> `
+          : null}
 
         <slot name="leading" slot="start" ?hidden=${!hasLeading}></slot>
         <slot name="overline" slot="overline"></slot>

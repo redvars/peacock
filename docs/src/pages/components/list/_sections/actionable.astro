@@ -9,10 +9,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-list style='width: min(100%, 28rem);'>
-    <wc-list-item>
+    <wc-list-item actionable>
       <wc-icon slot='leading' name='person'></wc-icon>
       Profile settings
       <wc-icon slot='trailing' name='chevron_right'></wc-icon>
+    </wc-list-item>
+    <wc-list-item href="//shivajivarma.com">
+      <wc-avatar  slot='leading' name="Shivaji Varma"></wc-avatar>
+      Shivaji Varma
+      <span slot="supporting-text">Software Engineer</span>
+      <span slot='trailing-supporting-text'>7</span>
     </wc-list-item>
   </wc-list>
 </DemoComponentCard>

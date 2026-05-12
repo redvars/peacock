@@ -122,6 +122,8 @@ export class MenuItem extends NativeButtonMixin(
     const controls = this.getAttribute('aria-controls');
 
     return html`
+      <div class="menu-item-background"></div>
+
       <wc-item
         id="menu-item"
         class="menu-item"

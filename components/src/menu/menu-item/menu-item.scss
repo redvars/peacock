@@ -4,6 +4,7 @@
 
 :host {
   outline: none;
+  padding-inline: var(--spacing-050);
 
   --menu-item-container-shape-start-start: var(--shape-corner-extra-small);
   --menu-item-container-shape-start-end: var(--shape-corner-extra-small);
@@ -11,8 +12,16 @@
   --menu-item-container-shape-end-end: var(--shape-corner-extra-small);
 }
 
+.menu-item-background {
+  background-color: var(--menu-item-container-color);
+  position: absolute;
+  inset: 0px;
+}
+
 .menu-item {
-  width: 100%;
+  z-index: 1;
+  --item-height: 1.5rem;
+  --item-multiline-height: 3rem;
   --item-padding-inline: 10px;
   --item-container-shape-start-start: var(
     --menu-item-container-shape-start-start
@@ -36,7 +45,7 @@
   --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
 
   .background {
-    background-color: var(--_container-color);
+    background-color: var(--menu-item-container-color);
     opacity: var(--_container-opacity, 1);
     border-radius: var(--shape-corner-medium);
   }

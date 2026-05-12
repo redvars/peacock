@@ -19,7 +19,6 @@ import { hasMeaningfulContent } from '@/__internal/utils/observe-slot-change.js'
  * <wc-item>
  *   <wc-icon slot="start" name="notifications"></wc-icon>
  *
- *   <span slot="overline">Settings</span>
  *   <span slot="headline">Notifications</span>
  *   <span slot="supporting-text">Manage alerts and reminders</span>
  *

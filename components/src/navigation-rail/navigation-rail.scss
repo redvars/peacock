@@ -8,7 +8,7 @@
   width: var(--nav-rail-width, 5rem); /* 80dp */
   overflow: hidden;
 
-  --nav-rail-container-color: transparent;
+  --nav-rail-container-color: var(--container-surface);
   --nav-rail-label-text-color: var(--color-on-surface);
 }
 
@@ -46,6 +46,7 @@
     flex-shrink: 0;
     margin-top: auto;
     background-color: var(--nav-rail-container-color);
+    z-index: 1;
 
     &:empty {
       display: none;

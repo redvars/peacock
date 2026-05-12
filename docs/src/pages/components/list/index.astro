@@ -5,7 +5,7 @@ import LitComponentApiPanel from '../../../components/LitComponentApiPanel.astro
 import OverviewPanel from '../../../components/OverviewPanel.astro';
 
 import UsageSection from './_sections/usage.astro';
-import SlotsSection from './_sections/slots.astro';
+import ActionableSection from './_sections/actionable.astro';
 
 const componentDetails = getComponentDetails('list');
 
@@ -15,8 +15,8 @@ const sections = [
     'Component': UsageSection,
   },
   {
-    'title': 'Slots',
-    'Component': SlotsSection,
+    'title': 'Actionable',
+    'Component': ActionableSection,
   },
 ];
 ---

@@ -13,10 +13,22 @@
   --card-container-shape-end-start: unset;
   --card-container-shape-end-end: unset;
 
-  --_container-shape-start-start: var(--card-container-shape-start-start, var(--card-container-shape));
-  --_container-shape-start-end: var(--card-container-shape-start-end, var(--card-container-shape));
-  --_container-shape-end-start: var(--card-container-shape-end-start, var(--card-container-shape));
-  --_container-shape-end-end: var(--card-container-shape-end-end, var(--card-container-shape));
+  --_container-shape-start-start: var(
+    --card-container-shape-start-start,
+    var(--card-container-shape)
+  );
+  --_container-shape-start-end: var(
+    --card-container-shape-start-end,
+    var(--card-container-shape)
+  );
+  --_container-shape-end-start: var(
+    --card-container-shape-end-start,
+    var(--card-container-shape)
+  );
+  --_container-shape-end-end: var(
+    --card-container-shape-end-end,
+    var(--card-container-shape)
+  );
 }
 
 /*
@@ -136,7 +148,8 @@
   corner-shape: var(--_container-corner-shape-variant);
 }
 
-:host([actionable]) {
+:host([actionable]:not([disabled])),
+:host([href]) {
   .focus-ring,
   .ripple {
     display: block;

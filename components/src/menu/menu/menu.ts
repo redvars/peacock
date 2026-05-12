@@ -467,7 +467,6 @@ export class Menu extends LitElement {
       aria-hidden=${String(!this.open)}
     >
       <div class="background"></div>
-      <wc-elevation class="elevation"></wc-elevation>
 
       <div class="menu-content">
         <slot @slotchange=${this._onSlotChange}></slot>
