@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "lit-best-practices": {
+      "source": "artmsilva/lit-best-practices",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "60cacd8884fc7e1424f5c0b7cf5f47a8c3ba3eeb55c67023520e14eb9bbb8ea9"
+    }
+  }
+}
