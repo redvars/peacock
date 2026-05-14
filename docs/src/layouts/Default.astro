@@ -1,20 +1,18 @@
 ---
-import SideNavigation from '../components/SideNavigation.astro';
-import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
+import SideNavigation from '../components/navigation/SideNavigation.astro';
+import MobileNavigation from '../components/navigation/MobileNavigation.astro';
+
 interface Props {
   title?: string;
   description?: string;
-  root?: boolean;
   keywords?: string;
-  classes?: string;
 }
 import '../styles/layout/default.scss';
 
 const {
   title,
   description,
-  keywords,
-  classes
+  keywords
 } = Astro.props;
 
 import Layout from './Base.astro';
@@ -31,61 +29,18 @@ import Layout from './Base.astro';
       <SideNavigation/>
     </div>
 
-    <!-- For mobile -->
-    <wc-toolbar class="mobile-bottom-nav show-tablet-portrait-below" elevated>
-      <wc-icon-button variant="text" color="surface" href="/#" aria-label="Home"><wc-icon name="home"></wc-icon></wc-icon-button>
-      <wc-icon-button variant="text" color="surface" href="/components" aria-label="Components"><wc-icon name="settings"></wc-icon></wc-icon-button>
-      <wc-icon-button variant="text" color="surface" href="/color" aria-label="Colors"><wc-icon name="palette"></wc-icon></wc-icon-button>
-      <wc-icon-button variant="text" color="surface" href="/components/text" aria-label="Typography"><wc-icon name="font_download"></wc-icon></wc-icon-button>
-    </wc-toolbar>
 
     <div class="page-context-wrapper">
-      <!--<nav class="top-nav">
-        <goat-header color="white" dark-mode-color="black" class={`header ${!root ? 'border' : ''}`}>
-          <div slot="left">
-            <goat-header-brand logo="/assets/img/logo-plain.png" href="/#" name={site.title}></goat-header-brand>
 
-          </div>
-
-          <div slot="right">
-
-            <wc-button color="primary" size="sm" variant="simple" target="_blank" class="hide-tablet-portrait-below sponsor-btn" href="https://github.com/sponsors/shivajivarma">
-              Sponsor
-            </wc-button>
-
-            <pc-divider class="header-divider hide-tablet-portrait-below" vertical></pc-divider>
-
-            <goat-header-action icon="github" aria-label="View Github" href={`https://github.com/${site.github_username}/${site.github_project}`} target="_blank"
-            ></goat-header-action>
-
-            <goat-header-action class="show-tablet-portrait-below" aria-label="Menu" id="header-menu-btn" icon="menu"></goat-header-action>
-          </div>
-        </goat-header>
-      </nav>-->
-
-     <!-- <div id="header-menu">
-        <div class="header-menu-head">
-          <wc-button id="header-menu-close-btn" variant="text" icon="close" color="secondary" size="lg" dark-mode-color="white" aria-label="Close menu"></wc-button>
-        </div>
-
-        <pc-menu class="header-menu-list no-border">
-          <pc-menu-item href="/components#">
-            <wc-icon name="roadmap" slot="start" size="sm"></wc-icon>&nbsp; Components
-          </pc-menu-item>
-          <pc-menu-item href="/blog#">
-            <wc-icon name="blog" slot="start" size="sm"></wc-icon>&nbsp; Blog
-          </pc-menu-item>
-          <pc-menu-item href="https://github.com/sponsors/shivajivarma" target="_blank" icon="roadmap">
-            <wc-icon name="currency&#45;&#45;rupee" slot="start" size="sm"></wc-icon>&nbsp; Sponsor
-          </pc-menu-item>
-        </pc-menu>
-      </div>-->
+       <!-- For mobile -->
+      <MobileNavigation />
 
       <slot />
     </div>
   </div>
 
   <wc-notification-manager position='bottom-right'></wc-notification-manager>
+  <pagefind-modal></pagefind-modal>
 
 
   <!-- Scripts -->

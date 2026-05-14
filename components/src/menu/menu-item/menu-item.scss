@@ -4,7 +4,7 @@
 
 :host {
   outline: none;
-  padding-inline: var(--spacing-050);
+  position: relative;
 
   --menu-item-container-shape-start-start: var(--shape-corner-extra-small);
   --menu-item-container-shape-start-end: var(--shape-corner-extra-small);
@@ -12,66 +12,87 @@
   --menu-item-container-shape-end-end: var(--shape-corner-extra-small);
 }
 
-.menu-item-background {
-  background-color: var(--menu-item-container-color);
-  position: absolute;
-  inset: 0px;
+/*
+  * Reset native button/link styles
+  */
+.native-button {
+  @include mixin.reset-button-styles;
+}
+.native-link {
+  @include mixin.reset-link-styles;
 }
 
 .menu-item {
-  z-index: 1;
-  --item-height: 1.5rem;
-  --item-multiline-height: 3rem;
-  --item-padding-inline: 10px;
-  --item-container-shape-start-start: var(
-    --menu-item-container-shape-start-start
-  );
-  --item-container-shape-start-end: var(--menu-item-container-shape-start-end);
-  --item-container-shape-end-start: var(--menu-item-container-shape-end-start);
-  --item-container-shape-end-end: var(--menu-item-container-shape-end-end);
-  --item-container-shape-variant: none;
+  position: relative;
+  width: 100%;
+  text-align: start;
+  padding-top: 2px;
+  padding-inline: var(--spacing-050);
 
-  --item-label-font-family: var(--typography-label-large-font-family);
-  --item-label-font-size: var(--typography-label-large-font-size);
-  --item-label-font-weight: var(--typography-label-large-font-weight);
-  --item-label-line-height: var(--typography-label-large-line-height);
-  --item-label-letter-spacing: var(--typography-label-large-letter-spacing);
-
-  --item-label-text-color: var(--menu-item-label-color);
-  --item-leading-trailing-color: var(--menu-item-label-color);
-  --item-supporting-text-color: var(--menu-item-label-color);
-  --item-container-selected-color: var(--menu-item-container-selected-color);
-  --item-label-text-selected-color: var(--menu-item-label-selected-color);
-  --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
-
-  .background {
+  .menu-item-background {
     background-color: var(--menu-item-container-color);
-    opacity: var(--_container-opacity, 1);
-    border-radius: var(--shape-corner-medium);
+    position: absolute;
+    inset: 0px;
   }
 
-  .focus-ring {
-    --focus-ring-container-shape-start-start: var(--shape-corner-medium);
-    --focus-ring-container-shape-start-end: var(--shape-corner-medium);
-    --focus-ring-container-shape-end-start: var(--shape-corner-medium);
-    --focus-ring-container-shape-end-end: var(--shape-corner-medium);
-    z-index: 2;
-    --focus-ring-inset: 0px;
-  }
+  .menu-item-content {
+    --item-height: 1.5rem;
+    --item-multiline-height: 3rem;
+    --item-padding-inline: 10px;
+    --item-container-shape-start-start: var(
+      --menu-item-container-shape-start-start
+    );
+    --item-container-shape-start-end: var(
+      --menu-item-container-shape-start-end
+    );
+    --item-container-shape-end-start: var(
+      --menu-item-container-shape-end-start
+    );
+    --item-container-shape-end-end: var(--menu-item-container-shape-end-end);
+    --item-container-shape-variant: none;
 
-  .ripple {
-    --ripple-state-opacity: var(--_container-state-opacity, 0);
-    --ripple-pressed-color: var(--_container-state-color);
-    border-radius: var(--shape-corner-medium);
-  }
+    --item-label-font-family: var(--typography-label-large-font-family);
+    --item-label-font-size: var(--typography-label-large-font-size);
+    --item-label-font-weight: var(--typography-label-large-font-weight);
+    --item-label-line-height: var(--typography-label-large-line-height);
+    --item-label-letter-spacing: var(--typography-label-large-letter-spacing);
 
-  .skeleton {
-    z-index: 2;
+    --item-label-text-color: var(--menu-item-label-color);
+    --item-leading-trailing-color: var(--menu-item-label-color);
+    --item-supporting-text-color: var(--menu-item-label-color);
+    --item-container-selected-color: var(--menu-item-container-selected-color);
+    --item-label-text-selected-color: var(--menu-item-label-selected-color);
+    --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
 
-    --skeleton-container-shape-start-start: var(--shape-corner-medium);
-    --skeleton-container-shape-start-end: var(--shape-corner-medium);
-    --skeleton-container-shape-end-start: var(--shape-corner-medium);
-    --skeleton-container-shape-end-end: var(--shape-corner-medium);
+    .background {
+      background-color: var(--menu-item-container-color);
+      opacity: var(--_container-opacity, 1);
+      border-radius: var(--shape-corner-medium);
+    }
+
+    .focus-ring {
+      --focus-ring-container-shape-start-start: var(--shape-corner-medium);
+      --focus-ring-container-shape-start-end: var(--shape-corner-medium);
+      --focus-ring-container-shape-end-start: var(--shape-corner-medium);
+      --focus-ring-container-shape-end-end: var(--shape-corner-medium);
+      z-index: 2;
+      --focus-ring-inset: 0px;
+    }
+
+    .ripple {
+      --ripple-state-opacity: var(--_container-state-opacity, 0);
+      --ripple-pressed-color: var(--_container-state-color);
+      border-radius: var(--shape-corner-medium);
+    }
+
+    .skeleton {
+      z-index: 2;
+
+      --skeleton-container-shape-start-start: var(--shape-corner-medium);
+      --skeleton-container-shape-start-end: var(--shape-corner-medium);
+      --skeleton-container-shape-end-start: var(--shape-corner-medium);
+      --skeleton-container-shape-end-end: var(--shape-corner-medium);
+    }
   }
 }
 

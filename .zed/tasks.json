@@ -4,4 +4,9 @@
     "command": "cmd /c npm run install_peacock",
     "cwd": "$ZED_WORKTREE_ROOT/docs",
   },
+  {
+    "label": "Run Docs Server",
+    "command": "cmd /c npm run start",
+    "cwd": "$ZED_WORKTREE_ROOT/docs",
+  },
 ]

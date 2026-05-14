@@ -6,6 +6,7 @@
   --item-container-color: transparent;
   --item-height: 3rem;
   --item-multiline-height: 4rem;
+  --item-label-text-color: var(--color-on-surface);
 }
 
 :host {
@@ -25,7 +26,8 @@
 
   overflow: hidden;
 
-  color: var(--item-label-text-color, var(--color-on-surface));
+  color: var(--item-label-text-color);
+  --icon-color: var(--item-label-text-color);
   opacity: var(--item-label-text-opacity, 1);
 
   font-family: var(

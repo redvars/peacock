@@ -1,0 +1,49 @@
+---
+import site from '../_data/site.json';
+---
+
+<style is:inline>
+  .tagline-section {
+    display: flex;
+    align-items: center;
+    transform-origin: bottom right;
+    transform: rotate(90deg);
+    color: var(--color-on-surface-variant);
+  }
+  .tagline-section:after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    height: 1px;
+    width: 25px;
+    background: var(--color-outline);
+  }
+
+  .tagline-content {
+     display: flex;
+     align-items: center;
+  }
+  .tagline-content > * {
+    display: inline-flex;
+    align-items: center;
+  }
+
+</style>
+
+
+<div class='tagline-section'>
+
+  <div class='tagline-content text-body-emphasized'>
+    Built by</span>&nbsp;
+    <wc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></wc-avatar>&nbsp;
+    <a class='link no-decoration text-body-emphasized' href={site.author_url}>
+      {site.author}
+    </a>. &nbsp;
+
+    <wc-icon class='country-flag' size='1.5rem'
+              src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></wc-icon>&nbsp;
+    Made in India.
+  </div>
+
+</div>

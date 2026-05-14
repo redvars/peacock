@@ -30,9 +30,9 @@
 
   @include mixin.for-tablet-landscape-up {
     border-radius: var(--shape-corner-medium);
-    margin-block: 1rem;
+    margin-block: 1.5rem;
     margin-inline-end: 1rem;
-    min-height: calc(100vh - 2rem /* margin */);
+    min-height: calc(100vh - 3rem /* margin */);
   }
 
   .banner-content {
@@ -87,70 +87,24 @@
   }
 }
 
-.made-in-india {
-  position: absolute;
-  display: none;
-  align-items: center;
-  text-align: center;
-  p {
-    margin-bottom: 0;
-  }
-  .link {
-    display: flex;
-    align-items: center;
-  }
-  .country-flag {
-    padding: 0 var(--spacing-150);
-  }
-}
-
+.tagline-section,
 .social-icons {
-  display: none;
+  display: none !important;
 }
 
 @include mixin.for-tablet-landscape-up {
-  .made-in-india {
-    display: flex;
-    font-size: 1rem;
-    transform-origin: bottom left;
-    transform: rotate(-90deg);
-    bottom: 2rem;
-    left: 3rem;
-    text-align: left;
+  .tagline-section {
+    position: absolute;
+    bottom: 0;
+    right: 3rem;
+    display: flex !important;
   }
 
   .social-icons {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
+    display: flex !important;
     position: absolute;
-    bottom: 2rem;
-    right: 0.5rem;
-    flex-direction: column;
-
-    pc-button {
-      --pc-button-icon-size: 1.5rem;
-    }
-  }
-
-  .made-in-india:before {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 15px;
-    height: 1px;
-    width: 25px;
-    background: var(--color-outline);
-  }
-
-  .social-icons:after {
-    content: '';
-    display: inline-block;
-    vertical-align: middle;
-    height: 25px;
-    width: 1px;
-    background: var(--color-outline);
+    top: 1rem;
+    right: 1rem;
   }
 }
 
@@ -202,7 +156,7 @@
 }
 
 .intro-section {
-  background-color: var(--color-surface-container-high);
+  background-color: var(--color-surface-container-low);
 
   @include mixin.for-tablet-landscape-up {
     border-radius: var(--shape-corner-medium) var(--shape-corner-medium) 0 0;
@@ -218,7 +172,6 @@
 }
 
 .footer-with-about {
-  border-top: 0 !important;
   @include mixin.for-tablet-landscape-up {
     width: calc(100% - 1rem) !important;
   }

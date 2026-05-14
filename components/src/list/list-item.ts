@@ -152,8 +152,8 @@ export class ListItem extends mixinBaseButton(
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
-        rel=${ifDefined(this.rel)}
-        download=${ifDefined(this.download)}
+        ?rel=${this.rel}
+        ?download=${this.download}
         tabindex=${this.disabled ? '-1' : '0'}
         aria-disabled=${String(this.disabled || this.softDisabled)}
         @click=${this.__dispatchClick}

@@ -16,10 +16,6 @@ const isHomePage = pathname === '/';
     --nav-rail-width: var(--side-navigation-width);
     --nav-rail-container-color: var(--container-surface-container-high);
   }
-
-  #search-btn {
-    margin-top: 1rem;
-  }
 </style>
 
 <wc-navigation-rail class="navigation-rail">
@@ -32,69 +28,67 @@ const isHomePage = pathname === '/';
     // Try several common selectors and call the public open/show method
     // or set the `open` attribute as a fallback.
     document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('search-btn');
-      if (!btn) return;
-      btn.addEventListener('click', (ev) => {
-        ev.preventDefault();
+      const btn = document.querySelectorAll('.search-button');
+      if (!btn.length) return;
+      btn.forEach((el) => {
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
 
-        const candidates = [
-          'pagefind-modal',
-          'pagefind-component-ui',
-          'pagefind-ui',
-          'pagefind',
-        ];
+          const candidates = [
+            'pagefind-modal',
+            'pagefind-component-ui',
+            'pagefind-ui',
+            'pagefind',
+          ];
 
-        let found = null;
-        for (const sel of candidates) {
-          const el = document.querySelector(sel);
-          if (el) {
-            found = el;
-            break;
-          }
-        }
-
-        function openFound(el) {
-          try {
-            if (!el) return;
-            if (typeof el.open === 'function') el.open();
-            else if (typeof el.show === 'function') el.show();
-            else el.setAttribute('open', '');
-          } catch (err) {
-            // ignore
-          }
-        }
-
-        if (!found) {
-          // pagefind may create its element asynchronously; try shortly after.
-          setTimeout(() => {
-            for (const sel of candidates) {
-              const el = document.querySelector(sel);
-              if (el) {
-                found = el;
-                break;
-              }
+          let found = null;
+          for (const sel of candidates) {
+            const el = document.querySelector(sel);
+            if (el) {
+              found = el;
+              break;
             }
-            openFound(found);
-          }, 50);
-          return;
-        }
+          }
 
-        openFound(found);
+          function openFound(el) {
+            try {
+              if (!el) return;
+              if (typeof el.open === 'function') el.open();
+              else if (typeof el.show === 'function') el.show();
+              else el.setAttribute('open', '');
+            } catch (err) {
+              // ignore
+            }
+          }
+
+          if (!found) {
+            // pagefind may create its element asynchronously; try shortly after.
+            setTimeout(() => {
+              for (const sel of candidates) {
+                const el = document.querySelector(sel);
+                if (el) {
+                  found = el;
+                  break;
+                }
+              }
+              openFound(found);
+            }, 50);
+            return;
+          }
+
+          openFound(found);
+        });
       });
     });
   </script>
 
-  <wc-fab slot="header" id="search-btn" href="#"
-          lowered
-          color="primary"
-          aria-label='Search components'
+  <wc-fab slot="header" id="search-btn"
+        class="search-button"
+        lowered
+        color="primary"
+        aria-label='Search components'
   ><wc-icon name="search"></wc-icon
   ></wc-fab>
-
-  <pagefind-modal></pagefind-modal>
-
-
-
 
   <wc-navigation-rail-item href="/#" aria-label='Go to Home' active={isHomePage ? true : null}>
     <img src="/assets/img/logo-plain.webp" slot="icon" class="logo" alt="peacock" style="width: 32px;">

@@ -26,11 +26,13 @@ let _pluginEstree: Promise<typeof import('prettier/plugins/estree')> | null =
   null;
 
 const loadShiki = () => (_shiki ??= import('shiki'));
+
 const loadThemes = () =>
   (_themes ??= Promise.all([
     import('@pierre/theme/pierre-dark'),
     import('@pierre/theme/pierre-light'),
   ]));
+
 const loadPrettier = () => (_prettier ??= import('prettier/standalone'));
 const loadPluginBabel = () =>
   (_pluginBabel ??= import('prettier/plugins/babel'));

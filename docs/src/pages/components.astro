@@ -13,30 +13,17 @@ const componentEntries = getAllComponentsForShowcase();
 <Layout title={title} description={description} classes='surface-container-lowest'>
 
 
-    <div class='page-wrapper'>
-      <wc-container size='max' class='section'>
+  <div id='search-container'>
+    <wc-search id='component-search' layer='01' placeholder='Search'>
+    </wc-search>
+  </div>
 
 
-        <div class='comp-header'>
-          <h1 class='comp-title text-display heading-scrollable'>{title}</h1>
-        </div>
+  <div class='cards'>
+    {
+      componentEntries.map((component) => <WebComponentCard component={component}/>)
+    }
+  </div>
 
-
-        <div id='search-container'>
-          <wc-search id='component-search' layer='01' placeholder='Search'>
-          </wc-search>
-        </div>
-
-
-        <div class='cards'>
-          {
-            componentEntries.map((component) => <WebComponentCard component={component}/>)
-          }
-        </div>
-
-        <script is:inline src='/assets/js/components.page.js'></script>
-      </wc-container>
-
-    </div>
-
+  <script is:inline src='/assets/js/components.page.js'></script>
 </Layout>

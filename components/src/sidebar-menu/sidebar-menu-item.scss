@@ -14,7 +14,7 @@
   --sidebar-menu-item-label-color: var(--color-on-surface);
   --sidebar-menu-item-icon-color: var(--color-on-surface-variant);
   --sidebar-menu-item-selected-background: var(--color-secondary-container);
-  --sidebar-menu-item-selected-color: var(--color-on-secondary-container);
+  --sidebar-menu-item-selected-label-color: var(--color-on-secondary-container);
   --sidebar-menu-item-focus-ring-color: var(--color-primary);
 
   // M3 animation timing
@@ -42,7 +42,8 @@
 
   &.selected {
     --_container-color: var(--sidebar-menu-item-selected-background);
-    --_label-color: var(--sidebar-menu-item-selected-color);
+    --_label-color: var(--sidebar-menu-item-selected-label-color);
+    font-weight: var(--font-weight-bold) !important;
   }
 
   &.disabled {
@@ -78,9 +79,15 @@
 .focus-ring {
   z-index: 2;
   --focus-ring-color: var(--sidebar-menu-item-focus-ring-color);
-  --focus-ring-container-shape-start-start: var(--sidebar-menu-item-border-radius);
-  --focus-ring-container-shape-start-end: var(--sidebar-menu-item-border-radius);
-  --focus-ring-container-shape-end-start: var(--sidebar-menu-item-border-radius);
+  --focus-ring-container-shape-start-start: var(
+    --sidebar-menu-item-border-radius
+  );
+  --focus-ring-container-shape-start-end: var(
+    --sidebar-menu-item-border-radius
+  );
+  --focus-ring-container-shape-end-start: var(
+    --sidebar-menu-item-border-radius
+  );
   --focus-ring-container-shape-end-end: var(--sidebar-menu-item-border-radius);
 }
 
@@ -99,4 +106,3 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-

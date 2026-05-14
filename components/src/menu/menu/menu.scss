@@ -9,7 +9,6 @@
   width: var(--menu-width, max-content);
   max-width: 100vw;
   min-width: 112px;
-  padding-block: var(--spacing-050);
   transform-origin: top center;
 
   --_menu-enter-duration: var(--duration-medium1);
@@ -51,7 +50,6 @@
   .menu-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-050);
     z-index: 1;
     width: 100%;
 

@@ -51,7 +51,6 @@
   padding: 0
     var(--button-container-padding, var(--private-button-container-padding));
   width: 100%;
-  z-index: 0;
 
   .label {
     font-family: var(--font-family-sans) !important;
@@ -63,6 +62,8 @@
 
     --icon-size: var(--button-icon-size, var(--private-button-icon-size));
     --icon-color: var(--private-button-label-text-color);
+    opacity: var(--private-button-label-text-opacity, 1);
+    display: inline-flex;
 
     pointer-events: none;
   }

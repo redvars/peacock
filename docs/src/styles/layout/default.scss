@@ -5,7 +5,7 @@
 .default-layout {
   display: flex;
   min-height: 100vh;
-  --side-navigation-width: 90px;
+  --side-navigation-width: 6rem;
 }
 
 /** Mobile and tablet portrait styles */
@@ -71,11 +71,6 @@ html[dir='ltr'] [data-pf-sr-hidden] {
   }
 }
 
-main {
-  position: relative;
-  z-index: 0;
-}
-
 .main-content {
   position: relative;
   background: var(--color-surface);
@@ -83,7 +78,7 @@ main {
   .page-wrapper {
     position: relative;
     flex: 1;
-    margin-block: var(--spacing-200);
+    margin-block: var(--spacing-300);
   }
 }
 
@@ -93,4 +88,8 @@ main {
   left: 0;
   right: 0;
   z-index: 1000;
+}
+
+wc-notification-manager[name='global'] {
+  position: fixed;
 }

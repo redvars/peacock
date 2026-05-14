@@ -47,12 +47,23 @@
         return;
       }
       const theme = localStorage.getItem('theme') || 'light';
-      setTheme($themeSwitcher, theme);
-      $themeSwitcher.addEventListener('click', function () {
-        const theme =
-          localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
+      if ($themeSwitcher.length) {
+        $themeSwitcher.forEach(function ($themeSwitcher) {
+          setTheme($themeSwitcher, theme);
+          $themeSwitcher.addEventListener('click', function () {
+            const theme =
+              localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
+            setTheme($themeSwitcher, theme);
+          });
+        });
+      } else {
         setTheme($themeSwitcher, theme);
-      });
+        $themeSwitcher.addEventListener('click', function () {
+          const theme =
+            localStorage.getItem('theme') === 'dark' ? 'light' : 'dark';
+          setTheme($themeSwitcher, theme);
+        });
+      }
     };
   })();
 
@@ -72,16 +83,27 @@
         return;
       }
       const dir = localStorage.getItem('dir') || 'ltr';
-      setDir($dirSwitcher, dir);
-      $dirSwitcher.addEventListener('click', function () {
-        const dir = localStorage.getItem('dir') === 'ltr' ? 'rtl' : 'ltr';
+
+      if ($dirSwitcher.length) {
+        $dirSwitcher.forEach(function ($dirSwitcher) {
+          setDir($dirSwitcher, dir);
+          $dirSwitcher.addEventListener('click', function () {
+            const dir = localStorage.getItem('dir') === 'ltr' ? 'rtl' : 'ltr';
+            setDir($dirSwitcher, dir);
+          });
+        });
+      } else {
         setDir($dirSwitcher, dir);
-      });
+        $dirSwitcher.addEventListener('click', function () {
+          const dir = localStorage.getItem('dir') === 'ltr' ? 'rtl' : 'ltr';
+          setDir($dirSwitcher, dir);
+        });
+      }
     };
   })();
 
   document.addEventListener('DOMContentLoaded', function () {
-    registerThemeSwitcher(document.querySelector('.theme-switcher'));
-    registerDirSwitcher(document.querySelector('.dir-switcher'));
+    registerThemeSwitcher(document.querySelectorAll('.theme-switcher'));
+    registerDirSwitcher(document.querySelectorAll('.dir-switcher'));
   });
 })();

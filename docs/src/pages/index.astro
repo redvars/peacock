@@ -3,6 +3,7 @@ import Layout from '../layouts/Default.astro';
 import site from '../_data/site.json';
 import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
+import BuildBySection from '../components/BuildBySection.astro';
 import { getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
 
 const isProd = import.meta.env.PROD;
@@ -24,11 +25,11 @@ function jumpingSentence(sentence: string) {
     }).join('')}</div>`;
   }).join(' ');
 }
+
+const keywords = 'web components, button, input, grid, ui library, calendar, table, accordion, select, search, notifications, modal, card, breadcrumb, tree view, tabs, pagination, tooltip, popover, dropdown, menu, slider, toggle, switch, progress bar, spinner, loader, toast, alert, badge, tag, avatar, chip, divider, list, icon, text, heading, paragraph, label, link, image, checkbox, radio, form, form group, form field';
 ---
 
-<Layout root={true}
-        classes='surface-container-lowest'
-        keywords='web components, button, input, grid, ui library, calendar, table, accordion, select, search, notifications, modal, card, breadcrumb, tree view, tabs, pagination, tooltip, popover, dropdown, menu, slider, toggle, switch, progress bar, spinner, loader, toast, alert, badge, tag, avatar, chip, divider, list, icon, text, heading, paragraph, label, link, image, checkbox, radio, form, form group, form field'>
+<Layout keywords={keywords}>
 
   <div class='banner'>
 
@@ -56,40 +57,34 @@ function jumpingSentence(sentence: string) {
     </div>
 
 
-    <div class='social-icons'>
+    <wc-toolbar variant="floating" class='social-icons'>
       <wc-icon-button
-        variant='text'
-        color='surface'
-        target='_blank'
+        variant="text"
+        size="xs"
+        color="surface"
+        class='social-icon'
         aria-label='Github'
-        href={`https://www.github.com/${site.github_username}`}
-      >
-        <wc-icon name='logo--github' provider='carbon'></wc-icon>
+        target='_blank'
+        href={`https://www.github.com/${site.github_username}`}>
+        <wc-icon name="logo--github" provider='carbon'></wc-icon>
       </wc-icon-button>
       <wc-icon-button
-        variant='text'
-        color='surface'
-        target='_blank'
+        variant="text"
+        size="xs"
+        color="surface"
+        class='social-icon'
         aria-label='Twitter'
-        href={`https://x.com/${site.twitter_username}`}
-      >
-        <wc-icon name='logo--x' provider='carbon'></wc-icon>
+        target='_blank'
+        href={`https://x.com/${site.twitter_username}`}>
+        <wc-icon name="logo--x" provider='carbon'></wc-icon>
       </wc-icon-button>
-    </div>
+    </wc-toolbar>
 
-    <div class='made-in-india'>
-      <p class='text-body-emphasized'>Built by</p>&nbsp;
-      <p class='text-body-emphasized'>
-        <a class='link no-decoration' href={site.author_url}>
-          <wc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></wc-avatar>&nbsp;
-          {site.author}
-        </a>
-      </p>
-      <p class='text-body-emphasized'>.</p>
-      <wc-icon class='country-flag' size='1.5rem'
-                src='https://cdn.jsdelivr.net/gh/hampusborgos/country-flags@main/svg/in.svg'></wc-icon>
-      <p class='text-body-emphasized'>Made in India.</p>
-    </div>
+    <BuildBySection />
+
+
+
+
   </div>
 
 
@@ -184,10 +179,6 @@ function jumpingSentence(sentence: string) {
       </div>
 
     </wc-container>
-
-
-
-
   </div>
 
   <Footer />

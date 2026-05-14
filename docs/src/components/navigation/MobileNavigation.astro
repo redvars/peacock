@@ -1,0 +1,98 @@
+---
+const pathname = Astro.url.pathname;
+import site from '../../_data/site.json';
+const isTypographyPage = pathname === '/components/text';
+const isComponentsPage =
+  pathname === '/components' ||
+  (pathname.startsWith('/components/') && !isTypographyPage);
+const isColorsPage = pathname === '/color';
+const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
+const isHomePage = pathname === '/';
+---
+
+<style>
+  #hide-main-menu {
+    margin-inline-start: -1.25rem;
+    margin-block-start: -1rem;
+  }
+  #app-bar-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-on-surface);
+    text-decoration: none;
+  }
+  #app-bar-title img {
+    width: 22px;
+  }
+</style>
+
+<wc-app-bar class="show-tablet-portrait-below">
+  <wc-icon-button slot="leading" variant="text" id="show-main-menu">
+    <wc-icon name="menu"></wc-icon>
+  </wc-icon-button>
+
+  <a id="app-bar-title" href="/">
+    <img src="/assets/img/logo-plain.webp" class="logo" alt="peacock">
+    {site.title}
+  </a>
+  <wc-icon-button slot="trailing" variant="text"  class="search-button">
+    <wc-icon name="search"></wc-icon>
+  </wc-icon-button>
+</wc-app-bar>
+
+<wc-side-sheet id="main-menu-modal" variant="modal" position="left" class="show-tablet-portrait-below">
+
+  <wc-icon-button variant="text" id="hide-main-menu">
+    <wc-icon name="close"></wc-icon>
+  </wc-icon-button>
+
+  <wc-list style="width: min(100%, 28rem);">
+
+    <wc-list-item href="/#" aria-label='Go to Home' active={isHomePage ? true : null}>
+      <img src="/assets/img/logo-plain.webp" slot="leading" class="logo" alt="peacock" style="width: 32px;">
+      Home
+    </wc-list-item>
+    <wc-list-item href='/components' aria-label='Go to Components' active={isComponentsPage ? true : null}>
+      <wc-icon slot="leading" name="settings"></wc-icon>
+      Components
+    </wc-list-item>
+    <wc-list-item href='/color' aria-label='Go to Colors' active={isColorsPage ? true : null}>
+      <wc-icon slot="leading" name="palette"></wc-icon>
+      Colors
+    </wc-list-item>
+    <wc-list-item href='/components/text' aria-label='Go to Typography' active={isTypographyPage ? true : null}>
+      <wc-icon slot="leading" name="font_download"></wc-icon>
+      Typography
+    </wc-list-item>
+
+    <wc-list-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>
+      <wc-icon slot="leading" name="pages"></wc-icon>
+      Blog
+    </wc-list-item>
+
+
+    <wc-list-item class="dir-switcher" aria-label='Toggle ltr/rtl direction' title='Go to Blog'>
+      <wc-icon slot="leading" class="icon"></wc-icon>
+      Direction
+    </wc-list-item>
+
+    <wc-list-item class="theme-switcher" aria-label='Toggle light/dark mode'>
+      <wc-icon slot="leading" class="icon"></wc-icon>
+      Theme
+    </wc-list-item>
+
+  </wc-list>
+</wc-side-sheet>
+
+<script>
+  const $mainMenuModal = document.querySelector('#main-menu-modal');
+
+  document.querySelector('#show-main-menu').addEventListener('click', () => {
+    $mainMenuModal.show();
+  });
+
+  document.querySelector('#hide-main-menu').addEventListener('click', () => {
+    $mainMenuModal.hide();
+  });
+</script>

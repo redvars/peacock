@@ -5,8 +5,9 @@ import styles from './menu-item.scss';
 import colorStyles from './menu-item-colors.scss';
 import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
 import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
-import { Item } from '@/item/item.js';
+import { isLink } from '@/__internal/utils/is-link.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { classMap } from 'lit/directives/class-map.js';
 
 /**
  * @label Menu Item
@@ -51,7 +52,7 @@ export class MenuItem extends NativeButtonMixin(
 
   // ── Queries ───────────────────────────────────────────────────────────────
 
-  @query('wc-item') readonly itemElement!: Item | null;
+  @query('#menu-item') readonly itemElement!: HTMLElement | null;
 
   // ── Private fields ────────────────────────────────────────────────────────
 
@@ -119,24 +120,51 @@ export class MenuItem extends NativeButtonMixin(
   }
 
   render() {
+    const isElementLink = isLink(this);
     const controls = this.getAttribute('aria-controls');
 
-    return html`
-      <div class="menu-item-background"></div>
+    const cssClasses = {
+      'menu-item': true,
+      'native-button': !isElementLink,
+      'native-link': isElementLink,
+    };
 
-      <wc-item
+    if (isElementLink) {
+      return html`
+        <a
+          id="menu-item"
+          class=${classMap(cssClasses)}
+          role="menuitem"
+          href=${ifDefined(this.href)}
+          target=${this.target}
+          ?rel=${this.rel}
+          ?download=${this.download}
+          tabindex=${this.disabled ? '-1' : String(this.tabIndex)}
+          ?selected=${this.selected}
+          aria-disabled=${this.disabled || this.softDisabled ? 'true' : nothing}
+          aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
+          aria-controls=${ifDefined(
+            this.hasSubmenu && controls ? controls : undefined,
+          )}
+          aria-expanded=${ifDefined(
+            this.hasSubmenu ? String(this.submenuOpen) : undefined,
+          )}
+        >
+          ${this.renderContent()}
+        </a>
+      `;
+    }
+
+    return html`
+      <button
         id="menu-item"
-        class="menu-item"
+        class=${classMap(cssClasses)}
         role="menuitem"
+        type=${this.htmlType}
+        ?disabled=${this.disabled}
         tabindex=${String(this.tabIndex)}
         ?selected=${this.selected}
-        ?disabled=${this.disabled}
-        .softDisabled=${this.softDisabled}
-        .htmlType=${this.htmlType}
-        .href=${this.href}
-        .target=${this.target}
-        .rel=${this.rel}
-        .download=${this.download}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
         aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
         aria-controls=${ifDefined(
           this.hasSubmenu && controls ? controls : undefined,
@@ -145,6 +173,15 @@ export class MenuItem extends NativeButtonMixin(
           this.hasSubmenu ? String(this.submenuOpen) : undefined,
         )}
       >
+        ${this.renderContent()}
+      </button>
+    `;
+  }
+
+  renderContent() {
+    return html`
+      <div class="menu-item-background"></div>
+      <wc-item class="menu-item-content">
         <wc-focus-ring
           class="focus-ring"
           for="menu-item"
@@ -153,23 +190,17 @@ export class MenuItem extends NativeButtonMixin(
         <div class="background" slot="container"></div>
         <wc-ripple class="ripple" for="menu-item" slot="container"></wc-ripple>
 
-        ${this.renderContent()}
+        <slot name="start" slot="start"></slot>
+        <slot name="overline" slot="overline"></slot>
+        <slot name="headline" slot="headline"></slot>
+        <slot></slot>
+        <slot name="supporting-text" slot="supporting-text"></slot>
+        <slot
+          name="trailing-supporting-text"
+          slot="trailing-supporting-text"
+        ></slot>
+        <slot name="end" slot="end"></slot>
       </wc-item>
-    `;
-  }
-
-  renderContent() {
-    return html`
-      <slot name="start" slot="start"></slot>
-      <slot name="overline" slot="overline"></slot>
-      <slot name="headline" slot="headline"></slot>
-      <slot></slot>
-      <slot name="supporting-text" slot="supporting-text"></slot>
-      <slot
-        name="trailing-supporting-text"
-        slot="trailing-supporting-text"
-      ></slot>
-      <slot name="end" slot="end"></slot>
     `;
   }
 }

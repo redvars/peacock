@@ -134,10 +134,6 @@ export class Fab extends mixinBaseButton(
       return;
     }
 
-    if (this.toggle) {
-      this.selected = !this.selected;
-    }
-
     this.focus();
     dispatchActivationClick(this.buttonElement);
   };

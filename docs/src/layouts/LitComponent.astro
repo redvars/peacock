@@ -2,28 +2,29 @@
 import { getAllComponentsForShowcase, getTextTag, getMarkdown } from '../_data/getLitComponentDetails.ts';
 interface Props {
   componentDetails: any;
+  title?: string;
 }
 
-const {componentDetails} = Astro.props;
+const {componentDetails, title} = Astro.props;
 import Layout from './Default.astro';
 import '../styles/component.layout.scss';
 import Footer from '../components/Footer.astro';
 
 const componentEntries = getAllComponentsForShowcase();
 
-const title = getTextTag(componentDetails, 'label');
+const pageTitle = getTextTag(componentDetails, 'label') || title;
 const description = getTextTag(componentDetails, 'summary');
 const wip = getTextTag(componentDetails, 'wip');
 ---
 
-<Layout title={title} description={description} classes='surface'>
+<Layout title={pageTitle} description={description} classes='surface'>
 
   <div class='sidenav m-hide surface-container' id="component-page">
 
     <div class='sidenav-components'>
 
-      <wc-sidebar-menu layer='01' selected-item={title}>
-        <wc-sidebar-menu-item label="Overview" href='/components'></wc-sidebar-menu-item>
+      <wc-sidebar-menu layer='01' selected-item={pageTitle || 'Components Overview'}>
+        <wc-sidebar-menu-item label="Components Overview" href='/components'></wc-sidebar-menu-item>
 
         {
             componentEntries.map((component) => {
@@ -40,7 +41,7 @@ const wip = getTextTag(componentDetails, 'wip');
     <wc-container class='page-wrapper'>
 
       <div class='comp-header'>
-        <h1 class='heading-scrollable text-display'>{title}</h1>
+        <h1 class='heading-scrollable text-display'>{pageTitle}</h1>
         { wip ? <wc-tag color='red'>Work in progress</wc-tag>  : '' }
       </div>
 

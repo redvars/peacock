@@ -71,7 +71,7 @@
 }
 
 .focus-ring {
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
 
   --focus-ring-container-shape-start-start: var(
@@ -124,8 +124,6 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-
-  z-index: 2;
 
   --skeleton-container-shape-start-start: var(
     --private-button-container-shape-start-start,
@@ -180,8 +178,6 @@
   inset: 0;
   pointer-events: none;
 
-  z-index: 0;
-
   border: var(--private-button-outline-width) solid
     var(--private-button-outline-color);
   opacity: var(--private-button-outline-opacity, 1);
@@ -207,5 +203,5 @@
 }
 
 .tooltip {
-  z-index: 3;
+  z-index: 1;
 }

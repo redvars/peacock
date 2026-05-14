@@ -91,7 +91,7 @@ export class SideSheet extends LitElement {
         aria-modal=${this.variant === 'modal' ? 'true' : 'false'}
         aria-hidden=${!this.open ? 'true' : 'false'}
       >
-        <div class="content">
+        <div class="content" ?inert=${!this.open}>
           <slot></slot>
         </div>
       </div>
