@@ -2,31 +2,11 @@
 @use "mixin.scss";
 @use "device-utils.scss";
 
-:root {
-  --header-height: 4rem;
-  --header-brand-logo-height: 3rem;
+.page-title {
+  margin-top: 4rem;
+  margin-bottom: 1rem;
 }
 
-.header {
-  --goat-header-height: var(--header-height);
-  --goat-header-width: var(--container-max);
-}
-
-.top-nav {
-  box-shadow: var(--shadow-sm);
-  border-bottom: 1px solid var(--border-strong-01);
-}
-
-.main-content {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.page-container {
-  flex: 1;
-}
 
 .categories {
   display: flex;
@@ -54,7 +34,7 @@
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: var(--spacing-150);
   align-items: stretch;
-  margin-top: var(--spacing-500);
+  margin-block: var(--spacing-500);
   color: var(--color-on-surface);
 }
 

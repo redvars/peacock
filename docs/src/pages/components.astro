@@ -3,27 +3,36 @@ import Layout from '../layouts/WithComponentsSidebar.astro';
 import '../styles/components.page.scss';
 
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
-import Footer from '../components/Footer.astro';
 import WebComponentCard from '../components/WebComponentCard.astro';
-const title = 'Overview';
+const title = 'Components Overview';
 const description = 'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
 const componentEntries = getAllComponentsForShowcase();
+
+const componentGroups = [{
+  name: 'Buttons',
+  components: ['button', 'icon-button', 'fab']
+}]
 ---
 
 <Layout title={title} description={description} classes='surface-container-lowest'>
 
 
-  <div id='search-container'>
-    <wc-search id='component-search' layer='01' placeholder='Search'>
-    </wc-search>
-  </div>
+  <wc-container size="lg">
+
+    <h1 class="text-display page-title">Overview</h1>
+
+    <div id='search-container'>
+      <wc-search id='component-search' layer='01' placeholder='Search'></wc-search>
+    </div>
 
 
-  <div class='cards'>
-    {
-      componentEntries.map((component) => <WebComponentCard component={component}/>)
-    }
-  </div>
+    <div class='cards'>
+      {
+        componentEntries.map((component) => <WebComponentCard component={component}/>)
+      }
+    </div>
+  </wc-container>
+  
 
   <script is:inline src='/assets/js/components.page.js'></script>
 </Layout>

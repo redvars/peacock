@@ -31,13 +31,16 @@ if (window.location.href.indexOf('?filter=') !== -1) {
   });
 }
 
-document.addEventListener('scroll', function () {
-  const scrollPosition = window.scrollY;
-  const header = document.querySelector('#search-container');
+
+const $searchContainer = document.querySelector('#search-container');
+
+document.querySelector('.with-sidebar-layout-content').addEventListener('scroll', function (event) {
+  const scrollPosition = event.target.scrollTop;
+  
   if (scrollPosition > 0) {
-    header.classList.add('scrolled');
+    $searchContainer.classList.add('scrolled');
   } else {
-    header.classList.remove('scrolled');
+    $searchContainer.classList.remove('scrolled');
   }
 });
 
