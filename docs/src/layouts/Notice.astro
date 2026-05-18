@@ -1,13 +1,8 @@
 ---
 import Layout from './Default.astro';
+import '../styles/layout/notice.scss';
 const { title, description, keywords} = Astro.props.frontmatter;
 ---
-
-<style>
-  .back-to-home {
-    margin-top: var(--spacing-300);
-  }
-</style>
 <Layout title={title} description={description} keywords={keywords}>
 
   <main>
@@ -26,4 +21,3 @@ const { title, description, keywords} = Astro.props.frontmatter;
   </main>
 
 </Layout>
-

@@ -102,24 +102,24 @@ html {
   visibility: hidden;
 }
 
-body::selection {
+.primary-scrollbar::selection {
   color: var(--color-surface);
   background: var(--color-primary);
 }
 
 /* width */
-body::-webkit-scrollbar {
+.primary-scrollbar::-webkit-scrollbar {
   background-color: transparent;
   width: var(--scrollbar-width);
 }
 
 /* Handle */
-body::-webkit-scrollbar-thumb {
+.primary-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--color-primary);
   border-radius: calc(var(--scrollbar-width) / 2);
 }
 
-body.stop-scroll {
+.primary-scrollbar.stop-scroll {
   overflow-y: hidden;
 }
 

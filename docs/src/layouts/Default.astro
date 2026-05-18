@@ -1,23 +1,22 @@
 ---
+import Layout from './Base.astro';
 import SideNavigation from '../components/navigation/SideNavigation.astro';
 import MobileNavigation from '../components/navigation/MobileNavigation.astro';
+import PagefindModal from '../components/navigation/PagefindModal.astro';
+import '../styles/layout/default.scss';
 
 interface Props {
   title?: string;
   description?: string;
   keywords?: string;
 }
-import '../styles/layout/default.scss';
+
 
 const {
   title,
   description,
   keywords
 } = Astro.props;
-
-import Layout from './Base.astro';
-
-
 ---
 
 <Layout title={title} description={description} keywords={keywords}>
@@ -30,7 +29,7 @@ import Layout from './Base.astro';
     </div>
 
 
-    <div class="page-context-wrapper">
+    <div class="default-layout-content">
 
        <!-- For mobile -->
       <MobileNavigation />
@@ -39,8 +38,9 @@ import Layout from './Base.astro';
     </div>
   </div>
 
-  <wc-notification-manager position='bottom-right'></wc-notification-manager>
-  <pagefind-modal></pagefind-modal>
+  <wc-notification-manager position='bottom-right' class="page-notification-manager"></wc-notification-manager>
+
+  <PagefindModal />
 
 
   <!-- Scripts -->
