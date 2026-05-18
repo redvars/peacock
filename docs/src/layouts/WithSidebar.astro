@@ -1,0 +1,42 @@
+---
+import Layout from './Default.astro';
+import '../styles/layout/with-sidebar.scss';
+const pathname = Astro.url.pathname;
+
+type SidebarMenuItem = {
+  label: string;
+  href: string;
+};
+
+interface Props {
+  title: string;
+  description?: string;
+  sidebarItems?: SidebarMenuItem[];
+}
+const {title, description, sidebarItems = []} = Astro.props;
+
+
+
+---
+<Layout title={title} description={description}>
+
+  <div class="with-sidebar-layout">
+
+    <div class='sidenav-container'>
+      <wc-sidebar-menu class='sidenav' selected-item={pathname}>
+        {
+            sidebarItems.map((item) => {
+              return <wc-sidebar-menu-item label={item.label}
+              value={item.href}
+              href={item.href}></wc-sidebar-menu-item>
+            })
+        }
+      </wc-sidebar-menu>
+    </div>
+
+    <div class='with-sidebar-layout-content'>
+      <slot/>
+    </div>
+  </div>
+
+</Layout>
