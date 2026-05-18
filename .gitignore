@@ -1,7 +1,6 @@
 dist/
 www/
 loader/
-docs/assets/goatui-dev/
 
 *~
 *.sw[mnpcod]
