@@ -1,0 +1,65 @@
+@use '../mixin';
+
+.article-layout {
+  display: flex;
+
+  .article {
+    flex: 1;
+    margin-inline-end: 15rem;
+    margin-block-start: 4rem;
+
+    .article-title {
+      margin-block-end: 0.5rem;
+    }
+
+    .article-description {
+      margin-block-end: 2rem;
+    }
+
+    .section {
+      margin-block-end: 3rem;
+
+      > h2 {
+        @include mixin.get-typography('headline-large');
+        margin-block-end: 0.5rem;
+      }
+
+      > h3 {
+        @include mixin.get-typography('title-large');
+        margin-block-end: 0.5rem;
+      }
+
+      > p {
+        @include mixin.get-typography('body-large');
+        margin-block-end: 0.5rem;
+      }
+    }
+  }
+}
+
+.on-this-page {
+  width: 12rem;
+  margin-inline-end: 1rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  margin-block-start: 4rem;
+
+  .section-nav-links {
+    list-style: disc;
+    padding-inline-start: 1.25rem;
+  }
+  .section-nav-links li {
+    margin-block: 0.5rem;
+
+    wc-link {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+  }
+
+  .sponser-icon {
+    --icon-color: var(--color-red);
+  }
+}

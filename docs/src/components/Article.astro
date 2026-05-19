@@ -1,6 +1,8 @@
 ---
 import site from '../_data/site.json';
 import { convertToSectionId } from '../_data/utils.ts';
+import '../styles/layout/article.scss';
+
 
 interface Props {
   title?: string;
@@ -12,72 +14,11 @@ const { title, description, sections = [] } = Astro.props;
 
 
 ---
-<style is:inline>
-  .article-layout {
-    display: flex;
-    
-    .article {
-      flex: 1;
-      margin-inline-end: 15rem;
-      margin-block-start: 4rem;
-
-      .article-title {
-        margin-block-end: 0.5rem;
-      }
-
-      .article-description {
-        margin-block-end: 2rem;
-      }
-
-      .section {
-        margin-block-end: 3rem;
-
-        .section-title {
-          margin-block-end: 0.5rem;
-        }
-
-        p {
-          margin-block-end: 0.5rem;
-        }
-      }
-
-
-    }
-  }
-
-  .on-this-page {
-    width: 12rem;
-    margin-inline-end: 1rem;
-    position: fixed;
-    right: 0;
-    top: 0;
-    margin-block-start: 4rem;
-    
-
-    .section-nav-links {
-      list-style: disc;
-      padding-inline-start: 1.25rem;
-    }
-    .section-nav-links li {
-      margin-block: 0.5rem;
-
-      wc-link {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-      }
-    }
-
-    .sponser-icon {
-      --icon-color: var(--color-red);
-    }
-  }
-</style>
 <div class="article-layout">
 
   <article class="article">
     <wc-container size="lg">
-      
+
         <h1 class="text-display article-title">{title}</h1>
         <div class="article-description text-title-large"><Fragment set:html={description}/></div>
 
@@ -88,11 +29,11 @@ const { title, description, sections = [] } = Astro.props;
               <h2 class='section-title heading-scrollable text-headline'>{section.title}</h2>
 
               <section.component />
-              
+
             </section>))
         }
-        
-      
+
+
     </wc-container>
   </article>
 
@@ -106,7 +47,7 @@ const { title, description, sections = [] } = Astro.props;
         })
       }
     </ul>
-    
+
     <wc-button href={site.sponsor_url} target="_blank" variant="tonal" color="primary">
       <wc-icon slot="icon" name="favorite" class="sponser-icon"></wc-icon>
       Sponsor

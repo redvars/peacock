@@ -40,11 +40,8 @@ function copyFolderRecursiveSync(source, destination) {
 
 // --- Execution ---
 
-// 1. Clean the source first
-clearDirectory(sourceDir);
-
-// 2. Clean the destination
+// 1. Clean the destination
 clearDirectory(destDir);
 
-// 3. Perform the copy
+// 2. Perform the copy
 copyFolderRecursiveSync(sourceDir, destDir);

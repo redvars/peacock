@@ -1,12 +1,10 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
-
 export const title = 'Usage';
 export const order = 1;
 ---
 
-
-<p class='text-body-large'>An accordion renders a list of expansion panels. By default, only one panel can be open at a time — expanding a new panel collapses the previous one.</p>
+<p>An accordion renders a list of expansion panels. By default, only one panel can be open at a time — expanding a new panel collapses the previous one.</p>
 
 <DemoComponentCard lang={"html"}>
   <wc-accordion>
@@ -24,26 +22,11 @@ export const order = 1;
         Add your shipping address to continue with checkout.
       </p>
     </wc-accordion-item>
-    <wc-accordion-item disabled>
+    <wc-accordion-item disabled="true">
       <span slot="heading">Billing address</span>
       <p class='text-body-large'>
         This section is currently unavailable.
       </p>
-    </wc-accordion-item>
-  </wc-accordion>
-</DemoComponentCard>
-
-<p class='text-body-large'>Use the <code>open</code> attribute to expand a panel by default.</p>
-
-<DemoComponentCard lang={"html"}>
-  <wc-accordion>
-    <wc-accordion-item open>
-      <span slot="heading">Open by default</span>
-      <p class='text-body-large'>This panel is expanded on load.</p>
-    </wc-accordion-item>
-    <wc-accordion-item>
-      <span slot="heading">Collapsed by default</span>
-      <p class='text-body-large'>This panel starts collapsed.</p>
     </wc-accordion-item>
   </wc-accordion>
 </DemoComponentCard>

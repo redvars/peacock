@@ -87,6 +87,10 @@ const groupsWithEntries = componentGroups.map(g => ({
   entries:
     g.entries ?? componentEntries.filter(c => g.components.includes(c.rawTag)),
 }));
+
+const sortedComponents = [...componentEntries].sort((a, b) =>
+  a.rawTag.localeCompare(b.rawTag),
+);
 ---
 
 <Layout
@@ -102,7 +106,7 @@ const groupsWithEntries = componentGroups.map(g => ({
       ></wc-search>
     </div>
 
-    <div class="cards-holder">
+    <div id="grouped-view" class="cards-holder">
       {
         groupsWithEntries.map(
           group =>
@@ -119,7 +123,52 @@ const groupsWithEntries = componentGroups.map(g => ({
         )
       }
     </div>
+
+    <div id="flat-view" class="cards-holder hidden">
+      <div class="cards">
+        {sortedComponents.map(component => (
+          <WebComponentCard component={component} />
+        ))}
+      </div>
+    </div>
   </wc-container>
 
-  <script is:inline src="/assets/js/components.page.js"></script>
+  <script is:inline>
+    const $componentSearchElm = document.getElementById('component-search');
+    customElements.whenDefined('wc-search').then(function () {
+      $componentSearchElm.focus();
+    });
+
+    const $groupedView = document.getElementById('grouped-view');
+    const $flatView = document.getElementById('flat-view');
+
+    $componentSearchElm.addEventListener('input', function (e) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      const query = e.target.value.toLowerCase();
+
+      if (query) {
+        $groupedView.classList.add('hidden');
+        $flatView.classList.remove('hidden');
+        $flatView.querySelectorAll('.component-card').forEach(elm => {
+          elm.classList.toggle('hidden', elm.innerText.toLowerCase().indexOf(query) === -1);
+        });
+      } else {
+        $flatView.classList.add('hidden');
+        $groupedView.classList.remove('hidden');
+      }
+    });
+
+
+    const $searchContainer = document.querySelector('#search-container');
+
+    document.querySelector('.with-sidebar-layout-content').addEventListener('scroll', function (event) {
+      const scrollPosition = event.target.scrollTop;
+
+      if (scrollPosition > 0) {
+        $searchContainer.classList.add('scrolled');
+      } else {
+        $searchContainer.classList.remove('scrolled');
+      }
+    });
+  </script>
 </Layout>

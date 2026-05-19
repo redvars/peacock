@@ -4,7 +4,7 @@
     "tag": "wc-accordion",
     "rawTag": "accordion",
     "summary": "A vertically stacked set of expansion panels.",
-    "example": "```html\r\n<wc-accordion>\r\n  <wc-accordion-item>\r\n    <span slot=\"heading\">Panel 1</span>\r\n    <span slot=\"description\">Summary text</span>\r\n    Content\r\n  </wc-accordion-item>\r\n  <wc-accordion-item>\r\n    <span slot=\"heading\">Panel 2</span>\r\n    Content\r\n  </wc-accordion-item>\r\n</wc-accordion>\r\n```",
+    "example": "```html\n<wc-accordion>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 1</span>\n    <span slot=\"description\">Summary text</span>\n    Content\n  </wc-accordion-item>\n  <wc-accordion-item>\n    <span slot=\"heading\">Panel 2</span>\n    Content\n  </wc-accordion-item>\n</wc-accordion>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -16,7 +16,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether multiple panels can be expanded simultaneously.\r\nWhen `false` (default), expanding one panel collapses all others.",
+          "description": "Whether multiple panels can be expanded simultaneously.\nWhen `false` (default), expanding one panel collapses all others.",
           "fieldName": "multi"
         },
         {
@@ -25,7 +25,7 @@
             "text": "'default' | 'flat'"
           },
           "default": "'default'",
-          "description": "Display mode for the accordion.\r\n`'default'` renders panels with a subtle background on expand and dividers between items.\r\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
+          "description": "Display mode for the accordion.\n`'default'` renders panels with a subtle background on expand and dividers between items.\n`'flat'` renders panels without borders or background changes — suitable for use inside cards.",
           "fieldName": "displayMode"
         }
       ],
@@ -130,10 +130,10 @@
     "tag": "wc-app-bar",
     "rawTag": "app-bar",
     "summary": "A top app bar for page-level navigation and actions.",
-    "overview": "<p>The app bar component implements the top app bar pattern. It provides a\r\nconsistent header for screens, housing a navigation icon, a page title/headline, and\r\noptional trailing action icons.</p>\r\n\r\n<p>Four size variants are available: <strong>small</strong> (64dp, single-row),\r\n<strong>center-aligned</strong> (64dp, centred headline), <strong>medium</strong>\r\n(112dp, headline below the row), and <strong>large</strong> (152dp, large headline).</p>\r\n\r\n<p>Use the <code>leading</code> slot for a navigation icon (e.g. a hamburger or back\r\nbutton), the default slot for the headline text, and the <code>trailing</code> slot for\r\naction icon buttons.</p>",
+    "overview": "<p>The app bar component implements the top app bar pattern. It provides a\nconsistent header for screens, housing a navigation icon, a page title/headline, and\noptional trailing action icons.</p>\n\n<p>Four size variants are available: <strong>small</strong> (64dp, single-row),\n<strong>center-aligned</strong> (64dp, centred headline), <strong>medium</strong>\n(112dp, headline below the row), and <strong>large</strong> (152dp, large headline).</p>\n\n<p>Use the <code>leading</code> slot for a navigation icon (e.g. a hamburger or back\nbutton), the default slot for the headline text, and the <code>trailing</code> slot for\naction icon buttons.</p>",
     "slot": "trailing - Trailing action icon buttons placed at the end of the bar.",
     "cssprop": "--app-bar-shadow - Box-shadow applied when the bar is scrolled / elevated.",
-    "example": "```html\r\n<!-- Large app bar -->\r\n<wc-app-bar variant=\"large\">\r\n  <wc-icon-button slot=\"leading\" variant=\"text\"><wc-icon name=\"arrow_back\"></wc-icon></wc-icon-button>\r\n  Large Headline\r\n  <wc-icon-button slot=\"trailing\" variant=\"text\"><wc-icon name=\"more_vert\"></wc-icon></wc-icon-button>\r\n</wc-app-bar>\r\n```",
+    "example": "```html\n<!-- Large app bar -->\n<wc-app-bar variant=\"large\">\n  <wc-icon-button slot=\"leading\" variant=\"text\"><wc-icon name=\"arrow_back\"></wc-icon></wc-icon-button>\n  Large Headline\n  <wc-icon-button slot=\"trailing\" variant=\"text\"><wc-icon name=\"more_vert\"></wc-icon></wc-icon-button>\n</wc-app-bar>\n```",
     "tags": "navigation display",
     "customElement": {
       "kind": "class",
@@ -185,7 +185,7 @@
             "text": "'small' | 'center-aligned' | 'medium' | 'large'"
           },
           "default": "'small'",
-          "description": "Visual variant of the app bar.\r\n- `\"small\"`: 64dp single-row bar with leading, title, and trailing (default).\r\n- `\"center-aligned\"`: 64dp single-row bar with a centred headline.\r\n- `\"medium\"`: Two-row bar (64dp top row + 48dp headline row).\r\n- `\"large\"`: Two-row bar with a larger headline (64dp top row + 88dp headline row).",
+          "description": "Visual variant of the app bar.\n- `\"small\"`: 64dp single-row bar with leading, title, and trailing (default).\n- `\"center-aligned\"`: 64dp single-row bar with a centred headline.\n- `\"medium\"`: Two-row bar (64dp top row + 48dp headline row).\n- `\"large\"`: Two-row bar with a larger headline (64dp top row + 88dp headline row).",
           "fieldName": "variant"
         },
         {
@@ -194,7 +194,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether the bar is in its scrolled state, which adds a shadow and optionally\r\nchanges the container color to indicate elevation above page content.",
+          "description": "Whether the bar is in its scrolled state, which adds a shadow and optionally\nchanges the container color to indicate elevation above page content.",
           "fieldName": "scrolled"
         }
       ],
@@ -216,7 +216,7 @@
     "rawTag": "avatar",
     "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
     "cssprop": "--avatar-text-color - Controls the color of the text inside the avatar.",
-    "example": "```html\r\n<wc-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></wc-avatar>\r\n```",
+    "example": "```html\n<wc-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></wc-avatar>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -276,7 +276,7 @@
     "rawTag": "badge",
     "summary": "The badge component is used to display a small amount of information to the user.",
     "cssprop": "--badge-color - Controls the color of the badge.",
-    "example": "```html\r\n<wc-badge value=\"1\"></wc-badge>\r\n```",
+    "example": "```html\n<wc-badge value=\"1\"></wc-badge>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -393,9 +393,9 @@
     "tag": "wc-breadcrumb",
     "rawTag": "breadcrumb",
     "summary": "A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.",
-    "overview": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\r\n - They help users understand their current location within the site hierarchy.\r\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks.",
+    "overview": "- Breadcrumbs provide a trail for users to follow back to the starting or entry point.\n - They help users understand their current location within the site hierarchy.\n - Follows WCAG 2.1 guidelines for accessible navigation landmarks.",
     "tags": "navigation",
-    "example": "```html\r\n<wc-breadcrumb label=\"Breadcrumb\">\r\n  <wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\r\n  <wc-breadcrumb-item href=\"#\">Category</wc-breadcrumb-item>\r\n  <wc-breadcrumb-item active>Current Page</wc-breadcrumb-item>\r\n</wc-breadcrumb>\r\n```",
+    "example": "```html\n<wc-breadcrumb label=\"Breadcrumb\">\n  <wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\n  <wc-breadcrumb-item href=\"#\">Category</wc-breadcrumb-item>\n  <wc-breadcrumb-item active>Current Page</wc-breadcrumb-item>\n</wc-breadcrumb>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -428,7 +428,7 @@
     "rawTag": "breadcrumb-item",
     "summary": "A breadcrumb item component that represents a single item in a breadcrumb navigation.",
     "tags": "navigation",
-    "example": "```html\r\n<wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\r\n```",
+    "example": "```html\n<wc-breadcrumb-item href=\"#\">Home</wc-breadcrumb-item>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -919,7 +919,7 @@
     "summary": "A full calendar component for displaying events in day, week, or month views.",
     "cssprop": "--calendar-event-border-color - Left border color for calendar events.",
     "fires": "date-change - Dispatched when the context date changes. Detail contains `{ date }`.",
-    "example": "```html\r\n<wc-calendar view=\"week\" style=\"height: 600px\"></wc-calendar>\r\n```",
+    "example": "```html\n<wc-calendar view=\"week\" style=\"height: 600px\"></wc-calendar>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1148,7 +1148,7 @@
     "rawTag": "canvas",
     "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
     "cssprop": "--canvas-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
-    "example": "```html\r\n<wc-canvas id=\"my-canvas\"></wc-canvas>\r\n<script>\r\n  document.querySelector('#my-canvas').shapes = [\r\n    { type: 'circle', x: 0, y: 0, radius: 0.25, color: 'red' },\r\n  ];\r\n</script>\r\n```",
+    "example": "```html\n<wc-canvas id=\"my-canvas\"></wc-canvas>\n<script>\n  document.querySelector('#my-canvas').shapes = [\n    { type: 'circle', x: 0, y: 0, radius: 0.25, color: 'red' },\n  ];\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1366,7 +1366,7 @@
     "rawTag": "cb-compound-expression",
     "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
     "tags": "condition-builder",
-    "example": "```html\r\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\r\n  <wc-cb-expression>\r\n    <wc-input placeholder=\"Enter value\"></wc-input>\r\n  </wc-cb-expression>\r\n</wc-cb-compound-expression>\r\n```",
+    "example": "```html\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n  <wc-cb-expression>\n    <wc-input placeholder=\"Enter value\"></wc-input>\n  </wc-cb-expression>\n</wc-cb-compound-expression>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1416,7 +1416,7 @@
     "rawTag": "cb-divider",
     "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
     "tags": "condition-builder",
-    "example": "```html\r\n<wc-cb-divider>\r\n  <wc-tag color=\"green\">and</wc-tag>\r\n</wc-cb-divider>\r\n```",
+    "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1467,7 +1467,7 @@
     "rawTag": "cb-expression",
     "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
     "tags": "condition-builder",
-    "example": "```html\r\n<wc-cb-expression>\r\n  <wc-input placeholder=\"Enter value\"></wc-input>\r\n</wc-cb-expression>\r\n```",
+    "example": "```html\n<wc-cb-expression>\n  <wc-input placeholder=\"Enter value\"></wc-input>\n</wc-cb-expression>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1478,7 +1478,7 @@
             "text": "{ label: string; value: string; icon?: string }[]"
           },
           "default": "[]",
-          "description": "The list of operator options to display in the operator select.\r\nEach item should have at least `label` and `value` properties.",
+          "description": "The list of operator options to display in the operator select.\nEach item should have at least `label` and `value` properties.",
           "fieldName": "operators"
         },
         {
@@ -1509,7 +1509,7 @@
     "rawTag": "cb-predicate",
     "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
     "tags": "condition-builder",
-    "example": "```html\r\n<wc-cb-predicate condition-operator=\"and\" vertical>\r\n  <wc-cb-compound-expression field-label=\"Age\">\r\n    <wc-cb-expression></wc-cb-expression>\r\n  </wc-cb-compound-expression>\r\n</wc-cb-predicate>\r\n```",
+    "example": "```html\n<wc-cb-predicate condition-operator=\"and\" vertical>\n  <wc-cb-compound-expression field-label=\"Age\">\n    <wc-cb-expression></wc-cb-expression>\n  </wc-cb-compound-expression>\n</wc-cb-predicate>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1550,7 +1550,7 @@
     "rawTag": "chart-bar",
     "summary": "A vertical bar chart that follows color and spacing tokens.",
     "tags": "charts",
-    "example": "```html\r\n<wc-chart-bar width=\"520\" height=\"320\"></wc-chart-bar>\r\n<script>\r\n  document.querySelector('wc-chart-bar').data = [\r\n    { name: 'apples', label: 'Apples', value: 20 },\r\n    { name: 'bananas', label: 'Bananas', value: 35 },\r\n    { name: 'cherries', label: 'Cherries', value: 15 },\r\n  ];\r\n</script>\r\n```",
+    "example": "```html\n<wc-chart-bar width=\"520\" height=\"320\"></wc-chart-bar>\n<script>\n  document.querySelector('wc-chart-bar').data = [\n    { name: 'apples', label: 'Apples', value: 20 },\n    { name: 'bananas', label: 'Bananas', value: 35 },\n    { name: 'cherries', label: 'Cherries', value: 15 },\n  ];\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1619,7 +1619,7 @@
     "rawTag": "chart-doughnut",
     "summary": "A doughnut chart is a circular chart with a blank center. The area in the center can be used to display information.",
     "tags": "charts",
-    "example": "```html\r\n<wc-chart-doughnut width=\"400\" label=\"Total\"></wc-chart-doughnut>\r\n<script>\r\n  document.querySelector('wc-chart-doughnut').data = [\r\n    { name: 'A', value: 30, label: 'Category A' },\r\n    { name: 'B', value: 50, label: 'Category B' },\r\n    { name: 'C', value: 20, label: 'Category C' },\r\n  ];\r\n</script>\r\n```",
+    "example": "```html\n<wc-chart-doughnut width=\"400\" label=\"Total\"></wc-chart-doughnut>\n<script>\n  document.querySelector('wc-chart-doughnut').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1687,7 +1687,7 @@
     "rawTag": "chart-pie",
     "summary": "A pie chart is a circular statistical graphic that visually represents numerical proportions.",
     "tags": "charts",
-    "example": "```html\r\n<wc-chart-pie width=\"400\"></wc-chart-pie>\r\n<script>\r\n  document.querySelector('wc-chart-pie').data = [\r\n    { name: 'A', value: 30, label: 'Category A' },\r\n    { name: 'B', value: 50, label: 'Category B' },\r\n    { name: 'C', value: 20, label: 'Category C' },\r\n  ];\r\n</script>\r\n```",
+    "example": "```html\n<wc-chart-pie width=\"400\"></wc-chart-pie>\n<script>\n  document.querySelector('wc-chart-pie').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1747,7 +1747,7 @@
     "rawTag": "chart-stacked-bar",
     "summary": "A stacked bar chart that groups series by category using tokens.",
     "tags": "charts",
-    "example": "```html\r\n<wc-chart-stacked-bar width=\"560\" height=\"360\"></wc-chart-stacked-bar>\r\n<script>\r\n  document.querySelector('wc-chart-stacked-bar').data = [\r\n    {\r\n      name: 'q1',\r\n      label: 'Q1',\r\n      segments: [\r\n        { name: 'mobile', label: 'Mobile', value: 40 },\r\n        { name: 'web', label: 'Web', value: 25 },\r\n        { name: 'store', label: 'Store', value: 15 },\r\n      ],\r\n    },\r\n    {\r\n      name: 'q2',\r\n      label: 'Q2',\r\n      segments: [\r\n        { name: 'mobile', label: 'Mobile', value: 32 },\r\n        { name: 'web', label: 'Web', value: 30 },\r\n        { name: 'store', label: 'Store', value: 18 },\r\n      ],\r\n    },\r\n  ];\r\n</script>\r\n```",
+    "example": "```html\n<wc-chart-stacked-bar width=\"560\" height=\"360\"></wc-chart-stacked-bar>\n<script>\n  document.querySelector('wc-chart-stacked-bar').data = [\n    {\n      name: 'q1',\n      label: 'Q1',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 40 },\n        { name: 'web', label: 'Web', value: 25 },\n        { name: 'store', label: 'Store', value: 15 },\n      ],\n    },\n    {\n      name: 'q2',\n      label: 'Q2',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 32 },\n        { name: 'web', label: 'Web', value: 30 },\n        { name: 'store', label: 'Store', value: 18 },\n      ],\n    },\n  ];\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2202,7 +2202,7 @@
     "rawTag": "chip-set",
     "summary": "A layout container for wrapping chips.",
     "tags": "layout",
-    "example": "```html\r\n<wc-chip-set>\r\n  <wc-chip>One</wc-chip>\r\n  <wc-chip>Two</wc-chip>\r\n</wc-chip-set>\r\n```",
+    "example": "```html\n<wc-chip-set>\n  <wc-chip>One</wc-chip>\n  <wc-chip>Two</wc-chip>\n</wc-chip-set>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2224,7 +2224,7 @@
     "rawTag": "circular-progress",
     "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\r\n<wc-circular-progress value=\"30\"></wc-circular-progress>\r\n```",
+    "example": "```html\n<wc-circular-progress value=\"30\"></wc-circular-progress>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2306,9 +2306,9 @@
     "tag": "wc-clock",
     "rawTag": "clock",
     "summary": "Displays the current time in a given timezone.",
-    "overview": "- Clocks are used to display the current time in a specified timezone.\r\n - They can be displayed in various formats, including 12-hour and 24-hour time.",
+    "overview": "- Clocks are used to display the current time in a specified timezone.\n - They can be displayed in various formats, including 12-hour and 24-hour time.",
     "tags": "display",
-    "example": "```html\r\n<wc-clock></wc-clock>\r\n```",
+    "example": "```html\n<wc-clock></wc-clock>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2608,7 +2608,7 @@
     "rawTag": "condition-builder",
     "summary": "A condition builder component that allows users to construct complex filter conditions using a visual rule-based interface with predicates, compound expressions, and logical operators.",
     "tags": "condition-builder",
-    "example": "```html\r\n<wc-condition-builder>\r\n  <wc-cb-predicate condition-operator=\"or\">\r\n    <wc-cb-predicate vertical condition-operator=\"and\">\r\n      <wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\r\n        <wc-cb-expression>\r\n          <wc-input inline placeholder=\"Enter value\"></wc-input>\r\n        </wc-cb-expression>\r\n      </wc-cb-compound-expression>\r\n    </wc-cb-predicate>\r\n  </wc-cb-predicate>\r\n</wc-condition-builder>\r\n```",
+    "example": "```html\n<wc-condition-builder>\n  <wc-cb-predicate condition-operator=\"or\">\n    <wc-cb-predicate vertical condition-operator=\"and\">\n      <wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n        <wc-cb-expression>\n          <wc-input inline placeholder=\"Enter value\"></wc-input>\n        </wc-cb-expression>\n      </wc-cb-compound-expression>\n    </wc-cb-predicate>\n  </wc-cb-predicate>\n</wc-condition-builder>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2631,7 +2631,7 @@
     "summary": "A responsive container component for layout.",
     "cssprop": "--container-padding - Controls the padding of the container.",
     "tags": "layout",
-    "example": "```html\r\n<wc-container style=\"width: 80%; border: 1px dotted black;\" size=\"md\">Content</wc-container>\r\n```",
+    "example": "```html\n<wc-container style=\"width: 80%; border: 1px dotted black;\" size=\"md\">Content</wc-container>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2652,7 +2652,7 @@
             "text": "ContainerSize"
           },
           "default": "'full'",
-          "description": "Max-width breakpoint of the container.\r\nPossible values are `\"max\"`, `\"xl\"`, `\"lg\"`, `\"md\"`, `\"sm\"`, `\"full\"`. Defaults to `\"full\"`.",
+          "description": "Max-width breakpoint of the container.\nPossible values are `\"max\"`, `\"xl\"`, `\"lg\"`, `\"md\"`, `\"sm\"`, `\"full\"`. Defaults to `\"full\"`.",
           "fieldName": "size",
           "expandedType": {
             "text": "'max' | 'xl' | 'lg' | 'md' | 'sm' | 'full'"
@@ -3002,9 +3002,9 @@
     "tag": "wc-elevation",
     "rawTag": "elevation",
     "summary": "Adds elevation to an element.",
-    "overview": "- Elevation adds a shadow effect to an element to give it depth.\r\n - It can be used to create a sense of hierarchy or to draw attention to a particular element.",
+    "overview": "- Elevation adds a shadow effect to an element to give it depth.\n - It can be used to create a sense of hierarchy or to draw attention to a particular element.",
     "cssprop": "--elevation-color - Controls the color of the shadow.",
-    "example": "```html\r\n  <div style=\"position: relative; padding: var(--spacing-200);\">\r\n    <wc-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></wc-elevation>\r\n    Level 2\r\n  </div>\r\n```",
+    "example": "```html\n  <div style=\"position: relative; padding: var(--spacing-200);\">\n    <wc-elevation style='--elevation-level: 2; --elevation-container-shape: var(--shape-corner-extra-small);'></wc-elevation>\n    Level 2\n  </div>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -3037,7 +3037,7 @@
     "rawTag": "empty-state",
     "summary": "A message that displays when there is no information to display.",
     "tags": "display",
-    "example": "```html\r\n<wc-empty-state style=\"width:100%\" headline=\"No items found\"></wc-empty-state>\r\n```",
+    "example": "```html\n<wc-empty-state style=\"width:100%\" headline=\"No items found\"></wc-empty-state>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -3550,7 +3550,7 @@
     "rawTag": "flow-designer",
     "summary": "Low-code business process flow designer with swimlane layout, undo/redo, and interactive editing.",
     "cssprop": "--flow-designer-action-bar-bg - Background color of the action bar. Defaults to surface-container.",
-    "example": "```html\r\n<wc-flow-designer id=\"editor\"></wc-flow-designer>\r\n<script>\r\n  const workflow = {\r\n    workflow_id: \"demo\",\r\n    nodes: {\r\n      id: \"node_1\",\r\n      type: \"trigger\",\r\n      label: \"Start\"\r\n    }\r\n  };\r\n  document.querySelector('#editor').workflow = workflow;\r\n</script>\r\n```",
+    "example": "```html\n<wc-flow-designer id=\"editor\"></wc-flow-designer>\n<script>\n  const workflow = {\n    workflow_id: \"demo\",\n    nodes: {\n      id: \"node_1\",\n      type: \"trigger\",\n      label: \"Start\"\n    }\n  };\n  document.querySelector('#editor').workflow = workflow;\n</script>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -3646,7 +3646,7 @@
     "wip": "true",
     "customElement": {
       "kind": "class",
-      "description": "Individual node component for flow designer\r\nRenders a single workflow node with customizable slot templates",
+      "description": "Individual node component for flow designer\nRenders a single workflow node with customizable slot templates",
       "attributes": [
         {
           "name": "node",
@@ -4668,7 +4668,7 @@
     "tag": "wc-item",
     "rawTag": "item",
     "summary": "A primitive element used to build higher-level item components such as menu-item, navigation-item, and list-item. Provides start, text, and end slots for flexible content composition.",
-    "example": "```html\n<wc-item>\n  <wc-icon slot=\"start\" name=\"notifications\"></wc-icon>\n\n  <span slot=\"overline\">Settings</span>\n  <span slot=\"headline\">Notifications</span>\n  <span slot=\"supporting-text\">Manage alerts and reminders</span>\n\n  <span slot=\"trailing-supporting-text\">3</span>\n  <wc-icon slot=\"end\" name=\"chevron_right\"></wc-icon>\n</wc-item>\n```",
+    "example": "```html\n<wc-item>\n  <wc-icon slot=\"start\" name=\"notifications\"></wc-icon>\n\n  <span slot=\"headline\">Notifications</span>\n  <span slot=\"supporting-text\">Manage alerts and reminders</span>\n\n  <span slot=\"trailing-supporting-text\">3</span>\n  <wc-icon slot=\"end\" name=\"chevron_right\"></wc-icon>\n</wc-item>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -4712,7 +4712,7 @@
     "rawTag": "linear-progress",
     "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\r\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\r\n```",
+    "example": "```html\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -4880,7 +4880,7 @@
     "tag": "wc-list",
     "rawTag": "list",
     "summary": "A list container for one or more list items.",
-    "example": "```html\n<wc-list>\n  <wc-list-item>\n    <wc-icon slot=\"leading\" name=\"inbox\"></wc-icon>\n    Inbox\n    <span slot=\"trailing\">24</span>\n  </wc-list-item>\n</wc-list>\n```",
+    "example": "```html\n<wc-list>\n  <wc-list-item>\n    <wc-icon slot=\"leading\" name=\"inbox\"></wc-icon>\n    Inbox\n    <span slot=\"trailing\">24</span>\n  </wc-list-item>\n   <wc-list-item>\n      <wc-avatar slot=\"leading\" name=\"Shivaji Varma\"></wc-avatar>\n       Shivaji Varma\n      <span slot=\"supporting-text\">Software Engineer</span>\n      <span slot=\"trailing-supporting-text\">7</span>\n      <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n    </wc-list-item>\n</wc-list>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -4934,6 +4934,14 @@
           "default": "false",
           "description": "When true, renders the list-item in a loading skeleton state.",
           "fieldName": "skeleton"
+        },
+        {
+          "name": "actionable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "actionable"
         },
         {
           "name": "variant",
@@ -5444,7 +5452,7 @@
     "rawTag": "modal",
     "summary": "A dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
     "cssprop": "--modal-max-height - Maximum height of the dialog.",
-    "example": "```html\r\nMODAL\r\n```",
+    "example": "```html\nMODAL\n```",
     "tags": "overlay, dialog, feedback",
     "customElement": {
       "kind": "class",
@@ -5517,7 +5525,7 @@
             "text": "ModalSize"
           },
           "default": "'md'",
-          "description": "Size of the modal dialog.\r\n- `\"xs\"`: Extra-small.\r\n- `\"sm\"`: Small.\r\n- `\"md\"`: Medium (default).\r\n- `\"lg\"`: Large.\r\n- `\"fullscreen\"`: Full-screen dialog.",
+          "description": "Size of the modal dialog.\n- `\"xs\"`: Extra-small.\n- `\"sm\"`: Small.\n- `\"md\"`: Medium (default).\n- `\"lg\"`: Large.\n- `\"fullscreen\"`: Full-screen dialog.",
           "fieldName": "size",
           "expandedType": {
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'fullscreen'"
@@ -5568,10 +5576,10 @@
     "tag": "wc-navigation-rail",
     "rawTag": "navigation-rail",
     "summary": "A vertical side navigation for medium-sized screens,.",
-    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\r\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
+    "overview": "<p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>\n<p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>",
     "slot": "footer - Content pinned to the bottom of the rail.",
     "cssprop": "--nav-rail-active-label-color - Color of active labels. Defaults to on-surface.",
-    "example": "```html\r\n<wc-navigation-rail>\r\n  <wc-navigation-rail-item active>\r\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\r\n    Home\r\n  </wc-navigation-rail-item>\r\n  <wc-navigation-rail-item>\r\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\r\n    Search\r\n  </wc-navigation-rail-item>\r\n</wc-navigation-rail>\r\n```",
+    "example": "```html\n<wc-navigation-rail>\n  <wc-navigation-rail-item active>\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\n    Home\n  </wc-navigation-rail-item>\n  <wc-navigation-rail-item>\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\n    Search\n  </wc-navigation-rail-item>\n</wc-navigation-rail>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -5635,7 +5643,7 @@
             "text": "'expanded' | 'collapsed'"
           },
           "default": "'expanded'",
-          "description": "Display mode of the navigation rail.\r\n- `\"expanded\"`: shows labels.\r\n- `\"collapsed\"`: hides labels.",
+          "description": "Display mode of the navigation rail.\n- `\"expanded\"`: shows labels.\n- `\"collapsed\"`: hides labels.",
           "fieldName": "mode"
         },
         {
@@ -5762,7 +5770,7 @@
     "summary": "Notifications communicate contextual status, errors, warnings, and success messages.",
     "cssprop": "--notification-border-radius - Border radius of the notification container.",
     "fires": "notification-action-click - Fired when the action button is clicked.",
-    "example": "```html\r\n<wc-notification variant=\"success\" action=\"Undo\" dismissible>\r\n  <span slot=\"title\">Record saved</span>\r\n</wc-notification>\r\n```",
+    "example": "```html\n<wc-notification variant=\"success\" action=\"Undo\" dismissible>\n  <span slot=\"title\">Record saved</span>\n</wc-notification>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -5882,7 +5890,7 @@
     "rawTag": "notification-manager",
     "summary": "The Notification Manager handles the organization and display of notifications within the application.",
     "fires": "notification-manager-dismiss - Fired when a managed notification is dismissed. Detail: `{ id: string }`.",
-    "example": "```html\r\n<wc-notification-manager position=\"bottom-right\"></wc-notification-manager>\r\n<script>\r\n  window.dispatchEvent(new CustomEvent('notification', {\r\n    detail: { title: 'Record saved', variant: 'success', dismissible: true }\r\n  }));\r\n</script>\r\n```",
+    "example": "```html\n<wc-notification-manager position=\"bottom-right\"></wc-notification-manager>\n<script>\n  window.dispatchEvent(new CustomEvent('notification', {\n    detail: { title: 'Record saved', variant: 'success', dismissible: true }\n  }));\n</script>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -5910,7 +5918,7 @@
             "text": "string"
           },
           "default": "'global'",
-          "description": "Name of this manager instance. Only notifications whose `target` matches\r\nthis name (or whose `target` is absent and this manager's `name` is\r\n`'global'`) will be handled.",
+          "description": "Name of this manager instance. Only notifications whose `target` matches\nthis name (or whose `target` is absent and this manager's `name` is\n`'global'`) will be handled.",
           "fieldName": "name"
         },
         {
@@ -5940,7 +5948,7 @@
     "tag": "wc-number-counter",
     "rawTag": "number-counter",
     "summary": "Displays a number with commas for thousands.",
-    "example": "```html\r\n<wc-number-counter id=\"number-counter\" value=\"123456789\"></wc-number-counter>\r\n<script>\r\n  customElements.whenDefined('wc-number-counter').then(() => {\r\n     const $counter = document.querySelector('#number-counter');\r\n\n     setInterval(() => {\r\n       $counter.value = $counter.value + Math.floor(Math.random() * 1000);\r\n     }, 1000);\r\n   });\r\n</script>\r\n```",
+    "example": "```html\n<wc-number-counter id=\"number-counter\" value=\"123456789\"></wc-number-counter>\n<script>\n  customElements.whenDefined('wc-number-counter').then(() => {\n     const $counter = document.querySelector('#number-counter');\n\n     setInterval(() => {\n       $counter.value = $counter.value + Math.floor(Math.random() * 1000);\n     }, 1000);\n   });\n</script>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -6187,7 +6195,7 @@
     "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
     "overview": "<p>The pagination component provides controls for navigating through paged data sets.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
-    "example": "```html\r\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\r\n```",
+    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
     "tags": "navigation, data",
     "customElement": {
       "kind": "class",
@@ -6341,7 +6349,7 @@
     "summary": "Content container for the wc-popover component.",
     "tags": "display",
     "cssprop": "--popover-content-min-width - Minimum width of the popover content. Defaults to `10rem`.",
-    "example": "```html\r\n<wc-popover-content>\r\n  <p>Popover body text</p>\r\n</wc-popover-content>\r\n```",
+    "example": "```html\n<wc-popover-content>\n  <p>Popover body text</p>\n</wc-popover-content>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -6569,7 +6577,7 @@
     "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>",
     "cssprop": "--segmented-button-disabled-opacity: Opacity when the segment is disabled.",
     "fires": "segmented-button--change - Dispatched when the selected state changes.",
-    "example": "```html\r\n<wc-segmented-button-group>\r\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\r\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\r\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\r\n</wc-segmented-button-group>\r\n```",
+    "example": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -6723,8 +6731,8 @@
     "tag": "wc-select",
     "rawTag": "select",
     "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
-    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\r\n\r\n- Single and multi-select modes\r\n- Client-side typeahead with `search=\"contains\"`\r\n- Server-side typeahead with `search=\"managed\"`\r\n- Multi-select chips display",
-    "example": "```html\r\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
+    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\n\n- Single and multi-select modes\n- Client-side typeahead with `search=\"contains\"`\n- Server-side typeahead with `search=\"managed\"`\n- Multi-select chips display",
+    "example": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -6750,7 +6758,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.\r\nSetting this property creates matching `<wc-option>` children automatically.",
+          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -6777,7 +6785,7 @@
             "text": "'' | 'contains' | 'managed'"
           },
           "default": "''",
-          "description": "Enable typeahead search.\r\n- `'contains'`: filters options client-side.\r\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
           "fieldName": "search"
         },
         {
@@ -6914,7 +6922,7 @@
     "tag": "wc-option",
     "rawTag": "option",
     "summary": "A declarative option element for use inside wc-select.",
-    "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
+    "example": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -6961,7 +6969,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (used for multi-select).\r\nSet by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -6970,7 +6978,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden and excluded from keyboard navigation\r\nbecause it does not match the current typeahead search query.\r\nSet by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],
@@ -6991,7 +6999,7 @@
     "tag": "wc-sidebar-menu",
     "rawTag": "sidebar-menu",
     "summary": "A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.",
-    "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\r\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
+    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7120,7 +7128,7 @@
     "tag": "wc-sidebar-sub-menu",
     "rawTag": "sidebar-sub-menu",
     "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
-    "example": "```html\r\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n</wc-sidebar-sub-menu>\r\n```",
+    "example": "```html\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n</wc-sidebar-sub-menu>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7201,7 +7209,7 @@
     "rawTag": "side-sheet",
     "summary": "Side sheets slide in from the edge of the screen to reveal supplemental content. Supports standard and modal variants.",
     "cssprop": "--side-sheet-width - Width of the side sheet.",
-    "example": "```html\r\nSide Sheet\r\n\n```",
+    "example": "```html\nSide Sheet\n\n```",
     "tags": "navigation, overlay",
     "customElement": {
       "kind": "class",
@@ -7248,7 +7256,7 @@
             "text": "'standard' | 'modal'"
           },
           "default": "'modal'",
-          "description": "Sheet variant.\r\n- `\"standard\"`: Coexists with page content; no scrim.\r\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
+          "description": "Sheet variant.\n- `\"standard\"`: Coexists with page content; no scrim.\n- `\"modal\"`: Overlays page content with a scrim backdrop.",
           "fieldName": "variant"
         },
         {
@@ -7257,7 +7265,7 @@
             "text": "'left' | 'right'"
           },
           "default": "'right'",
-          "description": "Side from which the sheet slides in.\r\n- `\"left\"`: Sheet opens from the left edge.\r\n- `\"right\"`: Sheet opens from the right edge.",
+          "description": "Side from which the sheet slides in.\n- `\"left\"`: Sheet opens from the left edge.\n- `\"right\"`: Sheet opens from the right edge.",
           "fieldName": "position"
         }
       ],
@@ -7279,7 +7287,7 @@
     "rawTag": "skeleton",
     "summary": "Adds a skeleton effect to an element.",
     "tags": "display",
-    "example": "```html\r\n<wc-skeleton visible></wc-skeleton>\r\n```",
+    "example": "```html\n<wc-skeleton visible></wc-skeleton>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7312,7 +7320,7 @@
     "rawTag": "slider",
     "summary": "Sliders allow users to make selections from a range of values.",
     "fires": "change - Dispatched when the slider interaction ends.",
-    "example": "```html\r\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\r\n```",
+    "example": "```html\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7415,7 +7423,7 @@
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
     "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\r\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\r\n```",
+    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -7552,7 +7560,7 @@
     "summary": "A spinner component that animates a circular shape.",
     "cssprop": "--spinner-shape-color - The color of the shape.",
     "tags": "display",
-    "example": "```html\r\n<wc-spinner></wc-spinner>\r\n```",
+    "example": "```html\n<wc-spinner></wc-spinner>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7586,7 +7594,7 @@
     "overview": "<p>A split button combines a primary action button with a dropdown arrow that opens a menu. Following M3 Material Design, the split button provides a default action alongside a set of secondary options, reducing clutter while keeping alternative actions accessible.</p>",
     "cssprop": "--tonal-split-button-label-text-color: Text color of the tonal split button label.",
     "fires": "toggle-menu - Dispatched when the dropdown menu is opened or closed.",
-    "example": "```html\r\n<wc-split-button>\r\n  Save\r\n  <wc-menu-item slot=\"menu\">Save as draft</wc-menu-item>\r\n  <wc-menu-item slot=\"menu\">Save and publish</wc-menu-item>\r\n</wc-split-button>\r\n```",
+    "example": "```html\n<wc-split-button>\n  Save\n  <wc-menu-item slot=\"menu\">Save as draft</wc-menu-item>\n  <wc-menu-item slot=\"menu\">Save and publish</wc-menu-item>\n</wc-split-button>\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -7644,7 +7652,7 @@
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
           },
           "default": "'sm'",
-          "description": "Button size.\r\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size"
         },
         {
@@ -7653,13 +7661,13 @@
             "text": "'filled' | 'tonal' | 'outlined'"
           },
           "default": "'filled'",
-          "description": "The visual style of the split button.\r\n\r\nPossible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"tonal\"` is a light color button.",
+          "description": "The visual style of the split button.\n\nPossible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"tonal\"` is a light color button.",
           "fieldName": "variant"
         },
         {
           "name": "color",
           "type": {
-            "text": "| 'primary'\r\n    | 'secondary'\r\n    | 'tertiary'\r\n    | 'success'\r\n    | 'danger'\r\n    | 'warning'\r\n    | 'surface'\r\n    | 'on-surface'"
+            "text": "| 'primary'\n    | 'secondary'\n    | 'tertiary'\n    | 'success'\n    | 'danger'\n    | 'warning'\n    | 'surface'\n    | 'on-surface'"
           },
           "default": "'primary'",
           "description": "Defines the primary color of the split button.",
@@ -8079,7 +8087,7 @@
     "rawTag": "tab-group",
     "summary": "The tab group component is used to display multiple panels of content in a container.",
     "overview": "<p>The tab group component allows users to switch between different views or content sections.</p>",
-    "example": "```html\r\n<wc-tab-group>\r\n\r\n  <wc-tabs>\r\n   <wc-tab selected >Tab 1</wc-tab>\r\n   <wc-tab>Tab 2</wc-tab>\r\n  </wc-tabs>\r\n\r\n  <wc-tab-panel>Panel 1</wc-tab-panel>\r\n  <wc-tab-panel>Panel 2</wc-tab-panel>\r\n</wc-tab-group>\r\n```",
+    "example": "```html\n<wc-tab-group>\n\n  <wc-tabs>\n   <wc-tab selected >Tab 1</wc-tab>\n   <wc-tab>Tab 2</wc-tab>\n  </wc-tabs>\n\n  <wc-tab-panel>Panel 1</wc-tab-panel>\n  <wc-tab-panel>Panel 2</wc-tab-panel>\n</wc-tab-group>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -8291,7 +8299,7 @@
     "rawTag": "tab-panel",
     "summary": "Content panel for tabs.",
     "overview": "<p>TabPanel contains the content associated with a tab.</p>",
-    "example": "```html\r\n<wc-tab-panel>Content for this tab</wc-tab-panel>\r\n```",
+    "example": "```html\n<wc-tab-panel>Content for this tab</wc-tab-panel>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -8331,7 +8339,7 @@
     "rawTag": "tabs",
     "summary": "Container for tab components.",
     "overview": "<p>Tabs holds the tab buttons and manages their layout.</p>",
-    "example": "```html\r\n<wc-tabs>\r\n  <wc-tab active>Tab 1</wc-tab>\r\n  <wc-tab>Tab 2</wc-tab>\r\n</wc-tabs>\r\n```",
+    "example": "```html\n<wc-tabs>\n  <wc-tab active>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -8372,7 +8380,7 @@
     "rawTag": "tag",
     "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
     "tags": "display",
-    "example": "```html\r\n<wc-tag color=\"red\">Tag</wc-tag>\r\n```",
+    "example": "```html\n<wc-tag color=\"red\">Tag</wc-tag>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8405,7 +8413,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
+            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -8818,9 +8826,9 @@
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
     "summary": "A toolbar / app bar for navigation and actions.",
-    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\r\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\r\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\r\n\r\n<p>Render toolbar actions directly as children of the component. The docked variant is\r\noptimized for a horizontal action row, while the floating variant supports both horizontal\r\nand vertical layouts.</p>",
+    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\n\n<p>Render toolbar actions directly as children of the component. The docked variant is\noptimized for a horizontal action row, while the floating variant supports both horizontal\nand vertical layouts.</p>",
     "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
-    "example": "```html\r\n<!-- Floating vertical toolbar -->\r\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\r\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\r\n</wc-toolbar>\r\n```",
+    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
     "tags": "display navigation",
     "customElement": {
       "kind": "class",
@@ -8866,7 +8874,7 @@
             "text": "'docked' | 'floating'"
           },
           "default": "'docked'",
-          "description": "Visual and layout variant of the toolbar.\r\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\r\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "description": "Visual and layout variant of the toolbar.\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
           "fieldName": "variant"
         },
         {
@@ -8875,7 +8883,7 @@
             "text": "'horizontal' | 'vertical'"
           },
           "default": "'horizontal'",
-          "description": "Orientation of the toolbar content.\r\n- `\"horizontal\"`: Items are laid out left to right (default).\r\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "description": "Orientation of the toolbar content.\n- `\"horizontal\"`: Items are laid out left to right (default).\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
           "fieldName": "orientation"
         },
         {
@@ -8884,7 +8892,7 @@
             "text": "'small' | 'medium' | 'large'"
           },
           "default": "'small'",
-          "description": "Size of the docked toolbar.\r\n - `\"small\"`: 80dp height (default).\r\n - `\"medium\"`: 96dp height.\r\n - `\"large\"`: 112dp height.",
+          "description": "Size of the docked toolbar.\n - `\"small\"`: 80dp height (default).\n - `\"medium\"`: 96dp height.\n - `\"large\"`: 112dp height.",
           "fieldName": "size"
         },
         {

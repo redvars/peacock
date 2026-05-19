@@ -22,10 +22,18 @@ const sections = Object.entries({ ...astroModules, ...mdxModules })
     };
   })
   .sort((a, b) => a.order - b.order);
-
-
 ---
+
+
+
 <Layout title={title} description={description}>
+
+  <style is:inline>
+    wc-accordion {
+      width: 20rem;
+    }
+  </style>
+
   <Article title={title} description={summary || description} sections={sections}>
 
   </Article>
