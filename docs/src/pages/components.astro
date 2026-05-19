@@ -5,7 +5,8 @@ import '../styles/components.page.scss';
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
 import WebComponentCard from '../components/WebComponentCard.astro';
 const title = 'Components Overview';
-const description = 'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
+const description =
+  'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
 const componentEntries = getAllComponentsForShowcase();
 
 const componentGroups = [
@@ -15,7 +16,13 @@ const componentGroups = [
   },
   {
     name: 'Buttons',
-    components: ['button', 'icon-button', 'fab', 'button-group'],
+    components: [
+      'button',
+      'icon-button',
+      'fab',
+      'button-group',
+      'dropdown-button',
+    ],
   },
   {
     name: 'Charts',
@@ -55,17 +62,19 @@ const componentGroups = [
     name: 'Loading & Progress',
     components: ['spinner', 'circular-progress', 'linear-progress'],
   },
-]
+];
 
-const groupedTags = componentGroups.flatMap((g) => g.components);
+const groupedTags = componentGroups.flatMap(g => g.components);
 componentGroups.push(
   ...(() => {
-    const othersArr = componentEntries.filter((c) => !groupedTags.includes(c.rawTag));
+    const othersArr = componentEntries.filter(
+      c => !groupedTags.includes(c.rawTag),
+    );
     return othersArr.length
       ? [
           {
             name: 'Others',
-            components: othersArr.map((c) => c.rawTag),
+            components: othersArr.map(c => c.rawTag),
             entries: othersArr,
           },
         ]
@@ -73,43 +82,44 @@ componentGroups.push(
   })(),
 );
 
-const groupsWithEntries = componentGroups.map((g) => ({
+const groupsWithEntries = componentGroups.map(g => ({
   ...g,
   entries:
-    g.entries ?? componentEntries.filter((c) => g.components.includes(c.rawTag)),
+    g.entries ?? componentEntries.filter(c => g.components.includes(c.rawTag)),
 }));
 ---
 
-<Layout title={title} description={description} classes='surface-container-lowest'>
-
-
+<Layout
+  title={title}
+  description={description}
+  classes="surface-container-lowest"
+>
   <wc-container size="lg">
-
     <h1 class="text-display page-title">Overview</h1>
 
-    <div id='search-container'>
-      <wc-search id='component-search' layer='01' placeholder='Search'></wc-search>
+    <div id="search-container">
+      <wc-search id="component-search" layer="01" placeholder="Search"
+      ></wc-search>
     </div>
-
 
     <div class="cards-holder">
-    {
-      groupsWithEntries.map((group) =>
-        group.entries.length > 0 && (
-          <section class='component-group'>
-            <h2 class='text-headline group-title'>{group.name}</h2>
-            <div class='cards'>
-              {group.entries.map((component) => (
-                <WebComponentCard component={component} />
-              ))}
-            </div>
-          </section>
-        ),
-      )
-    }
+      {
+        groupsWithEntries.map(
+          group =>
+            group.entries.length > 0 && (
+              <section class="component-group">
+                <h2 class="text-headline group-title">{group.name}</h2>
+                <div class="cards">
+                  {group.entries.map(component => (
+                    <WebComponentCard component={component} />
+                  ))}
+                </div>
+              </section>
+            ),
+        )
+      }
     </div>
   </wc-container>
-  
 
-  <script is:inline src='/assets/js/components.page.js'></script>
+  <script is:inline src="/assets/js/components.page.js"></script>
 </Layout>
