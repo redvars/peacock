@@ -24,9 +24,24 @@ const { title, description, sections = [] } = Astro.props;
       .article-title {
         margin-block-end: 0.5rem;
       }
+
       .article-description {
         margin-block-end: 2rem;
       }
+
+      .section {
+        margin-block-end: 3rem;
+
+        .section-title {
+          margin-block-end: 0.5rem;
+        }
+
+        p {
+          margin-block-end: 0.5rem;
+        }
+      }
+
+
     }
   }
 
@@ -45,6 +60,12 @@ const { title, description, sections = [] } = Astro.props;
     }
     .section-nav-links li {
       margin-block: 0.5rem;
+
+      wc-link {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+      }
     }
 
     .sponser-icon {
@@ -62,13 +83,13 @@ const { title, description, sections = [] } = Astro.props;
 
         {
           sections.map((section) => (
-            <div id={`section-${convertToSectionId(section.title)}`}
-                class='component-section'>
-              <h3 class='heading-scrollable text-headline'>{section.title}</h3>
+            <section id={`section-${convertToSectionId(section.title)}`}
+                class='section'>
+              <h2 class='section-title heading-scrollable text-headline'>{section.title}</h2>
 
               <section.component />
               
-            </div>))
+            </section>))
         }
         
       
@@ -81,7 +102,7 @@ const { title, description, sections = [] } = Astro.props;
     <ul class="section-nav-links">
       {
         sections.map((section: {title: string}) => {
-          return <li><wc-link href={`#section-${convertToSectionId(section.title)}`}>{section.title}</wc-link></li>
+          return <li><wc-link title={section.title} href={`#section-${convertToSectionId(section.title)}`}>{section.title}</wc-link></li>
         })
       }
     </ul>

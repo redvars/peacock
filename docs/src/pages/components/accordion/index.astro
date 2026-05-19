@@ -2,7 +2,6 @@
 import Layout from '../../../layouts/WithComponentsSidebar.astro';
 import Article from '../../../components/Article.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../../../_data/getLitComponentDetails.ts';
-import LitComponentApiPanel from '../../../components/LitComponentApiPanel.astro';
 
 const componentDetails = getComponentDetails('accordion');
 const title = getTextTag(componentDetails, 'label');
