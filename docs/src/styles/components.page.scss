@@ -3,7 +3,10 @@
 @use "device-utils.scss";
 
 .page-title {
-  margin-top: 4rem;
+  @include mixin.for-tablet-landscape-up {
+    margin-top: 4rem;
+  }
+  
   margin-bottom: 1rem;
 }
 
@@ -28,13 +31,24 @@
   }
 }
 
+.cards-holder {
+  margin-block: var(--spacing-500);
+
+  .component-group {
+    margin-bottom: var(--spacing-300);
+
+    .group-title {
+      margin-bottom: var(--spacing-150);
+    }
+  }
+}
+
 
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: var(--spacing-150);
   align-items: stretch;
-  margin-block: var(--spacing-500);
   color: var(--color-on-surface);
 }
 

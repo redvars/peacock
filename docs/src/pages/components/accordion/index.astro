@@ -1,52 +1,33 @@
 ---
 import Layout from '../../../layouts/WithComponentsSidebar.astro';
-import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
+import Article from '../../../components/Article.astro';
+import { getComponentDetails, getMarkdown, getTextTag } from '../../../_data/getLitComponentDetails.ts';
 import LitComponentApiPanel from '../../../components/LitComponentApiPanel.astro';
+
 const componentDetails = getComponentDetails('accordion');
-
-import UsageSection from './_sections/Usage.astro';
-import MultipleSection from './_sections/Multiple.astro';
-import DescriptionSection from './_sections/Description.astro';
-import ToggleSection from './_sections/Toggle.astro';
-import DisplayModeSection from './_sections/DisplayMode.astro';
-import OverviewPanel from '../../../components/OverviewPanel.astro';
-
 const title = getTextTag(componentDetails, 'label');
+const description = getTextTag(componentDetails, 'description');
+const summary = getMarkdown(componentDetails, 'summary');
 
-const sections = [
-  {
-    'title': 'Usage',
-    'Component': UsageSection,
-  },
-  {
-    'title': 'Description',
-    'Component': DescriptionSection,
-  },
-  {
-    'title': 'Multiple',
-    'Component': MultipleSection,
-  },
-  {
-    'title': 'Toggle',
-    'Component': ToggleSection,
-  },
-  {
-    'title': 'Display Mode',
-    'Component': DisplayModeSection,
-  },
-];
+const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
+const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
+
+const sections = Object.entries({ ...astroModules, ...mdxModules })
+  .map(([path, module]) => {
+    const fileName = path.split('/').pop() || '';
+    const name = fileName.replace(/\.(astro|mdx)$/, '');
+    return {
+      title: (module as any).title || name,
+      order: (module as any).order || 999,
+      component: (module as any).default,
+    };
+  })
+  .sort((a, b) => a.order - b.order);
+
+
 ---
-<Layout componentDetails={componentDetails}>
-  <wc-tab-group class='page-tabs'>
-    <wc-tabs>
-      <wc-tab selected='true'>Overview</wc-tab>
-      <wc-tab>API</wc-tab>
-    </wc-tabs>
-    <wc-tab-panel>
-      <OverviewPanel sections={sections} title={title} />
-    </wc-tab-panel>
-    <wc-tab-panel>
-      <LitComponentApiPanel componentDetails={componentDetails} />
-    </wc-tab-panel>
-  </wc-tab-group>
+<Layout title={title} description={description}>
+  <Article title={title} description={summary || description} sections={sections}>
+
+  </Article>
 </Layout>

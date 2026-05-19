@@ -20,6 +20,7 @@ const otherComps = [
     label: 'Text',
     summary:
       'The footer component represents the bottom section of a web page.',
+    example: '<div><h1 class=text-headline>Heading</h1><p class=text-body>This is a paragraph.</p></div>',
     tag: 'footer',
     wip: true,
     customElement: {

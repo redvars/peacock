@@ -1,0 +1,113 @@
+---
+import site from '../_data/site.json';
+import { convertToSectionId } from '../_data/utils.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  sections: any[];
+}
+
+const { title, description, sections = [] } = Astro.props;
+
+
+---
+<style is:inline>
+  .article-layout {
+    display: flex;
+    
+    .article {
+      flex: 1;
+      margin-inline-end: 15rem;
+      margin-block-start: 4rem;
+
+      .article-title {
+        margin-block-end: 0.5rem;
+      }
+      .article-description {
+        margin-block-end: 2rem;
+      }
+    }
+  }
+
+  .on-this-page {
+    width: 12rem;
+    margin-inline-end: 1rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin-block-start: 4rem;
+    
+
+    .section-nav-links {
+      list-style: disc;
+      padding-inline-start: 1.25rem;
+    }
+    .section-nav-links li {
+      margin-block: 0.5rem;
+    }
+
+    .sponser-icon {
+      --icon-color: var(--color-red);
+    }
+  }
+</style>
+<div class="article-layout">
+
+  <article class="article">
+    <wc-container size="lg">
+      
+        <h1 class="text-display article-title">{title}</h1>
+        <div class="article-description text-title-large"><Fragment set:html={description}/></div>
+
+        {
+          sections.map((section) => (
+            <div id={`section-${convertToSectionId(section.title)}`}
+                class='component-section'>
+              <h3 class='heading-scrollable text-headline'>{section.title}</h3>
+
+              <section.component />
+              
+            </div>))
+        }
+        
+      
+    </wc-container>
+  </article>
+
+  <div class="on-this-page">
+    <div class="text-label">On this page</div>
+    <h2 class="text-headline">{title}</h2>
+    <ul class="section-nav-links">
+      {
+        sections.map((section: {title: string}) => {
+          return <li><wc-link href={`#section-${convertToSectionId(section.title)}`}>{section.title}</wc-link></li>
+        })
+      }
+    </ul>
+    
+    <wc-button href={site.sponsor_url} target="_blank" variant="tonal" color="primary">
+      <wc-icon slot="icon" name="favorite" class="sponser-icon"></wc-icon>
+      Sponsor
+    </wc-button>
+
+    <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script is:inline>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      const interval = window.setInterval(() => {
+        if (window.document.documentElement.classList.contains('hydrated') || true) {
+          window.clearInterval(interval);
+
+          setTimeout(function () {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3120721550776061';
+            script.crossOrigin = 'anonymous';
+            script.async = true;
+            document.body.appendChild(script);
+          }, 800);
+        }
+      }, 300);
+    </script>
+  </div>
+</div>

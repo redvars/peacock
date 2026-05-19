@@ -5,28 +5,20 @@
 .with-sidebar-layout {
   display: flex;
   background: var(--color-surface-container);
-  height: 100vh;
+  
+  @include mixin.for-tablet-landscape-up {
+    height: 100vh;
+  }
 }
 
 .with-sidebar-layout-content {
   background: var(--color-surface);
   flex: 1;
-  overflow-x: auto;
-}
-
-.main-content {
-  position: relative;
-  background: var(--color-surface);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-
-  .page-wrapper {
-    position: relative;
-    flex: 1;
-    margin-block: var(--spacing-300);
+  @include mixin.for-tablet-landscape-up {
+    overflow-x: auto;
   }
 }
+
 
 .sidenav-container {
   position: relative;

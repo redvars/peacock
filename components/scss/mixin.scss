@@ -1,6 +1,7 @@
 @mixin base-styles {
   * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .screen-reader-only {

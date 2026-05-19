@@ -8,10 +8,76 @@ const title = 'Components Overview';
 const description = 'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
 const componentEntries = getAllComponentsForShowcase();
 
-const componentGroups = [{
-  name: 'Buttons',
-  components: ['button', 'icon-button', 'fab']
-}]
+const componentGroups = [
+  {
+    name: 'Primitive',
+    components: ['text', 'ripple', 'elevation', 'icon'],
+  },
+  {
+    name: 'Buttons',
+    components: ['button', 'icon-button', 'fab', 'button-group'],
+  },
+  {
+    name: 'Charts',
+    components: ['chart-bar', 'chart-doughnut', 'chart-pie'],
+  },
+  {
+    name: 'Navigation',
+    components: [
+      'navigation-rail',
+      'sidebar-menu',
+      'breadcrumb',
+      'pagination',
+      'tabs',
+      'toolbar',
+      ,
+    ],
+  },
+  {
+    name: 'Inputs',
+    components: [
+      'input',
+      'number-field',
+      'textarea',
+      'select',
+      'checkbox',
+      'radio',
+      'switch',
+      'search',
+      'url-field',
+    ],
+  },
+  {
+    name: 'Date & Time',
+    components: ['date-picker', 'time-picker', 'calendar'],
+  },
+  {
+    name: 'Loading & Progress',
+    components: ['spinner', 'circular-progress', 'linear-progress'],
+  },
+]
+
+const groupedTags = componentGroups.flatMap((g) => g.components);
+componentGroups.push(
+  ...(() => {
+    const othersArr = componentEntries.filter((c) => !groupedTags.includes(c.rawTag));
+    return othersArr.length
+      ? [
+          {
+            name: 'Others',
+            components: othersArr.map((c) => c.rawTag),
+            entries: othersArr,
+          },
+        ]
+      : [];
+  })(),
+);
+
+const groupsWithEntries = componentGroups.map((g) => ({
+  ...g,
+  entries:
+    g.entries ?? componentEntries.filter((c) => g.components.includes(c.rawTag)),
+}));
 ---
 
 <Layout title={title} description={description} classes='surface-container-lowest'>
@@ -26,10 +92,21 @@ const componentGroups = [{
     </div>
 
 
-    <div class='cards'>
-      {
-        componentEntries.map((component) => <WebComponentCard component={component}/>)
-      }
+    <div class="cards-holder">
+    {
+      groupsWithEntries.map((group) =>
+        group.entries.length > 0 && (
+          <section class='component-group'>
+            <h2 class='text-headline group-title'>{group.name}</h2>
+            <div class='cards'>
+              {group.entries.map((component) => (
+                <WebComponentCard component={component} />
+              ))}
+            </div>
+          </section>
+        ),
+      )
+    }
     </div>
   </wc-container>
   
