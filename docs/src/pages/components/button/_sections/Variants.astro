@@ -5,7 +5,7 @@ import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p class='text-body-large'>Here are several predefined button styles, each serving its own semantic purpose.</p>
+<p>Here are several predefined button styles, each serving its own semantic purpose.</p>
 
 <style is:inline>
   .button-demo-title {
@@ -25,7 +25,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'} inline>
 
 <div class='button-demo-container'>
-  <h3 class='text-title button-demo-title'>Default Variants</h3>
+  <div class='text-title button-demo-title'>Default Variants</div>
   <div class='button-demo-area'>
     <wc-button variant='elevated'>Elevated</wc-button>
     <wc-button>Filled</wc-button>
@@ -39,7 +39,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 
   <div class='button-demo-container'>
-   <h3 class='text-title button-demo-title'>Toggle Variants - Unselected</h3>
+   <div class='text-title button-demo-title'>Toggle Variants - Unselected</div>
    <div class='button-demo-area'>
    <wc-button variant='elevated' toggle>Elevated</wc-button>
    <wc-button toggle>Filled</wc-button>
@@ -49,7 +49,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </div>
 
   <div class='button-demo-container'>
-   <h3 class='text-title button-demo-title'>Toggle Variants - Selected</h3>
+   <div class='text-title button-demo-title'>Toggle Variants - Selected</div>
    <div class='button-demo-area'>
     <wc-button variant='elevated' toggle selected>Elevated</wc-button>
     <wc-button toggle selected>Filled</wc-button>
@@ -75,8 +75,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 
-<p class='text-body-large'>The <code class="text-code-block">level</code> property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
-<p class='text-body-large'><code class="text-code-block">level="primary"</code>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
+<p>The <code>level</code> property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
+<p><code>level="primary"</code>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
 
 <DemoComponentCard lang={'html'} inline>
   <wc-button level='primary'>Primary</wc-button>

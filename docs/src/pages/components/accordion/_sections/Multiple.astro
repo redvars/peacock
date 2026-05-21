@@ -5,25 +5,25 @@ export const title = 'Multiple';
 export const order = 300;
 ---
 
-<p class='text-body-large'>Add the <code class="text-code-block">multiple</code> attribute to allow any number of panels to be open simultaneously.</p>
+<p>Add the <code>multiple</code> attribute to allow any number of panels to be open simultaneously.</p>
 
 <DemoComponentCard lang={"html"}>
   <wc-accordion multiple>
     <wc-accordion-item>
       <span slot="heading">Panel A</span>
-      <p class='text-body-large'>
-        Content for panel A. With <code class="text-code-block">multiple</code>, expanding this panel does not collapse Panel B.
+      <p>
+        Content for panel A. With <code>multiple</code>, expanding this panel does not collapse Panel B.
       </p>
     </wc-accordion-item>
     <wc-accordion-item open="true">
       <span slot="heading">Panel B</span>
-      <p class='text-body-large'>
+      <p>
         This panel is open by default and stays open when other panels expand.
       </p>
     </wc-accordion-item>
     <wc-accordion-item disabled>
       <span slot="heading">Panel C (disabled)</span>
-      <p class='text-body-large'>
+      <p>
         This panel cannot be interacted with.
       </p>
     </wc-accordion-item>
