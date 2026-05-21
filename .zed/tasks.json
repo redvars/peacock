@@ -1,8 +1,8 @@
 [
   {
-    "label": "Install Peacock",
-    "command": "cmd /c npm run install_peacock",
-    "cwd": "$ZED_WORKTREE_ROOT/docs",
+    "label": "Dev Build Components",
+    "command": "cmd /c npm run start:for-docs",
+    "cwd": "$ZED_WORKTREE_ROOT/components",
   },
   {
     "label": "Run Docs Server",

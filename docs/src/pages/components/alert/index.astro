@@ -1,38 +1,10 @@
 ---
-import Layout from '../../../layouts/WithComponentsSidebar.astro';
-import { getComponentDetails, getTextTag } from '../../../_data/getLitComponentDetails.ts';
-import LitComponentApiPanel from '../../../components/LitComponentApiPanel.astro';
-import OverviewPanel from '../../../components/OverviewPanel.astro';
+import Layout from '../../../layouts/LitComponent.astro';
+import { buildSections } from '../../../_data/getSections.ts';
 
-import UsageSection from './_sections/Usage.astro';
-import VariantsSection from './_sections/Variants.astro';
-
-const componentDetails = getComponentDetails('alert');
-const title = getTextTag(componentDetails, 'label');
-
-const sections = [
-  {
-    'title': 'Usage',
-    'Component': UsageSection,
-  },
-  {
-    'title': 'Variants',
-    'Component': VariantsSection,
-  }
-];
+const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
+const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
+const sections = buildSections({ ...astroModules, ...mdxModules });
 ---
 
-<Layout componentDetails={componentDetails}>
-  <wc-tab-group class='page-tabs'>
-    <wc-tabs>
-      <wc-tab selected='true'>Overview</wc-tab>
-      <wc-tab>API</wc-tab>
-    </wc-tabs>
-    <wc-tab-panel>
-      <OverviewPanel sections={sections} title={title} />
-    </wc-tab-panel>
-    <wc-tab-panel>
-      <LitComponentApiPanel componentDetails={componentDetails} />
-    </wc-tab-panel>
-  </wc-tab-group>
-</Layout>
+<Layout componentName='alert' sections={sections}></Layout>

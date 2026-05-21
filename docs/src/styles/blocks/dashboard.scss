@@ -1,0 +1,157 @@
+@charset "utf-8";
+@use "../mixin.scss";
+
+.block-demo-shell {
+  display: flex;
+  min-height: calc(100vh - 8rem);
+  overflow: hidden;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  margin: 0 1.5rem 2rem;
+}
+
+.block-demo-sidebar {
+  width: 15rem;
+  height: 100%;
+  overflow-y: auto;
+  border-inline-end: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container);
+  flex-shrink: 0;
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid var(--color-outline-variant);
+    margin-bottom: 0.5rem;
+  }
+}
+
+.block-demo-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.block-demo-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.block-demo-content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  .stat-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.25rem;
+  }
+
+  .stat-label {
+    color: var(--color-on-surface-variant);
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  .stat-trend.up {
+    color: var(--color-secondary);
+  }
+
+  .stat-trend.down {
+    color: var(--color-error);
+  }
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+
+  @include mixin.for-phone-only {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  .chart-card-inner {
+    padding: 1.25rem;
+  }
+
+  .chart-title {
+    margin-bottom: 1rem;
+  }
+
+  .chart-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+}
+
+.activity-card {
+  .activity-card-inner {
+    padding: 1.25rem;
+  }
+
+  .activity-title {
+    margin-bottom: 1rem;
+  }
+
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-outline-variant);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .activity-text {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

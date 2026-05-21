@@ -8,6 +8,7 @@ const isComponentsPage =
 const isColorsPage = pathname === '/color';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
+const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
 ---
 
 <style lang="scss">
@@ -50,6 +51,11 @@ const isHomePage = pathname === '/';
   <wc-navigation-rail-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>
     <wc-icon slot="icon" name="pages"></wc-icon>
     Blog
+  </wc-navigation-rail-item>
+
+  <wc-navigation-rail-item href='/blocks' aria-label='Go to Blocks' active={isBlocksPage ? true : null}>
+    <wc-icon slot="icon" name="grid_view"></wc-icon>
+    Blocks
   </wc-navigation-rail-item>
 
 

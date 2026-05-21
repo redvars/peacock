@@ -2,6 +2,12 @@
 import Layout from './WithComponentsSidebar.astro';
 import Article from '../components/Article.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
+import type { Section } from '../_data/getSections.ts';
+
+interface Props {
+  componentName: string;
+  sections: Section[];
+}
 
 const { componentName, sections} = Astro.props;
 const componentDetails = getComponentDetails(componentName);

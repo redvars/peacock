@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/WithBlocksSidebar.astro';
+import '../../styles/blocks.page.scss';
+
+const title = 'Blocks Overview';
+const description =
+  'Pre-built page templates assembled from Peacock web components. Use them as starting points for common UI patterns like dashboards, login pages, and data tables.';
+
+interface BlockDefinition {
+  name: string;
+  label: string;
+  summary: string;
+  href: string;
+  tags: string[];
+  previewIcon: string;
+}
+
+const blocks: BlockDefinition[] = [
+  {
+    name: 'dashboard',
+    label: 'Dashboard',
+    summary:
+      'A full-page admin dashboard with sidebar navigation, KPI stat cards, a bar chart, and a doughnut chart.',
+    href: '/blocks/dashboard/',
+    tags: ['layout', 'charts', 'navigation'],
+    previewIcon: 'dashboard',
+  },
+  {
+    name: 'login',
+    label: 'Login',
+    summary:
+      'A centered login form with email, password inputs, remember-me checkbox, and primary sign-in button.',
+    href: '/blocks/login/',
+    tags: ['auth', 'form'],
+    previewIcon: 'login',
+  },
+];
+
+const blockGroups = [
+  {
+    name: 'Application Shells',
+    blocks: ['dashboard'],
+  },
+  {
+    name: 'Authentication',
+    blocks: ['login'],
+  },
+];
+
+const groupsWithEntries = blockGroups.map(group => ({
+  ...group,
+  entries: blocks.filter(b => group.blocks.includes(b.name)),
+}));
+---
+
+<Layout title={title} description={description}>
+  <wc-container size="lg">
+    <h1 class="text-display blocks-page-title">Blocks</h1>
+    <p class="text-body-large" style="margin-bottom: var(--spacing-400); color: var(--color-on-surface-variant);">
+      Ready-made page templates assembled from Peacock components. Copy the markup and adapt to your project.
+    </p>
+
+    <div class="blocks-cards-holder">
+      {groupsWithEntries.map(
+        group =>
+          group.entries.length > 0 && (
+            <section class="blocks-group">
+              <h2 class="text-headline blocks-group-title">{group.name}</h2>
+              <div class="blocks-cards">
+                {group.entries.map(block => (
+                  <a href={block.href} class="block-card-link">
+                    <wc-card class="block-card" actionable>
+                      <div class="block-card-preview">
+                        <wc-icon name={block.previewIcon} style="--icon-size: 4rem; opacity: 0.25;"></wc-icon>
+                      </div>
+                      <wc-card-content class="block-card-body">
+                        <h3 class="block-card-title text-headline-small">
+                          {block.label}
+                          <wc-icon class="link-icon" name="arrow_outward"></wc-icon>
+                        </h3>
+                        <div class="block-card-tags">
+                          {block.tags.map(tag => (
+                            <wc-tag>{tag}</wc-tag>
+                          ))}
+                        </div>
+                        <p class="text-body block-card-summary">{block.summary}</p>
+                      </wc-card-content>
+                    </wc-card>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )
+      )}
+    </div>
+  </wc-container>
+</Layout>

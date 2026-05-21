@@ -1,35 +1,10 @@
 ---
-import Layout from '../../../layouts/WithComponentsSidebar.astro';
-import { getComponentDetails } from '../../../_data/getLitComponentDetails.ts';
-import LitComponentApiPanel from '../../../components/LitComponentApiPanel.astro';
-import OverviewPanel from '../../../components/OverviewPanel.astro';
-const componentDetails = getComponentDetails('text');
+import Layout from '../../../layouts/LitComponent.astro';
+import { buildSections } from '../../../_data/getSections.ts';
 
-import DisplayStylesSection from './_sections/display-styles.astro';
-import HeadlineStylesSection from './_sections/headline-styles.astro';
-import BodyStylesSection from './_sections/body-styles.astro';
-import UtilityStylesSection from './_sections/utility-styles.astro';
-import TitleStylesSection from './_sections/title-styles.astro';
-
-const sections = [
-  {
-    'title': 'Display styles',
-    'Component': DisplayStylesSection,
-  }, {
-  'title': 'Headline styles',
-   'Component': HeadlineStylesSection,
-  },{
-    'title': 'Title styles',
-    'Component': TitleStylesSection,
-  }, {
-    'title': 'Body styles',
-    'Component': BodyStylesSection,
-  },{
-    'title': 'Utility styles',
-    'Component': UtilityStylesSection,
-  }];
+const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
+const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
+const sections = buildSections({ ...astroModules, ...mdxModules });
 ---
 
-<Layout componentDetails={componentDetails}>
-  <OverviewPanel  sections={sections} />
-</Layout>
+<Layout componentName='text' sections={sections}></Layout>

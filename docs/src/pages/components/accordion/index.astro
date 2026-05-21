@@ -1,21 +1,10 @@
 ---
 import Layout from '../../../layouts/LitComponent.astro';
-
+import { buildSections } from '../../../_data/getSections.ts';
 
 const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
 const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
-
-const sections = Object.entries({ ...astroModules, ...mdxModules })
-  .map(([path, module]) => {
-    const fileName = path.split('/').pop() || '';
-    const name = fileName.replace(/\.(astro|mdx)$/, '');
-    return {
-      title: (module as any).title || name,
-      order: (module as any).order || 999,
-      component: (module as any).default
-    };
-  })
-  .sort((a, b) => a.order - b.order);
+const sections = buildSections({ ...astroModules, ...mdxModules });
 ---
 
 

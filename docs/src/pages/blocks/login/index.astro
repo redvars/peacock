@@ -1,0 +1,65 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/login.scss';
+
+const title = 'Login Block';
+const description =
+  'A centered login form built from Peacock components: email input, password input, remember-me checkbox, and primary action button.';
+---
+
+<Layout title={title} description={description}>
+  <div style="padding: 2rem 1.5rem 1.5rem;">
+    <h1 class="text-display" style="margin-bottom: 0.5rem;">Login</h1>
+    <p class="text-body-large" style="color: var(--color-on-surface-variant);">
+      Centered authentication form with email, password, and sign-in action.
+    </p>
+  </div>
+
+  <div class="login-block-wrapper">
+    <wc-card class="login-card">
+      <wc-card-content class="login-card-inner">
+
+        <div class="login-brand">
+          <wc-icon name="lock" style="--icon-size: 2.5rem; color: var(--color-primary);"></wc-icon>
+          <h2 class="text-headline">Sign in</h2>
+          <p class="text-body" style="color: var(--color-on-surface-variant);">
+            Welcome back. Enter your credentials to continue.
+          </p>
+        </div>
+
+        <div class="login-form-fields">
+          <wc-input
+            type="email"
+            label="Email address"
+            placeholder="you@example.com"
+            required
+            style="width: 100%;"
+          ></wc-input>
+
+          <wc-input
+            type="password"
+            label="Password"
+            placeholder="Enter your password"
+            required
+            style="width: 100%;"
+          ></wc-input>
+        </div>
+
+        <div class="login-options-row">
+          <wc-checkbox label="Remember me"></wc-checkbox>
+          <wc-link href="#">Forgot password?</wc-link>
+        </div>
+
+        <div class="login-actions">
+          <wc-button level="primary" block>Sign in</wc-button>
+          <wc-button variant="outlined" block>Continue with Google</wc-button>
+        </div>
+
+        <p class="text-body login-footer">
+          Don't have an account? <wc-link href="#">Create one</wc-link>
+        </p>
+
+      </wc-card-content>
+    </wc-card>
+  </div>
+</Layout>

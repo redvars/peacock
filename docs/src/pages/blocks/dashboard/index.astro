@@ -1,0 +1,180 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/dashboard.scss';
+
+const title = 'Dashboard Block';
+const description =
+  'A full-page admin dashboard assembled from Peacock components: sidebar navigation, stat cards, bar chart, and doughnut chart.';
+---
+
+<Layout title={title} description={description}>
+  <div style="padding: 2rem 1.5rem 1.5rem;">
+    <h1 class="text-display" style="margin-bottom: 0.5rem;">Dashboard</h1>
+    <p class="text-body-large" style="color: var(--color-on-surface-variant);">
+      Admin dashboard with sidebar navigation, KPI cards, and charts.
+    </p>
+  </div>
+
+  <div class="block-demo-shell">
+
+    <aside class="block-demo-sidebar">
+      <div class="sidebar-brand">
+        <wc-icon name="widgets" style="color: var(--color-primary);"></wc-icon>
+        <span class="text-title">AdminApp</span>
+      </div>
+      <wc-sidebar-menu selected-item="dashboard">
+        <wc-sidebar-menu-item label="Dashboard" value="dashboard" href="#"></wc-sidebar-menu-item>
+        <wc-sidebar-sub-menu label="Analytics" expanded>
+          <wc-sidebar-menu-item label="Overview" value="analytics-overview" href="#"></wc-sidebar-menu-item>
+          <wc-sidebar-menu-item label="Reports" value="analytics-reports" href="#"></wc-sidebar-menu-item>
+        </wc-sidebar-sub-menu>
+        <wc-sidebar-menu-item label="Users" value="users" href="#"></wc-sidebar-menu-item>
+        <wc-sidebar-menu-item label="Orders" value="orders" href="#"></wc-sidebar-menu-item>
+        <wc-sidebar-menu-item label="Products" value="products" href="#"></wc-sidebar-menu-item>
+        <wc-sidebar-menu-item label="Settings" value="settings" href="#"></wc-sidebar-menu-item>
+      </wc-sidebar-menu>
+    </aside>
+
+    <main class="block-demo-main">
+
+      <div class="block-demo-topbar">
+        <span class="text-title">Dashboard</span>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1; max-width: 20rem; margin-inline-start: 1rem;">
+          <wc-input type="text" placeholder="Search…" style="width: 100%;"></wc-input>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-inline-start: auto;">
+          <wc-icon-button variant="text" aria-label="Notifications">
+            <wc-icon name="notifications"></wc-icon>
+          </wc-icon-button>
+          <wc-avatar name="Jane Doe"></wc-avatar>
+        </div>
+      </div>
+
+      <div class="block-demo-content">
+
+        <div class="stats-row">
+          <wc-card class="stat-card">
+            <wc-card-content class="stat-card-inner">
+              <div class="stat-label text-body">Total Revenue</div>
+              <div class="stat-value">
+                <span class="text-headline">$84,250</span>
+              </div>
+              <div class="stat-trend up">
+                <wc-icon name="trending_up" style="--icon-size: 1rem;"></wc-icon>
+                <span>+12.5% vs last month</span>
+              </div>
+            </wc-card-content>
+          </wc-card>
+          <wc-card class="stat-card">
+            <wc-card-content class="stat-card-inner">
+              <div class="stat-label text-body">Active Users</div>
+              <div class="stat-value">
+                <span class="text-headline">3,842</span>
+              </div>
+              <div class="stat-trend up">
+                <wc-icon name="trending_up" style="--icon-size: 1rem;"></wc-icon>
+                <span>+5.2% vs last month</span>
+              </div>
+            </wc-card-content>
+          </wc-card>
+          <wc-card class="stat-card">
+            <wc-card-content class="stat-card-inner">
+              <div class="stat-label text-body">New Orders</div>
+              <div class="stat-value">
+                <span class="text-headline">1,290</span>
+              </div>
+              <div class="stat-trend down">
+                <wc-icon name="trending_down" style="--icon-size: 1rem;"></wc-icon>
+                <span>-2.1% vs last month</span>
+              </div>
+            </wc-card-content>
+          </wc-card>
+          <wc-card class="stat-card">
+            <wc-card-content class="stat-card-inner">
+              <div class="stat-label text-body">Conversion Rate</div>
+              <div class="stat-value">
+                <span class="text-headline">4.7%</span>
+              </div>
+              <div class="stat-trend up">
+                <wc-icon name="trending_up" style="--icon-size: 1rem;"></wc-icon>
+                <span>+0.8% vs last month</span>
+              </div>
+            </wc-card-content>
+          </wc-card>
+        </div>
+
+        <div class="charts-row">
+          <wc-card class="chart-card">
+            <wc-card-content class="chart-card-inner">
+              <h2 class="text-title chart-title">Monthly Revenue</h2>
+              <div class="chart-area">
+                <wc-chart-bar id="dashboard-bar-chart" width="480" height="240" margin="20" show-values></wc-chart-bar>
+              </div>
+            </wc-card-content>
+          </wc-card>
+          <wc-card class="chart-card">
+            <wc-card-content class="chart-card-inner">
+              <h2 class="text-title chart-title">Traffic by Channel</h2>
+              <div class="chart-area">
+                <wc-chart-doughnut id="dashboard-doughnut-chart" width="220" margin="16"></wc-chart-doughnut>
+              </div>
+            </wc-card-content>
+          </wc-card>
+        </div>
+
+        <wc-card class="activity-card">
+          <wc-card-content class="activity-card-inner">
+            <h2 class="text-title activity-title">Recent Orders</h2>
+            <div class="activity-list">
+              <div class="activity-item">
+                <wc-avatar name="Alice Liu"></wc-avatar>
+                <div class="activity-text">
+                  <div class="text-body">Alice Liu — Order #4821</div>
+                  <div class="text-body" style="color: var(--color-on-surface-variant);">2 items &middot; $128.00</div>
+                </div>
+                <wc-tag color="green">Delivered</wc-tag>
+              </div>
+              <div class="activity-item">
+                <wc-avatar name="Marcus Reid"></wc-avatar>
+                <div class="activity-text">
+                  <div class="text-body">Marcus Reid — Order #4820</div>
+                  <div class="text-body" style="color: var(--color-on-surface-variant);">1 item &middot; $54.99</div>
+                </div>
+                <wc-tag color="yellow">Processing</wc-tag>
+              </div>
+              <div class="activity-item">
+                <wc-avatar name="Sara Okoye"></wc-avatar>
+                <div class="activity-text">
+                  <div class="text-body">Sara Okoye — Order #4819</div>
+                  <div class="text-body" style="color: var(--color-on-surface-variant);">3 items &middot; $219.50</div>
+                </div>
+                <wc-tag color="red">Cancelled</wc-tag>
+              </div>
+            </div>
+          </wc-card-content>
+        </wc-card>
+
+      </div>
+    </main>
+  </div>
+
+  <script is:inline>
+    const barChart = document.getElementById('dashboard-bar-chart');
+    barChart.data = [
+      { name: 'jan', label: 'Jan', value: 52000 },
+      { name: 'feb', label: 'Feb', value: 61000 },
+      { name: 'mar', label: 'Mar', value: 58000 },
+      { name: 'apr', label: 'Apr', value: 74000 },
+      { name: 'may', label: 'May', value: 69000 },
+      { name: 'jun', label: 'Jun', value: 84250 },
+    ];
+
+    const doughnutChart = document.getElementById('dashboard-doughnut-chart');
+    doughnutChart.data = [
+      { name: 'organic', label: 'Organic', value: 42 },
+      { name: 'direct', label: 'Direct', value: 28 },
+      { name: 'social', label: 'Social', value: 18 },
+      { name: 'referral', label: 'Referral', value: 12 },
+    ];
+  </script>
+</Layout>
