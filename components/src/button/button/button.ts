@@ -100,11 +100,11 @@ export class Button extends mixinBaseButton(
   // ── Properties ───────────────────────────────────────────────────────────
 
   /**
-   * Icon alignment.
-   * Possible values are `"start"`, `"end"`. Defaults to `"end"`.
+   * When `true` (default), the icon is placed after the label (trailing).
+   * When `false`, the icon is placed before the label (leading).
    */
   @property({ type: Boolean, reflect: true, attribute: 'trailing-icon' })
-  trailingIcon = false;
+  trailingIcon = true;
 
   /**
    * Button size.

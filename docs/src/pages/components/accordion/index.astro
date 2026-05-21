@@ -1,12 +1,6 @@
 ---
-import Layout from '../../../layouts/WithComponentsSidebar.astro';
-import Article from '../../../components/Article.astro';
-import { getComponentDetails, getMarkdown, getTextTag } from '../../../_data/getLitComponentDetails.ts';
+import Layout from '../../../layouts/LitComponent.astro';
 
-const componentDetails = getComponentDetails('accordion');
-const title = getTextTag(componentDetails, 'label');
-const description = getTextTag(componentDetails, 'description');
-const summary = getMarkdown(componentDetails, 'summary');
 
 const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
 const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
@@ -18,23 +12,16 @@ const sections = Object.entries({ ...astroModules, ...mdxModules })
     return {
       title: (module as any).title || name,
       order: (module as any).order || 999,
-      component: (module as any).default,
+      component: (module as any).default
     };
   })
   .sort((a, b) => a.order - b.order);
 ---
 
 
-
-<Layout title={title} description={description}>
-
-  <style is:inline>
-    wc-accordion {
-      width: 20rem;
-    }
-  </style>
-
-  <Article title={title} description={summary || description} sections={sections}>
-
-  </Article>
-</Layout>
+<style is:inline>
+  wc-accordion {
+    width: 20rem;
+  }
+</style>
+<Layout componentName='accordion' sections={sections}></Layout>

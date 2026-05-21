@@ -35,15 +35,15 @@ export class Accordion extends LitElement {
    * When `false` (default), expanding one panel collapses all others.
    */
   @property({ type: Boolean, reflect: true })
-  multi = false;
+  multiple = false;
 
   /**
-   * Display mode for the accordion.
+   * Variant for the accordion.
    * `'default'` renders panels with a subtle background on expand and dividers between items.
    * `'flat'` renders panels without borders or background changes — suitable for use inside cards.
    */
-  @property({ type: String, reflect: true, attribute: 'display-mode' })
-  displayMode: 'default' | 'flat' = 'default';
+  @property({ type: String, reflect: true })
+  variant: 'default' | 'flat' = 'default';
 
   @queryAssignedElements({ selector: 'wc-accordion-item' })
   items!: Array<AccordionItem>;
@@ -52,14 +52,14 @@ export class Accordion extends LitElement {
     super.connectedCallback();
     // @ts-ignore
     // eslint-disable-next-line wc/require-listener-teardown
-    this.addEventListener('accordion-item:toggle', this._onItemToggle);
+    this.addEventListener('accordion-item-toggle', this._onItemToggle);
     this.addEventListener('keydown', this._onKeyDown);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     // @ts-ignore
-    this.removeEventListener('accordion-item:toggle', this._onItemToggle);
+    this.removeEventListener('accordion-item-toggle', this._onItemToggle);
     this.removeEventListener('keydown', this._onKeyDown);
   }
 
@@ -69,7 +69,7 @@ export class Accordion extends LitElement {
     // Ignore events from nested accordions — only handle direct children
     if (targetItem.parentElement !== this) return;
 
-    if (!this.multi && targetItem.open) {
+    if (!this.multiple && targetItem.open) {
       this.items.forEach(item => {
         if (item !== targetItem && item.open) {
           // eslint-disable-next-line no-param-reassign

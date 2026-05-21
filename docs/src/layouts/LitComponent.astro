@@ -1,0 +1,16 @@
+---
+import Layout from './WithComponentsSidebar.astro';
+import Article from '../components/Article.astro';
+import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
+
+const { componentName, sections} = Astro.props;
+const componentDetails = getComponentDetails(componentName);
+const title = getTextTag(componentDetails, 'label');
+const description = getTextTag(componentDetails, 'description');
+const summary = getMarkdown(componentDetails, 'summary');
+---
+
+<Layout title={title} description={description}>
+  <Article title={title} description={summary || description} sections={sections}>
+  </Article>
+</Layout>

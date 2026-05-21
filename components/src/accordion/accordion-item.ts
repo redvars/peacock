@@ -20,7 +20,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @part description - The description text container.
  * @part content - The expandable content region wrapper.
  *
- * @fires {CustomEvent<{ open: boolean }>} accordion-item:toggle - Fired when the panel is expanded or collapsed.
+ * @fires {CustomEvent<{ open: boolean }>} accordion-item-toggle - Fired when the panel is expanded or collapsed.
  *
  * @example
  * ```html
@@ -87,7 +87,7 @@ export class AccordionItem extends LitElement {
     if (this.disabled) return;
     this.open = !this.open;
     this.dispatchEvent(
-      new CustomEvent('accordion-item:toggle', {
+      new CustomEvent('accordion-item-toggle', {
         bubbles: true,
         composed: true,
         detail: { open: this.open },
@@ -136,12 +136,17 @@ export class AccordionItem extends LitElement {
           ?disabled=${this.disabled}
           @click=${this._handleToggle}
         >
-          ${this.togglePosition === 'before' ? this._renderToggleIcon() : nothing}
+          ${this.togglePosition === 'before'
+            ? this._renderToggleIcon()
+            : nothing}
           <span class="header-label">
             <span part="title" class="panel-title">
               <slot
                 name="heading"
-                @slotchange=${(e: Event) => AccordionItem._onSlotChange(e, v => { this._hasHeadingSlot = v; })}
+                @slotchange=${(e: Event) =>
+                  AccordionItem._onSlotChange(e, v => {
+                    this._hasHeadingSlot = v;
+                  })}
               ></slot>
             </span>
             <span
@@ -151,12 +156,17 @@ export class AccordionItem extends LitElement {
             >
               <slot
                 name="description"
-                @slotchange=${(e: Event) => AccordionItem._onSlotChange(e, v => { this._hasDescriptionSlot = v; })}
+                @slotchange=${(e: Event) =>
+                  AccordionItem._onSlotChange(e, v => {
+                    this._hasDescriptionSlot = v;
+                  })}
               ></slot>
             </span>
           </span>
           <slot name="header-actions" class="header-actions"></slot>
-          ${this.togglePosition === 'after' ? this._renderToggleIcon() : nothing}
+          ${this.togglePosition === 'after'
+            ? this._renderToggleIcon()
+            : nothing}
         </button>
         <div
           id=${`panel-content-${this.#id}`}

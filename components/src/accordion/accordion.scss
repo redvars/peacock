@@ -18,10 +18,10 @@
   gap: var(--spacing-100); // 8dp gap between panels
 }
 
-// ─── Flat display mode ───────────────────────────────────────────────────────
+// ─── Flat variant ───────────────────────────────────────────────────────
 // Removes the gap and the per-item border/background — for use inside cards.
 
-:host([display-mode='flat']) {
+:host([variant='flat']) {
   .accordion {
     gap: 0;
   }

@@ -1,13 +1,15 @@
 ---
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
-export const title = 'Display Mode';
-export const order = 3;
+export const title = 'Variants';
+export const order = 200;
 ---
-<p class='text-body-large'>Set <code class="text-code-block">display-mode="flat"</code> on the accordion to remove dividers between panels. This is suitable when embedding an accordion inside a card, sheet, or other contained surface.</p>
+
+<h3>Flat</h3>
+<p class='text-body-large'>Set <code class="text-code-block">variant="flat"</code> on the accordion to remove dividers between panels. This is suitable when embedding an accordion inside a card, sheet, or other contained surface.</p>
 
 <DemoComponentCard lang={"html"}>
-  <wc-accordion display-mode="flat">
+  <wc-accordion variant="flat">
     <wc-accordion-item>
       <span slot="heading">Section A</span>
       <p class='text-body-large'>Content for section A. No borders between panels.</p>

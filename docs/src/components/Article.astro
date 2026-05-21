@@ -3,16 +3,18 @@ import site from '../_data/site.json';
 import { convertToSectionId } from '../_data/utils.ts';
 import '../styles/layout/article.scss';
 
+interface Section {
+  title: string;
+  component: any;
+}
 
 interface Props {
   title?: string;
   description?: string;
-  sections: any[];
+  sections: Section[];
 }
 
 const { title, description, sections = [] } = Astro.props;
-
-
 ---
 <div class="article-layout">
 
@@ -29,10 +31,9 @@ const { title, description, sections = [] } = Astro.props;
               <h2 class='section-title heading-scrollable text-headline'>{section.title}</h2>
 
               <section.component />
-
-            </section>))
+            </section>
+          ))
         }
-
 
     </wc-container>
   </article>
@@ -40,20 +41,105 @@ const { title, description, sections = [] } = Astro.props;
   <div class="on-this-page">
     <div class="text-label">On this page</div>
     <h2 class="text-headline">{title}</h2>
-    <ul class="section-nav-links">
+    <nav class="section-nav">
       {
-        sections.map((section: {title: string}) => {
-          return <li><wc-link title={section.title} href={`#section-${convertToSectionId(section.title)}`}>{section.title}</wc-link></li>
-        })
+        sections.map((section) => (
+          <wc-sidebar-menu-item
+            href={`#section-${convertToSectionId(section.title)}`}
+            label={section.title}
+            data-section={`section-${convertToSectionId(section.title)}`}
+          ></wc-sidebar-menu-item>
+        ))
       }
-    </ul>
+    </nav>
 
-    <wc-button href={site.sponsor_url} target="_blank" variant="tonal" color="primary">
+    <wc-button href={site.sponsor_url} target="_blank" variant="tonal" color="surface" block>
       <wc-icon slot="icon" name="favorite" class="sponser-icon"></wc-icon>
       Sponsor
     </wc-button>
 
     <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function () {
+        const nav = document.querySelector('.on-this-page .section-nav');
+        if (!nav) return;
+
+        // Build id → nav item map for h2 sections
+        const navMap = {};
+        nav.querySelectorAll('wc-sidebar-menu-item').forEach(function (item) {
+          navMap[item.dataset.section] = item;
+        });
+
+        // Inject wc-sidebar-menu-item for each h3, assign ids, and register in navMap
+        const tracked = [];
+        document.querySelectorAll('.article .section').forEach(function (section) {
+          // Track the h2 heading, not the whole section — sections are too large
+          // and stay in the visible set even when a subsection is active
+          const h2 = section.querySelector('h2.section-title');
+          if (h2) {
+            h2.dataset.navId = section.id;
+            tracked.push(h2);
+          }
+
+          const sectionNavItem = navMap[section.id];
+          let lastInserted = sectionNavItem;
+
+          section.querySelectorAll('h3').forEach(function (h3) {
+            if (!h3.id) {
+              h3.id = 'sub-' + h3.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            }
+            h3.dataset.navId = h3.id;
+            tracked.push(h3);
+
+            if (sectionNavItem) {
+              const sub = document.createElement('wc-sidebar-menu-item');
+              sub.setAttribute('href', '#' + h3.id);
+              sub.setAttribute('label', h3.textContent.trim());
+              sub.setAttribute('level', '1');
+              sub.dataset.section = h3.id;
+              navMap[h3.id] = sub;
+              lastInserted.insertAdjacentElement('afterend', sub);
+              lastInserted = sub;
+            }
+          });
+        });
+
+        // Immediately activate on click + smooth scroll
+        Object.values(navMap).forEach(function (item) {
+          item.addEventListener('click', function (e) {
+            e.preventDefault();
+            Object.values(navMap).forEach(function (i) { i.selected = false; });
+            item.selected = true;
+            const target = document.getElementById(item.dataset.section);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+
+        // Scrollspy: last heading whose top is above 25% of the viewport is active
+        function updateActive() {
+          const threshold = window.innerHeight * 0.25;
+          let activeId = null;
+          for (var i = 0; i < tracked.length; i++) {
+            if (tracked[i].getBoundingClientRect().top <= threshold) {
+              activeId = tracked[i].dataset.navId;
+            }
+          }
+          Object.values(navMap).forEach(function (item) { item.selected = false; });
+          if (activeId && navMap[activeId]) navMap[activeId].selected = true;
+        }
+
+        let ticking = false;
+        document.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(function () { updateActive(); ticking = false; });
+            ticking = true;
+          }
+        }, true);
+
+        updateActive();
+      });
+    </script>
+
     <script is:inline>
       (adsbygoogle = window.adsbygoogle || []).push({});
       const interval = window.setInterval(() => {
