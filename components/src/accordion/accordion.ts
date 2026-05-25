@@ -45,6 +45,13 @@ export class Accordion extends LitElement {
   @property({ type: String, reflect: true })
   variant: 'default' | 'flat' = 'default';
 
+  /**
+   * When `true`, the toggle icon is placed at the leading start of the header.
+   * When `false` (default), the icon is placed at the trailing end.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'leading-toggle' })
+  leadingToggle = false;
+
   @queryAssignedElements({ selector: 'wc-accordion-item' })
   items!: Array<AccordionItem>;
 

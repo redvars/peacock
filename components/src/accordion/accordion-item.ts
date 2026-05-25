@@ -56,14 +56,6 @@ export class AccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'hide-toggle' })
   hideToggle: boolean = false;
 
-  /**
-   * Position of the toggle icon relative to the panel title.
-   * `'after'` places it at the trailing end (default, matches M3).
-   * `'before'` places it at the leading start.
-   */
-  @property({ type: String, reflect: true, attribute: 'toggle-position' })
-  togglePosition: 'before' | 'after' = 'after';
-
   /** True when the `description` slot contains at least one non-empty node. */
   @state()
   private _hasDescriptionSlot = false;
@@ -136,37 +128,34 @@ export class AccordionItem extends LitElement {
           ?disabled=${this.disabled}
           @click=${this._handleToggle}
         >
-          ${this.togglePosition === 'before'
-            ? this._renderToggleIcon()
-            : nothing}
-          <span class="header-label">
-            <span part="title" class="panel-title">
-              <slot
-                name="heading"
-                @slotchange=${(e: Event) =>
-                  AccordionItem._onSlotChange(e, v => {
-                    this._hasHeadingSlot = v;
-                  })}
-              ></slot>
+          ${this._renderToggleIcon()}
+          <div class="header-content">
+            <span class="header-label">
+              <span part="title" class="panel-title">
+                <slot
+                  name="heading"
+                  @slotchange=${(e: Event) =>
+                    AccordionItem._onSlotChange(e, v => {
+                      this._hasHeadingSlot = v;
+                    })}
+                ></slot>
+              </span>
+              <span
+                part="description"
+                class="panel-description"
+                ?hidden=${!this._hasDescriptionSlot}
+              >
+                <slot
+                  name="description"
+                  @slotchange=${(e: Event) =>
+                    AccordionItem._onSlotChange(e, v => {
+                      this._hasDescriptionSlot = v;
+                    })}
+                ></slot>
+              </span>
             </span>
-            <span
-              part="description"
-              class="panel-description"
-              ?hidden=${!this._hasDescriptionSlot}
-            >
-              <slot
-                name="description"
-                @slotchange=${(e: Event) =>
-                  AccordionItem._onSlotChange(e, v => {
-                    this._hasDescriptionSlot = v;
-                  })}
-              ></slot>
-            </span>
-          </span>
-          <slot name="header-actions" class="header-actions"></slot>
-          ${this.togglePosition === 'after'
-            ? this._renderToggleIcon()
-            : nothing}
+            <slot name="header-actions" class="header-actions"></slot>
+          </div>
         </button>
         <div
           id=${`panel-content-${this.#id}`}

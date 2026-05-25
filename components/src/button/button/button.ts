@@ -104,7 +104,7 @@ export class Button extends mixinBaseButton(
    * When `false`, the icon is placed before the label (leading).
    */
   @property({ type: Boolean, reflect: true, attribute: 'trailing-icon' })
-  trailingIcon = true;
+  trailingIcon = false;
 
   /**
    * Button size.

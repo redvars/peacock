@@ -13,7 +13,10 @@
 .expansion-panel {
   border: var(--_accordion-item-border, 1px solid var(--color-outline-variant));
   border-radius: var(--shape-corner-medium); // 12dp — M3 medium shape
-  background-color: var(--_accordion-item-background, var(--color-surface-container-low));
+  background-color: var(
+    --_accordion-item-background,
+    var(--color-surface-container-low)
+  );
   overflow: hidden; // clip children to border-radius
   transition:
     background-color var(--duration-medium1) var(--easing-standard),
@@ -24,6 +27,7 @@
   .header-button {
     position: relative;
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     width: 100%;
     min-height: 3rem; // 48dp — grows with description
@@ -60,6 +64,11 @@
     &:focus-visible::before {
       opacity: 0.12;
     }
+  }
+
+  .header-content {
+    display: flex;
+    flex: 1;
   }
 
   // ─── Header Label (title + description column) ──────────────────────────────
@@ -117,7 +126,8 @@
   .panel-content {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows var(--duration-medium1) var(--easing-standard);
+    transition: grid-template-rows var(--duration-medium1)
+      var(--easing-standard);
   }
 
   .content-inner {
@@ -130,8 +140,16 @@
   // ─── Disabled State ─────────────────────────────────────────────────────────
 
   &.disabled {
-    background-color: color-mix(in srgb, var(--color-surface-container-low) 38%, transparent);
-    border-color: color-mix(in srgb, var(--color-outline-variant) 38%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container-low) 38%,
+      transparent
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--color-outline-variant) 38%,
+      transparent
+    );
 
     .header-button {
       cursor: not-allowed;
@@ -163,20 +181,24 @@
   // ─── Disabled State (border + bg dimmed) ────────────────────────────────────
 
   &.disabled {
-    background-color: color-mix(in srgb, var(--color-surface-container-low) 38%, transparent);
-    border-color: color-mix(in srgb, var(--color-outline-variant) 38%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container-low) 38%,
+      transparent
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--color-outline-variant) 38%,
+      transparent
+    );
   }
 }
 
 // ─── Toggle position: before ─────────────────────────────────────────────────
 
-:host([toggle-position='before']) {
+:host-context([leading-toggle]) {
   .header-button {
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: flex-end;
-  }
-
-  .header-label {
-    flex: 1;
   }
 }
