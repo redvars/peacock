@@ -2,6 +2,7 @@ export interface Section {
   title: string;
   order: number;
   component: unknown;
+  componentProps?: any;
 }
 
 export function buildSections(modules: Record<string, unknown>): Section[] {

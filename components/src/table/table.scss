@@ -8,7 +8,8 @@
   min-height: 20em;
   --table-border-color: var(--color-outline-variant);
   --table-border: 1px solid var(--table-border-color);
-  --table-col-content-padding: var(--spacing-150, 0.75rem) var(--spacing-200, 1rem);
+  --table-col-content-padding: var(--spacing-150, 0.75rem)
+    var(--spacing-200, 1rem);
 }
 
 .table {
@@ -86,11 +87,7 @@
       }
 
       .col-action {
-        --button-border-radius: 0;
-
-        &.has-focus {
-          z-index: 12;
-        }
+        --button-container-shape: 0;
       }
 
       .checkbox {
@@ -110,7 +107,6 @@
   .fixed-columns {
     position: sticky;
     left: 0;
-    z-index: 1;
   }
 
   .scrollable-columns {
@@ -119,7 +115,6 @@
 }
 
 .header {
-  z-index: 2;
   position: sticky;
   top: 0;
 
@@ -157,7 +152,6 @@
       &:focus {
         outline: none;
         border-bottom-color: var(--color-primary);
-        z-index: 1;
 
         .col-content {
           border-color: var(--color-primary);

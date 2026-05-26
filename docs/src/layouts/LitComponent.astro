@@ -3,6 +3,7 @@ import Layout from './WithComponentsSidebar.astro';
 import Article from '../components/Article.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
 import type { Section } from '../_data/getSections.ts';
+import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
 
 interface Props {
   componentName: string;
@@ -14,6 +15,16 @@ const componentDetails = getComponentDetails(componentName);
 const title = getTextTag(componentDetails, 'label');
 const description = getTextTag(componentDetails, 'description');
 const summary = getMarkdown(componentDetails, 'summary');
+
+// @ts-ignore
+sections.push({
+  title: 'API Reference',
+  component: LitComponentApiPanel,
+  componentProps: {
+    componentDetails: componentDetails
+  },
+})
+
 ---
 
 <Layout title={title} description={description}>

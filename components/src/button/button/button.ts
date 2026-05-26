@@ -44,30 +44,30 @@ export type {
  * @overview
  * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
  *
- * @cssprop --button-container-shape: Defines the border radius of the button container shape.
+ * @cssprop --button-container-shape - Defines the border radius of the button container shape.
  *
- * @cssprop --button-container-shape-start-start: Defines the start position of the button container shape.
- * @cssprop --button-container-shape-start-end: Defines the end position of the button container shape.
- * @cssprop --button-container-shape-end-start: Defines the start position of the button container shape.
- * @cssprop --button-container-shape-end-end: Defines the end position of the button container shape.
+ * @cssprop --button-container-shape-start-start - Defines the start position of the button container shape.
+ * @cssprop --button-container-shape-start-end - Defines the end position of the button container shape.
+ * @cssprop --button-container-shape-end-start - Defines the start position of the button container shape.
+ * @cssprop --button-container-shape-end-end - Defines the end position of the button container shape.
  *
  *
- * @cssprop --filled-button-container-color: Color of the filled button container.
- * @cssprop --filled-button-label-text-color: Text color of the filled button label.
+ * @cssprop --filled-button-container-color - Color of the filled button container.
+ * @cssprop --filled-button-label-text-color - Text color of the filled button label.
  *
- * @cssprop --outlined-button-container-color: Color of the outlined button container.
- * @cssprop --outlined-button-label-text-color: Text color of the outlined button label.
+ * @cssprop --outlined-button-container-color - Color of the outlined button container.
+ * @cssprop --outlined-button-label-text-color - Text color of the outlined button label.
  *
- * @cssprop --text-button-label-text-color: Text color of the text button label.
+ * @cssprop --text-button-label-text-color - Text color of the text button label.
  *
- * @cssprop --tonal-button-container-color: Color of the tonal button container.
- * @cssprop --tonal-button-label-text-color: Text color of the tonal button label.
+ * @cssprop --tonal-button-container-color - Color of the tonal button container.
+ * @cssprop --tonal-button-label-text-color - Text color of the tonal button label.
  *
- * @cssprop --elevated-button-container-color: Color of the elevated button container.
- * @cssprop --elevated-button-label-text-color: Text color of the elevated button label.
+ * @cssprop --elevated-button-container-color - Color of the elevated button container.
+ * @cssprop --elevated-button-label-text-color - Text color of the elevated button label.
  *
- * @cssprop --neo-button-container-color: Color of the neo button container.
- * @cssprop --neo-button-label-text-color: Text color of the neo button label.
+ * @cssprop --neo-button-container-color - Color of the neo button container.
+ * @cssprop --neo-button-label-text-color - Text color of the neo button label.
  *
  * @fires {MouseEvent} click - Dispatched when the button is clicked.
  *

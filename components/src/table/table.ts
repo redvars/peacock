@@ -237,7 +237,7 @@ export class Table extends LitElement {
         ? 'keyboard_arrow_up'
         : 'keyboard_arrow_down';
     }
-    return '';
+    return 'unfold_more';
   }
 
   private onSortClick(col: TableColumn) {

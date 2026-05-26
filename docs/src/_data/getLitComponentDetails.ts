@@ -20,7 +20,8 @@ const otherComps = [
     label: 'Text',
     summary:
       'The footer component represents the bottom section of a web page.',
-    example: '<div><h1 class=text-headline>Heading</h1><p class=text-body>This is a paragraph.</p></div>',
+    example:
+      '<div><h1 class=text-headline>Heading</h1><p class=text-body>This is a paragraph.</p></div>',
     tag: 'footer',
     wip: true,
     customElement: {
@@ -71,6 +72,7 @@ export function getAllComponentsForShowcase() {
       'breadcrumb-item',
       'accordion-item',
       'chip-set',
+      'chart-stacked-bar',
     ].includes(component.rawTag);
   });
 }

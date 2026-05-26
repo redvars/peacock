@@ -2,10 +2,12 @@
 import site from '../_data/site.json';
 import { convertToSectionId } from '../_data/utils.ts';
 import '../styles/layout/article.scss';
+import LitComponentApiPanel from './LitComponentApiPanel.astro';
 
 interface Section {
   title: string;
   component: any;
+  componentProps?: any;
 }
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const { title, description, sections = [] } = Astro.props;
+
 ---
 <div class="article-layout">
 
@@ -30,7 +33,7 @@ const { title, description, sections = [] } = Astro.props;
                 class='section'>
               <h2 class='section-title heading-scrollable text-headline'>{section.title}</h2>
 
-              <section.component />
+              <section.component {...section.componentProps} />
             </section>
           ))
         }

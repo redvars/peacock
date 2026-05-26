@@ -4,20 +4,23 @@
 
 :host {
   display: block;
+  container-type: inline-size;
 }
 
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--spacing-200, 1rem);
+  row-gap: var(--spacing-100, 0.5rem);
   background: var(--color-surface, #fff);
   padding: var(--spacing-150, 0.75rem) var(--spacing-200, 1rem);
 
-  @media (max-width: 48rem) {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    row-gap: var(--spacing-100, 0.5rem);
+  @container (min-width: 48rem) {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    row-gap: 0;
   }
 
   .page-size {
@@ -40,14 +43,16 @@
   }
 
   .pagination-item-count {
-    margin-inline-start: auto;
+    order: 3;
+    margin-inline-start: 0;
+    inline-size: 100%;
     display: flex;
     align-items: center;
 
-    @media (max-width: 48rem) {
-      order: 3;
-      margin-inline-start: 0;
-      inline-size: 100%;
+    @container (min-width: 48rem) {
+      order: 0;
+      margin-inline-start: auto;
+      inline-size: auto;
     }
   }
 

@@ -6,120 +6,134 @@ interface Props {
 const { componentDetails } = Astro.props;
 
 const litComp = componentDetails;
+const propertiesData = litComp?.customElement?.attributes ?? [];
+const eventsData     = litComp?.customElement?.events ?? [];
+const methodsData    = litComp?.methods ?? [];
+const cssData        = litComp?.customElement?.cssProperties ?? [];
 ---
-<div class='api-section'>
-  <h4 class='text-headline'>Properties</h4>
-  <wc-table id='comp-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
-</div>
 
-<div class='api-section'>
-  <h4 class='text-headline'>Events</h4>
-  <wc-table id='comp-events' class='table-auto-height' layer='01' paginate='false'></wc-table>
-</div>
+<style>
+.table-auto-height {
+  min-height: auto;
+  margin-bottom: var(--spacing-200)
+}
 
-<div class='api-section'>
-  <h4 class='text-headline'>Methods</h4>
-  <wc-table id='comp-methods' class='table-auto-height' layer='01' paginate='false'></wc-table>
-</div>
+</style>
 
-<div class='api-section'>
-  <h4 class='text-headline'>CSS Custom Properties</h4>
-  <wc-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
-</div>
+{propertiesData.length > 0 && (
+  <Fragment>
+    <h3>Properties</h3>
+    <wc-table id='comp-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <script is:inline define:vars={{ propertiesData }}>
+      const $compProperties = document.getElementById('comp-properties');
+      $compProperties.columns = [{
+        name: 'name',
+        label: 'Name',
+        width: 10,
+      }, {
+        name: 'fieldName',
+        label: 'Field name',
+        width: 20,
+      }, {
+        name: 'docs',
+        label: 'Description',
+        width: 28,
+        template: function(row, column) {
+          if (row[column.name])
+            return `<div class='col-text' title='${row[column.name]}'>${row[column.name].split('\n').map((i) => `<p class='text-body'>${i}</p>`).join('')}</div>`;
+          return '';
+        },
+      }, {
+        name: 'type',
+        label: 'Type',
+        width: 18,
+        template: function(row, column) {
+          let value = '';
+          if (row.expandedType) {
+            value = row.expandedType.text;
+          } else {
+            value = row.type?.text;
+          }
+          if (value && value.includes('|')) {
+            const types = value.split('|');
+            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
+          }
+          return `<div class='col-text'>${row[column.name]?.text}</div>`;
+        },
+      }, {
+        name: 'default',
+        label: 'Default',
+      }];
+      $compProperties.data = propertiesData;
+    </script>
+  </Fragment>
+)}
 
-<script is:inline define:vars={{ litComp}}>
-  const $compProperties = window.document.getElementById('comp-properties');
-  // Columns
-  $compProperties.columns = [{
-    'name': 'name',
-    'label': 'Name',
-    'width': 10,
-  }, {
-    'name': 'fieldName',
-    'label': 'Field name',
-    'width': 20,
-  }, {
-    'name': 'docs',
-    'label': 'Description',
-    'width': 28,
-    template: function(row, column) {
-      if (row[column.name])
-        return `<div class='col-text' title='${row[column.name]}'>${row[column.name].split('\n').map((i) => `<p class='text-body'>${i}</p>`).join('')}</div>`;
-      return '';
-    },
-  }, {
-    'name': 'type',
-    'label': 'Type',
-    'width': 18,
-    template: function(row, column) {
-      let value = '';
-      if (row.expandedType) {
-        value = row.expandedType.text;
-      } else {
-        value = row.type.text;
-      }
-      if (value && value.includes("|")) {
-        const types = value.split("|");
-        const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
-        return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
-      }
-      return `<div class='col-text'>${row[column.name]?.text}</div>`;
-    },
-  }, {
-    'name': 'default',
-    'label': 'Default',
-  }];
-  // Data
-  $compProperties.data = litComp.customElement.attributes;
+{eventsData.length > 0 && (
+  <Fragment>
+    <h3>Events</h3>
+    <wc-table id='comp-events' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <script is:inline define:vars={{ eventsData }}>
+      const $compEvents = document.getElementById('comp-events');
+      $compEvents.columns = [{
+        name: 'name',
+        label: 'Name',
+        width: 10,
+      }, {
+        name: 'type',
+        label: 'Type',
+        width: 18,
+        template: function(row, column) {
+          const value = row[column.name]?.text;
+          if (value && value.includes('|')) {
+            const types = value.split('|');
+            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
+          }
+          return `<div class='col-text'>${row[column.name]?.text}</div>`;
+        },
+      }];
+      $compEvents.data = eventsData;
+    </script>
+  </Fragment>
+)}
 
-  const $compEvents = document.getElementById('comp-events');
-  // Columns
-  $compEvents.columns = [{
-    'name': 'name',
-    'label': 'Name',
-    'width': 10,
-  }, {
-    'name': 'type',
-    'label': 'Type',
-    'width': 18,
-    template: function(row, column) {
-      const value = row[column.name].text
-      if (value && value.includes("|")) {
-        const types = value.split("|");
-        const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
-        return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
-      }
-      return `<div class='col-text'>${row[column.name]?.text}</div>`;
-    },
-  }];
-  // Data
-  $compEvents.data = litComp.customElement.events;
+{methodsData.length > 0 && (
+  <Fragment>
+    <h3>Methods</h3>
+    <wc-table id='comp-methods' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <script is:inline define:vars={{ methodsData }}>
+      const $compMethods = document.getElementById('comp-methods');
+      $compMethods.columns = [{
+        name: 'name',
+        label: 'Name',
+        width: 20,
+      }, {
+        name: 'docs',
+        label: 'Description',
+      }];
+      $compMethods.data = methodsData;
+    </script>
+  </Fragment>
+)}
 
- /* const $compMethods = document.getElementById('comp-methods');
-  // Columns
-  $compMethods.columns = [{
-    'name': 'name',
-    'label': 'Name',
-    'width': 20,
-  }, {
-    'name': 'docs',
-    'label': 'Description',
-  }];
-  // Data
-  $compMethods.data = componentDetails.methods;*/
-
-  const $compCssCustomProperties = document.getElementById('comp-css-custom-properties');
-  // Columns
-  $compCssCustomProperties.columns = [{
-    'name': 'name',
-    'label': 'Name',
-    'width': 20,
-    'fixed': true,
-  }, {
-    'name': 'description',
-    'label': 'Description',
-  }];
-
-  // Data
-  $compCssCustomProperties.data = litComp.customElement.cssProperties;
-</script>
+{cssData.length > 0 && (
+  <Fragment>
+    <h3>CSS Custom Properties</h3>
+    <wc-table id='comp-css-custom-properties' class='table-auto-height' layer='01' paginate='false'></wc-table>
+    <script is:inline define:vars={{ cssData }}>
+      const $compCssCustomProperties = document.getElementById('comp-css-custom-properties');
+      $compCssCustomProperties.columns = [{
+        name: 'name',
+        label: 'Name',
+        width: 20,
+        fixed: true,
+      }, {
+        name: 'description',
+        label: 'Description',
+      }];
+      $compCssCustomProperties.data = cssData;
+    </script>
+  </Fragment>
+)}
