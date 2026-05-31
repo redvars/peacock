@@ -1,5 +1,5 @@
 ---
-import site from '../_data/site.json';
+import { AUTHOR } from '../siteconfig';
 ---
 
 <style is:inline>
@@ -37,8 +37,8 @@ import site from '../_data/site.json';
   <div class='tagline-content text-body-emphasized'>
     Built by</span>&nbsp;
     <wc-avatar src='/assets/img/avatar.xs.webp' size='1.5rem'></wc-avatar>&nbsp;
-    <a class='link no-decoration text-body-emphasized' href={site.author_url}>
-      {site.author}
+    <a class='link no-decoration text-body-emphasized' href={AUTHOR.url}>
+      {AUTHOR.name}
     </a>. &nbsp;
 
     <wc-icon class='country-flag' size='1.5rem'

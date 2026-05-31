@@ -1,5 +1,5 @@
 ---
-import site from '../_data/site.json';
+import { SPONSOR_URL } from '../siteconfig';
 import { convertToSectionId } from '../_data/utils.ts';
 import '../styles/layout/article.scss';
 import LitComponentApiPanel from './LitComponentApiPanel.astro';
@@ -56,7 +56,7 @@ const { title, description, sections = [] } = Astro.props;
       }
     </nav>
 
-    <wc-button href={site.sponsor_url} target="_blank" variant="tonal" color="tertiary" block>
+    <wc-button href={SPONSOR_URL} target="_blank" variant="tonal" color="tertiary" block>
       <wc-icon slot="icon" name="favorite" class="sponser-icon"></wc-icon>
       Sponsor
     </wc-button>

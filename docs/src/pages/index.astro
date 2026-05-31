@@ -1,19 +1,12 @@
 ---
 import Layout from '../layouts/Default.astro';
-import site from '../_data/site.json';
 import '../styles/pages/index.scss';
 import Footer from '../components/Footer.astro';
 import BuildBySection from '../components/BuildBySection.astro';
 import { getScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
+import { SITE_TITLE, GITHUB_USERNAME, AUTHOR, VERSION } from '../siteconfig';
 
 const isProd = import.meta.env.PROD;
-let envProps;
-
-if (isProd) {
-  envProps = site['prod'];
-} else {
-  envProps = site['dev'];
-}
 
 function jumpingSentence(sentence: string) {
   let len = sentence.length;
@@ -65,7 +58,7 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
         class='social-icon'
         aria-label='Github'
         target='_blank'
-        href={`https://www.github.com/${site.github_username}`}>
+        href={`https://www.github.com/${GITHUB_USERNAME}`}>
         <wc-icon name="logo--github" provider='carbon'></wc-icon>
       </wc-icon-button>
       <wc-icon-button
@@ -75,7 +68,7 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
         class='social-icon'
         aria-label='Twitter'
         target='_blank'
-        href={`https://x.com/${site.twitter_username}`}>
+        href={`https://x.com/${AUTHOR.twitter}`}>
         <wc-icon name="logo--x" provider='carbon'></wc-icon>
       </wc-icon-button>
     </wc-toolbar>
@@ -92,13 +85,13 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
     <wc-container size='max'>
       <div class='section'>
         <h2 class='text-headline-large heading-scrollable' id='introduction'>Introduction</h2>
-        <p class='text-large'>{site.title} contains most used web components built using Stencil. So you don't need to
+        <p class='text-large'>{SITE_TITLE} contains most used web components built using Stencil. So you don't need to
           include any additional framework dependencies, You can simply import required
           component js, and right away start using it.
         </p>
         <p class='text-large'>Can easily be consumed by any other framework, like Vue, React, Angular, etc.</p>
         <br />
-        <p class='text-large'>{site.title} components are beautiful Open Source web components under MIT license. They are maintained by
+        <p class='text-large'>{SITE_TITLE} components are beautiful Open Source web components under MIT license. They are maintained by
           <a class='link' href='https://shivajivarma.com'>Shivaji Varma</a>
           . Do not miss any updates and announcements, stay tuned on our social pages. You can contribute to the project
           by creating pull requests or issues.
@@ -124,7 +117,7 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
-              <script is:inline define:vars={{ title: site.title, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
+              <script is:inline define:vars={{ title: SITE_TITLE, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
                 document.getElementById('get-started-code').value = `
                  &lt;head>
 
@@ -149,7 +142,7 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
 
             <wc-tab-panel>
               <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
-              <script is:inline define:vars={{ title: site.title, version: site.version, themeCss:  getThemeCssUrl()}}>
+              <script is:inline define:vars={{ title: SITE_TITLE, version: VERSION, themeCss:  getThemeCssUrl()}}>
                 document.getElementById('load-single-component-code').value = `&lt;head>
 
                   &lt;link rel="preconnect" href="https://fonts.googleapis.com">

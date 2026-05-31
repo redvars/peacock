@@ -262,6 +262,10 @@ const loaderConfig: LoaderConfig = {
       importPath: `${distDirectory}/html-editor.js`,
       dependencies: ['wc-code-editor'],
     },
+    'wc-markdown-editor': {
+      importPath: `${distDirectory}/markdown-editor.js`,
+      dependencies: ['wc-code-editor'],
+    },
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },

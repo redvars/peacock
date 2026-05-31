@@ -1,5 +1,5 @@
 ---
-import site from '../_data/site.json';
+import { AUTHOR } from '../siteconfig';
 import Layout from './Default.astro';
 interface Props {
   title: any;
@@ -39,7 +39,7 @@ const {title, description} = Astro.props;
       <pc-divider></pc-divider>
       <div class='footer-content'>
         <pc-text class='legal' type='legal' expressive>
-          &copy; {new Date().getFullYear()} <goat-link href={site.author_url}>{site.author}</goat-link>. All Rights Reserved.
+          &copy; {new Date().getFullYear()} <goat-link href={AUTHOR.url}>{AUTHOR.name}</goat-link>. All Rights Reserved.
         </pc-text>
       </div>
     </div>

@@ -1,5 +1,5 @@
 ---
-import GoogleAnalyticsScript from '../components/analytics/GoogleAnalyticsScript.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 interface Props {
   title?: string;
   description?: string;
@@ -7,9 +7,9 @@ interface Props {
 }
 
 const { title, description, keywords } = Astro.props;
-import site from '../_data/site.json';
 import '../styles/layout/base.scss';
 import { getScriptUrl, getFallbackScriptUrl, getThemeCssUrl } from '../_data/utils.ts';
+import { SITE_TITLE, SITE_TAGLINE, SITE_DESCRIPTION, AUTHOR, GOOGLE_ANALYTICS_ID } from '../siteconfig';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 
@@ -25,9 +25,9 @@ function getKeywords() {
 
 function getPageTitle() {
   if (title) {
-    return `${title}  &middot; ${site.title}`;
+    return `${title}  &middot; ${SITE_TITLE}`;
   } else {
-    return `${site.title} &middot; ${site.tagline}`;
+    return `${SITE_TITLE} &middot; ${SITE_TAGLINE}`;
   }
 }
 ---
@@ -46,26 +46,20 @@ function getPageTitle() {
   <link rel='canonical' href={canonicalURL} />
 
   <!-- Author Meta Tags -->
-  <meta name='author' content={site.author} />
-  <meta name='copyright' content={`(c) ${new Date().getFullYear()} ${site.author}`} />
+  <meta name='author' content={AUTHOR.name} />
+  <meta name='copyright' content={`(c) ${new Date().getFullYear()} ${AUTHOR.name}`} />
 
   <!--  Meta tags -->
   <meta name='keywords' content={getKeywords()} />
-  <meta name='description' content={description ? description : site.description} />
+  <meta name='description' content={description ? description : SITE_DESCRIPTION} />
+
+  <GoogleAnalytics id={GOOGLE_ANALYTICS_ID} />
 
   <!-- Favicon -->
   <link rel='shortcut icon' href='/favicon.svg' />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-
-  <style>
-    body {
-      background: var(--color-surface-container-highest);
-      color: var(--color-on-surface);
-    }
-  </style>
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
@@ -79,6 +73,7 @@ function getPageTitle() {
     <link href="/assets/peacock/assets/styles.css" rel="stylesheet" />
     )
   }
+
 
 </head>
 <body>
@@ -101,8 +96,5 @@ function getPageTitle() {
       src="/assets/peacock/loader.js"></script>
   )
 }
-
-
-<GoogleAnalyticsScript/>
 </body>
 </html>

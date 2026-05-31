@@ -1,5 +1,5 @@
 ---
-import site from '../_data/site.json';
+import { AUTHOR, REPO_URL, PRIVACY_URL, LICENSE_URL, SPONSOR_URL, GITHUB_USERNAME } from '../siteconfig';
 import '../styles/footer.scss';
 ---
 
@@ -11,8 +11,8 @@ import '../styles/footer.scss';
         <p class="text-body-large">Our mission is to empower developers with high-quality, customizable, and accessible web components that promote web standards and best practices.</p>
         <p class="text-body-large">
 
-          Built by&nbsp;<wc-link href={site.author_url} target="_blank">{site.author}</wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
-          Source code on&nbsp;<wc-link class="link" href={site.repo_url} target="_blank">GitHub</wc-link>.
+          Built by&nbsp;<wc-link href={AUTHOR.url} target="_blank">{AUTHOR.name}</wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
+          Source code on&nbsp;<wc-link class="link" href={REPO_URL} target="_blank">GitHub</wc-link>.
         </p>
       </div>
   </section>
@@ -20,9 +20,9 @@ import '../styles/footer.scss';
   <nav class="footer-links" aria-label="Footer links">
     <h2 class="text-title-large section-title">Links</h2>
     <ul class="section-nav-links">
-      <li><wc-link href={site.privacy_url}>Privacy Policy</wc-link></li>
-      <li><wc-link href={site.license_url}>License</wc-link></li>
-      <li><wc-link href={site.sponsor_url} target="_blank">Sponsor</wc-link></li>
+      <li><wc-link href={PRIVACY_URL}>Privacy Policy</wc-link></li>
+      <li><wc-link href={LICENSE_URL}>License</wc-link></li>
+      <li><wc-link href={SPONSOR_URL} target="_blank">Sponsor</wc-link></li>
     </ul>
   </nav>
 
@@ -34,7 +34,7 @@ import '../styles/footer.scss';
         <wc-icon-button
           variant="outlined"
           color="surface"
-          href={`https://github.com/${site.github_username}`}
+          href={`https://github.com/${GITHUB_USERNAME}`}
           target="_blank"
           aria-label="GitHub"
         >
@@ -45,7 +45,7 @@ import '../styles/footer.scss';
         <wc-icon-button
           variant="outlined"
           color="surface"
-          href={`https://twitter.com/${site.twitter_username}`}
+          href={`https://twitter.com/${AUTHOR.twitter}`}
           target="_blank"
           aria-label="X (Twitter)"
         >

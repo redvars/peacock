@@ -3,7 +3,7 @@ layout: ../layouts/Notice.astro
 title: 'Privacy Policy'
 description: 'Site is copyrighted under The MIT License.'
 ---
-import site from '../_data/site.json';
+import { AUTHOR } from '../siteconfig';
 
 # Privacy Policy
 
@@ -36,4 +36,4 @@ This privacy policy is subject to change without notice. Any updates will be ref
 ## 6. Contact
 If you have any questions regarding this privacy statement or the technical implementation of the Peacock library, feel free to contact us directly:
 
-**Email:** [{site.email}](mailto:{site.email})
+**Email:** [{AUTHOR.email}](mailto:{AUTHOR.email})

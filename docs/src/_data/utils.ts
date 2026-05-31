@@ -1,15 +1,15 @@
-import site from './site.json';
+import { VERSION, FALLBACK_VERSION } from '../siteconfig';
 
 export function getScriptUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${site.version}/dist/loader.js`;
+  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${VERSION}/dist/loader.js`;
 }
 
 export function getThemeCssUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${site.version}/dist/assets/styles.css`;
+  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${VERSION}/dist/assets/styles.css`;
 }
 
 export function getFallbackScriptUrl() {
-  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${site.fallbackVersion}/dist/loader.js`;
+  return `https://cdn.jsdelivr.net/npm/@redvars/peacock@${FALLBACK_VERSION}/dist/loader.js`;
 }
 
 export function convertToSectionId(title: any) {
@@ -18,7 +18,7 @@ export function convertToSectionId(title: any) {
   return title
     .toLowerCase()
     .normalize('NFD') // Splits accented characters (e.g., 'é' to 'e' + '´')
-    .replace(/[\u0300-\u036f]/g, '') // Removes the accent marks
+    .replace(/[̀-ͯ]/g, '') // Removes the accent marks
     .replace(/[^a-z0-9\s-]/g, '') // Removes anything that isn't a letter, number, or space
     .trim() // Removes spaces from start/end
     .replace(/\s+/g, '-') // Replaces one or more spaces with a single hyphen

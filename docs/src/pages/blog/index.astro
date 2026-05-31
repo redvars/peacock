@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Default.astro';
 import '../../styles/blog.scss';
-import site from '../../_data/site.json';
+import { SITE_TITLE } from '../../siteconfig';
 import Footer from '../../components/Footer.astro';
 
 const allPosts = Object.values(import.meta.glob('./posts/*.astro', { eager: true }));
@@ -10,7 +10,7 @@ const allPosts = Object.values(import.meta.glob('./posts/*.astro', { eager: true
   <div class='main-content'>
     <wc-container class='blog-posts page-container'>
       <h2 class='text-display'>Blog</h2>
-      <p class='text-body-large'>News and announcements for all things { site.title }, including new releases</p>
+      <p class='text-body-large'>News and announcements for all things { SITE_TITLE }, including new releases</p>
 
       <wc-divider></wc-divider>
 

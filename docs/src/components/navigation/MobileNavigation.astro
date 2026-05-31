@@ -1,6 +1,6 @@
 ---
 const pathname = Astro.url.pathname;
-import site from '../../_data/site.json';
+import { SITE_TITLE } from '../../siteconfig';
 const isTypographyPage = pathname === '/components/text';
 const isComponentsPage =
   pathname === '/components' ||
@@ -35,7 +35,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
 
   <a id="app-bar-title" href="/">
     <img src="/assets/img/logo-plain.webp" class="logo" alt="peacock">
-    {site.title}
+    {SITE_TITLE}
   </a>
   <wc-icon-button slot="trailing" variant="text"  class="search-button">
     <wc-icon name="search"></wc-icon>

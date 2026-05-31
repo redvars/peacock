@@ -96,6 +96,8 @@ video {
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
 }
 
 :not(:defined) {
