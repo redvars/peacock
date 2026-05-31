@@ -4,24 +4,27 @@ function releaseToDocs(cb) {
   const packageJsonStr = fs.readFileSync('components/package.json');
   const packageJson = JSON.parse(packageJsonStr);
 
-  fs.readFile('docs/src/_data/site.json', 'utf8', function (err, data) {
+  fs.readFile('docs/src/siteconfig.ts', 'utf8', function (err, data) {
     if (err) {
       return console.log(err);
     }
-    let result = JSON.parse(data);
-    if (result.version !== packageJson.version) {
-      result.fallbackVersion = result.version;
-      result.version = packageJson.version;
-    }
-    fs.writeFile(
-      'docs/src/_data/site.json',
-      JSON.stringify(result, null, 2),
-      'utf8',
-      function (err) {
+    const match = data.match(/export const VERSION = '([^']+)'/);
+    const currentVersion = match ? match[1] : null;
+    if (currentVersion !== packageJson.version) {
+      const result = data
+        .replace(
+          /export const FALLBACK_VERSION = '[^']+'/,
+          `export const FALLBACK_VERSION = '${currentVersion}'`,
+        )
+        .replace(
+          /export const VERSION = '[^']+'/,
+          `export const VERSION = '${packageJson.version}'`,
+        );
+      fs.writeFile('docs/src/siteconfig.ts', result, 'utf8', function (err) {
         if (err) return console.log(err);
-        cb('site.json config updated');
-      },
-    );
+        cb('siteconfig.ts updated');
+      });
+    }
   });
   fs.readFile('readme.md', 'utf8', function (err, data) {
     if (err) {
