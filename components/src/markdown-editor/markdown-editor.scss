@@ -1,0 +1,378 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+// ── Field wrapper overrides ─────────────────────────────────────────────────
+
+.markdown-editor-field {
+  --field-height: auto;
+  --field-padding-block: 0;
+  --code-editor-height: var(--markdown-editor-min-height, 12rem);
+
+  width: 100%;
+}
+
+// ── Editable content area ───────────────────────────────────────────────────
+
+.markdown-editor-content {
+  min-height: var(--markdown-editor-min-height, 12rem);
+  // Left padding is wider to create a gutter for the block handle panel.
+  padding: var(--spacing-200, 1rem) var(--spacing-200, 1rem)
+    var(--spacing-200, 1rem) 2.5rem;
+  outline: none;
+  color: var(--color-on-surface, #1c1b1f);
+  font-family: var(--typography-body-large-font-family, inherit);
+  font-size: var(--typography-body-large-font-size, 1rem);
+  line-height: var(--typography-body-large-line-height, 1.6);
+  cursor: text;
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  &.hidden {
+    display: none;
+  }
+
+  .tiptap-root,
+  .ProseMirror {
+    outline: none;
+    min-height: calc(var(--markdown-editor-min-height, 12rem) - 2rem);
+  }
+
+  .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--color-on-surface-variant, #49454f);
+    opacity: 0.55;
+    pointer-events: none;
+    float: left;
+    height: 0;
+  }
+
+  // ── Notion-like block typography ──────────────────────────────────────────
+
+  .ProseMirror {
+    h1 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 1.4rem 0 0.4rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 1.2rem 0 0.35rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 1rem 0 0.3rem;
+    }
+
+    p {
+      margin: 0.25rem 0;
+    }
+
+    ul,
+    ol {
+      padding-inline-start: 1.5rem;
+      margin: 0.35rem 0;
+    }
+
+    li > p {
+      margin: 0.1rem 0;
+    }
+
+    blockquote {
+      margin: 0.6rem 0;
+      padding: 0.25rem 0 0.25rem 0.85rem;
+      border-inline-start: 3px solid
+        var(--color-outline-variant, #cac4d0);
+      color: var(--color-on-surface-variant, #49454f);
+    }
+
+    pre {
+      background: var(--color-surface-container-high, #ece6f0);
+      color: var(--color-on-surface, #1c1b1f);
+      padding: 0.75rem 1rem;
+      border-radius: var(--shape-corner-small, 0.5rem);
+      font-family: var(--typography-code-font-family, monospace);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 0.6rem 0;
+    }
+
+    code {
+      font-family: var(--typography-code-font-family, monospace);
+      font-size: 0.85em;
+      background: color-mix(
+        in srgb,
+        var(--color-on-surface, #1c1b1f) 8%,
+        transparent
+      );
+      padding: 0.1em 0.35em;
+      border-radius: var(--shape-corner-extra-small, 0.25rem);
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--color-outline-variant, #cac4d0);
+      margin: 1rem 0;
+    }
+
+    a {
+      color: var(--color-primary, #6750a4);
+      text-decoration: underline;
+    }
+
+    strong,
+    b {
+      font-weight: 600;
+    }
+  }
+}
+
+.markdown-source {
+  &.hidden {
+    display: none;
+  }
+}
+
+// ── Bottom mode switcher ────────────────────────────────────────────────────
+
+.mode-switcher {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--spacing-050, 0.25rem) var(--spacing-100, 0.5rem)
+    var(--spacing-075, 0.375rem);
+  border-block-start: 1px solid
+    var(--color-outline-variant, #cac4d0);
+}
+
+// ── Floating bubble menu (selection toolbar) ────────────────────────────────
+
+.bubble-menu {
+  position: fixed;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  gap: var(--spacing-025, 0.125rem);
+  padding: var(--spacing-025, 0.125rem);
+  background: var(
+    --markdown-editor-bubble-background,
+    var(--color-surface-container-highest, #e6e0e9)
+  );
+  border: 1px solid var(--color-outline-variant, #cac4d0);
+  border-radius: var(--shape-corner-small, 0.5rem);
+  box-shadow: var(
+    --elevation-2,
+    0 2px 6px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08)
+  );
+
+  &.open {
+    display: inline-flex;
+  }
+}
+
+// ── Floating slash command menu ─────────────────────────────────────────────
+
+.slash-menu {
+  position: fixed;
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  min-width: 14rem;
+  max-height: 18rem;
+  overflow-y: auto;
+  padding: var(--spacing-050, 0.25rem);
+  background: var(
+    --markdown-editor-slash-background,
+    var(--color-surface-container-highest, #e6e0e9)
+  );
+  border: 1px solid var(--color-outline-variant, #cac4d0);
+  border-radius: var(--shape-corner-small, 0.5rem);
+  box-shadow: var(
+    --elevation-2,
+    0 4px 10px rgba(0, 0, 0, 0.14),
+    0 1px 3px rgba(0, 0, 0, 0.08)
+  );
+
+  &.open {
+    display: flex;
+  }
+}
+
+.slash-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-075, 0.375rem) var(--spacing-100, 0.5rem);
+  border: none;
+  background: transparent;
+  border-radius: var(--shape-corner-extra-small, 0.25rem);
+  cursor: pointer;
+  color: var(--color-on-surface, #1c1b1f);
+  font-size: 0.875rem;
+  text-align: start;
+
+  &:hover,
+  &.active {
+    background: color-mix(
+      in srgb,
+      var(--color-primary, #6750a4) 12%,
+      transparent
+    );
+  }
+
+  .slash-item-label {
+    font-weight: 500;
+  }
+
+  .slash-item-hint {
+    margin-inline-start: auto;
+    color: var(--color-on-surface-variant, #49454f);
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+}
+
+// ── Toolbar buttons (used inside bubble menu) ───────────────────────────────
+
+.toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--shape-corner-extra-small, 0.25rem);
+  background: transparent;
+  color: var(--color-on-surface-variant, #49454f);
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+
+  &:hover:not(:disabled) {
+    background: color-mix(
+      in srgb,
+      var(--color-on-surface-variant, #49454f) 10%,
+      transparent
+    );
+  }
+
+  &.active {
+    background: color-mix(
+      in srgb,
+      var(--color-primary, #6750a4) 16%,
+      transparent
+    );
+    color: var(--color-primary, #6750a4);
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  wc-icon {
+    pointer-events: none;
+  }
+}
+
+// ── Block handle (insert + drag) ────────────────────────────────────────────
+
+.block-handle {
+  position: fixed;
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-025, 0.125rem);
+
+  &.visible {
+    display: flex;
+  }
+}
+
+.block-handle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid var(--color-outline-variant, #cac4d0);
+  border-radius: var(--shape-corner-extra-small, 0.25rem);
+  background: var(--color-surface-container-highest, #e6e0e9);
+  color: var(--color-on-surface-variant, #49454f);
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+
+  &:hover:not(:disabled) {
+    background: color-mix(
+      in srgb,
+      var(--color-on-surface-variant, #49454f) 12%,
+      transparent
+    );
+  }
+
+  &:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  &.drag-btn {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  wc-icon {
+    pointer-events: none;
+  }
+}
+
+// ProseMirror drop cursor shown during block drag
+.ProseMirror-dropcursor {
+  border-top: 2px solid var(--color-primary, #6750a4) !important;
+}
+
+// ── Read-only tag ───────────────────────────────────────────────────────────
+
+.read-only-tag {
+  margin: var(--spacing-050, 0.25rem);
+}
+
+// ── Disabled / readonly host states ─────────────────────────────────────────
+
+:host([disabled]) .markdown-editor-content,
+:host([readonly]) .markdown-editor-content {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+:host([disabled]) .markdown-source,
+:host([readonly]) .markdown-source {
+  opacity: 0.7;
+}

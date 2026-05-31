@@ -1,0 +1,42 @@
+---
+export const title = 'Variants';
+export const order = 150;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p>
+  The <code>variant</code> attribute controls the visual style of the field
+  wrapper. Three options are available: <code>default</code> (underline only),
+  <code>outlined</code> (full border), and <code>filled</code> (tinted
+  background).
+</p>
+
+<h3>Default</h3>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    label="Notes"
+    variant="default"
+    style="display:block;"
+  ></wc-markdown-editor>
+</DemoComponentCard>
+
+<h3>Outlined</h3>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    label="Notes"
+    variant="outlined"
+    style="display:block;"
+  ></wc-markdown-editor>
+</DemoComponentCard>
+
+<h3>Filled</h3>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    label="Notes"
+    variant="filled"
+    style="display:block;"
+  ></wc-markdown-editor>
+</DemoComponentCard>

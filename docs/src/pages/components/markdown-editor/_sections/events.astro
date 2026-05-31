@@ -1,0 +1,54 @@
+---
+export const title = 'Events';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p>
+  The editor fires a <code>change</code> event whenever the Markdown content
+  changes. The event is debounced (default 250 ms, configurable via the
+  <code>debounce</code> property) to avoid excessive calls while the user is
+  typing. Read the current value from <code>element.value</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    id="md-events-demo"
+    label="Editor"
+    helper-text="Edit content to see change events in the console."
+    style="display:block;"
+  ></wc-markdown-editor>
+  <script is:inline>
+    const el = document.getElementById('md-events-demo');
+
+    el.value = '## Hello\n\nStart typing to fire `change` events.';
+
+    el.addEventListener('change', () => {
+      console.log('change fired — value:', el.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Custom debounce</h3>
+
+<p>
+  Set <code>debounce="0"</code> for immediate events or a higher value (e.g.
+  <code>debounce="1000"</code>) to reduce frequency on slow connections.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-markdown-editor
+    id="md-events-debounce"
+    label="Editor (500 ms debounce)"
+    debounce="500"
+    helper-text="Change events fire 500 ms after you stop typing."
+    style="display:block;"
+  ></wc-markdown-editor>
+  <script is:inline>
+    const debounced = document.getElementById('md-events-debounce');
+    debounced.value = 'Type here…';
+    debounced.addEventListener('change', () => {
+      console.log('debounced change:', debounced.value);
+    });
+  </script>
+</DemoComponentCard>
