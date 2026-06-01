@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+:host-context([orientation='horizontal']) .timeline-item {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  align-items: stretch;
+  min-height: auto;
+}
+
+.marker-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--timeline-dot-size, 2rem);
+}
+
+:host-context([orientation='horizontal']) .marker-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: var(--timeline-dot-size, 2rem);
+}
+
+.marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--timeline-dot-size, 2rem);
+  height: var(--timeline-dot-size, 2rem);
+  flex-shrink: 0;
+}
+
+.marker-dot {
+  width: var(--timeline-dot-size, 2rem);
+  height: var(--timeline-dot-size, 2rem);
+  min-width: var(--timeline-dot-size, 2rem);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--timeline-dot-bg, var(--color-primary));
+  --icon-color: var(--timeline-dot-color, var(--color-on-primary));
+  position: relative;
+  z-index: 2;
+}
+
+.marker-dot ::slotted(wc-icon) {
+  --icon-size: calc(var(--timeline-dot-size, 2rem) * 0.6);
+}
+
+.dot-spinner {
+  --progress-height: calc(var(--timeline-dot-size, 2rem) * 0.6);
+}
+
+/* Flexible connector line that stretches to fill remaining height */
+.connector {
+  flex: 1;
+  min-height: 2rem;
+  width: 2px;
+  background: var(--timeline-line-color, var(--color-outline));
+  margin: auto;
+  margin-block: .25rem;
+}
+
+:host(:last-child) .connector {
+  display: none;
+}
+
+/* Horizontal orientation connector */
+:host-context([orientation='horizontal']) .connector {
+  flex: 1;
+  min-width: 2rem;
+  width: auto;
+  height: 2px;
+  background: var(--timeline-line-color, var(--color-outline));
+  margin: auto;
+  margin-inline: .25rem;
+}
+
+:host-context([orientation='horizontal']):last-child .connector {
+  display: none;
+}
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+
+.description {
+  color: var(--timeline-description-color, var(--color-on-surface-variant));
+  line-height: 1.4;
+}

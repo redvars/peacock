@@ -34,6 +34,8 @@ import { SubMenu } from '@/menu/sub-menu/sub-menu.js';
 import { Item } from '@/item/item.js';
 import { List } from '@/list/list.js';
 import { ListItem } from '@/list/list-item.js';
+import { Timeline } from '@/timeline/timeline.js';
+import { TimelineItem } from '@/timeline/timeline-item.js';
 
 import { Accordion } from '@/accordion/accordion.js';
 import { Link } from '@/link/link.js';
@@ -304,6 +306,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-list-item': {
       CustomElementClass: ListItem,
+    },
+    'wc-timeline': {
+      CustomElementClass: Timeline,
+    },
+    'wc-timeline-item': {
+      CustomElementClass: TimelineItem,
     },
     'wc-item': {
       CustomElementClass: Item,

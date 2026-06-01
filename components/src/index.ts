@@ -42,6 +42,7 @@ export { Popover, PopoverContent } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 export { Menu, MenuItem, SubMenu } from './menu/index.js';
 export { List, ListItem } from './list/index.js';
+export { Timeline, TimelineItem } from './timeline/index.js';
 export { Item } from './item/index.js';
 
 export { CodeHighlighter } from './code-highlighter/index.js';

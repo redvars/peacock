@@ -1,0 +1,68 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4>Vertical Timeline</h4>
+<DemoComponentCard lang="html">
+  <wc-timeline>
+    <wc-timeline-item>
+      <span>You submitted for review</span>
+      <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem;">week ago</span>
+      <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+
+    <wc-timeline-item style="--timeline-dot-bg: #ff6b35; --timeline-dot-color: white;">
+      <span>Changes requested by Oliver Brown</span>
+      <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem; margin-bottom: 0.5rem;">4 days ago</span>
+      <wc-card slot="content" style="margin-top: 0.5rem; --card-padding: 0.75rem;">
+        <wc-card-content>
+          <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+            <wc-avatar style="--avatar-size: 2.5rem;"></wc-avatar>
+            <div>
+              <div style="font-weight: 600;">Oliver Brown <span style="background: #ff6b35; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; margin-left: 0.5rem;">TL</span></div>
+              <div style="color: var(--color-on-surface-variant); line-height: 1.5; margin-top: 0.5rem;">We need to change the way you keep security training records, please check control evidence examples section for instructions.</div>
+            </div>
+          </div>
+        </wc-card-content>
+      </wc-card>
+      <wc-icon slot="dot" name="group"></wc-icon>
+    </wc-timeline-item>
+
+    <wc-timeline-item>
+      <span>You resubmitted for review</span>
+      <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem;">4h ago</span>
+      <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+
+    <wc-timeline-item style="--timeline-dot-bg: #1b8857; --timeline-dot-color: white;">
+      <span>Approved by Oliver Brown</span>
+      <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem;">just now</span>
+      <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+  </wc-timeline>
+</DemoComponentCard>
+
+<h4>Horizontal Timeline</h4>
+<DemoComponentCard lang="html">
+  <wc-timeline orientation="horizontal">
+    <wc-timeline-item>
+      <span>Step 1</span>
+      <span slot="content">Initial setup</span>
+      <wc-icon slot="dot" name="settings"></wc-icon>
+    </wc-timeline-item>
+
+    <wc-timeline-item>
+      <span>Step 2</span>
+      <span slot="content">Configuration</span>
+      <wc-icon slot="dot" name="tune"></wc-icon>
+    </wc-timeline-item>
+
+    <wc-timeline-item>
+      <span>Step 3</span>
+      <span slot="content">Complete</span>
+      <wc-icon slot="dot" name="check_circle"></wc-icon>
+    </wc-timeline-item>
+  </wc-timeline>
+</DemoComponentCard>
