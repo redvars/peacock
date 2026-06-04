@@ -390,7 +390,7 @@ const loaderConfig: LoaderConfig = {
       importPath: `${distDirectory}/calendar-month-view.js`,
     },
     'wc-canvas': {
-      importPath: `${distDirectory}/canvas.js`,
+      importPath: `${distDirectory}/flow-canvas.js`,
     },
     'wc-flow-designer': {
       importPath: `${distDirectory}/flow-designer.js`,
