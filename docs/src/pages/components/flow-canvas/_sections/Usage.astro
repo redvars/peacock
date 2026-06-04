@@ -11,15 +11,31 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     canvas.padding = 2;
     canvas.zoom = 1.1;
 
-    canvas.shapes = [
-      // Services
-      { type: 'rect', x: 0, y: 0, width: 6, height: 4, color: 'var(--color-primary-container)' },
-      { type: 'rect', x: 12, y: 0, width: 6, height: 4, color: 'var(--color-secondary-container)' },
-      { type: 'rect', x: 24, y: -5, width: 7, height: 4, color: 'var(--color-tertiary-container)' },
-      { type: 'rect', x: 24, y: 5, width: 7, height: 4, color: 'var(--color-success-container)' },
-      { type: 'circle', x: 36, y: 2, radius: 2.1, color: 'var(--color-surface-container-high)' },
+    // Create HTML node elements
+    const node1 = document.createElement('div');
+    node1.style.cssText = 'background: var(--color-primary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node1.textContent = 'Service A';
 
-      // Main request path
+    const node2 = document.createElement('div');
+    node2.style.cssText = 'background: var(--color-secondary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node2.textContent = 'Service B';
+
+    const node3 = document.createElement('div');
+    node3.style.cssText = 'background: var(--color-tertiary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node3.textContent = 'Cache';
+
+    const node4 = document.createElement('div');
+    node4.style.cssText = 'background: var(--color-success-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node4.textContent = 'DB';
+
+    canvas.data = [
+      // HTML nodes
+      { type: 'node', x: 0, y: 0, element: node1 },
+      { type: 'node', x: 12, y: 0, element: node2 },
+      { type: 'node', x: 24, y: -5, element: node3 },
+      { type: 'node', x: 24, y: 5, element: node4 },
+
+      // Lines connecting nodes
       {
         type: 'line',
         start: { x: 6, y: 2 },
@@ -47,30 +63,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         path: [
           { direction: 'down', length: 3 },
           { direction: 'right', length: 9 },
-        ],
-      },
-
-      // Async side effects and storage
-      {
-        type: 'connector',
-        start: { x: 31, y: -3 },
-        showArrow: true,
-        variant: 'dashed',
-        color: 'var(--color-tertiary)',
-        path: [
-          { direction: 'right', length: 5 },
-          { direction: 'down', length: 3 },
-        ],
-      },
-      {
-        type: 'connector',
-        start: { x: 31, y: 7 },
-        showArrow: true,
-        variant: 'animated-dashed',
-        color: 'var(--color-success)',
-        path: [
-          { direction: 'right', length: 5 },
-          { direction: 'up', length: 3 },
         ],
       },
     ];

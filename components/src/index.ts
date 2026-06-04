@@ -88,20 +88,6 @@ export {
 export type { CalendarViewType, EventType } from './calendar/index.js';
 export { Canvas } from './flow-canvas/index.js';
 export type { CanvasShape } from './flow-canvas/index.js';
-export { FlowDesigner, FlowDesignerNode } from './flow-designer/index.js';
-export type {
-  Workflow,
-  WorkflowNode,
-  WorkflowCommand,
-  PositionedNode,
-  ValidationError,
-  HistoryEntry,
-  EditorState,
-  NodeType,
-  WorkflowChangeEvent,
-  SwimlaneConfig,
-  NodeTemplate,
-} from './flow-designer/index.js';
 export {
   ConditionBuilder,
   CbPredicate,

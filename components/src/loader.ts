@@ -392,13 +392,6 @@ const loaderConfig: LoaderConfig = {
     'wc-canvas': {
       importPath: `${distDirectory}/flow-canvas.js`,
     },
-    'wc-flow-designer': {
-      importPath: `${distDirectory}/flow-designer.js`,
-      dependencies: ['wc-flow-designer-node'],
-    },
-    'wc-flow-designer-node': {
-      importPath: `${distDirectory}/flow-designer-node.js`,
-    },
     'wc-chart-doughnut': {
       importPath: `${distDirectory}/chart-doughnut.js`,
     },

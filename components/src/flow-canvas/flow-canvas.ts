@@ -28,19 +28,11 @@ interface BaseCanvasStrokeShape extends BaseCanvasShape {
   clickable?: boolean;
 }
 
-export interface CanvasCircleShape extends BaseCanvasShape {
-  type: 'circle';
+export interface CanvasNodeShape extends BaseCanvasShape {
+  type: 'node';
   x?: number;
   y?: number;
-  radius?: number;
-}
-
-export interface CanvasRectShape extends BaseCanvasShape {
-  type: 'rect';
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
+  element: HTMLElement;
 }
 
 export interface CanvasLineShape extends BaseCanvasStrokeShape {
@@ -56,8 +48,7 @@ export interface CanvasConnectorShape extends BaseCanvasStrokeShape {
 }
 
 export type CanvasShape =
-  | CanvasCircleShape
-  | CanvasRectShape
+  | CanvasNodeShape
   | CanvasLineShape
   | CanvasConnectorShape;
 
@@ -102,7 +93,7 @@ export class Canvas extends LitElement {
   static styles = [styles];
 
   @property({ type: Array })
-  shapes: CanvasShape[] = [];
+  data: CanvasShape[] = [];
 
   @property({ type: Number, reflect: true })
   padding: number = 1;
@@ -148,37 +139,21 @@ export class Canvas extends LitElement {
       maxY: initialBounds.y + initialBounds.height,
     };
 
-    const shapes = this.shapes.map(shape => {
+    const shapes = this.data.map(shape => {
       switch (shape.type) {
-        case 'circle': {
-          const r = shape.radius || 1;
-          const cx = shape.x || 0;
-          const cy = shape.y || 0;
-          Canvas.updateExtents(extents, cx - r, cy - r);
-          Canvas.updateExtents(extents, cx + r, cy + r);
-
-          return svg`<circle
-            cx=${cx * GRID_GAP + GRID_DOT_RADIUS}
-            cy=${cy * GRID_GAP + GRID_DOT_RADIUS}
-            r=${r * GRID_GAP}
-            fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
-          />`;
-        }
-        case 'rect': {
-          const w = shape.width || 1;
-          const h = shape.height || 1;
-          const rx = shape.x || 0;
-          const ry = shape.y || 0;
-          Canvas.updateExtents(extents, rx, ry);
-          Canvas.updateExtents(extents, rx + w, ry + h);
-
-          return svg`<rect
-            x=${rx * GRID_GAP + GRID_DOT_RADIUS}
-            y=${ry * GRID_GAP}
-            width=${w * GRID_GAP + GRID_DOT_RADIUS}
-            height=${h * GRID_GAP + GRID_DOT_RADIUS}
-            fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
-          />`;
+        case 'node': {
+          const x = shape.x || 0;
+          const y = shape.y || 0;
+          Canvas.updateExtents(extents, x, y);
+          
+          return {
+            type: 'html-node',
+            content: html`<div
+              style="position: absolute; left: ${x * GRID_GAP}px; top: ${y * GRID_GAP}px;"
+            >
+              ${shape.element}
+            </div>`
+          };
         }
         case 'line': {
           const start = shape.start || { x: 0, y: 0 };
@@ -190,20 +165,23 @@ export class Canvas extends LitElement {
             shape.color ||
             'var(--canvas-line-color, var(--color-on-surface))';
 
-          return svg`<path
-            class=${classMap({
-              ...Canvas.getStrokeVariantClasses(shape.variant),
-              clickable: !!shape.clickable,
-            })}
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke=${strokeColor}
-            marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
-            d=${pathString}
-            stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
-            fill="none"
-          />`;
+          return {
+            type: 'svg-shape',
+            content: svg`<path
+              class=${classMap({
+                ...Canvas.getStrokeVariantClasses(shape.variant),
+                clickable: !!shape.clickable,
+              })}
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke=${strokeColor}
+              marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
+              d=${pathString}
+              stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
+              fill="none"
+            />`
+          };
         }
         case 'connector': {
           const start = shape.start || { x: 0, y: 0 };
@@ -255,32 +233,35 @@ export class Canvas extends LitElement {
             shape.color ||
             'var(--canvas-line-color, var(--color-on-surface))';
 
-          return svg`<g class=${classMap({ clickable: !!shape.clickable })}>
-            <path
-              class=${classMap({
-                ...Canvas.getStrokeVariantClasses(shape.variant),
-              })}
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke=${strokeColor}
-              marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
-              d=${pathString}
-              stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
-              fill="none"
-            />
-            <path
-              stroke-width="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke="transparent"
-              d=${pathString}
-              fill="none"
-            />
-          </g>`;
+          return {
+            type: 'svg-shape',
+            content: svg`<g class=${classMap({ clickable: !!shape.clickable })}>
+              <path
+                class=${classMap({
+                  ...Canvas.getStrokeVariantClasses(shape.variant),
+                })}
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke=${strokeColor}
+                marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
+                d=${pathString}
+                stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
+                fill="none"
+              />
+              <path
+                stroke-width="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke="transparent"
+                d=${pathString}
+                fill="none"
+              />
+            </g>`
+          };
         }
         default:
-          return nothing;
+          return { type: 'unknown', content: nothing };
       }
     });
 
@@ -367,13 +348,31 @@ export class Canvas extends LitElement {
 
     const svgViewBox = `${computedViewBox.x * GRID_GAP} ${computedViewBox.y * GRID_GAP} ${computedViewBox.width * GRID_GAP + 2 * GRID_DOT_RADIUS} ${computedViewBox.height * GRID_GAP + 2 * GRID_DOT_RADIUS}`;
 
+    // Separate nodes (HTML) from paths (SVG)
+    const svgShapes: unknown[] = [];
+    const nodeShapes: unknown[] = [];
+    
+    shapes.forEach((shape: any) => {
+      if (shape && shape.type === 'html-node') {
+        nodeShapes.push(shape.content);
+      } else if (shape && shape.type === 'svg-shape') {
+        svgShapes.push(shape.content);
+      }
+    });
+
     return html`
       <div
         class="canvas-wrapper"
         style="width: ${wrapperWidth}px; height: ${wrapperHeight}px;"
       >
         ${this.renderBackgroundSvg(computedViewBox, svgViewBox)}
-        ${this.renderShapesSvg(shapes, svgViewBox)}
+        ${this.renderShapesSvg(svgShapes, svgViewBox)}
+        <div
+          class="canvas-nodes"
+          style="position: absolute; inset: 0; transform: scale(${this.zoom});"
+        >
+          ${nodeShapes}
+        </div>
       </div>
     `;
   }
