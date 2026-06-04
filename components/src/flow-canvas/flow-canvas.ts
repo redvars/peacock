@@ -1,8 +1,8 @@
-﻿import { html, LitElement, svg, nothing } from 'lit';
+import { html, LitElement, svg, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import styles from './canvas.scss';
+import styles from './flow-canvas.scss';
 
 export type CanvasDirection = 'up' | 'down' | 'left' | 'right';
 
@@ -28,19 +28,11 @@ interface BaseCanvasStrokeShape extends BaseCanvasShape {
   clickable?: boolean;
 }
 
-export interface CanvasCircleShape extends BaseCanvasShape {
-  type: 'circle';
+export interface CanvasNodeShape extends BaseCanvasShape {
+  type: 'node';
   x?: number;
   y?: number;
-  radius?: number;
-}
-
-export interface CanvasRectShape extends BaseCanvasShape {
-  type: 'rect';
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
+  element: HTMLElement;
 }
 
 export interface CanvasLineShape extends BaseCanvasStrokeShape {
@@ -56,8 +48,7 @@ export interface CanvasConnectorShape extends BaseCanvasStrokeShape {
 }
 
 export type CanvasShape =
-  | CanvasCircleShape
-  | CanvasRectShape
+  | CanvasNodeShape
   | CanvasLineShape
   | CanvasConnectorShape;
 
@@ -96,42 +87,20 @@ interface CanvasViewBox {
  * @cssprop --canvas-line-color - Default stroke color for lines and connectors. Defaults to on-surface.
  * @cssprop --canvas-hover-color - Stroke color on hover for clickable shapes. Defaults to primary.
  * @cssprop --canvas-arrow-color - Stroke color for arrow markers. Defaults to on-surface.
- *
- * @example
- * ```html
- * <wc-canvas id="my-canvas"></wc-canvas>
- * <script>
- *   document.querySelector('#my-canvas').shapes = [
- *     { type: 'circle', x: 0, y: 0, radius: 0.25, color: 'red' },
- *   ];
- * </script>
- * ```
  */
 @IndividualComponent
 export class Canvas extends LitElement {
   static styles = [styles];
 
-  /**
-   * Array of shape objects to render on the canvas.
-   */
   @property({ type: Array })
-  shapes: CanvasShape[] = [];
+  data: CanvasShape[] = [];
 
-  /**
-   * Padding around the computed viewbox (in grid units).
-   */
   @property({ type: Number, reflect: true })
   padding: number = 1;
 
-  /**
-   * Zoom multiplier for the canvas dimensions.
-   */
   @property({ type: Number, reflect: true })
   zoom: number = 1;
 
-  /**
-   * Optional viewbox override string (e.g. "0 0 100 100").
-   */
   @property({ type: String })
   viewbox?: string;
 
@@ -147,11 +116,7 @@ export class Canvas extends LitElement {
     return { x: point.x, y: point.y };
   }
 
-  private static updateExtents(
-    extents: CanvasExtents,
-    x: number,
-    y: number,
-  ) {
+  private static updateExtents(extents: CanvasExtents, x: number, y: number) {
     if (x < extents.minX) extents.minX = x;
     if (x > extents.maxX) extents.maxX = x;
     if (y < extents.minY) extents.minY = y;
@@ -167,7 +132,6 @@ export class Canvas extends LitElement {
   }
 
   private computeShapes(initialBounds: CanvasBounds) {
-    // Track world-space bounds (grid units) as shapes are processed.
     const extents: CanvasExtents = {
       minX: initialBounds.x,
       minY: initialBounds.y,
@@ -175,38 +139,21 @@ export class Canvas extends LitElement {
       maxY: initialBounds.y + initialBounds.height,
     };
 
-    const shapes = this.shapes.map(shape => {
+    const shapes = this.data.map(shape => {
       switch (shape.type) {
-        case 'circle': {
-          const r = shape.radius || 1;
-          const cx = shape.x || 0;
-          const cy = shape.y || 0;
-          Canvas.updateExtents(extents, cx - r, cy - r);
-          Canvas.updateExtents(extents, cx + r, cy + r);
-
-          // Convert from grid units to SVG pixels using the fixed gap.
-          return svg`<circle
-            cx=${cx * GRID_GAP + GRID_DOT_RADIUS}
-            cy=${cy * GRID_GAP + GRID_DOT_RADIUS}
-            r=${r * GRID_GAP}
-            fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
-          />`;
-        }
-        case 'rect': {
-          const w = shape.width || 1;
-          const h = shape.height || 1;
-          const rx = shape.x || 0;
-          const ry = shape.y || 0;
-          Canvas.updateExtents(extents, rx, ry);
-          Canvas.updateExtents(extents, rx + w, ry + h);
-
-          return svg`<rect
-            x=${rx * GRID_GAP + GRID_DOT_RADIUS}
-            y=${ry * GRID_GAP}
-            width=${w * GRID_GAP + GRID_DOT_RADIUS}
-            height=${h * GRID_GAP + GRID_DOT_RADIUS}
-            fill=${shape.color || 'var(--canvas-line-color, var(--color-on-surface))'}
-          />`;
+        case 'node': {
+          const x = shape.x || 0;
+          const y = shape.y || 0;
+          Canvas.updateExtents(extents, x, y);
+          
+          return {
+            type: 'html-node',
+            content: html`<div
+              style="position: absolute; left: ${x * GRID_GAP}px; top: ${y * GRID_GAP}px;"
+            >
+              ${shape.element}
+            </div>`
+          };
         }
         case 'line': {
           const start = shape.start || { x: 0, y: 0 };
@@ -218,20 +165,23 @@ export class Canvas extends LitElement {
             shape.color ||
             'var(--canvas-line-color, var(--color-on-surface))';
 
-          return svg`<path
-            class=${classMap({
-              ...Canvas.getStrokeVariantClasses(shape.variant),
-              clickable: !!shape.clickable,
-            })}
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke=${strokeColor}
-            marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
-            d=${pathString}
-            stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
-            fill="none"
-          />`;
+          return {
+            type: 'svg-shape',
+            content: svg`<path
+              class=${classMap({
+                ...Canvas.getStrokeVariantClasses(shape.variant),
+                clickable: !!shape.clickable,
+              })}
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke=${strokeColor}
+              marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
+              d=${pathString}
+              stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
+              fill="none"
+            />`
+          };
         }
         case 'connector': {
           const start = shape.start || { x: 0, y: 0 };
@@ -244,7 +194,6 @@ export class Canvas extends LitElement {
             const path = pathSegments[i];
 
             if (i === 0) {
-              // Move one unit first so curved corner joins don't overlap start.
               const point = Canvas.getNextPoint(current, path.direction, 1);
               pathString += ` L${point.x * GRID_GAP + GRID_DOT_RADIUS} ${point.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...point };
@@ -274,7 +223,6 @@ export class Canvas extends LitElement {
                 nextPath.direction,
                 1,
               );
-              // Use a quadratic segment to round corners between directions.
               pathString += ` Q ${midPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${midPoint.y * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...nextPoint };
               Canvas.updateExtents(extents, current.x, current.y);
@@ -285,36 +233,38 @@ export class Canvas extends LitElement {
             shape.color ||
             'var(--canvas-line-color, var(--color-on-surface))';
 
-          return svg`<g class=${classMap({ clickable: !!shape.clickable })}>
-            <path
-              class=${classMap({
-                ...Canvas.getStrokeVariantClasses(shape.variant),
-              })}
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke=${strokeColor}
-              marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
-              d=${pathString}
-              stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
-              fill="none"
-            />
-            <path
-              stroke-width="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke="transparent"
-              d=${pathString}
-              fill="none"
-            />
-          </g>`;
+          return {
+            type: 'svg-shape',
+            content: svg`<g class=${classMap({ clickable: !!shape.clickable })}>
+              <path
+                class=${classMap({
+                  ...Canvas.getStrokeVariantClasses(shape.variant),
+                })}
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke=${strokeColor}
+                marker-end=${shape.showArrow ? 'url(#endarrow)' : ''}
+                d=${pathString}
+                stroke-dasharray=${shape.variant === 'dashed' || shape.variant === 'animated-dashed' ? '6,6' : nothing}
+                fill="none"
+              />
+              <path
+                stroke-width="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke="transparent"
+                d=${pathString}
+                fill="none"
+              />
+            </g>`
+          };
         }
         default:
-          return nothing;
+          return { type: 'unknown', content: nothing };
       }
     });
 
-    // Expand bounds with padding so shapes are not flush to the edge.
     const computedViewbox = {
       x: extents.minX - this.padding,
       y: extents.minY - this.padding,
@@ -391,14 +341,24 @@ export class Canvas extends LitElement {
       };
     }
 
-    // Zoom scales the outer viewport size while the SVG viewBox stays in world units.
     const wrapperWidth =
       (computedViewBox.width * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
     const wrapperHeight =
       (computedViewBox.height * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
 
-    // viewBox maps world-space extents into the internal SVG coordinate system.
     const svgViewBox = `${computedViewBox.x * GRID_GAP} ${computedViewBox.y * GRID_GAP} ${computedViewBox.width * GRID_GAP + 2 * GRID_DOT_RADIUS} ${computedViewBox.height * GRID_GAP + 2 * GRID_DOT_RADIUS}`;
+
+    // Separate nodes (HTML) from paths (SVG)
+    const svgShapes: unknown[] = [];
+    const nodeShapes: unknown[] = [];
+    
+    shapes.forEach((shape: any) => {
+      if (shape && shape.type === 'html-node') {
+        nodeShapes.push(shape.content);
+      } else if (shape && shape.type === 'svg-shape') {
+        svgShapes.push(shape.content);
+      }
+    });
 
     return html`
       <div
@@ -406,7 +366,13 @@ export class Canvas extends LitElement {
         style="width: ${wrapperWidth}px; height: ${wrapperHeight}px;"
       >
         ${this.renderBackgroundSvg(computedViewBox, svgViewBox)}
-        ${this.renderShapesSvg(shapes, svgViewBox)}
+        ${this.renderShapesSvg(svgShapes, svgViewBox)}
+        <div
+          class="canvas-nodes"
+          style="position: absolute; inset: 0; transform: scale(${this.zoom});"
+        >
+          ${nodeShapes}
+        </div>
       </div>
     `;
   }

@@ -26,6 +26,16 @@
   inset: 0;
 }
 
+.canvas-nodes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
 .canvas-background {
   pointer-events: none;
 }

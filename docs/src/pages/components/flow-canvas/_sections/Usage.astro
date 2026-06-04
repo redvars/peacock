@@ -1,0 +1,70 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-canvas id='canvas'></wc-canvas>
+  <script is:inline>
+    const canvas = document.querySelector('#canvas');
+    canvas.padding = 2;
+    canvas.zoom = 1.1;
+
+    // Create HTML node elements
+    const node1 = document.createElement('div');
+    node1.style.cssText = 'background: var(--color-primary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node1.textContent = 'Service A';
+
+    const node2 = document.createElement('div');
+    node2.style.cssText = 'background: var(--color-secondary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node2.textContent = 'Service B';
+
+    const node3 = document.createElement('div');
+    node3.style.cssText = 'background: var(--color-tertiary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node3.textContent = 'Cache';
+
+    const node4 = document.createElement('div');
+    node4.style.cssText = 'background: var(--color-success-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
+    node4.textContent = 'DB';
+
+    canvas.data = [
+      // HTML nodes
+      { type: 'node', x: 0, y: 0, element: node1 },
+      { type: 'node', x: 12, y: 0, element: node2 },
+      { type: 'node', x: 24, y: -5, element: node3 },
+      { type: 'node', x: 24, y: 5, element: node4 },
+
+      // Lines connecting nodes
+      {
+        type: 'line',
+        start: { x: 6, y: 2 },
+        end: { x: 12, y: 2 },
+        showArrow: true,
+        variant: 'solid',
+        color: 'var(--color-primary)',
+        clickable: true,
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 0 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'up', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 4 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'down', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+    ];
+  </script>
+</DemoComponentCard>

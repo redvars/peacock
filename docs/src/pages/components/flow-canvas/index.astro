@@ -7,4 +7,4 @@ const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
 const sections = buildSections({ ...astroModules, ...mdxModules });
 ---
 
-<Layout componentName='flow-designer' sections={sections}></Layout>
+<Layout componentName='canvas' sections={sections}></Layout>
