@@ -1,0 +1,78 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<DemoComponentCard lang={'html'}>
+  <wc-canvas id='canvas'></wc-canvas>
+  <script is:inline>
+    const canvas = document.querySelector('#canvas');
+    canvas.padding = 2;
+    canvas.zoom = 1.1;
+
+    canvas.shapes = [
+      // Services
+      { type: 'rect', x: 0, y: 0, width: 6, height: 4, color: 'var(--color-primary-container)' },
+      { type: 'rect', x: 12, y: 0, width: 6, height: 4, color: 'var(--color-secondary-container)' },
+      { type: 'rect', x: 24, y: -5, width: 7, height: 4, color: 'var(--color-tertiary-container)' },
+      { type: 'rect', x: 24, y: 5, width: 7, height: 4, color: 'var(--color-success-container)' },
+      { type: 'circle', x: 36, y: 2, radius: 2.1, color: 'var(--color-surface-container-high)' },
+
+      // Main request path
+      {
+        type: 'line',
+        start: { x: 6, y: 2 },
+        end: { x: 12, y: 2 },
+        showArrow: true,
+        variant: 'solid',
+        color: 'var(--color-primary)',
+        clickable: true,
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 0 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'up', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+      {
+        type: 'connector',
+        start: { x: 15, y: 4 },
+        showArrow: true,
+        color: 'var(--color-secondary)',
+        path: [
+          { direction: 'down', length: 3 },
+          { direction: 'right', length: 9 },
+        ],
+      },
+
+      // Async side effects and storage
+      {
+        type: 'connector',
+        start: { x: 31, y: -3 },
+        showArrow: true,
+        variant: 'dashed',
+        color: 'var(--color-tertiary)',
+        path: [
+          { direction: 'right', length: 5 },
+          { direction: 'down', length: 3 },
+        ],
+      },
+      {
+        type: 'connector',
+        start: { x: 31, y: 7 },
+        showArrow: true,
+        variant: 'animated-dashed',
+        color: 'var(--color-success)',
+        path: [
+          { direction: 'right', length: 5 },
+          { direction: 'up', length: 3 },
+        ],
+      },
+    ];
+  </script>
+</DemoComponentCard>
