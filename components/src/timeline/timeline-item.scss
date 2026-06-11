@@ -9,14 +9,6 @@
   align-items: stretch;
 }
 
-:host-context([orientation='horizontal']) .timeline-item {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  align-items: stretch;
-  min-height: auto;
-}
 
 .marker-column {
   display: flex;
@@ -25,13 +17,6 @@
   width: var(--timeline-dot-size, 2rem);
 }
 
-:host-context([orientation='horizontal']) .marker-column {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: auto;
-  height: var(--timeline-dot-size, 2rem);
-}
 
 .marker {
   position: relative;
@@ -65,40 +50,45 @@
   --progress-height: calc(var(--timeline-dot-size, 2rem) * 0.6);
 }
 
-/* Flexible connector line that stretches to fill remaining height */
+/* Flexible connector line that stretches to fill remaining height/width */
 .connector {
-  flex: 1;
-  min-height: 2rem;
   width: 2px;
   background: var(--timeline-line-color, var(--color-outline));
-  margin: auto;
-  margin-block: .25rem;
+  margin-inline: auto;
 }
 
-:host(:last-child) .connector {
-  display: none;
+.connector--top {
+  height: var(--timeline-connector-top-height, 0.75rem);
+  flex-shrink: 0;
 }
 
-/* Horizontal orientation connector */
-:host-context([orientation='horizontal']) .connector {
+.connector--bottom {
   flex: 1;
-  min-width: 2rem;
-  width: auto;
-  height: 2px;
-  background: var(--timeline-line-color, var(--color-outline));
-  margin: auto;
-  margin-inline: .25rem;
+  min-height: 1.5rem;
 }
 
-:host-context([orientation='horizontal']):last-child .connector {
+:host(:first-child) .connector--top {
+  visibility: hidden;
+}
+
+:host(:last-child) .connector--bottom {
   display: none;
 }
+
 
 
 .content {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.headline {
+  padding-top: var(--timeline-connector-top-height, 0.75rem);
+  min-height: calc(var(--timeline-dot-size, 2rem) + var(--timeline-connector-top-height, 0.75rem));
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 

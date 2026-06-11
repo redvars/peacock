@@ -32,6 +32,8 @@ export interface CanvasNodeShape extends BaseCanvasShape {
   type: 'node';
   x?: number;
   y?: number;
+  width?: number;
+  height?: number;
   element: HTMLElement;
 }
 
@@ -139,17 +141,102 @@ export class Canvas extends LitElement {
       maxY: initialBounds.y + initialBounds.height,
     };
 
+    // Pass 1: Compute extents
+    this.data.forEach(shape => {
+      switch (shape.type) {
+        case 'node': {
+          const x = shape.x || 0;
+          const y = shape.y || 0;
+          const width = shape.width || 0;
+          const height = shape.height || 0;
+          Canvas.updateExtents(extents, x, y);
+          Canvas.updateExtents(extents, x + width, y + height);
+          break;
+        }
+        case 'line': {
+          const start = shape.start || { x: 0, y: 0 };
+          const end = shape.end || { x: 0, y: 0 };
+          Canvas.updateExtents(extents, start.x, start.y);
+          Canvas.updateExtents(extents, end.x, end.y);
+          break;
+        }
+        case 'connector': {
+          const start = shape.start || { x: 0, y: 0 };
+          let current = { ...start };
+          Canvas.updateExtents(extents, current.x, current.y);
+
+          const pathSegments = shape.path || [];
+          for (let i = 0; i < pathSegments.length; i += 1) {
+            const path = pathSegments[i];
+
+            if (i === 0) {
+              const point = Canvas.getNextPoint(current, path.direction, 1);
+              current = { ...point };
+              Canvas.updateExtents(extents, current.x, current.y);
+            }
+
+            const point = Canvas.getNextPoint(
+              current,
+              path.direction,
+              path.length - 2,
+            );
+            current = { ...point };
+            Canvas.updateExtents(extents, current.x, current.y);
+
+            if (i === pathSegments.length - 1) {
+              const endPoint = Canvas.getNextPoint(current, path.direction, 1);
+              current = { ...endPoint };
+              Canvas.updateExtents(extents, current.x, current.y);
+            } else {
+              const nextPath = pathSegments[i + 1];
+              const midPoint = Canvas.getNextPoint(current, path.direction, 1);
+              Canvas.updateExtents(extents, midPoint.x, midPoint.y);
+              const nextPoint = Canvas.getNextPoint(
+                midPoint,
+                nextPath.direction,
+                1,
+              );
+              current = { ...nextPoint };
+              Canvas.updateExtents(extents, current.x, current.y);
+            }
+          }
+          break;
+        }
+      }
+    });
+
+    const computedViewbox = {
+      x: extents.minX - this.padding,
+      y: extents.minY - this.padding,
+      width: Math.max(extents.maxX - extents.minX + this.padding * 2, 0),
+      height: Math.max(extents.maxY - extents.minY + this.padding * 2, 0),
+    };
+
+    // If there is an explicit viewbox override, use it for layout coordinates
+    let layoutViewBox = { ...computedViewbox };
+    if (this.viewbox) {
+      const viewBoxParts = this.viewbox.split(' ');
+      layoutViewBox = {
+        x: parseInt(viewBoxParts[0], 10),
+        y: parseInt(viewBoxParts[1], 10),
+        width: parseInt(viewBoxParts[2], 10),
+        height: parseInt(viewBoxParts[3], 10),
+      };
+    }
+
+    // Pass 2: Map to Lit templates
     const shapes = this.data.map(shape => {
       switch (shape.type) {
         case 'node': {
           const x = shape.x || 0;
           const y = shape.y || 0;
-          Canvas.updateExtents(extents, x, y);
+          const width = shape.width || 0;
+          const height = shape.height || 0;
           
           return {
             type: 'html-node',
             content: html`<div
-              style="position: absolute; left: ${x * GRID_GAP}px; top: ${y * GRID_GAP}px;"
+              style="position: absolute; left: ${(x - layoutViewBox.x) * GRID_GAP + GRID_DOT_RADIUS}px; top: ${(y - layoutViewBox.y) * GRID_GAP + GRID_DOT_RADIUS}px; width: ${width * GRID_GAP}px; height: ${height * GRID_GAP}px;"
             >
               ${shape.element}
             </div>`
@@ -158,8 +245,6 @@ export class Canvas extends LitElement {
         case 'line': {
           const start = shape.start || { x: 0, y: 0 };
           const end = shape.end || { x: 0, y: 0 };
-          Canvas.updateExtents(extents, start.x, start.y);
-          Canvas.updateExtents(extents, end.x, end.y);
           const pathString = `M${start.x * GRID_GAP + GRID_DOT_RADIUS} ${start.y * GRID_GAP + GRID_DOT_RADIUS} L${end.x * GRID_GAP + GRID_DOT_RADIUS} ${end.y * GRID_GAP + GRID_DOT_RADIUS}`;
           const strokeColor =
             shape.color ||
@@ -187,7 +272,6 @@ export class Canvas extends LitElement {
           const start = shape.start || { x: 0, y: 0 };
           let pathString = `M${start.x * GRID_GAP + GRID_DOT_RADIUS} ${start.y * GRID_GAP + GRID_DOT_RADIUS}`;
           let current = { ...start };
-          Canvas.updateExtents(extents, current.x, current.y);
 
           const pathSegments = shape.path || [];
           for (let i = 0; i < pathSegments.length; i += 1) {
@@ -197,7 +281,6 @@ export class Canvas extends LitElement {
               const point = Canvas.getNextPoint(current, path.direction, 1);
               pathString += ` L${point.x * GRID_GAP + GRID_DOT_RADIUS} ${point.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...point };
-              Canvas.updateExtents(extents, current.x, current.y);
             }
 
             const point = Canvas.getNextPoint(
@@ -207,17 +290,14 @@ export class Canvas extends LitElement {
             );
             pathString += ` L${point.x * GRID_GAP + GRID_DOT_RADIUS} ${point.y * GRID_GAP + GRID_DOT_RADIUS}`;
             current = { ...point };
-            Canvas.updateExtents(extents, current.x, current.y);
 
             if (i === pathSegments.length - 1) {
               const endPoint = Canvas.getNextPoint(current, path.direction, 1);
               pathString += ` L${endPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${endPoint.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...endPoint };
-              Canvas.updateExtents(extents, current.x, current.y);
             } else {
               const nextPath = pathSegments[i + 1];
               const midPoint = Canvas.getNextPoint(current, path.direction, 1);
-              Canvas.updateExtents(extents, midPoint.x, midPoint.y);
               const nextPoint = Canvas.getNextPoint(
                 midPoint,
                 nextPath.direction,
@@ -225,7 +305,6 @@ export class Canvas extends LitElement {
               );
               pathString += ` Q ${midPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${midPoint.y * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.x * GRID_GAP + GRID_DOT_RADIUS} ${nextPoint.y * GRID_GAP + GRID_DOT_RADIUS}`;
               current = { ...nextPoint };
-              Canvas.updateExtents(extents, current.x, current.y);
             }
           }
 
@@ -264,13 +343,6 @@ export class Canvas extends LitElement {
           return { type: 'unknown', content: nothing };
       }
     });
-
-    const computedViewbox = {
-      x: extents.minX - this.padding,
-      y: extents.minY - this.padding,
-      width: Math.max(extents.maxX - extents.minX + this.padding * 2, 0),
-      height: Math.max(extents.maxY - extents.minY + this.padding * 2, 0),
-    };
 
     return { shapes, computedViewbox };
   }
@@ -341,12 +413,13 @@ export class Canvas extends LitElement {
       };
     }
 
-    const wrapperWidth =
-      (computedViewBox.width * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
-    const wrapperHeight =
-      (computedViewBox.height * GRID_GAP + 2) * GRID_DOT_RADIUS * this.zoom;
+    const unzoomedWidth = computedViewBox.width * GRID_GAP + 2 * GRID_DOT_RADIUS;
+    const unzoomedHeight = computedViewBox.height * GRID_GAP + 2 * GRID_DOT_RADIUS;
 
-    const svgViewBox = `${computedViewBox.x * GRID_GAP} ${computedViewBox.y * GRID_GAP} ${computedViewBox.width * GRID_GAP + 2 * GRID_DOT_RADIUS} ${computedViewBox.height * GRID_GAP + 2 * GRID_DOT_RADIUS}`;
+    const wrapperWidth = unzoomedWidth * this.zoom;
+    const wrapperHeight = unzoomedHeight * this.zoom;
+
+    const svgViewBox = `${computedViewBox.x * GRID_GAP} ${computedViewBox.y * GRID_GAP} ${unzoomedWidth} ${unzoomedHeight}`;
 
     // Separate nodes (HTML) from paths (SVG)
     const svgShapes: unknown[] = [];
@@ -369,7 +442,7 @@ export class Canvas extends LitElement {
         ${this.renderShapesSvg(svgShapes, svgViewBox)}
         <div
           class="canvas-nodes"
-          style="position: absolute; inset: 0; transform: scale(${this.zoom});"
+          style="position: absolute; left: 0; top: 0; width: ${unzoomedWidth}px; height: ${unzoomedHeight}px; transform: scale(${this.zoom});"
         >
           ${nodeShapes}
         </div>

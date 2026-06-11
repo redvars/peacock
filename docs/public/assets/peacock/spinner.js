@@ -1,0 +1,101 @@
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+
+var css_248z = i`* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen-reader-only {
+  display: none !important;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:host {
+  display: inline-flex;
+  --spinner-track-color: var(--color-primary-container);
+  --spinner-shape-color: var(--color-primary);
+  --spinner-size: 4rem;
+}
+
+.track {
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  background-color: var(--spinner-track-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.shape {
+  width: 100%;
+  height: 100%;
+  background-color: var(--spinner-shape-color);
+  animation: spinner-aniation 3s var(--easing-standard) infinite;
+}
+
+@keyframes spinner-aniation {
+  0%, 100% {
+    clip-path: inset(0% round 50%);
+    transform: rotate(0deg) scale(0.5);
+  }
+  10% {
+    transform: scale(0.7);
+  }
+  20% {
+    clip-path: inset(0% round 50%);
+    transform: rotate(72deg) scale(0.6, 0.3);
+  }
+  30% {
+    transform: scale(0.5);
+  }
+  40% {
+    clip-path: inset(0% round 12px);
+    transform: rotate(108deg) scale(0.3, 0.6);
+  }
+  60% {
+    transform: scale(0.5);
+  }
+  80% {
+    clip-path: inset(0% round 50%);
+    transform: rotate(72deg) scale(0.6, 0.3);
+  }
+  90% {
+    transform: rotate(324deg) scale(0.4, 0.6);
+  }
+}`;
+
+/**
+ * @label Spinner
+ * @tag wc-spinner
+ * @rawTag spinner
+ * @summary A spinner component that animates a circular shape.
+ * @cssprop --spinner-track-color - The color of the track.
+ * @cssprop --spinner-shape-color - The color of the shape.
+ * @tags display
+ *
+ * @example
+ * ```html
+ * <wc-spinner></wc-spinner>
+ * ```
+ */
+let Spinner = class Spinner extends i$1 {
+    render() {
+        return b `
+      <div class="spinner track">
+        <div class="shape"></div>
+      </div>
+    `;
+    }
+};
+Spinner.styles = [css_248z];
+Spinner = __decorate([
+    IndividualComponent
+], Spinner);
+
+export { Spinner };
+//# sourceMappingURL=spinner.js.map

@@ -36,6 +36,7 @@ export class TimelineItem extends LitElement {
     return html`
       <div class="timeline-item">
         <div class="marker-column">
+          <div class="connector connector--top"></div>
           <div class="marker">
             <div class="marker-dot">
               ${this.loading
@@ -47,7 +48,7 @@ export class TimelineItem extends LitElement {
                 : html`<slot name="dot"></slot>`}
             </div>
           </div>
-          <div class="connector"></div>
+          <div class="connector connector--bottom"></div>
         </div>
 
         <div class="content">

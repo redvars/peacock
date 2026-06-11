@@ -28,8 +28,6 @@ export class Timeline extends LitElement {
 
   static Item = TimelineItem;
 
-  @property({ type: String, reflect: true }) orientation: 'vertical' | 'horizontal' = 'vertical';
-
   connectedCallback() {
     super.connectedCallback();
     if (!this.hasAttribute('role')) {

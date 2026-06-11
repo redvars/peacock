@@ -31,7 +31,7 @@
     align-items: center;
     justify-content: space-between;
     background-color: var(--code-highlighter-background);
-    margin-bottom: var(--spacing-050);
+    border-bottom: 1px solid var(--color-outline-variant);
 
     @include mixin.get-typography(body-medium);
 

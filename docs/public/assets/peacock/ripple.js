@@ -1,0 +1,506 @@
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { n } from './property-B49QQ8pS.js';
+import { r } from './state-DkTK9EGF.js';
+import { e } from './query-CHb9Ft_d.js';
+import { e as e$1 } from './class-map-DG7CA1et.js';
+import { A as AttachableController } from './attachable-controller-CAKVrfcG.js';
+import './base-Cl6v8-BZ.js';
+import './directive-ZPhl09Yt.js';
+
+const PRESS_GROW_MS = 450;
+const MINIMUM_PRESS_MS = 225;
+const INITIAL_ORIGIN_SCALE = 0.2;
+const PADDING = 10;
+const SOFT_EDGE_MINIMUM_SIZE = 75;
+const SOFT_EDGE_CONTAINER_RATIO = 0.35;
+const PRESS_PSEUDO = '::after';
+const ANIMATION_FILL = 'forwards';
+/**
+ * Interaction states for the ripple.
+ *
+ * On Touch:
+ *  - `INACTIVE -> TOUCH_DELAY -> WAITING_FOR_CLICK -> INACTIVE`
+ *
+ * On Mouse or Pen:
+ *   - `INACTIVE -> WAITING_FOR_CLICK -> INACTIVE`
+ */
+var State;
+(function (State) {
+    /**
+     * Initial state of the control, no touch in progress.
+     *
+     * Transitions:
+     *   - on touch down: transition to `TOUCH_DELAY`.
+     *   - on mouse down: transition to `WAITING_FOR_CLICK`.
+     */
+    State[State["INACTIVE"] = 0] = "INACTIVE";
+    /**
+     * Touch down has been received, waiting to determine if it's a swipe or
+     * scroll.
+     *
+     * Transitions:
+     *   - on touch up: begin press; transition to `WAITING_FOR_CLICK`.
+     *   - on cancel: transition to `INACTIVE`.
+     *   - after `TOUCH_DELAY_MS`: begin press; transition to `HOLDING`.
+     */
+    State[State["TOUCH_DELAY"] = 1] = "TOUCH_DELAY";
+    /**
+     * A touch has been deemed to be a press
+     *
+     * Transitions:
+     *  - on up: transition to `WAITING_FOR_CLICK`.
+     */
+    State[State["HOLDING"] = 2] = "HOLDING";
+    /**
+     * The user touch has finished, transition into rest state.
+     *
+     * Transitions:
+     *   - on click end press; transition to `INACTIVE`.
+     */
+    State[State["WAITING_FOR_CLICK"] = 3] = "WAITING_FOR_CLICK";
+})(State || (State = {}));
+/**
+ * Events that the ripple listens to.
+ */
+const EVENTS = [
+    'click',
+    'contextmenu',
+    'pointercancel',
+    'pointerdown',
+    'pointerenter',
+    'pointerleave',
+    'pointerup',
+];
+/**
+ * Delay reacting to touch so that we do not show the ripple for a swipe or
+ * scroll interaction.
+ */
+const TOUCH_DELAY_MS = 150;
+/**
+ * Used to detect if HCM is active. Events do not process during HCM when the
+ * ripple is not displayed.
+ */
+const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
+/**
+ * @label Ripple
+ * @tag wc-ripple
+ * @rawTag ripple
+ *
+ * @summary Provides ripple effect for interactive elements.
+ * @overview
+ * <p>Ripple creates a visual feedback effect when users interact with buttons or other clickable elements.</p>
+ *
+ * @example
+ * ```html
+ * <style>
+ * .ripple-surface {
+ *   position: relative;
+ *   display: inline-flex;
+ *   align-items: center;
+ *   justify-content: center;
+ *   width: 220px;
+ *   height: 64px;
+ *   border-radius: 12px;
+ *   background: var(--color-surface-container-high);
+ *   color: var(--color-on-surface);
+ *   overflow: hidden;
+ *   cursor: pointer;
+ *   user-select: none;
+ * }
+ * </style>
+ * <div class="ripple-surface">
+ *   <wc-ripple></wc-ripple>
+ *   Ripple Effect
+ * </div>
+ * ```
+ * @tags display
+ */
+let Ripple = class Ripple extends i$1 {
+    constructor() {
+        super(...arguments);
+        /**
+         * Disables the ripple.
+         */
+        this.disabled = false;
+        /** True while the pointer is hovering over the host element. */
+        this.hovered = false;
+        /** True while a press animation is playing. */
+        this.pressed = false;
+        // ── Private fields ────────────────────────────────────────────────────────
+        /** CSS size string (e.g. `"48px"`) for the growing ripple circle. */
+        this.rippleSize = '';
+        /** CSS scale factor applied to the ripple at the end of its animation. */
+        this.rippleScale = '';
+        /** Pixel size of the ripple at its initial (pre-grow) state. */
+        this.initialSize = 0;
+        /** Current interaction state of the ripple state machine. */
+        this.state = State.INACTIVE;
+        /** Bound reference to `handleEvent` passed to `addEventListener` / `removeEventListener`. */
+        this._boundHandleEvent = this.handleEvent.bind(this);
+        this.attachableController = new AttachableController(
+        // `LitElement` satisfies the ReactiveControllerHost & HTMLElement shape
+        // required by the controller.
+        this, this.onControlChange.bind(this));
+    }
+    get htmlFor() {
+        return this.attachableController.htmlFor;
+    }
+    set htmlFor(htmlFor) {
+        this.attachableController.htmlFor = htmlFor;
+    }
+    get control() {
+        return this.attachableController.control;
+    }
+    set control(control) {
+        this.attachableController.control = control;
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        // Needed for VoiceOver, which will create a "group" if the element is a
+        // sibling to other content.
+        this.setAttribute('aria-hidden', 'true');
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.detach();
+    }
+    attach(control) {
+        this.attachableController.attach(control);
+    }
+    detach() {
+        this.attachableController.detach();
+    }
+    onControlChange(prev, next) {
+        for (const event of EVENTS) {
+            prev?.removeEventListener(event, this._boundHandleEvent);
+            next?.addEventListener(event, this._boundHandleEvent);
+        }
+    }
+    render() {
+        const classes = {
+            hovered: this.hovered,
+            pressed: this.pressed,
+        };
+        return b `<div class="surface ${e$1(classes)}"></div>`;
+    }
+    update(changedProps) {
+        if (changedProps.has('disabled') && this.disabled) {
+            this.hovered = false;
+            this.pressed = false;
+        }
+        super.update(changedProps);
+    }
+    handlePointerenter(event) {
+        if (!this.shouldReactToEvent(event)) {
+            return;
+        }
+        this.hovered = true;
+    }
+    handlePointerleave(event) {
+        if (!this.shouldReactToEvent(event)) {
+            return;
+        }
+        this.hovered = false;
+        // release a held mouse or pen press that moves outside the element
+        if (this.state !== State.INACTIVE) {
+            this.endPressAnimation();
+        }
+    }
+    handlePointerup(event) {
+        if (!this.shouldReactToEvent(event)) {
+            return;
+        }
+        if (this.state === State.HOLDING) {
+            this.state = State.WAITING_FOR_CLICK;
+            return;
+        }
+        if (this.state === State.TOUCH_DELAY) {
+            this.state = State.WAITING_FOR_CLICK;
+            this.startPressAnimation(this.rippleStartEvent);
+            return;
+        }
+    }
+    async handlePointerdown(event) {
+        if (!this.shouldReactToEvent(event)) {
+            return;
+        }
+        this.rippleStartEvent = event;
+        if (!this.isTouch(event)) {
+            this.state = State.WAITING_FOR_CLICK;
+            this.startPressAnimation(event);
+            return;
+        }
+        // Wait for a hold after touch delay
+        this.state = State.TOUCH_DELAY;
+        await new Promise(resolve => {
+            setTimeout(resolve, TOUCH_DELAY_MS);
+        });
+        if (this.state !== State.TOUCH_DELAY) {
+            return;
+        }
+        this.state = State.HOLDING;
+        this.startPressAnimation(event);
+    }
+    handleClick() {
+        if (this.disabled) {
+            return;
+        }
+        if (this.state === State.WAITING_FOR_CLICK) {
+            this.endPressAnimation();
+            return;
+        }
+        if (this.state === State.INACTIVE) {
+            // keyboard synthesized click event
+            this.startPressAnimation();
+            this.endPressAnimation();
+        }
+    }
+    handlePointercancel(event) {
+        if (!this.shouldReactToEvent(event)) {
+            return;
+        }
+        this.endPressAnimation();
+    }
+    handleContextmenu() {
+        if (this.disabled) {
+            return;
+        }
+        this.endPressAnimation();
+    }
+    determineRippleSize() {
+        const { height, width } = this.getBoundingClientRect();
+        const maxDim = Math.max(height, width);
+        const softEdgeSize = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
+        const initialSize = Math.floor(maxDim * INITIAL_ORIGIN_SCALE);
+        const hypotenuse = Math.sqrt(width ** 2 + height ** 2);
+        const maxRadius = hypotenuse + PADDING;
+        this.initialSize = initialSize;
+        const maybeZoomedScale = (maxRadius + softEdgeSize) / initialSize;
+        this.rippleScale = `${maybeZoomedScale}`;
+        this.rippleSize = `${initialSize}px`;
+    }
+    getTranslationCoordinates(positionEvent) {
+        const { height, width } = this.getBoundingClientRect();
+        // end in the center
+        const endPoint = {
+            x: (width - this.initialSize) / 2,
+            y: (height - this.initialSize) / 2,
+        };
+        let startPoint;
+        if (positionEvent instanceof PointerEvent) {
+            startPoint = this.getNormalizedPointerEventCoords(positionEvent);
+        }
+        else {
+            startPoint = {
+                x: width / 2,
+                y: height / 2,
+            };
+        }
+        // center around start point
+        startPoint = {
+            x: startPoint.x - this.initialSize / 2,
+            y: startPoint.y - this.initialSize / 2,
+        };
+        return { startPoint, endPoint };
+    }
+    startPressAnimation(positionEvent) {
+        if (!this.mdRoot) {
+            return;
+        }
+        this.pressed = true;
+        this.growAnimation?.cancel();
+        this.determineRippleSize();
+        const { startPoint, endPoint } = this.getTranslationCoordinates(positionEvent);
+        const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
+        const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
+        this.growAnimation = this.mdRoot.animate({
+            top: [0, 0],
+            left: [0, 0],
+            height: [this.rippleSize, this.rippleSize],
+            width: [this.rippleSize, this.rippleSize],
+            transform: [
+                `translate(${translateStart}) scale(1)`,
+                `translate(${translateEnd}) scale(${this.rippleScale})`,
+            ],
+        }, {
+            pseudoElement: PRESS_PSEUDO,
+            duration: PRESS_GROW_MS,
+            easing: 'cubic-bezier(0.2, 0, 0, 1)',
+            fill: ANIMATION_FILL,
+        });
+    }
+    async endPressAnimation() {
+        this.rippleStartEvent = undefined;
+        this.state = State.INACTIVE;
+        const animation = this.growAnimation;
+        let pressAnimationPlayState = Infinity;
+        if (typeof animation?.currentTime === 'number') {
+            pressAnimationPlayState = animation.currentTime;
+        }
+        else if (animation?.currentTime) {
+            pressAnimationPlayState = animation.currentTime.to('ms').value;
+        }
+        if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
+            this.pressed = false;
+            return;
+        }
+        await new Promise(resolve => {
+            setTimeout(resolve, MINIMUM_PRESS_MS - pressAnimationPlayState);
+        });
+        if (this.growAnimation !== animation) {
+            // A new press animation was started. The old animation was canceled and
+            // should not finish the pressed state.
+            return;
+        }
+        this.pressed = false;
+    }
+    /**
+     * Returns `true` if
+     *  - the ripple element is enabled
+     *  - the pointer is primary for the input type
+     *  - the pointer is the pointer that started the interaction, or will start
+     * the interaction
+     *  - the pointer is a touch, or the pointer state has the primary button
+     * held, or the pointer is hovering
+     */
+    shouldReactToEvent(event) {
+        if (this.disabled || !event.isPrimary) {
+            return false;
+        }
+        if (this.rippleStartEvent &&
+            this.rippleStartEvent.pointerId !== event.pointerId) {
+            return false;
+        }
+        if (event.type === 'pointerenter' || event.type === 'pointerleave') {
+            return !this.isTouch(event);
+        }
+        const isPrimaryButton = event.buttons === 1;
+        return this.isTouch(event) || isPrimaryButton;
+    }
+    isTouch({ pointerType }) {
+        return pointerType === 'touch';
+    }
+    async handleEvent(event) {
+        if (FORCED_COLORS?.matches) {
+            // Skip event logic since the ripple is `display: none`.
+            return;
+        }
+        switch (event.type) {
+            case 'click':
+                this.handleClick();
+                break;
+            case 'contextmenu':
+                this.handleContextmenu();
+                break;
+            case 'pointercancel':
+                this.handlePointercancel(event);
+                break;
+            case 'pointerdown':
+                await this.handlePointerdown(event);
+                break;
+            case 'pointerenter':
+                this.handlePointerenter(event);
+                break;
+            case 'pointerleave':
+                this.handlePointerleave(event);
+                break;
+            case 'pointerup':
+                this.handlePointerup(event);
+                break;
+        }
+    }
+    getNormalizedPointerEventCoords(pointerEvent) {
+        const { scrollX, scrollY } = window;
+        const { left, top } = this.getBoundingClientRect();
+        const documentX = scrollX + left;
+        const documentY = scrollY + top;
+        const { pageX, pageY } = pointerEvent;
+        return {
+            x: pageX - documentX,
+            y: pageY - documentY,
+        };
+    }
+};
+Ripple.styles = i `
+    :host {
+      display: flex;
+      margin: auto;
+      pointer-events: none;
+    }
+
+    :host([disabled]) {
+      display: none;
+    }
+
+    @media (forced-colors: active) {
+      :host {
+        display: none;
+      }
+    }
+
+    :host,
+    .surface {
+      border-radius: inherit;
+      corner-shape: inherit;
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .surface {
+      -webkit-tap-highlight-color: transparent;
+
+      &::before,
+      &::after {
+        content: '';
+        opacity: 0;
+        position: absolute;
+      }
+
+      &::before {
+        background-color: var(--ripple-pressed-color, var(--color-on-surface));
+        inset: 0;
+        transition:
+          opacity 15ms linear,
+          background-color 15ms linear;
+      }
+
+      &::after {
+        background: radial-gradient(
+          closest-side,
+          var(--ripple-pressed-color, var(--color-on-surface))
+            max(calc(100% - 70px), 65%),
+          transparent 100%
+        );
+        transform-origin: center center;
+        transition: opacity 375ms linear;
+      }
+    }
+
+    .hovered::before {
+      opacity: 0.08;
+    }
+
+    .pressed::after {
+      opacity: 0.12;
+      transition-duration: 105ms;
+    }
+  `;
+__decorate([
+    n({ type: Boolean, reflect: true })
+], Ripple.prototype, "disabled", void 0);
+__decorate([
+    r()
+], Ripple.prototype, "hovered", void 0);
+__decorate([
+    r()
+], Ripple.prototype, "pressed", void 0);
+__decorate([
+    e('.surface')
+], Ripple.prototype, "mdRoot", void 0);
+Ripple = __decorate([
+    IndividualComponent
+], Ripple);
+
+export { Ripple };
+//# sourceMappingURL=ripple.js.map

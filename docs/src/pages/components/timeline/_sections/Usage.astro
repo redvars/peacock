@@ -14,7 +14,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     </wc-timeline-item>
 
     <wc-timeline-item style="--timeline-dot-bg: #ff6b35; --timeline-dot-color: white;">
-      <span>Changes requested by Oliver Brown</span>
+      <div>
+      <p>Changes requested by Oliver Brown</p>
+      <p>Changes requested by Oliver Brown</p>
+      <p>Changes requested by Oliver Brown</p>
+      <p>Changes requested by Oliver Brown</p>
+      </div>
+      <hr/>
       <span slot="content" style="color: var(--color-on-surface-variant); font-size: 0.875rem; margin-bottom: 0.5rem;">4 days ago</span>
       <wc-card slot="content" style="margin-top: 0.5rem; --card-padding: 0.75rem;">
         <wc-card-content>
@@ -44,25 +50,3 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </wc-timeline>
 </DemoComponentCard>
 
-<h4>Horizontal Timeline</h4>
-<DemoComponentCard lang="html">
-  <wc-timeline orientation="horizontal">
-    <wc-timeline-item>
-      <span>Step 1</span>
-      <span slot="content">Initial setup</span>
-      <wc-icon slot="dot" name="settings"></wc-icon>
-    </wc-timeline-item>
-
-    <wc-timeline-item>
-      <span>Step 2</span>
-      <span slot="content">Configuration</span>
-      <wc-icon slot="dot" name="tune"></wc-icon>
-    </wc-timeline-item>
-
-    <wc-timeline-item>
-      <span>Step 3</span>
-      <span slot="content">Complete</span>
-      <wc-icon slot="dot" name="check_circle"></wc-icon>
-    </wc-timeline-item>
-  </wc-timeline>
-</DemoComponentCard>

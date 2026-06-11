@@ -9,13 +9,3 @@
   padding-left: calc(var(--timeline-dot-size, 2rem) / 2);
 }
 
-:host([orientation='horizontal']) .timeline {
-  display: grid;
-  gap: 0;
-  position: relative;
-  padding-left: 0;
-  padding-top: calc(var(--timeline-dot-size, 2rem) / 2);
-  grid-auto-flow: column;
-  grid-template-rows: 1fr;
-}
-

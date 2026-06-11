@@ -1,8 +1,8 @@
-import fs from 'fs';
+import fs from "fs";
 
 fs.cpSync(
-  '../components/dist/custom-elements-jsdocs.json',
-  './src/_data/custom-elements-jsdocs.json',
+  "../components/dist/custom-elements-jsdocs.json",
+  "./src/_data/custom-elements-jsdocs.json",
   {
     recursive: true,
     force: true,

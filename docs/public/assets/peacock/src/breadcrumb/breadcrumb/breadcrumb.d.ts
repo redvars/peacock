@@ -1,0 +1,31 @@
+import { LitElement } from 'lit';
+import { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
+/**
+ * @label Breadcrumb
+ * @tag wc-breadcrumb
+ * @rawTag breadcrumb
+ * @summary A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+ * @overview
+ *  - Breadcrumbs provide a trail for users to follow back to the starting or entry point.
+ *  - They help users understand their current location within the site hierarchy.
+ *  - Follows WCAG 2.1 guidelines for accessible navigation landmarks.
+ * @tags navigation
+ *
+ * @example
+ * ```html
+ * <wc-breadcrumb label="Breadcrumb">
+ *   <wc-breadcrumb-item href="#">Home</wc-breadcrumb-item>
+ *   <wc-breadcrumb-item href="#">Category</wc-breadcrumb-item>
+ *   <wc-breadcrumb-item active>Current Page</wc-breadcrumb-item>
+ * </wc-breadcrumb>
+ * ```
+ */
+export declare class Breadcrumb extends LitElement {
+    static styles: import("lit").CSSResultGroup[];
+    static Item: typeof BreadcrumbItem;
+    /**
+     * Accessible label for the breadcrumb navigation landmark.
+     */
+    label: string;
+    render(): import("lit-html").TemplateResult<1>;
+}

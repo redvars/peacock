@@ -1,0 +1,1 @@
+{"version":3,"file":"is-link-Dk2OV3PM.js","sources":["../../src/__internal/utils/is-link.ts"],"sourcesContent":["export function isLink(element: any): boolean {\n  return element.href !== undefined;\n}\n"],"names":[],"mappings":"AAAM,SAAU,MAAM,CAAC,OAAY,EAAA;AACjC,IAAA,OAAO,OAAO,CAAC,IAAI,KAAK,SAAS;AACnC;;;;"}

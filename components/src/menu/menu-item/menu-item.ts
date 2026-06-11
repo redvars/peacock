@@ -1,13 +1,13 @@
-import { html, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import styles from './menu-item.scss';
-import colorStyles from './menu-item-colors.scss';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
-import { isLink } from '@/__internal/utils/is-link.js';
-import IndividualComponent from '@/IndividualComponent.js';
-import { classMap } from 'lit/directives/class-map.js';
+import { html, LitElement, nothing } from "lit";
+import { property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import styles from "./menu-item.scss";
+import colorStyles from "./menu-item-colors.scss";
+import NativeButtonMixin from "@/__internal/mixins/NativeButtonMixin.js";
+import NativeHyperlinkMixin from "@/__internal/mixins/NativeHyperlinkMixin.js";
+import { isLink } from "@/__internal/utils/is-link.js";
+import IndividualComponent from "@/IndividualComponent.js";
+import { classMap } from "lit/directives/class-map.js";
 
 /**
  * @label Menu Item
@@ -32,27 +32,33 @@ export class MenuItem extends NativeButtonMixin(
   // ── Properties ───────────────────────────────────────────────────────────
 
   /** The value associated with this menu item, used to identify it on selection. */
-  @property({ type: String }) value = '';
+  @property({ type: String })
+  value = "";
 
   /** Whether this menu item is currently selected/highlighted. */
-  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ type: Boolean, reflect: true })
+  selected = false;
 
   /** When true, the menu stays open after this item is activated. */
-  @property({ type: Boolean, attribute: 'keep-open' }) keepOpen = false;
+  @property({ type: Boolean, attribute: "keep-open" })
+  keepOpen = false;
 
   /** When true, indicates this item has an associated submenu. */
-  @property({ type: Boolean, attribute: 'has-submenu' }) hasSubmenu = false;
+  @property({ type: Boolean, attribute: "has-submenu" })
+  hasSubmenu = false;
 
   /** Whether the associated submenu is currently open. */
-  @property({ type: Boolean, attribute: 'submenu-open' }) submenuOpen = false;
+  @property({ type: Boolean, attribute: "submenu-open" })
+  submenuOpen = false;
 
   /** Visual variant of the menu item. */
-  @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
-    'standard';
+  @property({ type: String, reflect: true })
+  variant: "standard" | "vibrant" = "standard";
 
   // ── Queries ───────────────────────────────────────────────────────────────
 
-  @query('#menu-item') readonly itemElement!: HTMLElement | null;
+  @query("#menu-item")
+  readonly itemElement!: HTMLElement | null;
 
   // ── Private fields ────────────────────────────────────────────────────────
 
@@ -72,7 +78,7 @@ export class MenuItem extends NativeButtonMixin(
       childList: true,
       characterData: true,
       attributes: true,
-      attributeFilter: ['slot'],
+      attributeFilter: ["slot"],
     });
   }
 
@@ -99,56 +105,58 @@ export class MenuItem extends NativeButtonMixin(
   }
 
   private _hasNamedSlot(...names: string[]) {
-    return names.some(name =>
+    return names.some((name) =>
       Array.from(this.children).some(
-        child => child.getAttribute('slot') === name,
-      ),
+        (child) => child.getAttribute("slot") === name,
+      )
     );
   }
 
   private _hasDefaultSlot() {
-    return Array.from(this.childNodes).some(node => {
+    return Array.from(this.childNodes).some((node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         return Boolean(node.textContent?.trim());
       }
 
       return (
         node.nodeType === Node.ELEMENT_NODE &&
-        !(node as Element).hasAttribute('slot')
+        !(node as Element).hasAttribute("slot")
       );
     });
   }
 
   render() {
     const isElementLink = isLink(this);
-    const controls = this.getAttribute('aria-controls');
+    const controls = this.getAttribute("aria-controls");
 
     const cssClasses = {
-      'menu-item': true,
-      'native-button': !isElementLink,
-      'native-link': isElementLink,
+      "menu-item": true,
+      "native-button": !isElementLink,
+      "native-link": isElementLink,
     };
 
     if (isElementLink) {
       return html`
         <a
           id="menu-item"
-          class=${classMap(cssClasses)}
+          class="${classMap(cssClasses)}"
           role="menuitem"
-          href=${ifDefined(this.href)}
-          target=${this.target}
-          ?rel=${this.rel}
-          ?download=${this.download}
-          tabindex=${this.disabled ? '-1' : String(this.tabIndex)}
-          ?selected=${this.selected}
-          aria-disabled=${this.disabled || this.softDisabled ? 'true' : nothing}
-          aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
-          aria-controls=${ifDefined(
+          href="${ifDefined(this.href)}"
+          target="${this.target}"
+          ?rel="${this.rel}"
+          ?download="${this.download}"
+          tabindex="${this.disabled ? "-1" : String(this.tabIndex)}"
+          ?selected="${this.selected}"
+          aria-disabled="${this.disabled || this.softDisabled
+            ? "true"
+            : nothing}"
+          aria-haspopup="${this.hasSubmenu ? "menu" : nothing}"
+          aria-controls="${ifDefined(
             this.hasSubmenu && controls ? controls : undefined,
-          )}
-          aria-expanded=${ifDefined(
+          )}"
+          aria-expanded="${ifDefined(
             this.hasSubmenu ? String(this.submenuOpen) : undefined,
-          )}
+          )}"
         >
           ${this.renderContent()}
         </a>
@@ -158,20 +166,20 @@ export class MenuItem extends NativeButtonMixin(
     return html`
       <button
         id="menu-item"
-        class=${classMap(cssClasses)}
+        class="${classMap(cssClasses)}"
         role="menuitem"
-        type=${this.htmlType}
-        ?disabled=${this.disabled}
-        tabindex=${String(this.tabIndex)}
-        ?selected=${this.selected}
-        aria-disabled=${this.softDisabled ? 'true' : nothing}
-        aria-haspopup=${this.hasSubmenu ? 'menu' : nothing}
-        aria-controls=${ifDefined(
+        type="${this.htmlType}"
+        ?disabled="${this.disabled}"
+        tabindex="${String(this.tabIndex)}"
+        ?selected="${this.selected}"
+        aria-disabled="${this.softDisabled ? "true" : nothing}"
+        aria-haspopup="${this.hasSubmenu ? "menu" : nothing}"
+        aria-controls="${ifDefined(
           this.hasSubmenu && controls ? controls : undefined,
-        )}
-        aria-expanded=${ifDefined(
+        )}"
+        aria-expanded="${ifDefined(
           this.hasSubmenu ? String(this.submenuOpen) : undefined,
-        )}
+        )}"
       >
         ${this.renderContent()}
       </button>
@@ -181,6 +189,7 @@ export class MenuItem extends NativeButtonMixin(
   renderContent() {
     return html`
       <div class="menu-item-background"></div>
+      <wc-elevation class="menu-item-elevation"></wc-elevation>
       <wc-item class="menu-item-content">
         <wc-focus-ring
           class="focus-ring"
