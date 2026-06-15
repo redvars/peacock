@@ -1,17 +1,17 @@
-import { LitElement } from 'lit';
-import type { Placement } from '@floating-ui/dom';
-import { MenuItem } from '../menu-item/menu-item.js';
+import { LitElement } from "lit";
+import type { Placement } from "@floating-ui/dom";
+import { MenuItem } from "../menu-item/menu-item.js";
 type CloseReason = {
-    kind: 'click-selection';
+    kind: "click-selection";
 } | {
-    kind: 'keydown';
+    kind: "keydown";
     key: string;
 } | {
-    kind: 'outside-click';
+    kind: "outside-click";
 } | {
-    kind: 'focusout';
+    kind: "focusout";
 } | {
-    kind: 'programmatic';
+    kind: "programmatic";
 };
 /**
  * @label Menu
@@ -34,7 +34,7 @@ export declare class Menu extends LitElement {
     /** Whether the menu is currently visible. */
     open: boolean;
     /** Visual variant of the menu. `"vibrant"` applies stronger color emphasis. */
-    variant: 'standard' | 'vibrant';
+    variant: "standard" | "vibrant";
     /** ID of the anchor element the menu is positioned relative to. */
     anchor: string;
     /** When true, renders the menu in a static preview state (always visible, no animation). */

@@ -14087,17 +14087,6 @@
             },
             {
               "kind": "field",
-              "name": "variant",
-              "type": {
-                "text": "\"standard\" | \"vibrant\""
-              },
-              "default": "\"standard\"",
-              "description": "Visual variant of the menu item.",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "itemElement",
               "type": {
                 "text": "HTMLElement | null"
@@ -14348,15 +14337,6 @@
               "fieldName": "submenuOpen"
             },
             {
-              "name": "variant",
-              "type": {
-                "text": "\"standard\" | \"vibrant\""
-              },
-              "default": "\"standard\"",
-              "description": "Visual variant of the menu item.",
-              "fieldName": "variant"
-            },
-            {
               "name": "htmlType",
               "type": {
                 "text": "'button' | 'submit' | 'reset'"
@@ -14548,9 +14528,9 @@
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "'standard' | 'vibrant'"
+                "text": "\"standard\" | \"vibrant\""
               },
-              "default": "'standard'",
+              "default": "\"standard\"",
               "description": "Visual variant of the menu. `\"vibrant\"` applies stronger color emphasis.",
               "attribute": "variant",
               "reflects": true
@@ -14561,7 +14541,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "''",
+              "default": "\"\"",
               "description": "ID of the anchor element the menu is positioned relative to.",
               "attribute": "anchor"
             },
@@ -14612,7 +14592,7 @@
               "type": {
                 "text": "Placement"
               },
-              "default": "'bottom-start'",
+              "default": "\"bottom-start\"",
               "description": "Floating UI placement of the menu relative to its anchor.",
               "attribute": "placement"
             },
@@ -14659,7 +14639,7 @@
               "name": "_floatingController",
               "privacy": "private",
               "readonly": true,
-              "default": "new FloatingController(this, { trigger: 'manual', closeOnClickOutside: false, strategy: 'fixed', onOpenChange: isOpen => { if (isOpen || !this.open) { return; } this.close({ kind: 'outside-click' }); }, })",
+              "default": "new FloatingController(this, { trigger: \"manual\", closeOnClickOutside: false, strategy: \"fixed\", onOpenChange: (isOpen) => { if (isOpen || !this.open) { return; } this.close({ kind: \"outside-click\" }); }, })",
               "description": "Controller managing floating-UI positioning."
             },
             {
@@ -14679,7 +14659,7 @@
                 "text": "CloseReason"
               },
               "privacy": "private",
-              "default": "{ kind: 'programmatic' }",
+              "default": "{ kind: \"programmatic\" }",
               "description": "Reason that triggered the most recent close, included in the `closed` event detail.",
               "expandedType": {
                 "text": " |  |  |  | "
@@ -14703,7 +14683,7 @@
               "parameters": [
                 {
                   "name": "reason",
-                  "default": "{ kind: 'programmatic' }",
+                  "default": "{ kind: \"programmatic\" }",
                   "type": {
                     "text": "CloseReason"
                   }
@@ -14882,9 +14862,9 @@
             {
               "name": "variant",
               "type": {
-                "text": "'standard' | 'vibrant'"
+                "text": "\"standard\" | \"vibrant\""
               },
-              "default": "'standard'",
+              "default": "\"standard\"",
               "description": "Visual variant of the menu. `\"vibrant\"` applies stronger color emphasis.",
               "fieldName": "variant"
             },
@@ -14893,7 +14873,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "''",
+              "default": "\"\"",
               "description": "ID of the anchor element the menu is positioned relative to.",
               "fieldName": "anchor"
             },
@@ -14938,7 +14918,7 @@
               "type": {
                 "text": "Placement"
               },
-              "default": "'bottom-start'",
+              "default": "\"bottom-start\"",
               "description": "Floating UI placement of the menu relative to its anchor.",
               "fieldName": "placement"
             },

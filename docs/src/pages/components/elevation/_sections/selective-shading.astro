@@ -1,0 +1,55 @@
+---
+export const title = 'Selective Shading';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>You can configure different elevation levels for specific sides of the element independently using the following CSS variables. Setting a side's variable overrides the general <code>--elevation-level</code> fallback for that side:</p>
+<ul>
+  <li><code>--elevation-level-block-start</code>: Sets the level for the block start (top) edge.</li>
+  <li><code>--elevation-level-block-end</code>: Sets the level for the block end (bottom) edge.</li>
+  <li><code>--elevation-level-inline-start</code>: Sets the level for the inline start edge (left in LTR, right in RTL).</li>
+  <li><code>--elevation-level-inline-end</code>: Sets the level for the inline end edge (right in LTR, left in RTL).</li>
+</ul>
+
+<DemoComponentCard lang={'html'}>
+  <div style="display: flex; gap: var(--spacing-400); flex-wrap: wrap;">
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level: 3; --elevation-level-block-start: 0;'></wc-elevation>
+      Hide Top
+    </div>
+
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level: 3; --elevation-level-block-end: 0;'></wc-elevation>
+      Hide Bottom
+    </div>
+
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level: 3; --elevation-level-inline-start: 0;'></wc-elevation>
+      Hide Start (Left)
+    </div>
+
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level: 3; --elevation-level-inline-end: 0;'></wc-elevation>
+      Hide End (Right)
+    </div>
+
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level-block-start: 4; --elevation-level-block-end: 1; --elevation-level-inline-start: 2; --elevation-level-inline-end: 5;'></wc-elevation>
+      Top 4, Bottom 1, Left 2, Right 5
+    </div>
+
+    <div class="elevated-element">
+      <wc-elevation style='--elevation-level-block-start: 5;'></wc-elevation>
+      Top 5 Only (others 0)
+    </div>
+  </div>
+
+  <style is:inline>
+    .elevated-element {
+      position: relative;
+      border-radius: var(--shape-corner-extra-small);
+      padding: var(--spacing-200);
+    }
+  </style>
+</DemoComponentCard>

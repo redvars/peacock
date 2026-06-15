@@ -39,13 +39,61 @@ var css_248z = i`* {
   transition-property: box-shadow, opacity;
   --elevation-level: 0;
   --elevation-color: var(--elevation-color-default, black);
+  /* Fallback values for side-specific levels, falling back to --elevation-level */
+  --_level-top: var(--elevation-level-block-start, var(--elevation-level, 0));
+  --_level-bottom: var(--elevation-level-block-end, var(--elevation-level, 0));
+  --_level-left: var(--elevation-level-inline-start, var(--elevation-level, 0));
+  --_level-right: var(--elevation-level-inline-end, var(--elevation-level, 0));
+}
+
+:host-context([dir=rtl]) {
+  --_level-left: var(--elevation-level-inline-end, var(--elevation-level, 0));
+  --_level-right: var(--elevation-level-inline-start, var(--elevation-level, 0));
+}
+
+:host([dir=rtl]) {
+  --_level-left: var(--elevation-level-inline-end, var(--elevation-level, 0));
+  --_level-right: var(--elevation-level-inline-start, var(--elevation-level, 0));
+}
+
+.shadow {
+  /* Set the default private level property */
+  --_level: var(--elevation-level, 0);
+}
+
+.shadow.block-start {
+  --_level: var(--_level-top);
+  clip-path: polygon(50% 50%, -950% -950%, 1050% -950%);
+}
+
+.shadow.block-end {
+  --_level: var(--_level-bottom);
+  clip-path: polygon(50% 50%, 1050% 1050%, -950% 1050%);
+}
+
+.shadow.inline-start {
+  --_level: var(--_level-left);
+  clip-path: polygon(50% 50%, -950% 1050%, -950% -950%);
+}
+
+.shadow.inline-end {
+  --_level: var(--_level-right);
+  clip-path: polygon(50% 50%, 1050% -950%, 1050% 1050%);
+}
+
+:host-context([dir=rtl]) .shadow.inline-start,
+:host([dir=rtl]) .shadow.inline-start {
+  clip-path: polygon(50% 50%, 1050% -950%, 1050% 1050%);
+}
+:host-context([dir=rtl]) .shadow.inline-end,
+:host([dir=rtl]) .shadow.inline-end {
+  clip-path: polygon(50% 50%, -950% 1050%, -950% -950%);
 }
 
 .shadow::before,
 .shadow::after {
   content: "";
   transition-property: box-shadow, opacity;
-  --_level: var(--elevation-level);
   --_shadow-color: var(--elevation-color);
 }
 
@@ -83,7 +131,12 @@ var css_248z = i`* {
  */
 let Elevation = class Elevation extends i$1 {
     render() {
-        return b `<span class="shadow"></span>`;
+        return b `
+      <span class="shadow block-start"></span>
+      <span class="shadow block-end"></span>
+      <span class="shadow inline-start"></span>
+      <span class="shadow inline-end"></span>
+    `;
     }
 };
 Elevation.styles = [css_248z];

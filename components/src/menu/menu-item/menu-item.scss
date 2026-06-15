@@ -6,10 +6,10 @@
   outline: none;
   position: relative;
 
-  --menu-item-container-shape-start-start: var(--shape-corner-extra-small);
-  --menu-item-container-shape-start-end: var(--shape-corner-extra-small);
-  --menu-item-container-shape-end-start: var(--shape-corner-extra-small);
-  --menu-item-container-shape-end-end: var(--shape-corner-extra-small);
+  --menu-item-backdrop-container-shape-start-start: none;
+  --menu-item-backdrop-container-shape-start-end: none;
+  --menu-item-backdrop-container-shape-end-start: none;
+  --menu-item-backdrop-container-shape-end-end: none;
 }
 
 /*
@@ -29,14 +29,50 @@
   padding-top: 2px;
   padding-inline: var(--spacing-050);
 
-  .menu-item-background {
+  .menu-item-backdrop-background {
     background-color: var(--menu-item-container-color);
     position: absolute;
     inset: 0px;
+    border-start-start-radius: var(
+      --menu-item-backdrop-container-shape-start-start
+    );
+    border-start-end-radius: var(
+      --menu-item-backdrop-container-shape-start-end
+    );
+    border-end-start-radius: var(
+      --menu-item-backdrop-container-shape-end-start
+    );
+    border-end-end-radius: var(--menu-item-backdrop-container-shape-end-end);
   }
 
-  .menu-item-elevation {
-    --elevation: 1;
+  .menu-item-backdrop-elevation {
+    --elevation-container-shape-start-start: var(
+      --menu-item-backdrop-container-shape-start-start
+    );
+    --elevation-container-shape-start-end: var(
+      --menu-item-backdrop-container-shape-start-end
+    );
+    --elevation-container-shape-end-start: var(
+      --menu-item-backdrop-container-shape-end-start
+    );
+    --elevation-container-shape-end-end: var(
+      --menu-item-backdrop-container-shape-end-end
+    );
+
+    --elevation-level-block-start: var(
+      --menu-item-backdrop-elevation-level-block-start
+    );
+    --elevation-level-block-end: var(
+      --menu-item-backdrop-elevation-level-block-end
+    );
+    --elevation-level-inline-start: var(
+      --menu-item-backdrop-elevation-level-inline-start,
+      1
+    );
+    --elevation-level-inline-end: var(
+      --menu-item-backdrop-elevation-level-inline-end,
+      1
+    );
   }
 
   .menu-item-content {
@@ -64,31 +100,33 @@
     --item-label-text-color: var(--private-item-label-text-color);
     --item-leading-trailing-color: var(--private-item-label-text-color);
     --item-supporting-text-color: var(--private-item-label-text-color);
-    --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
+    --item-icon-size: var(--menu-item-icon-size, var(--private-item-icon-size));
 
     .background {
       background-color: var(--private-item-container-color);
       opacity: var(--_container-opacity, 1);
       border-radius: var(--shape-corner-medium);
 
-      border-start-start-radius: var(--menu-item-container-shape-start-start);
-      border-start-end-radius: var(--menu-item-container-shape-start-end);
-      border-end-start-radius: var(--menu-item-container-shape-end-start);
-      border-end-end-radius: var(--menu-item-container-shape-end-end);
+      border-start-start-radius: var(
+        --private-item-container-shape-start-start
+      );
+      border-start-end-radius: var(--private-item-container-shape-start-end);
+      border-end-start-radius: var(--private-item-container-shape-end-start);
+      border-end-end-radius: var(--private-item-container-shape-end-end);
     }
 
     .focus-ring {
       --focus-ring-container-shape-start-start: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-start
       );
       --focus-ring-container-shape-start-end: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-start
       );
       --focus-ring-container-shape-end-start: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-start
       );
       --focus-ring-container-shape-end-end: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-start
       );
       z-index: 2;
       --focus-ring-inset: 0px;
@@ -104,16 +142,16 @@
       z-index: 2;
 
       --skeleton-container-shape-start-start: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-start
       );
       --skeleton-container-shape-start-end: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-start-end
       );
       --skeleton-container-shape-end-start: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-end-start
       );
       --skeleton-container-shape-end-end: var(
-        --menu-item-container-shape-start-start
+        --private-item-container-shape-end-end
       );
     }
   }
@@ -122,15 +160,19 @@
 :host {
   --private-item-container-color: var(--menu-item-container-color);
   --private-item-label-text-color: var(--menu-item-label-color);
+  --private-item-container-shape-start-start: var(--shape-corner-medium);
+  --private-item-container-shape-start-end: var(--shape-corner-medium);
+  --private-item-container-shape-end-start: var(--shape-corner-medium);
+  --private-item-container-shape-end-end: var(--shape-corner-medium);
 }
 
 :host([selected]) {
   --private-item-container-color: var(--menu-item-container-selected-color);
   --private-item-label-text-color: var(--menu-item-label-selected-color);
-  --menu-item-container-shape-start-start: var(--shape-corner-large);
-  --menu-item-container-shape-start-end: var(--shape-corner-large);
-  --menu-item-container-shape-end-start: var(--shape-corner-large);
-  --menu-item-container-shape-end-end: var(--shape-corner-large);
+  --private-item-container-shape-start-start: var(--shape-corner-large);
+  --private-item-container-shape-start-end: var(--shape-corner-large);
+  --private-item-container-shape-end-start: var(--shape-corner-large);
+  --private-item-container-shape-end-end: var(--shape-corner-large);
 }
 
 :host([disabled]),
@@ -142,4 +184,12 @@
   .ripple {
     display: none;
   }
+}
+
+:host-context([variant='standard']) {
+  --menu-item-container-color: var(--color-surface-container);
+}
+
+:host-context([variant='vibrant']) {
+  --menu-item-container-color: var(--color-tertiary-container);
 }

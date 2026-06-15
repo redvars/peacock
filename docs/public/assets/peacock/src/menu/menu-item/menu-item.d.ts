@@ -24,8 +24,6 @@ export declare class MenuItem extends MenuItem_base {
     hasSubmenu: boolean;
     /** Whether the associated submenu is currently open. */
     submenuOpen: boolean;
-    /** Visual variant of the menu item. */
-    variant: "standard" | "vibrant";
     readonly itemElement: HTMLElement | null;
     /** MutationObserver that triggers re-render when slotted content changes. */
     private readonly _contentObserver;

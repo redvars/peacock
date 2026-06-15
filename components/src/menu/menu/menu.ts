@@ -1,18 +1,18 @@
-import { LitElement, html } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import type { Placement } from '@floating-ui/dom';
-import styles from './menu.scss';
-import { FloatingController } from '../../__internal/controllers/floating-controller.js';
-import { MenuItem } from '../menu-item/menu-item.js';
-import IndividualComponent from '@/IndividualComponent.js';
+import { html, LitElement } from "lit";
+import { property, query, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import type { Placement } from "@floating-ui/dom";
+import styles from "./menu.scss";
+import { FloatingController } from "../../__internal/controllers/floating-controller.js";
+import { MenuItem } from "../menu-item/menu-item.js";
+import IndividualComponent from "@/IndividualComponent.js";
 
 type CloseReason =
-  | { kind: 'click-selection' }
-  | { kind: 'keydown'; key: string }
-  | { kind: 'outside-click' }
-  | { kind: 'focusout' }
-  | { kind: 'programmatic' };
+  | { kind: "click-selection" }
+  | { kind: "keydown"; key: string }
+  | { kind: "outside-click" }
+  | { kind: "focusout" }
+  | { kind: "programmatic" };
 
 /**
  * @label Menu
@@ -36,54 +36,62 @@ export class Menu extends LitElement {
   static Item = MenuItem;
 
   /** Whether the menu is currently visible. */
-  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ type: Boolean, reflect: true })
+  open = false;
 
   /** Visual variant of the menu. `"vibrant"` applies stronger color emphasis. */
-  @property({ type: String, reflect: true }) variant: 'standard' | 'vibrant' =
-    'standard';
+  @property({ type: String, reflect: true })
+  variant: "standard" | "vibrant" = "standard";
 
   /** ID of the anchor element the menu is positioned relative to. */
-  @property({ type: String }) anchor = '';
+  @property({ type: String })
+  anchor = "";
 
   /** When true, renders the menu in a static preview state (always visible, no animation). */
-  @property({ type: Boolean, reflect: true }) preview = false;
+  @property({ type: Boolean, reflect: true })
+  preview = false;
 
   /** When true, the menu will not close when a click occurs outside it. */
-  @property({ type: Boolean, attribute: 'stay-open-on-outside-click' })
+  @property({ type: Boolean, attribute: "stay-open-on-outside-click" })
   stayOpenOnOutsideClick = false;
 
   /** When true, the menu will not close when focus leaves it. */
-  @property({ type: Boolean, attribute: 'stay-open-on-focusout' })
+  @property({ type: Boolean, attribute: "stay-open-on-focusout" })
   stayOpenOnFocusout = false;
 
   /** Set to true when this menu is being used as a submenu inside another menu. */
-  @property({ type: Boolean, attribute: 'is-submenu' }) isSubmenu = false;
+  @property({ type: Boolean, attribute: "is-submenu" })
+  isSubmenu = false;
 
   /** Floating UI placement of the menu relative to its anchor. */
-  @property({ type: String }) placement: Placement = 'bottom-start';
+  @property({ type: String })
+  placement: Placement = "bottom-start";
 
   /** Distance in pixels between the menu and its anchor element. */
-  @property({ type: Number }) offset = 6;
+  @property({ type: Number })
+  offset = 6;
 
   /** Index of the currently focused/active item within the enabled items list. */
-  @state() private activeIndex = -1;
+  @state()
+  private activeIndex = -1;
 
-  @query('.menu') private readonly menuListElement!: HTMLElement;
+  @query(".menu")
+  private readonly menuListElement!: HTMLElement;
 
   /** Direct reference to the anchor element; takes precedence over the `anchor` ID property. */
   anchorElement: HTMLElement | null = null;
 
   /** Controller managing floating-UI positioning. */
   private readonly _floatingController = new FloatingController(this, {
-    trigger: 'manual',
+    trigger: "manual",
     closeOnClickOutside: false,
-    strategy: 'fixed',
-    onOpenChange: isOpen => {
+    strategy: "fixed",
+    onOpenChange: (isOpen) => {
       if (isOpen || !this.open) {
         return;
       }
 
-      this.close({ kind: 'outside-click' });
+      this.close({ kind: "outside-click" });
     },
   });
 
@@ -91,27 +99,27 @@ export class Menu extends LitElement {
   private _lastFocusedElement: HTMLElement | null = null;
 
   /** Reason that triggered the most recent close, included in the `closed` event detail. */
-  private _closeReason: CloseReason = { kind: 'programmatic' };
+  private _closeReason: CloseReason = { kind: "programmatic" };
 
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
-    this.setAttribute('role', 'menu');
+    this.setAttribute("role", "menu");
 
-    this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('click', this._onClick);
+    this.addEventListener("keydown", this._onKeyDown);
+    this.addEventListener("click", this._onClick);
     this._syncAnchorAria();
   }
 
   disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    this.removeEventListener('click', this._onClick);
+    this.removeEventListener("keydown", this._onKeyDown);
+    this.removeEventListener("click", this._onClick);
     this._floatingController.close();
     super.disconnectedCallback();
   }
 
   get items(): MenuItem[] {
-    const slot = this.shadowRoot?.querySelector('slot');
+    const slot = this.shadowRoot?.querySelector("slot");
     const elements = slot?.assignedElements({ flatten: true }) ?? [];
     const items: MenuItem[] = [];
 
@@ -134,11 +142,11 @@ export class Menu extends LitElement {
       return;
     }
 
-    this._closeReason = { kind: 'programmatic' };
+    this._closeReason = { kind: "programmatic" };
     this.open = true;
   }
 
-  close(reason: CloseReason = { kind: 'programmatic' }) {
+  close(reason: CloseReason = { kind: "programmatic" }) {
     if (!this.open) {
       return;
     }
@@ -162,7 +170,7 @@ export class Menu extends LitElement {
     }
 
     const root = this.getRootNode() as Document | ShadowRoot;
-    if ('getElementById' in root) {
+    if ("getElementById" in root) {
       return root.getElementById(this.anchor);
     }
 
@@ -179,13 +187,13 @@ export class Menu extends LitElement {
       this.id = `wc-menu-${Math.random().toString(36).slice(2, 9)}`;
     }
 
-    anchorEl.setAttribute('aria-haspopup', 'menu');
-    anchorEl.setAttribute('aria-controls', this.id);
-    anchorEl.setAttribute('aria-expanded', String(this.open));
+    anchorEl.setAttribute("aria-haspopup", "menu");
+    anchorEl.setAttribute("aria-controls", this.id);
+    anchorEl.setAttribute("aria-expanded", String(this.open));
   }
 
   private _enabledItems() {
-    return this.items.filter(item => !item.disabled);
+    return this.items.filter((item) => !item.disabled);
   }
 
   private _syncRovingTabIndex() {
@@ -250,7 +258,7 @@ export class Menu extends LitElement {
 
   private _isEventFromThisMenu(event: Event) {
     const path = event.composedPath();
-    const sourceMenu = path.find(target => target instanceof Menu);
+    const sourceMenu = path.find((target) => target instanceof Menu);
 
     return sourceMenu === this;
   }
@@ -265,7 +273,7 @@ export class Menu extends LitElement {
 
     for (const target of path) {
       if (target instanceof MenuItem) {
-        const ownedItem = ownedItems.find(item => item === target);
+        const ownedItem = ownedItems.find((item) => item === target);
         if (ownedItem) {
           return ownedItem;
         }
@@ -288,7 +296,7 @@ export class Menu extends LitElement {
 
   private _dispatchItemActivate(item: MenuItem) {
     this.dispatchEvent(
-      new CustomEvent('menu-item-activate', {
+      new CustomEvent("menu-item-activate", {
         bubbles: true,
         composed: true,
         detail: { item },
@@ -312,7 +320,7 @@ export class Menu extends LitElement {
       return;
     }
 
-    this.close({ kind: 'click-selection' });
+    this.close({ kind: "click-selection" });
   };
 
   private _onKeyDown = (event: KeyboardEvent) => {
@@ -330,33 +338,33 @@ export class Menu extends LitElement {
     }
 
     switch (event.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         event.preventDefault();
         this._setActiveByOffset(1);
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         event.preventDefault();
         this._setActiveByOffset(-1);
         break;
-      case 'Home':
+      case "Home":
         event.preventDefault();
         this._setBoundaryActive(0);
         break;
-      case 'End': {
+      case "End": {
         event.preventDefault();
         const last = Math.max(this._enabledItems().length - 1, 0);
         this._setBoundaryActive(last);
         break;
       }
-      case 'Escape':
+      case "Escape":
         event.preventDefault();
-        this.close({ kind: 'keydown', key: 'Escape' });
+        this.close({ kind: "keydown", key: "Escape" });
         break;
-      case 'Tab':
-        this.close({ kind: 'keydown', key: 'Tab' });
+      case "Tab":
+        this.close({ kind: "keydown", key: "Tab" });
         break;
-      case 'Enter':
-      case ' ': {
+      case "Enter":
+      case " ": {
         event.preventDefault();
         const activeItem = this._getActiveItem() ?? this._getFirstEnabledItem();
         if (!activeItem) {
@@ -389,7 +397,7 @@ export class Menu extends LitElement {
     this._floatingController.setOptions({
       placement: this.placement,
       offset: this.offset,
-      strategy: 'fixed',
+      strategy: "fixed",
       closeOnClickOutside: !this.stayOpenOnOutsideClick,
     });
     this._floatingController.setElements(anchorEl, this.menuListElement);
@@ -397,16 +405,16 @@ export class Menu extends LitElement {
   }
 
   protected override updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has('anchor') || changedProperties.has('open')) {
+    if (changedProperties.has("anchor") || changedProperties.has("open")) {
       this._syncAnchorAria();
     }
 
-    if (changedProperties.has('open')) {
+    if (changedProperties.has("open")) {
       if (this.open) {
         this._lastFocusedElement = document.activeElement as HTMLElement | null;
         this._syncRovingTabIndex();
         this.dispatchEvent(
-          new CustomEvent('opened', {
+          new CustomEvent("opened", {
             bubbles: true,
             composed: true,
           }),
@@ -418,7 +426,7 @@ export class Menu extends LitElement {
 
         const reason = this._closeReason;
         this.dispatchEvent(
-          new CustomEvent('close-menu', {
+          new CustomEvent("close-menu", {
             bubbles: true,
             composed: true,
             detail: {
@@ -428,15 +436,15 @@ export class Menu extends LitElement {
           }),
         );
         this.dispatchEvent(
-          new CustomEvent('closed', {
+          new CustomEvent("closed", {
             bubbles: true,
             composed: true,
             detail: { reason },
           }),
         );
 
-        const shouldRestoreFocus =
-          reason.kind !== 'keydown' || reason.key !== 'Tab';
+        const shouldRestoreFocus = reason.kind !== "keydown" ||
+          reason.key !== "Tab";
 
         if (!this.isSubmenu && shouldRestoreFocus) {
           this._lastFocusedElement?.focus();
@@ -445,10 +453,10 @@ export class Menu extends LitElement {
     }
 
     if (
-      (changedProperties.has('open') ||
-        changedProperties.has('anchor') ||
-        changedProperties.has('placement') ||
-        changedProperties.has('offset')) &&
+      (changedProperties.has("open") ||
+        changedProperties.has("anchor") ||
+        changedProperties.has("placement") ||
+        changedProperties.has("offset")) &&
       this.open
     ) {
       this._applyPositioning();
@@ -456,21 +464,23 @@ export class Menu extends LitElement {
   }
 
   render() {
-    return html`<div
-      class=${classMap({
-        menu: true,
-        open: !this.preview && this.open,
-        closed: !this.preview && !this.open,
-        preview: this.preview,
-        [`variant-${this.variant}`]: true,
-      })}
-      aria-hidden=${String(!this.open)}
-    >
-      <div class="background"></div>
+    return html`
+      <div
+        class="${classMap({
+          menu: true,
+          open: !this.preview && this.open,
+          closed: !this.preview && !this.open,
+          preview: this.preview,
+          [`variant-${this.variant}`]: true,
+        })}"
+        aria-hidden="${String(!this.open)}"
+      >
+        <div class="background"></div>
 
-      <div class="menu-content">
-        <slot @slotchange=${this._onSlotChange}></slot>
+        <div class="menu-content">
+          <slot @slotchange="${this._onSlotChange}"></slot>
+        </div>
       </div>
-    </div>`;
+    `;
   }
 }

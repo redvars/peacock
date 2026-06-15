@@ -95,12 +95,4 @@
   --_container-shape-start-end: var(--shape-corner-large);
   --_container-shape-end-start: var(--shape-corner-large);
   --_container-shape-end-end: var(--shape-corner-large);
-
-  &.variant-standard {
-    --menu-item-container-color: var(--color-surface-container);
-  }
-
-  &.variant-vibrant {
-    --menu-item-container-color: var(--color-tertiary-container);
-  }
 }

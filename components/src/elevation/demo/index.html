@@ -48,6 +48,58 @@
   Level 5
 </div>
 
+<h2>Selective Shade Hiding (Level 3 shadow)</h2>
+<div style="display: flex; gap: var(--spacing-400); flex-wrap: wrap; margin-block: var(--spacing-400);">
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-block-start: 0;"></p-elevation>
+    Hide Top
+  </div>
+
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-block-end: 0;"></p-elevation>
+    Hide Bottom
+  </div>
+
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-inline-start: 0;"></p-elevation>
+    Hide Start (Left)
+  </div>
+
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-inline-end: 0;"></p-elevation>
+    Hide End (Right)
+  </div>
+</div>
+
+<h3>RTL Direction (Hide Start should be Right, Hide End should be Left)</h3>
+<div dir="rtl" style="display: flex; gap: var(--spacing-400); flex-wrap: wrap; margin-block: var(--spacing-400);">
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-inline-start: 0;"></p-elevation>
+    Hide Start (Right in RTL)
+  </div>
+
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level: 3; --elevation-level-inline-end: 0;"></p-elevation>
+    Hide End (Left in RTL)
+  </div>
+</div>
+
+<h2>Multi-level Selective Shading (Different levels per side)</h2>
+<div style="display: flex; gap: var(--spacing-400); flex-wrap: wrap; margin-block: var(--spacing-400);">
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level-block-start: 4; --elevation-level-block-end: 1; --elevation-level-inline-start: 2; --elevation-level-inline-end: 5;"></p-elevation>
+    Top 4, Bottom 1, Left 2, Right 5
+  </div>
+
+  <div class="elevated-element">
+    <p-elevation style="--elevation-level-block-start: 5;"></p-elevation>
+    Top 5, others unset (0)
+  </div>
+</div>
+
+
+
+
 
 
 <script type='module'>

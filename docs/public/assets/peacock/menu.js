@@ -102,12 +102,6 @@ var css_248z = i`* {
   --_container-shape-start-end: var(--shape-corner-large);
   --_container-shape-end-start: var(--shape-corner-large);
   --_container-shape-end-end: var(--shape-corner-large);
-}
-.menu.variant-standard {
-  --menu-item-container-color: var(--color-surface-container);
-}
-.menu.variant-vibrant {
-  --menu-item-container-color: var(--color-tertiary-container);
 }`;
 
 var Menu_1;
@@ -132,9 +126,9 @@ let Menu = Menu_1 = class Menu extends i$1 {
         /** Whether the menu is currently visible. */
         this.open = false;
         /** Visual variant of the menu. `"vibrant"` applies stronger color emphasis. */
-        this.variant = 'standard';
+        this.variant = "standard";
         /** ID of the anchor element the menu is positioned relative to. */
-        this.anchor = '';
+        this.anchor = "";
         /** When true, renders the menu in a static preview state (always visible, no animation). */
         this.preview = false;
         /** When true, the menu will not close when a click occurs outside it. */
@@ -144,7 +138,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
         /** Set to true when this menu is being used as a submenu inside another menu. */
         this.isSubmenu = false;
         /** Floating UI placement of the menu relative to its anchor. */
-        this.placement = 'bottom-start';
+        this.placement = "bottom-start";
         /** Distance in pixels between the menu and its anchor element. */
         this.offset = 6;
         /** Index of the currently focused/active item within the enabled items list. */
@@ -153,20 +147,20 @@ let Menu = Menu_1 = class Menu extends i$1 {
         this.anchorElement = null;
         /** Controller managing floating-UI positioning. */
         this._floatingController = new FloatingController(this, {
-            trigger: 'manual',
+            trigger: "manual",
             closeOnClickOutside: false,
-            strategy: 'fixed',
-            onOpenChange: isOpen => {
+            strategy: "fixed",
+            onOpenChange: (isOpen) => {
                 if (isOpen || !this.open) {
                     return;
                 }
-                this.close({ kind: 'outside-click' });
+                this.close({ kind: "outside-click" });
             },
         });
         /** Element that had focus before the menu opened; restored on close. */
         this._lastFocusedElement = null;
         /** Reason that triggered the most recent close, included in the `closed` event detail. */
-        this._closeReason = { kind: 'programmatic' };
+        this._closeReason = { kind: "programmatic" };
         this._onClick = (event) => {
             if (!this.open) {
                 return;
@@ -180,7 +174,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
             if (item.keepOpen) {
                 return;
             }
-            this.close({ kind: 'click-selection' });
+            this.close({ kind: "click-selection" });
         };
         this._onKeyDown = (event) => {
             if (!this.open) {
@@ -194,33 +188,33 @@ let Menu = Menu_1 = class Menu extends i$1 {
                 this._setActiveItem(eventItem);
             }
             switch (event.key) {
-                case 'ArrowDown':
+                case "ArrowDown":
                     event.preventDefault();
                     this._setActiveByOffset(1);
                     break;
-                case 'ArrowUp':
+                case "ArrowUp":
                     event.preventDefault();
                     this._setActiveByOffset(-1);
                     break;
-                case 'Home':
+                case "Home":
                     event.preventDefault();
                     this._setBoundaryActive(0);
                     break;
-                case 'End': {
+                case "End": {
                     event.preventDefault();
                     const last = Math.max(this._enabledItems().length - 1, 0);
                     this._setBoundaryActive(last);
                     break;
                 }
-                case 'Escape':
+                case "Escape":
                     event.preventDefault();
-                    this.close({ kind: 'keydown', key: 'Escape' });
+                    this.close({ kind: "keydown", key: "Escape" });
                     break;
-                case 'Tab':
-                    this.close({ kind: 'keydown', key: 'Tab' });
+                case "Tab":
+                    this.close({ kind: "keydown", key: "Tab" });
                     break;
-                case 'Enter':
-                case ' ': {
+                case "Enter":
+                case " ": {
                     event.preventDefault();
                     const activeItem = this._getActiveItem() ?? this._getFirstEnabledItem();
                     if (!activeItem) {
@@ -239,19 +233,19 @@ let Menu = Menu_1 = class Menu extends i$1 {
     connectedCallback() {
         // eslint-disable-next-line wc/guard-super-call
         super.connectedCallback();
-        this.setAttribute('role', 'menu');
-        this.addEventListener('keydown', this._onKeyDown);
-        this.addEventListener('click', this._onClick);
+        this.setAttribute("role", "menu");
+        this.addEventListener("keydown", this._onKeyDown);
+        this.addEventListener("click", this._onClick);
         this._syncAnchorAria();
     }
     disconnectedCallback() {
-        this.removeEventListener('keydown', this._onKeyDown);
-        this.removeEventListener('click', this._onClick);
+        this.removeEventListener("keydown", this._onKeyDown);
+        this.removeEventListener("click", this._onClick);
         this._floatingController.close();
         super.disconnectedCallback();
     }
     get items() {
-        const slot = this.shadowRoot?.querySelector('slot');
+        const slot = this.shadowRoot?.querySelector("slot");
         const elements = slot?.assignedElements({ flatten: true }) ?? [];
         const items = [];
         for (const element of elements) {
@@ -271,10 +265,10 @@ let Menu = Menu_1 = class Menu extends i$1 {
         if (this.open) {
             return;
         }
-        this._closeReason = { kind: 'programmatic' };
+        this._closeReason = { kind: "programmatic" };
         this.open = true;
     }
-    close(reason = { kind: 'programmatic' }) {
+    close(reason = { kind: "programmatic" }) {
         if (!this.open) {
             return;
         }
@@ -293,7 +287,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
             return null;
         }
         const root = this.getRootNode();
-        if ('getElementById' in root) {
+        if ("getElementById" in root) {
             return root.getElementById(this.anchor);
         }
         return document.getElementById(this.anchor);
@@ -306,12 +300,12 @@ let Menu = Menu_1 = class Menu extends i$1 {
         if (!this.id) {
             this.id = `wc-menu-${Math.random().toString(36).slice(2, 9)}`;
         }
-        anchorEl.setAttribute('aria-haspopup', 'menu');
-        anchorEl.setAttribute('aria-controls', this.id);
-        anchorEl.setAttribute('aria-expanded', String(this.open));
+        anchorEl.setAttribute("aria-haspopup", "menu");
+        anchorEl.setAttribute("aria-controls", this.id);
+        anchorEl.setAttribute("aria-expanded", String(this.open));
     }
     _enabledItems() {
-        return this.items.filter(item => !item.disabled);
+        return this.items.filter((item) => !item.disabled);
     }
     _syncRovingTabIndex() {
         const ownedItems = this.items;
@@ -364,7 +358,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
     }
     _isEventFromThisMenu(event) {
         const path = event.composedPath();
-        const sourceMenu = path.find(target => target instanceof Menu_1);
+        const sourceMenu = path.find((target) => target instanceof Menu_1);
         return sourceMenu === this;
     }
     _ownedItemFromEvent(event) {
@@ -375,7 +369,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
         const ownedItems = this.items;
         for (const target of path) {
             if (target instanceof MenuItem) {
-                const ownedItem = ownedItems.find(item => item === target);
+                const ownedItem = ownedItems.find((item) => item === target);
                 if (ownedItem) {
                     return ownedItem;
                 }
@@ -393,7 +387,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
         this._syncRovingTabIndex();
     }
     _dispatchItemActivate(item) {
-        this.dispatchEvent(new CustomEvent('menu-item-activate', {
+        this.dispatchEvent(new CustomEvent("menu-item-activate", {
             bubbles: true,
             composed: true,
             detail: { item },
@@ -410,21 +404,21 @@ let Menu = Menu_1 = class Menu extends i$1 {
         this._floatingController.setOptions({
             placement: this.placement,
             offset: this.offset,
-            strategy: 'fixed',
+            strategy: "fixed",
             closeOnClickOutside: !this.stayOpenOnOutsideClick,
         });
         this._floatingController.setElements(anchorEl, this.menuListElement);
         this._floatingController.open();
     }
     updated(changedProperties) {
-        if (changedProperties.has('anchor') || changedProperties.has('open')) {
+        if (changedProperties.has("anchor") || changedProperties.has("open")) {
             this._syncAnchorAria();
         }
-        if (changedProperties.has('open')) {
+        if (changedProperties.has("open")) {
             if (this.open) {
                 this._lastFocusedElement = document.activeElement;
                 this._syncRovingTabIndex();
-                this.dispatchEvent(new CustomEvent('opened', {
+                this.dispatchEvent(new CustomEvent("opened", {
                     bubbles: true,
                     composed: true,
                 }));
@@ -433,7 +427,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
             else {
                 this._floatingController.close();
                 const reason = this._closeReason;
-                this.dispatchEvent(new CustomEvent('close-menu', {
+                this.dispatchEvent(new CustomEvent("close-menu", {
                     bubbles: true,
                     composed: true,
                     detail: {
@@ -441,42 +435,45 @@ let Menu = Menu_1 = class Menu extends i$1 {
                         itemPath: [],
                     },
                 }));
-                this.dispatchEvent(new CustomEvent('closed', {
+                this.dispatchEvent(new CustomEvent("closed", {
                     bubbles: true,
                     composed: true,
                     detail: { reason },
                 }));
-                const shouldRestoreFocus = reason.kind !== 'keydown' || reason.key !== 'Tab';
+                const shouldRestoreFocus = reason.kind !== "keydown" ||
+                    reason.key !== "Tab";
                 if (!this.isSubmenu && shouldRestoreFocus) {
                     this._lastFocusedElement?.focus();
                 }
             }
         }
-        if ((changedProperties.has('open') ||
-            changedProperties.has('anchor') ||
-            changedProperties.has('placement') ||
-            changedProperties.has('offset')) &&
+        if ((changedProperties.has("open") ||
+            changedProperties.has("anchor") ||
+            changedProperties.has("placement") ||
+            changedProperties.has("offset")) &&
             this.open) {
             this._applyPositioning();
         }
     }
     render() {
-        return b `<div
-      class=${e$1({
+        return b `
+      <div
+        class="${e$1({
             menu: true,
             open: !this.preview && this.open,
             closed: !this.preview && !this.open,
             preview: this.preview,
             [`variant-${this.variant}`]: true,
-        })}
-      aria-hidden=${String(!this.open)}
-    >
-      <div class="background"></div>
+        })}"
+        aria-hidden="${String(!this.open)}"
+      >
+        <div class="background"></div>
 
-      <div class="menu-content">
-        <slot @slotchange=${this._onSlotChange}></slot>
+        <div class="menu-content">
+          <slot @slotchange="${this._onSlotChange}"></slot>
+        </div>
       </div>
-    </div>`;
+    `;
     }
 };
 Menu.styles = [css_248z];
@@ -494,13 +491,13 @@ __decorate([
     n({ type: Boolean, reflect: true })
 ], Menu.prototype, "preview", void 0);
 __decorate([
-    n({ type: Boolean, attribute: 'stay-open-on-outside-click' })
+    n({ type: Boolean, attribute: "stay-open-on-outside-click" })
 ], Menu.prototype, "stayOpenOnOutsideClick", void 0);
 __decorate([
-    n({ type: Boolean, attribute: 'stay-open-on-focusout' })
+    n({ type: Boolean, attribute: "stay-open-on-focusout" })
 ], Menu.prototype, "stayOpenOnFocusout", void 0);
 __decorate([
-    n({ type: Boolean, attribute: 'is-submenu' })
+    n({ type: Boolean, attribute: "is-submenu" })
 ], Menu.prototype, "isSubmenu", void 0);
 __decorate([
     n({ type: String })
@@ -512,7 +509,7 @@ __decorate([
     r()
 ], Menu.prototype, "activeIndex", void 0);
 __decorate([
-    e('.menu')
+    e(".menu")
 ], Menu.prototype, "menuListElement", void 0);
 Menu = Menu_1 = __decorate([
     IndividualComponent

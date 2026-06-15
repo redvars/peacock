@@ -29,6 +29,13 @@ export class Elevation extends LitElement {
   static styles = [styles];
 
   render() {
-    return html`<span class="shadow"></span>`;
+    return html`
+      <span class="shadow block-start"></span>
+      <span class="shadow block-end"></span>
+      <span class="shadow inline-start"></span>
+      <span class="shadow inline-end"></span>
+    `;
   }
 }
+
+

@@ -51,10 +51,6 @@ export class MenuItem extends NativeButtonMixin(
   @property({ type: Boolean, attribute: "submenu-open" })
   submenuOpen = false;
 
-  /** Visual variant of the menu item. */
-  @property({ type: String, reflect: true })
-  variant: "standard" | "vibrant" = "standard";
-
   // ── Queries ───────────────────────────────────────────────────────────────
 
   @query("#menu-item")
@@ -188,8 +184,9 @@ export class MenuItem extends NativeButtonMixin(
 
   renderContent() {
     return html`
-      <div class="menu-item-background"></div>
-      <wc-elevation class="menu-item-elevation"></wc-elevation>
+      <div class="menu-item-backdrop-background"></div>
+      <wc-elevation class="menu-item-backdrop-elevation"></wc-elevation>
+
       <wc-item class="menu-item-content">
         <wc-focus-ring
           class="focus-ring"

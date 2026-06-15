@@ -24,10 +24,10 @@ var css_248z$1 = i`* {
 :host {
   outline: none;
   position: relative;
-  --menu-item-container-shape-start-start: var(--shape-corner-extra-small);
-  --menu-item-container-shape-start-end: var(--shape-corner-extra-small);
-  --menu-item-container-shape-end-start: var(--shape-corner-extra-small);
-  --menu-item-container-shape-end-end: var(--shape-corner-extra-small);
+  --menu-item-backdrop-container-shape-start-start: none;
+  --menu-item-backdrop-container-shape-start-end: none;
+  --menu-item-backdrop-container-shape-end-start: none;
+  --menu-item-backdrop-container-shape-end-end: none;
 }
 
 /*
@@ -60,13 +60,42 @@ var css_248z$1 = i`* {
   padding-top: 2px;
   padding-inline: var(--spacing-050);
 }
-.menu-item .menu-item-background {
+.menu-item .menu-item-backdrop-background {
   background-color: var(--menu-item-container-color);
   position: absolute;
   inset: 0px;
+  border-start-start-radius: var(--menu-item-backdrop-container-shape-start-start);
+  border-start-end-radius: var(--menu-item-backdrop-container-shape-start-end);
+  border-end-start-radius: var(--menu-item-backdrop-container-shape-end-start);
+  border-end-end-radius: var(--menu-item-backdrop-container-shape-end-end);
 }
-.menu-item .menu-item-elevation {
-  --elevation: 1;
+.menu-item .menu-item-backdrop-elevation {
+  --elevation-container-shape-start-start: var(
+    --menu-item-backdrop-container-shape-start-start
+  );
+  --elevation-container-shape-start-end: var(
+    --menu-item-backdrop-container-shape-start-end
+  );
+  --elevation-container-shape-end-start: var(
+    --menu-item-backdrop-container-shape-end-start
+  );
+  --elevation-container-shape-end-end: var(
+    --menu-item-backdrop-container-shape-end-end
+  );
+  --elevation-level-block-start: var(
+    --menu-item-backdrop-elevation-level-block-start
+  );
+  --elevation-level-block-end: var(
+    --menu-item-backdrop-elevation-level-block-end
+  );
+  --elevation-level-inline-start: var(
+    --menu-item-backdrop-elevation-level-inline-start,
+    1
+  );
+  --elevation-level-inline-end: var(
+    --menu-item-backdrop-elevation-level-inline-end,
+    1
+  );
 }
 .menu-item .menu-item-content {
   --item-height: 1.5rem;
@@ -91,29 +120,29 @@ var css_248z$1 = i`* {
   --item-label-text-color: var(--private-item-label-text-color);
   --item-leading-trailing-color: var(--private-item-label-text-color);
   --item-supporting-text-color: var(--private-item-label-text-color);
-  --item-icon-size: var(--button-icon-size, var(--_button-icon-size));
+  --item-icon-size: var(--menu-item-icon-size, var(--private-item-icon-size));
 }
 .menu-item .menu-item-content .background {
   background-color: var(--private-item-container-color);
   opacity: var(--_container-opacity, 1);
   border-radius: var(--shape-corner-medium);
-  border-start-start-radius: var(--menu-item-container-shape-start-start);
-  border-start-end-radius: var(--menu-item-container-shape-start-end);
-  border-end-start-radius: var(--menu-item-container-shape-end-start);
-  border-end-end-radius: var(--menu-item-container-shape-end-end);
+  border-start-start-radius: var(--private-item-container-shape-start-start);
+  border-start-end-radius: var(--private-item-container-shape-start-end);
+  border-end-start-radius: var(--private-item-container-shape-end-start);
+  border-end-end-radius: var(--private-item-container-shape-end-end);
 }
 .menu-item .menu-item-content .focus-ring {
   --focus-ring-container-shape-start-start: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-start
   );
   --focus-ring-container-shape-start-end: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-start
   );
   --focus-ring-container-shape-end-start: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-start
   );
   --focus-ring-container-shape-end-end: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-start
   );
   z-index: 2;
   --focus-ring-inset: 0px;
@@ -126,31 +155,35 @@ var css_248z$1 = i`* {
 .menu-item .menu-item-content .skeleton {
   z-index: 2;
   --skeleton-container-shape-start-start: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-start
   );
   --skeleton-container-shape-start-end: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-start-end
   );
   --skeleton-container-shape-end-start: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-end-start
   );
   --skeleton-container-shape-end-end: var(
-    --menu-item-container-shape-start-start
+    --private-item-container-shape-end-end
   );
 }
 
 :host {
   --private-item-container-color: var(--menu-item-container-color);
   --private-item-label-text-color: var(--menu-item-label-color);
+  --private-item-container-shape-start-start: var(--shape-corner-medium);
+  --private-item-container-shape-start-end: var(--shape-corner-medium);
+  --private-item-container-shape-end-start: var(--shape-corner-medium);
+  --private-item-container-shape-end-end: var(--shape-corner-medium);
 }
 
 :host([selected]) {
   --private-item-container-color: var(--menu-item-container-selected-color);
   --private-item-label-text-color: var(--menu-item-label-selected-color);
-  --menu-item-container-shape-start-start: var(--shape-corner-large);
-  --menu-item-container-shape-start-end: var(--shape-corner-large);
-  --menu-item-container-shape-end-start: var(--shape-corner-large);
-  --menu-item-container-shape-end-end: var(--shape-corner-large);
+  --private-item-container-shape-start-start: var(--shape-corner-large);
+  --private-item-container-shape-start-end: var(--shape-corner-large);
+  --private-item-container-shape-end-start: var(--shape-corner-large);
+  --private-item-container-shape-end-end: var(--shape-corner-large);
 }
 
 :host([disabled]),
@@ -162,6 +195,14 @@ var css_248z$1 = i`* {
 :host([disabled]) .ripple,
 :host([soft-disabled]) .ripple {
   display: none;
+}
+
+:host-context([variant=standard]) {
+  --menu-item-container-color: var(--color-surface-container);
+}
+
+:host-context([variant=vibrant]) {
+  --menu-item-container-color: var(--color-tertiary-container);
 }`;
 
 var css_248z = i`:host-context([variant=standard]) {
@@ -275,8 +316,6 @@ let MenuItem = class MenuItem extends NativeButtonMixin(NativeHyperlinkMixin(i$1
         this.hasSubmenu = false;
         /** Whether the associated submenu is currently open. */
         this.submenuOpen = false;
-        /** Visual variant of the menu item. */
-        this.variant = "standard";
         // ── Private fields ────────────────────────────────────────────────────────
         /** MutationObserver that triggers re-render when slotted content changes. */
         this._contentObserver = new MutationObserver(() => {
@@ -376,8 +415,9 @@ let MenuItem = class MenuItem extends NativeButtonMixin(NativeHyperlinkMixin(i$1
     }
     renderContent() {
         return b `
-      <div class="menu-item-background"></div>
-      <wc-elevation class="menu-item-elevation"></wc-elevation>
+      <div class="menu-item-backdrop-background"></div>
+      <wc-elevation class="menu-item-backdrop-elevation"></wc-elevation>
+
       <wc-item class="menu-item-content">
         <wc-focus-ring
           class="focus-ring"
@@ -417,9 +457,6 @@ __decorate([
 __decorate([
     n({ type: Boolean, attribute: "submenu-open" })
 ], MenuItem.prototype, "submenuOpen", void 0);
-__decorate([
-    n({ type: String, reflect: true })
-], MenuItem.prototype, "variant", void 0);
 __decorate([
     e$1("#menu-item")
 ], MenuItem.prototype, "itemElement", void 0);

@@ -5157,9 +5157,9 @@
         {
           "name": "variant",
           "type": {
-            "text": "'standard' | 'vibrant'"
+            "text": "\"standard\" | \"vibrant\""
           },
-          "default": "'standard'",
+          "default": "\"standard\"",
           "description": "Visual variant of the menu. `\"vibrant\"` applies stronger color emphasis.",
           "fieldName": "variant"
         },
@@ -5168,7 +5168,7 @@
           "type": {
             "text": "string"
           },
-          "default": "''",
+          "default": "\"\"",
           "description": "ID of the anchor element the menu is positioned relative to.",
           "fieldName": "anchor"
         },
@@ -5213,7 +5213,7 @@
           "type": {
             "text": "Placement"
           },
-          "default": "'bottom-start'",
+          "default": "\"bottom-start\"",
           "description": "Floating UI placement of the menu relative to its anchor.",
           "fieldName": "placement"
         },
@@ -5298,15 +5298,6 @@
           "default": "false",
           "description": "Whether the associated submenu is currently open.",
           "fieldName": "submenuOpen"
-        },
-        {
-          "name": "variant",
-          "type": {
-            "text": "\"standard\" | \"vibrant\""
-          },
-          "default": "\"standard\"",
-          "description": "Visual variant of the menu item.",
-          "fieldName": "variant"
         },
         {
           "name": "htmlType",
