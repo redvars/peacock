@@ -75,7 +75,7 @@ export { NavigationRailItem } from './navigation-rail-item.js';
 export { Calendar } from './calendar.js';
 export { CalendarColumnView } from './calendar-column-view.js';
 export { CalendarMonthView } from './calendar-month-view.js';
-export { Canvas } from './flow-canvas.js';
+export { Flow } from './flow.js';
 export { ConditionBuilder } from './condition-builder.js';
 export { CbPredicate } from './cb-predicate.js';
 export { CbCompoundExpression } from './cb-compound-expression.js';

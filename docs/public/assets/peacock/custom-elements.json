@@ -14819,6 +14819,11 @@
             },
             {
               "kind": "method",
+              "name": "_syncItemPositions",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_applyPositioning",
               "privacy": "private"
             }
@@ -28526,32 +28531,32 @@
     },
     {
       "kind": "javascript-module",
-      "path": "E:/git/redvars/peacock/components/src/flow-canvas/flow-canvas.ts",
+      "path": "E:/git/redvars/peacock/components/src/flow/flow.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "Canvas",
+          "name": "Flow",
           "cssProperties": [
             {
               "description": "Background color for the canvas wrapper. Defaults to surface-container-low.",
-              "name": "--canvas-background"
+              "name": "--flow-background"
             },
             {
               "description": "Color of the background grid dots. Defaults to outline-variant.",
-              "name": "--canvas-dot-color"
+              "name": "--flow-dot-color"
             },
             {
               "description": "Default stroke color for lines and connectors. Defaults to on-surface.",
-              "name": "--canvas-line-color"
+              "name": "--flow-line-color"
             },
             {
               "description": "Stroke color on hover for clickable shapes. Defaults to primary.",
-              "name": "--canvas-hover-color"
+              "name": "--flow-hover-color"
             },
             {
               "description": "Stroke color for arrow markers. Defaults to on-surface.",
-              "name": "--canvas-arrow-color"
+              "name": "--flow-arrow-color"
             }
           ],
           "members": [
@@ -28559,7 +28564,7 @@
               "kind": "field",
               "name": "data",
               "type": {
-                "text": "CanvasShape[]"
+                "text": "FlowShape[]"
               },
               "default": "[]",
               "attribute": "data"
@@ -28599,20 +28604,20 @@
               "static": true,
               "return": {
                 "type": {
-                  "text": "CanvasPoint"
+                  "text": "FlowPoint"
                 }
               },
               "parameters": [
                 {
                   "name": "point",
                   "type": {
-                    "text": "CanvasPoint"
+                    "text": "FlowPoint"
                   }
                 },
                 {
                   "name": "direction",
                   "type": {
-                    "text": "CanvasDirection"
+                    "text": "FlowDirection"
                   }
                 },
                 {
@@ -28632,7 +28637,7 @@
                 {
                   "name": "extents",
                   "type": {
-                    "text": "CanvasExtents"
+                    "text": "FlowExtents"
                   }
                 },
                 {
@@ -28659,7 +28664,7 @@
                   "name": "variant",
                   "optional": true,
                   "type": {
-                    "text": "CanvasStrokeVariant"
+                    "text": "FlowStrokeVariant"
                   }
                 }
               ]
@@ -28672,7 +28677,7 @@
                 {
                   "name": "initialBounds",
                   "type": {
-                    "text": "CanvasBounds"
+                    "text": "FlowBounds"
                   }
                 }
               ]
@@ -28685,7 +28690,7 @@
                 {
                   "name": "computedViewBox",
                   "type": {
-                    "text": "CanvasViewBox"
+                    "text": "FlowViewBox"
                   }
                 },
                 {
@@ -28720,7 +28725,7 @@
             {
               "name": "data",
               "type": {
-                "text": "CanvasShape[]"
+                "text": "FlowShape[]"
               },
               "default": "[]",
               "fieldName": "data"
@@ -28753,11 +28758,11 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "wc-canvas",
+          "tagName": "wc-flow",
           "customElement": true,
           "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
           "rawTag": {
-            "name": "canvas",
+            "name": "flow",
             "description": ""
           }
         }
@@ -28765,33 +28770,33 @@
       "exports": [
         {
           "kind": "js",
-          "name": "Canvas",
+          "name": "Flow",
           "declaration": {
-            "name": "Canvas",
-            "module": "E:/git/redvars/peacock/components/src/flow-canvas/flow-canvas.ts"
+            "name": "Flow",
+            "module": "E:/git/redvars/peacock/components/src/flow/flow.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "E:/git/redvars/peacock/components/src/flow-canvas/index.ts",
+      "path": "E:/git/redvars/peacock/components/src/flow/index.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
-          "name": "Canvas",
+          "name": "Flow",
           "declaration": {
-            "name": "Canvas",
-            "module": "./flow-canvas.js"
+            "name": "Flow",
+            "module": "./flow.js"
           }
         },
         {
           "kind": "js",
-          "name": "CanvasShape",
+          "name": "FlowShape",
           "declaration": {
-            "name": "CanvasShape",
-            "module": "./flow-canvas.js"
+            "name": "FlowShape",
+            "module": "./flow.js"
           }
         }
       ]
@@ -29988,18 +29993,18 @@
         },
         {
           "kind": "js",
-          "name": "Canvas",
+          "name": "Flow",
           "declaration": {
-            "name": "Canvas",
-            "module": "./flow-canvas/index.js"
+            "name": "Flow",
+            "module": "./flow/index.js"
           }
         },
         {
           "kind": "js",
-          "name": "CanvasShape",
+          "name": "FlowShape",
           "declaration": {
-            "name": "CanvasShape",
-            "module": "./flow-canvas/index.js"
+            "name": "FlowShape",
+            "module": "./flow/index.js"
           }
         },
         {

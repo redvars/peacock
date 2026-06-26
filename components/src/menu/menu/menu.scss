@@ -53,18 +53,66 @@
     z-index: 1;
     width: 100%;
 
-    ::slotted(:first-child) {
-      --menu-item-container-shape-start-start: var(--shape-corner-medium);
-      --menu-item-container-shape-start-end: var(--shape-corner-medium);
+    ::slotted([data-position-after-divider]) {
+      --menu-item-backdrop-container-shape-start-start: var(
+        --shape-corner-small
+      );
+      --menu-item-backdrop-container-shape-start-end: var(--shape-corner-small);
+      --sub-menu-item-backdrop-container-shape-start-start: var(
+        --shape-corner-small
+      );
+      --sub-menu-item-backdrop-container-shape-start-end: var(
+        --shape-corner-small
+      );
+
+      --menu-item-backdrop-elevation-level-block-start: 1;
     }
-    ::slotted(:last-child) {
-      --menu-item-container-shape-end-start: var(--shape-corner-medium);
-      --menu-item-container-shape-end-end: var(--shape-corner-medium);
+
+    ::slotted([data-position-first]) {
+      --menu-item-backdrop-container-shape-start-start: var(
+        --shape-corner-large
+      );
+      --menu-item-backdrop-container-shape-start-end: var(--shape-corner-large);
+      --sub-menu-item-backdrop-container-shape-start-start: var(
+        --shape-corner-large
+      );
+      --sub-menu-item-backdrop-container-shape-start-end: var(
+        --shape-corner-large
+      );
+
+      --menu-item-backdrop-elevation-level-block-start: 1;
+    }
+
+    ::slotted([data-position-before-divider]) {
+      --menu-item-backdrop-elevation-level-block-end: 1;
+      --menu-item-backdrop-container-shape-end-start: var(--shape-corner-small);
+
+      --menu-item-backdrop-container-shape-end-end: var(--shape-corner-small);
+      --sub-menu-item-backdrop-container-shape-end-start: var(
+        --shape-corner-small
+      );
+      --sub-menu-item-backdrop-container-shape-end-end: var(
+        --shape-corner-small
+      );
+    }
+
+    ::slotted([data-position-last]) {
+      --menu-item-backdrop-elevation-level-block-end: 1;
+      --menu-item-backdrop-container-shape-end-start: var(--shape-corner-large);
+
+      --menu-item-backdrop-container-shape-end-end: var(--shape-corner-large);
+      --sub-menu-item-backdrop-container-shape-end-start: var(
+        --shape-corner-large
+      );
+      --sub-menu-item-backdrop-container-shape-end-end: var(
+        --shape-corner-large
+      );
     }
 
     ::slotted(wc-divider) {
-      --divider-spacing: var(--spacing-100);
+      --divider-spacing: 1px;
       padding-inline: var(--spacing-050);
+      --divider-color: transparent;
     }
   }
 
@@ -72,8 +120,6 @@
     display: block;
     position: absolute;
     inset: 0;
-
-    border: 1px solid var(--color-red);
 
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);

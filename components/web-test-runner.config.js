@@ -1,5 +1,8 @@
 // import { playwrightLauncher } from '@web/test-runner-playwright';
 
+import fs from 'node:fs';
+import path from 'node:path';
+
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
 /** Plugin to handle .scss imports in tests by returning empty Lit CSS */
@@ -17,6 +20,23 @@ const scssStubPlugin = {
   },
 };
 
+/** Plugin to handle @/ imports in tests by rewriting them to relative paths */
+const aliasResolvePlugin = {
+  name: 'alias-resolve',
+  resolveImport({ source, context }) {
+    if (source.startsWith('@/')) {
+      const importerDir = path.dirname(context.path);
+      const targetPath = '/' + path.join('dist', 'src', source.slice(2)).replace(/\\/g, '/');
+      let relativePath = path.relative(importerDir, targetPath).replace(/\\/g, '/');
+      if (!relativePath.startsWith('.')) {
+        relativePath = './' + relativePath;
+      }
+      return relativePath;
+    }
+    return undefined;
+  },
+};
+
 export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   /** Test files to run */
   files: 'dist/test/**/*.test.js',
@@ -26,7 +46,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     exportConditions: ['browser', 'development'],
   },
 
-  plugins: [scssStubPlugin],
+  plugins: [scssStubPlugin, aliasResolvePlugin],
 
   /** Filter out lit dev mode logs */
   filterBrowserLogs(log) {

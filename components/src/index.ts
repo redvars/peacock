@@ -86,8 +86,8 @@ export {
   CalendarMonthView,
 } from './calendar/index.js';
 export type { CalendarViewType, EventType } from './calendar/index.js';
-export { Canvas } from './flow-canvas/index.js';
-export type { CanvasShape } from './flow-canvas/index.js';
+export { Flow } from './flow/index.js';
+export type { FlowShape } from './flow/index.js';
 export {
   ConditionBuilder,
   CbPredicate,

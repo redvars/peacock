@@ -29,9 +29,36 @@ var css_248z = i`* {
 
 :host {
   display: contents;
+  --sub-menu-item-backdrop-container-shape-start-start: none;
+  --sub-menu-item-backdrop-container-shape-start-end: none;
+  --sub-menu-item-backdrop-container-shape-end-start: none;
+  --sub-menu-item-backdrop-container-shape-end-end: none;
+  --sub-menu-item-backdrop-elevation-level-block-start: none;
+  --sub-menu-item-backdrop-elevation-level-block-end: none;
 }
 
-slot::slotted(wc-menu) {
+slot[name=item]::slotted(wc-menu-item) {
+  --menu-item-backdrop-container-shape-start-start: var(
+    --sub-menu-item-backdrop-container-shape-start-start
+  );
+  --menu-item-backdrop-container-shape-start-end: var(
+    --sub-menu-item-backdrop-container-shape-start-end
+  );
+  --menu-item-backdrop-container-shape-end-start: var(
+    --sub-menu-item-backdrop-container-shape-end-start
+  );
+  --menu-item-backdrop-container-shape-end-end: var(
+    --sub-menu-item-backdrop-container-shape-end-end
+  );
+  --menu-item-backdrop-elevation-level-block-start: var(
+    --sub-menu-item-backdrop-elevation-level-block-start
+  );
+  --menu-item-backdrop-elevation-level-block-end: var(
+    --sub-menu-item-backdrop-elevation-level-block-end
+  );
+}
+
+slot[name=menu]::slotted(wc-menu) {
   display: contents;
 }`;
 

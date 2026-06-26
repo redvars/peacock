@@ -7,8 +7,7 @@
     "build": "astro build --logLevel error",
     "build:fetch-components": "",
     "preview": "astro preview",
-    "astro": "astro",
-    "install_peacock": "cd ../components && npm run build && cd ../docs && node copyPeacockFiles.js && node copy-component-files.mjs"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

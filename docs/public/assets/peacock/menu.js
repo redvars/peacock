@@ -67,23 +67,63 @@ var css_248z = i`* {
   z-index: 1;
   width: 100%;
 }
-.menu .menu-content ::slotted(:first-child) {
-  --menu-item-container-shape-start-start: var(--shape-corner-medium);
-  --menu-item-container-shape-start-end: var(--shape-corner-medium);
+.menu .menu-content ::slotted([data-position-after-divider]) {
+  --menu-item-backdrop-container-shape-start-start: var(
+    --shape-corner-small
+  );
+  --menu-item-backdrop-container-shape-start-end: var(--shape-corner-small);
+  --sub-menu-item-backdrop-container-shape-start-start: var(
+    --shape-corner-small
+  );
+  --sub-menu-item-backdrop-container-shape-start-end: var(
+    --shape-corner-small
+  );
+  --menu-item-backdrop-elevation-level-block-start: 1;
 }
-.menu .menu-content ::slotted(:last-child) {
-  --menu-item-container-shape-end-start: var(--shape-corner-medium);
-  --menu-item-container-shape-end-end: var(--shape-corner-medium);
+.menu .menu-content ::slotted([data-position-first]) {
+  --menu-item-backdrop-container-shape-start-start: var(
+    --shape-corner-large
+  );
+  --menu-item-backdrop-container-shape-start-end: var(--shape-corner-large);
+  --sub-menu-item-backdrop-container-shape-start-start: var(
+    --shape-corner-large
+  );
+  --sub-menu-item-backdrop-container-shape-start-end: var(
+    --shape-corner-large
+  );
+  --menu-item-backdrop-elevation-level-block-start: 1;
+}
+.menu .menu-content ::slotted([data-position-before-divider]) {
+  --menu-item-backdrop-elevation-level-block-end: 1;
+  --menu-item-backdrop-container-shape-end-start: var(--shape-corner-small);
+  --menu-item-backdrop-container-shape-end-end: var(--shape-corner-small);
+  --sub-menu-item-backdrop-container-shape-end-start: var(
+    --shape-corner-small
+  );
+  --sub-menu-item-backdrop-container-shape-end-end: var(
+    --shape-corner-small
+  );
+}
+.menu .menu-content ::slotted([data-position-last]) {
+  --menu-item-backdrop-elevation-level-block-end: 1;
+  --menu-item-backdrop-container-shape-end-start: var(--shape-corner-large);
+  --menu-item-backdrop-container-shape-end-end: var(--shape-corner-large);
+  --sub-menu-item-backdrop-container-shape-end-start: var(
+    --shape-corner-large
+  );
+  --sub-menu-item-backdrop-container-shape-end-end: var(
+    --shape-corner-large
+  );
 }
 .menu .menu-content ::slotted(wc-divider) {
-  --divider-spacing: var(--spacing-100);
+  --divider-spacing: 1px;
   padding-inline: var(--spacing-050);
+  --divider-color: transparent;
 }
 .menu .background {
   display: block;
   position: absolute;
   inset: 0;
-  border: 1px solid var(--color-red);
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
@@ -228,6 +268,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
         };
         this._onSlotChange = () => {
             this._syncRovingTabIndex();
+            this._syncItemPositions();
         };
     }
     connectedCallback() {
@@ -393,6 +434,55 @@ let Menu = Menu_1 = class Menu extends i$1 {
             detail: { item },
         }));
     }
+    _syncItemPositions() {
+        const slot = this.shadowRoot?.querySelector("slot");
+        const elements = slot?.assignedElements({ flatten: true }) ?? [];
+        for (const el of elements) {
+            if (el instanceof HTMLElement) {
+                el.removeAttribute("data-position-first");
+                el.removeAttribute("data-position-last");
+                el.removeAttribute("data-position-after-divider");
+                el.removeAttribute("data-position-before-divider");
+            }
+        }
+        const items = elements.filter((el) => el.tagName.toLowerCase() !== "wc-divider");
+        if (items.length === 0) {
+            return;
+        }
+        const firstItem = items[0];
+        if (firstItem instanceof HTMLElement) {
+            firstItem.setAttribute("data-position-first", "");
+        }
+        const lastItem = items[items.length - 1];
+        if (lastItem instanceof HTMLElement) {
+            lastItem.setAttribute("data-position-last", "");
+        }
+        for (let i = 0; i < elements.length; i++) {
+            const el = elements[i];
+            if (el.tagName.toLowerCase() === "wc-divider") {
+                let prevItem = null;
+                for (let j = i - 1; j >= 0; j--) {
+                    if (elements[j].tagName.toLowerCase() !== "wc-divider") {
+                        prevItem = elements[j];
+                        break;
+                    }
+                }
+                if (prevItem instanceof HTMLElement) {
+                    prevItem.setAttribute("data-position-before-divider", "");
+                }
+                let nextItem = null;
+                for (let j = i + 1; j < elements.length; j++) {
+                    if (elements[j].tagName.toLowerCase() !== "wc-divider") {
+                        nextItem = elements[j];
+                        break;
+                    }
+                }
+                if (nextItem instanceof HTMLElement) {
+                    nextItem.setAttribute("data-position-after-divider", "");
+                }
+            }
+        }
+    }
     _applyPositioning() {
         if (!this.open || !this.menuListElement) {
             return;
@@ -418,6 +508,7 @@ let Menu = Menu_1 = class Menu extends i$1 {
             if (this.open) {
                 this._lastFocusedElement = document.activeElement;
                 this._syncRovingTabIndex();
+                this._syncItemPositions();
                 this.dispatchEvent(new CustomEvent("opened", {
                     bubbles: true,
                     composed: true,

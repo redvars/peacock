@@ -5,11 +5,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <DemoComponentCard lang={'html'}>
-  <wc-canvas id='canvas'></wc-canvas>
+  <wc-flow id='flow'></wc-flow>
   <script is:inline>
-    const canvas = document.querySelector('#canvas');
-    canvas.padding = 2;
-    canvas.zoom = 1.1;
+    const flow = document.querySelector('#flow');
+    flow.padding = 2;
+    flow.zoom = 1.1;
 
     // Create HTML node elements
     const node1 = document.createElement('div');
@@ -28,7 +28,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     node4.style.cssText = 'background: var(--color-success-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
     node4.textContent = 'DB';
 
-    canvas.data = [
+    flow.data = [
       // HTML nodes
       { type: 'node', x: 0, y: 0, width: 10, height: 4, element: node1 },
       { type: 'node', x: 12, y: 0, width: 10, height: 4, element: node2 },

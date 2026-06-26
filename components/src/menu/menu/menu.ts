@@ -382,7 +382,67 @@ export class Menu extends LitElement {
 
   private _onSlotChange = () => {
     this._syncRovingTabIndex();
+    this._syncItemPositions();
   };
+
+  private _syncItemPositions() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    const elements = slot?.assignedElements({ flatten: true }) ?? [];
+
+    for (const el of elements) {
+      if (el instanceof HTMLElement) {
+        el.removeAttribute("data-position-first");
+        el.removeAttribute("data-position-last");
+        el.removeAttribute("data-position-after-divider");
+        el.removeAttribute("data-position-before-divider");
+      }
+    }
+
+    const items = elements.filter(
+      (el) => el.tagName.toLowerCase() !== "wc-divider"
+    );
+
+    if (items.length === 0) {
+      return;
+    }
+
+    const firstItem = items[0];
+    if (firstItem instanceof HTMLElement) {
+      firstItem.setAttribute("data-position-first", "");
+    }
+
+    const lastItem = items[items.length - 1];
+    if (lastItem instanceof HTMLElement) {
+      lastItem.setAttribute("data-position-last", "");
+    }
+
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      if (el.tagName.toLowerCase() === "wc-divider") {
+        let prevItem: Element | null = null;
+        for (let j = i - 1; j >= 0; j--) {
+          if (elements[j].tagName.toLowerCase() !== "wc-divider") {
+            prevItem = elements[j];
+            break;
+          }
+        }
+        if (prevItem instanceof HTMLElement) {
+          prevItem.setAttribute("data-position-before-divider", "");
+        }
+
+        let nextItem: Element | null = null;
+        for (let j = i + 1; j < elements.length; j++) {
+          if (elements[j].tagName.toLowerCase() !== "wc-divider") {
+            nextItem = elements[j];
+            break;
+          }
+        }
+        if (nextItem instanceof HTMLElement) {
+          nextItem.setAttribute("data-position-after-divider", "");
+        }
+      }
+    }
+  }
 
   private _applyPositioning() {
     if (!this.open || !this.menuListElement) {
@@ -413,6 +473,7 @@ export class Menu extends LitElement {
       if (this.open) {
         this._lastFocusedElement = document.activeElement as HTMLElement | null;
         this._syncRovingTabIndex();
+        this._syncItemPositions();
         this.dispatchEvent(
           new CustomEvent("opened", {
             bubbles: true,

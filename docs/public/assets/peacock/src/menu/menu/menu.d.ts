@@ -81,6 +81,7 @@ export declare class Menu extends LitElement {
     private _onClick;
     private _onKeyDown;
     private _onSlotChange;
+    private _syncItemPositions;
     private _applyPositioning;
     protected updated(changedProperties: Map<string, unknown>): void;
     render(): import("lit-html").TemplateResult<1>;

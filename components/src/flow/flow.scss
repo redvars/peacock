@@ -4,29 +4,29 @@
 
 :host {
   display: block;
-  --canvas-background: var(--color-surface-container-low);
-  --canvas-dot-color: var(--color-outline-variant);
-  --canvas-line-color: var(--color-on-surface);
-  --canvas-hover-color: var(--color-primary);
-  --canvas-arrow-color: var(--color-on-surface);
+  --flow-background: var(--color-surface-container-low);
+  --flow-dot-color: var(--color-outline-variant);
+  --flow-line-color: var(--color-on-surface);
+  --flow-hover-color: var(--color-primary);
+  --flow-arrow-color: var(--color-on-surface);
 }
 
-.canvas-wrapper {
+.flow-wrapper {
   position: relative;
-  background: var(--canvas-background);
+  background: var(--flow-background);
 }
 
-.canvas {
+.flow {
   display: block;
 }
 
-.canvas-background,
-.canvas-shapes {
+.flow-background,
+.flow-shapes {
   position: absolute;
   inset: 0;
 }
 
-.canvas-nodes {
+.flow-nodes {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -37,12 +37,12 @@
   }
 }
 
-.canvas-background {
+.flow-background {
   pointer-events: none;
 }
 
-#canvas-background circle {
-  fill: var(--canvas-dot-color);
+#flow-background circle {
+  fill: var(--flow-dot-color);
 }
 
 #endarrow polyline {
@@ -60,7 +60,7 @@
   }
 
   &.variant-animated-dashed {
-    animation: canvas-dash-flow 600ms linear infinite;
+    animation: flow-dash-flow 600ms linear infinite;
   }
 }
 
@@ -68,15 +68,15 @@
   cursor: pointer;
 
   &:hover .line {
-    stroke: var(--canvas-hover-color);
+    stroke: var(--flow-hover-color);
   }
 }
 
 .line.clickable:hover {
-  stroke: var(--canvas-hover-color);
+  stroke: var(--flow-hover-color);
 }
 
-@keyframes canvas-dash-flow {
+@keyframes flow-dash-flow {
   to {
     stroke-dashoffset: -12;
   }

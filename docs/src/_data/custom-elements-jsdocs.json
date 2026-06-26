@@ -1152,82 +1152,6 @@
     }
   },
   {
-    "label": "Canvas",
-    "tag": "wc-canvas",
-    "rawTag": "canvas",
-    "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
-    "cssprop": "--canvas-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "cssProperties": [
-        {
-          "description": "Background color for the canvas wrapper. Defaults to surface-container-low.",
-          "name": "--canvas-background"
-        },
-        {
-          "description": "Color of the background grid dots. Defaults to outline-variant.",
-          "name": "--canvas-dot-color"
-        },
-        {
-          "description": "Default stroke color for lines and connectors. Defaults to on-surface.",
-          "name": "--canvas-line-color"
-        },
-        {
-          "description": "Stroke color on hover for clickable shapes. Defaults to primary.",
-          "name": "--canvas-hover-color"
-        },
-        {
-          "description": "Stroke color for arrow markers. Defaults to on-surface.",
-          "name": "--canvas-arrow-color"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "data",
-          "type": {
-            "text": "CanvasShape[]"
-          },
-          "default": "[]",
-          "fieldName": "data"
-        },
-        {
-          "name": "padding",
-          "type": {
-            "text": "number"
-          },
-          "default": "1",
-          "fieldName": "padding"
-        },
-        {
-          "name": "zoom",
-          "type": {
-            "text": "number"
-          },
-          "default": "1",
-          "fieldName": "zoom"
-        },
-        {
-          "name": "viewbox",
-          "type": {
-            "text": "string | undefined"
-          },
-          "fieldName": "viewbox"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-canvas",
-      "customElement": true,
-      "rawTag": {
-        "name": "canvas",
-        "description": ""
-      }
-    }
-  },
-  {
     "label": "Card",
     "tag": "wc-card",
     "rawTag": "card",
@@ -3544,6 +3468,82 @@
       "customElement": true,
       "rawTag": {
         "name": "field",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Flow",
+    "tag": "wc-flow",
+    "rawTag": "flow",
+    "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
+    "cssprop": "--flow-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background color for the canvas wrapper. Defaults to surface-container-low.",
+          "name": "--flow-background"
+        },
+        {
+          "description": "Color of the background grid dots. Defaults to outline-variant.",
+          "name": "--flow-dot-color"
+        },
+        {
+          "description": "Default stroke color for lines and connectors. Defaults to on-surface.",
+          "name": "--flow-line-color"
+        },
+        {
+          "description": "Stroke color on hover for clickable shapes. Defaults to primary.",
+          "name": "--flow-hover-color"
+        },
+        {
+          "description": "Stroke color for arrow markers. Defaults to on-surface.",
+          "name": "--flow-arrow-color"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "data",
+          "type": {
+            "text": "FlowShape[]"
+          },
+          "default": "[]",
+          "fieldName": "data"
+        },
+        {
+          "name": "padding",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "fieldName": "padding"
+        },
+        {
+          "name": "zoom",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "fieldName": "zoom"
+        },
+        {
+          "name": "viewbox",
+          "type": {
+            "text": "string | undefined"
+          },
+          "fieldName": "viewbox"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-flow",
+      "customElement": true,
+      "rawTag": {
+        "name": "flow",
         "description": ""
       }
     }

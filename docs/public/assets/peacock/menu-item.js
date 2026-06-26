@@ -28,6 +28,8 @@ var css_248z$1 = i`* {
   --menu-item-backdrop-container-shape-start-end: none;
   --menu-item-backdrop-container-shape-end-start: none;
   --menu-item-backdrop-container-shape-end-end: none;
+  --menu-item-backdrop-elevation-level-block-start: none;
+  --menu-item-backdrop-elevation-level-block-end: none;
 }
 
 /*
