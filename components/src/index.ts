@@ -87,7 +87,7 @@ export {
 } from './calendar/index.js';
 export type { CalendarViewType, EventType } from './calendar/index.js';
 export { Flow } from './flow/index.js';
-export type { FlowShape } from './flow/index.js';
+export type { FlowNode, FlowEdge, FlowStrokeVariant } from './flow/index.js';
 export {
   ConditionBuilder,
   CbPredicate,

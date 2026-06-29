@@ -1,0 +1,200 @@
+---
+export const title = 'Service Mesh';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>A server mesh architecture showcasing server node statuses and network traffic flows using solid, dashed, and animated dashed connection styles across all four handle coordinates.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class="flow-demo-wrapper" style="width: 100%; height: 500px; display: flex; flex-direction: column;">
+    <wc-flow id="mesh-flow" style="flex: 1; display: block; min-height: 400px;"></wc-flow>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const flow = document.querySelector('#mesh-flow');
+      flow.padding = 60;
+      flow.zoom = 0.95;
+
+      // Helper to create server custom cards
+      function createServerCard(name, type, status) {
+        const card = document.createElement('wc-card');
+        card.setAttribute('variant', 'outlined');
+        card.style.cssText = 'display: block; width: 170px;';
+
+        const content = document.createElement('wc-card-content');
+        content.style.cssText = 'padding: 10px 12px; display: flex; flex-direction: column; gap: 4px;';
+
+        const header = document.createElement('div');
+        header.style.cssText = 'display: flex; align-items: center; justify-content: space-between; width: 100%;';
+
+        const nameEl = document.createElement('span');
+        nameEl.style.cssText = 'font-weight: 600; font-size: 12px; color: var(--color-on-surface);';
+        nameEl.textContent = name;
+
+        const statusIndicator = document.createElement('span');
+        statusIndicator.style.cssText = `width: 8px; height: 8px; border-radius: 50%; background: ${
+          status === 'active' ? 'var(--color-success, #386a20)' : 'var(--color-error, #ba1a1a)'
+        };`;
+
+        header.appendChild(nameEl);
+        header.appendChild(statusIndicator);
+
+        const typeEl = document.createElement('span');
+        typeEl.style.cssText = 'font-size: 9px; font-weight: 500; color: var(--color-primary); text-transform: uppercase;';
+        typeEl.textContent = type;
+
+        content.appendChild(header);
+        content.appendChild(typeEl);
+        card.appendChild(content);
+
+        return card;
+      }
+
+      const gatewayCard = createServerCard('api-gateway', 'ingress-controller', 'active');
+      const authCard = createServerCard('auth-service', 'security-token', 'active');
+      const usersCard = createServerCard('users-service', 'user-database-api', 'active');
+      const cacheCard = createServerCard('redis-cache', 'in-memory-db', 'active');
+      const dbCard = createServerCard('postgres-db', 'relational-storage', 'active');
+
+      // Define initial nodes representing Server Mesh
+      const initialNodes = [
+        {
+          id: 'gateway',
+          position: { x: 40, y: 150 },
+          outputs: ['right'],
+          data: { element: gatewayCard }
+        },
+        {
+          id: 'auth',
+          position: { x: 260, y: 50 },
+          inputs: ['left'],
+          outputs: ['right'],
+          data: { element: authCard }
+        },
+        {
+          id: 'users',
+          position: { x: 260, y: 250 },
+          inputs: ['left'],
+          outputs: ['right', 'bottom'],
+          data: { element: usersCard }
+        },
+        {
+          id: 'cache',
+          position: { x: 490, y: 150 },
+          inputs: ['left', 'top', 'bottom'],
+          outputs: ['right'],
+          data: { element: cacheCard }
+        },
+        {
+          id: 'db',
+          position: { x: 490, y: 350 },
+          inputs: ['left', 'top'],
+          data: { element: dbCard }
+        }
+      ];
+
+      // Define initial edges with various connection variants and handles
+      const initialEdges = [
+        {
+          id: 'edge-gateway-auth',
+          source: 'gateway',
+          target: 'auth',
+          sourceHandle: 'right',
+          targetHandle: 'left',
+          type: 'smoothstep',
+          variant: 'animated-dashed',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-gateway-users',
+          source: 'gateway',
+          target: 'users',
+          sourceHandle: 'right',
+          targetHandle: 'left',
+          type: 'smoothstep',
+          variant: 'animated-dashed',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-auth-cache',
+          source: 'auth',
+          target: 'cache',
+          sourceHandle: 'right',
+          targetHandle: 'top',
+          type: 'bezier',
+          variant: 'dashed',
+          color: 'var(--color-outline)'
+        },
+        {
+          id: 'edge-users-cache',
+          source: 'users',
+          target: 'cache',
+          sourceHandle: 'right',
+          targetHandle: 'bottom',
+          type: 'bezier',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        },
+        {
+          id: 'edge-users-db',
+          source: 'users',
+          target: 'db',
+          sourceHandle: 'bottom',
+          targetHandle: 'left',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-tertiary)'
+        },
+        {
+          id: 'edge-cache-db',
+          source: 'cache',
+          target: 'db',
+          sourceHandle: 'right',
+          targetHandle: 'top',
+          type: 'straight',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        }
+      ];
+
+      flow.nodes = initialNodes;
+      flow.edges = initialEdges;
+
+      // Connect listener for mouse-created links
+      flow.addEventListener('connect', (event) => {
+        const { source, target, sourceHandle, targetHandle } = event.detail;
+        const edgeExists = flow.edges.some(
+          (edge) => edge.source === source &&
+                    edge.target === target &&
+                    edge.sourceHandle === sourceHandle &&
+                    edge.targetHandle === targetHandle
+        );
+
+        if (!edgeExists) {
+          const newEdge = {
+            id: `edge-${source}-${sourceHandle || 'default'}-${target}-${targetHandle || 'default'}`,
+            source,
+            target,
+            sourceHandle,
+            targetHandle,
+            type: 'smoothstep',
+            variant: 'solid',
+            color: 'var(--color-outline)'
+          };
+          flow.edges = [...flow.edges, newEdge];
+        }
+      });
+
+      // Drag listener to keep nodes position synced
+      flow.addEventListener('node-drag', (event) => {
+        const { id, position } = event.detail;
+        const nodeIndex = flow.nodes.findIndex((n) => n.id === id);
+        if (nodeIndex !== -1) {
+          flow.nodes[nodeIndex].position = position;
+        }
+      });
+    })();
+  </script>
+</DemoComponentCard>

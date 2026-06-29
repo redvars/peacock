@@ -4,80 +4,192 @@
 
 :host {
   display: block;
-  --flow-background: var(--color-surface-container-low);
-  --flow-dot-color: var(--color-outline-variant);
-  --flow-line-color: var(--color-on-surface);
-  --flow-hover-color: var(--color-primary);
-  --flow-arrow-color: var(--color-on-surface);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  --flow-background: var(--color-surface-container-lowest, #f4f5f8);
+  --flow-dot-color: var(--color-outline-variant, #e1e3e8);
+  --flow-line-color: var(--color-outline, #75777c);
+  --flow-hover-color: var(--color-primary, #005FAF);
+  --flow-node-bg: var(--color-surface-container-low, #f8f9fc);
+  --flow-node-border: var(--color-outline-variant, #c5c6cb);
+  --flow-node-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --flow-node-active-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-.flow-wrapper {
+.flow-container {
   position: relative;
+  width: 100%;
+  height: 100%;
   background: var(--flow-background);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 16px;
+  overflow: auto;
 }
 
-.flow {
-  display: block;
+.flow-workspace {
+  position: relative;
 }
 
-.flow-background,
-.flow-shapes {
+.flow-svg {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
 }
 
-.flow-nodes {
-  position: absolute;
-  inset: 0;
+#dot-grid circle {
+  fill: var(--flow-dot-color);
+}
+
+// --- Edges ---
+.flow-edge {
+  transition: stroke 150ms ease, stroke-width 150ms ease;
+  pointer-events: stroke;
+  cursor: pointer;
+
+  &:hover {
+    stroke: var(--flow-hover-color);
+    stroke-width: 3;
+  }
+
+  &.variant-dashed {
+    stroke-dasharray: 5 5;
+  }
+
+  &.variant-animated-dashed {
+    stroke-dasharray: 5 5;
+    animation: flow-dash-flow 1s linear infinite;
+  }
+}
+
+.flow-edge-preview {
+  stroke-dasharray: 5 5;
+  animation: flow-dash-flow 1s linear infinite;
   pointer-events: none;
-  transform-origin: top left;
+}
+
+// --- Nodes ---
+.flow-nodes {
+  pointer-events: none;
 
   > * {
     pointer-events: auto;
   }
 }
 
-.flow-background {
-  pointer-events: none;
-}
+.flow-node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--flow-node-bg);
+  border: 1px solid var(--flow-node-border);
+  box-shadow: var(--flow-node-shadow);
+  border-radius: 12px;
+  min-width: 150px;
+  min-height: 70px;
+  cursor: grab;
+  user-select: none;
+  z-index: 5;
+  transition: box-shadow 150ms ease, border-color 150ms ease, transform 150ms ease;
 
-#flow-background circle {
-  fill: var(--flow-dot-color);
-}
-
-#endarrow polyline {
-  fill: none;
-  stroke: context-stroke;
-  vector-effect: non-scaling-stroke;
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-
-.line {
-  &.variant-dashed {
-    stroke-dasharray: 6 6;
-  }
-
-  &.variant-animated-dashed {
-    animation: flow-dash-flow 600ms linear infinite;
+  &:active {
+    cursor: grabbing;
+    box-shadow: var(--flow-node-active-shadow);
+    border-color: var(--flow-hover-color);
+    transform: translateY(-1px);
   }
 }
 
-.clickable {
-  cursor: pointer;
+.flow-node-content {
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px;
+}
 
-  &:hover .line {
-    stroke: var(--flow-hover-color);
+// --- Default Node Card Design ---
+.flow-node-default-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.flow-node-title {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+// --- Sockets / Handles ---
+.handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-surface, #ffffff);
+  border: 2px solid var(--color-outline, #75777c);
+  z-index: 10;
+  cursor: crosshair;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 150ms ease,
+              border-color 150ms ease,
+              box-shadow 150ms ease;
+
+  &:hover {
+    transform: scale(1.4);
+    background-color: var(--flow-hover-color);
+    border-color: var(--flow-hover-color);
+    box-shadow: 0 0 8px rgba(0, 95, 175, 0.5);
+  }
+
+  &:active {
+    transform: scale(1.2);
+    background-color: var(--flow-hover-color);
+    border-color: var(--flow-hover-color);
   }
 }
 
-.line.clickable:hover {
-  stroke: var(--flow-hover-color);
+.handle-position-left {
+  left: -7px;
+  top: calc(50% - 6px);
 }
 
+.handle-position-right {
+  right: -7px;
+  top: calc(50% - 6px);
+}
+
+.handle-position-top {
+  top: -7px;
+  left: calc(50% - 6px);
+}
+
+.handle-position-bottom {
+  bottom: -7px;
+  left: calc(50% - 6px);
+}
+
+// --- Animations ---
 @keyframes flow-dash-flow {
   to {
-    stroke-dashoffset: -12;
+    stroke-dashoffset: -20;
+  }
+}
+
+.flow-node-custom {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  .flow-node-content {
+    padding: 0 !important;
   }
 }

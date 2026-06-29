@@ -4,67 +4,191 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>An approval flow chart illustrating the process of ordering a laptop. Drag nodes or connect handles to test the flow interaction in real-time.</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-flow id='flow'></wc-flow>
+  <div class="flow-demo-wrapper" style="width: 100%; height: 500px; display: flex; flex-direction: column;">
+    <wc-flow id="laptop-flow" style="flex: 1; display: block; min-height: 400px;"></wc-flow>
+  </div>
+
   <script is:inline>
-    const flow = document.querySelector('#flow');
-    flow.padding = 2;
-    flow.zoom = 1.1;
+    (() => {
+      const flow = document.querySelector('#laptop-flow');
+      flow.padding = 60;
+      flow.zoom = 0.95;
 
-    // Create HTML node elements
-    const node1 = document.createElement('div');
-    node1.style.cssText = 'background: var(--color-primary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
-    node1.textContent = 'Service A';
+      // Manager Review custom card using Peacock's card components
+      const managerCard = document.createElement('wc-card');
+      managerCard.setAttribute('variant', 'outlined');
+      managerCard.style.cssText = 'display: block; width: 180px; border-color: var(--color-tertiary);';
 
-    const node2 = document.createElement('div');
-    node2.style.cssText = 'background: var(--color-secondary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
-    node2.textContent = 'Service B';
+      const cardContent = document.createElement('wc-card-content');
+      cardContent.style.cssText = 'padding: 12px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;';
 
-    const node3 = document.createElement('div');
-    node3.style.cssText = 'background: var(--color-tertiary-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
-    node3.textContent = 'Cache';
+      const titleEl = document.createElement('div');
+      titleEl.style.cssText = 'font-weight: 600; font-size: 13px; color: var(--color-on-surface); text-align: center;';
+      titleEl.textContent = 'Manager Review';
 
-    const node4 = document.createElement('div');
-    node4.style.cssText = 'background: var(--color-success-container); padding: 12px; border-radius: 4px; min-width: 100px; text-align: center;';
-    node4.textContent = 'DB';
+      const tagEl = document.createElement('div');
+      tagEl.style.cssText = 'font-size: 10px; font-weight: 500; color: var(--color-tertiary); background: var(--color-tertiary-container); padding: 2px 6px; border-radius: 4px; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;';
+      tagEl.textContent = 'Awaiting Sign-off';
 
-    flow.data = [
-      // HTML nodes
-      { type: 'node', x: 0, y: 0, width: 10, height: 4, element: node1 },
-      { type: 'node', x: 12, y: 0, width: 10, height: 4, element: node2 },
-      { type: 'node', x: 24, y: -5, width: 10, height: 4, element: node3 },
-      { type: 'node', x: 24, y: 5, width: 10, height: 4, element: node4 },
+      cardContent.appendChild(titleEl);
+      cardContent.appendChild(tagEl);
+      managerCard.appendChild(cardContent);
 
-      // Lines connecting nodes
-      {
-        type: 'line',
-        start: { x: 6, y: 2 },
-        end: { x: 12, y: 2 },
-        showArrow: true,
-        variant: 'solid',
-        color: 'var(--color-primary)',
-        clickable: true,
-      },
-      {
-        type: 'connector',
-        start: { x: 15, y: 0 },
-        showArrow: true,
-        color: 'var(--color-secondary)',
-        path: [
-          { direction: 'up', length: 3 },
-          { direction: 'right', length: 9 },
-        ],
-      },
-      {
-        type: 'connector',
-        start: { x: 15, y: 4 },
-        showArrow: true,
-        color: 'var(--color-secondary)',
-        path: [
-          { direction: 'down', length: 3 },
-          { direction: 'right', length: 9 },
-        ],
-      },
-    ];
+      // Define initial nodes representing Laptop Purchase Process (spaced out, rejected & procurement one level down)
+      const initialNodes = [
+        {
+          id: 'start',
+          position: { x: 300, y: 20 },
+          outputs: ['bottom'],
+          data: { label: '💻 Submit Purchase Request' }
+        },
+        {
+          id: 'manager',
+          position: { x: 300, y: 150 },
+          inputs: ['top'],
+          outputs: ['left', 'right'],
+          data: { element: managerCard }
+        },
+        {
+          id: 'rejected',
+          position: { x: 50, y: 280 },
+          inputs: ['top'],
+          data: { label: '❌ Request Denied' }
+        },
+        {
+          id: 'procurement',
+          position: { x: 550, y: 280 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { label: '📦 IT Procurement' }
+        },
+        {
+          id: 'inventory',
+          position: { x: 550, y: 410 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { label: '🏷️ Asset Setup & Tagging' }
+        },
+        {
+          id: 'delivered',
+          position: { x: 550, y: 540 },
+          inputs: ['top'],
+          outputs: ['right'],
+          data: { label: '🚚 Laptop Delivered' }
+        },
+        {
+          id: 'end',
+          position: { x: 790, y: 540 },
+          inputs: ['left'],
+          data: { label: '✅ Request Completed' }
+        }
+      ];
+
+      // Define initial edges with custom handle configurations
+      const initialEdges = [
+        {
+          id: 'edge-start-manager',
+          source: 'start',
+          target: 'manager',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-manager-rejected',
+          source: 'manager',
+          target: 'rejected',
+          sourceHandle: 'left',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-error, #ba1a1a)',
+          label: 'Reject'
+        },
+        {
+          id: 'edge-manager-procurement',
+          source: 'manager',
+          target: 'procurement',
+          sourceHandle: 'right',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-success, #386a20)',
+          label: 'Approve'
+        },
+        {
+          id: 'edge-procurement-inventory',
+          source: 'procurement',
+          target: 'inventory',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-inventory-delivered',
+          source: 'inventory',
+          target: 'delivered',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-delivered-end',
+          source: 'delivered',
+          target: 'end',
+          sourceHandle: 'right',
+          targetHandle: 'left',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-success, #386a20)'
+        }
+      ];
+
+      flow.nodes = initialNodes;
+      flow.edges = initialEdges;
+
+      // Connect listener for mouse-created links
+      flow.addEventListener('connect', (event) => {
+        const { source, target, sourceHandle, targetHandle } = event.detail;
+        const edgeExists = flow.edges.some(
+          (edge) => edge.source === source &&
+                    edge.target === target &&
+                    edge.sourceHandle === sourceHandle &&
+                    edge.targetHandle === targetHandle
+        );
+
+        if (!edgeExists) {
+          const newEdge = {
+            id: `edge-${source}-${sourceHandle || 'default'}-${target}-${targetHandle || 'default'}`,
+            source,
+            target,
+            sourceHandle,
+            targetHandle,
+            type: 'smoothstep',
+            variant: 'solid',
+            color: 'var(--color-outline)'
+          };
+          flow.edges = [...flow.edges, newEdge];
+        }
+      });
+
+      // Drag listener to keep nodes position synced
+      flow.addEventListener('node-drag', (event) => {
+        const { id, position } = event.detail;
+        const nodeIndex = flow.nodes.findIndex((n) => n.id === id);
+        if (nodeIndex !== -1) {
+          flow.nodes[nodeIndex].position = position;
+        }
+      });
+    })();
   </script>
 </DemoComponentCard>

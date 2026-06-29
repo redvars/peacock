@@ -3476,7 +3476,8 @@
     "label": "Flow",
     "tag": "wc-flow",
     "rawTag": "flow",
-    "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
+    "summary": "An interactive node editor canvas with draggable nodes, custom HTML element rendering, and mouse-based edge connection creation on a dotted grid.",
+    "example": "```html\n<wc-flow id=\"my-flow\"></wc-flow>\n<script>\n  const flow = document.getElementById('my-flow');\n  flow.nodes = [\n    { id: '1', position: { x: 50, y: 50 }, data: { label: 'Node 1' } },\n    { id: '2', position: { x: 250, y: 50 }, data: { label: 'Node 2' } }\n  ];\n  flow.edges = [\n    { id: 'e1-2', source: '1', target: '2' }\n  ];\n</script>\n```",
     "cssprop": "--flow-arrow-color - Stroke color for arrow markers. Defaults to on-surface.",
     "customElement": {
       "kind": "class",
@@ -3505,20 +3506,20 @@
       ],
       "attributes": [
         {
-          "name": "data",
+          "name": "nodes",
           "type": {
-            "text": "FlowShape[]"
+            "text": "FlowNode[]"
           },
           "default": "[]",
-          "fieldName": "data"
+          "fieldName": "nodes"
         },
         {
-          "name": "padding",
+          "name": "edges",
           "type": {
-            "text": "number"
+            "text": "FlowEdge[]"
           },
-          "default": "1",
-          "fieldName": "padding"
+          "default": "[]",
+          "fieldName": "edges"
         },
         {
           "name": "zoom",
@@ -3529,11 +3530,12 @@
           "fieldName": "zoom"
         },
         {
-          "name": "viewbox",
+          "name": "padding",
           "type": {
-            "text": "string | undefined"
+            "text": "number"
           },
-          "fieldName": "viewbox"
+          "default": "50",
+          "fieldName": "padding"
         }
       ],
       "superclass": {

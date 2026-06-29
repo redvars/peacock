@@ -73,5 +73,5 @@ export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';
 export { Calendar, CalendarColumnView, CalendarMonthView, } from './calendar/index.js';
 export type { CalendarViewType, EventType } from './calendar/index.js';
 export { Flow } from './flow/index.js';
-export type { FlowShape } from './flow/index.js';
+export type { FlowNode, FlowEdge, FlowStrokeVariant } from './flow/index.js';
 export { ConditionBuilder, CbPredicate, CbCompoundExpression, CbExpression, CbDivider, } from './condition-builder/index.js';

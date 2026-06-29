@@ -28562,22 +28562,21 @@
           "members": [
             {
               "kind": "field",
-              "name": "data",
+              "name": "nodes",
               "type": {
-                "text": "FlowShape[]"
+                "text": "FlowNode[]"
               },
               "default": "[]",
-              "attribute": "data"
+              "attribute": "nodes"
             },
             {
               "kind": "field",
-              "name": "padding",
+              "name": "edges",
               "type": {
-                "text": "number"
+                "text": "FlowEdge[]"
               },
-              "default": "1",
-              "attribute": "padding",
-              "reflects": true
+              "default": "[]",
+              "attribute": "edges"
             },
             {
               "kind": "field",
@@ -28591,17 +28590,197 @@
             },
             {
               "kind": "field",
-              "name": "viewbox",
+              "name": "padding",
               "type": {
-                "text": "string | undefined"
+                "text": "number"
               },
-              "attribute": "viewbox"
+              "default": "50",
+              "attribute": "padding",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "nodeDimensions",
+              "privacy": "private",
+              "default": "new Map<string, { width: number; height: number }>()"
+            },
+            {
+              "kind": "field",
+              "name": "draggingNodeId",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartMouseX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartMouseY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartNodeX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "dragStartNodeY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "isDrawingConnection",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "draggingSourceId",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "draggingSourceHandle",
+              "type": {
+                "text": "\"top\" | \"left\" | \"bottom\" | \"right\" | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "connectionStartX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "connectionStartY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "currentMouseX",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "currentMouseY",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
             },
             {
               "kind": "method",
-              "name": "getNextPoint",
+              "name": "onNodeMouseDown",
               "privacy": "private",
-              "static": true,
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "node",
+                  "type": {
+                    "text": "FlowNode"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onNodeMouseMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onNodeMouseUp",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getNodeInputs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "(\"top\" | \"left\" | \"bottom\" | \"right\")[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "node",
+                  "type": {
+                    "text": "FlowNode"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getNodeOutputs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "(\"top\" | \"left\" | \"bottom\" | \"right\")[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "node",
+                  "type": {
+                    "text": "FlowNode"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getHandleCoordinates",
+              "privacy": "private",
               "return": {
                 "type": {
                   "text": "FlowPoint"
@@ -28609,19 +28788,192 @@
               },
               "parameters": [
                 {
-                  "name": "point",
+                  "name": "node",
                   "type": {
-                    "text": "FlowPoint"
+                    "text": "FlowNode"
                   }
                 },
                 {
-                  "name": "direction",
+                  "name": "position",
                   "type": {
-                    "text": "FlowDirection"
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
                   }
                 },
                 {
-                  "name": "length",
+                  "name": "dim",
+                  "type": {
+                    "text": "{ width: number; height: number }"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onHandleMouseDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                },
+                {
+                  "name": "node",
+                  "type": {
+                    "text": "FlowNode"
+                  }
+                },
+                {
+                  "name": "position",
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onConnectionMouseMove",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onConnectionMouseUp",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getRoundedPath",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "points",
+                  "type": {
+                    "text": "FlowPoint[]"
+                  }
+                },
+                {
+                  "name": "radius",
+                  "default": "12"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getSmoothStepPath",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "x1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "x2",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y2",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "sourceHandle",
+                  "default": "\"right\"",
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                },
+                {
+                  "name": "targetHandle",
+                  "default": "\"left\"",
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getBezierPath",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "x1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "x2",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y2",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "sourceHandle",
+                  "default": "\"right\"",
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                },
+                {
+                  "name": "targetHandle",
+                  "default": "\"left\"",
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getStraightPath",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "x1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y1",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "x2",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y2",
                   "type": {
                     "text": "number"
                   }
@@ -28630,92 +28982,71 @@
             },
             {
               "kind": "method",
-              "name": "updateExtents",
+              "name": "drawPath",
               "privacy": "private",
-              "static": true,
               "parameters": [
                 {
-                  "name": "extents",
+                  "name": "sourceId",
                   "type": {
-                    "text": "FlowExtents"
+                    "text": "string"
                   }
                 },
                 {
-                  "name": "x",
+                  "name": "targetId",
                   "type": {
-                    "text": "number"
+                    "text": "string"
                   }
                 },
                 {
-                  "name": "y",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "getStrokeVariantClasses",
-              "privacy": "private",
-              "static": true,
-              "parameters": [
-                {
-                  "name": "variant",
+                  "name": "type",
                   "optional": true,
                   "type": {
-                    "text": "FlowStrokeVariant"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "computeShapes",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "initialBounds",
-                  "type": {
-                    "text": "FlowBounds"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderBackgroundSvg",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "computedViewBox",
-                  "type": {
-                    "text": "FlowViewBox"
+                    "text": "\"smoothstep\" | \"bezier\" | \"straight\""
                   }
                 },
                 {
-                  "name": "svgViewBox",
+                  "name": "sourceHandle",
+                  "optional": true,
                   "type": {
-                    "text": "string"
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
+                  }
+                },
+                {
+                  "name": "targetHandle",
+                  "optional": true,
+                  "type": {
+                    "text": "\"top\" | \"left\" | \"bottom\" | \"right\""
                   }
                 }
               ]
             },
             {
               "kind": "method",
-              "name": "renderShapesSvg",
+              "name": "getBounds",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "isCustomNode",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "shapes",
+                  "name": "node",
                   "type": {
-                    "text": "unknown[]"
+                    "text": "FlowNode"
                   }
-                },
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderNodeContent",
+              "privacy": "private",
+              "parameters": [
                 {
-                  "name": "svgViewBox",
+                  "name": "node",
                   "type": {
-                    "text": "string"
+                    "text": "FlowNode"
                   }
                 }
               ]
@@ -28723,20 +29054,20 @@
           ],
           "attributes": [
             {
-              "name": "data",
+              "name": "nodes",
               "type": {
-                "text": "FlowShape[]"
+                "text": "FlowNode[]"
               },
               "default": "[]",
-              "fieldName": "data"
+              "fieldName": "nodes"
             },
             {
-              "name": "padding",
+              "name": "edges",
               "type": {
-                "text": "number"
+                "text": "FlowEdge[]"
               },
-              "default": "1",
-              "fieldName": "padding"
+              "default": "[]",
+              "fieldName": "edges"
             },
             {
               "name": "zoom",
@@ -28747,11 +29078,12 @@
               "fieldName": "zoom"
             },
             {
-              "name": "viewbox",
+              "name": "padding",
               "type": {
-                "text": "string | undefined"
+                "text": "number"
               },
-              "fieldName": "viewbox"
+              "default": "50",
+              "fieldName": "padding"
             }
           ],
           "superclass": {
@@ -28760,7 +29092,7 @@
           },
           "tagName": "wc-flow",
           "customElement": true,
-          "summary": "A SVG canvas for drawing shapes, lines, and connectors on a dotted grid.",
+          "summary": "An interactive node editor canvas with draggable nodes, custom HTML element rendering, and mouse-based edge connection creation on a dotted grid.",
           "rawTag": {
             "name": "flow",
             "description": ""
@@ -28793,9 +29125,25 @@
         },
         {
           "kind": "js",
-          "name": "FlowShape",
+          "name": "FlowNode",
           "declaration": {
-            "name": "FlowShape",
+            "name": "FlowNode",
+            "module": "./flow.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FlowEdge",
+          "declaration": {
+            "name": "FlowEdge",
+            "module": "./flow.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FlowStrokeVariant",
+          "declaration": {
+            "name": "FlowStrokeVariant",
             "module": "./flow.js"
           }
         }
@@ -30001,9 +30349,25 @@
         },
         {
           "kind": "js",
-          "name": "FlowShape",
+          "name": "FlowNode",
           "declaration": {
-            "name": "FlowShape",
+            "name": "FlowNode",
+            "module": "./flow/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FlowEdge",
+          "declaration": {
+            "name": "FlowEdge",
+            "module": "./flow/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "FlowStrokeVariant",
+          "declaration": {
+            "name": "FlowStrokeVariant",
             "module": "./flow/index.js"
           }
         },

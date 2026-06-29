@@ -1,0 +1,209 @@
+---
+export const title = 'Organization Chart';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>An organization hierarchy flow layout oriented vertically using top and bottom connection handle positions. CEO at the top branching downwards to VP levels, management, and individual contributors.</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class="flow-demo-wrapper" style="width: 100%; height: 550px; display: flex; flex-direction: column;">
+    <wc-flow id="org-flow" style="flex: 1; display: block; min-height: 450px;"></wc-flow>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const flow = document.querySelector('#org-flow');
+      flow.padding = 40;
+      flow.zoom = 0.95;
+
+      // Helper to create member cards
+      function createMemberCard(name, role, department) {
+        const card = document.createElement('wc-card');
+        card.setAttribute('variant', 'outlined');
+        card.style.cssText = 'display: block; width: 160px;';
+
+        const content = document.createElement('wc-card-content');
+        content.style.cssText = 'padding: 10px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;';
+
+        const nameEl = document.createElement('div');
+        nameEl.style.cssText = 'font-weight: 600; font-size: 12px; color: var(--color-on-surface);';
+        nameEl.textContent = name;
+
+        const roleEl = document.createElement('div');
+        roleEl.style.cssText = 'font-size: 10px; color: var(--color-primary); font-weight: 500;';
+        roleEl.textContent = role;
+
+        const deptEl = document.createElement('div');
+        deptEl.style.cssText = 'font-size: 8px; color: var(--color-outline); text-transform: uppercase; margin-top: 4px;';
+        deptEl.textContent = department;
+
+        content.appendChild(nameEl);
+        content.appendChild(roleEl);
+        content.appendChild(deptEl);
+        card.appendChild(content);
+
+        return card;
+      }
+
+      const ceoNode = createMemberCard('Sarah Jenkins', 'CEO', 'Executive');
+      const vpEngNode = createMemberCard('Michael Chen', 'VP Engineering', 'Engineering');
+      const vpProdNode = createMemberCard('Elena Rostova', 'VP Product', 'Product');
+      const mgrEngNode = createMemberCard('David Miller', 'Engineering Manager', 'Engineering');
+      const mgrProdNode = createMemberCard('Sophia Martinez', 'Product Lead', 'Product');
+      const engNode = createMemberCard('Alex K.', 'Staff Engineer', 'Engineering');
+      const desNode = createMemberCard('Zara L.', 'Lead Designer', 'Product');
+
+      // Define initial nodes representing Org Chart
+      const initialNodes = [
+        {
+          id: 'ceo',
+          position: { x: 300, y: 10 },
+          outputs: ['bottom'],
+          data: { element: ceoNode }
+        },
+        {
+          id: 'vp_eng',
+          position: { x: 120, y: 130 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { element: vpEngNode }
+        },
+        {
+          id: 'vp_prod',
+          position: { x: 480, y: 130 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { element: vpProdNode }
+        },
+        {
+          id: 'mgr_eng',
+          position: { x: 120, y: 250 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { element: mgrEngNode }
+        },
+        {
+          id: 'mgr_prod',
+          position: { x: 480, y: 250 },
+          inputs: ['top'],
+          outputs: ['bottom'],
+          data: { element: mgrProdNode }
+        },
+        {
+          id: 'engineer',
+          position: { x: 120, y: 370 },
+          inputs: ['top'],
+          data: { element: engNode }
+        },
+        {
+          id: 'designer',
+          position: { x: 480, y: 370 },
+          inputs: ['top'],
+          data: { element: desNode }
+        }
+      ];
+
+      // Define initial edges connecting top-to-bottom hierarchy
+      const initialEdges = [
+        {
+          id: 'edge-ceo-vpeng',
+          source: 'ceo',
+          target: 'vp_eng',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-ceo-vpprod',
+          source: 'ceo',
+          target: 'vp_prod',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'smoothstep',
+          variant: 'solid',
+          color: 'var(--color-primary)'
+        },
+        {
+          id: 'edge-vpeng-mgreng',
+          source: 'vp_eng',
+          target: 'mgr_eng',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'straight',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        },
+        {
+          id: 'edge-vpprod-mgrprod',
+          source: 'vp_prod',
+          target: 'mgr_prod',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'straight',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        },
+        {
+          id: 'edge-mgreng-eng',
+          source: 'mgr_eng',
+          target: 'engineer',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'straight',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        },
+        {
+          id: 'edge-mgrprod-des',
+          source: 'mgr_prod',
+          target: 'designer',
+          sourceHandle: 'bottom',
+          targetHandle: 'top',
+          type: 'straight',
+          variant: 'solid',
+          color: 'var(--color-outline)'
+        }
+      ];
+
+      flow.nodes = initialNodes;
+      flow.edges = initialEdges;
+
+      // Connect listener for mouse-created links
+      flow.addEventListener('connect', (event) => {
+        const { source, target, sourceHandle, targetHandle } = event.detail;
+        const edgeExists = flow.edges.some(
+          (edge) => edge.source === source &&
+                    edge.target === target &&
+                    edge.sourceHandle === sourceHandle &&
+                    edge.targetHandle === targetHandle
+        );
+
+        if (!edgeExists) {
+          const newEdge = {
+            id: `edge-${source}-${sourceHandle || 'default'}-${target}-${targetHandle || 'default'}`,
+            source,
+            target,
+            sourceHandle,
+            targetHandle,
+            type: 'smoothstep',
+            variant: 'solid',
+            color: 'var(--color-outline)'
+          };
+          flow.edges = [...flow.edges, newEdge];
+        }
+      });
+
+      // Drag listener to keep nodes position synced
+      flow.addEventListener('node-drag', (event) => {
+        const { id, position } = event.detail;
+        const nodeIndex = flow.nodes.findIndex((n) => n.id === id);
+        if (nodeIndex !== -1) {
+          flow.nodes[nodeIndex].position = position;
+        }
+      });
+    })();
+  </script>
+</DemoComponentCard>
