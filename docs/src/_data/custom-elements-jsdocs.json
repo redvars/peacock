@@ -398,6 +398,87 @@
     }
   },
   {
+    "label": "Brand Loader",
+    "tag": "wc-brand-loader",
+    "rawTag": "brand-loader",
+    "summary": "A loading indicator built from the Redvars r mark.",
+    "cssprop": "--brand-loader-duration - The length of one loop.",
+    "tags": "display",
+    "example": "```html\n<wc-brand-loader></wc-brand-loader>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "The edge of the loader.",
+          "name": "--brand-loader-size"
+        },
+        {
+          "description": "The color of the tile.",
+          "name": "--brand-loader-tile-color"
+        },
+        {
+          "description": "The color of the r.",
+          "name": "--brand-loader-mark-color"
+        },
+        {
+          "description": "The length of one loop.",
+          "name": "--brand-loader-duration"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "variant",
+          "type": {
+            "text": "BrandLoaderVariant"
+          },
+          "default": "'build'",
+          "description": "How the mark moves while loading. Ignored once `value` is set.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'build' | 'trace' | 'fill' | 'pulse' | 'orbit'"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Progress from 0 to 100. When set, the r fills to this level instead of looping.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Loading'",
+          "description": "The accessible name of the loader.",
+          "fieldName": "label"
+        },
+        {
+          "name": "full-motion",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Plays the full animation even when the system asks for reduced motion.",
+          "fieldName": "fullMotion"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-brand-loader",
+      "customElement": true,
+      "rawTag": {
+        "name": "brand-loader",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Breadcrumb",
     "tag": "wc-breadcrumb",
     "rawTag": "breadcrumb",

@@ -29,6 +29,8 @@ export { Textarea } from './textarea/index.js';
 export { Switch } from './switch/index.js';
 export { Checkbox } from './checkbox/index.js';
 export { Spinner } from './spinner/index.js';
+export { BrandLoader } from './brand-loader/index.js';
+export type { BrandLoaderVariant } from './brand-loader/index.js';
 export { Container } from './container/index.js';
 export { NumberCounter } from './number-counter/index.js';
 export { EmptyState } from './empty-state/index.js';

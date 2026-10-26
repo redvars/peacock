@@ -34,6 +34,7 @@ import { Breadcrumb } from './breadcrumb.js';
 import { BreadcrumbItem } from './breadcrumb-item.js';
 import { Skeleton } from './skeleton.js';
 import { Spinner } from './spinner.js';
+import { BrandLoader } from './brand-loader.js';
 import { EmptyState } from './empty-state.js';
 import { Container } from './container.js';
 import { Image } from './image.js';
@@ -389,6 +390,9 @@ const loaderConfig = {
         },
         'wc-spinner': {
             CustomElementClass: Spinner,
+        },
+        'wc-brand-loader': {
+            CustomElementClass: BrandLoader,
         },
         'wc-empty-state': {
             CustomElementClass: EmptyState,

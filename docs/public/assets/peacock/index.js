@@ -23,6 +23,7 @@ export { Skeleton } from './skeleton.js';
 export { Field } from './field.js';
 export { Checkbox } from './checkbox.js';
 export { Spinner } from './spinner.js';
+export { BrandLoader } from './brand-loader.js';
 export { Container } from './container.js';
 export { NumberCounter } from './number-counter.js';
 export { EmptyState } from './empty-state.js';

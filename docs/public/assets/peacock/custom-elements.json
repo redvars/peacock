@@ -12636,6 +12636,188 @@
     },
     {
       "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/brand-loader/brand-loader.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "BrandLoader",
+          "cssProperties": [
+            {
+              "description": "The edge of the loader.",
+              "name": "--brand-loader-size"
+            },
+            {
+              "description": "The color of the tile.",
+              "name": "--brand-loader-tile-color"
+            },
+            {
+              "description": "The color of the r.",
+              "name": "--brand-loader-mark-color"
+            },
+            {
+              "description": "The length of one loop.",
+              "name": "--brand-loader-duration"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "BrandLoaderVariant"
+              },
+              "default": "'build'",
+              "description": "How the mark moves while loading. Ignored once `value` is set.",
+              "attribute": "variant",
+              "reflects": true,
+              "expandedType": {
+                "text": "'build' | 'trace' | 'fill' | 'pulse' | 'orbit'"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Progress from 0 to 100. When set, the r fills to this level instead of looping.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Loading'",
+              "description": "The accessible name of the loader.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "fullMotion",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Plays the full animation even when the system asks for reduced motion.",
+              "attribute": "full-motion",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "determinate",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "progress",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "renderMark",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "BrandLoaderVariant"
+              },
+              "default": "'build'",
+              "description": "How the mark moves while loading. Ignored once `value` is set.",
+              "fieldName": "variant",
+              "expandedType": {
+                "text": "'build' | 'trace' | 'fill' | 'pulse' | 'orbit'"
+              }
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Progress from 0 to 100. When set, the r fills to this level instead of looping.",
+              "fieldName": "value"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Loading'",
+              "description": "The accessible name of the loader.",
+              "fieldName": "label"
+            },
+            {
+              "name": "full-motion",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Plays the full animation even when the system asks for reduced motion.",
+              "fieldName": "fullMotion"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "wc-brand-loader",
+          "customElement": true,
+          "summary": "A loading indicator built from the Redvars r mark.",
+          "rawTag": {
+            "name": "brand-loader",
+            "description": ""
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BrandLoader",
+          "declaration": {
+            "name": "BrandLoader",
+            "module": "E:/git/redvars/peacock/components/src/brand-loader/brand-loader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/brand-loader/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BrandLoader",
+          "declaration": {
+            "name": "BrandLoader",
+            "module": "./brand-loader.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BrandLoaderVariant",
+          "declaration": {
+            "name": "BrandLoaderVariant",
+            "module": "./brand-loader.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "E:/git/redvars/peacock/components/src/container/container.ts",
       "declarations": [
         {
@@ -29865,6 +30047,22 @@
           "declaration": {
             "name": "Spinner",
             "module": "./spinner/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BrandLoader",
+          "declaration": {
+            "name": "BrandLoader",
+            "module": "./brand-loader/index.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BrandLoaderVariant",
+          "declaration": {
+            "name": "BrandLoaderVariant",
+            "module": "./brand-loader/index.js"
           }
         },
         {

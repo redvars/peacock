@@ -1,0 +1,12 @@
+---
+export const title = 'Progress';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>Set <code>value</code> from 0 to 100 when you know how far along the work is. The r fills to that level and the variant is ignored.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-brand-loader value='25' label='Uploading'></wc-brand-loader>
+  <wc-brand-loader value='60' label='Uploading'></wc-brand-loader>
+  <wc-brand-loader value='90' label='Uploading'></wc-brand-loader>
+</DemoComponentCard>

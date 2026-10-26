@@ -1,0 +1,10 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>Shows the Redvars r while something loads. Give it a <code>label</code> when "Loading" doesn't say enough.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-brand-loader label='Loading workspace'></wc-brand-loader>
+</DemoComponentCard>
