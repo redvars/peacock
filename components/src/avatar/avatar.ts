@@ -18,7 +18,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  *
  * @example
  * ```html
- * <wc-avatar name="Shivaji Varma" src="https://peacock.redvars.com/assets/img/avatar.xs.webp" style='--avatar-size: 4rem'></wc-avatar>
+ * <wc-avatar name="Ada Lovelace" src="https://peacock.redvars.com/assets/img/avatar.xs.webp" style='--avatar-size: 4rem'></wc-avatar>
  * ```
  *
  * @tags display

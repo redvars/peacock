@@ -1,5 +1,4 @@
 ---
-import { SPONSOR_URL } from '../siteconfig';
 import { convertToSectionId } from '../_data/utils.ts';
 interface Props {
   sections: string[];
@@ -35,11 +34,6 @@ const { sections, title } = Astro.props;
         })
       }
     </ul>
-
-    <wc-button href={SPONSOR_URL} target="_blank" variant="outlined">
-      <wc-icon slot="icon" name="favorite"></wc-icon>
-      Sponsor
-    </wc-button>
 
     <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script is:inline>

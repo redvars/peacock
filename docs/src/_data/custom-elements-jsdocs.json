@@ -225,7 +225,7 @@
     "rawTag": "avatar",
     "summary": "The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.",
     "cssprop": "--avatar-text-color - Controls the color of the text inside the avatar.",
-    "example": "```html\n<wc-avatar name=\"Shivaji Varma\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></wc-avatar>\n```",
+    "example": "```html\n<wc-avatar name=\"Ada Lovelace\" src=\"https://peacock.redvars.com/assets/img/avatar.xs.webp\" style='--avatar-size: 4rem'></wc-avatar>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -4805,7 +4805,7 @@
     "tag": "wc-list",
     "rawTag": "list",
     "summary": "A list container for one or more list items.",
-    "example": "```html\n<wc-list>\n  <wc-list-item>\n    <wc-icon slot=\"leading\" name=\"inbox\"></wc-icon>\n    Inbox\n    <span slot=\"trailing\">24</span>\n  </wc-list-item>\n   <wc-list-item>\n      <wc-avatar slot=\"leading\" name=\"Shivaji Varma\"></wc-avatar>\n       Shivaji Varma\n      <span slot=\"supporting-text\">Software Engineer</span>\n      <span slot=\"trailing-supporting-text\">7</span>\n      <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n    </wc-list-item>\n</wc-list>\n```",
+    "example": "```html\n<wc-list>\n  <wc-list-item>\n    <wc-icon slot=\"leading\" name=\"inbox\"></wc-icon>\n    Inbox\n    <span slot=\"trailing\">24</span>\n  </wc-list-item>\n   <wc-list-item>\n      <wc-avatar slot=\"leading\" name=\"Ada Lovelace\"></wc-avatar>\n       Ada Lovelace\n      <span slot=\"supporting-text\">Software Engineer</span>\n      <span slot=\"trailing-supporting-text\">7</span>\n      <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n    </wc-list-item>\n</wc-list>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",

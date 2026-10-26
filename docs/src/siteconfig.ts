@@ -19,15 +19,14 @@ export const GITHUB_PROJECT = 'components';
 // ── Navigation links ──────────────────────────────────────────────────────
 export const PRIVACY_URL = '/privacy';
 export const LICENSE_URL = '/license';
-export const SPONSOR_URL = 'https://github.com/sponsors/shivajivarma';
 
 // ── Analytics ─────────────────────────────────────────────────────────────
 export const GOOGLE_ANALYTICS_ID = 'G-KNH50V85RG';
 
 // ── Author ────────────────────────────────────────────────────────────────
 export const AUTHOR = {
-  name: 'Shivaji Varma',
-  email: 'contact@shivajivarma.com',
-  url: 'https://shivajivarma.com',
+  name: 'Redvars',
+  email: 'hello@redvars.com',
+  url: 'https://redvars.com',
   twitter: 'red_vars',
 };

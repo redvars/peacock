@@ -19,7 +19,7 @@
     "url": "git+https://github.com/redvars/design-tokens.git"
   },
   "private": false,
-  "author": "Shivaji Varma <contact@shivajivarma.com>",
+  "author": "Redvars <hello@redvars.com>",
   "license": "Apache-2.0",
   "devDependencies": {
     "@material/material-color-utilities": "^0.3.0",

@@ -347,8 +347,8 @@ var List_1;
  *     <span slot="trailing">24</span>
  *   </wc-list-item>
  *    <wc-list-item>
- *       <wc-avatar slot="leading" name="Shivaji Varma"></wc-avatar>
- *        Shivaji Varma
+ *       <wc-avatar slot="leading" name="Ada Lovelace"></wc-avatar>
+ *        Ada Lovelace
  *       <span slot="supporting-text">Software Engineer</span>
  *       <span slot="trailing-supporting-text">7</span>
  *       <wc-icon slot="trailing" name="chevron_right"></wc-icon>

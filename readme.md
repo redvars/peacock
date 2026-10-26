@@ -185,4 +185,4 @@ Peacock is open-source software licensed under the [Apache-2.0 License](LICENSE)
 
 ---
 
-Made with 💖 by [shivajivarma](https://shivajivarma.com).
+Made with 💖 by [Redvars](https://redvars.com).
