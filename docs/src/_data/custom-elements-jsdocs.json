@@ -1289,65 +1289,26 @@
     }
   },
   {
-    "label": "CB Compound Expression",
-    "tag": "wc-cb-compound-expression",
-    "rawTag": "cb-compound-expression",
-    "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
-    "tags": "condition-builder",
-    "example": "```html\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n  <wc-cb-expression>\n    <wc-input placeholder=\"Enter value\"></wc-input>\n  </wc-cb-expression>\n</wc-cb-compound-expression>\n```",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "attributes": [
-        {
-          "name": "condition-operator",
-          "type": {
-            "text": "'and' | 'or' | undefined"
-          },
-          "description": "The logical operator joining conditions in this group ('and' or 'or').",
-          "fieldName": "conditionOperator"
-        },
-        {
-          "name": "field-name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The field name for the compound expression.",
-          "fieldName": "fieldName"
-        },
-        {
-          "name": "field-label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The display label for the field.",
-          "fieldName": "fieldLabel"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-cb-compound-expression",
-      "customElement": true,
-      "rawTag": {
-        "name": "cb-compound-expression",
-        "description": ""
-      }
-    }
-  },
-  {
     "label": "CB Divider",
     "tag": "wc-cb-divider",
     "rawTag": "cb-divider",
-    "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
+    "summary": "A divider line used within a condition builder to visually connect rules with an operator.",
+    "cssprop": "--cb-divider-arm-length - Length of the connecting arms drawn by `connect-start` and `connect-end`.",
     "tags": "condition-builder",
     "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the divider line.",
+          "name": "--cb-divider-line-color"
+        },
+        {
+          "description": "Length of the connecting arms drawn by `connect-start` and `connect-end`.",
+          "name": "--cb-divider-arm-length"
+        }
+      ],
       "attributes": [
         {
           "name": "vertical",
@@ -1390,84 +1351,121 @@
     }
   },
   {
-    "label": "CB Expression",
-    "tag": "wc-cb-expression",
-    "rawTag": "cb-expression",
-    "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
+    "label": "CB Group",
+    "tag": "wc-cb-group",
+    "rawTag": "cb-group",
+    "summary": "A bordered, nested group of rules in a condition builder, joined by its own And/Or operator.",
+    "overview": "<p>A bracket on the left joins the group's rules, with a pill to switch between And and Or. Rules can be dragged into, out of and within the group.</p>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-expression>\n  <wc-input placeholder=\"Enter value\"></wc-input>\n</wc-cb-expression>\n```",
+    "fires": "add-rule - Dispatched when the default \"Add condition\" link is clicked.",
+    "slot": "actions - Replaces the default \"Add condition\" link.",
+    "example": "```html\n<wc-cb-group operator=\"or\">\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n</wc-cb-group>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "slots": [
         {
-          "name": "operators",
-          "type": {
-            "text": "{ label: string; value: string; icon?: string }[]"
-          },
-          "default": "[]",
-          "description": "The list of operator options to display in the operator select.\nEach item should have at least `label` and `value` properties.",
-          "fieldName": "operators"
+          "description": "Rules (`wc-cb-rule`) and nested groups.",
+          "name": ""
         },
         {
-          "name": "operator-value",
+          "description": "Replaces the default \"Add condition\" link.",
+          "name": "actions"
+        }
+      ],
+      "events": [
+        {
+          "name": "add-rule",
           "type": {
-            "text": "string"
+            "text": "CustomEvent<{group: HTMLElement}>"
           },
-          "default": "''",
-          "description": "The currently selected operator value.",
-          "fieldName": "operatorValue"
+          "description": "Dispatched when the default \"Add condition\" link is clicked."
+        },
+        {
+          "name": "operator-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the user picks a different operator.",
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, from: HTMLElement | null, to: HTMLElement, index: number}>"
+          },
+          "description": "Dispatched before a rule is moved into this group. Cancelable: unless prevented, the group moves the rule.",
+          "name": "rule-move"
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CbGroupBase",
+        "module": "/E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.js"
       },
-      "tagName": "wc-cb-expression",
+      "tagName": "wc-cb-group",
       "customElement": true,
       "rawTag": {
-        "name": "cb-expression",
+        "name": "cb-group",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "operator",
+          "type": {
+            "text": "CbOperator"
+          },
+          "default": "'and'",
+          "description": "The logical operator joining the rules and groups in this group.",
+          "fieldName": "operator",
+          "expandedType": {
+            "text": "'and' | 'or'"
+          },
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        }
+      ]
     }
   },
   {
-    "label": "CB Predicate",
-    "tag": "wc-cb-predicate",
-    "rawTag": "cb-predicate",
-    "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
+    "label": "CB Rule",
+    "tag": "wc-cb-rule",
+    "rawTag": "cb-rule",
+    "summary": "One condition row in a condition builder: a drag handle, the slotted field, operator and value controls, and a remove button.",
+    "overview": "<p>Drag the handle to reorder the rule, or to move it into another group. With the handle focused, ArrowUp and ArrowDown move the rule within its group.</p>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-predicate condition-operator=\"and\" vertical>\n  <wc-cb-compound-expression field-label=\"Age\">\n    <wc-cb-expression></wc-cb-expression>\n  </wc-cb-compound-expression>\n</wc-cb-predicate>\n```",
+    "cssprop": "--cb-rule-field-height - Height of the slotted fields (wc-select, wc-input…). Defaults to `2.5rem`.",
+    "fires": "rule-remove - Dispatched when the remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+    "example": "```html\n<wc-cb-rule>\n  <wc-select placeholder=\"Field\"></wc-select>\n  <wc-select placeholder=\"Operator\"></wc-select>\n  <wc-input placeholder=\"Value\"></wc-input>\n</wc-cb-rule>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "cssProperties": [
         {
-          "name": "condition-operator",
-          "type": {
-            "text": "'and' | 'or' | undefined"
-          },
-          "description": "The logical operator shown between predicates ('and' or 'or').",
-          "fieldName": "conditionOperator"
-        },
+          "description": "Height of the slotted fields (wc-select, wc-input…). Defaults to `2.5rem`.",
+          "name": "--cb-rule-field-height"
+        }
+      ],
+      "events": [
         {
-          "name": "vertical",
           "type": {
-            "text": "boolean"
+            "text": "CustomEvent<{rule: CbRule, group: HTMLElement | null}>"
           },
-          "default": "false",
-          "description": "Whether to render the predicate in vertical layout.",
-          "fieldName": "vertical"
+          "description": "Dispatched when the remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+          "name": "rule-remove"
         }
       ],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "wc-cb-predicate",
+      "tagName": "wc-cb-rule",
       "customElement": true,
       "rawTag": {
-        "name": "cb-predicate",
+        "name": "cb-rule",
         "description": ""
       }
     }
@@ -2744,22 +2742,104 @@
     "label": "Condition Builder",
     "tag": "wc-condition-builder",
     "rawTag": "condition-builder",
-    "summary": "A condition builder component that allows users to construct complex filter conditions using a visual rule-based interface with predicates, compound expressions, and logical operators.",
+    "summary": "A query builder for composing filter conditions from rules and nested groups joined by And/Or.",
+    "overview": "<p>The condition builder is the root group of a query. It holds rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>), each joined by a bracket with an And/Or pill.</p>\n<ul>\n  <li>Click the pill to switch a group between And and Or.</li>\n  <li>Drag a rule by its handle to reorder it or move it between groups.</li>\n  <li>Removing, moving and switching are built in; adding rules and groups is up to you, since only you know what a new rule contains. Listen for <code>add-rule</code> and <code>add-group</code>.</li>\n</ul>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-condition-builder>\n  <wc-cb-predicate condition-operator=\"or\">\n    <wc-cb-predicate vertical condition-operator=\"and\">\n      <wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n        <wc-cb-expression>\n          <wc-input inline placeholder=\"Enter value\"></wc-input>\n        </wc-cb-expression>\n      </wc-cb-compound-expression>\n    </wc-cb-predicate>\n  </wc-cb-predicate>\n</wc-condition-builder>\n```",
+    "fires": "add-group - Dispatched when \"Add inner group\" is clicked.",
+    "slot": "actions-end - Actions aligned to the end of the footer, such as a \"Run query\" button.",
+    "example": "```html\n<wc-condition-builder operator=\"and\">\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n  <wc-cb-group operator=\"or\">\n    <wc-cb-rule>\n      <wc-input placeholder=\"Value\"></wc-input>\n    </wc-cb-rule>\n    <wc-cb-rule>\n      <wc-input placeholder=\"Value\"></wc-input>\n    </wc-cb-rule>\n  </wc-cb-group>\n  <wc-button slot=\"actions-end\">Run query</wc-button>\n</wc-condition-builder>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
+      "slots": [
+        {
+          "description": "Rules (`wc-cb-rule`) and groups (`wc-cb-group`).",
+          "name": ""
+        },
+        {
+          "description": "Replaces the default \"Add rule\" and \"Add inner group\" buttons.",
+          "name": "actions"
+        },
+        {
+          "description": "Actions aligned to the end of the footer, such as a \"Run query\" button.",
+          "name": "actions-end"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "operator-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the user picks a different operator, on this or a nested group.",
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, from: HTMLElement | null, to: HTMLElement, index: number}>"
+          },
+          "description": "Dispatched before a rule is moved. Cancelable: unless prevented, the target group moves the rule.",
+          "name": "rule-move"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, group: HTMLElement | null}>"
+          },
+          "description": "Dispatched when a rule's remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+          "name": "rule-remove"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{group: HTMLElement}>"
+          },
+          "description": "Dispatched when \"Add rule\" (or a nested group's \"Add condition\") is clicked.",
+          "name": "add-rule"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{group: HTMLElement}>"
+          },
+          "description": "Dispatched when \"Add inner group\" is clicked.",
+          "name": "add-group"
+        }
+      ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CbGroupBase",
+        "module": "/E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.js"
       },
       "tagName": "wc-condition-builder",
       "customElement": true,
       "rawTag": {
         "name": "condition-builder",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "operator",
+          "type": {
+            "text": "CbOperator"
+          },
+          "default": "'and'",
+          "description": "The logical operator joining the rules and groups in this group.",
+          "fieldName": "operator",
+          "expandedType": {
+            "text": "'and' | 'or'"
+          },
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        }
+      ]
     }
   },
   {
@@ -3516,7 +3596,7 @@
     "rawTag": "field",
     "summary": "Wrapper for form fields with label and help text.",
     "overview": "<p>Field provides consistent styling and behavior for form inputs.</p>",
-    "example": "```html\r\n<wc-field label=\"Name\" required>\r\n  some text\r\n</wc-field>\r\n```",
+    "example": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -7434,9 +7514,9 @@
     "tag": "wc-select",
     "rawTag": "select",
     "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
-    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\r\n\r\n- Single and multi-select modes\r\n- Client-side typeahead with `search=\"contains\"`\r\n- Server-side typeahead with `search=\"managed\"`\r\n- Multi-select chips display\r\n- Form-associated: submits the value under `name` (one entry per value with `multiple`)",
+    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\n\n- Single and multi-select modes\n- Client-side typeahead with `search=\"contains\"`\n- Server-side typeahead with `search=\"managed\"`\n- Multi-select chips display\n- Form-associated: submits the value under `name` (one entry per value with `multiple`)",
     "fires": "select-search - Dispatched as the user types when `search=\"managed\"`.",
-    "example": "```html\r\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
+    "example": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -7464,7 +7544,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.\r\nSetting this property creates matching `<wc-option>` children automatically.",
+          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -7491,7 +7571,7 @@
             "text": "'' | 'contains' | 'managed'"
           },
           "default": "''",
-          "description": "Enable typeahead search.\r\n- `'contains'`: filters options client-side.\r\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
           "fieldName": "search"
         },
         {
@@ -7632,7 +7712,7 @@
     "tag": "wc-option",
     "rawTag": "option",
     "summary": "A declarative option element for use inside wc-select.",
-    "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
+    "example": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7679,7 +7759,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (used for multi-select).\r\nSet by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -7688,7 +7768,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden and excluded from keyboard navigation\r\nbecause it does not match the current typeahead search query.\r\nSet by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],
@@ -9394,7 +9474,7 @@
     "tag": "wc-timeline",
     "rawTag": "timeline",
     "summary": "A vertical timeline layout for a series of timeline items.",
-    "example": "```html\r\n<wc-timeline>\r\n  <wc-timeline-item description=\"Task completed\">\r\n    <span>Task title</span>\r\n    <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\r\n  </wc-timeline-item>\r\n</wc-timeline>\r\n```",
+    "example": "```html\n<wc-timeline>\n  <wc-timeline-item description=\"Task completed\">\n    <span>Task title</span>\n    <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\n  </wc-timeline-item>\n</wc-timeline>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -9416,7 +9496,7 @@
     "tag": "wc-timeline-item",
     "rawTag": "timeline-item",
     "summary": "An item for use inside a timeline, with a dot/marker and description.",
-    "example": "```html\r\n<wc-timeline-item description=\"Step completed\">\r\n  <span>Step title</span>\r\n  <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\r\n</wc-timeline-item>\r\n```",
+    "example": "```html\n<wc-timeline-item description=\"Step completed\">\n  <span>Step title</span>\n  <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\n</wc-timeline-item>\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",

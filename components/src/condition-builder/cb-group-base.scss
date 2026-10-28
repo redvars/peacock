@@ -1,0 +1,97 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.group {
+  --_connector-width: 3.5rem;
+
+  @include mixin.for-phone-only {
+    --_connector-width: 3rem;
+  }
+}
+
+.body {
+  position: relative;
+  padding-inline-start: var(--_connector-width);
+}
+
+.connector {
+  position: absolute;
+  inset-inline-start: 0;
+  width: var(--_connector-width);
+  --cb-divider-arm-length: calc(var(--_connector-width) / 2);
+}
+
+.items {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+
+  &.empty {
+    min-height: var(--spacing-600);
+  }
+}
+
+.operator-pill {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography-not-important(label-medium);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-025);
+  min-width: 3.25rem;
+  height: 1.5rem;
+  white-space: nowrap;
+  padding-inline: var(--spacing-100) var(--spacing-050);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  cursor: pointer;
+
+  // State layer
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentcolor;
+    opacity: 0;
+    transition: opacity var(--duration-short2, 100ms) linear;
+  }
+
+  &:hover::before {
+    opacity: 0.08;
+  }
+
+  &:active::before {
+    opacity: 0.12;
+  }
+
+  wc-icon {
+    --icon-size: 1rem;
+  }
+
+  wc-focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-full);
+    --focus-ring-container-shape-start-end: var(--shape-corner-full);
+    --focus-ring-container-shape-end-start: var(--shape-corner-full);
+    --focus-ring-container-shape-end-end: var(--shape-corner-full);
+  }
+}
+
+.drop-indicator {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  transform: translateY(-50%);
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary);
+  pointer-events: none;
+}

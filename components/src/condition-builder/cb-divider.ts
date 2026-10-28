@@ -8,7 +8,9 @@ import styles from './cb-divider.scss';
  * @label CB Divider
  * @tag wc-cb-divider
  * @rawTag cb-divider
- * @summary A divider line used within a condition builder to visually connect expressions with operator tags.
+ * @summary A divider line used within a condition builder to visually connect rules with an operator.
+ * @cssprop --cb-divider-line-color - Color of the divider line.
+ * @cssprop --cb-divider-arm-length - Length of the connecting arms drawn by `connect-start` and `connect-end`.
  * @tags condition-builder
  *
  * @example

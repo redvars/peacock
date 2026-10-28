@@ -1,0 +1,21 @@
+@use '../../scss/mixin';
+
+.group {
+  padding: var(--spacing-150);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-100);
+  }
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding-top: var(--spacing-100);
+  padding-inline-start: var(--_connector-width);
+}

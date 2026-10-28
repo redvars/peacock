@@ -1,0 +1,182 @@
+---
+export const title = 'Interactive';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<style is:inline>
+  .query-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    width: 100%;
+    max-width: 52rem;
+  }
+
+  .query-demo .query-output {
+    margin: 0;
+    padding: var(--spacing-200);
+    border-radius: var(--shape-corner-medium);
+    background: var(--color-surface-container);
+    color: var(--color-on-surface);
+    font-family: var(--font-family-mono, monospace);
+    font-size: 0.8125rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+</style>
+
+<p>
+  Switching And / Or, dragging and removing rules are built in. Adding is up to you, since only you know what a new
+  rule contains: listen for <code>add-rule</code> (from <strong>Add rule</strong> and a group's
+  <strong>Add condition</strong>) and <code>add-group</code>, and append the new element to
+  <code>event.detail.group</code>. Read the query back by walking each group's <code>items</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='query-demo'>
+    <wc-condition-builder id='query-builder' operator='and'>
+      <wc-button slot='actions-end' id='run-query'>Run Query</wc-button>
+    </wc-condition-builder>
+    <pre class='query-output' id='query-output'>Click "Run Query" to see the query.</pre>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const builder = document.querySelector('#query-builder');
+      const output = document.querySelector('#query-output');
+
+      const FIELDS = [
+        { value: 'opportunity-id', label: 'Opportunity ID', type: 'text' },
+        { value: 'expected-amount', label: 'Expected amount', type: 'number' },
+        { value: 'fiscal-year', label: 'Fiscal year', type: 'number' },
+        { value: 'last-modified', label: 'Last modified date', type: 'date' },
+      ];
+
+      const OPERATORS = {
+        text: [
+          { value: 'eq', label: 'Is equal to' },
+          { value: 'neq', label: 'Does not equal' },
+          { value: 'contains', label: 'Contains' },
+        ],
+        number: [
+          { value: 'eq', label: 'Equals to' },
+          { value: 'neq', label: 'Does not equal' },
+          { value: 'gt', label: 'Is bigger than' },
+          { value: 'lt', label: 'Is smaller than' },
+        ],
+        date: [
+          { value: 'eq', label: 'Is on' },
+          { value: 'neq', label: 'Does not equal' },
+          { value: 'gt', label: 'Is after' },
+          { value: 'lt', label: 'Is before' },
+        ],
+      };
+
+      const SYMBOLS = { eq: '=', neq: '≠', contains: 'contains', gt: '>', lt: '<' };
+      const VALUE_TAGS = { text: 'wc-input', number: 'wc-number-field', date: 'wc-date-picker' };
+
+      function fieldOf(value) {
+        return FIELDS.find(field => field.value === value) ?? FIELDS[0];
+      }
+
+      // Swaps the operator list and value control to match the chosen field.
+      function applyField(rule, field, operator, value) {
+        const { type } = fieldOf(field);
+        const operatorSelect = rule.querySelector('.rule-operator');
+        operatorSelect.options = OPERATORS[type];
+        operatorSelect.value = operator ?? OPERATORS[type][0].value;
+
+        rule.querySelector('.rule-value')?.remove();
+        const control = document.createElement(VALUE_TAGS[type]);
+        control.className = 'rule-value';
+        control.placeholder = 'Value';
+        if (value !== undefined) control.value = value;
+        rule.append(control);
+      }
+
+      function createRule({ field = FIELDS[0].value, operator, value } = {}) {
+        const rule = document.createElement('wc-cb-rule');
+
+        const fieldSelect = document.createElement('wc-select');
+        fieldSelect.className = 'rule-field';
+        fieldSelect.options = FIELDS.map(({ value, label }) => ({ value, label }));
+        fieldSelect.value = field;
+        fieldSelect.addEventListener('change', () => applyField(rule, fieldSelect.value));
+
+        const operatorSelect = document.createElement('wc-select');
+        operatorSelect.className = 'rule-operator';
+
+        rule.append(fieldSelect, operatorSelect);
+        applyField(rule, field, operator, value);
+        return rule;
+      }
+
+      function createGroup(operator, rules) {
+        const group = document.createElement('wc-cb-group');
+        group.operator = operator;
+        group.append(...rules);
+        return group;
+      }
+
+      // Nested groups that lose their last rule are removed.
+      function pruneEmptyGroups() {
+        builder.querySelectorAll('wc-cb-group').forEach(group => {
+          if (!group.querySelector(':scope > wc-cb-rule, :scope > wc-cb-group')) group.remove();
+        });
+      }
+
+      builder.addEventListener('add-rule', event => {
+        event.detail.group.append(createRule());
+      });
+
+      builder.addEventListener('add-group', event => {
+        event.detail.group.append(createGroup('or', [createRule()]));
+      });
+
+      // Both run before the built-in remove / move; prune once it is done.
+      builder.addEventListener('rule-remove', () => queueMicrotask(pruneEmptyGroups));
+      builder.addEventListener('rule-move', () => queueMicrotask(pruneEmptyGroups));
+
+      function readGroup(group) {
+        return {
+          operator: group.operator,
+          rules: group.items.map(item =>
+            item.localName === 'wc-cb-group'
+              ? readGroup(item)
+              : {
+                  field: item.querySelector('.rule-field').value,
+                  operator: item.querySelector('.rule-operator').value,
+                  value: item.querySelector('.rule-value').value ?? '',
+                },
+          ),
+        };
+      }
+
+      function describe(node, nested) {
+        if (node.rules) {
+          const parts = node.rules.map(child => describe(child, true));
+          const text = parts.join(` ${node.operator.toUpperCase()} `);
+          return nested && parts.length > 1 ? `(${text})` : text;
+        }
+        const field = fieldOf(node.field);
+        const value = node.value === '' ? '…' : field.type === 'text' ? `"${node.value}"` : node.value;
+        return `${field.label} ${SYMBOLS[node.operator]} ${value}`;
+      }
+
+      document.querySelector('#run-query').addEventListener('click', () => {
+        const query = readGroup(builder);
+        output.textContent = `${describe(query, false)}\n\n${JSON.stringify(query, null, 2)}`;
+      });
+
+      const today = new Date().toISOString().slice(0, 10);
+      builder.append(
+        createRule({ field: 'opportunity-id', operator: 'eq', value: '24902390229' }),
+        createGroup('or', [
+          createRule({ field: 'expected-amount', operator: 'eq', value: 175000 }),
+          createRule({ field: 'fiscal-year', operator: 'gt', value: 2024 }),
+          createRule({ field: 'last-modified', operator: 'neq', value: today }),
+        ]),
+      );
+    })();
+  </script>
+</DemoComponentCard>

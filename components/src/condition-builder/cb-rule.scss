@@ -1,0 +1,90 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  container-type: inline-size;
+}
+
+:host([dragging]) {
+  opacity: 0.4;
+}
+
+.rule {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface);
+}
+
+.handle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2rem;
+  border-inline-end: 1px solid var(--color-outline-variant);
+  color: var(--color-on-surface-variant);
+  cursor: grab;
+  outline: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  wc-icon {
+    --icon-size: 1.25rem;
+  }
+
+  wc-focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-medium);
+    --focus-ring-container-shape-end-start: var(--shape-corner-medium);
+  }
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: var(--spacing-100) var(--spacing-150);
+  padding: var(--spacing-100) var(--spacing-150);
+  // Compact the slotted fields (wc-select, wc-input…), which read it from wc-field.
+  --field-height: var(--cb-rule-field-height, 2.5rem);
+
+  ::slotted(*) {
+    flex: 1 1 8rem;
+    min-width: 0;
+  }
+
+  ::slotted(:last-child) {
+    flex-grow: 1.5;
+  }
+}
+
+.remove {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding-inline: var(--spacing-050);
+  border-inline-start: 1px solid var(--color-outline-variant);
+}
+
+// Narrow rows: give the controls the room.
+@container (max-width: 22rem) {
+  .handle {
+    width: 1.5rem;
+  }
+
+  .content {
+    padding: var(--spacing-100);
+  }
+
+  .remove {
+    padding-inline: 0;
+  }
+}

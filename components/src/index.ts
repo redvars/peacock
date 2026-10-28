@@ -96,8 +96,12 @@ export { Flow } from './flow/index.js';
 export type { FlowNode, FlowEdge, FlowStrokeVariant } from './flow/index.js';
 export {
   ConditionBuilder,
-  CbPredicate,
-  CbCompoundExpression,
-  CbExpression,
+  CbGroup,
+  CbRule,
   CbDivider,
+} from './condition-builder/index.js';
+export type {
+  CbOperator,
+  CbRuleMoveDetail,
+  CbRuleRemoveDetail,
 } from './condition-builder/index.js';

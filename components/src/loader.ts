@@ -432,21 +432,14 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-condition-builder': {
       importPath: `${distDirectory}/condition-builder.js`,
-      dependencies: [
-        'wc-cb-predicate',
-        'wc-cb-compound-expression',
-        'wc-cb-expression',
-        'wc-cb-divider',
-      ],
+      dependencies: ['wc-cb-group', 'wc-cb-rule', 'wc-cb-divider'],
     },
-    'wc-cb-predicate': {
-      importPath: `${distDirectory}/cb-predicate.js`,
+    'wc-cb-group': {
+      importPath: `${distDirectory}/cb-group.js`,
+      dependencies: ['wc-cb-divider'],
     },
-    'wc-cb-compound-expression': {
-      importPath: `${distDirectory}/cb-compound-expression.js`,
-    },
-    'wc-cb-expression': {
-      importPath: `${distDirectory}/cb-expression.js`,
+    'wc-cb-rule': {
+      importPath: `${distDirectory}/cb-rule.js`,
     },
     'wc-cb-divider': {
       importPath: `${distDirectory}/cb-divider.js`,

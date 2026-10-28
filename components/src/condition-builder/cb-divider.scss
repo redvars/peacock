@@ -18,15 +18,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: var(--spacing-200);
 
   .line {
     height: 100%;
   }
 
   &.connect-start .line-start {
-    width: 1rem;
-    margin-left: 1rem;
+    width: var(--cb-divider-arm-length, 1rem);
+    margin-left: var(--cb-divider-arm-length, 1rem);
     border-inline-start: 1px solid var(--cb-divider-line-color);
     border-top: 1px solid var(--cb-divider-line-color);
     border-radius: var(--shape-corner-extra-small) 0 0 0;
@@ -37,8 +36,8 @@
   }
 
   &.connect-end .line-end {
-    width: 1rem;
-    margin-left: 1rem;
+    width: var(--cb-divider-arm-length, 1rem);
+    margin-left: var(--cb-divider-arm-length, 1rem);
     border-inline-start: 1px solid var(--cb-divider-line-color);
     border-bottom: 1px solid var(--cb-divider-line-color);
     border-radius: 0 0 0 var(--shape-corner-extra-small);

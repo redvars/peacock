@@ -95,12 +95,15 @@
       display: flex;
       align-items: center;
       flex: 1;
+      // Let a narrow field shrink below its content, so the value truncates.
+      min-width: 0;
       min-height: var(--field-height, 3.5rem);
       padding-block: var(--field-padding-block);
       z-index: 1;
 
       .input-wrapper {
         flex: 1;
+        min-width: 0;
         padding-inline: var(--spacing-200);
         position: relative;
 

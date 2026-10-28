@@ -4,70 +4,73 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <style is:inline>
-  #simple-condition-builder {
-    width: 35rem;
+  .condition-builder-demo {
+    width: 100%;
+    max-width: 52rem;
   }
 </style>
 
+<p>
+  Build a query from rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>). Each group
+  joins its items with a bracket: click the <strong>And</strong> / <strong>Or</strong> pill to switch it. Drag a rule by
+  its handle to reorder it or move it into another group, and use the trash icon to remove it.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-condition-builder id='simple-condition-builder'>
+  <wc-condition-builder class='condition-builder-demo' operator='and'>
 
-    <wc-cb-predicate condition-operator='or'>
-      <wc-cb-predicate vertical='true' condition-operator='and'>
-        <wc-cb-compound-expression field-label='Age' condition-operator='or'>
-          <wc-cb-expression id='age'>
-            <wc-input inline placeholder='Select Value'></wc-input>
-          </wc-cb-expression>
-          <wc-cb-expression id='age2'>
-            <wc-input inline placeholder='Select Value'></wc-input>
-          </wc-cb-expression>
-          <wc-button size='sm' icon='add' slot='end'>Add expression</wc-button>
-        </wc-cb-compound-expression>
-        <wc-cb-compound-expression field-label='State'>
-          <wc-cb-expression id='state'>
-            <wc-input inline placeholder='Select Value'></wc-input>
-          </wc-cb-expression>
-        </wc-cb-compound-expression>
+    <wc-cb-rule>
+      <wc-select value='opportunity-id'>
+        <wc-option value='opportunity-id'>Opportunity ID</wc-option>
+        <wc-option value='expected-amount'>Expected amount</wc-option>
+        <wc-option value='fiscal-year'>Fiscal year</wc-option>
+      </wc-select>
+      <wc-select value='eq'>
+        <wc-option value='eq'>Is equal to</wc-option>
+        <wc-option value='neq'>Does not equal</wc-option>
+      </wc-select>
+      <wc-input value='24902390229'></wc-input>
+    </wc-cb-rule>
 
-        <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-      </wc-cb-predicate>
-    </wc-cb-predicate>
+    <wc-cb-group operator='or'>
+      <wc-cb-rule>
+        <wc-select value='expected-amount'>
+          <wc-option value='expected-amount'>Expected amount</wc-option>
+          <wc-option value='fiscal-year'>Fiscal year</wc-option>
+        </wc-select>
+        <wc-select value='eq'>
+          <wc-option value='eq'>Equals to</wc-option>
+          <wc-option value='gt'>Is bigger than</wc-option>
+        </wc-select>
+        <wc-input value='175,000'></wc-input>
+      </wc-cb-rule>
+      <wc-cb-rule>
+        <wc-select value='fiscal-year'>
+          <wc-option value='expected-amount'>Expected amount</wc-option>
+          <wc-option value='fiscal-year'>Fiscal year</wc-option>
+        </wc-select>
+        <wc-select value='gt'>
+          <wc-option value='eq'>Equals to</wc-option>
+          <wc-option value='gt'>Is bigger than</wc-option>
+        </wc-select>
+        <wc-input value='2024'></wc-input>
+      </wc-cb-rule>
+      <wc-cb-rule>
+        <wc-select value='last-modified'>
+          <wc-option value='last-modified'>Last modified date</wc-option>
+          <wc-option value='created'>Created date</wc-option>
+        </wc-select>
+        <wc-select value='neq'>
+          <wc-option value='eq'>Is on</wc-option>
+          <wc-option value='neq'>Does not equal</wc-option>
+        </wc-select>
+        <wc-select value='today'>
+          <wc-option value='today' icon='calendar_today'>Today</wc-option>
+          <wc-option value='yesterday' icon='calendar_today'>Yesterday</wc-option>
+        </wc-select>
+      </wc-cb-rule>
+    </wc-cb-group>
 
-    <wc-cb-predicate condition-operator='or'>
-      <wc-cb-predicate vertical='true'>
-        <wc-cb-compound-expression field-label='State'>
-          <wc-cb-expression id='state2'>
-            <wc-input inline placeholder='Select Value'></wc-input>
-          </wc-cb-expression>
-        </wc-cb-compound-expression>
-        <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-      </wc-cb-predicate>
-    </wc-cb-predicate>
-
-    <wc-cb-predicate>
-      <wc-cb-compound-expression field-label='City'>
-        <wc-cb-expression id='city'>
-          <wc-input inline placeholder='Select Value'></wc-input>
-        </wc-cb-expression>
-      </wc-cb-compound-expression>
-      <wc-button slot='end' size='sm' icon='add'>Add predicate</wc-button>
-    </wc-cb-predicate>
-
-    <wc-button size='sm' icon='add'>Add rule</wc-button>
-
+    <wc-button slot='actions-end'>Run Query</wc-button>
   </wc-condition-builder>
-
-  <script is:inline>
-    const ageExpression = document.querySelector('#age');
-    if (ageExpression) {
-      ageExpression.operators = [{
-        label: 'Less than',
-        value: 'less-than',
-      },
-        {
-          label: 'More than',
-          value: 'more-than',
-        }];
-    }
-  </script>
 </DemoComponentCard>
