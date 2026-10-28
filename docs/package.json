@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/mdx": "^8.1.1",
     "@astrojs/sitemap": "^3.7.2",
-    "astro": "^6.1.10",
-    "astro-pagefind": "^1.8.6",
+    "astro": "^7.4.2",
+    "astro-pagefind": "^2.0.1",
     "marked": "^17.0.1",
     "typescript": "^5.9.3"
   },
