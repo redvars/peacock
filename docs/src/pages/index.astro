@@ -107,12 +107,20 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
               in the head of your index.html
           </li>
           <li class='text-body-large'>Then you can use the element anywhere in your template, JSX, html etc</li>
+          <li class='text-body-large'>
+            Custom theme: pick your colors, shape and fonts in the <wc-link href='/theme-builder'>theme builder</wc-link>,
+            then load the CSS it generates after <code class='text-code-block'>styles.css</code>, or apply the theme at
+            runtime with <code class='text-code-block'>applyTheme()</code> from
+            <code class='text-code-block'>@redvars/peacock/theme</code> (see the Custom theme tab). The
+            <wc-link href='/foundations/'>Foundations</wc-link> pages list every token a theme sets.
+          </li>
         </ul>
         <div class='container-code'>
           <wc-tab-group>
             <wc-tabs>
               <wc-tab>Usage</wc-tab>
               <wc-tab>Load single component</wc-tab>
+              <wc-tab>Custom theme</wc-tab>
             </wc-tabs>
 
             <wc-tab-panel>
@@ -165,6 +173,25 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
                   <my-button size='lg' color='primary'>Click me</my-button>
 
                  &lt;/body>`;
+              </script>
+            </wc-tab-panel>
+
+            <wc-tab-panel>
+              <wc-code-highlighter language='javascript' id='custom-theme-code' class='code-highlighter' />
+              <script is:inline define:vars={{ version: VERSION }}>
+                document.getElementById('custom-theme-code').value = `// With a bundler: npm install @redvars/peacock
+import { applyTheme } from '@redvars/peacock/theme';
+// Without one, import it from the CDN instead:
+// import { applyTheme } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/assets/theme.js';
+
+// Settings you leave out keep their defaults.
+await applyTheme({
+  primary: '#0b57d0',
+  variant: 'tonalSpot',
+  contrast: 'standard',
+  shape: 'rounded',
+  font: { brand: 'Poppins', plain: 'Inter' },
+});`;
               </script>
             </wc-tab-panel>
           </wc-tab-group>

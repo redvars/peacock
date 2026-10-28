@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { breakableName, ELEVATION_LEVELS } from '../../_data/foundations.ts';
+
+const usage = `.menu {
+  background: var(--color-surface-container);
+  box-shadow: var(--elevation-level2);
+}
+
+.fab:hover {
+  box-shadow: var(--elevation-level4);
+}`;
+---
+
+<Layout
+  title='Elevation'
+  description='Elevation is the distance between two surfaces along the z-axis. Peacock draws it with six shadow levels, each a key shadow plus a softer ambient one, as in Material 3.'
+>
+  <section class='foundation-section' aria-labelledby='levels-title'>
+    <h2 class='text-headline-small' id='levels-title'>Levels</h2>
+    <div class='elevation-stage'>
+      {ELEVATION_LEVELS.map(level => (
+        <div class='elevation-card' style={`box-shadow: var(${level.variable});`}>
+          <span class='text-title-medium'>Level {level.level}</span>
+          <code class='text-code-small foundation-muted'>{level.variable}</code>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='tokens-title'>
+    <h2 class='text-headline-small' id='tokens-title'>Tokens</h2>
+    <table class='token-table token-table-stack'>
+      <thead>
+        <tr>
+          <th scope='col' class='text-label-large'>Token</th>
+          <th scope='col' class='text-label-large'>Shadows</th>
+          <th scope='col' class='text-label-large'>Use for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ELEVATION_LEVELS.map(level => (
+          <tr>
+            <td class='token-name text-code-small'><Fragment set:html={breakableName(level.variable)} /></td>
+            <td class='text-code-small'>
+              <span class='shadow-layers'>{level.layers.map(layer => <span>{layer}</span>)}</span>
+            </td>
+            <td class='token-description text-body-medium'>{level.use}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Using elevation</h2>
+    <p class='text-body-large'>
+      Use the tokens as <code class='text-code-block'>box-shadow</code> values. Raise an element one or two levels on
+      hover or drag rather than jumping to the top. Material 3 also tells levels apart by surface color, so pair a
+      higher level with a higher <a href='/foundations/color/#roles-title'>surface container</a> role where it helps.
+    </p>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+    <p class='text-body-large'>
+      Inside components, <a href='/components/elevation/'>wc-elevation</a> draws the same shadows from an
+      <code class='text-code-block'>--elevation-level</code> number, so a level can animate between values.
+    </p>
+  </section>
+</Layout>

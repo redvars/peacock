@@ -1,0 +1,88 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { DURATIONS, EASINGS, LONGEST_DURATION } from '../../_data/foundations.ts';
+
+const usage = `.panel {
+  transition: transform var(--duration-medium2) var(--easing-emphasized-decelerate);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition-duration: 0s;
+  }
+}`;
+---
+
+<Layout
+  title='Motion'
+  description='Duration and easing tokens from Material 3. Short durations suit small changes such as a checkbox, long ones suit large movements such as a sheet sliding in. Hover or focus a track to see a token in action.'
+>
+  <section class='foundation-section' aria-labelledby='durations-title'>
+    <h2 class='text-headline-small' id='durations-title'>Durations</h2>
+    <ul class='motion-list'>
+      {DURATIONS.map(duration => (
+        <li class='motion-row'>
+          <div class='motion-meta'>
+            <code class='text-code-small'>{duration.variable}</code>
+            <span class='text-label-medium foundation-muted'>{duration.value}</span>
+          </div>
+          <div class='motion-meta'>
+            <div class='duration-bar' style={`width: ${(duration.ms / LONGEST_DURATION) * 100}%;`}></div>
+            <div
+              class='motion-track'
+              tabindex='0'
+              role='img'
+              aria-label={`Dot moving with ${duration.variable}`}
+              style={`--motion-duration: var(${duration.variable});`}
+            ></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class='text-body-medium foundation-muted'>
+      Short1 to short4 are for small utility transitions, medium1 and medium2 for components such as menus and modals,
+      long1 and long2 for large, emphasized movements.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='easing-title'>
+    <h2 class='text-headline-small' id='easing-title'>Easing</h2>
+    <p class='text-body-large foundation-muted'>Each track below runs for <code class='text-code-block'>--duration-long2</code>.</p>
+    <ul class='motion-list'>
+      {EASINGS.map(easing => (
+        <li class='motion-row'>
+          <div class='motion-meta'>
+            <code class='text-code-small'>{easing.variable}</code>
+            <span class='text-label-medium foundation-muted'>{easing.value}</span>
+            <span class='text-body-small foundation-muted'>{easing.description}</span>
+          </div>
+          <div class='easing-demo'>
+            <svg class='easing-curve' viewBox='0 0 100 100' aria-hidden='true'>
+              <path class='easing-axis' d='M 0 0 V 100 H 100' />
+              <path class='easing-path' d={easing.path} />
+            </svg>
+            <div
+              class='motion-track'
+              tabindex='0'
+              role='img'
+              aria-label={`Dot moving with ${easing.variable}`}
+              style={`--motion-easing: var(${easing.variable});`}
+            ></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Using motion</h2>
+    <p class='text-body-large'>
+      Pair a duration with an easing in <code class='text-code-block'>transition</code> or
+      <code class='text-code-block'>animation</code>. Elements that enter decelerate, elements that leave accelerate,
+      and elements that move on screen use the standard curves. Respect
+      <code class='text-code-block'>prefers-reduced-motion</code> by turning movement off.
+    </p>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+  </section>
+</Layout>

@@ -1,0 +1,603 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Shared by the Foundations pages (src/pages/foundations/). Everything is
+// static: demos use CSS only.
+
+.foundation-page {
+  max-width: 72rem;
+  padding: var(--spacing-400) var(--spacing-200) var(--spacing-600);
+  color: var(--color-on-surface);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-600) var(--spacing-500) var(--spacing-800);
+  }
+
+  p,
+  li {
+    max-width: 48rem;
+  }
+
+  a:not([class]) {
+    color: var(--color-primary);
+  }
+
+  // A code block's longest line would otherwise set the page's minimum width
+  // on phones; with this it fills the column and scrolls inside.
+  wc-code-highlighter {
+    contain: inline-size;
+  }
+}
+
+.foundation-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin-block-end: var(--spacing-600);
+}
+
+.foundation-eyebrow {
+  color: var(--color-primary);
+  text-decoration: none;
+  align-self: flex-start;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.foundation-lede,
+.foundation-muted {
+  color: var(--color-on-surface-variant);
+}
+
+.foundation-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  margin-block-end: var(--spacing-800);
+
+  > h2 {
+    margin-block-start: 0;
+  }
+
+  h3 {
+    margin-block: var(--spacing-200) 0;
+  }
+}
+
+.foundation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+}
+
+.foundation-cards {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.foundation-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding: var(--spacing-300);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  text-decoration: none;
+  transition: background-color var(--duration-short4) var(--easing-standard);
+
+  wc-icon {
+    color: var(--color-primary);
+    --icon-size: 1.75rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-surface-container-high);
+  }
+}
+
+.foundation-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin-block-start: var(--spacing-800);
+}
+
+.foundation-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  flex: 1 1 12rem;
+  padding: var(--spacing-200) var(--spacing-300);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  color: var(--color-on-surface);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-surface-container);
+  }
+}
+
+.foundation-pager-next {
+  text-align: end;
+}
+
+// ── Token tables ──────────────────────────────────────────────────────────
+
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  caption {
+    text-align: start;
+    padding-block-end: var(--spacing-100);
+  }
+
+  th,
+  td {
+    padding: var(--spacing-100) var(--spacing-150) var(--spacing-100) 0;
+    border-block-end: 1px solid var(--color-outline-variant);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  th {
+    color: var(--color-on-surface-variant);
+  }
+
+  td:last-child,
+  th:last-child {
+    padding-inline-end: 0;
+  }
+
+  .token-name {
+    font-family: var(--font-family-monospace);
+    overflow-wrap: anywhere;
+  }
+
+  .token-value {
+    font-family: var(--font-family-monospace);
+    white-space: nowrap;
+  }
+
+  .is-current {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+}
+
+// On phones, the description column moves under the token name.
+@include mixin.for-phone-only {
+  .token-table-stack {
+    thead {
+      display: none;
+    }
+
+    tr {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--spacing-150);
+      padding-block: var(--spacing-100);
+      border-block-end: 1px solid var(--color-outline-variant);
+    }
+
+    td {
+      border: none;
+      padding: 0;
+    }
+
+    td.token-description {
+      grid-column: 1 / -1;
+      padding-block-start: var(--spacing-050);
+    }
+  }
+}
+
+// ── Color ─────────────────────────────────────────────────────────────────
+
+.palette {
+  display: grid;
+  gap: var(--spacing-050);
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+}
+
+.palette-tone {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  min-height: 4.5rem;
+  padding: var(--spacing-100);
+  border-radius: var(--shape-corner-small);
+  // Light tones need an edge on a light page, dark tones on a dark one.
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+
+  .palette-hex {
+    font-family: var(--font-family-monospace);
+    font-size: 0.6875rem;
+  }
+}
+
+.role-group {
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  padding: var(--spacing-100) var(--spacing-150) var(--spacing-150);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-100) var(--spacing-200) var(--spacing-200);
+  }
+
+  summary {
+    cursor: pointer;
+    padding-block: var(--spacing-100);
+  }
+
+  p {
+    margin-block: 0 var(--spacing-100);
+  }
+}
+
+.role-table {
+  th:nth-child(2),
+  th:nth-child(3) {
+    width: 8rem;
+  }
+
+  td {
+    padding-inline-end: var(--spacing-100);
+  }
+
+  // On phones the role name gets its own line above the two swatches.
+  @include mixin.for-phone-only {
+    tr {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--spacing-050) var(--spacing-100);
+      padding-block: var(--spacing-100);
+      border-block-end: 1px solid var(--color-outline-variant);
+    }
+
+    th,
+    td {
+      padding: 0;
+      border: none;
+    }
+
+    td:first-child {
+      grid-column: 1 / -1;
+    }
+
+    th:first-child {
+      display: none;
+    }
+
+    th:nth-child(2),
+    th:nth-child(3) {
+      width: auto;
+    }
+  }
+}
+
+.role-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  padding: var(--spacing-075) var(--spacing-100);
+  border-radius: var(--shape-corner-small);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+
+  .role-swatch-hex {
+    font-family: var(--font-family-monospace);
+    font-size: 0.6875rem;
+  }
+}
+
+// ── Shape ─────────────────────────────────────────────────────────────────
+
+.shape-scale {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+}
+
+.shape-sample {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.shape-box {
+  height: 4.5rem;
+  background: var(--color-primary-container);
+  border: 2px solid var(--color-primary);
+}
+
+.shape-presets {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+
+.shape-preset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-200);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+
+  &.is-current {
+    border-color: var(--color-primary);
+  }
+}
+
+.shape-preset-samples {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-100);
+
+  span {
+    background: var(--color-secondary-container);
+    border: 2px solid var(--color-secondary);
+  }
+}
+
+// ── Elevation ─────────────────────────────────────────────────────────────
+
+.elevation-stage {
+  display: grid;
+  gap: var(--spacing-300);
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  padding: var(--spacing-300);
+  border-radius: var(--shape-corner-extra-large);
+  background: var(--color-surface-container);
+}
+
+.elevation-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  min-height: 6rem;
+  padding: var(--spacing-200);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+}
+
+.shadow-layers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  font-family: var(--font-family-monospace);
+  overflow-wrap: anywhere;
+}
+
+// ── Motion ────────────────────────────────────────────────────────────────
+
+.motion-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.motion-row {
+  display: grid;
+  gap: var(--spacing-100) var(--spacing-200);
+  grid-template-columns: minmax(0, 1fr);
+  padding-block-end: var(--spacing-150);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-tablet-portrait-up {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    align-items: center;
+  }
+}
+
+.motion-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+
+  code {
+    overflow-wrap: anywhere;
+  }
+}
+
+.duration-bar {
+  height: var(--spacing-100);
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary);
+}
+
+// A track the dot crosses when the row is hovered or focused.
+.motion-track {
+  position: relative;
+  height: 2.5rem;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container-high);
+  outline-offset: 2px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 0.5rem;
+    inset-inline-start: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    transition-property: inset-inline-start;
+    transition-duration: var(--motion-duration, var(--duration-long2));
+    transition-timing-function: var(--motion-easing, var(--easing-standard));
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    inset-inline-start: calc(100% - 2rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition-duration: 0s;
+    }
+  }
+}
+
+.easing-demo {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  align-items: center;
+}
+
+.easing-curve {
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: visible;
+
+  .easing-axis {
+    fill: none;
+    stroke: var(--color-outline-variant);
+    stroke-width: 1;
+  }
+
+  .easing-path {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+}
+
+// ── Spacing ───────────────────────────────────────────────────────────────
+
+.spacing-row {
+  display: grid;
+  gap: var(--spacing-050) var(--spacing-200);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  padding-block: var(--spacing-100);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  .spacing-bar {
+    grid-column: 1 / -1;
+  }
+
+  @include mixin.for-tablet-portrait-up {
+    grid-template-columns: 9rem 6.5rem minmax(0, 1fr);
+
+    .spacing-bar {
+      grid-column: auto;
+    }
+  }
+}
+
+.spacing-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+
+  .spacing-bar-fill {
+    flex: none;
+    height: 1.5rem;
+    min-width: 1px;
+    background: var(--color-tertiary-container);
+    border-inline: 2px solid var(--color-tertiary);
+  }
+}
+
+// ── State layers ──────────────────────────────────────────────────────────
+
+.state-samples {
+  display: grid;
+  gap: var(--spacing-150);
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+}
+
+.state-sample {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5rem;
+  padding: var(--spacing-100);
+  border-radius: var(--shape-corner-full);
+  text-align: center;
+  isolation: isolate;
+
+  &.on-primary {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  &.on-surface {
+    background: var(--color-surface-container-low);
+    color: var(--color-primary);
+    border: 1px solid var(--color-outline-variant);
+  }
+
+  // The state layer: the content color at the state's opacity.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: var(--state-opacity, 0);
+  }
+
+  &.is-disabled {
+    background: color-mix(
+      in srgb,
+      var(--color-on-surface) calc(var(--state-disabled-container-opacity) * 100%),
+      transparent
+    );
+    color: color-mix(
+      in srgb,
+      var(--color-on-surface) calc(var(--state-disabled-content-opacity) * 100%),
+      transparent
+    );
+    border-color: transparent;
+  }
+}
+
+button.state-sample {
+  font: inherit;
+  border: none;
+  cursor: pointer;
+
+  &::before {
+    transition: opacity var(--duration-short2) var(--easing-standard);
+  }
+
+  &:hover {
+    --state-opacity: var(--state-hover-opacity);
+  }
+
+  &:focus-visible {
+    --state-opacity: var(--state-focus-opacity);
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    --state-opacity: var(--state-pressed-opacity);
+  }
+
+  &:disabled {
+    --state-opacity: 0;
+    cursor: default;
+  }
+}

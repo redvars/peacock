@@ -1,0 +1,143 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import {
+  ACCENT_PALETTES,
+  breakableName,
+  ROLE_GROUPS,
+  textOnTone,
+  THEME_CONFIG,
+  THEME_PALETTES,
+  type Palette,
+  type RoleValue,
+} from '../../_data/foundations.ts';
+
+const usage = `.card {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.card .badge {
+  background: var(--color-tertiary-container);
+  color: var(--color-on-tertiary-container);
+}`;
+
+const swatchStyle = ({ tone, hex }: RoleValue) => `background: ${hex}; color: ${textOnTone(tone)};`;
+const palettes: { title: string; id: string; intro: string; items: Palette[] }[] = [
+  {
+    title: 'Theme palettes',
+    id: 'theme-palettes',
+    intro: `Generated from the primary seed ${THEME_CONFIG.primary} with the ${THEME_CONFIG.variant} variant. Secondary, tertiary and the neutrals are derived from it unless a theme sets them.`,
+    items: THEME_PALETTES,
+  },
+  {
+    title: 'Accent palettes',
+    id: 'accent-palettes',
+    intro: 'Fixed palettes for status colors, tags and charts. They are the same in every theme.',
+    items: ACCENT_PALETTES,
+  },
+];
+---
+
+<Layout
+  title='Color'
+  description='Peacock colors come in two layers: tonal palettes of raw colors, and color roles that point at palette tones. Components only use roles, so a role can change tone in dark mode or in another theme without touching component code.'
+>
+  <section class='foundation-section' aria-labelledby='how-title'>
+    <h2 class='text-headline-small' id='how-title'>How color works</h2>
+    <p class='text-body-large'>
+      A <strong>tonal palette</strong> is one hue in tones from 0 (black) to 100 (white), for example
+      <code class='text-code-block'>--color-primary-40</code>. Tones measure lightness, so any two colors 50 tones
+      apart have readable contrast.
+    </p>
+    <p class='text-body-large'>
+      A <strong>color role</strong> such as <code class='text-code-block'>--color-primary</code> or
+      <code class='text-code-block'>--color-on-surface</code> is an alias to one palette tone. Dark mode points the roles
+      at different tones; the palettes stay the same. Use roles in your styles and pair each container with its
+      <code class='text-code-block'>on-</code> role for text and icons.
+    </p>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+    <div class='foundation-actions'>
+      <wc-button href='/theme-builder' variant='filled'>
+        <wc-icon slot='icon' name='format_paint'></wc-icon>
+        Make your own palettes
+      </wc-button>
+    </div>
+  </section>
+
+  {palettes.map(({ title, id, intro, items }) => (
+    <section class='foundation-section' aria-labelledby={id}>
+      <h2 class='text-headline-small' id={id}>{title}</h2>
+      <p class='text-body-large foundation-muted'>{intro}</p>
+      {items.map(palette => (
+        <div>
+          <h3 class='text-title-medium'>
+            {palette.label} <code class='text-code-block'>{palette.variable}-*</code>
+          </h3>
+          <div class='palette' role='list' aria-label={`${palette.label} tones`}>
+            {palette.tones.map(([tone, hex]) => (
+              <div
+                class='palette-tone'
+                role='listitem'
+                style={`background: ${hex}; color: ${textOnTone(tone)};`}
+                title={`${palette.variable}-${tone}`}
+              >
+                <span class='text-label-large'>{tone}</span>
+                <span class='palette-hex'>{hex}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  ))}
+
+  <section class='foundation-section' aria-labelledby='roles-title'>
+    <h2 class='text-headline-small' id='roles-title'>Color roles</h2>
+    <p class='text-body-large foundation-muted'>
+      Every role with the palette tone it points at in light and dark mode, for the default theme. The swatches show
+      both modes whatever mode this page is in.
+    </p>
+    {ROLE_GROUPS.map((group, index) => (
+      <details class='role-group' open={index < ROLE_GROUPS.length - 1}>
+        <summary class='text-title-medium'>{group.label} <span class='foundation-muted'>({group.roles.length})</span></summary>
+        <p class='text-body-medium foundation-muted'>{group.description}</p>
+        <table class='token-table role-table'>
+          <thead>
+            <tr>
+              <th scope='col' class='text-label-large'>Role</th>
+              <th scope='col' class='text-label-large'>Light</th>
+              <th scope='col' class='text-label-large'>Dark</th>
+            </tr>
+          </thead>
+          <tbody>
+            {group.roles.map(role => (
+              <tr>
+                <td class='token-name text-code-small'><Fragment set:html={breakableName(role.variable)} /></td>
+                {[role.light, role.dark].map(value => (
+                  <td>
+                    <span class='role-swatch' style={swatchStyle(value)}>
+                      <span class='text-label-medium'>{value.palette} {value.tone}</span>
+                      <span class='role-swatch-hex'>{value.hex}</span>
+                    </span>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    ))}
+  </section>
+
+  <section class='foundation-section' aria-labelledby='dark-title'>
+    <h2 class='text-headline-small' id='dark-title'>Dark mode</h2>
+    <p class='text-body-large'>
+      Set <code class='text-code-block'>data-theme="dark"</code> on <code class='text-code-block'>&lt;html&gt;</code>, or
+      on any element to darken only that part of the page. Without the attribute, the tokens follow the
+      system setting through <code class='text-code-block'>prefers-color-scheme</code>. Set
+      <code class='text-code-block'>data-theme="light"</code> to keep a page light on a dark system.
+    </p>
+  </section>
+</Layout>

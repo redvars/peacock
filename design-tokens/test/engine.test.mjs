@@ -98,6 +98,21 @@ test('scope declares the tokens on another selector', async () => {
   assert.equal(scopeThemeCss(css, '.preview'), scoped);
 });
 
+test('dark tokens follow the system unless data-theme opts out', async () => {
+  const css = await buildThemeCss(defaultThemeConfig);
+  const system = css.match(
+    /^@media \(prefers-color-scheme: dark\) \{\n {2}:root:not\(\[data-theme='light'\]\) \{\n([^}]+)\}\n\}/m,
+  );
+  assert.ok(system, 'system dark block');
+  const explicit = css.match(/^\[data-theme='dark'\] \{\n([^}]+)\}/m);
+  const normalize = block => block.replace(/^\s+/gm, '');
+  assert.equal(normalize(system[1]), normalize(explicit[1]));
+
+  const scoped = await buildThemeCss(defaultThemeConfig, { scope: '.preview' });
+  assert.match(scoped, /^ {2}\.preview:not\(\[data-theme='light'\]\) \{/m);
+  assert.doesNotMatch(scoped, /:root/);
+});
+
 test('paletteVariables lists every palette tone as a CSS variable', () => {
   const variables = paletteVariables(defaultThemeConfig);
   assert.equal(variables['--color-primary-40'], '#6341d5');

@@ -5,7 +5,7 @@ const isTypographyPage = pathname === '/components/text';
 const isComponentsPage =
   pathname === '/components' ||
   (pathname.startsWith('/components/') && !isTypographyPage);
-const isColorsPage = pathname === '/color';
+const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
@@ -59,9 +59,9 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
       <wc-icon slot="leading" name="settings"></wc-icon>
       Components
     </wc-list-item>
-    <wc-list-item href='/color' aria-label='Go to Colors' active={isColorsPage ? true : null}>
+    <wc-list-item href='/foundations/' aria-label='Go to Foundations' active={isFoundationsPage ? true : null}>
       <wc-icon slot="leading" name="palette"></wc-icon>
-      Colors
+      Foundations
     </wc-list-item>
     <wc-list-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
       <wc-icon slot="leading" name="format_paint"></wc-icon>

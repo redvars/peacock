@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { breakableName, CONTAINERS, SPACING } from '../../_data/foundations.ts';
+
+const usage = `.toolbar {
+  display: flex;
+  gap: var(--spacing-100);
+  padding: var(--spacing-150) var(--spacing-300);
+}
+
+.page {
+  max-width: var(--container-lg);
+  margin-inline: auto;
+}`;
+---
+
+<Layout
+  title='Spacing'
+  description='One spacing scale for padding, margins and gaps, built on a 1rem base so it grows with the user’s font size. Container widths set the layout breakpoints.'
+>
+  <section class='foundation-section' aria-labelledby='scale-title'>
+    <h2 class='text-headline-small' id='scale-title'>Spacing scale</h2>
+    <p class='text-body-large'>
+      <code class='text-code-block'>--spacing-200</code> is the 1rem (16px) base. The number scales with it:
+      <code class='text-code-block'>--spacing-100</code> is half the base and
+      <code class='text-code-block'>--spacing-400</code> is twice the base.
+    </p>
+    <div role='list'>
+      {SPACING.map(token => (
+        <div class='spacing-row' role='listitem'>
+          <code class='text-code-small'>{token.variable}</code>
+          <span class='text-body-small foundation-muted'>{token.value} · {token.px}px</span>
+          <span class='spacing-bar'>
+            <span class='spacing-bar-fill' style={`width: var(${token.variable});`}></span>
+            <span class='text-body-small foundation-muted'>{token.description}</span>
+          </span>
+        </div>
+      ))}
+    </div>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='containers-title'>
+    <h2 class='text-headline-small' id='containers-title'>Container widths</h2>
+    <p class='text-body-large'>
+      Container widths are in px on purpose, so layouts break at the same widths whatever the font size. They match
+      the sizes of <code class='text-code-block'>wc-container</code>.
+    </p>
+    <table class='token-table token-table-stack'>
+      <thead>
+        <tr>
+          <th scope='col' class='text-label-large'>Token</th>
+          <th scope='col' class='text-label-large'>Value</th>
+          <th scope='col' class='text-label-large'>Use for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {CONTAINERS.map(token => (
+          <tr>
+            <td class='token-name text-code-small'><Fragment set:html={breakableName(token.variable)} /></td>
+            <td class='token-value text-code-small'>{token.value}</td>
+            <td class='token-description text-body-medium'>{token.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+</Layout>

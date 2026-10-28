@@ -26,7 +26,9 @@ const customColors = [
       <h1 class='text-display-small'>Theme builder</h1>
       <p class='text-body-large tb-muted'>
         Pick your global theme settings, check them on a sample page, then copy the complete token CSS. The
-        palettes come from Material 3 color science, so every role meets its contrast pairing.
+        palettes come from Material 3 color science, so every role meets its contrast pairing. The
+        <wc-link href='/foundations/'>Foundations</wc-link> pages explain each token, from
+        <wc-link href='/foundations/color/'>color roles</wc-link> to <wc-link href='/foundations/shape/'>shape</wc-link>.
       </p>
     </header>
 
@@ -104,7 +106,8 @@ const customColors = [
         <h2 class='text-title-large' id='tb-code-title'>Generated CSS</h2>
         <p class='text-body-medium tb-muted'>
           This is the complete token set for your theme: palettes, color roles for light and
-          <code class='text-code-block'>[data-theme='dark']</code>, shape, typography, spacing and motion. Load it after
+          <code class='text-code-block'>[data-theme='dark']</code> (also used when the system is dark, unless the page
+          sets <code class='text-code-block'>data-theme='light'</code>), shape, typography, spacing and motion. Load it after
           Peacock's <code class='text-code-block'>styles.css</code> to replace the default tokens. You can also apply a
           theme at runtime with <code class='text-code-block'>applyTheme(config)</code> from
           <code class='text-code-block'>@redvars/peacock/theme</code>.

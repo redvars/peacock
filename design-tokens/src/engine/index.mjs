@@ -1,6 +1,7 @@
 import { hexFromArgb } from '@material/material-color-utilities';
 import themeConfig from '../../theme.config.json' with { type: 'json' };
 import { buildCss } from './build-css.mjs';
+import { systemDarkSelector } from './css-options.mjs';
 import {
   createPalettes,
   DEFAULT_TONES,
@@ -152,6 +153,7 @@ export function paletteVariables(config) {
 export function scopeThemeCss(css, scope) {
   return css
     .replace(/^:root \{/m, `${scope} {`)
+    .replace(`  ${systemDarkSelector()} {`, `  ${systemDarkSelector(scope)} {`)
     .replace(/^\[data-theme='dark'\] \{/m, `${scope}[data-theme='dark'] {`);
 }
 

@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { breakableName, STATES } from '../../_data/foundations.ts';
+
+const interactionStates = [
+  { label: 'Enabled', opacity: '0' },
+  { label: 'Hovered', opacity: 'var(--state-hover-opacity)' },
+  { label: 'Focused', opacity: 'var(--state-focus-opacity)' },
+  { label: 'Pressed', opacity: 'var(--state-pressed-opacity)' },
+  { label: 'Dragged', opacity: 'var(--state-dragged-opacity)' },
+];
+
+const usage = `.action {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* The state layer: the content color at the state's opacity */
+.action::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity var(--duration-short2) var(--easing-standard);
+}
+
+.action:hover::before { opacity: var(--state-hover-opacity); }
+.action:focus-visible::before { opacity: var(--state-focus-opacity); }
+.action:active::before { opacity: var(--state-pressed-opacity); }
+
+.action:disabled {
+  background: color-mix(in srgb, var(--color-on-surface) calc(var(--state-disabled-container-opacity) * 100%), transparent);
+  color: color-mix(in srgb, var(--color-on-surface) calc(var(--state-disabled-content-opacity) * 100%), transparent);
+}`;
+---
+
+<Layout
+  title='State layers'
+  description='A state layer is a see-through overlay in the content color that shows an element is hovered, focused, pressed or dragged. Disabled elements fade their content and container instead.'
+>
+  <section class='foundation-section' aria-labelledby='states-title'>
+    <h2 class='text-headline-small' id='states-title'>Interaction states</h2>
+    <p class='text-body-large foundation-muted'>
+      The layer uses the content color, so it lightens dark containers and darkens light ones.
+    </p>
+    {['on-primary', 'on-surface'].map(variant => (
+      <div class='state-samples' role='list' aria-label={variant === 'on-primary' ? 'States on a primary container' : 'States on a surface'}>
+        {interactionStates.map(state => (
+          <div class:list={['state-sample', 'text-label-large', variant]} role='listitem' style={`--state-opacity: ${state.opacity};`}>
+            {state.label}
+          </div>
+        ))}
+      </div>
+    ))}
+    <h3 class='text-title-medium'>Try it</h3>
+    <p class='text-body-medium foundation-muted'>Hover, focus with the keyboard, and press these buttons.</p>
+    <div class='state-samples'>
+      <button type='button' class='state-sample on-primary text-label-large'>Primary</button>
+      <button type='button' class='state-sample on-surface text-label-large'>Surface</button>
+      <button type='button' class='state-sample on-primary is-disabled text-label-large' disabled>Disabled</button>
+    </div>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='tokens-title'>
+    <h2 class='text-headline-small' id='tokens-title'>Tokens</h2>
+    <table class='token-table token-table-stack'>
+      <thead>
+        <tr>
+          <th scope='col' class='text-label-large'>Token</th>
+          <th scope='col' class='text-label-large'>Opacity</th>
+          <th scope='col' class='text-label-large'>Use for</th>
+        </tr>
+      </thead>
+      <tbody>
+        {STATES.map(state => (
+          <tr>
+            <td class='token-name text-code-small'><Fragment set:html={breakableName(state.variable)} /></td>
+            <td class='token-value text-code-small'>{state.value}</td>
+            <td class='token-description text-body-medium'>{state.description}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Using state layers</h2>
+    <p class='text-body-large'>
+      Draw the layer with a pseudo-element filled with <code class='text-code-block'>currentColor</code> and change only
+      its opacity, so one rule works on every container color. Disabled elements use
+      <code class='text-code-block'>--color-on-surface</code> at the disabled opacities, whatever their enabled color.
+    </p>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+  </section>
+</Layout>

@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import { breakableName, DEFAULT_SHAPE, SHAPE_COLUMNS, SHAPE_CORNERS } from '../../_data/foundations.ts';
+
+const currentColumn = SHAPE_COLUMNS.findIndex(column => column.value === DEFAULT_SHAPE);
+const sampleCorners = ['--shape-corner-small', '--shape-corner-medium', '--shape-corner-large', '--shape-corner-extra-large'];
+const sampleSizes = ['2rem', '2.75rem', '3.5rem', '4.25rem'];
+
+const usage = `.tile {
+  border-radius: var(--shape-corner-medium);
+}
+
+.sheet {
+  /* Round only the top corners */
+  border-start-start-radius: var(--shape-corner-extra-large);
+  border-start-end-radius: var(--shape-corner-extra-large);
+}`;
+---
+
+<Layout
+  title='Shape'
+  description='Corner radius tokens, from none to full. Small components such as chips use the small corners and large surfaces such as sheets and dialogs use the large ones, so the UI stays consistent when a theme changes the scale.'
+>
+  <section class='foundation-section' aria-labelledby='scale-title'>
+    <h2 class='text-headline-small' id='scale-title'>Corner scale</h2>
+    <p class='text-body-large foundation-muted'>
+      These boxes use the live tokens, so they show the shape of the theme this page is in.
+    </p>
+    <div class='shape-scale'>
+      {SHAPE_CORNERS.map(corner => (
+        <div class='shape-sample'>
+          <div class='shape-box' style={`border-radius: var(${corner.variable});`}></div>
+          <code class='text-code-small token-name'><Fragment set:html={breakableName(corner.variable)} /></code>
+          <span class='text-label-medium foundation-muted'>{corner.values[currentColumn]}</span>
+        </div>
+      ))}
+    </div>
+    <Highlighter lang='css'><Fragment set:text={usage} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='presets-title'>
+    <h2 class='text-headline-small' id='presets-title'>Shape presets</h2>
+    <p class='text-body-large'>
+      A theme picks one of four presets. <strong>{SHAPE_COLUMNS[currentColumn].label}</strong> is the Material 3 scale and
+      the one Peacock ships with. Circles drawn with <code class='text-code-block'>50%</code>, such as radio buttons and
+      spinners, stay round in every preset.
+    </p>
+    <div class='shape-presets'>
+      {SHAPE_COLUMNS.map((column, index) => (
+        <div class:list={['shape-preset', { 'is-current': index === currentColumn }]}>
+          <span class='text-title-medium'>
+            {column.label}
+            {index === currentColumn && <span class='text-label-medium foundation-muted'> (in use)</span>}
+          </span>
+          <div class='shape-preset-samples' aria-hidden='true'>
+            {sampleCorners.map((name, i) => {
+              const radius = SHAPE_CORNERS.find(corner => corner.variable === name)?.values[index] ?? '0px';
+              return <span style={`width: ${sampleSizes[i]}; height: ${sampleSizes[i]}; border-radius: ${radius};`}></span>;
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <table class='token-table'>
+      <caption class='text-body-medium foundation-muted'>Corner radius per preset</caption>
+      <thead>
+        <tr>
+          <th scope='col' class='text-label-large'>Token</th>
+          {SHAPE_COLUMNS.map((column, index) => (
+            <th scope='col' class:list={['text-label-large', { 'is-current': index === currentColumn }]}>{column.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {SHAPE_CORNERS.map(corner => (
+          <tr>
+            <td class='token-name text-code-small'><Fragment set:html={breakableName(corner.variable)} /></td>
+            {corner.values.map((value, index) => (
+              <td class:list={['token-value text-code-small', { 'is-current': index === currentColumn }]}>
+                {value.replace('px', '')}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class='text-body-medium foundation-muted'>Values in px.</p>
+    <div class='foundation-actions'>
+      <wc-button href='/theme-builder' variant='filled'>
+        <wc-icon slot='icon' name='format_paint'></wc-icon>
+        Try the presets in the theme builder
+      </wc-button>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Foundations.astro';
+import { FOUNDATION_PAGES } from '../../_data/foundations.ts';
+
+const pages = FOUNDATION_PAGES.filter(page => page.href !== '/foundations/');
+---
+
+<Layout
+  title='Foundations'
+  description='The design tokens behind every Peacock component: color, shape, elevation, motion, spacing, state layers and type. Use them in your own CSS so your UI stays in step with the components and the theme.'
+>
+  <section class='foundation-section' aria-labelledby='pages-title'>
+    <h2 class='text-headline-small' id='pages-title'>Pages</h2>
+    <div class='foundation-cards'>
+      {pages.map(page => (
+        <a class='foundation-card' href={page.href}>
+          <wc-icon name={page.icon} aria-hidden='true'></wc-icon>
+          <span class='text-title-large'>{page.label}</span>
+          <span class='text-body-medium foundation-muted'>{page.description}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='tokens-title'>
+    <h2 class='text-headline-small' id='tokens-title'>How the tokens work</h2>
+    <p class='text-body-large'>
+      Every token is a CSS custom property declared on <code class='text-code-block'>:root</code> by Peacock's
+      <code class='text-code-block'>styles.css</code>. Components read them, and so can your own styles:
+    </p>
+    <ul class='text-body-large'>
+      <li>
+        <strong>Theme tokens</strong> (palettes, color roles, corner shapes and font families) come from one theme
+        config. Change it in the <a href='/theme-builder'>theme builder</a> and the whole set is generated again.
+      </li>
+      <li>
+        <strong>Static tokens</strong> (spacing, motion, elevation, state layers and the type scale) are the same for
+        every theme.
+      </li>
+      <li>
+        <strong>Dark mode</strong> swaps the color roles. It turns on with <code class='text-code-block'>data-theme="dark"</code>
+        on any element, or on its own when the system is dark, unless the page sets
+        <code class='text-code-block'>data-theme="light"</code>.
+      </li>
+    </ul>
+    <div class='foundation-actions'>
+      <wc-button href='/theme-builder' variant='filled'>
+        <wc-icon slot='icon' name='format_paint'></wc-icon>
+        Build a theme
+      </wc-button>
+      <wc-button href='/foundations/color/' variant='outlined'>Start with color</wc-button>
+    </div>
+  </section>
+</Layout>

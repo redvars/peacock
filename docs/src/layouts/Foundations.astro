@@ -1,0 +1,47 @@
+---
+import Layout from './WithSidebar.astro';
+import Footer from '../components/Footer.astro';
+import { FOUNDATION_PAGES } from '../_data/foundations.ts';
+import '../styles/pages/foundations.scss';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const index = FOUNDATION_PAGES.findIndex(page => page.href === pathname);
+const previous = index > 0 ? FOUNDATION_PAGES[index - 1] : undefined;
+const next = index >= 0 ? FOUNDATION_PAGES[index + 1] : undefined;
+---
+
+<Layout title={index === 0 ? title : `${title} · Foundations`} description={description} sidebarItems={FOUNDATION_PAGES}>
+  <article class='foundation-page'>
+    <header class='foundation-header'>
+      {index !== 0 && <a class='text-label-large foundation-eyebrow' href='/foundations/'>Foundations</a>}
+      <h1 class='text-display-small'>{title}</h1>
+      <p class='text-body-large foundation-lede'>{description}</p>
+    </header>
+
+    <slot />
+
+    <nav class='foundation-pager' aria-label='Foundations pages'>
+      {previous && (
+        <a class='foundation-pager-link' href={previous.href} rel='prev'>
+          <span class='text-label-medium foundation-muted'>Previous</span>
+          <span class='text-title-medium'>{previous.label}</span>
+        </a>
+      )}
+      {next && (
+        <a class='foundation-pager-link foundation-pager-next' href={next.href} rel='next'>
+          <span class='text-label-medium foundation-muted'>Next</span>
+          <span class='text-title-medium'>{next.label}</span>
+        </a>
+      )}
+    </nav>
+  </article>
+
+  <Footer />
+</Layout>
