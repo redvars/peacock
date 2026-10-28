@@ -52,6 +52,16 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
 <wc-button>Button</wc-button>
 ```
 
+### Icons without the CDN
+
+`loader.js` fetches icons from cdn.jsdelivr.net. For a page that must stay on its own origin, such as an intranet or a page whose content security policy allows only `connect-src 'self'`, serve the package's `dist/` folder yourself and load `loader-full.js` instead. It loads the same components, and fetches Material Symbols from the copy it ships in `dist/icons/material-symbols/`:
+
+```html
+<script type='module' src='/assets/peacock/dist/loader-full.js'></script>
+```
+
+To keep icons somewhere else, call `setIconBase('material-symbols', '/my/icons/')` before the first icon renders; the folder holds one `<name>.svg` per icon.
+
 # Components
 
 - 🟢 ready (feature complete for now)

@@ -28,7 +28,9 @@ export default async function () {
   const files = await findLitComponents();
   return [
     {
-      input: ['src/index.ts', 'src/loader.ts', ...files], // Your main TypeScript entry file
+      // shipped-icons is an entry of its own so loader-full.js runs it before loader.js; inlined, it
+      // would run after.
+      input: ['src/index.ts', 'src/loader.ts', 'src/loader-full.ts', 'src/shipped-icons.ts', ...files], // Your main TypeScript entry file
       output: {
         dir: 'dist',
         format: 'esm', // Output as ES Modules (esm), also supports cjs, umd, etc.
@@ -68,6 +70,14 @@ export default async function () {
             {
               src: './assets/*',
               dest: './dist/assets/',
+            },
+            // Material Symbols for loader-full.js, which loads icons from here instead of the CDN.
+            {
+              src: [
+                './node_modules/@material-symbols/svg-500/outlined/*',
+                './node_modules/@material-symbols/svg-500/LICENSE',
+              ],
+              dest: './dist/icons/material-symbols/',
             },
           ],
         }),

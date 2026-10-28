@@ -32,7 +32,8 @@ function copyFolderRecursiveSync(source, destination) {
     fs.mkdirSync(destination, { recursive: true });
   }
 
-  const files = fs.readdirSync(source);
+  // The icons shipped for loader-full.js stay out of the docs, which load them from the CDN.
+  const files = fs.readdirSync(source).filter((file) => !(source === sourceDir && file === "icons"));
 
   files.forEach((file) => {
     const srcPath = path.join(source, file);
