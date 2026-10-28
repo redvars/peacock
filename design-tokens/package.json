@@ -4,7 +4,9 @@
   "description": "red:var design tokens",
   "type": "module",
   "scripts": {
-    "build": "tz build",
+    "build": "node ./bin/build-theme.mjs && npm run build:engine",
+    "build:engine": "esbuild src/engine/index.mjs --bundle --format=esm --platform=browser --target=es2022 --minify --legal-comments=eof --outfile=dist/theme.js",
+    "test": "node --test test/",
     "deploy": "node ./bin/deployToComponents.js"
   },
   "files": [
@@ -22,12 +24,9 @@
   "author": "Redvars <hello@redvars.com>",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@material/material-color-utilities": "^0.3.0",
-    "@terrazzo/cli": "^0.10.5",
+    "@material/material-color-utilities": "0.3.0",
+    "@terrazzo/parser": "^0.10.5",
     "@terrazzo/plugin-css": "^0.10.4",
-    "@terrazzo/token-tools": "^0.10.5",
-    "@tokens-studio/sd-transforms": "^2.0.3",
-    "culori": "^4.0.2",
-    "style-dictionary": "^5.1.1"
+    "esbuild": "^0.28.2"
   }
 }

@@ -1,0 +1,152 @@
+---
+/**
+ * Sample page for the theme builder. It renders inside `.theme-preview`, the
+ * selector the builder declares the generated tokens on, so every component
+ * here picks up the theme being edited. `mode` sets light or dark.
+ */
+interface Props {
+  id: string;
+  mode: 'light' | 'dark';
+}
+
+const { id, mode } = Astro.props;
+
+const paletteNames = ['primary', 'secondary', 'tertiary', 'neutral', 'neutral-variant'];
+const tones = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 98, 100];
+const roles = [
+  ['primary', 'on-primary'],
+  ['primary-container', 'on-primary-container'],
+  ['secondary', 'on-secondary'],
+  ['secondary-container', 'on-secondary-container'],
+  ['tertiary', 'on-tertiary'],
+  ['tertiary-container', 'on-tertiary-container'],
+  ['error', 'on-error'],
+  ['surface-container-highest', 'on-surface'],
+];
+---
+
+<div class='theme-preview' id={id} data-theme={mode} aria-label={`${mode} theme preview`}>
+  <wc-app-bar variant='small'>
+    <wc-icon-button slot='leading' variant='text' aria-label='Menu'>
+      <wc-icon name='menu'></wc-icon>
+    </wc-icon-button>
+    Wayfarer
+    <wc-icon-button slot='trailing' variant='text' aria-label='Notifications'>
+      <wc-icon name='notifications'></wc-icon>
+    </wc-icon-button>
+    <wc-avatar slot='trailing' name='Ada Lovelace'></wc-avatar>
+  </wc-app-bar>
+
+  <div class='preview-body'>
+    <section class='preview-hero'>
+      <div>
+        <div class='text-headline-medium'>Plan your next trip</div>
+        <p class='text-body-large preview-muted'>
+          Flights, stays and day plans in one place. Every color, corner and font on this page comes
+          from the theme you are building.
+        </p>
+        <div class='preview-row'>
+          <wc-button variant='filled'>Book now</wc-button>
+          <wc-button variant='tonal'>Save for later</wc-button>
+          <wc-button variant='outlined'>Compare</wc-button>
+          <wc-button variant='text'>Details</wc-button>
+        </div>
+      </div>
+      <wc-fab color='primary' aria-label='New trip'><wc-icon name='add'></wc-icon></wc-fab>
+    </section>
+
+    <wc-tabs class='preview-tabs'>
+      <wc-tab active>Flights</wc-tab>
+      <wc-tab>Hotels</wc-tab>
+      <wc-tab>Cars</wc-tab>
+    </wc-tabs>
+
+    <div class='preview-grid'>
+      <wc-card variant='elevated'>
+        <wc-card-content class='preview-card'>
+          <div class='text-title-medium'>Search flights</div>
+          <wc-input label='Destination' placeholder='Lisbon'></wc-input>
+          <wc-select label='Travellers' class='preview-travellers' value='2'></wc-select>
+          <wc-checkbox value='true'>Flexible dates</wc-checkbox>
+          <wc-switch label='Price alerts' value='true'></wc-switch>
+          <div class='text-label-medium preview-muted'>Budget</div>
+          <wc-slider value='60' aria-label='Budget'></wc-slider>
+          <wc-button variant='filled' class='preview-full'>Search</wc-button>
+        </wc-card-content>
+      </wc-card>
+
+      <wc-card variant='filled'>
+        <wc-card-content class='preview-card'>
+          <div class='text-title-medium'>Upcoming</div>
+          <wc-list>
+            <wc-list-item>
+              <wc-avatar slot='leading' name='Lisbon'></wc-avatar>
+              Lisbon · 12 – 18 May
+            </wc-list-item>
+            <wc-list-item>
+              <wc-avatar slot='leading' name='Kyoto'></wc-avatar>
+              Kyoto · 2 – 14 Jun
+            </wc-list-item>
+          </wc-list>
+          <div class='preview-row'>
+            <wc-chip selected>Beach</wc-chip>
+            <wc-chip>City</wc-chip>
+            <wc-chip>Mountains</wc-chip>
+          </div>
+          <div class='text-label-medium preview-muted'>Trip planned</div>
+          <wc-linear-progress value='70'></wc-linear-progress>
+        </wc-card-content>
+      </wc-card>
+
+      <wc-card variant='outlined'>
+        <wc-card-content class='preview-card'>
+          <div class='text-title-medium'>Seat class</div>
+          <wc-radio name={`${id}-class`} value='economy' label='Economy' checked></wc-radio>
+          <wc-radio name={`${id}-class`} value='premium' label='Premium economy'></wc-radio>
+          <wc-radio name={`${id}-class`} value='business' label='Business'></wc-radio>
+          <wc-alert variant='success' description='Seats are confirmed.'></wc-alert>
+          <wc-alert variant='error' description='Payment failed. Try another card.'></wc-alert>
+        </wc-card-content>
+      </wc-card>
+    </div>
+
+    <section class='preview-section'>
+      <div class='text-title-medium'>Color roles</div>
+      <div class='preview-roles'>
+        {roles.map(([role, onRole]) => (
+          <div class='preview-role' style={`background: var(--color-${role}); color: var(--color-${onRole});`}>
+            <span class='text-label-large'>{role}</span>
+            <span class='text-label-small'>{onRole}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class='preview-section'>
+      <div class='text-title-medium'>Tonal palettes</div>
+      {paletteNames.map(palette => (
+        <div class='preview-palette'>
+          <span class='text-label-medium preview-palette-name'>{palette}</span>
+          <div class='preview-tones'>
+            {tones.map(tone => (
+              <span
+                class='preview-tone'
+                title={`--color-${palette}-${tone}`}
+                style={`background: var(--color-${palette}-${tone}); color: var(--color-${palette}-${tone > 50 ? 10 : 100});`}
+              >{tone}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class='preview-section'>
+      <div class='text-title-medium'>Type scale</div>
+      <div class='text-display-small'>Display small</div>
+      <div class='text-headline-small'>Headline small</div>
+      <div class='text-title-large'>Title large</div>
+      <div class='text-body-large'>Body large: the quick brown fox jumps over the lazy dog.</div>
+      <div class='text-label-large'>Label large</div>
+    </section>
+  </div>
+</div>

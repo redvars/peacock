@@ -18,6 +18,10 @@
   "exports": {
     ".": "./dist/src/index.js",
     "./icon.js": "./dist/src/index.js",
+    "./theme": {
+      "types": "./dist/assets/theme.d.ts",
+      "default": "./dist/assets/theme.js"
+    },
     "./flow-designer.js": "./dist/src/flow-designer/flow-designer.js",
     "./flow-designer-node.js": "./dist/src/flow-designer/flow-designer-node.js"
   },

@@ -44,13 +44,23 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.9.0/dist/assets/styles.css"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.10.1/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.9.0/dist/loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.10.1/dist/loader.js'></script>
 </head>
 
 <wc-button>Button</wc-button>
 ```
+
+### Icons without the CDN
+
+`loader.js` fetches icons from cdn.jsdelivr.net. For a page that must stay on its own origin, such as an intranet or a page whose content security policy allows only `connect-src 'self'`, serve the package's `dist/` folder yourself and load `loader-full.js` instead. It loads the same components, and fetches Material Symbols from the copy it ships in `dist/icons/material-symbols/`:
+
+```html
+<script type='module' src='/assets/peacock/dist/loader-full.js'></script>
+```
+
+To keep icons somewhere else, call `setIconBase('material-symbols', '/my/icons/')` before the first icon renders; the folder holds one `<name>.svg` per icon.
 
 # Components
 

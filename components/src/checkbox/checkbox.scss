@@ -193,8 +193,8 @@
   --checkbox-icon-size: 10px;
   --checkbox-state-layer-size: 36px;
 
-  font-size: var(--font-size-body-small);
-  line-height: var(--line-height-body-small);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
 
   .icon {
     stroke-width: 1.5;
@@ -216,8 +216,8 @@
   --checkbox-icon-size: 16px;
   --checkbox-state-layer-size: 48px;
 
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body-large);
+  font-size: var(--typography-body-large-font-size);
+  line-height: var(--typography-body-large-line-height);
 
   .icon {
     stroke-width: 2.5;

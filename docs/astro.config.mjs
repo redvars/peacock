@@ -10,4 +10,5 @@ export default defineConfig({
   compressHTML: false,
   server: { port: 4000, host: true, allowedHosts: ['peacockdev.redvars.com'] },
   integrations: [pagefind(), sitemap(), mdx()],
+  redirects: { '/theme-creator': '/theme-builder' },
 });

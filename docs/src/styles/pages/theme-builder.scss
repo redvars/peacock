@@ -1,0 +1,280 @@
+@charset "utf-8";
+@use '../mixin';
+
+.theme-builder {
+  display: grid;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-200);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'header'
+    'controls'
+    'main';
+
+  .tb-header {
+    grid-area: header;
+
+    p {
+      max-width: 48rem;
+    }
+  }
+
+  .tb-controls {
+    grid-area: controls;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300);
+    background: var(--color-surface);
+    border-radius: var(--shape-corner-extra-large);
+  }
+
+  .tb-main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+}
+
+@include mixin.for-tablet-landscape-up {
+  .theme-builder {
+    padding: var(--spacing-400);
+    grid-template-columns: 21rem minmax(0, 1fr);
+    grid-template-areas:
+      'header header'
+      'controls main';
+    align-items: start;
+
+    .tb-controls {
+      position: sticky;
+      top: var(--spacing-300);
+      max-height: calc(100vh - 2 * var(--spacing-300));
+      overflow-y: auto;
+    }
+  }
+}
+
+.tb-muted {
+  color: var(--color-on-surface-variant);
+}
+
+.tb-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+
+  & + .tb-group {
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+}
+
+.tb-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  wc-color-picker {
+    --color-picker-width: 100%;
+  }
+}
+
+.tb-custom-color-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.tb-swatch {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--shape-corner-full);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.tb-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+}
+
+.tb-corner {
+  width: 14px;
+  height: 14px;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+}
+
+.tb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+}
+
+.tb-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+
+.tb-previews {
+  display: grid;
+  gap: var(--spacing-300);
+  grid-template-columns: minmax(0, 1fr);
+
+  &[data-mode='light'] #preview-dark,
+  &[data-mode='dark'] #preview-light {
+    display: none;
+  }
+}
+
+@include mixin.for-big-desktop-up {
+  .tb-previews[data-mode='both'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tb-code {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  background: var(--color-surface);
+  border-radius: var(--shape-corner-extra-large);
+
+  wc-code-editor {
+    --code-editor-height: 28rem;
+  }
+}
+
+// ── Sample page. Everything below reads the tokens declared on
+// .theme-preview, so it follows the theme being built.
+
+.theme-preview {
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-family-sans);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-extra-large);
+  overflow: hidden;
+
+  &[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  &[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  .preview-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300);
+  }
+
+  .preview-muted {
+    color: var(--color-on-surface-variant);
+  }
+
+  .preview-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    padding: var(--spacing-400);
+    border-radius: var(--shape-corner-extra-large);
+    // A neutral container: buttons are only contrast-paired with surfaces,
+    // and primary-container turns dark at high contrast.
+    background: var(--color-surface-container-high);
+
+    .text-headline-medium {
+      color: var(--color-primary);
+    }
+  }
+
+  .preview-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--spacing-200);
+  }
+
+  .preview-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200);
+  }
+
+  .preview-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+
+  .preview-roles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: var(--spacing-100);
+  }
+
+  .preview-role {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 4.5rem;
+    padding: var(--spacing-150);
+    border-radius: var(--shape-corner-medium);
+  }
+
+  .preview-palette {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+
+  .preview-tones {
+    display: grid;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    border-radius: var(--shape-corner-small);
+    overflow: hidden;
+  }
+
+  .preview-tone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    font-size: 0.6875rem;
+  }
+}
+
+@include mixin.for-phone-only {
+  .theme-preview {
+    .preview-hero {
+      flex-direction: column;
+      padding: var(--spacing-300);
+    }
+
+    .preview-palette {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .preview-tone {
+      font-size: 0;
+    }
+  }
+}

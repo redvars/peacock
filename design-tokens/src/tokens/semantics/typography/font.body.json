@@ -3,7 +3,7 @@
     "display-large": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -25,7 +25,7 @@
     "display-large-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -47,7 +47,7 @@
     "display-medium": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -69,7 +69,7 @@
     "display-medium-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -91,7 +91,7 @@
     "display-small": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -113,7 +113,7 @@
     "display-small-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -135,7 +135,7 @@
     "headline-large": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -157,7 +157,7 @@
     "headline-large-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -179,7 +179,7 @@
     "headline-medium": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -201,7 +201,7 @@
     "headline-medium-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -223,7 +223,7 @@
     "headline-small": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -245,7 +245,7 @@
     "headline-small-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -267,7 +267,7 @@
     "title-large": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -289,7 +289,7 @@
     "title-large-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -311,7 +311,7 @@
     "title-medium": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -333,7 +333,7 @@
     "title-medium-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -355,7 +355,7 @@
     "title-small": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -377,7 +377,7 @@
     "title-small-emphasized": {
       "fontFamily": {
         "$type": "fontFamily",
-        "$value": "{font-family-sans}"
+        "$value": "{font-family-brand}"
       },
       "fontWeight": {
         "$type": "fontWeight",
@@ -660,7 +660,6 @@
         "$value": "0.4000000059604645px"
       }
     },
-
     "code-large": {
       "fontFamily": {
         "$type": "fontFamily",

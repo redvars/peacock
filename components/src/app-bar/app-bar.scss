@@ -72,11 +72,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: var(--typescale-title-large-font);
-  font-size: var(--typescale-title-large-size);
-  font-weight: var(--typescale-title-large-weight);
-  line-height: var(--typescale-title-large-line-height);
-  letter-spacing: var(--typescale-title-large-tracking);
+  @include mixin.get-typography-not-important('title-large');
   color: var(--_app-bar-headline-color);
   padding-inline: 0.75rem;
 }
@@ -114,11 +110,7 @@
     align-items: flex-end;
 
     .headline {
-      font: var(--typescale-headline-small-font, inherit);
-      font-size: var(--typescale-headline-small-size, 1.5rem);
-      font-weight: var(--typescale-headline-small-weight, 400);
-      line-height: var(--typescale-headline-small-line-height, 2rem);
-      letter-spacing: var(--typescale-headline-small-tracking, 0);
+      @include mixin.get-typography-not-important('headline-small');
       padding-inline: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -144,11 +136,7 @@
     align-items: flex-end;
 
     .headline {
-      font: var(--typescale-headline-medium-font, inherit);
-      font-size: var(--typescale-headline-medium-size, 1.75rem);
-      font-weight: var(--typescale-headline-medium-weight, 400);
-      line-height: var(--typescale-headline-medium-line-height, 2.25rem);
-      letter-spacing: var(--typescale-headline-medium-tracking, 0);
+      @include mixin.get-typography-not-important('headline-medium');
       padding-inline: 0;
       white-space: nowrap;
       overflow: hidden;
@@ -161,5 +149,5 @@
 /* ---- Scrolled state ---- */
 
 :host([scrolled]) {
-  --app-bar-shadow: var(--elevation-shadow-level-2, 0 2px 4px rgba(0, 0, 0, 0.12));
+  --app-bar-shadow: var(--elevation-level2);
 }

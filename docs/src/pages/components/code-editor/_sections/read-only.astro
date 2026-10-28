@@ -1,0 +1,31 @@
+---
+export const title = 'Read-only code';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p class='text-body-medium'>
+  Use <code class='text-code-block'>readonly</code> to show code people should read and copy, like generated
+  configuration. The copy button is on by default; hide it with <code class='text-code-block'>hide-copy</code>,
+  and add <code class='text-code-block'>show-readonly-badge</code> to label the editor as read-only. The
+  <code class='text-code-block'>copied</code> event fires after a copy.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-editor id='read-only-css-editor' language='css' readonly style='display:block; width: 100%; --code-editor-height: 12rem;'></wc-code-editor>
+  <script is:inline>
+    document.getElementById('read-only-css-editor').value = `:root {
+  --color-primary: var(--color-primary-40);
+  --color-on-primary: var(--color-primary-100);
+  --shape-corner-medium: 12px;
+}
+
+[data-theme='dark'] {
+  --color-primary: var(--color-primary-80);
+  --color-on-primary: var(--color-primary-20);
+}`;
+    document.getElementById('read-only-css-editor').addEventListener('copied', () => {
+      myConsole.log('Copied the CSS', 'wc-code-editor');
+    });
+  </script>
+</DemoComponentCard>

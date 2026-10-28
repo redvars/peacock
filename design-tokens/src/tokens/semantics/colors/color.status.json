@@ -1,0 +1,125 @@
+{
+  "color": {
+    "$type": "color",
+    "success": {
+      "$value": "{color.green.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.80}"
+        }
+      }
+    },
+    "onSuccess": {
+      "$value": "{color.green.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.20}"
+        }
+      }
+    },
+    "successContainer": {
+      "$value": "{color.green.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.30}"
+        }
+      }
+    },
+    "onSuccessContainer": {
+      "$value": "{color.green.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.90}"
+        }
+      }
+    },
+    "inverseSuccess": {
+      "$value": "{color.green.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.green.40}"
+        }
+      }
+    },
+    "warning": {
+      "$value": "{color.yellow.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.80}"
+        }
+      }
+    },
+    "onWarning": {
+      "$value": "{color.yellow.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.20}"
+        }
+      }
+    },
+    "warningContainer": {
+      "$value": "{color.yellow.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.30}"
+        }
+      }
+    },
+    "onWarningContainer": {
+      "$value": "{color.yellow.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.90}"
+        }
+      }
+    },
+    "inverseWarning": {
+      "$value": "{color.yellow.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.yellow.40}"
+        }
+      }
+    },
+    "error": {
+      "$value": "{color.red.40}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.80}"
+        }
+      }
+    },
+    "onError": {
+      "$value": "{color.red.100}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.20}"
+        }
+      }
+    },
+    "errorContainer": {
+      "$value": "{color.red.90}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.30}"
+        }
+      }
+    },
+    "onErrorContainer": {
+      "$value": "{color.red.10}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.90}"
+        }
+      }
+    },
+    "inverseError": {
+      "$value": "{color.red.80}",
+      "$extensions": {
+        "mode": {
+          "dark": "{color.red.40}"
+        }
+      }
+    }
+  }
+}

@@ -39,6 +39,22 @@
     "standard": {
       "$value": [0.2, 0, 0, 1]
     },
+    "standard-accelerate": {
+      "$value": [0.3, 0, 1, 1]
+    },
+    "standard-decelerate": {
+      "$value": [0, 0, 0, 1]
+    },
+    "emphasized": {
+      "$value": [0.2, 0, 0, 1],
+      "$description": "CSS approximation of the M3 emphasized curve. Pair with the long durations."
+    },
+    "emphasized-accelerate": {
+      "$value": [0.3, 0, 0.8, 0.15]
+    },
+    "emphasized-decelerate": {
+      "$value": [0.05, 0.7, 0.1, 1]
+    },
     "linear": {
       "$value": [0, 0, 1, 1]
     }

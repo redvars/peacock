@@ -73,7 +73,7 @@
   height: var(--_thumb-size);
   background-color: var(--_thumb-color);
   border-radius: 50%;
-  box-shadow: var(--md-sys-elevation-1);
+  box-shadow: var(--elevation-level1);
   outline: none;
   cursor: grab;
   transition: left 0.05s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
@@ -103,7 +103,7 @@
   &:focus-visible::before { opacity: 0.12; }
   &:active {
     cursor: grabbing;
-    box-shadow: var(--md-sys-elevation-5);
+    box-shadow: var(--elevation-level5);
   }
 
   // Disable transition while dragging

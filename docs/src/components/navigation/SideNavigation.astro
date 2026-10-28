@@ -6,6 +6,7 @@ const isComponentsPage =
   pathname === '/components' ||
   (pathname.startsWith('/components/') && !isTypographyPage);
 const isColorsPage = pathname === '/color';
+const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
 const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
@@ -15,7 +16,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   .navigation-rail {
     position: fixed;
     --nav-rail-width: var(--side-navigation-width);
-    --nav-rail-container-color: var(--container-surface-container-high);
+    --nav-rail-container-color: transparent;
   }
 </style>
 
@@ -42,6 +43,10 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   <wc-navigation-rail-item href='/color' aria-label='Go to Colors' active={isColorsPage ? true : null}>
     <wc-icon slot="icon" name="palette"></wc-icon>
     Colors
+  </wc-navigation-rail-item>
+  <wc-navigation-rail-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
+    <wc-icon slot="icon" name="format_paint"></wc-icon>
+    Theme
   </wc-navigation-rail-item>
   <wc-navigation-rail-item href='/components/text' aria-label='Go to Typography' active={isTypographyPage ? true : null}>
     <wc-icon slot="icon" name="font_download"></wc-icon>

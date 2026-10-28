@@ -1,0 +1,10 @@
+{
+  "primary": "#7c5df0",
+  "variant": "classic",
+  "contrast": "standard",
+  "shape": "default",
+  "font": {
+    "brand": "Noto Sans",
+    "plain": "Noto Sans"
+  }
+}

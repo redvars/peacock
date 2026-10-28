@@ -13,9 +13,15 @@
     }
   },
   "z-index": {
+    "$type": "number",
     "badge": {
-      "$type": "number",
       "$value": 10
+    },
+    "popover": {
+      "$value": 1000
+    },
+    "notification-manager": {
+      "$value": 9000
     }
   },
   "scrollbar-width": {

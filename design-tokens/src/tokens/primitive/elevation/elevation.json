@@ -1,0 +1,41 @@
+{
+  "elevation": {
+    "$type": "shadow",
+    "$description": "M3 elevation levels as box shadows: a key shadow plus an ambient shadow.",
+    "level0": {
+      "$value": [
+        { "color": "#00000000", "offsetX": "0px", "offsetY": "0px", "blur": "0px", "spread": "0px" }
+      ]
+    },
+    "level1": {
+      "$value": [
+        { "color": "#0000004d", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+        { "color": "#00000026", "offsetX": "0px", "offsetY": "1px", "blur": "3px", "spread": "1px" }
+      ]
+    },
+    "level2": {
+      "$value": [
+        { "color": "#0000004d", "offsetX": "0px", "offsetY": "1px", "blur": "2px", "spread": "0px" },
+        { "color": "#00000026", "offsetX": "0px", "offsetY": "2px", "blur": "6px", "spread": "2px" }
+      ]
+    },
+    "level3": {
+      "$value": [
+        { "color": "#0000004d", "offsetX": "0px", "offsetY": "1px", "blur": "3px", "spread": "0px" },
+        { "color": "#00000026", "offsetX": "0px", "offsetY": "4px", "blur": "8px", "spread": "3px" }
+      ]
+    },
+    "level4": {
+      "$value": [
+        { "color": "#0000004d", "offsetX": "0px", "offsetY": "2px", "blur": "3px", "spread": "0px" },
+        { "color": "#00000026", "offsetX": "0px", "offsetY": "6px", "blur": "10px", "spread": "4px" }
+      ]
+    },
+    "level5": {
+      "$value": [
+        { "color": "#0000004d", "offsetX": "0px", "offsetY": "4px", "blur": "4px", "spread": "0px" },
+        { "color": "#00000026", "offsetX": "0px", "offsetY": "8px", "blur": "12px", "spread": "6px" }
+      ]
+    }
+  }
+}

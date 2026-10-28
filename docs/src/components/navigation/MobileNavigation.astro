@@ -6,6 +6,7 @@ const isComponentsPage =
   pathname === '/components' ||
   (pathname.startsWith('/components/') && !isTypographyPage);
 const isColorsPage = pathname === '/color';
+const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
 const isHomePage = pathname === '/';
 const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
@@ -61,6 +62,10 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     <wc-list-item href='/color' aria-label='Go to Colors' active={isColorsPage ? true : null}>
       <wc-icon slot="leading" name="palette"></wc-icon>
       Colors
+    </wc-list-item>
+    <wc-list-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
+      <wc-icon slot="leading" name="format_paint"></wc-icon>
+      Theme builder
     </wc-list-item>
     <wc-list-item href='/components/text' aria-label='Go to Typography' active={isTypographyPage ? true : null}>
       <wc-icon slot="leading" name="font_download"></wc-icon>

@@ -404,7 +404,7 @@
     "summary": "A loading indicator built from the Redvars r mark.",
     "cssprop": "--brand-loader-duration - The length of one loop.",
     "tags": "display",
-    "example": "```html\n<wc-brand-loader></wc-brand-loader>\n```",
+    "example": "```html\r\n<wc-brand-loader></wc-brand-loader>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2347,12 +2347,36 @@
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
     "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component.\n - Supports JS/JSON/HTML languages, read-only mode, line numbers, minimap, and dark/light theme.\n - Emits `change` when content is edited and updates value from property changes.",
-    "example": "```html\n<wc-code-editor\n  language=\"javascript\"\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\"function hello() { console.log('Hello'); }\"\n  lineNumbers=\"on\"\n  minimap=\"false\">\n</wc-code-editor>\n```",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component.\n - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.\n - Has a copy button; hide it with `hide-copy`.\n - Emits `change` when content is edited and updates value from property changes.",
+    "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
+    "fires": "copied - Dispatched after the copy button copies the content.",
+    "example": "```html\n<wc-code-editor\n  language=\"css\"\n  readonly\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\":root { --color-primary: #6341d5; }\">\n</wc-code-editor>\n```",
     "tags": "input, editor",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Height of the editor. Defaults to 300px.",
+          "name": "--code-editor-height"
+        }
+      ],
+      "events": [
+        {
+          "name": "copied",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched after the copy button copies the content."
+        },
+        {
+          "type": {
+            "text": "Event"
+          },
+          "description": "Dispatched when the user edits the content.",
+          "name": "change"
+        }
+      ],
       "attributes": [
         {
           "name": "name",
@@ -2360,6 +2384,7 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Name of the field, for form use.",
           "fieldName": "name"
         },
         {
@@ -2368,21 +2393,27 @@
             "text": "string"
           },
           "default": "''",
+          "description": "The code shown in the editor. Updated as the user types.",
           "fieldName": "value"
         },
         {
           "name": "language",
           "type": {
-            "text": "'javascript' | 'json' | 'html'"
+            "text": "CodeEditorLanguage"
           },
           "default": "'javascript'",
-          "fieldName": "language"
+          "description": "Language used for syntax highlighting. Can be changed after the editor loads.",
+          "fieldName": "language",
+          "expandedType": {
+            "text": "'javascript' | 'json' | 'html' | 'css' | 'scss'"
+          }
         },
         {
           "name": "libSource",
           "type": {
             "text": "any"
           },
+          "description": "Extra source loaded as a separate model, e.g. type definitions for completions.",
           "fieldName": "libSource"
         },
         {
@@ -2391,6 +2422,7 @@
             "text": "'off' | 'on'"
           },
           "default": "'on'",
+          "description": "Whether line numbers show in the gutter.",
           "fieldName": "lineNumbers"
         },
         {
@@ -2399,7 +2431,26 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the minimap. Leave the attribute out to hide it.",
           "fieldName": "minimap"
+        },
+        {
+          "name": "hide-copy",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the copy button.",
+          "fieldName": "hideCopy"
+        },
+        {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+          "fieldName": "showReadonlyBadge"
         },
         {
           "name": "disabled",
@@ -3391,7 +3442,7 @@
     "rawTag": "field",
     "summary": "Wrapper for form fields with label and help text.",
     "overview": "<p>Field provides consistent styling and behavior for form inputs.</p>",
-    "example": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```",
+    "example": "```html\r\n<wc-field label=\"Name\" required>\r\n  some text\r\n</wc-field>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -6817,8 +6868,8 @@
     "tag": "wc-select",
     "rawTag": "select",
     "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
-    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\n\n- Single and multi-select modes\n- Client-side typeahead with `search=\"contains\"`\n- Server-side typeahead with `search=\"managed\"`\n- Multi-select chips display",
-    "example": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\r\n\r\n- Single and multi-select modes\r\n- Client-side typeahead with `search=\"contains\"`\r\n- Server-side typeahead with `search=\"managed\"`\r\n- Multi-select chips display",
+    "example": "```html\r\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -6844,7 +6895,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
+          "description": "Array of options to display in the dropdown.\r\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -6871,7 +6922,7 @@
             "text": "'' | 'contains' | 'managed'"
           },
           "default": "''",
-          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "description": "Enable typeahead search.\r\n- `'contains'`: filters options client-side.\r\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
           "fieldName": "search"
         },
         {
@@ -7008,7 +7059,7 @@
     "tag": "wc-option",
     "rawTag": "option",
     "summary": "A declarative option element for use inside wc-select.",
-    "example": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7055,7 +7106,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\r\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -7064,7 +7115,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\r\nbecause it does not match the current typeahead search query.\r\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],

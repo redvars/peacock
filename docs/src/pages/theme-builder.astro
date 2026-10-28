@@ -1,0 +1,398 @@
+---
+import Layout from '../layouts/Default.astro';
+import ThemePreview from '../components/theme-builder/ThemePreview.astro';
+import { getThemeEngineUrl } from '../_data/utils.ts';
+import '../styles/pages/theme-builder.scss';
+
+const engineUrl = getThemeEngineUrl(import.meta.env.PROD);
+const customColors = [
+  { key: 'secondary', label: 'Secondary' },
+  { key: 'tertiary', label: 'Tertiary' },
+  { key: 'neutral', label: 'Neutral' },
+];
+---
+
+<Layout
+  title='Theme builder'
+  description='Pick a primary color, scheme, contrast, corner shape and fonts, preview them on a sample page, and copy the full Peacock token CSS.'
+  keywords='theme builder, material 3, design tokens, color scheme, css variables'
+>
+  <!-- The generated tokens, declared on .theme-preview only. -->
+  <style is:inline id='theme-builder-style'></style>
+  <link id='theme-builder-fonts' rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap' />
+
+  <div class='theme-builder'>
+    <header class='tb-header'>
+      <h1 class='text-display-small'>Theme builder</h1>
+      <p class='text-body-large tb-muted'>
+        Pick your global theme settings, check them on a sample page, then copy the complete token CSS. The
+        palettes come from Material 3 color science, so every role meets its contrast pairing.
+      </p>
+    </header>
+
+    <aside class='tb-controls' aria-label='Theme settings'>
+      <section class='tb-group'>
+        <h2 class='text-title-medium'>Colors</h2>
+
+        <div class='tb-field'>
+          <span class='text-label-large'>Primary</span>
+          <wc-color-picker id='primary-picker' value='#7c5df0' aria-label='Primary color'></wc-color-picker>
+        </div>
+
+        {customColors.map(({ key, label }) => (
+          <div class='tb-field tb-custom-color' data-key={key}>
+            <div class='tb-custom-color-header'>
+              <span class='tb-swatch' data-swatch={key} aria-hidden='true'></span>
+              <wc-switch class='tb-custom-switch' data-key={key} label={`Custom ${label.toLowerCase()}`}></wc-switch>
+            </div>
+            <span class='text-body-small tb-muted tb-derived-note' data-note={key}>Derived from primary</span>
+            <wc-color-picker class='tb-custom-picker' data-key={key} hidden></wc-color-picker>
+          </div>
+        ))}
+      </section>
+
+      <section class='tb-group'>
+        <h2 class='text-title-medium'>Scheme</h2>
+        <wc-select id='variant-select' label='Variant'></wc-select>
+        <span class='text-label-large' id='contrast-label'>Contrast</span>
+        <div class='tb-choices' id='contrast-choices' role='group' aria-labelledby='contrast-label'></div>
+      </section>
+
+      <section class='tb-group'>
+        <h2 class='text-title-medium' id='shape-label'>Shape</h2>
+        <div class='tb-choices' id='shape-choices' role='group' aria-labelledby='shape-label'></div>
+      </section>
+
+      <section class='tb-group'>
+        <h2 class='text-title-medium'>Typography</h2>
+        <wc-select id='brand-font-select' label='Brand font (display, headline, title)'></wc-select>
+        <wc-select id='plain-font-select' label='Plain font (body, label)'></wc-select>
+      </section>
+
+      <section class='tb-group'>
+        <h2 class='text-title-medium'>Actions</h2>
+        <div class='tb-actions'>
+          <wc-button id='download-css' variant='filled'>
+            <wc-icon slot='icon' name='download'></wc-icon>
+            Download tokens.css
+          </wc-button>
+          <wc-button id='copy-link' variant='outlined'>
+            <wc-icon slot='icon' name='link'></wc-icon>
+            Copy share link
+          </wc-button>
+          <wc-button id='reset-theme' variant='text'>Reset</wc-button>
+        </div>
+      </section>
+    </aside>
+
+    <main class='tb-main'>
+      <div class='tb-toolbar'>
+        <h2 class='text-title-large'>Preview</h2>
+        <wc-segmented-button-group id='preview-mode'>
+          <wc-segmented-button value='light' icon='light_mode' selected>Light</wc-segmented-button>
+          <wc-segmented-button value='dark' icon='dark_mode'>Dark</wc-segmented-button>
+          <wc-segmented-button value='both' icon='splitscreen_right'>Both</wc-segmented-button>
+        </wc-segmented-button-group>
+      </div>
+
+      <div class='tb-previews' data-mode='light'>
+        <ThemePreview id='preview-light' mode='light' />
+        <ThemePreview id='preview-dark' mode='dark' />
+      </div>
+
+      <section class='tb-code' aria-labelledby='tb-code-title'>
+        <h2 class='text-title-large' id='tb-code-title'>Generated CSS</h2>
+        <p class='text-body-medium tb-muted'>
+          This is the complete token set for your theme: palettes, color roles for light and
+          <code class='text-code-block'>[data-theme='dark']</code>, shape, typography, spacing and motion. Load it after
+          Peacock's <code class='text-code-block'>styles.css</code> to replace the default tokens. You can also apply a
+          theme at runtime with <code class='text-code-block'>applyTheme(config)</code> from
+          <code class='text-code-block'>@redvars/peacock/theme</code>.
+        </p>
+        <wc-code-editor id='theme-code' language='css' readonly></wc-code-editor>
+      </section>
+    </main>
+  </div>
+
+  <script is:inline define:vars={{ engineUrl }}>
+    (async () => {
+      const STORAGE_KEY = 'peacock-theme-builder';
+      const CUSTOM_KEYS = ['secondary', 'tertiary', 'neutral'];
+      const $ = selector => document.querySelector(selector);
+      const $$ = selector => [...document.querySelectorAll(selector)];
+
+      const engine = await import(engineUrl);
+      await Promise.all(
+        ['wc-color-picker', 'wc-select', 'wc-switch', 'wc-chip'].map(tag =>
+          customElements.whenDefined(tag),
+        ),
+      );
+
+      const previews = $$('.theme-preview');
+      const styleEl = $('#theme-builder-style');
+      const fontsLink = $('#theme-builder-fonts');
+      const codeEditor = $('#theme-code');
+      const primaryPicker = $('#primary-picker');
+      const variantSelect = $('#variant-select');
+      const brandSelect = $('#brand-font-select');
+      const plainSelect = $('#plain-font-select');
+      const contrastChoices = $('#contrast-choices');
+      const shapeChoices = $('#shape-choices');
+
+      let config = loadConfig();
+      let theme;
+      let buildId = 0;
+      let rebuildTimer;
+
+      // ── Config persistence: URL hash first (shareable), then localStorage.
+
+      function loadConfig() {
+        const params = new URLSearchParams(location.hash.slice(1));
+        if (params.has('primary')) {
+          return engine.normalizeThemeConfig({
+            primary: params.get('primary'),
+            secondary: params.get('secondary') || undefined,
+            tertiary: params.get('tertiary') || undefined,
+            neutral: params.get('neutral') || undefined,
+            variant: params.get('variant'),
+            contrast: params.get('contrast'),
+            shape: params.get('shape'),
+            font: { brand: params.get('brand'), plain: params.get('plain') },
+          });
+        }
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored) return engine.normalizeThemeConfig(JSON.parse(stored));
+        } catch {
+          // Storage can be unavailable (private mode, blocked site data).
+        }
+        return engine.normalizeThemeConfig(engine.defaultThemeConfig);
+      }
+
+      function saveConfig() {
+        const params = new URLSearchParams();
+        for (const key of ['primary', ...CUSTOM_KEYS, 'variant', 'contrast', 'shape']) {
+          if (config[key]) params.set(key, config[key]);
+        }
+        params.set('brand', config.font.brand);
+        params.set('plain', config.font.plain);
+        history.replaceState(null, '', `#${params}`);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+        } catch {
+          // Ignore: the hash still holds the config.
+        }
+      }
+
+      // ── Build
+
+      async function rebuild() {
+        const id = ++buildId;
+        const next = await engine.createTheme(config);
+        if (id !== buildId) return; // A newer change is already building.
+        theme = next;
+
+        styleEl.textContent = engine.scopeThemeCss(theme.css, '.theme-preview');
+        previews.forEach(preview => preview.removeAttribute('style'));
+        codeEditor.value = theme.css;
+        if (theme.fontsUrl) fontsLink.href = theme.fontsUrl;
+        updateSwatches();
+        saveConfig();
+      }
+
+      function scheduleRebuild() {
+        clearTimeout(rebuildTimer);
+        rebuildTimer = setTimeout(rebuild, 200);
+      }
+
+      // Instant feedback while a color is dragged: set the palette tones on
+      // the previews, whose role aliases then resolve to them. The full build
+      // follows once the pointer settles.
+      function previewPalettes() {
+        const variables = engine.paletteVariables(config);
+        previews.forEach(preview => {
+          for (const [name, value] of Object.entries(variables)) preview.style.setProperty(name, value);
+        });
+      }
+
+      function updateSwatches() {
+        const swatchTone = { secondary: 40, tertiary: 40, neutral: 50 };
+        for (const key of CUSTOM_KEYS) {
+          const tone = theme.palettes[key].find(([t]) => t === swatchTone[key]);
+          $(`[data-swatch="${key}"]`).style.background = config[key] ?? tone?.[1];
+        }
+      }
+
+      // ── Controls
+
+      // Single-choice chips; they wrap, so they fit the narrow settings panel.
+      function choices(container, options, onSelect, icon) {
+        container.replaceChildren(
+          ...options.map(option => {
+            const chip = document.createElement('wc-chip');
+            chip.dataset.value = option.value;
+            chip.textContent = option.label;
+            if (icon) chip.prepend(icon(option));
+            chip.addEventListener('click', () => onSelect(option.value));
+            return chip;
+          }),
+        );
+      }
+
+      function selectChoice(container, value) {
+        for (const chip of container.children) {
+          chip.selected = chip.dataset.value === value;
+          chip.setAttribute('aria-pressed', String(chip.selected));
+        }
+      }
+
+      function cornerGlyph(preset) {
+        const glyph = document.createElement('span');
+        glyph.slot = 'icon';
+        glyph.className = 'tb-corner';
+        glyph.style.borderStartStartRadius = `${Math.min(preset.corners[2], 14)}px`;
+        return glyph;
+      }
+
+      function syncControls() {
+        primaryPicker.value = config.primary;
+        variantSelect.value = config.variant;
+        brandSelect.value = config.font.brand;
+        plainSelect.value = config.font.plain;
+        selectChoice(contrastChoices, config.contrast);
+        selectChoice(shapeChoices, config.shape);
+        for (const key of CUSTOM_KEYS) {
+          const custom = Boolean(config[key]);
+          $(`.tb-custom-switch[data-key="${key}"]`).value = custom;
+          const picker = $(`.tb-custom-picker[data-key="${key}"]`);
+          picker.hidden = !custom;
+          if (custom) picker.value = config[key];
+          $(`[data-note="${key}"]`).hidden = custom;
+        }
+      }
+
+      const fontOptions = engine.FONT_OPTIONS.map(({ value, label }) => ({ value, label }));
+      variantSelect.options = engine.VARIANTS;
+      brandSelect.options = fontOptions;
+      plainSelect.options = fontOptions;
+      choices(contrastChoices, engine.CONTRAST_LEVELS, contrast => {
+        config = engine.normalizeThemeConfig({ ...config, contrast });
+        selectChoice(contrastChoices, contrast);
+        scheduleRebuild();
+      });
+      choices(
+        shapeChoices,
+        engine.SHAPE_PRESETS,
+        shape => {
+          config = engine.normalizeThemeConfig({ ...config, shape });
+          selectChoice(shapeChoices, shape);
+          scheduleRebuild();
+        },
+        cornerGlyph,
+      );
+      $$('.preview-travellers').forEach(select => {
+        select.options = ['1', '2', '3', '4+'].map(value => ({ value, label: `${value} adult${value === '1' ? '' : 's'}` }));
+      });
+
+      primaryPicker.addEventListener('input', event => {
+        if (!event.detail?.value) return;
+        config = engine.normalizeThemeConfig({ ...config, primary: event.detail.value });
+        previewPalettes();
+        scheduleRebuild();
+      });
+
+      $$('.tb-custom-switch').forEach(toggle => {
+        toggle.addEventListener('change', event => {
+          if (event.target !== toggle) return;
+          const key = toggle.dataset.key;
+          const picker = $(`.tb-custom-picker[data-key="${key}"]`);
+          if (toggle.value) {
+            const derived = $(`[data-swatch="${key}"]`).style.background;
+            const start = theme.palettes[key].find(([tone]) => tone === (key === 'neutral' ? 50 : 40))?.[1];
+            config = { ...config, [key]: start ?? derived };
+            picker.value = config[key];
+          } else {
+            const { [key]: _removed, ...rest } = config;
+            config = rest;
+          }
+          picker.hidden = !toggle.value;
+          $(`[data-note="${key}"]`).hidden = toggle.value;
+          scheduleRebuild();
+        });
+      });
+
+      $$('.tb-custom-picker').forEach(picker => {
+        picker.addEventListener('input', event => {
+          if (!event.detail?.value) return;
+          config = { ...config, [picker.dataset.key]: event.detail.value };
+          previewPalettes();
+          scheduleRebuild();
+        });
+      });
+
+      variantSelect.addEventListener('change', event => {
+        if (event.target !== variantSelect) return;
+        config = engine.normalizeThemeConfig({ ...config, variant: event.detail.value });
+        scheduleRebuild();
+      });
+
+      for (const [select, slot] of [[brandSelect, 'brand'], [plainSelect, 'plain']]) {
+        select.addEventListener('change', event => {
+          if (event.target !== select) return;
+          config = engine.normalizeThemeConfig({ ...config, font: { ...config.font, [slot]: event.detail.value } });
+          scheduleRebuild();
+        });
+      }
+
+      $('#preview-mode').addEventListener('change', event => {
+        if (event.target.id !== 'preview-mode' || !event.detail.value) return;
+        $('.tb-previews').dataset.mode = event.detail.value;
+      });
+
+      // ── Actions
+
+      function notify(title, variant = 'success') {
+        window.dispatchEvent(new CustomEvent('notification', { detail: { target: 'global', title, variant } }));
+      }
+
+      // The async Clipboard API can be blocked (permissions, embedded
+      // browsers); fall back to a selected textarea.
+      async function copyText(text, label) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = Object.assign(document.createElement('textarea'), { value: text });
+          area.style.cssText = 'position: fixed; opacity: 0;';
+          document.body.append(area);
+          area.select();
+          const copied = document.execCommand('copy');
+          area.remove();
+          if (!copied) {
+            notify(`Couldn't copy the ${label}. Select it and copy it by hand.`, 'warning');
+            return;
+          }
+        }
+        notify(`${label.charAt(0).toUpperCase()}${label.slice(1)} copied`);
+      }
+
+      codeEditor.addEventListener('copied', () => notify('Theme CSS copied'));
+      $('#copy-link').addEventListener('click', () => copyText(location.href, 'share link'));
+
+      $('#download-css').addEventListener('click', () => {
+        const url = URL.createObjectURL(new Blob([theme.css], { type: 'text/css' }));
+        const link = Object.assign(document.createElement('a'), { href: url, download: 'tokens.css' });
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      $('#reset-theme').addEventListener('click', () => {
+        config = engine.normalizeThemeConfig(engine.defaultThemeConfig);
+        syncControls();
+        rebuild();
+      });
+
+      syncControls();
+      await rebuild();
+    })();
+  </script>
+</Layout>

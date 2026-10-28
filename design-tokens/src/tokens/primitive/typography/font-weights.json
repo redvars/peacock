@@ -1,14 +1,4 @@
 {
-  "font-family-brand": {
-    "$type": "fontFamily",
-    "$value": ["Noto Sans", "sans-serif"],
-    "$description": "The font family used for brand headings and titles."
-  },
-  "font-family-sans": {
-    "$type": "fontFamily",
-    "$value": ["Noto Sans", "sans-serif"],
-    "$description": "The primary font family used for body text and general content."
-  },
   "font-family-monospace": {
     "$type": "fontFamily",
     "$value": ["Noto Sans Mono", "monospace"],

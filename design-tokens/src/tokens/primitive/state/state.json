@@ -1,0 +1,29 @@
+{
+  "state": {
+    "$type": "number",
+    "hover-opacity": {
+      "$value": 0.08,
+      "$description": "State layer opacity on hover."
+    },
+    "focus-opacity": {
+      "$value": 0.1,
+      "$description": "State layer opacity on keyboard focus."
+    },
+    "pressed-opacity": {
+      "$value": 0.1,
+      "$description": "State layer opacity while pressed."
+    },
+    "dragged-opacity": {
+      "$value": 0.16,
+      "$description": "State layer opacity while dragged."
+    },
+    "disabled-content-opacity": {
+      "$value": 0.38,
+      "$description": "Opacity of disabled text and icons."
+    },
+    "disabled-container-opacity": {
+      "$value": 0.12,
+      "$description": "Opacity of disabled container fills."
+    }
+  }
+}
