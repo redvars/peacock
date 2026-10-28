@@ -10,6 +10,8 @@ export type ButtonVariant =
   | 'neo';
 export type ButtonColor =
   | 'primary'
+  | 'secondary'
+  | 'tertiary'
   | 'success'
   | 'danger'
   | 'warning'

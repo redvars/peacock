@@ -2,6 +2,11 @@
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import {
+  type LegacySize,
+  normalizeSize,
+  type Size,
+} from '@/__internal/utils/size.js';
 import styles from './toolbar.scss';
 import colorStyles from './toolbar-colors.scss';
 
@@ -83,12 +88,14 @@ export class Toolbar extends LitElement {
 
   /**
    * Size of the docked toolbar.
-    * - `"small"`: 80dp height (default).
-    * - `"medium"`: 96dp height.
-    * - `"large"`: 112dp height.
+   * - `"sm"`: 80dp height (default).
+   * - `"md"`: 96dp height.
+   * - `"lg"`: 112dp height.
+   *
+   * The long names `"small"`, `"medium"` and `"large"` still work but are deprecated.
    */
   @property({ type: String, reflect: true })
-  size: 'small' | 'medium' | 'large' = 'small';
+  size: Size | LegacySize = 'sm';
 
   /**
    * Whether the toolbar is visually elevated (adds a shadow).
@@ -101,7 +108,7 @@ export class Toolbar extends LitElement {
       toolbar: true,
       [`variant-${this.variant}`]: true,
       [`orientation-${this.orientation}`]: true,
-      [`size-${this.size}`]: true,
+      [`size-${normalizeSize(this.size, 'sm')}`]: true,
       elevated: this.elevated,
     };
 

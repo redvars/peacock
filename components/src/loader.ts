@@ -27,6 +27,7 @@ import { Textarea } from '@/textarea/textarea.js';
 import { Switch } from '@/switch/switch.js';
 import { Checkbox } from '@/checkbox/checkbox.js';
 import { Radio } from '@/radio/radio.js';
+import { RadioGroup } from '@/radio/radio-group.js';
 
 import { Menu } from '@/menu/menu/menu.js';
 import { MenuItem } from '@/menu/menu-item/menu-item.js';
@@ -65,6 +66,7 @@ import { Tab } from '@/tabs/tab.js';
 import { TabPanel } from '@/tabs/tab-panel.js';
 import { Slider } from '@/slider/slider.js';
 import { ColorPicker } from '@/color-picker/color-picker.js';
+import { ColorField } from '@/color-field/color-field.js';
 import { Table } from '@/table/table.js';
 import { Pagination } from '@/pagination/pagination.js';
 import { SidebarMenu } from '@/sidebar-menu/sidebar-menu.js';
@@ -86,13 +88,19 @@ import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
 import { NavigationRailItem } from '@/navigation-rail/navigation-rail-item.js';
+import { NavigationBar } from '@/navigation-bar/navigation-bar.js';
+import { NavigationBarItem } from '@/navigation-bar/navigation-bar-item.js';
+import { NavigationDrawer } from '@/navigation-drawer/navigation-drawer.js';
+import { NavigationDrawerItem } from '@/navigation-drawer/navigation-drawer-item.js';
 
-const distDirectory = `${import.meta.url}/..`;
+// Resolve the folder this script was served from. `new URL('.', …)` drops the file name and any
+// query string, so `loader.js?styles` still yields `…/dist` (no trailing slash).
+const distDirectory = new URL('.', import.meta.url).href.replace(/\/$/, '');
 
 const url = new URL(import.meta.url);
 const params = url.searchParams;
 
-// Example: accessing app.js?theme=dark&user=123
+// Example: loader.js?styles also loads dist/assets/styles.css
 const includeStyles = params.has('styles');
 
 if (includeStyles) {
@@ -287,6 +295,9 @@ const loaderConfig: LoaderConfig = {
     'wc-radio': {
       CustomElementClass: Radio,
     },
+    'wc-radio-group': {
+      CustomElementClass: RadioGroup,
+    },
     'wc-spinner': {
       CustomElementClass: Spinner,
     },
@@ -335,6 +346,9 @@ const loaderConfig: LoaderConfig = {
     'wc-color-picker': {
       CustomElementClass: ColorPicker,
     },
+    'wc-color-field': {
+      CustomElementClass: ColorField,
+    },
     'wc-table': {
       CustomElementClass: Table,
     },
@@ -382,6 +396,18 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-navigation-rail-item': {
       CustomElementClass: NavigationRailItem,
+    },
+    'wc-navigation-bar': {
+      CustomElementClass: NavigationBar,
+    },
+    'wc-navigation-bar-item': {
+      CustomElementClass: NavigationBarItem,
+    },
+    'wc-navigation-drawer': {
+      CustomElementClass: NavigationDrawer,
+    },
+    'wc-navigation-drawer-item': {
+      CustomElementClass: NavigationDrawerItem,
     },
     'wc-calendar': {
       importPath: `${distDirectory}/calendar.js`,

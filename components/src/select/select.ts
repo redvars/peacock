@@ -1,6 +1,11 @@
 import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import {
+  type FormValue,
+  getFormValue,
+} from '@/__internal/mixins/form-associated.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './select.scss';
 import type { Field } from '../field/field.js';
@@ -26,6 +31,10 @@ export interface SelectOption {
  * - Client-side typeahead with `search="contains"`
  * - Server-side typeahead with `search="managed"`
  * - Multi-select chips display
+ * - Form-associated: submits the value under `name` (one entry per value with `multiple`)
+ *
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the selection changes.
+ * @fires {CustomEvent<{value: string}>} select-search - Dispatched as the user types when `search="managed"`.
  *
  * @example
  * ```html
@@ -36,6 +45,7 @@ export interface SelectOption {
  * ```
  * @tags form
  */
+@IndividualComponent
 export class Select extends BaseInput {
   static styles = [styles];
 
@@ -136,6 +146,16 @@ export class Select extends BaseInput {
 
   override blur() {
     this._triggerEl?.blur();
+  }
+
+  // ── Form association ──────────────────────────────────────────────────────
+
+  override [getFormValue](): FormValue | null {
+    if (!this.multiple) return this.value;
+    // One entry per selected value, like a native <select multiple>.
+    const data = new FormData();
+    for (const value of this._selectedValues) data.append(this.name, value);
+    return data;
   }
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
@@ -441,7 +461,7 @@ export class Select extends BaseInput {
             <wc-chip
               dismissible
               value=${val}
-              @tag--dismiss=${(e: CustomEvent) =>
+              @dismiss=${(e: CustomEvent) =>
                 this._handleChipDismiss(e, val)}
             >${this._getLabelForValue(val)}</wc-chip
             >

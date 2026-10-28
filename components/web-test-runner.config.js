@@ -1,22 +1,36 @@
 // import { playwrightLauncher } from '@web/test-runner-playwright';
 
-import fs from 'node:fs';
 import path from 'node:path';
+import * as sass from 'sass';
 
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
-/** Plugin to handle .scss imports in tests by returning empty Lit CSS */
-const scssStubPlugin = {
-  name: 'scss-stub',
+// Tests import component modules directly rather than src/index.js: the index pulls in
+// html-editor, whose CommonJS dependency (js-beautify) the test server cannot load.
+
+/**
+ * Compiles .scss imports into Lit CSS, so tests see the real component styles. The compiled tests
+ * import `dist/src/**\/*.scss`, which tsc does not copy, so the source under `src/` is compiled.
+ */
+const scssPlugin = {
+  name: 'scss',
   serve(context) {
-    if (context.path.endsWith('.scss')) {
-      return {
-        body: "import { css } from 'lit'; export default css``;",
-        headers: { 'Content-Type': 'application/javascript' },
-        type: 'js',
-      };
+    if (!context.path.endsWith('.scss')) return undefined;
+    const source = path.resolve(context.path.replace(/^\/(dist\/)?/, ''));
+    let cssText = '';
+    try {
+      cssText = sass.compile(source, {
+        style: 'compressed',
+        silenceDeprecations: ['import'],
+      }).css;
+    } catch (error) {
+      console.warn(`Could not compile ${source}: ${error.message}`);
     }
-    return undefined;
+    return {
+      body: `import { unsafeCSS } from 'lit'; export default unsafeCSS(${JSON.stringify(cssText)});`,
+      headers: { 'Content-Type': 'application/javascript' },
+      type: 'js',
+    };
   },
 };
 
@@ -46,7 +60,12 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
     exportConditions: ['browser', 'development'],
   },
 
-  plugins: [scssStubPlugin, aliasResolvePlugin],
+  plugins: [scssPlugin, aliasResolvePlugin],
+
+  /** Stylesheets are served as JS modules but have no source to map coverage onto. */
+  coverageConfig: {
+    exclude: ['**/*.scss', '**/node_modules/**'],
+  },
 
   /** Filter out lit dev mode logs */
   filterBrowserLogs(log) {

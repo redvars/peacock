@@ -153,7 +153,8 @@ export class ColorPicker extends LitElement {
     this._lastEmittedValue = this.value;
   }
 
-  updated(changed: Map<PropertyKey, unknown>) {
+  // willUpdate, not updated: syncing the HSV state here lands in the same render.
+  willUpdate(changed: Map<PropertyKey, unknown>) {
     if (changed.has('value') && this.value !== this._lastEmittedValue) {
       this._syncFromValue();
     }

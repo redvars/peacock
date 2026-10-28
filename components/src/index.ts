@@ -56,6 +56,7 @@ export { Svg } from './svg/index.js';
 export { Tab, TabGroup, TabPanel, Tabs } from './tabs/index.js';
 export { Slider } from './slider/index.js';
 export { ColorPicker } from './color-picker/index.js';
+export { ColorField } from './color-field/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
 export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
@@ -71,7 +72,7 @@ export { Alert } from './alert/index.js';
 export { Notification } from './notification/index.js';
 export { NotificationManager } from './notification-manager/index.js';
 export { Snackbar } from './snackbar/index.js';
-export { Radio } from './radio/index.js';
+export { Radio, RadioGroup } from './radio/index.js';
 export { Modal } from './modal/index.js';
 export { BottomSheet } from './bottom-sheet/index.js';
 export { SideSheet } from './side-sheet/index.js';
@@ -82,6 +83,11 @@ export { Search } from './search/index.js';
 export { Toolbar } from './toolbar/index.js';
 export { AppBar } from './app-bar/index.js';
 export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';
+export { NavigationBar, NavigationBarItem } from './navigation-bar/index.js';
+export {
+  NavigationDrawer,
+  NavigationDrawerItem,
+} from './navigation-drawer/index.js';
 export {
   Calendar,
   CalendarColumnView,

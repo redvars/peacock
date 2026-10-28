@@ -13,8 +13,8 @@
   --flow-hover-color: var(--color-primary, #005FAF);
   --flow-node-bg: var(--color-surface-container-low, #f8f9fc);
   --flow-node-border: var(--color-outline-variant, #c5c6cb);
-  --flow-node-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
-  --flow-node-active-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --flow-node-shadow: var(--elevation-level1);
+  --flow-node-active-shadow: var(--elevation-level3);
 }
 
 .flow-container {
@@ -23,7 +23,7 @@
   height: 100%;
   background: var(--flow-background);
   border: 1px solid var(--color-outline-variant);
-  border-radius: 16px;
+  border-radius: var(--shape-corner-large);
   overflow: auto;
 }
 
@@ -86,7 +86,7 @@
   background: var(--flow-node-bg);
   border: 1px solid var(--flow-node-border);
   box-shadow: var(--flow-node-shadow);
-  border-radius: 12px;
+  border-radius: var(--shape-corner-medium);
   min-width: 150px;
   min-height: 70px;
   cursor: grab;
@@ -145,7 +145,7 @@
     transform: scale(1.4);
     background-color: var(--flow-hover-color);
     border-color: var(--flow-hover-color);
-    box-shadow: 0 0 8px rgba(0, 95, 175, 0.5);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--flow-hover-color) 50%, transparent);
   }
 
   &:active {

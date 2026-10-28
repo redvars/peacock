@@ -6,7 +6,7 @@
 
 /* When both icon and label are present, apply the configured spacing */
 :host([has-icon][has-label]) .button {
-  gap: var(--private-button-icon-label-spacing);
+  gap: var(--_button-icon-label-spacing);
 }
 
 :host(:not([trailing-icon])) .button {

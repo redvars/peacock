@@ -55,9 +55,7 @@ export default class CodeEditor extends BaseInput {
 
   // ── Properties
 
-  /** Name of the field, for form use. */
-  @property({ type: String })
-  name = '';
+  // `name` (for form use) comes from BaseInput's form association.
 
   /** The code shown in the editor. Updated as the user types. */
   @property({ type: String })

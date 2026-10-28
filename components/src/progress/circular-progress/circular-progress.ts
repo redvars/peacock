@@ -1,4 +1,5 @@
 import { html } from 'lit';
+import IndividualComponent from '@/IndividualComponent.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import styles from './circular-progress.scss';
@@ -16,6 +17,7 @@ import { BaseProgress } from '../base-progress.js';
  * <wc-circular-progress value="30"></wc-circular-progress>
  * ```
  */
+@IndividualComponent
 export class CircularProgress extends BaseProgress {
   // Lit components use static styles for better performance
   static styles = [styles];

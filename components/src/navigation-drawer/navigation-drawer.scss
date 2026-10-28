@@ -1,0 +1,99 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --_width: var(--navigation-drawer-width, 22.5rem); // 360dp
+  --_container-color: var(
+    --navigation-drawer-container-color,
+    var(--color-surface-container-low)
+  );
+}
+
+:host([variant='standard']) {
+  height: 100%;
+}
+
+:host([variant='standard']:not([open])) {
+  display: none;
+}
+
+.drawer {
+  box-sizing: border-box;
+  background-color: var(--_container-color);
+  color: var(--color-on-surface-variant);
+}
+
+.standard {
+  width: var(--_width);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.modal {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  width: min(var(--_width), calc(100vw - 3.5rem));
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-start-end-radius: var(--shape-corner-large);
+  border-end-end-radius: var(--shape-corner-large);
+  box-shadow: var(--elevation-level1);
+  overflow-y: auto;
+
+  &[open] {
+    animation: slide-in var(--duration-medium2, 300ms)
+      var(--easing-emphasized-decelerate, ease-out);
+  }
+
+  &::backdrop {
+    background: color-mix(in srgb, var(--color-scrim, black) 32%, transparent);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+:host(:dir(rtl)) .modal[open] {
+  animation-name: slide-in-rtl;
+}
+
+@keyframes slide-in-rtl {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--spacing-150);
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-200) var(--spacing-200) var(--spacing-150);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open] {
+    animation: none;
+  }
+}

@@ -1,7 +1,11 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
-import { CodeEditor, Field, Icon, IconButton, Tag } from '../src/index.js';
+import { CodeEditor } from '../src/code-editor/index.js';
+import { Field } from '../src/field/index.js';
+import { Icon } from '../src/icon/index.js';
+import { IconButton } from '../src/button/index.js';
+import { Tag } from '../src/chip/tag/index.js';
 
 // Monaco loads its editor core from a CDN; these tests cover the component
 // shell around it.

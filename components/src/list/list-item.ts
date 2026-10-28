@@ -1,4 +1,5 @@
 ﻿import { html, LitElement, nothing } from 'lit';
+import IndividualComponent from '@/IndividualComponent.js';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -31,6 +32,7 @@ import { mixinElementInternals } from '@/__internal/mixins/element-internals.js'
  * ```
  * @tags display
  */
+@IndividualComponent
 export class ListItem extends mixinBaseButton(
   mixinHyperlink(mixinDelegatesAria(mixinElementInternals(LitElement))),
 ) {

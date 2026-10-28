@@ -1,7 +1,7 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { expect, fixture } from '@open-wc/testing';
-import { ChartBar, ChartStackedBar } from '../src/index.js';
+import { ChartBar, ChartStackedBar } from '../src/chart-bar/index.js';
 
 const RENDER_SETTLE_TIME = 300;
 

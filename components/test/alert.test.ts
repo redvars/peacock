@@ -42,12 +42,18 @@ describe('Alert', () => {
     `);
     await el.updateComplete;
 
-    const label = el.shadowRoot?.querySelector('.alert-label')?.textContent ?? '';
-    const icon = el.shadowRoot?.querySelector('.alert-icon')?.textContent ?? '';
-    const description = el.shadowRoot?.querySelector('.alert-description')?.textContent ?? '';
+    // Slotted content is projected, so read what each slot was assigned rather than the
+    // shadow DOM's fallback text.
+    const assignedText = (selector: string) =>
+      (
+        el.shadowRoot?.querySelector<HTMLSlotElement>(selector)?.assignedNodes() ?? []
+      )
+        .map(node => node.textContent ?? '')
+        .join('')
+        .trim();
 
-    expect(label.trim()).to.equal('Heads up:');
-    expect(icon.trim()).to.equal('priority_high');
-    expect(description.trim()).to.equal('Custom description via slot');
+    expect(assignedText('slot[name="label"]')).to.equal('Heads up:');
+    expect(assignedText('slot[name="icon"]')).to.equal('priority_high');
+    expect(assignedText('slot:not([name])')).to.equal('Custom description via slot');
   });
 });

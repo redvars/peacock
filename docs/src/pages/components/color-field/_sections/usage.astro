@@ -1,0 +1,28 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-color-field</code> shows a color as a swatch next to its hex value. Type a hex value, or
+  click the swatch to pick a color with <code>wc-color-picker</code>. Alt + Arrow Down in the text
+  field opens the picker too.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-color-field id='color-field-demo' label='Brand color' value='#7c5df0' helper-text='Used for buttons and links'></wc-color-field>
+    <wc-color-field label='Disabled' value='#2e7d32' disabled></wc-color-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#color-field-demo').addEventListener('change', function (event) {
+      myConsole.log('Color changed to :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  The field is form-associated: inside a <code>&lt;form&gt;</code> it submits its hex value under its
+  <code>name</code>.
+</p>

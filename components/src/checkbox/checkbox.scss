@@ -11,7 +11,8 @@
   --checkbox-checkmark-color: var(--color-on-primary);
   --checkbox-state-layer-size: 40px;
   --checkbox-disabled-opacity: 0.38;
-  --checkbox-border-radius: 2px;
+  // M3 uses a 2dp corner: half of extra-small, so it follows the theme's shape preset.
+  --checkbox-border-radius: calc(var(--shape-corner-extra-small) / 2);
 }
 
 .checkbox {
@@ -142,7 +143,7 @@
   }
 
   &.rounded {
-    --checkbox-border-radius: 18px;
+    --checkbox-border-radius: var(--shape-corner-full);
   }
 }
 

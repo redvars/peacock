@@ -32,12 +32,12 @@
   }
 
   &:host([size='xl']),
-  &:host([size='extra']) {
+  &:host([size='extra-large']) {
     --button-container-shape: var(--shape-corner-extra-large);
   }
 
   &:host([size='xl']:active),
-  &:host([size='extra']:active) {
+  &:host([size='extra-large']:active) {
     --button-container-shape: var(--shape-corner-large);
   }
 }

@@ -1,11 +1,12 @@
-import { html, nothing } from "lit";
-import { property, query, state } from "lit/decorators.js";
+import { html, nothing } from 'lit';
+import { property, query, state } from 'lit/decorators.js';
 
-import { redispatchEvent } from "@/__internal/utils/dispatch-event-utils.js";
-import { spread } from "@/__internal/directive/spread.js";
+import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
+import { spread } from '@/__internal/directive/spread.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
-import BaseInput from "./BaseInput.js";
-import styles from "./input.scss";
+import BaseInput from './BaseInput.js';
+import styles from './input.scss';
 
 /**
  * @label Input
@@ -13,62 +14,74 @@ import styles from "./input.scss";
  * @rawTag input
  *
  * @summary The Input component is used to capture user input.
+ * @overview
+ * <p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted
+ * under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
+ *
+ * @fires {Event} input - Re-fired from the native input as the user types.
+ * @fires {Event} change - Re-fired from the native input when the value is committed.
  *
  * @example
  * ```html
  * <wc-input label="Name" required placeholder="Enter your name"></wc-input>
  * ```
+ * @tags input, form
  */
+@IndividualComponent
 export class Input extends BaseInput {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   static styles = [styles];
 
-  @property({ type: String })
-  value = "";
+  // ── Properties ───────────────────────────────────────────────────────────
 
   @property({ type: String })
-  name: string = "";
+  value = '';
 
   @property({ type: String })
-  placeholder = "";
+  placeholder = '';
 
   @property({ type: String })
-  label = "";
+  label = '';
 
   @property({ type: Boolean, reflect: true })
   inline = false;
 
+  /** Field size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
   @property({ type: String, reflect: true })
-  size: "sm" | "md" | "lg" = "md";
+  size: 'sm' | 'md' | 'lg' = 'md';
 
   @property({ type: String })
-  type: "text" | "password" | "email" | "tel" = "text";
+  type: 'text' | 'password' | 'email' | 'tel' = 'text';
 
   @property({ type: String })
-  autocomplete: "on" | "off" = "off";
+  autocomplete: 'on' | 'off' = 'off';
 
   @property({ type: Object })
   configAria: Record<string, string> = {};
 
   @property({ type: String })
-  variant: "filled" | "outlined" | "default" = "default";
+  variant: 'filled' | 'outlined' | 'default' = 'default';
 
   /**
    * Helper text to display below the input.
    */
-  @property({ type: String, attribute: "helper-text" })
-  helperText: string = "";
+  @property({ type: String, attribute: 'helper-text' })
+  helperText: string = '';
 
   @property({ type: Boolean })
   error: boolean = false;
 
-  @property({ type: String, attribute: "error-text" })
-  errorText: string = "";
+  @property({ type: String, attribute: 'error-text' })
+  errorText: string = '';
 
   @property({ type: Boolean })
   warning: boolean = false;
 
-  @property({ type: String, attribute: "warning-text" })
-  warningText: string = "";
+  @property({ type: String, attribute: 'warning-text' })
+  warningText: string = '';
+
+  // ── State ────────────────────────────────────────────────────────────────
 
   @state()
   private focused = false;
@@ -83,26 +96,34 @@ export class Input extends BaseInput {
   @state()
   private dirty = false;
 
-  @query(".input-element")
+  // ── Queries ──────────────────────────────────────────────────────────────
+
+  @query('.input-element')
   private inputElement?: HTMLInputElement;
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.handleInitialAttributes();
+  }
+
+  // ── Public methods ───────────────────────────────────────────────────────
 
   override async focus() {
     await Promise.all([
-      customElements.whenDefined("wc-input"),
-      customElements.whenDefined("wc-field"),
+      customElements.whenDefined('wc-input'),
+      customElements.whenDefined('wc-field'),
     ]);
     await this.updateComplete;
     this.inputElement?.focus();
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.handleInitialAttributes();
-  }
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private handleInitialAttributes() {
-    Array.from(this.attributes).forEach((attr) => {
-      if (attr.name.startsWith("aria-")) {
+    Array.from(this.attributes).forEach(attr => {
+      if (attr.name.startsWith('aria-')) {
         this.configAria[attr.name] = attr.value;
         this.removeAttribute(attr.name);
       }
@@ -115,76 +136,80 @@ export class Input extends BaseInput {
   }
 
   private __handleFocusChange = (event: FocusEvent) => {
-    this.focused = event.type === "focus";
+    this.focused = event.type === 'focus';
   };
 
   private __redispatchEvent(event: Event) {
     redispatchEvent(this, event);
   }
 
+  // ── Render helpers ───────────────────────────────────────────────────────
+
+  private __renderPasswordToggle() {
+    if (this.type !== 'password') return nothing;
+    return html`
+      <wc-icon-button
+        class="password-toggle"
+        variant="text"
+        slot="field-end"
+        tooltip=${this.passwordVisible ? 'Hide password' : 'Show password'}
+        @click=${() => {
+          this.passwordVisible = !this.passwordVisible;
+        }}
+      >
+        <wc-icon
+          name=${this.passwordVisible ? 'visibility_off' : 'visibility'}
+        ></wc-icon>
+      </wc-icon-button>
+    `;
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+
   render() {
-    const displayType = this.type === "password" && this.passwordVisible
-      ? "text"
-      : this.type;
+    const displayType =
+      this.type === 'password' && this.passwordVisible ? 'text' : this.type;
 
     return html`
       <wc-field
-        ?required="${this.required}"
-        ?disabled="${this.disabled}"
-        ?readonly="${this.readonly}"
-        ?skeleton="${this.skeleton}"
-        helper-text="${this.helperText}"
-        ?error="${this.error}"
-        error-text="${this.errorText}"
-        ?warning="${this.warning}"
-        variant="${this.variant}"
-        ?populated="${!!this.value}"
-        warning-text="${this.warningText}"
-        label="${this.label}"
-        ?focused="${this.focused}"
-        .host="${this}"
+        ?required=${this.required}
+        ?disabled=${this.disabled}
+        ?readonly=${this.readonly}
+        ?skeleton=${this.skeleton}
+        helper-text=${this.helperText}
+        ?error=${this.error}
+        error-text=${this.errorText}
+        ?warning=${this.warning}
+        variant=${this.variant}
+        ?populated=${!!this.value}
+        warning-text=${this.warningText}
+        label=${this.label}
+        ?focused=${this.focused}
+        .host=${this}
         class="input-wrapper"
       >
         <slot name="start" slot="field-start"></slot>
 
         <input
           class="input input-element"
-          name="${this.name}"
-          type="${displayType}"
-          placeholder="${this.placeholder}"
-          autocomplete="${this.autocomplete}"
-          .value="${this.value}"
-          ?readonly="${this.readonly}"
-          ?required="${this.required}"
-          ?disabled="${this.disabled}"
-          @input="${this.__handleInput}"
-          @change="${this.__redispatchEvent}"
-          @focus="${this.__handleFocusChange}"
-          @blur="${this.__handleFocusChange}"
+          name=${this.name}
+          type=${displayType}
+          placeholder=${this.placeholder}
+          autocomplete=${this.autocomplete}
+          .value=${this.value}
+          ?readonly=${this.readonly}
+          ?required=${this.required}
+          ?disabled=${this.disabled}
+          @input=${this.__handleInput}
+          @change=${this.__redispatchEvent}
+          @focus=${this.__handleFocusChange}
+          @blur=${this.__handleFocusChange}
           ${spread(this.configAria)}
         />
 
         <slot name="end" slot="field-end"></slot>
 
-        ${this.type === "password"
-          ? html`
-            <wc-icon-button
-              class="password-toggle"
-              variant="text"
-              slot="field-end"
-              tooltip="${this.passwordVisible
-                ? "Hide password"
-                : "Show password"}"
-              @click="${() => {
-                this.passwordVisible = !this.passwordVisible;
-              }}"
-            >
-              <wc-icon
-                name="${this.passwordVisible ? "visibility_off" : "visibility"}"
-              ></wc-icon>
-            </wc-icon-button>
-          `
-          : nothing}
+        ${this.__renderPasswordToggle()}
       </wc-field>
     `;
   }

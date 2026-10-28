@@ -2,6 +2,14 @@
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { spread } from '@/__internal/directive/spread.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import {
+  type FormRestoreState,
+  type FormValue,
+  getFormState,
+  getFormValue,
+  mixinFormAssociated,
+} from '@/__internal/mixins/form-associated.js';
 import styles from './checkbox.scss';
 import IndividualComponent from '@/IndividualComponent.js';
 
@@ -13,30 +21,32 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @overview
  * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
  * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
+ * <p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.
  * @cssprop --checkbox-checkmark-color: Color of the checkmark icon.
  * @cssprop --checkbox-state-layer-size: Size of the state layer for touch target.
- * @fires {CustomEvent} change - Dispatched when the checkbox value changes.
+ * @fires {CustomEvent} change - Dispatched when the checkbox is toggled. Detail: `{ checked, value, originalEvent }`.
  * @fires {CustomEvent} blur - Dispatched when the checkbox loses focus.
  * @fires {CustomEvent} focus - Dispatched when the checkbox receives focus.
  * @tags input, form
  *
  * @example
  * ```html
- * <wc-checkbox label="Accept terms"></wc-checkbox>
+ * <wc-checkbox label="Accept terms" checked></wc-checkbox>
  * ```
  */
 @IndividualComponent
-export class Checkbox extends LitElement {
+export class Checkbox extends mixinFormAssociated(
+  mixinElementInternals(LitElement),
+) {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   static styles = [styles];
 
-  /**
-   * The input field name.
-   */
-  @property({ type: String })
-  name: string = '';
+  // ── Properties ───────────────────────────────────────────────────────────
+  // `name` and `disabled` come from mixinFormAssociated.
 
   /**
    * The checkbox label.
@@ -45,10 +55,22 @@ export class Checkbox extends LitElement {
   label: string = '';
 
   /**
-   * The input field value (checked state).
+   * Whether the checkbox is checked.
    */
   @property({ type: Boolean, reflect: true })
-  value: boolean = false;
+  checked: boolean = false;
+
+  /**
+   * @deprecated Use `checked`. Kept as an alias of `checked`.
+   */
+  @property({ type: Boolean })
+  get value(): boolean {
+    return this.checked;
+  }
+
+  set value(value: boolean) {
+    this.checked = Boolean(value);
+  }
 
   /**
    * If true, displays the checkbox in an indeterminate state.
@@ -82,16 +104,12 @@ export class Checkbox extends LitElement {
   readonly: boolean = false;
 
   /**
-   * If true, the user cannot interact with the checkbox. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
-  /**
    * Configuration object for aria attributes.
    */
   @property({ type: Object })
   configAria: Record<string, string> = {};
+
+  // ── State ────────────────────────────────────────────────────────────────
 
   /** True while the checkbox container has keyboard focus. */
   @state()
@@ -105,19 +123,24 @@ export class Checkbox extends LitElement {
   @state()
   private slotHasContent = false;
 
+  // ── Queries ──────────────────────────────────────────────────────────────
+
   @query('.container')
   private containerElement?: HTMLElement;
 
-  @query('.input-native')
-  private nativeElement?: HTMLInputElement;
-
-  // ── Private fields ────────────────────────────────────────────────────────
+  // ── Private fields ───────────────────────────────────────────────────────
 
   /** Captured `tabindex` attribute value forwarded to the inner container. */
   private tabindex?: string;
 
+  /** `checked` when first connected; `form.reset()` returns to it. */
+  private defaultChecked?: boolean;
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
   connectedCallback() {
     super.connectedCallback();
+    this.defaultChecked ??= this.checked;
     this.handleInitialAttributes();
     window.addEventListener('mouseup', this.windowMouseUp);
     window.addEventListener('keyup', this.windowKeyUp);
@@ -132,6 +155,43 @@ export class Checkbox extends LitElement {
   firstUpdated() {
     this.slotHasContent = this.hasChildNodes();
   }
+
+  // ── Public methods ───────────────────────────────────────────────────────
+
+  /**
+   * Sets focus on the checkbox.
+   */
+  focus() {
+    this.containerElement?.focus();
+  }
+
+  /**
+   * Removes focus from the checkbox.
+   */
+  blur() {
+    this.containerElement?.blur();
+  }
+
+  // ── Form association ─────────────────────────────────────────────────────
+
+  override [getFormValue](): FormValue | null {
+    return this.checked ? 'on' : null;
+  }
+
+  override [getFormState](): FormValue | null {
+    return String(this.checked);
+  }
+
+  formResetCallback() {
+    this.checked = this.defaultChecked ?? false;
+    this.indeterminate = false;
+  }
+
+  formStateRestoreCallback(state: FormRestoreState | null) {
+    this.checked = state === 'true';
+  }
+
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private handleInitialAttributes() {
     if (this.hasAttribute('tabindex')) {
@@ -173,11 +233,15 @@ export class Checkbox extends LitElement {
 
   private clickHandler = (ev: MouseEvent | KeyboardEvent) => {
     if (!this.disabled && !this.readonly) {
-      this.value = !this.value;
+      this.checked = !this.checked;
       this.indeterminate = false;
       this.dispatchEvent(
         new CustomEvent('change', {
-          detail: { value: this.value, originalEvent: ev },
+          detail: {
+            checked: this.checked,
+            value: this.checked,
+            originalEvent: ev,
+          },
           bubbles: true,
           composed: true,
         }),
@@ -214,25 +278,13 @@ export class Checkbox extends LitElement {
     }
   };
 
-  /**
-   * Sets focus on the checkbox.
-   */
-  focus() {
-    this.containerElement?.focus();
-  }
-
-  /**
-   * Removes focus from the checkbox.
-   */
-  blur() {
-    this.containerElement?.blur();
-  }
+  // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
     const cssClasses = {
       checkbox: true,
-      'state-checked': this.value,
-      'state-indeterminate': !this.value && this.indeterminate,
+      'state-checked': this.checked,
+      'state-indeterminate': !this.checked && this.indeterminate,
       [`size-${this.size}`]: true,
       'has-focus': this.hasFocus,
       active: this.isActive,
@@ -257,7 +309,7 @@ export class Checkbox extends LitElement {
           role="checkbox"
           aria-disabled=${this.disabled}
           aria-required=${this.required}
-          aria-checked=${this.value
+          aria-checked=${this.checked
             ? 'true'
             : this.indeterminate
               ? 'mixed'
@@ -269,7 +321,7 @@ export class Checkbox extends LitElement {
           <div class="outline"></div>
           <div class="background"></div>
           <svg class="icon" viewBox="0 0 12 12">
-            ${this.value
+            ${this.checked
               ? svg`
                   <path
                     class="checkmark"
@@ -292,7 +344,7 @@ export class Checkbox extends LitElement {
           type="checkbox"
           class="input-native"
           name=${this.name}
-          .checked=${this.value}
+          .checked=${this.checked}
           .indeterminate=${this.indeterminate}
           aria-hidden="true"
           ?required=${this.required}

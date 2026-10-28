@@ -1,7 +1,10 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { Item, Menu, MenuItem } from '../src/index.js';
+// Import modules directly: src/index.js pulls in html-editor's CommonJS js-beautify, which the
+// test server cannot load.
+import { Item } from '../src/item/index.js';
+import { Menu, MenuItem } from '../src/menu/index.js';
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -108,7 +111,8 @@ describe('Menu', () => {
       </wc-menu>
     `);
 
-    document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    // The floating controller closes on mousedown outside the menu and its anchor.
+    document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     await el.updateComplete;
 
     expect(el.open).to.equal(false);

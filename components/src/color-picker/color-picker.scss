@@ -3,7 +3,19 @@
   --_thumb-size: 16px;
   --_track-height: 12px;
   --_preview-size: 40px;
-  --_radius: 6px;
+  --_radius: var(--shape-corner-small);
+  // Contrast ring and checkerboard work on any picked color, so they stay
+  // black/white rather than following the theme roles.
+  --_ring-color: var(--color-white);
+  --_ring-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-shadow) 30%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-shadow) 30%, transparent);
+  --_checker:
+    repeating-conic-gradient(
+      var(--color-neutral-80) 0% 25%,
+      var(--color-white) 0% 50%
+    )
+    0 0 / 8px 8px;
 
   display: inline-block;
   width: var(--color-picker-width, 240px);
@@ -30,8 +42,8 @@
   border-radius: var(--_radius);
   // White-to-hue horizontal gradient, black overlay going downward
   background:
-    linear-gradient(to bottom, transparent 0%, #000 100%),
-    linear-gradient(to right, #fff 0%, var(--hue-color) 100%);
+    linear-gradient(to bottom, transparent 0%, var(--color-black) 100%),
+    linear-gradient(to right, var(--color-white) 0%, var(--hue-color) 100%);
   cursor: crosshair;
   user-select: none;
   overflow: hidden;
@@ -42,14 +54,16 @@
   width: var(--_thumb-size);
   height: var(--_thumb-size);
   border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--_ring-color);
+  box-shadow: var(--_ring-shadow);
   transform: translate(-50%, -50%);
   outline: none;
   cursor: crosshair;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary);
+    box-shadow:
+      0 0 0 2px var(--_ring-color),
+      0 0 0 4px var(--color-primary);
   }
 }
 
@@ -68,8 +82,8 @@
   flex-shrink: 0;
   overflow: hidden;
   // Checkerboard backdrop (visible through transparent colors)
-  background: repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%) 0 0 / 8px 8px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  background: var(--_checker);
+  box-shadow: inset 0 0 0 1px var(--color-outline-variant);
 }
 
 .preview-inner {
@@ -96,6 +110,8 @@
 }
 
 .hue-track {
+  // The hue spectrum is literal color math, not a theme color.
+  // stylelint-disable-next-line peacock/no-raw-color
   background: linear-gradient(
     to right,
     hsl(0, 100%, 50%),
@@ -112,7 +128,7 @@
   // Color gradient over checkerboard
   background:
     linear-gradient(to right, transparent, var(--current-color, currentColor)),
-    repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%) 0 0 / 8px 8px;
+    var(--_checker);
 }
 
 // ── Slider thumb ──────────────────────────────────────────────────────────────
@@ -123,21 +139,23 @@
   width: var(--_thumb-size);
   height: var(--_thumb-size);
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  background: var(--_ring-color);
+  border: 2px solid color-mix(in srgb, var(--color-shadow) 15%, transparent);
+  box-shadow: var(--elevation-level1);
   transform: translate(-50%, -50%);
   cursor: grab;
   outline: none;
   transition: box-shadow 0.15s ease;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary);
+    box-shadow:
+      0 0 0 2px var(--_ring-color),
+      0 0 0 4px var(--color-primary);
   }
 
   &:active {
     cursor: grabbing;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--elevation-level3);
   }
 }
 

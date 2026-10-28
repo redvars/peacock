@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './chip-set.scss';
 
 /**
@@ -16,6 +17,7 @@ import styles from './chip-set.scss';
  * </wc-chip-set>
  * ```
  */
+@IndividualComponent
 export class ChipSet extends LitElement {
   static styles = [styles];
 

@@ -100,36 +100,36 @@
     --item-label-line-height: var(--typography-label-large-line-height);
     --item-label-letter-spacing: var(--typography-label-large-letter-spacing);
 
-    --item-label-text-color: var(--private-item-label-text-color);
-    --item-leading-trailing-color: var(--private-item-label-text-color);
-    --item-supporting-text-color: var(--private-item-label-text-color);
-    --item-icon-size: var(--menu-item-icon-size, var(--private-item-icon-size));
+    --item-label-text-color: var(--_item-label-text-color);
+    --item-leading-trailing-color: var(--_item-label-text-color);
+    --item-supporting-text-color: var(--_item-label-text-color);
+    --item-icon-size: var(--menu-item-icon-size, var(--_item-icon-size));
 
     .background {
-      background-color: var(--private-item-container-color);
+      background-color: var(--_item-container-color);
       opacity: var(--_container-opacity, 1);
       border-radius: var(--shape-corner-medium);
 
       border-start-start-radius: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
-      border-start-end-radius: var(--private-item-container-shape-start-end);
-      border-end-start-radius: var(--private-item-container-shape-end-start);
-      border-end-end-radius: var(--private-item-container-shape-end-end);
+      border-start-end-radius: var(--_item-container-shape-start-end);
+      border-end-start-radius: var(--_item-container-shape-end-start);
+      border-end-end-radius: var(--_item-container-shape-end-end);
     }
 
     .focus-ring {
       --focus-ring-container-shape-start-start: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
       --focus-ring-container-shape-start-end: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
       --focus-ring-container-shape-end-start: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
       --focus-ring-container-shape-end-end: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
       z-index: 2;
       --focus-ring-inset: 0px;
@@ -145,43 +145,43 @@
       z-index: 2;
 
       --skeleton-container-shape-start-start: var(
-        --private-item-container-shape-start-start
+        --_item-container-shape-start-start
       );
       --skeleton-container-shape-start-end: var(
-        --private-item-container-shape-start-end
+        --_item-container-shape-start-end
       );
       --skeleton-container-shape-end-start: var(
-        --private-item-container-shape-end-start
+        --_item-container-shape-end-start
       );
       --skeleton-container-shape-end-end: var(
-        --private-item-container-shape-end-end
+        --_item-container-shape-end-end
       );
     }
   }
 }
 
 :host {
-  --private-item-container-color: var(--menu-item-container-color);
-  --private-item-label-text-color: var(--menu-item-label-color);
-  --private-item-container-shape-start-start: var(--shape-corner-medium);
-  --private-item-container-shape-start-end: var(--shape-corner-medium);
-  --private-item-container-shape-end-start: var(--shape-corner-medium);
-  --private-item-container-shape-end-end: var(--shape-corner-medium);
+  --_item-container-color: var(--menu-item-container-color);
+  --_item-label-text-color: var(--menu-item-label-color);
+  --_item-container-shape-start-start: var(--shape-corner-medium);
+  --_item-container-shape-start-end: var(--shape-corner-medium);
+  --_item-container-shape-end-start: var(--shape-corner-medium);
+  --_item-container-shape-end-end: var(--shape-corner-medium);
 }
 
 :host([selected]) {
-  --private-item-container-color: var(--menu-item-container-selected-color);
-  --private-item-label-text-color: var(--menu-item-label-selected-color);
-  --private-item-container-shape-start-start: var(--shape-corner-large);
-  --private-item-container-shape-start-end: var(--shape-corner-large);
-  --private-item-container-shape-end-start: var(--shape-corner-large);
-  --private-item-container-shape-end-end: var(--shape-corner-large);
+  --_item-container-color: var(--menu-item-container-selected-color);
+  --_item-label-text-color: var(--menu-item-label-selected-color);
+  --_item-container-shape-start-start: var(--shape-corner-large);
+  --_item-container-shape-start-end: var(--shape-corner-large);
+  --_item-container-shape-end-start: var(--shape-corner-large);
+  --_item-container-shape-end-end: var(--shape-corner-large);
 }
 
 :host([disabled]),
 :host([soft-disabled]) {
   cursor: not-allowed;
-  --private-item-label-text-color: var(--color-on-surface);
+  --_item-label-text-color: var(--color-on-surface);
   --_container-opacity: 0.12;
 
   .ripple {

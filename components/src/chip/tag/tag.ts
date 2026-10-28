@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './tag.scss';
 import colorStyles from './tag-colors.scss';
 import sizeStyles from './tag-sizes.scss';
@@ -12,15 +13,21 @@ import sizeStyles from './tag-sizes.scss';
  * @summary Tag component for displaying labels or values with optional dismiss functionality.
  * @tags display
  *
+ * @fires {CustomEvent} dismiss - Dispatched when the dismiss button is clicked.
+ * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-tag color="red">Tag</wc-tag>
  * ```
  */
+@IndividualComponent
 export class Tag extends LitElement {
-  // Define styles (Lit handles Scoping via Shadow DOM by default)
-  // You would typically import your tag.scss.js here or use the css tag
+  // ── Static ───────────────────────────────────────────────────────────────
+
   static styles = [styles, colorStyles, sizeStyles];
+
+  // ── Properties ───────────────────────────────────────────────────────────
 
   /** If true, the tag will have a close icon. */
   @property({ type: Boolean }) dismissible = false;
@@ -35,18 +42,20 @@ export class Tag extends LitElement {
     | 'red'
     | 'yellow' = 'default';
 
-  @property() size?: 'sm' | 'md' = 'md';
+  /** Tag size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
+  @property({ reflect: true }) size?: 'sm' | 'md' | 'lg' = 'md';
+
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private _dismissClickHandler(e: MouseEvent) {
     e.stopPropagation();
 
-    // Custom Event: tag--dismiss
-    this.dispatchEvent(
-      new CustomEvent('tag--dismiss', {
-        bubbles: true,
-      }),
-    );
+    this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true }));
+    // Deprecated: kept for listeners written before `dismiss`.
+    this.dispatchEvent(new CustomEvent('tag--dismiss', { bubbles: true }));
   }
+
+  // ── Render helpers ───────────────────────────────────────────────────────
 
   private __renderDismissButton() {
     if (!this.dismissible) return null;
@@ -62,6 +71,8 @@ export class Tag extends LitElement {
       </button>
     `;
   }
+
+  // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
     const classes = {

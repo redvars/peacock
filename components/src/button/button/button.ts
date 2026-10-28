@@ -309,8 +309,7 @@ export class Button extends mixinBaseButton(
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}
-      </button>
-      ${this.renderTooltip()}`;
+      </button>`;
   }
 
   renderButtonContent() {

@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 
 import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './url-field.scss';
 
@@ -21,14 +22,12 @@ import styles from './url-field.scss';
  * ```
  * @tags form
  */
+@IndividualComponent
 export class UrlField extends BaseInput {
   static styles = [styles];
 
   @property({ type: String })
   value: string = '';
-
-  @property({ type: String })
-  name: string = '';
 
   @property({ type: String })
   placeholder: string = '';

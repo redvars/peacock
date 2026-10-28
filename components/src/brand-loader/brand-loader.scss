@@ -6,8 +6,10 @@
   display: inline-block;
   vertical-align: middle;
   --brand-loader-size: 4rem;
+  // The Redvars mark is fixed brand art, not a theme color.
+  // stylelint-disable-next-line peacock/no-raw-color
   --brand-loader-tile-color: #ff0000;
-  --brand-loader-mark-color: #ffffff;
+  --brand-loader-mark-color: var(--color-white);
   --brand-loader-duration: 2.4s;
 }
 

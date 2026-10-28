@@ -4,6 +4,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 import { spread } from '@/__internal/directive/spread.js';
 
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './date-picker.scss';
 
@@ -19,14 +20,12 @@ import styles from './date-picker.scss';
  * <wc-date-picker label="Date" placeholder="Select a date"></wc-date-picker>
  * ```
  */
+@IndividualComponent
 export class DatePicker extends BaseInput {
   static styles = [styles];
 
   @property({ type: String })
   value = '';
-
-  @property({ type: String })
-  name: string = '';
 
   @property({ type: String }) placeholder = '';
 

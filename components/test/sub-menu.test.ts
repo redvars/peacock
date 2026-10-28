@@ -1,7 +1,8 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { Item, Menu, MenuItem, SubMenu } from '../src/index.js';
+import { Item } from '../src/item/index.js';
+import { Menu, MenuItem, SubMenu } from '../src/menu/index.js';
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);

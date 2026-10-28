@@ -68,6 +68,6 @@
   }
 
   .nav-button {
-    --button-container-shape: 999px;
+    --button-container-shape: var(--shape-corner-full);
   }
 }

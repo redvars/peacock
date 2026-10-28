@@ -169,6 +169,37 @@
     }
   }
 
+  // M3 filled text field: tinted container, square bottom corners and an
+  // active indicator along the bottom edge instead of a full outline.
+  &.variant-filled {
+    --_container-color: var(
+      --field-container-color,
+      var(--color-surface-container-highest)
+    );
+    --_outline-color: var(
+      --field-active-indicator-color,
+      var(--color-on-surface-variant)
+    );
+    --_outline-width: 0.0625rem;
+    --_container-shape-end-start: var(
+      --field-container-shape-end-start,
+      var(--shape-corner-none)
+    );
+    --_container-shape-end-end: var(
+      --field-container-shape-end-end,
+      var(--shape-corner-none)
+    );
+
+    .field-body .outline {
+      border-width: 0 0 var(--_outline-width);
+    }
+
+    &:not(.disabled, .readonly, .focused, .has-error, .has-warning)
+      .field-body:hover {
+      --_outline-color: var(--color-on-surface);
+    }
+  }
+
   &.focused {
     --_outline-color: var(--color-primary);
     --_outline-width: 0.125rem;

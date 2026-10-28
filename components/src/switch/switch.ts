@@ -3,6 +3,13 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { spread } from '@/__internal/directive/spread.js';
+import {
+  type FormRestoreState,
+  type FormValue,
+  getFormState,
+  getFormValue,
+} from '@/__internal/mixins/form-associated.js';
+import IndividualComponent from '@/IndividualComponent.js';
 
 import styles from './switch.scss';
 import BaseInput from '../input/BaseInput.js';
@@ -15,6 +22,7 @@ import BaseInput from '../input/BaseInput.js';
  * @summary Captures boolean input with an on/off switch interaction.
  * @overview
  * <p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>
+ * <p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
  *
  * @cssprop --switch-track-color: Color of the switch track when checked.
  * @cssprop --switch-track-off-color: Color of the switch track when unchecked.
@@ -23,27 +31,41 @@ import BaseInput from '../input/BaseInput.js';
  * @cssprop --switch-handle-radius: Size of the switch handle.
  * @cssprop --switch-handle-color: Color of the switch handle.
  *
- * @fires {CustomEvent} change - Dispatched when the switch value changes.
+ * @fires {CustomEvent} change - Dispatched when the switch is toggled. Detail: `{ checked, value, originalEvent }`.
  * @fires {CustomEvent} blur - Dispatched when the switch loses focus.
  * @fires {CustomEvent} focus - Dispatched when the switch receives focus.
  *
  * @example
  * ```html
- * <wc-switch value="true"></wc-switch>
+ * <wc-switch checked label="Wi-Fi"></wc-switch>
  * ```
  * @tags input, form
  */
+@IndividualComponent
 export class Switch extends BaseInput {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   static styles = [styles];
 
-  @property({ type: Boolean })
-  value: boolean = false;
+  // ── Properties ───────────────────────────────────────────────────────────
 
   /**
-   * The input field name.
+   * Whether the switch is on.
    */
-  @property({ type: String })
-  name: string = '';
+  @property({ type: Boolean, reflect: true })
+  checked: boolean = false;
+
+  /**
+   * @deprecated Use `checked`. Kept as an alias of `checked`.
+   */
+  @property({ type: Boolean })
+  get value(): boolean {
+    return this.checked;
+  }
+
+  set value(value: boolean) {
+    this.checked = Boolean(value);
+  }
 
   /**
    * The switch label.
@@ -57,24 +79,6 @@ export class Switch extends BaseInput {
   @property({ type: Boolean })
   rounded: boolean = true;
 
-  /**
-   * If true, required icon is shown. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  required: boolean = false;
-
-  /**
-   * If true, the toggle is readonly. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly: boolean = false;
-
-  /**
-   * If true, the user cannot interact with the toggle. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
   @property({ type: Boolean, reflect: true, attribute: 'with-icon' })
   withIcon: boolean = false;
 
@@ -83,6 +87,8 @@ export class Switch extends BaseInput {
    */
   @property({ type: Object })
   configAria: Record<string, string> = {};
+
+  // ── State ────────────────────────────────────────────────────────────────
 
   @state()
   private hasFocus = false;
@@ -93,13 +99,16 @@ export class Switch extends BaseInput {
   @state()
   private slotHasContent = false;
 
+  // ── Queries ──────────────────────────────────────────────────────────────
+
   @query('.track')
   private trackElement?: HTMLElement;
 
-  @query('.input-native')
-  private nativeElement?: HTMLInputElement;
+  // ── Private fields ───────────────────────────────────────────────────────
 
   private tabindex?: string;
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
 
   connectedCallback() {
     super.connectedCallback();
@@ -117,6 +126,38 @@ export class Switch extends BaseInput {
   firstUpdated() {
     this.slotHasContent = this.hasChildNodes();
   }
+
+  // ── Public methods ───────────────────────────────────────────────────────
+
+  /**
+   * Sets focus on the toggle.
+   */
+  focus() {
+    this.trackElement?.focus();
+  }
+
+  /**
+   * Removes focus from the toggle.
+   */
+  blur() {
+    this.trackElement?.blur();
+  }
+
+  // ── Form association ─────────────────────────────────────────────────────
+
+  override [getFormValue](): FormValue | null {
+    return this.checked ? 'on' : null;
+  }
+
+  override [getFormState](): FormValue | null {
+    return String(this.checked);
+  }
+
+  override formStateRestoreCallback(state: FormRestoreState | null) {
+    this.checked = state === 'true';
+  }
+
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private handleInitialAttributes() {
     if (this.hasAttribute('tabindex')) {
@@ -158,10 +199,14 @@ export class Switch extends BaseInput {
 
   private clickHandler = (ev: MouseEvent | KeyboardEvent) => {
     if (!this.disabled && !this.readonly) {
-      this.value = !this.value;
+      this.checked = !this.checked;
       this.dispatchEvent(
         new CustomEvent('change', {
-          detail: { value: this.value, originalEvent: ev },
+          detail: {
+            checked: this.checked,
+            value: this.checked,
+            originalEvent: ev,
+          },
           bubbles: true,
           composed: true,
         }),
@@ -198,33 +243,23 @@ export class Switch extends BaseInput {
     }
   };
 
-  /**
-   * Sets focus on the toggle.
-   */
-  focus() {
-    this.trackElement?.focus();
-  }
-
-  /**
-   * Removes focus from the toggle.
-   */
-  blur() {
-    this.trackElement?.blur();
-  }
+  // ── Render helpers ───────────────────────────────────────────────────────
 
   __renderIcon() {
     if (this.withIcon) {
-      if (this.value)
+      if (this.checked)
         return html`<wc-icon name="check" class="icon"></wc-icon>`;
       return html`<wc-icon name="close" class="icon"></wc-icon>`;
     }
     return nothing;
   }
 
+  // ── Render ───────────────────────────────────────────────────────────────
+
   render() {
     const cssClasses = {
       switch: true,
-      'state-checked': this.value,
+      'state-checked': this.checked,
       'has-focus': this.hasFocus,
       active: this.isActive,
       disabled: this.disabled,
@@ -244,10 +279,10 @@ export class Switch extends BaseInput {
           @keydown=${this.keyDownHandler}
           @blur=${this.blurHandler}
           @focus=${this.focusHandler}
-          role="checkbox"
+          role="switch"
           aria-disabled=${this.disabled}
           aria-required=${this.required}
-          aria-checked=${this.value}
+          aria-checked=${this.checked}
           ${spread(this.configAria)}
         >
           <div class="handle">${this.__renderIcon()}</div>
@@ -257,7 +292,7 @@ export class Switch extends BaseInput {
           type="checkbox"
           class="input-native"
           name=${this.name}
-          .checked=${this.value}
+          .checked=${this.checked}
           aria-hidden="true"
           ?required=${this.required}
           tabindex="-1"

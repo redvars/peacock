@@ -46,7 +46,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
+  background: color-mix(in srgb, var(--color-scrim) 85%, transparent);
   align-items: center;
   justify-content: center;
   cursor: zoom-out;
@@ -62,14 +62,14 @@
   right: 1rem;
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.5rem;
   cursor: pointer;
   line-height: 1;
   padding: 0.25rem 0.5rem;
 
   &:focus-visible {
-    outline: 2px solid #fff;
+    outline: 2px solid var(--color-white);
     outline-offset: 2px;
   }
 }
@@ -85,7 +85,7 @@
   svg {
     max-width: 90vw;
     max-height: 90vh;
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-    border-radius: 4px;
+    box-shadow: 0 8px 40px color-mix(in srgb, var(--color-shadow) 60%, transparent);
+    border-radius: var(--shape-corner-extra-small);
   }
 }

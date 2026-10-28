@@ -1,7 +1,11 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { SidebarMenu, SidebarMenuItem, SidebarSubMenu } from '../src/index.js';
+import {
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarSubMenu,
+} from '../src/sidebar-menu/index.js';
 
 if (!customElements.get('wc-sidebar-menu')) {
   customElements.define('wc-sidebar-menu', SidebarMenu);
@@ -28,16 +32,16 @@ describe('SidebarSubMenu', () => {
     const childrenContainer = el.shadowRoot!.querySelector(
       '.sidebar-sub-menu-children',
     ) as HTMLDivElement;
-    const expandButton = el.shadowRoot!.querySelector(
-      '.expand-button',
-    ) as HTMLButtonElement;
+    // The whole row toggles a sub-menu that has children.
+    const expandButton = el.shadowRoot!.querySelector('#item') as HTMLElement;
 
-    expect(childrenContainer.hidden).to.equal(true);
+    // Collapsed children are hidden with a class, not the `hidden` attribute.
+    expect(childrenContainer.classList.contains('hidden')).to.equal(true);
 
     expandButton.click();
     await el.updateComplete;
 
     expect(el.expanded).to.equal(true);
-    expect(childrenContainer.hidden).to.equal(false);
+    expect(childrenContainer.classList.contains('hidden')).to.equal(false);
   });
 });

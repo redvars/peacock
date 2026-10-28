@@ -1,0 +1,27 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  height: var(--navigation-bar-height, 5rem);
+  padding-inline: var(--spacing-100);
+  background-color: var(
+    --navigation-bar-container-color,
+    var(--color-surface-container)
+  );
+  box-shadow: var(--navigation-bar-elevation, var(--elevation-level2));
+
+  ::slotted(wc-navigation-bar-item) {
+    flex: 1 1 0;
+    min-width: 0;
+    // M3 bar indicator is wider than the rail's (64dp × 32dp).
+    --nav-rail-indicator-width: 4rem;
+  }
+}

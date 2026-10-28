@@ -1,0 +1,40 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Use <code>wc-navigation-bar</code> at the bottom of small screens for three to five primary
+  destinations. Clicking an item makes it active and fires <code>change</code> with the item's
+  <code>value</code> and index. The bar does not position itself; place it at the bottom of your
+  layout.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;'>
+    <wc-navigation-bar id='navigation-bar-demo' aria-label='Primary'>
+      <wc-navigation-bar-item value='home' active>
+        <wc-icon slot='icon' name='home'></wc-icon>
+        Home
+      </wc-navigation-bar-item>
+      <wc-navigation-bar-item value='search'>
+        <wc-icon slot='icon' name='search'></wc-icon>
+        Search
+      </wc-navigation-bar-item>
+      <wc-navigation-bar-item value='saved'>
+        <wc-icon slot='icon' name='bookmark'></wc-icon>
+        Saved
+      </wc-navigation-bar-item>
+      <wc-navigation-bar-item value='profile'>
+        <wc-icon slot='icon' name='person'></wc-icon>
+        Profile
+      </wc-navigation-bar-item>
+    </wc-navigation-bar>
+  </div>
+  <script is:inline>
+    document.querySelector('#navigation-bar-demo').addEventListener('change', function (event) {
+      myConsole.log('Navigated to :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>

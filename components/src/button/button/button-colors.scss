@@ -94,6 +94,18 @@
   @include _button-color-toggle-unselected(success);
 }
 
+:host([color='warning']:not([toggle])) {
+  @include _button-color(warning);
+}
+
+:host([color='warning'][toggle][selected]) {
+  @include _button-color-toggle-selected(warning);
+}
+
+:host([color='warning'][toggle]:not([selected])) {
+  @include _button-color-toggle-unselected(warning);
+}
+
 :host([color='danger']:not([toggle])) {
   @include _button-color(error);
 }

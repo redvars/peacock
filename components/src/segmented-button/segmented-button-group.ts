@@ -55,6 +55,7 @@ export class SegmentedButtonGroup extends LitElement {
       'segmented-button--change',
       this._onSegmentChange as EventListener,
     );
+    this.addEventListener('change', this._stopSegmentChange, { capture: true });
   }
 
   disconnectedCallback() {
@@ -63,7 +64,18 @@ export class SegmentedButtonGroup extends LitElement {
       'segmented-button--change',
       this._onSegmentChange as EventListener,
     );
+    this.removeEventListener('change', this._stopSegmentChange, {
+      capture: true,
+    });
   }
+
+  /**
+   * Swallows a segment's own `change` on the way down (capture phase), so listeners on the group
+   * and above see only the group's `change`, one per selection.
+   */
+  private _stopSegmentChange = (ev: Event) => {
+    if (ev.target !== this) ev.stopPropagation();
+  };
 
   private _getSegments(): SegmentedButton[] {
     return Array.from(

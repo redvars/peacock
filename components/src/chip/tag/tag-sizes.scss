@@ -21,3 +21,12 @@
 
   @include mixin.get-typography(label-large)
 }
+
+.tag.size-lg,
+.tag.size-large {
+  --_chip-height: 2.5rem;
+  --_tag-icon-size: 1.25rem;
+  --_container-padding: 1.25rem;
+
+  @include mixin.get-typography(title-small)
+}

@@ -4,6 +4,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 import { spread } from '@/__internal/directive/spread.js';
 
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './time-picker.scss';
 
@@ -19,14 +20,12 @@ import styles from './time-picker.scss';
  * <wc-time-picker label="Time" placeholder="Select a time"></wc-time-picker>
  * ```
  */
+@IndividualComponent
 export class TimePicker extends BaseInput {
   static styles = [styles];
 
   @property({ type: String })
   value = '';
-
-  @property({ type: String })
-  name: string = '';
 
   @property({ type: String }) placeholder = '';
 

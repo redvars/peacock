@@ -14,7 +14,7 @@ describe('Toolbar', () => {
 
     expect(el.variant).to.equal('docked');
     expect(el.orientation).to.equal('horizontal');
-    expect(el.size).to.equal('small');
+    expect(el.size).to.equal('sm');
     expect(el.elevated).to.equal(false);
   });
 
@@ -40,12 +40,22 @@ describe('Toolbar', () => {
 
   it('reflects size attribute', async () => {
     const el = await fixture<Toolbar>(
+      html`<wc-toolbar size="lg"></wc-toolbar>`,
+    );
+    await el.updateComplete;
+
+    expect(el.size).to.equal('lg');
+    expect(el.getAttribute('size')).to.equal('lg');
+  });
+
+  it('still accepts the deprecated long size names', async () => {
+    const el = await fixture<Toolbar>(
       html`<wc-toolbar size="large"></wc-toolbar>`,
     );
     await el.updateComplete;
 
-    expect(el.size).to.equal('large');
-    expect(el.getAttribute('size')).to.equal('large');
+    const container = el.shadowRoot!.querySelector('.toolbar');
+    expect(container?.classList.contains('size-lg')).to.be.true;
   });
 
   it('reflects elevated attribute', async () => {
@@ -87,65 +97,34 @@ describe('Toolbar', () => {
     expect(container?.classList.contains('orientation-vertical')).to.be.true;
   });
 
-  it('applies size-medium class', async () => {
+  it('applies size-md class', async () => {
     const el = await fixture<Toolbar>(
-      html`<wc-toolbar size="medium"></wc-toolbar>`,
+      html`<wc-toolbar size="md"></wc-toolbar>`,
     );
     await el.updateComplete;
 
     const container = el.shadowRoot!.querySelector('.toolbar');
-    expect(container?.classList.contains('size-medium')).to.be.true;
+    expect(container?.classList.contains('size-md')).to.be.true;
   });
 
-  it('renders start, center, and end slots for docked variant', async () => {
-    const el = await fixture<Toolbar>(
-      html`<wc-toolbar variant="docked">
-        <span slot="start">Start</span>
-        <span>Center</span>
-        <span slot="end">End</span>
-      </wc-toolbar>`,
-    );
-    await el.updateComplete;
+  // The toolbar lays its actions out in a single default slot.
+  for (const variant of ['docked', 'floating'] as const) {
+    it(`projects its children through the default slot (${variant})`, async () => {
+      const el = await fixture<Toolbar>(
+        html`<wc-toolbar variant=${variant}>
+          <span>One</span>
+          <span>Two</span>
+        </wc-toolbar>`,
+      );
+      await el.updateComplete;
 
-    const startSlot = el.shadowRoot!.querySelector(
-      'slot[name="start"]',
-    ) as HTMLSlotElement;
-    const defaultSlot = el.shadowRoot!.querySelector(
-      'slot:not([name])',
-    ) as HTMLSlotElement;
-    const endSlot = el.shadowRoot!.querySelector(
-      'slot[name="end"]',
-    ) as HTMLSlotElement;
-
-    expect(startSlot).to.exist;
-    expect(defaultSlot).to.exist;
-    expect(endSlot).to.exist;
-  });
-
-  it('renders start, default, and end slots for floating variant', async () => {
-    const el = await fixture<Toolbar>(
-      html`<wc-toolbar variant="floating">
-        <span slot="start">Start</span>
-        <span>Center</span>
-        <span slot="end">End</span>
-      </wc-toolbar>`,
-    );
-    await el.updateComplete;
-
-    const startSlot = el.shadowRoot!.querySelector(
-      'slot[name="start"]',
-    ) as HTMLSlotElement;
-    const defaultSlot = el.shadowRoot!.querySelector(
-      'slot:not([name])',
-    ) as HTMLSlotElement;
-    const endSlot = el.shadowRoot!.querySelector(
-      'slot[name="end"]',
-    ) as HTMLSlotElement;
-
-    expect(startSlot).to.exist;
-    expect(defaultSlot).to.exist;
-    expect(endSlot).to.exist;
-  });
+      const defaultSlot = el.shadowRoot!.querySelector<HTMLSlotElement>(
+        '.toolbar-content slot:not([name])',
+      );
+      expect(defaultSlot).to.exist;
+      expect(defaultSlot!.assignedElements()).to.have.length(2);
+    });
+  }
 
   it('has role="toolbar"', async () => {
     const el = await fixture<Toolbar>(html`<wc-toolbar></wc-toolbar>`);

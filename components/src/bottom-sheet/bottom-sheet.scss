@@ -6,7 +6,7 @@
   display: contents;
 
   --bottom-sheet-container-color: var(--color-surface-container-low, #f7f2fa);
-  --bottom-sheet-scrim-color: rgba(0, 0, 0, 0.32);
+  --bottom-sheet-scrim-color: color-mix(in srgb, var(--color-scrim) 32%, transparent);
   --bottom-sheet-shape: var(--shape-corner-extra-large, 28px);
   --bottom-sheet-max-height: 90dvh;
   --bottom-sheet-handle-color: var(--color-on-surface-variant, #49454f);

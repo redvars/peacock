@@ -1,0 +1,39 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  .label {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+
+    .required {
+      color: var(--color-error);
+      padding-inline-start: var(--spacing-025);
+    }
+  }
+
+  .radios {
+    display: flex;
+    flex-direction: column;
+    gap: var(--radio-group-gap, var(--spacing-100));
+  }
+
+  &.orientation-horizontal .radios {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--radio-group-gap, var(--spacing-300));
+  }
+
+  &.disabled .label {
+    opacity: 0.38;
+  }
+}

@@ -3,6 +3,14 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { spread } from '@/__internal/directive/spread.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import {
+  type FormRestoreState,
+  type FormValue,
+  getFormState,
+  getFormValue,
+  mixinFormAssociated,
+} from '@/__internal/mixins/form-associated.js';
 
 import styles from './radio.scss';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -14,6 +22,9 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @summary Allows selection of a single option from a set.
  * @overview
  * <p>Radio buttons follow the specifications with clear focus, hover, and selected states.</p>
+ * <p>Radios that share a <code>name</code> form a group. Wrap them in <code>wc-radio-group</code> to get a
+ * group label and a single <code>change</code> event for the whole set.</p>
+ * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.</p>
  *
  * @cssprop --radio-size: Size of the outer radio circle.
  * @cssprop --radio-dot-size: Size of the inner dot when selected.
@@ -35,17 +46,19 @@ import IndividualComponent from '@/IndividualComponent.js';
 type RadioDirection = 1 | -1;
 
 @IndividualComponent
-export class Radio extends LitElement {
+export class Radio extends mixinFormAssociated(
+  mixinElementInternals(LitElement),
+) {
+  // ── Static ───────────────────────────────────────────────────────────────
+
   private static readonly DIRECTION_NEXT: RadioDirection = 1;
+
   private static readonly DIRECTION_PREVIOUS: RadioDirection = -1;
 
   static styles = [styles];
 
-  /**
-   * The input field name for grouping radios.
-   */
-  @property({ type: String })
-  name: string = '';
+  // ── Properties ───────────────────────────────────────────────────────────
+  // `name` (which groups radios) and `disabled` come from mixinFormAssociated.
 
   /**
    * The submitted value when this radio is selected.
@@ -78,16 +91,12 @@ export class Radio extends LitElement {
   readonly: boolean = false;
 
   /**
-   * If true, the user cannot interact with the radio. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
-  /**
    * Configuration object for aria attributes.
    */
   @property({ type: Object })
   configAria: Record<string, string> = {};
+
+  // ── State ────────────────────────────────────────────────────────────────
 
   /** True while the radio container has keyboard focus. */
   @state()
@@ -105,19 +114,24 @@ export class Radio extends LitElement {
   @state()
   private isGroupFocusTarget = false;
 
+  // ── Queries ──────────────────────────────────────────────────────────────
+
   @query('.container')
   private containerElement?: HTMLElement;
 
-  @query('.input-native')
-  private nativeElement?: HTMLInputElement;
-
-  // ── Private fields ────────────────────────────────────────────────────────
+  // ── Private fields ───────────────────────────────────────────────────────
 
   /** Captured `tabindex` attribute value forwarded to the inner container. */
   private tabindex?: number;
 
+  /** `checked` when first connected; `form.reset()` returns to it. */
+  private defaultChecked?: boolean;
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
   connectedCallback() {
     super.connectedCallback();
+    this.defaultChecked ??= this.checked;
     this.handleInitialAttributes();
     window.addEventListener('mouseup', this.windowMouseUp);
     window.addEventListener('keyup', this.windowKeyUp);
@@ -147,6 +161,42 @@ export class Radio extends LitElement {
       this.updateGroupFocusTarget();
     }
   }
+
+  // ── Public methods ───────────────────────────────────────────────────────
+
+  /**
+   * Sets focus on the radio.
+   */
+  focus() {
+    this.containerElement?.focus();
+  }
+
+  /**
+   * Removes focus from the radio.
+   */
+  blur() {
+    this.containerElement?.blur();
+  }
+
+  // ── Form association ─────────────────────────────────────────────────────
+
+  override [getFormValue](): FormValue | null {
+    return this.checked ? this.value || 'on' : null;
+  }
+
+  override [getFormState](): FormValue | null {
+    return String(this.checked);
+  }
+
+  formResetCallback() {
+    this.checked = this.defaultChecked ?? false;
+  }
+
+  formStateRestoreCallback(state: FormRestoreState | null) {
+    this.checked = state === 'true';
+  }
+
+  // ── Private methods ──────────────────────────────────────────────────────
 
   private handleInitialAttributes() {
     if (this.hasAttribute('tabindex')) {
@@ -256,9 +306,14 @@ export class Radio extends LitElement {
 
   private getGroupRadios(): Radio[] {
     if (!this.name) return [this];
-    const scopeRoot = this.closest('form') ?? document;
+    // A radio group or form scopes the name; otherwise the radio's own tree (document or the
+    // shadow root it was rendered into).
+    const scopeRoot = (this.closest('wc-radio-group, form') ??
+      this.getRootNode()) as ParentNode;
     return Array.from(
-      scopeRoot.querySelectorAll<Radio>(`wc-radio[name="${this.name}"]`),
+      scopeRoot.querySelectorAll<Radio>(
+        `wc-radio[name="${CSS.escape(this.name)}"]`,
+      ),
     );
   }
 
@@ -300,19 +355,7 @@ export class Radio extends LitElement {
     target.containerElement?.focus();
   }
 
-  /**
-   * Sets focus on the radio.
-   */
-  focus() {
-    this.containerElement?.focus();
-  }
-
-  /**
-   * Removes focus from the radio.
-   */
-  blur() {
-    this.containerElement?.blur();
-  }
+  // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
     const cssClasses = {

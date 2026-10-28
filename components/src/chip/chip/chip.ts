@@ -26,6 +26,9 @@ import { mixinElementInternals } from '@/__internal/mixins/element-internals.js'
  * @summary Chip component for displaying compact information with optional actions.
  * @tags display
  *
+ * @fires {CustomEvent} dismiss - Dispatched when the dismiss button of a `dismissible` chip is clicked.
+ * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-chip>Chip content</wc-chip>
@@ -150,12 +153,12 @@ export class Chip extends mixinBaseButton(
   private _dismissClickHandler(e: MouseEvent) {
     e.stopPropagation();
 
-    // Custom Event: tag--dismiss
     this.dispatchEvent(
-      new CustomEvent('tag--dismiss', {
-        bubbles: true,
-        composed: true,
-      }),
+      new CustomEvent('dismiss', { bubbles: true, composed: true }),
+    );
+    // Deprecated: kept for listeners written before `dismiss`.
+    this.dispatchEvent(
+      new CustomEvent('tag--dismiss', { bubbles: true, composed: true }),
     );
   }
 

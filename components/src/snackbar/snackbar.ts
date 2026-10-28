@@ -224,7 +224,7 @@ export class Snackbar extends LitElement {
         </div>
 
         ${this.actionLabel
-          ? html`<wc-button class="action" variant='text' size='small' @click=${this.handleActionClick}>
+          ? html`<wc-button class="action" variant='text' size='sm' @click=${this.handleActionClick}>
               ${this.actionLabel}
             </wc-button>`
           : nothing}
@@ -232,8 +232,8 @@ export class Snackbar extends LitElement {
         ${this.showCloseIcon
           ? html`<wc-icon-button
               class="close"
-              variant='text' 
-              size='small'
+              variant='text'
+              size='sm'
               aria-label="Dismiss notification"
               @click=${this.handleCloseClick}
             >

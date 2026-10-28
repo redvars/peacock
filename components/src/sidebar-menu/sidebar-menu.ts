@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit';
+import IndividualComponent from '@/IndividualComponent.js';
 import { property } from 'lit/decorators.js';
 import styles from './sidebar-menu.scss';
 import { SidebarMenuItem } from './sidebar-menu-item.js';
@@ -23,6 +24,7 @@ type SidebarNode = SidebarMenuItem | SidebarSubMenu;
  * ```
  * @tags navigation
  */
+@IndividualComponent
 export class SidebarMenu extends LitElement {
   static styles = [styles];
 

@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { redispatchEvent } from '@/__internal/utils/dispatch-event-utils.js';
 import { spread } from '@/__internal/directive/spread.js';
 
+import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './number-field.scss';
 
@@ -20,6 +21,7 @@ import styles from './number-field.scss';
  * <wc-number-field label="Age" placeholder="Enter your age"></wc-number-field>
  * ```
  */
+@IndividualComponent
 export class NumberField extends BaseInput {
   static styles = [styles];
 
@@ -27,9 +29,6 @@ export class NumberField extends BaseInput {
 
   @property({ type: Number })
   value?: number;
-
-  @property({ type: String })
-  name: string = '';
 
   @property({ type: String })
   placeholder = '';

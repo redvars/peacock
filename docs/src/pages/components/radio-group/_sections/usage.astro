@@ -1,0 +1,28 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Wrap <code>wc-radio</code> elements in <code>wc-radio-group</code> to give them one label, one
+  <code>name</code> and one <code>value</code>. Setting <code>value</code> checks the matching radio.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-radio-group label='Size' name='size' value='md'>
+    <wc-radio value='sm' label='Small'></wc-radio>
+    <wc-radio value='md' label='Medium'></wc-radio>
+    <wc-radio value='lg' label='Large'></wc-radio>
+  </wc-radio-group>
+</DemoComponentCard>
+
+<p>Use <code>orientation="horizontal"</code> to lay the radios out in a row.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-radio-group label='Delivery' orientation='horizontal' value='standard'>
+    <wc-radio value='standard' label='Standard'></wc-radio>
+    <wc-radio value='express' label='Express'></wc-radio>
+    <wc-radio value='pickup' label='Pick up' disabled></wc-radio>
+  </wc-radio-group>
+</DemoComponentCard>

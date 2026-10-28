@@ -19,7 +19,8 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @cssprop --segmented-button-outline-color: Outline / border color.
  * @cssprop --segmented-button-disabled-opacity: Opacity when the segment is disabled.
  *
- * @fires {CustomEvent} segmented-button--change - Dispatched when the selected state changes.
+ * @fires {CustomEvent} change - Dispatched when the segment is activated. Detail: `{ value, selected, originalEvent }`, where `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
+ * @fires {CustomEvent} segmented-button--change - Deprecated alias of `change`, fired alongside it.
  *
  * @example
  * ```html
@@ -102,13 +103,18 @@ export class SegmentedButton extends LitElement {
 
   private _toggle(ev: MouseEvent | KeyboardEvent) {
     if (this.disabled) return;
+    const detail = {
+      value: this.value || this.textContent?.trim(),
+      selected: !this.selected,
+      originalEvent: ev,
+    };
+    this.dispatchEvent(
+      new CustomEvent('change', { detail, bubbles: true, composed: true }),
+    );
+    // Deprecated name, still what wc-segmented-button-group listens for.
     this.dispatchEvent(
       new CustomEvent('segmented-button--change', {
-        detail: {
-          value: this.value || this.textContent?.trim(),
-          selected: !this.selected,
-          originalEvent: ev,
-        },
+        detail,
         bubbles: true,
         composed: true,
       }),

@@ -1,0 +1,31 @@
+---
+export const title = 'Events and forms';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The group fires one <code>change</code> event, with the new value in <code>event.detail.value</code>.
+  The radios are form-associated, so inside a <code>&lt;form&gt;</code> the checked radio submits
+  its value under the group's <code>name</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form id='radio-group-form' style='display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;'>
+    <wc-radio-group id='radio-group-events' label='Plan' name='plan' value='free'>
+      <wc-radio value='free' label='Free'></wc-radio>
+      <wc-radio value='pro' label='Pro'></wc-radio>
+      <wc-radio value='team' label='Team'></wc-radio>
+    </wc-radio-group>
+    <wc-button type='submit'>Submit</wc-button>
+  </form>
+  <script is:inline>
+    document.querySelector('#radio-group-events').addEventListener('change', function (event) {
+      myConsole.log('Plan changed to :: ' + event.detail.value);
+    });
+    document.querySelector('#radio-group-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      myConsole.log('Submitted plan :: ' + new FormData(event.target).get('plan'));
+    });
+  </script>
+</DemoComponentCard>

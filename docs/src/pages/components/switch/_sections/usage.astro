@@ -3,7 +3,11 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  Set <code>checked</code> to turn the switch on. The older <code>value</code> attribute still works as an
+  alias.
+</p>
 <DemoComponentCard lang={'html'}>
-  <wc-switch value='true'>Want ice cream?</wc-switch>
-  <wc-switch value='true' with-icon>Want ice cream?</wc-switch>
+  <wc-switch checked>Want ice cream?</wc-switch>
+  <wc-switch checked with-icon>Want ice cream?</wc-switch>
 </DemoComponentCard>

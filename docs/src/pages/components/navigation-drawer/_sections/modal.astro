@@ -1,0 +1,42 @@
+---
+export const title = 'Modal';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>variant="modal"</code> opens the drawer over the page with a scrim. It keeps focus inside,
+  and closes on Escape, on a click on the scrim, and after an item is chosen. Open it with
+  <code>show()</code> or by setting <code>open</code>; it fires <code>open</code> and
+  <code>close</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='modal-drawer-trigger' variant='tonal'>
+    <wc-icon slot='icon' name='menu'></wc-icon>
+    Open drawer
+  </wc-button>
+  <wc-navigation-drawer id='modal-drawer-demo' variant='modal' headline='Mail'>
+    <wc-navigation-drawer-item value='inbox' active badge='24'>
+      <wc-icon slot='icon' name='inbox'></wc-icon>
+      Inbox
+    </wc-navigation-drawer-item>
+    <wc-navigation-drawer-item value='sent'>
+      <wc-icon slot='icon' name='send'></wc-icon>
+      Sent
+    </wc-navigation-drawer-item>
+    <wc-navigation-drawer-item value='archive'>
+      <wc-icon slot='icon' name='archive'></wc-icon>
+      Archive
+    </wc-navigation-drawer-item>
+  </wc-navigation-drawer>
+  <script is:inline>
+    const modalDrawer = document.querySelector('#modal-drawer-demo');
+    document.querySelector('#modal-drawer-trigger').addEventListener('click', function () {
+      modalDrawer.show();
+    });
+    modalDrawer.addEventListener('change', function (event) {
+      myConsole.log('Navigated to :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>

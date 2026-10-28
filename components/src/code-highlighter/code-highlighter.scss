@@ -36,7 +36,7 @@
     @include mixin.get-typography(body-medium);
 
     .copy-button {
-      --button-container-shape: 9999px;
+      --button-container-shape: var(--shape-corner-full);
     }
   }
 

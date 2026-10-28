@@ -13,6 +13,9 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @overview
  * <p>Tabs holds the tab buttons and manages their layout.</p>
  *
+ * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user activates a tab.
+ * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-tabs>
@@ -176,14 +179,17 @@ export class Tabs extends LitElement {
     this.__animateIndicatorTransition(previousActiveTab, clickedTab);
     this.__lastActiveTab = clickedTab;
 
-    this.dispatchEvent(new CustomEvent('tab-click', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        index: clickedIndex,
-        value: (clickedTab as Tab).value,
-      },
-    }));
+    const detail = {
+      index: clickedIndex,
+      value: (clickedTab as Tab).value,
+    };
+    this.dispatchEvent(
+      new CustomEvent('change', { bubbles: true, composed: true, detail }),
+    );
+    // Deprecated name, still what wc-tab-group listens for.
+    this.dispatchEvent(
+      new CustomEvent('tab-click', { bubbles: true, composed: true, detail }),
+    );
   };
 
   render() {
