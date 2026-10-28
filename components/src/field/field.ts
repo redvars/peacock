@@ -1,5 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
@@ -104,6 +104,10 @@ export class Field extends LitElement {
   /** True when the `field-end` slot contains at least one node. */
   @state()
   slotEndHasContent: boolean = false;
+
+  /** The bordered field container; used to anchor popups such as a select menu. */
+  @query('.field-body')
+  readonly fieldBodyElement!: HTMLElement | null;
 
   firstUpdated() {
     observerSlotChangesWithCallback(
