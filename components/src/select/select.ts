@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import BaseInput from '../input/BaseInput.js';
 import styles from './select.scss';
+import type { Field } from '../field/field.js';
 import type { Menu } from '../menu/menu/menu.js';
 import { SelectOptionElement } from './option.js';
 
@@ -118,6 +119,9 @@ export class Select extends BaseInput {
 
   @query('.select-trigger')
   private _triggerEl?: HTMLElement;
+
+  @query('wc-field')
+  private _fieldEl?: Field;
 
   private get _menu(): Menu | null {
     return (this.renderRoot?.querySelector('wc-menu') as unknown as Menu) ?? null;
@@ -241,13 +245,14 @@ export class Select extends BaseInput {
     this._triggerEl?.focus();
     const menu = this._menu;
     if (menu && this._triggerEl) {
-      menu.anchorElement = this._triggerEl;
-      const triggerWidth = this._triggerEl.getBoundingClientRect().width;
-      if (triggerWidth < 240) {
-        menu.style.setProperty('--menu-width', '240px');
-      } else {
-        menu.style.setProperty('--menu-width', `${Math.ceil(triggerWidth)}px`);
-      }
+      // Anchor to the field's bordered box so the menu lines up with its edge
+      // and is at least as wide as the field.
+      const anchor = this._fieldEl?.fieldBodyElement ?? this._triggerEl;
+      menu.anchorElement = anchor;
+      menu.style.setProperty(
+        '--menu-min-width',
+        `${Math.ceil(anchor.getBoundingClientRect().width)}px`,
+      );
       menu.show();
     }
     if (this.search) {

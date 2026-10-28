@@ -24,9 +24,26 @@ export class SelectOptionElement extends LitElement {
     css`
       :host {
         display: contents;
+        --menu-item-backdrop-container-shape-start-start: none;
+        --menu-item-backdrop-container-shape-start-end: none;
+        --menu-item-backdrop-container-shape-end-start: none;
+        --menu-item-backdrop-container-shape-end-end: none;
+
+        --menu-item-backdrop-elevation-level-block-start: none;
+        --menu-item-backdrop-elevation-level-block-end: none;
       }
       :host([filtered]) {
         display: none;
+      }
+      /* Forward the position styles wc-menu sets on this wrapper to the inner item */
+      wc-menu-item {
+        --menu-item-backdrop-container-shape-start-start: inherit;
+        --menu-item-backdrop-container-shape-start-end: inherit;
+        --menu-item-backdrop-container-shape-end-start: inherit;
+        --menu-item-backdrop-container-shape-end-end: inherit;
+
+        --menu-item-backdrop-elevation-level-block-start: inherit;
+        --menu-item-backdrop-elevation-level-block-end: inherit;
       }
     `,
   ];
