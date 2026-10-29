@@ -72,6 +72,7 @@ export function getAllComponentsForShowcase() {
       'accordion-item',
       'chip-set',
       'chart-stacked-bar',
+      'timeline-item'
     ].includes(component.rawTag);
   });
 }
