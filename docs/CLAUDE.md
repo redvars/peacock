@@ -44,7 +44,7 @@ Reusable Astro components for the documentation UI. Key files:
 - `components.astro` — Component gallery with search.
 - `components/[component-name]/index.astro` — Per-component docs page (Overview + API tabs).
 - `components/[component-name]/_sections/` — Reusable section partials (Usage, Variants, Colors, Events, etc.).
-- `foundations/` — Token docs (Color, Shape, Elevation, Motion, Spacing, State layers). Static, no client JS. Typography lives at `components/text`.
+- `foundations/` — Token docs (Color, Shape, Elevation, Motion, Spacing, State layers, Typography). Static, no client JS.
 - `theme-builder.astro` — Theme builder; loads the theme engine (`theme.js`) in the browser.
 - `blog/` — Blog listing and posts.
 

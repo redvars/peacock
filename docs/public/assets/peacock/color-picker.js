@@ -11,7 +11,17 @@ var css_248z = i`:host {
   --_thumb-size: 16px;
   --_track-height: 12px;
   --_preview-size: 40px;
-  --_radius: 6px;
+  --_radius: var(--shape-corner-small);
+  --_ring-color: var(--color-white);
+  --_ring-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-shadow) 30%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-shadow) 30%, transparent);
+  --_checker:
+    repeating-conic-gradient(
+      var(--color-neutral-80) 0% 25%,
+      var(--color-white) 0% 50%
+    )
+    0 0 / 8px 8px;
   display: inline-block;
   width: var(--color-picker-width, 240px);
   touch-action: none;
@@ -32,7 +42,7 @@ var css_248z = i`:host {
   width: 100%;
   height: var(--_sv-height);
   border-radius: var(--_radius);
-  background: linear-gradient(to bottom, transparent 0%, #000 100%), linear-gradient(to right, #fff 0%, var(--hue-color) 100%);
+  background: linear-gradient(to bottom, transparent 0%, var(--color-black) 100%), linear-gradient(to right, var(--color-white) 0%, var(--hue-color) 100%);
   cursor: crosshair;
   user-select: none;
   overflow: hidden;
@@ -43,14 +53,14 @@ var css_248z = i`:host {
   width: var(--_thumb-size);
   height: var(--_thumb-size);
   border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--_ring-color);
+  box-shadow: var(--_ring-shadow);
   transform: translate(-50%, -50%);
   outline: none;
   cursor: crosshair;
 }
 .sv-cursor:focus-visible {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary);
+  box-shadow: 0 0 0 2px var(--_ring-color), 0 0 0 4px var(--color-primary);
 }
 
 .controls-row {
@@ -65,8 +75,8 @@ var css_248z = i`:host {
   border-radius: 50%;
   flex-shrink: 0;
   overflow: hidden;
-  background: repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%) 0 0/8px 8px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  background: var(--_checker);
+  box-shadow: inset 0 0 0 1px var(--color-outline-variant);
 }
 
 .preview-inner {
@@ -95,7 +105,7 @@ var css_248z = i`:host {
 }
 
 .alpha-track {
-  background: linear-gradient(to right, transparent, var(--current-color, currentColor)), repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%) 0 0/8px 8px;
+  background: linear-gradient(to right, transparent, var(--current-color, currentColor)), var(--_checker);
 }
 
 .slider-thumb {
@@ -104,20 +114,20 @@ var css_248z = i`:host {
   width: var(--_thumb-size);
   height: var(--_thumb-size);
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  background: var(--_ring-color);
+  border: 2px solid color-mix(in srgb, var(--color-shadow) 15%, transparent);
+  box-shadow: var(--elevation-level1);
   transform: translate(-50%, -50%);
   cursor: grab;
   outline: none;
   transition: box-shadow 0.15s ease;
 }
 .slider-thumb:focus-visible {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-primary);
+  box-shadow: 0 0 0 2px var(--_ring-color), 0 0 0 4px var(--color-primary);
 }
 .slider-thumb:active {
   cursor: grabbing;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--elevation-level3);
 }
 
 .inputs-row {
@@ -158,7 +168,7 @@ var css_248z = i`:host {
   background: transparent;
   outline: none;
   font-size: 13px;
-  font-family: var(--typography-mono-font-family, monospace);
+  font-family: var(--font-family-monospace, monospace);
   color: var(--color-on-surface, #333);
 }
 
@@ -329,7 +339,8 @@ let ColorPicker = class ColorPicker extends i$1 {
         this._syncFromValue();
         this._lastEmittedValue = this.value;
     }
-    updated(changed) {
+    // willUpdate, not updated: syncing the HSV state here lands in the same render.
+    willUpdate(changed) {
         if (changed.has('value') && this.value !== this._lastEmittedValue) {
             this._syncFromValue();
         }

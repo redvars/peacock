@@ -1,10 +1,8 @@
 ---
 const pathname = Astro.url.pathname;
 
-const isTypographyPage = pathname === '/components/text';
 const isComponentsPage =
-  pathname === '/components' ||
-  (pathname.startsWith('/components/') && !isTypographyPage);
+  pathname === '/components' || pathname.startsWith('/components/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
@@ -47,10 +45,6 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   <wc-navigation-rail-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
     <wc-icon slot="icon" name="format_paint"></wc-icon>
     Theme
-  </wc-navigation-rail-item>
-  <wc-navigation-rail-item href='/components/text' aria-label='Go to Typography' active={isTypographyPage ? true : null}>
-    <wc-icon slot="icon" name="font_download"></wc-icon>
-    Typography
   </wc-navigation-rail-item>
 
   <wc-navigation-rail-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>

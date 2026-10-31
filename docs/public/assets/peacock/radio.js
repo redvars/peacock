@@ -1,9 +1,11 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
+import { e as e$1 } from './query-CHb9Ft_d.js';
+import { e } from './class-map-DG7CA1et.js';
 import { s as spread } from './spread-B5cgadZl.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
+import { m as mixinFormAssociated, g as getFormValue, a as getFormState } from './form-associated-Bhwwr6dT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -161,13 +163,12 @@ var css_248z = i`* {
 }`;
 
 var Radio_1;
-let Radio = Radio_1 = class Radio extends i$1 {
+let Radio = Radio_1 = class Radio extends mixinFormAssociated(mixinElementInternals(i$1)) {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
-        /**
-         * The input field name for grouping radios.
-         */
-        this.name = '';
+        // ── Properties ───────────────────────────────────────────────────────────
+        // `name` (which groups radios) and `disabled` come from mixinFormAssociated.
         /**
          * The submitted value when this radio is selected.
          */
@@ -189,13 +190,10 @@ let Radio = Radio_1 = class Radio extends i$1 {
          */
         this.readonly = false;
         /**
-         * If true, the user cannot interact with the radio. Defaults to `false`.
-         */
-        this.disabled = false;
-        /**
          * Configuration object for aria attributes.
          */
         this.configAria = {};
+        // ── State ────────────────────────────────────────────────────────────────
         /** True while the radio container has keyboard focus. */
         this.hasFocus = false;
         /** True while the user is actively pressing the radio (mouse/keyboard). */
@@ -253,8 +251,10 @@ let Radio = Radio_1 = class Radio extends i$1 {
             }));
         };
     }
+    // ── Lifecycle ────────────────────────────────────────────────────────────
     connectedCallback() {
         super.connectedCallback();
+        this.defaultChecked ??= this.checked;
         this.handleInitialAttributes();
         window.addEventListener('mouseup', this.windowMouseUp);
         window.addEventListener('keyup', this.windowKeyUp);
@@ -279,6 +279,33 @@ let Radio = Radio_1 = class Radio extends i$1 {
             this.updateGroupFocusTarget();
         }
     }
+    // ── Public methods ───────────────────────────────────────────────────────
+    /**
+     * Sets focus on the radio.
+     */
+    focus() {
+        this.containerElement?.focus();
+    }
+    /**
+     * Removes focus from the radio.
+     */
+    blur() {
+        this.containerElement?.blur();
+    }
+    // ── Form association ─────────────────────────────────────────────────────
+    [getFormValue]() {
+        return this.checked ? this.value || 'on' : null;
+    }
+    [getFormState]() {
+        return String(this.checked);
+    }
+    formResetCallback() {
+        this.checked = this.defaultChecked ?? false;
+    }
+    formStateRestoreCallback(state) {
+        this.checked = state === 'true';
+    }
+    // ── Private methods ──────────────────────────────────────────────────────
     handleInitialAttributes() {
         if (this.hasAttribute('tabindex')) {
             const attrValue = this.getAttribute('tabindex');
@@ -324,8 +351,11 @@ let Radio = Radio_1 = class Radio extends i$1 {
     getGroupRadios() {
         if (!this.name)
             return [this];
-        const scopeRoot = this.closest('form') ?? document;
-        return Array.from(scopeRoot.querySelectorAll(`wc-radio[name="${this.name}"]`));
+        // A radio group or form scopes the name; otherwise the radio's own tree (document or the
+        // shadow root it was rendered into).
+        const scopeRoot = (this.closest('wc-radio-group, form') ??
+            this.getRootNode());
+        return Array.from(scopeRoot.querySelectorAll(`wc-radio[name="${CSS.escape(this.name)}"]`));
     }
     isRadioEnabled(radio) {
         return !radio.disabled && !radio.readonly;
@@ -357,18 +387,7 @@ let Radio = Radio_1 = class Radio extends i$1 {
         target.selectRadio();
         target.containerElement?.focus();
     }
-    /**
-     * Sets focus on the radio.
-     */
-    focus() {
-        this.containerElement?.focus();
-    }
-    /**
-     * Removes focus from the radio.
-     */
-    blur() {
-        this.containerElement?.blur();
-    }
+    // ── Render ───────────────────────────────────────────────────────────────
     render() {
         const cssClasses = {
             radio: true,
@@ -381,7 +400,7 @@ let Radio = Radio_1 = class Radio extends i$1 {
             'has-content': this.slotHasContent,
         };
         return b `
-      <label class=${e$1(cssClasses)}>
+      <label class=${e(cssClasses)}>
         <div
           class="container"
           tabindex=${this.isGroupFocusTarget
@@ -429,9 +448,6 @@ Radio.DIRECTION_PREVIOUS = -1;
 Radio.styles = [css_248z];
 __decorate([
     n({ type: String })
-], Radio.prototype, "name", void 0);
-__decorate([
-    n({ type: String })
 ], Radio.prototype, "value", void 0);
 __decorate([
     n({ type: String })
@@ -445,9 +461,6 @@ __decorate([
 __decorate([
     n({ type: Boolean, reflect: true })
 ], Radio.prototype, "readonly", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Radio.prototype, "disabled", void 0);
 __decorate([
     n({ type: Object })
 ], Radio.prototype, "configAria", void 0);
@@ -464,11 +477,8 @@ __decorate([
     r()
 ], Radio.prototype, "isGroupFocusTarget", void 0);
 __decorate([
-    e('.container')
+    e$1('.container')
 ], Radio.prototype, "containerElement", void 0);
-__decorate([
-    e('.input-native')
-], Radio.prototype, "nativeElement", void 0);
 Radio = Radio_1 = __decorate([
     IndividualComponent
 ], Radio);

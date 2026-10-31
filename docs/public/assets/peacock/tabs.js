@@ -79,6 +79,9 @@ var Tabs_1;
  * @overview
  * <p>Tabs holds the tab buttons and manages their layout.</p>
  *
+ * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user activates a tab.
+ * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-tabs>
@@ -113,14 +116,13 @@ let Tabs = Tabs_1 = class Tabs extends i$1 {
             clickedTab.active = true;
             this.__animateIndicatorTransition(previousActiveTab, clickedTab);
             this.__lastActiveTab = clickedTab;
-            this.dispatchEvent(new CustomEvent('tab-click', {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    index: clickedIndex,
-                    value: clickedTab.value,
-                },
-            }));
+            const detail = {
+                index: clickedIndex,
+                value: clickedTab.value,
+            };
+            this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail }));
+            // Deprecated name, still what wc-tab-group listens for.
+            this.dispatchEvent(new CustomEvent('tab-click', { bubbles: true, composed: true, detail }));
         };
     }
     connectedCallback() {

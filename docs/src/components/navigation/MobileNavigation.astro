@@ -1,10 +1,8 @@
 ---
 const pathname = Astro.url.pathname;
 import { SITE_TITLE } from '../../siteconfig';
-const isTypographyPage = pathname === '/components/text';
 const isComponentsPage =
-  pathname === '/components' ||
-  (pathname.startsWith('/components/') && !isTypographyPage);
+  pathname === '/components' || pathname.startsWith('/components/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
@@ -66,10 +64,6 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     <wc-list-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
       <wc-icon slot="leading" name="format_paint"></wc-icon>
       Theme builder
-    </wc-list-item>
-    <wc-list-item href='/components/text' aria-label='Go to Typography' active={isTypographyPage ? true : null}>
-      <wc-icon slot="leading" name="font_download"></wc-icon>
-      Typography
     </wc-list-item>
 
     <wc-list-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>

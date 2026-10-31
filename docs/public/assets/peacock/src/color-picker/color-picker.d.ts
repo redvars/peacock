@@ -59,7 +59,7 @@ export declare class ColorPicker extends LitElement {
     /** The last `value` we set ourselves, used to skip redundant re-syncs in `updated`. */
     private _lastEmittedValue;
     connectedCallback(): void;
-    updated(changed: Map<PropertyKey, unknown>): void;
+    willUpdate(changed: Map<PropertyKey, unknown>): void;
     private _syncFromValue;
     private _computeHex;
     private _emitValue;

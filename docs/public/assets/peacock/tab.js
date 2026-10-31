@@ -155,7 +155,8 @@ var css_248z = i`* {
   --_container-shape-end-start: var(--shape-corner-small);
   --_container-shape-end-end: var(--shape-corner-small);
   --_active-indicator-color: var(--color-primary);
-  --_active-indicator-shape: 3px 3px 0 0;
+  --_active-indicator-shape: var(--shape-corner-extra-small)
+    var(--shape-corner-extra-small) 0 0;
   --_active-indicator-height: 2px;
 }
 :host-context([variant=primary]) .tab .focus-ring {

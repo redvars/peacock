@@ -7,8 +7,10 @@ import { i as isActivationClick, d as dispatchActivationClick } from './dispatch
 import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
 import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinDelegatesAria, a as mixinElementInternals } from './element-internals-2CMts_0M.js';
-import { m as mixinFormSubmitter, a as mixinFormAssociated } from './form-associated-BXADnjOB.js';
+import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { m as mixinFormSubmitter } from './form-submitter-DPI4L6gj.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
+import { m as mixinFormAssociated } from './form-associated-Bhwwr6dT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './throttle-C7ZAPqtu.js';
@@ -31,11 +33,11 @@ var css_248z$2 = i`* {
   display: inline-flex;
   --fab-container-shape: var(--shape-corner-large);
   --fab-container-elevation-level: 3;
-  --private-button-container-shape-start-start: var(--fab-container-shape);
-  --private-button-container-shape-start-end: var(--fab-container-shape);
-  --private-button-container-shape-end-start: var(--fab-container-shape);
-  --private-button-container-shape-end-end: var(--fab-container-shape);
-  --private-button-container-shape-variant: var(--fab-container-shape-variant);
+  --_button-container-shape-start-start: var(--fab-container-shape);
+  --_button-container-shape-start-end: var(--fab-container-shape);
+  --_button-container-shape-end-start: var(--fab-container-shape);
+  --_button-container-shape-end-end: var(--fab-container-shape);
+  --_button-container-shape-variant: var(--fab-container-shape-variant);
 }
 
 /*
@@ -91,15 +93,15 @@ var css_248z$2 = i`* {
   pointer-events: none;
   z-index: 0;
   gap: 0.75rem;
-  color: var(--private-button-label-text-color);
-  --icon-size: var(--private-button-icon-size);
-  --icon-color: var(--private-button-label-text-color);
+  color: var(--_button-label-text-color);
+  --icon-size: var(--_button-icon-size);
+  --icon-color: var(--_button-label-text-color);
 }
 .fab .fab-label {
-  font-size: var(--private-button-font-size) !important;
-  font-weight: var(--private-button-font-weight) !important;
-  line-height: var(--private-button-line-height) !important;
-  letter-spacing: var(--private-button-letter-spacing) !important;
+  font-size: var(--_button-font-size) !important;
+  font-weight: var(--_button-font-weight) !important;
+  line-height: var(--_button-line-height) !important;
+  letter-spacing: var(--_button-letter-spacing) !important;
   white-space: nowrap;
 }
 .fab.disabled {
@@ -127,23 +129,23 @@ var css_248z$2 = i`* {
 
 .ripple {
   border-radius: var(--fab-container-shape);
-  --ripple-state-opacity: var(--private-button-container-state-opacity, 0);
-  --ripple-pressed-color: var(--private-button-label-text-color);
+  --ripple-state-opacity: var(--_button-container-state-opacity, 0);
+  --ripple-pressed-color: var(--_button-label-text-color);
 }
 
 .background {
   display: block;
   position: absolute;
   inset: 0;
-  background-color: var(--private-button-container-color);
-  opacity: var(--private-button-container-opacity, 1);
+  background-color: var(--_button-container-color);
+  opacity: var(--_button-container-opacity, 1);
   border-radius: var(--fab-container-shape);
   pointer-events: none;
 }
 
 .elevation {
   --elevation-level: var(
-    --private-button-container-elevation-level,
+    --_button-container-elevation-level,
     var(--fab-container-elevation-level)
   );
   transition-duration: 280ms;
@@ -155,31 +157,31 @@ var css_248z$2 = i`* {
 
 /* State management */
 :host:hover:not([disabled]) {
-  --private-button-container-elevation-level: 4;
-  --private-button-container-state-opacity: 0.08;
+  --_button-container-elevation-level: 4;
+  --_button-container-state-opacity: 0.08;
 }
 
 :host(:active):not([disabled]) {
-  --private-button-container-elevation-level: 3;
-  --private-button-container-state-opacity: 0.12;
+  --_button-container-elevation-level: 3;
+  --_button-container-state-opacity: 0.12;
 }
 
 :host([lowered]) {
   --fab-container-elevation-level: 1;
 }
 :host([lowered]):hover:not([disabled]) {
-  --private-button-container-elevation-level: 2;
+  --_button-container-elevation-level: 2;
 }
 :host([lowered]):active:not([disabled]) {
-  --private-button-container-elevation-level: 1;
+  --_button-container-elevation-level: 1;
 }
 
 :host([disabled]) {
-  --private-button-container-color: var(--color-on-surface);
-  --private-button-container-opacity: 0.12;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
-  --private-button-container-elevation-level: 0;
+  --_button-container-color: var(--color-on-surface);
+  --_button-container-opacity: 0.12;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
+  --_button-container-elevation-level: 0;
 }
 :host([disabled]) .ripple {
   display: none;
@@ -189,13 +191,13 @@ var css_248z$2 = i`* {
 }
 
 :host([variant=tonal]) {
-  --private-button-container-color: var(--tonal-fab-container-color);
-  --private-button-label-text-color: var(--tonal-fab-label-text-color);
+  --_button-container-color: var(--tonal-fab-container-color);
+  --_button-label-text-color: var(--tonal-fab-label-text-color);
 }
 
 :host([variant=filled]) {
-  --private-button-container-color: var(--filled-fab-container-color);
-  --private-button-label-text-color: var(--filled-fab-label-text-color);
+  --_button-container-color: var(--filled-fab-container-color);
+  --_button-label-text-color: var(--filled-fab-label-text-color);
 }`;
 
 var css_248z$1 = i`:host {
@@ -238,35 +240,35 @@ var css_248z = i`@charset "UTF-8";
 :host([size=sm]) {
   --fab-container-shape: var(--shape-corner-medium);
   --fab-container-size: 2.5rem;
-  --private-button-icon-size: 1.5rem;
+  --_button-icon-size: 1.5rem;
   --fab-extended-min-width: 4rem;
-  --private-button-font-size: 0.875rem;
-  --private-button-font-weight: var(--font-weight-medium);
-  --private-button-line-height: 1.25rem;
-  --private-button-letter-spacing: 0.1px;
+  --_button-font-size: 0.875rem;
+  --_button-font-weight: var(--font-weight-medium);
+  --_button-line-height: 1.25rem;
+  --_button-letter-spacing: 0.1px;
 }
 
 /* Standard/Medium FAB: 56×56dp, shape-corner-large (default) */
 :host([size=md]) {
   --fab-container-size: 3.5rem;
-  --private-button-icon-size: 1.5rem;
+  --_button-icon-size: 1.5rem;
   --fab-extended-min-width: 5rem;
-  --private-button-font-size: 0.875rem;
-  --private-button-font-weight: var(--font-weight-medium);
-  --private-button-line-height: 1.25rem;
-  --private-button-letter-spacing: 0.1px;
+  --_button-font-size: 0.875rem;
+  --_button-font-weight: var(--font-weight-medium);
+  --_button-line-height: 1.25rem;
+  --_button-letter-spacing: 0.1px;
 }
 
 /* Large FAB: 96×96dp, shape-corner-extra-large */
 :host([size=lg]) {
   --fab-container-shape: var(--shape-corner-extra-large);
   --fab-container-size: 6rem;
-  --private-button-icon-size: 2.25rem;
+  --_button-icon-size: 2.25rem;
   --fab-extended-min-width: 6rem;
-  --private-button-font-size: 1rem;
-  --private-button-font-weight: var(--font-weight-medium);
-  --private-button-line-height: 1.5rem;
-  --private-button-letter-spacing: 0.15px;
+  --_button-font-size: 1rem;
+  --_button-font-weight: var(--font-weight-medium);
+  --_button-line-height: 1.5rem;
+  --_button-letter-spacing: 0.15px;
 }`;
 
 /**

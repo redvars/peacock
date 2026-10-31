@@ -3,6 +3,21 @@ import { n } from './property-B49QQ8pS.js';
 import { e } from './class-map-DG7CA1et.js';
 import './directive-ZPhl09Yt.js';
 
+const LEGACY_SIZES = {
+    small: 'sm',
+    medium: 'md',
+    large: 'lg',
+};
+/**
+ * Maps a size attribute onto the `sm|md|lg` scale, accepting the deprecated long names.
+ * Unknown values fall back to `fallback`.
+ */
+function normalizeSize(size, fallback = 'md') {
+    if (size === 'sm' || size === 'md' || size === 'lg')
+        return size;
+    return LEGACY_SIZES[size] ?? fallback;
+}
+
 var css_248z$1 = i`* {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
@@ -90,17 +105,17 @@ var css_248z$1 = i`* {
 .toolbar.variant-docked {
   /* Size variants */
 }
-.toolbar.variant-docked.size-small {
+.toolbar.variant-docked.size-sm {
   --toolbar-height: 5rem;
 }
-.toolbar.variant-docked.size-medium {
+.toolbar.variant-docked.size-md {
   --toolbar-height: 6rem;
 }
-.toolbar.variant-docked.size-large {
+.toolbar.variant-docked.size-lg {
   --toolbar-height: 7rem;
 }
 .toolbar.variant-docked.elevated {
-  --toolbar-shadow: var(--elevation-shadow-level-3, 0 4px 8px rgba(0, 0, 0, 0.15));
+  --toolbar-shadow: var(--elevation-level3);
 }
 
 /* ---- Floating variant ---- */
@@ -245,11 +260,13 @@ let Toolbar = Toolbar_1 = class Toolbar extends i$1 {
         this.orientation = 'horizontal';
         /**
          * Size of the docked toolbar.
-          * - `"small"`: 80dp height (default).
-          * - `"medium"`: 96dp height.
-          * - `"large"`: 112dp height.
+         * - `"sm"`: 80dp height (default).
+         * - `"md"`: 96dp height.
+         * - `"lg"`: 112dp height.
+         *
+         * The long names `"small"`, `"medium"` and `"large"` still work but are deprecated.
          */
-        this.size = 'small';
+        this.size = 'sm';
         /**
          * Whether the toolbar is visually elevated (adds a shadow).
          */
@@ -260,7 +277,7 @@ let Toolbar = Toolbar_1 = class Toolbar extends i$1 {
             toolbar: true,
             [`variant-${this.variant}`]: true,
             [`orientation-${this.orientation}`]: true,
-            [`size-${this.size}`]: true,
+            [`size-${normalizeSize(this.size, 'sm')}`]: true,
             elevated: this.elevated,
         };
         if (this.variant === 'floating') {

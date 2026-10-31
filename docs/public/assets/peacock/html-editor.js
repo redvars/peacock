@@ -4,10 +4,12 @@ import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-DG7CA1et.js';
 import { e as Node, c as Suggestion, f as Node$1, m as mergeAttributes, g as PluginKey, E as Editor, a as StarterKit, U as Underline, P as Placeholder } from './index-DcbiqHpf.js';
-import { B as BaseInput } from './BaseInput-CU1zZYKc.js';
+import { B as BaseInput } from './BaseInput-CV0pZgSb.js';
 import { r as redispatchEvent } from './dispatch-event-utils-CuEqjlPT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './element-internals-QME0yEz4.js';
+import './form-associated-Bhwwr6dT.js';
 
 /**
  * Returns the suggestion options for a trigger of the Mention extension. These

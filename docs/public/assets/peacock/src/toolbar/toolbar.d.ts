@@ -1,4 +1,5 @@
 import { LitElement } from 'lit';
+import { type LegacySize, type Size } from '@/__internal/utils/size.js';
 /**
  * @label Toolbar
  * @tag wc-toolbar
@@ -71,11 +72,13 @@ export declare class Toolbar extends LitElement {
     orientation: 'horizontal' | 'vertical';
     /**
      * Size of the docked toolbar.
-      * - `"small"`: 80dp height (default).
-      * - `"medium"`: 96dp height.
-      * - `"large"`: 112dp height.
+     * - `"sm"`: 80dp height (default).
+     * - `"md"`: 96dp height.
+     * - `"lg"`: 112dp height.
+     *
+     * The long names `"small"`, `"medium"` and `"large"` still work but are deprecated.
      */
-    size: 'small' | 'medium' | 'large';
+    size: Size | LegacySize;
     /**
      * Whether the toolbar is visually elevated (adds a shadow).
      */

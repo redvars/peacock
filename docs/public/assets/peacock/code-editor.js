@@ -3,11 +3,14 @@ import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-DG7CA1et.js';
-import { B as BaseInput } from './BaseInput-CU1zZYKc.js';
+import { B as BaseInput } from './BaseInput-CV0pZgSb.js';
 import { i as isDarkMode, o as observeThemeChange } from './is-dark-mode-DOcaw4Yq.js';
 import { r as redispatchEvent } from './dispatch-event-utils-CuEqjlPT.js';
+import { c as copyToClipboard } from './copy-to-clipboard-upGx-Ueo.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './element-internals-QME0yEz4.js';
+import './form-associated-Bhwwr6dT.js';
 
 // src/util.ts
 function defineProperty(obj, prop, value) {
@@ -37333,6 +37336,7 @@ var css_248z = i`@charset "UTF-8";
   display: none !important;
 }
 
+/* stylelint-disable -- vendored Monaco editor CSS, kept as shipped */
 .monaco-aria-container {
   position: absolute;
   left: -999em;
@@ -43656,6 +43660,7 @@ var css_248z = i`@charset "UTF-8";
   flex: 1;
 }
 
+/* stylelint-enable */
 :host {
   display: block;
   height: 100%;
@@ -43688,45 +43693,20 @@ var css_248z = i`@charset "UTF-8";
   --vscode-editorGutter-background: transparent;
 }
 
-.read-only-tag {
+.toolbar {
   position: absolute;
-  right: 9rem;
+  top: var(--spacing-100);
+  inset-inline-end: var(--spacing-300);
   z-index: 1;
-  top: var(--spacing-200);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
 }`;
 
-/**
- * @label Code Editor
- * @tag wc-code-editor
- * @rawTag code-editor
- * @summary A code editor component using Monaco Editor.
- * @tags input
- *
- * @example
- * ```html
- * <wc-code-editor language="javascript" style="width: 80%;--code-editor-height: 9rem;height: 9rem;" ></wc-code-editor>
- * ```
- */
-// At module level, outside the class
-// @ts-ignore
-// At module level, outside the class
-self.MonacoEnvironment = {
-    getWorkerUrl(moduleId, label) {
-        const workersDir = new URL('monaco/workers/', import.meta.url);
-        switch (label) {
-            case 'json':
-                return `${workersDir}json.worker.js`;
-            case 'css':
-                return `${workersDir}css.worker.js`;
-            case 'html':
-                return `${workersDir}html.worker.js`;
-            case 'typescript':
-            case 'javascript':
-                return `${workersDir}ts.worker.js`;
-            default:
-                return `${workersDir}editor.worker.js`;
-        }
-    },
+const locale = {
+    copied: 'Copied',
+    copyToClipboard: 'Copy to clipboard',
+    readOnly: 'Read Only',
 };
 /**
  * @label Code Editor
@@ -43736,42 +43716,63 @@ self.MonacoEnvironment = {
  * @summary A Monaco-based code editing component with syntax highlighting and theming.
  * @overview
  *  - CodeEditor wraps Monaco Editor as a web component.
- *  - Supports JS/JSON/HTML languages, read-only mode, line numbers, minimap, and dark/light theme.
+ *  - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.
+ *  - Has a copy button; hide it with `hide-copy`.
  *  - Emits `change` when content is edited and updates value from property changes.
+ *
+ * @cssprop --code-editor-height - Height of the editor. Defaults to 300px.
+ *
+ * @fires {Event} change - Dispatched when the user edits the content.
+ * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the content.
  *
  * @example
  * ```html
  * <wc-code-editor
- *   language="javascript"
+ *   language="css"
+ *   readonly
  *   style="width: 100%; --code-editor-height: 10rem;"
- *   value="function hello() { console.log('Hello'); }"
- *   lineNumbers="on"
- *   minimap="false">
+ *   value=":root { --color-primary: #6341d5; }">
  * </wc-code-editor>
  * ```
  * @tags input, editor
  */
 let CodeEditor = class CodeEditor extends BaseInput {
     constructor() {
+        // ── Static
         super(...arguments);
-        this.name = '';
+        // ── Properties
+        // `name` (for form use) comes from BaseInput's form association.
+        /** The code shown in the editor. Updated as the user types. */
         this.value = '';
+        /** Language used for syntax highlighting. Can be changed after the editor loads. */
         this.language = 'javascript';
+        /** Whether line numbers show in the gutter. */
         this.lineNumbers = 'on';
+        /** Shows the minimap. Leave the attribute out to hide it. */
         this.minimap = false;
+        /** Hides the copy button. */
+        this.hideCopy = false;
+        /** Shows a "Read Only" badge while the editor is read-only or disabled. */
+        this.showReadonlyBadge = false;
+        /** Whether the page is in dark mode; picks the Monaco theme. */
         this._isDarkMode = isDarkMode();
+        /** Whether the editor text has focus. */
         this.hasFocus = false;
+        /** Whether the copy button was just used; shows a check for a few seconds. */
+        this._copied = false;
     }
+    // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
-        observeThemeChange(() => {
+        this.__unobserveTheme = observeThemeChange(() => {
             this._isDarkMode = isDarkMode();
-            this.monaco.editor.setTheme(this.getTheme());
+            this.monaco?.editor.setTheme(this.getTheme());
         });
     }
-    // Cleanup to prevent memory leaks
     disconnectedCallback() {
         super.disconnectedCallback();
+        this.__unobserveTheme?.();
+        clearTimeout(this.__copiedTimer);
         this.editorMonacoInstance?.dispose();
     }
     firstUpdated() {
@@ -43780,31 +43781,26 @@ let CodeEditor = class CodeEditor extends BaseInput {
     updated(changedProperties) {
         if (changedProperties.has('libSource'))
             this.libSourceChanged();
-        if (changedProperties.has('disabled') ||
-            changedProperties.has('readonly')) {
-            this.editorMonacoInstance?.updateOptions({
-                readOnly: this.disabled || this.readonly,
+        const editor = this.editorMonacoInstance;
+        if (!editor)
+            return;
+        if (changedProperties.has('disabled') || changedProperties.has('readonly')) {
+            editor.updateOptions({ readOnly: this.disabled || this.readonly });
+        }
+        if (changedProperties.has('lineNumbers') || changedProperties.has('minimap')) {
+            editor.updateOptions({
+                lineNumbers: this.lineNumbers,
+                minimap: { enabled: this.minimap },
             });
         }
-        if (changedProperties.has('value')) {
-            if (this.editorMonacoInstance &&
-                this.editorMonacoInstance.getValue() !== this.value) {
-                this.editorMonacoInstance.setValue(this.value || '');
-            }
+        if (changedProperties.has('language')) {
+            this.monaco.editor.setModelLanguage(editor.getModel(), this.language);
+        }
+        if (changedProperties.has('value') && editor.getValue() !== this.value) {
+            editor.setValue(this.value || '');
         }
     }
-    libSourceChanged() {
-        const libUri = 'java://peacock.redvars.com/lib.java';
-        const libModel = this.monaco.editor.getModel(this.monaco.Uri.parse(libUri));
-        if (libModel)
-            libModel.dispose();
-        if (this.libSource) {
-            this.monaco.editor.createModel(this.libSource, this.language, this.monaco.Uri.parse(libUri));
-        }
-    }
-    getTheme() {
-        return this._isDarkMode ? 'github-dark' : 'github-light';
-    }
+    // ── Public methods
     async initializeMonaco() {
         this.monaco = await init({
             themes: ['github-light', 'github-dark'],
@@ -43840,12 +43836,69 @@ let CodeEditor = class CodeEditor extends BaseInput {
     async setBlur() {
         this.editorMonacoInstance?.trigger('keyboard', 'type', ''); /* Focus hack or use blur if available */
     }
+    // ── Private methods
+    libSourceChanged() {
+        if (!this.monaco)
+            return;
+        const libUri = 'java://peacock.redvars.com/lib.java';
+        const libModel = this.monaco.editor.getModel(this.monaco.Uri.parse(libUri));
+        if (libModel)
+            libModel.dispose();
+        if (this.libSource) {
+            this.monaco.editor.createModel(this.libSource, this.language, this.monaco.Uri.parse(libUri));
+        }
+    }
+    getTheme() {
+        return this._isDarkMode ? 'github-dark' : 'github-light';
+    }
+    async __handleCopyClick() {
+        const value = this.editorMonacoInstance?.getValue() ?? this.value ?? '';
+        await copyToClipboard(value);
+        this._copied = true;
+        clearTimeout(this.__copiedTimer);
+        this.__copiedTimer = setTimeout(() => {
+            this._copied = false;
+        }, 3000);
+        this.dispatchEvent(new CustomEvent('copied', {
+            detail: { value },
+            bubbles: true,
+            composed: true,
+        }));
+    }
+    // ── Render helpers
+    renderToolbar() {
+        const showBadge = this.showReadonlyBadge && (this.disabled || this.readonly);
+        if (this.hideCopy && !showBadge)
+            return A;
+        return b `
+      <div class="toolbar">
+        ${showBadge
+            ? b `<wc-tag class="read-only-tag" color="red">${locale.readOnly}</wc-tag>`
+            : A}
+        ${this.hideCopy
+            ? A
+            : b `<wc-icon-button
+              class="copy-button"
+              color=${this._copied ? 'success' : 'surface'}
+              variant="text"
+              size="xs"
+              aria-label=${this._copied ? locale.copied : locale.copyToClipboard}
+              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
+              @click=${this.__handleCopyClick}
+            >
+              <wc-icon name=${this._copied ? 'check' : 'content_copy'}></wc-icon>
+            </wc-icon-button>`}
+      </div>
+    `;
+    }
+    // ── Render
     render() {
+        // The field isn't marked read-only: its read-only look dims the
+        // container, and a read-only editor is still meant to be read.
         return b `
       <wc-field
         ?required=${this.required}
         ?disabled=${this.disabled}
-        ?readonly=${this.readonly}
         ?skeleton=${this.skeleton}
         ?focused=${this.hasFocus}
         .host=${this}
@@ -43854,9 +43907,7 @@ let CodeEditor = class CodeEditor extends BaseInput {
             disabled: this.disabled,
         })}"
       >
-        ${this.disabled || this.readonly
-            ? b `<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`
-            : A}
+        ${this.renderToolbar()}
         <div class="editor"></div>
         ${!this.editorMonacoInstance
             ? b `
@@ -43870,9 +43921,6 @@ let CodeEditor = class CodeEditor extends BaseInput {
     }
 };
 CodeEditor.styles = [css_248z];
-__decorate([
-    n({ type: String })
-], CodeEditor.prototype, "name", void 0);
 __decorate([
     n({ type: String })
 ], CodeEditor.prototype, "value", void 0);
@@ -43889,11 +43937,20 @@ __decorate([
     n({ type: Boolean })
 ], CodeEditor.prototype, "minimap", void 0);
 __decorate([
+    n({ type: Boolean, attribute: 'hide-copy' })
+], CodeEditor.prototype, "hideCopy", void 0);
+__decorate([
+    n({ type: Boolean, attribute: 'show-readonly-badge' })
+], CodeEditor.prototype, "showReadonlyBadge", void 0);
+__decorate([
     r()
 ], CodeEditor.prototype, "_isDarkMode", void 0);
 __decorate([
     r()
 ], CodeEditor.prototype, "hasFocus", void 0);
+__decorate([
+    r()
+], CodeEditor.prototype, "_copied", void 0);
 __decorate([
     r()
 ], CodeEditor.prototype, "editorMonacoInstance", void 0);

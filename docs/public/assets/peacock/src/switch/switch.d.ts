@@ -1,4 +1,5 @@
 import { nothing } from 'lit';
+import { type FormRestoreState, type FormValue, getFormState, getFormValue } from '@/__internal/mixins/form-associated.js';
 import BaseInput from '../input/BaseInput.js';
 /**
  * @label Switch
@@ -8,6 +9,7 @@ import BaseInput from '../input/BaseInput.js';
  * @summary Captures boolean input with an on/off switch interaction.
  * @overview
  * <p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>
+ * <p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
  *
  * @cssprop --switch-track-color: Color of the switch track when checked.
  * @cssprop --switch-track-off-color: Color of the switch track when unchecked.
@@ -16,23 +18,27 @@ import BaseInput from '../input/BaseInput.js';
  * @cssprop --switch-handle-radius: Size of the switch handle.
  * @cssprop --switch-handle-color: Color of the switch handle.
  *
- * @fires {CustomEvent} change - Dispatched when the switch value changes.
+ * @fires {CustomEvent} change - Dispatched when the switch is toggled. Detail: `{ checked, value, originalEvent }`.
  * @fires {CustomEvent} blur - Dispatched when the switch loses focus.
  * @fires {CustomEvent} focus - Dispatched when the switch receives focus.
  *
  * @example
  * ```html
- * <wc-switch value="true"></wc-switch>
+ * <wc-switch checked label="Wi-Fi"></wc-switch>
  * ```
  * @tags input, form
  */
 export declare class Switch extends BaseInput {
     static styles: import("lit").CSSResultGroup[];
-    value: boolean;
     /**
-     * The input field name.
+     * Whether the switch is on.
      */
-    name: string;
+    checked: boolean;
+    /**
+     * @deprecated Use `checked`. Kept as an alias of `checked`.
+     */
+    get value(): boolean;
+    set value(value: boolean);
     /**
      * The switch label.
      */
@@ -41,18 +47,6 @@ export declare class Switch extends BaseInput {
      * If true, the toggle has rounded corners. Defaults to `true`.
      */
     rounded: boolean;
-    /**
-     * If true, required icon is shown. Defaults to `false`.
-     */
-    required: boolean;
-    /**
-     * If true, the toggle is readonly. Defaults to `false`.
-     */
-    readonly: boolean;
-    /**
-     * If true, the user cannot interact with the toggle. Defaults to `false`.
-     */
-    disabled: boolean;
     withIcon: boolean;
     /**
      * Configuration object for aria attributes.
@@ -62,11 +56,21 @@ export declare class Switch extends BaseInput {
     private isActive;
     private slotHasContent;
     private trackElement?;
-    private nativeElement?;
     private tabindex?;
     connectedCallback(): void;
     disconnectedCallback(): void;
     firstUpdated(): void;
+    /**
+     * Sets focus on the toggle.
+     */
+    focus(): void;
+    /**
+     * Removes focus from the toggle.
+     */
+    blur(): void;
+    [getFormValue](): FormValue | null;
+    [getFormState](): FormValue | null;
+    formStateRestoreCallback(state: FormRestoreState | null): void;
     private handleInitialAttributes;
     private windowMouseUp;
     private windowKeyUp;
@@ -76,14 +80,6 @@ export declare class Switch extends BaseInput {
     private blurHandler;
     private focusHandler;
     private handleKeyUp;
-    /**
-     * Sets focus on the toggle.
-     */
-    focus(): void;
-    /**
-     * Removes focus from the toggle.
-     */
-    blur(): void;
     __renderIcon(): typeof nothing | import("lit-html").TemplateResult<1>;
     render(): import("lit-html").TemplateResult<1>;
 }

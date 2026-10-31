@@ -14,7 +14,6 @@ import BaseInput from '../input/BaseInput.js';
 export declare class DatePicker extends BaseInput {
     static styles: import("lit").CSSResultGroup[];
     value: string;
-    name: string;
     placeholder: string;
     label: string;
     inline: boolean;

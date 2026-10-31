@@ -6,6 +6,9 @@ import { LitElement } from 'lit';
  * @summary Tag component for displaying labels or values with optional dismiss functionality.
  * @tags display
  *
+ * @fires {CustomEvent} dismiss - Dispatched when the dismiss button is clicked.
+ * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-tag color="red">Tag</wc-tag>
@@ -18,7 +21,8 @@ export declare class Tag extends LitElement {
     variant: 'elevated' | 'filled' | 'tonal' | 'outlined';
     /** Tag color. */
     color?: 'default' | 'blue' | 'green' | 'red' | 'yellow';
-    size?: 'sm' | 'md';
+    /** Tag size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
+    size?: 'sm' | 'md' | 'lg';
     private _dismissClickHandler;
     private __renderDismissButton;
     render(): import("lit-html").TemplateResult<1>;

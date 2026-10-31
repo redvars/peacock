@@ -31,7 +31,7 @@ img.clickable {
 }
 
 .placeholder {
-  background: #e0e0e0;
+  background: var(--color-surface-container-highest);
   min-width: 100px;
   min-height: 100px;
   display: block;
@@ -61,7 +61,7 @@ img.clickable {
   max-height: 90vh;
   object-fit: contain;
   box-shadow: 0 8px 40px color-mix(in srgb, var(--color-shadow), transparent 40%);
-  border-radius: 4px;
+  border-radius: var(--shape-corner-extra-small);
   cursor: auto;
 }`;
 

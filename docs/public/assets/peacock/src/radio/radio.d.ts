@@ -1,12 +1,10 @@
 import { LitElement } from 'lit';
-export declare class Radio extends LitElement {
+import { type FormRestoreState, type FormValue, getFormState, getFormValue } from '@/__internal/mixins/form-associated.js';
+declare const Radio_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>;
+export declare class Radio extends Radio_base {
     private static readonly DIRECTION_NEXT;
     private static readonly DIRECTION_PREVIOUS;
     static styles: import("lit").CSSResultGroup[];
-    /**
-     * The input field name for grouping radios.
-     */
-    name: string;
     /**
      * The submitted value when this radio is selected.
      */
@@ -28,10 +26,6 @@ export declare class Radio extends LitElement {
      */
     readonly: boolean;
     /**
-     * If true, the user cannot interact with the radio. Defaults to `false`.
-     */
-    disabled: boolean;
-    /**
      * Configuration object for aria attributes.
      */
     configAria: Record<string, string>;
@@ -44,13 +38,26 @@ export declare class Radio extends LitElement {
     /** True for the one radio in the group that should receive tab focus (roving tabindex). */
     private isGroupFocusTarget;
     private containerElement?;
-    private nativeElement?;
     /** Captured `tabindex` attribute value forwarded to the inner container. */
     private tabindex?;
+    /** `checked` when first connected; `form.reset()` returns to it. */
+    private defaultChecked?;
     connectedCallback(): void;
     disconnectedCallback(): void;
     firstUpdated(): void;
     updated(changedProps: Map<string, unknown>): void;
+    /**
+     * Sets focus on the radio.
+     */
+    focus(): void;
+    /**
+     * Removes focus from the radio.
+     */
+    blur(): void;
+    [getFormValue](): FormValue | null;
+    [getFormState](): FormValue | null;
+    formResetCallback(): void;
+    formStateRestoreCallback(state: FormRestoreState | null): void;
     private handleInitialAttributes;
     private windowMouseUp;
     private windowKeyUp;
@@ -66,13 +73,6 @@ export declare class Radio extends LitElement {
     private isRadioEnabled;
     private updateGroupFocusTarget;
     private navigateGroup;
-    /**
-     * Sets focus on the radio.
-     */
-    focus(): void;
-    /**
-     * Removes focus from the radio.
-     */
-    blur(): void;
     render(): import("lit-html").TemplateResult<1>;
 }
+export {};

@@ -12,10 +12,12 @@ import './is-link-Dk2OV3PM.js';
 import './observe-slot-change-DPxaZrZF.js';
 import './dispatch-event-utils-CuEqjlPT.js';
 import './ButtonConstants-CahP2_NA.js';
-import './element-internals-2CMts_0M.js';
-import './form-associated-BXADnjOB.js';
+import './delegate-py-Ets8N.js';
+import './form-submitter-DPI4L6gj.js';
+import './element-internals-QME0yEz4.js';
 import './hyperlink-DLvb6MXE.js';
 import './throttle-C7ZAPqtu.js';
+import './form-associated-Bhwwr6dT.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -33,17 +35,17 @@ var css_248z = i`* {
 :host {
   --button-group-spacing: unset;
   display: flex;
-  gap: var(--button-group-spacing, var(--private-button-group-spacing));
+  gap: var(--button-group-spacing, var(--_button-group-spacing));
 }
 
 :host([size=xs]),
 :host([size=extra-small]) {
-  --private-button-group-spacing: var(--spacing-200);
+  --_button-group-spacing: var(--spacing-200);
 }
 
 :host([size=sm]),
 :host([size=small]) {
-  --private-button-group-spacing: var(--spacing-150);
+  --_button-group-spacing: var(--spacing-150);
 }
 
 :host([size=md]),
@@ -52,11 +54,11 @@ var css_248z = i`* {
 :host([size=large]),
 :host([size=xl]),
 :host([size=extra-large]) {
-  --private-button-group-spacing: var(--spacing-100);
+  --_button-group-spacing: var(--spacing-100);
 }
 
 :host([connected]) {
-  --private-button-group-spacing: var(--spacing-025);
+  --_button-group-spacing: var(--spacing-025);
 }
 
 :host([connected]) slot::slotted(*) {

@@ -14,7 +14,8 @@ import { LitElement } from 'lit';
  * @cssprop --segmented-button-outline-color: Outline / border color.
  * @cssprop --segmented-button-disabled-opacity: Opacity when the segment is disabled.
  *
- * @fires {CustomEvent} segmented-button--change - Dispatched when the selected state changes.
+ * @fires {CustomEvent} change - Dispatched when the segment is activated. Detail: `{ value, selected, originalEvent }`, where `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
+ * @fires {CustomEvent} segmented-button--change - Deprecated alias of `change`, fired alongside it.
  *
  * @example
  * ```html

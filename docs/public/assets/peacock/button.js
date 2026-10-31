@@ -8,9 +8,11 @@ import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
 import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
-import { m as mixinDelegatesAria, a as mixinElementInternals } from './element-internals-2CMts_0M.js';
-import { m as mixinFormSubmitter, a as mixinFormAssociated } from './form-associated-BXADnjOB.js';
+import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { m as mixinFormSubmitter } from './form-submitter-DPI4L6gj.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
+import { m as mixinFormAssociated } from './form-associated-Bhwwr6dT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './throttle-C7ZAPqtu.js';
@@ -27,13 +29,13 @@ var css_248z = i`.button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-color: var(--private-button-container-color);
-  opacity: var(--private-button-container-opacity, 1);
-  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
-  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
-  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
-  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
-  corner-shape: var(--private-button-container-shape-variant);
+  background-color: var(--_button-container-color);
+  opacity: var(--_button-container-opacity, 1);
+  border-start-start-radius: var(--_button-container-shape-start-start, var(--_button-container-shape));
+  border-start-end-radius: var(--_button-container-shape-start-end, var(--_button-container-shape));
+  border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
+  border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
+  corner-shape: var(--_button-container-shape-variant);
   transition-property: inset, width, height, transform, opacity;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
@@ -47,11 +49,11 @@ var css_248z = i`.button {
   pointer-events: none;
   background: var(--color-inverse-surface);
   transform: translateX(0.25rem) translateY(0.25rem);
-  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
-  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
-  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
-  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
-  corner-shape: var(--private-button-container-shape-variant);
+  border-start-start-radius: var(--_button-container-shape-start-start, var(--_button-container-shape));
+  border-start-end-radius: var(--_button-container-shape-start-end, var(--_button-container-shape));
+  border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
+  border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
+  corner-shape: var(--_button-container-shape-variant);
   transition-property: inset, width, height, transform, opacity;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
@@ -62,35 +64,35 @@ var css_248z = i`.button {
   z-index: 1;
   pointer-events: none;
   --focus-ring-container-shape-start-start: var(
-    --private-button-container-shape-start-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-start,
+    var(--_button-container-shape)
   );
   --focus-ring-container-shape-start-end: var(
-    --private-button-container-shape-start-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-end,
+    var(--_button-container-shape)
   );
   --focus-ring-container-shape-end-start: var(
-    --private-button-container-shape-end-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-start,
+    var(--_button-container-shape)
   );
   --focus-ring-container-shape-end-end: var(
-    --private-button-container-shape-end-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-end,
+    var(--_button-container-shape)
   );
   --focus-ring-container-shape-variant: var(
-    --private-button-container-shape-variant
+    --_button-container-shape-variant
   );
 }
 
 .ripple {
-  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
-  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
-  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
-  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
-  corner-shape: var(--private-button-container-shape-variant);
+  border-start-start-radius: var(--_button-container-shape-start-start, var(--_button-container-shape));
+  border-start-end-radius: var(--_button-container-shape-start-end, var(--_button-container-shape));
+  border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
+  border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
+  corner-shape: var(--_button-container-shape-variant);
   pointer-events: none;
-  --ripple-state-opacity: var(--private-button-state-opacity, 0);
-  --ripple-pressed-color: var(--private-button-state-color);
+  --ripple-state-opacity: var(--_button-state-opacity, 0);
+  --ripple-pressed-color: var(--_button-state-color);
 }
 
 .skeleton {
@@ -99,23 +101,23 @@ var css_248z = i`.button {
   inset: 0;
   pointer-events: none;
   --skeleton-container-shape-start-start: var(
-    --private-button-container-shape-start-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-start,
+    var(--_button-container-shape)
   );
   --skeleton-container-shape-start-end: var(
-    --private-button-container-shape-start-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-end,
+    var(--_button-container-shape)
   );
   --skeleton-container-shape-end-start: var(
-    --private-button-container-shape-end-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-start,
+    var(--_button-container-shape)
   );
   --skeleton-container-shape-end-end: var(
-    --private-button-container-shape-end-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-end,
+    var(--_button-container-shape)
   );
   --skeleton-container-shape-variant: var(
-    --private-button-container-shape-variant
+    --_button-container-shape-variant
   );
 }
 
@@ -123,25 +125,25 @@ var css_248z = i`.button {
   pointer-events: none;
   transition-duration: 280ms;
   --elevation-container-shape-start-start: var(
-    --private-button-container-shape-start-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-start,
+    var(--_button-container-shape)
   );
   --elevation-container-shape-start-end: var(
-    --private-button-container-shape-start-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-start-end,
+    var(--_button-container-shape)
   );
   --elevation-container-shape-end-start: var(
-    --private-button-container-shape-end-start,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-start,
+    var(--_button-container-shape)
   );
   --elevation-container-shape-end-end: var(
-    --private-button-container-shape-end-end,
-    var(--private-button-container-shape)
+    --_button-container-shape-end-end,
+    var(--_button-container-shape)
   );
   --elevation-container-shape-variant: var(
-    --private-button-container-shape-variant
+    --_button-container-shape-variant
   );
-  --elevation-level: var(--private-button-container-elevation-level);
+  --elevation-level: var(--_button-container-elevation-level);
 }
 
 .outline {
@@ -149,13 +151,13 @@ var css_248z = i`.button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border: var(--private-button-outline-width) solid var(--private-button-outline-color);
-  opacity: var(--private-button-outline-opacity, 1);
-  border-start-start-radius: var(--private-button-container-shape-start-start, var(--private-button-container-shape));
-  border-start-end-radius: var(--private-button-container-shape-start-end, var(--private-button-container-shape));
-  border-end-start-radius: var(--private-button-container-shape-end-start, var(--private-button-container-shape));
-  border-end-end-radius: var(--private-button-container-shape-end-end, var(--private-button-container-shape));
-  corner-shape: var(--private-button-container-shape-variant);
+  border: var(--_button-outline-width) solid var(--_button-outline-color);
+  opacity: var(--_button-outline-opacity, 1);
+  border-start-start-radius: var(--_button-container-shape-start-start, var(--_button-container-shape));
+  border-start-end-radius: var(--_button-container-shape-start-end, var(--_button-container-shape));
+  border-end-start-radius: var(--_button-container-shape-end-start, var(--_button-container-shape));
+  border-end-end-radius: var(--_button-container-shape-end-end, var(--_button-container-shape));
+  corner-shape: var(--_button-container-shape-variant);
   transition-property: inset, width, height, transform, opacity;
   transition-duration: 200ms;
   transition-timing-function: var(--easing-standard);
@@ -188,23 +190,23 @@ var css_248z = i`.button {
   position: relative;
   display: inline-flex;
   min-height: var(--button-height);
-  --private-button-container-shape-start-start: var(
+  --_button-container-shape-start-start: var(
     --button-container-shape-start-start,
     var(--button-container-shape)
   );
-  --private-button-container-shape-start-end: var(
+  --_button-container-shape-start-end: var(
     --button-container-shape-start-end,
     var(--button-container-shape)
   );
-  --private-button-container-shape-end-start: var(
+  --_button-container-shape-end-start: var(
     --button-container-shape-end-start,
     var(--button-container-shape)
   );
-  --private-button-container-shape-end-end: var(
+  --_button-container-shape-end-end: var(
     --button-container-shape-end-end,
     var(--button-container-shape)
   );
-  --private-button-container-shape-variant: var(
+  --_button-container-shape-variant: var(
     --button-container-shape-variant
   );
 }
@@ -237,19 +239,19 @@ var css_248z = i`.button {
   align-items: center;
   justify-content: center;
   height: var(--button-height);
-  padding: 0 var(--button-container-padding, var(--private-button-container-padding));
+  padding: 0 var(--button-container-padding, var(--_button-container-padding));
   width: 100%;
 }
 .button .label {
   font-family: var(--font-family-sans) !important;
-  font-size: var(--private-button-font-size);
-  font-weight: var(--private-button-font-weight);
-  line-height: var(--private-button-line-height);
-  letter-spacing: var(--private-button-letter-spacing);
-  color: var(--private-button-label-text-color);
-  --icon-size: var(--button-icon-size, var(--private-button-icon-size));
-  --icon-color: var(--private-button-label-text-color);
-  opacity: var(--private-button-label-text-opacity, 1);
+  font-size: var(--_button-font-size);
+  font-weight: var(--_button-font-weight);
+  line-height: var(--_button-line-height);
+  letter-spacing: var(--_button-letter-spacing);
+  color: var(--_button-label-text-color);
+  --icon-size: var(--button-icon-size, var(--_button-icon-size));
+  --icon-color: var(--_button-label-text-color);
+  opacity: var(--_button-label-text-opacity, 1);
   display: inline-flex;
   pointer-events: none;
 }
@@ -262,7 +264,7 @@ var css_248z = i`.button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  cursor: var(--private-button-cursor, pointer);
+  cursor: var(--_button-cursor, pointer);
 }
 .button {
   /* make the icon slot itself collapsible so removal animates smoothly */
@@ -274,9 +276,9 @@ var css_248z = i`.button {
   pointer-events: none;
 }
 .button .icon-slot::slotted(*) {
-  --icon-size: var(--button-icon-size, var(--private-button-icon-size));
-  --icon-color: var(--private-button-label-text-color);
-  opacity: var(--private-button-label-text-opacity, 1);
+  --icon-size: var(--button-icon-size, var(--_button-icon-size));
+  --icon-color: var(--_button-label-text-color);
+  opacity: var(--_button-label-text-opacity, 1);
 }
 
 :host(:not([skeleton])) .skeleton {
@@ -294,132 +296,132 @@ var css_248z = i`.button {
  * Button variant definitions
  */
 :host([variant=elevated]) {
-  --private-button-container-color: var(--elevated-button-container-color);
-  --private-button-label-text-color: var(--elevated-button-label-text-color);
-  --private-button-container-elevation-level: 1;
-  --private-button-state-color: var(--private-button-label-text-color);
+  --_button-container-color: var(--elevated-button-container-color);
+  --_button-label-text-color: var(--elevated-button-label-text-color);
+  --_button-container-elevation-level: 1;
+  --_button-state-color: var(--_button-label-text-color);
 }
 :host([variant=elevated]):host(:hover:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 2;
-  --private-button-state-opacity: 0.08;
+  --_button-container-elevation-level: 2;
+  --_button-state-opacity: 0.08;
 }
 :host([variant=elevated]):host(:active:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 1;
-  --private-button-state-opacity: 0.12;
+  --_button-container-elevation-level: 1;
+  --_button-state-opacity: 0.12;
 }
 :host([variant=elevated]):host([disabled]), :host([variant=elevated]):host([soft-disabled]) {
-  --private-button-cursor: not-allowed;
-  --private-button-container-color: var(--color-on-surface);
-  --private-button-container-opacity: 0.1;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
+  --_button-cursor: not-allowed;
+  --_button-container-color: var(--color-on-surface);
+  --_button-container-opacity: 0.1;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
 }
 :host([variant=elevated]):host([disabled]) .ripple, :host([variant=elevated]):host([soft-disabled]) .ripple {
   display: none;
 }
 
 :host([variant=filled]) {
-  --private-button-container-color: var(--filled-button-container-color);
-  --private-button-label-text-color: var(--filled-button-label-text-color);
-  --private-button-state-color: var(--private-button-label-text-color);
+  --_button-container-color: var(--filled-button-container-color);
+  --_button-label-text-color: var(--filled-button-label-text-color);
+  --_button-state-color: var(--_button-label-text-color);
 }
 :host([variant=filled]):host(:hover:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 1;
-  --private-button-state-opacity: 0.08;
+  --_button-container-elevation-level: 1;
+  --_button-state-opacity: 0.08;
 }
 :host([variant=filled]):host(:active:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 0;
-  --private-button-state-opacity: 0.1;
+  --_button-container-elevation-level: 0;
+  --_button-state-opacity: 0.1;
 }
 :host([variant=filled]):host([disabled]), :host([variant=filled]):host([soft-disabled]) {
-  --private-button-cursor: not-allowed;
-  --private-button-container-color: var(--color-on-surface);
-  --private-button-container-opacity: 0.1;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
+  --_button-cursor: not-allowed;
+  --_button-container-color: var(--color-on-surface);
+  --_button-container-opacity: 0.1;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
 }
 :host([variant=filled]):host([disabled]) .ripple, :host([variant=filled]):host([soft-disabled]) .ripple {
   display: none;
 }
 
 :host([variant=tonal]) {
-  --private-button-container-color: var(--tonal-button-container-color);
-  --private-button-label-text-color: var(--tonal-button-label-text-color);
-  --private-button-state-color: var(--private-button-label-text-color);
+  --_button-container-color: var(--tonal-button-container-color);
+  --_button-label-text-color: var(--tonal-button-label-text-color);
+  --_button-state-color: var(--_button-label-text-color);
 }
 :host([variant=tonal]):host(:hover:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 1;
-  --private-button-state-opacity: 0.08;
+  --_button-container-elevation-level: 1;
+  --_button-state-opacity: 0.08;
 }
 :host([variant=tonal]):host(:active:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-container-elevation-level: 0;
-  --private-button-state-opacity: 0.12;
+  --_button-container-elevation-level: 0;
+  --_button-state-opacity: 0.12;
 }
 :host([variant=tonal]):host([disabled]), :host([variant=tonal]):host([soft-disabled]) {
-  --private-button-cursor: not-allowed;
-  --private-button-container-color: var(--color-on-surface);
-  --private-button-container-opacity: 0.1;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
+  --_button-cursor: not-allowed;
+  --_button-container-color: var(--color-on-surface);
+  --_button-container-opacity: 0.1;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
 }
 :host([variant=tonal]):host([disabled]) .ripple, :host([variant=tonal]):host([soft-disabled]) .ripple {
   display: none;
 }
 
 :host([variant=outlined]) {
-  --private-button-outline-width: var(
+  --_button-outline-width: var(
     --outlined-button-outline-width,
     0.0675rem
   );
-  --private-button-container-color: var(--outlined-button-container-color);
-  --private-button-outline-color: var(--outlined-button-outline-color);
-  --private-button-label-text-color: var(--outlined-button-label-text-color);
-  --private-button-state-color: var(--private-button-label-text-color);
+  --_button-container-color: var(--outlined-button-container-color);
+  --_button-outline-color: var(--outlined-button-outline-color);
+  --_button-label-text-color: var(--outlined-button-label-text-color);
+  --_button-state-color: var(--_button-label-text-color);
 }
 :host([variant=outlined]):host(:hover:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-state-opacity: 0.08;
+  --_button-state-opacity: 0.08;
 }
 :host([variant=outlined]):host(:active:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-state-opacity: 0.12;
+  --_button-state-opacity: 0.12;
 }
 :host([variant=outlined]):host([disabled]), :host([variant=outlined]):host([soft-disabled]) {
-  --private-button-cursor: not-allowed;
-  --private-button-outline-color: var(--color-on-surface);
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
-  --private-button-outline-opacity: 0.12;
+  --_button-cursor: not-allowed;
+  --_button-outline-color: var(--color-on-surface);
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
+  --_button-outline-opacity: 0.12;
 }
 :host([variant=outlined]):host([disabled]) .ripple, :host([variant=outlined]):host([soft-disabled]) .ripple {
   display: none;
 }
 
 :host([variant=text]) {
-  --private-button-label-text-color: var(--text-button-label-text-color);
-  --private-button-state-color: var(--private-button-label-text-color);
+  --_button-label-text-color: var(--text-button-label-text-color);
+  --_button-state-color: var(--_button-label-text-color);
 }
 :host([variant=text]):host(:hover:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-state-opacity: 0.08;
+  --_button-state-opacity: 0.08;
 }
 :host([variant=text]):host(:active:not([disabled], [soft-disabled], [skeleton])) {
-  --private-button-state-opacity: 0.12;
+  --_button-state-opacity: 0.12;
 }
 :host([variant=text]):host([disabled]), :host([variant=text]):host([soft-disabled]) {
-  --private-button-cursor: not-allowed;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
+  --_button-cursor: not-allowed;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
 }
 :host([variant=text]):host([disabled]) .ripple, :host([variant=text]):host([soft-disabled]) .ripple {
   display: none;
 }
 
 :host([variant=neo]) {
-  --private-button-container-color: var(--neo-button-container-color);
-  --private-button-label-text-color: var(--neo-button-label-text-color);
-  --private-button-outline-width: var(
+  --_button-container-color: var(--neo-button-container-color);
+  --_button-label-text-color: var(--neo-button-label-text-color);
+  --_button-outline-width: var(
     --outlined-button-outline-width,
     0.125rem
   );
-  --private-button-outline-color: var(--color-inverse-surface);
+  --_button-outline-color: var(--color-inverse-surface);
 }
 :host([variant=neo]) .focus-ring {
   --focus-ring-color: var(--color-primary-container);
@@ -435,11 +437,11 @@ var css_248z = i`.button {
   transform: translateX(0.25rem) translateY(0.25rem);
 }
 :host([variant=neo]):host([disabled]) {
-  --private-button-container-color: var(--color-on-surface);
-  --private-button-container-opacity: 0.1;
-  --private-button-label-text-color: var(--color-on-surface);
-  --private-button-label-text-opacity: 0.38;
-  --private-button-outline-opacity: 0.12;
+  --_button-container-color: var(--color-on-surface);
+  --_button-container-opacity: 0.1;
+  --_button-label-text-color: var(--color-on-surface);
+  --_button-label-text-opacity: 0.38;
+  --_button-outline-opacity: 0.12;
 }
 :host([variant=neo]):host([disabled]) .ripple {
   display: none;
@@ -465,10 +467,10 @@ var css_248z = i`.button {
 :host([shape=square]:not([selected])):host([size=md]:active), :host([shape=square]:not([selected])):host([size=medium]:active), :host([shape=square]:not([selected])):host([size=lg]:active), :host([shape=square]:not([selected])):host([size=large]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=square]:not([selected])):host([size=xl]), :host([shape=square]:not([selected])):host([size=extra]) {
+:host([shape=square]:not([selected])):host([size=xl]), :host([shape=square]:not([selected])):host([size=extra-large]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=square]:not([selected])):host([size=xl]:active), :host([shape=square]:not([selected])):host([size=extra]:active) {
+:host([shape=square]:not([selected])):host([size=xl]:active), :host([shape=square]:not([selected])):host([size=extra-large]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -538,18 +540,18 @@ var css_248z = i`.button {
 :host([shape=wide][selected]):host([size=large]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=round][selected]):host([size=xl]), :host([shape=round][selected]):host([size=extra]),
+:host([shape=round][selected]):host([size=xl]), :host([shape=round][selected]):host([size=extra-large]),
 :host([shape=narrow][selected]):host([size=xl]),
-:host([shape=narrow][selected]):host([size=extra]),
+:host([shape=narrow][selected]):host([size=extra-large]),
 :host([shape=wide][selected]):host([size=xl]),
-:host([shape=wide][selected]):host([size=extra]) {
+:host([shape=wide][selected]):host([size=extra-large]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=round][selected]):host([size=xl]:active), :host([shape=round][selected]):host([size=extra]:active),
+:host([shape=round][selected]):host([size=xl]:active), :host([shape=round][selected]):host([size=extra-large]:active),
 :host([shape=narrow][selected]):host([size=xl]:active),
-:host([shape=narrow][selected]):host([size=extra]:active),
+:host([shape=narrow][selected]):host([size=extra-large]:active),
 :host([shape=wide][selected]):host([size=xl]:active),
-:host([shape=wide][selected]):host([size=extra]:active) {
+:host([shape=wide][selected]):host([size=extra-large]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -701,6 +703,43 @@ var css_248z = i`.button {
   --outlined-button-label-text-color: var(--color-on-surface-variant);
 }
 
+:host([color=warning]:not([toggle])) {
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-warning);
+  --filled-button-container-color: var(--color-warning);
+  --filled-button-label-text-color: var(--color-on-warning);
+  --tonal-button-container-color: var(--color-warning-container);
+  --tonal-button-label-text-color: var(--color-on-warning-container);
+  --outlined-button-outline-color: var(--color-outline-variant);
+  --outlined-button-label-text-color: var(--color-on-surface-variant);
+  --text-button-label-text-color: var(--color-warning);
+  --neo-button-container-color: var(--color-warning);
+  --neo-button-label-text-color: var(--color-on-warning);
+}
+
+:host([color=warning][toggle][selected]) {
+  --filled-button-container-color: var(--color-warning);
+  --filled-button-label-text-color: var(--color-on-warning);
+  --tonal-button-container-color: var(--color-secondary);
+  --tonal-button-label-text-color: var(--color-on-secondary);
+  --elevated-button-container-color: var(--color-warning);
+  --elevated-button-label-text-color: var(--color-on-warning);
+  --outlined-button-outline-color: var(--color-inverse-surface);
+  --outlined-button-container-color: var(--color-inverse-surface);
+  --outlined-button-label-text-color: var(--color-inverse-on-surface);
+}
+
+:host([color=warning][toggle]:not([selected])) {
+  --filled-button-container-color: var(--color-surface-container-high);
+  --filled-button-label-text-color: var(--color-on-surface);
+  --tonal-button-container-color: var(--color-warning-container);
+  --tonal-button-label-text-color: var(--color-on-warning-container);
+  --elevated-button-container-color: var(--color-surface-container-low);
+  --elevated-button-label-text-color: var(--color-warning);
+  --outlined-button-outline-color: var(--color-outline-variant);
+  --outlined-button-label-text-color: var(--color-on-surface-variant);
+}
+
 :host([color=danger]:not([toggle])) {
   --elevated-button-container-color: var(--color-surface-container-low);
   --elevated-button-label-text-color: var(--color-error);
@@ -741,7 +780,7 @@ var css_248z = i`.button {
 :host([color=on-surface]) {
   --filled-button-container-color: var(--color-on-surface);
   --filled-button-label-text-color: var(--color-surface);
-  --tonal-button-container-color: var(--color-on-surface-container);
+  --tonal-button-container-color: var(--color-on-surface-variant);
   --tonal-button-label-text-color: var(--color-surface-container-high);
   --elevated-button-container-color: var(--color-on-surface);
   --elevated-button-label-text-color: var(--color-surface);
@@ -756,7 +795,7 @@ var css_248z = i`.button {
   --filled-button-container-color: var(--color-surface-container-high);
   --filled-button-label-text-color: var(--color-on-surface);
   --tonal-button-container-color: var(--color-surface-container-high);
-  --tonal-button-label-text-color: var(--color-on-surface-container);
+  --tonal-button-label-text-color: var(--color-on-surface);
   --elevated-button-container-color: var(--color-surface);
   --elevated-button-label-text-color: var(--color-on-surface);
   --outlined-button-outline-color: var(--color-on-surface);
@@ -769,66 +808,66 @@ var css_248z = i`.button {
 :host([size=xs]),
 :host([size=extra-small]) {
   --button-height: 2rem;
-  --private-button-icon-size: 1rem;
-  --private-button-container-padding: 0.75rem;
-  --private-button-icon-label-spacing: 0.5rem;
-  --private-button-font-size: 0.875rem !important;
-  --private-button-font-weight: var(--font-weight-medium) !important;
-  --private-button-line-height: 1.25rem !important;
-  --private-button-letter-spacing: 0.1px !important;
+  --_button-icon-size: 1rem;
+  --_button-container-padding: 0.75rem;
+  --_button-icon-label-spacing: 0.5rem;
+  --_button-font-size: 0.875rem !important;
+  --_button-font-weight: var(--font-weight-medium) !important;
+  --_button-line-height: 1.25rem !important;
+  --_button-letter-spacing: 0.1px !important;
 }
 
 :host([size=sm]),
 :host([size=small]) {
   --button-height: 2.5rem;
-  --private-button-icon-size: 1.25rem;
-  --private-button-container-padding: 1rem;
-  --private-button-icon-label-spacing: 0.5rem;
-  --private-button-font-size: 0.875rem !important;
-  --private-button-font-weight: var(--font-weight-medium) !important;
-  --private-button-line-height: 1.25rem !important;
-  --private-button-letter-spacing: 0.1px !important;
+  --_button-icon-size: 1.25rem;
+  --_button-container-padding: 1rem;
+  --_button-icon-label-spacing: 0.5rem;
+  --_button-font-size: 0.875rem !important;
+  --_button-font-weight: var(--font-weight-medium) !important;
+  --_button-line-height: 1.25rem !important;
+  --_button-letter-spacing: 0.1px !important;
 }
 
 :host([size=md]),
 :host([size=medium]) {
   --button-height: 3.5rem;
-  --private-button-icon-size: 1.5rem;
-  --private-button-container-padding: 1.5rem;
-  --private-button-icon-label-spacing: 0.5rem;
-  --private-button-font-size: 1rem !important;
-  --private-button-font-weight: var(--font-weight-medium) !important;
-  --private-button-line-height: 1.5rem !important;
-  --private-button-letter-spacing: 0.15px !important;
+  --_button-icon-size: 1.5rem;
+  --_button-container-padding: 1.5rem;
+  --_button-icon-label-spacing: 0.5rem;
+  --_button-font-size: 1rem !important;
+  --_button-font-weight: var(--font-weight-medium) !important;
+  --_button-line-height: 1.5rem !important;
+  --_button-letter-spacing: 0.15px !important;
 }
 
 :host([size=lg]),
 :host([size=large]) {
   --button-height: 6rem;
-  --private-button-icon-size: 2rem;
-  --private-button-container-padding: 3rem;
-  --private-button-icon-label-spacing: 0.75rem;
-  --private-button-font-size: 1.5rem !important;
-  --private-button-font-weight: var(--font-weight-regular) !important;
-  --private-button-line-height: 2rem !important;
-  --private-button-letter-spacing: 0 !important;
+  --_button-icon-size: 2rem;
+  --_button-container-padding: 3rem;
+  --_button-icon-label-spacing: 0.75rem;
+  --_button-font-size: 1.5rem !important;
+  --_button-font-weight: var(--font-weight-regular) !important;
+  --_button-line-height: 2rem !important;
+  --_button-letter-spacing: 0 !important;
 }
 
 :host([size=xl]),
 :host([size=extra-large]) {
   --button-height: 8.5rem;
-  --private-button-icon-size: 2.5rem;
-  --private-button-container-padding: 4rem;
-  --private-button-icon-label-spacing: 1rem;
-  --private-button-font-size: 2rem !important;
-  --private-button-font-weight: var(--font-weight-regular) !important;
-  --private-button-line-height: 2.5rem !important;
-  --private-button-letter-spacing: 0 !important;
+  --_button-icon-size: 2.5rem;
+  --_button-container-padding: 4rem;
+  --_button-icon-label-spacing: 1rem;
+  --_button-font-size: 2rem !important;
+  --_button-font-weight: var(--font-weight-regular) !important;
+  --_button-line-height: 2.5rem !important;
+  --_button-letter-spacing: 0 !important;
 }
 
 /* When both icon and label are present, apply the configured spacing */
 :host([has-icon][has-label]) .button {
-  gap: var(--private-button-icon-label-spacing);
+  gap: var(--_button-icon-label-spacing);
 }
 
 :host(:not([trailing-icon])) .button {
@@ -1040,8 +1079,7 @@ let Button = class Button extends mixinBaseButton(mixinHyperlink(mixinDelegatesA
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}
-      </button>
-      ${this.renderTooltip()}`;
+      </button>`;
     }
     renderButtonContent() {
         return b ` <slot class="icon-slot" name="icon"></slot>

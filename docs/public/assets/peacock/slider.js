@@ -1,8 +1,10 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
 import { o } from './style-map-BQD5Et1D.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
+import { m as mixinFormAssociated, g as getFormValue } from './form-associated-Bhwwr6dT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -78,7 +80,7 @@ var css_248z = i`:host {
   height: var(--_thumb-size);
   background-color: var(--_thumb-color);
   border-radius: 50%;
-  box-shadow: var(--md-sys-elevation-1);
+  box-shadow: var(--elevation-level1);
   outline: none;
   cursor: grab;
   transition: left 0.05s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
@@ -109,7 +111,7 @@ var css_248z = i`:host {
 }
 .thumb:active {
   cursor: grabbing;
-  box-shadow: var(--md-sys-elevation-5);
+  box-shadow: var(--elevation-level5);
 }
 .thumb.dragging {
   transition: none;
@@ -122,7 +124,7 @@ var css_248z = i`:host {
   padding: 4px 8px;
   background-color: var(--_label-color);
   color: var(--_label-text-color);
-  border-radius: 4px;
+  border-radius: var(--shape-corner-extra-small);
   font-size: 12px;
   white-space: nowrap;
   opacity: 0;
@@ -153,6 +155,9 @@ var css_248z = i`:host {
  * @rawTag slider
  *
  * @summary Sliders allow users to make selections from a range of values.
+ * @overview
+ * <p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,
+ * and <code>form.reset()</code> restores the starting value.</p>
  *
  * @fires {CustomEvent} input - Dispatched when the slider value changes during interaction.
  * @fires {CustomEvent} change - Dispatched when the slider interaction ends.
@@ -161,10 +166,14 @@ var css_248z = i`:host {
  * ```html
  * <wc-slider min="0" max="100" value="50"></wc-slider>
  * ```
+ * @tags input, form
  */
-let Slider = class Slider extends i$1 {
+let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)) {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
+        // ── Properties ───────────────────────────────────────────────────────────
+        // `name` and `disabled` come from mixinFormAssociated.
         /**
          * The minimum value of the slider.
          */
@@ -182,10 +191,6 @@ let Slider = class Slider extends i$1 {
          */
         this.step = 1;
         /**
-         * Whether the slider is disabled.
-         */
-        this.disabled = false;
-        /**
          * Whether to show labels on the slider.
          */
         this.labeled = true;
@@ -193,6 +198,7 @@ let Slider = class Slider extends i$1 {
          * Whether to show the current value beside the slider.
          */
         this.showValue = false;
+        // ── State ────────────────────────────────────────────────────────────────
         /** True while the user is actively dragging the thumb. */
         this.isDragging = false;
         this.onMouseMove = (e) => {
@@ -207,7 +213,11 @@ let Slider = class Slider extends i$1 {
             this.isDragging = false;
             this.container.classList.remove('dragging');
             this.thumbElement.classList.remove('dragging');
-            this.dispatchEvent(new CustomEvent('change', { detail: { value: this.value }, bubbles: true, composed: true }));
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }));
             window.removeEventListener('mousemove', this.onMouseMove);
             window.removeEventListener('mouseup', this.onMouseUp);
             window.removeEventListener('touchmove', this.onMouseMove);
@@ -215,11 +225,32 @@ let Slider = class Slider extends i$1 {
             window.removeEventListener('touchcancel', this.onMouseUp);
         };
     }
+    // ── Lifecycle ────────────────────────────────────────────────────────────
+    connectedCallback() {
+        super.connectedCallback();
+        this.defaultValue ??= this.value;
+    }
+    // ── Form association ─────────────────────────────────────────────────────
+    [getFormValue]() {
+        return String(this.value);
+    }
+    formResetCallback() {
+        this.value = this.defaultValue ?? this.value;
+    }
+    formStateRestoreCallback(state) {
+        const restored = Number(state);
+        if (typeof state === 'string' && !Number.isNaN(restored)) {
+            this.value = restored;
+        }
+    }
+    // ── Private methods ──────────────────────────────────────────────────────
     handleInput(event) {
         if (this.disabled)
             return;
         const rect = this.container.getBoundingClientRect();
-        const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+        const clientX = 'touches' in event
+            ? event.touches[0].clientX
+            : event.clientX;
         // Calculate percentage relative to track width
         let percentage = (clientX - rect.left) / rect.width;
         percentage = Math.max(0, Math.min(1, percentage));
@@ -228,7 +259,11 @@ let Slider = class Slider extends i$1 {
         const oldValue = this.value;
         this.value = Math.max(this.min, Math.min(this.max, steppedValue));
         if (oldValue !== this.value) {
-            this.dispatchEvent(new CustomEvent('input', { detail: { value: this.value }, bubbles: true, composed: true }));
+            this.dispatchEvent(new CustomEvent('input', {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }));
         }
     }
     onMouseDown(e) {
@@ -269,25 +304,37 @@ let Slider = class Slider extends i$1 {
         }
         if (newValue !== this.value) {
             this.value = newValue;
-            this.dispatchEvent(new CustomEvent('input', { detail: { value: this.value }, bubbles: true, composed: true }));
-            this.dispatchEvent(new CustomEvent('change', { detail: { value: this.value }, bubbles: true, composed: true }));
+            this.dispatchEvent(new CustomEvent('input', {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }));
+            this.dispatchEvent(new CustomEvent('change', {
+                detail: { value: this.value },
+                bubbles: true,
+                composed: true,
+            }));
         }
     }
+    // ── Render ───────────────────────────────────────────────────────────────
     render() {
         const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
         return b `
       <div class="slider ${this.showValue ? 'with-value' : ''}">
-        <div 
+        <div
           class="slider-container ${this.disabled ? 'disabled' : ''}"
           @mousedown=${this.onMouseDown}
           @touchstart=${this.onMouseDown}
         >
           <div class="track">
-            <div class="track-active" style=${o({ width: `${percentage}%` })}></div>
+            <div
+              class="track-active"
+              style=${o({ width: `${percentage}%` })}
+            ></div>
           </div>
 
-          <div 
-            class="thumb" 
+          <div
+            class="thumb"
             role="slider"
             aria-label="Slider"
             tabindex="${this.disabled ? -1 : 0}"
@@ -295,14 +342,22 @@ let Slider = class Slider extends i$1 {
             aria-valuemax=${this.max}
             aria-valuenow=${this.value}
             aria-disabled=${this.disabled}
-            style=${o({ left: `calc(${percentage}% - var(--thumb-half))` })}
+            style=${o({
+            left: `calc(${percentage}% - var(--thumb-half))`,
+        })}
             @keydown=${this.handleKeyDown}
           >
-            ${this.labeled ? b `<div class="value-label">${this.value}</div>` : ''}
+            ${this.labeled
+            ? b `<div class="value-label">${this.value}</div>`
+            : ''}
           </div>
         </div>
 
-        ${this.showValue ? b `<output class="value-display" aria-live="polite">${this.value}</output>` : ''}
+        ${this.showValue
+            ? b `<output class="value-display" aria-live="polite"
+              >${this.value}</output
+            >`
+            : ''}
       </div>
     `;
     }
@@ -320,9 +375,6 @@ __decorate([
 __decorate([
     n({ type: Number })
 ], Slider.prototype, "step", void 0);
-__decorate([
-    n({ type: Boolean, reflect: true })
-], Slider.prototype, "disabled", void 0);
 __decorate([
     n({ type: Boolean })
 ], Slider.prototype, "labeled", void 0);

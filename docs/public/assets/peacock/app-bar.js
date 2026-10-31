@@ -82,11 +82,11 @@ var css_248z$1 = i`* {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: var(--typescale-title-large-font);
-  font-size: var(--typescale-title-large-size);
-  font-weight: var(--typescale-title-large-weight);
-  line-height: var(--typescale-title-large-line-height);
-  letter-spacing: var(--typescale-title-large-tracking);
+  font-family: var(--typography-title-large-font-family);
+  font-size: var(--typography-title-large-font-size);
+  font-weight: var(--typography-title-large-font-weight);
+  line-height: var(--typography-title-large-line-height);
+  letter-spacing: var(--typography-title-large-letter-spacing);
   color: var(--_app-bar-headline-color);
   padding-inline: 0.75rem;
 }
@@ -113,11 +113,11 @@ var css_248z$1 = i`* {
   align-items: flex-end;
 }
 :host([variant=medium]) .row-bottom .headline {
-  font: var(--typescale-headline-small-font, inherit);
-  font-size: var(--typescale-headline-small-size, 1.5rem);
-  font-weight: var(--typescale-headline-small-weight, 400);
-  line-height: var(--typescale-headline-small-line-height, 2rem);
-  letter-spacing: var(--typescale-headline-small-tracking, 0);
+  font-family: var(--typography-headline-small-font-family);
+  font-size: var(--typography-headline-small-font-size);
+  font-weight: var(--typography-headline-small-font-weight);
+  line-height: var(--typography-headline-small-line-height);
+  letter-spacing: var(--typography-headline-small-letter-spacing);
   padding-inline: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -136,11 +136,11 @@ var css_248z$1 = i`* {
   align-items: flex-end;
 }
 :host([variant=large]) .row-bottom .headline {
-  font: var(--typescale-headline-medium-font, inherit);
-  font-size: var(--typescale-headline-medium-size, 1.75rem);
-  font-weight: var(--typescale-headline-medium-weight, 400);
-  line-height: var(--typescale-headline-medium-line-height, 2.25rem);
-  letter-spacing: var(--typescale-headline-medium-tracking, 0);
+  font-family: var(--typography-headline-medium-font-family);
+  font-size: var(--typography-headline-medium-font-size);
+  font-weight: var(--typography-headline-medium-font-weight);
+  line-height: var(--typography-headline-medium-line-height);
+  letter-spacing: var(--typography-headline-medium-letter-spacing);
   padding-inline: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -150,7 +150,7 @@ var css_248z$1 = i`* {
 
 /* ---- Scrolled state ---- */
 :host([scrolled]) {
-  --app-bar-shadow: var(--elevation-shadow-level-2, 0 2px 4px rgba(0, 0, 0, 0.12));
+  --app-bar-shadow: var(--elevation-level2);
 }`;
 
 var css_248z = i`:host {

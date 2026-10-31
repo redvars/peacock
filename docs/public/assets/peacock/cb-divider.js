@@ -32,14 +32,13 @@ var css_248z = i`* {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: var(--spacing-200);
 }
 .divider:not(.vertical) .line {
   height: 100%;
 }
 .divider:not(.vertical).connect-start .line-start {
-  width: 1rem;
-  margin-left: 1rem;
+  width: var(--cb-divider-arm-length, 1rem);
+  margin-left: var(--cb-divider-arm-length, 1rem);
   border-inline-start: 1px solid var(--cb-divider-line-color);
   border-top: 1px solid var(--cb-divider-line-color);
   border-radius: var(--shape-corner-extra-small) 0 0 0;
@@ -48,8 +47,8 @@ var css_248z = i`* {
   border-inline-start: 1px solid var(--cb-divider-line-color);
 }
 .divider:not(.vertical).connect-end .line-end {
-  width: 1rem;
-  margin-left: 1rem;
+  width: var(--cb-divider-arm-length, 1rem);
+  margin-left: var(--cb-divider-arm-length, 1rem);
   border-inline-start: 1px solid var(--cb-divider-line-color);
   border-bottom: 1px solid var(--cb-divider-line-color);
   border-radius: 0 0 0 var(--shape-corner-extra-small);
@@ -98,7 +97,9 @@ var css_248z = i`* {
  * @label CB Divider
  * @tag wc-cb-divider
  * @rawTag cb-divider
- * @summary A divider line used within a condition builder to visually connect expressions with operator tags.
+ * @summary A divider line used within a condition builder to visually connect rules with an operator.
+ * @cssprop --cb-divider-line-color - Color of the divider line.
+ * @cssprop --cb-divider-arm-length - Length of the connecting arms drawn by `connect-start` and `connect-end`.
  * @tags condition-builder
  *
  * @example

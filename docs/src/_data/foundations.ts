@@ -70,9 +70,9 @@ export const FOUNDATION_PAGES: FoundationPage[] = [
   },
   {
     label: 'Typography',
-    href: '/components/text/',
+    href: '/foundations/typography/',
     icon: 'font_download',
-    description: 'The type scale, documented with the text component.',
+    description: 'The type scale: display, headline, title, body, label and code styles.',
   },
 ];
 

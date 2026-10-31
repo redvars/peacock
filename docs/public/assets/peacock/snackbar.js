@@ -281,7 +281,7 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
         </div>
 
         ${this.actionLabel
-            ? b `<wc-button class="action" variant='text' size='small' @click=${this.handleActionClick}>
+            ? b `<wc-button class="action" variant='text' size='sm' @click=${this.handleActionClick}>
               ${this.actionLabel}
             </wc-button>`
             : A}
@@ -289,8 +289,8 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
         ${this.showCloseIcon
             ? b `<wc-icon-button
               class="close"
-              variant='text' 
-              size='small'
+              variant='text'
+              size='sm'
               aria-label="Dismiss notification"
               @click=${this.handleCloseClick}
             >

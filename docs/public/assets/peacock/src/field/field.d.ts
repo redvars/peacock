@@ -55,6 +55,8 @@ export declare class Field extends LitElement {
     slotStartHasContent: boolean;
     /** True when the `field-end` slot contains at least one node. */
     slotEndHasContent: boolean;
+    /** The bordered field container; used to anchor popups such as a select menu. */
+    readonly fieldBodyElement: HTMLElement | null;
     firstUpdated(): void;
     __handleClick(): void;
     __renderInputSlot(): import("lit-html").TemplateResult<1>;

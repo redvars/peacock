@@ -139,7 +139,7 @@ var css_248z$1 = i`:host([color=primary]) {
 :host([color=on-surface]) {
   --filled-split-button-container-color: var(--color-on-surface);
   --filled-split-button-label-text-color: var(--color-surface);
-  --tonal-split-button-container-color: var(--color-on-surface-container);
+  --tonal-split-button-container-color: var(--color-on-surface-variant);
   --tonal-split-button-label-text-color: var(--color-surface-container-high);
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
@@ -149,7 +149,7 @@ var css_248z$1 = i`:host([color=primary]) {
   --filled-split-button-container-color: var(--color-surface-container-high);
   --filled-split-button-label-text-color: var(--color-on-surface);
   --tonal-split-button-container-color: var(--color-surface-container-high);
-  --tonal-split-button-label-text-color: var(--color-on-surface-container);
+  --tonal-split-button-label-text-color: var(--color-on-surface);
   --outlined-split-button-outline-color: var(--color-on-surface);
   --outlined-split-button-label-text-color: var(--color-on-surface);
 }`;

@@ -9,6 +9,9 @@ import { Tab } from './tab.js';
  * @overview
  * <p>Tabs holds the tab buttons and manages their layout.</p>
  *
+ * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user activates a tab.
+ * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-tabs>

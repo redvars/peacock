@@ -1,7 +1,8 @@
 import { i, _ as __decorate, a as i$1, b, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { a as fetchIcon, f as fetchSVG, s as sanitizeSvg, o } from './datasource-B2eRh6Or.js';
+import { s as sanitizeSvg, o } from './sanitize-svg-_VNFLm82.js';
+import { a as fetchIcon, f as fetchSVG } from './datasource-OwvH7SVq.js';
 import './directive-ZPhl09Yt.js';
 import './unsafe-html-Ct0N2_UU.js';
 

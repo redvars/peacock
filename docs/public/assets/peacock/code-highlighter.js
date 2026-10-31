@@ -3,44 +3,8 @@ import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { o } from './unsafe-html-Ct0N2_UU.js';
 import { e } from './class-map-DG7CA1et.js';
+import { c as copyToClipboard } from './copy-to-clipboard-upGx-Ueo.js';
 import './directive-ZPhl09Yt.js';
-
-function fallbackCopyTextToClipboard(text) {
-    const temporaryInput = document.createElement('textarea');
-    temporaryInput.value = text;
-    // Make the element non-visible but still in the DOM so it can be selected
-    temporaryInput.setAttribute('readonly', '');
-    temporaryInput.style.position = 'absolute';
-    temporaryInput.style.left = '-9999px';
-    document.body.appendChild(temporaryInput);
-    temporaryInput.select();
-    try {
-        document.execCommand('copy');
-    }
-    catch (err) {
-        console.error('Fallback: Failed to copy text: ', err);
-    }
-    finally {
-        document.body.removeChild(temporaryInput);
-    }
-}
-async function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        // Use the modern Clipboard API
-        try {
-            await navigator.clipboard.writeText(text);
-        }
-        catch (err) {
-            console.error('Failed to copy text using Clipboard API: ', err);
-            // Fallback if API fails for some reason
-            fallbackCopyTextToClipboard(text);
-        }
-    }
-    else {
-        // Use the fallback method for older browsers
-        fallbackCopyTextToClipboard(text);
-    }
-}
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -92,7 +56,7 @@ var css_248z = i`* {
   letter-spacing: var(--typography-body-medium-letter-spacing) !important;
 }
 .code-highlighter .header .copy-button {
-  --button-container-shape: 9999px;
+  --button-container-shape: var(--shape-corner-full);
 }
 .code-highlighter .scroll-wrapper {
   flex: 1;

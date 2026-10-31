@@ -1,3 +1,4 @@
+import { type FormValue, getFormValue } from '@/__internal/mixins/form-associated.js';
 import BaseInput from '../input/BaseInput.js';
 export interface SelectOption {
     label: string;
@@ -17,6 +18,10 @@ export interface SelectOption {
  * - Client-side typeahead with `search="contains"`
  * - Server-side typeahead with `search="managed"`
  * - Multi-select chips display
+ * - Form-associated: submits the value under `name` (one entry per value with `multiple`)
+ *
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the selection changes.
+ * @fires {CustomEvent<{value: string}>} select-search - Dispatched as the user types when `search="managed"`.
  *
  * @example
  * ```html
@@ -75,10 +80,12 @@ export declare class Select extends BaseInput {
     /** True when all options are filtered out by the current search query. */
     private _noOptionsVisible;
     private _triggerEl?;
+    private _fieldEl?;
     private get _menu();
     private _searchInputEl?;
     focus(): void;
     blur(): void;
+    [getFormValue](): FormValue | null;
     protected updated(changedProperties: Map<string, unknown>): void;
     /**
      * Reconciles the `options` property with auto-generated `<wc-option>` light-DOM

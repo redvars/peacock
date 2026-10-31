@@ -1,7 +1,8 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { f as fetchSVG, s as sanitizeSvg, o } from './datasource-B2eRh6Or.js';
+import { s as sanitizeSvg, o } from './sanitize-svg-_VNFLm82.js';
+import { f as fetchSVG } from './datasource-OwvH7SVq.js';
 import './directive-ZPhl09Yt.js';
 import './unsafe-html-Ct0N2_UU.js';
 
@@ -61,7 +62,7 @@ var css_248z = i`* {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
+  background: color-mix(in srgb, var(--color-scrim) 85%, transparent);
   align-items: center;
   justify-content: center;
   cursor: zoom-out;
@@ -77,14 +78,14 @@ var css_248z = i`* {
   right: 1rem;
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.5rem;
   cursor: pointer;
   line-height: 1;
   padding: 0.25rem 0.5rem;
 }
 .preview-close:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--color-white);
   outline-offset: 2px;
 }
 
@@ -99,8 +100,8 @@ var css_248z = i`* {
 .preview-content svg {
   max-width: 90vw;
   max-height: 90vh;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-  border-radius: 4px;
+  box-shadow: 0 8px 40px color-mix(in srgb, var(--color-shadow) 60%, transparent);
+  border-radius: var(--shape-corner-extra-small);
 }`;
 
 /**

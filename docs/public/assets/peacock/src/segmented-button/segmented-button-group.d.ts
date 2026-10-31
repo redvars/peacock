@@ -40,6 +40,11 @@ export declare class SegmentedButtonGroup extends LitElement {
     nullable: boolean;
     connectedCallback(): void;
     disconnectedCallback(): void;
+    /**
+     * Swallows a segment's own `change` on the way down (capture phase), so listeners on the group
+     * and above see only the group's `change`, one per selection.
+     */
+    private _stopSegmentChange;
     private _getSegments;
     private _onSegmentChange;
     render(): import("lit-html").TemplateResult<1>;

@@ -15,7 +15,6 @@ export declare class NumberField extends BaseInput {
     #private;
     static styles: import("lit").CSSResultGroup[];
     value?: number;
-    name: string;
     placeholder: string;
     label: string;
     inline: boolean;

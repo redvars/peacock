@@ -1,0 +1,21 @@
+---
+import Layout from '../../../layouts/Foundations.astro';
+import { buildSections } from '../../../_data/getSections.ts';
+import { convertToSectionId } from '../../../_data/utils.ts';
+
+const astroModules = import.meta.glob('./_sections/*.astro', { eager: true });
+const mdxModules = import.meta.glob('./_sections/*.mdx', { eager: true });
+const sections = buildSections({ ...astroModules, ...mdxModules });
+---
+
+<Layout
+  title='Typography'
+  description='Use typography to present your design and content as clearly and efficiently as possible.'
+>
+  {sections.map(section => (
+    <section class='foundation-section' aria-labelledby={convertToSectionId(section.title)}>
+      <h2 class='text-headline-small' id={convertToSectionId(section.title)}>{section.title}</h2>
+      <section.component {...section.componentProps} />
+    </section>
+  ))}
+</Layout>

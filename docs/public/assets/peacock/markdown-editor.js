@@ -5,10 +5,12 @@ import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-DG7CA1et.js';
 import { N as NodeSelection, S as Slice, F as Fragment, D as DOMSerializer, E as Editor, a as StarterKit, U as Underline, P as Placeholder, b as Extension, c as Suggestion, d as Plugin } from './index-DcbiqHpf.js';
 import { c as computePosition, o as offset, f as flip, s as shift } from './floating-ui.dom-oQieRCpS.js';
-import { B as BaseInput } from './BaseInput-CU1zZYKc.js';
+import { B as BaseInput } from './BaseInput-CV0pZgSb.js';
 import { r as redispatchEvent } from './dispatch-event-utils-CuEqjlPT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './element-internals-QME0yEz4.js';
+import './form-associated-Bhwwr6dT.js';
 
 /**
  * marked v14.1.4 - a markdown parser
@@ -3372,14 +3374,14 @@ var css_248z = i`* {
   color: var(--color-on-surface, #1c1b1f);
   padding: 0.75rem 1rem;
   border-radius: var(--shape-corner-small, 0.5rem);
-  font-family: var(--typography-code-font-family, monospace);
+  font-family: var(--font-family-monospace, monospace);
   font-size: 0.85rem;
   line-height: 1.5;
   overflow-x: auto;
   margin: 0.6rem 0;
 }
 .markdown-editor-content .ProseMirror code {
-  font-family: var(--typography-code-font-family, monospace);
+  font-family: var(--font-family-monospace, monospace);
   font-size: 0.85em;
   background: color-mix(in srgb, var(--color-on-surface, #1c1b1f) 8%, transparent);
   padding: 0.1em 0.35em;

@@ -398,87 +398,6 @@
     }
   },
   {
-    "label": "Brand Loader",
-    "tag": "wc-brand-loader",
-    "rawTag": "brand-loader",
-    "summary": "A loading indicator built from the Redvars r mark.",
-    "cssprop": "--brand-loader-duration - The length of one loop.",
-    "tags": "display",
-    "example": "```html\n<wc-brand-loader></wc-brand-loader>\n```",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "cssProperties": [
-        {
-          "description": "The edge of the loader.",
-          "name": "--brand-loader-size"
-        },
-        {
-          "description": "The color of the tile.",
-          "name": "--brand-loader-tile-color"
-        },
-        {
-          "description": "The color of the r.",
-          "name": "--brand-loader-mark-color"
-        },
-        {
-          "description": "The length of one loop.",
-          "name": "--brand-loader-duration"
-        }
-      ],
-      "attributes": [
-        {
-          "name": "variant",
-          "type": {
-            "text": "BrandLoaderVariant"
-          },
-          "default": "'build'",
-          "description": "How the mark moves while loading. Ignored once `value` is set.",
-          "fieldName": "variant",
-          "expandedType": {
-            "text": "'build' | 'trace' | 'fill' | 'pulse' | 'orbit'"
-          }
-        },
-        {
-          "name": "value",
-          "type": {
-            "text": "number | undefined"
-          },
-          "description": "Progress from 0 to 100. When set, the r fills to this level instead of looping.",
-          "fieldName": "value"
-        },
-        {
-          "name": "label",
-          "type": {
-            "text": "string"
-          },
-          "default": "'Loading'",
-          "description": "The accessible name of the loader.",
-          "fieldName": "label"
-        },
-        {
-          "name": "full-motion",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Plays the full animation even when the system asks for reduced motion.",
-          "fieldName": "fullMotion"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-brand-loader",
-      "customElement": true,
-      "rawTag": {
-        "name": "brand-loader",
-        "description": ""
-      }
-    }
-  },
-  {
     "label": "Breadcrumb",
     "tag": "wc-breadcrumb",
     "rawTag": "breadcrumb",
@@ -577,7 +496,7 @@
     "overview": "<p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>",
     "cssprop": "--neo-button-label-text-color - Text color of the neo button label.",
     "fires": "click - Dispatched when the button is clicked.",
-    "example": "```html\n<wc-button>Button</wc-button>\n```",
+    "example": "```html\r\n<wc-button>Button</wc-button>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -664,7 +583,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true` (default), the icon is placed after the label (trailing).\nWhen `false`, the icon is placed before the label (leading).",
+          "description": "When `true` (default), the icon is placed after the label (trailing).\r\nWhen `false`, the icon is placed before the label (leading).",
           "fieldName": "trailingIcon"
         },
         {
@@ -673,7 +592,7 @@
             "text": "ButtonSize"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "description": "Button size.\r\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size",
           "expandedType": {
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
@@ -709,7 +628,7 @@
           },
           "default": "'filled'",
           "fieldName": "variant",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "expandedType": {
             "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text' | 'neo'"
           },
@@ -727,7 +646,7 @@
           "fieldName": "color",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
           "expandedType": {
-            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+            "text": "'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
           },
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -975,7 +894,7 @@
           "description": "Color applied to all buttons in the group.\nPossible values are `\"primary\"`, `\"success\"`, `\"danger\"`, `\"warning\"`, `\"surface\"`, `\"on-surface\"`.",
           "fieldName": "color",
           "expandedType": {
-            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface' | undefined"
+            "text": "'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface' | undefined"
           }
         },
         {
@@ -1370,65 +1289,26 @@
     }
   },
   {
-    "label": "CB Compound Expression",
-    "tag": "wc-cb-compound-expression",
-    "rawTag": "cb-compound-expression",
-    "summary": "A compound expression group in a condition builder that displays a field label, an optional condition operator divider, and slots for child expressions.",
-    "tags": "condition-builder",
-    "example": "```html\n<wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n  <wc-cb-expression>\n    <wc-input placeholder=\"Enter value\"></wc-input>\n  </wc-cb-expression>\n</wc-cb-compound-expression>\n```",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "attributes": [
-        {
-          "name": "condition-operator",
-          "type": {
-            "text": "'and' | 'or' | undefined"
-          },
-          "description": "The logical operator joining conditions in this group ('and' or 'or').",
-          "fieldName": "conditionOperator"
-        },
-        {
-          "name": "field-name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The field name for the compound expression.",
-          "fieldName": "fieldName"
-        },
-        {
-          "name": "field-label",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The display label for the field.",
-          "fieldName": "fieldLabel"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-cb-compound-expression",
-      "customElement": true,
-      "rawTag": {
-        "name": "cb-compound-expression",
-        "description": ""
-      }
-    }
-  },
-  {
     "label": "CB Divider",
     "tag": "wc-cb-divider",
     "rawTag": "cb-divider",
-    "summary": "A divider line used within a condition builder to visually connect expressions with operator tags.",
+    "summary": "A divider line used within a condition builder to visually connect rules with an operator.",
+    "cssprop": "--cb-divider-arm-length - Length of the connecting arms drawn by `connect-start` and `connect-end`.",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
+    "example": "```html\r\n<wc-cb-divider>\r\n  <wc-tag color=\"green\">and</wc-tag>\r\n</wc-cb-divider>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the divider line.",
+          "name": "--cb-divider-line-color"
+        },
+        {
+          "description": "Length of the connecting arms drawn by `connect-start` and `connect-end`.",
+          "name": "--cb-divider-arm-length"
+        }
+      ],
       "attributes": [
         {
           "name": "vertical",
@@ -1471,84 +1351,121 @@
     }
   },
   {
-    "label": "CB Expression",
-    "tag": "wc-cb-expression",
-    "rawTag": "cb-expression",
-    "summary": "An expression row within a condition builder, containing an operator select and a slot for value inputs.",
+    "label": "CB Group",
+    "tag": "wc-cb-group",
+    "rawTag": "cb-group",
+    "summary": "A bordered, nested group of rules in a condition builder, joined by its own And/Or operator.",
+    "overview": "<p>A bracket on the left joins the group's rules, with a pill to switch between And and Or. Rules can be dragged into, out of and within the group.</p>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-expression>\n  <wc-input placeholder=\"Enter value\"></wc-input>\n</wc-cb-expression>\n```",
+    "fires": "add-rule - Dispatched when the default \"Add condition\" link is clicked.",
+    "slot": "actions - Replaces the default \"Add condition\" link.",
+    "example": "```html\r\n<wc-cb-group operator=\"or\">\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n</wc-cb-group>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "slots": [
         {
-          "name": "operators",
-          "type": {
-            "text": "{ label: string; value: string; icon?: string }[]"
-          },
-          "default": "[]",
-          "description": "The list of operator options to display in the operator select.\nEach item should have at least `label` and `value` properties.",
-          "fieldName": "operators"
+          "description": "Rules (`wc-cb-rule`) and nested groups.",
+          "name": ""
         },
         {
-          "name": "operator-value",
+          "description": "Replaces the default \"Add condition\" link.",
+          "name": "actions"
+        }
+      ],
+      "events": [
+        {
+          "name": "add-rule",
           "type": {
-            "text": "string"
+            "text": "CustomEvent<{group: HTMLElement}>"
           },
-          "default": "''",
-          "description": "The currently selected operator value.",
-          "fieldName": "operatorValue"
+          "description": "Dispatched when the default \"Add condition\" link is clicked."
+        },
+        {
+          "name": "operator-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the user picks a different operator.",
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, from: HTMLElement | null, to: HTMLElement, index: number}>"
+          },
+          "description": "Dispatched before a rule is moved into this group. Cancelable: unless prevented, the group moves the rule.",
+          "name": "rule-move"
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CbGroupBase",
+        "module": "/E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.js"
       },
-      "tagName": "wc-cb-expression",
+      "tagName": "wc-cb-group",
       "customElement": true,
       "rawTag": {
-        "name": "cb-expression",
+        "name": "cb-group",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "operator",
+          "type": {
+            "text": "CbOperator"
+          },
+          "default": "'and'",
+          "description": "The logical operator joining the rules and groups in this group.",
+          "fieldName": "operator",
+          "expandedType": {
+            "text": "'and' | 'or'"
+          },
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        }
+      ]
     }
   },
   {
-    "label": "CB Predicate",
-    "tag": "wc-cb-predicate",
-    "rawTag": "cb-predicate",
-    "summary": "A predicate container in a condition builder that can display conditions in horizontal or vertical layout with an optional logical operator divider.",
+    "label": "CB Rule",
+    "tag": "wc-cb-rule",
+    "rawTag": "cb-rule",
+    "summary": "One condition row in a condition builder: a drag handle, the slotted field, operator and value controls, and a remove button.",
+    "overview": "<p>Drag the handle to reorder the rule, or to move it into another group. With the handle focused, ArrowUp and ArrowDown move the rule within its group.</p>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-predicate condition-operator=\"and\" vertical>\n  <wc-cb-compound-expression field-label=\"Age\">\n    <wc-cb-expression></wc-cb-expression>\n  </wc-cb-compound-expression>\n</wc-cb-predicate>\n```",
+    "cssprop": "--cb-rule-field-height - Height of the slotted fields (wc-select, wc-input…). Defaults to `2.5rem`.",
+    "fires": "rule-remove - Dispatched when the remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+    "example": "```html\r\n<wc-cb-rule>\r\n  <wc-select placeholder=\"Field\"></wc-select>\r\n  <wc-select placeholder=\"Operator\"></wc-select>\r\n  <wc-input placeholder=\"Value\"></wc-input>\r\n</wc-cb-rule>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "cssProperties": [
         {
-          "name": "condition-operator",
-          "type": {
-            "text": "'and' | 'or' | undefined"
-          },
-          "description": "The logical operator shown between predicates ('and' or 'or').",
-          "fieldName": "conditionOperator"
-        },
+          "description": "Height of the slotted fields (wc-select, wc-input…). Defaults to `2.5rem`.",
+          "name": "--cb-rule-field-height"
+        }
+      ],
+      "events": [
         {
-          "name": "vertical",
           "type": {
-            "text": "boolean"
+            "text": "CustomEvent<{rule: CbRule, group: HTMLElement | null}>"
           },
-          "default": "false",
-          "description": "Whether to render the predicate in vertical layout.",
-          "fieldName": "vertical"
+          "description": "Dispatched when the remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+          "name": "rule-remove"
         }
       ],
       "superclass": {
         "name": "LitElement",
         "package": "lit"
       },
-      "tagName": "wc-cb-predicate",
+      "tagName": "wc-cb-rule",
       "customElement": true,
       "rawTag": {
-        "name": "cb-predicate",
+        "name": "cb-rule",
         "description": ""
       }
     }
@@ -1833,11 +1750,11 @@
     "tag": "wc-checkbox",
     "rawTag": "checkbox",
     "summary": "Captures boolean input with an optional indeterminate mode.",
-    "overview": "<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>\n<p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>",
+    "overview": "<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>\r\n<p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>\r\n<p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
     "cssprop": "--checkbox-state-layer-size: Size of the state layer for touch target.",
     "fires": "focus - Dispatched when the checkbox receives focus.",
     "tags": "input, form",
-    "example": "```html\n<wc-checkbox label=\"Accept terms\"></wc-checkbox>\n```",
+    "example": "```html\r\n<wc-checkbox label=\"Accept terms\" checked></wc-checkbox>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1868,7 +1785,7 @@
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the checkbox value changes.",
+          "description": "Dispatched when the checkbox is toggled. Detail: `{ checked, value, originalEvent }`.",
           "name": "change"
         },
         {
@@ -1888,15 +1805,6 @@
       ],
       "attributes": [
         {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "description": "The input field name.",
-          "fieldName": "name"
-        },
-        {
           "name": "label",
           "type": {
             "text": "string"
@@ -1906,12 +1814,20 @@
           "fieldName": "label"
         },
         {
-          "name": "value",
+          "name": "checked",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "description": "The input field value (checked state).",
+          "description": "Whether the checkbox is checked.",
+          "fieldName": "checked"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "boolean"
+          },
+          "deprecated": "Use `checked`. Kept as an alias of `checked`.",
           "fieldName": "value"
         },
         {
@@ -1938,7 +1854,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The checkbox size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "The checkbox size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
         },
         {
@@ -1960,15 +1876,6 @@
           "fieldName": "readonly"
         },
         {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "If true, the user cannot interact with the checkbox. Defaults to `false`.",
-          "fieldName": "disabled"
-        },
-        {
           "name": "configAria",
           "type": {
             "text": "Record<string, string>"
@@ -1976,6 +1883,32 @@
           "default": "{}",
           "description": "Configuration object for aria attributes.",
           "fieldName": "configAria"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "mixinFormAssociated",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "mixinFormAssociated",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "mixinFormAssociated",
+          "package": "@/__internal/mixins/form-associated.js"
+        },
+        {
+          "name": "mixinElementInternals",
+          "package": "@/__internal/mixins/element-internals.js"
         }
       ],
       "superclass": {
@@ -1996,16 +1929,25 @@
     "rawTag": "chip",
     "summary": "Chip component for displaying compact information with optional actions.",
     "tags": "display",
-    "example": "```html\n<wc-chip>Chip content</wc-chip>\n```",
+    "fires": "tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.",
+    "example": "```html\r\n<wc-chip>Chip content</wc-chip>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
       "events": [
         {
+          "name": "dismiss",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the dismiss button of a `dismissible` chip is clicked."
+        },
+        {
           "name": "tag--dismiss",
           "type": {
             "text": "CustomEvent"
-          }
+          },
+          "description": "Deprecated alias of `dismiss`, fired alongside it."
         }
       ],
       "attributes": [
@@ -2211,7 +2153,7 @@
     "rawTag": "chip-set",
     "summary": "A layout container for wrapping chips.",
     "tags": "layout",
-    "example": "```html\n<wc-chip-set>\n  <wc-chip>One</wc-chip>\n  <wc-chip>Two</wc-chip>\n</wc-chip-set>\n```",
+    "example": "```html\r\n<wc-chip-set>\r\n  <wc-chip>One</wc-chip>\r\n  <wc-chip>Two</wc-chip>\r\n</wc-chip-set>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2233,7 +2175,7 @@
     "rawTag": "circular-progress",
     "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\n<wc-circular-progress value=\"30\"></wc-circular-progress>\n```",
+    "example": "```html\r\n<wc-circular-progress value=\"30\"></wc-circular-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2347,42 +2289,64 @@
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
     "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component.\n - Supports JS/JSON/HTML languages, read-only mode, line numbers, minimap, and dark/light theme.\n - Emits `change` when content is edited and updates value from property changes.",
-    "example": "```html\n<wc-code-editor\n  language=\"javascript\"\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\"function hello() { console.log('Hello'); }\"\n  lineNumbers=\"on\"\n  minimap=\"false\">\n</wc-code-editor>\n```",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component.\r\n - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
+    "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
+    "fires": "copied - Dispatched after the copy button copies the content.",
+    "example": "```html\r\n<wc-code-editor\r\n  language=\"css\"\r\n  readonly\r\n  style=\"width: 100%; --code-editor-height: 10rem;\"\r\n  value=\":root { --color-primary: #6341d5; }\">\r\n</wc-code-editor>\r\n```",
     "tags": "input, editor",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "cssProperties": [
         {
-          "name": "name",
+          "description": "Height of the editor. Defaults to 300px.",
+          "name": "--code-editor-height"
+        }
+      ],
+      "events": [
+        {
+          "name": "copied",
           "type": {
-            "text": "string"
+            "text": "CustomEvent<{value: string}>"
           },
-          "default": "''",
-          "fieldName": "name"
+          "description": "Dispatched after the copy button copies the content."
         },
+        {
+          "type": {
+            "text": "Event"
+          },
+          "description": "Dispatched when the user edits the content.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
         {
           "name": "value",
           "type": {
             "text": "string"
           },
           "default": "''",
+          "description": "The code shown in the editor. Updated as the user types.",
           "fieldName": "value"
         },
         {
           "name": "language",
           "type": {
-            "text": "'javascript' | 'json' | 'html'"
+            "text": "CodeEditorLanguage"
           },
           "default": "'javascript'",
-          "fieldName": "language"
+          "description": "Language used for syntax highlighting. Can be changed after the editor loads.",
+          "fieldName": "language",
+          "expandedType": {
+            "text": "'javascript' | 'json' | 'html' | 'css' | 'scss'"
+          }
         },
         {
           "name": "libSource",
           "type": {
             "text": "any"
           },
+          "description": "Extra source loaded as a separate model, e.g. type definitions for completions.",
           "fieldName": "libSource"
         },
         {
@@ -2391,6 +2355,7 @@
             "text": "'off' | 'on'"
           },
           "default": "'on'",
+          "description": "Whether line numbers show in the gutter.",
           "fieldName": "lineNumbers"
         },
         {
@@ -2399,14 +2364,37 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows the minimap. Leave the attribute out to hide it.",
           "fieldName": "minimap"
         },
         {
-          "name": "disabled",
+          "name": "hide-copy",
           "type": {
             "text": "boolean"
           },
           "default": "false",
+          "description": "Hides the copy button.",
+          "fieldName": "hideCopy"
+        },
+        {
+          "name": "show-readonly-badge",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+          "fieldName": "showReadonlyBadge"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -2527,14 +2515,153 @@
     }
   },
   {
+    "label": "Color Field",
+    "tag": "wc-color-field",
+    "rawTag": "color-field",
+    "summary": "A text field for a hex color, with a swatch that opens a color picker.",
+    "overview": "<p>Color field shows the current color as a swatch next to its hex value. Type a hex value, or\r\nclick the swatch to pick one with <code>wc-color-picker</code> in a popover.</p>\r\n<p>It is form-associated: the hex value is submitted under its <code>name</code>.</p>",
+    "fires": "change - Dispatched when a color is committed, from the picker or the text field.",
+    "example": "```html\r\n<wc-color-field label=\"Brand color\" value=\"#7c5df0\"></wc-color-field>\r\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when a color is committed, from the picker or the text field."
+        },
+        {
+          "name": "input",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched while the color changes in the picker."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "'#7c5df0'",
+          "description": "The color as a 6-digit hex string, such as `\"#7c5df0\"`.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the field.",
+          "fieldName": "label"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Helper text shown below the field.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'filled' | 'outlined' | 'default'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "Popover['placement']"
+          },
+          "default": "'bottom-start'",
+          "description": "Where the picker opens, relative to the field.",
+          "fieldName": "placement"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
+      },
+      "tagName": "wc-color-field",
+      "customElement": true,
+      "rawTag": {
+        "name": "color-field",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Color Picker",
     "tag": "wc-color-picker",
     "rawTag": "color-picker",
     "summary": "A color picker component for selecting colors via a hue/saturation/value interface.",
-    "overview": "<p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.\nAn optional alpha slider allows controlling opacity. The current hex value is displayed in\nan editable text field.</p>",
+    "overview": "<p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.\r\nAn optional alpha slider allows controlling opacity. The current hex value is displayed in\r\nan editable text field.</p>",
     "cssprop": "--color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.",
     "fires": "change - Dispatched when a color change is committed (pointer up, key, or input blur).",
-    "example": "```html\n<wc-color-picker value=\"#ff573380\" alpha></wc-color-picker>\n```",
+    "example": "```html\r\n<wc-color-picker value=\"#ff573380\" alpha></wc-color-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2615,22 +2742,104 @@
     "label": "Condition Builder",
     "tag": "wc-condition-builder",
     "rawTag": "condition-builder",
-    "summary": "A condition builder component that allows users to construct complex filter conditions using a visual rule-based interface with predicates, compound expressions, and logical operators.",
+    "summary": "A query builder for composing filter conditions from rules and nested groups joined by And/Or.",
+    "overview": "<p>The condition builder is the root group of a query. It holds rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>), each joined by a bracket with an And/Or pill.</p>\r\n<ul>\r\n  <li>Click the pill to switch a group between And and Or.</li>\r\n  <li>Drag a rule by its handle to reorder it or move it between groups.</li>\r\n  <li>Removing, moving and switching are built in; adding rules and groups is up to you, since only you know what a new rule contains. Listen for <code>add-rule</code> and <code>add-group</code>.</li>\r\n</ul>",
     "tags": "condition-builder",
-    "example": "```html\n<wc-condition-builder>\n  <wc-cb-predicate condition-operator=\"or\">\n    <wc-cb-predicate vertical condition-operator=\"and\">\n      <wc-cb-compound-expression field-label=\"Age\" condition-operator=\"or\">\n        <wc-cb-expression>\n          <wc-input inline placeholder=\"Enter value\"></wc-input>\n        </wc-cb-expression>\n      </wc-cb-compound-expression>\n    </wc-cb-predicate>\n  </wc-cb-predicate>\n</wc-condition-builder>\n```",
+    "fires": "add-group - Dispatched when \"Add inner group\" is clicked.",
+    "slot": "actions-end - Actions aligned to the end of the footer, such as a \"Run query\" button.",
+    "example": "```html\r\n<wc-condition-builder operator=\"and\">\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n  <wc-cb-group operator=\"or\">\r\n    <wc-cb-rule>\r\n      <wc-input placeholder=\"Value\"></wc-input>\r\n    </wc-cb-rule>\r\n    <wc-cb-rule>\r\n      <wc-input placeholder=\"Value\"></wc-input>\r\n    </wc-cb-rule>\r\n  </wc-cb-group>\r\n  <wc-button slot=\"actions-end\">Run query</wc-button>\r\n</wc-condition-builder>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
+      "slots": [
+        {
+          "description": "Rules (`wc-cb-rule`) and groups (`wc-cb-group`).",
+          "name": ""
+        },
+        {
+          "description": "Replaces the default \"Add rule\" and \"Add inner group\" buttons.",
+          "name": "actions"
+        },
+        {
+          "description": "Actions aligned to the end of the footer, such as a \"Run query\" button.",
+          "name": "actions-end"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "operator-change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the user picks a different operator, on this or a nested group.",
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, from: HTMLElement | null, to: HTMLElement, index: number}>"
+          },
+          "description": "Dispatched before a rule is moved. Cancelable: unless prevented, the target group moves the rule.",
+          "name": "rule-move"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{rule: CbRule, group: HTMLElement | null}>"
+          },
+          "description": "Dispatched when a rule's remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
+          "name": "rule-remove"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{group: HTMLElement}>"
+          },
+          "description": "Dispatched when \"Add rule\" (or a nested group's \"Add condition\") is clicked.",
+          "name": "add-rule"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{group: HTMLElement}>"
+          },
+          "description": "Dispatched when \"Add inner group\" is clicked.",
+          "name": "add-group"
+        }
+      ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CbGroupBase",
+        "module": "/E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.js"
       },
       "tagName": "wc-condition-builder",
       "customElement": true,
       "rawTag": {
         "name": "condition-builder",
         "description": ""
-      }
+      },
+      "attributes": [
+        {
+          "name": "operator",
+          "type": {
+            "text": "CbOperator"
+          },
+          "default": "'and'",
+          "description": "The logical operator joining the rules and groups in this group.",
+          "fieldName": "operator",
+          "expandedType": {
+            "text": "'and' | 'or'"
+          },
+          "inheritedFrom": {
+            "name": "CbGroupBase",
+            "module": "E:/git/redvars/peacock/components/src/condition-builder/cb-group-base.ts"
+          }
+        }
+      ]
     }
   },
   {
@@ -2686,7 +2895,7 @@
     "rawTag": "date-picker",
     "summary": "The Date Picker component is used to capture date user input.",
     "tags": "input",
-    "example": "```html\n<wc-date-picker label=\"Date\" placeholder=\"Select a date\"></wc-date-picker>\n```",
+    "example": "```html\r\n<wc-date-picker label=\"Date\" placeholder=\"Select a date\"></wc-date-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2698,14 +2907,6 @@
           },
           "default": "''",
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
@@ -2805,11 +3006,15 @@
           "fieldName": "warningText"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -3391,7 +3596,7 @@
     "rawTag": "field",
     "summary": "Wrapper for form fields with label and help text.",
     "overview": "<p>Field provides consistent styling and behavior for form inputs.</p>",
-    "example": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```",
+    "example": "```html\r\n<wc-field label=\"Name\" required>\r\n  some text\r\n</wc-field>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -3844,11 +4049,15 @@
           "fieldName": "debounce"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4125,7 +4334,7 @@
           "fieldName": "color",
           "description": "Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.",
           "expandedType": {
-            "text": "'primary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
+            "text": "'primary' | 'secondary' | 'tertiary' | 'success' | 'danger' | 'warning' | 'surface' | 'on-surface'"
           },
           "inheritedFrom": {
             "name": "mixinBaseButton",
@@ -4401,33 +4610,44 @@
     "tag": "wc-input",
     "rawTag": "input",
     "summary": "The Input component is used to capture user input.",
-    "example": "```html\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\n```",
+    "overview": "<p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted\r\nunder its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>",
+    "fires": "change - Re-fired from the native input when the value is committed.",
+    "example": "```html\r\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\r\n```",
+    "tags": "input, form",
     "customElement": {
       "kind": "class",
       "description": "",
+      "events": [
+        {
+          "type": {
+            "text": "Event"
+          },
+          "description": "Re-fired from the native input as the user types.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "Event"
+          },
+          "description": "Re-fired from the native input when the value is committed.",
+          "name": "change"
+        }
+      ],
       "attributes": [
         {
           "name": "value",
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "\"\"",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "fieldName": "placeholder"
         },
         {
@@ -4435,7 +4655,7 @@
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "fieldName": "label"
         },
         {
@@ -4449,25 +4669,26 @@
         {
           "name": "size",
           "type": {
-            "text": "\"sm\" | \"md\" | \"lg\""
+            "text": "'sm' | 'md' | 'lg'"
           },
-          "default": "\"md\"",
+          "default": "'md'",
+          "description": "Field size. Possible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
         },
         {
           "name": "type",
           "type": {
-            "text": "\"text\" | \"password\" | \"email\" | \"tel\""
+            "text": "'text' | 'password' | 'email' | 'tel'"
           },
-          "default": "\"text\"",
+          "default": "'text'",
           "fieldName": "type"
         },
         {
           "name": "autocomplete",
           "type": {
-            "text": "\"on\" | \"off\""
+            "text": "'on' | 'off'"
           },
-          "default": "\"off\"",
+          "default": "'off'",
           "fieldName": "autocomplete"
         },
         {
@@ -4481,9 +4702,9 @@
         {
           "name": "variant",
           "type": {
-            "text": "\"filled\" | \"outlined\" | \"default\""
+            "text": "'filled' | 'outlined' | 'default'"
           },
-          "default": "\"default\"",
+          "default": "'default'",
           "fieldName": "variant"
         },
         {
@@ -4491,7 +4712,7 @@
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "description": "Helper text to display below the input.",
           "fieldName": "helperText"
         },
@@ -4508,7 +4729,7 @@
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "fieldName": "errorText"
         },
         {
@@ -4524,15 +4745,19 @@
           "type": {
             "text": "string"
           },
-          "default": "\"\"",
+          "default": "''",
           "fieldName": "warningText"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -4637,7 +4862,7 @@
     "rawTag": "linear-progress",
     "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\n```",
+    "example": "```html\r\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -4837,7 +5062,7 @@
     "tag": "wc-list-item",
     "rawTag": "list-item",
     "summary": "A list item with leading, trailing and content slots.",
-    "example": "```html\n<wc-list-item selected>\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\n  Profile\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n</wc-list-item>\n```",
+    "example": "```html\r\n<wc-list-item selected>\r\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\r\n  Profile\r\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\r\n</wc-list-item>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -5131,11 +5356,15 @@
           "fieldName": "debounce"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -5658,6 +5887,375 @@
     }
   },
   {
+    "label": "Navigation Bar",
+    "tag": "wc-navigation-bar",
+    "rawTag": "navigation-bar",
+    "summary": "A bottom bar with three to five primary destinations, for small screens.",
+    "overview": "<p>Navigation bar lays its <code>wc-navigation-bar-item</code> children out in a row of equal\r\nwidths. Clicking an item makes it the active one and fires <code>change</code>.</p>\r\n<p>The bar does not position itself: place it at the bottom of your layout, or give it\r\n<code>position: fixed; inset-inline: 0; bottom: 0</code>.</p>",
+    "fires": "change - Dispatched when the user activates an item.",
+    "cssprop": "--navigation-bar-elevation - Shadow of the bar. Defaults to `--elevation-level2`.",
+    "example": "```html\r\n<wc-navigation-bar>\r\n  <wc-navigation-bar-item active value=\"home\">\r\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\r\n    Home\r\n  </wc-navigation-bar-item>\r\n  <wc-navigation-bar-item value=\"search\">\r\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\r\n    Search\r\n  </wc-navigation-bar-item>\r\n</wc-navigation-bar>\r\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the bar. Defaults to `--color-surface-container`.",
+          "name": "--navigation-bar-container-color"
+        },
+        {
+          "description": "Height of the bar. Defaults to 5rem (80dp).",
+          "name": "--navigation-bar-height"
+        },
+        {
+          "description": "Shadow of the bar. Defaults to `--elevation-level2`.",
+          "name": "--navigation-bar-elevation"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<{value: string | undefined, index: number, item: NavigationBarItem}>"
+          },
+          "description": "Dispatched when the user activates an item.",
+          "name": "change"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-navigation-bar",
+      "customElement": true,
+      "rawTag": {
+        "name": "navigation-bar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Navigation Bar Item",
+    "tag": "wc-navigation-bar-item",
+    "rawTag": "navigation-bar-item",
+    "summary": "A destination in a navigation bar.",
+    "overview": "<p>Shows an icon inside the active-indicator pill with a label below. It has the same API as\r\n<code>wc-navigation-rail-item</code>: <code>active</code>, <code>disabled</code>, <code>href</code>,\r\n<code>value</code>, and the <code>icon</code> and <code>active-icon</code> slots.</p>",
+    "example": "```html\r\n<wc-navigation-bar-item active>\r\n  <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\r\n  Home\r\n</wc-navigation-bar-item>\r\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "superclass": {
+        "name": "NavigationRailItem",
+        "module": "/E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.js"
+      },
+      "tagName": "wc-navigation-bar-item",
+      "customElement": true,
+      "rawTag": {
+        "name": "navigation-bar-item",
+        "description": ""
+      },
+      "attributes": [
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is currently active/selected.",
+          "fieldName": "active",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is disabled.",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the parent rail is in collapsed mode (labels hidden).",
+          "fieldName": "collapsed",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "If provided, the item renders as a link.",
+          "fieldName": "href",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Link target.",
+          "fieldName": "target",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Value used for identification when managing active state externally.",
+          "fieldName": "value",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "disabled-reason",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Reason the item is disabled (shown to screen readers).",
+          "fieldName": "disabledReason",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        },
+        {
+          "name": "throttleDelay",
+          "type": {
+            "text": "number | null"
+          },
+          "default": "null",
+          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
+          "fieldName": "throttleDelay",
+          "inheritedFrom": {
+            "name": "NavigationRailItem",
+            "module": "E:/git/redvars/peacock/components/src/navigation-rail/navigation-rail-item.ts"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "label": "Navigation Drawer",
+    "tag": "wc-navigation-drawer",
+    "rawTag": "navigation-drawer",
+    "summary": "A side panel listing an app's destinations.",
+    "overview": "<p>Navigation drawer holds <code>wc-navigation-drawer-item</code> destinations. Clicking an item makes\r\nit the active one and fires <code>change</code>.</p>\r\n<ul>\r\n  <li><code>variant=\"standard\"</code> (default) sits in the page layout, next to the content.</li>\r\n  <li><code>variant=\"modal\"</code> opens over the page with a scrim. It traps focus, closes on Escape,\r\n  on a scrim click and after an item is chosen.</li>\r\n</ul>\r\n<p>Both variants show only while <code>open</code> is set.</p>",
+    "slot": "header - Content above the items, after the headline.",
+    "fires": "close - Dispatched when the drawer closes.",
+    "cssprop": "--navigation-drawer-container-color - Background of the drawer. Defaults to `--color-surface-container-low`.",
+    "example": "```html\r\n<wc-navigation-drawer open headline=\"Mail\">\r\n  <wc-navigation-drawer-item active badge=\"24\">\r\n    <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\r\n    Inbox\r\n  </wc-navigation-drawer-item>\r\n  <wc-navigation-drawer-item>\r\n    <wc-icon slot=\"icon\" name=\"send\"></wc-icon>\r\n    Sent\r\n  </wc-navigation-drawer-item>\r\n</wc-navigation-drawer>\r\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width of the drawer. Defaults to 22.5rem (360dp).",
+          "name": "--navigation-drawer-width"
+        },
+        {
+          "description": "Background of the drawer. Defaults to `--color-surface-container-low`.",
+          "name": "--navigation-drawer-container-color"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The drawer items. Other content, such as `wc-divider` or section titles, works too.",
+          "name": ""
+        },
+        {
+          "description": "Content above the items, after the headline.",
+          "name": "header"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string | undefined, index: number, item: NavigationDrawerItem}>"
+          },
+          "description": "Dispatched when the user activates an item.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the drawer opens.",
+          "name": "open"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the drawer closes.",
+          "name": "close"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the drawer is shown.",
+          "fieldName": "open"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'standard' | 'modal'"
+          },
+          "default": "'standard'",
+          "description": "`\"standard\"` sits in the layout; `\"modal\"` opens over the page with a scrim.",
+          "fieldName": "variant"
+        },
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Title shown at the top of the drawer.",
+          "fieldName": "headline"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-navigation-drawer",
+      "customElement": true,
+      "rawTag": {
+        "name": "navigation-drawer",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Navigation Drawer Item",
+    "tag": "wc-navigation-drawer-item",
+    "rawTag": "navigation-drawer-item",
+    "summary": "A destination in a navigation drawer.",
+    "overview": "<p>A full-width row with an optional icon, a label and an optional badge. The active item gets\r\nthe pill-shaped active indicator. With <code>href</code> it renders a link, otherwise a button.</p>",
+    "slot": "badge - Trailing content, such as a count. Overrides the `badge` attribute.",
+    "example": "```html\r\n<wc-navigation-drawer-item active badge=\"24\">\r\n  <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\r\n  Inbox\r\n</wc-navigation-drawer-item>\r\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The label.",
+          "name": ""
+        },
+        {
+          "description": "Leading icon.",
+          "name": "icon"
+        },
+        {
+          "description": "Trailing content, such as a count. Overrides the `badge` attribute.",
+          "name": "badge"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "active",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is the current destination.",
+          "fieldName": "active"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether this item is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "If provided, the item renders as a link.",
+          "fieldName": "href"
+        },
+        {
+          "name": "target",
+          "type": {
+            "text": "string"
+          },
+          "default": "'_self'",
+          "description": "Link target.",
+          "fieldName": "target"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Identifies the item in the drawer's `change` event.",
+          "fieldName": "value"
+        },
+        {
+          "name": "badge",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Short trailing text, such as an unread count.",
+          "fieldName": "badge"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-navigation-drawer-item",
+      "customElement": true,
+      "rawTag": {
+        "name": "navigation-drawer-item",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Navigation Rail",
     "tag": "wc-navigation-rail",
     "rawTag": "navigation-rail",
@@ -6075,7 +6673,7 @@
     "tag": "wc-number-field",
     "rawTag": "number-field",
     "summary": "The Number Field component is used to capture numeric user input.",
-    "example": "```html\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\n```",
+    "example": "```html\r\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -6086,14 +6684,6 @@
             "text": "number | undefined"
           },
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
@@ -6214,11 +6804,15 @@
           "fieldName": "stepper"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -6481,6 +7075,102 @@
     }
   },
   {
+    "label": "Radio Group",
+    "tag": "wc-radio-group",
+    "rawTag": "radio-group",
+    "summary": "Groups radios under one label, one name and one value.",
+    "overview": "<p>Radio group gives its <code>wc-radio</code> children a shared <code>name</code> (its own, or a\r\ngenerated one), so only one can be checked. Its <code>value</code> is the value of the checked radio,\r\nand setting it checks the matching radio.</p>\r\n<p>The radios stay form-associated, so the group submits once, through the checked radio.</p>",
+    "fires": "change - Dispatched when the user checks a different radio. The group swallows the radios' own `change` events.",
+    "cssprop": "--radio-group-gap - Space between radios. Defaults to `--spacing-100`.",
+    "example": "```html\r\n<wc-radio-group label=\"Size\" name=\"size\" value=\"md\">\r\n  <wc-radio value=\"sm\" label=\"Small\"></wc-radio>\r\n  <wc-radio value=\"md\" label=\"Medium\"></wc-radio>\r\n  <wc-radio value=\"lg\" label=\"Large\"></wc-radio>\r\n</wc-radio-group>\r\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space between radios. Defaults to `--spacing-100`.",
+          "name": "--radio-group-gap"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when the user checks a different radio. The group swallows the radios' own `change` events.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Name given to every radio in the group, and submitted with forms. Generated when empty.",
+          "fieldName": "name"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Value of the checked radio. Setting it checks the radio with that value.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Group label, shown above the radios and used as the accessible name.",
+          "fieldName": "label"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'vertical' | 'horizontal'"
+          },
+          "default": "'vertical'",
+          "description": "Lays the radios out in a column (default) or a row.",
+          "fieldName": "orientation"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables every radio in the group.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Marks the group as required.",
+          "fieldName": "required"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-radio-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "radio-group",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Ripple",
     "tag": "wc-ripple",
     "rawTag": "ripple",
@@ -6662,8 +7352,8 @@
     "summary": "An individual segment within a segmented button group.",
     "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>",
     "cssprop": "--segmented-button-disabled-opacity: Opacity when the segment is disabled.",
-    "fires": "segmented-button--change - Dispatched when the selected state changes.",
-    "example": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```",
+    "fires": "segmented-button--change - Deprecated alias of `change`, fired alongside it.",
+    "example": "```html\r\n<wc-segmented-button-group>\r\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\r\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\r\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\r\n</wc-segmented-button-group>\r\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -6696,11 +7386,18 @@
       ],
       "events": [
         {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the segment is activated. Detail: `{ value, selected, originalEvent }`, where `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead."
+        },
+        {
           "name": "segmented-button--change",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the selected state changes."
+          "description": "Deprecated alias of `change`, fired alongside it."
         }
       ],
       "attributes": [
@@ -6757,10 +7454,10 @@
     "tag": "wc-segmented-button-group",
     "rawTag": "segmented-button-group",
     "summary": "A container for segmented buttons.",
-    "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>\n<p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>",
+    "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>\r\n<p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>",
     "cssprop": "--segmented-button-group-shape: Border-radius of the group container.",
     "fires": "change - Dispatched when the selection changes. Detail contains <code>{ value, values }</code>.",
-    "example": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```",
+    "example": "```html\r\n<wc-segmented-button-group>\r\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\r\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\r\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\r\n</wc-segmented-button-group>\r\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -6787,7 +7484,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, multiple segments can be selected simultaneously.\nDefaults to single-select mode.",
+          "description": "When true, multiple segments can be selected simultaneously.\r\nDefaults to single-select mode.",
           "fieldName": "multiSelect"
         },
         {
@@ -6796,7 +7493,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, in single-select mode the currently selected segment can be\ndeselected by clicking it again (allowing an empty selection).\nDefaults to `false`.",
+          "description": "When true, in single-select mode the currently selected segment can be\r\ndeselected by clicking it again (allowing an empty selection).\r\nDefaults to `false`.",
           "fieldName": "nullable"
         }
       ],
@@ -6817,8 +7514,9 @@
     "tag": "wc-select",
     "rawTag": "select",
     "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
-    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\n\n- Single and multi-select modes\n- Client-side typeahead with `search=\"contains\"`\n- Server-side typeahead with `search=\"managed\"`\n- Multi-select chips display",
-    "example": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\r\n\r\n- Single and multi-select modes\r\n- Client-side typeahead with `search=\"contains\"`\r\n- Server-side typeahead with `search=\"managed\"`\r\n- Multi-select chips display\r\n- Form-associated: submits the value under `name` (one entry per value with `multiple`)",
+    "fires": "select-search - Dispatched as the user types when `search=\"managed\"`.",
+    "example": "```html\r\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -6827,14 +7525,16 @@
         {
           "name": "change",
           "type": {
-            "text": "CustomEvent"
-          }
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when the selection changes."
         },
         {
           "name": "select-search",
           "type": {
-            "text": "CustomEvent"
-          }
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched as the user types when `search=\"managed\"`."
         }
       ],
       "attributes": [
@@ -6844,7 +7544,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
+          "description": "Array of options to display in the dropdown.\r\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -6871,7 +7571,7 @@
             "text": "'' | 'contains' | 'managed'"
           },
           "default": "''",
-          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "description": "Enable typeahead search.\r\n- `'contains'`: filters options client-side.\r\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
           "fieldName": "search"
         },
         {
@@ -6943,11 +7643,15 @@
           "fieldName": "warningText"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -7008,7 +7712,7 @@
     "tag": "wc-option",
     "rawTag": "option",
     "summary": "A declarative option element for use inside wc-select.",
-    "example": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7055,7 +7759,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\r\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -7064,7 +7768,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\r\nbecause it does not match the current typeahead search query.\r\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],
@@ -7085,7 +7789,7 @@
     "tag": "wc-sidebar-menu",
     "rawTag": "sidebar-menu",
     "summary": "A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.",
-    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\r\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7118,7 +7822,7 @@
     "tag": "wc-sidebar-menu-item",
     "rawTag": "sidebar-menu-item",
     "summary": "A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.",
-    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7214,7 +7918,7 @@
     "tag": "wc-sidebar-sub-menu",
     "rawTag": "sidebar-sub-menu",
     "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
-    "example": "```html\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n</wc-sidebar-sub-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n</wc-sidebar-sub-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7405,8 +8109,10 @@
     "tag": "wc-slider",
     "rawTag": "slider",
     "summary": "Sliders allow users to make selections from a range of values.",
+    "overview": "<p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,\r\nand <code>form.reset()</code> restores the starting value.</p>",
     "fires": "change - Dispatched when the slider interaction ends.",
-    "example": "```html\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\n```",
+    "example": "```html\r\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\r\n```",
+    "tags": "input, form",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7464,15 +8170,6 @@
           "fieldName": "step"
         },
         {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "description": "Whether the slider is disabled.",
-          "fieldName": "disabled"
-        },
-        {
           "name": "labeled",
           "type": {
             "text": "boolean"
@@ -7489,6 +8186,32 @@
           "default": "false",
           "description": "Whether to show the current value beside the slider.",
           "fieldName": "showValue"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "mixinFormAssociated",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "mixinFormAssociated",
+            "module": "E:/git/redvars/peacock/components/src/__internal/mixins/form-associated.ts"
+          }
+        }
+      ],
+      "mixins": [
+        {
+          "name": "mixinFormAssociated",
+          "package": "@/__internal/mixins/form-associated.js"
+        },
+        {
+          "name": "mixinElementInternals",
+          "package": "@/__internal/mixins/element-internals.js"
         }
       ],
       "superclass": {
@@ -7509,7 +8232,7 @@
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
     "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
+    "example": "```html\r\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\r\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -7906,10 +8629,10 @@
     "tag": "wc-switch",
     "rawTag": "switch",
     "summary": "Captures boolean input with an on/off switch interaction.",
-    "overview": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>",
+    "overview": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>\r\n<p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
     "cssprop": "--switch-handle-color: Color of the switch handle.",
     "fires": "focus - Dispatched when the switch receives focus.",
-    "example": "```html\n<wc-switch value=\"true\"></wc-switch>\n```",
+    "example": "```html\r\n<wc-switch checked label=\"Wi-Fi\"></wc-switch>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -7945,7 +8668,7 @@
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the switch value changes.",
+          "description": "Dispatched when the switch is toggled. Detail: `{ checked, value, originalEvent }`.",
           "name": "change"
         },
         {
@@ -7965,21 +8688,21 @@
       ],
       "attributes": [
         {
-          "name": "value",
+          "name": "checked",
           "type": {
             "text": "boolean"
           },
           "default": "false",
-          "fieldName": "value"
+          "description": "Whether the switch is on.",
+          "fieldName": "checked"
         },
         {
-          "name": "name",
+          "name": "value",
           "type": {
-            "text": "string"
+            "text": "boolean"
           },
-          "default": "''",
-          "description": "The input field name.",
-          "fieldName": "name"
+          "deprecated": "Use `checked`. Kept as an alias of `checked`.",
+          "fieldName": "value"
         },
         {
           "name": "label",
@@ -8000,45 +8723,6 @@
           "fieldName": "rounded"
         },
         {
-          "name": "required",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "required",
-          "description": "If true, required icon is shown. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
-          }
-        },
-        {
-          "name": "readonly",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "readonly",
-          "description": "If true, the toggle is readonly. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
-          }
-        },
-        {
-          "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "disabled",
-          "description": "If true, the user cannot interact with the toggle. Defaults to `false`.",
-          "inheritedFrom": {
-            "name": "BaseInput",
-            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
-          }
-        },
-        {
           "name": "with-icon",
           "type": {
             "text": "boolean"
@@ -8054,6 +8738,46 @@
           "default": "{}",
           "description": "Configuration object for aria attributes.",
           "fieldName": "configAria"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
         },
         {
           "name": "skeleton",
@@ -8425,11 +9149,28 @@
     "rawTag": "tabs",
     "summary": "Container for tab components.",
     "overview": "<p>Tabs holds the tab buttons and manages their layout.</p>",
-    "example": "```html\n<wc-tabs>\n  <wc-tab active>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```",
+    "fires": "tab-click - Deprecated alias of `change`, fired alongside it.",
+    "example": "```html\r\n<wc-tabs>\r\n  <wc-tab active>Tab 1</wc-tab>\r\n  <wc-tab>Tab 2</wc-tab>\r\n</wc-tabs>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
       "description": "",
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<{index: number, value: string}>"
+          },
+          "description": "Dispatched when the user activates a tab.",
+          "name": "change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{index: number, value: string}>"
+          },
+          "description": "Deprecated alias of `change`, fired alongside it.",
+          "name": "tab-click"
+        }
+      ],
       "attributes": [
         {
           "name": "variant",
@@ -8466,16 +9207,25 @@
     "rawTag": "tag",
     "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
     "tags": "display",
-    "example": "```html\n<wc-tag color=\"red\">Tag</wc-tag>\n```",
+    "fires": "tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.",
+    "example": "```html\r\n<wc-tag color=\"red\">Tag</wc-tag>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
       "events": [
         {
+          "name": "dismiss",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the dismiss button is clicked."
+        },
+        {
           "name": "tag--dismiss",
           "type": {
             "text": "CustomEvent"
-          }
+          },
+          "description": "Deprecated alias of `dismiss`, fired alongside it."
         }
       ],
       "attributes": [
@@ -8499,7 +9249,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -8511,9 +9261,10 @@
         {
           "name": "size",
           "type": {
-            "text": "'sm' | 'md' | undefined"
+            "text": "'sm' | 'md' | 'lg' | undefined"
           },
           "default": "'md'",
+          "description": "Tag size. Possible values are `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
         }
       ],
@@ -8535,7 +9286,7 @@
     "rawTag": "textarea",
     "summary": "The Textarea component is used to capture user input.",
     "tags": "input",
-    "example": "```html\n<wc-textarea label=\"Description\" placeholder=\"Enter text\"></wc-textarea>\n```",
+    "example": "```html\r\n<wc-textarea label=\"Description\" placeholder=\"Enter text\"></wc-textarea>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8547,14 +9298,6 @@
           },
           "default": "''",
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
@@ -8662,11 +9405,15 @@
           "fieldName": "rows"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -8782,7 +9529,7 @@
     "rawTag": "time-picker",
     "summary": "The Time Picker component is used to capture time user input.",
     "tags": "input",
-    "example": "```html\n<wc-time-picker label=\"Time\" placeholder=\"Select a time\"></wc-time-picker>\n```",
+    "example": "```html\r\n<wc-time-picker label=\"Time\" placeholder=\"Select a time\"></wc-time-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8794,14 +9541,6 @@
           },
           "default": "''",
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
@@ -8901,11 +9640,15 @@
           "fieldName": "warningText"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",
@@ -8966,9 +9709,9 @@
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
     "summary": "A toolbar / app bar for navigation and actions.",
-    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\n\n<p>Render toolbar actions directly as children of the component. The docked variant is\noptimized for a horizontal action row, while the floating variant supports both horizontal\nand vertical layouts.</p>",
+    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\r\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\r\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\r\n\r\n<p>Render toolbar actions directly as children of the component. The docked variant is\r\noptimized for a horizontal action row, while the floating variant supports both horizontal\r\nand vertical layouts.</p>",
     "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
-    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
+    "example": "```html\r\n<!-- Floating vertical toolbar -->\r\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\r\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\r\n</wc-toolbar>\r\n```",
     "tags": "display navigation",
     "customElement": {
       "kind": "class",
@@ -9014,7 +9757,7 @@
             "text": "'docked' | 'floating'"
           },
           "default": "'docked'",
-          "description": "Visual and layout variant of the toolbar.\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "description": "Visual and layout variant of the toolbar.\r\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\r\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
           "fieldName": "variant"
         },
         {
@@ -9023,17 +9766,20 @@
             "text": "'horizontal' | 'vertical'"
           },
           "default": "'horizontal'",
-          "description": "Orientation of the toolbar content.\n- `\"horizontal\"`: Items are laid out left to right (default).\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "description": "Orientation of the toolbar content.\r\n- `\"horizontal\"`: Items are laid out left to right (default).\r\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
           "fieldName": "orientation"
         },
         {
           "name": "size",
           "type": {
-            "text": "'small' | 'medium' | 'large'"
+            "text": "Size | LegacySize"
           },
-          "default": "'small'",
-          "description": "Size of the docked toolbar.\n - `\"small\"`: 80dp height (default).\n - `\"medium\"`: 96dp height.\n - `\"large\"`: 112dp height.",
-          "fieldName": "size"
+          "default": "'sm'",
+          "description": "Size of the docked toolbar.\r\n- `\"sm\"`: 80dp height (default).\r\n- `\"md\"`: 96dp height.\r\n- `\"lg\"`: 112dp height.\r\n\r\nThe long names `\"small\"`, `\"medium\"` and `\"large\"` still work but are deprecated.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large'"
+          }
         },
         {
           "name": "elevated",
@@ -9136,7 +9882,7 @@
     "rawTag": "url-field",
     "summary": "A field for entering and displaying URLs with validation.",
     "overview": "<p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.</p>",
-    "example": "```html\n<wc-url-field label=\"Website\" value=\"https://example.com\"></wc-url-field>\n```",
+    "example": "```html\r\n<wc-url-field label=\"Website\" value=\"https://example.com\"></wc-url-field>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -9163,14 +9909,6 @@
           },
           "default": "''",
           "fieldName": "value"
-        },
-        {
-          "name": "name",
-          "type": {
-            "text": "string"
-          },
-          "default": "''",
-          "fieldName": "name"
         },
         {
           "name": "placeholder",
@@ -9261,11 +9999,15 @@
           "fieldName": "warningText"
         },
         {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
           "name": "disabled",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
           "fieldName": "disabled",
           "inheritedFrom": {
             "name": "BaseInput",

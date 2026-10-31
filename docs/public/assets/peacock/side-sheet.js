@@ -19,7 +19,7 @@ var css_248z = i`* {
 :host {
   display: contents;
   --side-sheet-container-color: var(--color-surface-container-low, #f7f2fa);
-  --side-sheet-scrim-color: rgba(0, 0, 0, 0.32);
+  --side-sheet-scrim-color: color-mix(in srgb, var(--color-scrim) 32%, transparent);
   --side-sheet-shape: var(--shape-corner-extra-large, 28px);
   --side-sheet-width: 360px;
   --side-sheet-transition-duration: var(--duration-medium2, 300ms);

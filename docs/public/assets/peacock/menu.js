@@ -31,7 +31,7 @@ var css_248z = i`* {
   z-index: var(--menu-z-index, 1000);
   width: var(--menu-width, max-content);
   max-width: 100vw;
-  min-width: 112px;
+  min-width: var(--menu-min-width, 112px);
   transform-origin: top center;
   --_menu-enter-duration: var(--duration-medium1);
   --_menu-exit-duration: var(--duration-medium2);

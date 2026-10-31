@@ -1,9 +1,11 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, w, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, a as i$1, w, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
+import { e as e$1 } from './query-CHb9Ft_d.js';
+import { e } from './class-map-DG7CA1et.js';
 import { s as spread } from './spread-B5cgadZl.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
+import { m as mixinFormAssociated, g as getFormValue, a as getFormState } from './form-associated-Bhwwr6dT.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -29,7 +31,7 @@ var css_248z = i`* {
   --checkbox-checkmark-color: var(--color-on-primary);
   --checkbox-state-layer-size: 40px;
   --checkbox-disabled-opacity: 0.38;
-  --checkbox-border-radius: 2px;
+  --checkbox-border-radius: calc(var(--shape-corner-extra-small) / 2);
 }
 
 .checkbox {
@@ -134,7 +136,7 @@ var css_248z = i`* {
   --ripple-pressed-color: var(--checkbox-selected-color);
 }
 .checkbox.rounded {
-  --checkbox-border-radius: 18px;
+  --checkbox-border-radius: var(--shape-corner-full);
 }
 
 .checkbox.state-checked .outline {
@@ -170,8 +172,8 @@ var css_248z = i`* {
   --checkbox-size: 16px;
   --checkbox-icon-size: 10px;
   --checkbox-state-layer-size: 36px;
-  font-size: var(--font-size-body-small);
-  line-height: var(--line-height-body-small);
+  font-size: var(--typography-body-small-font-size);
+  line-height: var(--typography-body-small-line-height);
 }
 .checkbox.size-sm .icon {
   stroke-width: 1.5;
@@ -190,8 +192,8 @@ var css_248z = i`* {
   --checkbox-size: 24px;
   --checkbox-icon-size: 16px;
   --checkbox-state-layer-size: 48px;
-  font-size: var(--font-size-body-large);
-  line-height: var(--line-height-body-large);
+  font-size: var(--typography-body-large-font-size);
+  line-height: var(--typography-body-large-line-height);
 }
 .checkbox.size-lg .icon {
   stroke-width: 2.5;
@@ -238,36 +240,36 @@ var css_248z = i`* {
  * @overview
  * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
  * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
+ * <p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.
  * @cssprop --checkbox-checkmark-color: Color of the checkmark icon.
  * @cssprop --checkbox-state-layer-size: Size of the state layer for touch target.
- * @fires {CustomEvent} change - Dispatched when the checkbox value changes.
+ * @fires {CustomEvent} change - Dispatched when the checkbox is toggled. Detail: `{ checked, value, originalEvent }`.
  * @fires {CustomEvent} blur - Dispatched when the checkbox loses focus.
  * @fires {CustomEvent} focus - Dispatched when the checkbox receives focus.
  * @tags input, form
  *
  * @example
  * ```html
- * <wc-checkbox label="Accept terms"></wc-checkbox>
+ * <wc-checkbox label="Accept terms" checked></wc-checkbox>
  * ```
  */
-let Checkbox = class Checkbox extends i$1 {
+let Checkbox = class Checkbox extends mixinFormAssociated(mixinElementInternals(i$1)) {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
-        /**
-         * The input field name.
-         */
-        this.name = '';
+        // ── Properties ───────────────────────────────────────────────────────────
+        // `name` and `disabled` come from mixinFormAssociated.
         /**
          * The checkbox label.
          */
         this.label = '';
         /**
-         * The input field value (checked state).
+         * Whether the checkbox is checked.
          */
-        this.value = false;
+        this.checked = false;
         /**
          * If true, displays the checkbox in an indeterminate state.
          */
@@ -290,13 +292,10 @@ let Checkbox = class Checkbox extends i$1 {
          */
         this.readonly = false;
         /**
-         * If true, the user cannot interact with the checkbox. Defaults to `false`.
-         */
-        this.disabled = false;
-        /**
          * Configuration object for aria attributes.
          */
         this.configAria = {};
+        // ── State ────────────────────────────────────────────────────────────────
         /** True while the checkbox container has keyboard focus. */
         this.hasFocus = false;
         /** True while the user is actively pressing the checkbox (mouse/keyboard). */
@@ -325,10 +324,14 @@ let Checkbox = class Checkbox extends i$1 {
         };
         this.clickHandler = (ev) => {
             if (!this.disabled && !this.readonly) {
-                this.value = !this.value;
+                this.checked = !this.checked;
                 this.indeterminate = false;
                 this.dispatchEvent(new CustomEvent('change', {
-                    detail: { value: this.value, originalEvent: ev },
+                    detail: {
+                        checked: this.checked,
+                        value: this.checked,
+                        originalEvent: ev,
+                    },
                     bubbles: true,
                     composed: true,
                 }));
@@ -357,8 +360,19 @@ let Checkbox = class Checkbox extends i$1 {
             }
         };
     }
+    /**
+     * @deprecated Use `checked`. Kept as an alias of `checked`.
+     */
+    get value() {
+        return this.checked;
+    }
+    set value(value) {
+        this.checked = Boolean(value);
+    }
+    // ── Lifecycle ────────────────────────────────────────────────────────────
     connectedCallback() {
         super.connectedCallback();
+        this.defaultChecked ??= this.checked;
         this.handleInitialAttributes();
         window.addEventListener('mouseup', this.windowMouseUp);
         window.addEventListener('keyup', this.windowKeyUp);
@@ -371,18 +385,7 @@ let Checkbox = class Checkbox extends i$1 {
     firstUpdated() {
         this.slotHasContent = this.hasChildNodes();
     }
-    handleInitialAttributes() {
-        if (this.hasAttribute('tabindex')) {
-            this.tabindex = this.getAttribute('tabindex') || undefined;
-            this.removeAttribute('tabindex');
-        }
-        Array.from(this.attributes).forEach(attr => {
-            if (attr.name.startsWith('aria-')) {
-                this.configAria[attr.name] = attr.value;
-                this.removeAttribute(attr.name);
-            }
-        });
-    }
+    // ── Public methods ───────────────────────────────────────────────────────
     /**
      * Sets focus on the checkbox.
      */
@@ -395,11 +398,39 @@ let Checkbox = class Checkbox extends i$1 {
     blur() {
         this.containerElement?.blur();
     }
+    // ── Form association ─────────────────────────────────────────────────────
+    [getFormValue]() {
+        return this.checked ? 'on' : null;
+    }
+    [getFormState]() {
+        return String(this.checked);
+    }
+    formResetCallback() {
+        this.checked = this.defaultChecked ?? false;
+        this.indeterminate = false;
+    }
+    formStateRestoreCallback(state) {
+        this.checked = state === 'true';
+    }
+    // ── Private methods ──────────────────────────────────────────────────────
+    handleInitialAttributes() {
+        if (this.hasAttribute('tabindex')) {
+            this.tabindex = this.getAttribute('tabindex') || undefined;
+            this.removeAttribute('tabindex');
+        }
+        Array.from(this.attributes).forEach(attr => {
+            if (attr.name.startsWith('aria-')) {
+                this.configAria[attr.name] = attr.value;
+                this.removeAttribute(attr.name);
+            }
+        });
+    }
+    // ── Render ───────────────────────────────────────────────────────────────
     render() {
         const cssClasses = {
             checkbox: true,
-            'state-checked': this.value,
-            'state-indeterminate': !this.value && this.indeterminate,
+            'state-checked': this.checked,
+            'state-indeterminate': !this.checked && this.indeterminate,
             [`size-${this.size}`]: true,
             'has-focus': this.hasFocus,
             active: this.isActive,
@@ -410,7 +441,7 @@ let Checkbox = class Checkbox extends i$1 {
             'has-content': this.slotHasContent,
         };
         return b `
-      <label class=${e$1(cssClasses)}>
+      <label class=${e(cssClasses)}>
         <div
           id="container"
           class="container"
@@ -423,7 +454,7 @@ let Checkbox = class Checkbox extends i$1 {
           role="checkbox"
           aria-disabled=${this.disabled}
           aria-required=${this.required}
-          aria-checked=${this.value
+          aria-checked=${this.checked
             ? 'true'
             : this.indeterminate
                 ? 'mixed'
@@ -435,7 +466,7 @@ let Checkbox = class Checkbox extends i$1 {
           <div class="outline"></div>
           <div class="background"></div>
           <svg class="icon" viewBox="0 0 12 12">
-            ${this.value
+            ${this.checked
             ? w `
                   <path
                     class="checkmark"
@@ -458,7 +489,7 @@ let Checkbox = class Checkbox extends i$1 {
           type="checkbox"
           class="input-native"
           name=${this.name}
-          .checked=${this.value}
+          .checked=${this.checked}
           .indeterminate=${this.indeterminate}
           aria-hidden="true"
           ?required=${this.required}
@@ -476,13 +507,13 @@ let Checkbox = class Checkbox extends i$1 {
 Checkbox.styles = [css_248z];
 __decorate([
     n({ type: String })
-], Checkbox.prototype, "name", void 0);
-__decorate([
-    n({ type: String })
 ], Checkbox.prototype, "label", void 0);
 __decorate([
     n({ type: Boolean, reflect: true })
-], Checkbox.prototype, "value", void 0);
+], Checkbox.prototype, "checked", void 0);
+__decorate([
+    n({ type: Boolean })
+], Checkbox.prototype, "value", null);
 __decorate([
     n({ type: Boolean, reflect: true })
 ], Checkbox.prototype, "indeterminate", void 0);
@@ -499,9 +530,6 @@ __decorate([
     n({ type: Boolean, reflect: true })
 ], Checkbox.prototype, "readonly", void 0);
 __decorate([
-    n({ type: Boolean, reflect: true })
-], Checkbox.prototype, "disabled", void 0);
-__decorate([
     n({ type: Object })
 ], Checkbox.prototype, "configAria", void 0);
 __decorate([
@@ -514,11 +542,8 @@ __decorate([
     r()
 ], Checkbox.prototype, "slotHasContent", void 0);
 __decorate([
-    e('.container')
+    e$1('.container')
 ], Checkbox.prototype, "containerElement", void 0);
-__decorate([
-    e('.input-native')
-], Checkbox.prototype, "nativeElement", void 0);
 Checkbox = __decorate([
     IndividualComponent
 ], Checkbox);

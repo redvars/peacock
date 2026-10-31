@@ -13,20 +13,32 @@ import { SegmentedButton } from './segmented-button.js';
 import { SegmentedButtonGroup } from './segmented-button-group.js';
 import { SplitButton } from './split-button.js';
 import { DropdownButton } from './dropdown-button.js';
-import { S as Select, d as SidebarSubMenu, c as SidebarMenuItem, b as SidebarMenu, e as Switch, g as TimePicker, D as DatePicker, f as Textarea, N as NumberField, U as UrlField, I as Input, a as CircularProgress, L as LinearProgress, T as Tag, C as ChipSet } from './select-CnnPbvpQ.js';
+import { Input } from './input.js';
+import { UrlField } from './url-field.js';
 import { Field } from './field.js';
+import { NumberField } from './number-field.js';
+import { DatePicker } from './date-picker.js';
+import { TimePicker } from './time-picker.js';
+import { Textarea } from './textarea.js';
+import { Switch } from './switch.js';
 import { Checkbox } from './checkbox.js';
 import { Radio } from './radio.js';
+import { RadioGroup } from './radio-group.js';
 import { Menu } from './menu.js';
 import { MenuItem } from './menu-item.js';
 import { SubMenu } from './sub-menu.js';
 import { Item } from './item.js';
-import { a as ListItem, L as List } from './list-BBmnHm8f.js';
+import { List } from './list.js';
+import { ListItem } from './list-item.js';
 import { Timeline } from './timeline.js';
 import { TimelineItem } from './timeline-item.js';
 import { Accordion } from './accordion.js';
 import { Link } from './link.js';
+import { Tag } from './tag.js';
 import { Chip } from './chip.js';
+import { ChipSet } from './chip-set.js';
+import { LinearProgress } from './linear-progress.js';
+import { CircularProgress } from './circular-progress.js';
 import { Tooltip } from './tooltip.js';
 import { Popover } from './popover.js';
 import { PopoverContent } from './popover-content.js';
@@ -34,7 +46,6 @@ import { Breadcrumb } from './breadcrumb.js';
 import { BreadcrumbItem } from './breadcrumb-item.js';
 import { Skeleton } from './skeleton.js';
 import { Spinner } from './spinner.js';
-import { BrandLoader } from './brand-loader.js';
 import { EmptyState } from './empty-state.js';
 import { Container } from './container.js';
 import { Image } from './image.js';
@@ -45,8 +56,12 @@ import { Tab } from './tab.js';
 import { TabPanel } from './tab-panel.js';
 import { Slider } from './slider.js';
 import { ColorPicker } from './color-picker.js';
+import { ColorField } from './color-field.js';
 import { Table } from './table.js';
 import { Pagination } from './pagination.js';
+import { SidebarMenu } from './sidebar-menu.js';
+import { SidebarMenuItem } from './sidebar-menu-item.js';
+import { SidebarSubMenu } from './sidebar-sub-menu.js';
 import { Card } from './card.js';
 import { CardContent } from './card-content.js';
 import { Alert } from './alert.js';
@@ -56,12 +71,17 @@ import { Snackbar } from './snackbar.js';
 import { BottomSheet } from './bottom-sheet.js';
 import { SideSheet } from './side-sheet.js';
 import { Modal } from './modal.js';
+import { Select } from './select.js';
 import { SelectOptionElement } from './option.js';
 import { Search } from './search.js';
 import { Toolbar } from './toolbar.js';
 import { AppBar } from './app-bar.js';
 import { NavigationRail } from './navigation-rail.js';
 import { NavigationRailItem } from './navigation-rail-item.js';
+import { NavigationBar } from './navigation-bar.js';
+import { NavigationBarItem } from './navigation-bar-item.js';
+import { NavigationDrawer } from './navigation-drawer.js';
+import { NavigationDrawerItem } from './navigation-drawer-item.js';
 import './IndividualComponent-Bdwyrvd6.js';
 import './property-B49QQ8pS.js';
 import './attachable-controller-CAKVrfcG.js';
@@ -70,26 +90,30 @@ import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
 import './class-map-DG7CA1et.js';
 import './directive-ZPhl09Yt.js';
-import './datasource-B2eRh6Or.js';
+import './sanitize-svg-_VNFLm82.js';
 import './unsafe-html-Ct0N2_UU.js';
+import './datasource-OwvH7SVq.js';
 import './observe-slot-change-DPxaZrZF.js';
 import './if-defined-BXZpRQ4P.js';
 import './when-DEJm_QN9.js';
 import './is-link-Dk2OV3PM.js';
 import './dispatch-event-utils-CuEqjlPT.js';
 import './ButtonConstants-CahP2_NA.js';
-import './element-internals-2CMts_0M.js';
-import './form-associated-BXADnjOB.js';
+import './delegate-py-Ets8N.js';
+import './form-submitter-DPI4L6gj.js';
+import './element-internals-QME0yEz4.js';
 import './hyperlink-DLvb6MXE.js';
 import './throttle-C7ZAPqtu.js';
-import './style-map-BQD5Et1D.js';
+import './form-associated-Bhwwr6dT.js';
 import './spread-B5cgadZl.js';
-import './BaseInput-CU1zZYKc.js';
+import './BaseInput-CV0pZgSb.js';
 import './floating-controller-CZYwnRVu.js';
 import './floating-ui.dom-oQieRCpS.js';
 import './NativeHyperlinkMixin-D9J4aBTy.js';
 import './query-assigned-elements-BJaGSqM0.js';
 import './accordion-item.js';
+import './style-map-BQD5Et1D.js';
+import './base-progress-CLZTRveO.js';
 import './is-dark-mode-DOcaw4Yq.js';
 
 class LoaderUtils {
@@ -194,10 +218,12 @@ async function loadCSS(url, options = {}) {
     return sheet;
 }
 
-const distDirectory = `${import.meta.url}/..`;
+// Resolve the folder this script was served from. `new URL('.', …)` drops the file name and any
+// query string, so `loader.js?styles` still yields `…/dist` (no trailing slash).
+const distDirectory = new URL('.', import.meta.url).href.replace(/\/$/, '');
 const url = new URL(import.meta.url);
 const params = url.searchParams;
-// Example: accessing app.js?theme=dark&user=123
+// Example: loader.js?styles also loads dist/assets/styles.css
 const includeStyles = params.has('styles');
 if (includeStyles) {
     await loadCSS(`${distDirectory}/assets/styles.css`);
@@ -388,11 +414,11 @@ const loaderConfig = {
         'wc-radio': {
             CustomElementClass: Radio,
         },
+        'wc-radio-group': {
+            CustomElementClass: RadioGroup,
+        },
         'wc-spinner': {
             CustomElementClass: Spinner,
-        },
-        'wc-brand-loader': {
-            CustomElementClass: BrandLoader,
         },
         'wc-empty-state': {
             CustomElementClass: EmptyState,
@@ -435,6 +461,9 @@ const loaderConfig = {
         },
         'wc-color-picker': {
             CustomElementClass: ColorPicker,
+        },
+        'wc-color-field': {
+            CustomElementClass: ColorField,
         },
         'wc-table': {
             CustomElementClass: Table,
@@ -484,6 +513,18 @@ const loaderConfig = {
         'wc-navigation-rail-item': {
             CustomElementClass: NavigationRailItem,
         },
+        'wc-navigation-bar': {
+            CustomElementClass: NavigationBar,
+        },
+        'wc-navigation-bar-item': {
+            CustomElementClass: NavigationBarItem,
+        },
+        'wc-navigation-drawer': {
+            CustomElementClass: NavigationDrawer,
+        },
+        'wc-navigation-drawer-item': {
+            CustomElementClass: NavigationDrawerItem,
+        },
         'wc-calendar': {
             importPath: `${distDirectory}/calendar.js`,
             dependencies: ['wc-calendar-column-view', 'wc-calendar-month-view'],
@@ -511,21 +552,14 @@ const loaderConfig = {
         },
         'wc-condition-builder': {
             importPath: `${distDirectory}/condition-builder.js`,
-            dependencies: [
-                'wc-cb-predicate',
-                'wc-cb-compound-expression',
-                'wc-cb-expression',
-                'wc-cb-divider',
-            ],
+            dependencies: ['wc-cb-group', 'wc-cb-rule', 'wc-cb-divider'],
         },
-        'wc-cb-predicate': {
-            importPath: `${distDirectory}/cb-predicate.js`,
+        'wc-cb-group': {
+            importPath: `${distDirectory}/cb-group.js`,
+            dependencies: ['wc-cb-divider'],
         },
-        'wc-cb-compound-expression': {
-            importPath: `${distDirectory}/cb-compound-expression.js`,
-        },
-        'wc-cb-expression': {
-            importPath: `${distDirectory}/cb-expression.js`,
+        'wc-cb-rule': {
+            importPath: `${distDirectory}/cb-rule.js`,
         },
         'wc-cb-divider': {
             importPath: `${distDirectory}/cb-divider.js`,

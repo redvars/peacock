@@ -31,7 +31,7 @@ var css_248z = i`* {
   overflow-y: auto;
   overflow-x: hidden;
   --nav-rail-padding-block: 1.5rem;
-  --nav-rail-container-color: var(--container-surface);
+  --nav-rail-container-color: var(--color-surface);
   --nav-rail-label-text-color: var(--color-on-surface);
 }
 

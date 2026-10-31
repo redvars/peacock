@@ -84,7 +84,7 @@ var css_248z = i`* {
   gap: var(--spacing-025, 0.125rem);
 }
 .pagination .nav-button {
-  --button-container-shape: 999px;
+  --button-container-shape: var(--shape-corner-full);
 }`;
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];

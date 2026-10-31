@@ -17,7 +17,6 @@ import BaseInput from '../input/BaseInput.js';
 export declare class UrlField extends BaseInput {
     static styles: import("lit").CSSResultGroup[];
     value: string;
-    name: string;
     placeholder: string;
     label: string;
     editing: boolean;

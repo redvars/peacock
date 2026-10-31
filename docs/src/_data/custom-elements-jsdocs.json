@@ -496,7 +496,7 @@
     "overview": "<p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>",
     "cssprop": "--neo-button-label-text-color - Text color of the neo button label.",
     "fires": "click - Dispatched when the button is clicked.",
-    "example": "```html\n<wc-button>Button</wc-button>\n```",
+    "example": "```html\r\n<wc-button>Button</wc-button>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -583,7 +583,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When `true` (default), the icon is placed after the label (trailing).\nWhen `false`, the icon is placed before the label (leading).",
+          "description": "When `true` (default), the icon is placed after the label (trailing).\r\nWhen `false`, the icon is placed before the label (leading).",
           "fieldName": "trailingIcon"
         },
         {
@@ -592,7 +592,7 @@
             "text": "ButtonSize"
           },
           "default": "'sm'",
-          "description": "Button size.\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
+          "description": "Button size.\r\nPossible values are `\"xs\"`, `\"sm\"`, `\"md\"`, `\"lg\"`, `\"xl\"`. Defaults to `\"sm\"`.",
           "fieldName": "size",
           "expandedType": {
             "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
@@ -628,7 +628,7 @@
           },
           "default": "'filled'",
           "fieldName": "variant",
-          "description": "The visual style of the button.\n\n Possible variant values:\n`\"filled\"` is a filled button.\n`\"outlined\"` is an outlined button.\n`\"text\"` is a transparent button.\n`\"tonal\"` is a light color button.\n`\"elevated\"` is elevated button",
+          "description": "The visual style of the button.\r\n\r\n Possible variant values:\r\n`\"filled\"` is a filled button.\r\n`\"outlined\"` is an outlined button.\r\n`\"text\"` is a transparent button.\r\n`\"tonal\"` is a light color button.\r\n`\"elevated\"` is elevated button",
           "expandedType": {
             "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text' | 'neo'"
           },
@@ -1295,7 +1295,7 @@
     "summary": "A divider line used within a condition builder to visually connect rules with an operator.",
     "cssprop": "--cb-divider-arm-length - Length of the connecting arms drawn by `connect-start` and `connect-end`.",
     "tags": "condition-builder",
-    "example": "```html\n<wc-cb-divider>\n  <wc-tag color=\"green\">and</wc-tag>\n</wc-cb-divider>\n```",
+    "example": "```html\r\n<wc-cb-divider>\r\n  <wc-tag color=\"green\">and</wc-tag>\r\n</wc-cb-divider>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1359,7 +1359,7 @@
     "tags": "condition-builder",
     "fires": "add-rule - Dispatched when the default \"Add condition\" link is clicked.",
     "slot": "actions - Replaces the default \"Add condition\" link.",
-    "example": "```html\n<wc-cb-group operator=\"or\">\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n</wc-cb-group>\n```",
+    "example": "```html\r\n<wc-cb-group operator=\"or\">\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n</wc-cb-group>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1439,7 +1439,7 @@
     "tags": "condition-builder",
     "cssprop": "--cb-rule-field-height - Height of the slotted fields (wc-select, wc-input…). Defaults to `2.5rem`.",
     "fires": "rule-remove - Dispatched when the remove button is clicked. Cancelable: unless prevented, the rule removes itself.",
-    "example": "```html\n<wc-cb-rule>\n  <wc-select placeholder=\"Field\"></wc-select>\n  <wc-select placeholder=\"Operator\"></wc-select>\n  <wc-input placeholder=\"Value\"></wc-input>\n</wc-cb-rule>\n```",
+    "example": "```html\r\n<wc-cb-rule>\r\n  <wc-select placeholder=\"Field\"></wc-select>\r\n  <wc-select placeholder=\"Operator\"></wc-select>\r\n  <wc-input placeholder=\"Value\"></wc-input>\r\n</wc-cb-rule>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1750,11 +1750,11 @@
     "tag": "wc-checkbox",
     "rawTag": "checkbox",
     "summary": "Captures boolean input with an optional indeterminate mode.",
-    "overview": "<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>\n<p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>\n<p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
+    "overview": "<p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>\r\n<p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>\r\n<p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
     "cssprop": "--checkbox-state-layer-size: Size of the state layer for touch target.",
     "fires": "focus - Dispatched when the checkbox receives focus.",
     "tags": "input, form",
-    "example": "```html\n<wc-checkbox label=\"Accept terms\" checked></wc-checkbox>\n```",
+    "example": "```html\r\n<wc-checkbox label=\"Accept terms\" checked></wc-checkbox>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -1854,7 +1854,7 @@
             "text": "'sm' | 'md' | 'lg'"
           },
           "default": "'md'",
-          "description": "The checkbox size.\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
+          "description": "The checkbox size.\r\nPossible values are: `\"sm\"`, `\"md\"`, `\"lg\"`. Defaults to `\"md\"`.",
           "fieldName": "size"
         },
         {
@@ -1930,7 +1930,7 @@
     "summary": "Chip component for displaying compact information with optional actions.",
     "tags": "display",
     "fires": "tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.",
-    "example": "```html\n<wc-chip>Chip content</wc-chip>\n```",
+    "example": "```html\r\n<wc-chip>Chip content</wc-chip>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2153,7 +2153,7 @@
     "rawTag": "chip-set",
     "summary": "A layout container for wrapping chips.",
     "tags": "layout",
-    "example": "```html\n<wc-chip-set>\n  <wc-chip>One</wc-chip>\n  <wc-chip>Two</wc-chip>\n</wc-chip-set>\n```",
+    "example": "```html\r\n<wc-chip-set>\r\n  <wc-chip>One</wc-chip>\r\n  <wc-chip>Two</wc-chip>\r\n</wc-chip-set>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2175,7 +2175,7 @@
     "rawTag": "circular-progress",
     "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\n<wc-circular-progress value=\"30\"></wc-circular-progress>\n```",
+    "example": "```html\r\n<wc-circular-progress value=\"30\"></wc-circular-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2289,10 +2289,10 @@
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
     "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component.\n - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.\n - Has a copy button; hide it with `hide-copy`.\n - Emits `change` when content is edited and updates value from property changes.",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component.\r\n - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
     "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
     "fires": "copied - Dispatched after the copy button copies the content.",
-    "example": "```html\n<wc-code-editor\n  language=\"css\"\n  readonly\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\":root { --color-primary: #6341d5; }\">\n</wc-code-editor>\n```",
+    "example": "```html\r\n<wc-code-editor\r\n  language=\"css\"\r\n  readonly\r\n  style=\"width: 100%; --code-editor-height: 10rem;\"\r\n  value=\":root { --color-primary: #6341d5; }\">\r\n</wc-code-editor>\r\n```",
     "tags": "input, editor",
     "customElement": {
       "kind": "class",
@@ -2519,9 +2519,9 @@
     "tag": "wc-color-field",
     "rawTag": "color-field",
     "summary": "A text field for a hex color, with a swatch that opens a color picker.",
-    "overview": "<p>Color field shows the current color as a swatch next to its hex value. Type a hex value, or\nclick the swatch to pick one with <code>wc-color-picker</code> in a popover.</p>\n<p>It is form-associated: the hex value is submitted under its <code>name</code>.</p>",
+    "overview": "<p>Color field shows the current color as a swatch next to its hex value. Type a hex value, or\r\nclick the swatch to pick one with <code>wc-color-picker</code> in a popover.</p>\r\n<p>It is form-associated: the hex value is submitted under its <code>name</code>.</p>",
     "fires": "change - Dispatched when a color is committed, from the picker or the text field.",
-    "example": "```html\n<wc-color-field label=\"Brand color\" value=\"#7c5df0\"></wc-color-field>\n```",
+    "example": "```html\r\n<wc-color-field label=\"Brand color\" value=\"#7c5df0\"></wc-color-field>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -2658,10 +2658,10 @@
     "tag": "wc-color-picker",
     "rawTag": "color-picker",
     "summary": "A color picker component for selecting colors via a hue/saturation/value interface.",
-    "overview": "<p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.\nAn optional alpha slider allows controlling opacity. The current hex value is displayed in\nan editable text field.</p>",
+    "overview": "<p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.\r\nAn optional alpha slider allows controlling opacity. The current hex value is displayed in\r\nan editable text field.</p>",
     "cssprop": "--color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.",
     "fires": "change - Dispatched when a color change is committed (pointer up, key, or input blur).",
-    "example": "```html\n<wc-color-picker value=\"#ff573380\" alpha></wc-color-picker>\n```",
+    "example": "```html\r\n<wc-color-picker value=\"#ff573380\" alpha></wc-color-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2743,11 +2743,11 @@
     "tag": "wc-condition-builder",
     "rawTag": "condition-builder",
     "summary": "A query builder for composing filter conditions from rules and nested groups joined by And/Or.",
-    "overview": "<p>The condition builder is the root group of a query. It holds rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>), each joined by a bracket with an And/Or pill.</p>\n<ul>\n  <li>Click the pill to switch a group between And and Or.</li>\n  <li>Drag a rule by its handle to reorder it or move it between groups.</li>\n  <li>Removing, moving and switching are built in; adding rules and groups is up to you, since only you know what a new rule contains. Listen for <code>add-rule</code> and <code>add-group</code>.</li>\n</ul>",
+    "overview": "<p>The condition builder is the root group of a query. It holds rules (<code>wc-cb-rule</code>) and bordered nested groups (<code>wc-cb-group</code>), each joined by a bracket with an And/Or pill.</p>\r\n<ul>\r\n  <li>Click the pill to switch a group between And and Or.</li>\r\n  <li>Drag a rule by its handle to reorder it or move it between groups.</li>\r\n  <li>Removing, moving and switching are built in; adding rules and groups is up to you, since only you know what a new rule contains. Listen for <code>add-rule</code> and <code>add-group</code>.</li>\r\n</ul>",
     "tags": "condition-builder",
     "fires": "add-group - Dispatched when \"Add inner group\" is clicked.",
     "slot": "actions-end - Actions aligned to the end of the footer, such as a \"Run query\" button.",
-    "example": "```html\n<wc-condition-builder operator=\"and\">\n  <wc-cb-rule>\n    <wc-input placeholder=\"Value\"></wc-input>\n  </wc-cb-rule>\n  <wc-cb-group operator=\"or\">\n    <wc-cb-rule>\n      <wc-input placeholder=\"Value\"></wc-input>\n    </wc-cb-rule>\n    <wc-cb-rule>\n      <wc-input placeholder=\"Value\"></wc-input>\n    </wc-cb-rule>\n  </wc-cb-group>\n  <wc-button slot=\"actions-end\">Run query</wc-button>\n</wc-condition-builder>\n```",
+    "example": "```html\r\n<wc-condition-builder operator=\"and\">\r\n  <wc-cb-rule>\r\n    <wc-input placeholder=\"Value\"></wc-input>\r\n  </wc-cb-rule>\r\n  <wc-cb-group operator=\"or\">\r\n    <wc-cb-rule>\r\n      <wc-input placeholder=\"Value\"></wc-input>\r\n    </wc-cb-rule>\r\n    <wc-cb-rule>\r\n      <wc-input placeholder=\"Value\"></wc-input>\r\n    </wc-cb-rule>\r\n  </wc-cb-group>\r\n  <wc-button slot=\"actions-end\">Run query</wc-button>\r\n</wc-condition-builder>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -2895,7 +2895,7 @@
     "rawTag": "date-picker",
     "summary": "The Date Picker component is used to capture date user input.",
     "tags": "input",
-    "example": "```html\n<wc-date-picker label=\"Date\" placeholder=\"Select a date\"></wc-date-picker>\n```",
+    "example": "```html\r\n<wc-date-picker label=\"Date\" placeholder=\"Select a date\"></wc-date-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -3596,7 +3596,7 @@
     "rawTag": "field",
     "summary": "Wrapper for form fields with label and help text.",
     "overview": "<p>Field provides consistent styling and behavior for form inputs.</p>",
-    "example": "```html\n<wc-field label=\"Name\" required>\n  some text\n</wc-field>\n```",
+    "example": "```html\r\n<wc-field label=\"Name\" required>\r\n  some text\r\n</wc-field>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -4610,9 +4610,9 @@
     "tag": "wc-input",
     "rawTag": "input",
     "summary": "The Input component is used to capture user input.",
-    "overview": "<p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted\nunder its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>",
+    "overview": "<p>Input is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is submitted\r\nunder its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>",
     "fires": "change - Re-fired from the native input when the value is committed.",
-    "example": "```html\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\n```",
+    "example": "```html\r\n<wc-input label=\"Name\" required placeholder=\"Enter your name\"></wc-input>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -4862,7 +4862,7 @@
     "rawTag": "linear-progress",
     "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
     "tags": "display",
-    "example": "```html\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\n```",
+    "example": "```html\r\n<wc-linear-progress value=\"30\" style=\"width:10rem\"></wc-linear-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -5062,7 +5062,7 @@
     "tag": "wc-list-item",
     "rawTag": "list-item",
     "summary": "A list item with leading, trailing and content slots.",
-    "example": "```html\n<wc-list-item selected>\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\n  Profile\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\n</wc-list-item>\n```",
+    "example": "```html\r\n<wc-list-item selected>\r\n  <wc-icon slot=\"leading\" name=\"person\"></wc-icon>\r\n  Profile\r\n  <wc-icon slot=\"trailing\" name=\"chevron_right\"></wc-icon>\r\n</wc-list-item>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -5891,10 +5891,10 @@
     "tag": "wc-navigation-bar",
     "rawTag": "navigation-bar",
     "summary": "A bottom bar with three to five primary destinations, for small screens.",
-    "overview": "<p>Navigation bar lays its <code>wc-navigation-bar-item</code> children out in a row of equal\nwidths. Clicking an item makes it the active one and fires <code>change</code>.</p>\n<p>The bar does not position itself: place it at the bottom of your layout, or give it\n<code>position: fixed; inset-inline: 0; bottom: 0</code>.</p>",
+    "overview": "<p>Navigation bar lays its <code>wc-navigation-bar-item</code> children out in a row of equal\r\nwidths. Clicking an item makes it the active one and fires <code>change</code>.</p>\r\n<p>The bar does not position itself: place it at the bottom of your layout, or give it\r\n<code>position: fixed; inset-inline: 0; bottom: 0</code>.</p>",
     "fires": "change - Dispatched when the user activates an item.",
     "cssprop": "--navigation-bar-elevation - Shadow of the bar. Defaults to `--elevation-level2`.",
-    "example": "```html\n<wc-navigation-bar>\n  <wc-navigation-bar-item active value=\"home\">\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\n    Home\n  </wc-navigation-bar-item>\n  <wc-navigation-bar-item value=\"search\">\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\n    Search\n  </wc-navigation-bar-item>\n</wc-navigation-bar>\n```",
+    "example": "```html\r\n<wc-navigation-bar>\r\n  <wc-navigation-bar-item active value=\"home\">\r\n    <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\r\n    Home\r\n  </wc-navigation-bar-item>\r\n  <wc-navigation-bar-item value=\"search\">\r\n    <wc-icon slot=\"icon\" name=\"search\"></wc-icon>\r\n    Search\r\n  </wc-navigation-bar-item>\r\n</wc-navigation-bar>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -5939,8 +5939,8 @@
     "tag": "wc-navigation-bar-item",
     "rawTag": "navigation-bar-item",
     "summary": "A destination in a navigation bar.",
-    "overview": "<p>Shows an icon inside the active-indicator pill with a label below. It has the same API as\n<code>wc-navigation-rail-item</code>: <code>active</code>, <code>disabled</code>, <code>href</code>,\n<code>value</code>, and the <code>icon</code> and <code>active-icon</code> slots.</p>",
-    "example": "```html\n<wc-navigation-bar-item active>\n  <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\n  Home\n</wc-navigation-bar-item>\n```",
+    "overview": "<p>Shows an icon inside the active-indicator pill with a label below. It has the same API as\r\n<code>wc-navigation-rail-item</code>: <code>active</code>, <code>disabled</code>, <code>href</code>,\r\n<code>value</code>, and the <code>icon</code> and <code>active-icon</code> slots.</p>",
+    "example": "```html\r\n<wc-navigation-bar-item active>\r\n  <wc-icon slot=\"icon\" name=\"home\"></wc-icon>\r\n  Home\r\n</wc-navigation-bar-item>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -6066,11 +6066,11 @@
     "tag": "wc-navigation-drawer",
     "rawTag": "navigation-drawer",
     "summary": "A side panel listing an app's destinations.",
-    "overview": "<p>Navigation drawer holds <code>wc-navigation-drawer-item</code> destinations. Clicking an item makes\nit the active one and fires <code>change</code>.</p>\n<ul>\n  <li><code>variant=\"standard\"</code> (default) sits in the page layout, next to the content.</li>\n  <li><code>variant=\"modal\"</code> opens over the page with a scrim. It traps focus, closes on Escape,\n  on a scrim click and after an item is chosen.</li>\n</ul>\n<p>Both variants show only while <code>open</code> is set.</p>",
+    "overview": "<p>Navigation drawer holds <code>wc-navigation-drawer-item</code> destinations. Clicking an item makes\r\nit the active one and fires <code>change</code>.</p>\r\n<ul>\r\n  <li><code>variant=\"standard\"</code> (default) sits in the page layout, next to the content.</li>\r\n  <li><code>variant=\"modal\"</code> opens over the page with a scrim. It traps focus, closes on Escape,\r\n  on a scrim click and after an item is chosen.</li>\r\n</ul>\r\n<p>Both variants show only while <code>open</code> is set.</p>",
     "slot": "header - Content above the items, after the headline.",
     "fires": "close - Dispatched when the drawer closes.",
     "cssprop": "--navigation-drawer-container-color - Background of the drawer. Defaults to `--color-surface-container-low`.",
-    "example": "```html\n<wc-navigation-drawer open headline=\"Mail\">\n  <wc-navigation-drawer-item active badge=\"24\">\n    <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\n    Inbox\n  </wc-navigation-drawer-item>\n  <wc-navigation-drawer-item>\n    <wc-icon slot=\"icon\" name=\"send\"></wc-icon>\n    Sent\n  </wc-navigation-drawer-item>\n</wc-navigation-drawer>\n```",
+    "example": "```html\r\n<wc-navigation-drawer open headline=\"Mail\">\r\n  <wc-navigation-drawer-item active badge=\"24\">\r\n    <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\r\n    Inbox\r\n  </wc-navigation-drawer-item>\r\n  <wc-navigation-drawer-item>\r\n    <wc-icon slot=\"icon\" name=\"send\"></wc-icon>\r\n    Sent\r\n  </wc-navigation-drawer-item>\r\n</wc-navigation-drawer>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -6169,9 +6169,9 @@
     "tag": "wc-navigation-drawer-item",
     "rawTag": "navigation-drawer-item",
     "summary": "A destination in a navigation drawer.",
-    "overview": "<p>A full-width row with an optional icon, a label and an optional badge. The active item gets\nthe pill-shaped active indicator. With <code>href</code> it renders a link, otherwise a button.</p>",
+    "overview": "<p>A full-width row with an optional icon, a label and an optional badge. The active item gets\r\nthe pill-shaped active indicator. With <code>href</code> it renders a link, otherwise a button.</p>",
     "slot": "badge - Trailing content, such as a count. Overrides the `badge` attribute.",
-    "example": "```html\n<wc-navigation-drawer-item active badge=\"24\">\n  <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\n  Inbox\n</wc-navigation-drawer-item>\n```",
+    "example": "```html\r\n<wc-navigation-drawer-item active badge=\"24\">\r\n  <wc-icon slot=\"icon\" name=\"inbox\"></wc-icon>\r\n  Inbox\r\n</wc-navigation-drawer-item>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -6673,7 +6673,7 @@
     "tag": "wc-number-field",
     "rawTag": "number-field",
     "summary": "The Number Field component is used to capture numeric user input.",
-    "example": "```html\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\n```",
+    "example": "```html\r\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7079,10 +7079,10 @@
     "tag": "wc-radio-group",
     "rawTag": "radio-group",
     "summary": "Groups radios under one label, one name and one value.",
-    "overview": "<p>Radio group gives its <code>wc-radio</code> children a shared <code>name</code> (its own, or a\ngenerated one), so only one can be checked. Its <code>value</code> is the value of the checked radio,\nand setting it checks the matching radio.</p>\n<p>The radios stay form-associated, so the group submits once, through the checked radio.</p>",
+    "overview": "<p>Radio group gives its <code>wc-radio</code> children a shared <code>name</code> (its own, or a\r\ngenerated one), so only one can be checked. Its <code>value</code> is the value of the checked radio,\r\nand setting it checks the matching radio.</p>\r\n<p>The radios stay form-associated, so the group submits once, through the checked radio.</p>",
     "fires": "change - Dispatched when the user checks a different radio. The group swallows the radios' own `change` events.",
     "cssprop": "--radio-group-gap - Space between radios. Defaults to `--spacing-100`.",
-    "example": "```html\n<wc-radio-group label=\"Size\" name=\"size\" value=\"md\">\n  <wc-radio value=\"sm\" label=\"Small\"></wc-radio>\n  <wc-radio value=\"md\" label=\"Medium\"></wc-radio>\n  <wc-radio value=\"lg\" label=\"Large\"></wc-radio>\n</wc-radio-group>\n```",
+    "example": "```html\r\n<wc-radio-group label=\"Size\" name=\"size\" value=\"md\">\r\n  <wc-radio value=\"sm\" label=\"Small\"></wc-radio>\r\n  <wc-radio value=\"md\" label=\"Medium\"></wc-radio>\r\n  <wc-radio value=\"lg\" label=\"Large\"></wc-radio>\r\n</wc-radio-group>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -7353,7 +7353,7 @@
     "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>",
     "cssprop": "--segmented-button-disabled-opacity: Opacity when the segment is disabled.",
     "fires": "segmented-button--change - Deprecated alias of `change`, fired alongside it.",
-    "example": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```",
+    "example": "```html\r\n<wc-segmented-button-group>\r\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\r\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\r\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\r\n</wc-segmented-button-group>\r\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -7454,10 +7454,10 @@
     "tag": "wc-segmented-button-group",
     "rawTag": "segmented-button-group",
     "summary": "A container for segmented buttons.",
-    "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>\n<p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>",
+    "overview": "<p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>\r\n<p>Use <code>multi-select</code> to allow more than one segment to be selected at a time. By default only one segment can be active (single-select).</p>",
     "cssprop": "--segmented-button-group-shape: Border-radius of the group container.",
     "fires": "change - Dispatched when the selection changes. Detail contains <code>{ value, values }</code>.",
-    "example": "```html\n<wc-segmented-button-group>\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\n</wc-segmented-button-group>\n```",
+    "example": "```html\r\n<wc-segmented-button-group>\r\n  <wc-segmented-button value=\"day\">Day</wc-segmented-button>\r\n  <wc-segmented-button value=\"week\" selected>Week</wc-segmented-button>\r\n  <wc-segmented-button value=\"month\">Month</wc-segmented-button>\r\n</wc-segmented-button-group>\r\n```",
     "tags": "controls",
     "customElement": {
       "kind": "class",
@@ -7484,7 +7484,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, multiple segments can be selected simultaneously.\nDefaults to single-select mode.",
+          "description": "When true, multiple segments can be selected simultaneously.\r\nDefaults to single-select mode.",
           "fieldName": "multiSelect"
         },
         {
@@ -7493,7 +7493,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true, in single-select mode the currently selected segment can be\ndeselected by clicking it again (allowing an empty selection).\nDefaults to `false`.",
+          "description": "When true, in single-select mode the currently selected segment can be\r\ndeselected by clicking it again (allowing an empty selection).\r\nDefaults to `false`.",
           "fieldName": "nullable"
         }
       ],
@@ -7514,9 +7514,9 @@
     "tag": "wc-select",
     "rawTag": "select",
     "summary": "A dropdown select component supporting single and multi-select with optional typeahead search.",
-    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\n\n- Single and multi-select modes\n- Client-side typeahead with `search=\"contains\"`\n- Server-side typeahead with `search=\"managed\"`\n- Multi-select chips display\n- Form-associated: submits the value under `name` (one entry per value with `multiple`)",
+    "overview": "Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.\r\n\r\n- Single and multi-select modes\r\n- Client-side typeahead with `search=\"contains\"`\r\n- Server-side typeahead with `search=\"managed\"`\r\n- Multi-select chips display\r\n- Form-associated: submits the value under `name` (one entry per value with `multiple`)",
     "fires": "select-search - Dispatched as the user types when `search=\"managed\"`.",
-    "example": "```html\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "example": "```html\r\n<wc-select label=\"Fruit\" placeholder=\"Pick a fruit...\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",
@@ -7544,7 +7544,7 @@
             "text": "SelectOption[]"
           },
           "default": "[]",
-          "description": "Array of options to display in the dropdown.\nSetting this property creates matching `<wc-option>` children automatically.",
+          "description": "Array of options to display in the dropdown.\r\nSetting this property creates matching `<wc-option>` children automatically.",
           "fieldName": "options"
         },
         {
@@ -7571,7 +7571,7 @@
             "text": "'' | 'contains' | 'managed'"
           },
           "default": "''",
-          "description": "Enable typeahead search.\n- `'contains'`: filters options client-side.\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
+          "description": "Enable typeahead search.\r\n- `'contains'`: filters options client-side.\r\n- `'managed'`: emits a `select-search` event for server-controlled filtering.",
           "fieldName": "search"
         },
         {
@@ -7712,7 +7712,7 @@
     "tag": "wc-option",
     "rawTag": "option",
     "summary": "A declarative option element for use inside wc-select.",
-    "example": "```html\n<wc-select label=\"Fruit\">\n  <wc-option value=\"apple\">Apple</wc-option>\n  <wc-option value=\"banana\">Banana</wc-option>\n</wc-select>\n```",
+    "example": "```html\r\n<wc-select label=\"Fruit\">\r\n  <wc-option value=\"apple\">Apple</wc-option>\r\n  <wc-option value=\"banana\">Banana</wc-option>\r\n</wc-select>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -7759,7 +7759,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the menu stays open after selection (used for multi-select).\nSet by wc-select.",
+          "description": "When true the menu stays open after selection (used for multi-select).\r\nSet by wc-select.",
           "fieldName": "keepOpen"
         },
         {
@@ -7768,7 +7768,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "When true the option is hidden and excluded from keyboard navigation\nbecause it does not match the current typeahead search query.\nSet by wc-select.",
+          "description": "When true the option is hidden and excluded from keyboard navigation\r\nbecause it does not match the current typeahead search query.\r\nSet by wc-select.",
           "fieldName": "filtered"
         }
       ],
@@ -7789,7 +7789,7 @@
     "tag": "wc-sidebar-menu",
     "rawTag": "sidebar-menu",
     "summary": "A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.",
-    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child 1\"></wc-sidebar-menu-item>\r\n    <wc-sidebar-menu-item label=\"Child 2\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7822,7 +7822,7 @@
     "tag": "wc-sidebar-menu-item",
     "rawTag": "sidebar-menu-item",
     "summary": "A sidebar menu item represents a selectable leaf item in the sidebar navigation tree.",
-    "example": "```html\n<wc-sidebar-menu>\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n  </wc-sidebar-sub-menu>\n</wc-sidebar-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-menu>\r\n  <wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n    <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n  </wc-sidebar-sub-menu>\r\n</wc-sidebar-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -7918,7 +7918,7 @@
     "tag": "wc-sidebar-sub-menu",
     "rawTag": "sidebar-sub-menu",
     "summary": "A sidebar sub menu groups sidebar menu items and handles expand/collapse behavior.",
-    "example": "```html\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\n</wc-sidebar-sub-menu>\n```",
+    "example": "```html\r\n<wc-sidebar-sub-menu label=\"Parent\" expanded>\r\n  <wc-sidebar-menu-item label=\"Child\"></wc-sidebar-menu-item>\r\n</wc-sidebar-sub-menu>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -8109,9 +8109,9 @@
     "tag": "wc-slider",
     "rawTag": "slider",
     "summary": "Sliders allow users to make selections from a range of values.",
-    "overview": "<p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,\nand <code>form.reset()</code> restores the starting value.</p>",
+    "overview": "<p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,\r\nand <code>form.reset()</code> restores the starting value.</p>",
     "fires": "change - Dispatched when the slider interaction ends.",
-    "example": "```html\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\n```",
+    "example": "```html\r\n<wc-slider min=\"0\" max=\"100\" value=\"50\"></wc-slider>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -8232,7 +8232,7 @@
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
     "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
+    "example": "```html\r\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\r\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -8629,10 +8629,10 @@
     "tag": "wc-switch",
     "rawTag": "switch",
     "summary": "Captures boolean input with an on/off switch interaction.",
-    "overview": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>\n<p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
+    "overview": "<p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>\r\n<p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>",
     "cssprop": "--switch-handle-color: Color of the switch handle.",
     "fires": "focus - Dispatched when the switch receives focus.",
-    "example": "```html\n<wc-switch checked label=\"Wi-Fi\"></wc-switch>\n```",
+    "example": "```html\r\n<wc-switch checked label=\"Wi-Fi\"></wc-switch>\r\n```",
     "tags": "input, form",
     "customElement": {
       "kind": "class",
@@ -9150,7 +9150,7 @@
     "summary": "Container for tab components.",
     "overview": "<p>Tabs holds the tab buttons and manages their layout.</p>",
     "fires": "tab-click - Deprecated alias of `change`, fired alongside it.",
-    "example": "```html\n<wc-tabs>\n  <wc-tab active>Tab 1</wc-tab>\n  <wc-tab>Tab 2</wc-tab>\n</wc-tabs>\n```",
+    "example": "```html\r\n<wc-tabs>\r\n  <wc-tab active>Tab 1</wc-tab>\r\n  <wc-tab>Tab 2</wc-tab>\r\n</wc-tabs>\r\n```",
     "tags": "navigation",
     "customElement": {
       "kind": "class",
@@ -9208,7 +9208,7 @@
     "summary": "Tag component for displaying labels or values with optional dismiss functionality.",
     "tags": "display",
     "fires": "tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.",
-    "example": "```html\n<wc-tag color=\"red\">Tag</wc-tag>\n```",
+    "example": "```html\r\n<wc-tag color=\"red\">Tag</wc-tag>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -9249,7 +9249,7 @@
         {
           "name": "color",
           "type": {
-            "text": "| 'default'\n    | 'blue'\n    | 'green'\n    | 'red'\n    | 'yellow' | undefined"
+            "text": "| 'default'\r\n    | 'blue'\r\n    | 'green'\r\n    | 'red'\r\n    | 'yellow' | undefined"
           },
           "default": "'default'",
           "description": "Tag color.",
@@ -9286,7 +9286,7 @@
     "rawTag": "textarea",
     "summary": "The Textarea component is used to capture user input.",
     "tags": "input",
-    "example": "```html\n<wc-textarea label=\"Description\" placeholder=\"Enter text\"></wc-textarea>\n```",
+    "example": "```html\r\n<wc-textarea label=\"Description\" placeholder=\"Enter text\"></wc-textarea>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -9474,7 +9474,7 @@
     "tag": "wc-timeline",
     "rawTag": "timeline",
     "summary": "A vertical timeline layout for a series of timeline items.",
-    "example": "```html\n<wc-timeline>\n  <wc-timeline-item description=\"Task completed\">\n    <span>Task title</span>\n    <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\n  </wc-timeline-item>\n</wc-timeline>\n```",
+    "example": "```html\r\n<wc-timeline>\r\n  <wc-timeline-item description=\"Task completed\">\r\n    <span>Task title</span>\r\n    <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\r\n  </wc-timeline-item>\r\n</wc-timeline>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -9496,7 +9496,7 @@
     "tag": "wc-timeline-item",
     "rawTag": "timeline-item",
     "summary": "An item for use inside a timeline, with a dot/marker and description.",
-    "example": "```html\n<wc-timeline-item description=\"Step completed\">\n  <span>Step title</span>\n  <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\n</wc-timeline-item>\n```",
+    "example": "```html\r\n<wc-timeline-item description=\"Step completed\">\r\n  <span>Step title</span>\r\n  <wc-icon slot=\"dot\" name=\"check\"></wc-icon>\r\n</wc-timeline-item>\r\n```",
     "tags": "display",
     "customElement": {
       "kind": "class",
@@ -9529,7 +9529,7 @@
     "rawTag": "time-picker",
     "summary": "The Time Picker component is used to capture time user input.",
     "tags": "input",
-    "example": "```html\n<wc-time-picker label=\"Time\" placeholder=\"Select a time\"></wc-time-picker>\n```",
+    "example": "```html\r\n<wc-time-picker label=\"Time\" placeholder=\"Select a time\"></wc-time-picker>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -9709,9 +9709,9 @@
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
     "summary": "A toolbar / app bar for navigation and actions.",
-    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\n\n<p>Render toolbar actions directly as children of the component. The docked variant is\noptimized for a horizontal action row, while the floating variant supports both horizontal\nand vertical layouts.</p>",
+    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\r\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\r\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\r\n\r\n<p>Render toolbar actions directly as children of the component. The docked variant is\r\noptimized for a horizontal action row, while the floating variant supports both horizontal\r\nand vertical layouts.</p>",
     "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
-    "example": "```html\n<!-- Floating vertical toolbar -->\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
+    "example": "```html\r\n<!-- Floating vertical toolbar -->\r\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\r\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\r\n</wc-toolbar>\r\n```",
     "tags": "display navigation",
     "customElement": {
       "kind": "class",
@@ -9757,7 +9757,7 @@
             "text": "'docked' | 'floating'"
           },
           "default": "'docked'",
-          "description": "Visual and layout variant of the toolbar.\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "description": "Visual and layout variant of the toolbar.\r\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\r\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
           "fieldName": "variant"
         },
         {
@@ -9766,7 +9766,7 @@
             "text": "'horizontal' | 'vertical'"
           },
           "default": "'horizontal'",
-          "description": "Orientation of the toolbar content.\n- `\"horizontal\"`: Items are laid out left to right (default).\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "description": "Orientation of the toolbar content.\r\n- `\"horizontal\"`: Items are laid out left to right (default).\r\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
           "fieldName": "orientation"
         },
         {
@@ -9775,7 +9775,7 @@
             "text": "Size | LegacySize"
           },
           "default": "'sm'",
-          "description": "Size of the docked toolbar.\n- `\"sm\"`: 80dp height (default).\n- `\"md\"`: 96dp height.\n- `\"lg\"`: 112dp height.\n\nThe long names `\"small\"`, `\"medium\"` and `\"large\"` still work but are deprecated.",
+          "description": "Size of the docked toolbar.\r\n- `\"sm\"`: 80dp height (default).\r\n- `\"md\"`: 96dp height.\r\n- `\"lg\"`: 112dp height.\r\n\r\nThe long names `\"small\"`, `\"medium\"` and `\"large\"` still work but are deprecated.",
           "fieldName": "size",
           "expandedType": {
             "text": "'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large'"
@@ -9882,7 +9882,7 @@
     "rawTag": "url-field",
     "summary": "A field for entering and displaying URLs with validation.",
     "overview": "<p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.</p>",
-    "example": "```html\n<wc-url-field label=\"Website\" value=\"https://example.com\"></wc-url-field>\n```",
+    "example": "```html\r\n<wc-url-field label=\"Website\" value=\"https://example.com\"></wc-url-field>\r\n```",
     "tags": "form",
     "customElement": {
       "kind": "class",

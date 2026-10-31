@@ -7,6 +7,9 @@ declare const Chip_base: import("../../__internal/mixins/mixin.js").MixinReturn<
  * @summary Chip component for displaying compact information with optional actions.
  * @tags display
  *
+ * @fires {CustomEvent} dismiss - Dispatched when the dismiss button of a `dismissible` chip is clicked.
+ * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-chip>Chip content</wc-chip>

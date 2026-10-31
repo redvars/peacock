@@ -73,6 +73,14 @@ let SegmentedButtonGroup = class SegmentedButtonGroup extends i$1 {
          * Defaults to `false`.
          */
         this.nullable = false;
+        /**
+         * Swallows a segment's own `change` on the way down (capture phase), so listeners on the group
+         * and above see only the group's `change`, one per selection.
+         */
+        this._stopSegmentChange = (ev) => {
+            if (ev.target !== this)
+                ev.stopPropagation();
+        };
         this._onSegmentChange = (ev) => {
             ev.stopPropagation();
             const target = ev.composedPath()[0];
@@ -106,10 +114,14 @@ let SegmentedButtonGroup = class SegmentedButtonGroup extends i$1 {
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener('segmented-button--change', this._onSegmentChange);
+        this.addEventListener('change', this._stopSegmentChange, { capture: true });
     }
     disconnectedCallback() {
         super.disconnectedCallback();
         this.removeEventListener('segmented-button--change', this._onSegmentChange);
+        this.removeEventListener('change', this._stopSegmentChange, {
+            capture: true,
+        });
     }
     _getSegments() {
         return Array.from(this.querySelectorAll('wc-segmented-button'));

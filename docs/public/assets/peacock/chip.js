@@ -11,7 +11,8 @@ import { t as throttle } from './throttle-C7ZAPqtu.js';
 import { s as spread } from './spread-B5cgadZl.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
 import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinDelegatesAria, a as mixinElementInternals } from './element-internals-2CMts_0M.js';
+import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -267,6 +268,9 @@ var css_248z = i`.tag {
  * @summary Chip component for displaying compact information with optional actions.
  * @tags display
  *
+ * @fires {CustomEvent} dismiss - Dispatched when the dismiss button of a `dismissible` chip is clicked.
+ * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
+ *
  * @example
  * ```html
  * <wc-chip>Chip content</wc-chip>
@@ -340,11 +344,9 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
     }
     _dismissClickHandler(e) {
         e.stopPropagation();
-        // Custom Event: tag--dismiss
-        this.dispatchEvent(new CustomEvent('tag--dismiss', {
-            bubbles: true,
-            composed: true,
-        }));
+        this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true, composed: true }));
+        // Deprecated: kept for listeners written before `dismiss`.
+        this.dispatchEvent(new CustomEvent('tag--dismiss', { bubbles: true, composed: true }));
     }
     _renderCloseButton() {
         if (!this.dismissible)

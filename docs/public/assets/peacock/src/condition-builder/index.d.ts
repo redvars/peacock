@@ -1,5 +1,5 @@
 export { ConditionBuilder } from './condition-builder.js';
-export { CbPredicate } from './cb-predicate.js';
-export { CbCompoundExpression } from './cb-compound-expression.js';
-export { CbExpression } from './cb-expression.js';
+export { CbGroup } from './cb-group.js';
+export { CbRule } from './cb-rule.js';
 export { CbDivider } from './cb-divider.js';
+export type { CbOperator, CbRuleMoveDetail, CbRuleRemoveDetail, } from './cb-types.js';

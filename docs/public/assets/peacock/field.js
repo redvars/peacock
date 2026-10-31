@@ -1,8 +1,10 @@
 import { i, a as i$1, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { e } from './class-map-DG7CA1et.js';
+import { e } from './query-CHb9Ft_d.js';
+import { e as e$1 } from './class-map-DG7CA1et.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
+import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -99,12 +101,14 @@ var css_248z = i`* {
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0;
   min-height: var(--field-height, 3.5rem);
   padding-block: var(--field-padding-block);
   z-index: 1;
 }
 .field .field-body .field-content .input-wrapper {
   flex: 1;
+  min-width: 0;
   padding-inline: var(--spacing-200);
   position: relative;
 }
@@ -170,6 +174,31 @@ var css_248z = i`* {
   letter-spacing: var(--typography-body-large-letter-spacing) !important;
   color: var(--_helper-text-color);
   opacity: var(--_helper-text-opacity);
+}
+.field.variant-filled {
+  --_container-color: var(
+    --field-container-color,
+    var(--color-surface-container-highest)
+  );
+  --_outline-color: var(
+    --field-active-indicator-color,
+    var(--color-on-surface-variant)
+  );
+  --_outline-width: 0.0625rem;
+  --_container-shape-end-start: var(
+    --field-container-shape-end-start,
+    var(--shape-corner-none)
+  );
+  --_container-shape-end-end: var(
+    --field-container-shape-end-end,
+    var(--shape-corner-none)
+  );
+}
+.field.variant-filled .field-body .outline {
+  border-width: 0 0 var(--_outline-width);
+}
+.field.variant-filled:not(.disabled, .readonly, .focused, .has-error, .has-warning) .field-body:hover {
+  --_outline-color: var(--color-on-surface);
 }
 .field.focused {
   --_outline-color: var(--color-primary);
@@ -359,7 +388,7 @@ let Field = class Field extends i$1 {
             populated: this.populated,
         };
         return b `
-      <div class=${e(classes)}>
+      <div class=${e$1(classes)}>
         ${this.__renderFieldHeader()}
 
         <div class="field-body" @click=${this.__handleClick}>
@@ -369,7 +398,7 @@ let Field = class Field extends i$1 {
 
           <div class="field-content">
             <div
-              class=${e({
+              class=${e$1({
             'slot-start-wrapper': true,
             'has-content': this.slotStartHasContent,
         })}
@@ -380,7 +409,7 @@ let Field = class Field extends i$1 {
             <div class="input-wrapper">${this.__renderInputSlot()}</div>
 
             <div
-              class=${e({
+              class=${e$1({
             'slot-end-wrapper': true,
             'has-content': this.slotEndHasContent,
         })}
@@ -454,6 +483,9 @@ __decorate([
 __decorate([
     r()
 ], Field.prototype, "slotEndHasContent", void 0);
+__decorate([
+    e('.field-body')
+], Field.prototype, "fieldBodyElement", void 0);
 Field = __decorate([
     IndividualComponent
 ], Field);

@@ -1,7 +1,8 @@
 import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { e as e$1 } from './base-Cl6v8-BZ.js';
-import { m as mixinDelegatesAria, a as mixinElementInternals } from './element-internals-2CMts_0M.js';
+import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import { h as hasMeaningfulContent } from './observe-slot-change-DPxaZrZF.js';
 
 /**
