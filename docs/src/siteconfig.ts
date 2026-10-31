@@ -28,5 +28,5 @@ export const AUTHOR = {
   name: 'Redvars',
   email: 'hello@redvars.com',
   url: 'https://redvars.com',
-  twitter: 'red_vars',
+  twitter: 'redvarsHQ',
 };
