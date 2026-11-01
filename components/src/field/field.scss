@@ -235,13 +235,15 @@
     cursor: not-allowed;
   }
 
-  &.readonly {
+  // A value to read, not a control switched off: the text, label and helper stay at full
+  // contrast, in a faint box with a lighter outline (full again on focus).
+  &.readonly:not(.disabled) {
     cursor: initial;
-    --_input-text-color: var(--color-on-surface-variant);
-    --_outline-opacity: 0.38;
-    --_helper-text-opacity: 0.38;
-    --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.38;
+    --_container-color: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+
+    &:not(.focused) {
+      --_outline-opacity: 0.38;
+    }
   }
 
   &.show-skeleton {
