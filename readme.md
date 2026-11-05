@@ -44,9 +44,9 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.13.0/dist/assets/styles.css"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.14.0/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.13.0/dist/loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.14.0/dist/loader.js'></script>
 </head>
 
 <wc-button>Button</wc-button>
@@ -61,6 +61,8 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
 ```
 
 To keep icons somewhere else, call `setIconBase('material-symbols', '/my/icons/')` before the first icon renders; the folder holds one `<name>.svg` per icon.
+
+`wc-code-editor` stays on the origin too: Monaco is bundled in the package and loaded when the first editor appears, and its language workers are `dist/monaco/*.worker.js`, which the page loads from beside the component. Serve the whole `dist/` folder.
 
 # Components
 

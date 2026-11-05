@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "components-wds",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "components/node_modules/@web/dev-server/dist/bin.js",
+        "--root-dir", "components",
+        "--node-resolve",
+        "--port", "8765"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "docs", "run", "start"],
+      "port": 4000
+    }
+  ]
+}

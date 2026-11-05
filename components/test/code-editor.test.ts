@@ -7,8 +7,8 @@ import { Icon } from '../src/icon/index.js';
 import { IconButton } from '../src/button/index.js';
 import { Tag } from '../src/chip/tag/index.js';
 
-// Monaco loads its editor core from a CDN; these tests cover the component
-// shell around it.
+// Monaco is a large chunk with workers, which the test server does not build;
+// these tests cover the component shell around it.
 CodeEditor.prototype.initializeMonaco = async function initializeMonaco() {};
 
 for (const [tag, element] of [
@@ -59,6 +59,31 @@ describe('CodeEditor', () => {
       html`<wc-code-editor readonly show-readonly-badge></wc-code-editor>`,
     );
     expect(badged.shadowRoot!.querySelector('.read-only-tag')).to.exist;
+  });
+
+  it('accepts typescript as a language', async () => {
+    const el = await fixture<CodeEditor>(html`<wc-code-editor language="typescript"></wc-code-editor>`);
+    expect(el.language).to.equal('typescript');
+  });
+
+  it('takes its container\'s height with fill, without a field around it', async () => {
+    const el = await fixture<CodeEditor>(html`<div style="height: 240px"><wc-code-editor fill></wc-code-editor></div>`);
+    const editor = el.querySelector('wc-code-editor') as CodeEditor;
+    await editor.updateComplete;
+    expect(editor.hasAttribute('fill')).to.equal(true);
+    expect(editor.shadowRoot!.querySelector('wc-field')).to.not.exist;
+    const pane = editor.shadowRoot!.querySelector('.editor') as HTMLElement;
+    expect(pane.getBoundingClientRect().height).to.equal(240);
+  });
+
+  it('keeps breakpoints, the current line and markers as given', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor breakpoint-gutter current-line="3" .breakpoints=${[1, 3]} .markers=${[{ line: 2, message: 'Nope' }]}></wc-code-editor>`,
+    );
+    expect(el.breakpointGutter).to.equal(true);
+    expect(el.currentLine).to.equal(3);
+    expect(el.breakpoints).to.deep.equal([1, 3]);
+    expect(el.markers[0].message).to.equal('Nope');
   });
 
   it('does not dim the field when read-only', async () => {

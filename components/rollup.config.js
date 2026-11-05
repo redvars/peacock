@@ -83,6 +83,21 @@ export default async function () {
         }),
       ],
     },
+    {
+      // Monaco's language workers for wc-code-editor, served beside it from this origin: modules a
+      // page's content security policy allows, unlike workers from a CDN or a blob.
+      input: {
+        'editor.worker': 'node_modules/monaco-editor/esm/vs/editor/editor.worker.js',
+        'ts.worker': 'node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js',
+        'json.worker': 'node_modules/monaco-editor/esm/vs/language/json/json.worker.js',
+      },
+      output: {
+        dir: 'dist/monaco',
+        format: 'esm',
+        chunkFileNames: 'chunks/[name]-[hash].js',
+      },
+      plugins: [nodeResolve(), commonjs(), postcss({ inject: false })],
+    },
   ];
 }
 
