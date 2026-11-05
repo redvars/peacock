@@ -1,0 +1,92 @@
+@charset "utf-8";
+@use '../mixin';
+
+// The page frame shared by the blog and the blocks pages: the same column,
+// header and pager as the Foundations pages (styles/pages/foundations.scss).
+
+.doc-page {
+  max-width: 72rem;
+  padding: var(--spacing-400) var(--spacing-200) var(--spacing-600);
+  color: var(--color-on-surface);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-600) var(--spacing-500) var(--spacing-800);
+  }
+
+  a:not([class]) {
+    color: var(--color-primary);
+  }
+
+  wc-code-highlighter {
+    contain: inline-size;
+  }
+}
+
+.doc-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin-block-end: var(--spacing-600);
+
+  h1 {
+    margin: 0;
+  }
+
+  p {
+    max-width: 48rem;
+    margin: 0;
+  }
+}
+
+.doc-eyebrow {
+  color: var(--color-primary);
+  text-decoration: none;
+  align-self: flex-start;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.doc-muted {
+  color: var(--color-on-surface-variant);
+}
+
+.doc-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  margin-block-end: var(--spacing-600);
+
+  > h2 {
+    margin: 0;
+  }
+}
+
+.doc-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin-block-start: var(--spacing-800);
+}
+
+.doc-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  flex: 1 1 12rem;
+  padding: var(--spacing-200) var(--spacing-300);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  color: var(--color-on-surface);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-surface-container);
+  }
+}
+
+.doc-pager-next {
+  text-align: end;
+}

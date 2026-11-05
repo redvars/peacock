@@ -1,25 +1,56 @@
 ---
 import Layout from './WithSidebar.astro';
 import Footer from '../components/Footer.astro';
+import { BLOCKS, BLOCKS_OVERVIEW } from '../_data/blocks';
+import '../styles/layout/doc-page.scss';
+import '../styles/pages/blocks.scss';
 
 interface Props {
   title: string;
-  description?: string;
+  description: string;
 }
 const { title, description } = Astro.props;
 
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isOverview = pathname === BLOCKS_OVERVIEW.href;
+
 const sidebarItems = [
-  { label: 'Blocks Overview', href: '/blocks/' },
-  { label: 'Dashboard', href: '/blocks/dashboard/' },
-  { label: 'Login', href: '/blocks/login/' },
+  { label: BLOCKS_OVERVIEW.label, href: BLOCKS_OVERVIEW.href },
+  ...BLOCKS.map(block => ({ label: block.label, href: block.href })),
 ];
+
+const index = BLOCKS.findIndex(block => block.href === pathname);
+const previous = index > 0 ? BLOCKS[index - 1] : undefined;
+const next = index >= 0 ? BLOCKS[index + 1] : undefined;
 ---
 
-<Layout title={title} description={description} sidebarItems={sidebarItems}>
-  <div class='with-components-sidebar-layout'>
+<Layout title={isOverview ? title : `${title} · Blocks`} description={description} sidebarItems={sidebarItems}>
+  <article class='doc-page blocks-page'>
+    <header class='doc-header'>
+      {!isOverview && <a class='text-label-large doc-eyebrow' href={BLOCKS_OVERVIEW.href}>Blocks</a>}
+      <h1 class='text-display-small'>{title}</h1>
+      <p class='text-body-large doc-muted'>{description}</p>
+    </header>
+
     <slot />
-    <div class='footer'>
-      <Footer />
-    </div>
-  </div>
+
+    {(previous || next) && (
+      <nav class='doc-pager' aria-label='Blocks'>
+        {previous && (
+          <a class='doc-pager-link' href={previous.href} rel='prev'>
+            <span class='text-label-medium doc-muted'>Previous</span>
+            <span class='text-title-medium'>{previous.label}</span>
+          </a>
+        )}
+        {next && (
+          <a class='doc-pager-link doc-pager-next' href={next.href} rel='next'>
+            <span class='text-label-medium doc-muted'>Next</span>
+            <span class='text-title-medium'>{next.label}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+
+  <Footer />
 </Layout>

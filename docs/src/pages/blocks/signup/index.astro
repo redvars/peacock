@@ -1,0 +1,45 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/auth.scss';
+---
+
+<Layout
+  title='Sign up'
+  description='A centered registration form built from Peacock components: name, email and password inputs, a terms checkbox, a primary create-account action and a link back to sign in.'
+>
+  <div class='block-demo block-demo-centered'>
+    <wc-card class='auth-card'>
+      <wc-card-content class='auth-card-inner'>
+        <div class='auth-brand'>
+          <wc-icon name='person_add'></wc-icon>
+          <h2 class='text-headline-small'>Create your account</h2>
+          <p class='text-body-medium block-muted'>It takes less than a minute.</p>
+        </div>
+
+        <div class='auth-fields'>
+          <wc-input label='Full name' placeholder='Jane Doe' autocomplete='on' required></wc-input>
+          <wc-input type='email' label='Email address' placeholder='you@example.com' required></wc-input>
+          <wc-input
+            type='password'
+            label='Password'
+            placeholder='Create a password'
+            helper-text='At least 12 characters.'
+            required
+          ></wc-input>
+        </div>
+
+        <wc-checkbox label='I agree to the terms of service and privacy policy' required></wc-checkbox>
+
+        <div class='auth-actions'>
+          <wc-button level='primary' block>Create account</wc-button>
+          <wc-divider>or</wc-divider>
+          <wc-button variant='outlined' block>Sign up with Google</wc-button>
+        </div>
+
+        <p class='text-body-medium auth-footer'>
+          Already have an account? <wc-link href='/blocks/login/'>Sign in</wc-link>
+        </p>
+      </wc-card-content>
+    </wc-card>
+  </div>
+</Layout>

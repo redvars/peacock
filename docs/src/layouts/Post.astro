@@ -1,49 +1,67 @@
 ---
+import Layout from './WithSidebar.astro';
+import Footer from '../components/Footer.astro';
 import { AUTHOR } from '../siteconfig';
-import Layout from './Default.astro';
+import { formatPostDate, getPosts } from '../_data/blog';
+import '../styles/layout/doc-page.scss';
+import '../styles/pages/blog.scss';
+
 interface Props {
-  title: any;
+  title: string;
   description: string;
+  publishedDate: string;
+  author?: string;
+  tags?: string[];
 }
 
-const {title, description} = Astro.props;
+const { title, description, publishedDate, author = AUTHOR.name, tags = [] } = Astro.props;
+
+const posts = getPosts();
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const index = posts.findIndex(post => post.href === pathname);
+// Posts are newest first: "previous" is the older post, "next" the newer one.
+const older = index >= 0 ? posts[index + 1] : undefined;
+const newer = index > 0 ? posts[index - 1] : undefined;
+
+const sidebarItems = [{ label: 'All posts', href: '/blog/' }, ...posts.map(post => ({ label: post.title, href: post.href }))];
 ---
-<Layout title={title} description={description}  classes='surface'>
-<div class='main-content'>
 
-  <wc-container class='page-container'>
-    <div class='post-header'>
-      <wc-breadcrumb>
-        <wc-breadcrumb-item href="/">Home</wc-breadcrumb-item>
-        <wc-breadcrumb-item href="/blog">Blog</wc-breadcrumb-item>
-        <wc-breadcrumb-item active>{title}</wc-breadcrumb-item>
-      </wc-breadcrumb>
+<Layout title={`${title} · Blog`} description={description} sidebarItems={sidebarItems}>
+  <article class='doc-page'>
+    <header class='doc-header'>
+      <a class='text-label-large doc-eyebrow' href='/blog/'>Blog</a>
+      <h1 class='text-display-small'>{title}</h1>
+      <div class='post-meta text-body-medium'>
+        <time datetime={publishedDate}>{formatPostDate(publishedDate)}</time>
+        <span aria-hidden='true'>·</span>
+        <span>{author}</span>
+      </div>
+      {tags.length > 0 && (
+        <div class='post-tags'>
+          {tags.map(tag => <wc-tag size='sm'>{tag}</wc-tag>)}
+        </div>
+      )}
+    </header>
 
-      <pc-text type='heading' heading-size='6'>{title}</pc-text>
+    <div class='post-body text-body-large'>
+      <slot />
     </div>
 
+    <nav class='doc-pager' aria-label='Blog posts'>
+      {older && (
+        <a class='doc-pager-link' href={older.href} rel='prev'>
+          <span class='text-label-medium doc-muted'>Older post</span>
+          <span class='text-title-medium'>{older.title}</span>
+        </a>
+      )}
+      {newer && (
+        <a class='doc-pager-link doc-pager-next' href={newer.href} rel='next'>
+          <span class='text-label-medium doc-muted'>Newer post</span>
+          <span class='text-title-medium'>{newer.title}</span>
+        </a>
+      )}
+    </nav>
+  </article>
 
-    <div class='post-body'>
-
-      <div class='post'>
-        <slot/>
-      </div>
-
-      <div class='side-panel'>
-
-      </div>
-    </div>
-  </wc-container>
-  <wc-container>
-    <div class='footer container'>
-      <pc-divider></pc-divider>
-      <div class='footer-content'>
-        <pc-text class='legal' type='legal' expressive>
-          &copy; {new Date().getFullYear()} <goat-link href={AUTHOR.url}>{AUTHOR.name}</goat-link>. All Rights Reserved.
-        </pc-text>
-      </div>
-    </div>
-  </wc-container>
-
-</div>
+  <Footer />
 </Layout>

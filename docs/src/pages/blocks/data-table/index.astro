@@ -1,0 +1,103 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/data-table.scss';
+
+interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  plan: 'Free' | 'Pro' | 'Team';
+  status: 'Active' | 'Trial' | 'Past due';
+  joined: string;
+}
+
+const customers: Customer[] = [
+  { id: 'c-01', name: 'Alice Liu', email: 'alice@example.com', plan: 'Team', status: 'Active', joined: '2026-01-14' },
+  { id: 'c-02', name: 'Marcus Reid', email: 'marcus@example.com', plan: 'Pro', status: 'Trial', joined: '2026-10-30' },
+  { id: 'c-03', name: 'Sara Okoye', email: 'sara@example.com', plan: 'Pro', status: 'Past due', joined: '2025-11-02' },
+  { id: 'c-04', name: 'Diego Alvarez', email: 'diego@example.com', plan: 'Free', status: 'Active', joined: '2026-06-21' },
+  { id: 'c-05', name: 'Priya Nair', email: 'priya@example.com', plan: 'Team', status: 'Active', joined: '2024-03-09' },
+  { id: 'c-06', name: 'Tom Becker', email: 'tom@example.com', plan: 'Free', status: 'Trial', joined: '2026-11-01' },
+  { id: 'c-07', name: 'Yuki Tanaka', email: 'yuki@example.com', plan: 'Pro', status: 'Active', joined: '2025-08-17' },
+  { id: 'c-08', name: 'Amara Diallo', email: 'amara@example.com', plan: 'Team', status: 'Active', joined: '2025-02-28' },
+  { id: 'c-09', name: 'Lena Fischer', email: 'lena@example.com', plan: 'Pro', status: 'Past due', joined: '2024-12-05' },
+  { id: 'c-10', name: 'Omar Haddad', email: 'omar@example.com', plan: 'Free', status: 'Active', joined: '2026-04-11' },
+  { id: 'c-11', name: 'Grace Kim', email: 'grace@example.com', plan: 'Team', status: 'Trial', joined: '2026-10-19' },
+  { id: 'c-12', name: 'Rafael Costa', email: 'rafael@example.com', plan: 'Pro', status: 'Active', joined: '2025-05-23' },
+];
+---
+
+<Layout
+  title='Data table'
+  description='A searchable list of records built from Peacock components: a toolbar with search and actions, a table with row selection, status tags and pagination, and an empty state for when nothing matches.'
+>
+  <div class='block-demo table-shell'>
+    <div class='table-toolbar'>
+      <div>
+        <h2 class='text-headline-small'>Customers</h2>
+        <p class='text-body-medium block-muted' id='customer-count'>{customers.length} customers</p>
+      </div>
+      <div class='table-toolbar-actions'>
+        <wc-search id='customer-search' class='table-search' placeholder='Search customers' clearable></wc-search>
+        <wc-button variant='outlined'>Export</wc-button>
+        <wc-button level='primary'>Add customer</wc-button>
+      </div>
+    </div>
+
+    <wc-table
+      id='customer-table'
+      class='customer-table'
+      key-field='id'
+      selection-type='checkbox'
+      sortable
+      paginate
+      page-size='10'
+      empty-state-headline='No customers found'
+      empty-state-description='Try a different name or email.'
+    ></wc-table>
+  </div>
+
+  <section class='doc-section table-empty-section' aria-labelledby='empty-title'>
+    <h2 class='text-headline-small' id='empty-title'>Empty state</h2>
+    <p class='text-body-large doc-muted'>Before the first record exists, show what the list is for and how to start it.</p>
+    <div class='block-demo table-empty'>
+      <wc-empty-state
+        illustration='no-document'
+        headline='No customers yet'
+        description='Customers you add or import will appear here.'
+      ></wc-empty-state>
+      <wc-button level='primary'>Add customer</wc-button>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ customers }}>
+    const STATUS_COLORS = { Active: 'green', Trial: 'blue', 'Past due': 'red' };
+    const $table = document.getElementById('customer-table');
+    const $search = document.getElementById('customer-search');
+    const $count = document.getElementById('customer-count');
+
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 12 },
+      { name: 'email', label: 'Email', width: 16 },
+      { name: 'plan', label: 'Plan', width: 8 },
+      {
+        name: 'status',
+        label: 'Status',
+        width: 8,
+        template: row => `<wc-tag size='sm' color='${STATUS_COLORS[row.status]}'>${row.status}</wc-tag>`,
+      },
+      { name: 'joined', label: 'Joined', width: 9 },
+    ];
+    $table.data = customers;
+
+    $search.addEventListener('input', event => {
+      const query = (event.detail?.value ?? '').trim().toLowerCase();
+      const rows = query
+        ? customers.filter(c => c.name.toLowerCase().includes(query) || c.email.toLowerCase().includes(query))
+        : customers;
+      $table.page = 1;
+      $table.data = rows;
+      $count.textContent = `${rows.length} ${rows.length === 1 ? 'customer' : 'customers'}`;
+    });
+  </script>
+</Layout>
