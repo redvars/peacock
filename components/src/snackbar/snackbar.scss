@@ -27,19 +27,33 @@
 }
 
 :host {
-  display: flex;
-  inset-block-end: calc(var(--snackbar-offset-bottom, 1rem) + env(safe-area-inset-bottom, 0px));
-  inset-inline: var(--snackbar-offset-inline, 1rem);
-  justify-content: center;
-  pointer-events: none;
-  position: fixed;
-  z-index: var(--snackbar-z-index, 1000);
+  display: contents;
 
   --snackbar-container-color: var(--color-inverse-surface);
   --snackbar-label-text-color: var(--color-inverse-on-surface);
   --snackbar-action-text-color: var(--color-inverse-primary);
   --snackbar-close-icon-color: var(--color-inverse-on-surface);
   --snackbar-border-radius: var(--shape-corner-extra-small);
+}
+
+// Fixed to the bottom of the viewport. While open it is a manual popover in the top layer,
+// so these rules also undo the browser's default popover styles.
+.layer {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  display: flex;
+  height: auto;
+  inset: auto var(--snackbar-offset-inline, 1rem)
+    calc(var(--snackbar-offset-bottom, 1rem) + env(safe-area-inset-bottom, 0px));
+  justify-content: center;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  width: auto;
+  z-index: var(--snackbar-z-index, 1000);
 }
 
 .snackbar {
@@ -93,9 +107,12 @@
 }
 
 :host([preview]) {
-  position: relative;
-  inset-inline: unset;
-  inset-block-end: unset;
+  display: flex;
+
+  .layer {
+    position: relative;
+    inset: auto;
+  }
 
   .snackbar {
     display: inline-flex;

@@ -26943,7 +26943,7 @@
               "name": "--snackbar-offset-bottom"
             },
             {
-              "description": "Stacking order for the snackbar.",
+              "description": "Stacking order for the snackbar in browsers without the Popover API.",
               "name": "--snackbar-z-index"
             }
           ],
@@ -27055,6 +27055,15 @@
             },
             {
               "kind": "field",
+              "name": "layer",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private",
+              "description": "The positioned layer that is shown in the top layer as a popover."
+            },
+            {
+              "kind": "field",
               "name": "hideTimer",
               "type": {
                 "text": "ReturnType<typeof setTimeout> | null"
@@ -27142,6 +27151,18 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "syncLayer",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "raise",
+                  "default": "false"
+                }
+              ],
+              "description": "Shows the layer in the top layer while the snackbar is open, and hides it otherwise.\nWith `raise`, an already showing layer is shown again so it moves above newer top-layer elements."
             },
             {
               "kind": "method",

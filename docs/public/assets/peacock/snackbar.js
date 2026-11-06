@@ -1,7 +1,9 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
-import { e } from './class-map-DG7CA1et.js';
+import { e } from './query-CHb9Ft_d.js';
+import { e as e$1 } from './class-map-DG7CA1et.js';
+import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -38,18 +40,29 @@ var css_248z = i`* {
   }
 }
 :host {
-  display: flex;
-  inset-block-end: calc(var(--snackbar-offset-bottom, 1rem) + env(safe-area-inset-bottom, 0px));
-  inset-inline: var(--snackbar-offset-inline, 1rem);
-  justify-content: center;
-  pointer-events: none;
-  position: fixed;
-  z-index: var(--snackbar-z-index, 1000);
+  display: contents;
   --snackbar-container-color: var(--color-inverse-surface);
   --snackbar-label-text-color: var(--color-inverse-on-surface);
   --snackbar-action-text-color: var(--color-inverse-primary);
   --snackbar-close-icon-color: var(--color-inverse-on-surface);
   --snackbar-border-radius: var(--shape-corner-extra-small);
+}
+
+.layer {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  display: flex;
+  height: auto;
+  inset: auto var(--snackbar-offset-inline, 1rem) calc(var(--snackbar-offset-bottom, 1rem) + env(safe-area-inset-bottom, 0px));
+  justify-content: center;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  width: auto;
+  z-index: var(--snackbar-z-index, 1000);
 }
 
 .snackbar {
@@ -106,9 +119,11 @@ var css_248z = i`* {
 }
 
 :host([preview]) {
+  display: flex;
+}
+:host([preview]) .layer {
   position: relative;
-  inset-inline: unset;
-  inset-block-end: unset;
+  inset: auto;
 }
 :host([preview]) .snackbar {
   display: inline-flex;
@@ -122,6 +137,11 @@ var Snackbar_1;
  * @rawTag snackbar
  * @summary Snackbars provide brief messages about app processes at the bottom of the screen.
  *
+ * @overview
+ * <p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky
+ * headers, app bars and open modals whatever their <code>z-index</code>. Opening it again while it is
+ * visible brings it back in front of anything opened since.</p>
+ *
  * @cssprop --snackbar-container-color - Container color for the snackbar.
  * @cssprop --snackbar-label-text-color - Label text color for the snackbar.
  * @cssprop --snackbar-action-text-color - Action text color.
@@ -129,7 +149,7 @@ var Snackbar_1;
  * @cssprop --snackbar-border-radius - Border radius of the snackbar surface.
  * @cssprop --snackbar-offset-inline - Inline offset from viewport edges.
  * @cssprop --snackbar-offset-bottom - Bottom offset from viewport edge.
- * @cssprop --snackbar-z-index - Stacking order for the snackbar.
+ * @cssprop --snackbar-z-index - Stacking order for the snackbar in browsers without the Popover API.
  *
  * @example
  * ```html
@@ -176,9 +196,13 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
         document.removeEventListener(Snackbar_1.GLOBAL_OPEN_EVENT, this.handleGlobalSnackbarOpen);
         this.clearExitTimer();
         this.clearTimer();
+        this.syncLayer();
         super.disconnectedCallback();
     }
     updated(changedProperties) {
+        if (changedProperties.has('open') || changedProperties.has('preview')) {
+            this.syncLayer();
+        }
         if (changedProperties.has('open')) {
             if (this.open) {
                 document.dispatchEvent(new CustomEvent(Snackbar_1.GLOBAL_OPEN_EVENT, {
@@ -196,6 +220,8 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
             this.open = true;
             return;
         }
+        // Already open: move it back to the top of the top layer, above anything opened since.
+        this.syncLayer(true);
         this.scheduleAutoHide();
     }
     hide() {
@@ -252,6 +278,26 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
             this.completeDismiss();
         }
     }
+    /**
+     * Shows the layer in the top layer while the snackbar is open, and hides it otherwise.
+     * With `raise`, an already showing layer is shown again so it moves above newer top-layer elements.
+     */
+    syncLayer(raise = false) {
+        const { layer } = this;
+        if (!layer ||
+            typeof layer.showPopover !== 'function' ||
+            !layer.hasAttribute('popover')) {
+            return;
+        }
+        const shouldShow = this.open && !this.preview && this.isConnected;
+        const showing = layer.matches(':popover-open');
+        if (showing && (!shouldShow || raise)) {
+            layer.hidePopover();
+        }
+        if (shouldShow && (!showing || raise)) {
+            layer.showPopover();
+        }
+    }
     scheduleAutoHide() {
         this.clearTimer();
         if (!this.open || this.duration <= 0) {
@@ -264,39 +310,45 @@ let Snackbar = Snackbar_1 = class Snackbar extends i$1 {
     render() {
         const liveRole = this.actionLabel || this.showCloseIcon ? 'alert' : 'status';
         return b `
-      <div
-        class=${e({
+      <div class="layer" popover=${this.preview ? A : 'manual'}>
+        <div
+          class=${e$1({
             snackbar: true,
             open: !this.preview && this.open,
             preview: this.preview,
             dismissing: this.dismissing,
             multiline: this.multiline,
         })}
-        role=${liveRole}
-        aria-live="polite"
-        @animationend=${this.handleAnimationEnd}
-      >
-        <div class="label">
-          <slot>${this.message}</slot>
-        </div>
+          role=${liveRole}
+          aria-live="polite"
+          @animationend=${this.handleAnimationEnd}
+        >
+          <div class="label">
+            <slot>${this.message}</slot>
+          </div>
 
-        ${this.actionLabel
-            ? b `<wc-button class="action" variant='text' size='sm' @click=${this.handleActionClick}>
-              ${this.actionLabel}
-            </wc-button>`
+          ${this.actionLabel
+            ? b `<wc-button
+                class="action"
+                variant="text"
+                size="sm"
+                @click=${this.handleActionClick}
+              >
+                ${this.actionLabel}
+              </wc-button>`
             : A}
-
-        ${this.showCloseIcon
+          ${this.showCloseIcon
             ? b `<wc-icon-button
-              class="close"
-              variant='text'
-              size='sm'
-              aria-label="Dismiss notification"
-              @click=${this.handleCloseClick}
-            >
-              <wc-icon name="close"></wc-icon>
-            </wc-icon-button>`
+                class="close"
+                variant="text"
+                size="sm"
+                aria-label="Dismiss notification"
+                @click=${this.handleCloseClick}
+              >
+                <wc-icon name="close"></wc-icon>
+              </wc-icon-button>`
             : A}
+        </div>
       </div>
     `;
     }
@@ -328,6 +380,9 @@ __decorate([
 __decorate([
     r()
 ], Snackbar.prototype, "dismissing", void 0);
+__decorate([
+    e('.layer')
+], Snackbar.prototype, "layer", void 0);
 Snackbar = Snackbar_1 = __decorate([
     IndividualComponent
 ], Snackbar);

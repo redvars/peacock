@@ -8324,8 +8324,9 @@
     "tag": "wc-snackbar",
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
-    "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\r\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\r\n```",
+    "overview": "<p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky\nheaders, app bars and open modals whatever their <code>z-index</code>. Opening it again while it is\nvisible brings it back in front of anything opened since.</p>",
+    "cssprop": "--snackbar-z-index - Stacking order for the snackbar in browsers without the Popover API.",
+    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -8360,7 +8361,7 @@
           "name": "--snackbar-offset-bottom"
         },
         {
-          "description": "Stacking order for the snackbar.",
+          "description": "Stacking order for the snackbar in browsers without the Popover API.",
           "name": "--snackbar-z-index"
         }
       ],

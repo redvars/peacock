@@ -1,5 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './snackbar.scss';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -12,6 +12,11 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  * @rawTag snackbar
  * @summary Snackbars provide brief messages about app processes at the bottom of the screen.
  *
+ * @overview
+ * <p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky
+ * headers, app bars and open modals whatever their <code>z-index</code>. Opening it again while it is
+ * visible brings it back in front of anything opened since.</p>
+ *
  * @cssprop --snackbar-container-color - Container color for the snackbar.
  * @cssprop --snackbar-label-text-color - Label text color for the snackbar.
  * @cssprop --snackbar-action-text-color - Action text color.
@@ -19,7 +24,7 @@ type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
  * @cssprop --snackbar-border-radius - Border radius of the snackbar surface.
  * @cssprop --snackbar-offset-inline - Inline offset from viewport edges.
  * @cssprop --snackbar-offset-bottom - Bottom offset from viewport edge.
- * @cssprop --snackbar-z-index - Stacking order for the snackbar.
+ * @cssprop --snackbar-z-index - Stacking order for the snackbar in browsers without the Popover API.
  *
  * @example
  * ```html
@@ -60,6 +65,9 @@ export class Snackbar extends LitElement {
   /** True while the exit animation is running before the snackbar fully closes. */
   @state() private dismissing = false;
 
+  /** The positioned layer that is shown in the top layer as a popover. */
+  @query('.layer') private layer?: HTMLElement;
+
   // ── Private fields ────────────────────────────────────────────────────────
 
   /** Timer handle for the auto-hide timeout. */
@@ -68,9 +76,7 @@ export class Snackbar extends LitElement {
   /** Timer handle for the exit animation duration timeout. */
   private exitTimer: ReturnType<typeof setTimeout> | null = null;
 
-  private readonly handleGlobalSnackbarOpen = (
-    event: Event,
-  ) => {
+  private readonly handleGlobalSnackbarOpen = (event: Event) => {
     const { source } = (event as CustomEvent<{ source?: Snackbar }>).detail;
     if (source && source !== this) {
       this.hide();
@@ -92,10 +98,15 @@ export class Snackbar extends LitElement {
     );
     this.clearExitTimer();
     this.clearTimer();
+    this.syncLayer();
     super.disconnectedCallback();
   }
 
   protected updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has('open') || changedProperties.has('preview')) {
+      this.syncLayer();
+    }
+
     if (changedProperties.has('open')) {
       if (this.open) {
         document.dispatchEvent(
@@ -119,6 +130,8 @@ export class Snackbar extends LitElement {
       return;
     }
 
+    // Already open: move it back to the top of the top layer, above anything opened since.
+    this.syncLayer(true);
     this.scheduleAutoHide();
   }
 
@@ -191,6 +204,30 @@ export class Snackbar extends LitElement {
     }
   }
 
+  /**
+   * Shows the layer in the top layer while the snackbar is open, and hides it otherwise.
+   * With `raise`, an already showing layer is shown again so it moves above newer top-layer elements.
+   */
+  private syncLayer(raise = false) {
+    const { layer } = this;
+    if (
+      !layer ||
+      typeof layer.showPopover !== 'function' ||
+      !layer.hasAttribute('popover')
+    ) {
+      return;
+    }
+
+    const shouldShow = this.open && !this.preview && this.isConnected;
+    const showing = layer.matches(':popover-open');
+    if (showing && (!shouldShow || raise)) {
+      layer.hidePopover();
+    }
+    if (shouldShow && (!showing || raise)) {
+      layer.showPopover();
+    }
+  }
+
   private scheduleAutoHide() {
     this.clearTimer();
     if (!this.open || this.duration <= 0) {
@@ -207,39 +244,45 @@ export class Snackbar extends LitElement {
       this.actionLabel || this.showCloseIcon ? 'alert' : 'status';
 
     return html`
-      <div
-        class=${classMap({
-          snackbar: true,
-          open: !this.preview && this.open,
-          preview: this.preview,
-          dismissing: this.dismissing,
-          multiline: this.multiline,
-        })}
-        role=${liveRole}
-        aria-live="polite"
-        @animationend=${this.handleAnimationEnd}
-      >
-        <div class="label">
-          <slot>${this.message}</slot>
+      <div class="layer" popover=${this.preview ? nothing : 'manual'}>
+        <div
+          class=${classMap({
+            snackbar: true,
+            open: !this.preview && this.open,
+            preview: this.preview,
+            dismissing: this.dismissing,
+            multiline: this.multiline,
+          })}
+          role=${liveRole}
+          aria-live="polite"
+          @animationend=${this.handleAnimationEnd}
+        >
+          <div class="label">
+            <slot>${this.message}</slot>
+          </div>
+
+          ${this.actionLabel
+            ? html`<wc-button
+                class="action"
+                variant="text"
+                size="sm"
+                @click=${this.handleActionClick}
+              >
+                ${this.actionLabel}
+              </wc-button>`
+            : nothing}
+          ${this.showCloseIcon
+            ? html`<wc-icon-button
+                class="close"
+                variant="text"
+                size="sm"
+                aria-label="Dismiss notification"
+                @click=${this.handleCloseClick}
+              >
+                <wc-icon name="close"></wc-icon>
+              </wc-icon-button>`
+            : nothing}
         </div>
-
-        ${this.actionLabel
-          ? html`<wc-button class="action" variant='text' size='sm' @click=${this.handleActionClick}>
-              ${this.actionLabel}
-            </wc-button>`
-          : nothing}
-
-        ${this.showCloseIcon
-          ? html`<wc-icon-button
-              class="close"
-              variant='text'
-              size='sm'
-              aria-label="Dismiss notification"
-              @click=${this.handleCloseClick}
-            >
-              <wc-icon name="close"></wc-icon>
-            </wc-icon-button>`
-          : nothing}
       </div>
     `;
   }
