@@ -4,36 +4,44 @@ export const order = 200;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<h4 class='text-title'>Docked</h4>
+<h4 class='text-title'>Floating</h4>
 <p>
-  The default variant. A full-width bar that sits attached to the bottom edge like a mobile
-  navigation panel. Pair it with <code>elevated</code> to add separation from the content above.
+  The default variant. An elevated pill that floats over content, such as a canvas, a map or a
+  text selection. Add <code>elevated</code> to raise it further.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <div style='width: 100%; overflow: hidden; border-radius: 0.5rem;'>
-    <wc-toolbar elevated>
-      <wc-icon-button variant='text' color="surface"><wc-icon name='home'></wc-icon></wc-icon-button>
-      <wc-icon-button variant='tonal'><wc-icon name='search'></wc-icon></wc-icon-button>
-      <wc-icon-button variant='text' color="surface"><wc-icon name='favorite'></wc-icon></wc-icon-button>
-      <wc-icon-button variant='text' color="surface"><wc-icon name='account_circle'></wc-icon></wc-icon-button>
+  <div style='display: flex; gap: 1.5rem; flex-wrap: wrap;'>
+    <wc-toolbar aria-label='Actions'>
+      <wc-icon-button variant='tonal' aria-label='Add'><wc-icon name='add'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Share'><wc-icon name='share'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Download'><wc-icon name='download'></wc-icon></wc-icon-button>
+    </wc-toolbar>
+
+    <wc-toolbar elevated aria-label='Actions, elevated'>
+      <wc-icon-button variant='tonal' aria-label='Add'><wc-icon name='add'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Share'><wc-icon name='share'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Download'><wc-icon name='download'></wc-icon></wc-icon-button>
     </wc-toolbar>
   </div>
 </DemoComponentCard>
 
 <br />
 
-<h4 class='text-title'>Floating</h4>
+<h4 class='text-title'>Flat</h4>
 <p>
-  A detached pill-shaped toolbar that floats over content. Suitable for persistent actions in
-  full-bleed layouts such as maps or canvases.
+  Set <code>variant="flat"</code> to drop the container, fill and elevation, so the toolbar takes
+  on the surface it sits on. Use it inside existing chrome, such as a card or editor header.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-toolbar variant='floating'>
-    <wc-icon-button variant='tonal'><wc-icon name='home'></wc-icon></wc-icon-button>
-    <wc-icon-button variant='text' color="surface"><wc-icon name='search'></wc-icon></wc-icon-button>
-    <wc-icon-button variant='text' color="surface"><wc-icon name='favorite'></wc-icon></wc-icon-button>
-    <wc-icon-button variant='text' color="surface"><wc-icon name='account_circle'></wc-icon></wc-icon-button>
-  </wc-toolbar>
+  <div
+    style='display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 28rem; padding: 0.5rem 0.5rem 0.5rem 1rem; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-medium);'>
+    <span class='text-title-medium'>Quarterly report</span>
+    <wc-toolbar variant='flat' aria-label='Document actions'>
+      <wc-icon-button variant='text' color='surface' aria-label='Edit'><wc-icon name='edit'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Share'><wc-icon name='share'></wc-icon></wc-icon-button>
+      <wc-icon-button variant='text' color='surface' aria-label='Delete'><wc-icon name='delete'></wc-icon></wc-icon-button>
+    </wc-toolbar>
+  </div>
 </DemoComponentCard>
