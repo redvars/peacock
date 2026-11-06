@@ -1,202 +1,43 @@
-import { html, LitElement, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
-import {
-  dispatchActivationClick,
-  isActivationClick,
-} from '@/__internal/utils/dispatch-event-utils.js';
-import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
-import { throttle } from '@/__internal/utils/throttle.js';
-import { isLink } from '@/__internal/utils/is-link.js';
-import styles from './navigation-rail-item.scss';
+import { property } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { IndicatorNavigationItem } from '@/__internal/indicator-navigation-item.js';
 
 /**
  * @label Navigation Rail Item
  * @tag wc-navigation-rail-item
  * @rawTag navigation-rail-item
  *
- * @summary An individual item within a navigation rail.
+ * @summary A destination in a navigation rail.
  * @overview
- * <p>Navigation rail items display a destination with an icon and optional label.</p>
+ * <p>Shows an icon inside the active-indicator pill with an optional label below. The current
+ * item (<code>current</code>) gets the indicator and <code>aria-current="page"</code>. With
+ * <code>href</code> it renders a link, otherwise a button.</p>
+ * <p><code>active</code> is a deprecated alias of <code>current</code> and is removed in 4.0.</p>
+ *
+ * @slot - The label.
+ * @slot icon - The icon.
+ * @slot active-icon - Icon shown instead of `icon` while the item is current, such as a filled variant.
+ * @slot badge - Badge on the icon, such as a count. Overrides the `badge` attribute.
  *
  * @example
  * ```html
- * <wc-navigation-rail-item>
- *   <wc-icon slot="icon">home</wc-icon>
+ * <wc-navigation-rail-item current>
+ *   <wc-icon slot="icon" name="home"></wc-icon>
  *   Home
  * </wc-navigation-rail-item>
  * ```
  * @tags navigation
  */
 @IndividualComponent
-export class NavigationRailItem extends LitElement {
-  #id = crypto.randomUUID();
+export class NavigationRailItem extends IndicatorNavigationItem {
+  // ── Properties ───────────────────────────────────────────────────────────
 
-  static styles = [styles];
-
-  /** Whether this item is currently active/selected. */
-  @property({ type: Boolean, reflect: true }) active = false;
-
-  /** Whether this item is disabled. */
-  @property({ type: Boolean, reflect: true }) disabled = false;
-
-  /** Whether the parent rail is in collapsed mode (labels hidden). */
+  /** Whether the parent rail is in collapsed mode (labels hidden). Set by the rail. */
   @property({ type: Boolean, reflect: true }) collapsed = false;
 
-  /** If provided, the item renders as a link. */
-  @property({ reflect: true }) href?: string;
+  // ── Protected methods ────────────────────────────────────────────────────
 
-  /** Link target. */
-  @property() target: string = '_self';
-
-  /** Value used for identification when managing active state externally. */
-  @property({ reflect: true }) value?: string;
-
-  /** Reason the item is disabled (shown to screen readers). */
-  @property({ attribute: 'disabled-reason' }) disabledReason: string = '';
-
-  /** Sets the delay for throttle in milliseconds. When null (default), no throttle is applied. */
-  @property({ type: Number }) throttleDelay: number | null = null;
-
-  /** True when the default slot contains label content. */
-  @state() private _hasLabel = false;
-
-  /** True when the `active-icon` slot contains content. */
-  @state() private _hasActiveIcon = false;
-
-  @query('.item-element') readonly itemElement!: HTMLElement | null;
-
-  constructor() {
-    super();
-    this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
-  override focus() {
-    this.itemElement?.focus();
-  }
-
-  override blur() {
-    this.itemElement?.blur();
-  }
-
-  override firstUpdated() {
-    if (typeof this.throttleDelay === 'number') {
-      this.__dispatchClickWithThrottle = throttle(
-        this.__dispatchClick,
-        this.throttleDelay,
-      );
-    }
-
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot.label'),
-      hasContent => {
-        this._hasLabel = hasContent;
-        this.requestUpdate();
-      },
-    );
-
-    observerSlotChangesWithCallback(
-      this.renderRoot.querySelector('slot.active-icon-slot'),
-      hasContent => {
-        this._hasActiveIcon = hasContent;
-        this.requestUpdate();
-      },
-    );
-  }
-
-  __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
-    event => {
-      this.__dispatchClick(event);
-    };
-
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    if (this.disabled && this.href) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
-    if (!isActivationClick(event) || !this.itemElement) {
-      return;
-    }
-
-    this.focus();
-    dispatchActivationClick(this.itemElement);
-  };
-
-  __getDisabledReasonID() {
-    return this.disabled && this.disabledReason
-      ? `disabled-reason-${this.#id}`
-      : nothing;
-  }
-
-  __renderDisabledReason() {
-    // `__getDisabledReasonID()` returns `nothing` (a truthy symbol) when there is no reason.
-    if (this.disabled && this.disabledReason)
-      return html`<div
-        id="disabled-reason-${this.#id}"
-        role="tooltip"
-        aria-label=${this.disabledReason}
-        class="screen-reader-only"
-      >
-        ${this.disabledReason}
-      </div>`;
-    return nothing;
-  }
-
-  __renderItemContent() {
-    return html`
-      <wc-focus-ring class="focus-ring" for="item"></wc-focus-ring>
-
-      <div class="item-content">
-        <div class="indicator">
-          <wc-ripple class="ripple"></wc-ripple>
-          <div class="icon-container">
-            <slot name="active-icon" class="active-icon-slot"></slot>
-            <slot name="icon" class="icon-slot"></slot>
-          </div>
-        </div>
-        <div class="label ${this.collapsed ? 'hidden' : ''}"><slot></slot></div>
-      </div>
-
-      ${this.__renderDisabledReason()}
-    `;
-  }
-
-  render() {
-    const cssClasses = {
-      item: true,
-      'item-element': true,
-      active: this.active,
-      disabled: this.disabled,
-      'has-label': this._hasLabel,
-      'has-active-icon': this._hasActiveIcon,
-    };
-
-    if (!isLink(this)) {
-      return html`<button
-        id="item"
-        class=${classMap(cssClasses)}
-        ?disabled=${this.disabled}
-        aria-disabled=${`${this.disabled}`}
-        aria-current=${this.active ? 'page' : nothing}
-        aria-describedby=${this.__getDisabledReasonID()}
-      >
-        ${this.__renderItemContent()}
-      </button>`;
-    }
-
-    return html`<a
-      id="item"
-      class=${classMap(cssClasses)}
-      href=${this.href}
-      target=${this.target}
-      aria-current=${this.active ? 'page' : nothing}
-      aria-disabled=${`${this.disabled}`}
-      aria-describedby=${this.__getDisabledReasonID()}
-    >
-      ${this.__renderItemContent()}
-    </a>`;
+  protected override get labelHidden(): boolean {
+    return this.collapsed;
   }
 }

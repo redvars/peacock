@@ -1,7 +1,9 @@
 import { html, LitElement } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { MenuTriggerController } from '@/__internal/menu-trigger-controller.js';
+import type { OverlayPlacement } from '@/__internal/utils/placement.js';
 import styles from './dropdown-button.scss';
 import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
 
@@ -74,27 +76,28 @@ export class DropdownButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   /**
-   * Menu placement relative to the button.
-   * Possible values are `"bottom-start"`, `"bottom-end"`, `"top-start"`, `"top-end"`. Defaults to `"bottom-start"`.
+   * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
+   * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction;
+   * the physical `left` / `right` still work but are deprecated. Defaults to `"bottom-start"`.
    */
-  @property({ reflect: true }) placement:
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'top-start'
-    | 'top-end' = 'bottom-start';
+  @property({ reflect: true }) placement: OverlayPlacement = 'bottom-start';
 
   /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
   @property({ attribute: 'menu-variant' }) menuVariant:
     | 'standard'
     | 'expressive' = 'standard';
 
-  @state() private _menuOpen = false;
-
   @query('.trigger-button') private readonly _triggerButton?: HTMLElement;
 
   @query('wc-menu') private readonly _menu?: Menu;
 
-  private _menuId = `dropdown-menu-${Math.random().toString(36).slice(2, 9)}`;
+  /** Opens and closes the menu and reports `toggle-menu`. */
+  private readonly _trigger = new MenuTriggerController(this, {
+    menu: () => this._menu,
+    disabled: () => this.disabled,
+    idPrefix: 'dropdown-menu',
+    tag: 'wc-dropdown-button',
+  });
 
   override focus() {
     this._triggerButton?.focus();
@@ -102,71 +105,18 @@ export class DropdownButton extends LitElement {
 
   /** Opens the menu and focuses its first (or last) item. */
   show(focusTarget: MenuFocusTarget = 'first') {
-    const menu = this._menu;
-    if (this.disabled || !menu) return;
-    menu.anchorElement = this;
-    menu.show(focusTarget);
+    this._trigger.show(focusTarget);
   }
 
   /** Closes the menu. */
   close() {
-    this._menu?.close();
-  }
-
-  private _onButtonClick(event: MouseEvent) {
-    event.stopPropagation();
-    if (this.disabled) return;
-
-    // Read the menu itself, not cached state, so a toggle never acts on a stale value.
-    if (this._menu?.open) {
-      this.close();
-    } else {
-      this.show();
-    }
-  }
-
-  private _onMenuOpened = (event: Event) => {
-    // The menu's events are internal; the button reports `toggle-menu` instead.
-    event.stopPropagation();
-    // A submenu's `open` bubbles through the menu; only the menu's own counts.
-    if (event.target !== event.currentTarget) return;
-    this._menuOpen = true;
-    this.dispatchEvent(
-      new CustomEvent('toggle-menu', {
-        detail: { open: true },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private _onMenuClosed = (event: Event) => {
-    event.stopPropagation();
-    if (event.target !== event.currentTarget) return;
-    this._menuOpen = false;
-    this.dispatchEvent(
-      new CustomEvent('toggle-menu', {
-        detail: { open: false },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  /** Arrow keys on the trigger open the menu on the first or last item. */
-  private _onTriggerKeyDown(event: KeyboardEvent) {
-    if (this.disabled) return;
-
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-      event.preventDefault();
-      this.show(event.key === 'ArrowDown' ? 'first' : 'last');
-    }
+    this._trigger.close();
   }
 
   override render() {
     const buttonClasses = {
       'trigger-button': true,
-      active: this._menuOpen,
+      active: this._trigger.open,
       disabled: this.disabled,
     };
 
@@ -178,13 +128,9 @@ export class DropdownButton extends LitElement {
         color=${this.color}
         trailing-icon
         ?disabled=${this.disabled}
-        .configAria=${{
-          'aria-haspopup': 'menu',
-          'aria-expanded': String(this._menuOpen),
-          'aria-controls': this._menuId,
-        }}
-        @click=${this._onButtonClick}
-        @keydown=${this._onTriggerKeyDown}
+        .configAria=${this._trigger.triggerAria}
+        @click=${this._trigger.handleTriggerClick}
+        @keydown=${this._trigger.handleTriggerKeyDown}
       >
         <slot></slot>
         <wc-icon
@@ -196,11 +142,11 @@ export class DropdownButton extends LitElement {
       </wc-button>
 
       <wc-menu
-        id=${this._menuId}
-        placement=${this.placement}
+        id=${this._trigger.menuId}
+        .placement=${this._trigger.menuPlacement(this.placement)}
         variant=${this.menuVariant}
-        @open=${this._onMenuOpened}
-        @close=${this._onMenuClosed}
+        @open=${this._trigger.handleMenuOpen}
+        @close=${this._trigger.handleMenuClose}
       >
         <slot name="menu"></slot>
       </wc-menu>

@@ -23,7 +23,12 @@
 }
 
 .sidebar-menu-item {
+  @include mixin.reset-button-styles;
+
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: start;
   display: flex;
   align-items: center;
   min-height: var(--sidebar-menu-item-height);

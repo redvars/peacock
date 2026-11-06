@@ -1,0 +1,101 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  color: var(--color-on-surface-variant);
+  // The indent this group inherits, so nested groups add up.
+  --_parent-indent: var(--navigation-drawer-item-indent, 0rem);
+}
+
+.header {
+  @include mixin.reset-button-styles;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  width: 100%;
+  height: var(--navigation-drawer-item-height, 3.5rem); // 56dp
+  padding-inline: calc(
+      var(--spacing-200) + var(--navigation-drawer-item-indent, 0rem)
+    )
+    var(--spacing-300);
+  border-radius: var(--shape-corner-full);
+  color: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: start;
+
+  --icon-size: 1.5rem;
+  --icon-color: currentColor;
+
+  .focus-ring {
+    --focus-ring-container-shape-start-start: var(--shape-corner-full);
+    --focus-ring-container-shape-start-end: var(--shape-corner-full);
+    --focus-ring-container-shape-end-start: var(--shape-corner-full);
+    --focus-ring-container-shape-end-end: var(--shape-corner-full);
+  }
+
+  .ripple {
+    border-radius: inherit;
+    --ripple-pressed-color: currentColor;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  &.has-icon .icon {
+    display: inline-flex;
+  }
+
+  .label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @include mixin.get-typography(label-large);
+  }
+
+  .expand-icon {
+    transition: transform var(--duration-short4, 200ms)
+      var(--easing-standard, ease);
+  }
+
+  &.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    color: var(--color-on-surface);
+    opacity: var(--state-disabled-content-opacity, 0.38);
+
+    .ripple {
+      display: none;
+    }
+  }
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  // Inherited through the slot by the group's items and nested groups.
+  --navigation-drawer-item-indent: calc(
+    var(--navigation-drawer-group-indent, var(--spacing-400)) +
+      var(--_parent-indent, 0rem)
+  );
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header .expand-icon {
+    transition: none;
+  }
+}

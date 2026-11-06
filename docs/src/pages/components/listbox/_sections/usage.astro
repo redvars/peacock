@@ -1,0 +1,31 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A listbox is an always-visible list the person chooses from. Put
+  <code>wc-listbox-option</code> elements inside and name it with
+  <code>label</code>. Each option's <code>value</code> is what the listbox
+  reports; without one, the option's text is used. Set <code>value</code> on
+  the listbox to choose an option up front.
+</p>
+<p>
+  For a list of links, use <a href='../list/'><code>wc-list</code></a> with
+  <code>current</code>; for a choice in a dropdown, use
+  <a href='../select/'><code>wc-select</code></a>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-listbox label='Fruit' name='fruit' value='banana' style='width: min(100%, 20rem);'>
+    <wc-listbox-option value='apple'>Apple</wc-listbox-option>
+    <wc-listbox-option value='banana'>Banana</wc-listbox-option>
+    <wc-listbox-option value='cherry' disabled>Cherry</wc-listbox-option>
+    <wc-listbox-option value='date'>
+      <wc-icon slot='start' name='eco'></wc-icon>
+      Date
+      <span slot='supporting-text'>Seasonal</span>
+    </wc-listbox-option>
+  </wc-listbox>
+</DemoComponentCard>

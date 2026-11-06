@@ -3,6 +3,14 @@ import { property } from 'lit/decorators.js';
 import styles from './tabs.scss';
 import { Tab } from './tab.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { RovingFocusController } from '@/__internal/controllers/roving-focus-controller.js';
+import { isLink } from '@/__internal/utils/is-link.js';
+
+/** Detail of the `change` event. */
+export interface TabsChangeDetail {
+  index: number;
+  value?: string;
+}
 
 /**
  * @label Tabs
@@ -11,15 +19,24 @@ import IndividualComponent from '@/IndividualComponent.js';
  *
  * @summary Container for tab components.
  * @overview
- * <p>Tabs holds the tab buttons and manages their layout.</p>
+ * <p>Tabs holds the tab buttons and manages their layout. It follows the WAI-ARIA tabs pattern:
+ * the host has <code>role="tablist"</code> (give it an <code>aria-label</code>), only the selected
+ * tab is a tab stop, and the Left and Right arrow keys (mirrored in right-to-left layouts), Home
+ * and End move between tabs. Moving to a tab selects it, so its panel shows at once. Disabled
+ * tabs are skipped.</p>
+ * <p>With <code>managed</code>, the tabs do not change the selection themselves: they fire
+ * <code>change</code> and the consumer sets <code>selected</code> on the chosen tab.</p>
+ * <p>When every tab is a link (<code>href</code>), the tabs are navigation rather than a tablist:
+ * the host gets no tablist role, so wrap it in a <code>&lt;nav&gt;</code>.</p>
+ * <p>Deprecated: the <code>tab-click</code> event (use <code>change</code>).</p>
  *
- * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user activates a tab.
+ * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user selects a tab, by click or with the arrow keys.
  * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
  *
  * @example
  * ```html
- * <wc-tabs>
- *   <wc-tab active>Tab 1</wc-tab>
+ * <wc-tabs aria-label="Sections">
+ *   <wc-tab selected>Tab 1</wc-tab>
  *   <wc-tab>Tab 2</wc-tab>
  * </wc-tabs>
  * ```
@@ -27,37 +44,60 @@ import IndividualComponent from '@/IndividualComponent.js';
  */
 @IndividualComponent
 export class Tabs extends LitElement {
+  // ── Static
+
   static styles = [styles];
 
   static Tab = Tab;
 
-  @property({ reflect: true }) 
+  // ── Properties
+
+  @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'contained' | 'filled' = 'primary';
 
+  /** The consumer controls the selection: the tabs fire `change` but do not select a tab. */
   @property({ type: Boolean }) managed = false;
+
+  // ── Private fields
+
+  /** One tab stop, on the selected tab; the arrow keys move it and select the tab they reach. */
+  private readonly roving = new RovingFocusController(this, {
+    items: () => this.__getTabs(),
+    orientation: () => 'horizontal',
+    initialItem: items => items.find(tab => (tab as Tab).selected) ?? items[0],
+    onMove: item => this.__selectFromUser(item as Tab),
+  });
 
   private __mutationObserver?: MutationObserver;
 
   private __lastActiveTab?: Tab;
 
+  /** Set while a click is handled, so a click on a link tab still selects it. */
+  private __clicking = false;
+
+  // ── Lifecycle
+
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.__handleTabClick);
+    this.__syncRole();
   }
 
   firstUpdated() {
     this.__mutationObserver = new MutationObserver(() => {
       this.__syncIndicatorsFromActiveState();
+      this.__syncRole();
     });
 
     this.__mutationObserver.observe(this, {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['active', 'disabled'],
+      attributeFilter: ['selected', 'disabled', 'href'],
     });
 
     this.__lastActiveTab = this.__getActiveTab();
+    this.__syncRole();
   }
 
   updated(changedProperties: Map<string, unknown>) {
@@ -73,12 +113,25 @@ export class Tabs extends LitElement {
     super.disconnectedCallback();
   }
 
+  // ── Private
+
   private __getTabs() {
     return Array.from(this.querySelectorAll('wc-tab')) as Tab[];
   }
 
   private __getActiveTab() {
-    return this.__getTabs().find(tab => tab.active && !tab.disabled);
+    return this.__getTabs().find(tab => tab.selected && !tab.disabled);
+  }
+
+  /** A tablist, unless every tab is a link: then the tabs are navigation. */
+  private __syncRole() {
+    const tabs = this.__getTabs();
+    const navigation = tabs.length > 0 && tabs.every(tab => isLink(tab));
+    if (navigation) {
+      if (this.getAttribute('role') === 'tablist') this.removeAttribute('role');
+    } else if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'tablist');
+    }
   }
 
   private static __getTabIndicator(tab?: Tab) {
@@ -149,53 +202,78 @@ export class Tabs extends LitElement {
 
   private __syncIndicatorsFromActiveState() {
     const activeTab = this.__getActiveTab();
-    if (this.__lastActiveTab && activeTab && this.__lastActiveTab !== activeTab) {
+    if (
+      this.__lastActiveTab &&
+      activeTab &&
+      this.__lastActiveTab !== activeTab
+    ) {
       this.__animateIndicatorTransition(this.__lastActiveTab, activeTab);
     }
 
     this.__lastActiveTab = activeTab;
+    // The tab stop follows the selection, also when it is set from outside.
+    if (activeTab && this.roving.activeItem !== activeTab) {
+      this.roving.setActive(activeTab, false);
+    }
   }
 
-  private __handleTabClick = (event: Event) => {
-    if (this.managed) return;
+  /** Selects `tab` (unless managed) and tells the consumer, after a click or an arrow key. */
+  private __selectFromUser(tab: Tab) {
+    if (tab.disabled) return;
+    // Arrowing onto a link only moves focus; following it is the person's choice.
+    if (isLink(tab) && !this.__clicking) return;
 
-    const detailEvent = event as CustomEvent;
-    const path = detailEvent.composedPath();
-    const clickedTab: Tab | undefined = path.find(
-      node => node instanceof Element && (node as Element).tagName.toLowerCase() === 'wc-tab',
-    ) as Tab | undefined;
-
-    if (!clickedTab) return;
-
-    const previousActiveTab = this.__getActiveTab();
     const tabs = this.__getTabs();
-    let clickedIndex = -1;
-    for (let index = 0; index < tabs.length; index += 1) {
-      const tab = tabs[index];
-      tab.active = false;
-      if (tab === clickedTab) clickedIndex = index;
+    if (!this.managed) {
+      const previousActiveTab = this.__getActiveTab();
+      for (const other of tabs) other.selected = other === tab;
+      this.__animateIndicatorTransition(previousActiveTab, tab);
+      this.__lastActiveTab = tab;
     }
-    (clickedTab as Tab).active = true;
-    this.__animateIndicatorTransition(previousActiveTab, clickedTab);
-    this.__lastActiveTab = clickedTab;
 
-    const detail = {
-      index: clickedIndex,
-      value: (clickedTab as Tab).value,
+    const detail: TabsChangeDetail = {
+      index: tabs.indexOf(tab),
+      value: tab.value,
     };
     this.dispatchEvent(
       new CustomEvent('change', { bubbles: true, composed: true, detail }),
     );
-    // Deprecated name, still what wc-tab-group listens for.
     this.dispatchEvent(
       new CustomEvent('tab-click', { bubbles: true, composed: true, detail }),
     );
+  }
+
+  private __handleTabClick = (event: Event) => {
+    const clickedTab = event
+      .composedPath()
+      .find(node => node instanceof Element && node.localName === 'wc-tab') as
+      | Tab
+      | undefined;
+    if (!clickedTab || !this.__getTabs().includes(clickedTab)) return;
+
+    this.__clicking = true;
+    try {
+      this.__selectFromUser(clickedTab);
+    } finally {
+      this.__clicking = false;
+    }
   };
+
+  private __handleSlotChange = () => {
+    this.roving.sync();
+    this.__syncRole();
+  };
+
+  // ── Render
 
   render() {
     return html`
-      <div class="tabs">
-        <slot></slot>
+      <div
+        class="tabs"
+        @keydown=${this.roving.handleKeyDown}
+        @focusin=${this.roving.handleFocusIn}
+      >
+        <slot @slotchange=${this.__handleSlotChange}></slot>
       </div>
     `;
   }

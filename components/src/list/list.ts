@@ -1,9 +1,10 @@
 import { LitElement, html } from 'lit';
-import { property, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './list.scss';
 import { ListItem, type ListItemPosition } from './list-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { RovingFocusController } from '@/__internal/controllers/roving-focus-controller.js';
 
 /**
  * @label List
@@ -11,11 +12,19 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @rawTag list
  *
  * @summary A list container for one or more list items.
+ * @overview
+ * <p>A list shows rows of content. Rows that act (<code>actionable</code> or with an
+ * <code>href</code>) form one tab stop: the Up and Down arrow keys move between them, Home and
+ * End jump to the first and last, and disabled rows are skipped.</p>
+ * <p>For a navigation list, mark the row of the page the person is on with
+ * <code>current</code> (<code>aria-current</code>). To let the person choose items, use
+ * <code>wc-listbox</code>. The row's <code>selected</code> attribute is visual only and
+ * deprecated.</p>
  *
  * @example
  * ```html
  * <wc-list>
- *   <wc-list-item selected>
+ *   <wc-list-item href="/inbox" current>
  *     <wc-icon slot="start" name="inbox"></wc-icon>
  *     Inbox
  *     <span slot="trailing-supporting-text">24</span>
@@ -32,9 +41,13 @@ import IndividualComponent from '@/IndividualComponent.js';
  */
 @IndividualComponent
 export class List extends LitElement {
+  // ── Static
+
   static styles = [styles];
 
   static Item = ListItem;
+
+  // ── Properties
 
   /**
    * `standard` rows sit on the surface; `segmented` rows each get a
@@ -43,28 +56,31 @@ export class List extends LitElement {
   @property({ type: String, reflect: true }) variant: 'standard' | 'segmented' =
     'standard';
 
-  /** Index of the currently active item within the clickable items list. */
-  @state() private activeIndex = -1;
+  // ── Private fields
+
+  /** One tab stop across the actionable rows, moved with Up/Down, Home and End. */
+  private readonly roving = new RovingFocusController(this, {
+    items: () => this.items,
+    orientation: () => 'vertical',
+    isFocusable: item => {
+      const row = item as ListItem;
+      return row.isClickable() && !row.disabled && !row.hidden;
+    },
+  });
+
+  // ── Lifecycle
 
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute('role', 'list');
-    this.addEventListener('keydown', this._onKeyDown);
-    this.addEventListener('click', this._onClick);
   }
 
-  disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    this.removeEventListener('click', this._onClick);
-    super.disconnectedCallback();
-  }
+  // ── Public
 
-  override focus() {
-    const target = this._getActiveItem() ?? this._getFirstClickableItem();
-    target?.focus();
+  override focus(options?: Parameters<HTMLElement['focus']>[0]) {
+    this.roving.sync();
+    this.roving.activeItem?.focus(options);
   }
-
-  // ── Items ─────────────────────────────────────────────────────────────────
 
   get items(): ListItem[] {
     const slot = this.shadowRoot?.querySelector('slot');
@@ -72,140 +88,22 @@ export class List extends LitElement {
     return elements.filter(el => el instanceof ListItem) as ListItem[];
   }
 
-  private _clickableItems() {
-    return this.items.filter(item => item.isClickable());
-  }
+  // ── Private
 
-  // ── Roving tabindex ───────────────────────────────────────────────────────
-
-  private _syncRovingTabIndex() {
-    const allItems = this.items;
-    const clickable = this._clickableItems();
-
-    for (const item of allItems) {
-      item.tabIndex = -1;
-    }
-
-    if (!clickable.length) {
-      this.activeIndex = -1;
-      return;
-    }
-
-    if (this.activeIndex < 0 || this.activeIndex >= clickable.length) {
-      this.activeIndex = 0;
-    }
-
-    clickable[this.activeIndex].tabIndex = 0;
-  }
-
-  private _setActiveByOffset(offset: 1 | -1) {
-    const clickable = this._clickableItems();
-    if (!clickable.length) return;
-
-    if (this.activeIndex < 0) {
-      this.activeIndex = 0;
-    } else {
-      const count = clickable.length;
-      this.activeIndex = (this.activeIndex + offset + count) % count;
-    }
-
-    this._syncRovingTabIndex();
-    clickable[this.activeIndex]?.focus();
-  }
-
-  private _setBoundaryActive(index: number) {
-    const clickable = this._clickableItems();
-    if (!clickable.length) return;
-
-    this.activeIndex = index;
-    this._syncRovingTabIndex();
-    clickable[this.activeIndex]?.focus();
-  }
-
-  private _getActiveItem() {
-    const clickable = this._clickableItems();
-    if (!clickable.length || this.activeIndex < 0) return null;
-    return clickable[this.activeIndex] ?? null;
-  }
-
-  private _getFirstClickableItem() {
-    return this._clickableItems()[0] ?? null;
-  }
-
-  // ── Event helpers ─────────────────────────────────────────────────────────
-
-  private _isEventFromThisList(event: Event) {
-    const path = event.composedPath();
-    const sourceList = path.find(target => target instanceof List);
-    return sourceList === this;
-  }
-
-  private _clickableItemFromEvent(event: Event) {
-    if (!this._isEventFromThisList(event)) return null;
-    const path = event.composedPath();
-    const clickable = this._clickableItems();
-    for (const target of path) {
-      if (target instanceof ListItem) {
-        const owned = clickable.find(item => item === target);
-        if (owned) return owned;
-      }
-    }
-    return null;
-  }
-
-  private _setActiveItem(item: ListItem) {
-    const clickable = this._clickableItems();
-    const nextIndex = clickable.indexOf(item);
-    if (nextIndex < 0) return;
-    this.activeIndex = nextIndex;
-    this._syncRovingTabIndex();
-  }
-
-  // ── Handlers ──────────────────────────────────────────────────────────────
-
-  private _onKeyDown = (event: KeyboardEvent) => {
-    if (!this._isEventFromThisList(event)) return;
-
-    const eventItem = this._clickableItemFromEvent(event);
-    if (eventItem) {
-      this._setActiveItem(eventItem);
-    }
-
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this._setActiveByOffset(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this._setActiveByOffset(-1);
-        break;
-      case 'Home':
-        event.preventDefault();
-        this._setBoundaryActive(0);
-        break;
-      case 'End':
-        event.preventDefault();
-        this._setBoundaryActive(Math.max(this._clickableItems().length - 1, 0));
-        break;
-      default:
-        break;
-    }
+  /** Only keys from this list's own rows, not from a nested list. */
+  private __handleKeyDown = (event: KeyboardEvent) => {
+    const owner = event.composedPath().find(target => target instanceof List);
+    if (owner !== this) return;
+    this.roving.handleKeyDown(event);
   };
 
-  private _onClick = (event: Event) => {
-    const item = this._clickableItemFromEvent(event);
-    if (!item) return;
-    this._setActiveItem(item);
-  };
-
-  private _onSlotChange = () => {
-    this._syncPositions();
-    this._syncRovingTabIndex();
+  private __handleSlotChange = () => {
+    this.__syncPositions();
+    this.roving.sync();
   };
 
   /** Marks each item first / middle / last / only, for the segmented shape. */
-  private _syncPositions() {
+  private __syncPositions() {
     const { items } = this;
     const last = items.length - 1;
     items.forEach((item, index) => {
@@ -218,6 +116,8 @@ export class List extends LitElement {
     });
   }
 
+  // ── Render
+
   render() {
     const cssClasses = {
       list: true,
@@ -225,8 +125,12 @@ export class List extends LitElement {
     };
 
     return html`
-      <div class=${classMap(cssClasses)}>
-        <slot @slotchange=${this._onSlotChange}></slot>
+      <div
+        class=${classMap(cssClasses)}
+        @keydown=${this.__handleKeyDown}
+        @focusin=${this.roving.handleFocusIn}
+      >
+        <slot @slotchange=${this.__handleSlotChange}></slot>
       </div>
     `;
   }

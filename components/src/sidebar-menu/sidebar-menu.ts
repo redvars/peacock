@@ -4,6 +4,7 @@ import { property } from 'lit/decorators.js';
 import styles from './sidebar-menu.scss';
 import { SidebarMenuItem } from './sidebar-menu-item.js';
 import { SidebarSubMenu } from './sidebar-sub-menu.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 
 type SidebarNode = SidebarMenuItem | SidebarSubMenu;
 
@@ -11,7 +12,15 @@ type SidebarNode = SidebarMenuItem | SidebarSubMenu;
  * @label Sidebar Menu
  * @tag wc-sidebar-menu
  * @rawTag sidebar-menu
- * @summary A sidebar menu is a hierarchical structure that provides nested levels of navigation. It supports keyboard navigation, single/multi select, and expandable items.
+ * @summary Deprecated: use `wc-navigation-drawer` with `wc-navigation-drawer-group`. Nested side navigation with expandable items.
+ * @overview
+ * <p><strong>Deprecated.</strong> Use <code>wc-navigation-drawer</code> with
+ * <code>wc-navigation-drawer-group</code> and <code>wc-navigation-drawer-item</code>. This element keeps
+ * working until 4.0 and logs a warning. It fires <code>change</code> with <code>{ value, item }</code>;
+ * the older <code>sidebar-menu:change</code> keeps firing too.</p>
+ *
+ * @fires {CustomEvent<{value: string, item: HTMLElement}>} change - Dispatched when the user selects an item.
+ * @fires {CustomEvent<{value: string, item: HTMLElement}>} sidebar-menu:change - Deprecated: use `change`.
  *
  * @example
  * ```html
@@ -36,9 +45,16 @@ export class SidebarMenu extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    deprecate(
+      'wc-sidebar-menu',
+      '<wc-sidebar-menu>',
+      '<wc-navigation-drawer> with groups',
+    );
     this.addEventListener('sidebar-menu-item:click', this._onItemClick as EventListener);
     this.addEventListener('keydown', this._onKeyDown);
-    this.setAttribute('role', 'tree');
+    // A navigation landmark of buttons and links: a `tree` cannot reach treeitems that live in
+    // the items' shadow roots.
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'navigation');
   }
 
   updated(changedProps: Map<string, unknown>) {
@@ -103,6 +119,14 @@ export class SidebarMenu extends LitElement {
         detail: { value, item },
       }),
     );
+    // The standard name (ADR-030001); `sidebar-menu:change` keeps firing until 4.0.
+    this.dispatchEvent(
+      new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
+        detail: { value, item },
+      }),
+    );
   };
 
   private _updateSelectedState(selectedValue: string) {
@@ -157,9 +181,6 @@ export class SidebarMenu extends LitElement {
       event.preventDefault();
       const prevIndex = currentIndex === 0 ? allVisible.length - 1 : currentIndex - 1;
       allVisible[prevIndex].focus();
-    } else if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      currentElement.click();
     } else if (event.key === 'ArrowRight') {
       event.preventDefault();
       if (currentElement instanceof SidebarSubMenu && !currentElement.expanded) {

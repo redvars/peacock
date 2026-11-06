@@ -4,7 +4,17 @@ export const order = 600;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>The dropdown menu can be positioned relative to the button using the <code>placement</code> attribute.</p>
+<p>
+  <code>placement</code> sets where the menu opens relative to the button: a side, <code>top</code>,
+  <code>bottom</code>, <code>start</code> or <code>end</code>, optionally followed by <code>-start</code> or
+  <code>-end</code>. It defaults to <code>bottom-start</code>. <code>start</code> and <code>end</code> follow
+  the writing direction, so <code>end-start</code> opens to the right in left-to-right pages and to the left
+  in right-to-left pages. The menu flips to stay in the viewport.
+</p>
+<p>
+  Deprecated: the physical sides <code>left</code> and <code>right</code>. They still work, mapped to
+  <code>start</code> / <code>end</code> for the writing direction, and log one warning.
+</p>
 
 <DemoComponentCard lang={'html'} inline>
   <wc-dropdown-button placement='bottom-start'>
@@ -27,6 +37,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <wc-dropdown-button placement='top-end'>
     Top End
+    <wc-menu-item slot="menu">Option A</wc-menu-item>
+    <wc-menu-item slot="menu">Option B</wc-menu-item>
+  </wc-dropdown-button>
+
+  <wc-dropdown-button placement='end-start'>
+    End Start
     <wc-menu-item slot="menu">Option A</wc-menu-item>
     <wc-menu-item slot="menu">Option B</wc-menu-item>
   </wc-dropdown-button>

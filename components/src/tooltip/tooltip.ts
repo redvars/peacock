@@ -72,7 +72,10 @@ export class Tooltip extends LitElement {
   @property({ type: String, reflect: true }) variant: 'plain' | 'rich' =
     'plain';
 
-  /** Renders the tooltip statically in the page flow, always visible. */
+  /**
+   * Renders the tooltip statically in the page flow, always visible.
+   * @internal For the documentation demos only.
+   */
   @property({ type: Boolean, reflect: true }) preview = false;
 
   // ── Private fields ───────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -13,6 +13,7 @@ import { mixinBaseButton } from '@/button/base-button/base-button.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 
 /** Where a list item sits among its sibling items; set by `wc-list`. */
 export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
@@ -38,15 +39,20 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @cssprop --list-item-label-text-color - Label color.
  * @cssprop --list-item-icon-color - Color of the `start` and `end` content.
  * @cssprop --list-item-state-color - Hover and press state layer color.
- * @cssprop --list-item-selected-container-color - Row background when selected.
- * @cssprop --list-item-selected-label-text-color - Label color when selected.
- * @cssprop --list-item-selected-icon-color - `start` and `end` color when selected.
+ * @cssprop --list-item-selected-container-color - Row background when current.
+ * @cssprop --list-item-selected-label-text-color - Label color when current.
+ * @cssprop --list-item-selected-icon-color - `start` and `end` color when current.
  * @cssprop --list-item-container-shape - Corner radius of the row.
  * @cssprop --list-item-outer-container-shape - Corner radius of the outer corners of the first and last rows (set by `wc-list` in the segmented variant).
  *
+ * @overview
+ * <p>Deprecated: <code>selected</code>, which is visual only. Use <code>current</code> for the
+ * row of the current page in a navigation list, or <code>wc-listbox</code> to let the person
+ * choose items.</p>
+ *
  * @example
  * ```html
- * <wc-list-item selected>
+ * <wc-list-item href="/profile" current>
  *   <wc-icon slot="start" name="person"></wc-icon>
  *   Profile
  *   <wc-icon slot="end" name="chevron_right"></wc-icon>
@@ -70,7 +76,17 @@ export class ListItem extends mixinBaseButton(
 
   // ── Properties ───────────────────────────────────────────────────────────
 
-  /** Shows the row as selected, actionable or not. */
+  /**
+   * Marks the row of the current page or location in a navigation list: `aria-current="page"`
+   * on a link row, `aria-current="true"` otherwise. Styled like the old `selected`.
+   */
+  @property({ type: Boolean, reflect: true }) current = false;
+
+  /**
+   * Shows the row as selected, actionable or not. Visual only: it tells assistive technology
+   * nothing.
+   * @deprecated Use `current` for navigation, or `wc-listbox` to let the person choose items.
+   */
   @property({ type: Boolean, reflect: true }) selected = false;
 
   /** When true, renders the list-item in a loading skeleton state. */
@@ -122,6 +138,17 @@ export class ListItem extends mixinBaseButton(
   disconnectedCallback() {
     this._contentObserver.disconnect();
     super.disconnectedCallback();
+  }
+
+  protected override willUpdate(changed: PropertyValues<this>) {
+    super.willUpdate(changed);
+    if (changed.has('selected') && this.selected) {
+      deprecate(
+        'wc-list-item',
+        '`selected`',
+        '`current` (navigation) or wc-listbox (selection)',
+      );
+    }
   }
 
   protected override updated() {
@@ -180,6 +207,8 @@ export class ListItem extends mixinBaseButton(
 
     // Needed for closure conformance
     const { ariaLabel } = this as ARIAMixinStrict;
+    let ariaCurrent: 'page' | 'true' | typeof nothing = nothing;
+    if (this.current) ariaCurrent = isElementLink ? 'page' : 'true';
 
     if (!clickable) {
       return html`
@@ -187,6 +216,7 @@ export class ListItem extends mixinBaseButton(
           id="list-item"
           class=${classMap(cssClasses)}
           aria-label="${ariaLabel || nothing}"
+          aria-current=${ariaCurrent}
         >
           ${this.renderContent(clickable)}
         </div>
@@ -201,6 +231,7 @@ export class ListItem extends mixinBaseButton(
           ?disabled=${this.disabled}
           aria-label="${ariaLabel || nothing}"
           aria-disabled=${this.softDisabled ? 'true' : nothing}
+          aria-current=${ariaCurrent}
           @click=${this.__dispatchClick}
         >
           ${this.renderContent(clickable)}
@@ -218,6 +249,7 @@ export class ListItem extends mixinBaseButton(
         download=${this.download || nothing}
         tabindex=${this.disabled ? '-1' : '0'}
         aria-disabled=${String(this.disabled || this.softDisabled)}
+        aria-current=${ariaCurrent}
         @click=${this.__dispatchClick}
       >
         ${this.renderContent(clickable)}

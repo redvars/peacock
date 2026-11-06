@@ -77,11 +77,15 @@
     margin-inline-start: -0.5rem;
     margin-inline-end: -0.5rem;
 
-    wc-sidebar-menu-item[level='1'] {
+    wc-navigation-drawer-item {
+      --navigation-drawer-item-height: 3rem;
+    }
+
+    wc-navigation-drawer-item.sub-section {
       position: relative;
       --typography-label-large-font-size: 0.8rem;
-      --sidebar-menu-item-height: 2.25rem;
-      --sidebar-menu-item-content-padding: 1.75rem 0.75rem;
+      --navigation-drawer-item-height: 2.25rem;
+      --navigation-drawer-item-indent: 0.75rem;
 
       &::before {
         content: '';

@@ -5,6 +5,7 @@ import { fixture, expect } from '@open-wc/testing';
 // test server cannot load.
 import { Item } from '../src/item/index.js';
 import { List, ListItem } from '../src/list/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -89,10 +90,85 @@ describe('List', () => {
     expect(active()).to.equal(three);
   });
 
-  it('renders the selected background on non-actionable items', async () => {
+  it('skips disabled rows and ignores Left and Right, also in RTL', async () => {
+    const el = await fixture<List>(html`
+      <wc-list dir="rtl">
+        <wc-list-item actionable>One</wc-list-item>
+        <wc-list-item actionable disabled>Two</wc-list-item>
+        <wc-list-item href="#three">Three</wc-list-item>
+      </wc-list>
+    `);
+    await settle(el);
+    const [one, , three] = el.items;
+    const active = () => el.items.find(item => item.tabIndex === 0);
+
+    press(one, 'ArrowDown');
+    expect(active()).to.equal(three);
+    press(three, 'ArrowLeft');
+    press(three, 'ArrowRight');
+    expect(active()).to.equal(three);
+  });
+
+  it('does not move focus for keys from a nested list', async () => {
+    const el = await fixture<List>(html`
+      <wc-list>
+        <wc-list-item actionable>One</wc-list-item>
+        <wc-list-item actionable>Two</wc-list-item>
+        <wc-list id="inner">
+          <wc-list-item actionable>Inner</wc-list-item>
+        </wc-list>
+      </wc-list>
+    `);
+    await settle(el);
+    const inner = el.querySelector<List>('#inner')!;
+    await settle(inner);
+    press(inner.items[0], 'ArrowDown');
+    expect(el.items[0].tabIndex).to.equal(0);
+  });
+
+  it('marks the current row with aria-current', async () => {
+    const el = await fixture<List>(html`
+      <wc-list>
+        <wc-list-item href="#inbox" current>Inbox</wc-list-item>
+        <wc-list-item actionable current>Sent</wc-list-item>
+        <wc-list-item>Drafts</wc-list-item>
+      </wc-list>
+    `);
+    await settle(el);
+    const inner = (item: ListItem) =>
+      item.shadowRoot!.querySelector('#list-item')!;
+    const [link, button, plain] = el.items;
+    expect(inner(link).getAttribute('aria-current')).to.equal('page');
+    expect(inner(button).getAttribute('aria-current')).to.equal('true');
+    expect(inner(plain).hasAttribute('aria-current')).to.be.false;
+  });
+
+  it('warns once that selected is deprecated', async () => {
+    resetDeprecationWarnings();
+    const warnings: string[] = [];
+    const { warn } = console;
+    console.warn = (message: string) => {
+      warnings.push(message);
+    };
+    try {
+      const el = await fixture<ListItem>(
+        html`<wc-list-item selected>Inbox</wc-list-item>`,
+      );
+      el.selected = false;
+      await el.updateComplete;
+      el.selected = true;
+      await el.updateComplete;
+    } finally {
+      console.warn = warn;
+    }
+    expect(warnings).to.have.length(1);
+    expect(warnings[0]).to.contain('wc-list-item: `selected`');
+  });
+
+  it('renders the current background on non-actionable items', async () => {
     const el = await fixture<List>(html`
       <wc-list style="--list-item-selected-container-color: rgb(1, 2, 3)">
-        <wc-list-item selected>Inbox</wc-list-item>
+        <wc-list-item current>Inbox</wc-list-item>
         <wc-list-item>Sent</wc-list-item>
       </wc-list>
     `);

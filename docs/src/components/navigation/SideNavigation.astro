@@ -31,33 +31,33 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   ><wc-icon name="search"></wc-icon
   ></wc-fab>
 
-  <wc-navigation-rail-item href="/#" aria-label='Go to Home' active={isHomePage ? true : null}>
+  <wc-navigation-rail-item href="/#" aria-label='Go to Home' current={isHomePage ? true : null}>
     <img src="/assets/img/logo-plain.webp" slot="icon" class="logo" alt="peacock" style="width: 32px;">
     Home
   </wc-navigation-rail-item>
-  <wc-navigation-rail-item href='/components' aria-label='Go to Components' active={isComponentsPage ? true : null}>
+  <wc-navigation-rail-item href='/components' aria-label='Go to Components' current={isComponentsPage ? true : null}>
     <wc-icon slot="icon" name="settings"></wc-icon>
     Components
   </wc-navigation-rail-item>
-  <wc-navigation-rail-item href='/charts/' aria-label='Go to Charts' active={isChartsPage ? true : null}>
+  <wc-navigation-rail-item href='/charts/' aria-label='Go to Charts' current={isChartsPage ? true : null}>
     <wc-icon slot="icon" name="bar_chart"></wc-icon>
     Charts
   </wc-navigation-rail-item>
-  <wc-navigation-rail-item href='/foundations/' aria-label='Go to Foundations' active={isFoundationsPage ? true : null}>
+  <wc-navigation-rail-item href='/foundations/' aria-label='Go to Foundations' current={isFoundationsPage ? true : null}>
     <wc-icon slot="icon" name="palette"></wc-icon>
     Foundations
   </wc-navigation-rail-item>
-  <wc-navigation-rail-item href='/theme-builder' aria-label='Go to Theme builder' active={isThemeBuilderPage ? true : null}>
+  <wc-navigation-rail-item href='/theme-builder' aria-label='Go to Theme builder' current={isThemeBuilderPage ? true : null}>
     <wc-icon slot="icon" name="format_paint"></wc-icon>
     Theme
   </wc-navigation-rail-item>
 
-  <wc-navigation-rail-item href='/blog' title='Go to Blog' active={isBlogPage ? true : null}>
+  <wc-navigation-rail-item href='/blog' title='Go to Blog' current={isBlogPage ? true : null}>
     <wc-icon slot="icon" name="pages"></wc-icon>
     Blog
   </wc-navigation-rail-item>
 
-  <wc-navigation-rail-item href='/blocks' aria-label='Go to Blocks' active={isBlocksPage ? true : null}>
+  <wc-navigation-rail-item href='/blocks' aria-label='Go to Blocks' current={isBlocksPage ? true : null}>
     <wc-icon slot="icon" name="grid_view"></wc-icon>
     Blocks
   </wc-navigation-rail-item>

@@ -41,17 +41,18 @@ const orders: Order[] = [
         <wc-icon name='widgets'></wc-icon>
         <span class='text-title-medium'>AdminApp</span>
       </div>
-      <wc-sidebar-menu selected-item='dashboard'>
-        <wc-sidebar-menu-item label='Dashboard' value='dashboard' href='#'></wc-sidebar-menu-item>
-        <wc-sidebar-sub-menu label='Analytics' expanded>
-          <wc-sidebar-menu-item label='Overview' value='analytics-overview' href='#'></wc-sidebar-menu-item>
-          <wc-sidebar-menu-item label='Reports' value='analytics-reports' href='#'></wc-sidebar-menu-item>
-        </wc-sidebar-sub-menu>
-        <wc-sidebar-menu-item label='Users' value='users' href='#'></wc-sidebar-menu-item>
-        <wc-sidebar-menu-item label='Orders' value='orders' href='#'></wc-sidebar-menu-item>
-        <wc-sidebar-menu-item label='Products' value='products' href='#'></wc-sidebar-menu-item>
-        <wc-sidebar-menu-item label='Settings' value='settings' href='#'></wc-sidebar-menu-item>
-      </wc-sidebar-menu>
+      <wc-navigation-drawer open class='sidebar-nav'>
+        <wc-navigation-drawer-item value='dashboard' href='#' current>Dashboard</wc-navigation-drawer-item>
+        <wc-navigation-drawer-group expanded>
+          <span slot='label'>Analytics</span>
+          <wc-navigation-drawer-item value='analytics-overview' href='#'>Overview</wc-navigation-drawer-item>
+          <wc-navigation-drawer-item value='analytics-reports' href='#'>Reports</wc-navigation-drawer-item>
+        </wc-navigation-drawer-group>
+        <wc-navigation-drawer-item value='users' href='#'>Users</wc-navigation-drawer-item>
+        <wc-navigation-drawer-item value='orders' href='#'>Orders</wc-navigation-drawer-item>
+        <wc-navigation-drawer-item value='products' href='#'>Products</wc-navigation-drawer-item>
+        <wc-navigation-drawer-item value='settings' href='#'>Settings</wc-navigation-drawer-item>
+      </wc-navigation-drawer>
     </aside>
 
     <main class='block-demo-main'>

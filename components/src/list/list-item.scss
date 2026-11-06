@@ -124,8 +124,9 @@
   --_state-opacity: 0.12;
 }
 
-// ── Selected ─────────────────────────────────────────────────────────────
+// ── Current (and the deprecated selected) ────────────────────────────────
 
+:host([current]),
 :host([selected]) {
   --_container-color: var(
     --list-item-selected-container-color,
@@ -159,6 +160,8 @@
   }
 }
 
+:host([current][disabled]),
+:host([current][soft-disabled]),
 :host([selected][disabled]),
 :host([selected][soft-disabled]) {
   --_container-color: var(--color-on-surface);

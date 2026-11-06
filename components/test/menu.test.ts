@@ -203,6 +203,120 @@ describe('Menu', () => {
     expect(activations).to.equal(1);
   });
 
+  it('toggles checkbox items and stays open', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item type="checkbox">Bold</wc-menu-item>
+        <wc-menu-item type="checkbox" selected>Italic</wc-menu-item>
+      </wc-menu>
+    `);
+    const items = el.querySelectorAll<MenuItem>('wc-menu-item');
+    let selectedOnActivate: boolean | undefined;
+    el.addEventListener('menu-item-activate', (event: Event) => {
+      selectedOnActivate = (event as CustomEvent<{ item: MenuItem }>).detail
+        .item.selected;
+    });
+
+    clickItem(items[0]);
+    await el.updateComplete;
+    expect(items[0].selected).to.be.true;
+    expect(selectedOnActivate).to.be.true;
+    expect(el.open).to.be.true;
+
+    clickItem(items[1]);
+    await el.updateComplete;
+    expect(items[1].selected).to.be.false;
+    expect(el.open).to.be.true;
+  });
+
+  it('selects one radio item per group, split by dividers, and closes', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item type="radio" selected>Small</wc-menu-item>
+        <wc-menu-item type="radio">Large</wc-menu-item>
+        <wc-divider></wc-divider>
+        <wc-menu-item type="radio" selected>Light</wc-menu-item>
+        <wc-menu-item type="radio">Dark</wc-menu-item>
+      </wc-menu>
+    `);
+    const [small, large, light, dark] = Array.from(
+      el.querySelectorAll<MenuItem>('wc-menu-item'),
+    );
+
+    clickItem(large);
+    await el.updateComplete;
+    expect(small.selected).to.be.false;
+    expect(large.selected).to.be.true;
+    // The other group is untouched.
+    expect(light.selected).to.be.true;
+    expect(dark.selected).to.be.false;
+    expect(el.open).to.be.false;
+
+    el.open = true;
+    await el.updateComplete;
+    clickItem(dark);
+    await el.updateComplete;
+    expect(light.selected).to.be.false;
+    expect(dark.selected).to.be.true;
+    expect(large.selected).to.be.true;
+  });
+
+  it('activates an item once when the host itself is clicked', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-menu-item keep-open>One</wc-menu-item>
+      </wc-menu>
+    `);
+    let activations = 0;
+    el.addEventListener('menu-item-activate', () => {
+      activations += 1;
+    });
+
+    el.querySelector<MenuItem>('wc-menu-item')!.click();
+    await el.updateComplete;
+    expect(activations).to.equal(1);
+  });
+
+  it('opens on the logical side of its anchor, mirrored in right-to-left', async () => {
+    const container = await fixture<HTMLElement>(html`
+      <div style="padding: 200px">
+        <button id="logical-anchor">Anchor</button>
+        <wc-menu anchor="logical-anchor" placement="end-start">
+          <wc-menu-item>One</wc-menu-item>
+        </wc-menu>
+      </div>
+    `);
+    const el = container.querySelector<Menu>('wc-menu')!;
+    const anchor = container.querySelector('button')!;
+    const surface = () =>
+      el
+        .shadowRoot!.querySelector<HTMLElement>('.menu')!
+        .getBoundingClientRect();
+
+    el.open = true;
+    await el.updateComplete;
+    await nextFrame();
+    await nextFrame();
+    // end-start: beside the anchor's end edge, offset 4px, top edges aligned.
+    expect(surface().left).to.be.closeTo(
+      anchor.getBoundingClientRect().right + 4,
+      1,
+    );
+    expect(surface().top).to.be.closeTo(anchor.getBoundingClientRect().top, 1);
+
+    el.open = false;
+    await el.updateComplete;
+    container.dir = 'rtl';
+    el.open = true;
+    await el.updateComplete;
+    await nextFrame();
+    await nextFrame();
+    expect(surface().right).to.be.closeTo(
+      anchor.getBoundingClientRect().left - 4,
+      1,
+    );
+  });
+
   it('emits menu-item-activate when an item is selected', async () => {
     const el = await fixture<Menu>(html`
       <wc-menu open>
@@ -453,6 +567,45 @@ describe('MenuItem', () => {
     await item.updateComplete;
     expect(item.shadowRoot!.querySelector('slot[name="start"]')).to.exist;
     expect(item.hasStartContent).to.be.true;
+  });
+
+  it('is a menuitem without aria-checked by default, even when selected', async () => {
+    const item = await fixture<MenuItem>(
+      html`<wc-menu-item selected>One</wc-menu-item>`,
+    );
+    const inner = item.shadowRoot!.querySelector('#menu-item')!;
+    expect(inner.getAttribute('role')).to.equal('menuitem');
+    expect(inner.hasAttribute('aria-checked')).to.be.false;
+  });
+
+  it('exposes checkbox and radio items with aria-checked', async () => {
+    const item = await fixture<MenuItem>(
+      html`<wc-menu-item type="checkbox">One</wc-menu-item>`,
+    );
+    const inner = () => item.shadowRoot!.querySelector('#menu-item')!;
+    expect(inner().getAttribute('role')).to.equal('menuitemcheckbox');
+    expect(inner().getAttribute('aria-checked')).to.equal('false');
+
+    item.selected = true;
+    await item.updateComplete;
+    expect(inner().getAttribute('aria-checked')).to.equal('true');
+
+    item.type = 'radio';
+    await item.updateComplete;
+    expect(inner().getAttribute('role')).to.equal('menuitemradio');
+    expect(inner().getAttribute('aria-checked')).to.equal('true');
+  });
+
+  it('does not mark a selected link as current; current sets aria-current="page"', async () => {
+    const item = await fixture<MenuItem>(
+      html`<wc-menu-item href="#home" selected>Home</wc-menu-item>`,
+    );
+    const link = () => item.shadowRoot!.querySelector('a')!;
+    expect(link().hasAttribute('aria-current')).to.be.false;
+
+    item.current = true;
+    await item.updateComplete;
+    expect(link().getAttribute('aria-current')).to.equal('page');
   });
 
   it('uses the label text for typeahead', async () => {

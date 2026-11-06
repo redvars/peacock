@@ -6,15 +6,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p>
   Use <code>wc-navigation-bar</code> at the bottom of small screens for three to five primary
-  destinations. Clicking an item makes it active and fires <code>change</code> with the item's
-  <code>value</code> and index. The bar does not position itself; place it at the bottom of your
-  layout.
+  destinations. Mark the page the user is on with <code>current</code> (it sets
+  <code>aria-current="page"</code>). Clicking an item makes it current and fires
+  <code>change</code> with <code>{'{ value, index, item }'}</code>, the same detail as the rail
+  and the drawer. Items take a <code>badge</code>, shown on the icon. The bar does not position
+  itself; place it at the bottom of your layout.
+</p>
+<p>
+  <code>active</code> on <code>wc-navigation-bar-item</code> is deprecated: use
+  <code>current</code>. Bar items no longer have the rail-only <code>collapsed</code> property.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <div style='width: 100%; max-width: 420px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;'>
     <wc-navigation-bar id='navigation-bar-demo' aria-label='Primary'>
-      <wc-navigation-bar-item value='home' active>
+      <wc-navigation-bar-item value='home' current>
         <wc-icon slot='icon' name='home'></wc-icon>
         Home
       </wc-navigation-bar-item>
@@ -22,7 +28,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         <wc-icon slot='icon' name='search'></wc-icon>
         Search
       </wc-navigation-bar-item>
-      <wc-navigation-bar-item value='saved'>
+      <wc-navigation-bar-item value='saved' badge='2'>
         <wc-icon slot='icon' name='bookmark'></wc-icon>
         Saved
       </wc-navigation-bar-item>

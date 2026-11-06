@@ -1,10 +1,13 @@
 import { html, LitElement, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
 import { FloatingController } from '../../__internal/controllers/floating-controller.js';
 import type { CloseReason } from '../../__internal/controllers/overlay-controller.js';
+import {
+  type OverlayPlacement,
+  toPhysicalPlacement,
+} from '../../__internal/utils/placement.js';
 import { MenuItem } from '../menu-item/menu-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
@@ -66,6 +69,10 @@ const POSITION_ATTRIBUTES = [
  * <p>Keyboard: when the menu opens, focus moves to the selected item or the first enabled one. Arrow
  * Up/Down move with wrap-around, Home/End jump to the ends, typing a letter jumps to the next item
  * starting with it, Enter/Space activate, Escape closes and returns focus to the trigger, Tab closes.</p>
+ * <p>Choices: items with <code>type="checkbox"</code> toggle <code>selected</code> and keep the menu
+ * open; items with <code>type="radio"</code> select themselves, clear the other radio items between
+ * the same <code>wc-divider</code>s and close the menu. The new state is set before
+ * <code>menu-item-activate</code> fires.</p>
  *
  * @cssprop --menu-container-color - Background of the standard menu surface.
  * @cssprop --menu-item-label-color - Text color of the items.
@@ -113,7 +120,11 @@ export class Menu extends LitElement {
   @property({ type: String })
   anchor = '';
 
-  /** When true, renders the menu in a static preview state (always visible, in the page flow). */
+  /**
+   * Renders the menu statically in the page flow, without positioning or the top layer. For the
+   * documentation demos only; not part of the public API.
+   * @internal
+   */
   @property({ type: Boolean, reflect: true })
   preview = false;
 
@@ -125,13 +136,20 @@ export class Menu extends LitElement {
   @property({ type: Boolean, attribute: 'no-autofocus' })
   noAutofocus = false;
 
-  /** Set to true when this menu is being used as a submenu inside another menu. */
+  /**
+   * Set by `wc-sub-menu` on the menu it nests.
+   * @internal
+   */
   @property({ type: Boolean, attribute: 'is-submenu' })
   isSubmenu = false;
 
-  /** Floating UI placement of the menu relative to its anchor. */
+  /**
+   * Where the menu opens relative to its anchor: `top`, `bottom`, `start` or `end`, optionally
+   * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+   * The physical `left` / `right` still work but are deprecated. Defaults to `"bottom-start"`.
+   */
   @property({ type: String })
-  placement: Placement = 'bottom-start';
+  placement: OverlayPlacement = 'bottom-start';
 
   /** Distance in pixels between the menu and its anchor element. */
   @property({ type: Number })
@@ -144,7 +162,11 @@ export class Menu extends LitElement {
   @query('.menu')
   private readonly menuListElement!: HTMLElement | null;
 
-  /** Direct reference to the anchor element; takes precedence over the `anchor` ID property. */
+  /**
+   * Direct reference to the anchor element; takes precedence over the `anchor` ID property. Set by
+   * the components that own a menu (dropdown button, split button, select, sub-menu).
+   * @internal
+   */
   anchorElement: HTMLElement | null = null;
 
   /** Controller managing floating-UI positioning. */
@@ -487,13 +509,47 @@ export class Menu extends LitElement {
     }
 
     this._setActiveItem(item);
+    this._applyChoice(item);
     this._dispatchItemActivate(item);
-    if (item.keepOpen) {
+    // A checkbox item stays open, like native menus, so several can be toggled in a row.
+    if (item.keepOpen || item.type === 'checkbox') {
       return;
     }
 
     this.close({ kind: 'click-selection' });
   };
+
+  /** Toggles a checkbox item, or selects a radio item and clears the others of its group. */
+  private _applyChoice(item: MenuItem) {
+    if (item.type === 'checkbox') {
+      // eslint-disable-next-line no-param-reassign
+      item.selected = !item.selected;
+    } else if (item.type === 'radio') {
+      for (const other of this._radioGroup(item)) {
+        other.selected = other === item;
+      }
+    }
+  }
+
+  /** The radio items in the same group as `item`: those between the same `wc-divider`s. */
+  private _radioGroup(item: MenuItem): MenuItem[] {
+    let group: MenuItem[] = [];
+    let found = false;
+    for (const element of this._slottedElements()) {
+      if (element.tagName.toLowerCase() === 'wc-divider') {
+        if (found) break;
+        group = [];
+      } else {
+        const candidate = this._resolveItem(element);
+        if (candidate?.type === 'radio') {
+          group.push(candidate);
+          found ||= candidate === item;
+        }
+      }
+    }
+
+    return found ? group : [item];
+  }
 
   private _onKeyDown = (event: KeyboardEvent) => {
     if (!this.open) {
@@ -679,7 +735,7 @@ export class Menu extends LitElement {
     }
 
     this._floatingController.setOptions({
-      placement: this.placement,
+      placement: toPhysicalPlacement(this.placement, this, 'wc-menu'),
       offset: this.offset,
       strategy: 'fixed',
       closeOnClickOutside: !this.stayOpenOnOutsideClick,

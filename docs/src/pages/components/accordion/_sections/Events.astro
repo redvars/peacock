@@ -1,0 +1,44 @@
+---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+export const title = 'Keyboard and events';
+export const order = 600;
+---
+<p>
+  The accordion is one tab stop. <kbd>Up</kbd> and <kbd>Down</kbd> move focus
+  between the panel headers, <kbd>Home</kbd> and <kbd>End</kbd> jump to the
+  first and last; disabled panels are skipped. <kbd>Enter</kbd> or
+  <kbd>Space</kbd> opens or closes the focused panel.
+</p>
+<p>
+  Each <code>wc-accordion-item</code> fires <code>open</code> after it expands
+  and <code>close</code> after it collapses. Both bubble and carry
+  <code>detail.reason</code>: <code>'action'</code> when the person used the
+  header, <code>'api'</code> when <code>open</code> was set, or
+  <code>show()</code>, <code>hide()</code> or <code>toggle()</code> was called
+  (including when a single-panel accordion closes the others).
+</p>
+
+<DemoComponentCard lang={"html"}>
+  <wc-accordion>
+    <wc-accordion-item>
+      <span slot="heading">Panel A</span>
+      <p>Content for panel A.</p>
+    </wc-accordion-item>
+    <wc-accordion-item>
+      <span slot="heading">Panel B</span>
+      <p>Content for panel B.</p>
+    </wc-accordion-item>
+  </wc-accordion>
+</DemoComponentCard>
+
+<pre><code>{`accordion.addEventListener('open', event => {
+  console.log(event.target, event.detail.reason);
+});`}</code></pre>
+
+<h3>Deprecated</h3>
+<p>
+  The <code>accordion-item-toggle</code> event still fires when the person opens
+  or closes a panel, but is deprecated: listen for <code>open</code> and
+  <code>close</code>. 4.0 removes it.
+</p>

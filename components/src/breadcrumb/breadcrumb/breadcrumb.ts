@@ -21,7 +21,7 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  * <wc-breadcrumb label="Breadcrumb">
  *   <wc-breadcrumb-item href="#">Home</wc-breadcrumb-item>
  *   <wc-breadcrumb-item href="#">Category</wc-breadcrumb-item>
- *   <wc-breadcrumb-item active>Current Page</wc-breadcrumb-item>
+ *   <wc-breadcrumb-item current>Current Page</wc-breadcrumb-item>
  * </wc-breadcrumb>
  * ```
  */
@@ -44,7 +44,7 @@ export class Breadcrumb extends LitElement {
       aria-label=${this.label || this.i18n.t('breadcrumb')}
       class="breadcrumb"
     >
-      <ol>
+      <ol itemscope itemtype="https://schema.org/BreadcrumbList">
         <slot></slot>
       </ol>
     </nav>`;

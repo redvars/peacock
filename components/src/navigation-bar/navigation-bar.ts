@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { selectNavigationItem } from '@/__internal/navigation-item-base.js';
 import { NavigationBarItem } from './navigation-bar-item.js';
 import styles from './navigation-bar.scss';
 
@@ -12,7 +13,8 @@ import styles from './navigation-bar.scss';
  * @summary A bottom bar with three to five primary destinations, for small screens.
  * @overview
  * <p>Navigation bar lays its <code>wc-navigation-bar-item</code> children out in a row of equal
- * widths. Clicking an item makes it the active one and fires <code>change</code>.</p>
+ * widths. Clicking an item makes it the current one (<code>aria-current="page"</code>) and fires
+ * <code>change</code>.</p>
  * <p>The bar does not position itself: place it at the bottom of your layout, or give it
  * <code>position: fixed; inset-inline: 0; bottom: 0</code>.</p>
  *
@@ -25,7 +27,7 @@ import styles from './navigation-bar.scss';
  * @example
  * ```html
  * <wc-navigation-bar>
- *   <wc-navigation-bar-item active value="home">
+ *   <wc-navigation-bar-item current value="home">
  *     <wc-icon slot="icon" name="home"></wc-icon>
  *     Home
  *   </wc-navigation-bar-item>
@@ -81,29 +83,11 @@ export class NavigationBar extends LitElement {
     this.setAttribute('aria-label', this.defaultLabel);
   }
 
-  private getItems(): NavigationBarItem[] {
-    return Array.from(
-      this.querySelectorAll<NavigationBarItem>('wc-navigation-bar-item'),
-    );
-  }
-
   private handleItemClick = (event: Event) => {
-    const item = (event.target as Element).closest?.(
+    selectNavigationItem<NavigationBarItem>(
+      this,
+      event,
       'wc-navigation-bar-item',
-    ) as NavigationBarItem | null;
-    if (!item || item.disabled) return;
-
-    const items = this.getItems();
-    for (const barItem of items) {
-      barItem.active = barItem === item;
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: item.value, index: items.indexOf(item), item },
-        bubbles: true,
-        composed: true,
-      }),
     );
   };
 

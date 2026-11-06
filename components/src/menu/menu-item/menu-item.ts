@@ -3,10 +3,24 @@ import { property, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './menu-item.scss';
-import NativeButtonMixin from '@/__internal/mixins/NativeButtonMixin.js';
-import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
+import { mixinBaseButton } from '@/button/base-button/base-button.js';
+import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import {
+  dispatchActivationClick,
+  isActivationClick,
+} from '@/__internal/utils/dispatch-event-utils.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import IndividualComponent from '@/IndividualComponent.js';
+
+/** What a menu item is: an action (`item`), an on/off choice (`checkbox`) or one of a set (`radio`). */
+export type MenuItemType = 'item' | 'checkbox' | 'radio';
+
+const ITEM_ROLES: Record<MenuItemType, string> = {
+  item: 'menuitem',
+  checkbox: 'menuitemcheckbox',
+  radio: 'menuitemradio',
+};
 
 /**
  * @label Menu Item
@@ -17,6 +31,13 @@ import IndividualComponent from '@/IndividualComponent.js';
  * <p>A menu item is a button, or a link when it has an <code>href</code>. A selected item shows a
  * check mark at the end; an item with a submenu shows a chevron. Put an icon in the
  * <code>start</code> slot; the menu lines up the labels of items without one.</p>
+ * <p>Set <code>type="checkbox"</code> or <code>type="radio"</code> to make <code>selected</code>
+ * accessible: the item becomes a <code>menuitemcheckbox</code> or <code>menuitemradio</code> with
+ * <code>aria-checked</code>. A plain item only shows the check mark. Activating a checkbox item
+ * toggles it and keeps the menu open; activating a radio item selects it, clears the other radio
+ * items of its group (the items between the same dividers) and closes the menu.</p>
+ * <p>A link item that stands for the current page sets <code>current</code>
+ * (<code>aria-current="page"</code>).</p>
  *
  * @slot - The label.
  * @slot start - Leading icon or avatar.
@@ -35,8 +56,8 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tags navigation
  */
 @IndividualComponent
-export class MenuItem extends NativeButtonMixin(
-  NativeHyperlinkMixin(LitElement),
+export class MenuItem extends mixinBaseButton(
+  mixinHyperlink(mixinElementInternals(LitElement)),
 ) {
   static styles = [styles];
 
@@ -44,9 +65,24 @@ export class MenuItem extends NativeButtonMixin(
   @property({ type: String })
   value = '';
 
-  /** Whether this menu item is currently selected. Selected items show a check mark. */
+  /**
+   * What the item is. `"item"` (default) is an action; `"checkbox"` toggles `selected` and keeps
+   * the menu open; `"radio"` selects this item and clears the other radio items of its group.
+   * `"checkbox"` and `"radio"` expose `selected` as `aria-checked`.
+   */
+  @property({ type: String })
+  type: MenuItemType = 'item';
+
+  /**
+   * Whether this menu item is selected. Selected items show a check mark. Set `type="checkbox"` or
+   * `type="radio"` so assistive technology announces the state.
+   */
   @property({ type: Boolean, reflect: true })
   selected = false;
+
+  /** Marks a link item as the current page (`aria-current="page"`). */
+  @property({ type: Boolean, reflect: true })
+  current = false;
 
   /** When true, the menu stays open after this item is activated. */
   @property({ type: Boolean, attribute: 'keep-open' })
@@ -71,6 +107,11 @@ export class MenuItem extends NativeButtonMixin(
   /** Roving tabindex value managed by the parent Menu. */
   private _rovingTabIndex = -1;
 
+  constructor() {
+    super();
+    this.addEventListener('click', this.__dispatchClickWithThrottle);
+  }
+
   connectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.connectedCallback();
@@ -86,6 +127,11 @@ export class MenuItem extends NativeButtonMixin(
   disconnectedCallback() {
     this._contentObserver.disconnect();
     super.disconnectedCallback();
+  }
+
+  protected override updated() {
+    // wc-item reads which named slots it has in its own render; tell it when ours change.
+    this.renderRoot.querySelector<LitElement>('wc-item')?.requestUpdate();
   }
 
   override get tabIndex() {
@@ -126,14 +172,41 @@ export class MenuItem extends NativeButtonMixin(
     this.itemElement?.blur();
   }
 
+  /**
+   * Handles clicks on the host: stops them for soft-disabled items and disabled links, and turns
+   * a click fired at the host (`item.click()`, Enter in the menu) into a click on the inner button
+   * or link, so a link item navigates.
+   */
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    if (this.softDisabled || (this.disabled && isLink(this))) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    if (!isActivationClick(event) || !this.itemElement) {
+      return;
+    }
+
+    dispatchActivationClick(this.itemElement);
+  };
+
   /** ARIA role of the inner control. */
   protected get itemRole() {
-    return 'menuitem';
+    return ITEM_ROLES[this.type] ?? 'menuitem';
   }
 
   /** ARIA state of the inner control, such as `aria-selected` for options. */
   protected get itemAriaSelected(): string | undefined {
     return undefined;
+  }
+
+  /** `aria-checked` of the inner control: set for checkbox and radio items only. */
+  protected get itemAriaChecked(): string | undefined {
+    const role = this.itemRole;
+    return role === 'menuitemcheckbox' || role === 'menuitemradio'
+      ? String(this.selected)
+      : undefined;
   }
 
   /** Built-in leading content shown when the `start` slot is empty. */
@@ -160,11 +233,6 @@ export class MenuItem extends NativeButtonMixin(
     }
 
     return nothing;
-  }
-
-  protected override updated() {
-    // wc-item reads which named slots it has in its own render; tell it when ours change.
-    this.renderRoot.querySelector<LitElement>('wc-item')?.requestUpdate();
   }
 
   private _hasNamedSlot(...names: string[]) {
@@ -197,9 +265,8 @@ export class MenuItem extends NativeButtonMixin(
           download="${this.download || nothing}"
           tabindex="${this.disabled ? '-1' : String(this.tabIndex)}"
           aria-selected="${ifDefined(this.itemAriaSelected)}"
-          aria-current="${this.selected && this.itemRole === 'menuitem'
-            ? 'true'
-            : nothing}"
+          aria-checked="${ifDefined(this.itemAriaChecked)}"
+          aria-current="${this.current ? 'page' : nothing}"
           aria-disabled="${this.disabled || this.softDisabled
             ? 'true'
             : nothing}"
@@ -221,10 +288,12 @@ export class MenuItem extends NativeButtonMixin(
         id="menu-item"
         class="${classMap(cssClasses)}"
         role="${this.itemRole}"
-        type="${this.htmlType}"
+        type="button"
         ?disabled="${this.disabled}"
         tabindex="${String(this.tabIndex)}"
         aria-selected="${ifDefined(this.itemAriaSelected)}"
+        aria-checked="${ifDefined(this.itemAriaChecked)}"
+        aria-current="${this.current ? 'page' : nothing}"
         aria-disabled="${this.softDisabled ? 'true' : nothing}"
         aria-haspopup="${this.hasSubmenu ? 'menu' : nothing}"
         aria-controls="${ifDefined(

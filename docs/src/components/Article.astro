@@ -46,11 +46,10 @@ const { title, description, sections = [] } = Astro.props;
     <nav class="section-nav">
       {
         sections.map((section) => (
-          <wc-sidebar-menu-item
+          <wc-navigation-drawer-item
             href={`#section-${convertToSectionId(section.title)}`}
-            label={section.title}
             data-section={`section-${convertToSectionId(section.title)}`}
-          ></wc-sidebar-menu-item>
+          >{section.title}</wc-navigation-drawer-item>
         ))
       }
     </nav>
@@ -63,11 +62,11 @@ const { title, description, sections = [] } = Astro.props;
 
         // Build id → nav item map for h2 sections
         const navMap = {};
-        nav.querySelectorAll('wc-sidebar-menu-item').forEach(function (item) {
+        nav.querySelectorAll('wc-navigation-drawer-item').forEach(function (item) {
           navMap[item.dataset.section] = item;
         });
 
-        // Inject wc-sidebar-menu-item for each h3, assign ids, and register in navMap
+        // Inject wc-navigation-drawer-item for each h3, assign ids, and register in navMap
         const tracked = [];
         document.querySelectorAll('.article .section').forEach(function (section) {
           // Track the h2 heading, not the whole section — sections are too large
@@ -91,10 +90,10 @@ const { title, description, sections = [] } = Astro.props;
             tracked.push(h3);
 
             if (sectionNavItem) {
-              const sub = document.createElement('wc-sidebar-menu-item');
+              const sub = document.createElement('wc-navigation-drawer-item');
               sub.setAttribute('href', '#' + h3.id);
-              sub.setAttribute('label', h3.textContent.trim());
-              sub.setAttribute('level', '1');
+              sub.textContent = h3.textContent.trim();
+              sub.classList.add('sub-section');
               sub.dataset.section = h3.id;
               navMap[h3.id] = sub;
               lastInserted.insertAdjacentElement('afterend', sub);
@@ -107,8 +106,8 @@ const { title, description, sections = [] } = Astro.props;
         Object.values(navMap).forEach(function (item) {
           item.addEventListener('click', function (e) {
             e.preventDefault();
-            Object.values(navMap).forEach(function (i) { i.selected = false; });
-            item.selected = true;
+            Object.values(navMap).forEach(function (i) { i.current = false; });
+            item.current = true;
             const target = document.getElementById(item.dataset.section);
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           });
@@ -123,8 +122,8 @@ const { title, description, sections = [] } = Astro.props;
               activeId = tracked[i].dataset.navId;
             }
           }
-          Object.values(navMap).forEach(function (item) { item.selected = false; });
-          if (activeId && navMap[activeId]) navMap[activeId].selected = true;
+          Object.values(navMap).forEach(function (item) { item.current = false; });
+          if (activeId && navMap[activeId]) navMap[activeId].current = true;
         }
 
         let ticking = false;

@@ -2,7 +2,9 @@ import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { selectNavigationItem } from '@/__internal/navigation-item-base.js';
 import { NavigationDrawerItem } from './navigation-drawer-item.js';
+import { NavigationDrawerGroup } from './navigation-drawer-group.js';
 import styles from './navigation-drawer.scss';
 
 /**
@@ -13,7 +15,10 @@ import styles from './navigation-drawer.scss';
  * @summary A side panel listing an app's destinations.
  * @overview
  * <p>Navigation drawer holds <code>wc-navigation-drawer-item</code> destinations. Clicking an item makes
- * it the active one and fires <code>change</code>.</p>
+ * it the current one (<code>aria-current="page"</code>) and fires <code>change</code>.</p>
+ * <p>Put items in a <code>wc-navigation-drawer-group</code> for an expandable section: its header is a
+ * disclosure button and its items follow in the Tab order while it is expanded. Groups replace the
+ * deprecated <code>wc-sidebar-menu</code>.</p>
  * <ul>
  *   <li><code>variant="standard"</code> (default) sits in the page layout, next to the content.</li>
  *   <li><code>variant="modal"</code> opens over the page with a scrim. It traps focus, closes on Escape,
@@ -21,10 +26,10 @@ import styles from './navigation-drawer.scss';
  * </ul>
  * <p>Both variants show only while <code>open</code> is set.</p>
  *
- * @slot - The drawer items. Other content, such as `wc-divider` or section titles, works too.
+ * @slot - The drawer items and groups. Other content, such as `wc-divider` or section titles, works too.
  * @slot header - Content above the items, after the headline.
  *
- * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationDrawerItem}>} change - Dispatched when the user activates an item.
+ * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationDrawerItem}>} change - Dispatched when the user activates an item. `index` counts every item in the drawer, in groups too, in document order.
  * @fires {CustomEvent} open - Dispatched when the drawer opens.
  * @fires {CustomEvent} close - Dispatched when the drawer closes.
  *
@@ -34,7 +39,7 @@ import styles from './navigation-drawer.scss';
  * @example
  * ```html
  * <wc-navigation-drawer open headline="Mail">
- *   <wc-navigation-drawer-item active badge="24">
+ *   <wc-navigation-drawer-item current badge="24">
  *     <wc-icon slot="icon" name="inbox"></wc-icon>
  *     Inbox
  *   </wc-navigation-drawer-item>
@@ -42,6 +47,12 @@ import styles from './navigation-drawer.scss';
  *     <wc-icon slot="icon" name="send"></wc-icon>
  *     Sent
  *   </wc-navigation-drawer-item>
+ *   <wc-navigation-drawer-group>
+ *     <wc-icon slot="icon" name="label"></wc-icon>
+ *     <span slot="label">Labels</span>
+ *     <wc-navigation-drawer-item value="work">Work</wc-navigation-drawer-item>
+ *     <wc-navigation-drawer-item value="family">Family</wc-navigation-drawer-item>
+ *   </wc-navigation-drawer-group>
  * </wc-navigation-drawer>
  * ```
  * @tags navigation
@@ -53,6 +64,8 @@ export class NavigationDrawer extends LitElement {
   static styles = [styles];
 
   static Item = NavigationDrawerItem;
+
+  static Group = NavigationDrawerGroup;
 
   // ── Properties ───────────────────────────────────────────────────────────
 
@@ -127,32 +140,19 @@ export class NavigationDrawer extends LitElement {
     if (this.open && !dialog.open) {
       dialog.showModal();
       const items = this.getItems();
-      (items.find(item => item.active) ?? items[0])?.focus();
+      (items.find(item => item.current) ?? items[0])?.focus();
     } else if (!this.open && dialog.open) {
       dialog.close();
     }
   }
 
   private handleItemClick = (event: Event) => {
-    const item = (event.target as Element).closest?.(
+    const detail = selectNavigationItem<NavigationDrawerItem>(
+      this,
+      event,
       'wc-navigation-drawer-item',
-    ) as NavigationDrawerItem | null;
-    if (!item || item.disabled) return;
-
-    const items = this.getItems();
-    for (const drawerItem of items) {
-      drawerItem.active = drawerItem === item;
-    }
-
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: item.value, index: items.indexOf(item), item },
-        bubbles: true,
-        composed: true,
-      }),
     );
-
-    if (this.variant === 'modal') this.close();
+    if (detail && this.variant === 'modal') this.close();
   };
 
   /** Escape: close through `open` so the property stays the source of truth. */

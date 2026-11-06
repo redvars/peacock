@@ -3,12 +3,16 @@ export const title = 'Events';
 export const order = 200;
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
+<p>
+  <code>change</code> fires with <code>{'{ value, item }'}</code> when an item is selected. The
+  deprecated <code>sidebar-menu:change</code> fires too, with the same detail.
+</p>
 <goat-card>
   <pc-card-content class='no-padding'>
     <Highlighter lang='javascript' is:raw>
       const sidebarMenu = document.querySelector('#sidebar-menu');
-      sidebarMenu.addEventListener('sidebar-menu:change', function(evt) {
-      myConsole.log(JSON.stringify(evt.detail.value, null, 4), 'sidebar-menu:change');
+      sidebarMenu.addEventListener('change', function(evt) {
+      myConsole.log(JSON.stringify(evt.detail.value, null, 4), 'change');
       });
     </Highlighter>
   </pc-card-content>

@@ -160,7 +160,7 @@ export class CodeGroup extends LitElement {
           >
             ${this._blocks.map(
               (block, index) =>
-                html`<wc-tab .active=${index === active}
+                html`<wc-tab .selected=${index === active}
                   >${this.__tabLabel(block, index)}</wc-tab
                 >`,
             )}

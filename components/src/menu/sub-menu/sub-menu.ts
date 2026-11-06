@@ -17,17 +17,13 @@ let subMenuIdCounter = 0;
 export class SubMenu extends LitElement {
   static styles = [styles];
 
+  /** Milliseconds the pointer rests on the item before the submenu opens. */
   @property({ type: Number, attribute: 'hover-open-delay' })
   hoverOpenDelay = 120;
 
+  /** Milliseconds after the pointer leaves before the submenu closes. */
   @property({ type: Number, attribute: 'hover-close-delay' })
   hoverCloseDelay = 180;
-
-  @property({ type: String, attribute: 'anchor-corner' })
-  anchorCorner = 'start-end';
-
-  @property({ type: String, attribute: 'menu-corner' })
-  menuCorner = 'start-start';
 
   @queryAssignedElements({ slot: 'item' })
   private readonly _items!: Element[];
@@ -176,8 +172,8 @@ export class SubMenu extends LitElement {
 
     menu.isSubmenu = true;
     menu.anchorElement = this._resolveAnchorElement(item);
-    menu.placement =
-      getComputedStyle(this).direction === 'rtl' ? 'left-start' : 'right-start';
+    // Logical, so the submenu opens on the left in right-to-left pages.
+    menu.placement = 'end-start';
     menu.offset = 4;
   };
 

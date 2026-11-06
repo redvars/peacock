@@ -19,7 +19,12 @@
 }
 
 .sidebar-sub-menu-inner {
+  @include mixin.reset-button-styles;
+
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: start;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -127,4 +132,6 @@
 .sidebar-sub-menu-children.hidden {
   max-height: 0;
   opacity: 0;
+  // Takes collapsed items out of the Tab order and the accessibility tree.
+  visibility: hidden;
 }

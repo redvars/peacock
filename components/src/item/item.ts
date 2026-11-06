@@ -1,4 +1,4 @@
-﻿import { html, LitElement } from 'lit';
+import { html, LitElement } from 'lit';
 import { property, queryAll } from 'lit/decorators.js';
 import styles from './item.scss';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -13,6 +13,9 @@ import { hasMeaningfulContent } from '@/__internal/utils/observe-slot-change.js'
  * @rawTag item
  *
  * @summary A primitive element used to build higher-level item components such as menu-item, navigation-item, and list-item. Provides start, text, and end slots for flexible content composition.
+ *
+ * @internal Not part of the public API: use `wc-list-item` or `wc-menu-item`. It stays
+ * registered because those components render it.
  *
  * @example
  * ```html

@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { RovingFocusController } from '@/__internal/controllers/roving-focus-controller.js';
 import styles from './toolbar.scss';
 import colorStyles from './toolbar-colors.scss';
 
@@ -96,8 +97,11 @@ export class Toolbar extends LitElement {
 
   // ── Private fields
 
-  /** The item that holds the toolbar's single tab stop. */
-  private __activeItem: HTMLElement | null = null;
+  /** The toolbar's single tab stop, moved with the arrow keys along its orientation. */
+  private readonly roving = new RovingFocusController(this, {
+    items: () => this.__getItems(),
+    orientation: () => this.orientation,
+  });
 
   // ── Lifecycle
 
@@ -105,10 +109,6 @@ export class Toolbar extends LitElement {
     super.connectedCallback();
     // The role lives on the host so the host's aria-label names the toolbar.
     this.setAttribute('role', 'toolbar');
-  }
-
-  override firstUpdated() {
-    this.__syncTabStops();
   }
 
   override updated(changed: Map<string, unknown>) {
@@ -135,83 +135,8 @@ export class Toolbar extends LitElement {
       );
   }
 
-  /** Gives the active item `tabindex="0"` and every other item `tabindex="-1"`. */
-  private __syncTabStops() {
-    const items = this.__getItems();
-    if (!this.__activeItem || !items.includes(this.__activeItem)) {
-      this.__activeItem = items[0] ?? null;
-    }
-    for (const item of items) {
-      item.tabIndex = item === this.__activeItem ? 0 : -1;
-    }
-  }
-
-  /** Makes `item` the tab stop and focuses it. */
-  private __focusItem(item: HTMLElement) {
-    this.__activeItem = item;
-    this.__syncTabStops();
-    item.focus();
-  }
-
-  /** Finds the toolbar item an event came from. */
-  private __itemFromEvent(event: Event, items: HTMLElement[]) {
-    return (
-      event
-        .composedPath()
-        .find((node): node is HTMLElement =>
-          items.includes(node as HTMLElement),
-        ) ?? null
-    );
-  }
-
   private __handleSlotChange = () => {
-    this.__syncTabStops();
-  };
-
-  private __handleFocusIn = (event: FocusEvent) => {
-    const item = this.__itemFromEvent(event, this.__getItems());
-    if (item && item !== this.__activeItem) {
-      this.__activeItem = item;
-      this.__syncTabStops();
-    }
-  };
-
-  private __handleKeyDown = (event: KeyboardEvent) => {
-    const items = this.__getItems();
-    if (items.length === 0) return;
-
-    const current = this.__itemFromEvent(event, items);
-    if (!current) return;
-
-    const index = items.indexOf(current);
-    let nextKey = 'ArrowDown';
-    let prevKey = 'ArrowUp';
-    if (this.orientation === 'horizontal') {
-      const rtl = getComputedStyle(this).direction === 'rtl';
-      nextKey = rtl ? 'ArrowLeft' : 'ArrowRight';
-      prevKey = rtl ? 'ArrowRight' : 'ArrowLeft';
-    }
-
-    let target: HTMLElement | undefined;
-    switch (event.key) {
-      case nextKey:
-        target = items[(index + 1) % items.length];
-        break;
-      case prevKey:
-        target = items[(index - 1 + items.length) % items.length];
-        break;
-      case 'Home':
-        [target] = items;
-        break;
-      case 'End':
-        target = items[items.length - 1];
-        break;
-      default:
-        return;
-    }
-
-    event.preventDefault();
-    if (target) this.__focusItem(target);
+    this.roving.sync();
   };
 
   // ── Render
@@ -228,8 +153,8 @@ export class Toolbar extends LitElement {
     return html`
       <div
         class=${classMap(cssClasses)}
-        @keydown=${this.__handleKeyDown}
-        @focusin=${this.__handleFocusIn}
+        @keydown=${this.roving.handleKeyDown}
+        @focusin=${this.roving.handleFocusIn}
       >
         ${floating
           ? html`<wc-elevation class="elevation"></wc-elevation>`

@@ -9,7 +9,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>
@@ -32,7 +32,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <wc-icon-button slot="header" variant="text" aria-label="Create">
       <wc-icon name="add"></wc-icon>
     </wc-icon-button>
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>
@@ -53,7 +53,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
   <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
     <wc-fab slot="header" style="margin-bottom: 0.5rem;"><wc-icon name="edit"></wc-icon></wc-fab>
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="inbox"></wc-icon>
       Inbox
     </wc-navigation-rail-item>
@@ -77,7 +77,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-navigation-rail style="height: 400px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>
@@ -96,11 +96,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </DemoComponentCard>
 
 <h3>Active Icon Swap</h3>
-<p>Provide an <code>active-icon</code> slot when the selected state should show a different icon inside the indicator.</p>
+<p>Provide an <code>active-icon</code> slot when the current item should show a different icon inside the indicator.</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-navigation-rail style="height: 320px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="bookmark_border"></wc-icon>
       <wc-icon slot="active-icon" name="bookmark"></wc-icon>
       Saved
@@ -126,7 +126,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
       <span class="text-label" style="font-size: 0.75rem; color: var(--color-on-surface-variant);">Expanded</span>
       <wc-navigation-rail mode="expanded" style="height: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-        <wc-navigation-rail-item active>
+        <wc-navigation-rail-item current>
           <wc-icon slot="icon" name="home"></wc-icon>
           Home
         </wc-navigation-rail-item>
@@ -144,7 +144,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
       <span class="text-label" style="font-size: 0.75rem; color: var(--color-on-surface-variant);">Collapsed</span>
       <wc-navigation-rail mode="collapsed" style="height: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-        <wc-navigation-rail-item active>
+        <wc-navigation-rail-item current>
           <wc-icon slot="icon" name="home"></wc-icon>
           Home
         </wc-navigation-rail-item>
@@ -166,7 +166,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-navigation-rail mode="collapsed" style="height: 300px; border: 1px solid var(--color-outline-variant); border-radius: 1rem; overflow: hidden;">
-    <wc-navigation-rail-item active>
+    <wc-navigation-rail-item current>
       <wc-icon slot="icon" name="home"></wc-icon>
       Home
     </wc-navigation-rail-item>

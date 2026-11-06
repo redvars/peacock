@@ -1,0 +1,94 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_container-color: transparent;
+  --_label-text-color: var(--color-on-surface);
+  --_supporting-text-color: var(--color-on-surface-variant);
+  --_label-text-opacity: 1;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: 3rem;
+  padding-inline: 1rem;
+  cursor: pointer;
+  outline: none;
+  color: var(--_label-text-color);
+  --ripple-pressed-color: var(--color-on-surface);
+}
+
+:host([selected]) {
+  --_container-color: var(
+    --listbox-option-selected-container-color,
+    var(--color-secondary-container)
+  );
+  --_label-text-color: var(
+    --listbox-option-selected-label-text-color,
+    var(--color-on-secondary-container)
+  );
+  --ripple-pressed-color: var(--_label-text-color);
+}
+
+:host([disabled]) {
+  --_label-text-opacity: 0.38;
+  cursor: not-allowed;
+
+  .ripple {
+    display: none;
+  }
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--_container-color);
+}
+
+.focus-ring {
+  z-index: 1;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.75rem;
+  min-inline-size: 0;
+  opacity: var(--_label-text-opacity);
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.label {
+  @include mixin.get-typography('body-large');
+}
+
+.supporting-text {
+  @include mixin.get-typography('body-medium');
+  color: var(--_supporting-text-color);
+}
+
+.indicator {
+  flex: none;
+  --icon-size: 1.5rem;
+  --icon-color: currentColor;
+}
+
+::slotted([slot='start']),
+::slotted([slot='end']) {
+  flex: none;
+  --icon-color: currentColor;
+}

@@ -55,6 +55,7 @@ export { Tooltip } from './popover/index.js';
 export { Popover, PopoverContent } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
 export { Menu, MenuItem, SubMenu } from './menu/index.js';
+export type { MenuItemType } from './menu/menu-item/menu-item.js';
 export { List, ListItem } from './list/index.js';
 export { Timeline, TimelineItem } from './timeline/index.js';
 export { Item } from './item/index.js';
@@ -107,7 +108,10 @@ export { NavigationBar, NavigationBarItem } from './navigation-bar/index.js';
 export {
   NavigationDrawer,
   NavigationDrawerItem,
+  NavigationDrawerGroup,
 } from './navigation-drawer/index.js';
+export { Listbox, ListboxOption } from './listbox/index.js';
+export type { ListboxChangeDetail } from './listbox/index.js';
 export {
   Calendar,
   CalendarColumnView,

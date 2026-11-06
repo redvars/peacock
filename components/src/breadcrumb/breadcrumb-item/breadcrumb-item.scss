@@ -2,8 +2,11 @@
 
 @include mixin.base-styles;
 
+// Not `display: contents`: the host carries `role="listitem"`, and some browsers drop the role of
+// an element without a box.
 :host {
-  display: contents;
+  display: inline-flex;
+  align-items: center;
 }
 
 .breadcrumb-item {

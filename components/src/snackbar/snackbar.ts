@@ -117,7 +117,10 @@ export class Snackbar extends LitElement {
   /** When true, the snackbar content is allowed to wrap to multiple lines. */
   @property({ type: Boolean, reflect: true }) multiline = false;
 
-  /** When true, renders the snackbar in a static preview state (always visible, no animation). */
+  /**
+   * Renders the snackbar in a static preview state (always visible, no animation).
+   * @internal For the documentation demos only.
+   */
   @property({ type: Boolean, reflect: true }) preview = false;
 
   /**

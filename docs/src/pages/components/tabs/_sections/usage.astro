@@ -9,182 +9,95 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 
+<p>
+  Put a <code>wc-tabs</code> and one <code>wc-tab-panel</code> per tab in a
+  <code>wc-tab-group</code>. Mark the tab that starts chosen with
+  <code>selected</code>. Tabs and panels are matched by <code>value</code>, or
+  by position when no tab has one. Name the tab list with
+  <code>aria-label</code>.
+</p>
+
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
-    <wc-tabs>
-      <wc-tab>Home <wc-icon slot="icon" name="home"></wc-icon></wc-tab>
-      <wc-tab active="true">
+    <wc-tabs aria-label='Mailbox'>
+      <wc-tab value='home'>Home <wc-icon slot='icon' name='home'></wc-icon></wc-tab>
+      <wc-tab value='updates' selected>
         Updates
-        <wc-icon slot="icon" name="update"></wc-icon>
-        <wc-badge slot="badge"></wc-badge>
+        <wc-icon slot='icon' name='update'></wc-icon>
+        <wc-badge slot='badge'></wc-badge>
       </wc-tab>
-      <wc-tab>
+      <wc-tab value='inbox'>
         Inbox
-        <wc-icon slot="icon" name="mail"></wc-icon>
-        <wc-badge slot="badge" value="99+"></wc-badge>
+        <wc-icon slot='icon' name='mail'></wc-icon>
+        <wc-badge slot='badge' value='99+'></wc-badge>
       </wc-tab>
-      <wc-tab disabled>
-        Disabled
-        <wc-icon slot="icon" name="block"></wc-icon>
-        <wc-badge slot="badge" value="!"></wc-badge>
+      <wc-tab value='archive' disabled disabled-reason='Archive is not set up'>
+        Archive
+        <wc-icon slot='icon' name='archive'></wc-icon>
       </wc-tab>
     </wc-tabs>
 
-    <wc-tab-panel>
-      <pc-text type="heading"> Home content </pc-text>
+    <wc-tab-panel value='home'>
+      <pc-text type='heading'> Home content </pc-text>
     </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Updates content </pc-text>
+    <wc-tab-panel value='updates'>
+      <pc-text type='heading'> Updates content </pc-text>
     </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Inbox content </pc-text>
+    <wc-tab-panel value='inbox'>
+      <pc-text type='heading'> Inbox content </pc-text>
     </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Disabled content </pc-text>
+    <wc-tab-panel value='archive'>
+      <pc-text type='heading'> Archive content </pc-text>
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
-    <wc-tabs variant="secondary">
+    <wc-tabs variant='secondary' aria-label='Project'>
       <wc-tab>
         Overview
-        <wc-icon slot="icon" name="dashboard"></wc-icon>
+        <wc-icon slot='icon' name='dashboard'></wc-icon>
       </wc-tab>
-      <wc-tab active="true">
+      <wc-tab selected>
         Activity
-        <wc-badge slot="badge" value="7"></wc-badge>
+        <wc-badge slot='badge' value='7'></wc-badge>
       </wc-tab>
       <wc-tab>
         Messages
-        <wc-icon slot="icon" name="chat"></wc-icon>
-        <wc-badge slot="badge" value="12"></wc-badge>
-      </wc-tab>
-      <wc-tab disabled>
-        Restricted
-        <wc-icon slot="icon" name="lock"></wc-icon>
+        <wc-icon slot='icon' name='chat'></wc-icon>
+        <wc-badge slot='badge' value='12'></wc-badge>
       </wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
-      <pc-text type="heading"> First content </pc-text>
+      <pc-text type='heading'> Overview content </pc-text>
     </wc-tab-panel>
     <wc-tab-panel>
-      <pc-text type="heading"> Overview content </pc-text>
+      <pc-text type='heading'> Activity content </pc-text>
     </wc-tab-panel>
-
     <wc-tab-panel>
-      <pc-text type="heading"> Activity content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Messages content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Second content </pc-text>
-    </wc-tab-panel>
-  </wc-tab-group>
-    <wc-tab-panel>
-      <pc-text type="heading"> Restricted content </pc-text>
+      <pc-text type='heading'> Messages content </pc-text>
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
   <wc-tab-group>
-    <wc-tabs variant="filled">
-      <wc-tab>
-        Overview
-        <wc-icon slot="icon" name="dashboard"></wc-icon>
-      </wc-tab>
-      <wc-tab active="true">
-        Activity
-        <wc-badge slot="badge" value="7"></wc-badge>
-      </wc-tab>
-      <wc-tab>
-        Messages
-        <wc-icon slot="icon" name="chat"></wc-icon>
-        <wc-badge slot="badge" value="12"></wc-badge>
-      </wc-tab>
-      <wc-tab disabled>
-        Restricted
-        <wc-icon slot="icon" name="lock"></wc-icon>
-      </wc-tab>
+    <wc-tabs variant='filled' aria-label='Period'>
+      <wc-tab selected>Daily</wc-tab>
+      <wc-tab>Weekly</wc-tab>
+      <wc-tab>Monthly</wc-tab>
     </wc-tabs>
 
     <wc-tab-panel>
-      <pc-text type="heading"> First content </pc-text>
+      <pc-text type='heading'> Daily content </pc-text>
     </wc-tab-panel>
     <wc-tab-panel>
-      <pc-text type="heading"> Overview content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Activity content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Messages content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Second content </pc-text>
-    </wc-tab-panel>
-  </wc-tab-group>
-    <wc-tab-panel>
-      <pc-text type="heading"> Restricted content </pc-text>
-    </wc-tab-panel>
-  </wc-tab-group>
-</DemoComponentCard>
-
-<DemoComponentCard lang={'html'} cssClasses='demo-canvas'>
-  <wc-tab-group>
-    <wc-tabs variant="contained">
-      <wc-tab>
-        Overview
-        <wc-icon slot="icon" name="dashboard"></wc-icon>
-      </wc-tab>
-      <wc-tab active="true">
-        Activity
-        <wc-badge slot="badge" value="7"></wc-badge>
-      </wc-tab>
-      <wc-tab>
-        Messages
-        <wc-icon slot="icon" name="chat"></wc-icon>
-        <wc-badge slot="badge" value="12"></wc-badge>
-      </wc-tab>
-      <wc-tab disabled>
-        Restricted
-        <wc-icon slot="icon" name="lock"></wc-icon>
-      </wc-tab>
-    </wc-tabs>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> First content </pc-text>
+      <pc-text type='heading'> Weekly content </pc-text>
     </wc-tab-panel>
     <wc-tab-panel>
-      <pc-text type="heading"> Overview content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Activity content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Messages content </pc-text>
-    </wc-tab-panel>
-
-    <wc-tab-panel>
-      <pc-text type="heading"> Second content </pc-text>
-    </wc-tab-panel>
-  </wc-tab-group>
-    <wc-tab-panel>
-      <pc-text type="heading"> Restricted content </pc-text>
+      <pc-text type='heading'> Monthly content </pc-text>
     </wc-tab-panel>
   </wc-tab-group>
 </DemoComponentCard>

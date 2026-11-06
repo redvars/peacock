@@ -361,7 +361,7 @@ describe('CodeGroup', () => {
       'greeting.ts',
       'greeting.css',
     ]);
-    expect(tabs(el)[0].active).to.equal(true);
+    expect(tabs(el)[0].selected).to.equal(true);
   });
 
   it('shows only the selected block, framed by the group', async () => {

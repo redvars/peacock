@@ -86,6 +86,7 @@ import { BottomSheet } from '@/bottom-sheet/bottom-sheet.js';
 import { SideSheet } from '@/side-sheet/side-sheet.js';
 import { Modal } from '@/modal/modal.js';
 import { Select } from '@/select/select.js';
+import { Listbox, ListboxOption } from '@/listbox/index.js';
 import { SelectOptionElement } from '@/select/option.js';
 import { Search } from '@/search/search.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
@@ -96,6 +97,7 @@ import { NavigationBar } from '@/navigation-bar/navigation-bar.js';
 import { NavigationBarItem } from '@/navigation-bar/navigation-bar-item.js';
 import { NavigationDrawer } from '@/navigation-drawer/navigation-drawer.js';
 import { NavigationDrawerItem } from '@/navigation-drawer/navigation-drawer-item.js';
+import { NavigationDrawerGroup } from '@/navigation-drawer/navigation-drawer-group.js';
 
 // Resolve the folder this script was served from. `new URL('.', …)` drops the file name and any
 // query string, so `loader.js?styles` still yields `…/dist` (no trailing slash).
@@ -401,6 +403,12 @@ const loaderConfig: LoaderConfig = {
     'wc-option': {
       CustomElementClass: SelectOptionElement,
     },
+    'wc-listbox': {
+      CustomElementClass: Listbox,
+    },
+    'wc-listbox-option': {
+      CustomElementClass: ListboxOption,
+    },
     'wc-search': {
       CustomElementClass: Search,
     },
@@ -427,6 +435,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-navigation-drawer-item': {
       CustomElementClass: NavigationDrawerItem,
+    },
+    'wc-navigation-drawer-group': {
+      CustomElementClass: NavigationDrawerGroup,
     },
     'wc-calendar': {
       importPath: `${distDirectory}/calendar.js`,

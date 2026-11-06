@@ -1,0 +1,50 @@
+---
+export const title = 'Choices';
+export const order = 250;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>
+  A plain item's <code>selected</code> only shows the check mark; assistive technology does not hear it. To
+  make a menu item an on/off or one-of-several choice, give it a <code>type</code>:
+</p>
+<ul>
+  <li>
+    <code>type="checkbox"</code> renders a <code>menuitemcheckbox</code> with <code>aria-checked</code>.
+    Activating it toggles <code>selected</code> and keeps the menu open, like native menus, so several can
+    be switched in a row.
+  </li>
+  <li>
+    <code>type="radio"</code> renders a <code>menuitemradio</code> with <code>aria-checked</code>. Activating
+    it selects it and clears the other radio items of its group, the items between the same
+    <code>wc-divider</code>s, then closes the menu. Add <code>keep-open</code> to keep it open.
+  </li>
+</ul>
+<p>
+  The new state is set before <code>menu-item-activate</code> fires, so a listener reads
+  <code>event.detail.item.selected</code>. A link item that stands for the current page sets
+  <code>current</code>, which renders <code>aria-current="page"</code>.
+</p>
+<DemoComponentCard lang={'html'}>
+  <wc-button id='choices-anchor' variant='outlined'>View options</wc-button>
+
+  <wc-menu id='choices-menu' anchor='choices-anchor' aria-label='View options'>
+    <wc-menu-item type='checkbox' selected value='ruler'>Show ruler</wc-menu-item>
+    <wc-menu-item type='checkbox' value='grid'>Show grid</wc-menu-item>
+    <wc-divider></wc-divider>
+    <wc-menu-item type='radio' value='compact'>Compact</wc-menu-item>
+    <wc-menu-item type='radio' selected value='comfortable'>Comfortable</wc-menu-item>
+    <wc-menu-item type='radio' value='spacious'>Spacious</wc-menu-item>
+  </wc-menu>
+
+  <script is:inline>
+    (() => {
+      const menu = document.querySelector('#choices-menu');
+      const anchor = document.querySelector('#choices-anchor');
+      if (!menu || !anchor) return;
+
+      anchor.addEventListener('click', () => {
+        menu.open = !menu.open;
+      });
+    })();
+  </script>
+</DemoComponentCard>

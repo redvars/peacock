@@ -3,6 +3,7 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Link } from '../src/link/link.js';
 import { Breadcrumb, BreadcrumbItem } from '../src/breadcrumb/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-link', Link],
@@ -48,6 +49,56 @@ describe('BreadcrumbItem', () => {
         .shadowRoot!.querySelector('meta[itemprop="position"]')!
         .getAttribute('content'),
     ).to.equal('2');
+  });
+
+  it('makes each item host a listitem of the list in the breadcrumb', async () => {
+    const el = await fixture<Breadcrumb>(html`
+      <wc-breadcrumb>
+        <wc-breadcrumb-item href="/">Home</wc-breadcrumb-item>
+        <wc-breadcrumb-item current>Docs</wc-breadcrumb-item>
+      </wc-breadcrumb>
+    `);
+    const items = el.querySelectorAll<BreadcrumbItem>('wc-breadcrumb-item');
+    await items[1].updateComplete;
+
+    const ol = el.shadowRoot!.querySelector('nav ol')!;
+    expect(ol.getAttribute('itemtype')).to.equal(
+      'https://schema.org/BreadcrumbList',
+    );
+    for (const item of items) {
+      expect(item.getAttribute('role')).to.equal('listitem');
+      expect(item.shadowRoot!.querySelector('li')).to.be.null;
+      const listItem = item.shadowRoot!.querySelector(
+        '[itemprop="itemListElement"]',
+      )!;
+      expect(listItem.getAttribute('itemtype')).to.equal(
+        'https://schema.org/ListItem',
+      );
+    }
+    expect(items[1].shadowRoot!.querySelector('[aria-current="page"]')).to.not
+      .be.null;
+    expect(items[0].shadowRoot!.querySelector('[aria-current]')).to.be.null;
+  });
+
+  it('maps the deprecated active to current and warns', async () => {
+    resetDeprecationWarnings();
+    const warnings: string[] = [];
+    const original = console.warn;
+    console.warn = (message: string) => {
+      warnings.push(message);
+    };
+    try {
+      const el = await fixture<BreadcrumbItem>(
+        html`<wc-breadcrumb-item active>Docs</wc-breadcrumb-item>`,
+      );
+      expect(el.current).to.be.true;
+      expect(el.shadowRoot!.querySelector('[aria-current="page"]')).to.not.be
+        .null;
+      expect(warnings).to.have.length(1);
+      expect(warnings[0]).to.contain('wc-breadcrumb-item');
+    } finally {
+      console.warn = original;
+    }
   });
 
   it('sets rel="noopener noreferrer" on links that open a new tab', async () => {

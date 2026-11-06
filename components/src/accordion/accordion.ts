@@ -1,14 +1,22 @@
-﻿import { html, LitElement } from 'lit';
+import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './accordion.scss';
 import { AccordionItem } from './accordion-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { RovingFocusController } from '@/__internal/controllers/roving-focus-controller.js';
 
 /**
  * @label Accordion
  * @tag wc-accordion
  * @rawTag accordion
  * @summary A vertically stacked set of expansion panels.
+ * @overview
+ * <p>The accordion is one tab stop: the Up and Down arrow keys move focus between the panel
+ * headers, Home and End jump to the first and last. Disabled panels are skipped. Without
+ * <code>multiple</code>, opening a panel (by the person or by setting <code>open</code>) closes
+ * the others.</p>
+ * <p>Items fire <code>open</code> and <code>close</code>; the older
+ * <code>accordion-item-toggle</code> event still fires but is deprecated.</p>
  *
  * @example
  * ```html
@@ -28,7 +36,13 @@ import IndividualComponent from '@/IndividualComponent.js';
  */
 @IndividualComponent
 export class Accordion extends LitElement {
+  // ── Static
+
   static styles = [styles];
+
+  static Item = AccordionItem;
+
+  // ── Properties
 
   /**
    * Whether multiple panels can be expanded simultaneously.
@@ -52,83 +66,64 @@ export class Accordion extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: 'leading-toggle' })
   leadingToggle = false;
 
+  // ── Queries
+
   @queryAssignedElements({ selector: 'wc-accordion-item' })
   items!: Array<AccordionItem>;
 
+  // ── Private fields
+
+  /** Up/Down, Home and End move focus between the header buttons. */
+  private readonly roving = new RovingFocusController(this, {
+    items: () =>
+      (this.items ?? [])
+        .map(item => item.headerButton)
+        .filter((button): button is HTMLButtonElement => !!button),
+    orientation: () => 'vertical',
+    // WAI-ARIA accordion: every header stays in the Tab order; the arrow keys are a shortcut.
+    manageTabIndex: () => false,
+  });
+
+  // ── Lifecycle
+
   connectedCallback() {
     super.connectedCallback();
-    // @ts-ignore
-    // eslint-disable-next-line wc/require-listener-teardown
-    this.addEventListener('accordion-item-toggle', this._onItemToggle);
-    this.addEventListener('keydown', this._onKeyDown);
+    this.addEventListener('open', this.__handleItemOpen);
   }
 
   disconnectedCallback() {
+    this.removeEventListener('open', this.__handleItemOpen);
     super.disconnectedCallback();
-    // @ts-ignore
-    this.removeEventListener('accordion-item-toggle', this._onItemToggle);
-    this.removeEventListener('keydown', this._onKeyDown);
   }
 
-  private _onItemToggle(e: CustomEvent) {
-    const targetItem = e.target as AccordionItem;
+  // ── Private
+
+  private __handleItemOpen = (event: Event) => {
+    const targetItem = event.target as AccordionItem;
 
     // Ignore events from nested accordions — only handle direct children
-    if (targetItem.parentElement !== this) return;
+    if (targetItem.parentElement !== this || this.multiple) return;
 
-    if (!this.multiple && targetItem.open) {
-      this.items.forEach(item => {
-        if (item !== targetItem && item.open) {
-          // eslint-disable-next-line no-param-reassign
-          item.open = false;
-        }
-      });
+    for (const item of this.items) {
+      if (item !== targetItem && item.open) item.open = false;
     }
-  }
+  };
 
-  private _onKeyDown(e: KeyboardEvent) {
-    const focusedItemIndex = this.items.findIndex(item => {
-      const root = item.shadowRoot;
-      return root?.activeElement?.classList.contains('header-button');
-    });
+  private __handleSlotChange = async () => {
+    // The header buttons exist once the items have rendered.
+    await Promise.all(this.items.map(item => item.updateComplete));
+    this.roving.sync();
+  };
 
-    if (focusedItemIndex === -1) return;
-
-    let nextIndex = -1;
-
-    // eslint-disable-next-line default-case
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        nextIndex = (focusedItemIndex + 1) % this.items.length;
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        nextIndex =
-          (focusedItemIndex - 1 + this.items.length) % this.items.length;
-        break;
-      case 'Home':
-        e.preventDefault();
-        nextIndex = 0;
-        break;
-      case 'End':
-        e.preventDefault();
-        nextIndex = this.items.length - 1;
-        break;
-    }
-
-    if (nextIndex !== -1) {
-      const itemToFocus = this.items[nextIndex];
-      const button = itemToFocus.shadowRoot?.querySelector(
-        '.header-button',
-      ) as HTMLElement;
-      button?.focus();
-    }
-  }
+  // ── Render
 
   render() {
-    return html`<div class="accordion"><slot></slot></div>`;
+    return html`<div
+      class="accordion"
+      @keydown=${this.roving.handleKeyDown}
+      @focusin=${this.roving.handleFocusIn}
+    >
+      <slot @slotchange=${this.__handleSlotChange}></slot>
+    </div>`;
   }
-
-  static Item = AccordionItem;
 }

@@ -23,15 +23,16 @@ const {title, description, sidebarItems = []} = Astro.props;
   <div class="with-sidebar-layout">
 
     <div class='sidenav-container'>
-      <wc-sidebar-menu class='sidenav' selected-item={pathname}>
+      <wc-navigation-drawer class='sidenav' open>
         {
             sidebarItems.map((item) => {
-              return <wc-sidebar-menu-item label={item.label}
+              return <wc-navigation-drawer-item
               value={item.href}
-              href={item.href}></wc-sidebar-menu-item>
+              href={item.href}
+              current={item.href === pathname ? true : null}>{item.label}</wc-navigation-drawer-item>
             })
         }
-      </wc-sidebar-menu>
+      </wc-navigation-drawer>
     </div>
 
     <div class='with-sidebar-layout-content'>

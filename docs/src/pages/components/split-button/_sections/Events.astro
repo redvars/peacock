@@ -4,6 +4,13 @@ export const order = 600;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  <code>click</code> fires when the primary action is pressed. <code>toggle-menu</code> fires when the menu
+  opens or closes, with <code>detail.open</code>. The inner menu's own <code>open</code> and
+  <code>close</code> events stay inside the split button. Selection state of <code>type="checkbox"</code>
+  and <code>type="radio"</code> menu items works here as in <code>wc-menu</code>.
+</p>
+
 <DemoComponentCard lang='html'>
   <wc-split-button id='split-button-events'>
     Save

@@ -34,6 +34,13 @@
       color: var(--color-primary);
     }
   }
+
+  .sidebar-nav {
+    height: auto;
+    --navigation-drawer-width: 100%;
+    --navigation-drawer-container-color: transparent;
+    --navigation-drawer-item-height: 3rem;
+  }
 }
 
 .block-demo-main {
