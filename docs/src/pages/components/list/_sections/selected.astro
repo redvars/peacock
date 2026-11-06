@@ -1,0 +1,28 @@
+---
+export const title = 'Selected';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>selected</code> fills the row with the secondary container colour,
+  whether the row is actionable or not.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-list style='width: min(100%, 28rem);'>
+    <wc-list-item actionable>
+      <wc-icon slot='start' name='inbox'></wc-icon>
+      Inbox
+    </wc-list-item>
+    <wc-list-item actionable selected>
+      <wc-icon slot='start' name='star'></wc-icon>
+      Starred
+      <span slot='trailing-supporting-text'>3</span>
+    </wc-list-item>
+    <wc-list-item selected>
+      <wc-icon slot='start' name='draft'></wc-icon>
+      Drafts (not actionable)
+    </wc-list-item>
+  </wc-list>
+</DemoComponentCard>

@@ -5,6 +5,7 @@ import IndividualComponent from '@/IndividualComponent.js';
 import styles from './split-button.scss';
 import colorStyles from './split-button-colors.scss';
 import sizeStyles from './split-button-sizes.scss';
+import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
 
 /**
  * @label Split Button
@@ -78,16 +79,14 @@ export class SplitButton extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
+  @property({ attribute: 'menu-variant' }) menuVariant:
+    | 'standard'
+    | 'expressive' = 'standard';
+
   @state() private _menuOpen = false;
 
-  @query('.dropdown-trigger') private readonly _dropdownButton!: HTMLElement;
-
-  @query('wc-menu') private readonly _menu!: HTMLElement & {
-    open: boolean;
-    anchorElement: HTMLElement | null;
-    show: () => void;
-    close: () => void;
-  };
+  @query('wc-menu') private readonly _menu?: Menu;
 
   private _menuId = `split-menu-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -105,20 +104,42 @@ export class SplitButton extends LitElement {
     }
 
     // Close menu if open
-    if (this._menuOpen) {
-      this._menu?.close();
+    if (this._menu?.open) {
+      this._menu.close();
     }
+  }
+
+  /** Opens the menu and focuses its first (or last) item. */
+  show(focusTarget: MenuFocusTarget = 'first') {
+    const menu = this._menu;
+    if (this.disabled || !menu) return;
+    menu.anchorElement = this;
+    menu.show(focusTarget);
+  }
+
+  /** Closes the menu. */
+  close() {
+    this._menu?.close();
   }
 
   private _onDropdownClick(event: MouseEvent) {
     event.stopPropagation();
     if (this.disabled) return;
 
-    if (this._menuOpen) {
-      this._menu?.close();
+    if (this._menu?.open) {
+      this.close();
     } else {
-      this._menu.anchorElement = this;
-      this._menu?.show();
+      this.show();
+    }
+  }
+
+  /** Arrow keys on the menu trigger open the menu on the first or last item. */
+  private _onTriggerKeyDown(event: KeyboardEvent) {
+    if (this.disabled) return;
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.show(event.key === 'ArrowDown' ? 'first' : 'last');
     }
   }
 
@@ -143,38 +164,6 @@ export class SplitButton extends LitElement {
       }),
     );
   };
-
-  private _onKeyDown = (event: KeyboardEvent) => {
-    if (this.disabled) return;
-
-    if (
-      event.key === 'ArrowDown' &&
-      event.target === this._dropdownButton
-    ) {
-      event.preventDefault();
-      if (!this._menuOpen) {
-        this._menu.anchorElement = this;
-        this._menu?.show();
-      }
-      // Focus the menu so keyboard nav works
-      requestAnimationFrame(() => this._menu?.focus());
-    }
-
-    if (event.key === 'Escape' && this._menuOpen) {
-      this._menu?.close();
-      this._dropdownButton?.focus();
-    }
-  };
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('keydown', this._onKeyDown);
-  }
-
-  override disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    super.disconnectedCallback();
-  }
 
   override render() {
     const actionClasses = {
@@ -218,6 +207,7 @@ export class SplitButton extends LitElement {
             'aria-label': 'Open split button menu',
           }}
           @click=${this._onDropdownClick}
+          @keydown=${this._onTriggerKeyDown}
         >
           <wc-icon class="dropdown-icon" name="arrow_drop_down" aria-hidden="true"></wc-icon>
         </wc-icon-button>
@@ -226,6 +216,7 @@ export class SplitButton extends LitElement {
       <wc-menu
         id=${this._menuId}
         placement="bottom-end"
+        variant=${this.menuVariant}
         @opened=${this._onMenuOpened}
         @closed=${this._onMenuClosed}
       >

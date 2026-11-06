@@ -1,15 +1,21 @@
 ---
 export const title = 'Events';
-export const order = 300;
+export const order = 500;
 import Highlighter from '../../../../components/Highlighter.astro';
 ---
-<goat-card>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang={'javascript'} is:raw> const $list = document.querySelector('.menu');
-      $list.addEventListener('pc-menu-item--click',
-      function(evt) {
-       console.log('<pre>' + JSON.stringify(evt.detail.value, null, 4) + '</pre>');
-      });
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<p>
+  <code>menu-item-activate</code> bubbles from the menu with the activated item.
+  <code>opened</code> and <code>closed</code> fire on the menu itself and do not bubble, so a submenu
+  opening or closing does not reach a listener on its parent menu. <code>closed</code> carries the reason:
+  <code>click-selection</code>, <code>keydown</code> (with the key), <code>outside-click</code> or
+  <code>programmatic</code>.
+</p>
+<Highlighter lang={'javascript'} is:raw>const menu = document.querySelector('wc-menu');
+
+menu.addEventListener('menu-item-activate', event => {
+  console.log('Activated', event.detail.item.value);
+});
+
+menu.addEventListener('closed', event => {
+  console.log('Closed by', event.detail.reason.kind);
+});</Highlighter>

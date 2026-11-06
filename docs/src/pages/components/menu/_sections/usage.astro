@@ -3,81 +3,60 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  Anchor a menu to a button with <code>anchor</code> and toggle <code>open</code>. The menu opens in the
+  browser's top layer and moves focus to the selected item, or the first one. A selected item shows a
+  check mark, an item with a <code>wc-sub-menu</code> shows a chevron, and a disabled item is dimmed and
+  skipped by the keyboard.
+</p>
 <DemoComponentCard lang={'html'}>
-  <wc-button id='menu-anchor' variant='filled'>Open Menu</wc-button>
+  <wc-button id='menu-anchor' variant='filled'>Open menu</wc-button>
 
-  <wc-menu id='usage-menu' anchor='menu-anchor' aria-label='Main actions menu'>
+  <wc-menu id='usage-menu' anchor='menu-anchor' aria-label='Account'>
     <wc-menu-item value='profile'>
-      <wc-icon name='home' slot='start'></wc-icon>
+      <wc-icon name='person' slot='start'></wc-icon>
       Profile
     </wc-menu-item>
-    <wc-menu-item value='account'>Account Settings</wc-menu-item>
-    <wc-menu-item value='notifications' selected>
-      Notification Settings
+    <wc-menu-item value='account'>
+      <wc-icon name='settings' slot='start'></wc-icon>
+      Account settings
     </wc-menu-item>
+    <wc-menu-item value='notifications' selected>Notifications</wc-menu-item>
     <wc-divider></wc-divider>
     <wc-sub-menu>
       <wc-menu-item slot='item' value='appearance'>
+        <wc-icon name='palette' slot='start'></wc-icon>
         Appearance
-        <wc-icon name='arrow_right' slot='trailing-supporting-text'></wc-icon>
       </wc-menu-item>
-
-      <wc-menu slot='menu' aria-label='Appearance settings'>
+      <wc-menu slot='menu' aria-label='Appearance'>
         <wc-menu-item value='theme-light'>Light</wc-menu-item>
         <wc-menu-item value='theme-dark'>Dark</wc-menu-item>
         <wc-menu-item value='theme-system' selected>System</wc-menu-item>
       </wc-menu>
     </wc-sub-menu>
-    <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
-    <wc-menu-item value='logout'>Logout</wc-menu-item>
-  </wc-menu>
-
-  <wc-button id='vibrant-menu-anchor' variant='tonal'>Open Vibrant Menu</wc-button>
-
-  <wc-menu id='vibrant-menu' anchor='vibrant-menu-anchor' variant='vibrant' aria-label='Vibrant style preview'>
-    <wc-menu-item value='profile'>Profile</wc-menu-item>
-    <wc-menu-item value='account'>Account Settings</wc-menu-item>
-    <wc-menu-item value='notifications' selected>
-      Notification Settings
+    <wc-menu-item disabled>Billing (disabled)</wc-menu-item>
+    <wc-menu-item value='logout'>
+      <wc-icon name='logout' slot='start'></wc-icon>
+      Log out
+      <span slot='trailing-supporting-text'>Ctrl Q</span>
     </wc-menu-item>
-    <wc-divider></wc-divider>
-    <wc-menu-item disabled>Settings (Disabled)</wc-menu-item>
-    <wc-menu-item value='logout'>Logout</wc-menu-item>
   </wc-menu>
 
   <script is:inline>
-    const wireMenu = ({
-      menuId,
-      anchorId,
-    }) => {
-      const menu = document.querySelector(`#${menuId}`);
-      const anchor = document.querySelector(`#${anchorId}`);
+    (() => {
+      const menu = document.querySelector('#usage-menu');
+      const anchor = document.querySelector('#menu-anchor');
+      if (!menu || !anchor) return;
 
-      if (!menu || !anchor) {
-        return;
-      }
-
-      const toggleMenu = event => {
-        if (event.type === 'keydown' && event.key !== 'ArrowDown') {
-          return;
-        }
-
+      anchor.addEventListener('click', () => {
         menu.open = !menu.open;
-        anchor.setAttribute('aria-expanded', String(menu.open));
-
-        if (event.type === 'keydown') {
-          event.preventDefault();
-        }
-      };
-      anchor.addEventListener('click', toggleMenu);
-      anchor.addEventListener('keydown', toggleMenu);
-
-      menu.addEventListener('closed', () => {
-        anchor.setAttribute('aria-expanded', 'false');
       });
-    };
-
-    wireMenu({ menuId: 'usage-menu', anchorId: 'menu-anchor' });
-    wireMenu({ menuId: 'vibrant-menu', anchorId: 'vibrant-menu-anchor' });
+      anchor.addEventListener('keydown', event => {
+        if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          menu.show('first');
+        }
+      });
+    })();
   </script>
 </DemoComponentCard>

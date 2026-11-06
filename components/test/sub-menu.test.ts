@@ -126,4 +126,46 @@ describe('SubMenu', () => {
     expect(parentItems[1].tabIndex).to.equal(-1);
   });
 
+  it('closes the parent menu when a submenu item is picked', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open>
+        <wc-sub-menu>
+          <wc-menu-item slot="item">Parent</wc-menu-item>
+          <wc-menu slot="menu" open>
+            <wc-menu-item>Child</wc-menu-item>
+          </wc-menu>
+        </wc-sub-menu>
+      </wc-menu>
+    `);
+
+    const subMenu = el.querySelector<SubMenu>('wc-sub-menu')!;
+    const child = subMenu.menu!.querySelector<MenuItem>('wc-menu-item')!;
+    child.shadowRoot!.querySelector<HTMLElement>('#menu-item')!.click();
+    await subMenu.menu!.updateComplete;
+    await el.updateComplete;
+
+    expect(subMenu.menu!.open).to.equal(false);
+    expect(el.open).to.equal(false);
+  });
+
+  it('marks its item as having a submenu and inherits the parent variant', async () => {
+    const el = await fixture<Menu>(html`
+      <wc-menu open variant="expressive">
+        <wc-sub-menu>
+          <wc-menu-item slot="item">Parent</wc-menu-item>
+          <wc-menu slot="menu">
+            <wc-menu-item>Child</wc-menu-item>
+          </wc-menu>
+        </wc-sub-menu>
+      </wc-menu>
+    `);
+
+    const subMenu = el.querySelector<SubMenu>('wc-sub-menu')!;
+    expect(subMenu.item!.hasSubmenu).to.be.true;
+
+    await subMenu.show();
+    await subMenu.menu!.updateComplete;
+    expect(subMenu.menu!.variant).to.equal('expressive');
+    expect(subMenu.item!.submenuOpen).to.be.true;
+  });
 });

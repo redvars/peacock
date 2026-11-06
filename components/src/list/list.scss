@@ -10,3 +10,15 @@
   display: flex;
   flex-direction: column;
 }
+
+// Segmented: each row is its own filled block. The `--list-item-*` properties
+// inherit through the slot into every wc-list-item.
+:host([variant='segmented']) {
+  --list-item-container-color: var(--color-surface-container);
+  --list-item-container-shape: var(--shape-corner-medium);
+  --list-item-outer-container-shape: var(--shape-corner-large);
+
+  .list {
+    gap: 0.125rem;
+  }
+}

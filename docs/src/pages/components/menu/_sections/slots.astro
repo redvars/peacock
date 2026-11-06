@@ -1,55 +1,54 @@
 ---
 export const title = 'Slots';
-export const order = 200;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-
-<HighlighterCard lang={'html'}>
-    <wc-menu class='menu' preview>
+<p>
+  A menu item has a <code>start</code> slot for an icon or avatar, <code>trailing-supporting-text</code>
+  for a shortcut, <code>end</code> for trailing content, and <code>supporting-text</code> for a second line.
+  Items without a start icon line up with the ones that have one.
+</p>
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;'>
+    <wc-menu preview aria-label='Edit'>
       <wc-menu-item value='cut'>
-        <wc-icon name='cut' slot='start' size='sm'></wc-icon>
+        <wc-icon name='content_cut' slot='start'></wc-icon>
         Cut
-        <span slot='end'>⌘X</span>
+        <span slot='trailing-supporting-text'>Ctrl X</span>
       </wc-menu-item>
       <wc-menu-item value='copy'>
-        <wc-icon name='copy' slot='start' size='sm'></wc-icon>
+        <wc-icon name='content_copy' slot='start'></wc-icon>
         Copy
-        <span slot='end'>⌘C</span>
+        <span slot='trailing-supporting-text'>Ctrl C</span>
       </wc-menu-item>
       <wc-menu-item value='paste'>
-        <wc-icon name='paste' slot='start' size='sm'></wc-icon>
         Paste
-        <span slot='end'>⌘X</span>
+        <span slot='trailing-supporting-text'>Ctrl V</span>
       </wc-menu-item>
       <wc-divider></wc-divider>
       <wc-menu-item value='delete'>
-        <wc-icon name='trash-can' slot='start' size='sm'></wc-icon>
+        <wc-icon name='delete' slot='start'></wc-icon>
         Delete
-        <span slot='end'>←</span>
+        <span slot='trailing-supporting-text'>Del</span>
       </wc-menu-item>
     </wc-menu>
-</HighlighterCard>
 
-<HighlighterCard lang={'html'}>
-  <wc-menu class='menu' preview style='width: 300px'>
-    <wc-menu-item value='ada' selected>
-      <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=74943b7fc5a9da2affe8c2d8b8558812' size='40px'
-                   slot='start'></pc-avatar>
-      <div slot='headline'>Ada Lovelace</div>
-      <div slot='supporting-text'>Software Engineer</div>
-    </wc-menu-item>
-    <wc-menu-item value='john'>
-      <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=6801be2ffb4809eefe713e4fefd7b9ae' size='40px'
-                   slot='start'></pc-avatar>
-      <div slot='headline'>John doe</div>
-      <div slot='supporting-text'>Manager</div>
-    </wc-menu-item>
-
-    <wc-menu-item value='fred'>
-      <pc-avatar src='https://doodleipsum.com/40x40/avatar-3?i=5ff278e220eacb10b8e37efefef406a6' size='40px'
-                   slot='start'></pc-avatar>
-      <div slot='headline'>Fred</div>
-      <div slot='supporting-text'>Director</div>
-    </wc-menu-item>
-  </wc-menu>
-</HighlighterCard>
+    <wc-menu preview aria-label='Assignee' style='--menu-width: 18rem'>
+      <wc-menu-item value='ada' selected>
+        <wc-avatar name='Ada Lovelace' slot='start'></wc-avatar>
+        Ada Lovelace
+        <span slot='supporting-text'>Software engineer</span>
+      </wc-menu-item>
+      <wc-menu-item value='grace'>
+        <wc-avatar name='Grace Hopper' slot='start'></wc-avatar>
+        Grace Hopper
+        <span slot='supporting-text'>Manager</span>
+      </wc-menu-item>
+      <wc-menu-item value='alan'>
+        <wc-avatar name='Alan Turing' slot='start'></wc-avatar>
+        Alan Turing
+        <span slot='supporting-text'>Researcher</span>
+      </wc-menu-item>
+    </wc-menu>
+  </div>
+</DemoComponentCard>
