@@ -197,6 +197,20 @@ export class ColorField extends BaseField {
     }
   }
 
+  /**
+   * The popover's `open`/`close` are internal: they bubble and are composed, so stop them here,
+   * or consumers listening on the field would hear them.
+   */
+  private handleOverlayEvent = (event: Event) => {
+    event.stopPropagation();
+    if (event.target !== this.popoverElement) return;
+    this.pickerOpen = event.type === 'open';
+  };
+
+  private static stopEvent(event: Event) {
+    event.stopPropagation();
+  }
+
   private handlePickerInput(event: Event) {
     event.stopPropagation();
     // Only the picker's own CustomEvent carries a value; ignore native events from its inputs.
@@ -248,12 +262,10 @@ export class ColorField extends BaseField {
         trigger="manual"
         placement=${this.placement}
         offset="4"
-        @wc-popover--open=${() => {
-          this.pickerOpen = true;
-        }}
-        @wc-popover--close=${() => {
-          this.pickerOpen = false;
-        }}
+        @open=${this.handleOverlayEvent}
+        @close=${this.handleOverlayEvent}
+        @wc-popover--open=${ColorField.stopEvent}
+        @wc-popover--close=${ColorField.stopEvent}
       >
         ${this.renderField(
           html`<input

@@ -4,41 +4,94 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<DemoComponentCard lang={'html'}>
-  <wc-button id='show-modal-side-right'>Open right modal sheet</wc-button>
-  <wc-button id='show-modal-side-left' variant='outlined'>Open left modal sheet</wc-button>
-  <br />
+<p>
+  A modal side sheet (the default <code>variant</code>) opens a native <code>&lt;dialog&gt;</code>
+  in the browser’s top layer with a scrim. The page behind it is inert and doesn’t scroll, focus
+  moves to the element with <code>autofocus</code> inside it, and returns to where it was when
+  the sheet closes. Escape and a scrim click close it; set <code>no-light-dismiss</code> to keep
+  it open on scrim clicks.
+</p>
+<p>
+  Set <code>heading</code> to show a header with a close button; the heading also names the
+  sheet for screen readers. Without a heading, give it a <code>label</code>. Set
+  <code>hide-close</code> to drop the close button when the content has its own way out.
+</p>
 
-  <wc-side-sheet id='modal-side-right' variant='modal' position='right'>
-    <h3 style='margin: 0 0 0.5rem;'>Right Side Sheet</h3>
-    <p>This modal side sheet slides in from the right. Tap the scrim to close.</p>
-    <wc-button id='close-side-right' variant='outlined'>Close</wc-button>
+<DemoComponentCard lang={'html'}>
+  <wc-button id='show-side-sheet-end'>Open filters</wc-button>
+  <wc-button id='show-side-sheet-start' variant='outlined'>Open from the start</wc-button>
+
+  <wc-side-sheet id='side-sheet-end' heading='Filters'>
+    <p style='margin: 0 0 1rem;'>Narrow the list of 128 products.</p>
+    <wc-checkbox autofocus>In stock only</wc-checkbox>
+    <wc-checkbox>Free shipping</wc-checkbox>
+    <div style='margin-top: 1.5rem;'>
+      <wc-button data-close-side-sheet>Apply</wc-button>
+    </div>
   </wc-side-sheet>
 
-  <wc-side-sheet id='modal-side-left' variant='modal' position='left'>
-    <h3 style='margin: 0 0 0.5rem;'>Left Side Sheet</h3>
-    <p>This modal side sheet slides in from the left. Tap the scrim to close.</p>
-    <wc-button id='close-side-left' variant='outlined'>Close</wc-button>
+  <wc-side-sheet id='side-sheet-start' heading='Projects' placement='start'>
+    <p style='margin: 0;'>
+      <code>placement="start"</code> opens from the left edge in left-to-right pages and from the
+      right edge in right-to-left pages.
+    </p>
   </wc-side-sheet>
 
   <script is:inline>
-    const right = document.querySelector('#modal-side-right');
-    const left = document.querySelector('#modal-side-left');
-
-    document.querySelector('#show-modal-side-right').addEventListener('click', () => {
-      right.show();
+    document.querySelector('#show-side-sheet-end').addEventListener('click', () => {
+      document.querySelector('#side-sheet-end').show();
     });
-
-    document.querySelector('#show-modal-side-left').addEventListener('click', () => {
-      left.show();
+    document.querySelector('#show-side-sheet-start').addEventListener('click', () => {
+      document.querySelector('#side-sheet-start').show();
     });
-
-    document.querySelector('#close-side-right').addEventListener('click', () => {
-      right.hide();
-    });
-
-    document.querySelector('#close-side-left').addEventListener('click', () => {
-      left.hide();
+    document.querySelectorAll('[data-close-side-sheet]').forEach(button => {
+      button.addEventListener('click', () => button.closest('wc-side-sheet').hide());
     });
   </script>
 </DemoComponentCard>
+
+<h3>Standard variant</h3>
+<p>
+  <code>variant="standard"</code> opens the sheet with <code>dialog.show()</code>: it isn’t
+  modal, has no scrim and stays in the page flow, so place it in a flex row beside the content.
+  It doesn’t trap focus, lock scrolling or close on Escape.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='toggle-standard-side-sheet' variant='outlined'>Toggle details</wc-button>
+  <div
+    style='display: flex; height: 240px; margin-top: 1rem; overflow: hidden; border: 1px solid var(--color-outline-variant); border-radius: var(--shape-corner-medium);'
+  >
+    <p style='flex: 1; margin: 0; padding: 1rem;'>Page content</p>
+    <wc-side-sheet id='standard-side-sheet' variant='standard' heading='Details' open>
+      Supplemental content that sits beside the page.
+    </wc-side-sheet>
+  </div>
+
+  <script is:inline>
+    document.querySelector('#toggle-standard-side-sheet').addEventListener('click', () => {
+      document.querySelector('#standard-side-sheet').toggle();
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Events</h3>
+<p>
+  The sheet fires <code>open</code> when it opens and <code>close</code> when it closes, with
+  <code>detail.reason</code>: <code>'escape'</code>, <code>'light-dismiss'</code> (a scrim
+  click), <code>'action'</code> (the close button) or <code>'api'</code> (<code>hide()</code>).
+</p>
+
+<h3>Deprecated</h3>
+<ul>
+  <li>
+    <code>position="left" | "right"</code>: use <code>placement="start" | "end"</code>.
+    <code>left</code> maps to <code>start</code> and <code>right</code> to <code>end</code>, so in
+    right-to-left pages the edge flips.
+  </li>
+  <li>
+    The <code>side-sheet-close</code> event: use <code>close</code>. It still fires, with
+    <code>reason</code> <code>escape</code>, <code>scrim</code>, <code>close-button</code> or
+    <code>programmatic</code>.
+  </li>
+</ul>

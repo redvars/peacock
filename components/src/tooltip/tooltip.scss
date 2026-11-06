@@ -5,20 +5,42 @@
 
 
 :host(:not([preview])) {
-  position: absolute;
+  /* Reset the UA popover styles; floating-ui positions the tooltip in the top layer. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  inset: auto;
+  overflow: visible;
+  color: inherit;
+  background: transparent;
+
+  position: fixed;
   top: 0;
   // floating-ui positions the tooltip with physical left/top.
   // stylelint-disable-next-line property-disallowed-list
   left: 0;
   pointer-events: none;
-  transition: transform var(--duration-short2) ease-in-out, opacity var(--duration-short2) ease-in-out;
   transform: scale(0);
   opacity: 0;
 
-  &:host([open]) {
-    pointer-events: auto;
-    transform: scale(1);
-    opacity: 1;
+  --_tooltip-duration: var(--duration-short2, 0.1s);
+
+  /* `allow-discrete` keeps the tooltip in the top layer while it fades out. */
+  transition:
+    transform var(--_tooltip-duration) ease-in-out,
+    opacity var(--_tooltip-duration) ease-in-out,
+    display var(--_tooltip-duration) allow-discrete,
+    overlay var(--_tooltip-duration) allow-discrete;
+}
+
+:host(:not([preview]):popover-open) {
+  pointer-events: auto;
+  transform: none;
+  opacity: 1;
+
+  @starting-style {
+    transform: scale(0);
+    opacity: 0;
   }
 }
 
@@ -61,7 +83,7 @@
   }
 
   .tooltip-actions {
-    margin-top: var(--spacing-150);
+    margin-block-start: var(--spacing-150);
     padding-inline: var(--spacing-050);
     display: flex;
     align-items: center;

@@ -12,7 +12,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
   <wc-button variant='outlined' data-open-modal='terms-modal'>Review terms of service</wc-button>
 
-  <wc-modal id='terms-modal' heading='Terms of service' subheading='Updated 1 November 2026' size='lg' no-scrim-close>
+  <wc-modal id='terms-modal' heading='Terms of service' subheading='Updated 1 November 2026' size='lg' no-light-dismiss>
     <h3 class='text-title-medium'>1. Your account</h3>
     <p class='modal-demo-text text-body-medium'>
       You are responsible for the activity on your account and for keeping your password safe.
@@ -84,6 +84,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </DemoComponentCard>
 
 <p>
-  This modal sets <code>no-scrim-close</code>, so a click outside it doesn’t dismiss it by
+  This modal sets <code>no-light-dismiss</code>, so a click outside it doesn’t dismiss it by
   accident. Escape and the close button still work.
 </p>

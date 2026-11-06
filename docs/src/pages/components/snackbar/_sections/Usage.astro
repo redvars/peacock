@@ -4,13 +4,21 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  A snackbar is a brief, transient message at the bottom of the screen. It hides itself after
+  <code>duration</code> milliseconds (4000 by default); the timer pauses while the pointer is over it or
+  focus is inside it. A snackbar with an action, or with <code>duration='0'</code>, stays until it is
+  closed, so there is time to reach the action. Opening one snackbar closes the one before; to show several
+  at once use <a href='/components/notification-manager'><code>wc-notification-manager</code></a>.
+</p>
+
 <DemoComponentCard lang={'html'}>
   <wc-button id='show-basic'>Show snackbar</wc-button>
   <wc-button id='show-action'>Show action</wc-button>
   <br />
 
   <wc-snackbar id='basic-snackbar' message='Message archived' duration='3500'></wc-snackbar>
-  <wc-snackbar id='action-snackbar' multiline action-label='Undo' show-close-icon duration='0'>
+  <wc-snackbar id='action-snackbar' intent='danger' multiline action-label='Retry' dismissible>
     Unable to save changes. Check your connection and try again.
   </wc-snackbar>
 
@@ -35,16 +43,56 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       updateLog('Showing snackbar with action');
     });
 
-    basic.addEventListener('snackbar-close', event => {
+    basic.addEventListener('close', event => {
       updateLog(`Basic snackbar closed (${event.detail.reason})`);
     });
 
-    action.addEventListener('snackbar-action', () => {
-      updateLog('Undo clicked');
+    action.addEventListener('action', () => {
+      updateLog('Retry clicked');
     });
 
-    action.addEventListener('snackbar-close', event => {
+    action.addEventListener('close', event => {
       updateLog(`Action snackbar closed (${event.detail.reason})`);
     });
   </script>
 </DemoComponentCard>
+
+<h3>Intents</h3>
+
+<p>
+  <code>intent</code> (<code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>)
+  adds a matching icon, and a hidden label that screen readers read before the message.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-snackbar preview intent='info' message='A new version is available.'></wc-snackbar>
+  <wc-snackbar preview intent='success' message='Message sent.'></wc-snackbar>
+  <wc-snackbar preview intent='warning' message='You are offline.'></wc-snackbar>
+  <wc-snackbar preview intent='danger' message='Upload failed.' action-label='Retry'></wc-snackbar>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+
+<p>
+  A snackbar is a polite live region (<code>role="status"</code>); <code>intent='danger'</code> makes it
+  assertive (<code>role="alert"</code>). <code>dismissible</code> shows a close button and lets Escape close
+  the snackbar while focus is inside it.
+</p>
+
+<h3>Events</h3>
+
+<p>
+  <code>open</code> fires when it opens. <code>close</code> fires when it starts to close, with
+  <code>detail.reason</code>: <code>'timeout'</code>, <code>'action'</code> (the action or close button),
+  <code>'escape'</code>, or <code>'api'</code> (<code>hide()</code>, <code>open = false</code>, or another
+  snackbar opening). <code>action</code> fires when the action button is pressed.
+</p>
+
+<h3>Deprecated</h3>
+
+<p>
+  These keep working and will be removed in 4.0: <code>show-close-icon</code> (use
+  <code>dismissible</code>; logs a console warning), the <code>snackbar-close</code> event (use
+  <code>close</code>; its reasons are <code>'timeout'</code>, <code>'action'</code>, <code>'dismiss'</code>
+  and <code>'programmatic'</code>) and <code>snackbar-action</code> (use <code>action</code>).
+</p>

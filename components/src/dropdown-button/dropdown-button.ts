@@ -125,7 +125,11 @@ export class DropdownButton extends LitElement {
     }
   }
 
-  private _onMenuOpened = () => {
+  private _onMenuOpened = (event: Event) => {
+    // The menu's events are internal; the button reports `toggle-menu` instead.
+    event.stopPropagation();
+    // A submenu's `open` bubbles through the menu; only the menu's own counts.
+    if (event.target !== event.currentTarget) return;
     this._menuOpen = true;
     this.dispatchEvent(
       new CustomEvent('toggle-menu', {
@@ -136,7 +140,9 @@ export class DropdownButton extends LitElement {
     );
   };
 
-  private _onMenuClosed = () => {
+  private _onMenuClosed = (event: Event) => {
+    event.stopPropagation();
+    if (event.target !== event.currentTarget) return;
     this._menuOpen = false;
     this.dispatchEvent(
       new CustomEvent('toggle-menu', {
@@ -193,8 +199,8 @@ export class DropdownButton extends LitElement {
         id=${this._menuId}
         placement=${this.placement}
         variant=${this.menuVariant}
-        @opened=${this._onMenuOpened}
-        @closed=${this._onMenuClosed}
+        @open=${this._onMenuOpened}
+        @close=${this._onMenuClosed}
       >
         <slot name="menu"></slot>
       </wc-menu>

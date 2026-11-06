@@ -650,6 +650,11 @@ export class Select extends BaseField {
     capture: true,
   };
 
+  /** The menu's `open`/`close` bubble and are composed; they are internal to the select. */
+  private static _stopMenuEvent(event: Event) {
+    event.stopPropagation();
+  }
+
   private _handleMenuClosed() {
     this._open = false;
     this._focused = false;
@@ -949,6 +954,8 @@ export class Select extends BaseField {
         aria-multiselectable=${this.multiple ? 'true' : nothing}
         aria-busy=${this.loading ? 'true' : nothing}
         @closed=${this._handleMenuClosed}
+        @open=${Select._stopMenuEvent}
+        @close=${Select._stopMenuEvent}
         @menu-item-activate=${this._handleMenuItemActivate}
         @keydown=${this._handleMenuKeyDownCapture}
       >

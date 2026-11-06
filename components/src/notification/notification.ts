@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './notification.scss';
 
 type NotificationVariant = 'success' | 'error' | 'info' | 'warning';
@@ -30,7 +31,14 @@ const VARIANT_ICONS: Record<NotificationVariant, string> = {
  * @label Notification
  * @tag wc-notification
  * @rawTag notification
- * @summary Notifications communicate contextual status, errors, warnings, and success messages.
+ * @summary Deprecated: use wc-alert for inline messages, or wc-snackbar / wc-notification-manager for toasts.
+ *
+ * @overview
+ * <p><strong>Deprecated</strong>, removed in 4.0. Use <code>wc-alert</code> for a message in the page,
+ * or <code>wc-snackbar</code> (one at a time) or <code>wc-notification-manager</code> (a queue) for
+ * transient toasts. It logs a console warning once per page.</p>
+ * <p>It is a polite live region (<code>role="status"</code>); <code>variant="error"</code> makes it
+ * assertive (<code>role="alert"</code>).</p>
  *
  * @cssprop --notification-container-color - Surface color for the notification container.
  * @cssprop --notification-text-color - Label and supporting text color.
@@ -86,11 +94,20 @@ export class Notification extends LitElement {
   @property({ type: Boolean, reflect: true }) managed = false;
 
   @state() private isHidden = false;
-  
+
   @state() private hasSubtitle = false;
 
   /** Peacock's strings for the variant and close button labels. */
   private readonly i18n = new I18nController(this);
+
+  connectedCallback() {
+    super.connectedCallback();
+    deprecate(
+      'wc-notification',
+      '<wc-notification>',
+      '<wc-alert> for inline messages or <wc-snackbar> / wc-notification-manager for toasts',
+    );
+  }
 
   /**
    * Programmatically reveals the notification.
@@ -158,9 +175,7 @@ export class Notification extends LitElement {
           'has-subtitle': this.hasSubtitle,
           [`variant-${this.variant}`]: true,
         })}
-        role="alert"
-        aria-live="polite"
-        aria-label=${this.variantLabel}
+        role=${this.variant === 'error' ? 'alert' : 'status'}
       >
         <div class="state-icon" aria-hidden="true">
           <slot name="icon">
@@ -171,6 +186,7 @@ export class Notification extends LitElement {
         <div class="content">
           <div class="content-text">
             <div class="title">
+              <span class="sr-only">${this.variantLabel}: </span>
               <slot name="title"></slot>
               <slot></slot>
             </div>

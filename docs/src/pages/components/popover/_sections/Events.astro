@@ -1,0 +1,48 @@
+---
+export const title = 'Accessibility and events';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+import Highlighter from '../../../../components/Highlighter.astro';
+---
+
+<p class='text-body-medium'>
+  The panel opens in the browser's top layer, so it shows above modals, sheets and menus. It is a
+  non-modal dialog: Escape closes it, and so does a press outside the trigger and the panel
+  (<code>no-light-dismiss</code> keeps it open on outside presses). Name the dialog with <code>label</code>,
+  or put a heading in the content's <code>heading</code> slot. With <code>trigger="click"</code> or
+  <code>"hover"</code> the trigger gets <code>aria-haspopup="dialog"</code>, <code>aria-controls</code> and
+  <code>aria-expanded</code>; with <code>"manual"</code> the code that opens the popover sets them.
+</p>
+<p class='text-body-medium'>
+  Use a popover for rich content with actions; it replaces <code>wc-tooltip variant="rich"</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-popover trigger='click' arrow>
+    <wc-button variant='outlined'>What's new</wc-button>
+    <wc-popover-content>
+      <h3 slot='heading' class='text-title-small'>Shared drafts</h3>
+      <p class='text-body-medium'>Drafts are now visible to everyone on the project.</p>
+      <wc-button variant='text' size='sm'>Learn more</wc-button>
+    </wc-popover-content>
+  </wc-popover>
+</DemoComponentCard>
+
+<p class='text-body-medium'>
+  <code>open</code> fires when the popover opens and <code>close</code> when it closes, with
+  <code>detail.reason</code>: <code>escape</code>, <code>light-dismiss</code> (a press outside, or the
+  pointer leaving a hover trigger), <code>action</code> (a second click on the trigger) or <code>api</code>
+  (<code>hide()</code> or <code>open = false</code>). Both bubble and cross shadow roots.
+</p>
+
+<Highlighter lang={'javascript'} is:raw>const popover = document.querySelector('wc-popover');
+
+popover.addEventListener('close', event => {
+  if (event.target !== popover) return;
+  console.log('Closed by', event.detail.reason);
+});</Highlighter>
+
+<h3>Deprecated</h3>
+<ul>
+  <li><code>wc-popover--open</code> and <code>wc-popover--close</code>: use <code>open</code> and <code>close</code>.</li>
+</ul>

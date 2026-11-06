@@ -13,71 +13,155 @@
   --side-sheet-transition-easing: var(--easing-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
-.scrim {
+/* The native dialog: reset its UA box; the scrim and the sheet are drawn inside it. */
+.native-dialog {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  margin: 0;
+  max-block-size: none;
+  max-inline-size: none;
+  overflow: hidden;
+  padding: 0;
+
+  &::backdrop {
+    background: transparent;
+  }
+}
+
+/*
+ * Modal: opened with showModal(), so it renders in the browser's top layer and covers the
+ * viewport; it stays transparent and draws the scrim and the sheet in DOM order, without z-index.
+ */
+.native-dialog.variant-modal {
+  block-size: 100%;
+  inline-size: 100%;
   inset: 0;
   position: fixed;
+}
+
+/* Standard: opened with show(), not modal; it stays in the page flow beside the content. */
+.native-dialog.variant-standard {
+  block-size: 100%;
+  inline-size: var(--side-sheet-width);
+  inset: auto;
+  max-inline-size: 100%;
+  position: relative;
+}
+
+.scrim {
   background-color: var(--side-sheet-scrim-color);
+  inset: 0;
   opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity var(--side-sheet-transition-duration) var(--side-sheet-transition-easing);
-  z-index: 1000;
+  position: absolute;
+  transition: opacity var(--side-sheet-transition-duration) var(--side-sheet-transition-easing);
 }
 
 .scrim.visible {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .sheet {
+  // Signed distance the sheet travels to leave through its edge; flipped for right-to-left below.
+  --_side-sheet-offset: 100%;
+
   background-color: var(--side-sheet-container-color);
-  bottom: 0;
+  block-size: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 100%;
+  inline-size: var(--side-sheet-width);
+  inset-block: 0;
+  max-inline-size: 100%;
   overflow: hidden;
-  position: fixed;
-  top: 0;
-  transition:
-    transform var(--side-sheet-transition-duration) var(--side-sheet-transition-easing);
-  width: var(--side-sheet-width);
-  will-change: transform;
-  z-index: 1001;
+  position: absolute;
+
+  /*
+   * The open state keeps no transform: a transformed ancestor would become the containing
+   * block of fixed-position menus, selects and tooltips opened inside the sheet.
+   */
+  &.open {
+    animation: side-sheet-enter var(--side-sheet-transition-duration) var(--side-sheet-transition-easing) backwards;
+  }
+
+  &:not(.open) {
+    animation: side-sheet-exit var(--side-sheet-transition-duration) var(--side-sheet-transition-easing) forwards;
+  }
 }
 
-.sheet.variant-standard {
-  position: relative;
-  z-index: 1;
+.variant-standard .sheet {
+  inline-size: 100%;
 }
 
-// `position` is physical (`left`/`right`); it becomes logical `placement` (`start`/`end`) when the
-// sheets move to the shared overlay base, and these rules with it.
-/* stylelint-disable property-disallowed-list */
-/* Position: right */
-.sheet.position-right {
-  border-radius: var(--side-sheet-shape) 0 0 var(--side-sheet-shape);
-  right: 0;
-  transform: translateX(100%);
+.sheet.placement-end {
+  border-end-start-radius: var(--side-sheet-shape);
+  border-start-start-radius: var(--side-sheet-shape);
+  inset-inline-end: 0;
 }
 
-.sheet.position-right.open {
-  transform: translateX(0);
+.sheet.placement-start {
+  --_side-sheet-offset: -100%;
+
+  border-end-end-radius: var(--side-sheet-shape);
+  border-start-end-radius: var(--side-sheet-shape);
+  inset-inline-start: 0;
 }
 
-/* Position: left */
-.sheet.position-left {
-  border-radius: 0 var(--side-sheet-shape) var(--side-sheet-shape) 0;
-  left: 0;
-  transform: translateX(-100%);
+.sheet.placement-end:dir(rtl) {
+  --_side-sheet-offset: -100%;
 }
 
-.sheet.position-left.open {
-  transform: translateX(0);
+.sheet.placement-start:dir(rtl) {
+  --_side-sheet-offset: 100%;
 }
-/* stylelint-enable property-disallowed-list */
+
+.header {
+  align-items: center;
+  display: flex;
+  gap: var(--spacing-200, 1rem);
+  padding-block: var(--spacing-300, 1.5rem) 0;
+  padding-inline: var(--spacing-300, 1.5rem) var(--spacing-200, 1rem);
+}
+
+.heading {
+  color: var(--color-on-surface-variant);
+  flex: 1;
+  font-family: var(--typography-title-large-font-family, sans-serif);
+  font-size: var(--typography-title-large-font-size, 1.375rem);
+  font-weight: var(--typography-title-large-font-weight, 400);
+  line-height: var(--typography-title-large-line-height, 1.75rem);
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.close {
+  flex-shrink: 0;
+}
 
 .content {
   flex: 1 1 auto;
   overflow-y: auto;
   padding: var(--spacing-300, 1.5rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim {
+    transition: none;
+  }
+
+  .sheet.open,
+  .sheet:not(.open) {
+    animation: none;
+  }
+}
+
+@keyframes side-sheet-enter {
+  from {
+    transform: translateX(var(--_side-sheet-offset));
+  }
+}
+
+@keyframes side-sheet-exit {
+  to {
+    transform: translateX(var(--_side-sheet-offset));
+  }
 }

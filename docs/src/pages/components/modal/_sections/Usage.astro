@@ -40,8 +40,16 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>
   Put the message in the default slot and the actions in the <code>footer</code> slot. Call
   <code>show()</code> and <code>hide()</code>, or set the <code>open</code> attribute. The modal
-  fires <code>modal-close</code> with a <code>reason</code> when it closes: the close button, a
-  scrim click, Escape, or <code>hide()</code>.
+  fires <code>open</code> when it opens and <code>close</code> when it closes, with
+  <code>detail.reason</code>: <code>'action'</code> (the close button), <code>'light-dismiss'</code>
+  (a scrim click), <code>'escape'</code>, or <code>'api'</code> (<code>hide()</code>).
+</p>
+<p>
+  Set <code>no-light-dismiss</code> to keep the modal open on scrim clicks (Escape still closes
+  it), and <code>loading</code> to cover the content with a progress indicator while it works.
+  The older <code>modal-close</code> event (reasons <code>close-button</code>, <code>scrim</code>,
+  <code>escape</code>, <code>programmatic</code>), <code>no-scrim-close</code> and
+  <code>show-loader</code> still work but are deprecated.
 </p>
 <p>
   A confirmation asks one question and names the action on its button. Keep it short: say what

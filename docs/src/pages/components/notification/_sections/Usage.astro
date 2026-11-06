@@ -3,6 +3,17 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  <strong><code>wc-notification</code> is deprecated</strong> and will be removed in 4.0; it logs a console
+  warning once per page. It overlapped two components, so use the one that fits:
+</p>
+<ul>
+  <li><a href='/components/alert'><code>wc-alert</code></a> for a message that is part of the page (it has
+    <code>intent</code>, <code>dismissible</code> and an <code>action</code> slot).</li>
+  <li><a href='/components/snackbar'><code>wc-snackbar</code></a> for one transient toast, or
+    <a href='/components/notification-manager'><code>wc-notification-manager</code></a> for a queue of them.</li>
+</ul>
+
 <p>Use notifications to surface concise status updates and next steps without interrupting the flow.</p>
 
 <DemoComponentCard lang={'html'}>

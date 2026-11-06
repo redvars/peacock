@@ -21,11 +21,15 @@ function panel(el: Modal): HTMLElement {
   return container;
 }
 
-describe('Modal', () => {
-  afterEach(() => {
-    document.body.style.overflow = '';
-  });
+function silenceWarnings() {
+  const original = console.warn;
+  console.warn = () => {};
+  return () => {
+    console.warn = original;
+  };
+}
 
+describe('Modal', () => {
   it('opens a native dialog in the top layer', async () => {
     const el = await fixture<Modal>(
       html`<wc-modal heading="Hello">Body</wc-modal>`,
@@ -38,7 +42,11 @@ describe('Modal', () => {
     const dialog = nativeDialog(el);
     expect(dialog.open).to.equal(true);
     expect(dialog.matches(':modal')).to.equal(true);
-    expect(document.body.style.overflow).to.equal('hidden');
+    expect(document.documentElement.style.overflow).to.equal('hidden');
+
+    el.hide();
+    await el.updateComplete;
+    expect(document.documentElement.style.overflow).to.equal('');
   });
 
   it('draws above a high z-index sticky header and a trapping stacking context', async () => {
@@ -101,9 +109,14 @@ describe('Modal', () => {
     const el = await fixture<Modal>(html`<wc-modal open>Body</wc-modal>`);
     await el.updateComplete;
 
+    let legacyReason = '';
+    el.addEventListener('modal-close', e => {
+      legacyReason = (e as CustomEvent).detail.reason;
+    });
     setTimeout(() => el.hide());
-    const event = await oneEvent(el, 'modal-close');
-    expect(event.detail.reason).to.equal('programmatic');
+    const event = await oneEvent(el, 'close');
+    expect(event.detail.reason).to.equal('api');
+    expect(legacyReason).to.equal('programmatic');
 
     await el.updateComplete;
     await Promise.all(
@@ -112,7 +125,7 @@ describe('Modal', () => {
         .map(animation => animation.finished),
     );
     expect(nativeDialog(el).open).to.equal(false);
-    expect(document.body.style.overflow).to.equal('');
+    expect(document.documentElement.style.overflow).to.equal('');
   });
 
   it('closes on Escape through the dialog cancel event', async () => {
@@ -127,7 +140,7 @@ describe('Modal', () => {
     expect(el.open).to.equal(false);
   });
 
-  it('closes on a scrim click unless no-scrim-close is set', async () => {
+  it('closes on a scrim click unless no-light-dismiss is set', async () => {
     const el = await fixture<Modal>(html`<wc-modal open>Body</wc-modal>`);
     await el.updateComplete;
     const wrapper =
@@ -137,13 +150,87 @@ describe('Modal', () => {
     panel(el).click();
     expect(el.open).to.equal(true);
 
-    el.noScrimClose = true;
+    el.noLightDismiss = true;
     wrapper.click();
     expect(el.open).to.equal(true);
 
-    el.noScrimClose = false;
+    el.noLightDismiss = false;
     setTimeout(() => wrapper.click());
-    const event = await oneEvent(el, 'modal-close');
-    expect(event.detail.reason).to.equal('scrim');
+    const event = await oneEvent(el, 'close');
+    expect(event.detail.reason).to.equal('light-dismiss');
+  });
+
+  it('still honours the deprecated no-scrim-close', async () => {
+    const restore = silenceWarnings();
+    try {
+      const el = await fixture<Modal>(
+        html`<wc-modal open no-scrim-close>Body</wc-modal>`,
+      );
+      await el.updateComplete;
+      el.shadowRoot!.querySelector<HTMLElement>('.dialog-wrapper')!.click();
+      expect(el.open).to.equal(true);
+    } finally {
+      restore();
+    }
+  });
+
+  it('closes on an Escape keypress, and only the topmost of two modals', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <wc-modal id="a" open>A</wc-modal>
+        <wc-modal id="b" open>B</wc-modal>
+      </div>
+    `);
+    const [a, b] = Array.from(wrapper.querySelectorAll<Modal>('wc-modal'));
+    await a.updateComplete;
+    await b.updateComplete;
+
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
+    await b.updateComplete;
+
+    expect(b.open).to.equal(false);
+    expect(a.open).to.equal(true);
+  });
+
+  it('keeps the page locked until the last of two open modals closes', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <wc-modal open>A</wc-modal>
+        <wc-modal open>B</wc-modal>
+      </div>
+    `);
+    const [a, b] = Array.from(wrapper.querySelectorAll<Modal>('wc-modal'));
+    await a.updateComplete;
+    await b.updateComplete;
+
+    b.hide();
+    await b.updateComplete;
+    expect(document.documentElement.style.overflow).to.equal('hidden');
+
+    a.hide();
+    await a.updateComplete;
+    expect(document.documentElement.style.overflow).to.equal('');
+  });
+
+  it('focuses an autofocus element, fires open, and returns focus on close', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <button id="opener">Open</button>
+        <wc-modal><button id="ok" autofocus>OK</button></wc-modal>
+      </div>
+    `);
+    const opener = wrapper.querySelector<HTMLButtonElement>('#opener')!;
+    const el = wrapper.querySelector<Modal>('wc-modal')!;
+    opener.focus();
+
+    setTimeout(() => el.show());
+    await oneEvent(el, 'open');
+    expect(document.activeElement?.id).to.equal('ok');
+
+    el.hide();
+    await el.updateComplete;
+    expect(document.activeElement).to.equal(opener);
   });
 });

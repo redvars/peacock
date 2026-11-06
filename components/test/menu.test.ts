@@ -5,6 +5,7 @@ import { fixture, expect, nextFrame } from '@open-wc/testing';
 // test server cannot load.
 import { Item } from '../src/item/index.js';
 import { Menu, MenuItem } from '../src/menu/index.js';
+import type { MenuCloseDetail } from '../src/menu/menu/menu.js';
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -244,6 +245,55 @@ describe('Menu', () => {
     await el.updateComplete;
 
     expect(seen).to.deep.equal(['opened', 'closed:keydown']);
+  });
+
+  it('fires bubbling open and close with the shared reason and the menu cause', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <wc-menu>
+          <wc-menu-item>One</wc-menu-item>
+        </wc-menu>
+      </div>
+    `);
+    const el = wrapper.querySelector<Menu>('wc-menu')!;
+    const closes: MenuCloseDetail[] = [];
+    let opens = 0;
+    wrapper.addEventListener('open', () => {
+      opens += 1;
+    });
+    wrapper.addEventListener('close', event =>
+      closes.push((event as CustomEvent<MenuCloseDetail>).detail),
+    );
+
+    el.show();
+    await el.updateComplete;
+    key(el, 'Escape');
+    await el.updateComplete;
+
+    el.show();
+    await el.updateComplete;
+    clickItem(el.querySelector<MenuItem>('wc-menu-item')!);
+    await el.updateComplete;
+
+    el.show();
+    await el.updateComplete;
+    el.close({ kind: 'outside-click' });
+    await el.updateComplete;
+
+    el.show();
+    await el.updateComplete;
+    el.close();
+    await el.updateComplete;
+
+    expect(opens).to.equal(4);
+    expect(closes.map(detail => detail.reason)).to.deep.equal([
+      'escape',
+      'action',
+      'light-dismiss',
+      'api',
+    ]);
+    expect(closes[0].cause).to.deep.equal({ kind: 'keydown', key: 'Escape' });
+    expect(closes[1].cause).to.deep.equal({ kind: 'click-selection' });
   });
 
   it('returns focus to the trigger on Escape', async () => {

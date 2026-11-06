@@ -25,7 +25,7 @@
 </head>
 <body>
   <wc-snackbar preview message="File archived" action-label="Undo"></wc-snackbar>
-  <wc-snackbar preview multiline show-close-icon>
+  <wc-snackbar preview multiline intent="danger" dismissible>
     Network connection was lost. Please try again when you are back online.
   </wc-snackbar>
 
@@ -36,7 +36,7 @@
 
   <div class='cover'></div>
 
-  <wc-snackbar id='live' message='Draft saved' action-label='Undo' show-close-icon duration='0'></wc-snackbar>
+  <wc-snackbar id='live' message='Draft saved' action-label='Undo' dismissible duration='0'></wc-snackbar>
 
   <wc-modal id='modal' heading='Edit profile'>
     <p>Saving from inside the modal shows a snackbar above it.</p>

@@ -6,12 +6,19 @@
   display: block;
 }
 
+:host([hidden]) {
+  display: none;
+}
+
 .alert {
   align-items: flex-start;
   background: var(--alert-container-color);
   border-radius: var(--alert-border-radius);
   display: grid;
   gap: var(--spacing-100);
+  // Icon and content, then the action area and close button when present, all in one row.
+  grid-auto-columns: auto;
+  grid-auto-flow: column;
   grid-template-columns: auto 1fr;
   padding: var(--spacing-200);
 }
@@ -39,8 +46,24 @@
   }
 }
 
+.alert-actions {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+  margin-block: calc(-1 * var(--spacing-050));
+}
 
-// Default styles for the alert and content. These will be overridden by the variant-specific styles below.
+.alert-actions[hidden] {
+  display: none;
+}
+
+.alert-close {
+  margin-block: calc(-1 * var(--spacing-050));
+  --text-button-label-text-color: var(--alert-icon-color);
+}
+
+// Default styles for the alert and content. These will be overridden by the intent-specific styles below.
 :host {
   --alert-container-color: var(--color-tertiary-container);
   --alert-label-text-color: var(--color-on-tertiary-container);
@@ -73,8 +96,8 @@
   --alert-icon-color: var(--color-on-warning-container);
 }
 
-.alert.error,
-.alert-content.error {
+.alert.danger,
+.alert-content.danger {
   --alert-container-color: var(--color-error-container);
   --alert-label-text-color: var(--color-on-error-container);
   --alert-description-text-color: var(--color-on-error-container);

@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import type { Placement } from '@floating-ui/dom';
 import styles from './menu.scss';
 import { FloatingController } from '../../__internal/controllers/floating-controller.js';
+import type { CloseReason } from '../../__internal/controllers/overlay-controller.js';
 import { MenuItem } from '../menu-item/menu-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
@@ -12,6 +13,30 @@ export type MenuCloseReason =
   | { kind: 'keydown'; key: string }
   | { kind: 'outside-click' }
   | { kind: 'programmatic' };
+
+/** `detail` of the menu's `close` event. */
+export interface MenuCloseDetail {
+  /** The shared overlay close reason (ADR-030001). */
+  reason: CloseReason;
+  /** The menu's own, more detailed reason, as sent with the deprecated `closed` event. */
+  cause: MenuCloseReason;
+}
+
+/** Maps a menu close reason onto the reason every overlay uses. */
+function toCloseReason(reason: MenuCloseReason): CloseReason {
+  switch (reason.kind) {
+    case 'click-selection':
+      return 'action';
+    case 'keydown':
+      if (reason.key === 'Escape') return 'escape';
+      // Tab moves focus out of the menu, like a press outside.
+      return reason.key === 'Tab' ? 'light-dismiss' : 'action';
+    case 'outside-click':
+      return 'light-dismiss';
+    default:
+      return 'api';
+  }
+}
 
 /** Which item receives focus when the menu opens or `focus()` is called. */
 export type MenuFocusTarget = 'active' | 'first' | 'last';
@@ -51,8 +76,10 @@ const POSITION_ATTRIBUTES = [
  * @cssprop --menu-min-width - Minimum width of the menu. Defaults to `112px`.
  * @cssprop --menu-width - Width of the menu. Defaults to `max-content`.
  *
- * @fires {CustomEvent} opened - Dispatched on the menu after it opens. Does not bubble.
- * @fires {CustomEvent<{reason: MenuCloseReason}>} closed - Dispatched on the menu after it closes. Does not bubble.
+ * @fires {CustomEvent} open - Dispatched after the menu opens. Bubbles and is composed: check `event.target` to tell a submenu's event from the menu's own.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api', cause: MenuCloseReason}>} close - Dispatched after the menu closes. `reason` is the shared overlay reason (an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` / `open = false` `api`); `cause` is the menu's detailed reason. Bubbles and is composed.
+ * @fires {CustomEvent} opened - Deprecated, use `open`. Dispatched on the menu after it opens. Does not bubble.
+ * @fires {CustomEvent<{reason: MenuCloseReason}>} closed - Deprecated, use `close`. Dispatched on the menu after it closes. Does not bubble.
  * @fires {CustomEvent<{item: MenuItem}>} menu-item-activate - Dispatched when an item is activated.
  *
  * @example
@@ -672,6 +699,9 @@ export class Menu extends LitElement {
 
     if (changedProperties.has('open')) {
       this._syncLayer();
+      // While open, the menu handles Escape itself: an overlay around it (popover, modal) must
+      // let it close first (see the overlay controller).
+      this.toggleAttribute('data-handles-escape', this.open);
 
       if (this.open) {
         this._lastFocusedElement = this._deepActiveElement();
@@ -684,11 +714,21 @@ export class Menu extends LitElement {
         }
         this._openFocus = 'active';
 
+        this.dispatchEvent(
+          new CustomEvent('open', { bubbles: true, composed: true }),
+        );
         this.dispatchEvent(new CustomEvent('opened'));
       } else if (changedProperties.get('open') === true) {
         this._floatingController.close();
 
         const reason = this._closeReason;
+        this.dispatchEvent(
+          new CustomEvent<MenuCloseDetail>('close', {
+            detail: { reason: toCloseReason(reason), cause: reason },
+            bubbles: true,
+            composed: true,
+          }),
+        );
         this.dispatchEvent(new CustomEvent('closed', { detail: { reason } }));
 
         const shouldRestoreFocus =

@@ -248,6 +248,21 @@ export default abstract class PickerField extends BaseField {
     else this.showPicker();
   }
 
+  /**
+   * The popover's `open`/`close` (and those of anything inside it) are internal: they bubble and
+   * are composed, so stop them here, or consumers listening on the field would hear them.
+   */
+  private handleOverlayEvent = (event: Event) => {
+    event.stopPropagation();
+    if (event.target !== this.popoverElement) return;
+    if (event.type === 'open') this.handlePopoverOpen();
+    else this.handlePopoverClose();
+  };
+
+  private static stopEvent(event: Event) {
+    event.stopPropagation();
+  }
+
   private handlePopoverOpen() {
     this.pickerOpen = true;
   }
@@ -291,8 +306,10 @@ export default abstract class PickerField extends BaseField {
         placement=${this.placement}
         offset="4"
         @keydown=${this.handleKeyDown}
-        @wc-popover--open=${this.handlePopoverOpen}
-        @wc-popover--close=${this.handlePopoverClose}
+        @open=${this.handleOverlayEvent}
+        @close=${this.handleOverlayEvent}
+        @wc-popover--open=${PickerField.stopEvent}
+        @wc-popover--close=${PickerField.stopEvent}
       >
         ${this.renderField(
           html`<input
