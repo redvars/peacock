@@ -5,164 +5,386 @@
 :host {
   display: block;
   height: 100%;
-  min-height: 20em;
+  min-width: 0;
+  --table-row-height: 3rem;
   --table-border-color: var(--color-outline-variant);
-  --table-border: 1px solid var(--table-border-color);
-  --table-col-content-padding: var(--spacing-150, 0.75rem)
-    var(--spacing-200, 1rem);
+  --table-cell-padding-inline: var(--spacing-200, 1rem);
+  --table-header-background: var(--color-surface, #fff);
+  --table-background: var(--color-surface, #fff);
+  --_table-checkbox-width: 3rem;
+  --_table-edge-shadow: color-mix(in srgb, var(--color-shadow) 14%, transparent);
+}
+
+:host([density='compact']) {
+  --table-row-height: 2.25rem;
+  --table-cell-padding-inline: var(--spacing-150, 0.75rem);
+}
+
+:host([density='comfortable']) {
+  --table-row-height: 3.5rem;
 }
 
 .table {
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: var(--color-surface, #fff);
+  background: var(--table-background);
+  color: var(--color-on-surface);
 
   @include mixin.get-typography-not-important('body-medium');
-
-  .table-scroll-container {
-    position: relative;
-    overflow: auto;
-    height: 100%;
-  }
-
-  .empty-table {
-    height: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .empty-state {
-      width: 10rem;
-    }
-  }
-
-  wc-pagination {
-    border-top: 1px solid var(--table-border-color);
-  }
-
-  &.horizontal-scrolled {
-    .fixed-columns::after {
-      box-shadow: 10px 0 20px -20px var(--color-outline) inset;
-      content: ' ';
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: -20px;
-      width: 20px;
-    }
-  }
 }
+
+.table-scroll-container {
+  // Wide rows scroll inside the table instead of widening the page around it.
+  contain: inline-size;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  outline: none;
+}
+
+// ── Rows and cells ──────────────────────────────────────────────────────────
 
 .row {
+  --_cell-background: var(--table-background);
+
   display: flex;
-  box-sizing: border-box;
   width: max-content;
   min-width: 100%;
+}
 
-  .columns-container {
-    display: flex;
-  }
+.columns {
+  display: flex;
+}
 
-  .col {
-    margin: 0;
-    color: var(--color-on-surface);
-    flex-shrink: 0;
+.scroll-group {
+  flex: 1 0 auto;
+  // Keeps positioned cell content (tags, buttons) below the pinned columns.
+  isolation: isolate;
 
-    .col-content {
-      display: flex;
-      align-items: center;
-      height: 100%;
-
-      .col-text {
-        padding: var(--table-col-content-padding);
-        flex: 1;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      .col-template {
-        width: 100%;
-      }
-
-      .col-action {
-        --button-container-shape: 0;
-      }
-
-      .checkbox {
-        padding: 0 var(--spacing-100, 0.5rem);
-      }
-    }
-
-    &.center .col-content {
-      justify-content: center;
-    }
-
-    &:last-child {
-      flex: 1;
-    }
-  }
-
-  .fixed-columns {
-    position: sticky;
-    left: 0;
-  }
-
-  .scrollable-columns {
-    flex: 0 0 auto;
+  > .cell:last-child {
+    flex-grow: 1;
   }
 }
+
+.pinned-group {
+  position: sticky;
+  z-index: 1;
+  flex: none;
+}
+
+.pinned-group-start {
+  inset-inline-start: 0;
+}
+
+.pinned-group-end {
+  inset-inline-end: 0;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 0;
+  min-height: var(--table-row-height);
+  padding-inline: var(--table-cell-padding-inline);
+  background: var(--_cell-background);
+  border-bottom: 1px solid var(--table-border-color);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  &.align-start {
+    justify-content: flex-start;
+    text-align: start;
+  }
+
+  &.align-center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  &.align-end {
+    justify-content: flex-end;
+    text-align: end;
+  }
+
+  &.numeric {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &.cell-checkbox {
+    width: var(--_table-checkbox-width);
+    padding-inline: 0;
+  }
+}
+
+.cell-text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  .wrap & {
+    padding-block: var(--spacing-100, 0.5rem);
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+.cell-template {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+// ── Header ──────────────────────────────────────────────────────────────────
 
 .header {
   position: sticky;
   top: 0;
+  z-index: 3;
 
-  @include mixin.get-typography-not-important('label-medium');
+  .row {
+    --_cell-background: var(--table-header-background);
+  }
 
-  .col {
-    background: var(--color-surface-variant, #f4f4f4);
+  .cell {
+    color: var(--color-on-surface-variant);
 
-    &.sort {
-      background: var(--color-secondary-container, #e8eaf6);
+    @include mixin.get-typography-not-important('label-large');
+
+    &.sortable {
+      padding-inline: 0;
     }
+
+    &.sorted {
+      color: var(--color-on-surface);
+    }
+  }
+
+  .header-label {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
+.sort-button {
+  @include mixin.reset-button-styles;
+
+  display: flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: var(--spacing-050, 0.25rem);
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  padding-inline: var(--table-cell-padding-inline);
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  cursor: pointer;
+
+  .align-end & {
+    flex-direction: row-reverse;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 6%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.sort-icon {
+  flex: none;
+  --icon-size: 1.125rem;
+  font-size: 1.125rem;
+  opacity: 0;
+  transition: opacity var(--duration-short2, 100ms) ease;
+
+  .sort-button:hover &,
+  .sort-button:focus-visible & {
+    opacity: 0.6;
+  }
+
+  .sorted & {
+    opacity: 1;
+  }
+}
+
+.loading-bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  --progress-height: 2px;
+}
+
+// ── Body ────────────────────────────────────────────────────────────────────
+
 .body {
-  .row {
-    .col {
-      cursor: pointer;
-      background: var(--color-surface, #fff);
-      border-bottom: 1px solid var(--color-surface-variant, #f4f4f4);
+  .cell {
+    cursor: pointer;
 
-      &.col-checkbox .col-content {
-        border: 0;
-      }
-
-      .col-content {
-        border: 2px solid transparent;
-        border-bottom: 1px solid transparent;
-
-        .col-text {
-          text-wrap: wrap;
-        }
-      }
-
-      &:focus {
-        outline: none;
-        border-bottom-color: var(--color-primary);
-
-        .col-content {
-          border-color: var(--color-primary);
-        }
-      }
-    }
-
-    &:hover {
-      .col {
-        background-color: var(--color-surface-container-low, #f8f8f8);
-      }
+    &.cell-checkbox {
+      cursor: default;
     }
   }
+
+  .row:hover {
+    --_cell-background: var(--color-surface-container-low);
+  }
+
+  .row.selected {
+    --_cell-background: color-mix(
+      in srgb,
+      var(--color-secondary-container) 55%,
+      var(--table-background)
+    );
+
+    > .columns:first-child > .cell:first-child {
+      box-shadow: inset 2px 0 0 var(--color-primary);
+    }
+  }
+
+  .row.selected:hover {
+    --_cell-background: var(--color-secondary-container);
+  }
+
+  .skeleton-row .cell {
+    cursor: default;
+  }
+}
+
+:host([striped]) .body .row:nth-child(even):not(.selected) {
+  --_cell-background: color-mix(
+    in srgb,
+    var(--color-surface-container) 45%,
+    var(--table-background)
+  );
+
+  &:hover {
+    --_cell-background: var(--color-surface-container-low);
+  }
+}
+
+.skeleton-bar {
+  block-size: 0.75rem;
+  max-inline-size: 100%;
+  --skeleton-container-shape: var(--shape-corner-extra-small);
+
+  .cell-checkbox & {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+  }
+}
+
+.checkbox {
+  display: flex;
+}
+
+// ── Edge shadows on pinned columns ──────────────────────────────────────────
+
+.pinned-group-start::after,
+.pinned-group-end::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.75rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-short4, 200ms) ease;
+}
+
+.pinned-group-start::after {
+  inset-inline-end: -0.75rem;
+  background: linear-gradient(to right, var(--_table-edge-shadow), transparent);
+}
+
+.pinned-group-end::before {
+  inset-inline-start: -0.75rem;
+  background: linear-gradient(to left, var(--_table-edge-shadow), transparent);
+}
+
+.scrolled-from-start .pinned-group-start::after,
+.scrolled-from-end .pinned-group-end::before {
+  opacity: 1;
+}
+
+// ── Selection bar ───────────────────────────────────────────────────────────
+
+.bulk-bar {
+  position: absolute;
+  top: 0;
+  inset-inline: var(--_table-checkbox-width) 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  height: var(--table-row-height);
+  padding-inline: var(--spacing-100, 0.5rem) var(--spacing-100, 0.5rem);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border-bottom: 1px solid var(--table-border-color);
+  // One line at any width: on a narrow table the actions scroll instead of wrapping.
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+
+  @include mixin.get-typography-not-important('label-large');
+
+  > *,
+  ::slotted(*) {
+    flex: none;
+  }
+}
+
+.bulk-count {
+  padding-inline-start: var(--spacing-050, 0.25rem);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.bulk-spacer {
+  flex: 1;
+}
+
+::slotted([slot='bulk-actions']) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+}
+
+// ── Empty state and footer ──────────────────────────────────────────────────
+
+.empty-table {
+  position: sticky;
+  inset-inline-start: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16rem;
+  padding: var(--spacing-400, 2rem) var(--spacing-200, 1rem);
+
+  .empty-state {
+    max-width: 24rem;
+  }
+}
+
+.table-footer {
+  flex: none;
+  border-top: 1px solid var(--table-border-color);
 }
