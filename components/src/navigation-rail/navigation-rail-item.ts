@@ -132,8 +132,8 @@ export class NavigationRailItem extends LitElement {
   }
 
   __renderDisabledReason() {
-    const disabledReasonID = this.__getDisabledReasonID();
-    if (disabledReasonID)
+    // `__getDisabledReasonID()` returns `nothing` (a truthy symbol) when there is no reason.
+    if (this.disabled && this.disabledReason)
       return html`<div
         id="disabled-reason-${this.#id}"
         role="tooltip"
@@ -181,7 +181,7 @@ export class NavigationRailItem extends LitElement {
         ?disabled=${this.disabled}
         aria-disabled=${`${this.disabled}`}
         aria-current=${this.active ? 'page' : nothing}
-        ?aria-describedby=${this.__getDisabledReasonID()}
+        aria-describedby=${this.__getDisabledReasonID()}
       >
         ${this.__renderItemContent()}
       </button>`;
@@ -194,7 +194,7 @@ export class NavigationRailItem extends LitElement {
       target=${this.target}
       aria-current=${this.active ? 'page' : nothing}
       aria-disabled=${`${this.disabled}`}
-      ?aria-describedby=${this.__getDisabledReasonID()}
+      aria-describedby=${this.__getDisabledReasonID()}
     >
       ${this.__renderItemContent()}
     </a>`;

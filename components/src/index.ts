@@ -1,3 +1,11 @@
+export {
+  setPeacockStrings,
+  defaultStrings,
+} from './__internal/i18n/strings.js';
+export type {
+  PeacockStrings,
+  PeacockStringKey,
+} from './__internal/i18n/strings.js';
 export { Icon, setIconBase } from './icon/index.js';
 export { Avatar } from './avatar/index.js';
 export { Badge } from './badge/index.js';

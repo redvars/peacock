@@ -61,7 +61,8 @@ export function mixinBaseButton<
     /**
      * Sets the delay for throttle in milliseconds. When undefined (default), no throttle is applied.
      */
-    @property() throttleDelay?: number;
+    @property({ type: Number, attribute: 'throttle-delay' })
+    throttleDelay?: number;
 
     __dispatchClickWithThrottle: (event: MouseEvent | KeyboardEvent) => void =
       event => {

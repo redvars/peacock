@@ -68,6 +68,12 @@ export class RadioGroup extends LitElement {
 
   private readonly generatedName = `wc-radio-group-${(radioGroupCount += 1)}`;
 
+  /** Radios the group disabled, so re-enabling the group leaves radios disabled on their own alone. */
+  private readonly disabledByGroup = new WeakSet<Radio>();
+
+  /** Whether the group has looked at its radios once, to adopt a radio checked in markup. */
+  private hasAdopted = false;
+
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
   override connectedCallback() {
@@ -105,15 +111,23 @@ export class RadioGroup extends LitElement {
 
     for (const radio of radios) {
       if (radio.name !== name) radio.name = name;
-      if (this.disabled) radio.disabled = true;
+      if (this.disabled && !radio.disabled) {
+        radio.disabled = true;
+        this.disabledByGroup.add(radio);
+      } else if (!this.disabled && this.disabledByGroup.has(radio)) {
+        radio.disabled = false;
+        this.disabledByGroup.delete(radio);
+      }
     }
 
-    if (this.value) {
-      for (const radio of radios) radio.checked = radio.value === this.value;
-    } else {
-      // No value set: adopt the radio that was checked in markup.
+    if (!this.value && !this.hasAdopted) {
+      // First look with no value set: adopt the radio that was checked in markup.
       this.value = radios.find(radio => radio.checked)?.value ?? '';
+    } else {
+      // An empty value clears the selection.
+      for (const radio of radios) radio.checked = radio.value === this.value;
     }
+    if (radios.length > 0) this.hasAdopted = true;
   };
 
   private handleRadioChange = (event: Event) => {

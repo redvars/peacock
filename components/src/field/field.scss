@@ -5,6 +5,16 @@
 :host {
   --field-height: unset;
   --field-padding-block: unset;
+  --_field-size-height: 2.5rem;
+}
+
+// Same heights as buttons of the same size (sm 2.5rem, md 3.5rem); lg is a tall field.
+:host([size='md']) {
+  --_field-size-height: 3.5rem;
+}
+
+:host([size='lg']) {
+  --_field-size-height: 4rem;
 }
 .field {
   position: relative;
@@ -61,7 +71,7 @@
     .outline {
       position: absolute;
       z-index: 2;
-      left: 0;
+      inset-inline-start: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -76,7 +86,7 @@
     .background {
       position: absolute;
       z-index: 0;
-      left: 0;
+      inset-inline-start: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -97,7 +107,10 @@
       flex: 1;
       // Let a narrow field shrink below its content, so the value truncates.
       min-width: 0;
-      min-height: var(--field-height, 3.5rem);
+      min-height: var(
+        --field-height,
+        calc(var(--_field-size-height) + var(--density, 0) * 0.25rem)
+      );
       padding-block: var(--field-padding-block);
       z-index: 1;
 
@@ -110,7 +123,7 @@
         .outlined-label {
           position: absolute;
           top: 0;
-          left: 0;
+          inset-inline-start: 0;
           align-items: center;
           height: 100%;
           width: 100%;
@@ -260,7 +273,7 @@
   z-index: 2;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   --skeleton-container-shape-start-start: var(--_container-shape-start-start);
   --skeleton-container-shape-start-end: var(--_container-shape-start-end);
   --skeleton-container-shape-end-start: var(--_container-shape-end-start);

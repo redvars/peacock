@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './search.scss';
 import colorStyles from './search-colors.scss';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
@@ -48,10 +49,10 @@ export class Search extends LitElement {
   variant: 'outlined' | 'filled' = 'filled';
 
   /**
-   * Placeholder text shown when the input is empty.
+   * Placeholder text shown when the input is empty. Defaults to Peacock's "Search".
    */
   @property({ type: String })
-  placeholder: string = 'Search';
+  placeholder: string = '';
 
   /**
    * Current search value.
@@ -86,6 +87,9 @@ export class Search extends LitElement {
 
   @query('.search-input')
   private inputElement?: HTMLInputElement;
+
+  /** Peacock's strings for the placeholder and clear button. */
+  private readonly i18n = new I18nController(this);
 
   override firstUpdated() {
     observerSlotChangesWithCallback(
@@ -177,7 +181,7 @@ export class Search extends LitElement {
     return html`
       <button
         class="clear-button"
-        aria-label="Clear search"
+        aria-label=${this.i18n.t('clearSearch')}
         tabindex="-1"
         @click=${this.__clearValue}
         ?disabled=${this.disabled}
@@ -207,6 +211,8 @@ export class Search extends LitElement {
       'has-value': !!this.value,
     };
 
+    const placeholder = this.placeholder || this.i18n.t('search');
+
     return html`
       <div class=${classMap(cssClasses)} role="search">
         <div class="background"></div>
@@ -219,9 +225,9 @@ export class Search extends LitElement {
           type="search"
           role="searchbox"
           .value=${live(this.value)}
-          placeholder=${this.placeholder}
+          placeholder=${placeholder}
           ?disabled=${this.disabled}
-          aria-label=${this.placeholder}
+          aria-label=${placeholder}
           @input=${this.__handleInput}
           @change=${this.__handleChange}
           @keydown=${this.__handleKeydown}

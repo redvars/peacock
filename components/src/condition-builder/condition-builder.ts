@@ -1,5 +1,7 @@
 import { html } from 'lit';
+import { property } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { CbGroupBase } from './cb-group-base.js';
 import baseStyles from './cb-group-base.scss';
 import styles from './condition-builder.scss';
@@ -52,6 +54,11 @@ export class ConditionBuilder extends CbGroupBase {
 
   static styles = [baseStyles, styles];
 
+  // ── Properties ────────────────────────────────────────────────────────────
+
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   // ── Private methods ───────────────────────────────────────────────────────
 
   private _dispatchAdd(type: 'add-rule' | 'add-group') {
@@ -77,7 +84,7 @@ export class ConditionBuilder extends CbGroupBase {
               @click=${() => this._dispatchAdd('add-rule')}
             >
               <wc-icon slot="icon" name="add_circle"></wc-icon>
-              Add rule
+              ${this.i18n.t('addRule')}
             </wc-button>
             <wc-button
               variant="text"
@@ -85,7 +92,7 @@ export class ConditionBuilder extends CbGroupBase {
               @click=${() => this._dispatchAdd('add-group')}
             >
               <wc-icon slot="icon" name="create_new_folder"></wc-icon>
-              Add inner group
+              ${this.i18n.t('addInnerGroup')}
             </wc-button>
           </slot>
         </div>

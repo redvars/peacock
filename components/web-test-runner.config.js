@@ -83,8 +83,12 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   /** Amount of browsers to run concurrently */
   // concurrentBrowsers: 2,
 
-  /** Amount of test files per browser to test concurrently */
-  // concurrency: 1,
+  /**
+   * Amount of test files per browser to test concurrently. The default (half the CPU cores) ran
+   * 8 files at once on a 16-core machine; with coverage, timer-based tests then hit mocha's 2s
+   * timeout. 4 is both stable and faster.
+   */
+  concurrency: 4,
 
   /** Browsers to run tests on */
   // browsers: [

@@ -43,7 +43,7 @@
           position: absolute;
           display: block;
           top: 0;
-          left: 0;
+          inset-inline-start: 0;
           width: calc(100% - 0.25rem);
           height: var(--progress-height);
           background: var(--progress-track-color);

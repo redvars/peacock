@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { query } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import { claimDropTarget, getActiveRule, setActiveRule } from './cb-drag.js';
 import { CbGroupBase } from './cb-group-base.js';
 import type { CbRuleRemoveDetail } from './cb-types.js';
@@ -38,6 +39,11 @@ export class CbRule extends LitElement {
 
   @query('.handle')
   private readonly _handleEl?: HTMLElement;
+
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Peacock's strings for the drag handle and remove button. */
+  private readonly i18n = new I18nController(this);
 
   // ── Private methods ───────────────────────────────────────────────────────
 
@@ -100,8 +106,8 @@ export class CbRule extends LitElement {
           role="button"
           tabindex="0"
           draggable="true"
-          aria-label="Reorder condition"
-          title="Drag to reorder"
+          aria-label=${this.i18n.t('reorderCondition')}
+          title=${this.i18n.t('dragToReorder')}
           @dragstart=${this._onDragStart}
           @dragend=${this._onDragEnd}
           @keydown=${this._onHandleKeyDown}
@@ -117,7 +123,7 @@ export class CbRule extends LitElement {
             variant="text"
             color="on-surface"
             size="sm"
-            aria-label="Remove condition"
+            aria-label=${this.i18n.t('removeCondition')}
             @click=${this._onRemoveClick}
           >
             <wc-icon name="delete"></wc-icon>

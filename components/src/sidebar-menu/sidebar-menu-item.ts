@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import IndividualComponent from '@/IndividualComponent.js';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -72,7 +72,8 @@ export class SidebarMenuItem extends LitElement {
   @property({ type: Number, reflect: true })
   level: number = 0;
 
-  @query('.sidebar-menu-item-content')
+  /** The focusable element: the link or the treeitem, both rendered with `id="item"`. */
+  @query('#item')
   private readonly _nativeElement!: HTMLElement | null;
 
   override focus() {
@@ -119,7 +120,7 @@ export class SidebarMenuItem extends LitElement {
           href="${this.href}"
           target="${this.target}"
           class="${classes}"
-          ?aria-disabled=${this.disabled}
+          aria-disabled=${this.disabled ? 'true' : nothing}
           tabindex="${this.disabled ? -1 : 0}"
           @click="${this._onClick}"
         >
@@ -135,7 +136,7 @@ export class SidebarMenuItem extends LitElement {
         role="treeitem"
         aria-label="${this.label}"
         aria-selected="${String(this.selected)}"
-        ?aria-disabled=${this.disabled}
+        aria-disabled=${this.disabled ? 'true' : nothing}
         ?disabled=${this.disabled}
         tabindex="${this.disabled ? -1 : 0}"
         @click="${this._onClick}"

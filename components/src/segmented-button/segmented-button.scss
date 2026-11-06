@@ -70,7 +70,7 @@
   .segment-outline {
     position: absolute;
     top: 0;
-    right: 0;
+    inset-inline-end: 0;
     width: 1px;
     height: 100%;
     background: var(--segmented-button-outline-color, var(--_segmented-button-outline-color));

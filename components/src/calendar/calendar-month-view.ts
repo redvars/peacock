@@ -15,6 +15,7 @@ import { CalendarEvent } from './calendar-event.js';
 import { MonthEventManager } from './event-manager.js';
 import type { ColumnEvent } from './event-manager.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { resolveLocale } from '@/__internal/i18n/locale.js';
 import styles from './calendar-month-view.scss';
 
 /**
@@ -38,6 +39,10 @@ export class CalendarMonthView extends LitElement {
 
   @property({ type: Object, attribute: false })
   contextDate: Date = new Date();
+
+  /** Locale for day names and numbers. Defaults to the nearest `lang`, then the browser language. */
+  @property({ type: String })
+  locale: string = '';
 
   @state()
   private dateRange: any = {};
@@ -131,7 +136,13 @@ export class CalendarMonthView extends LitElement {
     );
   }
 
+  /** The locale day names and numbers are formatted in. */
+  private get _locale(): string {
+    return resolveLocale(this.locale, this);
+  }
+
   private _renderHeader() {
+    const locale = this._locale;
     const columns: any[] = [];
     for (
       let i = new Date(this.dateRange.startDate), j = 0;
@@ -141,7 +152,7 @@ export class CalendarMonthView extends LitElement {
       columns.push(html`
         <div class="column">
           <div class="column-content">
-            <div class="day">${formatDate(i, 'EEEE')}</div>
+            <div class="day">${formatDate(i, 'EEEE', locale)}</div>
           </div>
         </div>
       `);
@@ -150,13 +161,14 @@ export class CalendarMonthView extends LitElement {
   }
 
   private _renderMultiDayBackground(sd: Date) {
+    const locale = this._locale;
     const columns: any[] = [];
     for (let i = new Date(sd), j = 0; j < 7; i = addDays(i, 1), j++) {
       columns.push(html`
         <div class=${this._getDayClass(i)}>
           <div class="column-content">
             <div class="column-header">
-              <div class="day">${formatDate(i, 'd')}</div>
+              <div class="day">${formatDate(i, 'd', locale)}</div>
             </div>
           </div>
         </div>

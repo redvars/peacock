@@ -2,6 +2,8 @@ import { type CSSResult, html, nothing, PropertyValues } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
 import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
@@ -32,18 +34,6 @@ export type CodeEditorMarker = {
 };
 
 type Monaco = typeof import('./monaco.js');
-
-const locale = {
-  copied: 'Copied',
-  copyToClipboard: 'Copy to clipboard',
-  copiedCode: 'Copied code to clipboard',
-  readOnly: 'Read only',
-  wrapLines: 'Wrap lines',
-  unwrapLines: 'Turn off line wrap',
-  editorLabel: 'Code editor',
-  breakpoint: 'Breakpoint',
-  currentLine: 'Paused here',
-};
 
 const EXTENSIONS: Record<CodeEditorLanguage, string> = {
   javascript: 'js',
@@ -234,6 +224,9 @@ export default class CodeEditor extends BaseInput {
   @property({ type: Boolean, reflect: true })
   fill = false;
 
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   /** Whether the editor text has focus. */
   @state() private hasFocus = false;
 
@@ -256,6 +249,9 @@ export default class CodeEditor extends BaseInput {
 
   /** This editor's model's address, unique on the page so two editors never share a model. */
   private readonly __id = nextInstanceId();
+
+  /** Peacock's strings for the toolbar, badge and gutter hovers. */
+  private readonly i18n = new I18nController(this);
 
   /** Stops listening for theme changes. */
   private __unobserveTheme?: () => void;
@@ -312,7 +308,8 @@ export default class CodeEditor extends BaseInput {
     this.initializeMonaco();
   }
 
-  protected updated(changedProperties: PropertyValues<this>) {
+  protected override updated(changedProperties: PropertyValues<this>) {
+    super.updated(changedProperties);
     if (
       changedProperties.has('libSource') ||
       changedProperties.has('compilerOptions')
@@ -334,14 +331,15 @@ export default class CodeEditor extends BaseInput {
       changedProperties.has('minimap') ||
       changedProperties.has('breakpointGutter') ||
       changedProperties.has('wrap') ||
-      changedProperties.has('label')
+      changedProperties.has('label') ||
+      changedProperties.has('strings')
     ) {
       editor.updateOptions({
         lineNumbers: this.lineNumbers,
         minimap: { enabled: this.minimap },
         glyphMargin: this.breakpointGutter,
         wordWrap: this.wrap ? 'on' : 'off',
-        ariaLabel: this.label || locale.editorLabel,
+        ariaLabel: this.label || this.i18n.t('codeEditor'),
       });
     }
 
@@ -358,7 +356,8 @@ export default class CodeEditor extends BaseInput {
 
     if (
       changedProperties.has('breakpoints') ||
-      changedProperties.has('currentLine')
+      changedProperties.has('currentLine') ||
+      changedProperties.has('strings')
     ) {
       this.drawDecorations();
     }
@@ -396,7 +395,7 @@ export default class CodeEditor extends BaseInput {
       wordWrap: this.wrap ? 'on' : 'off',
       theme: THEME_NAME,
       readOnly: this.disabled || this.readonly,
-      ariaLabel: this.label || locale.editorLabel,
+      ariaLabel: this.label || this.i18n.t('codeEditor'),
       automaticLayout: true,
       fixedOverflowWidgets: true,
       scrollBeyondLastLine: false,
@@ -567,7 +566,7 @@ export default class CodeEditor extends BaseInput {
       range: range(line),
       options: {
         glyphMarginClassName: 'wc-code-editor-breakpoint',
-        glyphMarginHoverMessage: { value: locale.breakpoint },
+        glyphMarginHoverMessage: { value: this.i18n.t('breakpoint') },
         stickiness: 1,
       },
     }));
@@ -578,7 +577,7 @@ export default class CodeEditor extends BaseInput {
           isWholeLine: true,
           className: 'wc-code-editor-current-line',
           glyphMarginClassName: 'wc-code-editor-current-line-glyph',
-          glyphMarginHoverMessage: { value: locale.currentLine },
+          glyphMarginHoverMessage: { value: this.i18n.t('pausedHere') },
         },
       });
     }
@@ -638,11 +637,13 @@ export default class CodeEditor extends BaseInput {
 
   private renderBadge() {
     return html`<span class="read-only-badge">
-      <wc-icon name="lock"></wc-icon>${locale.readOnly}
+      <wc-icon name="lock"></wc-icon>${this.i18n.t('readOnly')}
     </span>`;
   }
 
   private renderActions(floating: boolean, showBadge: boolean) {
+    const wrapLabel = this.i18n.t(this.wrap ? 'unwrapLines' : 'wrapLines');
+    const copyLabel = this.i18n.t(this._copied ? 'copied' : 'copyToClipboard');
     return html`
       <div
         class=${classMap({
@@ -663,8 +664,8 @@ export default class CodeEditor extends BaseInput {
               color="surface"
               toggle
               ?selected=${this.wrap}
-              aria-label=${this.wrap ? locale.unwrapLines : locale.wrapLines}
-              tooltip=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              aria-label=${wrapLabel}
+              tooltip=${wrapLabel}
               @click=${this.__handleWrapClick}
             >
               <wc-icon name="wrap_text"></wc-icon>
@@ -678,10 +679,8 @@ export default class CodeEditor extends BaseInput {
               size="xs"
               shape="round"
               color=${this._copied ? 'success' : 'surface'}
-              aria-label=${this._copied
-                ? locale.copied
-                : locale.copyToClipboard}
-              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
+              aria-label=${copyLabel}
+              tooltip=${copyLabel}
               @click=${this.__handleCopyClick}
             >
               <wc-icon
@@ -747,7 +746,7 @@ ${this.value}</pre
         </div>
         <span class="probe" aria-hidden="true"></span>
         <span class="sr-only" aria-live="polite"
-          >${this._copied ? locale.copiedCode : ''}</span
+          >${this._copied ? this.i18n.t('copiedCode') : ''}</span
         >
       </div>
     `;

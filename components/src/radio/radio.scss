@@ -179,3 +179,31 @@
     }
   }
 }
+
+// Forced colors drop the dot's fill, so draw the radio with system colors.
+@media (forced-colors: active) {
+  .radio .outer-circle {
+    border-color: CanvasText;
+  }
+
+  .radio.state-checked {
+    .outer-circle {
+      border-color: Highlight;
+    }
+
+    .inner-circle {
+      forced-color-adjust: none;
+      background: Highlight;
+    }
+  }
+
+  .radio.disabled {
+    .outer-circle {
+      border-color: GrayText;
+    }
+
+    .inner-circle {
+      background: GrayText;
+    }
+  }
+}

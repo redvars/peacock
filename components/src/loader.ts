@@ -465,4 +465,22 @@ const loaderConfig: LoaderConfig = {
   },
 };
 
-new LoaderUtils(loaderConfig).start();
+const loader = new LoaderUtils(loaderConfig);
+
+// Example: loader.js?no-shadow-watch leaves Element.prototype.attachShadow alone; the page then
+// calls loadComponents(shadowRoot) for shadow roots it creates that contain Peacock components.
+loader.start({ watchShadowRoots: !params.has('no-shadow-watch') });
+
+/**
+ * Loads the Peacock components in `root` (a shadow root, element or document) and those added to
+ * it later. Only needed with `loader.js?no-shadow-watch`.
+ */
+export function loadComponents(root: Document | Element | ShadowRoot): void {
+  loader.lazyLoadComponents(root);
+}
+
+export {
+  setPeacockStrings,
+  defaultStrings,
+} from '@/__internal/i18n/strings.js';
+export type { PeacockStrings } from '@/__internal/i18n/strings.js';

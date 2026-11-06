@@ -59,6 +59,9 @@
 }
 
 /* Position variants */
+// The position names are physical (`top-right`); they become logical (`top-end`) when the toast
+// queue is reworked, and these rules with them.
+/* stylelint-disable property-disallowed-list */
 
 :host([position='bottom-right']) {
   bottom: 0;
@@ -111,3 +114,4 @@
     animation: reveal-top 0.5s ease-in;
   }
 }
+/* stylelint-enable property-disallowed-list */

@@ -200,7 +200,7 @@ export class ListItem extends mixinBaseButton(
           class=${classMap(cssClasses)}
           ?disabled=${this.disabled}
           aria-label="${ariaLabel || nothing}"
-          ?aria-disabled=${this.softDisabled}
+          aria-disabled=${this.softDisabled ? 'true' : nothing}
           @click=${this.__dispatchClick}
         >
           ${this.renderContent(clickable)}
@@ -214,8 +214,8 @@ export class ListItem extends mixinBaseButton(
         class=${classMap(cssClasses)}
         href=${this.href}
         target=${this.target}
-        ?rel=${this.rel}
-        ?download=${this.download}
+        rel=${this.rel || nothing}
+        download=${this.download || nothing}
         tabindex=${this.disabled ? '-1' : '0'}
         aria-disabled=${String(this.disabled || this.softDisabled)}
         @click=${this.__dispatchClick}

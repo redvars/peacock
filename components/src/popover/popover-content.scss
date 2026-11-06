@@ -5,6 +5,8 @@
 :host {
   position: fixed;
   top: 0;
+  // floating-ui positions the panel with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
   left: 0;
   z-index: var(--z-index-popover, 1000);
   pointer-events: none;

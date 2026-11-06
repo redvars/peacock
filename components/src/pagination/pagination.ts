@@ -4,6 +4,8 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './pagination.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { getPageItems } from './page-items.js';
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
@@ -89,10 +91,19 @@ export class Pagination extends LitElement {
   hidePageSize: boolean = false;
 
   /**
-   * Accessible name of the navigation landmark. Defaults to `"Pagination"`.
+   * Accessible name of the navigation landmark. Defaults to Peacock's `pagination` string
+   * (`"Pagination"`).
    */
   @property({ type: String })
-  label: string = 'Pagination';
+  label: string = '';
+
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings and the locale page numbers are formatted in. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -174,13 +185,23 @@ export class Pagination extends LitElement {
     return this.hasTotal ? this.variant : 'simple';
   }
 
+  /** Formats a number in the resolved locale. */
+  private formatNumber(value: number): string {
+    return new Intl.NumberFormat(this.i18n.locale).format(value);
+  }
+
   private getRangeText(): string {
     const total = this.totalItems ?? 0;
-    if (this.hasTotal && total === 0) return '0 of 0';
-    const start = this.pageSize * (this.page - 1) + 1;
-    if (!this.hasTotal) return `${start}–${this.pageSize * this.page}`;
+    if (this.hasTotal && total === 0) {
+      return this.i18n.t('emptyPageRange')(this.formatNumber(0));
+    }
+    const pageRange = this.i18n.t('pageRange');
+    const start = this.formatNumber(this.pageSize * (this.page - 1) + 1);
+    if (!this.hasTotal) {
+      return pageRange(start, this.formatNumber(this.pageSize * this.page));
+    }
     const end = Math.min(this.pageSize * this.page, total);
-    return `${start}–${end} of ${total}`;
+    return pageRange(start, this.formatNumber(end), this.formatNumber(total));
   }
 
   private setPage(nextPage: number) {
@@ -277,11 +298,13 @@ export class Pagination extends LitElement {
                       'page-button': true,
                       current: item === this.page,
                     })}
-                    aria-label="Page ${item}"
+                    aria-label=${this.i18n.t('pageNumber')(
+                      this.formatNumber(item),
+                    )}
                     aria-current=${item === this.page ? 'page' : nothing}
                     @click=${() => this.setPage(item)}
                   >
-                    ${item}
+                    ${this.formatNumber(item)}
                   </button>
                 </li>
               `,
@@ -291,9 +314,10 @@ export class Pagination extends LitElement {
   }
 
   private renderPageJump(totalPages: number) {
+    const pages = this.formatNumber(totalPages);
     return html`
       <div class="page-jump">
-        <span>Page</span>
+        <span>${this.i18n.t('page')}</span>
         <input
           class="page-input"
           type="number"
@@ -301,11 +325,11 @@ export class Pagination extends LitElement {
           min="1"
           max=${totalPages}
           .value=${String(this.page)}
-          aria-label="Page number, ${totalPages} pages"
+          aria-label=${this.i18n.t('pageNumberField')(pages)}
           @change=${this.handlePageInput}
           @keydown=${this.handlePageInputKeydown}
         />
-        <span>of ${totalPages}</span>
+        <span>${this.i18n.t('ofPages')(pages)}</span>
       </div>
     `;
   }
@@ -314,15 +338,20 @@ export class Pagination extends LitElement {
     if (this.hidePageSize) return nothing;
     return html`
       <div class="page-size">
-        <span class="page-size-label" aria-hidden="true">Rows per page</span>
+        <span class="page-size-label" aria-hidden="true"
+          >${this.i18n.t('rowsPerPage')}</span
+        >
         <wc-select
           class="page-size-select"
           .value=${String(this.pageSize)}
-          aria-label="Rows per page"
+          aria-label=${this.i18n.t('rowsPerPage')}
           @change=${this.handlePageSizeChange}
         >
           ${this.pageSizes.map(
-            size => html`<wc-option value=${String(size)}>${size}</wc-option>`,
+            size =>
+              html`<wc-option value=${String(size)}
+                >${this.formatNumber(size)}</wc-option
+              >`,
           )}
         </wc-select>
       </div>
@@ -340,11 +369,11 @@ export class Pagination extends LitElement {
     return html`
       <nav
         class=${classMap({ pagination: true, [`variant-${variant}`]: true })}
-        aria-label=${this.label}
+        aria-label=${this.label || this.i18n.t('pagination')}
       >
         <div class="range" aria-hidden="true">${rangeText}</div>
         <span class="visually-hidden" aria-live="polite">
-          Showing ${rangeText}
+          ${this.i18n.t('showingRange')(rangeText)}
         </span>
 
         ${this.renderPageSize()}
@@ -353,7 +382,7 @@ export class Pagination extends LitElement {
           ${showFirstLast
             ? this.renderNavButton(
                 'first_page',
-                'First page',
+                this.i18n.t('firstPage'),
                 this.isFirstPage,
                 () => 1,
                 'first',
@@ -361,7 +390,7 @@ export class Pagination extends LitElement {
             : nothing}
           ${this.renderNavButton(
             'chevron_left',
-            'Previous page',
+            this.i18n.t('previousPage'),
             this.isFirstPage,
             () => this.page - 1,
             'previous',
@@ -372,7 +401,7 @@ export class Pagination extends LitElement {
             : nothing}
           ${this.renderNavButton(
             'chevron_right',
-            'Next page',
+            this.i18n.t('nextPage'),
             this.isLastPage,
             () => this.page + 1,
             'next',
@@ -380,7 +409,7 @@ export class Pagination extends LitElement {
           ${showFirstLast
             ? this.renderNavButton(
                 'last_page',
-                'Last page',
+                this.i18n.t('lastPage'),
                 this.isLastPage,
                 () => totalPages,
                 'last',

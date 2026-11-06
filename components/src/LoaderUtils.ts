@@ -12,6 +12,11 @@ export { LoaderConfig };
 
 type LoadRoot = Element | Document | DocumentFragment;
 
+/** Marks `Element.prototype` once its `attachShadow` is wrapped. */
+const PATCHED = Symbol.for('peacock.attachShadowPatched');
+
+const warnedTags = new Set<string>();
+
 export class LoaderUtils {
   private _loaderConfig: LoaderConfig;
 
@@ -32,23 +37,52 @@ export class LoaderUtils {
   }
 
   static registerComponent(tagName: string, CustomElementClass: any) {
-    if (CustomElementClass && !customElements.get(tagName)) {
+    if (!CustomElementClass) return;
+    const existing = customElements.get(tagName);
+    if (!existing) {
       customElements.define(tagName, CustomElementClass);
+    } else if (existing !== CustomElementClass) {
+      LoaderUtils.warnTaken(tagName);
     }
   }
 
-  start() {
+  /**
+   * Warns once that a tag is already defined by other code, such as a second copy or another
+   * version of Peacock on the page. The existing definition stays; Peacock does not replace it.
+   */
+  static warnTaken(tagName: string) {
+    if (warnedTags.has(tagName)) return;
+    warnedTags.add(tagName);
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[peacock] <${tagName}> is already defined by other code, so Peacock's version was not registered. Load one copy of Peacock per page.`,
+    );
+  }
+
+  /**
+   * Defines the eager components and starts loading lazy ones as they appear.
+   *
+   * By default it also wraps `Element.prototype.attachShadow` so components rendered inside any
+   * shadow root load too. Pass `watchShadowRoots: false` (or load `loader.js?no-shadow-watch`) to
+   * leave `attachShadow` alone, and call `loadComponents(shadowRoot)` for your own shadow roots.
+   */
+  start({ watchShadowRoots = true }: { watchShadowRoots?: boolean } = {}) {
     // Before the eager components are defined, so their shadow roots are watched too.
-    this.watchShadowRoots();
+    if (watchShadowRoots) this.watchShadowRoots();
     this.eagerLoadComponents();
     this.lazyLoadComponents(document);
   }
 
   /**
    * Watches every shadow root attached from now on, as it is attached, so lazy components that a
-   * component renders in its shadow root load as they do in the document.
+   * component renders in its shadow root load as they do in the document. Patches
+   * `attachShadow` once per page, even when two loaders run.
    */
   watchShadowRoots() {
+    const proto = Element.prototype as Element & { [PATCHED]?: boolean };
+    if (proto[PATCHED]) return;
+    proto[PATCHED] = true;
+
     const watch = (shadowRoot: ShadowRoot) =>
       this.lazyLoadComponents(shadowRoot);
     const { attachShadow } = Element.prototype;
@@ -82,9 +116,7 @@ export class LoaderUtils {
       const CustomElementClass =
         module.default || module[Object.keys(module)[0]];
 
-      if (CustomElementClass && !customElements.get(tagName)) {
-        customElements.define(tagName, CustomElementClass);
-      }
+      LoaderUtils.registerComponent(tagName, CustomElementClass);
 
       // Handle dependencies recursively
       if (config.dependencies) {

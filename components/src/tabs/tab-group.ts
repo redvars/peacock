@@ -1,9 +1,24 @@
 import { html, LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
 import styles from './tab-group.scss';
 import { Tabs } from './tabs.js';
 import { TabPanel } from './tab-panel.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
+
+/**
+ * The key that links a tab to its panel: the tab's `value`. A tab without `value` and without
+ * `href` may still use `target` (deprecated); a link tab's `target` is a link target, never a key.
+ */
+function tabKey(tab: HTMLElement): string | null {
+  const value = tab.getAttribute('value');
+  if (value) return value;
+  const target = tab.getAttribute('target');
+  if (target && !tab.hasAttribute('href')) {
+    deprecate('wc-tab-group', 'linking panels by the tab\'s `target`', '`value` on wc-tab');
+    return target;
+  }
+  return null;
+}
 
 /**
  * @label Tab Group
@@ -13,6 +28,10 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @summary The tab group component is used to display multiple panels of content in a container.
  * @overview
  * <p>The tab group component allows users to switch between different views or content sections.</p>
+ * <p>Tabs and panels are matched by <code>value</code> (<code>&lt;wc-tab value="billing"&gt;</code> shows
+ * <code>&lt;wc-tab-panel value="billing"&gt;</code>), or by position when no tab has a value.
+ * Matching by the tab's <code>target</code> is deprecated and will be removed in 4.0; a link tab's
+ * <code>target</code> is always a link target.</p>
  *
  * @example
  * ```html
@@ -54,8 +73,8 @@ export class TabGroup extends LitElement {
   private onTabClick = (event: Event) => {
     const custom = event as CustomEvent;
     event.stopPropagation();
-    const targetValue = custom.detail?.target || custom.detail?.value;
-    if (targetValue) {
+    const targetValue = custom.detail?.value;
+    if (targetValue && this.tabsHaveKey()) {
       this.selectTab(targetValue);
     } else if (typeof custom.detail?.index === 'number') {
       this.selectTabByIndex(custom.detail.index);
@@ -72,8 +91,7 @@ export class TabGroup extends LitElement {
 
     let selectedIndex = -1;
     tabs.forEach((tab: HTMLElement, index: number) => {
-      const t = tab.getAttribute('target') || tab.getAttribute('value');
-      if (t === target) {
+      if (tabKey(tab) === target) {
         selectedIndex = index;
       }
     });
@@ -131,14 +149,14 @@ export class TabGroup extends LitElement {
     return this.querySelector(':scope > wc-tabs');
   }
 
-  private tabsHaveTarget(): boolean {
-    return !!this.querySelector(':scope > wc-tabs wc-tab[target]');
+  private tabsHaveKey(): boolean {
+    return this.getTabs().some(tab => tabKey(tab) !== null);
   }
 
   private initializeTabs() {
     const tabs = Array.from(this.getTabs());
-    if (!this.tabsHaveTarget()) {
-      // No target/value attributes — use index-based activation
+    if (!this.tabsHaveKey()) {
+      // No tab has a key: use index-based activation
       const selectedIndex = tabs.findIndex(
         tab =>
           tab.hasAttribute('active') ||
@@ -156,11 +174,11 @@ export class TabGroup extends LitElement {
           (tab as any).selected,
       );
       if (selectedTab) {
-        const selectedTarget = selectedTab.getAttribute('target');
-        if (selectedTarget) this.selectTab(selectedTarget);
+        const selectedKey = tabKey(selectedTab);
+        if (selectedKey) this.selectTab(selectedKey);
       } else if (tabs.length > 0) {
-        const firstTarget = tabs[0].getAttribute('target');
-        if (firstTarget) this.selectTab(firstTarget);
+        const firstKey = tabKey(tabs[0]);
+        if (firstKey) this.selectTab(firstKey);
       }
     }
   }

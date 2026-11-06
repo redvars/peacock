@@ -141,7 +141,7 @@ export class ChartPie extends ChartBase {
   protected percent(value: number): string {
     const total = this.visibleTotal();
     return total
-      ? new Intl.NumberFormat(undefined, {
+      ? new Intl.NumberFormat(this.i18n.locale, {
           style: 'percent',
           maximumFractionDigits: 1,
         }).format(value / total)
@@ -321,9 +321,9 @@ export class ChartPie extends ChartBase {
   protected renderTable() {
     return html`<thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Value</th>
-          <th scope="col">Share</th>
+          <th scope="col">${this.i18n.t('name')}</th>
+          <th scope="col">${this.i18n.t('value')}</th>
+          <th scope="col">${this.i18n.t('share')}</th>
         </tr>
       </thead>
       <tbody>

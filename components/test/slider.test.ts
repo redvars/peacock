@@ -98,4 +98,39 @@ describe('Slider', () => {
     form.reset();
     expect(el.value).to.equal(30);
   });
+
+  it('snaps pointer input to steps counted from min', async () => {
+    const el = await fixture<Slider>(
+      html`<wc-slider
+        min="1"
+        max="21"
+        step="5"
+        value="1"
+        style="width: 200px"
+      ></wc-slider>`,
+    );
+    const track =
+      el.shadowRoot!.querySelector<HTMLElement>('.slider-container')!;
+    const rect = track.getBoundingClientRect();
+
+    // 40% of the range is 9; the nearest step from min is 11 (1, 6, 11, ...), not 10.
+    track.dispatchEvent(
+      new MouseEvent('mousedown', {
+        clientX: rect.left + rect.width * 0.4,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    window.dispatchEvent(new MouseEvent('mouseup'));
+
+    expect([1, 6, 11, 16, 21]).to.include(el.value);
+    expect(el.value).to.equal(11);
+  });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<Slider>(html`<wc-slider></wc-slider>`);
+    el.value = 30;
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
 });

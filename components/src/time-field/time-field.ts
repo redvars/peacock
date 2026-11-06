@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import PickerField from '@/__internal/picker-field.js';
+import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type HourCycle,
   formatTime,
@@ -71,7 +71,9 @@ export class TimeField extends PickerField {
 
   protected readonly pickerIcon = 'schedule';
 
-  protected readonly pickerLabel = 'Choose time';
+  protected get pickerLabel(): string {
+    return this.i18n.t('chooseTime');
+  }
 
   // ── Protected methods ────────────────────────────────────────────────────
 
@@ -100,15 +102,25 @@ export class TimeField extends PickerField {
     return h12 ? `${base} AM` : base;
   }
 
-  protected validateValue(value: string): string {
+  protected validateValue(value: string): ValueProblem | null {
     const locale = this.resolvedLocale;
     if (this.min && compareTime(value, this.min) < 0) {
-      return `Pick a time at or after ${formatTime(this.min, locale, this.resolvedHourCycle)}`;
+      return {
+        flag: 'rangeUnderflow',
+        message: this.i18n.t('pickTimeAtOrAfter')(
+          formatTime(this.min, locale, this.resolvedHourCycle),
+        ),
+      };
     }
     if (this.max && compareTime(value, this.max) > 0) {
-      return `Pick a time at or before ${formatTime(this.max, locale, this.resolvedHourCycle)}`;
+      return {
+        flag: 'rangeOverflow',
+        message: this.i18n.t('pickTimeAtOrBefore')(
+          formatTime(this.max, locale, this.resolvedHourCycle),
+        ),
+      };
     }
-    return '';
+    return null;
   }
 
   protected renderPicker() {

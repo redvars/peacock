@@ -301,7 +301,7 @@ describe('Select', () => {
         <wc-option value="a">A</wc-option>
       </wc-select>
     `);
-    const clear = el.shadowRoot!.querySelector<HTMLElement>('.clear-btn')!;
+    const clear = el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!;
     expect(clear).to.exist;
 
     setTimeout(() => clear.click());
@@ -311,7 +311,127 @@ describe('Select', () => {
     await el.updateComplete;
 
     expect(event.detail.value).to.equal('');
-    expect(el.shadowRoot!.querySelector('.clear-btn')).to.not.exist;
+    expect(el.shadowRoot!.querySelector('.clear-button')).to.not.exist;
+  });
+
+  it('clears every value of a multi-select with the clear button', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select clearable multiple value="a,b">
+        <wc-option value="a">A</wc-option>
+        <wc-option value="b">B</wc-option>
+      </wc-select>
+    `);
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+    el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!.click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal('');
+    expect(changes).to.deep.equal(['']);
+  });
+
+  it('names the combobox from its label and does not reflect value', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit" required>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const combobox = trigger(el);
+    expect(combobox.getAttribute('role')).to.equal('combobox');
+    expect(combobox.getAttribute('aria-label')).to.equal('Fruit');
+    expect(combobox.getAttribute('aria-required')).to.equal('true');
+    expect(combobox.getAttribute('aria-controls')).to.not.be.null;
+    expect(combobox.getAttribute('tabindex')).to.equal('0');
+
+    el.value = 'a';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
+
+  it('defaults to the sm size', async () => {
+    const el = await fixture<Select>(html`<wc-select></wc-select>`);
+    expect(el.size).to.equal('sm');
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.size).to.equal(
+      'sm',
+    );
+  });
+
+  it('fires change with the value in detail and lets no native input event out', async () => {
+    const wrapper = await fixture<HTMLDivElement>(html`
+      <div>
+        <wc-select search="contains">
+          <wc-option value="apple">Apple</wc-option>
+        </wc-select>
+      </div>
+    `);
+    const el = wrapper.querySelector<Select>('wc-select')!;
+    const events: Event[] = [];
+    wrapper.addEventListener('input', e => events.push(e));
+    wrapper.addEventListener('change', e => events.push(e));
+
+    trigger(el).click();
+    await settle(el);
+    const input =
+      el.shadowRoot!.querySelector<HTMLInputElement>('.search-input')!;
+    input.value = 'app';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true }),
+    );
+    await settle(el);
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await settle(el);
+
+    expect(events.map(e => e.type)).to.deep.equal(['change']);
+    expect(events[0]).to.be.instanceOf(CustomEvent);
+    expect((events[0] as CustomEvent).detail.value).to.equal('apple');
+  });
+
+  it('blocks form submission while required and nothing is selected', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-select name="fruit" required>
+          <wc-option value="apple">Apple</wc-option>
+        </wc-select>
+      </form>
+    `);
+    const el = form.querySelector<Select>('wc-select')!;
+    await el.updateComplete;
+
+    expect(form.checkValidity()).to.be.false;
+    expect(el.validity.valueMissing).to.be.true;
+    expect(el.matches(':invalid')).to.be.true;
+    expect(el.validationMessage).to.equal('Please select an item in the list.');
+
+    el.value = 'apple';
+    await el.updateComplete;
+    expect(form.checkValidity()).to.be.true;
+  });
+
+  it('shows the message under the field after reportValidity()', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit" required>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(field.error).to.be.false;
+
+    el.reportValidity();
+    await el.updateComplete;
+
+    expect(field.error).to.be.true;
+    expect(field.errorText).to.equal('Please select an item in the list.');
+    const combobox =
+      el.shadowRoot!.querySelector<HTMLElement>('.select-trigger')!;
+    expect(combobox.getAttribute('aria-invalid')).to.equal('true');
   });
 
   it('filters options with search and shows a no-results row', async () => {

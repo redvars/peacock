@@ -13,7 +13,9 @@ describe('Search', () => {
     await el.updateComplete;
 
     expect(el.variant).to.equal('filled');
-    expect(el.placeholder).to.equal('Search');
+    expect(el.placeholder).to.equal('');
+    const input = el.shadowRoot?.querySelector('input');
+    expect(input?.placeholder).to.equal('Search');
     expect(el.value).to.equal('');
     expect(el.disabled).to.equal(false);
     expect(el.clearable).to.equal(true);

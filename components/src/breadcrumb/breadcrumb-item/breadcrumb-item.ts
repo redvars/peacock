@@ -54,7 +54,7 @@ export class BreadcrumbItem extends LitElement {
     // Calculate position by counting sibling breadcrumb items
     if (this.parentElement) {
       const items = Array.from(
-        this.parentElement.querySelectorAll('p-breadcrumb-item'),
+        this.parentElement.querySelectorAll(':scope > wc-breadcrumb-item'),
       );
       this.position = items.indexOf(this) + 1;
     }
@@ -80,8 +80,8 @@ export class BreadcrumbItem extends LitElement {
                 itemprop="item"
                 href=${ifDefined(this.href)}
                 target=${ifDefined(this.target)}
-                ${this.target === '_blank'
-                  ? html`rel="noopener noreferrer"`
+                rel=${this.target === '_blank'
+                  ? 'noopener noreferrer'
                   : nothing}
               >
                 <span itemprop="name">

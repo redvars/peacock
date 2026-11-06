@@ -1,10 +1,14 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
-import { Button } from '../src/button/index.js';
+import { Button, IconButton } from '../src/button/index.js';
 
 if (!customElements.get('wc-button')) {
   customElements.define('wc-button', Button);
+}
+
+if (!customElements.get('wc-icon-button')) {
+  customElements.define('wc-icon-button', IconButton);
 }
 
 describe('Button', () => {
@@ -74,5 +78,56 @@ describe('Button', () => {
     );
     const native = el.shadowRoot!.querySelector<HTMLButtonElement>('#button');
     expect(native?.disabled).to.be.true;
+  });
+
+  it('passes rel and download to its link', async () => {
+    const el = await fixture<Button>(
+      html`<wc-button href="/report.csv" rel="noopener" download="report.csv"
+        >Get</wc-button
+      >`,
+    );
+    const link = el.shadowRoot!.querySelector('#link')!;
+    expect(link.getAttribute('rel')).to.equal('noopener');
+    expect(link.getAttribute('download')).to.equal('report.csv');
+  });
+
+  it('sets aria-disabled="true" when soft-disabled, and omits it otherwise', async () => {
+    const el = await fixture<Button>(
+      html`<wc-button soft-disabled>Save</wc-button>`,
+    );
+    const native = el.shadowRoot!.querySelector('#button')!;
+    expect(native.getAttribute('aria-disabled')).to.equal('true');
+
+    el.softDisabled = false;
+    await el.updateComplete;
+    expect(native.hasAttribute('aria-disabled')).to.be.false;
+  });
+
+  it('reads throttle-delay as a number', async () => {
+    const el = await fixture<Button>(
+      html`<wc-button throttle-delay="300">Save</wc-button>`,
+    );
+    expect(el.throttleDelay).to.equal(300);
+  });
+});
+
+describe('IconButton', () => {
+  it('maps level presets onto color and variant', async () => {
+    const el = await fixture<IconButton>(
+      html`<wc-icon-button level="tertiary"></wc-icon-button>`,
+    );
+    await el.updateComplete;
+
+    expect(el.color).to.equal('primary');
+    expect(el.variant).to.equal('text');
+  });
+
+  it('points its ripple at the link in link mode', async () => {
+    const el = await fixture<IconButton>(
+      html`<wc-icon-button href="/home"></wc-icon-button>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector('wc-ripple')!.getAttribute('for'),
+    ).to.equal('link');
   });
 });

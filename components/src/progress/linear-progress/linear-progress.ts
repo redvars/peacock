@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import IndividualComponent from '@/IndividualComponent.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -41,7 +41,10 @@ export class LinearProgress extends BaseProgress {
           <div
             class="linear-progress-container"
             title=${this.label}
-            ?aria-valuenow="${this.__getPercentageValue()}"
+            aria-label=${this.label || nothing}
+            aria-valuenow=${this.indeterminate
+              ? nothing
+              : String(this.__getPercentageValue())}
             aria-valuemin="0"
             aria-valuemax="100"
             role="progressbar"

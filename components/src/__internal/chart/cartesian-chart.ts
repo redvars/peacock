@@ -201,7 +201,7 @@ export abstract class CartesianChart extends ChartBase {
     const series = this.getSeries();
     return html`<thead>
         <tr>
-          <th scope="col">${this.index || 'Category'}</th>
+          <th scope="col">${this.index || this.i18n.t('category')}</th>
           ${series.map(s => html`<th scope="col">${s.label}</th>`)}
         </tr>
       </thead>

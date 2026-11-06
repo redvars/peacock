@@ -3,6 +3,8 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import {
   type WeekDay,
   addDaysIso,
@@ -62,7 +64,7 @@ export class DatePicker extends LitElement {
   // ── Properties ───────────────────────────────────────────────────────────
 
   /** The picked date (`YYYY-MM-DD`), or `start/end` with `range`. Empty when nothing is picked. */
-  @property({ type: String, reflect: true }) value = '';
+  @property({ type: String }) value = '';
 
   /** Picks a start and an end date instead of a single date. */
   @property({ type: Boolean, reflect: true }) range = false;
@@ -97,6 +99,9 @@ export class DatePicker extends LitElement {
   /** Return true for dates that cannot be picked, such as holidays. */
   @property({ attribute: false }) isDateDisabled?: (iso: string) => boolean;
 
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   // ── State ────────────────────────────────────────────────────────────────
 
   @state() private view: View = 'day';
@@ -119,6 +124,9 @@ export class DatePicker extends LitElement {
 
   /** Set when the keyboard moved the active date, so focus follows it after render. */
   private focusAfterRender = false;
+
+  /** Peacock's strings for the navigation and action buttons. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -153,7 +161,7 @@ export class DatePicker extends LitElement {
   // ── Private getters ──────────────────────────────────────────────────────
 
   private get resolvedLocale() {
-    return resolveLocale(this.locale);
+    return resolveLocale(this.locale, this);
   }
 
   private get firstDay(): WeekDay {
@@ -414,7 +422,13 @@ export class DatePicker extends LitElement {
     } else {
       label = formatMonthYear(this.viewYear, this.viewMonth, locale);
     }
-    const unit = { day: 'month', month: 'year', year: 'decade' }[this.view];
+    const [previousKey, nextKey] = (
+      {
+        day: ['previousMonth', 'nextMonth'],
+        month: ['previousYear', 'nextYear'],
+        year: ['previousYears', 'nextYears'],
+      } as const
+    )[this.view];
     return html`
       <div class="header">
         <button
@@ -437,7 +451,7 @@ export class DatePicker extends LitElement {
             variant="text"
             color="secondary"
             size="sm"
-            aria-label=${`Previous ${unit}`}
+            aria-label=${this.i18n.t(previousKey)}
             ?disabled=${this.disabled}
             @click=${() => this.shiftView(-1)}
           >
@@ -449,7 +463,7 @@ export class DatePicker extends LitElement {
             variant="text"
             color="secondary"
             size="sm"
-            aria-label=${`Next ${unit}`}
+            aria-label=${this.i18n.t(nextKey)}
             ?disabled=${this.disabled}
             @click=${() => this.shiftView(1)}
           >
@@ -659,7 +673,7 @@ export class DatePicker extends LitElement {
                   size="sm"
                   ?disabled=${this.disabled || this.readonly}
                   @click=${this.handleToday}
-                  >Today</wc-button
+                  >${this.i18n.t('today')}</wc-button
                 >
                 <wc-button
                   class="clear-button"
@@ -667,7 +681,7 @@ export class DatePicker extends LitElement {
                   size="sm"
                   ?disabled=${this.disabled || this.readonly || !this.value}
                   @click=${this.handleClear}
-                  >Clear</wc-button
+                  >${this.i18n.t('clear')}</wc-button
                 >
               </div>
             `

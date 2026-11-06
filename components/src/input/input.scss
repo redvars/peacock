@@ -15,7 +15,7 @@
 }
 
 
-.input-wrapper {
+.field {
   .input {
     flex: 1;
     width: 100%;
@@ -26,6 +26,4 @@
   .password-toggle {
     --button-container-shape: var(--shape-corner-full);
   }
-
-
 }

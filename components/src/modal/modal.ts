@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './modal.scss';
 
 type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
@@ -75,6 +76,11 @@ export class Modal extends LitElement {
   @query('dialog') private _dialog?: HTMLDialogElement;
 
   @query('.dialog') private _panel?: HTMLElement;
+
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings for the close button label. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -183,7 +189,7 @@ export class Modal extends LitElement {
           ? html`<wc-icon-button
               class="dialog-close"
               variant="text"
-              aria-label="Close dialog"
+              aria-label=${this.i18n.t('closeDialog')}
               @click=${this._handleCloseClick}
             >
               <wc-icon name="close"></wc-icon>

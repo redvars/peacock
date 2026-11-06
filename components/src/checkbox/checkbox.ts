@@ -1,17 +1,12 @@
-﻿import { html, LitElement, svg } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+﻿import { html, svg } from 'lit';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+
 import { spread } from '@/__internal/directive/spread.js';
-import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
-import {
-  type FormRestoreState,
-  type FormValue,
-  getFormState,
-  getFormValue,
-  mixinFormAssociated,
-} from '@/__internal/mixins/form-associated.js';
-import styles from './checkbox.scss';
+import { peacockString } from '@/__internal/i18n/strings.js';
+import ToggleBase from '@/__internal/toggle-base.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import styles from './checkbox.scss';
 
 /**
  * @label Checkbox
@@ -21,15 +16,15 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @overview
  * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
  * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
- * <p>The checkbox is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
+ * <p>The checkbox is form-associated: when <code>checked</code>, it submits its <code>value</code>
+ * (<code>on</code> by default) under its <code>name</code>. With <code>required</code> it blocks form
+ * submission until it is checked.</p>
  * @cssprop --checkbox-size: Size of the checkbox container.
  * @cssprop --checkbox-selected-color: Color of the checkbox when selected.
  * @cssprop --checkbox-unselected-color: Color of the checkbox border when unselected.
  * @cssprop --checkbox-checkmark-color: Color of the checkmark icon.
  * @cssprop --checkbox-state-layer-size: Size of the state layer for touch target.
- * @fires {CustomEvent} change - Dispatched when the checkbox is toggled. Detail: `{ checked, value, originalEvent }`.
- * @fires {CustomEvent} blur - Dispatched when the checkbox loses focus.
- * @fires {CustomEvent} focus - Dispatched when the checkbox receives focus.
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the checkbox is toggled.
  * @tags input, form
  *
  * @example
@@ -38,39 +33,14 @@ import IndividualComponent from '@/IndividualComponent.js';
  * ```
  */
 @IndividualComponent
-export class Checkbox extends mixinFormAssociated(
-  mixinElementInternals(LitElement),
-) {
+export class Checkbox extends ToggleBase {
   // ── Static ───────────────────────────────────────────────────────────────
 
   static styles = [styles];
 
   // ── Properties ───────────────────────────────────────────────────────────
-  // `name` and `disabled` come from mixinFormAssociated.
-
-  /**
-   * The checkbox label.
-   */
-  @property({ type: String })
-  label: string = '';
-
-  /**
-   * Whether the checkbox is checked.
-   */
-  @property({ type: Boolean, reflect: true })
-  checked: boolean = false;
-
-  /**
-   * @deprecated Use `checked`. Kept as an alias of `checked`.
-   */
-  @property({ type: Boolean })
-  get value(): boolean {
-    return this.checked;
-  }
-
-  set value(value: boolean) {
-    this.checked = Boolean(value);
-  }
+  // `name`, `disabled`, `required`, `readonly`, `label`, `checked`, `value` and `configAria` are
+  // inherited.
 
   /**
    * If true, displays the checkbox in an indeterminate state.
@@ -91,191 +61,35 @@ export class Checkbox extends mixinFormAssociated(
   @property({ type: String })
   size: 'sm' | 'md' | 'lg' = 'md';
 
-  /**
-   * If true, required icon is shown. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  required: boolean = false;
-
-  /**
-   * If true, the checkbox is readonly. Defaults to `false`.
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly: boolean = false;
-
-  /**
-   * Configuration object for aria attributes.
-   */
-  @property({ type: Object })
-  configAria: Record<string, string> = {};
-
-  // ── State ────────────────────────────────────────────────────────────────
-
-  /** True while the checkbox container has keyboard focus. */
-  @state()
-  private hasFocus = false;
-
-  /** True while the user is actively pressing the checkbox (mouse/keyboard). */
-  @state()
-  private isActive = false;
-
-  /** True when slotted label content is present. */
-  @state()
-  private slotHasContent = false;
-
-  // ── Queries ──────────────────────────────────────────────────────────────
-
-  @query('.container')
-  private containerElement?: HTMLElement;
-
-  // ── Private fields ───────────────────────────────────────────────────────
-
-  /** Captured `tabindex` attribute value forwarded to the inner container. */
-  private tabindex?: string;
-
-  /** `checked` when first connected; `form.reset()` returns to it. */
-  private defaultChecked?: boolean;
-
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.defaultChecked ??= this.checked;
-    this.handleInitialAttributes();
-    window.addEventListener('mouseup', this.windowMouseUp);
-    window.addEventListener('keyup', this.windowKeyUp);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('mouseup', this.windowMouseUp);
-    window.removeEventListener('keyup', this.windowKeyUp);
-  }
-
-  firstUpdated() {
-    this.slotHasContent = this.hasChildNodes();
-  }
-
-  // ── Public methods ───────────────────────────────────────────────────────
-
-  /**
-   * Sets focus on the checkbox.
-   */
-  focus() {
-    this.containerElement?.focus();
-  }
-
-  /**
-   * Removes focus from the checkbox.
-   */
-  blur() {
-    this.containerElement?.blur();
-  }
-
   // ── Form association ─────────────────────────────────────────────────────
 
-  override [getFormValue](): FormValue | null {
-    return this.checked ? 'on' : null;
-  }
-
-  override [getFormState](): FormValue | null {
-    return String(this.checked);
-  }
-
-  formResetCallback() {
-    this.checked = this.defaultChecked ?? false;
+  override formResetCallback() {
+    super.formResetCallback();
     this.indeterminate = false;
   }
 
-  formStateRestoreCallback(state: FormRestoreState | null) {
-    this.checked = state === 'true';
+  // ── Protected methods ────────────────────────────────────────────────────
+
+  protected override valueMissingText(): string {
+    return peacockString('valueMissingCheckbox');
+  }
+
+  protected override afterToggle() {
+    this.indeterminate = false;
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private handleInitialAttributes() {
-    if (this.hasAttribute('tabindex')) {
-      this.tabindex = this.getAttribute('tabindex') || undefined;
-      this.removeAttribute('tabindex');
-    }
-
-    Array.from(this.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-')) {
-        this.configAria[attr.name] = attr.value;
-        this.removeAttribute(attr.name);
-      }
-    });
-  }
-
-  private windowMouseUp = () => {
-    if (this.isActive) {
-      this.isActive = false;
-    }
-  };
-
-  private windowKeyUp = (evt: KeyboardEvent) => {
-    if (this.isActive && evt.key === ' ') {
-      this.isActive = false;
-    }
-  };
-
-  private mouseDownHandler = () => {
-    this.isActive = true;
-  };
-
-  private keyDownHandler = (evt: KeyboardEvent) => {
-    if (evt.key === ' ') {
-      evt.preventDefault();
+  private keyDownHandler = (event: KeyboardEvent) => {
+    if (event.key === ' ') {
+      event.preventDefault();
       this.isActive = true;
-      this.clickHandler(evt);
+      this.toggleChecked(event);
     }
   };
 
-  private clickHandler = (ev: MouseEvent | KeyboardEvent) => {
-    if (!this.disabled && !this.readonly) {
-      this.checked = !this.checked;
-      this.indeterminate = false;
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            checked: this.checked,
-            value: this.checked,
-            originalEvent: ev,
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-      this.containerElement?.focus();
-    }
-  };
-
-  private blurHandler = (ev: FocusEvent) => {
-    this.hasFocus = false;
-    this.dispatchEvent(
-      new CustomEvent('blur', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private focusHandler = (ev: FocusEvent) => {
-    this.hasFocus = true;
-    this.dispatchEvent(
-      new CustomEvent('focus', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private handleKeyUp = (evt: KeyboardEvent) => {
-    if (evt.key === 'Enter') {
-      this.clickHandler(evt);
-    }
+  private clickHandler = (event: MouseEvent) => {
+    this.toggleChecked(event);
   };
 
   // ── Render ───────────────────────────────────────────────────────────────
@@ -300,21 +114,17 @@ export class Checkbox extends mixinFormAssociated(
         <div
           id="container"
           class="container"
-          tabindex=${this.tabindex || 0}
-          @keyup=${this.handleKeyUp}
-          @mousedown=${this.mouseDownHandler}
-          @keydown=${this.keyDownHandler}
-          @blur=${this.blurHandler}
-          @focus=${this.focusHandler}
           role="checkbox"
-          aria-disabled=${this.disabled}
-          aria-required=${this.required}
           aria-checked=${this.checked
             ? 'true'
             : this.indeterminate
               ? 'mixed'
               : 'false'}
-          ${spread(this.configAria)}
+          @mousedown=${this.handleMouseDown}
+          @keydown=${this.keyDownHandler}
+          @focus=${this.handleFocusChange}
+          @blur=${this.handleFocusChange}
+          ${spread(this.controlAttributes())}
         >
           <wc-ripple class="ripple"></wc-ripple>
           <wc-focus-ring class="focus-ring" for="container"></wc-focus-ring>
@@ -343,18 +153,14 @@ export class Checkbox extends mixinFormAssociated(
         <input
           type="checkbox"
           class="input-native"
-          name=${this.name}
           .checked=${this.checked}
           .indeterminate=${this.indeterminate}
           aria-hidden="true"
-          ?required=${this.required}
           tabindex="-1"
           @click=${this.clickHandler}
         />
 
-        ${this.label
-          ? html`<div class="label">${this.label}</div>`
-          : html`<div class="label slot-container"><slot></slot></div>`}
+        ${this.renderLabel()}
       </label>
     `;
   }

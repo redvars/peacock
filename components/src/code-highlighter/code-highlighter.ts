@@ -10,7 +10,8 @@ import type {
 } from 'shiki';
 import IndividualComponent from '@/IndividualComponent.js';
 import { copyToClipboard } from '@/__internal/utils/copy-to-clipboard.js';
-import { locale } from './local.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { TOKEN_DEFAULTS } from './token-colors.js';
 import {
   buildLineVariants,
@@ -269,6 +270,9 @@ export class CodeHighlighter extends LitElement {
   @property({ type: Boolean, reflect: true })
   grouped: boolean = false;
 
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   /** The code as displayed, after formatting, without a trailing newline. */
   @state() private _code: string = '';
 
@@ -297,6 +301,9 @@ export class CodeHighlighter extends LitElement {
 
   /** Increments per highlight run so stale async results are dropped. */
   private __run = 0;
+
+  /** Peacock's strings for the toolbar and footer. */
+  private readonly __i18n = new I18nController(this);
 
   /** Timer that resets the copy feedback. */
   private __copyFeedbackTimeout: number | null = null;
@@ -508,6 +515,10 @@ export class CodeHighlighter extends LitElement {
   }
 
   private __renderActions(floating: boolean) {
+    const wrapLabel = this.__i18n.t(this.wrap ? 'unwrapLines' : 'wrapLines');
+    const copyLabel = this.__i18n.t(
+      this._copied ? 'copied' : 'copyToClipboard',
+    );
     return html`
       <div class=${classMap({ actions: true, floating })} part="actions">
         <slot name="actions"></slot>
@@ -520,8 +531,8 @@ export class CodeHighlighter extends LitElement {
               color="surface"
               toggle
               ?selected=${this.wrap}
-              aria-label=${this.wrap ? locale.unwrapLines : locale.wrapLines}
-              tooltip=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              aria-label=${wrapLabel}
+              tooltip=${wrapLabel}
               @click=${this.__handleWrapClick}
             >
               <wc-icon name="wrap_text"></wc-icon>
@@ -535,10 +546,8 @@ export class CodeHighlighter extends LitElement {
               size="xs"
               shape="round"
               color=${this._copied ? 'success' : 'surface'}
-              aria-label=${this._copied
-                ? locale.copied
-                : locale.copyToClipboard}
-              tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
+              aria-label=${copyLabel}
+              tooltip=${copyLabel}
               @click=${this.__handleCopyClick}
             >
               <wc-icon
@@ -577,7 +586,7 @@ export class CodeHighlighter extends LitElement {
             class=${classMap({ 'expand-icon': true, flipped: this.expanded })}
             name="keyboard_arrow_down"
           ></wc-icon>
-          ${this.expanded ? locale.showLess : locale.showMore}
+          ${this.__i18n.t(this.expanded ? 'showLess' : 'showMore')}
         </wc-button>
       </div>
     `;
@@ -636,7 +645,7 @@ export class CodeHighlighter extends LitElement {
         )}</code></pre>
         ${showFooter ? this.__renderFooter() : nothing}
         <span class="sr-only" aria-live="polite"
-          >${this._copied ? locale.copiedCode : ''}</span
+          >${this._copied ? this.__i18n.t('copiedCode') : ''}</span
         >
       </div>
     `;

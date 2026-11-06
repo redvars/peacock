@@ -51,9 +51,9 @@ export class ChartDoughnut extends ChartPie {
   @property({ type: Number, attribute: 'inner-radius' }) innerRadius: number =
     0.62;
 
-  /** Caption under the total in the centre. */
+  /** Caption under the total in the centre. Defaults to Peacock's `total` string (`"Total"`). */
   @property({ type: String, attribute: 'center-label' }) centerLabel: string =
-    'Total';
+    '';
 
   // ── Render helpers
 
@@ -61,7 +61,9 @@ export class ChartDoughnut extends ChartPie {
     const active =
       this.activeIndex >= 0 ? this.data[this.activeIndex] : undefined;
     const value = active ? active.value : this.visibleTotal();
-    const caption = active ? (active.label ?? active.name) : this.centerLabel;
+    const caption = active
+      ? (active.label ?? active.name)
+      : this.centerLabel || this.i18n.t('total');
     const hole = Math.max(this.radius * this.innerRadius * 2 - 16, 0);
     return html`<div
       class="center"

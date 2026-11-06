@@ -31,7 +31,8 @@
   display: inline-flex;
   align-items: center;
   height: var(--chip-height, var(--_chip-height, 2rem));
-  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
   cursor: pointer;
   z-index: 0;
 
@@ -58,26 +59,6 @@
       white-space: nowrap;
     }
 
-    .close-btn {
-      height: 100%;
-      padding: 0;
-      padding-inline: calc(var(--chip-container-padding) / 2);
-      margin: 0;
-      border: none;
-      background: transparent;
-      line-height: 0;
-      cursor: pointer;
-
-      .close-btn-icon {
-        --icon-size: 1rem;
-        --icon-color: var(--_chip-text-color);
-      }
-
-      &:hover {
-        background: var(--chip-hover-color);
-      }
-    }
-
     .icon-slot-container {
       height: 100%;
       display: flex;
@@ -90,7 +71,48 @@
   &.disabled {
     cursor: not-allowed;
   }
+}
 
+/*
+  The dismiss button sits next to the chip's button, not inside it: a button inside a button is
+  invalid and keyboard users could not reach it.
+ */
+.close-btn {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  height: var(--chip-height, var(--_chip-height, 2rem));
+  padding: 0;
+  padding-inline: calc(var(--chip-container-padding) / 2);
+  margin: 0;
+  border: none;
+  border-start-end-radius: var(--chip-container-shape);
+  border-end-end-radius: var(--chip-container-shape);
+  background: transparent;
+  line-height: 0;
+  cursor: pointer;
+  opacity: var(--_chip-text-opacity, 1);
+
+  .close-btn-icon {
+    --icon-size: 1rem;
+    --icon-color: var(--_chip-text-color);
+  }
+
+  &:hover {
+    background: var(--chip-hover-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.chip {
   &.dismissible .tag-content {
     padding-inline-end: 0;
   }
@@ -128,11 +150,12 @@
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   border-radius: var(--chip-container-shape);
   background: var(--_chip-container-color);
+  opacity: var(--_chip-container-opacity, 1);
   pointer-events: none;
 }
 
@@ -141,7 +164,7 @@
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   border-radius: var(--chip-container-shape);

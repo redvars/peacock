@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './tag.scss';
 import colorStyles from './tag-colors.scss';
 import sizeStyles from './tag-sizes.scss';
@@ -45,6 +46,11 @@ export class Tag extends LitElement {
   /** Tag size. Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`. */
   @property({ reflect: true }) size?: 'sm' | 'md' | 'lg' = 'md';
 
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings for the dismiss button label. */
+  private readonly i18n = new I18nController(this);
+
   // ── Private methods ──────────────────────────────────────────────────────
 
   private _dismissClickHandler(e: MouseEvent) {
@@ -64,7 +70,7 @@ export class Tag extends LitElement {
       <button
         class="dismiss-button"
         @click=${this._dismissClickHandler}
-        aria-label="Dismiss"
+        aria-label=${this.i18n.t('dismiss')}
       >
         <wc-ripple class="ripple"></wc-ripple>
         <wc-icon class="dismiss-button-icon" name="close"></wc-icon>

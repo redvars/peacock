@@ -1,0 +1,16 @@
+// Density: `data-density` on the root, or on any container, tightens the controls inside it.
+// Each step takes 4px (0.25rem) off the height of buttons, icon buttons, fields and table rows,
+// which read `--density` through `calc(<base> + var(--density, 0) * 0.25rem)`. Custom properties
+// inherit into shadow roots, so the attribute reaches every component below it.
+:root,
+[data-density='default'] {
+  --density: 0;
+}
+
+[data-density='comfortable'] {
+  --density: -1;
+}
+
+[data-density='compact'] {
+  --density: -2;
+}

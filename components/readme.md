@@ -64,6 +64,46 @@ To keep icons somewhere else, call `setIconBase('material-symbols', '/my/icons/'
 
 `wc-code-editor` stays on the origin too: Monaco is bundled in the package and loaded when the first editor appears, and its language workers are `dist/monaco/*.worker.js`, which the page loads from beside the component. Serve the whole `dist/` folder.
 
+### Translating Peacock's own text
+
+Components render some text of their own: icon-button labels, screen-reader text, empty states, "3 selected". Every string has an English default, and `setPeacockStrings` replaces them for the whole page. Entries you leave out stay English, a string with values is a function, and connected components re-render.
+
+```js
+import { setPeacockStrings } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@3.17.0/dist/loader.js';
+
+setPeacockStrings({
+  dismiss: 'Fermer',
+  noItems: 'Aucun élément',
+  selectedCount: count => `${count} sélectionné(s)`,
+});
+```
+
+`defaultStrings` lists every key. Components that render many strings (table, pagination, select, date picker, calendar, charts, code and rich-text editors, condition builder) also take a `strings` property that overrides the page's strings for that one instance.
+
+Numbers and dates are formatted with `Intl` in a locale resolved per component: its `locale` property, else the `lang` of the nearest ancestor (across shadow roots), else `<html lang>`, else the browser's language.
+
+### Forms and validation
+
+Fields and toggles are form-associated and validate like native controls: `required` and each control's own rules (email, min/max, unreadable dates) block form submission, `:invalid` matches, and `checkValidity()`, `reportValidity()`, `setCustomValidity()`, `validity` and `validationMessage` work as on `<input>`. A field shows its message once the value is committed or the form is submitted. Fields fire `input` and `change` as `CustomEvent<{ value }>`; checkboxes, switches and radios fire `change` with `{ checked, value }`. Fields default to `size="sm"`, the height of a default button.
+
+### Right to left
+
+Set `dir="rtl"` on the page or any container. Components lay out with logical CSS properties, so they mirror; `npm run lint:css` rejects physical `left`/`right` properties in component styles.
+
+### Density
+
+Set `data-density="comfortable"` or `"compact"` on the page or any container (it needs `styles.css`). Each step takes 4px off the height of buttons, icon buttons, fields and table rows inside it.
+
+### High contrast
+
+In Windows high contrast (`forced-colors: active`), selected and current items are outlined in the system highlight color, and checkboxes, radios, switches and the tab indicator are drawn with system colors.
+
+### Loader options
+
+- `loader.js?styles` also loads `styles.css`.
+- `loader.js` wraps `Element.prototype.attachShadow` once, so Peacock components rendered inside any shadow root load automatically. To leave `attachShadow` alone, load `loader.js?no-shadow-watch` and call `loadComponents(shadowRoot)` (exported from `loader.js`) for each shadow root that contains Peacock components.
+- If a `wc-*` tag is already defined by other code, for example a second copy of Peacock, the loader keeps that definition and logs one warning.
+
 # Components
 
 - 🟢 ready (feature complete for now)

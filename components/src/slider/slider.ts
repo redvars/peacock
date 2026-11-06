@@ -10,6 +10,7 @@ import {
 } from '@/__internal/mixins/form-associated.js';
 import sliderStyles from './slider.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Slider
@@ -54,7 +55,7 @@ export class Slider extends mixinFormAssociated(
   /**
    * The current value of the slider.
    */
-  @property({ type: Number, reflect: true }) value = 50;
+  @property({ type: Number }) value = 50;
 
   /**
    * The step increment for the slider.
@@ -86,6 +87,9 @@ export class Slider extends mixinFormAssociated(
 
   /** `value` when first connected; `form.reset()` returns to it. */
   private defaultValue?: number;
+
+  /** Peacock's strings for the thumb label. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -127,7 +131,7 @@ export class Slider extends mixinFormAssociated(
     percentage = Math.max(0, Math.min(1, percentage));
 
     const rawValue = this.min + percentage * (this.max - this.min);
-    const steppedValue = Math.round(rawValue / this.step) * this.step;
+    const steppedValue = this.snapToStep(rawValue);
 
     const oldValue = this.value;
     this.value = Math.max(this.min, Math.min(this.max, steppedValue));
@@ -191,6 +195,21 @@ export class Slider extends mixinFormAssociated(
     window.removeEventListener('touchcancel', this.onMouseUp);
   };
 
+  /**
+   * Rounds a value to the nearest step counted from `min`, like a native range input, so a slider
+   * with `min="1" step="5"` lands on 1, 6, 11. Rounds away float noise from fractional steps.
+   */
+  private snapToStep(raw: number): number {
+    if (!(this.step > 0)) return raw;
+    const stepped =
+      this.min + Math.round((raw - this.min) / this.step) * this.step;
+    const decimals = Math.max(
+      (String(this.step).split('.')[1] ?? '').length,
+      (String(this.min).split('.')[1] ?? '').length,
+    );
+    return Number(stepped.toFixed(decimals));
+  }
+
   private handleKeyDown(e: KeyboardEvent) {
     if (this.disabled) return;
 
@@ -252,7 +271,7 @@ export class Slider extends mixinFormAssociated(
           <div
             class="thumb"
             role="slider"
-            aria-label="Slider"
+            aria-label=${this.i18n.t('slider')}
             tabindex="${this.disabled ? -1 : 0}"
             aria-valuemin=${this.min}
             aria-valuemax=${this.max}

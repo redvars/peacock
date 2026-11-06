@@ -43,7 +43,7 @@
 
 .separator {
   display: inline-block;
-  margin-left: var(--spacing-100);
+  margin-inline-start: var(--spacing-100);
   color: var(--color-outline);
   user-select: none;
   pointer-events: none;

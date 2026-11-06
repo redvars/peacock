@@ -9,6 +9,8 @@ import Mention from '@tiptap/extension-mention';
 import { html as beautifyHtml } from 'js-beautify';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
 import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
 
@@ -64,9 +66,9 @@ export class HtmlEditor extends BaseInput {
   @property({ type: String })
   label = '';
 
-  /** Placeholder text shown when the editor is empty. */
+  /** Placeholder text shown when the editor is empty. Defaults to Peacock's `enterTextPlaceholder` string. */
   @property({ type: String })
-  placeholder = 'Enter text\u2026';
+  placeholder = '';
 
   /** Visual style of the wrapping field. */
   @property({ type: String })
@@ -108,12 +110,18 @@ export class HtmlEditor extends BaseInput {
   @property({ type: Number })
   debounce = 250;
 
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   @state() private _focused = false;
 
   @state() private _mode: 'visual' | 'html' = 'visual';
 
   @query('.tiptap-root')
   private _editorEl!: HTMLDivElement;
+
+  /** Peacock's strings for the toolbar, modes, tags and placeholder. */
+  private readonly i18n = new I18nController(this);
 
   // ─── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -130,7 +138,8 @@ export class HtmlEditor extends BaseInput {
     this._destroyEditor();
   }
 
-  protected updated(changed: Map<string, unknown>) {
+  protected override updated(changed: Map<string, unknown>) {
+    super.updated(changed);
     if (changed.has('value') && this._editor) {
       const editorHtml = HtmlEditor._normalizeHtml(this._editor.getHTML());
       const nextHtml = HtmlEditor._normalizeHtml(this.value);
@@ -143,7 +152,10 @@ export class HtmlEditor extends BaseInput {
       this._editor.setEditable(!(this.disabled || this.readonly));
     }
 
-    if (changed.has('placeholder') && this._editor) {
+    if (
+      (changed.has('placeholder') || changed.has('strings')) &&
+      this._editor
+    ) {
       this._destroyEditor();
       this._initializeEditor();
     }
@@ -168,6 +180,11 @@ export class HtmlEditor extends BaseInput {
     });
   }
 
+  /** The `placeholder`, or Peacock's default when it is empty. */
+  private _placeholderText() {
+    return this.placeholder || this.i18n.t('enterTextPlaceholder');
+  }
+
   private _destroyEditor() {
     if (!this._editor) return;
     this._editorEl?.removeEventListener(
@@ -187,7 +204,7 @@ export class HtmlEditor extends BaseInput {
         StarterKit,
         Underline,
         Placeholder.configure({
-          placeholder: this.placeholder,
+          placeholder: () => this._placeholderText(),
         }),
         Mention.configure({
           HTMLAttributes: {
@@ -360,12 +377,12 @@ export class HtmlEditor extends BaseInput {
       <div
         class="html-editor-toolbar"
         role="toolbar"
-        aria-label="Formatting toolbar"
+        aria-label=${this.i18n.t('formattingToolbar')}
       >
-        ${this._toolbarButton('undo', 'Undo', () =>
+        ${this._toolbarButton('undo', this.i18n.t('undo'), () =>
           this._editor?.commands.undo(),
         )}
-        ${this._toolbarButton('redo', 'Redo', () =>
+        ${this._toolbarButton('redo', this.i18n.t('redo'), () =>
           this._editor?.commands.redo(),
         )}
 
@@ -373,25 +390,25 @@ export class HtmlEditor extends BaseInput {
 
         ${this._toolbarButton(
           'format_bold',
-          'Bold',
+          this.i18n.t('bold'),
           () => this._editor?.chain().focus().toggleBold().run(),
           this._editor.isActive('bold'),
         )}
         ${this._toolbarButton(
           'format_italic',
-          'Italic',
+          this.i18n.t('italic'),
           () => this._editor?.chain().focus().toggleItalic().run(),
           this._editor.isActive('italic'),
         )}
         ${this._toolbarButton(
           'format_underlined',
-          'Underline',
+          this.i18n.t('underline'),
           () => this._editor?.chain().focus().toggleUnderline().run(),
           this._editor.isActive('underline'),
         )}
         ${this._toolbarButton(
           'format_strikethrough',
-          'Strikethrough',
+          this.i18n.t('strikethrough'),
           () => this._editor?.chain().focus().toggleStrike().run(),
           this._editor.isActive('strike'),
         )}
@@ -400,13 +417,13 @@ export class HtmlEditor extends BaseInput {
 
         ${this._toolbarButton(
           'format_list_bulleted',
-          'Unordered list',
+          this.i18n.t('unorderedList'),
           () => this._editor?.chain().focus().toggleBulletList().run(),
           this._editor.isActive('bulletList'),
         )}
         ${this._toolbarButton(
           'format_list_numbered',
-          'Ordered list',
+          this.i18n.t('orderedList'),
           () => this._editor?.chain().focus().toggleOrderedList().run(),
           this._editor.isActive('orderedList'),
         )}
@@ -416,10 +433,14 @@ export class HtmlEditor extends BaseInput {
 
   private _renderReadonlyTag() {
     if (this.disabled) {
-      return html`<wc-tag class="read-only-tag" color="red">Disabled</wc-tag>`;
+      return html`<wc-tag class="read-only-tag" color="red"
+        >${this.i18n.t('disabled')}</wc-tag
+      >`;
     }
     if (this.readonly) {
-      return html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`;
+      return html`<wc-tag class="read-only-tag" color="red"
+        >${this.i18n.t('readOnlyTag')}</wc-tag
+      >`;
     }
     return nothing;
   }
@@ -456,14 +477,14 @@ export class HtmlEditor extends BaseInput {
               ?selected=${this._mode === 'visual'}
               ?disabled=${this.disabled}
             >
-              Visual
+              ${this.i18n.t('visualMode')}
             </wc-segmented-button>
             <wc-segmented-button
               value="html"
               ?selected=${this._mode === 'html'}
               ?disabled=${this.disabled}
             >
-              HTML
+              ${this.i18n.t('htmlMode')}
             </wc-segmented-button>
           </wc-segmented-button-group>
         </div>
@@ -476,7 +497,7 @@ export class HtmlEditor extends BaseInput {
             'is-empty': isEmpty,
             hidden: this._mode !== 'visual',
           })}
-          data-placeholder=${this.placeholder}
+          data-placeholder=${this._placeholderText()}
         >
           <div class="tiptap-root"></div>
         </div>

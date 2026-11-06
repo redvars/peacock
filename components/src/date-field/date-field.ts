@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import PickerField from '@/__internal/picker-field.js';
+import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type WeekDay,
   formatDate,
@@ -77,7 +77,9 @@ export class DateField extends PickerField {
 
   protected readonly pickerIcon = 'calendar_today';
 
-  protected readonly pickerLabel = 'Choose date';
+  protected get pickerLabel(): string {
+    return this.i18n.t('chooseDate');
+  }
 
   // ── Protected methods ────────────────────────────────────────────────────
 
@@ -107,22 +109,37 @@ export class DateField extends PickerField {
     return this.range ? `${pattern} – ${pattern}` : pattern;
   }
 
-  protected validateValue(value: string): string {
+  protected validateValue(value: string): ValueProblem | null {
     const dates = this.range ? parseRange(value) : [value];
     const min = this.min || undefined;
     const max = this.max || undefined;
     for (const date of dates) {
       if (min && date < min) {
-        return `Pick a date on or after ${formatDate(min, this.resolvedLocale)}`;
+        return {
+          flag: 'rangeUnderflow',
+          message: this.i18n.t('pickDateOnOrAfter')(
+            formatDate(min, this.resolvedLocale),
+          ),
+        };
       }
       if (max && date > max) {
-        return `Pick a date on or before ${formatDate(max, this.resolvedLocale)}`;
+        return {
+          flag: 'rangeOverflow',
+          message: this.i18n.t('pickDateOnOrBefore')(
+            formatDate(max, this.resolvedLocale),
+          ),
+        };
       }
       if (isWithin(date, min, max) && this.isDateDisabled?.(date)) {
-        return `${formatDate(date, this.resolvedLocale)} isn't available`;
+        return {
+          flag: 'badInput',
+          message: this.i18n.t('dateUnavailable')(
+            formatDate(date, this.resolvedLocale),
+          ),
+        };
       }
     }
-    return '';
+    return null;
   }
 
   protected renderPicker() {

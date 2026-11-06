@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import { NavigationBarItem } from './navigation-bar-item.js';
 import styles from './navigation-bar.scss';
 
@@ -44,15 +45,21 @@ export class NavigationBar extends LitElement {
 
   static Item = NavigationBarItem;
 
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings for the default landmark label. */
+  private readonly i18n = new I18nController(this);
+
+  /** The `aria-label` the bar set itself, so it follows the string table until the author sets one. */
+  private defaultLabel?: string;
+
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
   override connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this.handleItemClick);
     this.setAttribute('role', 'navigation');
-    if (!this.hasAttribute('aria-label')) {
-      this.setAttribute('aria-label', 'Main navigation');
-    }
+    this.syncLabel();
   }
 
   override disconnectedCallback() {
@@ -60,7 +67,19 @@ export class NavigationBar extends LitElement {
     super.disconnectedCallback();
   }
 
+  override willUpdate() {
+    this.syncLabel();
+  }
+
   // ── Private methods ──────────────────────────────────────────────────────
+
+  /** Gives the landmark the default label unless the author set one. */
+  private syncLabel() {
+    const current = this.getAttribute('aria-label');
+    if (current !== null && current !== this.defaultLabel) return;
+    this.defaultLabel = this.i18n.t('mainNavigation');
+    this.setAttribute('aria-label', this.defaultLabel);
+  }
 
   private getItems(): NavigationBarItem[] {
     return Array.from(

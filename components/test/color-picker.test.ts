@@ -85,6 +85,15 @@ describe('ColorPicker', () => {
     expect(hueThumb.getAttribute('aria-valuenow')).to.equal('10');
   });
 
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<ColorPicker>(
+      html`<wc-color-picker></wc-color-picker>`,
+    );
+    el.value = '#00ff00';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
+
   it('shows the alpha controls only with alpha', async () => {
     const plain = await fixture<ColorPicker>(
       html`<wc-color-picker></wc-color-picker>`,

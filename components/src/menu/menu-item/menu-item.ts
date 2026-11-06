@@ -193,8 +193,8 @@ export class MenuItem extends NativeButtonMixin(
           role="${this.itemRole}"
           href="${ifDefined(this.href)}"
           target="${this.target}"
-          ?rel="${this.rel}"
-          ?download="${this.download}"
+          rel="${this.rel || nothing}"
+          download="${this.download || nothing}"
           tabindex="${this.disabled ? '-1' : String(this.tabIndex)}"
           aria-selected="${ifDefined(this.itemAriaSelected)}"
           aria-current="${this.selected && this.itemRole === 'menuitem'

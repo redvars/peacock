@@ -1,0 +1,257 @@
+/**
+ * Every user-facing string Peacock renders on its own: labels for icon buttons, screen-reader text,
+ * empty states, toolbar names. Apps translate them once with `setPeacockStrings()`; components that
+ * render many strings also take a per-instance `strings` property. A string with values is a function.
+ *
+ * Numbers and dates are formatted with `Intl` in the resolved locale, never here.
+ */
+export const defaultStrings = {
+  // ── Shared ─────────────────────────────────────────────────────────────────
+  dismiss: 'Dismiss',
+  close: 'Close',
+  clear: 'Clear',
+  loading: 'Loading',
+  today: 'Today',
+  disabled: 'Disabled',
+  readOnly: 'Read only',
+  dragToReorder: 'Drag to reorder',
+  readOnlyTag: 'Read Only',
+
+  // ── Intents (alert, notification) ────────────────────────────────────────
+  intentNote: 'Note',
+  intentInfo: 'Info',
+  intentSuccess: 'Success',
+  intentWarning: 'Warning',
+  intentError: 'Error',
+  intentInformation: 'Information',
+
+  // ── Fields ────────────────────────────────────────────────────────────────
+  showPassword: 'Show password',
+  hidePassword: 'Hide password',
+  invalidUrl: 'Please enter a valid URL',
+  slider: 'Slider',
+  increase: 'Increase',
+  decrease: 'Decrease',
+
+  // ── Validation (for controls without a native input to ask) ──────────────
+  // Worded like the browser's own messages, which fields with a native input show.
+  valueMissing: 'Please fill out this field.',
+  valueMissingSelect: 'Please select an item in the list.',
+  valueMissingCheckbox: 'Please check this box if you want to proceed.',
+  valueMissingRadio: 'Please select one of these options.',
+
+  // ── Search and select ────────────────────────────────────────────────────
+  search: 'Search',
+  clearSearch: 'Clear search',
+  searchOptions: 'Search options',
+  selectOption: 'Select option',
+  options: 'Options',
+  noResults: 'No results',
+  noOptions: 'No options',
+  /** Label of an option whose value is empty and that has no label of its own. */
+  none: 'None',
+
+  // ── Color ────────────────────────────────────────────────────────────────
+  chooseColor: 'Choose color',
+  hexColor: 'Hex color',
+  hexColorValue: 'Hex color value',
+  hexLabel: 'HEX',
+  saturationAndBrightness: 'Saturation and brightness',
+  hue: 'Hue',
+  opacity: 'Opacity',
+  opacityPercentage: 'Opacity percentage',
+  hexColorError: 'Enter a hex color, such as #7c5df0',
+  /** Spoken value of the saturation and brightness area, for example "Saturation 40%, Brightness 80%". */
+  saturationBrightnessValue: (saturation: string, brightness: string): string =>
+    `Saturation ${saturation}%, Brightness ${brightness}%`,
+
+  // ── Date and time ────────────────────────────────────────────────────────
+  chooseDate: 'Choose date',
+  chooseDateAndTime: 'Choose date and time',
+  chooseTime: 'Choose time',
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  previousYear: 'Previous year',
+  nextYear: 'Next year',
+  previousYears: 'Previous years',
+  nextYears: 'Next years',
+  hours: 'Hours',
+  minutes: 'Minutes',
+  seconds: 'Seconds',
+  dayPeriod: 'AM/PM',
+  /** Error for text that does not parse; `format` is the format hint, for example "MM/DD/YYYY". */
+  enterFormat: (format: string): string => `Enter ${format}`,
+  /** Errors for a value outside `min` or `max`; the argument is the formatted limit. */
+  pickDateOnOrAfter: (date: string): string =>
+    `Pick a date on or after ${date}`,
+  pickDateOnOrBefore: (date: string): string =>
+    `Pick a date on or before ${date}`,
+  /** Error for a date `isDateDisabled` rules out; the argument is the formatted date. */
+  dateUnavailable: (date: string): string => `${date} isn't available`,
+  pickTimeAtOrAfter: (time: string): string =>
+    `Pick a time at or after ${time}`,
+  pickTimeAtOrBefore: (time: string): string =>
+    `Pick a time at or before ${time}`,
+  pickDateTimeOnOrAfter: (dateTime: string): string =>
+    `Pick a time on or after ${dateTime}`,
+  pickDateTimeOnOrBefore: (dateTime: string): string =>
+    `Pick a time on or before ${dateTime}`,
+
+  // ── Calendar ─────────────────────────────────────────────────────────────
+  day: 'Day',
+  week: 'Week',
+  month: 'Month',
+  previousPeriod: 'Previous',
+  nextPeriod: 'Next',
+  invalidView: 'Invalid view',
+
+  // ── Overlays and feedback ────────────────────────────────────────────────
+  closeDialog: 'Close dialog',
+  closeNotification: 'Close notification',
+  dismissNotification: 'Dismiss notification',
+  bottomSheet: 'Bottom sheet',
+  imagePreview: 'Image preview',
+  closePreview: 'Close preview',
+  openMenu: 'Open menu',
+  openSplitButtonMenu: 'Open split button menu',
+  /** Title of the svg preview dialog, for example "Preview: Logo". */
+  previewTitle: (title: string): string => `Preview: ${title}`,
+  svgPreview: 'SVG preview',
+
+  // ── Navigation ───────────────────────────────────────────────────────────
+  navigation: 'Navigation',
+  mainNavigation: 'Main navigation',
+  breadcrumb: 'Breadcrumb',
+  pagination: 'Pagination',
+  page: 'Page',
+  rowsPerPage: 'Rows per page',
+  firstPage: 'First page',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  lastPage: 'Last page',
+  /** Range of rows shown, for example "1–10 of 42". `total` is undefined when it is unknown. */
+  pageRange: (start: string, end: string, total?: string): string =>
+    total === undefined ? `${start}–${end}` : `${start}–${end} of ${total}`,
+  /** Range text when there are no rows; `zero` is 0 in the locale's digits. */
+  emptyPageRange: (zero: string): string => `${zero} of ${zero}`,
+  /** Screen-reader announcement of the range, for example "Showing 1–10 of 42". */
+  showingRange: (range: string): string => `Showing ${range}`,
+  /** Label of one page button, for example "Page 3". */
+  pageNumber: (page: string): string => `Page ${page}`,
+  /** Label of the page number field, for example "Page number, 24 pages". */
+  pageNumberField: (pages: string): string => `Page number, ${pages} pages`,
+  /** Text after the page number field, for example "of 24". */
+  ofPages: (pages: string): string => `of ${pages}`,
+
+  // ── Table ────────────────────────────────────────────────────────────────
+  noItems: 'No items',
+  noItemsDescription: 'There are no items to display',
+  selectAllRowsOnPage: 'Select all rows on this page',
+  selectRow: 'Select row',
+  selection: 'Selection',
+  selectedCount: (count: string): string => `${count} selected`,
+  selectAllCount: (count: string): string => `Select all ${count}`,
+
+  // ── Charts ───────────────────────────────────────────────────────────────
+  chart: 'Chart',
+  /** What screen readers call the plot (`aria-roledescription`), lower case. */
+  chartRole: 'chart',
+  chartData: 'Chart data',
+  chartInstructions: (name: string): string =>
+    `${name}. Use the arrow keys to explore the data.`,
+  noData: 'No data',
+  category: 'Category',
+  name: 'Name',
+  value: 'Value',
+  share: 'Share',
+  total: 'Total',
+
+  // ── Code ─────────────────────────────────────────────────────────────────
+  codeEditor: 'Code editor',
+  copyToClipboard: 'Copy to clipboard',
+  copied: 'Copied',
+  copiedCode: 'Copied code to clipboard',
+  wrapLines: 'Wrap lines',
+  unwrapLines: 'Turn off line wrap',
+  showMore: 'Show more',
+  showLess: 'Show less',
+  breakpoint: 'Breakpoint',
+  pausedHere: 'Paused here',
+
+  // ── Rich text editors ────────────────────────────────────────────────────
+  formattingToolbar: 'Formatting toolbar',
+  inlineFormatting: 'Inline formatting',
+  insertBlock: 'Insert block',
+  insertBlockBelow: 'Insert block below',
+  undo: 'Undo',
+  redo: 'Redo',
+  bold: 'Bold',
+  italic: 'Italic',
+  underline: 'Underline',
+  strikethrough: 'Strikethrough',
+  inlineCode: 'Inline code',
+  unorderedList: 'Unordered list',
+  orderedList: 'Ordered list',
+  heading1: 'Heading 1',
+  heading2: 'Heading 2',
+  heading3: 'Heading 3',
+  bulletedList: 'Bulleted list',
+  numberedList: 'Numbered list',
+  quote: 'Quote',
+  codeBlock: 'Code block',
+  divider: 'Divider',
+  visualMode: 'Visual',
+  htmlMode: 'HTML',
+  editorMode: 'Editor',
+  markdownMode: 'Markdown',
+  enterTextPlaceholder: 'Enter text…',
+  slashCommandsPlaceholder: "Type '/' for commands…",
+
+  // ── Condition builder ────────────────────────────────────────────────────
+  addCondition: 'Add condition',
+  addRule: 'Add rule',
+  addInnerGroup: 'Add inner group',
+  removeCondition: 'Remove condition',
+  reorderCondition: 'Reorder condition',
+  operatorAnd: 'And',
+  operatorOr: 'Or',
+  /** Label of the and/or toggle, for example "Match conditions with And". */
+  matchConditionsWith: (operator: string): string =>
+    `Match conditions with ${operator}`,
+};
+
+/** The string table. Overrides must keep each entry's type, so a function stays a function. */
+export type PeacockStrings = {
+  [K in keyof typeof defaultStrings]: (typeof defaultStrings)[K];
+};
+
+export type PeacockStringKey = keyof PeacockStrings;
+
+let current: PeacockStrings = { ...defaultStrings };
+
+const listeners = new Set<() => void>();
+
+/**
+ * Replaces Peacock's strings, for example with a translation. Entries left out keep their English
+ * default. Every connected component re-renders with the new strings.
+ *
+ * @example
+ * setPeacockStrings({ dismiss: 'Fermer', selectedCount: n => `${n} sélectionnés` });
+ */
+export function setPeacockStrings(strings: Partial<PeacockStrings>): void {
+  current = { ...defaultStrings, ...strings };
+  listeners.forEach(listener => listener());
+}
+
+/** The current value of one string. */
+export function peacockString<K extends PeacockStringKey>(
+  key: K,
+): PeacockStrings[K] {
+  return current[key];
+}
+
+/** Calls the listener whenever the strings change; returns a function that stops listening. */
+export function onPeacockStringsChange(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}

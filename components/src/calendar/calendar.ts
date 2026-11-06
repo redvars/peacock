@@ -4,6 +4,8 @@ import { addDays, addMonths, formatDate } from './utils.js';
 import { CalendarEvent } from './calendar-event.js';
 import type { CalendarViewType, EventType } from './types.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import styles from './calendar.scss';
 
 /**
@@ -36,13 +38,14 @@ export class Calendar extends LitElement {
   events: EventType[] = [];
 
   /**
-   * Available views configuration.
+   * Available views configuration. A view without a `label` shows Peacock's `day`, `week` or
+   * `month` string for those values, else its `value`.
    */
   @property({ type: Array, attribute: 'available-views' })
   availableViews: CalendarViewType[] = [
-    { label: 'Day', value: 'day', type: 'column', days: 1 },
-    { label: 'Week', value: 'week', type: 'column', days: 7 },
-    { label: 'Month', value: 'month', type: 'month' },
+    { value: 'day', type: 'column', days: 1 },
+    { value: 'week', type: 'column', days: 7 },
+    { value: 'month', type: 'month' },
   ];
 
   /**
@@ -75,11 +78,24 @@ export class Calendar extends LitElement {
   @property({ type: Object, attribute: false })
   contextDate: Date | null = null;
 
+  /**
+   * Locale for month and day names and times. Defaults to the nearest `lang`, then the browser
+   * language.
+   */
+  @property({ type: String })
+  locale: string = '';
+
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
+
   @state()
   private _currentTime: Date = new Date();
 
   @state()
   private _currentView: CalendarViewType | undefined;
+
+  /** Peacock's strings and the resolved locale. */
+  private readonly _i18n = new I18nController(this);
 
   override connectedCallback() {
     super.connectedCallback();
@@ -193,6 +209,15 @@ export class Calendar extends LitElement {
     );
   }
 
+  /** The view's own label, else Peacock's string for the built-in views, else its value. */
+  private _viewLabel(view: CalendarViewType): string {
+    if (view.label) return view.label;
+    if (view.value === 'day' || view.value === 'week' || view.value === 'month') {
+      return this._i18n.t(view.value);
+    }
+    return view.value;
+  }
+
   private _renderHeader() {
     return html`
       <div class="calendar-header-classic">
@@ -203,12 +228,13 @@ export class Calendar extends LitElement {
             class="color-secondary"
             @click=${() => this._goToToday()}
           >
-            Today
+            ${this._i18n.t('today')}
           </wc-button>
           <wc-icon-button
             variant="text"
             size="sm"
             class="color-secondary"
+            aria-label=${this._i18n.t('previousPeriod')}
             @click=${() => this.previous()}
           >
             <wc-icon name="chevron_left"></wc-icon>
@@ -217,13 +243,14 @@ export class Calendar extends LitElement {
             variant="text"
             size="sm"
             class="color-secondary"
+            aria-label=${this._i18n.t('nextPeriod')}
             @click=${() => this.next()}
           >
             <wc-icon name="chevron_right"></wc-icon>
           </wc-icon-button>
           <div class="title">
             ${this.contextDate
-              ? formatDate(this.contextDate, 'MMMM d, yyyy')
+              ? formatDate(this.contextDate, 'MMMM d, yyyy', this._i18n.locale)
               : ''}
           </div>
         </div>
@@ -235,7 +262,7 @@ export class Calendar extends LitElement {
                   .value=${v.value}
                   ?selected=${this.view === v.value}
                 >
-                  ${v.label}
+                  ${this._viewLabel(v)}
                 </wc-segmented-button>`,
             )}
           </wc-segmented-button-group>
@@ -245,7 +272,10 @@ export class Calendar extends LitElement {
   }
 
   private _renderCalendarView() {
-    if (!this._currentView) return html`<div>Invalid view</div>`;
+    if (!this._currentView) {
+      return html`<div>${this._i18n.t('invalidView')}</div>`;
+    }
+    const locale = this._i18n.locale;
 
     const calEvents = this.events.map(
       event =>
@@ -266,6 +296,7 @@ export class Calendar extends LitElement {
           .days=${this._currentView.days || 7}
           .currentTime=${this._currentTime}
           .contextDate=${this.contextDate}
+          .locale=${locale}
           ?event-clickable=${this.eventClickable}
           @column-view-date-click=${this._onColumnViewDateClick}
           @column-view-event-click=${this._onEventClick}
@@ -277,6 +308,7 @@ export class Calendar extends LitElement {
           .events=${calEvents}
           .currentTime=${this._currentTime}
           .contextDate=${this.contextDate}
+          .locale=${locale}
           ?event-clickable=${this.eventClickable}
           @month-view-event-click=${this._onEventClick}
         ></wc-calendar-month-view>

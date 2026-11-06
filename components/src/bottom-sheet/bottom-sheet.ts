@@ -2,6 +2,7 @@
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './bottom-sheet.scss';
 
 /**
@@ -44,6 +45,9 @@ export class BottomSheet extends LitElement {
   @state() private _dragStartY = 0;
 
   @state() private _dragOffsetY = 0;
+
+  /** Peacock's strings for the default dialog label. */
+  private readonly i18n = new I18nController(this);
 
   show() {
     this.open = true;
@@ -116,7 +120,7 @@ export class BottomSheet extends LitElement {
         })}
         style=${translateY ? `transform: translateY(${translateY})` : ''}
         role="dialog"
-        aria-label="${this.ariaLabel ?? 'Bottom sheet'}"
+        aria-label="${this.ariaLabel ?? this.i18n.t('bottomSheet')}"
         aria-modal=${this.variant === 'modal' ? 'true' : 'false'}
         aria-hidden=${!this.open ? 'true' : 'false'}
       >

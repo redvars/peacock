@@ -93,6 +93,13 @@ export class Field extends LitElement {
   @property({ type: String })
   variant: 'filled' | 'outlined' | 'default' = 'default';
 
+  /**
+   * Height of the field box: `sm` (2.5rem, the default, the same as a default button), `md`
+   * (3.5rem) or `lg` (4rem). `data-density` on an ancestor shortens it further.
+   */
+  @property({ type: String, reflect: true })
+  size: 'sm' | 'md' | 'lg' = 'sm';
+
   /** Reference to the host input element; used to forward click-on-label focus. */
   @property({ type: Object })
   host?: HTMLElement;

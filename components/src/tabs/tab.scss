@@ -169,13 +169,13 @@
       ::slotted([slot='badge']) {
         position: absolute;
         top: 0;
-        left: calc(100% - 3px);
+        inset-inline-start: calc(100% - 3px);
       }
 
       ::slotted([slot='badge'][value]) {
         position: absolute;
         top: 0;
-        left: calc(100% - 6px);
+        inset-inline-start: calc(100% - 6px);
       }
     }
   }
@@ -440,5 +440,13 @@
     .background {
       transition: none;
     }
+  }
+}
+
+// Forced colors drop the indicator's fill, so draw it in the system highlight color.
+@media (forced-colors: active) {
+  .indicator {
+    forced-color-adjust: none;
+    background: Highlight;
   }
 }

@@ -27,14 +27,8 @@ const pad = (n: number, width = 2) => String(n).padStart(width, '0');
 
 // ── Locale ───────────────────────────────────────────────────────────────────
 
-/** The locale a component should use when it has no `locale` of its own. */
-export function resolveLocale(locale?: string): string {
-  if (locale) return locale;
-  if (typeof document !== 'undefined' && document.documentElement.lang) {
-    return document.documentElement.lang;
-  }
-  return typeof navigator !== 'undefined' ? navigator.language : 'en-US';
-}
+// Kept here so existing imports keep working; the resolver lives with the i18n helpers.
+export { resolveLocale } from '@/__internal/i18n/locale.js';
 
 /** First day of the week for a locale (0 = Sunday), from `Intl.Locale` week info when available. */
 export function weekStart(locale: string): WeekDay {

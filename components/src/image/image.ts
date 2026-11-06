@@ -6,6 +6,7 @@ import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
 import styles from './image.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Image
@@ -50,6 +51,9 @@ export class Image extends LitElement {
 
   /** Cleanup function returned by `observeThemeChange`. */
   private _themeCleanup: (() => void) | null = null;
+
+  /** Peacock's strings for the preview dialog label. */
+  private readonly i18n = new I18nController(this);
 
   connectedCallback() {
     super.connectedCallback();
@@ -125,7 +129,7 @@ export class Image extends LitElement {
       <!-- Lightbox preview dialog — uses native top-layer to avoid stacking context issues -->
       <dialog
         class="preview-dialog"
-        aria-label="Image preview"
+        aria-label=${this.i18n.t('imagePreview')}
         @click=${this._handleDialogClick}
       >
         <img

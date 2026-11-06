@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import styles from './navigation-rail.scss';
 import { NavigationRailItem } from './navigation-rail-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Navigation Rail
@@ -62,11 +63,17 @@ export class NavigationRail extends LitElement {
    */
   @property({ type: Boolean, attribute: 'show-divider' }) showDivider = false;
 
+  /** Peacock's strings for the default landmark label. */
+  private readonly i18n = new I18nController(this);
+
+  /** The `aria-label` the rail set itself, so it follows the string table until the author sets one. */
+  private _defaultLabel?: string;
+
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('click', this._handleItemClick);
     this.setAttribute('role', 'navigation');
-    this.setAttribute('aria-label', this.getAttribute('aria-label') ?? 'Main navigation');
+    this._syncLabel();
   }
 
   disconnectedCallback() {
@@ -76,6 +83,10 @@ export class NavigationRail extends LitElement {
 
   protected override firstUpdated() {
     this._syncItemMode();
+  }
+
+  protected override willUpdate() {
+    this._syncLabel();
   }
 
   protected override updated(changedProperties: PropertyValues<this>) {
@@ -106,6 +117,14 @@ export class NavigationRail extends LitElement {
       }),
     );
   };
+
+  /** Gives the landmark the default label unless the author set one. */
+  private _syncLabel() {
+    const current = this.getAttribute('aria-label');
+    if (current !== null && current !== this._defaultLabel) return;
+    this._defaultLabel = this.i18n.t('mainNavigation');
+    this.setAttribute('aria-label', this._defaultLabel);
+  }
 
   private _getItems(): NavigationRailItem[] {
     return Array.from(

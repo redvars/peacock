@@ -63,7 +63,7 @@ export class CbGroup extends CbGroupBase {
             @click=${this._onAddRuleClick}
           >
             <wc-icon slot="icon" name="add"></wc-icon>
-            Add condition
+            ${this.i18n.t('addCondition')}
           </wc-button>
         </slot>
       </div>

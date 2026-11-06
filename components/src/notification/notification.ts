@@ -3,15 +3,20 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './notification.scss';
 
 type NotificationVariant = 'success' | 'error' | 'info' | 'warning';
 
-const VARIANT_LABELS: Record<NotificationVariant, string> = {
-  success: 'Success',
-  error: 'Error',
-  info: 'Information',
-  warning: 'Warning',
+/** The string key of each variant's label. */
+const VARIANT_LABEL_KEYS: Record<
+  NotificationVariant,
+  'intentSuccess' | 'intentError' | 'intentInformation' | 'intentWarning'
+> = {
+  success: 'intentSuccess',
+  error: 'intentError',
+  info: 'intentInformation',
+  warning: 'intentWarning',
 };
 
 const VARIANT_ICONS: Record<NotificationVariant, string> = {
@@ -84,6 +89,9 @@ export class Notification extends LitElement {
   
   @state() private hasSubtitle = false;
 
+  /** Peacock's strings for the variant and close button labels. */
+  private readonly i18n = new I18nController(this);
+
   /**
    * Programmatically reveals the notification.
    */
@@ -103,7 +111,7 @@ export class Notification extends LitElement {
   }
 
   private get variantLabel() {
-    return VARIANT_LABELS[this.variant];
+    return this.i18n.t(VARIANT_LABEL_KEYS[this.variant]);
   }
 
   private emitActionClick() {
@@ -192,7 +200,7 @@ export class Notification extends LitElement {
                 class="close-button"
                 variant="text"
                 size="sm"
-                aria-label="Close notification"
+                aria-label=${this.i18n.t('closeNotification')}
                 @click=${() => {
                   this.hideAndEmitDismiss('dismiss');
                 }}

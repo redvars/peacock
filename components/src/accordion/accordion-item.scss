@@ -22,33 +22,47 @@
     background-color var(--duration-medium1) var(--easing-standard),
     border-color var(--duration-medium1) var(--easing-standard);
 
-  // ─── Header Button ─────────────────────────────────────────────────────────
+  // ─── Header ────────────────────────────────────────────────────────────────
+  // Row of [button: title + description] [actions] [toggle icon]. The button stays `position: static`
+  // so its ::before state layer stretches over the whole header and takes the clicks; the actions
+  // sit above it.
 
-  .header-button {
+  .header {
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
     width: 100%;
     min-height: 3rem; // 48dp — grows with description
     padding: 0 var(--spacing-300); // 0 24dp
     gap: var(--spacing-200); // 16dp between label and icon
+    overflow: hidden;
+
+    &:has(.header-button:focus-visible) {
+      @include mixin.focus-ring();
+    }
+  }
+
+  .header-button {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    padding: 0;
     border: none;
     border-radius: 0;
     background: transparent;
     cursor: pointer;
     text-align: start;
     color: var(--color-on-surface);
-    overflow: hidden;
+    outline: none;
 
-    // M3 state layer
+    // M3 state layer, stretched over the whole header
     &::before {
       content: '';
       position: absolute;
       inset: 0;
       background-color: var(--color-on-surface);
       opacity: 0;
-      pointer-events: none;
       transition: opacity var(--duration-short4) var(--easing-standard);
     }
 
@@ -56,19 +70,14 @@
       opacity: 0.08;
     }
 
-    &:focus-visible {
-      outline: none;
-      @include mixin.focus-ring();
-    }
-
     &:focus-visible::before {
       opacity: 0.12;
     }
   }
 
-  .header-content {
-    display: flex;
-    flex: 1;
+  // `display: contents` so an empty actions slot adds no flex item (and no gap).
+  .header-actions {
+    display: contents;
   }
 
   // ─── Header Label (title + description column) ──────────────────────────────
@@ -106,6 +115,8 @@
   // ─── Header Actions slot ────────────────────────────────────────────────────
 
   ::slotted([slot='header-actions']) {
+    position: relative;
+    z-index: 1; // above the button's state layer
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -115,6 +126,7 @@
   // ─── Toggle Icon ────────────────────────────────────────────────────────────
 
   .toggle-icon {
+    pointer-events: none; // clicks fall through to the button's state layer
     --icon-size: 1.5rem;
     --icon-color: var(--color-on-surface-variant);
     flex-shrink: 0;
@@ -151,10 +163,13 @@
       transparent
     );
 
+    .header {
+      opacity: 0.38;
+    }
+
     .header-button {
       cursor: not-allowed;
       pointer-events: none;
-      opacity: 0.38;
     }
   }
 
@@ -197,8 +212,7 @@
 // ─── Toggle position: before ─────────────────────────────────────────────────
 
 :host-context([leading-toggle]) {
-  .header-button {
-    flex-direction: row;
-    justify-content: flex-end;
+  .toggle-icon {
+    order: -1;
   }
 }

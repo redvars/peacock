@@ -117,7 +117,7 @@
 .sidebar-sub-menu-children {
   display: block;
   overflow: hidden;
-  margin-left: var(--spacing-200);
+  margin-inline-start: var(--spacing-200);
   max-height: 9999px;
   opacity: 1;
   transition: max-height var(--duration-medium1) var(--easing-standard),

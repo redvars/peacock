@@ -194,7 +194,7 @@ export class Fab extends mixinBaseButton(
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
         ?disabled=${this.disabled}
       >
         ${this.renderFabContent(isExtended)}
@@ -214,7 +214,7 @@ export class Fab extends mixinBaseButton(
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : nothing}
     >
       ${this.renderFabContent(isExtended)}
     </a>`;

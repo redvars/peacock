@@ -3,16 +3,21 @@ import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './alert.scss';
 
 type AlertVariant = 'note' | 'info' | 'success' | 'warning' | 'error';
 
-const VARIANT_LABELS: Record<AlertVariant, string> = {
-  note: 'Note',
-  info: 'Info',
-  success: 'Success',
-  warning: 'Warning',
-  error: 'Error',
+/** The string key of each variant's label. */
+const VARIANT_LABEL_KEYS: Record<
+  AlertVariant,
+  'intentNote' | 'intentInfo' | 'intentSuccess' | 'intentWarning' | 'intentError'
+> = {
+  note: 'intentNote',
+  info: 'intentInfo',
+  success: 'intentSuccess',
+  warning: 'intentWarning',
+  error: 'intentError',
 };
 
 const VARIANT_ICONS: Record<AlertVariant, string> = {
@@ -69,8 +74,11 @@ export class Alert extends LitElement {
   @property({ type: String })
   description = '';
 
+  /** Peacock's strings for the variant labels. */
+  private readonly i18n = new I18nController(this);
+
   private get resolvedLabel() {
-    return this.label || VARIANT_LABELS[this.variant];
+    return this.label || this.i18n.t(VARIANT_LABEL_KEYS[this.variant]);
   }
 
   private get resolvedIcon() {

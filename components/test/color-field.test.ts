@@ -102,4 +102,142 @@ describe('ColorField', () => {
     `);
     expect(new FormData(form).get('brand')).to.equal('#7c5df0');
   });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field></wc-color-field>`,
+    );
+    el.value = '#112233';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
+
+  it('fires CustomEvents with the value, and no native events', async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><wc-color-field value="#000000"></wc-color-field></div>`,
+    );
+    const el = wrapper.querySelector<ColorField>('wc-color-field')!;
+    const events: Event[] = [];
+    wrapper.addEventListener('input', e => events.push(e));
+    wrapper.addEventListener('change', e => events.push(e));
+
+    const input = textInput(el);
+    input.value = '#123456';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true }),
+    );
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(events.map(e => e.type)).to.deep.equal(['change']);
+    expect(events.every(e => e instanceof CustomEvent)).to.be.true;
+    expect((events[0] as CustomEvent).detail.value).to.equal('#123456');
+  });
+
+  it('names the text input from its label, or a default name', async () => {
+    const labelled = await fixture<ColorField>(
+      html`<wc-color-field label="Brand"></wc-color-field>`,
+    );
+    expect(textInput(labelled).getAttribute('aria-label')).to.equal('Brand');
+
+    const unlabelled = await fixture<ColorField>(
+      html`<wc-color-field></wc-color-field>`,
+    );
+    expect(textInput(unlabelled).getAttribute('aria-label')).to.equal(
+      'Hex color',
+    );
+  });
+
+  it('defaults to the sm size', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field></wc-color-field>`,
+    );
+    expect(el.size).to.equal('sm');
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.size).to.equal(
+      'sm',
+    );
+  });
+
+  it('clears the value with the clear button', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field clearable></wc-color-field>`,
+    );
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+
+    el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!.click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal('');
+    expect(changes).to.deep.equal(['']);
+  });
+
+  it('blocks form submission while required and empty', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-color-field name="c" required value=""></wc-color-field></form>
+    `);
+    const el = form.querySelector<ColorField>('wc-color-field')!;
+    await el.updateComplete;
+
+    expect(form.checkValidity()).to.be.false;
+    expect(el.validity.valueMissing).to.be.true;
+    expect(el.matches(':invalid')).to.be.true;
+
+    el.value = '#ffffff';
+    await el.updateComplete;
+    expect(form.checkValidity()).to.be.true;
+  });
+
+  it('shows the message under the field after reportValidity()', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field label="Brand" required value=""></wc-color-field>`,
+    );
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(field.error).to.be.false;
+
+    el.reportValidity();
+    await el.updateComplete;
+
+    expect(field.error).to.be.true;
+    expect(field.errorText).to.equal(el.validationMessage);
+    expect(textInput(el).getAttribute('aria-invalid')).to.equal('true');
+  });
+
+  it('is badInput while the typed text is not a hex color', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field value="#000000"></wc-color-field>`,
+    );
+    const input = textInput(el);
+    input.value = 'purple';
+    input.dispatchEvent(new InputEvent('input'));
+    input.dispatchEvent(new Event('change'));
+    await el.updateComplete;
+
+    expect(el.validity.badInput).to.be.true;
+    expect(el.validationMessage).to.equal(
+      el.shadowRoot!.querySelector<Field>('wc-field')!.errorText,
+    );
+  });
+
+  it('keeps its value while typing in the picker hex box', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field value="#336699"></wc-color-field>`,
+    );
+    const picker =
+      el.shadowRoot!.querySelector<ColorPicker>('wc-color-picker')!;
+    await picker.updateComplete;
+    const hex =
+      picker.shadowRoot!.querySelector<HTMLInputElement>('.hex-input')!;
+
+    // An incomplete hex value: the picker emits nothing, and its native `input` must not reach
+    // the field (it used to wipe the value).
+    hex.value = '12';
+    hex.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal('#336699');
+  });
 });

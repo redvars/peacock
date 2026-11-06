@@ -13,13 +13,27 @@ import { marked } from 'marked';
 import TurndownService from 'turndown';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
 import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
 
 import styles from './markdown-editor.scss';
 
+/** String keys of the slash menu item titles. */
+type SlashTitleKey =
+  | 'heading1'
+  | 'heading2'
+  | 'heading3'
+  | 'bulletedList'
+  | 'numberedList'
+  | 'quote'
+  | 'codeBlock'
+  | 'divider';
+
 interface SlashItem {
-  title: string;
+  /** Key of the item's title in Peacock's strings. */
+  titleKey: SlashTitleKey;
   hint: string;
   icon: string;
   command: (args: { editor: Editor; range: Range }) => void;
@@ -27,7 +41,7 @@ interface SlashItem {
 
 const SLASH_ITEMS: SlashItem[] = [
   {
-    title: 'Heading 1',
+    titleKey: 'heading1',
     hint: '#',
     icon: 'title',
     command: ({ editor, range }) =>
@@ -39,7 +53,7 @@ const SLASH_ITEMS: SlashItem[] = [
         .run(),
   },
   {
-    title: 'Heading 2',
+    titleKey: 'heading2',
     hint: '##',
     icon: 'title',
     command: ({ editor, range }) =>
@@ -51,7 +65,7 @@ const SLASH_ITEMS: SlashItem[] = [
         .run(),
   },
   {
-    title: 'Heading 3',
+    titleKey: 'heading3',
     hint: '###',
     icon: 'title',
     command: ({ editor, range }) =>
@@ -63,35 +77,35 @@ const SLASH_ITEMS: SlashItem[] = [
         .run(),
   },
   {
-    title: 'Bulleted list',
+    titleKey: 'bulletedList',
     hint: '-',
     icon: 'format_list_bulleted',
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleBulletList().run(),
   },
   {
-    title: 'Numbered list',
+    titleKey: 'numberedList',
     hint: '1.',
     icon: 'format_list_numbered',
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleOrderedList().run(),
   },
   {
-    title: 'Quote',
+    titleKey: 'quote',
     hint: '>',
     icon: 'format_quote',
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleBlockquote().run(),
   },
   {
-    title: 'Code block',
+    titleKey: 'codeBlock',
     hint: '```',
     icon: 'code',
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
   },
   {
-    title: 'Divider',
+    titleKey: 'divider',
     hint: '---',
     icon: 'horizontal_rule',
     command: ({ editor, range }) =>
@@ -148,9 +162,9 @@ export class MarkdownEditor extends BaseInput {
   @property({ type: String })
   label = '';
 
-  /** Placeholder text shown when the editor is empty. */
+  /** Placeholder text shown when the editor is empty. Defaults to Peacock's "Type '/' for commands…". */
   @property({ type: String })
-  placeholder = "Type '/' for commands…";
+  placeholder = '';
 
   /** Visual style of the wrapping field. */
   @property({ type: String })
@@ -171,6 +185,9 @@ export class MarkdownEditor extends BaseInput {
   /** Debounce in milliseconds for dispatching `change`. */
   @property({ type: Number })
   debounce = 250;
+
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
   // ── State ─────────────────────────────────────────────────────────────────
 
@@ -229,6 +246,9 @@ export class MarkdownEditor extends BaseInput {
   /** Timer id for delayed hide of the block handle. */
   private _blockHandleHideTimeout?: number;
 
+  /** Peacock's strings for the menus, handles, modes, tags and placeholder. */
+  private readonly i18n = new I18nController(this);
+
   /** Reusable Turndown serializer instance. */
   private _turndown = new TurndownService({
     headingStyle: 'atx',
@@ -256,7 +276,8 @@ export class MarkdownEditor extends BaseInput {
     this._destroyEditor();
   }
 
-  protected updated(changed: Map<string, unknown>) {
+  protected override updated(changed: Map<string, unknown>) {
+    super.updated(changed);
     if (changed.has('value') && this._editor) {
       const currentMd = MarkdownEditor._normalizeMd(
         this._htmlToMarkdown(this._editor.getHTML()),
@@ -274,7 +295,7 @@ export class MarkdownEditor extends BaseInput {
       this._editor.setEditable(!(this.disabled || this.readonly));
     }
 
-    if (changed.has('placeholder') && this._editor) {
+    if ((changed.has('placeholder') || changed.has('strings')) && this._editor) {
       this._destroyEditor();
       this._initializeEditor();
     }
@@ -300,6 +321,11 @@ export class MarkdownEditor extends BaseInput {
 
   // ── Private methods: TipTap setup ─────────────────────────────────────────
 
+  /** The `placeholder`, or Peacock's default when it is empty. */
+  private _placeholderText() {
+    return this.placeholder || this.i18n.t('slashCommandsPlaceholder');
+  }
+
   private _destroyEditor() {
     if (!this._editor) return;
     this._editorEl?.removeEventListener(
@@ -319,7 +345,7 @@ export class MarkdownEditor extends BaseInput {
         StarterKit,
         Underline,
         Placeholder.configure({
-          placeholder: this.placeholder,
+          placeholder: () => this._placeholderText(),
         }),
         this._buildSlashExtension(),
         this._buildBlockHandleExtension(),
@@ -380,7 +406,7 @@ export class MarkdownEditor extends BaseInput {
             items: ({ query: slashQuery }) => {
               const q = slashQuery.toLowerCase();
               return SLASH_ITEMS.filter(item =>
-                item.title.toLowerCase().includes(q),
+                host.i18n.t(item.titleKey).toLowerCase().includes(q),
               ).slice(0, 10);
             },
             command: ({ editor, range, props }) => {
@@ -800,35 +826,35 @@ export class MarkdownEditor extends BaseInput {
       <div
         class=${classMap({ 'bubble-menu': true, open: this._bubbleOpen })}
         role="toolbar"
-        aria-label="Inline formatting"
+        aria-label=${this.i18n.t('inlineFormatting')}
       >
         ${this._renderToolbarButton(
           'format_bold',
-          'Bold',
+          this.i18n.t('bold'),
           () => this._editor?.chain().focus().toggleBold().run(),
           this._editor.isActive('bold'),
         )}
         ${this._renderToolbarButton(
           'format_italic',
-          'Italic',
+          this.i18n.t('italic'),
           () => this._editor?.chain().focus().toggleItalic().run(),
           this._editor.isActive('italic'),
         )}
         ${this._renderToolbarButton(
           'format_underlined',
-          'Underline',
+          this.i18n.t('underline'),
           () => this._editor?.chain().focus().toggleUnderline().run(),
           this._editor.isActive('underline'),
         )}
         ${this._renderToolbarButton(
           'format_strikethrough',
-          'Strikethrough',
+          this.i18n.t('strikethrough'),
           () => this._editor?.chain().focus().toggleStrike().run(),
           this._editor.isActive('strike'),
         )}
         ${this._renderToolbarButton(
           'code',
-          'Inline code',
+          this.i18n.t('inlineCode'),
           () => this._editor?.chain().focus().toggleCode().run(),
           this._editor.isActive('code'),
         )}
@@ -841,7 +867,7 @@ export class MarkdownEditor extends BaseInput {
       <div
         class=${classMap({ 'slash-menu': true, open: this._slashOpen })}
         role="listbox"
-        aria-label="Insert block"
+        aria-label=${this.i18n.t('insertBlock')}
       >
         ${this._slashItems.map(
           (item, index) => html`
@@ -858,7 +884,9 @@ export class MarkdownEditor extends BaseInput {
               @click=${this._onSlashItemClick}
             >
               <wc-icon name=${item.icon} size="sm"></wc-icon>
-              <span class="slash-item-label">${item.title}</span>
+              <span class="slash-item-label"
+                >${this.i18n.t(item.titleKey)}</span
+              >
               <span class="slash-item-hint">${item.hint}</span>
             </button>
           `,
@@ -880,8 +908,8 @@ export class MarkdownEditor extends BaseInput {
       >
         <button
           class="block-handle-btn drag-btn"
-          title="Drag to reorder"
-          aria-label="Drag to reorder"
+          title=${this.i18n.t('dragToReorder')}
+          aria-label=${this.i18n.t('dragToReorder')}
           draggable="true"
           ?disabled=${this.disabled || this.readonly}
           @mousedown=${this._onDragHandleMouseDown}
@@ -892,8 +920,8 @@ export class MarkdownEditor extends BaseInput {
         </button>
         <button
           class="block-handle-btn insert-btn"
-          title="Insert block below"
-          aria-label="Insert block below"
+          title=${this.i18n.t('insertBlockBelow')}
+          aria-label=${this.i18n.t('insertBlockBelow')}
           ?disabled=${this.disabled || this.readonly}
           @mousedown=${(e: Event) => e.preventDefault()}
           @click=${this._onInsertBlockClick}
@@ -906,10 +934,14 @@ export class MarkdownEditor extends BaseInput {
 
   private _renderReadonlyTag() {
     if (this.disabled) {
-      return html`<wc-tag class="read-only-tag" color="red">Disabled</wc-tag>`;
+      return html`<wc-tag class="read-only-tag" color="red"
+        >${this.i18n.t('disabled')}</wc-tag
+      >`;
     }
     if (this.readonly) {
-      return html`<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`;
+      return html`<wc-tag class="read-only-tag" color="red"
+        >${this.i18n.t('readOnlyTag')}</wc-tag
+      >`;
     }
     return nothing;
   }
@@ -945,7 +977,7 @@ export class MarkdownEditor extends BaseInput {
             'is-empty': isEmpty,
             hidden: this._mode !== 'editor',
           })}
-          data-placeholder=${this.placeholder}
+          data-placeholder=${this._placeholderText()}
         >
           <div class="tiptap-root"></div>
         </div>
@@ -972,14 +1004,14 @@ export class MarkdownEditor extends BaseInput {
               ?selected=${this._mode === 'editor'}
               ?disabled=${this.disabled}
             >
-              Editor
+              ${this.i18n.t('editorMode')}
             </wc-segmented-button>
             <wc-segmented-button
               value="markdown"
               ?selected=${this._mode === 'markdown'}
               ?disabled=${this.disabled}
             >
-              Markdown
+              ${this.i18n.t('markdownMode')}
             </wc-segmented-button>
           </wc-segmented-button-group>
         </div>

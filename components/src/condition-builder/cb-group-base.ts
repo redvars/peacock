@@ -9,10 +9,15 @@ import {
 } from './cb-drag.js';
 import type { CbRule } from './cb-rule.js';
 import type { CbOperator, CbRuleMoveDetail } from './cb-types.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 const ITEM_SELECTOR = 'wc-cb-rule, wc-cb-group';
 
-const OPERATOR_LABELS: Record<CbOperator, string> = { and: 'And', or: 'Or' };
+/** The string key of each operator's label. */
+const OPERATOR_LABEL_KEYS: Record<CbOperator, 'operatorAnd' | 'operatorOr'> = {
+  and: 'operatorAnd',
+  or: 'operatorOr',
+};
 
 type MenuElement = HTMLElement & {
   anchorElement: HTMLElement | null;
@@ -80,6 +85,9 @@ export class CbGroupBase extends LitElement {
 
   /** Index the dragged rule would be inserted at, or -1. */
   private _dropIndex = -1;
+
+  /** Peacock's strings for the operator labels and the group actions. */
+  protected readonly i18n = new I18nController(this);
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -247,6 +255,12 @@ export class CbGroupBase extends LitElement {
     this.moveRule(rule, index);
   }
 
+  /** The translated label of `operator`, or the operator itself when it is unknown. */
+  private _operatorLabel(operator: CbOperator): string {
+    const key = OPERATOR_LABEL_KEYS[operator];
+    return key ? this.i18n.t(key) : operator;
+  }
+
   // ── Render helpers ────────────────────────────────────────────────────────
 
   /** Content placed after the items; each group type renders its own actions. */
@@ -257,13 +271,13 @@ export class CbGroupBase extends LitElement {
   private _renderConnector() {
     if (this._itemCount < 2) return nothing;
 
-    const label = OPERATOR_LABELS[this.operator] ?? this.operator;
+    const label = this._operatorLabel(this.operator);
     return html`
       <div class="connector">
         <wc-cb-divider connect-start connect-end>
           <button
             class="operator-pill"
-            aria-label=${`Match conditions with ${label}`}
+            aria-label=${this.i18n.t('matchConditionsWith')(label)}
             aria-haspopup="menu"
             aria-expanded=${String(this._menuOpen)}
             aria-controls=${this._menuId}
@@ -290,13 +304,13 @@ export class CbGroupBase extends LitElement {
         }}
         @menu-item-activate=${this._onMenuActivate}
       >
-        ${(Object.keys(OPERATOR_LABELS) as CbOperator[]).map(
+        ${(Object.keys(OPERATOR_LABEL_KEYS) as CbOperator[]).map(
           operator => html`
             <wc-menu-item
               value=${operator}
               ?selected=${operator === this.operator}
             >
-              ${OPERATOR_LABELS[operator]}
+              ${this._operatorLabel(operator)}
             </wc-menu-item>
           `,
         )}

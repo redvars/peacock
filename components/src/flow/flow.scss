@@ -155,6 +155,8 @@
   }
 }
 
+// Flow node handles follow the canvas's x/y coordinates, which do not mirror.
+/* stylelint-disable property-disallowed-list */
 .handle-position-left {
   left: -7px;
   top: calc(50% - 6px);
@@ -174,6 +176,7 @@
   bottom: -7px;
   left: calc(50% - 6px);
 }
+/* stylelint-enable property-disallowed-list */
 
 // --- Animations ---
 @keyframes flow-dash-flow {

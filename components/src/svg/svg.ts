@@ -7,6 +7,7 @@ import { fetchSVG } from '../icon/datasource.js';
 
 import styles from './svg.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label SVG
@@ -52,6 +53,9 @@ export class Svg extends LitElement {
 
   /** IntersectionObserver that triggers the SVG fetch when the element enters the viewport. */
   private _intersectionObserver: IntersectionObserver | null = null;
+
+  /** Peacock's strings for the preview dialog labels. */
+  private readonly i18n = new I18nController(this);
 
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -153,15 +157,15 @@ export class Svg extends LitElement {
         role="dialog"
         aria-modal="true"
         aria-label=${this.imageTitle
-          ? `Preview: ${this.imageTitle}`
-          : 'SVG preview'}
+          ? this.i18n.t('previewTitle')(this.imageTitle)
+          : this.i18n.t('svgPreview')}
         @click=${this._closePreview}
         @keydown=${(e: KeyboardEvent) =>
           e.key === 'Escape' && this._closePreview(e)}
       >
         <button
           class="preview-close"
-          aria-label="Close preview"
+          aria-label=${this.i18n.t('closePreview')}
           @click=${this._closePreview}
         >
           &#x2715;

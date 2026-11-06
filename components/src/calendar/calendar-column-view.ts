@@ -16,6 +16,7 @@ import { CalendarEvent } from './calendar-event.js';
 import { EventManager } from './event-manager.js';
 import type { ColumnEvent } from './event-manager.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { resolveLocale } from '@/__internal/i18n/locale.js';
 import styles from './calendar-column-view.scss';
 
 /**
@@ -45,6 +46,10 @@ export class CalendarColumnView extends LitElement {
 
   @property({ type: Object, attribute: false })
   contextDate: Date = new Date();
+
+  /** Locale for day names and times. Defaults to the nearest `lang`, then the browser language. */
+  @property({ type: String })
+  locale: string = '';
 
   @state()
   private dateRange: any = {};
@@ -175,7 +180,13 @@ export class CalendarColumnView extends LitElement {
     );
   }
 
+  /** The locale dates and times are formatted in. */
+  private get _locale(): string {
+    return resolveLocale(this.locale, this);
+  }
+
   private _renderHeader() {
+    const locale = this._locale;
     const columns: any[] = [];
     this._forEachDayInRange(i => {
       columns.push(html`
@@ -185,9 +196,9 @@ export class CalendarColumnView extends LitElement {
               class="date"
               @click=${() => this._emitDateClick(i)}
             >
-              ${formatDate(i, 'dd')}
+              ${formatDate(i, 'dd', locale)}
             </div>
-            <div class="day">${formatDate(i, 'E')}</div>
+            <div class="day">${formatDate(i, 'E', locale)}</div>
           </div>
         </div>
       `);
@@ -204,6 +215,7 @@ export class CalendarColumnView extends LitElement {
   }
 
   private _renderScale() {
+    const locale = this._locale;
     const rows: any[] = [];
     for (let i = 0; i < 48; i++) {
       const cls = i % 2 ? 'row hour' : 'row';
@@ -211,7 +223,7 @@ export class CalendarColumnView extends LitElement {
       rows.push(html`
         <div class=${cls}>
           ${i % 2 === 0 && i
-            ? html`<div class="time">${formatDate(addHours(sd, i / 2), 'hh a')}</div>`
+            ? html`<div class="time">${formatDate(addHours(sd, i / 2), 'hh a', locale)}</div>`
             : nothing}
         </div>
       `);
@@ -330,7 +342,7 @@ export class CalendarColumnView extends LitElement {
         class="current-time-line"
         style="top: calc(${getTimePercent(this.currentTime)}% - 1px)"
       >
-        <div class="time">${formatDate(this.currentTime, 'hh:mm a')}</div>
+        <div class="time">${formatDate(this.currentTime, 'hh:mm a', this._locale)}</div>
         <div
           class="dash-line"
           style="width: ${this._getDatePercent(this.currentTime)}%"

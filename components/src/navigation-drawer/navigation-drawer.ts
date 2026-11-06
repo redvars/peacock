@@ -1,6 +1,7 @@
 import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import { NavigationDrawerItem } from './navigation-drawer-item.js';
 import styles from './navigation-drawer.scss';
 
@@ -67,6 +68,11 @@ export class NavigationDrawer extends LitElement {
   // ── Queries ──────────────────────────────────────────────────────────────
 
   @query('dialog') private dialogElement?: HTMLDialogElement;
+
+  // ── Private fields ───────────────────────────────────────────────────────
+
+  /** Peacock's strings for the landmark label. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -169,7 +175,10 @@ export class NavigationDrawer extends LitElement {
           ? html`<div class="headline">${this.headline}</div>`
           : nothing}
         <slot name="header"></slot>
-        <nav class="items" aria-label=${this.headline || 'Navigation'}>
+        <nav
+          class="items"
+          aria-label=${this.headline || this.i18n.t('navigation')}
+        >
           <slot></slot>
         </nav>
       </div>

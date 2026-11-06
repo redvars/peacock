@@ -36,11 +36,10 @@
   bottom: 0;
   display: flex;
   flex-direction: column;
-  left: 0;
+  inset-inline: 0;
   max-height: var(--bottom-sheet-max-height);
   overflow: hidden;
   position: fixed;
-  right: 0;
   transform: translateY(100%);
   transition:
     transform var(--bottom-sheet-transition-duration) var(--bottom-sheet-transition-easing);

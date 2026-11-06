@@ -83,6 +83,17 @@ export class FloatingController implements ReactiveController {
     document.removeEventListener('mousedown', this.handleOutsideClick);
   }
 
+  /**
+   * Removes every listener and detaches the controller from its host. Call it before replacing
+   * the controller with a new one, or the old listeners keep firing.
+   */
+  dispose() {
+    this.hostDisconnected();
+    this.reference = null;
+    this.floating = null;
+    this.host.removeController(this);
+  }
+
   setElements(reference: HTMLElement, floating: HTMLElement, arrowElement?: HTMLElement) {
     this.cleanup?.();
     this.cleanup = null;

@@ -45,3 +45,22 @@ describe('SidebarSubMenu', () => {
     expect(childrenContainer.classList.contains('hidden')).to.equal(false);
   });
 });
+
+describe('SidebarMenuItem', () => {
+  it('moves focus to its focusable element', async () => {
+    const el = await fixture<SidebarMenuItem>(
+      html`<wc-sidebar-menu-item label="Home"></wc-sidebar-menu-item>`,
+    );
+    el.focus();
+    expect(el.shadowRoot!.activeElement?.id).to.equal('item');
+  });
+
+  it('marks a disabled item aria-disabled="true"', async () => {
+    const el = await fixture<SidebarMenuItem>(
+      html`<wc-sidebar-menu-item label="Home" disabled></wc-sidebar-menu-item>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector('#item')!.getAttribute('aria-disabled'),
+    ).to.equal('true');
+  });
+});

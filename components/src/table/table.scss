@@ -6,7 +6,7 @@
   display: block;
   height: 100%;
   min-width: 0;
-  --table-row-height: 3rem;
+  --table-row-height: calc(3rem + var(--density, 0) * 0.25rem);
   --table-border-color: var(--color-outline-variant);
   --table-cell-padding-inline: var(--spacing-200, 1rem);
   --table-header-background: var(--color-surface, #fff);

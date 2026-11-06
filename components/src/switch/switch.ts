@@ -1,18 +1,13 @@
 import { html, nothing } from 'lit';
-import { property, query, state } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { spread } from '@/__internal/directive/spread.js';
-import {
-  type FormRestoreState,
-  type FormValue,
-  getFormState,
-  getFormValue,
-} from '@/__internal/mixins/form-associated.js';
+import { peacockString } from '@/__internal/i18n/strings.js';
+import ToggleBase from '@/__internal/toggle-base.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 import styles from './switch.scss';
-import BaseInput from '../input/BaseInput.js';
 
 /**
  * @label Switch
@@ -22,7 +17,9 @@ import BaseInput from '../input/BaseInput.js';
  * @summary Captures boolean input with an on/off switch interaction.
  * @overview
  * <p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>
- * <p>The switch is form-associated: when <code>checked</code>, it submits <code>on</code> under its <code>name</code>.</p>
+ * <p>The switch is form-associated: when <code>checked</code>, it submits its <code>value</code>
+ * (<code>on</code> by default) under its <code>name</code>. With <code>required</code> it blocks form
+ * submission until it is on.</p>
  *
  * @cssprop --switch-track-color: Color of the switch track when checked.
  * @cssprop --switch-track-off-color: Color of the switch track when unchecked.
@@ -31,9 +28,7 @@ import BaseInput from '../input/BaseInput.js';
  * @cssprop --switch-handle-radius: Size of the switch handle.
  * @cssprop --switch-handle-color: Color of the switch handle.
  *
- * @fires {CustomEvent} change - Dispatched when the switch is toggled. Detail: `{ checked, value, originalEvent }`.
- * @fires {CustomEvent} blur - Dispatched when the switch loses focus.
- * @fires {CustomEvent} focus - Dispatched when the switch receives focus.
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the switch is toggled.
  *
  * @example
  * ```html
@@ -42,36 +37,14 @@ import BaseInput from '../input/BaseInput.js';
  * @tags input, form
  */
 @IndividualComponent
-export class Switch extends BaseInput {
+export class Switch extends ToggleBase {
   // ── Static ───────────────────────────────────────────────────────────────
 
   static styles = [styles];
 
   // ── Properties ───────────────────────────────────────────────────────────
-
-  /**
-   * Whether the switch is on.
-   */
-  @property({ type: Boolean, reflect: true })
-  checked: boolean = false;
-
-  /**
-   * @deprecated Use `checked`. Kept as an alias of `checked`.
-   */
-  @property({ type: Boolean })
-  get value(): boolean {
-    return this.checked;
-  }
-
-  set value(value: boolean) {
-    this.checked = Boolean(value);
-  }
-
-  /**
-   * The switch label.
-   */
-  @property({ type: String })
-  label: string = '';
+  // `name`, `disabled`, `required`, `readonly`, `label`, `checked`, `value` and `configAria` are
+  // inherited.
 
   /**
    * If true, the toggle has rounded corners. Defaults to `true`.
@@ -82,176 +55,33 @@ export class Switch extends BaseInput {
   @property({ type: Boolean, reflect: true, attribute: 'with-icon' })
   withIcon: boolean = false;
 
-  /**
-   * Configuration object for aria attributes.
-   */
-  @property({ type: Object })
-  configAria: Record<string, string> = {};
+  // ── Protected methods ────────────────────────────────────────────────────
 
-  // ── State ────────────────────────────────────────────────────────────────
-
-  @state()
-  private hasFocus = false;
-
-  @state()
-  private isActive = false;
-
-  @state()
-  private slotHasContent = false;
-
-  // ── Queries ──────────────────────────────────────────────────────────────
-
-  @query('.track')
-  private trackElement?: HTMLElement;
-
-  // ── Private fields ───────────────────────────────────────────────────────
-
-  private tabindex?: string;
-
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  connectedCallback() {
-    super.connectedCallback();
-    this.handleInitialAttributes();
-    window.addEventListener('mouseup', this.windowMouseUp);
-    window.addEventListener('keyup', this.windowKeyUp);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('mouseup', this.windowMouseUp);
-    window.removeEventListener('keyup', this.windowKeyUp);
-  }
-
-  firstUpdated() {
-    this.slotHasContent = this.hasChildNodes();
-  }
-
-  // ── Public methods ───────────────────────────────────────────────────────
-
-  /**
-   * Sets focus on the toggle.
-   */
-  focus() {
-    this.trackElement?.focus();
-  }
-
-  /**
-   * Removes focus from the toggle.
-   */
-  blur() {
-    this.trackElement?.blur();
-  }
-
-  // ── Form association ─────────────────────────────────────────────────────
-
-  override [getFormValue](): FormValue | null {
-    return this.checked ? 'on' : null;
-  }
-
-  override [getFormState](): FormValue | null {
-    return String(this.checked);
-  }
-
-  override formStateRestoreCallback(state: FormRestoreState | null) {
-    this.checked = state === 'true';
+  protected override valueMissingText(): string {
+    return peacockString('valueMissingCheckbox');
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private handleInitialAttributes() {
-    if (this.hasAttribute('tabindex')) {
-      this.tabindex = this.getAttribute('tabindex') || undefined;
-      this.removeAttribute('tabindex');
-    }
-
-    Array.from(this.attributes).forEach(attr => {
-      if (attr.name.startsWith('aria-')) {
-        this.configAria[attr.name] = attr.value;
-        this.removeAttribute(attr.name);
-      }
-    });
-  }
-
-  private windowMouseUp = () => {
-    if (this.isActive) {
-      this.isActive = false;
-    }
-  };
-
-  private windowKeyUp = (evt: KeyboardEvent) => {
-    if (this.isActive && evt.key === ' ') {
-      this.isActive = false;
-    }
-  };
-
-  private mouseDownHandler = () => {
-    this.isActive = true;
-  };
-
-  private keyDownHandler = (evt: KeyboardEvent) => {
-    if (evt.key === ' ') {
-      evt.preventDefault();
+  private keyDownHandler = (event: KeyboardEvent) => {
+    if (event.key === ' ') {
+      event.preventDefault();
       this.isActive = true;
-      this.clickHandler(evt);
+      this.toggleChecked(event);
     }
   };
 
-  private clickHandler = (ev: MouseEvent | KeyboardEvent) => {
-    if (!this.disabled && !this.readonly) {
-      this.checked = !this.checked;
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            checked: this.checked,
-            value: this.checked,
-            originalEvent: ev,
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-      this.trackElement?.focus();
-    }
-  };
-
-  private blurHandler = (ev: FocusEvent) => {
-    this.hasFocus = false;
-    this.dispatchEvent(
-      new CustomEvent('blur', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private focusHandler = (ev: FocusEvent) => {
-    this.hasFocus = true;
-    this.dispatchEvent(
-      new CustomEvent('focus', {
-        detail: ev,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  };
-
-  private handleKeyUp = (evt: KeyboardEvent) => {
-    if (evt.key === 'Enter') {
-      this.clickHandler(evt);
-    }
+  private clickHandler = (event: MouseEvent) => {
+    this.toggleChecked(event);
   };
 
   // ── Render helpers ───────────────────────────────────────────────────────
 
-  __renderIcon() {
-    if (this.withIcon) {
-      if (this.checked)
-        return html`<wc-icon name="check" class="icon"></wc-icon>`;
-      return html`<wc-icon name="close" class="icon"></wc-icon>`;
-    }
-    return nothing;
+  private renderIcon() {
+    if (!this.withIcon) return nothing;
+    return this.checked
+      ? html`<wc-icon name="check" class="icon"></wc-icon>`
+      : html`<wc-icon name="close" class="icon"></wc-icon>`;
   }
 
   // ── Render ───────────────────────────────────────────────────────────────
@@ -272,36 +102,28 @@ export class Switch extends BaseInput {
     return html`
       <label class=${classMap(cssClasses)}>
         <div
-          class="track"
-          tabindex=${this.tabindex || 0}
-          @keyup=${this.handleKeyUp}
-          @mousedown=${this.mouseDownHandler}
-          @keydown=${this.keyDownHandler}
-          @blur=${this.blurHandler}
-          @focus=${this.focusHandler}
+          class="track container"
           role="switch"
-          aria-disabled=${this.disabled}
-          aria-required=${this.required}
-          aria-checked=${this.checked}
-          ${spread(this.configAria)}
+          aria-checked=${String(this.checked)}
+          @mousedown=${this.handleMouseDown}
+          @keydown=${this.keyDownHandler}
+          @focus=${this.handleFocusChange}
+          @blur=${this.handleFocusChange}
+          ${spread(this.controlAttributes())}
         >
-          <div class="handle">${this.__renderIcon()}</div>
+          <div class="handle">${this.renderIcon()}</div>
         </div>
 
         <input
           type="checkbox"
           class="input-native"
-          name=${this.name}
           .checked=${this.checked}
           aria-hidden="true"
-          ?required=${this.required}
           tabindex="-1"
           @click=${this.clickHandler}
         />
 
-        ${this.label
-          ? html`<div class="label">${this.label}</div>`
-          : html`<div class="slot-container"><slot></slot></div>`}
+        ${this.renderLabel()}
       </label>
     `;
   }

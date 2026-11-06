@@ -52,4 +52,21 @@ describe('Chip', () => {
 
     expect(legacyFired).to.be.true;
   });
+
+  it('renders the dismiss button next to the chip button, not inside it', async () => {
+    const el = await fixture<Chip>(html`<wc-chip dismissible>Chip</wc-chip>`);
+    const close = el.shadowRoot!.querySelector('.close-btn')!;
+
+    expect(close.closest('.chip')).to.be.null;
+    expect(close.parentNode).to.equal(el.shadowRoot);
+  });
+
+  it('disables the dismiss button with the chip', async () => {
+    const el = await fixture<Chip>(
+      html`<wc-chip dismissible disabled>Chip</wc-chip>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector<HTMLButtonElement>('.close-btn')!.disabled,
+    ).to.be.true;
+  });
 });

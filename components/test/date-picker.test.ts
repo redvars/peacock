@@ -192,4 +192,13 @@ describe('DatePicker', () => {
     }>;
     expect(event.detail.value).to.equal('');
   });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<DatePicker>(
+      html`<wc-date-picker></wc-date-picker>`,
+    );
+    el.value = '2026-11-06';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
 });

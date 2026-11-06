@@ -6,7 +6,13 @@ import {
   getFormValue,
 } from '@/__internal/mixins/form-associated.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import BaseInput from '../input/BaseInput.js';
+import { spread } from '@/__internal/directive/spread.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import {
+  type PeacockStrings,
+  peacockString,
+} from '@/__internal/i18n/strings.js';
+import BaseField from '../input/BaseField.js';
 import styles from './select.scss';
 import type { Field } from '../field/field.js';
 import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
@@ -36,6 +42,8 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  * - Multi-select chips on one row, with a "+N" chip for the ones that do not fit
  * - `clearable` adds a button that clears the value
  * - Form-associated: submits the value under `name` (one entry per value with `multiple`)
+ * - Validates like a native select: `required` with nothing selected blocks form submission, and
+ *   the message shows under the field once a value is committed or the form is submitted
  * - The options open in the top layer, so a select works inside a wc-modal
  *
  * Keyboard: Enter, Space, Arrow Down or Arrow Up open the options and focus the selected one.
@@ -56,10 +64,13 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  * @tags form
  */
 @IndividualComponent
-export class Select extends BaseInput {
+export class Select extends BaseField {
   static styles = [styles];
 
   private readonly _menuId = `wc-select-menu-${Math.random().toString(36).slice(2, 9)}`;
+
+  /** Peacock's strings for labels and empty states. */
+  private readonly _i18n = new I18nController(this);
 
   /**
    * Array of options to display in the dropdown.
@@ -71,7 +82,7 @@ export class Select extends BaseInput {
   /**
    * The selected value. For multi-select, a comma-separated list of values.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String })
   value: string = '';
 
   /**
@@ -88,47 +99,8 @@ export class Select extends BaseInput {
   @property({ type: String })
   search: '' | 'contains' | 'managed' = '';
 
-  /**
-   * Shows a button that clears the value.
-   */
-  @property({ type: Boolean, reflect: true })
-  clearable: boolean = false;
-
-  /**
-   * Placeholder text shown when no value is selected.
-   */
-  @property({ type: String })
-  placeholder: string = '';
-
-  /**
-   * Label displayed above the field.
-   */
-  @property({ type: String })
-  label: string = '';
-
-  /**
-   * Visual variant of the field.
-   */
-  @property({ type: String })
-  variant: 'filled' | 'outlined' | 'default' = 'default';
-
-  /**
-   * Helper text displayed below the field.
-   */
-  @property({ type: String, attribute: 'helper-text' })
-  helperText: string = '';
-
-  @property({ type: Boolean })
-  error: boolean = false;
-
-  @property({ type: String, attribute: 'error-text' })
-  errorText: string = '';
-
-  @property({ type: Boolean })
-  warning: boolean = false;
-
-  @property({ type: String, attribute: 'warning-text' })
-  warningText: string = '';
+  /** Overrides Peacock's strings for this instance only. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
   @state()
   private _open: boolean = false;
@@ -203,12 +175,14 @@ export class Select extends BaseInput {
   }
 
   protected override willUpdate(changed: PropertyValues<this>) {
+    super.willUpdate(changed);
     if (changed.has('value') || changed.has('multiple')) {
       this._visibleChipCount = Number.POSITIVE_INFINITY;
     }
   }
 
   protected override updated(changedProperties: PropertyValues<this>) {
+    super.updated(changedProperties);
     if (changedProperties.has('options')) {
       this._syncProgrammaticOptions();
     }
@@ -218,6 +192,23 @@ export class Select extends BaseInput {
       this._observeChips();
       this._scheduleChipMeasure();
     }
+  }
+
+  // ── Protected ──────────────────────────────────────────────────────────────
+
+  protected override valueMissingText(): string {
+    return peacockString('valueMissingSelect');
+  }
+
+  protected override validityAnchor() {
+    return this._triggerEl;
+  }
+
+  /** Clears the selection (every value of a multi-select) and fires `change`. */
+  protected override clearValue() {
+    if (!this.value) return;
+    this.value = '';
+    this._dispatchChange();
   }
 
   // ── Programmatic options ───────────────────────────────────────────────────
@@ -235,7 +226,8 @@ export class Select extends BaseInput {
       const el = new SelectOptionElement();
       el.value = opt.value;
       if (opt.icon) el.icon = opt.icon;
-      el.textContent = opt.label || (opt.value === '' ? 'None' : opt.value);
+      el.textContent =
+        opt.label || (opt.value === '' ? this._i18n.t('none') : opt.value);
       el.dataset.generated = '';
       this.appendChild(el);
     }
@@ -307,13 +299,13 @@ export class Select extends BaseInput {
       if (opt.value === val) {
         const label = opt.textContent?.trim();
         if (label) return label;
-        return val === '' ? 'None' : val;
+        return val === '' ? this._i18n.t('none') : val;
       }
     }
     // Fallback to options array (before wc-option children are created)
     const programmaticLabel = this.options.find(o => o.value === val)?.label;
     if (programmaticLabel) return programmaticLabel;
-    return val === '' ? 'None' : val;
+    return val === '' ? this._i18n.t('none') : val;
   }
 
   private get _displayLabel(): string {
@@ -515,16 +507,12 @@ export class Select extends BaseInput {
   }
 
   private _dispatchChange() {
-    this.dispatchEvent(
-      new CustomEvent('change', {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this.emitValue('change');
   }
 
   private _handleSearchInput(event: InputEvent) {
+    // The native event escapes the shadow root; the search box is internal to the select.
+    event.stopPropagation();
     this._searchQuery = (event.target as HTMLInputElement).value;
     if (this.search === 'managed') {
       this.dispatchEvent(
@@ -542,14 +530,6 @@ export class Select extends BaseInput {
     const values = this._selectedValues.filter(v => v !== chipValue);
     this.value = values.join(',');
     this._dispatchChange();
-  }
-
-  private _handleClear(event: MouseEvent) {
-    event.stopPropagation();
-    if (!this.value) return;
-    this.value = '';
-    this._dispatchChange();
-    this._triggerEl?.focus();
   }
 
   // ── Chips overflow ─────────────────────────────────────────────────────────
@@ -604,7 +584,7 @@ export class Select extends BaseInput {
   private _renderNoResults() {
     const hasSearchQuery = this._searchQuery.trim().length > 0;
     return html`<div class="no-results" role="presentation">
-      ${hasSearchQuery ? 'No results' : 'No options'}
+      ${this._i18n.t(hasSearchQuery ? 'noResults' : 'noOptions')}
     </div>`;
   }
 
@@ -633,7 +613,9 @@ export class Select extends BaseInput {
               .slice(visible.length)
               .map(val => this._getLabelForValue(val))
               .join(', ')}
-            >+${hidden}</wc-chip
+            >${new Intl.NumberFormat(this._i18n.locale, {
+              signDisplay: 'always',
+            }).format(hidden)}</wc-chip
           >`
         : nothing}
     </div>`;
@@ -646,7 +628,9 @@ export class Select extends BaseInput {
         class="search-input"
         .value=${this._searchQuery}
         placeholder=${this._displayLabel || this.placeholder}
-        aria-label=${this.label || this.placeholder || 'Search options'}
+        aria-label=${this.label ||
+        this.placeholder ||
+        this._i18n.t('searchOptions')}
         aria-controls=${this._menuId}
         aria-autocomplete="list"
         @input=${this._handleSearchInput}
@@ -667,23 +651,7 @@ export class Select extends BaseInput {
   }
 
   private _renderFieldEnd() {
-    const showClear =
-      this.clearable && this._isPopulated && this._isInteractive;
-    return html`
-      ${showClear
-        ? html`<wc-icon-button
-            class="clear-btn"
-            variant="text"
-            shape="round"
-            size="xs"
-            color="surface"
-            aria-label="Clear"
-            tooltip="Clear"
-            @click=${this._handleClear}
-          >
-            <wc-icon name="close"></wc-icon>
-          </wc-icon-button>`
-        : nothing}
+    return html`<div slot="field-end" class="field-end-wrapper">
       <wc-icon
         class=${classMap({
           'dropdown-icon': true,
@@ -692,55 +660,48 @@ export class Select extends BaseInput {
         name="arrow_drop_down"
         aria-hidden="true"
       ></wc-icon>
-    `;
+    </div>`;
+  }
+
+  private _renderTrigger() {
+    const { 'aria-label': name, tabindex, ...aria } = this.fieldAria();
+    return html`<div
+      class="select-trigger"
+      role="combobox"
+      tabindex=${this.disabled ? '-1' : (tabindex ?? '0')}
+      aria-label=${name || this.placeholder || this._i18n.t('selectOption')}
+      aria-controls=${this._menuId}
+      aria-expanded=${String(this._open)}
+      aria-haspopup="listbox"
+      aria-required=${this.required ? 'true' : nothing}
+      aria-disabled=${this.disabled ? 'true' : nothing}
+      aria-readonly=${this.readonly ? 'true' : nothing}
+      @click=${this._handleTriggerClick}
+      @keydown=${this._handleTriggerKeyDown}
+      ${spread(aria)}
+    >
+      ${this._renderTriggerContent()}
+    </div>`;
   }
 
   render() {
+    // The wrapper takes clicks anywhere on the field, so they open the options; keys are handled
+    // on the combobox.
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
-      <wc-field
-        label=${this.label}
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        ?readonly=${this.readonly}
-        ?skeleton=${this.skeleton}
-        helper-text=${this.helperText}
-        ?error=${this.error}
-        error-text=${this.errorText}
-        ?warning=${this.warning}
-        warning-text=${this.warningText}
-        variant=${this.variant}
-        ?populated=${this._isPopulated || this._open}
-        ?focused=${this._focused}
-        .host=${this}
-        class="select-field"
-        @click=${this._handleFieldClick}
-      >
-        <div
-          class="select-trigger"
-          tabindex=${this.disabled ? -1 : 0}
-          role="combobox"
-          aria-label=${this.label || this.placeholder || 'Select option'}
-          aria-controls=${this._menuId}
-          aria-expanded=${String(this._open)}
-          aria-haspopup="listbox"
-          aria-disabled=${this.disabled ? 'true' : nothing}
-          aria-readonly=${this.readonly ? 'true' : nothing}
-          @click=${this._handleTriggerClick}
-          @keydown=${this._handleTriggerKeyDown}
-        >
-          ${this._renderTriggerContent()}
-        </div>
-
-        <div slot="field-end" class="field-end-wrapper">
-          ${this._renderFieldEnd()}
-        </div>
-      </wc-field>
+      <div class="select-field" @click=${this._handleFieldClick}>
+        ${this.renderField(this._renderTrigger(), {
+          populated: this._isPopulated,
+          focused: this._focused,
+          end: this._renderFieldEnd(),
+        })}
+      </div>
 
       <wc-menu
         id=${this._menuId}
         role="listbox"
         placement="bottom-start"
-        aria-label=${this.label || 'Options'}
+        aria-label=${this.label || this._i18n.t('options')}
         aria-multiselectable=${this.multiple ? 'true' : nothing}
         @closed=${this._handleMenuClosed}
         @menu-item-activate=${this._handleMenuItemActivate}
@@ -750,5 +711,6 @@ export class Select extends BaseInput {
         ${this._noOptionsVisible ? this._renderNoResults() : nothing}
       </wc-menu>
     `;
+    /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 }

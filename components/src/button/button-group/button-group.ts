@@ -1,6 +1,7 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { migrateLegacySize } from '@/__internal/utils/size.js';
 import styles from './button-group.scss';
 import { Button, ButtonColor } from '../button/button.js';
 import { IconButton } from '../icon-button/icon-button.js';
@@ -69,6 +70,13 @@ class ButtonGroup extends LitElement {
     | 'filled'
     | 'tonal'
     | 'outlined';
+
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('size')) {
+      const size = migrateLegacySize('wc-button-group', this.size);
+      if (size) this.size = size;
+    }
+  }
 
   override updated() {
     this._syncButtonProperties();

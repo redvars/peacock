@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -27,6 +27,8 @@ import { mixinElementInternals } from '@/__internal/mixins/element-internals.js'
 import { mixinBaseButton } from '../base-button/base-button.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
+import { migrateLegacySize } from '@/__internal/utils/size.js';
+
 export type {
   ButtonSize,
   ButtonLevel,
@@ -186,6 +188,14 @@ export class Button extends mixinBaseButton(
     super.disconnectedCallback();
   }
 
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('size')) {
+      const size = migrateLegacySize('wc-button', this.size);
+      if (size) this.size = size;
+    }
+  }
+
   override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
     this.__convertTypeToVariantAndColor();
@@ -284,6 +294,8 @@ export class Button extends mixinBaseButton(
         id="link"
         href=${this.href}
         target=${this.target}
+        rel=${this.rel || nothing}
+        download=${this.download || nothing}
         tabindex=${this.disabled ? '-1' : '0'}
         aria-label="${ariaLabel || nothing}"
         aria-haspopup="${ariaHasPopup || nothing}"
@@ -291,7 +303,7 @@ export class Button extends mixinBaseButton(
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
       >
         ${this.renderButtonContent()}
       </a>`;
@@ -305,7 +317,7 @@ export class Button extends mixinBaseButton(
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}

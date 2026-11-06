@@ -89,4 +89,13 @@ describe('TimePicker', () => {
     await el.updateComplete;
     expect(el.value).to.equal('08:00');
   });
+
+  it('does not reflect value to an attribute', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker></wc-time-picker>`,
+    );
+    el.value = '09:30';
+    await el.updateComplete;
+    expect(el.hasAttribute('value')).to.be.false;
+  });
 });

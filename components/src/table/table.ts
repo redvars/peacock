@@ -7,6 +7,8 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
 import styles from './table.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import type { PaginationVariant } from '../pagination/pagination.js';
 
 const DEFAULT_CELL_WIDTH = 16; // in rem
@@ -216,16 +218,21 @@ export class Table extends LitElement {
   label: string = '';
 
   /**
-   * Headline text shown when the table has no data.
+   * Headline text shown when the table has no data. Defaults to Peacock's `noItems` string
+   * (`"No items"`).
    */
   @property({ type: String, attribute: 'empty-state-headline' })
-  emptyStateHeadline: string = 'No items';
+  emptyStateHeadline: string = '';
 
   /**
-   * Description text shown when the table has no data.
+   * Description text shown when the table has no data. Defaults to Peacock's
+   * `noItemsDescription` string (`"There are no items to display"`).
    */
   @property({ type: String, attribute: 'empty-state-description' })
-  emptyStateDescription: string = 'There are no items to display';
+  emptyStateDescription: string = '';
+
+  /** Overrides Peacock's strings for this instance only, including its pagination. */
+  @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
   // ── States ───────────────────────────────────────────────────────────────
 
@@ -257,6 +264,9 @@ export class Table extends LitElement {
 
   /** Watches the scroll container so the edge shadows follow resizes. */
   private resizeObserver?: ResizeObserver;
+
+  /** Peacock's strings and the locale counts are formatted in. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -726,7 +736,7 @@ export class Table extends LitElement {
                   data-row="0"
                   data-col=${index}
                   tabindex=${this.tabIndexFor(0, index)}
-                  aria-label="Select all rows on this page"
+                  aria-label=${this.i18n.t('selectAllRowsOnPage')}
                   @keydown=${(event: KeyboardEvent) => {
                     if (event.key === ' ' || event.key === 'Enter') {
                       event.preventDefault();
@@ -737,7 +747,7 @@ export class Table extends LitElement {
                   <wc-checkbox
                     class="checkbox"
                     tabindex="-1"
-                    aria-label="Select all rows on this page"
+                    aria-label=${this.i18n.t('selectAllRowsOnPage')}
                     .checked=${allOnPage}
                     .indeterminate=${selectedOnPage > 0 && !allOnPage}
                     ?disabled=${pageKeys.length === 0}
@@ -796,7 +806,7 @@ export class Table extends LitElement {
           ? html`<wc-linear-progress
               class="loading-bar"
               indeterminate
-              aria-label="Loading"
+              aria-label=${this.i18n.t('loading')}
             ></wc-linear-progress>`
           : nothing}
       </div>
@@ -836,7 +846,7 @@ export class Table extends LitElement {
                   <wc-checkbox
                     class="checkbox"
                     tabindex="-1"
-                    aria-label="Select row"
+                    aria-label=${this.i18n.t('selectRow')}
                     .checked=${selected}
                     @change=${() => this.onRowSelectClick(row, pageRows)}
                   ></wc-checkbox>
@@ -911,8 +921,9 @@ export class Table extends LitElement {
       <div class="empty-table">
         <wc-empty-state
           class="empty-state"
-          headline=${this.emptyStateHeadline}
-          description=${this.emptyStateDescription}
+          headline=${this.emptyStateHeadline || this.i18n.t('noItems')}
+          description=${this.emptyStateDescription ||
+          this.i18n.t('noItemsDescription')}
         ></wc-empty-state>
       </div>
     `;
@@ -936,10 +947,18 @@ export class Table extends LitElement {
       total !== undefined &&
       total > count;
 
+    const numberFormat = new Intl.NumberFormat(this.i18n.locale);
+
     return html`
-      <div class="bulk-bar" role="region" aria-label="Selection">
+      <div
+        class="bulk-bar"
+        role="region"
+        aria-label=${this.i18n.t('selection')}
+      >
         <span class="bulk-count" aria-live="polite"
-          >${shownCount} selected</span
+          >${this.i18n.t('selectedCount')(
+            numberFormat.format(shownCount),
+          )}</span
         >
         ${canSelectAllPages
           ? html`<wc-button
@@ -947,7 +966,9 @@ export class Table extends LitElement {
               variant="text"
               size="sm"
               @click=${() => this.selectAllPages(pageRows)}
-              >Select all ${total}</wc-button
+              >${this.i18n.t('selectAllCount')(
+                numberFormat.format(total ?? 0),
+              )}</wc-button
             >`
           : nothing}
         <span class="bulk-spacer"></span>
@@ -957,7 +978,7 @@ export class Table extends LitElement {
           variant="text"
           size="sm"
           @click=${this.clearSelection}
-          >Clear</wc-button
+          >${this.i18n.t('clear')}</wc-button
         >
       </div>
     `;
@@ -975,6 +996,7 @@ export class Table extends LitElement {
           .hasNext=${this.hasNext}
           .variant=${this.paginationVariant}
           .pageSizes=${this.pageSizes ?? [10, 25, 50, 100]}
+          .strings=${this.strings}
           @page=${this.onPage}
         ></wc-pagination>
       </div>

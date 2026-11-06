@@ -273,3 +273,33 @@
     display: none;
   }
 }
+
+// Forced colors drop the filled box, so draw it with system colors.
+@media (forced-colors: active) {
+  .outline {
+    border-color: CanvasText;
+  }
+
+  .checkbox.state-checked,
+  .checkbox.state-indeterminate {
+    .background {
+      forced-color-adjust: none;
+      background: Highlight;
+    }
+
+    .icon {
+      forced-color-adjust: none;
+      fill: HighlightText;
+      stroke: HighlightText;
+    }
+  }
+
+  .checkbox.disabled .outline {
+    border-color: GrayText;
+  }
+
+  .checkbox.disabled.state-checked .background,
+  .checkbox.disabled.state-indeterminate .background {
+    background: GrayText;
+  }
+}

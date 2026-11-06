@@ -3,6 +3,7 @@ import { property, state, query } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import styles from './color-picker.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 // ── Color utilities ───────────────────────────────────────────────────────────
 
@@ -102,7 +103,7 @@ export class ColorPicker extends LitElement {
   /**
    * The current color as a 6-digit hex string (e.g. `"#ff5733"`).
    */
-  @property({ type: String, reflect: true }) value = '#2352d5';
+  @property({ type: String }) value = '#2352d5';
 
   /**
    * Whether to show the alpha (opacity) slider and input.
@@ -144,6 +145,9 @@ export class ColorPicker extends LitElement {
 
   /** The last `value` we set ourselves, used to skip redundant re-syncs in `updated`. */
   private _lastEmittedValue = '';
+
+  /** Peacock's strings for the slider and input labels. */
+  private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -321,6 +325,9 @@ export class ColorPicker extends LitElement {
 
   // Hex input
   private _onHexInput(e: InputEvent) {
+    // The native `input` is composed and would escape the shadow root next to the picker's own
+    // `input` CustomEvent, so stop it here.
+    e.stopPropagation();
     const raw = (e.target as HTMLInputElement).value.toUpperCase().replace(/[^0-9A-F]/g, '');
     this._hexInput = raw;
     if (isValidHex(raw)) {
@@ -339,6 +346,10 @@ export class ColorPicker extends LitElement {
     } else {
       this._hexInput = this.value.slice(1).toUpperCase();
     }
+  }
+
+  private _stopNativeInput(e: Event) {
+    e.stopPropagation();
   }
 
   private _onAlphaNumberChange(e: Event) {
@@ -371,8 +382,8 @@ export class ColorPicker extends LitElement {
             class="sv-cursor"
             role="slider"
             tabindex=${this.disabled ? '-1' : '0'}
-            aria-label="Saturation and brightness"
-            aria-valuetext="Saturation ${Math.round(this._sat * 100)}%, Brightness ${Math.round(this._bri * 100)}%"
+            aria-label=${this.i18n.t('saturationAndBrightness')}
+            aria-valuetext=${this.i18n.t('saturationBrightnessValue')(String(Math.round(this._sat * 100)), String(Math.round(this._bri * 100)))}
             style=${styleMap({
               left: `${this._sat * 100}%`,
               top: `${(1 - this._bri) * 100}%`,
@@ -400,7 +411,7 @@ export class ColorPicker extends LitElement {
                 class="slider-thumb"
                 role="slider"
                 tabindex=${this.disabled ? '-1' : '0'}
-                aria-label="Hue"
+                aria-label=${this.i18n.t('hue')}
                 aria-valuemin="0"
                 aria-valuemax="360"
                 aria-valuenow=${this._hue}
@@ -423,7 +434,7 @@ export class ColorPicker extends LitElement {
                   class="slider-thumb"
                   role="slider"
                   tabindex=${this.disabled ? '-1' : '0'}
-                  aria-label="Opacity"
+                  aria-label=${this.i18n.t('opacity')}
                   aria-valuemin="0"
                   aria-valuemax="100"
                   aria-valuenow=${Math.round(this._opacity * 100)}
@@ -438,7 +449,7 @@ export class ColorPicker extends LitElement {
         <!-- Hex + alpha inputs -->
         <div class="inputs-row">
           <div class="hex-input-wrapper">
-            <span class="input-label">HEX</span>
+            <span class="input-label">${this.i18n.t('hexLabel')}</span>
             <span class="hex-prefix">#</span>
             <input
               class="hex-input"
@@ -449,7 +460,7 @@ export class ColorPicker extends LitElement {
               autocomplete="off"
               .value=${this._hexInput}
               ?disabled=${this.disabled}
-              aria-label="Hex color value"
+              aria-label=${this.i18n.t('hexColorValue')}
               @input=${this._onHexInput}
               @change=${this._onHexChange}
             />
@@ -465,7 +476,8 @@ export class ColorPicker extends LitElement {
                 step="1"
                 .value=${String(Math.round(this._opacity * 100))}
                 ?disabled=${this.disabled}
-                aria-label="Opacity percentage"
+                aria-label=${this.i18n.t('opacityPercentage')}
+                @input=${this._stopNativeInput}
                 @change=${this._onAlphaNumberChange}
               />
               <span class="input-label">%</span>

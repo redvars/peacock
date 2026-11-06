@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import NativeHyperlinkMixin from '@/__internal/mixins/NativeHyperlinkMixin.js';
 import styles from './link.scss';
@@ -27,10 +27,9 @@ export class Link extends NativeHyperlinkMixin(LitElement) {
         link: true,
       })}
       href=${this.href}
-      ?download=${this.download}
+      download=${this.download || nothing}
       target=${this.target}
-      ?rel=${this.rel}
-      ?tabindex=${this.parentElement?.tabIndex}
+      rel=${this.rel || nothing}
     >
       <slot></slot>
     </a>`;

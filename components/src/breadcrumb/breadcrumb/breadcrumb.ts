@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js';
 import styles from './breadcrumb.scss';
 import { BreadcrumbItem } from '../breadcrumb-item/breadcrumb-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Breadcrumb
@@ -31,12 +32,18 @@ export class Breadcrumb extends LitElement {
   static Item = BreadcrumbItem;
 
   /**
-   * Accessible label for the breadcrumb navigation landmark.
+   * Accessible label for the breadcrumb navigation landmark. Defaults to Peacock's `breadcrumb` string.
    */
-  @property({ type: String }) label = 'Breadcrumb';
+  @property({ type: String }) label = '';
+
+  /** Peacock's strings for the default landmark label. */
+  private readonly i18n = new I18nController(this);
 
   render() {
-    return html`<nav aria-label=${this.label} class="breadcrumb">
+    return html`<nav
+      aria-label=${this.label || this.i18n.t('breadcrumb')}
+      class="breadcrumb"
+    >
       <ol>
         <slot></slot>
       </ol>

@@ -1,4 +1,4 @@
-import { html, LitElement, nothing } from 'lit';
+import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -18,6 +18,7 @@ import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
+import { migrateLegacySize } from '@/__internal/utils/size.js';
 import type {
   ButtonColor,
   ButtonLevel,
@@ -166,22 +167,30 @@ export class IconButton extends mixinBaseButton(
     this.buttonElement?.blur();
   }
 
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('size')) {
+      const size = migrateLegacySize('wc-icon-button', this.size);
+      if (size) this.size = size;
+    }
+  }
+
   override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
     this.__convertTypeToVariantAndColor();
   }
 
   __convertTypeToVariantAndColor() {
-    if (this.type === 'primary') {
+    if (this.level === 'primary') {
       this.color = 'primary';
       this.variant = 'filled';
-    } else if (this.type === 'secondary') {
+    } else if (this.level === 'secondary') {
       this.color = 'surface';
       this.variant = 'filled';
-    } else if (this.type === 'tertiary') {
+    } else if (this.level === 'tertiary') {
       this.color = 'primary';
       this.variant = 'text';
-    } else if (this.type === 'danger') {
+    } else if (this.level === 'danger') {
       this.color = 'danger';
       this.variant = 'filled';
     }
@@ -238,7 +247,7 @@ export class IconButton extends mixinBaseButton(
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}
@@ -249,6 +258,8 @@ export class IconButton extends mixinBaseButton(
       id="link"
       href=${this.href}
       target=${this.target}
+      rel=${this.rel || nothing}
+      download=${this.download || nothing}
       tabindex=${this.disabled ? '-1' : '0'}
       aria-label="${ariaLabel || nothing}"
       aria-haspopup="${ariaHasPopup || nothing}"
@@ -256,7 +267,7 @@ export class IconButton extends mixinBaseButton(
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : nothing}
     >
       ${this.renderButtonContent()}
     </a>`;
@@ -279,7 +290,7 @@ export class IconButton extends mixinBaseButton(
         this.variant === 'outlined' || this.variant === 'neo',
         () => html`<div class="outline"></div>`,
       )}
-      <wc-ripple class="ripple" for="button"></wc-ripple>
+      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.renderTooltip()}

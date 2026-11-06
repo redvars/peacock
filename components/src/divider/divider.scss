@@ -43,7 +43,7 @@
 
     .line {
       height: 100%;
-      border-right: var(--_line-border);
+      border-inline-end: var(--_line-border);
     }
 
     &.slot-has-content .slot-container {

@@ -89,6 +89,8 @@
     content: '';
     position: absolute;
     top: 50%;
+    // Centering: physical on purpose, paired with the physical translate.
+    // stylelint-disable-next-line property-disallowed-list
     left: 50%;
     width: 40px;
     height: 40px;
@@ -133,6 +135,7 @@
     content: '';
     position: absolute;
     top: 100%;
+    // stylelint-disable-next-line property-disallowed-list
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;

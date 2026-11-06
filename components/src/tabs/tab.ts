@@ -172,7 +172,7 @@ export class Tab extends LitElement {
         id="button"
         class=${classMap(cssClasses)}
         tabindex="0"
-        ?aria-describedby=${this.__getDisabledReasonID()}
+        aria-describedby=${this.__getDisabledReasonID()}
         aria-disabled=${`${this.disabled}`}
         ?disabled=${this.disabled}
         ${spread(this.configAria)}
@@ -188,7 +188,7 @@ export class Tab extends LitElement {
       href=${this.href}
       target=${this.target}
       role="button"
-      ?aria-describedby=${this.__getDisabledReasonID()}
+      aria-describedby=${this.__getDisabledReasonID()}
       aria-disabled=${`${this.disabled}`}
       ${spread(this.configAria)}
     >
@@ -295,15 +295,15 @@ export class Tab extends LitElement {
   }
 
   __renderDisabledReason() {
-    const disabledReasonID = this.__getDisabledReasonID();
-    if (disabledReasonID)
+    // `__getDisabledReasonID()` returns `nothing` (a truthy symbol) when there is no reason.
+    if (this.disabled && this.disabledReason)
       return html`<div
         id="disabled-reason-${this.#id}"
         role="tooltip"
         aria-label=${this.disabledReason}
         class="screen-reader-only"
       >
-        {this.disabledReason}
+        ${this.disabledReason}
       </div>`;
     return nothing;
   }

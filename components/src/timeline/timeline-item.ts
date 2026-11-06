@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import styles from './timeline-item.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Timeline Item
@@ -25,6 +26,9 @@ export class TimelineItem extends LitElement {
 
   @property({ type: Boolean, reflect: true }) loading = false;
 
+  /** Peacock's strings for the loading spinner label. */
+  private readonly i18n = new I18nController(this);
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.hasAttribute('role')) {
@@ -43,7 +47,7 @@ export class TimelineItem extends LitElement {
                 ? html`<wc-circular-progress
                     class="dot-spinner"
                     indeterminate
-                    aria-label="Loading"
+                    aria-label=${this.i18n.t('loading')}
                   ></wc-circular-progress>`
                 : html`<slot name="dot"></slot>`}
             </div>

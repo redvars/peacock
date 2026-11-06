@@ -18,6 +18,7 @@ import { mixinBaseButton } from '@/button/base-button/base-button.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 /**
  * @label Chip
@@ -69,12 +70,16 @@ export class Chip extends mixinBaseButton(
   /**
    * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
    */
-  @property() throttleDelay?: number;
+  @property({ type: Number, attribute: 'throttle-delay' })
+  throttleDelay?: number;
 
   /** Optional tooltip text displayed on hover. */
   @property() tooltip?: string;
 
   @query('.button') readonly buttonElement!: HTMLElement | null;
+
+  /** Peacock's strings for the dismiss button label. */
+  private readonly i18n = new I18nController(this);
 
   constructor() {
     super();
@@ -169,7 +174,8 @@ export class Chip extends mixinBaseButton(
       <button
         class="close-btn"
         @click=${this._dismissClickHandler}
-        aria-label="Dismiss"
+        aria-label=${this.i18n.t('dismiss')}
+        ?disabled=${this.disabled}
       >
         <wc-icon class="close-btn-icon" name="close"></wc-icon>
       </button>
@@ -184,7 +190,8 @@ export class Chip extends mixinBaseButton(
       <div class="outline"></div>
       <wc-ripple class="ripple" for="button"></wc-ripple>
 
-      ${this.renderChipElement()} ${this.__renderTooltip()}
+      ${this.renderChipElement()} ${this._renderCloseButton()}
+      ${this.__renderTooltip()}
     `;
   }
 
@@ -204,7 +211,7 @@ export class Chip extends mixinBaseButton(
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : nothing}
         ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
@@ -221,7 +228,7 @@ export class Chip extends mixinBaseButton(
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : nothing}
       ${spread(this.configAria)}
     >
       ${this.renderChipContent()}
@@ -239,7 +246,6 @@ export class Chip extends mixinBaseButton(
         <div class="label-container">
           <slot></slot>
         </div>
-        ${this._renderCloseButton()}
       </div>
     `;
   }

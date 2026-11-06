@@ -64,6 +64,7 @@ export class Popover extends LitElement {
   private _setupFloating() {
     // Tear down any existing controller
     if (this._floating) {
+      this._floating.dispose();
       this._floating = null;
     }
 

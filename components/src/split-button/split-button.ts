@@ -1,7 +1,9 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { migrateLegacySize } from '@/__internal/utils/size.js';
 import styles from './split-button.scss';
 import colorStyles from './split-button-colors.scss';
 import sizeStyles from './split-button-sizes.scss';
@@ -89,6 +91,16 @@ export class SplitButton extends LitElement {
   @query('wc-menu') private readonly _menu?: Menu;
 
   private _menuId = `split-menu-${Math.random().toString(36).slice(2, 9)}`;
+
+  /** Peacock's strings for the menu trigger label. */
+  private readonly i18n = new I18nController(this);
+
+  override willUpdate(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has('size')) {
+      const size = migrateLegacySize('wc-split-button', this.size);
+      if (size) this.size = size;
+    }
+  }
 
   override focus() {
     const btn =
@@ -204,7 +216,7 @@ export class SplitButton extends LitElement {
             'aria-haspopup': 'menu',
             'aria-expanded': String(this._menuOpen),
             'aria-controls': this._menuId,
-            'aria-label': 'Open split button menu',
+            'aria-label': this.i18n.t('openSplitButtonMenu'),
           }}
           @click=${this._onDropdownClick}
           @keydown=${this._onTriggerKeyDown}

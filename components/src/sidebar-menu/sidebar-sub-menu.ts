@@ -117,7 +117,7 @@ export class SidebarSubMenu extends LitElement {
     });
 
     const inlineStyles = styleMap({
-      paddingLeft: `calc(var(--sidebar-menu-item-height, 2.5rem) * ${this.level})`,
+      paddingInlineStart: `calc(var(--sidebar-menu-item-height, 2.5rem) * ${this.level})`,
     });
 
     return html`

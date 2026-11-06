@@ -6,6 +6,6 @@
   display: grid;
   gap: 0;
   position: relative;
-  padding-left: calc(var(--timeline-dot-size, 2rem) / 2);
+  padding-inline-start: calc(var(--timeline-dot-size, 2rem) / 2);
 }
 

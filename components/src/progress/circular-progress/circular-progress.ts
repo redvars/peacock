@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import IndividualComponent from '@/IndividualComponent.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
@@ -38,7 +38,7 @@ export class CircularProgress extends BaseProgress {
         })}"
         title=${this.label}
         role="progressbar"
-        aria-valuenow="${this.indeterminate ? undefined : percentage}"
+        aria-valuenow=${this.indeterminate ? nothing : String(percentage)}
         aria-valuemin="0"
         aria-valuemax="100"
       >

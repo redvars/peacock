@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import PickerField from '@/__internal/picker-field.js';
+import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type HourCycle,
   type WeekDay,
@@ -67,7 +67,9 @@ export class DatetimeField extends PickerField {
 
   protected readonly pickerIcon = 'calendar_clock';
 
-  protected readonly pickerLabel = 'Choose date and time';
+  protected get pickerLabel(): string {
+    return this.i18n.t('chooseDateAndTime');
+  }
 
   // ── Protected methods ────────────────────────────────────────────────────
 
@@ -110,14 +112,24 @@ export class DatetimeField extends PickerField {
     return `${localeDatePattern(this.resolvedLocale)}, ${time}`;
   }
 
-  protected validateValue(value: string): string {
+  protected validateValue(value: string): ValueProblem | null {
     if (this.min && value < this.min) {
-      return `Pick a time on or after ${this.formatValue(this.min)}`;
+      return {
+        flag: 'rangeUnderflow',
+        message: this.i18n.t('pickDateTimeOnOrAfter')(
+          this.formatValue(this.min),
+        ),
+      };
     }
     if (this.max && value > this.max) {
-      return `Pick a time on or before ${this.formatValue(this.max)}`;
+      return {
+        flag: 'rangeOverflow',
+        message: this.i18n.t('pickDateTimeOnOrBefore')(
+          this.formatValue(this.max),
+        ),
+      };
     }
-    return '';
+    return null;
   }
 
   protected renderPicker() {

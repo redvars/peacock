@@ -7,6 +7,8 @@
 :host(:not([preview])) {
   position: absolute;
   top: 0;
+  // floating-ui positions the tooltip with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
   left: 0;
   pointer-events: none;
   transition: transform var(--duration-short2) ease-in-out, opacity var(--duration-short2) ease-in-out;

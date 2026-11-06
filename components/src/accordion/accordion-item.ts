@@ -117,19 +117,20 @@ export class AccordionItem extends LitElement {
           disabled: this.disabled,
         })}
       >
-        <button
-          id=${`panel-header-${this.#id}`}
-          part="header"
-          class="header-button"
-          tabindex=${this.disabled ? '-1' : '0'}
-          aria-controls=${`panel-content-${this.#id}`}
-          aria-disabled=${this.disabled}
-          aria-expanded=${this.open}
-          ?disabled=${this.disabled}
-          @click=${this._handleToggle}
-        >
-          ${this._renderToggleIcon()}
-          <div class="header-content">
+        <!-- The header actions sit next to the button, not inside it: interactive content inside a
+             button is invalid and unreachable by keyboard. The button's state layer still covers
+             the whole header, so a click anywhere but an action toggles the panel. -->
+        <div part="header" class="header">
+          <button
+            id=${`panel-header-${this.#id}`}
+            class="header-button"
+            tabindex=${this.disabled ? '-1' : '0'}
+            aria-controls=${`panel-content-${this.#id}`}
+            aria-disabled=${this.disabled}
+            aria-expanded=${this.open}
+            ?disabled=${this.disabled}
+            @click=${this._handleToggle}
+          >
             <span class="header-label">
               <span part="title" class="panel-title">
                 <slot
@@ -154,9 +155,12 @@ export class AccordionItem extends LitElement {
                 ></slot>
               </span>
             </span>
-            <slot name="header-actions" class="header-actions"></slot>
+          </button>
+          <div class="header-actions">
+            <slot name="header-actions"></slot>
           </div>
-        </button>
+          ${this._renderToggleIcon()}
+        </div>
         <div
           id=${`panel-content-${this.#id}`}
           part="content"

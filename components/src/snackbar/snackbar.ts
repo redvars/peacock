@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './snackbar.scss';
 import IndividualComponent from '@/IndividualComponent.js';
+import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 
 type SnackbarCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
 
@@ -75,6 +76,9 @@ export class Snackbar extends LitElement {
 
   /** Timer handle for the exit animation duration timeout. */
   private exitTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /** Peacock's strings for the dismiss button label. */
+  private readonly i18n = new I18nController(this);
 
   private readonly handleGlobalSnackbarOpen = (event: Event) => {
     const { source } = (event as CustomEvent<{ source?: Snackbar }>).detail;
@@ -276,7 +280,7 @@ export class Snackbar extends LitElement {
                 class="close"
                 variant="text"
                 size="sm"
-                aria-label="Dismiss notification"
+                aria-label=${this.i18n.t('dismissNotification')}
                 @click=${this.handleCloseClick}
               >
                 <wc-icon name="close"></wc-icon>

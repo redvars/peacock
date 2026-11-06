@@ -50,6 +50,9 @@
   z-index: 1;
 }
 
+// `position` is physical (`left`/`right`); it becomes logical `placement` (`start`/`end`) when the
+// sheets move to the shared overlay base, and these rules with it.
+/* stylelint-disable property-disallowed-list */
 /* Position: right */
 .sheet.position-right {
   border-radius: var(--side-sheet-shape) 0 0 var(--side-sheet-shape);
@@ -71,6 +74,7 @@
 .sheet.position-left.open {
   transform: translateX(0);
 }
+/* stylelint-enable property-disallowed-list */
 
 .content {
   flex: 1 1 auto;

@@ -90,4 +90,141 @@ describe('Input', () => {
     await el.updateComplete;
     expect(nativeInput(el).type).to.equal('text');
   });
+
+  it('fires input and change with the value in detail, and no native events', async () => {
+    const wrapper = await fixture<HTMLDivElement>(
+      html`<div><wc-input></wc-input></div>`,
+    );
+    const el = wrapper.querySelector<Input>('wc-input')!;
+    const events: Event[] = [];
+    wrapper.addEventListener('input', e => events.push(e));
+    wrapper.addEventListener('change', e => events.push(e));
+
+    const input = nativeInput(el);
+    input.value = 'hi';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, composed: true }),
+    );
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(events.map(e => e.type)).to.deep.equal(['input', 'change']);
+    expect(events.every(e => e instanceof CustomEvent)).to.be.true;
+    expect((events[0] as CustomEvent).detail.value).to.equal('hi');
+  });
+
+  it('names the native input from its label and describes it with the helper text', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input label="Email" helper-text="Work address"></wc-input>`,
+    );
+    const input = nativeInput(el);
+    const describedBy = input.getAttribute('aria-describedby')!;
+
+    expect(input.getAttribute('aria-label')).to.equal('Email');
+    expect(el.shadowRoot!.getElementById(describedBy)?.textContent).to.equal(
+      'Work address',
+    );
+  });
+
+  it('keeps an aria-label set on the host', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input label="Email" aria-label="Work email"></wc-input>`,
+    );
+    expect(nativeInput(el).getAttribute('aria-label')).to.equal('Work email');
+    expect(el.hasAttribute('aria-label')).to.be.false;
+  });
+
+  it('defaults to the sm size', async () => {
+    const el = await fixture<Input>(html`<wc-input></wc-input>`);
+    expect(el.size).to.equal('sm');
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.size).to.equal(
+      'sm',
+    );
+  });
+
+  it('clears the value with the clear button', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input clearable value="abc"></wc-input>`,
+    );
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+
+    el.shadowRoot!.querySelector<HTMLElement>('.clear-button')!.click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal('');
+    expect(changes).to.deep.equal(['']);
+    expect(el.shadowRoot!.querySelector('.clear-button')).to.not.exist;
+  });
+});
+
+describe('Input validation', () => {
+  it('blocks form submission while required and empty', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-input name="city" required></wc-input></form>
+    `);
+    const el = form.querySelector<Input>('wc-input')!;
+    await el.updateComplete;
+
+    expect(form.checkValidity()).to.be.false;
+    expect(el.validity.valueMissing).to.be.true;
+    expect(el.matches(':invalid')).to.be.true;
+
+    el.value = 'Oslo';
+    await el.updateComplete;
+    expect(form.checkValidity()).to.be.true;
+  });
+
+  it('shows the message under the field after a failed check, and marks the input invalid', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input label="City" required></wc-input>`,
+    );
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(field.error).to.be.false;
+
+    el.reportValidity();
+    await el.updateComplete;
+
+    expect(field.error).to.be.true;
+    expect(field.errorText).to.equal(el.validationMessage);
+    expect(nativeInput(el).getAttribute('aria-invalid')).to.equal('true');
+  });
+
+  it('reports a bad email after the value is committed', async () => {
+    const el = await fixture<Input>(html`<wc-input type="email"></wc-input>`);
+    const input = nativeInput(el);
+    input.value = 'not-an-email';
+    input.dispatchEvent(new InputEvent('input'));
+    input.dispatchEvent(new Event('change'));
+    await el.updateComplete;
+
+    expect(el.validity.typeMismatch).to.be.true;
+    expect(
+      el.shadowRoot!.querySelector<Field>('wc-field')!.errorText,
+    ).to.not.equal('');
+  });
+
+  it('supports setCustomValidity', async () => {
+    const el = await fixture<Input>(html`<wc-input value="taken"></wc-input>`);
+    el.setCustomValidity('That name is taken');
+    expect(el.checkValidity()).to.be.false;
+    expect(el.validationMessage).to.equal('That name is taken');
+
+    el.setCustomValidity('');
+    expect(el.checkValidity()).to.be.true;
+  });
+
+  it('hides the message again on form reset', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-input name="city" required></wc-input></form>
+    `);
+    const el = form.querySelector<Input>('wc-input')!;
+    el.reportValidity();
+    await el.updateComplete;
+
+    form.reset();
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.error).to.be.false;
+  });
 });

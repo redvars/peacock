@@ -68,6 +68,7 @@ export class Tooltip extends LitElement {
   private detachListeners() {
     if (this._floating) {
       this._floating.close();
+      this._floating.dispose();
       this._floating = null;
     }
     this._target = null;

@@ -2,6 +2,8 @@
  * Pure date utility functions (no external dependencies).
  */
 
+import { resolveLocale } from '@/__internal/i18n/locale.js';
+
 export function startOfDay(date: Date): Date {
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
@@ -107,65 +109,34 @@ export function calculateDateRange(
 
 export const LONG_EVENT_PADDING = 0.25;
 
-const DAY_NAMES_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const DAY_NAMES_LONG = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+/** `Intl` options for each display pattern; the output matches the pattern in `en-US`. */
+const DISPLAY_FORMATS: Record<string, Intl.DateTimeFormatOptions> = {
+  'MMMM d, yyyy': { month: 'long', day: 'numeric', year: 'numeric' },
+  EEEE: { weekday: 'long' },
+  E: { weekday: 'short' },
+  d: { day: 'numeric' },
+  dd: { day: '2-digit' },
+  'hh a': { hour: '2-digit' },
+  'hh:mm a': { hour: '2-digit', minute: '2-digit' },
+};
 
-export function formatDate(date: Date, pattern: string): string {
-  const day = date.getDate();
-  const dayOfWeek = date.getDay();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  switch (pattern) {
-    case 'MMMM d, yyyy':
-      return `${MONTH_NAMES[month]} ${day}, ${year}`;
-    case 'EEEE':
-      return DAY_NAMES_LONG[dayOfWeek];
-    case 'E':
-      return DAY_NAMES_SHORT[dayOfWeek];
-    case 'd':
-      return `${day}`;
-    case 'dd':
-      return day < 10 ? `0${day}` : `${day}`;
-    case 'hh a': {
-      const h = hours % 12 || 12;
-      const ampm = hours < 12 ? 'AM' : 'PM';
-      return `${h < 10 ? '0' : ''}${h} ${ampm}`;
-    }
-    case 'hh:mm a': {
-      const h = hours % 12 || 12;
-      const ampm = hours < 12 ? 'AM' : 'PM';
-      return `${h < 10 ? '0' : ''}${h}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
-    }
-    case 'dd-MM-yyyy':
-      return `${day < 10 ? '0' : ''}${day}-${month + 1 < 10 ? '0' : ''}${month + 1}-${year}`;
-    default:
-      return date.toLocaleDateString();
+/**
+ * Formats a date for display in `locale`. The patterns name the `en-US` output; other locales get
+ * their own month and day names, order and clock. `dd-MM-yyyy` is a fixed key, not display text.
+ */
+export function formatDate(
+  date: Date,
+  pattern: string,
+  locale: string = resolveLocale(),
+): string {
+  if (pattern === 'dd-MM-yyyy') {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${day}-${month}-${date.getFullYear()}`;
   }
+  const options = DISPLAY_FORMATS[pattern];
+  if (!options) return date.toLocaleDateString(locale);
+  return new Intl.DateTimeFormat(locale, options).format(date);
 }
 
 export function getTimePercent(date: Date, forDay?: Date): number {
