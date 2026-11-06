@@ -116,7 +116,7 @@
 
 .charts-row {
   display: grid;
-  // Both charts draw at a fixed 320px; they sit side by side once that fits.
+  // Charts fill their card; the cards sit side by side once each has 22rem.
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
   gap: var(--spacing-200);
 }
@@ -132,13 +132,6 @@
   .activity-title {
     margin: 0 0 var(--spacing-200);
   }
-}
-
-.chart-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 
 .activity-list {

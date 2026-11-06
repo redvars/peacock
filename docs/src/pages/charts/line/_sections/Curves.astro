@@ -1,0 +1,39 @@
+---
+export const title = 'Curves and dots';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>curve</code> sets how points are joined: <code>monotone</code> (the default) is smooth without
+  overshooting, <code>linear</code> draws straight segments and <code>step</code> holds each value until the
+  next. <code>show-dots</code> marks every point, useful with few points or uneven data.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-segmented-button-group id='line-curve-switch'>
+    <wc-segmented-button value='monotone' selected>Monotone</wc-segmented-button>
+    <wc-segmented-button value='linear'>Linear</wc-segmented-button>
+    <wc-segmented-button value='step'>Step</wc-segmented-button>
+  </wc-segmented-button-group>
+
+  <wc-chart-line id='line-curve' show-dots index='day' label='Temperature by day'></wc-chart-line>
+
+  <script is:inline>
+    const lineCurve = document.getElementById('line-curve');
+    lineCurve.valueFormatter = value => `${value}°`;
+    lineCurve.config = { high: { label: 'High' }, low: { label: 'Low' } };
+    lineCurve.data = [
+      { day: 'Mon', high: 21, low: 12 },
+      { day: 'Tue', high: 24, low: 14 },
+      { day: 'Wed', high: 19, low: 11 },
+      { day: 'Thu', high: 26, low: 15 },
+      { day: 'Fri', high: 28, low: 17 },
+      { day: 'Sat', high: 23, low: 13 },
+      { day: 'Sun', high: 22, low: 12 },
+    ];
+    document.getElementById('line-curve-switch').addEventListener('change', event => {
+      if (event.detail?.value) lineCurve.curve = event.detail.value;
+    });
+  </script>
+</DemoComponentCard>

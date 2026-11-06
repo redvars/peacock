@@ -1,22 +1,7 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { e } from './class-map-DG7CA1et.js';
 import './directive-ZPhl09Yt.js';
-
-const LEGACY_SIZES = {
-    small: 'sm',
-    medium: 'md',
-    large: 'lg',
-};
-/**
- * Maps a size attribute onto the `sm|md|lg` scale, accepting the deprecated long names.
- * Unknown values fall back to `fallback`.
- */
-function normalizeSize(size, fallback = 'md') {
-    if (size === 'sm' || size === 'md' || size === 'lg')
-        return size;
-    return LEGACY_SIZES[size] ?? fallback;
-}
 
 var css_248z$1 = i`* {
   box-sizing: border-box;
@@ -32,28 +17,24 @@ var css_248z$1 = i`* {
 }
 
 :host {
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
   --toolbar-container-shape: var(--shape-corner-full);
-  --toolbar-docked-container-shape: var(--shape-corner-extra-large) var(--shape-corner-extra-large) var(--shape-corner-none) var(--shape-corner-none);
-  --toolbar-height: 5rem; /* 80dp - small/default docked */
-  --toolbar-padding-inline: 0.75rem;
-  --toolbar-gap: 0.5rem;
-  --toolbar-shadow: none;
+  --toolbar-padding: 0.5rem;
+  --toolbar-gap: 0.25rem;
+}
+
+:host([orientation=vertical]) {
+  vertical-align: top;
 }
 
 /* ---- Shared toolbar base ---- */
 .toolbar {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: var(--toolbar-gap);
-  padding-inline: var(--toolbar-padding-inline);
-  min-height: var(--toolbar-height);
-  width: 100%;
   box-sizing: border-box;
-  color: var(--_toolbar-title-color);
+  color: var(--_toolbar-content-color);
   --icon-color: var(--_toolbar-icon-color);
-  box-shadow: var(--toolbar-shadow);
 }
 
 .toolbar-content {
@@ -61,6 +42,7 @@ var css_248z$1 = i`* {
   z-index: 1;
   display: flex;
   align-items: center;
+  gap: var(--toolbar-gap);
   min-width: 0;
 }
 
@@ -72,60 +54,34 @@ var css_248z$1 = i`* {
   z-index: 0;
 }
 
-/* ---- Docked variant ---- */
-.toolbar.variant-docked {
-  width: 100%;
-  padding-inline: var(--toolbar-padding-inline);
-  padding-block-start: 0.5rem;
-  padding-block-end: calc(0.5rem + env(safe-area-inset-bottom, 0px));
-}
-.toolbar.variant-docked .background {
-  border-radius: var(--toolbar-docked-container-shape);
-}
-.toolbar.variant-docked .toolbar-content {
-  width: 100%;
-  justify-content: space-between;
-  gap: var(--toolbar-gap);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-}
-.toolbar.variant-docked .toolbar-content::-webkit-scrollbar {
-  display: none;
-}
-.toolbar.variant-docked ::slotted(*) {
-  position: relative;
-  z-index: 1;
+::slotted(*) {
   flex-shrink: 0;
 }
-.toolbar.variant-docked ::slotted(wc-icon-button) {
+
+::slotted(wc-icon-button) {
   --button-container-shape: var(--shape-corner-full);
   --button-container-shape-variant: round;
 }
-.toolbar.variant-docked {
-  /* Size variants */
+
+/* ---- Orientation ---- */
+.orientation-horizontal .toolbar-content {
+  flex-direction: row;
 }
-.toolbar.variant-docked.size-sm {
-  --toolbar-height: 5rem;
+
+.orientation-vertical .toolbar-content {
+  flex-direction: column;
 }
-.toolbar.variant-docked.size-md {
-  --toolbar-height: 6rem;
-}
-.toolbar.variant-docked.size-lg {
-  --toolbar-height: 7rem;
-}
-.toolbar.variant-docked.elevated {
-  --toolbar-shadow: var(--elevation-level3);
+
+/* Dividers separate groups of actions: a short line across the toolbar's direction. */
+::slotted(wc-divider) {
+  align-self: stretch;
+  --divider-spacing: 0.25rem;
 }
 
 /* ---- Floating variant ---- */
 .toolbar.variant-floating {
-  --toolbar-container-shape: var(--shape-corner-full);
+  padding: var(--toolbar-padding);
   border-radius: var(--toolbar-container-shape);
-  width: auto;
-  display: inline-flex;
-  padding: 0.75rem;
-  gap: 0.5rem;
 }
 .toolbar.variant-floating .elevation {
   --elevation-level: 3;
@@ -135,178 +91,236 @@ var css_248z$1 = i`* {
 .toolbar.variant-floating .background {
   border-radius: var(--toolbar-container-shape);
 }
-.toolbar.variant-floating .toolbar-content {
-  width: auto;
-  gap: 0.5rem;
-}
-.toolbar.variant-floating ::slotted(*) {
-  position: relative;
-  z-index: 1;
-}
-.toolbar.variant-floating ::slotted(wc-icon-button) {
-  --button-container-shape: var(--shape-corner-full);
-  --button-container-shape-variant: round;
-}
-.toolbar.variant-floating.orientation-horizontal {
-  min-height: auto;
-  padding-block: 0.5rem;
-  padding-inline: 0.75rem;
-}
-.toolbar.variant-floating.orientation-horizontal .toolbar-content {
-  flex-direction: row;
-  align-items: center;
-}
-.toolbar.variant-floating.orientation-vertical {
-  min-height: auto;
-  width: auto;
-  padding-block: 0.75rem;
-  padding-inline: 0.5rem;
-}
-.toolbar.variant-floating.orientation-vertical .toolbar-content {
-  flex-direction: column;
-  align-items: center;
-}
 .toolbar.variant-floating.elevated .elevation {
   --elevation-level: 4;
+}
+
+/* ---- Flat variant ---- */
+.toolbar.variant-flat {
+  padding: 0;
 }`;
 
 var css_248z = i`:host {
-  /* Docked toolbar */
-  --toolbar-container-color: var(--color-surface-container);
-  --toolbar-title-color: var(--color-on-surface);
+  --toolbar-container-color: var(--color-surface-container-high);
+  --toolbar-content-color: var(--color-on-surface);
   --toolbar-icon-color: var(--color-on-surface-variant);
   /* Internal aliases used by styles */
   --_toolbar-container-color: var(--toolbar-container-color);
-  --_toolbar-title-color: var(--toolbar-title-color);
+  --_toolbar-content-color: var(--toolbar-content-color);
   --_toolbar-icon-color: var(--toolbar-icon-color);
 }
 
-/* Floating variant uses surface-container-high for a visible pill */
-:host([variant=floating]) {
-  --toolbar-container-color: var(--color-surface-container-high);
+/* The flat toolbar takes on the surface it sits on. */
+:host([variant=flat]) {
+  --toolbar-container-color: transparent;
 }`;
 
-var Toolbar_1;
+/** Slotted elements that separate groups and never take focus. */
+const SEPARATOR_SELECTOR = 'wc-divider, hr, [role="separator"]';
 /**
  * @label Toolbar
  * @tag wc-toolbar
  * @rawTag toolbar
  *
- * @summary A toolbar / app bar for navigation and actions.
+ * @summary A group of related actions, such as editor formatting controls.
  * @overview
- * <p>The toolbar component implements the app bar pattern. It supports a
- * docked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)
- * variant. The floating variant supports both horizontal and vertical orientations.</p>
+ * <p>The toolbar groups related actions into one control. The <code>floating</code> variant
+ * (default) is an elevated pill that sits over content, such as a canvas or a selection. The
+ * <code>flat</code> variant has no container of its own, for embedding in existing chrome like a
+ * card or editor header. Both variants lay their actions out horizontally or vertically.</p>
  *
- * <p>Render toolbar actions directly as children of the component. The docked variant is
- * optimized for a horizontal action row, while the floating variant supports both horizontal
- * and vertical layouts.</p>
+ * <p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of
+ * actions; in a horizontal toolbar give it the <code>vertical</code> attribute.</p>
+ *
+ * <p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow
+ * keys along its orientation move focus between actions (Home and End jump to the first and last).
+ * Disabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>
  *
  * @cssprop --toolbar-container-color - Background color of the toolbar.
- * @cssprop --toolbar-container-shape - Border radius of the toolbar. Relevant for the floating variant.
- * @cssprop --toolbar-height - Height of the toolbar (docked horizontal / floating horizontal).
- * @cssprop --toolbar-padding-inline - Inline padding of the toolbar.
- * @cssprop --toolbar-gap - Gap between toolbar sections.
- * @cssprop --toolbar-icon-color - Color of icon slots.
- * @cssprop --toolbar-title-color - Color of the title (default slot) text.
- * @cssprop --toolbar-shadow - Box-shadow of the toolbar.
+ * @cssprop --toolbar-container-shape - Border radius of the floating toolbar.
+ * @cssprop --toolbar-padding - Padding of the floating toolbar.
+ * @cssprop --toolbar-gap - Gap between toolbar actions.
+ * @cssprop --toolbar-icon-color - Color of icons inside the toolbar.
+ * @cssprop --toolbar-content-color - Color of text inside the toolbar.
  *
  * @example
  * ```html
- * <!-- Docked toolbar -->
- * <wc-toolbar>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="tonal"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="favorite"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="account_circle"></wc-icon></wc-icon-button>
+ * <!-- Floating toolbar -->
+ * <wc-toolbar aria-label="Formatting">
+ *   <wc-icon-button variant="text" color="surface" aria-label="Undo"><wc-icon name="undo"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Redo"><wc-icon name="redo"></wc-icon></wc-icon-button>
+ *   <wc-divider vertical></wc-divider>
+ *   <wc-icon-button variant="tonal" aria-label="Bold"><wc-icon name="format_bold"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Italic"><wc-icon name="format_italic"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
  * @example
  * ```html
- * <!-- Floating horizontal toolbar -->
- * <wc-toolbar variant="floating" orientation="horizontal">
- *   <wc-icon-button variant="tonal"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="favorite"></wc-icon></wc-icon-button>
+ * <!-- Vertical floating toolbar -->
+ * <wc-toolbar orientation="vertical" aria-label="Tools">
+ *   <wc-icon-button variant="tonal" aria-label="Select"><wc-icon name="arrow_selector_tool"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Draw"><wc-icon name="draw"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Text"><wc-icon name="text_fields"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
  * @example
  * ```html
- * <!-- Floating vertical toolbar -->
- * <wc-toolbar variant="floating" orientation="vertical">
- *   <wc-icon-button variant="tonal"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="favorite"></wc-icon></wc-icon-button>
+ * <!-- Flat toolbar inside existing chrome -->
+ * <wc-toolbar variant="flat" aria-label="Row actions">
+ *   <wc-icon-button variant="text" color="surface" aria-label="Edit"><wc-icon name="edit"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Delete"><wc-icon name="delete"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
- * @tags display navigation
+ * @tags display
  */
-let Toolbar = Toolbar_1 = class Toolbar extends i$1 {
+let Toolbar = class Toolbar extends i$1 {
     constructor() {
         super(...arguments);
+        // ── Properties
         /**
-         * Visual and layout variant of the toolbar.
-         * - `"docked"`: A full-width bar attached to the edge of the screen (default).
-         * - `"floating"`: A detached pill-shaped toolbar that floats over content.
+         * Visual variant of the toolbar.
+         * - `"floating"`: An elevated pill that floats over content (default).
+         * - `"flat"`: No container, fill or elevation; for embedding in existing chrome.
          */
-        this.variant = 'docked';
+        this.variant = 'floating';
         /**
-         * Orientation of the toolbar content.
-         * - `"horizontal"`: Items are laid out left to right (default).
-         * - `"vertical"`: Items are stacked top to bottom. Primarily useful for the floating variant.
+         * Orientation of the toolbar. It sets the layout direction and the arrow keys that move focus
+         * (Left/Right for horizontal, Up/Down for vertical).
          */
         this.orientation = 'horizontal';
         /**
-         * Size of the docked toolbar.
-         * - `"sm"`: 80dp height (default).
-         * - `"md"`: 96dp height.
-         * - `"lg"`: 112dp height.
-         *
-         * The long names `"small"`, `"medium"` and `"large"` still work but are deprecated.
-         */
-        this.size = 'sm';
-        /**
-         * Whether the toolbar is visually elevated (adds a shadow).
+         * Raises the floating toolbar to a higher elevation. Has no effect on the flat variant.
          */
         this.elevated = false;
+        // ── Private fields
+        /** The item that holds the toolbar's single tab stop. */
+        this.__activeItem = null;
+        this.__handleSlotChange = () => {
+            this.__syncTabStops();
+        };
+        this.__handleFocusIn = (event) => {
+            const item = this.__itemFromEvent(event, this.__getItems());
+            if (item && item !== this.__activeItem) {
+                this.__activeItem = item;
+                this.__syncTabStops();
+            }
+        };
+        this.__handleKeyDown = (event) => {
+            const items = this.__getItems();
+            if (items.length === 0)
+                return;
+            const current = this.__itemFromEvent(event, items);
+            if (!current)
+                return;
+            const index = items.indexOf(current);
+            let nextKey = 'ArrowDown';
+            let prevKey = 'ArrowUp';
+            if (this.orientation === 'horizontal') {
+                const rtl = getComputedStyle(this).direction === 'rtl';
+                nextKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+                prevKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+            }
+            let target;
+            switch (event.key) {
+                case nextKey:
+                    target = items[(index + 1) % items.length];
+                    break;
+                case prevKey:
+                    target = items[(index - 1 + items.length) % items.length];
+                    break;
+                case 'Home':
+                    [target] = items;
+                    break;
+                case 'End':
+                    target = items[items.length - 1];
+                    break;
+                default:
+                    return;
+            }
+            event.preventDefault();
+            if (target)
+                this.__focusItem(target);
+        };
     }
+    // ── Lifecycle
+    connectedCallback() {
+        super.connectedCallback();
+        // The role lives on the host so the host's aria-label names the toolbar.
+        this.setAttribute('role', 'toolbar');
+    }
+    firstUpdated() {
+        this.__syncTabStops();
+    }
+    updated(changed) {
+        if (changed.has('orientation')) {
+            this.setAttribute('aria-orientation', this.orientation);
+        }
+    }
+    // ── Private methods
+    /** Actions that can take focus, in slot order. */
+    __getItems() {
+        const slot = this.shadowRoot?.querySelector('slot');
+        if (!slot)
+            return [];
+        return slot
+            .assignedElements({ flatten: true })
+            .filter((el) => el instanceof HTMLElement &&
+            !el.matches(SEPARATOR_SELECTOR) &&
+            !el.hasAttribute('disabled') &&
+            el.getAttribute('aria-disabled') !== 'true' &&
+            !el.hidden);
+    }
+    /** Gives the active item `tabindex="0"` and every other item `tabindex="-1"`. */
+    __syncTabStops() {
+        const items = this.__getItems();
+        if (!this.__activeItem || !items.includes(this.__activeItem)) {
+            this.__activeItem = items[0] ?? null;
+        }
+        for (const item of items) {
+            item.tabIndex = item === this.__activeItem ? 0 : -1;
+        }
+    }
+    /** Makes `item` the tab stop and focuses it. */
+    __focusItem(item) {
+        this.__activeItem = item;
+        this.__syncTabStops();
+        item.focus();
+    }
+    /** Finds the toolbar item an event came from. */
+    __itemFromEvent(event, items) {
+        return (event
+            .composedPath()
+            .find((node) => items.includes(node)) ?? null);
+    }
+    // ── Render
     render() {
+        const floating = this.variant === 'floating';
         const cssClasses = {
             toolbar: true,
             [`variant-${this.variant}`]: true,
             [`orientation-${this.orientation}`]: true,
-            [`size-${normalizeSize(this.size, 'sm')}`]: true,
-            elevated: this.elevated,
+            elevated: floating && this.elevated,
         };
-        if (this.variant === 'floating') {
-            return Toolbar_1.__renderFloating(cssClasses);
-        }
-        return Toolbar_1.__renderDocked(cssClasses);
-    }
-    static __renderDocked(cssClasses) {
         return b `
-      <div class=${e(cssClasses)} role="toolbar">
+      <div
+        class=${e(cssClasses)}
+        @keydown=${this.__handleKeyDown}
+        @focusin=${this.__handleFocusIn}
+      >
+        ${floating
+            ? b `<wc-elevation class="elevation"></wc-elevation>`
+            : A}
         <div class="background"></div>
         <div class="toolbar-content">
-          <slot></slot>
-        </div>
-      </div>
-    `;
-    }
-    static __renderFloating(cssClasses) {
-        return b `
-      <div class=${e(cssClasses)} role="toolbar">
-        <wc-elevation class="elevation"></wc-elevation>
-        <div class="background"></div>
-        <div class="toolbar-content">
-          <slot></slot>
+          <slot @slotchange=${this.__handleSlotChange}></slot>
         </div>
       </div>
     `;
     }
 };
+// ── Static
 Toolbar.styles = [css_248z$1, css_248z];
 __decorate([
     n({ type: String, reflect: true })
@@ -315,12 +329,9 @@ __decorate([
     n({ type: String, reflect: true })
 ], Toolbar.prototype, "orientation", void 0);
 __decorate([
-    n({ type: String, reflect: true })
-], Toolbar.prototype, "size", void 0);
-__decorate([
     n({ type: Boolean, reflect: true })
 ], Toolbar.prototype, "elevated", void 0);
-Toolbar = Toolbar_1 = __decorate([
+Toolbar = __decorate([
     IndividualComponent
 ], Toolbar);
 

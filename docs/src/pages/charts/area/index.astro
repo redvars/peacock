@@ -1,0 +1,8 @@
+---
+import Layout from '../../../layouts/ChartComponent.astro';
+import { buildSections } from '../../../_data/getSections.ts';
+
+const sections = buildSections(import.meta.glob('./_sections/*.astro', { eager: true }));
+---
+
+<Layout componentName='chart-area' sections={sections} />

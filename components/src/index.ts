@@ -57,7 +57,9 @@ export { ColorPicker } from './color-picker/index.js';
 export { ColorField } from './color-field/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
-export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
+export { ChartBar } from './chart-bar/index.js';
+export { ChartLine } from './chart-line/index.js';
+export { ChartArea } from './chart-area/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export {

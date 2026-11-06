@@ -1,0 +1,32 @@
+---
+export const title = 'Selecting a category';
+export const order = 600;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Clicking a category, or pressing Enter while it is focused, fires <code>chart-select</code>. Its
+  <code>detail</code> holds the row's <code>index</code> and the <code>datum</code> itself, so you can drill down
+  or filter other views.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar id='bar-select' index='month' height='240' label='Orders by month'></wc-chart-bar>
+  <p id='bar-select-output' class='text-body-medium'>Click a bar.</p>
+
+  <script is:inline>
+    const barSelect = document.getElementById('bar-select');
+    barSelect.config = { orders: { label: 'Orders' } };
+    barSelect.data = [
+      { month: 'Jan', orders: 120 },
+      { month: 'Feb', orders: 98 },
+      { month: 'Mar', orders: 143 },
+      { month: 'Apr', orders: 160 },
+    ];
+    barSelect.addEventListener('chart-select', event => {
+      const { datum } = event.detail;
+      document.getElementById('bar-select-output').textContent =
+        `${datum.month}: ${datum.orders} orders`;
+    });
+  </script>
+</DemoComponentCard>

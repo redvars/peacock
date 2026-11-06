@@ -3,6 +3,7 @@ const pathname = Astro.url.pathname;
 
 const isComponentsPage =
   pathname === '/components' || pathname.startsWith('/components/');
+const isChartsPage = pathname === '/charts' || pathname.startsWith('/charts/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
@@ -37,6 +38,10 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   <wc-navigation-rail-item href='/components' aria-label='Go to Components' active={isComponentsPage ? true : null}>
     <wc-icon slot="icon" name="settings"></wc-icon>
     Components
+  </wc-navigation-rail-item>
+  <wc-navigation-rail-item href='/charts/' aria-label='Go to Charts' active={isChartsPage ? true : null}>
+    <wc-icon slot="icon" name="bar_chart"></wc-icon>
+    Charts
   </wc-navigation-rail-item>
   <wc-navigation-rail-item href='/foundations/' aria-label='Go to Foundations' active={isFoundationsPage ? true : null}>
     <wc-icon slot="icon" name="palette"></wc-icon>

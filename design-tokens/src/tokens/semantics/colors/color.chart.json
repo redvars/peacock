@@ -1,0 +1,71 @@
+{
+  "color": {
+    "$type": "color",
+    "chart": {
+      "1": {
+        "$value": "{color.primary.40}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primary.80}"
+          }
+        }
+      },
+      "2": {
+        "$value": "{color.tertiary.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.tertiary.70}"
+          }
+        }
+      },
+      "3": {
+        "$value": "{color.blue.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.blue.70}"
+          }
+        }
+      },
+      "4": {
+        "$value": "{color.green.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.green.70}"
+          }
+        }
+      },
+      "5": {
+        "$value": "{color.orange.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.orange.70}"
+          }
+        }
+      },
+      "6": {
+        "$value": "{color.purple.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.purple.70}"
+          }
+        }
+      },
+      "7": {
+        "$value": "{color.red.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.red.70}"
+          }
+        }
+      },
+      "8": {
+        "$value": "{color.yellow.50}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.yellow.70}"
+          }
+        }
+      }
+    }
+  }
+}

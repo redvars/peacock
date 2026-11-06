@@ -1,0 +1,36 @@
+---
+export const title = 'Horizontal';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>orientation="horizontal"</code> draws bars from the left. It suits long category names and ranked
+  lists. <code>show-values</code> prints each value at the end of its bar, which often lets you hide the value
+  axis with <code>hide-value-axis</code> and <code>hide-grid</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar
+    id='bar-horizontal'
+    orientation='horizontal'
+    show-values
+    hide-value-axis
+    hide-grid
+    height='260'
+    index='page'
+    label='Most visited pages'
+  ></wc-chart-bar>
+
+  <script is:inline>
+    const barHorizontal = document.getElementById('bar-horizontal');
+    barHorizontal.config = { views: { label: 'Views' } };
+    barHorizontal.data = [
+      { page: 'Getting started', views: 12480 },
+      { page: 'Components', views: 9320 },
+      { page: 'Theme builder', views: 6150 },
+      { page: 'Charts', views: 4870 },
+      { page: 'Blocks', views: 3020 },
+    ];
+  </script>
+</DemoComponentCard>

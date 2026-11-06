@@ -33,7 +33,7 @@ const orders: Order[] = [
 
 <Layout
   title='Dashboard'
-  description='An admin dashboard assembled from Peacock components: sidebar navigation, a top bar with search, KPI stat cards, a bar chart, a doughnut chart and recent orders.'
+  description='An admin dashboard assembled from Peacock components: sidebar navigation, a top bar with search, KPI stat cards, an area chart, a doughnut chart and recent orders.'
 >
   <div class='block-demo block-demo-shell'>
     <aside class='block-demo-sidebar'>
@@ -86,17 +86,13 @@ const orders: Order[] = [
           <wc-card class='chart-card'>
             <wc-card-content class='chart-card-inner'>
               <h2 class='text-title-medium chart-title'>Monthly Revenue</h2>
-              <div class='chart-area'>
-                <wc-chart-bar id='dashboard-bar-chart' width='320' height='240' margin='20' show-values></wc-chart-bar>
-              </div>
+              <wc-chart-area id='dashboard-revenue-chart' index='month' height='240' label='Monthly revenue'></wc-chart-area>
             </wc-card-content>
           </wc-card>
           <wc-card class='chart-card'>
             <wc-card-content class='chart-card-inner'>
               <h2 class='text-title-medium chart-title'>Traffic by Channel</h2>
-              <div class='chart-area'>
-                <wc-chart-doughnut id='dashboard-doughnut-chart' width='320' margin='10'></wc-chart-doughnut>
-              </div>
+              <wc-chart-doughnut id='dashboard-doughnut-chart' height='240' center-label='Visits' label='Traffic by channel'></wc-chart-doughnut>
             </wc-card-content>
           </wc-card>
         </div>
@@ -123,14 +119,21 @@ const orders: Order[] = [
   </div>
 
   <script is:inline>
-    const barChart = document.getElementById('dashboard-bar-chart');
-    barChart.data = [
-      { name: 'jan', label: 'Jan', value: 52000 },
-      { name: 'feb', label: 'Feb', value: 61000 },
-      { name: 'mar', label: 'Mar', value: 58000 },
-      { name: 'apr', label: 'Apr', value: 74000 },
-      { name: 'may', label: 'May', value: 69000 },
-      { name: 'jun', label: 'Jun', value: 84250 },
+    const revenueChart = document.getElementById('dashboard-revenue-chart');
+    const currency = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      notation: 'compact',
+    });
+    revenueChart.valueFormatter = value => currency.format(value);
+    revenueChart.config = { revenue: { label: 'Revenue' } };
+    revenueChart.data = [
+      { month: 'Jan', revenue: 52000 },
+      { month: 'Feb', revenue: 61000 },
+      { month: 'Mar', revenue: 58000 },
+      { month: 'Apr', revenue: 74000 },
+      { month: 'May', revenue: 69000 },
+      { month: 'Jun', revenue: 84250 },
     ];
 
     const doughnutChart = document.getElementById('dashboard-doughnut-chart');

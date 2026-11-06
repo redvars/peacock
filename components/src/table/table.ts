@@ -712,7 +712,7 @@ export class Table extends LitElement {
           class="row"
           role="row"
           aria-rowindex="1"
-          style="min-width: ${this.totalColumnsWidth}rem"
+          style="--_row-min-width: ${this.totalColumnsWidth}rem"
         >
           ${this.renderRowGroups(columns, (entry, index) => {
             const { column } = entry;
@@ -818,7 +818,7 @@ export class Table extends LitElement {
           role="row"
           aria-rowindex=${rowOffset + rowIndex + 2}
           aria-selected=${selectable ? String(selected) : nothing}
-          style="min-width: ${this.totalColumnsWidth}rem"
+          style="--_row-min-width: ${this.totalColumnsWidth}rem"
         >
           ${this.renderRowGroups(columns, (entry, index) => {
             const { column } = entry;
@@ -879,7 +879,7 @@ export class Table extends LitElement {
             <div
               class="row skeleton-row"
               role="row"
-              style="min-width: ${this.totalColumnsWidth}rem"
+              style="--_row-min-width: ${this.totalColumnsWidth}rem"
             >
               ${this.renderRowGroups(
                 columns,
@@ -1001,6 +1001,7 @@ export class Table extends LitElement {
           'scrolled-from-start': this.scrolledFromStart,
           'scrolled-from-end': this.scrolledFromEnd,
           'has-selection': this.selectedRowKeys.length > 0,
+          'has-footer': this.paginate,
         })}
       >
         ${this.renderBulkBar(pageRows)}

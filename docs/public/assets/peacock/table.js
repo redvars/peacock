@@ -70,7 +70,7 @@ var css_248z = i`* {
   --_cell-background: var(--table-background);
   display: flex;
   width: max-content;
-  min-width: 100%;
+  min-width: max(100%, var(--_row-min-width, 0rem));
 }
 
 .columns {
@@ -259,6 +259,10 @@ var css_248z = i`* {
 }
 .body .skeleton-row .cell {
   cursor: default;
+}
+
+.has-footer .body .row:last-child .cell {
+  border-bottom-color: transparent;
 }
 
 :host([striped]) .body .row:nth-child(even):not(.selected) {
@@ -896,7 +900,7 @@ let Table = Table_1 = class Table extends i$1 {
           class="row"
           role="row"
           aria-rowindex="1"
-          style="min-width: ${this.totalColumnsWidth}rem"
+          style="--_row-min-width: ${this.totalColumnsWidth}rem"
         >
           ${this.renderRowGroups(columns, (entry, index) => {
             const { column } = entry;
@@ -997,7 +1001,7 @@ let Table = Table_1 = class Table extends i$1 {
           role="row"
           aria-rowindex=${rowOffset + rowIndex + 2}
           aria-selected=${selectable ? String(selected) : A}
-          style="min-width: ${this.totalColumnsWidth}rem"
+          style="--_row-min-width: ${this.totalColumnsWidth}rem"
         >
           ${this.renderRowGroups(columns, (entry, index) => {
                 const { column } = entry;
@@ -1053,7 +1057,7 @@ let Table = Table_1 = class Table extends i$1 {
             <div
               class="row skeleton-row"
               role="row"
-              style="min-width: ${this.totalColumnsWidth}rem"
+              style="--_row-min-width: ${this.totalColumnsWidth}rem"
             >
               ${this.renderRowGroups(columns, (entry, index) => b `
                   <div
@@ -1164,6 +1168,7 @@ let Table = Table_1 = class Table extends i$1 {
             'scrolled-from-start': this.scrolledFromStart,
             'scrolled-from-end': this.scrolledFromEnd,
             'has-selection': this.selectedRowKeys.length > 0,
+            'has-footer': this.paginate,
         })}
       >
         ${this.renderBulkBar(pageRows)}

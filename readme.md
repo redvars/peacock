@@ -185,10 +185,11 @@ These components are used to display data in a graphical format. They include
 
 | Name                                                                            | Component              | State |
 |---------------------------------------------------------------------------------|------------------------|-------|
-| [Bar Chart](https://peacock.redvars.com/components/chart-bar)                   | wc-chart-bar           | 🟢    |
-| [Doughnut Chart](https://peacock.redvars.com/components/chart-doughnut)         | wc-chart-doughnut      | 🟢    |
-| [Pie Chart](https://peacock.redvars.com/components/chart-pie)                   | wc-chart-pie           | 🟢    |
-| [Stacked Bar Chart](https://peacock.redvars.com/components/chart-bar)           | wc-chart-stacked-bar   | 🟢    |
+| [Area Chart](https://peacock.redvars.com/charts/area/)                          | wc-chart-area          | 🟢    |
+| [Bar Chart](https://peacock.redvars.com/charts/bar/)                            | wc-chart-bar           | 🟢    |
+| [Doughnut Chart](https://peacock.redvars.com/charts/doughnut/)                  | wc-chart-doughnut      | 🟢    |
+| [Line Chart](https://peacock.redvars.com/charts/line/)                          | wc-chart-line          | 🟢    |
+| [Pie Chart](https://peacock.redvars.com/charts/pie/)                            | wc-chart-pie           | 🟢    |
 
 
 ## 📄 License

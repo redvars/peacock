@@ -10,5 +10,11 @@ export default defineConfig({
   compressHTML: false,
   server: { port: 4000, host: true, allowedHosts: ['peacockdev.redvars.com'] },
   integrations: [pagefind(), sitemap(), mdx()],
-  redirects: { '/theme-creator': '/theme-builder' },
+  redirects: {
+    '/theme-creator': '/theme-builder',
+    // Charts moved out of Components into their own section.
+    '/components/chart-bar': '/charts/bar/',
+    '/components/chart-pie': '/charts/pie/',
+    '/components/chart-doughnut': '/charts/doughnut/',
+  },
 });

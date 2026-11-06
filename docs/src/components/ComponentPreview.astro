@@ -1,0 +1,226 @@
+---
+// A static wireframe of a component for its card on the Components overview, in the style of
+// the Blocks previews. Plain markup and CSS (styles/wireframe.scss, styles/component-previews.scss).
+// Complex components are drawn here; simpler ones in ComponentPreviewControls.astro.
+import { isComplexPreview, isControlPreview } from '../_data/component-previews';
+import ComponentPreviewControls from './ComponentPreviewControls.astro';
+
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+{isControlPreview(name) && <ComponentPreviewControls name={name} />}
+
+{!isComplexPreview(name) && !isControlPreview(name) && (
+  <wc-icon class='bp-fallback' name='widgets'></wc-icon>
+)}
+
+{name === 'calendar' && (
+  <div class='bp cp-frame cp-calendar'>
+    <div class='bp-row cp-between'>
+      <span class='bp-line cp-w1'></span>
+      <span class='cp-chevrons'><i></i><i></i></span>
+    </div>
+    <div class='cp-month'>
+      {Array.from({ length: 7 }, () => <span class='cp-dow'></span>)}
+      {Array.from({ length: 28 }, (_, day) => (
+        <span class:list={['cp-day', { 'cp-today': day === 10, 'cp-event': day === 4 || day === 17 || day === 23 }]}></span>
+      ))}
+    </div>
+  </div>
+)}
+
+{(name === 'code-editor' || name === 'code-highlighter') && (
+  <div class='bp cp-frame cp-code'>
+    {name === 'code-highlighter' && (
+      <div class='bp-row cp-between cp-code-head'>
+        <span class='bp-line cp-w2'></span>
+        <span class='cp-square'></span>
+      </div>
+    )}
+    <div class='cp-code-body'>
+      {name === 'code-editor' && (
+        <div class='cp-gutter'>{Array.from({ length: 6 }, () => <span></span>)}</div>
+      )}
+      <div class='cp-code-lines'>
+        <span class='cp-tok'><i class='cp-kw'></i><i></i></span>
+        <span class='cp-tok cp-indent'><i></i><i class='cp-str'></i></span>
+        <span class='cp-tok cp-indent'><i class='cp-kw'></i><i></i><i class='cp-str'></i></span>
+        <span class='cp-tok cp-indent'><i></i></span>
+        <span class='cp-tok'><i></i></span>
+        {name === 'code-editor' && <span class='cp-tok cp-cursor'><i></i></span>}
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'color-picker' && (
+  <div class='bp cp-frame cp-color'>
+    <span class='cp-saturation'><i></i></span>
+    <span class='cp-hue'><i></i></span>
+    <div class='bp-row'>
+      <span class='cp-swatch'></span>
+      <span class='bp-field cp-grow'></span>
+    </div>
+  </div>
+)}
+
+{name === 'condition-builder' && (
+  <div class='bp cp-frame cp-conditions'>
+    <div class='cp-group'>
+      <span class='cp-pill'></span>
+      <div class='cp-rules'>
+        <div class='bp-row'><span class='bp-field cp-grow'></span><span class='bp-field cp-op'></span><span class='bp-field cp-grow'></span></div>
+        <div class='bp-row'><span class='bp-field cp-grow'></span><span class='bp-field cp-op'></span><span class='bp-field cp-grow'></span></div>
+        <div class='cp-group cp-nested'>
+          <span class='cp-pill cp-pill-alt'></span>
+          <div class='cp-rules'>
+            <div class='bp-row'><span class='bp-field cp-grow'></span><span class='bp-field cp-op'></span><span class='bp-field cp-grow'></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'flow' && (
+  <div class='bp cp-frame cp-flow'>
+    <span class='cp-node cp-n1'><i></i></span>
+    <span class='cp-node cp-n2 cp-selected'><i></i></span>
+    <span class='cp-node cp-n3'><i></i></span>
+    <svg class='cp-edges' viewBox='0 0 100 60' preserveAspectRatio='none' aria-hidden='true'>
+      <path d='M30 18 C 40 18, 40 30, 50 30' />
+      <path d='M30 18 C 45 18, 45 46, 62 46' />
+    </svg>
+  </div>
+)}
+
+{name === 'focus-ring' && (
+  <div class='bp cp-center'>
+    <span class='bp-button cp-focused'></span>
+  </div>
+)}
+
+{name === 'footer' && (
+  <div class='bp cp-frame cp-page'>
+    <div class='cp-page-body'>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w3'></span>
+    </div>
+    <div class='cp-footer'>
+      {Array.from({ length: 3 }, () => (
+        <div class='cp-col'><span class='bp-line cp-head'></span><span class='bp-line'></span><span class='bp-line'></span></div>
+      ))}
+    </div>
+  </div>
+)}
+
+{(name === 'html-editor' || name === 'markdown-editor') && (
+  <div class='bp cp-frame cp-editor'>
+    <div class='cp-toolbar'>
+      {name === 'html-editor' &&
+        Array.from({ length: 6 }, (_, i) => <span class:list={['cp-tool', { 'cp-tool-on': i === 0 }]}></span>)}
+      {name === 'markdown-editor' && (
+        <span class='cp-segments'><span class='cp-segment cp-segment-on'></span><span class='cp-segment'></span></span>
+      )}
+    </div>
+    <div class='cp-doc'>
+      {name === 'markdown-editor' && <span class='bp-line cp-heading'></span>}
+      <span class='bp-line cp-w0'></span>
+      <span class='bp-line cp-w2'></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w1'></span></span>
+      <span class='cp-bullet'><i></i><span class='bp-line cp-w3'></span></span>
+    </div>
+  </div>
+)}
+
+{name === 'image' && (
+  <div class='bp cp-center'>
+    <span class='cp-picture'><i class='cp-sun'></i><i class='cp-hill'></i><i class='cp-hill cp-hill-back'></i></span>
+  </div>
+)}
+
+{(name === 'modal' || name === 'side-sheet' || name === 'bottom-sheet') && (
+  <div class:list={['bp', 'cp-frame', 'cp-overlay', `cp-${name}`]}>
+    <div class='cp-behind'>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+    <div class='cp-scrim'></div>
+    <div class='cp-surface'>
+      {name === 'bottom-sheet' && <span class='cp-handle'></span>}
+      <span class='bp-line cp-title'></span>
+      <span class='bp-line'></span>
+      <span class='bp-line cp-w2'></span>
+      {name !== 'bottom-sheet' && (
+        <div class='bp-row bp-end cp-actions'>
+          <span class='bp-button bp-ghost'></span><span class='bp-button'></span>
+        </div>
+      )}
+    </div>
+  </div>
+)}
+
+{name === 'navigation-drawer' && (
+  <div class='bp cp-frame cp-drawer'>
+    <div class='cp-drawer-panel'>
+      <span class='bp-line cp-label'></span>
+      <span class='cp-nav cp-nav-on'><i></i><span class='bp-line'></span><b></b></span>
+      <span class='cp-nav'><i></i><span class='bp-line'></span></span>
+      <span class='cp-nav'><i></i><span class='bp-line'></span></span>
+      <span class='cp-nav'><i></i><span class='bp-line'></span></span>
+    </div>
+    <div class='cp-drawer-content'>
+      <span class='bp-line cp-w1'></span>
+      <span class='bp-line cp-w3'></span>
+      <span class='bp-line cp-w2'></span>
+    </div>
+  </div>
+)}
+
+{name === 'notification-manager' && (
+  <div class='bp cp-frame cp-toasts'>
+    {['cp-toast-success', 'cp-toast-info', 'cp-toast-error'].map(kind => (
+      <span class:list={['cp-toast', kind]}><i></i><span class='bp-line'></span><b></b></span>
+    ))}
+  </div>
+)}
+
+{name === 'skeleton' && (
+  <div class='bp cp-frame cp-skeleton'>
+    <div class='bp-row'>
+      <span class='cp-sk cp-sk-avatar'></span>
+      <div class='cp-sk-text'><span class='cp-sk cp-w1'></span><span class='cp-sk cp-w3'></span></div>
+    </div>
+    <span class='cp-sk cp-sk-block'></span>
+    <span class='cp-sk cp-w0'></span>
+    <span class='cp-sk cp-w2'></span>
+  </div>
+)}
+
+{name === 'svg' && (
+  <div class='bp cp-center'>
+    <svg class='cp-vector' viewBox='0 0 120 80' aria-hidden='true'>
+      <path class='cp-vector-path' d='M10 65 C 30 10, 55 10, 60 40 S 95 75, 110 15' />
+      <circle cx='10' cy='65' r='4' /><circle cx='60' cy='40' r='4' /><circle cx='110' cy='15' r='4' />
+      <rect class='cp-vector-handle' x='26' y='12' width='6' height='6' />
+      <rect class='cp-vector-handle' x='90' y='68' width='6' height='6' />
+    </svg>
+  </div>
+)}
+
+{name === 'table' && (
+  <div class='bp cp-frame cp-table'>
+    {Array.from({ length: 5 }, (_, row) => (
+      <div class:list={['cp-tr', { 'cp-th': row === 0, 'cp-tr-on': row === 2 }]}>
+        <span class='cp-check'></span><span></span><span></span><span class='cp-pill'></span>
+      </div>
+    ))}
+    <div class='bp-row bp-end cp-pager'>
+      <span class='bp-line cp-w3'></span><span class='cp-square'></span><span class='cp-square'></span>
+    </div>
+  </div>
+)}

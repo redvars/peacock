@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/WithChartsSidebar.astro';
+import Highlighter from '../../components/Highlighter.astro';
+import {
+  BROWSER_SHARE,
+  CHARTS,
+  CHARTS_THEMING,
+  MONTHLY_VISITORS,
+  VISITORS_CONFIG,
+} from '../../_data/charts';
+import '../../styles/layout/doc-page.scss';
+import '../../styles/pages/charts.scss';
+
+const title = 'Charts';
+const description =
+  'Bar, line, area, pie and doughnut charts built on the design tokens. They fill their container, follow light and dark themes, and come with tooltips, legends and keyboard access.';
+
+const previewTags: Record<string, string> = {
+  bar: 'wc-chart-bar',
+  line: 'wc-chart-line',
+  area: 'wc-chart-area',
+  pie: 'wc-chart-pie',
+  doughnut: 'wc-chart-doughnut',
+};
+---
+
+<Layout title={title} description={description}>
+  <article class='doc-page charts-page'>
+    <header class='doc-header'>
+      <h1 class='text-display-small'>{title}</h1>
+      <p class='text-body-large doc-muted'>{description}</p>
+    </header>
+
+    <section class='doc-section' aria-labelledby='charts-gallery'>
+      <h2 class='text-headline-small' id='charts-gallery'>Chart types</h2>
+      <div class='charts-cards'>
+        {CHARTS.map(chart => (
+          <div class='charts-card'>
+            <div class='charts-card-preview' inert aria-hidden='true'>
+              {chart.slug === 'bar' && (
+                <wc-chart-bar class='chart-preview' data-kind='cartesian' height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-bar>
+              )}
+              {chart.slug === 'line' && (
+                <wc-chart-line class='chart-preview' data-kind='cartesian' height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-line>
+              )}
+              {chart.slug === 'area' && (
+                <wc-chart-area class='chart-preview' data-kind='cartesian' stacked height='150' index='month' hide-legend hide-value-axis disable-animation></wc-chart-area>
+              )}
+              {chart.slug === 'pie' && (
+                <wc-chart-pie class='chart-preview' data-kind='slices' height='150' hide-legend disable-animation></wc-chart-pie>
+              )}
+              {chart.slug === 'doughnut' && (
+                <wc-chart-doughnut class='chart-preview' data-kind='slices' height='150' hide-legend center-label='Visitors' disable-animation></wc-chart-doughnut>
+              )}
+            </div>
+            <div class='charts-card-body'>
+              <h3 class='charts-card-title text-title-large'>
+                <a class='charts-card-link' href={chart.href}>{chart.label}</a>
+                <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+              </h3>
+              <p class='text-body-medium doc-muted'>{chart.useFor}</p>
+              <code class='text-label-medium'>{`<${previewTags[chart.slug]}>`}</code>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class='doc-section' aria-labelledby='charts-data'>
+      <h2 class='text-headline-small' id='charts-data'>One data shape</h2>
+      <p class='text-body-large'>
+        Bar, line and area charts share one shape. <code>data</code> is an array of rows, <code>index</code> names
+        the field that holds each row's category, and <code>config</code> lists the series to plot with a label and,
+        optionally, a color. Switching chart type is a change of tag.
+      </p>
+      <Highlighter lang='html'>
+        {`<wc-chart-bar index="month" label="Visitors by month"></wc-chart-bar>
+
+<script>
+  const chart = document.querySelector('wc-chart-bar');
+  chart.config = {
+    desktop: { label: 'Desktop' },
+    mobile: { label: 'Mobile', color: 'var(--color-chart-3)' },
+  };
+  chart.data = [
+    { month: 'Jan', desktop: 186, mobile: 80 },
+    { month: 'Feb', desktop: 305, mobile: 200 },
+  ];
+</script>`}
+      </Highlighter>
+      <p class='text-body-large'>
+        Pie and doughnut charts take a list of slices: <code>{`{ name, value, label?, color? }`}</code>.
+      </p>
+    </section>
+
+    <section class='doc-section' aria-labelledby='charts-shared'>
+      <h2 class='text-headline-small' id='charts-shared'>What every chart does</h2>
+      <ul class='text-body-large charts-features'>
+        <li><strong>Fills its container.</strong> Width follows the parent and the chart redraws on resize; set <code>height</code> for the plot.</li>
+        <li><strong>Follows the theme.</strong> Series use the <a href={CHARTS_THEMING.href}>chart palette</a> tokens, so light, dark and custom themes just work.</li>
+        <li><strong>Tooltip and legend.</strong> Hover or focus shows values; legend entries toggle series.</li>
+        <li><strong>Keyboard and screen readers.</strong> Arrow keys walk the data, each step is announced, and a hidden table carries every value.</li>
+        <li><strong>Loading and empty states.</strong> <code>loading</code> shows a skeleton; the <code>empty</code> slot replaces "No data".</li>
+        <li><strong>Formatting.</strong> One <code>valueFormatter</code> function formats tooltips, value labels and ticks.</li>
+        <li><strong>Calm motion.</strong> Marks animate in and between updates, and stay still for users who prefer reduced motion.</li>
+      </ul>
+    </section>
+  </article>
+
+  <script is:inline define:vars={{ rows: MONTHLY_VISITORS, config: VISITORS_CONFIG, slices: BROWSER_SHARE }}>
+    document.querySelectorAll('.chart-preview').forEach(chart => {
+      if (chart.dataset.kind === 'slices') {
+        chart.data = slices;
+      } else {
+        chart.config = config;
+        chart.data = rows;
+      }
+    });
+  </script>
+</Layout>

@@ -1,0 +1,30 @@
+---
+export const title = 'Stacked';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Add <code>stacked</code> to pile the series in each category, so the bar's height is the total. Only the
+  outer end of each stack is rounded, and segments are separated by a small gap. Use it when the total matters
+  as much as the parts.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar id='bar-stacked' stacked index='quarter' label='Revenue by channel'></wc-chart-bar>
+
+  <script is:inline>
+    const barStacked = document.getElementById('bar-stacked');
+    barStacked.config = {
+      online: { label: 'Online' },
+      retail: { label: 'Retail' },
+      partners: { label: 'Partners' },
+    };
+    barStacked.data = [
+      { quarter: 'Q1', online: 420, retail: 260, partners: 120 },
+      { quarter: 'Q2', online: 480, retail: 240, partners: 160 },
+      { quarter: 'Q3', online: 530, retail: 210, partners: 190 },
+      { quarter: 'Q4', online: 610, retail: 300, partners: 220 },
+    ];
+  </script>
+</DemoComponentCard>

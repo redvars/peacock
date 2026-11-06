@@ -3,6 +3,7 @@ const pathname = Astro.url.pathname;
 import { SITE_TITLE } from '../../siteconfig';
 const isComponentsPage =
   pathname === '/components' || pathname.startsWith('/components/');
+const isChartsPage = pathname === '/charts' || pathname.startsWith('/charts/');
 const isFoundationsPage = pathname === '/foundations' || pathname.startsWith('/foundations/');
 const isThemeBuilderPage = pathname === '/theme-builder';
 const isBlogPage = pathname === '/blog' || pathname.startsWith('/blog/');
@@ -56,6 +57,10 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
     <wc-list-item href='/components' aria-label='Go to Components' active={isComponentsPage ? true : null}>
       <wc-icon slot="leading" name="settings"></wc-icon>
       Components
+    </wc-list-item>
+    <wc-list-item href='/charts/' aria-label='Go to Charts' active={isChartsPage ? true : null}>
+      <wc-icon slot="leading" name="bar_chart"></wc-icon>
+      Charts
     </wc-list-item>
     <wc-list-item href='/foundations/' aria-label='Go to Foundations' active={isFoundationsPage ? true : null}>
       <wc-icon slot="leading" name="palette"></wc-icon>

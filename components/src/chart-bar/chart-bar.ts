@@ -1,296 +1,382 @@
-﻿import { html, LitElement, PropertyValues } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import { styleMap } from 'lit/directives/style-map.js';
-import { select, max, scaleBand, scaleLinear, scaleOrdinal, axisLeft, axisBottom, ScaleOrdinal } from 'd3';
+import { property } from 'lit/decorators.js';
+import {
+  max,
+  min,
+  scaleBand,
+  scaleLinear,
+  stack,
+  stackOffsetDiverging,
+} from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
-import styles from './chart-bar.scss';
+import {
+  CartesianChart,
+  ChartOrientation,
+} from '../__internal/chart/cartesian-chart.js';
+import { roundedRectPath } from '../__internal/chart/paths.js';
+import baseStyles from '../__internal/chart/chart-base.scss';
 
-export type ChartBarItem = {
-  name: string;
-  value: number;
-  label?: string;
-  color?: string;
+export type {
+  ChartConfig,
+  ChartDatum,
+  ChartSelectDetail,
+  ChartSeriesConfig,
+  ChartValueFormatter,
+} from '../__internal/chart/types.js';
+
+/** Gap between stacked segments, in pixels. */
+const STACK_GAP = 2;
+
+/** Room reserved for value labels at the end of horizontal bars, per character. */
+const VALUE_CHAR_WIDTH = 7;
+
+/** One drawn bar or stacked segment. */
+type BarModel = {
+  id: string;
+  index: number;
+  key: string;
+  color: string;
+  /** Start along the category axis. */
+  position: number;
+  /** Size along the category axis. */
+  thickness: number;
+  /** Value the bar starts at. */
+  from: number;
+  /** Value the bar ends at. */
+  to: number;
+  /** Whether the end away from zero is rounded. */
+  rounded: boolean;
+  /** Pixels trimmed from the zero-side end, to separate stacked segments. */
+  gap: number;
 };
 
-const chartColors: string[] = [];
-['purple', 'blue', 'red', 'green', 'yellow', 'orange'].forEach(colorName => {
-  chartColors.push(`var(--color-${colorName})`);
-});
-
-const DEFAULT_WIDTH = 480;
-const DEFAULT_HEIGHT = 320;
-const BAR_RADIUS = 10;
-const DURATION = 450;
-
-function debounce<T extends (...args: any[]) => void>(fn: T, wait: number): T {
-  let timer: ReturnType<typeof setTimeout>;
-  return ((...args: any[]) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), wait);
-  }) as T;
-}
+/** A value label at the end of a bar or stack. */
+type ValueLabelModel = {
+  id: string;
+  index: number;
+  value: number;
+  /** Center along the category axis. */
+  center: number;
+};
 
 /**
- * @label Chart Bar
+ * @label Bar Chart
  * @tag wc-chart-bar
  * @rawTag chart-bar
- * @summary A vertical bar chart that follows color and spacing tokens.
+ * @summary Compares values across categories with vertical or horizontal bars, grouped or stacked by series.
  * @tags charts
  *
  * @example
  * ```html
- * <wc-chart-bar width="520" height="320"></wc-chart-bar>
+ * <wc-chart-bar index="month" label="Visitors by month"></wc-chart-bar>
  * <script>
- *   document.querySelector('wc-chart-bar').data = [
- *     { name: 'apples', label: 'Apples', value: 20 },
- *     { name: 'bananas', label: 'Bananas', value: 35 },
- *     { name: 'cherries', label: 'Cherries', value: 15 },
+ *   const chart = document.querySelector('wc-chart-bar');
+ *   chart.config = {
+ *     desktop: { label: 'Desktop' },
+ *     mobile: { label: 'Mobile' },
+ *   };
+ *   chart.data = [
+ *     { month: 'January', desktop: 186, mobile: 80 },
+ *     { month: 'February', desktop: 305, mobile: 200 },
+ *     { month: 'March', desktop: 237, mobile: 120 },
  *   ];
  * </script>
  * ```
+ *
+ * @slot empty - Shown when there is no data. Defaults to "No data".
+ *
+ * @fires chart-select - A bar group was clicked or chosen with Enter. `detail` holds `index` and `datum`.
+ *
+ * @csspart container - The outer wrapper.
+ * @csspart plot - The focusable plot area holding the SVG.
+ * @csspart tooltip - The tooltip.
+ * @csspart legend - The legend.
+ *
+ * @cssprop --color-chart-1 - Color of the first series; series cycle through `--color-chart-1` to `--color-chart-8`.
+ * @cssprop --chart-grid-color - Gridline and baseline color. Defaults to `--color-outline-variant`.
+ * @cssprop --chart-axis-color - Axis label color. Defaults to `--color-on-surface-variant`.
+ * @cssprop --chart-dim-opacity - Opacity of marks that are not hovered. Defaults to `0.4`.
  */
 @IndividualComponent
-export class ChartBar extends LitElement {
-  static styles = [styles];
+export class ChartBar extends CartesianChart {
+  // ── Static
 
-  @query('svg')
-  private svgElement?: SVGElement;
+  static styles = [baseStyles];
 
-  /** Width of the chart in pixels. */
-  @property({ type: Number, reflect: true }) width: number = 0;
+  // ── Properties
 
-  /** Height of the chart in pixels. */
-  @property({ type: Number, reflect: true }) height: number = DEFAULT_HEIGHT;
+  /** Stacks the series in each category instead of placing them side by side. */
+  @property({ type: Boolean, reflect: true }) stacked: boolean = false;
 
-  /** Margin around the chart drawing area. */
-  @property({ type: Number }) margin: number = 24;
+  /** `vertical` draws columns; `horizontal` draws bars from the left. */
+  @property({ type: String, reflect: true }) orientation: ChartOrientation =
+    'vertical';
 
-  /** Chart data array. Each item should have name, value, and optional label and color. */
-  @property({ type: Array }) data: ChartBarItem[] = [];
+  /** Prints each bar's value (each stack's total when stacked) at its end. */
+  @property({ type: Boolean, attribute: 'show-values' }) showValues: boolean =
+    false;
 
-  /** Whether to render value labels above bars. */
-  @property({ type: Boolean, attribute: 'show-values' }) showValues: boolean = true;
+  // ── Private fields
 
-  private _initialized = false;
+  /** Bars from the last draw, for highlighting. */
+  private bars: BarModel[] = [];
 
-  private _debouncedRenderChart = debounce(() => {
-    this._renderChart(true);
-  }, 200);
+  // ── Private methods
 
-  firstUpdated() {
-    this._renderChart(false);
+  protected drawProperties(): string[] {
+    return [...super.drawProperties(), 'stacked', 'orientation', 'showValues'];
   }
 
-  updated(changedProperties: PropertyValues) {
-    if (!this._initialized) {
-      this._initialized = true;
-      return;
-    }
-    const watchedProps = ['width', 'height', 'margin', 'data', 'showValues'];
-    const hasChanged = watchedProps.some(prop => changedProperties.has(prop));
-    if (hasChanged) {
-      this._debouncedRenderChart();
-    }
+  /** Corner radius of the rounded end, from `--shape-corner-extra-small`. */
+  private cornerRadius(): number {
+    const value = parseFloat(
+      getComputedStyle(this).getPropertyValue('--shape-corner-extra-small'),
+    );
+    return Number.isFinite(value) ? value : 4;
   }
 
-  private _getPaletteScale() {
-    return scaleOrdinal<string, string>()
-      .domain(this.data.map(d => d.name))
-      .range(chartColors);
-  }
+  /** Bars and value labels in data space; positions are filled once scales exist. */
+  private buildModels() {
+    const series = this.visibleSeries();
+    const keys = series.map(s => s.key);
+    const colors = new Map(series.map(s => [s.key, s.color]));
+    const bars: Omit<BarModel, 'position' | 'thickness'>[] = [];
+    const labels: Omit<ValueLabelModel, 'center'>[] = [];
 
-  private _resolveColor(
-    name: string,
-    override: string | undefined,
-    scale: ScaleOrdinal<string, string>,
-  ) {
-    return override || scale(name);
-  }
-
-  private _renderChart(animate: boolean) {
-    if (!this.svgElement) return;
-
-    const width = this.width > 0 ? this.width : DEFAULT_WIDTH;
-    const height = this.height > 0 ? this.height : DEFAULT_HEIGHT;
-    const margin = Math.max(this.margin, 12);
-    const data = this.data ?? [];
-
-    const svg = select(this.svgElement);
-    svg.attr('width', width).attr('height', height);
-
-    const innerWidth = Math.max(width - margin * 2, 0);
-    const innerHeight = Math.max(height - margin * 2, 0);
-    const colorScale = this._getPaletteScale();
-
-    const container = svg.select<SVGGElement>('.chart-container');
-    container.attr('transform', `translate(${margin},${margin})`);
-
-    if (!data.length || innerWidth === 0 || innerHeight === 0) {
-      container.select('.bars').selectAll('*').remove();
-      container.select('.x-axis').selectAll('*').remove();
-      container.select('.y-grid').selectAll('*').remove();
-      container.select('.value-labels').selectAll('*').remove();
-      return;
-    }
-
-    const xScale = scaleBand<string>()
-      .domain(data.map(d => d.name))
-      .range([0, innerWidth])
-      .padding(0.28);
-
-    const maxValue = max(data, d => d.value) ?? 0;
-    const yScale = scaleLinear()
-      .domain([0, maxValue || 1])
-      .nice()
-      .range([innerHeight, 0]);
-
-    const yGrid = container.select<SVGGElement>('.y-grid');
-    yGrid
-      .call(
-        axisLeft(yScale)
-          .ticks(5)
-          .tickSize(-innerWidth)
-          .tickFormat(() => ''),
-      )
-      .selectAll('.tick text')
-      .remove();
-    yGrid.select('.domain').remove();
-    yGrid.selectAll('.tick line').attr('class', 'gridline');
-
-    const xAxis = container.select<SVGGElement>('.x-axis');
-    xAxis
-      .attr('transform', `translate(0,${innerHeight})`)
-      .call(
-        axisBottom(xScale)
-          .tickSizeOuter(0)
-          .tickFormat(name => {
-            const entry = data.find(d => d.name === name);
-            return entry?.label ?? name;
-          }),
-      );
-    xAxis.select('.domain').attr('stroke', 'var(--color-outline-variant)');
-    xAxis.selectAll('.tick line').remove();
-    xAxis
-      .selectAll('.tick text')
-      .attr('class', 'axis-label')
-      .attr('dy', '1.1em');
-
-    const bars = container
-      .select('.bars')
-      .selectAll<SVGRectElement, ChartBarItem>('rect')
-      .data(data, d => d.name)
-      .join(
-        enter =>
-          enter
-            .append('rect')
-            .attr('class', 'bar')
-            .attr('x', d => xScale(d.name) ?? 0)
-            .attr('width', xScale.bandwidth())
-            .attr('y', innerHeight)
-            .attr('height', 0)
-            .attr('rx', BAR_RADIUS)
-            .attr('ry', BAR_RADIUS)
-            .style('fill', d =>
-              this._resolveColor(d.name, d.color, colorScale),
-            ),
-        update => update,
-        exit =>
-          exit
-            .transition()
-            .duration(DURATION)
-            .attr('height', 0)
-            .attr('y', innerHeight)
-            .remove(),
-      );
-
-    bars
-      .attr('x', d => xScale(d.name) ?? 0)
-      .attr('width', xScale.bandwidth())
-      .attr('rx', BAR_RADIUS)
-      .attr('ry', BAR_RADIUS)
-      .style('fill', d => this._resolveColor(d.name, d.color, colorScale));
-
-    if (animate) {
-      bars
-        .transition()
-        .duration(DURATION)
-        .attr('y', d => yScale(d.value))
-        .attr('height', d => innerHeight - yScale(d.value));
+    if (this.stacked) {
+      const layers = stack<Record<string, unknown>, string>()
+        .keys(keys)
+        .value((d, key) => this.seriesValue(d, key))
+        .offset(stackOffsetDiverging)(this.data);
+      this.data.forEach((datum, index) => {
+        // Segments run from the zero side (`from`) outwards (`to`).
+        const segments = layers
+          .map(layer => {
+            const [a, b] = layer[index];
+            const positive = this.seriesValue(datum, layer.key) >= 0;
+            return {
+              key: layer.key,
+              from: positive ? Math.min(a, b) : Math.max(a, b),
+              to: positive ? Math.max(a, b) : Math.min(a, b),
+            };
+          })
+          .filter(segment => segment.from !== segment.to);
+        // The outermost segment on each side of zero gets the rounded end.
+        const top = segments
+          .filter(s => s.to > 0)
+          .sort((a, b) => b.to - a.to)[0]?.key;
+        const bottom = segments
+          .filter(s => s.to < 0)
+          .sort((a, b) => a.to - b.to)[0]?.key;
+        segments.forEach(segment => {
+          bars.push({
+            id: `${index}:${segment.key}`,
+            index,
+            key: segment.key,
+            color: colors.get(segment.key) ?? '',
+            from: segment.from,
+            to: segment.to,
+            rounded: segment.key === (segment.to > 0 ? top : bottom),
+            gap: segment.from !== 0 ? STACK_GAP : 0,
+          });
+        });
+        labels.push({
+          id: String(index),
+          index,
+          value: keys.reduce(
+            (sum, key) => sum + this.seriesValue(datum, key),
+            0,
+          ),
+        });
+      });
     } else {
-      bars
-        .attr('y', d => yScale(d.value))
-        .attr('height', d => innerHeight - yScale(d.value));
+      this.data.forEach((datum, index) => {
+        keys.forEach(key => {
+          const value = this.seriesValue(datum, key);
+          bars.push({
+            id: `${index}:${key}`,
+            index,
+            key,
+            color: colors.get(key) ?? '',
+            from: 0,
+            to: value,
+            rounded: true,
+            gap: 0,
+          });
+          labels.push({ id: `${index}:${key}`, index, value });
+        });
+      });
     }
+    return { keys, bars, labels };
+  }
 
-    const valueLabels = container
-      .select('.value-labels')
-      .selectAll<SVGTextElement, ChartBarItem>('text')
-      .data(this.showValues ? data : [], d => d.name)
-      .join(
-        enter =>
-          enter
-            .append('text')
-            .attr('class', 'value-label')
-            .attr('text-anchor', 'middle')
-            .attr('x', d => (xScale(d.name) ?? 0) + xScale.bandwidth() / 2)
-            .attr('y', innerHeight - 6)
-            .text(d => d.value.toLocaleString()),
-        update => update,
-        exit => exit.remove(),
+  protected draw(animate: boolean): void {
+    const root = this.plotArea();
+    if (!root) return;
+    const vertical = this.orientation !== 'horizontal';
+    const { keys, bars, labels } = this.buildModels();
+
+    const ends = bars.flatMap(bar => [bar.from, bar.to]);
+    const valueScale = scaleLinear()
+      .domain([Math.min(min(ends) ?? 0, 0), Math.max(max(ends) ?? 0, 0) || 1])
+      .nice(5);
+
+    const longestValue = Math.max(
+      ...labels.map(l => this.formatValue(l.value).length),
+      1,
+    );
+    // Vertical charts only need a flag for headroom; horizontal ones need the label width.
+    let valueLabelSpace = 0;
+    if (this.showValues) {
+      valueLabelSpace = vertical ? 1 : longestValue * VALUE_CHAR_WIDTH + 8;
+    }
+    this.computeLayout(valueScale, valueLabelSpace);
+    const { left, top, innerWidth, innerHeight } = this.layout;
+
+    const categoryScale = scaleBand<string>()
+      .domain(this.categoryDomain())
+      .range([0, vertical ? innerWidth : innerHeight])
+      .paddingInner(keys.length > 1 && !this.stacked ? 0.2 : 0.3)
+      .paddingOuter(0.15);
+    valueScale.range(vertical ? [innerHeight, 0] : [0, innerWidth]);
+    this.drawFrame(categoryScale, valueScale);
+
+    const groupScale = scaleBand<string>()
+      .domain(this.stacked ? ['all'] : keys)
+      .range([0, categoryScale.bandwidth()])
+      .padding(this.stacked || keys.length < 2 ? 0 : 0.1);
+
+    const placed: BarModel[] = bars.map(bar => ({
+      ...bar,
+      position:
+        (categoryScale(String(bar.index)) ?? 0) +
+        (groupScale(this.stacked ? 'all' : bar.key) ?? 0),
+      thickness: groupScale.bandwidth(),
+    }));
+    this.bars = placed;
+
+    const radius = this.cornerRadius();
+    const path = (bar: BarModel, grown: boolean) => {
+      const zero = valueScale(0);
+      const start = valueScale(grown ? bar.from : 0);
+      const end = valueScale(grown ? bar.to : 0);
+      const r = bar.rounded ? Math.min(radius, bar.thickness / 2) : 0;
+      // Positive bars end up/right; negative ones down/left.
+      const positive = bar.to >= bar.from;
+      const length = Math.max(Math.abs(end - start) - (grown ? bar.gap : 0), 0);
+      if (vertical) {
+        const y = positive ? end : start + (grown ? bar.gap : 0);
+        const base = grown ? y : zero;
+        return roundedRectPath(
+          bar.position,
+          base,
+          bar.thickness,
+          length,
+          positive ? [r, r, 0, 0] : [0, 0, r, r],
+        );
+      }
+      const x = positive ? start + (grown ? bar.gap : 0) : end;
+      return roundedRectPath(
+        grown ? x : zero,
+        bar.position,
+        length,
+        bar.thickness,
+        positive ? [0, r, r, 0] : [r, 0, 0, r],
       );
-
-    const resolveLabelY = (value: number) => {
-      const offset = yScale(value) - 8;
-      return Math.min(offset, innerHeight - 8);
     };
 
-    if (animate) {
-      valueLabels
-        .transition()
-        .duration(DURATION)
-        .attr('x', d => (xScale(d.name) ?? 0) + xScale.bandwidth() / 2)
-        .attr('y', d => resolveLabelY(d.value))
-        .text(d => d.value.toLocaleString());
-    } else {
-      valueLabels
-        .attr('x', d => (xScale(d.name) ?? 0) + xScale.bandwidth() / 2)
-        .attr('y', d => resolveLabelY(d.value))
-        .text(d => d.value.toLocaleString());
-    }
+    const marks = root
+      .select('.marks')
+      .selectAll<SVGPathElement, BarModel>('path.bar')
+      .data(placed, d => d.id)
+      .join(enter =>
+        enter
+          .append('path')
+          .attr('class', 'mark bar')
+          .attr('d', d => path(d, false)),
+      )
+      .attr('data-index', d => d.index)
+      .attr('data-key', d => d.key)
+      .style('fill', d => d.color);
+    this.motion(marks, animate).attr('d', d => path(d, true));
+
+    // Value labels sit just past the end of each bar or stack.
+    const center = (label: Omit<ValueLabelModel, 'center'>) => {
+      if (this.stacked) {
+        return (
+          (categoryScale(String(label.index)) ?? 0) +
+          categoryScale.bandwidth() / 2
+        );
+      }
+      const key = label.id.split(':').slice(1).join(':');
+      return (
+        (categoryScale(String(label.index)) ?? 0) +
+        (groupScale(key) ?? 0) +
+        groupScale.bandwidth() / 2
+      );
+    };
+    const labelModels: ValueLabelModel[] = this.showValues
+      ? labels.map(label => ({ ...label, center: center(label) }))
+      : [];
+    const valueLabels = root
+      .select('.value-labels')
+      .selectAll<SVGTextElement, ValueLabelModel>('text')
+      .data(labelModels, d => d.id)
+      .join(enter =>
+        enter
+          .append('text')
+          .attr('class', 'value-label')
+          .attr('x', d => (vertical ? d.center : valueScale(0)))
+          .attr('y', d => (vertical ? valueScale(0) : d.center)),
+      )
+      .attr('text-anchor', d => {
+        if (vertical) return 'middle';
+        return d.value < 0 ? 'end' : 'start';
+      })
+      .attr('dominant-baseline', vertical ? 'auto' : 'middle')
+      .text(d => this.formatValue(d.value));
+    this.motion(valueLabels, animate)
+      .attr('x', d =>
+        vertical ? d.center : valueScale(d.value) + (d.value < 0 ? -6 : 6),
+      )
+      .attr('y', d =>
+        vertical ? valueScale(d.value) + (d.value < 0 ? 14 : -6) : d.center,
+      );
+
+    // Tooltip anchors at the far end of each category.
+    this.anchors = this.data.map((_, index) => {
+      const own = placed.filter(bar => bar.index === index);
+      const far = max(own, bar => bar.to) ?? 0;
+      const c =
+        (categoryScale(String(index)) ?? 0) + categoryScale.bandwidth() / 2;
+      return vertical
+        ? { x: left + c, y: top + Math.max(valueScale(far), 24) }
+        : { x: left + Math.min(valueScale(far), innerWidth - 24), y: top + c };
+    });
   }
 
-  render() {
-    const paletteScale = this._getPaletteScale();
-    const legendItems = this.data.map(item => ({
-      name: item.label ?? item.name,
-      color: this._resolveColor(item.name, item.color, paletteScale),
-    }));
+  protected drawHighlight(): void {
+    super.drawHighlight();
+    const root = this.plotArea();
+    if (!root) return;
+    const { activeIndex, activeSeries } = this;
+    root
+      .select('.marks')
+      .selectAll<SVGPathElement, BarModel>('path.bar')
+      .classed(
+        'is-dimmed',
+        d =>
+          (activeIndex >= 0 && d.index !== activeIndex) ||
+          (activeSeries !== undefined && d.key !== activeSeries),
+      );
+  }
 
-    return html`
-      <div class="chart-frame">
-        <svg role="img" aria-label="Bar chart">
-          <g class="chart-container">
-            <g class="y-grid"></g>
-            <g class="bars"></g>
-            <g class="x-axis"></g>
-            <g class="value-labels"></g>
-          </g>
-        </svg>
-        ${legendItems.length
-          ? html`<div class="legend" role="list">
-              ${legendItems.map(
-                item => html`<span class="legend-item" role="listitem">
-                  <span
-                    class="swatch"
-                    style=${styleMap({ background: item.color })}
-                  ></span>
-                  <span>${item.name}</span>
-                </span>`,
-              )}
-            </div>`
-          : null}
-      </div>
-    `;
+  protected getSelectDetail(index: number) {
+    const detail = super.getSelectDetail(index);
+    // A single visible series identifies the bar exactly.
+    const visible = this.bars.filter(bar => bar.index === index);
+    return visible.length === 1
+      ? { ...detail, series: visible[0].key }
+      : detail;
   }
 }
 

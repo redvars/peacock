@@ -1,0 +1,33 @@
+---
+export const title = 'Loading and empty';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>loading</code> while data is on its way to show a skeleton of the same height. With no rows the
+  chart shows "No data"; put your own message in the <code>empty</code> slot.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar id='bar-loading' loading height='200' label='Loading chart'></wc-chart-bar>
+  <wc-chart-bar height='200' label='Empty chart'>
+    <span slot='empty'>No orders in this period</span>
+  </wc-chart-bar>
+  <wc-button id='bar-loading-toggle' variant='tonal'>Toggle loading</wc-button>
+
+  <script is:inline>
+    const barLoading = document.getElementById('bar-loading');
+    document.getElementById('bar-loading-toggle').addEventListener('click', () => {
+      barLoading.index = 'day';
+      barLoading.data = [
+        { day: 'Mon', orders: 32 },
+        { day: 'Tue', orders: 45 },
+        { day: 'Wed', orders: 38 },
+        { day: 'Thu', orders: 51 },
+        { day: 'Fri', orders: 60 },
+      ];
+      barLoading.loading = !barLoading.loading;
+    });
+  </script>
+</DemoComponentCard>

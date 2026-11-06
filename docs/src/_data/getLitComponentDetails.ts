@@ -33,6 +33,8 @@ export function getAllComponentsForShowcase() {
   const components = getAllComponentDetails();
 
   return components.filter(function (component) {
+    // Charts have their own section (pages/charts).
+    if (component.tags === 'charts') return false;
     return ![
       'tab-panel',
       'tab-group',
@@ -57,7 +59,6 @@ export function getAllComponentsForShowcase() {
       'breadcrumb-item',
       'accordion-item',
       'chip-set',
-      'chart-stacked-bar',
       'timeline-item'
     ].includes(component.rawTag);
   });

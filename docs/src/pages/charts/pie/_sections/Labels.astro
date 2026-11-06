@@ -1,0 +1,23 @@
+---
+export const title = 'Percentage labels';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>show-labels</code> prints each slice's share inside it, when the slice is big enough to hold the text.
+  Small slices stay unlabelled; their share is still in the tooltip and the data table.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-pie id='pie-labels' show-labels height='260' label='Storage by file type'></wc-chart-pie>
+
+  <script is:inline>
+    document.getElementById('pie-labels').data = [
+      { name: 'video', label: 'Video', value: 48 },
+      { name: 'images', label: 'Images', value: 27 },
+      { name: 'documents', label: 'Documents', value: 15 },
+      { name: 'other', label: 'Other', value: 4 },
+    ];
+  </script>
+</DemoComponentCard>

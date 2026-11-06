@@ -1,0 +1,252 @@
+@use '../../../scss/mixin';
+
+@include mixin.base-styles;
+
+// Charts fill their container. The explicit width keeps them from shrinking to their
+// (not yet measured) content inside flex and grid parents.
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  color: var(--color-on-surface);
+
+  --_chart-grid-color: var(--chart-grid-color, var(--color-outline-variant));
+  --_chart-axis-color: var(--chart-axis-color, var(--color-on-surface-variant));
+  --_chart-dim-opacity: var(--chart-dim-opacity, 0.4);
+  --_chart-cursor-color: var(--chart-cursor-color, var(--color-on-surface));
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  width: 100%;
+}
+
+.plot {
+  position: relative;
+  width: 100%;
+  outline: none;
+  touch-action: pan-y;
+  border-radius: var(--shape-corner-small);
+
+  &:focus-visible {
+    @include mixin.focus-ring(var(--color-primary));
+  }
+}
+
+.chart-svg {
+  display: block;
+  overflow: visible;
+}
+
+// ── Axes and grid
+
+.gridline {
+  stroke: var(--_chart-grid-color);
+  stroke-dasharray: 3 3;
+  shape-rendering: crispEdges;
+}
+
+.baseline {
+  stroke: var(--_chart-grid-color);
+  shape-rendering: crispEdges;
+}
+
+.axis-label {
+  @include mixin.get-typography('label-medium');
+  fill: var(--_chart-axis-color);
+}
+
+.value-label {
+  @include mixin.get-typography('label-small');
+  fill: var(--color-on-surface);
+}
+
+.cursor {
+  fill: var(--_chart-cursor-color);
+  stroke: var(--_chart-cursor-color);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-short2) var(--easing-standard);
+
+  &.is-visible {
+    opacity: 0.08;
+  }
+}
+
+.cursor-line.is-visible {
+  opacity: 0.4;
+}
+
+.mark {
+  transition: opacity var(--duration-short3) var(--easing-standard);
+
+  &.is-dimmed {
+    opacity: var(--_chart-dim-opacity);
+  }
+}
+
+// ── Tooltip
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  min-width: 8rem;
+  padding: var(--spacing-150) var(--spacing-200);
+  border-radius: var(--shape-corner-small);
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+  box-shadow: var(--elevation-level2);
+  pointer-events: none;
+  transform: translateY(-50%);
+  white-space: nowrap;
+
+  &.flip {
+    transform: translate(-100%, -50%);
+  }
+}
+
+.tooltip-title {
+  @include mixin.get-typography('label-large');
+  margin-bottom: var(--spacing-100);
+}
+
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  @include mixin.get-typography('body-small');
+
+  & + & {
+    margin-top: var(--spacing-050);
+  }
+}
+
+.tooltip-label {
+  flex: 1;
+  color: var(--color-on-surface-variant);
+}
+
+.tooltip-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.swatch {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: var(--shape-corner-full);
+}
+
+// ── Legend
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-050) var(--spacing-200);
+}
+
+.legend-item {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography('label-medium');
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-050) var(--spacing-100);
+  border-radius: var(--shape-corner-small);
+  color: var(--color-on-surface);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-container-high);
+  }
+
+  &:focus-visible {
+    @include mixin.focus-ring(var(--color-primary));
+  }
+
+  &.is-hidden {
+    color: var(--color-on-surface-variant);
+    text-decoration: line-through;
+
+    .swatch {
+      opacity: var(--_chart-dim-opacity);
+    }
+  }
+}
+
+// ── States
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include mixin.get-typography('body-medium');
+  color: var(--color-on-surface-variant);
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-200);
+  padding: var(--spacing-200) 0 0;
+  border-bottom: 1px solid var(--color-outline-variant);
+
+  span {
+    flex: 1;
+    border-radius: var(--shape-corner-extra-small) var(--shape-corner-extra-small) 0 0;
+    background: var(--color-surface-container-highest);
+    animation: chart-pulse 1.6s var(--easing-standard) infinite;
+  }
+}
+
+.skeleton-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-surface-container-highest);
+    animation: chart-pulse 1.6s var(--easing-standard) infinite;
+  }
+}
+
+@keyframes chart-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton span,
+  .mark,
+  .cursor {
+    animation: none;
+    transition: none;
+  }
+}
