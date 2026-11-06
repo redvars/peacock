@@ -4,25 +4,41 @@ export const order = 200;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  Pick the variant by the surface around the card. <code>elevated</code>, the default, sits above
+  the page on a shadow; use it where cards need to stand out from a busy background.
+  <code>filled</code> uses a tonal container without a shadow; use it to group content within a
+  section. <code>outlined</code> draws a thin border instead; use it in dense layouts and long lists
+  of cards, where shadows would add noise.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-card variant='elevated' style='width: 100%;'>
-    <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
-      <h3>Elevated</h3>
-      <p>Default surface with elevation.</p>
-    </wc-card-content>
-  </wc-card>
+  <div class='card-demo-grid'>
+    <wc-card variant='elevated'>
+      <wc-card-content class='card-demo-body'>
+        <h3 class='text-title-medium'>Elevated</h3>
+        <p class='text-body-medium card-demo-muted'>
+          The default. A raised surface for cards that need to stand out.
+        </p>
+      </wc-card-content>
+    </wc-card>
 
-  <wc-card variant='filled' style='width: 100%;'>
-    <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
-      <h3>Filled</h3>
-      <p>Container-emphasis card style.</p>
-    </wc-card-content>
-  </wc-card>
+    <wc-card variant='filled'>
+      <wc-card-content class='card-demo-body'>
+        <h3 class='text-title-medium'>Filled</h3>
+        <p class='text-body-medium card-demo-muted'>
+          A tonal surface that groups content without adding depth.
+        </p>
+      </wc-card-content>
+    </wc-card>
 
-  <wc-card variant='outlined' style='width: 100%;'>
-    <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
-      <h3>Outlined</h3>
-      <p>Border-emphasis card style.</p>
-    </wc-card-content>
-  </wc-card>
+    <wc-card variant='outlined'>
+      <wc-card-content class='card-demo-body'>
+        <h3 class='text-title-medium'>Outlined</h3>
+        <p class='text-body-medium card-demo-muted'>
+          A bordered surface for dense layouts and lists of cards.
+        </p>
+      </wc-card-content>
+    </wc-card>
+  </div>
 </DemoComponentCard>

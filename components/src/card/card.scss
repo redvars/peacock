@@ -57,7 +57,6 @@
     overflow: hidden;
     padding: var(--card-padding);
 
-    border: 1px solid transparent; /* Fixes overflow issues with border */
     border-start-start-radius: var(--_container-shape-start-start);
     border-start-end-radius: var(--_container-shape-start-end);
     border-end-start-radius: var(--_container-shape-end-start);
@@ -148,10 +147,13 @@
   corner-shape: var(--_container-corner-shape-variant);
 }
 
-:host([actionable]:not([disabled])),
+/*
+  Actionable and link cards. A disabled one with a disabled-reason stays
+  focusable, so it keeps the focus ring; only enabled ones get the ripple.
+ */
+:host([actionable]),
 :host([href]) {
-  .focus-ring,
-  .ripple {
+  .focus-ring {
     display: block;
   }
 
@@ -160,59 +162,66 @@
   }
 }
 
+:host([actionable]:not([disabled])),
+:host([href]:not([disabled])) {
+  .ripple {
+    display: block;
+  }
+}
+
+/*
+  Variants. Hover and press states apply to enabled actionable and link cards
+  only, so a static card never suggests it can be clicked.
+ */
 :host([variant='elevated']) {
   --_container-color: var(--elevated-card-container-color);
   --_label-text-color: var(--elevated-card-label-text-color);
   --_container-elevation-level: 1;
   --_container-state-color: var(--_label-text-color);
+}
 
-  &:hover:not([disabled]) {
-    --_container-elevation-level: 2;
-    --_container-state-opacity: 0.08;
-  }
+:host([variant='elevated'][actionable]:not([disabled]):hover),
+:host([variant='elevated'][href]:not([disabled]):hover) {
+  --_container-elevation-level: 2;
+  --_container-state-opacity: 0.08;
+}
 
-  &:active:not([disabled]) {
-    --_container-elevation-level: 1;
-    --_container-state-opacity: 0.12;
-  }
+:host([variant='elevated'][actionable]:not([disabled]):active),
+:host([variant='elevated'][href]:not([disabled]):active) {
+  --_container-elevation-level: 1;
+  --_container-state-opacity: 0.12;
+}
 
-  &[disabled] {
-    --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
-    --_label-text-opacity: 0.38;
-
-    .ripple {
-      display: none;
-    }
-  }
+:host([variant='elevated'][disabled]) {
+  --_container-color: var(--color-on-surface);
+  --_container-opacity: 0.1;
+  --_label-text-color: var(--color-on-surface);
+  --_label-text-opacity: 0.38;
 }
 
 :host([variant='filled']) {
   --_container-color: var(--filled-card-container-color);
   --_label-text-color: var(--filled-card-label-text-color);
   --_container-state-color: var(--_label-text-color);
+}
 
-  &:hover:not([disabled]) {
-    --_container-elevation-level: 1;
-    --_container-state-opacity: 0.08;
-  }
+:host([variant='filled'][actionable]:not([disabled]):hover),
+:host([variant='filled'][href]:not([disabled]):hover) {
+  --_container-elevation-level: 1;
+  --_container-state-opacity: 0.08;
+}
 
-  &:active:not([disabled]) {
-    --_container-elevation-level: 0;
-    --_container-state-opacity: 0.1;
-  }
+:host([variant='filled'][actionable]:not([disabled]):active),
+:host([variant='filled'][href]:not([disabled]):active) {
+  --_container-elevation-level: 0;
+  --_container-state-opacity: 0.1;
+}
 
-  &[disabled] {
-    --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.1;
-    --_label-text-color: var(--color-on-surface);
-    --_label-text-opacity: 0.38;
-
-    .ripple {
-      display: none;
-    }
-  }
+:host([variant='filled'][disabled]) {
+  --_container-color: var(--color-on-surface);
+  --_container-opacity: 0.1;
+  --_label-text-color: var(--color-on-surface);
+  --_label-text-opacity: 0.38;
 }
 
 :host([variant='outlined']) {
@@ -225,22 +234,25 @@
     display: block;
   }
 
-  &:hover:not([disabled]) {
-    --_container-state-opacity: 0.08;
+  /* Keep content, such as edge-to-edge media, from covering the outline. */
+  .card-content {
+    border: var(--_outline-width) solid transparent;
   }
+}
 
-  &:active:not([disabled]) {
-    --_container-state-opacity: 0.12;
-  }
+:host([variant='outlined'][actionable]:not([disabled]):hover),
+:host([variant='outlined'][href]:not([disabled]):hover) {
+  --_container-state-opacity: 0.08;
+}
 
-  &[disabled] {
-    --_outline-color: var(--color-on-surface);
-    --_label-text-color: var(--color-on-surface);
-    --_label-text-opacity: 0.38;
-    --_outline-opacity: 0.12;
+:host([variant='outlined'][actionable]:not([disabled]):active),
+:host([variant='outlined'][href]:not([disabled]):active) {
+  --_container-state-opacity: 0.12;
+}
 
-    .ripple {
-      display: none;
-    }
-  }
+:host([variant='outlined'][disabled]) {
+  --_outline-color: var(--color-on-surface);
+  --_label-text-color: var(--color-on-surface);
+  --_label-text-opacity: 0.38;
+  --_outline-opacity: 0.12;
 }

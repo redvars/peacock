@@ -82,6 +82,8 @@ const { title, description, sections = [] } = Astro.props;
           let lastInserted = sectionNavItem;
 
           section.querySelectorAll('h3').forEach(function (h3) {
+            // Headings inside a live demo are part of the example, not the page outline.
+            if (h3.closest('.demo-card')) return;
             if (!h3.id) {
               h3.id = 'sub-' + h3.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
             }

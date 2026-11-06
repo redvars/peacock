@@ -1,0 +1,94 @@
+---
+export const title = 'Layout and styling';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<style is:inline>
+  .card-demo-cover {
+    --icon-color: var(--color-on-tertiary-container);
+    --icon-size: 3rem;
+    background: var(--color-tertiary-container);
+    display: grid;
+    height: 9rem;
+    place-items: center;
+  }
+
+  .card-demo-trend {
+    --icon-size: 1rem;
+    align-items: center;
+    display: flex;
+    gap: var(--spacing-050);
+  }
+</style>
+
+<p>
+  A card fills the width of its container, so size it with the layout around it, such as a grid.
+  In a grid row, every card stretches to the height of the tallest one.
+</p>
+<p>
+  Style it with custom properties: <code>--card-container-shape</code> for the corners,
+  <code>--card-padding</code> for the space around its children, <code>--card-gap</code> between
+  them, and <code>--card-content-padding</code> inside each <code>wc-card-content</code>. Media
+  placed directly in the card, outside <code>wc-card-content</code>, runs edge to edge.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-card
+    variant='filled'
+    class='card-demo-single'
+    style='--card-container-shape: var(--shape-corner-extra-large);'
+  >
+    <div class='card-demo-cover'>
+      <wc-icon name='landscape'></wc-icon>
+    </div>
+    <wc-card-content class='card-demo-body'>
+      <h3 class='text-title-large'>Lisbon offsite</h3>
+      <p class='text-body-medium card-demo-muted'>12–14 March · 18 people going</p>
+      <div class='card-demo-actions'>
+        <wc-button variant='text'>Details</wc-button>
+        <wc-button>RSVP</wc-button>
+      </div>
+    </wc-card-content>
+  </wc-card>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Compact cards</h3>
+<p>
+  Lower <code>--card-content-padding</code> for small, dense cards such as dashboard metrics. Set it
+  once on the container and every card inside picks it up.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='card-demo-grid' style='--card-content-padding: var(--spacing-150);'>
+    <wc-card variant='outlined'>
+      <wc-card-content class='card-demo-body'>
+        <p class='text-label-medium card-demo-muted'>Revenue</p>
+        <p class='text-headline-small'>$48,210</p>
+        <p class='text-label-medium card-demo-muted card-demo-trend'>
+          <wc-icon name='trending_up'></wc-icon> 12% on last month
+        </p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined'>
+      <wc-card-content class='card-demo-body'>
+        <p class='text-label-medium card-demo-muted'>Orders</p>
+        <p class='text-headline-small'>1,284</p>
+        <p class='text-label-medium card-demo-muted card-demo-trend'>
+          <wc-icon name='trending_up'></wc-icon> 4% on last month
+        </p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined'>
+      <wc-card-content class='card-demo-body'>
+        <p class='text-label-medium card-demo-muted'>Refunds</p>
+        <p class='text-headline-small'>23</p>
+        <p class='text-label-medium card-demo-muted card-demo-trend'>
+          <wc-icon name='trending_down'></wc-icon> 8% on last month
+        </p>
+      </wc-card-content>
+    </wc-card>
+  </div>
+</DemoComponentCard>

@@ -1155,23 +1155,23 @@
     "label": "Card",
     "tag": "wc-card",
     "rawTag": "card",
-    "summary": "A card surface for grouping related content.",
-    "cssprop": "--card-gap - Gap between slotted children.",
-    "example": "```html\n<wc-card variant=\"outlined\" style=\"padding-block: 1rem;\">\n  <wc-card-content>\n    <h3 class=\"text-headline\">Title</h3>\n    <p class=\"text-body\">Supportive text</p>\n  </wc-card-content>\n</wc-card>\n```",
+    "summary": "A surface that groups content and actions about one subject. Set `actionable` to make the whole card a button, or `href` to make it a link.",
+    "cssprop": "--card-gap - Gap between the card's children. Defaults to 0.",
+    "example": "```html\n<wc-card variant=\"outlined\">\n  <wc-card-content>\n    <h3 class=\"text-title-large\">Title</h3>\n    <p class=\"text-body-medium\">Supporting text</p>\n  </wc-card-content>\n</wc-card>\n```",
     "customElement": {
       "kind": "class",
       "description": "",
       "cssProperties": [
         {
-          "description": "Inner padding for the card container. Defaults to 1rem.",
+          "description": "Corner radius of the card. Defaults to `--shape-corner-large`.",
+          "name": "--card-container-shape"
+        },
+        {
+          "description": "Padding inside the card, around its children. Defaults to 0; `wc-card-content` adds its own padding.",
           "name": "--card-padding"
         },
         {
-          "description": "Corner radius for the card container. Defaults to a large radius.",
-          "name": "--card-shape"
-        },
-        {
-          "description": "Gap between slotted children.",
+          "description": "Gap between the card's children. Defaults to 0.",
           "name": "--card-gap"
         }
       ],
@@ -1182,6 +1182,7 @@
             "text": "CardVariant"
           },
           "default": "'elevated'",
+          "description": "Visual style of the card: `elevated` (a raised surface with a shadow), `filled` (a tonal surface)\nor `outlined` (a bordered surface). Defaults to `elevated`.",
           "fieldName": "variant",
           "expandedType": {
             "text": "'elevated' | 'filled' | 'outlined'"
@@ -1193,6 +1194,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Dims the card and makes its content inert. An actionable or link card also stops responding\nto clicks and leaves the tab order, unless `disabled-reason` is set.",
           "fieldName": "disabled"
         },
         {
@@ -1201,6 +1203,7 @@
             "text": "boolean"
           },
           "default": "false",
+          "description": "Makes the whole card a single button that fires `click`. Its content becomes inert, so don't\nput buttons or links inside an actionable card.",
           "fieldName": "actionable"
         },
         {
@@ -1209,15 +1212,15 @@
             "text": "string"
           },
           "default": "''",
-          "description": "If button is disabled, the reason why it is disabled.",
+          "description": "Why an actionable or link card is disabled. The card stays focusable and screen readers read\nthe reason with it.",
           "fieldName": "disabledReason"
         },
         {
-          "name": "throttleDelay",
+          "name": "throttle-delay",
           "type": {
             "text": "number | undefined"
           },
-          "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
+          "description": "Delay in milliseconds for throttling activation of an actionable or link card. When unset\n(default), no throttle is applied.",
           "fieldName": "throttleDelay"
         },
         {
@@ -6909,10 +6912,10 @@
     "tag": "wc-pagination",
     "rawTag": "pagination",
     "summary": "A pagination control with page numbers, a rows-per-page selector and the current item range.",
-    "overview": "<p>The pagination component moves through paged data. It shows the current item range, the pages and a rows-per-page selector.</p>\n<p>Three variants cover different data sets: <code>full</code> lists page numbers with ellipses, <code>compact</code> shows \"Page [n] of N\" with a field to jump to a page, and <code>simple</code> shows previous and next only. When <code>total-items</code> is not set, the total is unknown (cursor-based APIs): the control shows previous and next, and <code>has-next</code> says whether another page exists.</p>\n<p>On a narrow container the <code>full</code> variant collapses to <code>compact</code>.</p>",
+    "overview": "<p>The pagination component moves through paged data. It shows the current item range, the pages and a rows-per-page selector.</p>\r\n<p>Three variants cover different data sets: <code>full</code> lists page numbers with ellipses, <code>compact</code> shows \"Page [n] of N\" with a field to jump to a page, and <code>simple</code> shows previous and next only. When <code>total-items</code> is not set, the total is unknown (cursor-based APIs): the control shows previous and next, and <code>has-next</code> says whether another page exists.</p>\r\n<p>On a narrow container the <code>full</code> variant collapses to <code>compact</code>.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
     "cssprop": "--pagination-background - Background of the control. Defaults to the surface color.",
-    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"240\"></wc-pagination>\n```",
+    "example": "```html\r\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"240\"></wc-pagination>\r\n```",
     "tags": "navigation, data",
     "customElement": {
       "kind": "class",
@@ -6956,7 +6959,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
+          "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\r\nprevious and next only, and `has-next` decides whether next is enabled.",
           "fieldName": "totalItems"
         },
         {
@@ -6974,7 +6977,7 @@
             "text": "PaginationVariant"
           },
           "default": "'full'",
-          "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+          "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\r\n(previous and next only). Defaults to `full`.",
           "fieldName": "variant",
           "expandedType": {
             "text": "'full' | 'compact' | 'simple'"
@@ -9009,11 +9012,11 @@
     "tag": "wc-table",
     "rawTag": "table",
     "summary": "A configurable component for displaying tabular data.",
-    "overview": "<p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>\n<p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>",
+    "overview": "<p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>\r\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>\r\n<p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
     "slot": "bulk-actions - Actions shown in the selection bar while rows are selected.",
     "cssprop": "--table-cell-padding-inline - Horizontal padding of a cell.",
-    "example": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```",
+    "example": "```html\r\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\r\n```",
     "tags": "display, data",
     "customElement": {
       "kind": "class",
@@ -9082,7 +9085,7 @@
             "text": "TableColumn[]"
           },
           "default": "[]",
-          "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
+          "description": "Grid columns configuration.\r\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
           "fieldName": "columns"
         },
         {
@@ -9196,7 +9199,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
+          "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\r\nunknown; the pagination then shows previous and next, driven by `has-next`.",
           "fieldName": "totalItems"
         },
         {
@@ -9244,7 +9247,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\r\nunder the header so the current rows stay readable.",
           "fieldName": "loading"
         },
         {
