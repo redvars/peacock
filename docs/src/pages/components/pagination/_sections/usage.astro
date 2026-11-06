@@ -4,39 +4,38 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Use pagination to control page navigation, adjust rows per page, and display the current item range.</p>
-<p>Set <code>pageSizes</code> as a property to customize options shown in the rows-per-page <code>wc-select</code>.</p>
+<p>
+  Pagination shows the current item range on the start side and the page controls on the end side.
+  The default <code>full</code> variant lists the first and last page, the current page and its
+  neighbours, and fills the gaps with an ellipsis. It always uses the same number of slots, so the
+  buttons do not shift while you move through pages.
+</p>
+<p>
+  Listen to the <code>page</code> event; its detail is <code>{'{ page, pageSize }'}</code>. Changing the
+  rows per page keeps the first visible item on screen instead of jumping back to page 1. Set
+  <code>pageSizes</code> as a property to change the options.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-pagination
-    id="pagination-sizes-demo"
-    style="width: 100%;"
-    page="1"
-    page-size="10"
-    total-items="128"
-  ></wc-pagination>
-
-  <script is:inline>
-    const paginationSizesEl = document.getElementById('pagination-sizes-demo');
-    paginationSizesEl.pageSizes = [5, 10, 25, 50];
-  </script>
-</DemoComponentCard>
-
-<p>Listen to the <code>page</code> event to react to page changes in parent components.</p>
-
-<DemoComponentCard lang={'html'}>
-  <wc-pagination
-    id="pagination-demo"
-    style="width: 100%;"
-    page="1"
-    page-size="25"
-    total-items="230"
-  ></wc-pagination>
+  <wc-pagination style='width: 100%;' id='pagination-demo' page='5' page-size='10' total-items='240'></wc-pagination>
 
   <script is:inline>
     const paginationEl = document.getElementById('pagination-demo');
-    paginationEl.addEventListener('page', (event) => {
+    paginationEl.pageSizes = [10, 25, 50, 100];
+    paginationEl.addEventListener('page', event => {
       console.log('Pagination changed:', event.detail);
     });
   </script>
+</DemoComponentCard>
+
+<p>
+  On a narrow container the page list collapses to a <strong>Page [n] of N</strong> field and the
+  rows-per-page label hides. The control is a <code>nav</code> landmark, the current page carries
+  <code>aria-current="page"</code>, and range changes are announced to screen readers.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 22rem;'>
+    <wc-pagination style='width: 100%;' page='5' page-size='10' total-items='240'></wc-pagination>
+  </div>
 </DemoComponentCard>

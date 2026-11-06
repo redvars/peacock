@@ -1,0 +1,44 @@
+---
+export const title = 'Density and stripes';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  <code>density</code> sets the row height: <code>compact</code> (36px) for dense admin lists,
+  <code>default</code> (48px) and <code>comfortable</code> (56px). Add <code>striped</code> to shade
+  every other row when rows are wide and hard to follow.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-segmented-button-group id='density-switch' class='density-switch'>
+    <wc-segmented-button value='compact'>Compact</wc-segmented-button>
+    <wc-segmented-button value='default' selected>Default</wc-segmented-button>
+    <wc-segmented-button value='comfortable'>Comfortable</wc-segmented-button>
+  </wc-segmented-button-group>
+  <wc-switch id='striped-switch' label='Striped'></wc-switch>
+
+  <div style='width: 100%; height: 22rem;'>
+    <wc-table id='table-density' key-field='_id' label='People'></wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-density');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'company', label: 'Company', width: 12 },
+      { name: 'age', label: 'Age', width: 6, type: 'number' },
+      { name: 'email', label: 'Email', width: 22 },
+    ];
+    $table.data = dataSource.slice(0, 8);
+
+    document.getElementById('density-switch').addEventListener('change', event => {
+      if (event.detail?.value) $table.density = event.detail.value;
+    });
+    document.getElementById('striped-switch').addEventListener('change', event => {
+      $table.striped = Boolean(event.detail?.checked);
+    });
+  </script>
+</DemoComponentCard>

@@ -23662,12 +23662,477 @@
     },
     {
       "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/pagination/page-items.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getPageItems",
+          "return": {
+            "type": {
+              "text": "PageItem[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "current",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "total",
+              "type": {
+                "text": "number"
+              }
+            },
+            {
+              "name": "siblings",
+              "default": "1",
+              "type": {
+                "text": "number"
+              }
+            }
+          ],
+          "description": "Builds the page list shown by the `full` pagination variant.\n\nThe list always keeps the first and last page, the current page and `siblings` pages on each\nside of it, and fills the rest with an ellipsis. It never holds more than\n`2 * siblings + 5` slots, so the control keeps its width while the user moves through pages."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getPageItems",
+          "declaration": {
+            "name": "getPageItems",
+            "module": "E:/git/redvars/peacock/components/src/pagination/page-items.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/pagination/pagination.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "Pagination",
+          "cssProperties": [
+            {
+              "description": "Background of the control. Defaults to the surface color.",
+              "name": "--pagination-background"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "The current page number (1-based). Defaults to `1`.",
+              "attribute": "page"
+            },
+            {
+              "kind": "field",
+              "name": "pageSize",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "description": "The number of rows per page. Defaults to `10`.",
+              "attribute": "page-size"
+            },
+            {
+              "kind": "field",
+              "name": "totalItems",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
+              "attribute": "total-items"
+            },
+            {
+              "kind": "field",
+              "name": "pageSizes",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "[10, 25, 50, 100]",
+              "description": "Supported page size options.",
+              "attribute": "page-sizes"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "PaginationVariant"
+              },
+              "default": "'full'",
+              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+              "attribute": "variant",
+              "reflects": true,
+              "expandedType": {
+                "text": "'full' | 'compact' | 'simple'"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "hasNext",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether another page exists after this one. Used only when `total-items` is unset.",
+              "attribute": "has-next"
+            },
+            {
+              "kind": "field",
+              "name": "showFirstLast",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows buttons that jump to the first and the last page.",
+              "attribute": "show-first-last"
+            },
+            {
+              "kind": "field",
+              "name": "hidePageSize",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the rows-per-page selector.",
+              "attribute": "hide-page-size"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Pagination'",
+              "description": "Accessible name of the navigation landmark. Defaults to `\"Pagination\"`.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "hasTotal",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "True when the total is known.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "getTotalPages",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number | undefined"
+                }
+              },
+              "description": "The number of pages, or `undefined` when the total is unknown."
+            },
+            {
+              "kind": "field",
+              "name": "isFirstPage",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isLastPage",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "effectiveVariant",
+              "type": {
+                "text": "PaginationVariant"
+              },
+              "privacy": "private",
+              "description": "The variant actually rendered: an unknown total can only go previous and next.",
+              "readonly": true,
+              "expandedType": {
+                "text": "'full' | 'compact' | 'simple'"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getRangeText",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "setPage",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "nextPage",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handlePageSizeChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent<{ value?: string }>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "handlePageInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "handlePageInputKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "dispatchPageEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderNavButton",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "icon",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "label",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "disabled",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "target",
+                  "type": {
+                    "text": "() => number"
+                  }
+                },
+                {
+                  "name": "className",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderPageList",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "totalPages",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderPageJump",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "totalPages",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderPageSize",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "page",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Dispatched when the page or page size changes. Detail: `{ page, pageSize }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "The current page number (1-based). Defaults to `1`.",
+              "fieldName": "page"
+            },
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "default": "10",
+              "description": "The number of rows per page. Defaults to `10`.",
+              "fieldName": "pageSize"
+            },
+            {
+              "name": "total-items",
+              "type": {
+                "text": "number | undefined"
+              },
+              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
+              "fieldName": "totalItems"
+            },
+            {
+              "name": "page-sizes",
+              "type": {
+                "text": "number[]"
+              },
+              "default": "DEFAULT_PAGE_SIZES",
+              "description": "Supported page size options.",
+              "fieldName": "pageSizes"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "PaginationVariant"
+              },
+              "default": "'full'",
+              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+              "fieldName": "variant",
+              "expandedType": {
+                "text": "'full' | 'compact' | 'simple'"
+              }
+            },
+            {
+              "name": "has-next",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether another page exists after this one. Used only when `total-items` is unset.",
+              "fieldName": "hasNext"
+            },
+            {
+              "name": "show-first-last",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows buttons that jump to the first and the last page.",
+              "fieldName": "showFirstLast"
+            },
+            {
+              "name": "hide-page-size",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the rows-per-page selector.",
+              "fieldName": "hidePageSize"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Pagination'",
+              "description": "Accessible name of the navigation landmark. Defaults to `\"Pagination\"`.",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "wc-pagination",
+          "customElement": true,
+          "summary": "A pagination control with page numbers, a rows-per-page selector and the current item range.",
+          "rawTag": {
+            "name": "pagination",
+            "description": ""
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Pagination",
+          "declaration": {
+            "name": "Pagination",
+            "module": "E:/git/redvars/peacock/components/src/pagination/pagination.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "E:/git/redvars/peacock/components/src/table/table.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "Table",
+          "cssProperties": [
+            {
+              "description": "Minimum height of a row. Set by `density`.",
+              "name": "--table-row-height"
+            },
+            {
+              "description": "Color of the row dividers.",
+              "name": "--table-border-color"
+            },
+            {
+              "description": "Horizontal padding of a cell.",
+              "name": "--table-cell-padding-inline"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Actions shown in the selection bar while rows are selected.",
+              "name": "bulk-actions"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -23676,14 +24141,14 @@
                 "text": "TableColumn[]"
               },
               "default": "[]",
-              "description": "Grid columns configuration.\nEach column can have: name, label, width (px), fixed (boolean), template (function).",
+              "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
               "attribute": "columns"
             },
             {
               "kind": "field",
               "name": "data",
               "type": {
-                "text": "any[]"
+                "text": "TableRow[]"
               },
               "default": "[]",
               "description": "Grid data to display on table.",
@@ -23765,7 +24230,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "If true, pagination is enabled. Defaults to `true`.",
+              "description": "If true, pagination is enabled. Defaults to `false`.",
               "attribute": "paginate"
             },
             {
@@ -23790,12 +24255,87 @@
             },
             {
               "kind": "field",
+              "name": "pageSizes",
+              "type": {
+                "text": "number[] | undefined"
+              },
+              "description": "Supported page size options, passed to the pagination.",
+              "attribute": "page-sizes"
+            },
+            {
+              "kind": "field",
               "name": "totalItems",
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items (used in managed/controlled mode).",
+              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
               "attribute": "total-items"
+            },
+            {
+              "kind": "field",
+              "name": "hasNext",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether another page exists after this one, in managed mode with an unknown total.",
+              "attribute": "has-next"
+            },
+            {
+              "kind": "field",
+              "name": "paginationVariant",
+              "type": {
+                "text": "PaginationVariant"
+              },
+              "default": "'full'",
+              "description": "Pagination variant: `full` (page numbers), `compact` or `simple`. Defaults to `full`.",
+              "attribute": "pagination-variant",
+              "expandedType": {
+                "text": "'full' | 'compact' | 'simple'"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "density",
+              "type": {
+                "text": "'compact' | 'default' | 'comfortable'"
+              },
+              "default": "'default'",
+              "description": "Row height: `compact`, `default` or `comfortable`. Defaults to `default`.",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shades every other row.",
+              "attribute": "striped",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Accessible name of the table.",
+              "attribute": "label"
             },
             {
               "kind": "field",
@@ -23819,102 +24359,138 @@
             },
             {
               "kind": "field",
-              "name": "hoveredCell",
-              "type": {
-                "text": "{ row?: any; column?: any }"
-              },
-              "privacy": "private",
-              "default": "{}",
-              "description": "Tracks the currently hovered row and column for hover-highlight CSS."
-            },
-            {
-              "kind": "field",
-              "name": "isSelectAll",
+              "name": "allPagesSelected",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
               "default": "false",
-              "description": "True when all rows on the current page are selected."
+              "description": "True when every item across all pages is selected, not only the current page."
             },
             {
               "kind": "field",
-              "name": "isSelectAllIntermediate",
+              "name": "scrolledFromStart",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
               "default": "false",
-              "description": "True when some (but not all) rows on the current page are selected."
+              "description": "True when content is scrolled under the start-pinned columns."
             },
             {
               "kind": "field",
-              "name": "isHorizontallyScrolled",
+              "name": "scrolledFromEnd",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
               "default": "false",
-              "description": "True when the scroll container has been scrolled horizontally."
+              "description": "True when more content waits past the end-pinned columns."
             },
             {
               "kind": "field",
-              "name": "onCellMouseOverThrottled",
+              "name": "activeCell",
+              "type": {
+                "text": "{ row: number; col: number }"
+              },
               "privacy": "private",
-              "description": "Throttled version of the cell-mouseover handler to avoid excessive state updates."
+              "default": "{ row: 0, col: 0 }",
+              "description": "The cell that holds the grid's single tab stop. Row 0 is the header."
             },
             {
               "kind": "field",
-              "name": "onSelectAllClick",
+              "name": "scrollContainer",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
               "privacy": "private"
             },
             {
               "kind": "field",
-              "name": "onRowSelectClick",
-              "privacy": "private"
+              "name": "pendingFocus",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Set when a keyboard move must focus the active cell after the next render."
+            },
+            {
+              "kind": "field",
+              "name": "resizeObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "Watches the scroll container so the edge shadows follow resizes."
             },
             {
               "kind": "method",
-              "name": "onSelectChange",
+              "name": "getGridColumns",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "selectedRowKeys",
-                  "type": {
-                    "text": "string[]"
-                  }
+              "return": {
+                "type": {
+                  "text": "GridColumn[]"
                 }
-              ]
+              },
+              "description": "Columns in visual order: checkbox, start-pinned, scrolling, end-pinned."
             },
             {
               "kind": "method",
-              "name": "onCellClick",
+              "name": "getPlacement",
               "privacy": "private",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "ColumnPlacement"
+                }
+              },
               "parameters": [
                 {
-                  "name": "row",
-                  "type": {
-                    "text": "any"
-                  }
-                },
-                {
-                  "name": "col",
+                  "name": "column",
                   "type": {
                     "text": "TableColumn"
                   }
-                },
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getAlign",
+              "privacy": "private",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "'start' | 'center' | 'end'"
+                }
+              },
+              "parameters": [
                 {
-                  "name": "evt",
+                  "name": "column",
                   "type": {
-                    "text": "MouseEvent"
+                    "text": "TableColumn"
                   }
                 }
               ]
             },
             {
-              "kind": "field",
-              "name": "onScrollContainer",
-              "privacy": "private"
+              "kind": "method",
+              "name": "getWidth",
+              "privacy": "private",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "TableColumn"
+                  }
+                }
+              ]
             },
             {
               "kind": "field",
@@ -23927,17 +24503,73 @@
             },
             {
               "kind": "method",
+              "name": "isColumnSortable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "TableColumn"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "getTotalItems",
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": "number"
+                  "text": "number | undefined"
                 }
-              }
+              },
+              "description": "Total item count across pages, or `undefined` when it is unknown."
             },
             {
               "kind": "method",
-              "name": "getSortIcon",
+              "name": "getPageRows",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "TableRow[]"
+                }
+              },
+              "description": "Rows shown on the current page, sorted and sliced unless the table is managed."
+            },
+            {
+              "kind": "method",
+              "name": "compare",
+              "privacy": "private",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "a",
+                  "type": {
+                    "text": "unknown"
+                  }
+                },
+                {
+                  "name": "b",
+                  "type": {
+                    "text": "unknown"
+                  }
+                }
+              ],
+              "description": "Compares numbers by value and everything else as text with natural number order."
+            },
+            {
+              "kind": "method",
+              "name": "getRowKey",
               "privacy": "private",
               "return": {
                 "type": {
@@ -23946,9 +24578,9 @@
               },
               "parameters": [
                 {
-                  "name": "col",
+                  "name": "row",
                   "type": {
-                    "text": "TableColumn"
+                    "text": "TableRow"
                   }
                 }
               ]
@@ -23968,18 +24600,369 @@
             },
             {
               "kind": "method",
-              "name": "renderHeader",
+              "name": "onSelectAllClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onRowSelectClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TableRow"
+                  }
+                },
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "selectAllPages",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "clearSelection",
               "privacy": "private"
             },
             {
               "kind": "method",
-              "name": "renderBody",
+              "name": "onSelectChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "selectedRowKeys",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onCellClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TableRow"
+                  }
+                },
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "TableColumn"
+                  }
+                },
+                {
+                  "name": "evt",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "dispatchCellEvents",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TableRow"
+                  }
+                },
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "TableColumn"
+                  }
+                },
+                {
+                  "name": "evt",
+                  "type": {
+                    "text": "MouseEvent | KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onPage",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent<{ page: number; pageSize: number }>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onScrollContainer",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "updateScrollEdges",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getCell",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "getFocusTarget",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "The element that takes focus for a cell: its sort button, or the cell itself."
+            },
+            {
+              "kind": "method",
+              "name": "tabIndexFor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "col",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "onGridFocusIn",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "onGridKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderCellContent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "row",
+                  "type": {
+                    "text": "TableRow"
+                  }
+                },
+                {
+                  "name": "column",
+                  "type": {
+                    "text": "TableColumn"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cellClasses",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "entry",
+                  "type": {
+                    "text": "GridColumn"
+                  }
+                },
+                {
+                  "name": "extra",
+                  "default": "{}",
+                  "type": {
+                    "text": "Record<string, boolean>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "cellStyle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "entry",
+                  "type": {
+                    "text": "GridColumn"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderRowGroups",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "GridColumn[]"
+                  }
+                },
+                {
+                  "name": "renderCell",
+                  "type": {
+                    "text": "(entry: GridColumn, index: number) => TemplateResult"
+                  }
+                }
+              ],
+              "description": "Splits a row's cells into the start-pinned, scrolling and end-pinned groups."
+            },
+            {
+              "kind": "method",
+              "name": "renderHeader",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "GridColumn[]"
+                  }
+                },
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderBody",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "GridColumn[]"
+                  }
+                },
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderSkeletonBody",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "columns",
+                  "type": {
+                    "text": "GridColumn[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
               "name": "renderEmptyState",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderBulkBar",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pageRows",
+                  "type": {
+                    "text": "TableRow[]"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -23989,32 +24972,39 @@
           ],
           "events": [
             {
+              "name": "sort",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Dispatched when the table is sorted. Detail: `{ sortBy, sortOrder }`."
+            },
+            {
               "name": "selection-change",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when the row selection changes."
+              "description": "Dispatched when the row selection changes. Detail: `{ value, isSelectAll, allPages }`."
             },
             {
               "name": "cell-click",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when a table cell is clicked."
+              "description": "Dispatched when a cell is clicked or activated with Enter. Detail: `{ record, column, altKey, ctrlKey, metaKey, shiftKey }`."
             },
             {
-              "name": "sort",
+              "name": "row-click",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when the table is sorted."
+              "description": "Dispatched when a row is clicked or activated with Enter. Detail: `{ record }`."
             },
             {
               "name": "page",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when the page or page size changes."
+              "description": "Dispatched when the page or page size changes. Detail: `{ page, pageSize }`."
             }
           ],
           "attributes": [
@@ -24024,13 +25014,13 @@
                 "text": "TableColumn[]"
               },
               "default": "[]",
-              "description": "Grid columns configuration.\nEach column can have: name, label, width (px), fixed (boolean), template (function).",
+              "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
               "fieldName": "columns"
             },
             {
               "name": "data",
               "type": {
-                "text": "any[]"
+                "text": "TableRow[]"
               },
               "default": "[]",
               "description": "Grid data to display on table.",
@@ -24104,7 +25094,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "If true, pagination is enabled. Defaults to `true`.",
+              "description": "If true, pagination is enabled. Defaults to `false`.",
               "fieldName": "paginate"
             },
             {
@@ -24126,12 +25116,77 @@
               "fieldName": "pageSize"
             },
             {
+              "name": "page-sizes",
+              "type": {
+                "text": "number[] | undefined"
+              },
+              "description": "Supported page size options, passed to the pagination.",
+              "fieldName": "pageSizes"
+            },
+            {
               "name": "total-items",
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items (used in managed/controlled mode).",
+              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
               "fieldName": "totalItems"
+            },
+            {
+              "name": "has-next",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether another page exists after this one, in managed mode with an unknown total.",
+              "fieldName": "hasNext"
+            },
+            {
+              "name": "pagination-variant",
+              "type": {
+                "text": "PaginationVariant"
+              },
+              "default": "'full'",
+              "description": "Pagination variant: `full` (page numbers), `compact` or `simple`. Defaults to `full`.",
+              "fieldName": "paginationVariant",
+              "expandedType": {
+                "text": "'full' | 'compact' | 'simple'"
+              }
+            },
+            {
+              "name": "density",
+              "type": {
+                "text": "'compact' | 'default' | 'comfortable'"
+              },
+              "default": "'default'",
+              "description": "Row height: `compact`, `default` or `comfortable`. Defaults to `default`.",
+              "fieldName": "density"
+            },
+            {
+              "name": "striped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shades every other row.",
+              "fieldName": "striped"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+              "fieldName": "loading"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Accessible name of the table.",
+              "fieldName": "label"
             },
             {
               "name": "empty-state-headline",
@@ -24163,6 +25218,14 @@
             "name": "table",
             "description": ""
           }
+        },
+        {
+          "kind": "variable",
+          "name": "placement"
+        },
+        {
+          "kind": "variable",
+          "name": "column"
         }
       ],
       "exports": [
@@ -24187,178 +25250,6 @@
           "declaration": {
             "name": "Table",
             "module": "./table.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "E:/git/redvars/peacock/components/src/pagination/pagination.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "Pagination",
-          "members": [
-            {
-              "kind": "field",
-              "name": "page",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "The current page number (1-based). Defaults to `1`.",
-              "attribute": "page"
-            },
-            {
-              "kind": "field",
-              "name": "pageSize",
-              "type": {
-                "text": "number"
-              },
-              "default": "10",
-              "description": "The number of rows per page. Defaults to `10`.",
-              "attribute": "page-size"
-            },
-            {
-              "kind": "field",
-              "name": "totalItems",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Total number of items.",
-              "attribute": "total-items"
-            },
-            {
-              "kind": "field",
-              "name": "pageSizes",
-              "type": {
-                "text": "number[]"
-              },
-              "default": "[10, 25, 50, 100]",
-              "description": "Supported page size options.",
-              "attribute": "page-sizes"
-            },
-            {
-              "kind": "method",
-              "name": "getTotalPages",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "number"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "setPage",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "nextPage",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "handlePageSizeChange",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "CustomEvent<{ value?: string }>"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "field",
-              "name": "handlePreviousPage",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "handleNextPage",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "dispatchPageEvent",
-              "privacy": "private"
-            }
-          ],
-          "events": [
-            {
-              "name": "page",
-              "type": {
-                "text": "CustomEvent"
-              },
-              "description": "Dispatched when the page or page size changes. Detail: `{ page, pageSize }`."
-            }
-          ],
-          "attributes": [
-            {
-              "name": "page",
-              "type": {
-                "text": "number"
-              },
-              "default": "1",
-              "description": "The current page number (1-based). Defaults to `1`.",
-              "fieldName": "page"
-            },
-            {
-              "name": "page-size",
-              "type": {
-                "text": "number"
-              },
-              "default": "10",
-              "description": "The number of rows per page. Defaults to `10`.",
-              "fieldName": "pageSize"
-            },
-            {
-              "name": "total-items",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Total number of items.",
-              "fieldName": "totalItems"
-            },
-            {
-              "name": "page-sizes",
-              "type": {
-                "text": "number[]"
-              },
-              "default": "DEFAULT_PAGE_SIZES",
-              "description": "Supported page size options.",
-              "fieldName": "pageSizes"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "wc-pagination",
-          "customElement": true,
-          "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
-          "rawTag": {
-            "name": "pagination",
-            "description": ""
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "Pagination",
-          "declaration": {
-            "name": "Pagination",
-            "module": "E:/git/redvars/peacock/components/src/pagination/pagination.ts"
           }
         }
       ]

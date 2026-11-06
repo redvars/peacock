@@ -54,7 +54,11 @@ const customers: Customer[] = [
       page-size='10'
       empty-state-headline='No customers found'
       empty-state-description='Try a different name or email.'
-    ></wc-table>
+      label='Customers'
+    >
+      <wc-button slot='bulk-actions' variant='text' size='sm'>Export</wc-button>
+      <wc-button slot='bulk-actions' variant='text' size='sm'>Change plan</wc-button>
+    </wc-table>
   </div>
 
   <section class='doc-section table-empty-section' aria-labelledby='empty-title'>

@@ -1,0 +1,37 @@
+---
+export const title = 'Variants';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Pick the variant by data size. <code>full</code> suits a few dozen pages. <code>compact</code>
+  shows <strong>Page [n] of N</strong> with a field to jump straight to a page, which suits hundreds
+  of pages. <code>simple</code> shows previous and next only. Add <code>show-first-last</code> for
+  buttons that jump to either end, and <code>hide-page-size</code> to drop the rows-per-page select.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-pagination style='width: 100%;' variant='full' show-first-last page='12' total-items='480'></wc-pagination>
+  <wc-pagination style='width: 100%;' variant='compact' page='37' page-size='25' total-items='12840'></wc-pagination>
+  <wc-pagination style='width: 100%;' variant='simple' hide-page-size page='2' total-items='48'></wc-pagination>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Unknown total</h3>
+<p>
+  Cursor-based APIs often cannot count the results. Leave <code>total-items</code> unset and set
+  <code>has-next</code> while another page exists. The range then reads <strong>26–50</strong>
+  without a total, and only previous and next are shown.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-pagination style='width: 100%;' id='pagination-cursor' page='1' page-size='25' has-next></wc-pagination>
+
+  <script is:inline>
+    const cursorEl = document.getElementById('pagination-cursor');
+    // Pretend the API has four pages.
+    cursorEl.addEventListener('page', event => {
+      cursorEl.hasNext = event.detail.page < 4;
+    });
+  </script>
+</DemoComponentCard>

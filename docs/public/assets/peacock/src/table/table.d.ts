@@ -1,10 +1,33 @@
 import { LitElement } from 'lit';
+import type { PropertyValues, TemplateResult } from 'lit';
+import type { PaginationVariant } from '../pagination/pagination.js';
+/** A record shown in one row. */
+export type TableRow = Record<string, any>;
 export interface TableColumn {
+    /** Field of the row shown in this column. */
     name: string;
+    /** Header text. */
     label: string;
+    /** Width in rem. Defaults to 16. */
     width?: number;
-    fixed?: boolean;
-    template?: (row: any, column: TableColumn) => string;
+    /**
+     * Keeps the column in view while the table scrolls sideways. `true` or `"start"` pins it to
+     * the start edge, `"end"` to the end edge (for example a row-actions column).
+     */
+    fixed?: boolean | 'start' | 'end';
+    /** Horizontal alignment. Number columns default to `"end"`, others to `"start"`. */
+    align?: 'start' | 'center' | 'end';
+    /** Data type. `"number"` aligns to the end and uses tabular figures. */
+    type?: 'text' | 'number';
+    /** Set to `false` to turn sorting off for this column only. */
+    sortable?: boolean;
+    /** Lets long text wrap instead of truncating with an ellipsis. */
+    wrap?: boolean;
+    /**
+     * Custom cell content. Return a Lit `TemplateResult` (preferred), or a string of trusted
+     * HTML. A string is inserted as HTML without escaping, so never build it from user input.
+     */
+    template?: (row: TableRow, column: TableColumn) => string | TemplateResult;
 }
 /**
  * @label Table
@@ -12,16 +35,25 @@ export interface TableColumn {
  * @rawTag table
  * @summary A configurable component for displaying tabular data.
  * @overview
- * <p>The table component displays rows of data with support for sorting, pagination, row selection, and fixed columns.</p>
+ * <p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>
+ * <p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>
+ * <p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>
  *
- * @fires {CustomEvent} cell-click - Dispatched when a table cell is clicked.
- * @fires {CustomEvent} selection-change - Dispatched when the row selection changes.
- * @fires {CustomEvent} sort - Dispatched when the table is sorted.
- * @fires {CustomEvent} page - Dispatched when the page or page size changes.
+ * @fires {CustomEvent} cell-click - Dispatched when a cell is clicked or activated with Enter. Detail: `{ record, column, altKey, ctrlKey, metaKey, shiftKey }`.
+ * @fires {CustomEvent} row-click - Dispatched when a row is clicked or activated with Enter. Detail: `{ record }`.
+ * @fires {CustomEvent} selection-change - Dispatched when the row selection changes. Detail: `{ value, isSelectAll, allPages }`.
+ * @fires {CustomEvent} sort - Dispatched when the table is sorted. Detail: `{ sortBy, sortOrder }`.
+ * @fires {CustomEvent} page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.
+ *
+ * @slot bulk-actions - Actions shown in the selection bar while rows are selected.
+ *
+ * @cssprop --table-row-height - Minimum height of a row. Set by `density`.
+ * @cssprop --table-border-color - Color of the row dividers.
+ * @cssprop --table-cell-padding-inline - Horizontal padding of a cell.
  *
  * @example
  * ```html
- * <wc-table columns="[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7}]" data="[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]"></wc-table>
+ * <wc-table columns="[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]" data="[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]"></wc-table>
  * ```
  * @tags display, data
  */
@@ -29,13 +61,13 @@ export declare class Table extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     /**
      * Grid columns configuration.
-     * Each column can have: name, label, width (px), fixed (boolean), template (function).
+     * Each column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.
      */
     columns: TableColumn[];
     /**
      * Grid data to display on table.
      */
-    data: any[];
+    data: TableRow[];
     /**
      * Row selection type. Set to `"checkbox"` to enable checkbox selection.
      */
@@ -65,7 +97,7 @@ export declare class Table extends LitElement {
      */
     sortOrder: 'asc' | 'desc';
     /**
-     * If true, pagination is enabled. Defaults to `true`.
+     * If true, pagination is enabled. Defaults to `false`.
      */
     paginate: boolean;
     /**
@@ -77,9 +109,39 @@ export declare class Table extends LitElement {
      */
     pageSize: number;
     /**
-     * Total number of items (used in managed/controlled mode).
+     * Supported page size options, passed to the pagination.
+     */
+    pageSizes: number[] | undefined;
+    /**
+     * Total number of items (used in managed/controlled mode). Leave it unset when the total is
+     * unknown; the pagination then shows previous and next, driven by `has-next`.
      */
     totalItems: number | undefined;
+    /**
+     * Whether another page exists after this one, in managed mode with an unknown total.
+     */
+    hasNext: boolean;
+    /**
+     * Pagination variant: `full` (page numbers), `compact` or `simple`. Defaults to `full`.
+     */
+    paginationVariant: PaginationVariant;
+    /**
+     * Row height: `compact`, `default` or `comfortable`. Defaults to `default`.
+     */
+    density: 'compact' | 'default' | 'comfortable';
+    /**
+     * Shades every other row.
+     */
+    striped: boolean;
+    /**
+     * Shows a loading state: skeleton rows while there is no data, otherwise a progress bar
+     * under the header so the current rows stay readable.
+     */
+    loading: boolean;
+    /**
+     * Accessible name of the table.
+     */
+    label: string;
     /**
      * Headline text shown when the table has no data.
      */
@@ -88,28 +150,64 @@ export declare class Table extends LitElement {
      * Description text shown when the table has no data.
      */
     emptyStateDescription: string;
-    /** Tracks the currently hovered row and column for hover-highlight CSS. */
-    private hoveredCell;
-    /** True when all rows on the current page are selected. */
-    private isSelectAll;
-    /** True when some (but not all) rows on the current page are selected. */
-    private isSelectAllIntermediate;
-    /** True when the scroll container has been scrolled horizontally. */
-    private isHorizontallyScrolled;
-    /** Throttled version of the cell-mouseover handler to avoid excessive state updates. */
-    private onCellMouseOverThrottled;
+    /** True when every item across all pages is selected, not only the current page. */
+    private allPagesSelected;
+    /** True when content is scrolled under the start-pinned columns. */
+    private scrolledFromStart;
+    /** True when more content waits past the end-pinned columns. */
+    private scrolledFromEnd;
+    /** The cell that holds the grid's single tab stop. Row 0 is the header. */
+    private activeCell;
+    private scrollContainer?;
+    /** Set when a keyboard move must focus the active cell after the next render. */
+    private pendingFocus;
+    /** Watches the scroll container so the edge shadows follow resizes. */
+    private resizeObserver?;
+    disconnectedCallback(): void;
+    firstUpdated(): void;
+    protected willUpdate(changed: PropertyValues<Table>): void;
+    protected updated(changed: PropertyValues<Table>): void;
+    /** Columns in visual order: checkbox, start-pinned, scrolling, end-pinned. */
+    private getGridColumns;
+    private static getPlacement;
+    private static getAlign;
+    private static getWidth;
+    private get totalColumnsWidth();
+    private isColumnSortable;
+    /** Total item count across pages, or `undefined` when it is unknown. */
+    private getTotalItems;
+    /** Rows shown on the current page, sorted and sliced unless the table is managed. */
+    private getPageRows;
+    /** Compares numbers by value and everything else as text with natural number order. */
+    private static compare;
+    private getRowKey;
+    private onSortClick;
     private onSelectAllClick;
     private onRowSelectClick;
+    private selectAllPages;
+    private clearSelection;
     private onSelectChange;
     private onCellClick;
+    private dispatchCellEvents;
+    private onPage;
     private onScrollContainer;
-    private get totalColumnsWidth();
-    private getTotalItems;
-    private getSortIcon;
-    private onSortClick;
+    private updateScrollEdges;
+    private getCell;
+    /** The element that takes focus for a cell: its sort button, or the cell itself. */
+    private getFocusTarget;
+    private tabIndexFor;
+    private onGridFocusIn;
+    private onGridKeydown;
+    private renderCellContent;
+    private cellClasses;
+    private cellStyle;
+    /** Splits a row's cells into the start-pinned, scrolling and end-pinned groups. */
+    private renderRowGroups;
     private renderHeader;
     private renderBody;
+    private renderSkeletonBody;
     private renderEmptyState;
+    private renderBulkBar;
     private renderPagination;
-    render(): import("lit-html").TemplateResult<1>;
+    render(): TemplateResult<1>;
 }

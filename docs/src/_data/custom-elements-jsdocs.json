@@ -6908,14 +6908,21 @@
     "label": "Pagination",
     "tag": "wc-pagination",
     "rawTag": "pagination",
-    "summary": "A pagination control with page size selector, item count display, and previous/next navigation.",
-    "overview": "<p>The pagination component provides controls for navigating through paged data sets.</p>",
+    "summary": "A pagination control with page numbers, a rows-per-page selector and the current item range.",
+    "overview": "<p>The pagination component moves through paged data. It shows the current item range, the pages and a rows-per-page selector.</p>\n<p>Three variants cover different data sets: <code>full</code> lists page numbers with ellipses, <code>compact</code> shows \"Page [n] of N\" with a field to jump to a page, and <code>simple</code> shows previous and next only. When <code>total-items</code> is not set, the total is unknown (cursor-based APIs): the control shows previous and next, and <code>has-next</code> says whether another page exists.</p>\n<p>On a narrow container the <code>full</code> variant collapses to <code>compact</code>.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
-    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"100\"></wc-pagination>\n```",
+    "cssprop": "--pagination-background - Background of the control. Defaults to the surface color.",
+    "example": "```html\n<wc-pagination style=\"width: 100%;\" page=\"1\" page-size=\"10\" total-items=\"240\"></wc-pagination>\n```",
     "tags": "navigation, data",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the control. Defaults to the surface color.",
+          "name": "--pagination-background"
+        }
+      ],
       "events": [
         {
           "name": "page",
@@ -6947,10 +6954,9 @@
         {
           "name": "total-items",
           "type": {
-            "text": "number"
+            "text": "number | undefined"
           },
-          "default": "0",
-          "description": "Total number of items.",
+          "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
           "fieldName": "totalItems"
         },
         {
@@ -6961,6 +6967,54 @@
           "default": "DEFAULT_PAGE_SIZES",
           "description": "Supported page size options.",
           "fieldName": "pageSizes"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "PaginationVariant"
+          },
+          "default": "'full'",
+          "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'full' | 'compact' | 'simple'"
+          }
+        },
+        {
+          "name": "has-next",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether another page exists after this one. Used only when `total-items` is unset.",
+          "fieldName": "hasNext"
+        },
+        {
+          "name": "show-first-last",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows buttons that jump to the first and the last page.",
+          "fieldName": "showFirstLast"
+        },
+        {
+          "name": "hide-page-size",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the rows-per-page selector.",
+          "fieldName": "hidePageSize"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Pagination'",
+          "description": "Accessible name of the navigation landmark. Defaults to `\"Pagination\"`.",
+          "fieldName": "label"
         }
       ],
       "superclass": {
@@ -8955,41 +9009,70 @@
     "tag": "wc-table",
     "rawTag": "table",
     "summary": "A configurable component for displaying tabular data.",
-    "overview": "<p>The table component displays rows of data with support for sorting, pagination, row selection, and fixed columns.</p>",
-    "fires": "page - Dispatched when the page or page size changes.",
-    "example": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```",
+    "overview": "<p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>\n<p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>",
+    "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
+    "slot": "bulk-actions - Actions shown in the selection bar while rows are selected.",
+    "cssprop": "--table-cell-padding-inline - Horizontal padding of a cell.",
+    "example": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```",
     "tags": "display, data",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Minimum height of a row. Set by `density`.",
+          "name": "--table-row-height"
+        },
+        {
+          "description": "Color of the row dividers.",
+          "name": "--table-border-color"
+        },
+        {
+          "description": "Horizontal padding of a cell.",
+          "name": "--table-cell-padding-inline"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Actions shown in the selection bar while rows are selected.",
+          "name": "bulk-actions"
+        }
+      ],
       "events": [
+        {
+          "name": "sort",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the table is sorted. Detail: `{ sortBy, sortOrder }`."
+        },
         {
           "name": "selection-change",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the row selection changes."
+          "description": "Dispatched when the row selection changes. Detail: `{ value, isSelectAll, allPages }`."
         },
         {
           "name": "cell-click",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when a table cell is clicked."
+          "description": "Dispatched when a cell is clicked or activated with Enter. Detail: `{ record, column, altKey, ctrlKey, metaKey, shiftKey }`."
         },
         {
-          "name": "sort",
+          "name": "row-click",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the table is sorted."
+          "description": "Dispatched when a row is clicked or activated with Enter. Detail: `{ record }`."
         },
         {
           "name": "page",
           "type": {
             "text": "CustomEvent"
           },
-          "description": "Dispatched when the page or page size changes."
+          "description": "Dispatched when the page or page size changes. Detail: `{ page, pageSize }`."
         }
       ],
       "attributes": [
@@ -8999,13 +9082,13 @@
             "text": "TableColumn[]"
           },
           "default": "[]",
-          "description": "Grid columns configuration.\nEach column can have: name, label, width (px), fixed (boolean), template (function).",
+          "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
           "fieldName": "columns"
         },
         {
           "name": "data",
           "type": {
-            "text": "any[]"
+            "text": "TableRow[]"
           },
           "default": "[]",
           "description": "Grid data to display on table.",
@@ -9079,7 +9162,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "If true, pagination is enabled. Defaults to `true`.",
+          "description": "If true, pagination is enabled. Defaults to `false`.",
           "fieldName": "paginate"
         },
         {
@@ -9101,12 +9184,77 @@
           "fieldName": "pageSize"
         },
         {
+          "name": "page-sizes",
+          "type": {
+            "text": "number[] | undefined"
+          },
+          "description": "Supported page size options, passed to the pagination.",
+          "fieldName": "pageSizes"
+        },
+        {
           "name": "total-items",
           "type": {
             "text": "number | undefined"
           },
-          "description": "Total number of items (used in managed/controlled mode).",
+          "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
           "fieldName": "totalItems"
+        },
+        {
+          "name": "has-next",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether another page exists after this one, in managed mode with an unknown total.",
+          "fieldName": "hasNext"
+        },
+        {
+          "name": "pagination-variant",
+          "type": {
+            "text": "PaginationVariant"
+          },
+          "default": "'full'",
+          "description": "Pagination variant: `full` (page numbers), `compact` or `simple`. Defaults to `full`.",
+          "fieldName": "paginationVariant",
+          "expandedType": {
+            "text": "'full' | 'compact' | 'simple'"
+          }
+        },
+        {
+          "name": "density",
+          "type": {
+            "text": "'compact' | 'default' | 'comfortable'"
+          },
+          "default": "'default'",
+          "description": "Row height: `compact`, `default` or `comfortable`. Defaults to `default`.",
+          "fieldName": "density"
+        },
+        {
+          "name": "striped",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shades every other row.",
+          "fieldName": "striped"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the table.",
+          "fieldName": "label"
         },
         {
           "name": "empty-state-headline",
