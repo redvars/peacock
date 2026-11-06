@@ -1,0 +1,41 @@
+---
+export const title = 'Disabled';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>disabled</code> dims a card and makes its content inert. A disabled actionable or link card
+  also stops responding to clicks and leaves the tab order, and a disabled link card drops its
+  <code>href</code>.
+</p>
+<p>
+  Add <code>disabled-reason</code> to say why. The card then stays in the tab order, and screen
+  readers read the reason when it gets focus. Keep the reason short and say what would make the
+  card available.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='card-demo-grid'>
+    <wc-card
+      variant='outlined'
+      actionable
+      disabled
+      disabled-reason='Your organization admin manages billing.'
+    >
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='workspace_premium'></wc-icon>
+        <h3 class='text-title-medium'>Upgrade to Pro</h3>
+        <p class='text-body-medium'>Unlimited projects and priority support.</p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined' href='/reports/q3.csv' disabled>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='download'></wc-icon>
+        <h3 class='text-title-medium'>Export Q3 report</h3>
+        <p class='text-body-medium'>Available when the quarter closes.</p>
+      </wc-card-content>
+    </wc-card>
+  </div>
+</DemoComponentCard>

@@ -1,8 +1,9 @@
-import { i, a as i$1, A, c as __classPrivateFieldGet, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
+import { i, a as i$1, A, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
 import { e } from './class-map-DG7CA1et.js';
+import { o } from './if-defined-BXZpRQ4P.js';
 import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
@@ -77,7 +78,6 @@ var css_248z$1 = i`* {
   height: 100%;
   overflow: hidden;
   padding: var(--card-padding);
-  border: 1px solid transparent; /* Fixes overflow issues with border */
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
   border-end-start-radius: var(--_container-shape-end-start);
@@ -164,39 +164,52 @@ var css_248z$1 = i`* {
   corner-shape: var(--_container-corner-shape-variant);
 }
 
-:host([actionable]:not([disabled])) .focus-ring,
-:host([actionable]:not([disabled])) .ripple,
-:host([href]) .focus-ring,
-:host([href]) .ripple {
+/*
+  Actionable and link cards. A disabled one with a disabled-reason stays
+  focusable, so it keeps the focus ring; only enabled ones get the ripple.
+ */
+:host([actionable]) .focus-ring,
+:host([href]) .focus-ring {
   display: block;
 }
-:host([actionable]:not([disabled])) .card-content,
+:host([actionable]) .card-content,
 :host([href]) .card-content {
   pointer-events: none;
 }
 
+:host([actionable]:not([disabled])) .ripple,
+:host([href]:not([disabled])) .ripple {
+  display: block;
+}
+
+/*
+  Variants. Hover and press states apply to enabled actionable and link cards
+  only, so a static card never suggests it can be clicked.
+ */
 :host([variant=elevated]) {
   --_container-color: var(--elevated-card-container-color);
   --_label-text-color: var(--elevated-card-label-text-color);
   --_container-elevation-level: 1;
   --_container-state-color: var(--_label-text-color);
 }
-:host([variant=elevated]):hover:not([disabled]) {
+
+:host([variant=elevated][actionable]:not([disabled]):hover),
+:host([variant=elevated][href]:not([disabled]):hover) {
   --_container-elevation-level: 2;
   --_container-state-opacity: 0.08;
 }
-:host([variant=elevated]):active:not([disabled]) {
+
+:host([variant=elevated][actionable]:not([disabled]):active),
+:host([variant=elevated][href]:not([disabled]):active) {
   --_container-elevation-level: 1;
   --_container-state-opacity: 0.12;
 }
-:host([variant=elevated])[disabled] {
+
+:host([variant=elevated][disabled]) {
   --_container-color: var(--color-on-surface);
   --_container-opacity: 0.1;
   --_label-text-color: var(--color-on-surface);
   --_label-text-opacity: 0.38;
-}
-:host([variant=elevated])[disabled] .ripple {
-  display: none;
 }
 
 :host([variant=filled]) {
@@ -204,22 +217,24 @@ var css_248z$1 = i`* {
   --_label-text-color: var(--filled-card-label-text-color);
   --_container-state-color: var(--_label-text-color);
 }
-:host([variant=filled]):hover:not([disabled]) {
+
+:host([variant=filled][actionable]:not([disabled]):hover),
+:host([variant=filled][href]:not([disabled]):hover) {
   --_container-elevation-level: 1;
   --_container-state-opacity: 0.08;
 }
-:host([variant=filled]):active:not([disabled]) {
+
+:host([variant=filled][actionable]:not([disabled]):active),
+:host([variant=filled][href]:not([disabled]):active) {
   --_container-elevation-level: 0;
   --_container-state-opacity: 0.1;
 }
-:host([variant=filled])[disabled] {
+
+:host([variant=filled][disabled]) {
   --_container-color: var(--color-on-surface);
   --_container-opacity: 0.1;
   --_label-text-color: var(--color-on-surface);
   --_label-text-opacity: 0.38;
-}
-:host([variant=filled])[disabled] .ripple {
-  display: none;
 }
 
 :host([variant=outlined]) {
@@ -231,20 +246,28 @@ var css_248z$1 = i`* {
 :host([variant=outlined]) .outline {
   display: block;
 }
-:host([variant=outlined]):hover:not([disabled]) {
+:host([variant=outlined]) {
+  /* Keep content, such as edge-to-edge media, from covering the outline. */
+}
+:host([variant=outlined]) .card-content {
+  border: var(--_outline-width) solid transparent;
+}
+
+:host([variant=outlined][actionable]:not([disabled]):hover),
+:host([variant=outlined][href]:not([disabled]):hover) {
   --_container-state-opacity: 0.08;
 }
-:host([variant=outlined]):active:not([disabled]) {
+
+:host([variant=outlined][actionable]:not([disabled]):active),
+:host([variant=outlined][href]:not([disabled]):active) {
   --_container-state-opacity: 0.12;
 }
-:host([variant=outlined])[disabled] {
+
+:host([variant=outlined][disabled]) {
   --_outline-color: var(--color-on-surface);
   --_label-text-color: var(--color-on-surface);
   --_label-text-opacity: 0.38;
   --_outline-opacity: 0.12;
-}
-:host([variant=outlined])[disabled] .ripple {
-  display: none;
 }`;
 
 var css_248z = i`:host {
@@ -256,92 +279,162 @@ var css_248z = i`:host {
   --outlined-card-label-text-color: var(--color-on-surface);
 }`;
 
-var _Card_id, _Card_tabindex;
+const DISABLED_REASON_ID = 'disabled-reason';
 /**
  * @label Card
  * @tag wc-card
  * @rawTag card
- * @summary A card surface for grouping related content.
- * @cssprop --card-padding - Inner padding for the card container. Defaults to 1rem.
- * @cssprop --card-shape - Corner radius for the card container. Defaults to a large radius.
- * @cssprop --card-gap - Gap between slotted children.
+ * @summary A surface that groups content and actions about one subject. Set `actionable` to make the whole card a button, or `href` to make it a link.
+ * @cssprop --card-container-shape - Corner radius of the card. Defaults to `--shape-corner-large`.
+ * @cssprop --card-padding - Padding inside the card, around its children. Defaults to 0; `wc-card-content` adds its own padding.
+ * @cssprop --card-gap - Gap between the card's children. Defaults to 0.
  *
  * @example
  * ```html
- * <wc-card variant="outlined" style="padding-block: 1rem;">
+ * <wc-card variant="outlined">
  *   <wc-card-content>
- *     <h3 class="text-headline">Title</h3>
- *     <p class="text-body">Supportive text</p>
+ *     <h3 class="text-title-large">Title</h3>
+ *     <p class="text-body-medium">Supporting text</p>
  *   </wc-card-content>
  * </wc-card>
  * ```
  */
 let Card = class Card extends NativeHyperlinkMixin(i$1) {
+    // ── Constructor ───────────────────────────────────────────────────────────
     constructor() {
         super();
-        _Card_id.set(this, crypto.randomUUID());
+        // ── Properties ────────────────────────────────────────────────────────────
+        /**
+         * Visual style of the card: `elevated` (a raised surface with a shadow), `filled` (a tonal surface)
+         * or `outlined` (a bordered surface). Defaults to `elevated`.
+         */
         this.variant = 'elevated';
+        /**
+         * Dims the card and makes its content inert. An actionable or link card also stops responding
+         * to clicks and leaves the tab order, unless `disabled-reason` is set.
+         */
         this.disabled = false;
+        /**
+         * Makes the whole card a single button that fires `click`. Its content becomes inert, so don't
+         * put buttons or links inside an actionable card.
+         */
         this.actionable = false;
         /**
-         * If button is disabled, the reason why it is disabled.
+         * Why an actionable or link card is disabled. The card stays focusable and screen readers read
+         * the reason with it.
          */
         this.disabledReason = '';
-        /**
-         * States
-         */
+        /** Whether the default slot holds meaningful content. */
         this.slotHasContent = false;
-        _Card_tabindex.set(this, 0);
         this.__dispatchClickWithThrottle = event => {
             this.__dispatchClick(event);
         };
         this.__dispatchClick = (event) => {
-            // If the button is soft-disabled or a disabled link, we need to explicitly
-            // prevent the click from propagating to other event listeners as well as
-            // prevent the default action.
-            if (this.disabled && this.href) {
-                event.stopImmediatePropagation();
-                event.preventDefault();
-                return;
-            }
             if (!isActivationClick(event) || !this.cardElement) {
                 return;
             }
             this.focus();
             dispatchActivationClick(this.cardElement);
         };
-        this.addEventListener('click', this.__dispatchClickWithThrottle);
+        // Look the handler up on every click, so the throttled version set in
+        // firstUpdated() is the one that runs.
+        this.addEventListener('click', event => this.__handleClick(event));
     }
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
     firstUpdated() {
         if (typeof this.throttleDelay === 'number') {
             this.__dispatchClickWithThrottle = throttle(this.__dispatchClick, this.throttleDelay);
         }
         observerSlotChangesWithCallback(this.renderRoot.querySelector('slot'), hasContent => {
             this.slotHasContent = hasContent;
-            this.requestUpdate();
         });
     }
+    // ── Private methods ───────────────────────────────────────────────────────
+    __handleClick(event) {
+        // A disabled card never activates, and consumer click listeners on it never run.
+        if (this.disabled) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return;
+        }
+        this.__dispatchClickWithThrottle(event);
+    }
+    /** True when a disabled interactive card should stay focusable to expose its reason. */
+    __isSoftDisabled() {
+        return this.disabled && !!this.disabledReason;
+    }
     __getDisabledReasonID() {
-        return this.disabled && this.disabledReason
-            ? `disabled-reason-${__classPrivateFieldGet(this, _Card_id, "f")}`
-            : A;
+        return this.__isSoftDisabled() ? DISABLED_REASON_ID : undefined;
     }
-    __renderDisabledReason() {
-        const disabledReasonID = this.__getDisabledReasonID();
-        if (disabledReasonID)
-            return b `<div
-        id="disabled-reason-${__classPrivateFieldGet(this, _Card_id, "f")}"
-        role="tooltip"
-        aria-label=${this.disabledReason}
-        class="screen-reader-only"
-      >
-        ${this.disabledReason}
+    // ── Render helpers ────────────────────────────────────────────────────────
+    renderDisabledReason() {
+        if (!this.__isSoftDisabled())
+            return A;
+        return b `<div
+      id=${DISABLED_REASON_ID}
+      role="tooltip"
+      aria-label=${this.disabledReason}
+      class="screen-reader-only"
+    >
+      ${this.disabledReason}
+    </div>`;
+    }
+    renderCardElement(isLinkElement) {
+        const interactive = this.actionable || isLinkElement;
+        const cssClasses = {
+            card: true,
+            'card-element': true,
+            [`variant-${this.variant}`]: true,
+            actionable: interactive && !this.disabled,
+            disabled: this.disabled,
+            'has-content': this.slotHasContent,
+        };
+        const inertContent = interactive || this.disabled;
+        if (!interactive) {
+            return b `<div class=${e(cssClasses)} id="card">
+        ${this.renderCardContent(inertContent)}
       </div>`;
-        return A;
+        }
+        const softDisabled = this.__isSoftDisabled();
+        const removedFromTabOrder = this.disabled && !softDisabled;
+        if (!isLinkElement) {
+            return b `<button
+        class=${e(cssClasses)}
+        id="card"
+        type="button"
+        aria-describedby=${o(this.__getDisabledReasonID())}
+        aria-disabled=${o(this.disabled ? 'true' : undefined)}
+        ?disabled=${removedFromTabOrder}
+      >
+        ${this.renderCardContent(inertContent)} ${this.renderDisabledReason()}
+      </button>`;
+        }
+        return b `<a
+      class=${e(cssClasses)}
+      id="card"
+      href=${o(this.disabled ? undefined : this.href)}
+      target=${o(this.disabled ? undefined : this.target)}
+      rel=${o(this.disabled ? undefined : this.rel)}
+      download=${o(this.disabled ? undefined : this.download)}
+      role=${o(this.disabled ? 'link' : undefined)}
+      tabindex=${removedFromTabOrder ? '-1' : '0'}
+      aria-describedby=${o(this.__getDisabledReasonID())}
+      aria-disabled=${o(this.disabled ? 'true' : undefined)}
+    >
+      ${this.renderCardContent(inertContent)} ${this.renderDisabledReason()}
+    </a>`;
     }
+    renderCardContent(inertContent) {
+        return b `
+      <div class="card-content">
+        <div class="slot-container" ?inert=${inertContent}>
+          <slot></slot>
+        </div>
+      </div>
+    `;
+    }
+    // ── Render ────────────────────────────────────────────────────────────────
     render() {
-        const isLinkElement = isLink(this);
-        const disableSlotTabbing = this.actionable || isLinkElement;
         return b `
       <wc-focus-ring class="focus-ring" for="card"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
@@ -349,60 +442,11 @@ let Card = class Card extends NativeHyperlinkMixin(i$1) {
       <div class="outline"></div>
       <wc-ripple class="ripple" for="card"></wc-ripple>
 
-      ${this.renderCardElement(isLinkElement, disableSlotTabbing)}
-    `;
-    }
-    renderCardElement(isLinkElement, disableSlotTabbing) {
-        const cssClasses = {
-            card: true,
-            'card-element': true,
-            [`variant-${this.variant}`]: true,
-            actionable: (this.actionable && !this.disabled) || isLinkElement,
-            disabled: this.disabled,
-            'has-content': this.slotHasContent,
-        };
-        if (!this.actionable && !isLinkElement) {
-            return b `<div class=${e(cssClasses)} id="card">
-        ${this.renderCardContent(disableSlotTabbing)}
-      </div>`;
-        }
-        if (!isLinkElement) {
-            return b `<button
-        class=${e(cssClasses)}
-        id="card"
-        tabindex=${__classPrivateFieldGet(this, _Card_tabindex, "f")}
-        ?aria-describedby=${this.__getDisabledReasonID()}
-        aria-disabled=${`${this.disabled}`}
-        ?disabled=${this.disabled}
-      >
-        ${this.renderCardContent(disableSlotTabbing)}
-      </button>`;
-        }
-        return b `<a
-      class=${e(cssClasses)}
-      id="card"
-      tabindex=${__classPrivateFieldGet(this, _Card_tabindex, "f")}
-      href=${this.href}
-      target=${this.target}
-      role="button"
-      ?aria-describedby=${this.__getDisabledReasonID()}
-      aria-disabled=${`${this.disabled}`}
-    >
-      ${this.renderCardContent(disableSlotTabbing)}
-    </a>`;
-    }
-    renderCardContent(disableSlotTabbing) {
-        return b `
-      <div class="card-content">
-        <div class="slot-container" ?inert=${disableSlotTabbing}>
-          <slot></slot>
-        </div>
-      </div>
+      ${this.renderCardElement(isLink(this))}
     `;
     }
 };
-_Card_id = new WeakMap();
-_Card_tabindex = new WeakMap();
+// ── Static ────────────────────────────────────────────────────────────────
 Card.styles = [css_248z$1, css_248z];
 __decorate([
     n({ type: String, reflect: true })
@@ -417,7 +461,7 @@ __decorate([
     n({ attribute: 'disabled-reason' })
 ], Card.prototype, "disabledReason", void 0);
 __decorate([
-    n()
+    n({ type: Number, attribute: 'throttle-delay' })
 ], Card.prototype, "throttleDelay", void 0);
 __decorate([
     r()

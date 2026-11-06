@@ -1,0 +1,79 @@
+---
+export const title = 'Actionable and link cards';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Add <code>actionable</code> to make the whole card one button. It fires <code>click</code>, shows
+  hover and press states, and its content becomes inert, so don’t put buttons or links inside it.
+  When a card needs more than one action, use a static card with its own buttons instead.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='card-demo-grid' id='template-picker'>
+    <wc-card variant='outlined' actionable data-template='Blank page'>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='draft'></wc-icon>
+        <h3 class='text-title-medium'>Blank page</h3>
+        <p class='text-body-medium card-demo-muted'>Start from an empty canvas.</p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined' actionable data-template='Landing page'>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='web'></wc-icon>
+        <h3 class='text-title-medium'>Landing page</h3>
+        <p class='text-body-medium card-demo-muted'>A hero, three features and a sign-up form.</p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='outlined' actionable data-template='Blog post'>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='article'></wc-icon>
+        <h3 class='text-title-medium'>Blog post</h3>
+        <p class='text-body-medium card-demo-muted'>A title, a cover image and long-form text.</p>
+      </wc-card-content>
+    </wc-card>
+  </div>
+
+  <p id='template-choice' class='text-body-medium' aria-live='polite'>No template chosen yet.</p>
+
+  <script is:inline>
+    document.getElementById('template-picker').addEventListener('click', event => {
+      const card = event.target.closest('wc-card[data-template]');
+      if (!card) return;
+      document.getElementById('template-choice').textContent =
+        'Selected: ' + card.dataset.template;
+    });
+  </script>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Link cards</h3>
+<p>
+  Set <code>href</code> instead to make the card a link, and screen readers announce it as one.
+  <code>target</code>, <code>rel</code> and <code>download</code> work as they do on
+  <code>&lt;a&gt;</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='card-demo-grid'>
+    <wc-card variant='filled' href='/foundations/color/'>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='palette'></wc-icon>
+        <h3 class='text-title-medium'>Color</h3>
+        <p class='text-body-medium card-demo-muted'>
+          Color roles, tonal palettes and how the theme engine builds them.
+        </p>
+      </wc-card-content>
+    </wc-card>
+
+    <wc-card variant='filled' href='/theme-builder/'>
+      <wc-card-content class='card-demo-body'>
+        <wc-icon class='card-demo-icon' name='format_paint'></wc-icon>
+        <h3 class='text-title-medium'>Theme builder</h3>
+        <p class='text-body-medium card-demo-muted'>Generate a full theme from one source color.</p>
+      </wc-card-content>
+    </wc-card>
+  </div>
+</DemoComponentCard>

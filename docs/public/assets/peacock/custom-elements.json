@@ -23693,7 +23693,7 @@
               }
             }
           ],
-          "description": "Builds the page list shown by the `full` pagination variant.\n\nThe list always keeps the first and last page, the current page and `siblings` pages on each\nside of it, and fills the rest with an ellipsis. It never holds more than\n`2 * siblings + 5` slots, so the control keeps its width while the user moves through pages."
+          "description": "Builds the page list shown by the `full` pagination variant.\r\n\r\nThe list always keeps the first and last page, the current page and `siblings` pages on each\r\nside of it, and fills the rest with an ellipsis. It never holds more than\r\n`2 * siblings + 5` slots, so the control keeps its width while the user moves through pages."
         }
       ],
       "exports": [
@@ -23748,7 +23748,7 @@
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
+              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\r\nprevious and next only, and `has-next` decides whether next is enabled.",
               "attribute": "total-items"
             },
             {
@@ -23768,7 +23768,7 @@
                 "text": "PaginationVariant"
               },
               "default": "'full'",
-              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\r\n(previous and next only). Defaults to `full`.",
               "attribute": "variant",
               "reflects": true,
               "expandedType": {
@@ -24020,7 +24020,7 @@
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\nprevious and next only, and `has-next` decides whether next is enabled.",
+              "description": "Total number of items. Leave it unset when the total is unknown; the control then shows\r\nprevious and next only, and `has-next` decides whether next is enabled.",
               "fieldName": "totalItems"
             },
             {
@@ -24038,7 +24038,7 @@
                 "text": "PaginationVariant"
               },
               "default": "'full'",
-              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\n(previous and next only). Defaults to `full`.",
+              "description": "How the pages are shown: `full` (page numbers), `compact` (\"Page [n] of N\") or `simple`\r\n(previous and next only). Defaults to `full`.",
               "fieldName": "variant",
               "expandedType": {
                 "text": "'full' | 'compact' | 'simple'"
@@ -24141,7 +24141,7 @@
                 "text": "TableColumn[]"
               },
               "default": "[]",
-              "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
+              "description": "Grid columns configuration.\r\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
               "attribute": "columns"
             },
             {
@@ -24268,7 +24268,7 @@
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
+              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\r\nunknown; the pagination then shows previous and next, driven by `has-next`.",
               "attribute": "total-items"
             },
             {
@@ -24323,7 +24323,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\r\nunder the header so the current rows stay readable.",
               "attribute": "loading",
               "reflects": true
             },
@@ -25014,7 +25014,7 @@
                 "text": "TableColumn[]"
               },
               "default": "[]",
-              "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
+              "description": "Grid columns configuration.\r\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
               "fieldName": "columns"
             },
             {
@@ -25128,7 +25128,7 @@
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
+              "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\r\nunknown; the pagination then shows previous and next, driven by `has-next`.",
               "fieldName": "totalItems"
             },
             {
@@ -25176,7 +25176,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
+              "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\r\nunder the header so the current rows stay readable.",
               "fieldName": "loading"
             },
             {
@@ -25885,24 +25885,19 @@
           "name": "Card",
           "cssProperties": [
             {
-              "description": "Inner padding for the card container. Defaults to 1rem.",
+              "description": "Corner radius of the card. Defaults to `--shape-corner-large`.",
+              "name": "--card-container-shape"
+            },
+            {
+              "description": "Padding inside the card, around its children. Defaults to 0; `wc-card-content` adds its own padding.",
               "name": "--card-padding"
             },
             {
-              "description": "Corner radius for the card container. Defaults to a large radius.",
-              "name": "--card-shape"
-            },
-            {
-              "description": "Gap between slotted children.",
+              "description": "Gap between the card's children. Defaults to 0.",
               "name": "--card-gap"
             }
           ],
           "members": [
-            {
-              "kind": "field",
-              "name": "#id",
-              "privacy": "private"
-            },
             {
               "kind": "field",
               "name": "variant",
@@ -25910,6 +25905,7 @@
                 "text": "CardVariant"
               },
               "default": "'elevated'",
+              "description": "Visual style of the card: `elevated` (a raised surface with a shadow), `filled` (a tonal surface)\nor `outlined` (a bordered surface). Defaults to `elevated`.",
               "attribute": "variant",
               "reflects": true,
               "expandedType": {
@@ -25923,6 +25919,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Dims the card and makes its content inert. An actionable or link card also stops responding\nto clicks and leaves the tab order, unless `disabled-reason` is set.",
               "attribute": "disabled",
               "reflects": true
             },
@@ -25933,6 +25930,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Makes the whole card a single button that fires `click`. Its content becomes inert, so don't\nput buttons or links inside an actionable card.",
               "attribute": "actionable",
               "reflects": true
             },
@@ -25943,7 +25941,7 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "If button is disabled, the reason why it is disabled.",
+              "description": "Why an actionable or link card is disabled. The card stays focusable and screen readers read\nthe reason with it.",
               "attribute": "disabled-reason"
             },
             {
@@ -25952,8 +25950,8 @@
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
-              "attribute": "throttleDelay"
+              "description": "Delay in milliseconds for throttling activation of an actionable or link card. When unset\n(default), no throttle is applied.",
+              "attribute": "throttle-delay"
             },
             {
               "kind": "field",
@@ -25963,7 +25961,7 @@
               },
               "privacy": "private",
               "default": "false",
-              "description": "States"
+              "description": "Whether the default slot holds meaningful content."
             },
             {
               "kind": "field",
@@ -25974,13 +25972,16 @@
               "readonly": true
             },
             {
-              "kind": "field",
-              "name": "#tabindex",
-              "privacy": "private",
-              "type": {
-                "text": "number | undefined"
-              },
-              "default": "0"
+              "kind": "method",
+              "name": "__handleClick",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "MouseEvent | KeyboardEvent"
+                  }
+                }
+              ]
             },
             {
               "kind": "field",
@@ -25995,11 +25996,16 @@
             },
             {
               "kind": "method",
+              "name": "__isSoftDisabled",
+              "description": "True when a disabled interactive card should stay focusable to expose its reason."
+            },
+            {
+              "kind": "method",
               "name": "__getDisabledReasonID"
             },
             {
               "kind": "method",
-              "name": "__renderDisabledReason"
+              "name": "renderDisabledReason"
             },
             {
               "kind": "method",
@@ -26007,12 +26013,6 @@
               "parameters": [
                 {
                   "name": "isLinkElement",
-                  "type": {
-                    "text": "boolean"
-                  }
-                },
-                {
-                  "name": "disableSlotTabbing",
                   "type": {
                     "text": "boolean"
                   }
@@ -26024,7 +26024,7 @@
               "name": "renderCardContent",
               "parameters": [
                 {
-                  "name": "disableSlotTabbing",
+                  "name": "inertContent",
                   "type": {
                     "text": "boolean"
                   }
@@ -26093,6 +26093,7 @@
                 "text": "CardVariant"
               },
               "default": "'elevated'",
+              "description": "Visual style of the card: `elevated` (a raised surface with a shadow), `filled` (a tonal surface)\nor `outlined` (a bordered surface). Defaults to `elevated`.",
               "fieldName": "variant",
               "expandedType": {
                 "text": "'elevated' | 'filled' | 'outlined'"
@@ -26104,6 +26105,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Dims the card and makes its content inert. An actionable or link card also stops responding\nto clicks and leaves the tab order, unless `disabled-reason` is set.",
               "fieldName": "disabled"
             },
             {
@@ -26112,6 +26114,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Makes the whole card a single button that fires `click`. Its content becomes inert, so don't\nput buttons or links inside an actionable card.",
               "fieldName": "actionable"
             },
             {
@@ -26120,15 +26123,15 @@
                 "text": "string"
               },
               "default": "''",
-              "description": "If button is disabled, the reason why it is disabled.",
+              "description": "Why an actionable or link card is disabled. The card stays focusable and screen readers read\nthe reason with it.",
               "fieldName": "disabledReason"
             },
             {
-              "name": "throttleDelay",
+              "name": "throttle-delay",
               "type": {
                 "text": "number | undefined"
               },
-              "description": "Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.",
+              "description": "Delay in milliseconds for throttling activation of an actionable or link card. When unset\n(default), no throttle is applied.",
               "fieldName": "throttleDelay"
             },
             {
@@ -26193,7 +26196,7 @@
           },
           "tagName": "wc-card",
           "customElement": true,
-          "summary": "A card surface for grouping related content.",
+          "summary": "A surface that groups content and actions about one subject. Set `actionable` to make the whole card a button, or `href` to make it a link.",
           "rawTag": {
             "name": "card",
             "description": ""
@@ -26221,7 +26224,7 @@
           "name": "CardContent",
           "cssProperties": [
             {
-              "description": "Inner padding for the card container. Defaults to 1rem. ```",
+              "description": "Padding on all sides. Defaults to 1rem.",
               "name": "--card-content-padding"
             }
           ],
@@ -26232,6 +26235,7 @@
           },
           "tagName": "wc-card-content",
           "customElement": true,
+          "summary": "A padded block inside a card. A card can hold several, next to edge-to-edge media.",
           "rawTag": {
             "name": "card-content",
             "description": ""

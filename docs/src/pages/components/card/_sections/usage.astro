@@ -4,19 +4,79 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<DemoComponentCard lang={'html'}>
-  <wc-card>
-   <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
-      <h3 class="text-title">Order Summary</h3>
-      <p class="text-body">3 items in your cart</p>
-      <wc-button size='sm'>Checkout</wc-button>
-    </wc-card-content>
-  </wc-card>
+<style is:inline>
+  /* Shared by every card demo on this page. */
+  .card-demo-grid {
+    display: grid;
+    gap: var(--spacing-200);
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    width: 100%;
+  }
 
-  <wc-card  actionable>
-    <wc-card-content style='min-width: 18rem;padding-block: 1rem;'>
-      <h3 class="text-title">Order Summary</h3>
-      <p class="text-body">3 items in your cart</p>
+  .card-demo-single {
+    width: min(100%, 24rem);
+  }
+
+  .card-demo-body {
+    display: grid;
+    gap: var(--spacing-100);
+  }
+
+  .card-demo-body > *,
+  .card-demo-heading > * {
+    margin: 0;
+  }
+
+  .card-demo-heading {
+    align-items: center;
+    display: flex;
+    gap: var(--spacing-100);
+    justify-content: space-between;
+  }
+
+  .card-demo-muted {
+    color: var(--color-on-surface-variant);
+  }
+
+  .card-demo-icon {
+    --icon-color: var(--color-primary);
+    --icon-size: 1.5rem;
+  }
+
+  .card-demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100);
+    justify-content: flex-end;
+    margin-top: var(--spacing-100);
+  }
+</style>
+
+<p>
+  A card groups content and actions about one subject, such as a project, an order or a person.
+  Put the content in <code>wc-card-content</code>, which pads it by 1rem on every side. A card can
+  hold several <code>wc-card-content</code> blocks, and media that runs edge to edge.
+</p>
+<p>
+  Keep a card about one thing. Give it a clear title, put the most important detail first, and
+  limit it to one or two actions.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-card class='card-demo-single'>
+    <wc-card-content class='card-demo-body'>
+      <div class='card-demo-heading'>
+        <h3 class='text-title-large'>Atlas Website</h3>
+        <wc-tag color='green' size='sm'>Live</wc-tag>
+      </div>
+      <p class='text-body-medium'>
+        Marketing site for the Atlas launch: 14 pages across 3 environments.
+      </p>
+      <p class='text-label-medium card-demo-muted'>Updated 2 hours ago</p>
+      <div class='card-demo-actions'>
+        <wc-button variant='text'>Share</wc-button>
+        <wc-button variant='tonal'>Open project</wc-button>
+      </div>
     </wc-card-content>
   </wc-card>
 </DemoComponentCard>
