@@ -7,8 +7,8 @@ export const SITE_URL = 'https://peacock.redvars.com';
 export const BASE_URL = '';
 
 // ── Versioning ────────────────────────────────────────────────────────────
-export const VERSION = '3.14.0';
-export const FALLBACK_VERSION = '3.13.0';
+export const VERSION = '3.15.0';
+export const FALLBACK_VERSION = '3.14.0';
 export const NPM_PACKAGE = '@redvars/peacock';
 
 // ── Repository ────────────────────────────────────────────────────────────
