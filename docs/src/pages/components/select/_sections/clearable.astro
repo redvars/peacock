@@ -1,0 +1,17 @@
+---
+export const title = 'Clearable';
+export const order = 450;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>
+  Add <code>clearable</code> to show a button that clears the value. It appears only while there is a
+  value, and fires <code>change</code> with an empty value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-select label='Assignee' placeholder='Unassigned' value='ada' clearable style='width: 20rem'>
+    <wc-option value='ada'>Ada Lovelace</wc-option>
+    <wc-option value='grace'>Grace Hopper</wc-option>
+    <wc-option value='alan'>Alan Turing</wc-option>
+  </wc-select>
+</DemoComponentCard>

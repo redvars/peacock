@@ -73,9 +73,11 @@
   gap: var(--spacing-050);
 }
 
-.select-empty-state {
-  display: block;
-  inline-size: min(22rem, 100%);
+/* Shown in the menu when no option matches. */
+.no-results {
+  @include mixin.get-typography(body-medium);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-100) var(--spacing-200);
 }
 
 /* Dropdown chevron icon */
@@ -90,17 +92,20 @@
   }
 }
 
-/* Clear button */
-.clear-btn {
-  --button-container-shape: var(--shape-corner-full);
-}
-
-/* Multi-select chips area — single scrollable row, no vertical growth */
+/* Multi-select chips: one row; chips that do not fit collapse into a "+N" chip. */
 .chips-container {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
+  gap: var(--spacing-050);
   flex: 1;
-  padding-block: .5rem;
+  min-width: 0;
+  overflow: hidden;
+  padding-block: var(--spacing-050);
+
+  wc-chip {
+    flex-shrink: 0;
+  }
 }
 
 /* Disabled state */

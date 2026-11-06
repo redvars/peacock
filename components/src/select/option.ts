@@ -1,6 +1,6 @@
-import { css, html, LitElement, nothing } from 'lit';
-import { property, query } from 'lit/decorators.js';
-import type { MenuItem } from '../menu/menu-item/menu-item.js';
+import { html, nothing, type PropertyValues, type TemplateResult } from 'lit';
+import { property } from 'lit/decorators.js';
+import { MenuItem } from '../menu/menu-item/menu-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 /**
@@ -8,7 +8,10 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-option
  * @rawTag option
  *
- * @summary A declarative option element for use inside wc-select.
+ * @summary An option of a wc-select.
+ * @overview
+ * <p>Options are menu items with the <code>option</code> role. The selected option of a single select
+ * shows a check mark at the end; in a multi-select every option shows a checkbox at the start.</p>
  *
  * @example
  * ```html
@@ -19,109 +22,65 @@ import IndividualComponent from '@/IndividualComponent.js';
  * ```
  */
 @IndividualComponent
-export class SelectOptionElement extends LitElement {
-  static override styles = [
-    css`
-      :host {
-        display: contents;
-        --menu-item-backdrop-container-shape-start-start: none;
-        --menu-item-backdrop-container-shape-start-end: none;
-        --menu-item-backdrop-container-shape-end-start: none;
-        --menu-item-backdrop-container-shape-end-end: none;
-
-        --menu-item-backdrop-elevation-level-block-start: none;
-        --menu-item-backdrop-elevation-level-block-end: none;
-      }
-      :host([filtered]) {
-        display: none;
-      }
-      /* Forward the position styles wc-menu sets on this wrapper to the inner item */
-      wc-menu-item {
-        --menu-item-backdrop-container-shape-start-start: inherit;
-        --menu-item-backdrop-container-shape-start-end: inherit;
-        --menu-item-backdrop-container-shape-end-start: inherit;
-        --menu-item-backdrop-container-shape-end-end: inherit;
-
-        --menu-item-backdrop-elevation-level-block-start: inherit;
-        --menu-item-backdrop-elevation-level-block-end: inherit;
-      }
-    `,
-  ];
-
-  /**
-   * The option's submitted value.
-   */
-  @property({ type: String, reflect: true })
-  value: string = '';
-
+export class SelectOptionElement extends MenuItem {
   /**
    * Optional Material Symbol icon name shown before the label.
    */
   @property({ type: String, reflect: true })
   icon: string = '';
 
-  /**
-   * Disables the option so it cannot be selected.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
   // ── Managed by wc-select ──────────────────────────────────────────────────
 
-  /** Reflects whether this option is currently selected. Set by wc-select. */
+  /** Whether the option belongs to a multi-select, which shows a checkbox. Set by wc-select. */
   @property({ type: Boolean, reflect: true })
-  selected: boolean = false;
+  multiple: boolean = false;
 
   /**
-   * When true the menu stays open after selection (used for multi-select).
-   * Set by wc-select.
-   */
-  @property({ type: Boolean, attribute: 'keep-open' })
-  keepOpen: boolean = false;
-
-  /**
-   * When true the option is hidden and excluded from keyboard navigation
-   * because it does not match the current typeahead search query.
-   * Set by wc-select.
+   * When true the option is hidden and skipped by keyboard navigation because it does not
+   * match the current typeahead search query. Set by wc-select.
    */
   @property({ type: Boolean, reflect: true })
   filtered: boolean = false;
 
-  @query('wc-menu-item')
-  private readonly _menuItemEl?: HTMLElement;
-
-  /**
-   * Returns the inner `wc-menu-item` element.
-   * `wc-menu` discovers this via its `items` getter which checks `el.item`
-   * as a `MenuItem` proxy, so keyboard navigation and activation work
-   * without `wc-option` extending `MenuItem` directly.
-   */
-  get item(): MenuItem | null {
-    const el = this._menuItemEl;
-    // Narrow to MenuItem — the shadow DOM only ever contains a wc-menu-item
-    // (a MenuItem subclass), so this cast is safe by construction.
-    return el != null ? (el as unknown as MenuItem) : null;
+  protected override willUpdate(changed: PropertyValues<this>) {
+    super.willUpdate(changed);
+    if (changed.has('filtered')) {
+      this.hidden = this.filtered;
+    }
+    if (changed.has('multiple')) {
+      this.keepOpen = this.multiple;
+    }
   }
 
-  override render() {
-    return html`
-      <wc-menu-item
-        value=${this.value}
-        ?disabled=${this.disabled || this.filtered}
-        ?selected=${this.selected}
-        ?keep-open=${this.keepOpen}
-      >
-        ${this.icon
-          ? html`<wc-icon name=${this.icon} slot="start"></wc-icon>`
-          : nothing}
-        <slot>${this.value === '' ? 'None' : ''}</slot>
-        ${this.selected && this.keepOpen
-          ? html`<wc-icon
-              name="check"
-              slot="trailing-supporting-text"
-            ></wc-icon>`
-          : nothing}
-      </wc-menu-item>
-    `;
+  protected override get itemRole() {
+    return 'option';
+  }
+
+  protected override get itemAriaSelected() {
+    return String(this.selected);
+  }
+
+  protected override renderStart(): TemplateResult | typeof nothing {
+    const checkbox = this.multiple
+      ? html`<wc-icon
+          class="indicator checkbox-indicator"
+          name=${this.selected ? 'check_box' : 'check_box_outline_blank'}
+          aria-hidden="true"
+        ></wc-icon>`
+      : nothing;
+    const icon = this.icon
+      ? html`<wc-icon name=${this.icon} aria-hidden="true"></wc-icon>`
+      : nothing;
+
+    if (checkbox === nothing && icon === nothing) {
+      return nothing;
+    }
+
+    return html`${checkbox}${icon}`;
+  }
+
+  protected override renderEnd(): TemplateResult | typeof nothing {
+    // A multi-select shows its state in the leading checkbox instead of a trailing check.
+    return this.multiple ? nothing : super.renderEnd();
   }
 }

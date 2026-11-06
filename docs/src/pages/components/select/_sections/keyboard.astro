@@ -1,0 +1,45 @@
+---
+export const title = 'Keyboard and layering';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>The select follows the WAI-ARIA combobox pattern with a listbox popup.</p>
+<ul>
+  <li><strong>Enter, Space, Arrow Down or Arrow Up</strong> on the field open the options and focus the selected one (or the first).</li>
+  <li>In the list, <strong>the arrows</strong>, <strong>Home</strong> and <strong>End</strong> move; <strong>typing a letter</strong> jumps to the next option starting with it.</li>
+  <li><strong>Enter or Space</strong> picks the option. A single select closes and returns focus to the field; a multi-select stays open.</li>
+  <li><strong>Escape</strong> closes and returns focus to the field; <strong>Tab</strong> closes and moves on.</li>
+  <li>With <code>search</code>, typing goes to the search input. <strong>Arrow Down</strong> moves into the list, <strong>Enter</strong> picks the first match, and typing in the list sends focus back to the input.</li>
+</ul>
+<p>
+  The options open in the browser's top layer, so a select inside a <code>wc-modal</code>, a card with
+  <code>overflow: hidden</code> or a sticky header shows its options above everything.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='select-modal-open'>Open dialog</wc-button>
+  <wc-modal id='select-modal' heading='Move 3 files' size='sm'>
+    <wc-select label='Destination' value='design' style='width: 100%'>
+      <wc-option value='design'>Design / Specs</wc-option>
+      <wc-option value='research'>Research / Interviews</wc-option>
+      <wc-option value='archive'>Archive</wc-option>
+      <wc-option value='marketing'>Marketing / Launch</wc-option>
+      <wc-option value='finance'>Finance / Budget</wc-option>
+    </wc-select>
+    <div slot='footer'>
+      <wc-button variant='text' id='select-modal-close'>Done</wc-button>
+    </div>
+  </wc-modal>
+
+  <script is:inline>
+    (() => {
+      const modal = document.getElementById('select-modal');
+      document.getElementById('select-modal-open')?.addEventListener('click', () => {
+        modal.open = true;
+      });
+      document.getElementById('select-modal-close')?.addEventListener('click', () => {
+        modal.open = false;
+      });
+    })();
+  </script>
+</DemoComponentCard>

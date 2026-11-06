@@ -4,8 +4,9 @@ export const order = 400;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 <p>
-  Add the <code>multiple</code> attribute to enable multi-select. Selected options are shown as
-  dismissible chips inside the field.
+  Add the <code>multiple</code> attribute to enable multi-select. Every option shows a checkbox and
+  the menu stays open while you pick. Selected options are dismissible chips on one row; the ones
+  that do not fit collapse into a <code>+N</code> chip.
 </p>
 
 <DemoComponentCard lang={'html'}>
@@ -13,6 +14,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     label="Fruits"
     placeholder="Pick fruits..."
     multiple
+    value="apple,banana,cherry,dragonfruit"
     style="width: 24rem"
   >
     <wc-option value="apple">Apple</wc-option>
