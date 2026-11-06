@@ -87,7 +87,7 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
 
 {/* ── Inputs ──────────────────────────────────────────────── */}
 
-{['input', 'field', 'number-field', 'url-field', 'color-field', 'date-picker', 'time-picker'].includes(name) && (
+{['input', 'field', 'number-field', 'url-field', 'color-field', 'date-field', 'time-field', 'datetime-field'].includes(name) && (
   <div class='bp cp-center cp-col cp-form'>
     <span class='cp-label'></span>
     <span class:list={['cp-input', { 'cp-input-focus': name === 'input' }]}>
@@ -97,22 +97,42 @@ const icon = (n: string, extra = '') => ({ name: n, class: `cp-i ${extra}`.trim(
       {name === 'input' && <span class='cp-caret'></span>}
       {name === 'number-field' && <span class='cp-stepper'><wc-icon {...icon('expand_less')}></wc-icon><wc-icon {...icon('expand_more')}></wc-icon></span>}
       {name === 'url-field' && <wc-icon {...icon('edit')}></wc-icon>}
-      {name === 'date-picker' && <wc-icon {...icon('calendar_today')}></wc-icon>}
-      {name === 'time-picker' && <wc-icon {...icon('schedule')}></wc-icon>}
+      {name === 'date-field' && <wc-icon {...icon('calendar_today')}></wc-icon>}
+      {name === 'time-field' && <wc-icon {...icon('schedule')}></wc-icon>}
+      {name === 'datetime-field' && <wc-icon {...icon('calendar_clock')}></wc-icon>}
     </span>
     {name === 'field' && <span class='bp-line cp-help'></span>}
-    {name === 'date-picker' && (
+    {(name === 'date-field' || name === 'datetime-field') && (
       <span class='cp-popup cp-mini-month'>
         {Array.from({ length: 21 }, (_, d) => <i class:list={{ 'cp-on': d === 9 }}></i>)}
       </span>
     )}
-    {name === 'time-picker' && (
+    {name === 'time-field' && (
       <span class='cp-popup cp-time-list'>
         <span class='cp-menu-item'><span class='bp-line'></span></span>
         <span class='cp-menu-item cp-menu-on'><span class='bp-line'></span></span>
         <span class='cp-menu-item'><span class='bp-line'></span></span>
       </span>
     )}
+  </div>
+)}
+
+{name === 'date-picker' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-popup cp-mini-month'>
+      {Array.from({ length: 35 }, (_, d) => <i class:list={{ 'cp-on': d === 12 }}></i>)}
+    </span>
+  </div>
+)}
+
+{name === 'time-picker' && (
+  <div class='bp cp-center cp-col cp-form'>
+    <span class='cp-popup cp-time-list'>
+      <span class='cp-menu-item'><span class='bp-line'></span></span>
+      <span class='cp-menu-item cp-menu-on'><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><span class='bp-line'></span></span>
+      <span class='cp-menu-item'><span class='bp-line'></span></span>
+    </span>
   </div>
 )}
 

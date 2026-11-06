@@ -82,8 +82,9 @@ menus, checkboxes, and radio buttons.
 | [Checkbox](https://peacock.redvars.com/components/checkbox)         | wc-checkbox     | 🟢    |
 | [Code editor](https://peacock.redvars.com/components/code-editor)   | wc-code-editor  | 🟢    |
 | [Color picker](https://peacock.redvars.com/components/color-picker) | wc-color-picker | 🟡    |
+| [Date field](https://peacock.redvars.com/components/date-field)     | wc-date-field   | 🟡    |
 | [Date picker](https://peacock.redvars.com/components/date-picker)   | wc-date-picker  | 🟡    |
-| Date time picker                                                    | datetime-picker | 🔴    |
+| [Date time field](https://peacock.redvars.com/components/datetime-field) | wc-datetime-field | 🟡 |
 | [Field / Form control](https://peacock.redvars.com/components/field) | wc-field       | 🟡    |
 | File picker                                                         | file-picker     | 🔴    |
 | [HTML editor](https://peacock.redvars.com/components/html-editor)   | wc-html-editor  | 🟡    |
@@ -95,6 +96,7 @@ menus, checkboxes, and radio buttons.
 | [Search](https://peacock.redvars.com/components/search)             | wc-search       | 🟡    |
 | [Select](https://peacock.redvars.com/components/select)             | wc-select       | 🟢    |
 | [Textarea](https://peacock.redvars.com/components/textarea)         | wc-textarea     | 🟢    |
+| [Time field](https://peacock.redvars.com/components/time-field)     | wc-time-field   | 🟡    |
 | [Time picker](https://peacock.redvars.com/components/time-picker)   | wc-time-picker  | 🟡    |
 | Week picker                                                         | week-picker     | 🔴    |
 

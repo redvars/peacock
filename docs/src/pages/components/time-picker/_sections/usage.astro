@@ -3,8 +3,26 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>Here are different types of inputs.</p>
+
+<p>
+  <code>wc-time-picker</code> shows a column each for hours and minutes, and AM/PM on a 12-hour
+  clock. It is the picker inside <code>wc-time-field</code>; for a form input, use
+  <code>wc-time-field</code>.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-time-picker label='Time' helper-text='Optional helper text'></wc-time-picker>
+  <wc-time-picker id='time-picker-demo' value='09:30'></wc-time-picker>
+  <script is:inline>
+    document.querySelector('#time-picker-demo').addEventListener('input', function (event) {
+      myConsole.log('input :: ' + event.detail.value);
+    });
+    document.querySelector('#time-picker-demo').addEventListener('change', function (event) {
+      myConsole.warn('change :: ' + event.detail.value);
+    });
+  </script>
 </DemoComponentCard>
+
+<p>
+  The value is a 24-hour ISO time (<code>09:30</code>) whatever the display. Picking an hour fires
+  <code>input</code>; picking in the last column, or pressing Enter, fires <code>change</code>.
+</p>

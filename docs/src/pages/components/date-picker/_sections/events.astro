@@ -1,35 +1,26 @@
 ---
-export const title = 'Events';
+export const title = 'Keyboard and events';
 export const order = 400;
-import Highlighter from '../../../../components/Highlighter.astro';
 ---
 
-<pc-text type='body'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>goat:change</code> is triggered by
-  the element.
-</pc-text>
+<p>The day grid follows the WAI-ARIA date picker pattern. Only one day is a tab stop.</p>
 
-<goat-card>
-  <pc-card-content>
-    <goat-date-picker id='date-field' placeholder='Type here'></goat-date-picker>
+<table>
+  <thead>
+    <tr><th>Key</th><th>Moves to</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Left / Right</td><td>Previous / next day</td></tr>
+    <tr><td>Up / Down</td><td>Same day of the previous / next week</td></tr>
+    <tr><td>Home / End</td><td>First / last day of the week</td></tr>
+    <tr><td>Page Up / Page Down</td><td>Same day of the previous / next month</td></tr>
+    <tr><td>Shift + Page Up / Page Down</td><td>Same day of the previous / next year</td></tr>
+    <tr><td>Enter / Space</td><td>Picks the focused day</td></tr>
+  </tbody>
+</table>
 
-    <script is:inline>
-      document.querySelector('#date-field').addEventListener('goat-date-picker--input', function(event) {
-        myConsole.log('goat-date-picker--input :: ' + event.target.value);
-      });
-      document.querySelector('#date-field').addEventListener('goat-date-picker--change', function(event) {
-        myConsole.warn('goat-date-picker--change :: ' + event.target.value);
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang='javascript' is:raw>
-      document.querySelector('#date-field').addEventListener('goat-date-picker--input', function (event) {
-      myConsole.log('goat-date-picker--input :: ' + event.target.value);
-    });
-      document.querySelector('#date-field').addEventListener('goat-date-picker--change', function (event) {
-      myConsole.warn('goat-date-picker--change :: ' + event.target.value);
-    });
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<p>
+  Events carry the value in <code>event.detail.value</code>: <code>change</code> when a date (or the
+  end of a range) is picked or the value is cleared, and <code>input</code> when the start of a range
+  is picked.
+</p>

@@ -1,20 +1,18 @@
 ---
-export const title = 'Disabled';
+export const title = 'Clock and limits';
 export const order = 300;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<pc-text type='body'
->Make input look inactive by adding the disabled <code class='highlighter-rouge' data-lang='html'>boolean</code>
-  attribute to any
-  <code class='highlighter-rouge' data-lang='html'>&lt;input&gt;</code> element.
-</goat-text
->
 
-<HighlighterCard lang={'html'}>
-  <goat-time-picker disabled></goat-time-picker>
-</HighlighterCard>
+<p>
+  The clock follows the locale. <code>hour-cycle="h12"</code> or <code>"h23"</code> sets it.
+  <code>min</code> and <code>max</code> disable entries outside the allowed times.
+</p>
 
-<pc-text type='heading' heading-size='3'>Read only</pc-text>
-<HighlighterCard lang={'html'}>
-  <goat-time-picker readonly></goat-time-picker>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem;'>
+    <wc-time-picker value='09:00' hour-cycle='h23' min='08:00' max='17:30'></wc-time-picker>
+    <wc-time-picker value='09:00' hour-cycle='h12'></wc-time-picker>
+    <wc-time-picker value='09:00' disabled></wc-time-picker>
+  </div>
+</DemoComponentCard>

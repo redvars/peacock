@@ -23,6 +23,9 @@ import { Field } from '@/field/field.js';
 import { NumberField } from '@/number-field/number-field.js';
 import { DatePicker } from '@/date-picker/date-picker.js';
 import { TimePicker } from '@/time-picker/time-picker.js';
+import { DateField } from '@/date-field/date-field.js';
+import { TimeField } from '@/time-field/time-field.js';
+import { DatetimeField } from '@/datetime-field/datetime-field.js';
 import { Textarea } from '@/textarea/textarea.js';
 import { Switch } from '@/switch/switch.js';
 import { Checkbox } from '@/checkbox/checkbox.js';
@@ -252,6 +255,15 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-time-picker': {
       CustomElementClass: TimePicker,
+    },
+    'wc-date-field': {
+      CustomElementClass: DateField,
+    },
+    'wc-time-field': {
+      CustomElementClass: TimeField,
+    },
+    'wc-datetime-field': {
+      CustomElementClass: DatetimeField,
     },
     'wc-tooltip': {
       CustomElementClass: Tooltip,
