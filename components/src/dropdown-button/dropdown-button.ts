@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './dropdown-button.scss';
+import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
 
 /**
  * @label Dropdown Button
@@ -82,19 +83,16 @@ export class DropdownButton extends LitElement {
     | 'top-start'
     | 'top-end' = 'bottom-start';
 
+  /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
+  @property({ attribute: 'menu-variant' }) menuVariant:
+    | 'standard'
+    | 'expressive' = 'standard';
+
   @state() private _menuOpen = false;
 
-  @query('.trigger-button') private readonly _triggerButton!: HTMLElement & {
-    focus: () => void;
-  };
+  @query('.trigger-button') private readonly _triggerButton?: HTMLElement;
 
-  @query('wc-menu') private readonly _menu!: HTMLElement & {
-    open: boolean;
-    anchorElement: HTMLElement | null;
-    show: () => void;
-    close: () => void;
-    focus: () => void;
-  };
+  @query('wc-menu') private readonly _menu?: Menu;
 
   private _menuId = `dropdown-menu-${Math.random().toString(36).slice(2, 9)}`;
 
@@ -102,15 +100,28 @@ export class DropdownButton extends LitElement {
     this._triggerButton?.focus();
   }
 
+  /** Opens the menu and focuses its first (or last) item. */
+  show(focusTarget: MenuFocusTarget = 'first') {
+    const menu = this._menu;
+    if (this.disabled || !menu) return;
+    menu.anchorElement = this;
+    menu.show(focusTarget);
+  }
+
+  /** Closes the menu. */
+  close() {
+    this._menu?.close();
+  }
+
   private _onButtonClick(event: MouseEvent) {
     event.stopPropagation();
     if (this.disabled) return;
 
-    if (this._menuOpen) {
-      this._menu?.close();
+    // Read the menu itself, not cached state, so a toggle never acts on a stale value.
+    if (this._menu?.open) {
+      this.close();
     } else {
-      this._menu.anchorElement = this;
-      this._menu?.show();
+      this.show();
     }
   }
 
@@ -136,30 +147,14 @@ export class DropdownButton extends LitElement {
     );
   };
 
-  private _onKeyDown = (event: KeyboardEvent) => {
+  /** Arrow keys on the trigger open the menu on the first or last item. */
+  private _onTriggerKeyDown(event: KeyboardEvent) {
     if (this.disabled) return;
 
-    if (event.key === 'ArrowDown' && !this._menuOpen) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      this._menu.anchorElement = this;
-      this._menu?.show();
-      requestAnimationFrame(() => this._menu?.focus());
+      this.show(event.key === 'ArrowDown' ? 'first' : 'last');
     }
-
-    if (event.key === 'Escape' && this._menuOpen) {
-      this._menu?.close();
-      this._triggerButton?.focus();
-    }
-  };
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('keydown', this._onKeyDown);
-  }
-
-  override disconnectedCallback() {
-    this.removeEventListener('keydown', this._onKeyDown);
-    super.disconnectedCallback();
   }
 
   override render() {
@@ -183,6 +178,7 @@ export class DropdownButton extends LitElement {
           'aria-controls': this._menuId,
         }}
         @click=${this._onButtonClick}
+        @keydown=${this._onTriggerKeyDown}
       >
         <slot></slot>
         <wc-icon
@@ -196,6 +192,7 @@ export class DropdownButton extends LitElement {
       <wc-menu
         id=${this._menuId}
         placement=${this.placement}
+        variant=${this.menuVariant}
         @opened=${this._onMenuOpened}
         @closed=${this._onMenuClosed}
       >
