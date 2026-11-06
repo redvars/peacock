@@ -2292,18 +2292,72 @@
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
     "summary": "A Monaco-based code editing component with syntax highlighting, completions and debugging marks.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin.\r\n - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, minimap, and dark/light theme.\r\n - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.\r\n - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.\r\n - `markers` underline problems, such as where a run failed.\r\n - With `fill`, the editor takes the height of its container.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
-    "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component, in the same frame as `wc-code-highlighter`: an optional header with a title and actions, or a copy button that floats at the top end. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin. The code shows as plain text until Monaco is ready.\n - Its colors come from the theme's color roles and the code highlighter's syntax colors, so light, dark, the system color scheme and custom themes all follow the tokens.\n - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, line wrapping and a minimap.\n - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.\n - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.\n - `markers` underline problems, such as where a run failed.\n - With `fill`, the editor drops its frame and takes the height of its container, as a pane of its own.\n - Emits `change` when content is edited and updates value from property changes.",
+    "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
+    "csspart": "editor - The area Monaco renders into.",
+    "cssprop": "--code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.",
     "fires": "breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.",
-    "example": "```html\r\n<wc-code-editor\r\n  language=\"css\"\r\n  readonly\r\n  style=\"width: 100%; --code-editor-height: 10rem;\"\r\n  value=\":root { --color-primary: #6341d5; }\">\r\n</wc-code-editor>\r\n```",
+    "example": "```html\n<wc-code-editor\n  language=\"css\"\n  label=\"theme.css\"\n  readonly\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\":root { --color-primary: #6341d5; }\">\n</wc-code-editor>\n```",
     "tags": "input, editor",
     "customElement": {
       "kind": "class",
       "description": "",
       "cssProperties": [
         {
-          "description": "Height of the editor. Defaults to 300px.",
+          "description": "Height of the editing area. Defaults to 300px. Ignored with `fill`.",
           "name": "--code-editor-height"
+        },
+        {
+          "description": "Frame background. Defaults to `--color-surface-container-low`.",
+          "name": "--code-editor-background"
+        },
+        {
+          "description": "Frame border color. Defaults to `--color-outline-variant`.",
+          "name": "--code-editor-border-color"
+        },
+        {
+          "description": "Frame corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--code-editor-shape"
+        },
+        {
+          "description": "Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.",
+          "name": "--code-highlighter-token-keyword"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer frame.",
+          "name": "container"
+        },
+        {
+          "description": "The header row.",
+          "name": "header"
+        },
+        {
+          "description": "The header title.",
+          "name": "title"
+        },
+        {
+          "description": "The action buttons group.",
+          "name": "actions"
+        },
+        {
+          "description": "The area Monaco renders into.",
+          "name": "editor"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Header title content. Overrides `label` and shows the header.",
+          "name": "title"
+        },
+        {
+          "description": "Icon shown before the title in the header.",
+          "name": "icon"
+        },
+        {
+          "description": "Extra action buttons, shown in the header or floating at the top end.",
+          "name": "actions"
         }
       ],
       "events": [
@@ -2352,6 +2406,15 @@
           }
         },
         {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Header title, such as a file name. Shows the header.",
+          "fieldName": "label"
+        },
+        {
           "name": "lib-source",
           "type": {
             "text": "string | undefined"
@@ -2360,13 +2423,31 @@
           "fieldName": "libSource"
         },
         {
-          "name": "lineNumbers",
+          "name": "line-numbers",
           "type": {
             "text": "'off' | 'on'"
           },
           "default": "'on'",
           "description": "Whether line numbers show in the gutter.",
           "fieldName": "lineNumbers"
+        },
+        {
+          "name": "wrap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally.",
+          "fieldName": "wrap"
+        },
+        {
+          "name": "wrap-toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that turns line wrapping on and off.",
+          "fieldName": "wrapToggle"
         },
         {
           "name": "minimap",
@@ -2376,6 +2457,18 @@
           "default": "false",
           "description": "Shows the minimap. Leave the attribute out to hide it.",
           "fieldName": "minimap"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "CodeEditorSize"
+          },
+          "default": "'md'",
+          "description": "Size of the editor. `sm` uses smaller text and padding.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md'"
+          }
         },
         {
           "name": "hide-copy",
@@ -2392,7 +2485,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+          "description": "Shows a \"Read only\" badge while the editor is read-only or disabled.",
           "fieldName": "showReadonlyBadge"
         },
         {
@@ -2418,7 +2511,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Takes the height of the container instead of `--code-editor-height`.",
+          "description": "Drops the frame and takes the height of the container instead of `--code-editor-height`.",
           "fieldName": "fill"
         },
         {
@@ -2553,7 +2646,7 @@
     "tag": "wc-code-highlighter",
     "rawTag": "code-highlighter",
     "summary": "Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.",
-    "example": "```html\r\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\r\n  function helloWorld() {\r\n    console.log('Hello, world!');\r\n  }</code></pre>\r\n</wc-code-highlighter>\r\n```",
+    "example": "```html\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
     "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
     "csspart": "footer - The footer holding the show more button.",
     "cssprop": "--code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.",
@@ -2700,7 +2793,7 @@
             "text": "boolean"
           },
           "default": "true",
-          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
+          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\nSet `format=\"false\"` to show the code as written.",
           "fieldName": "format"
         },
         {
@@ -2849,7 +2942,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\ntab, so the block drops its border and header.",
           "fieldName": "grouped"
         }
       ],

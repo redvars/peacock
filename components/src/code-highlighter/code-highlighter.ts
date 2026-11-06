@@ -11,6 +11,7 @@ import type {
 import IndividualComponent from '@/IndividualComponent.js';
 import { copyToClipboard } from '@/__internal/utils/copy-to-clipboard.js';
 import { locale } from './local.js';
+import { TOKEN_DEFAULTS } from './token-colors.js';
 import {
   buildLineVariants,
   decodeEntities,
@@ -37,44 +38,7 @@ function once<T>(load: () => Promise<T>): () => Promise<T> {
 // Caching prevents parallel loads when multiple instances initialise at the same time.
 const loadShiki = once(() => import('shiki'));
 
-/**
- * Syntax colors are CSS variables that fall back to Peacock color roles, so
- * light, dark and custom themes all follow the tokens. Each one can be
- * overridden as `--code-highlighter-token-*` or `--code-highlighter-ansi-*`.
- */
-const TOKEN_DEFAULTS: Record<string, string> = {
-  foreground: 'var(--color-on-surface)',
-  background: 'transparent',
-  'token-constant': 'var(--color-orange)',
-  'token-string': 'var(--color-green)',
-  'token-comment': 'var(--color-on-surface-variant)',
-  'token-keyword': 'var(--color-purple)',
-  'token-parameter': 'var(--color-on-surface)',
-  'token-function': 'var(--color-blue)',
-  'token-string-expression': 'var(--color-green)',
-  'token-punctuation': 'var(--color-on-surface-variant)',
-  'token-link': 'var(--color-primary)',
-  'token-inserted': 'var(--color-green)',
-  'token-deleted': 'var(--color-red)',
-  'token-changed': 'var(--color-orange)',
-  'ansi-black': 'var(--color-on-surface)',
-  'ansi-red': 'var(--color-red)',
-  'ansi-green': 'var(--color-green)',
-  'ansi-yellow': 'var(--color-yellow)',
-  'ansi-blue': 'var(--color-blue)',
-  'ansi-magenta': 'var(--color-purple)',
-  'ansi-cyan': 'var(--color-tertiary)',
-  'ansi-white': 'var(--color-on-surface-variant)',
-  'ansi-bright-black': 'var(--color-on-surface-variant)',
-  'ansi-bright-red': 'var(--color-red)',
-  'ansi-bright-green': 'var(--color-green)',
-  'ansi-bright-yellow': 'var(--color-yellow)',
-  'ansi-bright-blue': 'var(--color-blue)',
-  'ansi-bright-magenta': 'var(--color-purple)',
-  'ansi-bright-cyan': 'var(--color-tertiary)',
-  'ansi-bright-white': 'var(--color-on-surface)',
-};
-
+// Syntax colors are CSS variables that fall back to Peacock color roles; see token-colors.ts.
 const loadTheme = once<ThemeRegistration>(async () => {
   const { createCssVariablesTheme } = await loadShiki();
   return createCssVariablesTheme({

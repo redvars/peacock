@@ -17896,7 +17896,7 @@
                 "text": "boolean"
               },
               "default": "true",
-              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
+              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\nSet `format=\"false\"` to show the code as written.",
               "attribute": "format"
             },
             {
@@ -18068,7 +18068,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\ntab, so the block drops its border and header.",
               "attribute": "grouped",
               "reflects": true
             },
@@ -18360,7 +18360,7 @@
                 "text": "boolean"
               },
               "default": "true",
-              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
+              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\nSet `format=\"false\"` to show the code as written.",
               "fieldName": "format"
             },
             {
@@ -18509,7 +18509,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\ntab, so the block drops its border and header.",
               "fieldName": "grouped"
             }
           ],
@@ -18819,8 +18819,60 @@
           "name": "CodeEditor",
           "cssProperties": [
             {
-              "description": "Height of the editor. Defaults to 300px.",
+              "description": "Height of the editing area. Defaults to 300px. Ignored with `fill`.",
               "name": "--code-editor-height"
+            },
+            {
+              "description": "Frame background. Defaults to `--color-surface-container-low`.",
+              "name": "--code-editor-background"
+            },
+            {
+              "description": "Frame border color. Defaults to `--color-outline-variant`.",
+              "name": "--code-editor-border-color"
+            },
+            {
+              "description": "Frame corner radius. Defaults to `--shape-corner-medium`.",
+              "name": "--code-editor-shape"
+            },
+            {
+              "description": "Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.",
+              "name": "--code-highlighter-token-keyword"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The outer frame.",
+              "name": "container"
+            },
+            {
+              "description": "The header row.",
+              "name": "header"
+            },
+            {
+              "description": "The header title.",
+              "name": "title"
+            },
+            {
+              "description": "The action buttons group.",
+              "name": "actions"
+            },
+            {
+              "description": "The area Monaco renders into.",
+              "name": "editor"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Header title content. Overrides `label` and shows the header.",
+              "name": "title"
+            },
+            {
+              "description": "Icon shown before the title in the header.",
+              "name": "icon"
+            },
+            {
+              "description": "Extra action buttons, shown in the header or floating at the top end.",
+              "name": "actions"
             }
           ],
           "members": [
@@ -18853,6 +18905,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Header title, such as a file name. Shows the header.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "libSource",
               "type": {
                 "text": "string | undefined"
@@ -18876,7 +18938,28 @@
               },
               "default": "'on'",
               "description": "Whether line numbers show in the gutter.",
-              "attribute": "lineNumbers"
+              "attribute": "line-numbers"
+            },
+            {
+              "kind": "field",
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Wraps long lines instead of scrolling horizontally.",
+              "attribute": "wrap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "wrapToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a button that turns line wrapping on and off.",
+              "attribute": "wrap-toggle"
             },
             {
               "kind": "field",
@@ -18887,6 +18970,20 @@
               "default": "false",
               "description": "Shows the minimap. Leave the attribute out to hide it.",
               "attribute": "minimap"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CodeEditorSize"
+              },
+              "default": "'md'",
+              "description": "Size of the editor. `sm` uses smaller text and padding.",
+              "attribute": "size",
+              "reflects": true,
+              "expandedType": {
+                "text": "'sm' | 'md'"
+              }
             },
             {
               "kind": "field",
@@ -18905,7 +19002,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+              "description": "Shows a \"Read only\" badge while the editor is read-only or disabled.",
               "attribute": "show-readonly-badge"
             },
             {
@@ -18952,18 +19049,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Takes the height of the container instead of `--code-editor-height`.",
+              "description": "Drops the frame and takes the height of the container instead of `--code-editor-height`.",
               "attribute": "fill",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "_isDarkMode",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "description": "Whether the page is in dark mode; picks the Monaco theme."
             },
             {
               "kind": "field",
@@ -18983,7 +19071,7 @@
               },
               "privacy": "private",
               "default": "false",
-              "description": "Whether the copy button was just used; shows a check for a few seconds."
+              "description": "Whether the copy button was just used; shows a check for a moment."
             },
             {
               "kind": "field",
@@ -18998,7 +19086,15 @@
               "kind": "field",
               "name": "editorElement",
               "type": {
-                "text": "HTMLElement"
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "probeElement",
+              "type": {
+                "text": "HTMLElement | undefined"
               },
               "privacy": "private"
             },
@@ -19013,12 +19109,8 @@
             {
               "kind": "field",
               "name": "__id",
-              "type": {
-                "text": "number"
-              },
               "privacy": "private",
               "readonly": true,
-              "default": "++instances",
               "description": "This editor's model's address, unique on the page so two editors never share a model."
             },
             {
@@ -19029,6 +19121,24 @@
               },
               "privacy": "private",
               "description": "Stops listening for theme changes."
+            },
+            {
+              "kind": "field",
+              "name": "__colorScheme",
+              "type": {
+                "text": "MediaQueryList | undefined"
+              },
+              "privacy": "private",
+              "description": "The system color scheme, watched so the editor follows it."
+            },
+            {
+              "kind": "field",
+              "name": "__childObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "Re-renders when slotted header content is added or removed."
             },
             {
               "kind": "field",
@@ -19058,6 +19168,16 @@
               "description": "The breakpoint and current-line marks."
             },
             {
+              "kind": "field",
+              "name": "__layoutKey",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''",
+              "description": "The font and padding last given to Monaco, to skip unchanged updates."
+            },
+            {
               "kind": "method",
               "name": "initializeMonaco"
             },
@@ -19083,6 +19203,43 @@
               "description": "Scrolls `line` into view and puts the cursor at its start."
             },
             {
+              "kind": "field",
+              "name": "__applyTheme",
+              "privacy": "private",
+              "description": "Defines the page's editor theme from the tokens around this editor."
+            },
+            {
+              "kind": "method",
+              "name": "__readLayout",
+              "privacy": "private",
+              "description": "The font and padding the styles give the code, for Monaco's options."
+            },
+            {
+              "kind": "method",
+              "name": "__applyLayout",
+              "privacy": "private",
+              "description": "Gives Monaco the font and padding when the header or size changed them."
+            },
+            {
+              "kind": "method",
+              "name": "__hasSlotted",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Whether light-DOM children are assigned to the named slot."
+            },
+            {
               "kind": "method",
               "name": "libSourceChanged",
               "privacy": "private"
@@ -19099,18 +19256,50 @@
             },
             {
               "kind": "method",
-              "name": "getTheme",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "__handleCopyClick",
               "privacy": "private"
             },
             {
               "kind": "method",
-              "name": "renderToolbar",
+              "name": "__handleWrapClick",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderBadge",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderActions",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "floating",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "showBadge",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderHeader",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "showBadge",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
             },
             {
               "kind": "field",
@@ -19364,6 +19553,15 @@
               }
             },
             {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Header title, such as a file name. Shows the header.",
+              "fieldName": "label"
+            },
+            {
               "name": "lib-source",
               "type": {
                 "text": "string | undefined"
@@ -19372,13 +19570,31 @@
               "fieldName": "libSource"
             },
             {
-              "name": "lineNumbers",
+              "name": "line-numbers",
               "type": {
                 "text": "'off' | 'on'"
               },
               "default": "'on'",
               "description": "Whether line numbers show in the gutter.",
               "fieldName": "lineNumbers"
+            },
+            {
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Wraps long lines instead of scrolling horizontally.",
+              "fieldName": "wrap"
+            },
+            {
+              "name": "wrap-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a button that turns line wrapping on and off.",
+              "fieldName": "wrapToggle"
             },
             {
               "name": "minimap",
@@ -19388,6 +19604,18 @@
               "default": "false",
               "description": "Shows the minimap. Leave the attribute out to hide it.",
               "fieldName": "minimap"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CodeEditorSize"
+              },
+              "default": "'md'",
+              "description": "Size of the editor. `sm` uses smaller text and padding.",
+              "fieldName": "size",
+              "expandedType": {
+                "text": "'sm' | 'md'"
+              }
             },
             {
               "name": "hide-copy",
@@ -19404,7 +19632,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+              "description": "Shows a \"Read only\" badge while the editor is read-only or disabled.",
               "fieldName": "showReadonlyBadge"
             },
             {
@@ -19430,7 +19658,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Takes the height of the container instead of `--code-editor-height`.",
+              "description": "Drops the frame and takes the height of the container instead of `--code-editor-height`.",
               "fieldName": "fill"
             },
             {
@@ -38300,6 +38528,186 @@
           "declaration": {
             "name": "isInViewport",
             "module": "src/__internal/utils/is-in-viewport.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/code-highlighter/token-colors.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "TOKEN_DEFAULTS",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{ foreground: 'var(--color-on-surface)', background: 'transparent', 'token-constant': 'var(--color-orange)', 'token-string': 'var(--color-green)', 'token-comment': 'var(--color-on-surface-variant)', 'token-keyword': 'var(--color-purple)', 'token-parameter': 'var(--color-on-surface)', 'token-function': 'var(--color-blue)', 'token-string-expression': 'var(--color-green)', 'token-punctuation': 'var(--color-on-surface-variant)', 'token-link': 'var(--color-primary)', 'token-inserted': 'var(--color-green)', 'token-deleted': 'var(--color-red)', 'token-changed': 'var(--color-orange)', 'ansi-black': 'var(--color-on-surface)', 'ansi-red': 'var(--color-red)', 'ansi-green': 'var(--color-green)', 'ansi-yellow': 'var(--color-yellow)', 'ansi-blue': 'var(--color-blue)', 'ansi-magenta': 'var(--color-purple)', 'ansi-cyan': 'var(--color-tertiary)', 'ansi-white': 'var(--color-on-surface-variant)', 'ansi-bright-black': 'var(--color-on-surface-variant)', 'ansi-bright-red': 'var(--color-red)', 'ansi-bright-green': 'var(--color-green)', 'ansi-bright-yellow': 'var(--color-yellow)', 'ansi-bright-blue': 'var(--color-blue)', 'ansi-bright-magenta': 'var(--color-purple)', 'ansi-bright-cyan': 'var(--color-tertiary)', 'ansi-bright-white': 'var(--color-on-surface)', }",
+          "description": "Syntax colors shared by wc-code-highlighter and wc-code-editor. Each is a CSS variable,\n`--code-highlighter-<name>`, that falls back to a Peacock color role, so light, dark and\ncustom themes all follow the tokens, and one override restyles both components."
+        },
+        {
+          "kind": "function",
+          "name": "tokenColor",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "The CSS value for a syntax color: its public variable, falling back to the color role."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TOKEN_DEFAULTS",
+          "declaration": {
+            "name": "TOKEN_DEFAULTS",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/token-colors.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "tokenColor",
+          "declaration": {
+            "name": "tokenColor",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/token-colors.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "PALETTE_SOURCES",
+          "type": {
+            "text": "{\n  surface: 'var(--color-surface)',\n  surfaceContainerHigh: 'var(--color-surface-container-high)',\n  surfaceContainerHighest: 'var(--color-surface-container-highest)',\n  onSurface: 'var(--color-on-surface)',\n  onSurfaceVariant: 'var(--color-on-surface-variant)',\n  outline: 'var(--color-outline)',\n  outlineVariant: 'var(--color-outline-variant)',\n  primary: 'var(--color-primary)',\n  secondary: 'var(--color-secondary)',\n  tertiary: 'var(--color-tertiary)',\n  secondaryContainer: 'var(--color-secondary-container)',\n  onSecondaryContainer: 'var(--color-on-secondary-container)',\n  error: 'var(--color-error)',\n  warning: 'var(--color-warning)',\n  info: 'var(--color-blue)',\n  foreground: tokenColor('foreground'),\n  keyword: tokenColor('token-keyword'),\n  string: tokenColor('token-string'),\n  func: tokenColor('token-function'),\n  constant: tokenColor('token-constant'),\n  comment: tokenColor('token-comment'),\n  punctuation: tokenColor('token-punctuation'),\n  parameter: tokenColor('token-parameter'),\n  link: tokenColor('token-link'),\n}"
+          },
+          "default": "{ surface: 'var(--color-surface)', surfaceContainerHigh: 'var(--color-surface-container-high)', surfaceContainerHighest: 'var(--color-surface-container-highest)', onSurface: 'var(--color-on-surface)', onSurfaceVariant: 'var(--color-on-surface-variant)', outline: 'var(--color-outline)', outlineVariant: 'var(--color-outline-variant)', primary: 'var(--color-primary)', secondary: 'var(--color-secondary)', tertiary: 'var(--color-tertiary)', secondaryContainer: 'var(--color-secondary-container)', onSecondaryContainer: 'var(--color-on-secondary-container)', error: 'var(--color-error)', warning: 'var(--color-warning)', info: 'var(--color-blue)', foreground: tokenColor('foreground'), keyword: tokenColor('token-keyword'), string: tokenColor('token-string'), func: tokenColor('token-function'), constant: tokenColor('token-constant'), comment: tokenColor('token-comment'), punctuation: tokenColor('token-punctuation'), parameter: tokenColor('token-parameter'), link: tokenColor('token-link'), }",
+          "description": "The colors the editor theme is built from: Peacock color roles, plus the syntax colors\nwc-code-highlighter uses, so the two show code alike. Monaco takes hex colors only, so these\nare resolved on the page and converted."
+        },
+        {
+          "kind": "function",
+          "name": "cssColorToHex",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "color",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Converts any CSS color the browser understands (`rgb()`, `oklch()`, `color()`, …) to\n`#rrggbb`, or `#rrggbbaa` when it is not opaque, by painting one pixel."
+        },
+        {
+          "kind": "function",
+          "name": "resolvePalette",
+          "return": {
+            "type": {
+              "text": "EditorPalette"
+            }
+          },
+          "parameters": [
+            {
+              "name": "probe",
+              "type": {
+                "text": "HTMLElement"
+              }
+            }
+          ],
+          "description": "Resolves the palette where `probe` sits, so it follows the theme around the editor:\n`data-theme`, the system color scheme, or a custom theme."
+        },
+        {
+          "kind": "function",
+          "name": "isDark",
+          "return": {
+            "type": {
+              "text": "boolean"
+            }
+          },
+          "parameters": [
+            {
+              "name": "hex",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Whether a `#rrggbb` color is dark, by relative luminance."
+        },
+        {
+          "kind": "function",
+          "name": "buildEditorTheme",
+          "return": {
+            "type": {
+              "text": "EditorThemeData"
+            }
+          },
+          "parameters": [
+            {
+              "name": "p",
+              "type": {
+                "text": "EditorPalette"
+              }
+            }
+          ],
+          "description": "Builds the editor theme from a palette. The editor background is transparent, so the frame\naround it shows through; widgets such as suggestions and hovers sit on surface containers."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PALETTE_SOURCES",
+          "declaration": {
+            "name": "PALETTE_SOURCES",
+            "module": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "cssColorToHex",
+          "declaration": {
+            "name": "cssColorToHex",
+            "module": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "resolvePalette",
+          "declaration": {
+            "name": "resolvePalette",
+            "module": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "isDark",
+          "declaration": {
+            "name": "isDark",
+            "module": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "buildEditorTheme",
+          "declaration": {
+            "name": "buildEditorTheme",
+            "module": "E:/git/redvars/peacock/components/src/code-editor/editor-theme.ts"
           }
         }
       ]

@@ -4,32 +4,51 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 ---
 
-<style is:inline>
-  #business-rule-editor {
-    width: 90%;
-  }
-</style>
+<p class='text-body-medium'>
+  The editor sits in the same frame as <code class='text-code-block'>wc-code-highlighter</code>, and its colors
+  come from the theme's color roles, so it follows light, dark and custom themes. Set
+  <code class='text-code-block'>label</code> for a header with a title, put an icon in the
+  <code class='text-code-block'>icon</code> slot and extra buttons in the <code class='text-code-block'>actions</code>
+  slot. Without a header, the copy button floats at the top end. <code class='text-code-block'>wrap-toggle</code> adds
+  a button that wraps long lines, and the code shows as plain text until the editor has loaded.
+</p>
 
 <wc-checkbox id='disableEditor'>Disable editor</wc-checkbox>
 
 <DemoComponentCard lang={'html'}>
-
-  
-    <wc-code-editor id='business-rule-editor' style='display:block; height: 300px'></wc-code-editor>
-    <script is:inline>
-      document.getElementById('business-rule-editor').value = `/**
-* Sample Code
-*/
-function myBusinessRuleFunction(){
+  <wc-code-editor id='business-rule-editor' label='business-rule.js' wrap-toggle style='display:block; width: 100%;'>
+    <wc-icon slot='icon' name='description'></wc-icon>
+  </wc-code-editor>
+  <script is:inline>
+    document.getElementById('business-rule-editor').value = `/**
+ * Sample Code
+ */
+function myBusinessRuleFunction() {
   const a = 1;
   const b = 2;
   let c = a + b;
   console.log(c);
 }`;
 
-      document.querySelector('#disableEditor').addEventListener('change', function(evt) {
-        document.getElementById('business-rule-editor').disabled = evt.target.value;
-      });
-    </script>
-  
+    document.querySelector('#disableEditor').addEventListener('change', function (evt) {
+      document.getElementById('business-rule-editor').disabled = evt.target.value;
+    });
+  </script>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Without a header</h3>
+<p class='text-body-medium'>
+  Leave out <code class='text-code-block'>label</code> for a plain editor. <code class='text-code-block'>size="sm"</code>
+  uses smaller text and padding, and <code class='text-code-block'>--code-editor-height</code> sets the height of the
+  editing area.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-editor id='plain-json-editor' language='json' size='sm' style='display:block; width: 100%; --code-editor-height: 8rem;'></wc-code-editor>
+  <script is:inline>
+    document.getElementById('plain-json-editor').value = `{
+  "name": "my-app",
+  "dependencies": { "@redvars/peacock": "latest" }
+}`;
+  </script>
 </DemoComponentCard>

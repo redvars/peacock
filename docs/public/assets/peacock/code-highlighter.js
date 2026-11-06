@@ -4,7 +4,7 @@ import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-DG7CA1et.js';
 import { o } from './style-map-BQD5Et1D.js';
-import { c as copyToClipboard } from './copy-to-clipboard-upGx-Ueo.js';
+import { c as copyToClipboard, T as TOKEN_DEFAULTS } from './token-colors-0TFHWbcq.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -107,15 +107,6 @@ var css_248z = i`@charset "UTF-8";
   display: none !important;
 }
 
-:host {
-  display: block;
-  min-width: 0;
-}
-
-:host([hidden]) {
-  display: none;
-}
-
 .code-block {
   --_pad-block: var(--spacing-200);
   --_pad-inline: var(--spacing-200);
@@ -124,10 +115,7 @@ var css_248z = i`@charset "UTF-8";
     --code-highlighter-background,
     var(--color-surface-container-low)
   );
-  --_border-color: var(
-    --code-highlighter-border-color,
-    var(--color-outline-variant)
-  );
+  --_border-color: var(--code-highlighter-border-color, var(--color-outline-variant));
   --_foreground: var(--code-highlighter-foreground, var(--color-on-surface));
   position: relative;
   display: flex;
@@ -139,10 +127,6 @@ var css_248z = i`@charset "UTF-8";
   color: var(--_foreground);
   border: 1px solid var(--_border-color);
   border-radius: var(--code-highlighter-shape, var(--shape-corner-medium));
-}
-.code-block:has(.content:focus-visible) {
-  outline: 3px solid var(--color-primary);
-  outline-offset: 2px;
 }
 
 .header {
@@ -210,6 +194,51 @@ var css_248z = i`@charset "UTF-8";
     opacity: 1;
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  .actions.floating {
+    transition: none;
+  }
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+:host([size=sm]) .code-block {
+  --_pad-block: var(--spacing-150);
+  --_pad-inline: var(--spacing-150);
+  --_pad-near: var(--spacing-075);
+  border-radius: var(--code-highlighter-shape, var(--shape-corner-small));
+}
+:host([size=sm]) .title {
+  font-family: var(--typography-label-medium-font-family) !important;
+  font-size: var(--typography-label-medium-font-size) !important;
+  font-weight: var(--typography-label-medium-font-weight) !important;
+  line-height: var(--typography-label-medium-line-height) !important;
+  letter-spacing: var(--typography-label-medium-letter-spacing) !important;
+}
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.code-block:has(.content:focus-visible) {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .content {
   flex: 1 1 auto;
   min-height: 0;
@@ -353,35 +382,9 @@ var css_248z = i`@charset "UTF-8";
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .actions.floating,
   .expand-icon {
     transition: none;
   }
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-
-:host([size=sm]) .code-block {
-  --_pad-block: var(--spacing-150);
-  --_pad-inline: var(--spacing-150);
-  --_pad-near: var(--spacing-075);
-  border-radius: var(--code-highlighter-shape, var(--shape-corner-small));
-}
-:host([size=sm]) .title {
-  font-family: var(--typography-label-medium-font-family) !important;
-  font-size: var(--typography-label-medium-font-size) !important;
-  font-weight: var(--typography-label-medium-font-weight) !important;
-  line-height: var(--typography-label-medium-line-height) !important;
-  letter-spacing: var(--typography-label-medium-letter-spacing) !important;
 }
 :host([size=sm]) .content {
   font-family: var(--typography-code-small-font-family) !important;
@@ -450,43 +453,7 @@ function once(load) {
 // Module-level loaders – Rollup splits each import() specifier into a separate chunk.
 // Caching prevents parallel loads when multiple instances initialise at the same time.
 const loadShiki = once(() => import('./index-_g_oLekF.js'));
-/**
- * Syntax colors are CSS variables that fall back to Peacock color roles, so
- * light, dark and custom themes all follow the tokens. Each one can be
- * overridden as `--code-highlighter-token-*` or `--code-highlighter-ansi-*`.
- */
-const TOKEN_DEFAULTS = {
-    foreground: 'var(--color-on-surface)',
-    background: 'transparent',
-    'token-constant': 'var(--color-orange)',
-    'token-string': 'var(--color-green)',
-    'token-comment': 'var(--color-on-surface-variant)',
-    'token-keyword': 'var(--color-purple)',
-    'token-parameter': 'var(--color-on-surface)',
-    'token-function': 'var(--color-blue)',
-    'token-string-expression': 'var(--color-green)',
-    'token-punctuation': 'var(--color-on-surface-variant)',
-    'token-link': 'var(--color-primary)',
-    'token-inserted': 'var(--color-green)',
-    'token-deleted': 'var(--color-red)',
-    'token-changed': 'var(--color-orange)',
-    'ansi-black': 'var(--color-on-surface)',
-    'ansi-red': 'var(--color-red)',
-    'ansi-green': 'var(--color-green)',
-    'ansi-yellow': 'var(--color-yellow)',
-    'ansi-blue': 'var(--color-blue)',
-    'ansi-magenta': 'var(--color-purple)',
-    'ansi-cyan': 'var(--color-tertiary)',
-    'ansi-white': 'var(--color-on-surface-variant)',
-    'ansi-bright-black': 'var(--color-on-surface-variant)',
-    'ansi-bright-red': 'var(--color-red)',
-    'ansi-bright-green': 'var(--color-green)',
-    'ansi-bright-yellow': 'var(--color-yellow)',
-    'ansi-bright-blue': 'var(--color-blue)',
-    'ansi-bright-magenta': 'var(--color-purple)',
-    'ansi-bright-cyan': 'var(--color-tertiary)',
-    'ansi-bright-white': 'var(--color-on-surface)',
-};
+// Syntax colors are CSS variables that fall back to Peacock color roles; see token-colors.ts.
 const loadTheme = once(async () => {
     const { createCssVariablesTheme } = await loadShiki();
     return createCssVariablesTheme({
