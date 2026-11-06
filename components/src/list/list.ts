@@ -1,8 +1,8 @@
-﻿import { LitElement, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import styles from './list.scss';
-import { ListItem } from './list-item.js';
+import { ListItem, type ListItemPosition } from './list-item.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 /**
@@ -15,18 +15,17 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @example
  * ```html
  * <wc-list>
- *   <wc-list-item>
- *     <wc-icon slot="leading" name="inbox"></wc-icon>
+ *   <wc-list-item selected>
+ *     <wc-icon slot="start" name="inbox"></wc-icon>
  *     Inbox
- *     <span slot="trailing">24</span>
+ *     <span slot="trailing-supporting-text">24</span>
  *   </wc-list-item>
- *    <wc-list-item>
- *       <wc-avatar slot="leading" name="Ada Lovelace"></wc-avatar>
- *        Ada Lovelace
- *       <span slot="supporting-text">Software Engineer</span>
- *       <span slot="trailing-supporting-text">7</span>
- *       <wc-icon slot="trailing" name="chevron_right"></wc-icon>
- *     </wc-list-item>
+ *   <wc-list-item actionable>
+ *     <wc-avatar slot="start" name="Ada Lovelace"></wc-avatar>
+ *     Ada Lovelace
+ *     <span slot="supporting-text">Software Engineer</span>
+ *     <wc-icon slot="end" name="chevron_right"></wc-icon>
+ *   </wc-list-item>
  * </wc-list>
  * ```
  * @tags display
@@ -37,7 +36,10 @@ export class List extends LitElement {
 
   static Item = ListItem;
 
-  /**  */
+  /**
+   * `standard` rows sit on the surface; `segmented` rows each get a
+   * surface-container fill, a small gap and rounded outer corners.
+   */
   @property({ type: String, reflect: true }) variant: 'standard' | 'segmented' =
     'standard';
 
@@ -198,8 +200,23 @@ export class List extends LitElement {
   };
 
   private _onSlotChange = () => {
+    this._syncPositions();
     this._syncRovingTabIndex();
   };
+
+  /** Marks each item first / middle / last / only, for the segmented shape. */
+  private _syncPositions() {
+    const { items } = this;
+    const last = items.length - 1;
+    items.forEach((item, index) => {
+      let position: ListItemPosition = 'middle';
+      if (last === 0) position = 'only';
+      else if (index === 0) position = 'first';
+      else if (index === last) position = 'last';
+      // eslint-disable-next-line no-param-reassign
+      item.listPosition = position;
+    });
+  }
 
   render() {
     const cssClasses = {

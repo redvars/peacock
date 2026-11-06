@@ -1,0 +1,39 @@
+---
+export const title = 'Segmented';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>variant="segmented"</code> gives every row its own surface container
+  fill with a small gap between rows, and rounds the outer corners of the first
+  and last rows.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-list variant='segmented' style='width: min(100%, 28rem);'>
+    <wc-list-item actionable>
+      <wc-icon slot='start' name='wifi'></wc-icon>
+      Network
+      <span slot='supporting-text'>Wi-Fi, mobile data</span>
+      <wc-icon slot='end' name='chevron_right'></wc-icon>
+    </wc-list-item>
+    <wc-list-item actionable selected>
+      <wc-icon slot='start' name='bluetooth'></wc-icon>
+      Connected devices
+      <span slot='supporting-text'>Bluetooth, pairing</span>
+      <wc-icon slot='end' name='chevron_right'></wc-icon>
+    </wc-list-item>
+    <wc-list-item actionable>
+      <wc-icon slot='start' name='notifications'></wc-icon>
+      Notifications
+      <span slot='supporting-text'>History, conversations</span>
+      <wc-icon slot='end' name='chevron_right'></wc-icon>
+    </wc-list-item>
+    <wc-list-item actionable disabled>
+      <wc-icon slot='start' name='battery_full'></wc-icon>
+      Battery
+      <span slot='supporting-text'>Unavailable</span>
+    </wc-list-item>
+  </wc-list>
+</DemoComponentCard>

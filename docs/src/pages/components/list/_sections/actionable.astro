@@ -5,22 +5,28 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  <code>wc-list-item</code> supports <code>leading</code>, default content, and
-  <code>trailing</code> slots.
+  Add <code>actionable</code>, or an <code>href</code>, to make a row
+  interactive: it gets hover, press and focus states, and the list moves focus
+  between actionable rows with the arrow keys, <kbd>Home</kbd> and
+  <kbd>End</kbd>.
 </p>
 
 <DemoComponentCard lang={'html'}>
   <wc-list style='width: min(100%, 28rem);'>
     <wc-list-item actionable>
-      <wc-icon slot='leading' name='person'></wc-icon>
+      <wc-icon slot='start' name='person'></wc-icon>
       Profile settings
-      <wc-icon slot='trailing' name='chevron_right'></wc-icon>
+      <wc-icon slot='end' name='chevron_right'></wc-icon>
     </wc-list-item>
-    <wc-list-item href="//redvars.com" target='_blank'>
-      <wc-avatar  slot='leading' name="Ada Lovelace"></wc-avatar>
+    <wc-list-item href='//redvars.com' target='_blank'>
+      <wc-avatar slot='start' name='Ada Lovelace'></wc-avatar>
       Ada Lovelace
-      <span slot="supporting-text">Software Engineer</span>
+      <span slot='supporting-text'>Software Engineer</span>
       <span slot='trailing-supporting-text'>7</span>
+    </wc-list-item>
+    <wc-list-item actionable disabled>
+      <wc-icon slot='start' name='lock'></wc-icon>
+      Security (Disabled)
     </wc-list-item>
   </wc-list>
 </DemoComponentCard>

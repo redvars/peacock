@@ -1,8 +1,7 @@
-﻿import { html, LitElement, nothing } from 'lit';
-import IndividualComponent from '@/IndividualComponent.js';
+import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import IndividualComponent from '@/IndividualComponent.js';
 import styles from './list-item.scss';
 import { isLink } from '@/__internal/utils/is-link.js';
 import {
@@ -15,19 +14,42 @@ import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 
+/** Where a list item sits among its sibling items; set by `wc-list`. */
+export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
+
 /**
  * @label List Item
  * @tag wc-list-item
  * @rawTag list-item
  *
- * @summary A list item with leading, trailing and content slots.
+ * @summary A list item with start, end and content slots.
+ *
+ * @slot - The item's label.
+ * @slot start - Leading content, such as an icon or avatar.
+ * @slot end - Trailing content, such as an icon.
+ * @slot overline - Text above the label.
+ * @slot headline - The label, as an alternative to the default slot.
+ * @slot supporting-text - Text below the label.
+ * @slot trailing-supporting-text - Short text before the `end` slot, such as a count.
+ * @slot leading - Deprecated: use `start`. Rendered in the same place.
+ * @slot trailing - Deprecated: use `end`. Rendered in the same place.
+ *
+ * @cssprop --list-item-container-color - Row background.
+ * @cssprop --list-item-label-text-color - Label color.
+ * @cssprop --list-item-icon-color - Color of the `start` and `end` content.
+ * @cssprop --list-item-state-color - Hover and press state layer color.
+ * @cssprop --list-item-selected-container-color - Row background when selected.
+ * @cssprop --list-item-selected-label-text-color - Label color when selected.
+ * @cssprop --list-item-selected-icon-color - `start` and `end` color when selected.
+ * @cssprop --list-item-container-shape - Corner radius of the row.
+ * @cssprop --list-item-outer-container-shape - Corner radius of the outer corners of the first and last rows (set by `wc-list` in the segmented variant).
  *
  * @example
  * ```html
  * <wc-list-item selected>
- *   <wc-icon slot="leading" name="person"></wc-icon>
+ *   <wc-icon slot="start" name="person"></wc-icon>
  *   Profile
- *   <wc-icon slot="trailing" name="chevron_right"></wc-icon>
+ *   <wc-icon slot="end" name="chevron_right"></wc-icon>
  * </wc-list-item>
  * ```
  * @tags display
@@ -46,15 +68,35 @@ export class ListItem extends mixinBaseButton(
 
   static styles = [styles];
 
+  // ── Properties ───────────────────────────────────────────────────────────
+
+  /** Shows the row as selected, actionable or not. */
   @property({ type: Boolean, reflect: true }) selected = false;
 
   /** When true, renders the list-item in a loading skeleton state. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
+  /** Renders the row as a button, with hover, press and focus states. */
   @property({ type: Boolean, reflect: true })
   actionable: boolean = false;
 
+  /**
+   * Where the item sits among its siblings. `wc-list` sets this; the segmented
+   * variant rounds the outer corners of the first and last rows with it.
+   */
+  @property({ type: String, reflect: true, attribute: 'list-position' })
+  listPosition?: ListItemPosition;
+
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('#list-item') readonly itemElement!: HTMLElement | null;
+
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  /** Re-renders when slotted children are added, removed or re-slotted. */
+  private readonly _contentObserver = new MutationObserver(() => {
+    this.requestUpdate();
+  });
 
   constructor() {
     super();
@@ -68,6 +110,24 @@ export class ListItem extends mixinBaseButton(
     if (!this.hasAttribute('role')) {
       this.setAttribute('role', 'listitem');
     }
+
+    this._contentObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['slot'],
+    });
+  }
+
+  disconnectedCallback() {
+    this._contentObserver.disconnect();
+    super.disconnectedCallback();
+  }
+
+  protected override updated() {
+    // wc-item shows its start / end columns from its own light children (our
+    // slot elements), which it does not observe; nudge it when ours change.
+    this.renderRoot.querySelector<LitElement>('wc-item')?.requestUpdate();
   }
 
   override focus() {
@@ -166,41 +226,50 @@ export class ListItem extends mixinBaseButton(
   }
 
   renderContent(clickable: boolean) {
-    const hasLeading = this.__hasNamedSlot('leading');
+    // `leading` / `trailing` are deprecated aliases of `start` / `end`; both
+    // land in the same wc-item slot. The slots are rendered only when used so
+    // an empty start or end column does not take up space.
+    const hasStart = this.__hasNamedSlot('start', 'leading');
+    const hasEnd = this.__hasNamedSlot('end', 'trailing');
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
     );
-    const hasTrailing = this.__hasNamedSlot('trailing');
 
     return html`
       <wc-item class="list-item-content" ?inert=${clickable}>
+        <div class="background" slot="container"></div>
         ${clickable
           ? html`<wc-focus-ring
                 class="focus-ring"
                 for="list-item"
                 slot="container"
               ></wc-focus-ring>
-              <div class="background" slot="container"></div>
               <wc-ripple
                 class="ripple"
                 for="list-item"
                 slot="container"
-              ></wc-ripple>
-              <wc-skeleton class="skeleton" slot="container"></wc-skeleton> `
-          : null}
+              ></wc-ripple>`
+          : nothing}
+        <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
 
-        <slot name="leading" slot="start" ?hidden=${!hasLeading}></slot>
+        ${hasStart
+          ? html`<slot class="icon-slot" name="start" slot="start"></slot
+              ><slot class="icon-slot" name="leading" slot="start"></slot>`
+          : nothing}
         <slot name="overline" slot="overline"></slot>
         <slot name="headline" slot="headline"></slot>
         <slot></slot>
         <slot name="supporting-text" slot="supporting-text"></slot>
-
-        <slot
-          name="trailing-supporting-text"
-          slot="trailing-supporting-text"
-          ?hidden=${!hasTrailingSupportingText}
-        ></slot>
-        <slot name="trailing" slot="end" ?hidden=${!hasTrailing}></slot>
+        ${hasTrailingSupportingText
+          ? html`<slot
+              name="trailing-supporting-text"
+              slot="trailing-supporting-text"
+            ></slot>`
+          : nothing}
+        ${hasEnd
+          ? html`<slot class="icon-slot" name="end" slot="end"></slot
+              ><slot class="icon-slot" name="trailing" slot="end"></slot>`
+          : nothing}
       </wc-item>
     `;
   }
