@@ -2,143 +2,140 @@
 
 @include mixin.base-styles;
 
+:host {
+  /* Public colour tokens; items read them because custom properties inherit through the slot. */
+  --menu-container-color: var(--color-surface-container);
+  --menu-item-label-color: var(--color-on-surface);
+  --menu-item-icon-color: var(--color-on-surface-variant);
+  --menu-item-selected-container-color: var(--color-secondary-container);
+  --menu-item-selected-label-color: var(--color-on-secondary-container);
+
+  /* Expressive segments: off unless the variant turns them on. */
+  --_menu-item-segment-display: none;
+
+  /* Leading space for text-only items when another item has an icon (see has-icons). */
+  --_menu-item-leading-space: 0px;
+}
+
+:host([has-icons]) {
+  --_menu-item-leading-space: calc(
+    var(--menu-item-icon-size, 1.25rem) + var(--spacing-150)
+  );
+}
+
+:host([variant='expressive']) {
+  --_menu-item-segment-display: block;
+}
+
 .menu {
+  /* Reset the UA popover styles; Floating UI positions the surface. */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  inset: auto;
+  overflow: visible;
+  color: inherit;
+  background: transparent;
+
   display: flex;
+  flex-direction: column;
   position: fixed;
   z-index: var(--menu-z-index, 1000);
+  box-sizing: border-box;
   width: var(--menu-width, max-content);
-  max-width: 100vw;
   min-width: var(--menu-min-width, 112px);
+  max-width: min(
+    var(--menu-max-width, 100vw),
+    var(--floating-available-width, 100vw)
+  );
+  max-height: min(
+    var(--menu-max-height, 20rem),
+    var(--floating-available-height, 100vh)
+  );
   transform-origin: top center;
 
   --_menu-enter-duration: var(--duration-medium1);
-  --_menu-exit-duration: var(--duration-medium2);
-  --_menu-enter-easing: cubic-bezier(0.05, 0.7, 0.1, 1);
-  --_menu-exit-easing: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --_menu-exit-duration: var(--duration-short4);
+  --_menu-enter-easing: var(--easing-emphasized-decelerate);
+  --_menu-exit-easing: var(--easing-standard);
 
-  transition-property: opacity, transform, visibility;
-  transition-duration:
-    var(--_menu-exit-duration), var(--_menu-exit-duration), 0ms;
-  transition-delay: 0ms, 0ms, var(--_menu-exit-duration);
-  transition-timing-function:
-    var(--_menu-exit-easing), var(--_menu-exit-easing), linear;
+  transition-property: opacity, transform;
+  transition-duration: var(--_menu-exit-duration);
+  transition-timing-function: var(--_menu-exit-easing);
 
   &.closed {
     opacity: 0;
-    visibility: hidden;
     pointer-events: none;
     transform: translateY(-4px) scale(0.97);
   }
 
   &.open {
     opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-    transition-duration:
-      var(--_menu-enter-duration), var(--_menu-enter-duration), 0ms;
-    transition-delay: 0ms, 0ms, 0ms;
-    transition-timing-function:
-      var(--_menu-enter-easing), var(--_menu-enter-easing), linear;
+    transform: none;
+    transition-duration: var(--_menu-enter-duration);
+    transition-timing-function: var(--_menu-enter-easing);
+
+    @starting-style {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.97);
+    }
   }
 
   &.preview {
     position: relative;
-    pointer-events: auto;
+    z-index: auto;
+    max-height: var(--menu-max-height, none);
+  }
+
+  .elevation {
+    --elevation-level: 2;
+    --elevation-container-shape: var(--shape-corner-large);
   }
 
   .menu-content {
+    position: relative;
     display: flex;
     flex-direction: column;
-    z-index: 1;
-    width: 100%;
-
-    ::slotted([data-position-after-divider]) {
-      --menu-item-backdrop-container-shape-start-start: var(
-        --shape-corner-small
-      );
-      --menu-item-backdrop-container-shape-start-end: var(--shape-corner-small);
-      --sub-menu-item-backdrop-container-shape-start-start: var(
-        --shape-corner-small
-      );
-      --sub-menu-item-backdrop-container-shape-start-end: var(
-        --shape-corner-small
-      );
-
-      --menu-item-backdrop-elevation-level-block-start: 1;
-    }
-
-    ::slotted([data-position-first]) {
-      --menu-item-backdrop-container-shape-start-start: var(
-        --shape-corner-large
-      );
-      --menu-item-backdrop-container-shape-start-end: var(--shape-corner-large);
-      --sub-menu-item-backdrop-container-shape-start-start: var(
-        --shape-corner-large
-      );
-      --sub-menu-item-backdrop-container-shape-start-end: var(
-        --shape-corner-large
-      );
-
-      --menu-item-backdrop-elevation-level-block-start: 1;
-    }
-
-    ::slotted([data-position-before-divider]) {
-      --menu-item-backdrop-elevation-level-block-end: 1;
-      --menu-item-backdrop-container-shape-end-start: var(--shape-corner-small);
-
-      --menu-item-backdrop-container-shape-end-end: var(--shape-corner-small);
-      --sub-menu-item-backdrop-container-shape-end-start: var(
-        --shape-corner-small
-      );
-      --sub-menu-item-backdrop-container-shape-end-end: var(
-        --shape-corner-small
-      );
-    }
-
-    ::slotted([data-position-last]) {
-      --menu-item-backdrop-elevation-level-block-end: 1;
-      --menu-item-backdrop-container-shape-end-start: var(--shape-corner-large);
-
-      --menu-item-backdrop-container-shape-end-end: var(--shape-corner-large);
-      --sub-menu-item-backdrop-container-shape-end-start: var(
-        --shape-corner-large
-      );
-      --sub-menu-item-backdrop-container-shape-end-end: var(
-        --shape-corner-large
-      );
-    }
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: var(--spacing-050);
+    border-radius: var(--shape-corner-large);
+    background-color: var(--menu-container-color);
 
     ::slotted(wc-divider) {
-      --divider-spacing: 1px;
-      padding-inline: var(--spacing-050);
-      --divider-color: transparent;
+      --divider-color: var(--color-outline-variant);
+      --divider-spacing: var(--spacing-050);
     }
   }
+}
 
-  .background {
-    display: block;
-    position: absolute;
-    inset: 0;
+/* Expressive: no shared surface, each group between dividers is its own rounded segment. */
+:host([variant='expressive']) .menu {
+  .elevation {
+    display: none;
+  }
 
-    border-start-start-radius: var(--_container-shape-start-start);
-    border-start-end-radius: var(--_container-shape-start-end);
-    border-end-start-radius: var(--_container-shape-end-start);
-    border-end-end-radius: var(--_container-shape-end-end);
-    pointer-events: none;
+  .menu-content {
+    background-color: transparent;
+    border-radius: 0;
+    /* Room for the segments' shadows, which overflow-y: auto would otherwise clip. */
+    padding: var(--spacing-050);
+    margin: calc(-1 * var(--spacing-050));
+
+    ::slotted(wc-divider) {
+      --divider-color: transparent;
+      --divider-spacing: var(--spacing-025);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu {
+  .menu,
+  .menu.open,
+  .menu.closed {
     transition: none;
     transform: none;
   }
-}
-
-.menu {
-  --_container-shape-start-start: var(--shape-corner-large);
-  --_container-shape-start-end: var(--shape-corner-large);
-  --_container-shape-end-start: var(--shape-corner-large);
-  --_container-shape-end-end: var(--shape-corner-large);
 }

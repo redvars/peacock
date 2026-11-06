@@ -3,16 +3,26 @@
 @include mixin.base-styles;
 
 :host {
+  display: block;
   outline: none;
   position: relative;
 
-  --menu-item-backdrop-container-shape-start-start: none;
-  --menu-item-backdrop-container-shape-start-end: none;
-  --menu-item-backdrop-container-shape-end-start: none;
-  --menu-item-backdrop-container-shape-end-end: none;
+  --_label-color: var(--menu-item-label-color, var(--color-on-surface));
+  --_icon-color: var(--menu-item-icon-color, var(--color-on-surface-variant));
+  --_container-color: transparent;
+  --_icon-size: var(--menu-item-icon-size, 1.25rem);
 
-  --menu-item-backdrop-elevation-level-block-start: none;
-  --menu-item-backdrop-elevation-level-block-end: none;
+  /* Expressive segment shape and shadow; wc-menu sets data-position-* on the segment edges. */
+  --_segment-shape-start-start: 0;
+  --_segment-shape-start-end: 0;
+  --_segment-shape-end-start: 0;
+  --_segment-shape-end-end: 0;
+  --_segment-elevation-block-start: 0;
+  --_segment-elevation-block-end: 0;
+}
+
+:host([hidden]) {
+  display: none !important;
 }
 
 /*
@@ -27,72 +37,40 @@
 
 .menu-item {
   position: relative;
+  display: block;
   width: 100%;
   text-align: start;
-  padding-top: 2px;
   padding-inline: var(--spacing-050);
+  padding-block: 1px;
 
   .menu-item-backdrop-background {
-    background-color: var(--menu-item-container-color);
+    display: var(--_menu-item-segment-display, none);
+    background-color: var(--menu-container-color, var(--color-surface-container));
     position: absolute;
-    inset: 0px;
-    border-start-start-radius: var(
-      --menu-item-backdrop-container-shape-start-start
-    );
-    border-start-end-radius: var(
-      --menu-item-backdrop-container-shape-start-end
-    );
-    border-end-start-radius: var(
-      --menu-item-backdrop-container-shape-end-start
-    );
-    border-end-end-radius: var(--menu-item-backdrop-container-shape-end-end);
+    inset: 0;
+    border-start-start-radius: var(--_segment-shape-start-start);
+    border-start-end-radius: var(--_segment-shape-start-end);
+    border-end-start-radius: var(--_segment-shape-end-start);
+    border-end-end-radius: var(--_segment-shape-end-end);
   }
 
   .menu-item-backdrop-elevation {
-    --elevation-container-shape-start-start: var(
-      --menu-item-backdrop-container-shape-start-start
-    );
-    --elevation-container-shape-start-end: var(
-      --menu-item-backdrop-container-shape-start-end
-    );
-    --elevation-container-shape-end-start: var(
-      --menu-item-backdrop-container-shape-end-start
-    );
-    --elevation-container-shape-end-end: var(
-      --menu-item-backdrop-container-shape-end-end
-    );
-
-    --elevation-level-block-start: var(
-      --menu-item-backdrop-elevation-level-block-start
-    );
-    --elevation-level-block-end: var(
-      --menu-item-backdrop-elevation-level-block-end
-    );
-    --elevation-level-inline-start: var(
-      --menu-item-backdrop-elevation-level-inline-start,
-      1
-    );
-    --elevation-level-inline-end: var(
-      --menu-item-backdrop-elevation-level-inline-end,
-      1
-    );
+    display: var(--_menu-item-segment-display, none);
+    --elevation-container-shape-start-start: var(--_segment-shape-start-start);
+    --elevation-container-shape-start-end: var(--_segment-shape-start-end);
+    --elevation-container-shape-end-start: var(--_segment-shape-end-start);
+    --elevation-container-shape-end-end: var(--_segment-shape-end-end);
+    --elevation-level-block-start: var(--_segment-elevation-block-start);
+    --elevation-level-block-end: var(--_segment-elevation-block-end);
+    --elevation-level-inline-start: 1;
+    --elevation-level-inline-end: 1;
   }
 
   .menu-item-content {
     --item-height: 1.5rem;
-    --item-multiline-height: 3rem;
-    --item-padding-inline: 10px;
-    --item-container-shape-start-start: var(
-      --menu-item-container-shape-start-start
-    );
-    --item-container-shape-start-end: var(
-      --menu-item-container-shape-start-end
-    );
-    --item-container-shape-end-start: var(
-      --menu-item-container-shape-end-start
-    );
-    --item-container-shape-end-end: var(--menu-item-container-shape-end-end);
-    --item-container-shape-variant: none;
+    --item-multiline-height: 2.5rem;
+    --item-padding-inline: var(--spacing-150);
+    --item-spacing: var(--spacing-150);
 
     --item-label-font-family: var(--typography-label-large-font-family);
     --item-label-font-size: var(--typography-label-large-font-size);
@@ -100,99 +78,123 @@
     --item-label-line-height: var(--typography-label-large-line-height);
     --item-label-letter-spacing: var(--typography-label-large-letter-spacing);
 
-    --item-label-text-color: var(--_item-label-text-color);
-    --item-leading-trailing-color: var(--_item-label-text-color);
-    --item-supporting-text-color: var(--_item-label-text-color);
-    --item-icon-size: var(--menu-item-icon-size, var(--_item-icon-size));
+    --item-label-text-color: var(--_label-color);
+    --item-supporting-text-color: var(--_icon-color);
+    --item-trailing-supporting-text-color: var(--_icon-color);
+    --item-label-text-opacity: var(--_content-opacity, 1);
+
+    &.no-start {
+      --item-padding-inline-start: calc(
+        var(--spacing-150) + var(--_menu-item-leading-space, 0px)
+      );
+    }
 
     .background {
-      background-color: var(--_item-container-color);
-      opacity: var(--_container-opacity, 1);
+      background-color: var(--_container-color);
       border-radius: var(--shape-corner-medium);
-
-      border-start-start-radius: var(
-        --_item-container-shape-start-start
-      );
-      border-start-end-radius: var(--_item-container-shape-start-end);
-      border-end-start-radius: var(--_item-container-shape-end-start);
-      border-end-end-radius: var(--_item-container-shape-end-end);
     }
 
     .focus-ring {
-      --focus-ring-container-shape-start-start: var(
-        --_item-container-shape-start-start
-      );
-      --focus-ring-container-shape-start-end: var(
-        --_item-container-shape-start-start
-      );
-      --focus-ring-container-shape-end-start: var(
-        --_item-container-shape-start-start
-      );
-      --focus-ring-container-shape-end-end: var(
-        --_item-container-shape-start-start
-      );
-      z-index: 2;
+      --focus-ring-container-shape-start-start: var(--shape-corner-medium);
+      --focus-ring-container-shape-start-end: var(--shape-corner-medium);
+      --focus-ring-container-shape-end-start: var(--shape-corner-medium);
+      --focus-ring-container-shape-end-end: var(--shape-corner-medium);
       --focus-ring-inset: 0px;
+      z-index: 2;
     }
 
     .ripple {
-      --ripple-state-opacity: var(--_container-state-opacity, 0);
-      --ripple-pressed-color: var(--_container-state-color);
       border-radius: var(--shape-corner-medium);
-    }
-
-    .skeleton {
-      z-index: 2;
-
-      --skeleton-container-shape-start-start: var(
-        --_item-container-shape-start-start
-      );
-      --skeleton-container-shape-start-end: var(
-        --_item-container-shape-start-end
-      );
-      --skeleton-container-shape-end-start: var(
-        --_item-container-shape-end-start
-      );
-      --skeleton-container-shape-end-end: var(
-        --_item-container-shape-end-end
-      );
+      --ripple-pressed-color: var(--_label-color);
     }
   }
 }
 
-:host {
-  --_item-container-color: var(--menu-item-container-color);
-  --_item-label-text-color: var(--menu-item-label-color);
-  --_item-container-shape-start-start: var(--shape-corner-medium);
-  --_item-container-shape-start-end: var(--shape-corner-medium);
-  --_item-container-shape-end-start: var(--shape-corner-medium);
-  --_item-container-shape-end-end: var(--shape-corner-medium);
+slot[name='start']::slotted(*),
+slot[name='end']::slotted(*),
+.built-in {
+  --icon-size: var(--_icon-size);
+  --icon-color: var(--_icon-color);
+  color: var(--_icon-color);
 }
 
+.built-in {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+}
+
+.indicator {
+  --icon-size: var(--_icon-size);
+}
+
+:host(:dir(rtl)) .submenu-indicator {
+  transform: scaleX(-1);
+}
+
+/* Expressive segment edges. */
+:host([data-position-first]) {
+  --_segment-shape-start-start: var(--shape-corner-large);
+  --_segment-shape-start-end: var(--shape-corner-large);
+  --_segment-elevation-block-start: 1;
+}
+
+:host([data-position-after-divider]) {
+  --_segment-shape-start-start: var(--shape-corner-small);
+  --_segment-shape-start-end: var(--shape-corner-small);
+  --_segment-elevation-block-start: 1;
+}
+
+:host([data-position-before-divider]) {
+  --_segment-shape-end-start: var(--shape-corner-small);
+  --_segment-shape-end-end: var(--shape-corner-small);
+  --_segment-elevation-block-end: 1;
+}
+
+:host([data-position-last]) {
+  --_segment-shape-end-start: var(--shape-corner-large);
+  --_segment-shape-end-end: var(--shape-corner-large);
+  --_segment-elevation-block-end: 1;
+}
+
+:host([data-position-first]) .menu-item,
+:host([data-position-after-divider]) .menu-item {
+  padding-block-start: var(--spacing-050);
+}
+
+:host([data-position-last]) .menu-item,
+:host([data-position-before-divider]) .menu-item {
+  padding-block-end: var(--spacing-050);
+}
+
+/* States. */
 :host([selected]) {
-  --_item-container-color: var(--menu-item-container-selected-color);
-  --_item-label-text-color: var(--menu-item-label-selected-color);
-  --_item-container-shape-start-start: var(--shape-corner-large);
-  --_item-container-shape-start-end: var(--shape-corner-large);
-  --_item-container-shape-end-start: var(--shape-corner-large);
-  --_item-container-shape-end-end: var(--shape-corner-large);
+  --_container-color: var(
+    --menu-item-selected-container-color,
+    var(--color-secondary-container)
+  );
+  --_label-color: var(
+    --menu-item-selected-label-color,
+    var(--color-on-secondary-container)
+  );
+  --_icon-color: var(
+    --menu-item-selected-label-color,
+    var(--color-on-secondary-container)
+  );
+}
+
+:host([submenu-open]:not([selected])) {
+  --_container-color: var(--color-surface-container-highest);
 }
 
 :host([disabled]),
 :host([soft-disabled]) {
   cursor: not-allowed;
-  --_item-label-text-color: var(--color-on-surface);
-  --_container-opacity: 0.12;
+  --_label-color: var(--color-on-surface);
+  --_icon-color: var(--color-on-surface);
+  --_content-opacity: 0.38;
 
   .ripple {
     display: none;
   }
-}
-
-:host-context([variant='standard']) {
-  --menu-item-container-color: var(--color-surface-container);
-}
-
-:host-context([variant='vibrant']) {
-  --menu-item-container-color: var(--color-tertiary-container);
 }

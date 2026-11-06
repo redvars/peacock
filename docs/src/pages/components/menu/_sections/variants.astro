@@ -1,0 +1,31 @@
+---
+export const title = 'Variants';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+<p>
+  <code>standard</code> (the default) is one elevated surface, with hairline dividers between groups.
+  <code>expressive</code> splits the menu at each <code>wc-divider</code> into separate rounded segments.
+  Both share the same item states.
+</p>
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;'>
+    <wc-menu preview variant='standard' aria-label='Standard menu'>
+      <wc-menu-item><wc-icon name='content_cut' slot='start'></wc-icon>Cut</wc-menu-item>
+      <wc-menu-item><wc-icon name='content_copy' slot='start'></wc-icon>Copy</wc-menu-item>
+      <wc-menu-item><wc-icon name='content_paste' slot='start'></wc-icon>Paste</wc-menu-item>
+      <wc-divider></wc-divider>
+      <wc-menu-item selected>Show grid</wc-menu-item>
+      <wc-menu-item disabled>Snap to grid</wc-menu-item>
+    </wc-menu>
+
+    <wc-menu preview variant='expressive' aria-label='Expressive menu'>
+      <wc-menu-item><wc-icon name='content_cut' slot='start'></wc-icon>Cut</wc-menu-item>
+      <wc-menu-item><wc-icon name='content_copy' slot='start'></wc-icon>Copy</wc-menu-item>
+      <wc-menu-item><wc-icon name='content_paste' slot='start'></wc-icon>Paste</wc-menu-item>
+      <wc-divider></wc-divider>
+      <wc-menu-item selected>Show grid</wc-menu-item>
+      <wc-menu-item disabled>Snap to grid</wc-menu-item>
+    </wc-menu>
+  </div>
+</DemoComponentCard>

@@ -5,6 +5,7 @@ import {
   flip,
   shift,
   arrow,
+  size,
   Placement,
   Strategy,
   Middleware,
@@ -25,6 +26,14 @@ export interface FloatingOptions {
   offset?: number;
   trigger?: TriggerType;
   closeOnClickOutside?: boolean;
+  /**
+   * When true, writes the space left between the reference and the viewport edge to the
+   * floating element as `--floating-available-height` / `--floating-available-width`, so it
+   * can cap its size and scroll instead of overflowing the viewport.
+   */
+  fitViewport?: boolean;
+  /** Minimum distance in pixels kept between the floating element and the viewport edge. */
+  viewportPadding?: number;
   onOpenChange?: (isOpen: boolean) => void;
 }
 
@@ -52,6 +61,8 @@ export class FloatingController implements ReactiveController {
       offset: options.offset ?? 8,
       trigger: options.trigger || 'hover',
       closeOnClickOutside: options.closeOnClickOutside ?? true,
+      fitViewport: options.fitViewport ?? false,
+      viewportPadding: options.viewportPadding ?? 5,
       onOpenChange: options.onOpenChange ?? (() => undefined),
     };
     this.host = host;
@@ -199,9 +210,27 @@ export class FloatingController implements ReactiveController {
 
       const middleware: Middleware[] = [
         offset(this.options.offset),
-        flip(),
-        shift({ padding: 5 }),
+        flip({ padding: this.options.viewportPadding }),
+        shift({ padding: this.options.viewportPadding }),
       ];
+
+      if (this.options.fitViewport) {
+        middleware.push(
+          size({
+            padding: this.options.viewportPadding,
+            apply: ({ availableWidth, availableHeight, elements }) => {
+              elements.floating.style.setProperty(
+                '--floating-available-height',
+                `${Math.max(0, Math.floor(availableHeight))}px`,
+              );
+              elements.floating.style.setProperty(
+                '--floating-available-width',
+                `${Math.max(0, Math.floor(availableWidth))}px`,
+              );
+            },
+          }),
+        );
+      }
 
       if (this.arrowElement) {
         middleware.push(arrow({ element: this.arrowElement }));

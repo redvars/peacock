@@ -23,6 +23,10 @@
   gap: var(--item-spacing, 1rem);
   padding-block: 0.625rem;
   padding-inline: var(--item-padding-inline, 1rem);
+  padding-inline-start: var(
+    --item-padding-inline-start,
+    var(--item-padding-inline, 1rem)
+  );
 
   overflow: hidden;
 

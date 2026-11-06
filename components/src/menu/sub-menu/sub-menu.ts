@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './sub-menu.scss';
 import { MenuItem } from '../menu-item/menu-item.js';
-import { Menu } from '../menu/menu.js';
+import { Menu, type MenuCloseReason } from '../menu/menu.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 let subMenuIdCounter = 0;
@@ -39,9 +39,8 @@ export class SubMenu extends LitElement {
 
   private _closeTimeout?: number;
 
-  private _resolveAnchorElement(item: MenuItem) {
-    //@ts-ignore
-    return item.itemElement?.itemElement ?? item.itemElement ?? item;
+  private _resolveAnchorElement(item: MenuItem): HTMLElement {
+    return item.itemElement ?? item;
   }
 
   private readonly _onChildMenuOpened = () => {
@@ -54,7 +53,7 @@ export class SubMenu extends LitElement {
     item.setAttribute('aria-expanded', 'true');
   };
 
-  private readonly _onChildMenuClosed = () => {
+  private readonly _onChildMenuClosed = (event: Event) => {
     const { item } = this;
     if (!item) {
       return;
@@ -62,7 +61,23 @@ export class SubMenu extends LitElement {
 
     item.submenuOpen = false;
     item.setAttribute('aria-expanded', 'false');
+
+    const { reason } =
+      (event as CustomEvent<{ reason?: MenuCloseReason }>).detail ?? {};
+    if (reason?.kind === 'click-selection') {
+      // Picking an item in the submenu completes the whole menu, so close the parent too.
+      this._parentMenu()?.close({ kind: 'click-selection' });
+    } else if (reason?.kind === 'keydown' && reason.key === 'Escape') {
+      item.tabIndex = 0;
+      item.focus();
+    }
   };
+
+  /** The menu this sub-menu sits in. */
+  private _parentMenu(): Menu | null {
+    const parent = this.parentElement?.closest('wc-menu');
+    return parent instanceof Menu ? parent : null;
+  }
 
   get item(): MenuItem | null {
     const [candidate] = this._items ?? [];
@@ -99,6 +114,9 @@ export class SubMenu extends LitElement {
 
     menu.anchorElement = this._resolveAnchorElement(item);
     menu.isSubmenu = true;
+    menu.variant = this._parentMenu()?.variant ?? menu.variant;
+    // Hovering opens the submenu without moving focus; the keyboard path focuses the first item.
+    menu.noAutofocus = true;
     menu.show();
 
     item.hasSubmenu = true;
@@ -128,7 +146,6 @@ export class SubMenu extends LitElement {
       <slot
         name="menu"
         @slotchange=${this._onSlotChange}
-        @close-menu=${this._onCloseMenu}
         @keydown=${this._onMenuKeyDown}
       ></slot>
     `;
@@ -214,18 +231,6 @@ export class SubMenu extends LitElement {
     if (item) {
       item.tabIndex = 0;
       item.focus();
-    }
-  };
-
-  private _onCloseMenu = async (
-    event: CustomEvent<{ reason?: { kind?: string; key?: string } }>,
-  ) => {
-    const { reason } = event.detail ?? {};
-    const { key } = reason ?? {};
-    if (reason?.kind === 'keydown' && key === 'Escape') {
-      event.stopPropagation();
-      await this.close();
-      this.item?.focus();
     }
   };
 

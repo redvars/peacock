@@ -1,0 +1,14 @@
+---
+export const title = 'Keyboard';
+export const order = 400;
+---
+<p>A menu follows the WAI-ARIA menu pattern.</p>
+<ul>
+  <li><strong>Opening</strong> moves focus to the selected item, or the first enabled one. <code>show('last')</code> starts on the last item.</li>
+  <li><strong>Arrow Down / Arrow Up</strong> move to the next or previous item, wrapping at the ends. Disabled items are skipped.</li>
+  <li><strong>Home / End</strong> jump to the first or last item.</li>
+  <li><strong>Typing a letter</strong> jumps to the next item whose label starts with it; typing quickly matches a longer prefix.</li>
+  <li><strong>Enter / Space</strong> activate the focused item.</li>
+  <li><strong>Arrow Right</strong> (Arrow Left in right-to-left) opens a submenu; <strong>Arrow Left</strong> or <strong>Escape</strong> closes it and returns to its item.</li>
+  <li><strong>Escape</strong> closes the menu and returns focus to the element that opened it. <strong>Tab</strong> closes it and moves on.</li>
+</ul>
