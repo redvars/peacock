@@ -7,11 +7,34 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>A FAB represents the primary action on a screen. Use it for the most important action a user can take.</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-fab><wc-icon name='add'></wc-icon></wc-fab>
+  <wc-fab aria-label='Create'><wc-icon name='add'></wc-icon></wc-fab>
 </DemoComponentCard>
 
 <p>The extended FAB displays a text label alongside the icon by setting the <code>label</code> attribute.</p>
 
 <DemoComponentCard lang={'html'}>
   <wc-fab label='Create'><wc-icon name='add'></wc-icon></wc-fab>
+</DemoComponentCard>
+
+<h3>Accessible name</h3>
+<p>
+  An icon-only FAB needs an <code>aria-label</code>. Without one, its <code>tooltip</code> text is used
+  as the accessible name; with neither (and no <code>label</code>), it logs a warning once per page.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-fab tooltip='Compose'><wc-icon name='edit'></wc-icon></wc-fab>
+</DemoComponentCard>
+
+<h3>Toggle and loading</h3>
+<p>
+  <code>toggle</code> renders <code>aria-pressed</code>, flips <code>selected</code> on click and fires
+  <code>change</code>; <code>selected</code> does nothing without it. <code>loading</code> swaps the icon
+  for a spinner, sets <code>aria-busy="true"</code> and ignores clicks. Link mode (<code>href</code>)
+  stays supported on the FAB.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-fab toggle aria-label='Favourite'><wc-icon name='favorite'></wc-icon></wc-fab>
+  <wc-fab loading aria-label='Upload'><wc-icon name='upload'></wc-icon></wc-fab>
 </DemoComponentCard>

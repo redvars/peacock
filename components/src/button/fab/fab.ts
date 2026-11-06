@@ -1,4 +1,4 @@
-﻿import { html, LitElement, nothing } from 'lit';
+﻿import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -13,7 +13,12 @@ import styles from './fab.scss';
 import colorStyles from './fab-colors.scss';
 import sizeStyles from './fab-sizes.scss';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
-import { mixinBaseButton } from '../base-button/base-button.js';
+import {
+  iconButtonLabel,
+  mixinBaseButton,
+  toggleButtonSelected,
+  warnIfUnnamed,
+} from '../base-button/base-button.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
@@ -29,13 +34,16 @@ import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
  * @summary The FAB (Floating Action Button) represents the primary action on a screen.
  * @overview
  * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the specification and supports four color roles and two variants.</p>
+ * <p>An icon-only FAB needs an accessible name: set <code>aria-label</code>, or a <code>tooltip</code>, which is used when no <code>aria-label</code> is set. With neither (and no <code>label</code>), a warning is logged once.</p>
+ * <p>Set <code>toggle</code> for a toggle FAB with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported on the FAB.</p>
  *
  * @cssprop --fab-container-color: Background color of the FAB container.
  * @cssprop --fab-label-text-color: Text and icon color of the FAB label.
  * @cssprop --fab-container-shape: Corner radius of the FAB. Defaults to var(--shape-corner-large).
  * @cssprop --fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.
  *
- * @fires {MouseEvent} click - Dispatched when the FAB is clicked.
+ * @fires {MouseEvent} click - Dispatched when the FAB is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` FAB after a click flips `selected`.
  *
  * @example
  * ```html
@@ -68,6 +76,12 @@ export class Fab extends mixinBaseButton(
    * When set, the FAB displays both the icon and a text label.
    */
   @property({ type: String }) label?: string;
+
+  /**
+   * When true, the FAB is busy: it shows a spinner in place of its icon, sets `aria-busy="true"`
+   * and ignores clicks, like `soft-disabled`.
+   */
+  @property({ type: Boolean, reflect: true }) loading: boolean = false;
 
   /**
    * The color role of the FAB.
@@ -103,32 +117,76 @@ export class Fab extends mixinBaseButton(
   @property({ type: Boolean, reflect: true }) lowered: boolean = false;
 
   /**
-   * Tooltip text shown on hover.
+   * Tooltip text shown on hover. Without a `label`, also the accessible name when no
+   * `aria-label` is set.
    */
   @property() tooltip?: string;
 
+  /** When true, renders the FAB as a placeholder skeleton while the page loads. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
+  /**
+   * When true, the FAB is a toggle button: it renders `aria-pressed`, flips `selected` on click
+   * and fires `change`.
+   */
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
+  /** The pressed state of a `toggle` FAB. Has no effect without `toggle`. */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('.button') readonly buttonElement!: HTMLElement | null;
+
+  // ── Constructor ───────────────────────────────────────────────────────────
 
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
 
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  override firstUpdated(changedProperties: PropertyValues<this>) {
+    super.firstUpdated(changedProperties);
+    warnIfUnnamed(
+      this,
+      (this as ARIAMixinStrict).ariaLabel,
+      this.label,
+      this.tooltip,
+    );
+  }
+
+  // ── Public methods ────────────────────────────────────────────────────────
+
+  override focus() {
+    this.buttonElement?.focus();
+  }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  // ── Private methods ───────────────────────────────────────────────────────
+
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+    // If the button is soft-disabled, loading or a disabled link, we need to
+    // explicitly prevent the click from propagating to other event listeners
+    // as well as prevent the default action.
+    if (
+      this.softDisabled ||
+      this.loading ||
+      (this.disabled && this.href) ||
+      this.skeleton
+    ) {
       event.stopImmediatePropagation();
       event.preventDefault();
       return;
     }
+
+    // Each activation reaches this listener once: either the inner button's
+    // click bubbling out, or a click fired at the host and forwarded below.
+    if (!isLink(this)) toggleButtonSelected(this);
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
@@ -138,13 +196,7 @@ export class Fab extends mixinBaseButton(
     dispatchActivationClick(this.buttonElement);
   };
 
-  override focus() {
-    this.buttonElement?.focus();
-  }
-
-  override blur() {
-    this.buttonElement?.blur();
-  }
+  // ── Render helpers ────────────────────────────────────────────────────────
 
   renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)
@@ -170,6 +222,10 @@ export class Fab extends mixinBaseButton(
 
   renderFabElement(isExtended: boolean) {
     const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
+    // An extended FAB is named by its label; an icon-only one falls back to its tooltip.
+    const label = isExtended
+      ? ariaLabel
+      : iconButtonLabel(ariaLabel, this.tooltip);
 
     const cssClasses = {
       button: true,
@@ -188,13 +244,15 @@ export class Fab extends mixinBaseButton(
         class=${classMap(cssClasses)}
         id="button"
         type="button"
-        aria-label="${ariaLabel || nothing}"
+        aria-label="${label || nothing}"
         aria-haspopup="${ariaHasPopup || nothing}"
         aria-expanded="${ariaExpanded || nothing}"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         aria-disabled=${this.softDisabled ? 'true' : nothing}
+        aria-pressed=${this.toggle ? String(this.selected) : nothing}
+        aria-busy=${this.loading ? 'true' : nothing}
         ?disabled=${this.disabled}
       >
         ${this.renderFabContent(isExtended)}
@@ -208,13 +266,14 @@ export class Fab extends mixinBaseButton(
       href=${ifDefined(this.href)}
       target=${this.target}
       role="button"
-      aria-label="${ariaLabel || nothing}"
+      aria-label="${label || nothing}"
       aria-haspopup="${ariaHasPopup || nothing}"
       aria-expanded="${ariaExpanded || nothing}"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
       aria-disabled=${this.softDisabled ? 'true' : nothing}
+      aria-busy=${this.loading ? 'true' : nothing}
     >
       ${this.renderFabContent(isExtended)}
     </a>`;
@@ -223,6 +282,13 @@ export class Fab extends mixinBaseButton(
   renderFabContent(isExtended: boolean) {
     return html`
       <div class="fab-content">
+        ${this.loading
+          ? html`<wc-circular-progress
+              class="loading-indicator"
+              indeterminate
+              aria-hidden="true"
+            ></wc-circular-progress>`
+          : nothing}
         <slot></slot>
         ${isExtended
           ? html`<span class="fab-label">${this.label}</span>`

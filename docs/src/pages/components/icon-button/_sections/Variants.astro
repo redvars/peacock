@@ -24,14 +24,14 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   }
 </style>
 
-<p>The <code class=text-code-block>type</code> property property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
-<p><code class=text-code-block>type="primary"</code>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
+<p>The <code class=text-code-block>level</code> property is a preset of <code>color</code> and <code>variant</code>, the same mapping as on <a href='/components/button'><code>wc-button</code></a>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over the preset, and changing <code>level</code> later takes effect.</p>
+<p><code>level="secondary"</code> used to give a filled icon button; it is now tonal, like the button.</p>
 
 <DemoComponentCard lang={'html'} inline>
-  <wc-icon-button type='primary'><wc-icon name="home"></wc-icon></wc-icon-button>
-  <wc-icon-button type='secondary'><wc-icon name="home"></wc-icon></wc-icon-button>
-  <wc-icon-button type='tertiary'><wc-icon name="home"></wc-icon></wc-icon-button>
-  <wc-icon-button type='danger'><wc-icon name="delete"></wc-icon></wc-icon-button>
+  <wc-icon-button level='primary' aria-label='Home'><wc-icon name="home"></wc-icon></wc-icon-button>
+  <wc-icon-button level='secondary' aria-label='Home'><wc-icon name="home"></wc-icon></wc-icon-button>
+  <wc-icon-button level='tertiary' aria-label='Home'><wc-icon name="home"></wc-icon></wc-icon-button>
+  <wc-icon-button level='danger' aria-label='Delete'><wc-icon name="delete"></wc-icon></wc-icon-button>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'} inline>

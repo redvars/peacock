@@ -22,6 +22,7 @@ import styles from './chart-line.scss';
 export type {
   ChartConfig,
   ChartDatum,
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeriesConfig,
   ChartValueFormatter,
@@ -64,7 +65,7 @@ type DotModel = {
  *
  * @example
  * ```html
- * <wc-chart-line index="month" label="Visitors by month"></wc-chart-line>
+ * <wc-chart-line category-key="month" label="Visitors by month"></wc-chart-line>
  * <script>
  *   const chart = document.querySelector('wc-chart-line');
  *   chart.config = {
@@ -81,7 +82,8 @@ type DotModel = {
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A category was clicked or chosen with Enter. `detail` holds `index` and `datum`.
+ * @fires select - A category was clicked or chosen with Enter. `detail` holds `index` (the row position) and `datum`.
+ * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.

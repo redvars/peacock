@@ -18,6 +18,7 @@ import baseStyles from '../__internal/chart/chart-base.scss';
 export type {
   ChartConfig,
   ChartDatum,
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeriesConfig,
   ChartValueFormatter,
@@ -67,7 +68,7 @@ type ValueLabelModel = {
  *
  * @example
  * ```html
- * <wc-chart-bar index="month" label="Visitors by month"></wc-chart-bar>
+ * <wc-chart-bar category-key="month" label="Visitors by month"></wc-chart-bar>
  * <script>
  *   const chart = document.querySelector('wc-chart-bar');
  *   chart.config = {
@@ -84,7 +85,8 @@ type ValueLabelModel = {
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A bar group was clicked or chosen with Enter. `detail` holds `index` and `datum`.
+ * @fires select - A bar group was clicked or chosen with Enter. `detail` holds `index` (the row position) and `datum`.
+ * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.

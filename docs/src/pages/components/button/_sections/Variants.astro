@@ -76,7 +76,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </style>
 
 <p>The <code>level</code> property serves as <strong>syntactic sugar</strong>, allowing you to quickly define a button's visual identity without manually configuring individual style attributes.</p>
-<p><code>level="primary"</code>: A shorthand for applying both the <strong>filled</strong> variant and the <strong>primary</strong> brand color simultaneously.</p>
+<p>Each level resolves to a color and a variant. The same table applies to <code>wc-icon-button</code> and <code>wc-link-button</code>.</p>
+<table>
+  <thead><tr><th>Level</th><th>Color</th><th>Variant</th></tr></thead>
+  <tbody>
+    <tr><td><code>primary</code></td><td><code>primary</code></td><td><code>filled</code></td></tr>
+    <tr><td><code>secondary</code></td><td><code>surface</code></td><td><code>tonal</code></td></tr>
+    <tr><td><code>tertiary</code></td><td><code>primary</code></td><td><code>text</code></td></tr>
+    <tr><td><code>danger</code></td><td><code>danger</code></td><td><code>filled</code></td></tr>
+  </tbody>
+</table>
+<p>The level is resolved at render time, so changing it later takes effect. A <code>color</code> or <code>variant</code> you set wins over it, one property at a time: <code>level="danger" variant="outlined"</code> is an outlined danger button. The <code>color</code> and <code>variant</code> properties read back the resolved values.</p>
 
 <DemoComponentCard lang={'html'} inline>
   <wc-button level='primary'>Primary</wc-button>

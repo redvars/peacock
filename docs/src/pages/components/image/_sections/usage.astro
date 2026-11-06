@@ -5,7 +5,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 
-<p>Image specified in <code>src</code> is displayed on light theme. And image specified in <code>dark-src</code> is displayed on dark theme</p>
+<p>
+  Image specified in <code>src</code> is displayed on light theme. And image specified in
+  <code>dark-src</code> is displayed on dark theme: it follows <code>data-theme</code> on the root
+  element and, without it, the system color scheme, and switches when either changes. Describe the
+  image with <code>alt</code>, as on a native <code>&lt;img&gt;</code>; leave it empty for a decorative
+  image. <code>preview</code> opens the image in a lightbox on click.
+</p>
 <DemoComponentCard lang={'html'}>
 
   <wc-image
@@ -15,6 +21,15 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
    dark-src="https://images.unsplash.com/photo-1590418606746-018840f9cd0f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
+   alt="A city skyline"
    preview
    />
 </DemoComponentCard>
+
+<h3>Deprecated</h3>
+<ul>
+  <li>
+    <code>image-title</code>: use <code>alt</code>. It still works and logs a warning; it is removed in
+    4.0.
+  </li>
+</ul>

@@ -17,7 +17,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <wc-segmented-button value='step'>Step</wc-segmented-button>
   </wc-segmented-button-group>
 
-  <wc-chart-line id='line-curve' show-dots index='day' label='Temperature by day'></wc-chart-line>
+  <wc-chart-line id='line-curve' show-dots category-key='day' label='Temperature by day'></wc-chart-line>
 
   <script is:inline>
     const lineCurve = document.getElementById('line-curve');

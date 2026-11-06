@@ -10,6 +10,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     width: 100%;
   }
 </style>
+<p>
+  The layout follows the width of the empty state itself (a container query), not the window: below
+  672px the illustration stacks above the text, wider they sit side by side. So an empty state in a
+  narrow panel stacks even on a wide screen.
+</p>
 <DemoComponentCard lang='html'>
 
   <wc-empty-state

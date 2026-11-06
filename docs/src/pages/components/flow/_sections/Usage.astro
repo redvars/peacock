@@ -6,6 +6,21 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <p>An approval flow chart illustrating the process of ordering a laptop. Drag nodes or connect handles to test the flow interaction in real-time.</p>
 
+<p>
+  Nodes and handles use pointer events, so they work with a mouse, pen or touch. Every node is focusable:
+  arrow keys move the focused node by one grid step (20px), Shift + arrow by 100px, and Enter or Space
+  selects it (<code>selected</code> holds its id and <code>select</code> fires). Arrow keys follow the canvas
+  axes and are not mirrored in right-to-left pages.
+</p>
+
+<p>
+  Moving a node never mutates the objects you passed in: the flow replaces the moved node with a new object
+  and assigns a new array to <code>nodes</code>. <code>node-drag</code> fires while a node is dragged and
+  <code>node-drag-end</code> fires once when the drag ends, and after each keyboard move, with
+  <code>{'{ id, position }'}</code>. Read <code>flow.nodes</code> or save the position from
+  <code>node-drag-end</code> to keep the change.
+</p>
+
 <DemoComponentCard lang={'html'}>
   <div class="flow-demo-wrapper" style="width: 100%; height: 500px; display: flex; flex-direction: column;">
     <wc-flow id="laptop-flow" style="flex: 1; display: block; min-height: 400px;"></wc-flow>
@@ -181,13 +196,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
         }
       });
 
-      // Drag listener to keep nodes position synced
-      flow.addEventListener('node-drag', (event) => {
+      // The flow replaces a moved node with a new object and assigns a new `nodes` array, so the
+      // objects above are never mutated. Save positions once a drag (or keyboard move) ends.
+      flow.addEventListener('node-drag-end', (event) => {
         const { id, position } = event.detail;
-        const nodeIndex = flow.nodes.findIndex((n) => n.id === id);
-        if (nodeIndex !== -1) {
-          flow.nodes[nodeIndex].position = position;
-        }
+        console.log(`Moved ${id} to`, position);
       });
     })();
   </script>

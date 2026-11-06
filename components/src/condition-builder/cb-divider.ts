@@ -16,7 +16,7 @@ import styles from './cb-divider.scss';
  * @example
  * ```html
  * <wc-cb-divider>
- *   <wc-tag color="green">and</wc-tag>
+ *   <wc-tag accent="green">and</wc-tag>
  * </wc-cb-divider>
  * ```
  */

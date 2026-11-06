@@ -1,0 +1,28 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A link button is a native <code>&lt;a&gt;</code> that looks like a button. Use it when activating the
+  control navigates; use <a href='/components/button'><code>wc-button</code></a> when it runs an action or
+  submits a form. It replaces <code>wc-button href</code>, which is deprecated.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-link-button href='/components/button'>Read the button docs</wc-link-button>
+</DemoComponentCard>
+
+<h3>Link attributes</h3>
+<p>
+  <code>href</code>, <code>target</code>, <code>rel</code> and <code>download</code> pass to the link.
+  With <code>target="_blank"</code>, set <code>rel="noopener noreferrer"</code>.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-link-button href='https://github.com/redvars' target='_blank' rel='noopener noreferrer'>
+    <wc-icon name='open_in_new' slot='icon'></wc-icon>GitHub
+  </wc-link-button>
+  <wc-link-button href='/favicon.svg' download='peacock.svg' variant='outlined'>Download</wc-link-button>
+</DemoComponentCard>

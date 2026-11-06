@@ -1,0 +1,32 @@
+---
+export const title = 'Variants';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The link button takes the same <code>variant</code>, <code>color</code>, <code>size</code>,
+  <code>shape</code> and <code>level</code> as <code>wc-button</code>, and the same <code>icon</code> slot
+  (with <code>trailing-icon</code>).
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-link-button href='#'>Filled</wc-link-button>
+  <wc-link-button href='#' variant='tonal'>Tonal</wc-link-button>
+  <wc-link-button href='#' variant='outlined'>Outlined</wc-link-button>
+  <wc-link-button href='#' variant='text'>Text</wc-link-button>
+  <wc-link-button href='#' level='danger'>Danger</wc-link-button>
+  <wc-link-button href='#' trailing-icon><wc-icon name='arrow_forward' slot='icon'></wc-icon>Next</wc-link-button>
+</DemoComponentCard>
+
+<h3>Disabled</h3>
+<p>
+  A link has no native disabled state. <code>disabled</code> sets <code>aria-disabled="true"</code>,
+  removes the link from the tab order and stops navigation; <code>soft-disabled</code> keeps it focusable
+  and announces <code>disabled-reason</code>.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-link-button href='#' disabled>Disabled</wc-link-button>
+  <wc-link-button href='#' soft-disabled disabled-reason='You need edit access'>Soft disabled</wc-link-button>
+</DemoComponentCard>

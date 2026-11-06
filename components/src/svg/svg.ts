@@ -1,7 +1,8 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import { sanitizeSvg } from '@/__internal/utils/sanitize-svg.js';
 import { fetchSVG } from '../icon/datasource.js';
 
@@ -21,7 +22,7 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  *
  * @example
  * ```html
- * <wc-svg src="/icons/my-icon.svg" image-title="My icon"></wc-svg>
+ * <wc-svg src="/icons/my-icon.svg" alt="My icon"></wc-svg>
  * ```
  */
 @IndividualComponent
@@ -31,7 +32,13 @@ export class Svg extends LitElement {
   /** URL of the SVG asset to fetch and render inline. */
   @property({ type: String, reflect: true }) src = '';
 
-  /** Accessible title / alt text for the SVG. */
+  /**
+   * Text alternative for the SVG, as `alt` on a native `<img>`. With it the SVG is `role="img"`
+   * named by it; leave it empty for a decorative SVG.
+   */
+  @property() alt = '';
+
+  /** @deprecated Use `alt`. Still works through 3.x. */
   @property({ attribute: 'image-title' }) imageTitle = '';
 
   /** Enable click-to-preview lightbox. */
@@ -66,7 +73,13 @@ export class Svg extends LitElement {
     this._setupIntersectionObserver();
   }
 
-  updated(changedProperties: Map<string, unknown>) {
+  protected willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('imageTitle') && this.imageTitle) {
+      deprecate('wc-svg', '`image-title`', '`alt`');
+    }
+  }
+
+  updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('src')) {
       // Reset lazy-load state so the new src is fetched when visible
       this._loaded = false;
@@ -93,6 +106,11 @@ export class Svg extends LitElement {
     );
 
     this._intersectionObserver.observe(wrapper);
+  }
+
+  /** `alt`, else the deprecated `image-title`. */
+  private get _alt(): string {
+    return this.alt || this.imageTitle;
   }
 
   private async _fetchSvg() {
@@ -143,8 +161,8 @@ export class Svg extends LitElement {
         ${this._loaded && this._svgContent
           ? html`<div
               class="svg-content ${this.preview ? 'clickable' : ''}"
-              role=${this.imageTitle ? 'img' : 'presentation'}
-              aria-label=${this.imageTitle || ''}
+              role=${this._alt ? 'img' : 'presentation'}
+              aria-label=${this._alt || nothing}
               @click=${this._handleClick}
             >
               ${unsafeSVG(this._svgContent)}
@@ -156,8 +174,8 @@ export class Svg extends LitElement {
         class="preview-overlay ${this._previewOpen ? 'open' : ''}"
         role="dialog"
         aria-modal="true"
-        aria-label=${this.imageTitle
-          ? this.i18n.t('previewTitle')(this.imageTitle)
+        aria-label=${this._alt
+          ? this.i18n.t('previewTitle')(this._alt)
           : this.i18n.t('svgPreview')}
         @click=${this._closePreview}
         @keydown=${(e: KeyboardEvent) =>

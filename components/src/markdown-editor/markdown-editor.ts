@@ -1002,12 +1002,12 @@ export class MarkdownEditor extends BaseInput {
 
   private _renderReadonlyTag() {
     if (this.disabled) {
-      return html`<wc-tag class="read-only-tag" color="red"
+      return html`<wc-tag class="read-only-tag" intent="danger"
         >${this.i18n.t('disabled')}</wc-tag
       >`;
     }
     if (this.readonly) {
-      return html`<wc-tag class="read-only-tag" color="red"
+      return html`<wc-tag class="read-only-tag" intent="danger"
         >${this.i18n.t('readOnlyTag')}</wc-tag
       >`;
     }

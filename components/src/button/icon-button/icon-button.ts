@@ -11,7 +11,13 @@ import {
 } from '@/__internal/utils/dispatch-event-utils.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import { mixinBaseButton } from '../base-button/base-button.js';
+import {
+  iconButtonLabel,
+  mixinBaseButton,
+  mixinButtonLevel,
+  toggleButtonSelected,
+  warnIfUnnamed,
+} from '../base-button/base-button.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
@@ -19,13 +25,7 @@ import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
 import { migrateLegacySize } from '@/__internal/utils/size.js';
-import type {
-  ButtonColor,
-  ButtonLevel,
-  ButtonShape,
-  ButtonSize,
-  ButtonVariant,
-} from '@/button/ButtonTypes.js';
+import type { ButtonShape, ButtonSize } from '@/button/ButtonTypes.js';
 
 /**
  * @label Icon Button
@@ -36,6 +36,8 @@ import type {
  *
  * @overview
  * <p>Icon buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
+ * <p>An icon button has no visible text, so give it an <code>aria-label</code>. Without one, its <code>tooltip</code> text is used as the accessible name; with neither, a warning is logged once.</p>
+ * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>, the same as on <code>wc-button</code>. Set <code>toggle</code> for a toggle button with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported, for toolbar links.</p>
  *
  * @cssprop --button-container-shape: Defines the border radius of the button container shape.
  *
@@ -62,20 +64,23 @@ import type {
  * @cssprop --neo-button-container-color: Color of the neo button container.
  * @cssprop --neo-button-label-text-color: Text color of the neo button label.
  *
- * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` button after a click flips `selected`.
  *
  * @example
  * ```html
- * <wc-icon-button><wc-icon name="home"></wc-icon></wc-icon-button>
+ * <wc-icon-button aria-label="Home"><wc-icon name="home"></wc-icon></wc-icon-button>
  * ```
  * @tags display
  */
 @IndividualComponent
-export class IconButton extends mixinBaseButton(
-  mixinHyperlink(
-    mixinDelegatesAria(
-      mixinFormSubmitter(
-        mixinFormAssociated(mixinElementInternals(LitElement)),
+export class IconButton extends mixinButtonLevel(
+  mixinBaseButton(
+    mixinHyperlink(
+      mixinDelegatesAria(
+        mixinFormSubmitter(
+          mixinFormAssociated(mixinElementInternals(LitElement)),
+        ),
       ),
     ),
   ),
@@ -90,82 +95,52 @@ export class IconButton extends mixinBaseButton(
 
   static override styles = [styles];
 
+  // ── Properties ───────────────────────────────────────────────────────────
+
   /**
    * Button size.
    * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
    */
   @property({ reflect: true }) size: ButtonSize = 'sm';
 
-  /**
-   * Type is preset of color and variant. Type will be only applied.
-   *
-   */
-  @property({ type: String }) level?: ButtonLevel;
-
   /** Shape of the button container. */
   @property({ type: String, reflect: true }) shape?: ButtonShape = 'square';
 
-  /**
-   * The visual style of the button.
-   *
-   *  Possible variant values:
-   * `"filled"` is a filled button.
-   * `"outlined"` is an outlined button.
-   * `"text"` is a transparent button.
-   * `"tonal"` is a light color button.
-   * `"elevated"` is elevated button
-   */
-  @property({ reflect: true }) variant: ButtonVariant = 'filled';
-
-  /**
-   * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-   */
-  @property({ reflect: true }) color: ButtonColor = 'primary';
-
-  /** When true, renders the button in a loading skeleton state. */
+  /** When true, renders the button as a placeholder skeleton while the page loads. */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-  /** When true, the button acts as a toggle. Use with `selected`. */
+  /**
+   * When true, the button is busy: it shows a spinner in place of its icon, sets
+   * `aria-busy="true"` and ignores clicks, like `soft-disabled`.
+   */
+  @property({ type: Boolean, reflect: true }) loading: boolean = false;
+
+  /**
+   * When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click
+   * and fires `change`.
+   */
   @property({ type: Boolean, reflect: true }) toggle: boolean = false;
 
-  /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+  /** The pressed state of a `toggle` button. Has no effect without `toggle`. */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
 
-  /** Optional tooltip text displayed on hover. */
+  /**
+   * Tooltip text displayed on hover. Also the accessible name when no `aria-label` is set.
+   */
   @property() tooltip?: string;
 
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('.button') readonly buttonElement!: HTMLElement | null;
+
+  // ── Constructor ───────────────────────────────────────────────────────────
 
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
   }
 
-  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled or a disabled link, we need to explicitly
-    // prevent the click from propagating to other event listeners as well as
-    // prevent the default action.
-    if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      return;
-    }
-
-    if (!isActivationClick(event) || !this.buttonElement) {
-      return;
-    }
-
-    this.focus();
-    dispatchActivationClick(this.buttonElement);
-  };
-
-  override focus() {
-    this.buttonElement?.focus();
-  }
-
-  override blur() {
-    this.buttonElement?.blur();
-  }
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   override willUpdate(changedProperties: PropertyValues<this>) {
     super.willUpdate(changedProperties);
@@ -175,26 +150,51 @@ export class IconButton extends mixinBaseButton(
     }
   }
 
-  override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+  override firstUpdated(changedProperties: PropertyValues<this>) {
     super.firstUpdated(changedProperties);
-    this.__convertTypeToVariantAndColor();
+    warnIfUnnamed(this, (this as ARIAMixinStrict).ariaLabel, this.tooltip);
   }
 
-  __convertTypeToVariantAndColor() {
-    if (this.level === 'primary') {
-      this.color = 'primary';
-      this.variant = 'filled';
-    } else if (this.level === 'secondary') {
-      this.color = 'surface';
-      this.variant = 'filled';
-    } else if (this.level === 'tertiary') {
-      this.color = 'primary';
-      this.variant = 'text';
-    } else if (this.level === 'danger') {
-      this.color = 'danger';
-      this.variant = 'filled';
-    }
+  // ── Public methods ────────────────────────────────────────────────────────
+
+  override focus() {
+    this.buttonElement?.focus();
   }
+
+  override blur() {
+    this.buttonElement?.blur();
+  }
+
+  // ── Private methods ───────────────────────────────────────────────────────
+
+  __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
+    // If the button is soft-disabled, loading or a disabled link, we need to
+    // explicitly prevent the click from propagating to other event listeners
+    // as well as prevent the default action.
+    if (
+      this.softDisabled ||
+      this.loading ||
+      (this.disabled && this.href) ||
+      this.skeleton
+    ) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return;
+    }
+
+    // Each activation reaches this listener once: either the inner button's
+    // click bubbling out, or a click fired at the host and forwarded below.
+    if (!isLink(this)) toggleButtonSelected(this);
+
+    if (!isActivationClick(event) || !this.buttonElement) {
+      return;
+    }
+
+    this.focus();
+    dispatchActivationClick(this.buttonElement);
+  };
+
+  // ── Render helpers ────────────────────────────────────────────────────────
 
   renderDisabledReason(softDisabled: boolean) {
     if (softDisabled)
@@ -219,8 +219,18 @@ export class IconButton extends mixinBaseButton(
     return nothing;
   }
 
+  renderLoadingIndicator() {
+    if (!this.loading) return nothing;
+    return html`<wc-circular-progress
+      class="loading-indicator"
+      indeterminate
+      aria-hidden="true"
+    ></wc-circular-progress>`;
+  }
+
   renderButtonContent() {
     return html`
+      ${this.renderLoadingIndicator()}
       <slot class="icon-slot"></slot>
       <div class="touch"></div>
       ${this.renderDisabledReason(this.softDisabled)}
@@ -230,6 +240,7 @@ export class IconButton extends mixinBaseButton(
   renderButtonElement() {
     const isElementLink = isLink(this);
     const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
+    const label = iconButtonLabel(ariaLabel, this.tooltip);
 
     const cssClasses = {
       button: true,
@@ -237,17 +248,19 @@ export class IconButton extends mixinBaseButton(
       'native-link': isElementLink,
     };
 
-    if (!isLink(this)) {
+    if (!isElementLink) {
       return html`<button
         class=${classMap(cssClasses)}
         id="button"
-        aria-label="${ariaLabel || nothing}"
+        aria-label="${label || nothing}"
         aria-haspopup="${ariaHasPopup || nothing}"
         aria-expanded="${ariaExpanded || nothing}"
         aria-describedby=${ifDefined(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         aria-disabled=${this.softDisabled ? 'true' : nothing}
+        aria-pressed=${this.toggle ? String(this.selected) : nothing}
+        aria-busy=${this.loading ? 'true' : nothing}
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}
@@ -261,13 +274,14 @@ export class IconButton extends mixinBaseButton(
       rel=${this.rel || nothing}
       download=${this.download || nothing}
       tabindex=${this.disabled ? '-1' : '0'}
-      aria-label="${ariaLabel || nothing}"
+      aria-label="${label || nothing}"
       aria-haspopup="${ariaHasPopup || nothing}"
       aria-expanded="${ariaExpanded || nothing}"
       aria-describedby=${ifDefined(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
       aria-disabled=${this.softDisabled ? 'true' : nothing}
+      aria-busy=${this.loading ? 'true' : nothing}
     >
       ${this.renderButtonContent()}
     </a>`;

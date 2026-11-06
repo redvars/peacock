@@ -12,7 +12,9 @@ export { Badge } from './badge/index.js';
 export { Divider } from './divider/index.js';
 export { Clock } from './clock/index.js';
 export { Elevation } from './elevation/index.js';
-export { Button, ButtonGroup, IconButton } from './button/index.js';
+export { Button, ButtonGroup, IconButton, LinkButton } from './button/index.js';
+export type { ChipSetChangeDetail } from './chip/chip-set/chip-set.js';
+export type { TagIntent, TagAccent } from './chip/tag/tag.js';
 export { Fab } from './button/fab/index.js';
 export {
   SegmentedButton,
@@ -117,9 +119,21 @@ export {
   CalendarColumnView,
   CalendarMonthView,
 } from './calendar/index.js';
-export type { CalendarViewType, EventType } from './calendar/index.js';
+export type {
+  CalendarViewType,
+  EventType,
+  CalendarDateChangeDetail,
+} from './calendar/index.js';
 export { Flow } from './flow/index.js';
-export type { FlowNode, FlowEdge, FlowStrokeVariant } from './flow/index.js';
+export type {
+  FlowNode,
+  FlowEdge,
+  FlowStrokeVariant,
+  FlowConnectDetail,
+  FlowHandlePosition,
+  FlowNodeMoveDetail,
+  FlowSelectDetail,
+} from './flow/index.js';
 export {
   ConditionBuilder,
   CbGroup,

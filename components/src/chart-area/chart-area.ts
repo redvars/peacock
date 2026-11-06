@@ -5,6 +5,7 @@ import { ChartLine } from '../chart-line/chart-line.js';
 export type {
   ChartConfig,
   ChartDatum,
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeriesConfig,
   ChartValueFormatter,
@@ -20,7 +21,7 @@ export type { ChartCurve } from '../chart-line/chart-line.js';
  *
  * @example
  * ```html
- * <wc-chart-area index="month" stacked label="Visitors by month"></wc-chart-area>
+ * <wc-chart-area category-key="month" stacked label="Visitors by month"></wc-chart-area>
  * <script>
  *   const chart = document.querySelector('wc-chart-area');
  *   chart.config = {
@@ -37,7 +38,8 @@ export type { ChartCurve } from '../chart-line/chart-line.js';
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A category was clicked or chosen with Enter. `detail` holds `index` and `datum`.
+ * @fires select - A category was clicked or chosen with Enter. `detail` holds `index` (the row position) and `datum`.
+ * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.

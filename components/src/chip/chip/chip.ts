@@ -61,11 +61,28 @@ export class Chip extends mixinBaseButton(
   /** True when the `icon` slot contains at least one node. */
   @state() private _hasIconSlotContent = false;
 
-  /** When true, renders the chip in a loading skeleton state. */
+  /**
+   * When true, renders the chip as a placeholder (a skeleton) while its content is not known yet,
+   * and ignores clicks. It is a look, not a busy state: for a chip whose action is running, use
+   * `soft-disabled` with a `disabled-reason`.
+   */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
-  /** When true, the chip is in the selected/pressed state. */
+  /**
+   * When true, the chip is in the selected/pressed state. Assistive technology hears it only on a
+   * `selectable` chip (or a chip in a selecting `wc-chip-set`), as `aria-pressed`.
+   */
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
+
+  /**
+   * Makes the chip a toggle (a filter chip): its button gets `aria-pressed` from `selected`. A
+   * `wc-chip-set` with `selectable` or `multiple` sets it on its chips and handles the selection;
+   * a standalone selectable chip does not toggle itself, so the page sets `selected` on `click`.
+   */
+  @property({ type: Boolean, reflect: true }) selectable: boolean = false;
+
+  /** The value a selecting `wc-chip-set` reports for this chip; defaults to its text. */
+  @property({ type: String, reflect: true }) value: string = '';
 
   /**
    * Sets the delay for throttle in milliseconds. When null (default), no throttle is applied.
@@ -212,6 +229,7 @@ export class Chip extends mixinBaseButton(
           this.softDisabled ? DISABLED_REASON_ID : undefined,
         )}
         aria-disabled=${this.softDisabled ? 'true' : nothing}
+        aria-pressed=${this.selectable ? String(this.selected) : nothing}
         ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
@@ -229,6 +247,7 @@ export class Chip extends mixinBaseButton(
         this.softDisabled ? DISABLED_REASON_ID : undefined,
       )}
       aria-disabled=${this.softDisabled ? 'true' : nothing}
+      aria-pressed=${this.selectable ? String(this.selected) : nothing}
       ${spread(this.configAria)}
     >
       ${this.renderChipContent()}

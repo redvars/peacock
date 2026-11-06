@@ -1,12 +1,15 @@
-import { html, LitElement, nothing, svg } from "lit";
-import { property, state } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
-import IndividualComponent from "@/IndividualComponent.js";
-import styles from "./flow.scss";
+import { html, LitElement, nothing, svg } from 'lit';
+import { property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
+import { repeat } from 'lit/directives/repeat.js';
+import IndividualComponent from '@/IndividualComponent.js';
+import styles from './flow.scss';
 
-export type FlowDirection = "up" | "down" | "left" | "right";
+export type FlowDirection = 'up' | 'down' | 'left' | 'right';
 
-export type FlowStrokeVariant = "solid" | "dashed" | "animated-dashed";
+export type FlowStrokeVariant = 'solid' | 'dashed' | 'animated-dashed';
+
+export type FlowHandlePosition = 'top' | 'left' | 'bottom' | 'right';
 
 export interface FlowPoint {
   x: number;
@@ -21,32 +24,81 @@ export interface FlowPathSegment {
 export interface FlowNode {
   id: string;
   position: { x: number; y: number };
-  inputs?: ("top" | "left" | "bottom" | "right")[];
-  outputs?: ("top" | "left" | "bottom" | "right")[];
-  data: {
-    label?: string;
-    element?: HTMLElement;
-    [key: string]: any;
-  } | HTMLElement;
+  inputs?: FlowHandlePosition[];
+  outputs?: FlowHandlePosition[];
+  data:
+    | {
+        label?: string;
+        element?: HTMLElement;
+        [key: string]: any;
+      }
+    | HTMLElement;
 }
 
 export interface FlowEdge {
   id: string;
   source: string;
   target: string;
-  sourceHandle?: "top" | "left" | "bottom" | "right";
-  targetHandle?: "top" | "left" | "bottom" | "right";
-  type?: "smoothstep" | "bezier" | "straight";
+  sourceHandle?: FlowHandlePosition;
+  targetHandle?: FlowHandlePosition;
+  type?: 'smoothstep' | 'bezier' | 'straight';
   variant?: FlowStrokeVariant;
   label?: string;
   color?: string;
 }
 
+/** Detail of `node-drag` and `node-drag-end`. */
+export interface FlowNodeMoveDetail {
+  id: string;
+  position: FlowPoint;
+}
+
+/** Detail of `select`. */
+export interface FlowSelectDetail {
+  id: string;
+  node: FlowNode;
+}
+
+/** Detail of `connect`. */
+export interface FlowConnectDetail {
+  source: string;
+  target: string;
+  sourceHandle: FlowHandlePosition;
+  targetHandle: FlowHandlePosition;
+}
+
+/** Canvas pixels an arrow key moves the focused node; matches the dot grid. */
+const KEY_STEP = 20;
+
+/** Canvas pixels Shift + arrow key moves the focused node. */
+const LARGE_KEY_STEP = 100;
+
+/** Pointer travel, in screen pixels, before a press on a node becomes a drag. */
+const DRAG_THRESHOLD = 3;
+
+/** Size assumed for a node before it has been measured. */
+const DEFAULT_SIZE = { width: 150, height: 70 };
+
+const OPPOSITE: Record<FlowHandlePosition, FlowHandlePosition> = {
+  left: 'right',
+  right: 'left',
+  top: 'bottom',
+  bottom: 'top',
+};
+
 /**
  * @label Flow
  * @tag wc-flow
  * @rawTag flow
- * @summary An interactive node editor canvas with draggable nodes, custom HTML element rendering, and mouse-based edge connection creation on a dotted grid.
+ * @summary An interactive node editor canvas with draggable nodes, custom HTML element rendering, and pointer-based edge connection creation on a dotted grid.
+ *
+ * Nodes are dragged with a mouse, pen or touch. Each node is focusable: arrow keys move the focused
+ * node by one grid step (20px), Shift + arrow by 100px, and Enter or Space selects it. Arrow keys
+ * follow the canvas axes, so they are not mirrored in right-to-left layouts.
+ *
+ * Moving a node never mutates the objects you passed: the flow replaces the moved node with a new
+ * object (`{ ...node, position }`) and assigns a new array to `nodes`. Read `flow.nodes`, or save
+ * the position from `node-drag-end`, to keep the change.
  *
  * @example
  * ```html
@@ -63,6 +115,11 @@ export interface FlowEdge {
  * </script>
  * ```
  *
+ * @fires {CustomEvent<FlowNodeMoveDetail>} node-drag - While a node is dragged. Detail contains `{ id, position }`.
+ * @fires {CustomEvent<FlowNodeMoveDetail>} node-drag-end - Once when a drag ends, and after each keyboard move. Detail contains `{ id, position }`.
+ * @fires {CustomEvent<FlowSelectDetail>} select - A node was clicked, or chosen with Enter or Space. Detail contains `{ id, node }`.
+ * @fires {CustomEvent<FlowConnectDetail>} connect - An output handle was dragged onto another node's input handle. Detail contains `{ source, target, sourceHandle, targetHandle }`.
+ *
  * @cssprop --flow-background - Background color for the canvas wrapper. Defaults to surface-container-low.
  * @cssprop --flow-dot-color - Color of the background grid dots. Defaults to outline-variant.
  * @cssprop --flow-line-color - Default stroke color for lines and connectors. Defaults to on-surface.
@@ -71,55 +128,93 @@ export interface FlowEdge {
  */
 @IndividualComponent
 export class Flow extends LitElement {
+  // ── Static
+
   static styles = [styles];
 
+  // ── Properties
+
+  /** Nodes to draw. Replaced with a new array, never mutated, when a node moves. */
   @property({ type: Array })
   nodes: FlowNode[] = [];
 
+  /** Connections between node handles. */
   @property({ type: Array })
   edges: FlowEdge[] = [];
 
+  /** Scale of the canvas. */
   @property({ type: Number, reflect: true })
   zoom: number = 1;
 
+  /** Space around the nodes, in canvas pixels. */
   @property({ type: Number, reflect: true })
   padding: number = 50;
 
-  // Node dimensions tracking
-  private nodeDimensions = new Map<string, { width: number; height: number }>();
+  /** Id of the selected node. Set by clicking a node or pressing Enter or Space on it. */
+  @property({ type: String, reflect: true })
+  selected: string = '';
 
-  // Drag node state
+  // ── State
+
+  /** Id of the node being dragged. */
   @state()
   private draggingNodeId: string | null = null;
-  private dragStartMouseX = 0;
-  private dragStartMouseY = 0;
-  private dragStartNodeX = 0;
-  private dragStartNodeY = 0;
 
-  // Connection drag state
+  /** Whether a connection is being drawn from an output handle. */
   @state()
   private isDrawingConnection = false;
+
+  /** Node the connection being drawn starts from. */
   @state()
   private draggingSourceId: string | null = null;
+
+  /** Handle the connection being drawn starts from. */
   @state()
-  private draggingSourceHandle: "top" | "left" | "bottom" | "right" | null = null;
+  private draggingSourceHandle: FlowHandlePosition | null = null;
+
+  /** Start of the connection preview, in canvas coordinates. */
   @state()
-  private connectionStartX = 0;
+  private connectionStart: FlowPoint = { x: 0, y: 0 };
+
+  /** Pointer position for the connection preview, in canvas coordinates. */
   @state()
-  private connectionStartY = 0;
-  @state()
-  private currentMouseX = 0;
-  @state()
-  private currentMouseY = 0;
+  private connectionEnd: FlowPoint = { x: 0, y: 0 };
+
+  // ── Private fields
+
+  /** Measured node sizes, by id. */
+  private nodeDimensions = new Map<string, { width: number; height: number }>();
+
+  /** The press on a node that may become a drag. */
+  private nodeDrag?: {
+    id: string;
+    pointerId: number;
+    startX: number;
+    startY: number;
+    origin: FlowPoint;
+    moved: boolean;
+    element: HTMLElement;
+  };
+
+  /** The pointer drawing a connection, and the handle that captured it. */
+  private connectionDrag?: { pointerId: number; element: HTMLElement };
+
+  // ── Lifecycle
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.endNodeDrag(false);
+    this.cancelConnection();
+  }
 
   protected updated() {
     let dimensionsChanged = false;
-    this.shadowRoot?.querySelectorAll(".flow-node").forEach((el) => {
-      const id = el.getAttribute("data-id");
+    this.shadowRoot?.querySelectorAll<HTMLElement>('.flow-node').forEach(el => {
+      const id = el.getAttribute('data-id');
       if (id) {
         const current = this.nodeDimensions.get(id);
-        const w = (el as HTMLElement).offsetWidth || 150;
-        const h = (el as HTMLElement).offsetHeight || 70;
+        const w = el.offsetWidth || DEFAULT_SIZE.width;
+        const h = el.offsetHeight || DEFAULT_SIZE.height;
         if (!current || current.width !== w || current.height !== h) {
           this.nodeDimensions.set(id, { width: w, height: h });
           dimensionsChanged = true;
@@ -131,182 +226,320 @@ export class Flow extends LitElement {
     }
   }
 
-  // --- Node Dragging Handlers ---
-  private onNodeMouseDown(event: MouseEvent, node: FlowNode) {
+  // ── Private methods
+
+  private emit<T>(type: string, detail: T) {
+    this.dispatchEvent(
+      new CustomEvent<T>(type, { detail, bubbles: true, composed: true }),
+    );
+  }
+
+  /** Replaces the node with a moved copy and assigns a new `nodes` array. */
+  private moveNode(id: string, position: FlowPoint) {
+    this.nodes = this.nodes.map(node =>
+      node.id === id ? { ...node, position: { ...position } } : node,
+    );
+  }
+
+  private selectNode(node: FlowNode) {
+    this.selected = node.id;
+    this.emit<FlowSelectDetail>('select', { id: node.id, node });
+  }
+
+  private nodePosition(id: string): FlowPoint | undefined {
+    const node = this.nodes.find(n => n.id === id);
+    return node ? { ...node.position } : undefined;
+  }
+
+  // --- Node dragging
+
+  private onNodePointerDown(event: PointerEvent, node: FlowNode) {
+    if (event.button !== 0) return;
     const target = event.target as HTMLElement;
     if (
-      target.closest(".handle") ||
-      target.closest("button") ||
-      target.closest("input") ||
-      target.closest("a")
+      target.closest('.handle') ||
+      target.closest('button') ||
+      target.closest('input') ||
+      target.closest('a')
     ) {
       return;
     }
     event.preventDefault();
-    this.draggingNodeId = node.id;
-    this.dragStartMouseX = event.clientX;
-    this.dragStartMouseY = event.clientY;
-    this.dragStartNodeX = node.position.x;
-    this.dragStartNodeY = node.position.y;
-
-    window.addEventListener("mousemove", this.onNodeMouseMove);
-    window.addEventListener("mouseup", this.onNodeMouseUp);
+    const element = event.currentTarget as HTMLElement;
+    element.focus({ preventScroll: true });
+    this.nodeDrag = {
+      id: node.id,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      origin: { ...node.position },
+      moved: false,
+      element,
+    };
+    try {
+      element.setPointerCapture(event.pointerId);
+    } catch {
+      // Synthetic or already released pointers cannot be captured.
+    }
+    element.addEventListener('pointermove', this.onNodePointerMove);
+    element.addEventListener('pointerup', this.onNodePointerUp);
+    element.addEventListener('pointercancel', this.onNodePointerCancel);
   }
 
-  private onNodeMouseMove = (event: MouseEvent) => {
-    if (!this.draggingNodeId) return;
-    const deltaX = (event.clientX - this.dragStartMouseX) / this.zoom;
-    const deltaY = (event.clientY - this.dragStartMouseY) / this.zoom;
-
-    const node = this.nodes.find((n) => n.id === this.draggingNodeId);
-    if (node) {
-      node.position = {
-        x: this.dragStartNodeX + deltaX,
-        y: this.dragStartNodeY + deltaY,
-      };
-      this.dispatchEvent(
-        new CustomEvent("node-drag", {
-          detail: { id: node.id, position: node.position },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-      this.requestUpdate();
-    }
+  private onNodePointerMove = (event: PointerEvent) => {
+    const drag = this.nodeDrag;
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+    drag.moved = true;
+    this.draggingNodeId = drag.id;
+    const position = {
+      x: drag.origin.x + dx / this.zoom,
+      y: drag.origin.y + dy / this.zoom,
+    };
+    this.moveNode(drag.id, position);
+    this.emit<FlowNodeMoveDetail>('node-drag', { id: drag.id, position });
   };
 
-  private onNodeMouseUp = () => {
+  private onNodePointerUp = (event: PointerEvent) => {
+    if (!this.nodeDrag || event.pointerId !== this.nodeDrag.pointerId) return;
+    this.endNodeDrag(true);
+  };
+
+  private onNodePointerCancel = (event: PointerEvent) => {
+    if (!this.nodeDrag || event.pointerId !== this.nodeDrag.pointerId) return;
+    this.endNodeDrag(true);
+  };
+
+  /** Ends the press on a node: a drag fires `node-drag-end`, a press without movement selects. */
+  private endNodeDrag(notify: boolean) {
+    const drag = this.nodeDrag;
+    if (!drag) return;
+    this.nodeDrag = undefined;
     this.draggingNodeId = null;
-    window.removeEventListener("mousemove", this.onNodeMouseMove);
-    window.removeEventListener("mouseup", this.onNodeMouseUp);
-  };
+    const { element } = drag;
+    element.removeEventListener('pointermove', this.onNodePointerMove);
+    element.removeEventListener('pointerup', this.onNodePointerUp);
+    element.removeEventListener('pointercancel', this.onNodePointerCancel);
+    try {
+      if (element.hasPointerCapture(drag.pointerId)) {
+        element.releasePointerCapture(drag.pointerId);
+      }
+    } catch {
+      // The pointer is already gone.
+    }
+    if (!notify) return;
+    if (drag.moved) {
+      const position = this.nodePosition(drag.id);
+      if (position) {
+        this.emit<FlowNodeMoveDetail>('node-drag-end', {
+          id: drag.id,
+          position,
+        });
+      }
+    } else {
+      const node = this.nodes.find(n => n.id === drag.id);
+      if (node) this.selectNode(node);
+    }
+  }
 
-  // --- Handle Helpers ---
-  private getNodeInputs(node: FlowNode): ("top" | "left" | "bottom" | "right")[] {
+  // --- Keyboard
+
+  private onNodeKeyDown(event: KeyboardEvent, node: FlowNode) {
+    // Keys typed into controls inside a custom node are theirs.
+    if (event.target !== event.currentTarget) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.selectNode(node);
+      return;
+    }
+    const step = event.shiftKey ? LARGE_KEY_STEP : KEY_STEP;
+    const offsets: Record<string, FlowPoint> = {
+      ArrowLeft: { x: -step, y: 0 },
+      ArrowRight: { x: step, y: 0 },
+      ArrowUp: { x: 0, y: -step },
+      ArrowDown: { x: 0, y: step },
+    };
+    const offset = offsets[event.key];
+    if (!offset) return;
+    event.preventDefault();
+    const position = {
+      x: node.position.x + offset.x,
+      y: node.position.y + offset.y,
+    };
+    this.moveNode(node.id, position);
+    this.emit<FlowNodeMoveDetail>('node-drag-end', { id: node.id, position });
+  }
+
+  // --- Handles
+
+  private getNodeInputs(node: FlowNode): FlowHandlePosition[] {
     if (node.inputs && Array.isArray(node.inputs)) {
       return node.inputs;
     }
-    if (node.data && typeof node.data === "object" && Array.isArray((node.data as any).inputs)) {
+    if (
+      node.data &&
+      typeof node.data === 'object' &&
+      Array.isArray((node.data as any).inputs)
+    ) {
       return (node.data as any).inputs;
     }
-    return ["left"];
+    return ['left'];
   }
 
-  private getNodeOutputs(node: FlowNode): ("top" | "left" | "bottom" | "right")[] {
+  private getNodeOutputs(node: FlowNode): FlowHandlePosition[] {
     if (node.outputs && Array.isArray(node.outputs)) {
       return node.outputs;
     }
-    if (node.data && typeof node.data === "object" && Array.isArray((node.data as any).outputs)) {
+    if (
+      node.data &&
+      typeof node.data === 'object' &&
+      Array.isArray((node.data as any).outputs)
+    ) {
       return (node.data as any).outputs;
     }
-    return ["right"];
+    return ['right'];
   }
 
   private getHandleCoordinates(
     node: FlowNode,
-    position: "top" | "left" | "bottom" | "right",
+    position: FlowHandlePosition,
     dim: { width: number; height: number },
   ): FlowPoint {
-    const x = node.position.x;
-    const y = node.position.y;
+    const { x, y } = node.position;
     const w = dim.width;
     const h = dim.height;
 
     switch (position) {
-      case "top":
+      case 'top':
         return { x: x + w / 2, y };
-      case "bottom":
+      case 'bottom':
         return { x: x + w / 2, y: y + h };
-      case "left":
+      case 'left':
         return { x, y: y + h / 2 };
-      case "right":
+      case 'right':
       default:
         return { x: x + w, y: y + h / 2 };
     }
   }
 
-  // --- Connection Dragging Handlers ---
-  private onHandleMouseDown(
-    event: MouseEvent,
+  // --- Connection dragging
+
+  private onHandlePointerDown(
+    event: PointerEvent,
     node: FlowNode,
-    position: "top" | "left" | "bottom" | "right",
+    position: FlowHandlePosition,
   ) {
+    if (event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
 
-    const dim = this.nodeDimensions.get(node.id) || { width: 150, height: 70 };
+    const element = event.currentTarget as HTMLElement;
+    const dim = this.nodeDimensions.get(node.id) || DEFAULT_SIZE;
     this.draggingSourceId = node.id;
     this.draggingSourceHandle = position;
-
-    const coords = this.getHandleCoordinates(node, position, dim);
-    this.connectionStartX = coords.x;
-    this.connectionStartY = coords.y;
-
+    this.connectionStart = this.getHandleCoordinates(node, position, dim);
+    this.connectionEnd = { ...this.connectionStart };
     this.isDrawingConnection = true;
-    this.currentMouseX = this.connectionStartX;
-    this.currentMouseY = this.connectionStartY;
 
-    window.addEventListener("mousemove", this.onConnectionMouseMove);
-    window.addEventListener("mouseup", this.onConnectionMouseUp);
+    this.connectionDrag = { pointerId: event.pointerId, element };
+    try {
+      element.setPointerCapture(event.pointerId);
+    } catch {
+      // Synthetic or already released pointers cannot be captured.
+    }
+    element.addEventListener('pointermove', this.onConnectionPointerMove);
+    element.addEventListener('pointerup', this.onConnectionPointerUp);
+    element.addEventListener('pointercancel', this.onConnectionPointerCancel);
   }
 
-  private onConnectionMouseMove = (event: MouseEvent) => {
+  private onConnectionPointerMove = (event: PointerEvent) => {
     if (!this.isDrawingConnection) return;
+    if (event.pointerId !== this.connectionDrag?.pointerId) return;
+    this.connectionEnd = this.toCanvasPoint(event.clientX, event.clientY);
+  };
 
-    const workspaceEl = this.shadowRoot?.querySelector(".flow-workspace");
-    if (workspaceEl) {
-      const rect = workspaceEl.getBoundingClientRect();
-      const bounds = this.getBounds();
-      const viewBoxX = bounds.minX - this.padding;
-      const viewBoxY = bounds.minY - this.padding;
+  private onConnectionPointerUp = (event: PointerEvent) => {
+    if (!this.isDrawingConnection) return;
+    if (event.pointerId !== this.connectionDrag?.pointerId) return;
+    const source = this.draggingSourceId;
+    const sourceHandle = this.draggingSourceHandle;
+    this.cancelConnection();
 
-      this.currentMouseX = viewBoxX + (event.clientX - rect.left) / this.zoom;
-      this.currentMouseY = viewBoxY + (event.clientY - rect.top) / this.zoom;
-      this.requestUpdate();
+    // With the pointer captured, the event targets the source handle: hit-test what is under it.
+    const target = this.shadowRoot?.elementFromPoint(
+      event.clientX,
+      event.clientY,
+    );
+    const inputHandle = target?.closest('.handle-input');
+    if (!inputHandle || !source || !sourceHandle) return;
+    const targetNodeId = inputHandle.getAttribute('data-node-id');
+    const targetHandle = inputHandle.getAttribute(
+      'data-position',
+    ) as FlowHandlePosition;
+    if (targetNodeId && targetNodeId !== source) {
+      this.emit<FlowConnectDetail>('connect', {
+        source,
+        target: targetNodeId,
+        sourceHandle,
+        targetHandle,
+      });
     }
   };
 
-  private onConnectionMouseUp = (event: MouseEvent) => {
-    if (!this.isDrawingConnection) return;
+  private onConnectionPointerCancel = () => {
+    this.cancelConnection();
+  };
+
+  /** Stops drawing a connection and releases its pointer. */
+  private cancelConnection() {
+    const drag = this.connectionDrag;
+    this.connectionDrag = undefined;
     this.isDrawingConnection = false;
-
-    window.removeEventListener("mousemove", this.onConnectionMouseMove);
-    window.removeEventListener("mouseup", this.onConnectionMouseUp);
-
-    const target = this.shadowRoot?.elementFromPoint(event.clientX, event.clientY);
-    const inputHandle = target?.closest(".handle-input");
-    if (inputHandle) {
-      const targetNodeId = inputHandle.getAttribute("data-node-id");
-      const targetHandle = inputHandle.getAttribute("data-position") as "top" | "left" | "bottom" | "right";
-      if (targetNodeId && targetNodeId !== this.draggingSourceId) {
-        this.dispatchEvent(
-          new CustomEvent("connect", {
-            detail: {
-              source: this.draggingSourceId,
-              target: targetNodeId,
-              sourceHandle: this.draggingSourceHandle,
-              targetHandle: targetHandle,
-            },
-            bubbles: true,
-            composed: true,
-          }),
-        );
-      }
-    }
     this.draggingSourceId = null;
     this.draggingSourceHandle = null;
-    this.requestUpdate();
-  };
+    if (!drag) return;
+    const { element } = drag;
+    element.removeEventListener('pointermove', this.onConnectionPointerMove);
+    element.removeEventListener('pointerup', this.onConnectionPointerUp);
+    element.removeEventListener(
+      'pointercancel',
+      this.onConnectionPointerCancel,
+    );
+    try {
+      if (element.hasPointerCapture(drag.pointerId)) {
+        element.releasePointerCapture(drag.pointerId);
+      }
+    } catch {
+      // The pointer is already gone.
+    }
+  }
 
-  // --- Path Builders ---
+  /** Converts client coordinates to canvas coordinates. */
+  private toCanvasPoint(clientX: number, clientY: number): FlowPoint {
+    const workspaceEl = this.shadowRoot?.querySelector('.flow-workspace');
+    if (!workspaceEl) return { ...this.connectionEnd };
+    const rect = workspaceEl.getBoundingClientRect();
+    const bounds = this.getBounds();
+    return {
+      x: bounds.minX - this.padding + (clientX - rect.left) / this.zoom,
+      y: bounds.minY - this.padding + (clientY - rect.top) / this.zoom,
+    };
+  }
+
+  // --- Path builders
+
   private getRoundedPath(points: FlowPoint[], radius = 12) {
     if (points.length < 3) {
-      return points.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(" ");
+      return points
+        .map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`))
+        .join(' ');
     }
 
     let path = `M ${points[0].x} ${points[0].y}`;
 
-    for (let i = 1; i < points.length - 1; i++) {
+    for (let i = 1; i < points.length - 1; i += 1) {
       const prev = points[i - 1];
       const curr = points[i];
       const next = points[i + 1];
@@ -319,12 +552,9 @@ export class Flow extends LitElement {
       const dyn = next.y - curr.y;
       const lenn = Math.hypot(dxn, dyn);
 
-      if (lenp === 0 || lenn === 0) {
-        path += ` L ${curr.x} ${curr.y}`;
-        continue;
-      }
-
-      const r = Math.min(radius, lenp / 2, lenn / 2);
+      // A zero-length leg has no corner to round.
+      const r =
+        lenp === 0 || lenn === 0 ? 0 : Math.min(radius, lenp / 2, lenn / 2);
 
       if (r > 0) {
         const x1 = curr.x + (dxp / lenp) * r;
@@ -348,13 +578,15 @@ export class Flow extends LitElement {
     y1: number,
     x2: number,
     y2: number,
-    sourceHandle: "top" | "left" | "bottom" | "right" = "right",
-    targetHandle: "top" | "left" | "bottom" | "right" = "left",
+    sourceHandle: FlowHandlePosition = 'right',
+    targetHandle: FlowHandlePosition = 'left',
   ) {
-    const isSourceHorizontal = sourceHandle === "left" || sourceHandle === "right";
-    const isTargetHorizontal = targetHandle === "left" || targetHandle === "right";
+    const isSourceHorizontal =
+      sourceHandle === 'left' || sourceHandle === 'right';
+    const isTargetHorizontal =
+      targetHandle === 'left' || targetHandle === 'right';
 
-    let points: FlowPoint[] = [];
+    let points: FlowPoint[];
 
     if (isSourceHorizontal && isTargetHorizontal) {
       const midX = x1 + (x2 - x1) / 2;
@@ -394,10 +626,10 @@ export class Flow extends LitElement {
     y1: number,
     x2: number,
     y2: number,
-    sourceHandle: "top" | "left" | "bottom" | "right" = "right",
-    targetHandle: "top" | "left" | "bottom" | "right" = "left",
+    sourceHandle: FlowHandlePosition = 'right',
+    targetHandle: FlowHandlePosition = 'left',
   ) {
-    const normals = {
+    const normals: Record<FlowHandlePosition, FlowPoint> = {
       left: { x: -1, y: 0 },
       right: { x: 1, y: 0 },
       top: { x: 0, y: -1 },
@@ -427,34 +659,49 @@ export class Flow extends LitElement {
   private drawPath(
     sourceId: string,
     targetId: string,
-    type?: "smoothstep" | "bezier" | "straight",
-    sourceHandle?: "top" | "left" | "bottom" | "right",
-    targetHandle?: "top" | "left" | "bottom" | "right",
+    type?: 'smoothstep' | 'bezier' | 'straight',
+    sourceHandle?: FlowHandlePosition,
+    targetHandle?: FlowHandlePosition,
   ) {
-    const sourceNode = this.nodes.find((n) => n.id === sourceId);
-    const targetNode = this.nodes.find((n) => n.id === targetId);
-    if (!sourceNode || !targetNode) return "";
+    const sourceNode = this.nodes.find(n => n.id === sourceId);
+    const targetNode = this.nodes.find(n => n.id === targetId);
+    if (!sourceNode || !targetNode) return '';
 
-    const sDim = this.nodeDimensions.get(sourceId) || { width: 150, height: 70 };
-    const tDim = this.nodeDimensions.get(targetId) || { width: 150, height: 70 };
+    const sDim = this.nodeDimensions.get(sourceId) || DEFAULT_SIZE;
+    const tDim = this.nodeDimensions.get(targetId) || DEFAULT_SIZE;
 
-    const sHandle = sourceHandle || this.getNodeOutputs(sourceNode)[0] || "right";
-    const tHandle = targetHandle || this.getNodeInputs(targetNode)[0] || "left";
+    const sHandle =
+      sourceHandle || this.getNodeOutputs(sourceNode)[0] || 'right';
+    const tHandle = targetHandle || this.getNodeInputs(targetNode)[0] || 'left';
 
-    const startCoords = this.getHandleCoordinates(sourceNode, sHandle, sDim);
-    const endCoords = this.getHandleCoordinates(targetNode, tHandle, tDim);
+    const start = this.getHandleCoordinates(sourceNode, sHandle, sDim);
+    const end = this.getHandleCoordinates(targetNode, tHandle, tDim);
 
-    const edgeType = type || "smoothstep";
-    if (edgeType === "bezier") {
-      return this.getBezierPath(startCoords.x, startCoords.y, endCoords.x, endCoords.y, sHandle, tHandle);
+    const edgeType = type || 'smoothstep';
+    if (edgeType === 'bezier') {
+      return this.getBezierPath(
+        start.x,
+        start.y,
+        end.x,
+        end.y,
+        sHandle,
+        tHandle,
+      );
     }
-    if (edgeType === "straight") {
-      return this.getStraightPath(startCoords.x, startCoords.y, endCoords.x, endCoords.y);
+    if (edgeType === 'straight') {
+      return this.getStraightPath(start.x, start.y, end.x, end.y);
     }
-    return this.getSmoothStepPath(startCoords.x, startCoords.y, endCoords.x, endCoords.y, sHandle, tHandle);
+    return this.getSmoothStepPath(
+      start.x,
+      start.y,
+      end.x,
+      end.y,
+      sHandle,
+      tHandle,
+    );
   }
 
-  // --- Auto viewbox math ---
+  /** The box around every node, in canvas coordinates. */
   private getBounds() {
     if (this.nodes.length === 0) {
       return { minX: 0, minY: 0, maxX: 400, maxY: 300 };
@@ -464,11 +711,9 @@ export class Flow extends LitElement {
     let maxX = -Infinity;
     let maxY = -Infinity;
 
-    this.nodes.forEach((node) => {
-      const dim = this.nodeDimensions.get(node.id) ||
-        { width: 150, height: 70 };
-      const x = node.position.x;
-      const y = node.position.y;
+    this.nodes.forEach(node => {
+      const dim = this.nodeDimensions.get(node.id) || DEFAULT_SIZE;
+      const { x, y } = node.position;
       if (x < minX) minX = x;
       if (y < minY) minY = y;
       if (x + dim.width > maxX) maxX = x + dim.width;
@@ -478,20 +723,26 @@ export class Flow extends LitElement {
     return { minX, minY, maxX, maxY };
   }
 
-  // --- Content Renderers ---
   private isCustomNode(node: FlowNode) {
     if (node.data instanceof HTMLElement) {
       return true;
     }
-    if (
+    return Boolean(
       node.data &&
-      typeof node.data === "object" &&
-      (node.data as any).element instanceof HTMLElement
-    ) {
-      return true;
-    }
-    return false;
+      typeof node.data === 'object' &&
+      (node.data as any).element instanceof HTMLElement,
+    );
   }
+
+  /** The node's accessible name: its label, else its id. */
+  private nodeLabel(node: FlowNode): string {
+    if (node.data instanceof HTMLElement) {
+      return node.data.getAttribute('aria-label') || node.id;
+    }
+    return (node.data as { label?: string } | undefined)?.label || node.id;
+  }
+
+  // ── Render helpers
 
   private renderNodeContent(node: FlowNode) {
     if (node.data instanceof HTMLElement) {
@@ -499,20 +750,125 @@ export class Flow extends LitElement {
     }
     if (
       node.data &&
-      typeof node.data === "object" &&
+      typeof node.data === 'object' &&
       (node.data as any).element instanceof HTMLElement
     ) {
       return (node.data as any).element;
     }
-    const label = node.data && typeof node.data === "object"
-      ? (node.data as any).label || node.id
-      : String(node.data);
+    const label =
+      node.data && typeof node.data === 'object'
+        ? (node.data as any).label || node.id
+        : String(node.data);
     return html`
       <div class="flow-node-default-card">
         <div class="flow-node-title">${label}</div>
       </div>
     `;
   }
+
+  private renderNode(node: FlowNode) {
+    const inputs = this.getNodeInputs(node);
+    const outputs = this.getNodeOutputs(node);
+    const selected = this.selected === node.id;
+    return html`
+      <div
+        class=${classMap({
+          'flow-node': true,
+          'flow-node-custom': this.isCustomNode(node),
+          'is-dragging': this.draggingNodeId === node.id,
+          'is-selected': selected,
+        })}
+        data-id=${node.id}
+        role="group"
+        tabindex="0"
+        aria-label=${this.nodeLabel(node)}
+        aria-current=${selected ? 'true' : nothing}
+        style="position: absolute; left: ${node.position.x}px; top: ${node
+          .position.y}px;"
+        @pointerdown=${(e: PointerEvent) => this.onNodePointerDown(e, node)}
+        @keydown=${(e: KeyboardEvent) => this.onNodeKeyDown(e, node)}
+      >
+        ${inputs.map(
+          pos => html`
+            <div
+              class="handle handle-input handle-position-${pos}"
+              data-node-id=${node.id}
+              data-position=${pos}
+            ></div>
+          `,
+        )}
+
+        <div class="flow-node-content">${this.renderNodeContent(node)}</div>
+
+        ${outputs.map(
+          pos => html`
+            <div
+              class="handle handle-output handle-position-${pos}"
+              data-node-id=${node.id}
+              data-position=${pos}
+              @pointerdown=${(e: PointerEvent) =>
+                this.onHandlePointerDown(e, node, pos)}
+            ></div>
+          `,
+        )}
+      </div>
+    `;
+  }
+
+  private renderEdges() {
+    return this.edges.map(edge => {
+      const pathString = this.drawPath(
+        edge.source,
+        edge.target,
+        edge.type,
+        edge.sourceHandle,
+        edge.targetHandle,
+      );
+      const color =
+        edge.color || 'var(--flow-line-color, var(--color-outline))';
+      const variant = edge.variant || 'solid';
+      return svg`
+        <path
+          class="${classMap({
+            'flow-edge': true,
+            'variant-dashed':
+              variant === 'dashed' || variant === 'animated-dashed',
+            'variant-animated-dashed': variant === 'animated-dashed',
+          })}"
+          d="${pathString}"
+          stroke="${color}"
+          fill="none"
+          stroke-width="2"
+          marker-end="url(#arrowhead)"
+        />
+      `;
+    });
+  }
+
+  private renderConnectionPreview() {
+    if (!this.isDrawingConnection || !this.draggingSourceHandle) {
+      return nothing;
+    }
+    return svg`
+      <path
+        class="flow-edge-preview"
+        d="${this.getBezierPath(
+          this.connectionStart.x,
+          this.connectionStart.y,
+          this.connectionEnd.x,
+          this.connectionEnd.y,
+          this.draggingSourceHandle,
+          OPPOSITE[this.draggingSourceHandle],
+        )}"
+        stroke="var(--flow-hover-color, var(--color-primary))"
+        fill="none"
+        stroke-width="2"
+        stroke-dasharray="4 4"
+      />
+    `;
+  }
+
+  // ── Render
 
   protected render() {
     const bounds = this.getBounds();
@@ -521,163 +877,69 @@ export class Flow extends LitElement {
     const viewBoxWidth = bounds.maxX - bounds.minX + 2 * this.padding;
     const viewBoxHeight = bounds.maxY - bounds.minY + 2 * this.padding;
 
-    const svgViewBox =
-      `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`;
+    const svgViewBox = `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`;
 
     return html`
       <div class="flow-container">
         <div
           class="flow-scroller"
-          style="width: ${viewBoxWidth * this.zoom}px; height: ${viewBoxHeight * this.zoom}px; position: relative;"
+          style="width: ${viewBoxWidth * this.zoom}px; height: ${viewBoxHeight *
+          this.zoom}px; position: relative;"
         >
           <div
             class="flow-workspace"
-            style="transform: scale(${this.zoom}); transform-origin: top left; width: ${viewBoxWidth}px; height: ${viewBoxHeight}px; position: absolute; left: 0; top: 0;"
+            style="transform: scale(${this
+              .zoom}); transform-origin: top left; width: ${viewBoxWidth}px; height: ${viewBoxHeight}px; position: absolute; left: 0; top: 0;"
           >
-          <!-- SVG canvas for rendering grid and paths -->
-          <svg class="flow-svg" viewBox="${svgViewBox}">
-            <defs>
-              <pattern
-                id="dot-grid"
-                width="20"
-                height="20"
-                patternUnits="userSpaceOnUse"
-              >
-                <circle cx="1" cy="1" r="1" />
-              </pattern>
-              <marker
-                id="arrowhead"
-                markerWidth="8"
-                markerHeight="8"
-                refX="7"
-                refY="4"
-                orient="auto"
-              >
-                <polygon
-                  points="0 0, 8 4, 0 8"
-                  fill="var(--flow-line-color, var(--color-outline))"
-                />
-              </marker>
-            </defs>
-
-            <!-- Background Grid -->
-            <rect
-              x="${viewBoxX}"
-              y="${viewBoxY}"
-              width="${viewBoxWidth}"
-              height="${viewBoxHeight}"
-              fill="url(#dot-grid)"
-            />
-
-            <!-- Connection Edges -->
-            ${this.edges.map((edge) => {
-              const pathString = this.drawPath(
-                edge.source,
-                edge.target,
-                edge.type,
-                edge.sourceHandle,
-                edge.targetHandle,
-              );
-              const color = edge.color ||
-                "var(--flow-line-color, var(--color-outline))";
-              const variant = edge.variant || "solid";
-              return svg`
-                <path
-                  class="${classMap({
-                    "flow-edge": true,
-                    "variant-dashed": variant === "dashed" ||
-                      variant === "animated-dashed",
-                    "variant-animated-dashed": variant === "animated-dashed",
-                  })}"
-                  d="${pathString}"
-                  stroke="${color}"
-                  fill="none"
-                  stroke-width="2"
-                  marker-end="url(#arrowhead)"
-                />
-              `;
-            })}
-
-            <!-- Connection Draft line preview -->
-            ${this.isDrawingConnection && this.draggingSourceHandle
-              ? svg`
-                <path
-                  class="flow-edge-preview"
-                  d="${this.getBezierPath(
-                    this.connectionStartX,
-                    this.connectionStartY,
-                    this.currentMouseX,
-                    this.currentMouseY,
-                    this.draggingSourceHandle,
-                    ({
-                      left: "right",
-                      right: "left",
-                      top: "bottom",
-                      bottom: "top",
-                    })[this.draggingSourceHandle] as any
-                  )}"
-                  stroke="var(--flow-hover-color, var(--color-primary))"
-                  fill="none"
-                  stroke-width="2"
-                  stroke-dasharray="4 4"
-                />
-              `
-              : nothing}
-          </svg>
-
-          <!-- Nodes Workspace -->
-          <div
-            class="flow-nodes"
-            style="position: absolute; left: ${-viewBoxX}px; top: ${-viewBoxY}px;"
-          >
-            ${this.nodes.map((node) => {
-              const inputs = this.getNodeInputs(node);
-              const outputs = this.getNodeOutputs(node);
-              return html`
-                <div
-                  class="${classMap({
-                    "flow-node": true,
-                    "flow-node-custom": this.isCustomNode(node),
-                  })}"
-                  data-id="${node.id}"
-                  style="position: absolute; left: ${node.position
-                    .x}px; top: ${node.position.y}px;"
-                  @mousedown="${(e: MouseEvent) =>
-                    this.onNodeMouseDown(e, node)}"
+            <svg class="flow-svg" viewBox="${svgViewBox}" aria-hidden="true">
+              <defs>
+                <pattern
+                  id="dot-grid"
+                  width="20"
+                  height="20"
+                  patternUnits="userSpaceOnUse"
                 >
-                  <!-- Input connection handles -->
-                  ${inputs.map((pos) => html`
-                    <div
-                      class="handle handle-input handle-position-${pos}"
-                      data-node-id="${node.id}"
-                      data-position="${pos}"
-                    >
-                    </div>
-                  `)}
+                  <circle cx="1" cy="1" r="1" />
+                </pattern>
+                <marker
+                  id="arrowhead"
+                  markerWidth="8"
+                  markerHeight="8"
+                  refX="7"
+                  refY="4"
+                  orient="auto"
+                >
+                  <polygon
+                    points="0 0, 8 4, 0 8"
+                    fill="var(--flow-line-color, var(--color-outline))"
+                  />
+                </marker>
+              </defs>
 
-                  <!-- Node Inner Content -->
-                  <div class="flow-node-content">
-                    ${this.renderNodeContent(node)}
-                  </div>
+              <rect
+                x="${viewBoxX}"
+                y="${viewBoxY}"
+                width="${viewBoxWidth}"
+                height="${viewBoxHeight}"
+                fill="url(#dot-grid)"
+              />
 
-                  <!-- Output connection handles -->
-                  ${outputs.map((pos) => html`
-                    <div
-                      class="handle handle-output handle-position-${pos}"
-                      data-node-id="${node.id}"
-                      data-position="${pos}"
-                      @mousedown="${(e: MouseEvent) =>
-                        this.onHandleMouseDown(e, node, pos)}"
-                    >
-                    </div>
-                  `)}
-                </div>
-              `;
-            })}
+              ${this.renderEdges()} ${this.renderConnectionPreview()}
+            </svg>
+
+            <div
+              class="flow-nodes"
+              style="position: absolute; left: ${-viewBoxX}px; top: ${-viewBoxY}px;"
+            >
+              ${repeat(
+                this.nodes,
+                node => node.id,
+                node => this.renderNode(node),
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     `;
   }
 }

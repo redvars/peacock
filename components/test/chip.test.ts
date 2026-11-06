@@ -61,6 +61,32 @@ describe('Chip', () => {
     expect(close.parentNode).to.equal(el.shadowRoot);
   });
 
+  it('has no aria-pressed unless it is selectable', async () => {
+    const plain = await fixture<Chip>(html`<wc-chip selected>Chip</wc-chip>`);
+    expect(
+      plain.shadowRoot!.querySelector('.chip')!.hasAttribute('aria-pressed'),
+    ).to.be.false;
+
+    const toggle = await fixture<Chip>(
+      html`<wc-chip selectable>Chip</wc-chip>`,
+    );
+    const button = toggle.shadowRoot!.querySelector('.chip')!;
+    expect(button.getAttribute('aria-pressed')).to.equal('false');
+
+    toggle.selected = true;
+    await toggle.updateComplete;
+    expect(button.getAttribute('aria-pressed')).to.equal('true');
+  });
+
+  it('puts aria-pressed on a selectable link chip too', async () => {
+    const el = await fixture<Chip>(
+      html`<wc-chip selectable selected href="/x">Chip</wc-chip>`,
+    );
+    expect(
+      el.shadowRoot!.querySelector('a.chip')!.getAttribute('aria-pressed'),
+    ).to.equal('true');
+  });
+
   it('disables the dismiss button with the chip', async () => {
     const el = await fixture<Chip>(
       html`<wc-chip dismissible disabled>Chip</wc-chip>`,

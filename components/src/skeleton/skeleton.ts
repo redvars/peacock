@@ -19,7 +19,12 @@ import IndividualComponent from '@/IndividualComponent.js';
 export class Skeleton extends LitElement {
   static styles = [styles];
 
-  /** When true, the skeleton animation is shown. */
+  /**
+   * When true, the skeleton animation is shown. A skeleton is the placeholder look of content
+   * that has not arrived yet, not a busy state: components that are working on something use
+   * `loading` (ADR-030001), and `skeleton` on a component (chip, list item, button) asks for
+   * this placeholder look.
+   */
   @property({ type: Boolean, reflect: true }) visible: boolean = false;
 
   render() {

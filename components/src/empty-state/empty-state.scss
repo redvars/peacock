@@ -6,25 +6,25 @@
   display: block;
 }
 
-
+// The layout responds to this element's own width (a container query), not the window's.
 .empty-state {
   container: emptystate / inline-size;
   padding: var(--spacing-100);
-  height: 100%;
-  max-width: var(--container-lg);
+  block-size: 100%;
+  max-inline-size: var(--container-lg);
   margin: auto;
 }
 
 .empty-state-container {
   display: flex;
-  height: 100%;
+  block-size: 100%;
   justify-content: center;
   gap: var(--spacing-500);
   align-items: center;
 }
 
 .illustration {
-  height: 100%;
+  block-size: 100%;
   display: flex;
 
   .illustration-svg {
@@ -40,13 +40,13 @@
 
   .headline {
     @include mixin.get-typography(headline-medium);
-    margin-bottom: var(--spacing-200);
+    margin-block-end: var(--spacing-200);
     color: var(--color-on-surface)
   }
 
   .description {
     @include mixin.get-typography(body-medium);
-    margin-bottom: var(--spacing-400);
+    margin-block-end: var(--spacing-400);
     color: var(--color-on-surface-variant)
   }
 }
@@ -59,11 +59,11 @@
 @container emptystate (min-width: 672px) {
   .empty-state {
     .illustration {
-      width: 50%;
+      inline-size: 50%;
     }
 
     .content {
-      width: 50%;
+      inline-size: 50%;
     }
   }
 }
@@ -75,8 +75,8 @@
       gap: var(--spacing-150);
 
       .illustration {
-        height: auto;
-        width: 100%;
+        block-size: auto;
+        inline-size: 100%;
         justify-content: center;
       }
     }
@@ -88,4 +88,3 @@
     }
   }
 }
-

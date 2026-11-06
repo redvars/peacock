@@ -4,14 +4,29 @@ export const order = 600;
 import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<h3>Selected</h3>
+<h3>Toggle</h3>
 
-<p>Make buttons look active by adding the selected <code>boolean</code> attribute to any
-  <code>&lt;button&gt;</code> element.
+<p>Add <code>toggle</code> to make a toggle button. It renders <code>aria-pressed</code>, flips
+  <code>selected</code> on each click and fires <code>change</code> with <code>detail.selected</code>.
+  <code>selected</code> has no effect without <code>toggle</code>.
 </p>
 
-<DemoComponentCard lang={'html'}>
-  <wc-button selected>Primary</wc-button>
+<DemoComponentCard lang={'html'} inline>
+  <wc-button toggle>Bold</wc-button>
+  <wc-button toggle selected>Italic</wc-button>
+</DemoComponentCard>
+
+<br />
+
+<h3>Loading</h3>
+
+<p>Set <code>loading</code> while the action runs. A spinner takes the place of the icon (or sits before the
+  label), the button gets <code>aria-busy="true"</code> and ignores clicks, like <code>soft-disabled</code>.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-button loading>Saving</wc-button>
+  <wc-button loading variant='tonal'><wc-icon name='save' slot='icon'></wc-icon>Saving</wc-button>
 </DemoComponentCard>
 
 <br />
@@ -44,7 +59,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <br />
 
 <h4 class='text-title'>Skeleton</h4>
-<p>Use the skeleton state to display a button while its content is loading.</p>
+<p>Use the skeleton state as a placeholder while the page around the button is loading. For a button whose own action is busy, use <code>loading</code>.</p>
 <DemoComponentCard lang={'html'}>
   <wc-button skeleton>Elevated</wc-button>
 </DemoComponentCard>

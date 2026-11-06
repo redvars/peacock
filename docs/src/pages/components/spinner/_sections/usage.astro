@@ -3,6 +3,13 @@ export const title = 'Usage';
 export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  <code>wc-spinner</code> is deprecated and will be removed in 4.0. Use
+  <code>&lt;wc-circular-progress indeterminate&gt;</code> instead. The spinner now renders an
+  indeterminate circular progress (<code>role="progressbar"</code>, named "Loading" unless it has a
+  <code>label</code>) and logs a console warning once.
+</p>
+
 <DemoComponentCard lang={'html'}>
-    <wc-spinner></wc-spinner>
+  <wc-circular-progress indeterminate></wc-circular-progress>
 </DemoComponentCard>

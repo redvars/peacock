@@ -161,6 +161,30 @@
   }
 }
 
+/* Loading: a spinner takes the icon's place */
+.loading-indicator {
+  flex-shrink: 0;
+  inline-size: var(--_button-icon-size);
+
+  --progress-height: var(--_button-icon-size);
+  --progress-container-color: var(--_button-label-text-color);
+  --progress-track-color: transparent;
+}
+
+:host([loading]) {
+  .fab-element {
+    cursor: progress;
+  }
+
+  .fab-content slot {
+    display: none;
+  }
+
+  .ripple {
+    display: none;
+  }
+}
+
 :host([variant='tonal']) {
   --_button-container-color: var(--tonal-fab-container-color);
   --_button-label-text-color: var(--tonal-fab-label-text-color);

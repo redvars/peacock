@@ -11,8 +11,11 @@ import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { BaseType, easeCubicOut, Selection } from 'd3';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { isRtl } from '@/__internal/i18n/locale.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import type {
+  ChartLegendMode,
   ChartSelectDetail,
   ChartSeries,
   ChartTooltipModel,
@@ -50,11 +53,23 @@ export abstract class ChartBase extends LitElement {
   /** Shows a skeleton while data loads. */
   @property({ type: Boolean, reflect: true }) loading: boolean = false;
 
-  /** Shows the legend even for a single series. */
+  /**
+   * When the legend shows: `auto` shows it for more than one series (always for pie and
+   * doughnut slices), `show` always, `hide` never.
+   */
+  @property({ type: String, reflect: true }) legend: ChartLegendMode = 'auto';
+
+  /**
+   * Shows the legend even for a single series.
+   * @deprecated Use `legend="show"`.
+   */
   @property({ type: Boolean, attribute: 'show-legend' }) showLegend: boolean =
     false;
 
-  /** Hides the legend. */
+  /**
+   * Hides the legend.
+   * @deprecated Use `legend="hide"`.
+   */
   @property({ type: Boolean, attribute: 'hide-legend' }) hideLegend: boolean =
     false;
 
@@ -133,6 +148,16 @@ export abstract class ChartBase extends LitElement {
     this.resizeObserver = undefined;
   }
 
+  willUpdate(changed: PropertyValues) {
+    super.willUpdate(changed);
+    if (changed.has('showLegend') && this.showLegend) {
+      deprecate(this.localName, '`show-legend`', '`legend="show"`');
+    }
+    if (changed.has('hideLegend') && this.hideLegend) {
+      deprecate(this.localName, '`hide-legend`', '`legend="hide"`');
+    }
+  }
+
   updated(changed: PropertyValues) {
     super.updated(changed);
     if (!this.svgElement || this.plotWidth <= 0) return;
@@ -175,7 +200,7 @@ export abstract class ChartBase extends LitElement {
   /** Tooltip content and default anchor for an item. */
   protected abstract getTooltip(index: number): ChartTooltipModel | undefined;
 
-  /** Detail of `chart-select` for an item. */
+  /** Detail of `select` for an item. */
   protected abstract getSelectDetail(index: number): ChartSelectDetail;
 
   /** The static SVG layers d3 draws into. */
@@ -189,10 +214,24 @@ export abstract class ChartBase extends LitElement {
     return ['height', 'plotWidth', 'hiddenKeys', 'loading', 'valueFormatter'];
   }
 
+  /** The legend mode in effect: `legend`, else the deprecated booleans. */
+  protected legendMode(): ChartLegendMode {
+    if (this.legend === 'show' || this.legend === 'hide') return this.legend;
+    if (this.hideLegend) return 'hide';
+    if (this.showLegend) return 'show';
+    return 'auto';
+  }
+
+  /** Whether the legend shows when `legend` is `auto`. */
+  protected legendAuto(): boolean {
+    return this.getSeries().length > 1;
+  }
+
   /** Whether the legend shows. */
   protected legendVisible(): boolean {
-    if (this.hideLegend) return false;
-    return this.showLegend || this.getSeries().length > 1;
+    const mode = this.legendMode();
+    if (mode === 'auto') return this.legendAuto();
+    return mode === 'show';
   }
 
   /** Width and height of the SVG. */
@@ -266,7 +305,7 @@ export abstract class ChartBase extends LitElement {
 
   /** The number formats for the resolved locale, cached per instance. */
   private getNumberFormats() {
-    const locale = this.i18n.locale;
+    const { locale } = this.i18n;
     if (this.numberFormats?.locale !== locale) {
       this.numberFormats = {
         locale,
@@ -303,14 +342,19 @@ export abstract class ChartBase extends LitElement {
     const point = this.pointFromEvent(event);
     if (!point) return;
     const index = this.itemAtPoint(point.x, point.y);
-    if (index >= 0) this.select(index);
+    if (index >= 0) this.selectItem(index);
   };
 
   private handleKeyDown = (event: KeyboardEvent) => {
     const count = this.getItemCount();
     if (!count) return;
     let next = this.activeIndex;
-    switch (event.key) {
+    // Left and Right follow the reading direction: in RTL, Left moves forward.
+    let { key } = event;
+    if (isRtl(this) && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+      key = key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
+    }
+    switch (key) {
       case 'ArrowRight':
       case 'ArrowDown':
         next = next < 0 ? 0 : Math.min(next + 1, count - 1);
@@ -332,7 +376,7 @@ export abstract class ChartBase extends LitElement {
       case ' ':
         if (this.activeIndex >= 0) {
           event.preventDefault();
-          this.select(this.activeIndex);
+          this.selectItem(this.activeIndex);
         }
         return;
       default:
@@ -356,14 +400,18 @@ export abstract class ChartBase extends LitElement {
       : '';
   }
 
-  private select(index: number) {
-    this.dispatchEvent(
-      new CustomEvent<ChartSelectDetail>('chart-select', {
-        bubbles: true,
-        composed: true,
-        detail: this.getSelectDetail(index),
-      }),
-    );
+  /** Fires `select`, then the deprecated `chart-select` with the same detail. */
+  private selectItem(index: number) {
+    const detail = this.getSelectDetail(index);
+    for (const type of ['select', 'chart-select']) {
+      this.dispatchEvent(
+        new CustomEvent<ChartSelectDetail>(type, {
+          bubbles: true,
+          composed: true,
+          detail,
+        }),
+      );
+    }
   }
 
   private toggleSeries(key: string) {

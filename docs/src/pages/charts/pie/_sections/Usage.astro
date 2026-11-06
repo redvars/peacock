@@ -11,6 +11,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   out and see its value and share. Keep it to about five slices; beyond that a bar chart reads better.
 </p>
 
+<p>
+  Set <code>legend="hide"</code> to hide the legend. Deprecated: <code>inner-radius</code> still cuts a hole in
+  a pie but logs a warning; a chart with a hole is a <code>wc-chart-doughnut</code>, which owns
+  <code>inner-radius</code> and the centre label. <code>hide-legend</code> still works; use
+  <code>legend="hide"</code>. Both are removed in 4.0.
+</p>
+
 <DemoComponentCard lang='html'>
   <wc-chart-pie id='pie-usage' label='Visitors by browser'></wc-chart-pie>
   <wc-button id='pie-usage-randomize' variant='tonal'>Randomize</wc-button>

@@ -1,8 +1,9 @@
-import { html, svg } from 'lit';
+import { html, PropertyValues, svg } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { arc, easeCubicOut, interpolate, pie, PieArcDatum, select } from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import { ChartBase, chartColor } from '../__internal/chart/chart-base.js';
 import type {
   ChartSeries,
@@ -12,6 +13,7 @@ import baseStyles from '../__internal/chart/chart-base.scss';
 import styles from './chart-pie.scss';
 
 export type {
+  ChartLegendMode,
   ChartSelectDetail,
   ChartValueFormatter,
 } from '../__internal/chart/types.js';
@@ -65,7 +67,8 @@ const MIN_LABEL_ANGLE = 0.35;
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
+ * @fires select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
+ * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.
@@ -86,7 +89,10 @@ export class ChartPie extends ChartBase {
   /** Slices to draw. */
   @property({ type: Array }) data: ChartPieItem[] = [];
 
-  /** Size of the hole as a fraction of the radius, from 0 (pie) to 0.9. */
+  /**
+   * Size of the hole as a fraction of the radius, from 0 (pie) to 0.9.
+   * @deprecated A pie has no hole: use `wc-chart-doughnut`, which owns `inner-radius` and the centre label.
+   */
   @property({ type: Number, attribute: 'inner-radius' }) innerRadius: number =
     0;
 
@@ -105,7 +111,21 @@ export class ChartPie extends ChartBase {
   /** Pie centre from the last draw, in plot coordinates. */
   private center = { x: 0, y: 0 };
 
+  // ── Lifecycle
+
+  willUpdate(changed: PropertyValues) {
+    super.willUpdate(changed);
+    if (changed.has('innerRadius') && this.innerRadius && !this.ownsHole()) {
+      deprecate(this.localName, '`inner-radius`', '`wc-chart-doughnut`');
+    }
+  }
+
   // ── Private methods
+
+  /** Whether `inner-radius` is part of this chart's API. Doughnut returns true. */
+  protected ownsHole(): boolean {
+    return false;
+  }
 
   protected drawProperties(): string[] {
     return [...super.drawProperties(), 'data', 'innerRadius', 'showLabels'];
@@ -123,8 +143,9 @@ export class ChartPie extends ChartBase {
     }));
   }
 
-  protected legendVisible(): boolean {
-    return !this.hideLegend;
+  /** Slices are only told apart by the legend, so `auto` always shows it. */
+  protected legendAuto(): boolean {
+    return true;
   }
 
   protected getItemCount(): number {
@@ -148,7 +169,8 @@ export class ChartPie extends ChartBase {
       : '';
   }
 
-  private innerFraction(): number {
+  /** The hole as a clamped fraction of the radius. */
+  protected innerFraction(): number {
     return Math.min(Math.max(this.innerRadius || 0, 0), 0.9);
   }
 

@@ -3,14 +3,22 @@ import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
+import { resolveLocale } from '@/__internal/i18n/locale.js';
 
 import styles from './number-counter.scss';
+
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 /**
  * @label Number Counter
  * @tag wc-number-counter
  * @rawTag number-counter
- * @summary Displays a number with commas for thousands.
+ * @summary Displays a number with locale grouping, rolling each digit to its new value.
+ * @overview
+ * <p>The rolling digit columns are hidden from assistive technology; screen readers read the
+ * formatted value from a visually hidden copy instead.</p>
+ *
+ * @cssprop [--number-counter-font-size=1rem] - Font size of the digits.
  *
  * @example
  * ```html
@@ -31,55 +39,58 @@ import styles from './number-counter.scss';
 export class NumberCounter extends LitElement {
   static styles = [styles];
 
+  /** The number to display. */
   @property({ type: Number }) value = 0;
 
   /**
-   * Optional: Allow users to pass a locale, defaulting to 'en-US' for commas.
+   * BCP 47 locale used to format the number. Defaults to the nearest `lang`, then the document's,
+   * then the browser language.
    */
-  @property() locale = 'en-US';
+  @property() locale?: string;
 
-  render() {
-    return html`<div class="number-counter">${this.renderDigits()}</div>`;
-  }
+  // ── Private ───────────────────────────────────────────────────────────────
 
-  renderDigits() {
-    if (this.value === undefined || this.value === null) return nothing;
-
-    // 1. Format the number with commas (e.g., 1234 -> "1,234")
-    const formattedValue = new Intl.NumberFormat(this.locale).format(
+  /** The value formatted for the resolved locale, or `''` when there is no value. */
+  private get formattedValue(): string {
+    if (this.value === undefined || this.value === null) return '';
+    return new Intl.NumberFormat(resolveLocale(this.locale, this)).format(
       this.value,
     );
+  }
 
-    // 2. Split the string into individual characters
-    const chars = formattedValue.split('');
+  // ── Render helpers ────────────────────────────────────────────────────────
 
-    return html`${chars.map(char => {
-      // 3. Check if the character is a digit or a separator (comma/dot)
+  private renderDigits(formattedValue: string) {
+    if (!formattedValue) return nothing;
+
+    return html`${formattedValue.split('').map(char => {
       const digit = parseInt(char, 10);
-
-      // eslint-disable-next-line no-restricted-globals
-      if (isNaN(digit)) {
+      if (Number.isNaN(digit)) {
         return html`<div class="digit-separator">${char}</div>`;
       }
-
       return this.renderDigit(digit);
     })}`;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  renderDigit(digit: number) {
-    // Each 'each-digit' is 10% of the 'digit-content' height (since there are 10 numbers)
-    const offset = digit * 10;
-    const style = {
-      transform: `translateY(-${offset}%)`,
-    };
+  private renderDigit(digit: number) {
+    // Each digit is 10% of the column's height (there are 10 numbers).
+    const style = { transform: `translateY(-${digit * 10}%)` };
 
-    return html` <div class="digit">
+    return html`<div class="digit">
       <div class="digit-content" style=${styleMap(style)}>
-        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
-          n => html`<div class="each-digit">${n}</div>`,
-        )}
+        ${DIGITS.map(n => html`<div class="each-digit">${n}</div>`)}
       </div>
     </div>`;
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
+  render() {
+    const { formattedValue } = this;
+    return html`<div class="number-counter" aria-hidden="true">
+        ${this.renderDigits(formattedValue)}
+      </div>
+      <span class="visually-hidden">${formattedValue}</span>`;
   }
 }

@@ -7,3 +7,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
   <wc-button>Button</wc-button>
 </DemoComponentCard>
+
+<p>
+  <code>href</code> on <code>wc-button</code> is deprecated and will be removed in 4.0: use
+  <a href='/components/link-button'><code>wc-link-button</code></a> for a link that looks like a button.
+  It keeps working until then and logs one warning per page.
+</p>

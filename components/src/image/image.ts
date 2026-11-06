@@ -1,6 +1,7 @@
-import { LitElement, html } from 'lit';
+import { LitElement, PropertyValues, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
 import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
@@ -30,7 +31,10 @@ export class Image extends LitElement {
   /** Optional dark-mode image source */
   @property({ reflect: true, attribute: 'dark-src' }) darkSrc = '';
 
-  /** Alt text / title for the image */
+  /** Text alternative for the image, as on a native `<img>`. Leave empty for a decorative image. */
+  @property() alt = '';
+
+  /** @deprecated Use `alt`. Still works through 3.x. */
   @property({ attribute: 'image-title' }) imageTitle = '';
 
   /** Enable click-to-preview lightbox */
@@ -73,6 +77,12 @@ export class Image extends LitElement {
     this._themeCleanup?.();
   }
 
+  protected willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('imageTitle') && this.imageTitle) {
+      deprecate('wc-image', '`image-title`', '`alt`');
+    }
+  }
+
   firstUpdated() {
     this._setupIntersectionObserver();
   }
@@ -94,6 +104,11 @@ export class Image extends LitElement {
     );
 
     this._intersectionObserver.observe(wrapper);
+  }
+
+  /** `alt`, else the deprecated `image-title`. */
+  private get _alt(): string {
+    return this.alt || this.imageTitle;
   }
 
   private get _activeSrc(): string {
@@ -119,7 +134,7 @@ export class Image extends LitElement {
         ${this._loaded
           ? html`<img
               src=${this._activeSrc}
-              alt=${this.imageTitle}
+              alt=${this._alt}
               class=${this.preview ? 'clickable' : ''}
               @click=${this._handleClick}
             />`
@@ -134,7 +149,7 @@ export class Image extends LitElement {
       >
         <img
           src=${this._activeSrc}
-          alt=${this.imageTitle}
+          alt=${this._alt}
           @click=${(e: Event) => e.stopPropagation()}
         />
       </dialog>

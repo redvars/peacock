@@ -5,12 +5,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  A line chart takes the same <code>data</code>, <code>index</code> and <code>config</code> as the bar chart.
+  A line chart takes the same <code>data</code>, <code>category-key</code> and <code>config</code> as the bar chart.
   Use it for trends over an ordered axis such as time. Hovering shows a cursor line and a dot on every series.
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-line id='line-usage' index='month' label='Visitors by month'></wc-chart-line>
+  <wc-chart-line id='line-usage' category-key='month' label='Visitors by month'></wc-chart-line>
 
   <script is:inline>
     const lineUsage = document.getElementById('line-usage');

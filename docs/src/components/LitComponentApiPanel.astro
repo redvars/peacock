@@ -56,7 +56,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
           }
           if (value && value.includes('|')) {
             const types = value.split('|');
-            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            const typesHtml = types.map(type => `<wc-tag>${type}</wc-tag>`).join('');
             return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
           }
           return `<div class='col-text'>${row[column.name]?.text}</div>`;
@@ -88,7 +88,7 @@ const cssData        = litComp?.customElement?.cssProperties ?? [];
           const value = row[column.name]?.text;
           if (value && value.includes('|')) {
             const types = value.split('|');
-            const typesHtml = types.map(type => `<wc-tag color='default'>${type}</wc-tag>`).join('');
+            const typesHtml = types.map(type => `<wc-tag>${type}</wc-tag>`).join('');
             return `<div class='col-text' style='display: flex; flex-wrap: wrap; gap:.5rem'>${typesHtml}</div>`;
           }
           return `<div class='col-text'>${row[column.name]?.text}</div>`;

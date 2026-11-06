@@ -13,7 +13,8 @@
   --outlined-tag-label-text-color:  var(--color-#{$color});
 }
 
-:host([color=default]) {
+// Neutral, when the tag has no intent and no accent.
+:host {
   --filled-tag-container-color: var(--color-surface);
   --filled-tag-label-text-color: var(--color-on-surface);
 
@@ -27,23 +28,48 @@
   --outlined-tag-label-text-color: var(--color-on-surface);
 }
 
-:host([color=red]) {
-  @include _tag-color(red);
+// Decorative hues. Later blocks win, so the deprecated `color` and then `intent` override them.
+@each $hue in ('blue', 'green', 'red', 'yellow', 'orange', 'purple') {
+  :host([accent=#{$hue}]) {
+    @include _tag-color($hue);
+  }
 }
 
-:host([color=green]) {
-  @include _tag-color(green);
-}
-
-:host([color=blue]) {
-  @include _tag-color(blue);
-}
-
-:host([color=yellow]) {
-  @include _tag-color(yellow);
-}
-
+// Deprecated `color`: each hue shows as the intent it maps to (purple as its accent).
 :host([color=purple]) {
   @include _tag-color(purple);
 }
 
+:host([color=blue]) {
+  @include _tag-color(primary);
+}
+
+:host([color=green]) {
+  @include _tag-color(success);
+}
+
+:host([color=yellow]),
+:host([color=orange]) {
+  @include _tag-color(warning);
+}
+
+:host([color=red]) {
+  @include _tag-color(error);
+}
+
+// Meaning.
+:host([intent=info]) {
+  @include _tag-color(primary);
+}
+
+:host([intent=success]) {
+  @include _tag-color(success);
+}
+
+:host([intent=warning]) {
+  @include _tag-color(warning);
+}
+
+:host([intent=danger]) {
+  @include _tag-color(error);
+}

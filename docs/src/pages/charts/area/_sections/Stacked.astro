@@ -10,7 +10,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-area id='area-stacked' stacked index='week' label='Signups by source'></wc-chart-area>
+  <wc-chart-area id='area-stacked' stacked category-key='week' label='Signups by source'></wc-chart-area>
 
   <script is:inline>
     const areaStacked = document.getElementById('area-stacked');

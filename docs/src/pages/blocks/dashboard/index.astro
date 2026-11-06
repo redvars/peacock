@@ -14,7 +14,7 @@ interface Order {
   order: string;
   detail: string;
   status: string;
-  color: 'green' | 'yellow' | 'red';
+  intent: 'success' | 'warning' | 'danger';
 }
 
 const stats: Stat[] = [
@@ -25,9 +25,9 @@ const stats: Stat[] = [
 ];
 
 const orders: Order[] = [
-  { name: 'Alice Liu', order: '#4821', detail: '2 items · $128.00', status: 'Delivered', color: 'green' },
-  { name: 'Marcus Reid', order: '#4820', detail: '1 item · $54.99', status: 'Processing', color: 'yellow' },
-  { name: 'Sara Okoye', order: '#4819', detail: '3 items · $219.50', status: 'Cancelled', color: 'red' },
+  { name: 'Alice Liu', order: '#4821', detail: '2 items · $128.00', status: 'Delivered', intent: 'success' },
+  { name: 'Marcus Reid', order: '#4820', detail: '1 item · $54.99', status: 'Processing', intent: 'warning' },
+  { name: 'Sara Okoye', order: '#4819', detail: '3 items · $219.50', status: 'Cancelled', intent: 'danger' },
 ];
 ---
 
@@ -87,7 +87,7 @@ const orders: Order[] = [
           <wc-card class='chart-card'>
             <wc-card-content class='chart-card-inner'>
               <h2 class='text-title-medium chart-title'>Monthly Revenue</h2>
-              <wc-chart-area id='dashboard-revenue-chart' index='month' height='240' label='Monthly revenue'></wc-chart-area>
+              <wc-chart-area id='dashboard-revenue-chart' category-key='month' height='240' label='Monthly revenue'></wc-chart-area>
             </wc-card-content>
           </wc-card>
           <wc-card class='chart-card'>
@@ -109,7 +109,7 @@ const orders: Order[] = [
                     <div class='text-body-medium'>{order.name}, order {order.order}</div>
                     <div class='text-body-small block-muted'>{order.detail}</div>
                   </div>
-                  <wc-tag color={order.color}>{order.status}</wc-tag>
+                  <wc-tag intent={order.intent}>{order.status}</wc-tag>
                 </div>
               ))}
             </div>

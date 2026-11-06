@@ -89,7 +89,10 @@ export class ListItem extends mixinBaseButton(
    */
   @property({ type: Boolean, reflect: true }) selected = false;
 
-  /** When true, renders the list-item in a loading skeleton state. */
+  /**
+   * When true, renders the list-item as a placeholder (a skeleton) while its content is not known
+   * yet, and ignores clicks. It is a look, not a busy state (which components spell `loading`).
+   */
   @property({ type: Boolean, reflect: true }) skeleton: boolean = false;
 
   /** Renders the row as a button, with hover, press and focus states. */

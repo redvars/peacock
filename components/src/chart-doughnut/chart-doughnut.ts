@@ -1,10 +1,11 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { ChartPie } from '../chart-pie/chart-pie.js';
 
 export type {
+  ChartLegendMode,
   ChartPieItem,
   ChartSelectDetail,
   ChartValueFormatter,
@@ -32,7 +33,8 @@ export type {
  * @slot center - Replaces the total and caption in the centre.
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
+ * @fires select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
+ * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.
@@ -47,7 +49,7 @@ export type {
 export class ChartDoughnut extends ChartPie {
   // ── Properties
 
-  /** Size of the hole as a fraction of the radius. */
+  /** Size of the hole as a fraction of the radius, up to 0.9. At 0 there is no hole and no centre content. */
   @property({ type: Number, attribute: 'inner-radius' }) innerRadius: number =
     0.62;
 
@@ -55,16 +57,23 @@ export class ChartDoughnut extends ChartPie {
   @property({ type: String, attribute: 'center-label' }) centerLabel: string =
     '';
 
+  // ── Overrides
+
+  protected ownsHole(): boolean {
+    return true;
+  }
+
   // ── Render helpers
 
   protected renderOverlay() {
+    if (this.innerFraction() <= 0) return nothing;
     const active =
       this.activeIndex >= 0 ? this.data[this.activeIndex] : undefined;
     const value = active ? active.value : this.visibleTotal();
     const caption = active
       ? (active.label ?? active.name)
       : this.centerLabel || this.i18n.t('total');
-    const hole = Math.max(this.radius * this.innerRadius * 2 - 16, 0);
+    const hole = Math.max(this.radius * this.innerFraction() * 2 - 16, 0);
     return html`<div
       class="center"
       part="center"

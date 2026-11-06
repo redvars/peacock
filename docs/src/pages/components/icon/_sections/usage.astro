@@ -21,3 +21,16 @@ const GOOGLE_ICONS_URL = "https://fonts.google.com/icons";
   <wc-icon src='https://icons.getbootstrap.com/assets/icons/bug.svg'></wc-icon>
   <wc-icon provider='carbon' name='logo--github'></wc-icon>
 </DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  Icons are decorative by default: the host gets <code>aria-hidden="true"</code>. When an icon carries
+  meaning on its own, give it a <code>label</code>; it becomes <code>role="img"</code> with that
+  accessible name. Inside a control that is already named, such as a <code>wc-icon-button</code> with
+  an <code>aria-label</code>, leave the icon unlabelled.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-icon name='warning' label='Warning'></wc-icon>
+  <wc-icon name='check_circle' label='Completed'></wc-icon>
+</DemoComponentCard>

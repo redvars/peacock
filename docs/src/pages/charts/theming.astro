@@ -85,7 +85,7 @@ const properties = [
         in red.
       </p>
       <DemoComponentCard lang='html'>
-        <wc-chart-bar id='theming-series' stacked index='day' height='240' label='Requests by status'></wc-chart-bar>
+        <wc-chart-bar id='theming-series' stacked category-key='day' height='240' label='Requests by status'></wc-chart-bar>
 
         <script is:inline>
           const themingSeries = document.getElementById('theming-series');
@@ -132,7 +132,7 @@ const properties = [
         <wc-card variant='outlined' style='width: 100%; max-width: 28rem'>
           <wc-card-content>
             <h3 class='text-title-medium' style='margin: 0 0 var(--spacing-200)'>Weekly active users</h3>
-            <wc-chart-area id='theming-card' index='week' height='180' hide-legend label='Weekly active users'></wc-chart-area>
+            <wc-chart-area id='theming-card' category-key='week' height='180' legend='hide' label='Weekly active users'></wc-chart-area>
           </wc-card-content>
         </wc-card>
 

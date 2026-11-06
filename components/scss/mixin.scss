@@ -4,8 +4,18 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  // Read by screen readers, invisible on screen. Not `display: none`, which hides it from screen
+  // readers too.
   .screen-reader-only {
-    display: none !important;
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 
   [hidden] {

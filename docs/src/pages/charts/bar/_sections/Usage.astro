@@ -5,15 +5,28 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  Set <code>data</code> to an array of rows and <code>index</code> to the field that names each category.
+  Set <code>data</code> to an array of rows and <code>category-key</code> to the field that names each category.
   <code>config</code> lists the series to plot, keyed by data field, with an optional <code>label</code> and
   <code>color</code>. Leave <code>config</code> out to plot every numeric field. The chart fills the width of
   its container; <code>height</code> sets the plot height (300px by default). Hover a category or focus the
-  chart and use the arrow keys to see its values; click a legend entry to hide a series.
+  chart and use the arrow keys to see its values (Left and Right follow the reading direction, so they swap in
+  right-to-left pages); click a legend entry to hide a series.
+</p>
+
+<p>
+  The legend shows for more than one series. Set <code>legend="show"</code> to show it for a single series too,
+  or <code>legend="hide"</code> to hide it.
+</p>
+
+<p>
+  Deprecated: <code>index</code> still works as the category field but logs a warning; use
+  <code>category-key</code> (<code>index</code> is also the selected row's position in <code>select</code>'s
+  detail). <code>show-legend</code> and <code>hide-legend</code> still work; use <code>legend="show"</code> and
+  <code>legend="hide"</code>. They are removed in 4.0.
 </p>
 
 <DemoComponentCard lang='html'>
-  <wc-chart-bar id='bar-usage' index='month' label='Visitors by month'></wc-chart-bar>
+  <wc-chart-bar id='bar-usage' category-key='month' label='Visitors by month'></wc-chart-bar>
   <wc-button id='bar-usage-randomize' variant='tonal'>Randomize</wc-button>
 
   <script is:inline>

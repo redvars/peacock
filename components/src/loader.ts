@@ -12,6 +12,7 @@ import { Divider } from '@/divider/divider.js';
 import { Button } from '@/button/button/button.js';
 import ButtonGroup from '@/button/button-group/button-group.js';
 import { IconButton } from '@/button/icon-button/icon-button.js';
+import { LinkButton } from '@/button/link-button/link-button.js';
 import { Fab } from '@/button/fab/fab.js';
 import { SegmentedButton } from '@/segmented-button/segmented-button.js';
 import { SegmentedButtonGroup } from '@/segmented-button/segmented-button-group.js';
@@ -153,6 +154,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-icon-button': {
       CustomElementClass: IconButton,
+    },
+    'wc-link-button': {
+      CustomElementClass: LinkButton,
     },
     'wc-fab': {
       CustomElementClass: Fab,
@@ -441,7 +445,11 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-calendar': {
       importPath: `${distDirectory}/calendar.js`,
-      dependencies: ['wc-calendar-column-view', 'wc-calendar-month-view'],
+      dependencies: [
+        'wc-calendar-column-view',
+        'wc-calendar-month-view',
+        'wc-linear-progress',
+      ],
     },
     'wc-calendar-column-view': {
       importPath: `${distDirectory}/calendar-column-view.js`,

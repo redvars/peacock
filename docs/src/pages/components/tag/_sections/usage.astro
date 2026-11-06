@@ -1,18 +1,43 @@
 ---
 export const title = 'Usage';
 export const order = 100;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
+<p>
+  A tag is a read-only label for a status or a value. Use <code>intent</code> when the tag means
+  something: <code>info</code>, <code>success</code>, <code>warning</code> or <code>danger</code>.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-tag>Gray</wc-tag>
-  <wc-tag color='blue'>Blue</wc-tag>
-  <wc-tag color='red'>Red</wc-tag>
-  <wc-tag
-    color='green'
-  >
-    <wc-icon name='home' slot='icon'></wc-icon>
-    Green
+  <wc-tag>Draft</wc-tag>
+  <wc-tag intent='info'>In review</wc-tag>
+  <wc-tag intent='success'>
+    <wc-icon name='check' slot='icon'></wc-icon>
+    Approved
   </wc-tag>
-  <wc-tag color='yellow' dismissible>Yellow</wc-tag>
+  <wc-tag intent='warning'>Expiring</wc-tag>
+  <wc-tag intent='danger'>Failed</wc-tag>
 </DemoComponentCard>
+
+<p>
+  <code>accent</code> gives a decorative hue to tags without meaning, such as categories:
+  <code>blue</code>, <code>green</code>, <code>red</code>, <code>yellow</code>, <code>orange</code>,
+  <code>purple</code>. <code>intent</code> wins when both are set.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-tag accent='blue'>Frontend</wc-tag>
+  <wc-tag accent='purple'>Design</wc-tag>
+  <wc-tag accent='orange'>Docs</wc-tag>
+</DemoComponentCard>
+
+<h3>Deprecated</h3>
+
+<p>
+  <code>color</code> is deprecated and will be removed in 4.0: use <code>intent</code>, where
+  <code>red</code> is <code>danger</code>, <code>green</code> <code>success</code>,
+  <code>yellow</code> and <code>orange</code> <code>warning</code> and <code>blue</code>
+  <code>info</code>; use <code>accent='purple'</code> for purple. <code>dismissible</code> is
+  deprecated too: a tag is read-only, so use <code>wc-chip dismissible</code> for a removable item.
+  Both still work and log a console warning.
+</p>

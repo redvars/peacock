@@ -4,10 +4,11 @@
 
 :host {
   display: block;
+  --chip-set-gap: var(--spacing-100);
 }
 
 slot {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--chip-set-gap);
 }

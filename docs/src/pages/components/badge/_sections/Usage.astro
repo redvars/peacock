@@ -4,11 +4,17 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<p>
+  A badge shows a count, or with <code>dot</code> (or no <code>value</code>) a small dot. A number above
+  <code>max</code> (default 99) shows as <code>99+</code>. <code>intent</code> (<code>info</code>,
+  <code>success</code>, <code>warning</code>, <code>danger</code>) sets the color.
+</p>
+
 <DemoComponentCard lang={"html"} inline>
 
   <div class='badge-wrapper'>
     <wc-icon name="notifications"/>
-    <wc-badge class='badge-anchor-simple'/>
+    <wc-badge class='badge-anchor-simple' dot/>
   </div>
 
   <div class='badge-wrapper'>
@@ -18,7 +24,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
   <div class='badge-wrapper'>
     <wc-icon name="notifications"/>
-    <wc-badge class='badge-anchor' value='999+'/>
+    <wc-badge class='badge-anchor' value='1200'/>
+  </div>
+
+  <div class='badge-wrapper'>
+    <wc-icon name="notifications"/>
+    <wc-badge class='badge-anchor' value='12' max='9' intent='success'/>
   </div>
 
   <style is:inline>
@@ -44,4 +55,17 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     }
   </style>
 
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+
+<p>
+  A dot alone means nothing to a screen reader, so it is hidden from assistive technology unless it has
+  a <code>label</code>. Give a count a <code>label</code> such as "3 unread messages" when the number
+  alone is not enough. When the badge sits on an icon button, put the whole meaning in the button's
+  <code>aria-label</code> (for example "Inbox, 3 unread") and leave the badge without a label.
+</p>
+
+<DemoComponentCard lang={"html"} inline>
+  <wc-badge value='3' label='3 unread messages'></wc-badge>
 </DemoComponentCard>

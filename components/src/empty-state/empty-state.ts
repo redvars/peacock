@@ -1,6 +1,5 @@
 import { html, LitElement, nothing } from 'lit';
-import { property, state } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
+import { property } from 'lit/decorators.js';
 import styles from './empty-state.scss';
 import IndividualComponent from '@/IndividualComponent.js';
 
@@ -9,6 +8,9 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-empty-state
  * @rawTag empty-state
  * @summary A message that displays when there is no information to display.
+ * @overview
+ * <p>The layout follows the width of the empty state's own container, not the window: below
+ * 672px the illustration stacks above the text; wider, they sit side by side.</p>
  * @tags display
  *
  * @example
@@ -21,37 +23,19 @@ export class EmptyState extends LitElement {
   // Lit handles styles in a static property for better performance
   static styles = [styles];
 
+  /** The illustration shown beside (or, when narrow, above) the text. */
   @property({ type: String, reflect: true })
   illustration: 'no-document' | 'page' | 'search' = 'no-document';
 
+  /** The title. */
   @property({ type: String, reflect: true })
   headline = '';
 
+  /** The supporting text under the title. */
   @property({ type: String, reflect: true })
   description = '';
 
-  /** True when the component width is below 768px; triggers a stacked layout. */
-  @state()
-  private vertical = false;
-
-  connectedCallback() {
-    // eslint-disable-next-line wc/guard-super-call
-    super.connectedCallback();
-    window.addEventListener('resize', this.handleResize);
-    // Initial check
-    this.handleResize();
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('resize', this.handleResize);
-    // eslint-disable-next-line wc/guard-super-call
-    super.disconnectedCallback();
-  }
-
-  private handleResize = () => {
-    // Logic equivalent to Stencil's clientWidth check
-    this.vertical = this.offsetWidth < 768;
-  };
+  // ── Render helpers ────────────────────────────────────────────────────────
 
   __renderTitle() {
     if (!this.headline) return nothing;
@@ -63,12 +47,9 @@ export class EmptyState extends LitElement {
     return html`<div class="description">${this.description}</div>`;
   }
 
-  protected render() {
-    const classes = {
-      'empty-state': true,
-      vertical: this.vertical,
-    };
+  // ── Render ────────────────────────────────────────────────────────────────
 
+  protected render() {
     // Resolving asset paths in Lit typically uses import.meta.url or absolute paths
     const illustrationPath = new URL(
       `./assets/images/empty-state/${this.illustration}.svg`,
@@ -76,10 +57,13 @@ export class EmptyState extends LitElement {
     ).href;
 
     return html`
-      <div class="${classMap(classes)}">
+      <div class="empty-state">
         <div class="empty-state-container">
           <div class="illustration">
-            <wc-icon class="illustration-svg" src="${illustrationPath}"></wc-icon>
+            <wc-icon
+              class="illustration-svg"
+              src="${illustrationPath}"
+            ></wc-icon>
           </div>
 
           <div class="content">

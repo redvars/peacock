@@ -75,7 +75,7 @@ const customers: Customer[] = [
   </section>
 
   <script is:inline define:vars={{ customers }}>
-    const STATUS_COLORS = { Active: 'green', Trial: 'blue', 'Past due': 'red' };
+    const STATUS_INTENTS = { Active: 'success', Trial: 'info', 'Past due': 'danger' };
     const $table = document.getElementById('customer-table');
     const $search = document.getElementById('customer-search');
     const $count = document.getElementById('customer-count');
@@ -88,7 +88,7 @@ const customers: Customer[] = [
         name: 'status',
         label: 'Status',
         width: 8,
-        template: row => `<wc-tag size='sm' color='${STATUS_COLORS[row.status]}'>${row.status}</wc-tag>`,
+        template: row => `<wc-tag size='sm' intent='${STATUS_INTENTS[row.status]}'>${row.status}</wc-tag>`,
       },
       { name: 'joined', label: 'Joined', width: 9 },
     ];

@@ -9,7 +9,7 @@ export type ChartSeriesConfig = {
 /** Maps a data field to how its series is shown, for example `{ desktop: { label: 'Desktop' } }`. */
 export type ChartConfig = Record<string, ChartSeriesConfig>;
 
-/** One row of cartesian chart data: the category field (`index`) plus a number per series. */
+/** One row of cartesian chart data: the category field (`categoryKey`) plus a number per series. */
 export type ChartDatum = Record<string, unknown>;
 
 /** Formats a value for tooltips, value labels and axis ticks. */
@@ -38,7 +38,10 @@ export type ChartTooltipModel = {
   y: number;
 };
 
-/** Detail of the `chart-select` event. */
+/** When the legend shows. */
+export type ChartLegendMode = 'auto' | 'show' | 'hide';
+
+/** Detail of the `select` event (and the deprecated `chart-select`). */
 export type ChartSelectDetail = {
   /** Index of the selected category or slice in `data`. */
   index: number;
