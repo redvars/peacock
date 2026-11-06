@@ -1,0 +1,41 @@
+---
+export const title = 'Highlights and diffs';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>highlight-lines</code> tints lines to draw attention to them. It takes line numbers and
+  ranges such as <code>"2, 4-5"</code>, counted on the lines as displayed, after formatting.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='javascript' line-numbers highlight-lines='2, 4-5' format='false' is:raw>
+    <pre><code>
+      const button = document.querySelector('wc-button');
+      button.addEventListener('click', () => {
+        console.log('clicked');
+        button.disabled = true;
+        button.textContent = 'Saved';
+      });
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Diffs</h3>
+<p>
+  <code>added-lines</code> and <code>removed-lines</code> show a change. Each line gets a tint and a
+  <strong>+</strong> or <strong>−</strong> marker, so the change does not rely on color alone.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='css' label='button.scss' removed-lines='2' added-lines='3-4' format='false' is:raw>
+    <pre><code>
+      .button {
+        border-radius: 4px;
+        border-radius: var(--shape-corner-full);
+        padding-inline: var(--spacing-300);
+      }
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

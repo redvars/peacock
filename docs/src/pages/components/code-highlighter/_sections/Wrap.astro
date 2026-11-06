@@ -1,0 +1,18 @@
+---
+export const title = 'Wrapping';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Long lines scroll sideways by default. Add <code>wrap</code> to wrap them, or
+  <code>wrap-toggle</code> for a button that lets the reader choose.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='html' label='index.html' wrap-toggle format='false' is:raw>
+    <pre><code>
+      &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap" /&gt;
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

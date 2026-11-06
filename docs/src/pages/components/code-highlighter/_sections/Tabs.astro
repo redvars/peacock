@@ -1,0 +1,42 @@
+---
+export const title = 'Multiple files';
+export const order = 800;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Put related blocks in a <code>wc-code-group</code> to show them as tabs in one frame. Each block's
+  <code>label</code> names its tab and only the selected block is shown. The group draws the
+  border, so the blocks drop their own border and header, and the copy button floats over the code.
+  Set <code>selected-index</code> to choose the first tab; the <code>change</code> event reports each
+  switch.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-group style='width: 100%;'>
+    <wc-code-highlighter language='typescript' label='greeting.ts' format='false' is:raw>
+      <pre><code>
+        @customElement('my-greeting')
+        export class Greeting extends LitElement {
+          static styles = [styles];
+          render() {
+            return html`&lt;p&gt;Hello!&lt;/p&gt;`;
+          }
+        }
+      </code></pre>
+    </wc-code-highlighter>
+    <wc-code-highlighter language='scss' label='greeting.scss' format='false' is:raw>
+      <pre><code>
+        :host {
+          display: block;
+          color: var(--color-on-surface);
+        }
+      </code></pre>
+    </wc-code-highlighter>
+    <wc-code-highlighter language='html' label='index.html' format='false' is:raw>
+      <pre><code>
+        &lt;my-greeting&gt;&lt;/my-greeting&gt;
+      </code></pre>
+    </wc-code-highlighter>
+  </wc-code-group>
+</DemoComponentCard>

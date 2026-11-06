@@ -1,22 +1,40 @@
 ---
 export const title = 'Usage';
 export const order = 100;
-import DemoComponentCard from '../../../../components/DemoComponentCard.astro';---
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
 
+<p>
+  Put the code in a <code>&lt;pre&gt;&lt;code&gt;</code> inside the element, or set the
+  <code>value</code> property. Indentation shared by every line is removed, and JavaScript, HTML
+  and CSS are formatted unless you set <code>format="false"</code>. Syntax colors come from the
+  theme's color roles, so they follow light, dark and custom themes.
+</p>
+<p>
+  Without a title, the copy button floats at the top end. It appears when you hover over the block
+  or move keyboard focus into it, and it is always visible on touch screens.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-code-highlighter line-numbers language="javascript" is:raw>
+  <wc-code-highlighter style='width: 100%;' language='javascript' is:raw>
     <pre><code>
-      const helloWorld = () => alert ('Hello World!');
-      export { helloWorld };
-</code></pre>
+      const greet = (name) => `Hello, ${name}!`;
+      export { greet };
+    </code></pre>
   </wc-code-highlighter>
 </DemoComponentCard>
 
+<h3 class='text-title-medium'>Setting the value</h3>
+<p>
+  The <code>value</code> property takes the code as written. Entities are not decoded there, so
+  set it from script.
+</p>
 
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' id='code-highlighter-value' language='css'></wc-code-highlighter>
 
-<DemoComponentCard lang='html'>
-  <h3>In line code
-    <code>const helloWorld = () => alert ('Hello World!');</code>
-  </h3>
+  <script is:inline>
+    document.getElementById('code-highlighter-value').value =
+      ':root { --color-primary: #0b57d0; } .card > h2 { margin: 0; }';
+  </script>
 </DemoComponentCard>

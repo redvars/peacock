@@ -36,6 +36,7 @@ export function getAllComponentsForShowcase() {
     return ![
       'tab-panel',
       'tab-group',
+      'code-group',
       'tab',
       'popover-content',
       'sidebar-menu-item',

@@ -1,0 +1,29 @@
+---
+export const title = 'Size and variant';
+export const order = 700;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>size="sm"</code> tightens the padding and text for tool output and dense layouts.
+  <code>variant="error"</code> tints the block with the error color for failure output.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' size='sm' language='text' label='Trace' is:raw>
+    <wc-icon slot='icon' name='terminal'></wc-icon>
+    <pre><code>
+      GET /api/users 200 in 42ms
+      GET /api/users/7 200 in 18ms
+    </code></pre>
+  </wc-code-highlighter>
+
+  <wc-code-highlighter style='width: 100%;' variant='error' language='text' label='Build failed' is:raw>
+    <wc-icon slot='icon' name='error'></wc-icon>
+    <pre><code>
+      TypeError: Cannot read properties of undefined (reading 'map')
+          at renderRows (table.ts:212:18)
+          at Table.render (table.ts:340:12)
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

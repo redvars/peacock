@@ -424,6 +424,9 @@ const loaderConfig = {
         'wc-code-highlighter': {
             importPath: `${distDirectory}/code-highlighter.js`,
         },
+        'wc-code-group': {
+            importPath: `${distDirectory}/code-group.js`,
+        },
         'wc-breadcrumb': {
             CustomElementClass: Breadcrumb,
         },

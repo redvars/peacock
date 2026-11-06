@@ -2487,31 +2487,203 @@
     }
   },
   {
-    "label": "Code Highlighter",
-    "tag": "wc-code-highlighter",
-    "rawTag": "code-highlighter",
-    "summary": "A component that provides syntax highlighting for code snippets.",
-    "example": "```html\n<wc-code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
+    "label": "Code Group",
+    "tag": "wc-code-group",
+    "rawTag": "code-group",
+    "summary": "Shows several code blocks in one frame, with a tab for each block.",
+    "overview": "<p>Put <code>wc-code-highlighter</code> elements inside. Each block's <code>label</code> names its tab,\nand only the selected block is shown. The group draws the frame, so the blocks drop their own\nborder and header, and their actions float at the top end.</p>",
+    "example": "```html\n<wc-code-group>\n  <wc-code-highlighter label=\"greeting.ts\" language=\"typescript\"><pre><code>\n    export const greeting = 'Hello';</code></pre></wc-code-highlighter>\n  <wc-code-highlighter label=\"greeting.css\" language=\"css\"><pre><code>\n    p { color: var(--color-primary); }</code></pre></wc-code-highlighter>\n</wc-code-group>\n```",
+    "slot": "- `wc-code-highlighter` elements, one per tab.",
+    "csspart": "header - The tab bar.",
+    "fires": "change - Dispatched when the user selects another tab.",
     "tags": "display",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssParts": [
+        {
+          "description": "The outer frame.",
+          "name": "container"
+        },
+        {
+          "description": "The tab bar.",
+          "name": "header"
+        }
+      ],
+      "slots": [
+        {
+          "description": "`wc-code-highlighter` elements, one per tab.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{index: number}>"
+          },
+          "description": "Dispatched when the user selects another tab."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selected-index",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Index of the shown block.",
+          "fieldName": "selectedIndex"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-code-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "code-group",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Code Highlighter",
+    "tag": "wc-code-highlighter",
+    "rawTag": "code-highlighter",
+    "summary": "Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.",
+    "example": "```html\r\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\r\n  function helloWorld() {\r\n    console.log('Hello, world!');\r\n  }</code></pre>\r\n</wc-code-highlighter>\r\n```",
+    "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
+    "csspart": "footer - The footer holding the show more button.",
+    "cssprop": "--code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.",
+    "fires": "expanded-change - Dispatched when a collapsible block is expanded or collapsed.",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Block background. Defaults to `--color-surface-container-low`.",
+          "name": "--code-highlighter-background"
+        },
+        {
+          "description": "Block border color. Defaults to `--color-outline-variant`.",
+          "name": "--code-highlighter-border-color"
+        },
+        {
+          "description": "Block corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--code-highlighter-shape"
+        },
+        {
+          "description": "Caps the code area height; it scrolls beyond. Defaults to `none`.",
+          "name": "--code-highlighter-max-height"
+        },
+        {
+          "description": "Height of a collapsed `collapsible` block. Defaults to `16rem`.",
+          "name": "--code-highlighter-collapsed-height"
+        },
+        {
+          "description": "Plain code color. Defaults to `--color-on-surface`.",
+          "name": "--code-highlighter-foreground"
+        },
+        {
+          "description": "Keyword color. Defaults to `--color-purple`.",
+          "name": "--code-highlighter-token-keyword"
+        },
+        {
+          "description": "String color. Defaults to `--color-green`.",
+          "name": "--code-highlighter-token-string"
+        },
+        {
+          "description": "Function color. Defaults to `--color-blue`.",
+          "name": "--code-highlighter-token-function"
+        },
+        {
+          "description": "Constant and number color. Defaults to `--color-orange`.",
+          "name": "--code-highlighter-token-constant"
+        },
+        {
+          "description": "Comment color. Defaults to `--color-on-surface-variant`.",
+          "name": "--code-highlighter-token-comment"
+        },
+        {
+          "description": "Punctuation color. Defaults to `--color-on-surface-variant`.",
+          "name": "--code-highlighter-token-punctuation"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer block.",
+          "name": "container"
+        },
+        {
+          "description": "The header row.",
+          "name": "header"
+        },
+        {
+          "description": "The header title.",
+          "name": "title"
+        },
+        {
+          "description": "The action buttons group.",
+          "name": "actions"
+        },
+        {
+          "description": "The scrollable code area (`pre`).",
+          "name": "content"
+        },
+        {
+          "description": "Each code line.",
+          "name": "line"
+        },
+        {
+          "description": "The footer holding the show more button.",
+          "name": "footer"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Header title content. Overrides `label` and shows the header.",
+          "name": "title"
+        },
+        {
+          "description": "Icon shown before the title in the header.",
+          "name": "icon"
+        },
+        {
+          "description": "Extra action buttons, shown in the header or floating at the top end.",
+          "name": "actions"
+        }
+      ],
+      "events": [
+        {
+          "name": "copied",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched after the copy button copies the code."
+        },
+        {
+          "name": "expanded-change",
+          "type": {
+            "text": "CustomEvent<{expanded: boolean}>"
+          },
+          "description": "Dispatched when a collapsible block is expanded or collapsed."
+        }
+      ],
       "attributes": [
         {
           "name": "language",
           "type": {
-            "text": "BundledLanguage"
+            "text": "CodeHighlighterLanguage"
           },
           "default": "'javascript'",
-          "fieldName": "language"
-        },
-        {
-          "name": "line-numbers",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "lineNumbers"
+          "description": "Language of the code. Unknown languages render as plain text.",
+          "fieldName": "language",
+          "expandedType": {
+            "text": "BundledLanguage | SpecialLanguage"
+          }
         },
         {
           "name": "value",
@@ -2519,23 +2691,166 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Code to display. When empty, the code is read from a light-DOM `<pre><code>`.",
           "fieldName": "value"
         },
         {
           "name": "format",
           "type": {
-            "text": "boolean | undefined"
+            "text": "boolean"
           },
           "default": "true",
+          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
           "fieldName": "format"
         },
         {
-          "name": "hideCopy",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Header title, such as a file path. Shows the header.",
+          "fieldName": "label"
+        },
+        {
+          "name": "line-numbers",
           "type": {
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows line numbers.",
+          "fieldName": "lineNumbers"
+        },
+        {
+          "name": "start-line",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Number of the first line when line numbers are shown.",
+          "fieldName": "startLine"
+        },
+        {
+          "name": "wrap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally.",
+          "fieldName": "wrap"
+        },
+        {
+          "name": "wrap-toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that turns line wrapping on and off.",
+          "fieldName": "wrapToggle"
+        },
+        {
+          "name": "highlight-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines to highlight, such as `\"1, 3-5\"`. Counts displayed lines, after formatting.",
+          "fieldName": "highlightLines"
+        },
+        {
+          "name": "added-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines shown as added in a diff, such as `\"4-6\"`.",
+          "fieldName": "addedLines"
+        },
+        {
+          "name": "removed-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines shown as removed in a diff, such as `\"3\"`.",
+          "fieldName": "removedLines"
+        },
+        {
+          "name": "collapsible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Caps the height and adds a show more button when the code is taller.",
+          "fieldName": "collapsible"
+        },
+        {
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether a collapsible block is expanded.",
+          "fieldName": "expanded"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "CodeHighlighterSize"
+          },
+          "default": "'md'",
+          "description": "Size of the block. `sm` suits tool output and dense layouts.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md'"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "CodeHighlighterVariant"
+          },
+          "default": "'default'",
+          "description": "Visual variant. `error` tints the block for failure output.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'default' | 'error'"
+          }
+        },
+        {
+          "name": "hide-copy",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the copy button.",
           "fieldName": "hideCopy"
+        },
+        {
+          "name": "copy-value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Text the copy button copies instead of the displayed code.",
+          "fieldName": "copyValue"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Renders the code inline, as a compact chip within text.",
+          "fieldName": "inline"
+        },
+        {
+          "name": "grouped",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+          "fieldName": "grouped"
         }
       ],
       "superclass": {

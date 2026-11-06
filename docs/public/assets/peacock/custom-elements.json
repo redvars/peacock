@@ -17591,12 +17591,268 @@
     },
     {
       "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/code-highlighter/local.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "locale",
+          "type": {
+            "text": "{\r\n  copyToClipboard: string;\r\n  copied: string;\r\n  copiedCode: string;\r\n  wrapLines: string;\r\n  unwrapLines: string;\r\n  showMore: string;\r\n  showLess: string;\r\n}"
+          },
+          "default": "{ copyToClipboard: 'Copy to clipboard', copied: 'Copied', copiedCode: 'Copied code to clipboard', wrapLines: 'Wrap lines', unwrapLines: 'Turn off line wrap', showMore: 'Show more', showLess: 'Show less', }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "locale",
+          "declaration": {
+            "name": "locale",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/local.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "parseLineRanges",
+          "return": {
+            "type": {
+              "text": "Set<number>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string | null | undefined"
+              }
+            }
+          ],
+          "description": "Parses a line range list such as `\"1, 3-5\"` into 1-based line numbers.\nBlank or malformed parts are skipped; a reversed range such as `\"5-3\"` is read as `3-5`."
+        },
+        {
+          "kind": "function",
+          "name": "buildLineVariants",
+          "return": {
+            "type": {
+              "text": "Map<number, LineVariant>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ranges",
+              "type": {
+                "text": "{\n  highlighted?: string | null;\n  added?: string | null;\n  removed?: string | null;\n}"
+              }
+            }
+          ],
+          "description": "Maps 1-based line numbers to their variant. Where ranges overlap,\n`removed` wins over `added`, and `added` wins over `highlighted`."
+        },
+        {
+          "kind": "function",
+          "name": "dedent",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Removes leading and trailing blank lines and the indentation common to\nevery non-blank line, so indented markup reads as written."
+        },
+        {
+          "kind": "function",
+          "name": "decodeEntities",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Decodes the entities `innerHTML` produces for text, ending with `&amp;`."
+        },
+        {
+          "kind": "function",
+          "name": "splitLines",
+          "return": {
+            "type": {
+              "text": "string[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "code",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Splits code into display lines, ignoring one trailing newline."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "parseLineRanges",
+          "declaration": {
+            "name": "parseLineRanges",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "buildLineVariants",
+          "declaration": {
+            "name": "buildLineVariants",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "dedent",
+          "declaration": {
+            "name": "dedent",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "decodeEntities",
+          "declaration": {
+            "name": "decodeEntities",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "splitLines",
+          "declaration": {
+            "name": "splitLines",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/line-ranges.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "E:/git/redvars/peacock/components/src/code-highlighter/code-highlighter.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "CodeHighlighter",
+          "cssProperties": [
+            {
+              "description": "Block background. Defaults to `--color-surface-container-low`.",
+              "name": "--code-highlighter-background"
+            },
+            {
+              "description": "Block border color. Defaults to `--color-outline-variant`.",
+              "name": "--code-highlighter-border-color"
+            },
+            {
+              "description": "Block corner radius. Defaults to `--shape-corner-medium`.",
+              "name": "--code-highlighter-shape"
+            },
+            {
+              "description": "Caps the code area height; it scrolls beyond. Defaults to `none`.",
+              "name": "--code-highlighter-max-height"
+            },
+            {
+              "description": "Height of a collapsed `collapsible` block. Defaults to `16rem`.",
+              "name": "--code-highlighter-collapsed-height"
+            },
+            {
+              "description": "Plain code color. Defaults to `--color-on-surface`.",
+              "name": "--code-highlighter-foreground"
+            },
+            {
+              "description": "Keyword color. Defaults to `--color-purple`.",
+              "name": "--code-highlighter-token-keyword"
+            },
+            {
+              "description": "String color. Defaults to `--color-green`.",
+              "name": "--code-highlighter-token-string"
+            },
+            {
+              "description": "Function color. Defaults to `--color-blue`.",
+              "name": "--code-highlighter-token-function"
+            },
+            {
+              "description": "Constant and number color. Defaults to `--color-orange`.",
+              "name": "--code-highlighter-token-constant"
+            },
+            {
+              "description": "Comment color. Defaults to `--color-on-surface-variant`.",
+              "name": "--code-highlighter-token-comment"
+            },
+            {
+              "description": "Punctuation color. Defaults to `--color-on-surface-variant`.",
+              "name": "--code-highlighter-token-punctuation"
+            }
+          ],
+          "cssParts": [
+            {
+              "description": "The outer block.",
+              "name": "container"
+            },
+            {
+              "description": "The header row.",
+              "name": "header"
+            },
+            {
+              "description": "The header title.",
+              "name": "title"
+            },
+            {
+              "description": "The action buttons group.",
+              "name": "actions"
+            },
+            {
+              "description": "The scrollable code area (`pre`).",
+              "name": "content"
+            },
+            {
+              "description": "Each code line.",
+              "name": "line"
+            },
+            {
+              "description": "The footer holding the show more button.",
+              "name": "footer"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Header title content. Overrides `label` and shows the header.",
+              "name": "title"
+            },
+            {
+              "description": "Icon shown before the title in the header.",
+              "name": "icon"
+            },
+            {
+              "description": "Extra action buttons, shown in the header or floating at the top end.",
+              "name": "actions"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -17607,17 +17863,51 @@
               "privacy": "private",
               "static": true,
               "readonly": true,
-              "default": "3000"
+              "default": "2000"
             },
             {
               "kind": "field",
               "name": "language",
               "type": {
-                "text": "BundledLanguage"
+                "text": "CodeHighlighterLanguage"
               },
               "default": "'javascript'",
+              "description": "Language of the code. Unknown languages render as plain text.",
               "attribute": "language",
-              "reflects": true
+              "reflects": true,
+              "expandedType": {
+                "text": "BundledLanguage | SpecialLanguage"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Code to display. When empty, the code is read from a light-DOM `<pre><code>`.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "format",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true",
+              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
+              "attribute": "format"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Header title, such as a file path. Shows the header.",
+              "attribute": "label"
             },
             {
               "kind": "field",
@@ -17626,27 +17916,120 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Shows line numbers.",
               "attribute": "line-numbers",
               "reflects": true
             },
             {
               "kind": "field",
-              "name": "value",
+              "name": "startLine",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number of the first line when line numbers are shown.",
+              "attribute": "start-line"
+            },
+            {
+              "kind": "field",
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Wraps long lines instead of scrolling horizontally.",
+              "attribute": "wrap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "wrapToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a button that turns line wrapping on and off.",
+              "attribute": "wrap-toggle"
+            },
+            {
+              "kind": "field",
+              "name": "highlightLines",
               "type": {
                 "text": "string"
               },
               "default": "''",
-              "attribute": "value"
+              "description": "Lines to highlight, such as `\"1, 3-5\"`. Counts displayed lines, after formatting.",
+              "attribute": "highlight-lines"
             },
             {
               "kind": "field",
-              "name": "format",
+              "name": "addedLines",
               "type": {
-                "text": "boolean | undefined"
+                "text": "string"
               },
-              "default": "true",
-              "attribute": "format",
+              "default": "''",
+              "description": "Lines shown as added in a diff, such as `\"4-6\"`.",
+              "attribute": "added-lines"
+            },
+            {
+              "kind": "field",
+              "name": "removedLines",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Lines shown as removed in a diff, such as `\"3\"`.",
+              "attribute": "removed-lines"
+            },
+            {
+              "kind": "field",
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Caps the height and adds a show more button when the code is taller.",
+              "attribute": "collapsible",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether a collapsible block is expanded.",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "CodeHighlighterSize"
+              },
+              "default": "'md'",
+              "description": "Size of the block. `sm` suits tool output and dense layouts.",
+              "attribute": "size",
+              "reflects": true,
+              "expandedType": {
+                "text": "'sm' | 'md'"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "CodeHighlighterVariant"
+              },
+              "default": "'default'",
+              "description": "Visual variant. `error` tints the block for failure output.",
+              "attribute": "variant",
+              "reflects": true,
+              "expandedType": {
+                "text": "'default' | 'error'"
+              }
             },
             {
               "kind": "field",
@@ -17655,16 +18038,59 @@
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "hideCopy"
+              "description": "Hides the copy button.",
+              "attribute": "hide-copy"
             },
             {
               "kind": "field",
-              "name": "compiledCode",
+              "name": "copyValue",
               "type": {
-                "text": "string | null"
+                "text": "string | undefined"
+              },
+              "description": "Text the copy button copies instead of the displayed code.",
+              "attribute": "copy-value"
+            },
+            {
+              "kind": "field",
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders the code inline, as a compact chip within text.",
+              "attribute": "inline",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "grouped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+              "attribute": "grouped",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_code",
+              "type": {
+                "text": "string"
               },
               "privacy": "private",
-              "default": "null"
+              "default": "''",
+              "description": "The code as displayed, after formatting, without a trailing newline."
+            },
+            {
+              "kind": "field",
+              "name": "_tokens",
+              "type": {
+                "text": "ThemedToken[][] | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Tokens per line, or `null` until highlighting finishes."
             },
             {
               "kind": "field",
@@ -17673,66 +18099,251 @@
                 "text": "boolean"
               },
               "privacy": "private",
-              "default": "false"
+              "default": "false",
+              "description": "Whether the copy button shows its copied feedback."
             },
             {
               "kind": "field",
-              "name": "parsedCode",
+              "name": "_overflowing",
               "type": {
-                "text": "string | null"
+                "text": "boolean"
               },
               "privacy": "private",
-              "default": "null"
+              "default": "false",
+              "description": "Whether the collapsed code is taller than the collapsed height."
             },
             {
               "kind": "field",
-              "name": "_copyFeedbackTimeout",
+              "name": "__content",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "__codeElement",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "__source",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''",
+              "description": "Source read from `value` or the light DOM, before formatting."
+            },
+            {
+              "kind": "field",
+              "name": "__lineVariants",
+              "privacy": "private",
+              "default": "new Map<number, LineVariant>()",
+              "description": "Line variants keyed by 1-based line number."
+            },
+            {
+              "kind": "field",
+              "name": "__run",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Increments per highlight run so stale async results are dropped."
+            },
+            {
+              "kind": "field",
+              "name": "__copyFeedbackTimeout",
               "type": {
                 "text": "number | null"
               },
               "privacy": "private",
-              "default": "null"
+              "default": "null",
+              "description": "Timer that resets the copy feedback."
+            },
+            {
+              "kind": "field",
+              "name": "__resizeObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "Measures whether collapsed code overflows."
+            },
+            {
+              "kind": "field",
+              "name": "__observedContent",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private",
+              "description": "Element currently measured by the resize observer."
+            },
+            {
+              "kind": "field",
+              "name": "__childObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "Re-renders when slotted header content is added or removed."
             },
             {
               "kind": "method",
-              "name": "decode",
+              "name": "__readSource",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "description": "Reads the source from `value`, or from the light DOM."
+            },
+            {
+              "kind": "method",
+              "name": "__highlight",
+              "privacy": "private",
+              "description": "Formats then tokenizes the source; plain lines stay until both finish."
+            },
+            {
+              "kind": "method",
+              "name": "__observeContent",
+              "privacy": "private",
+              "description": "Watches the code area so the show more button appears only when needed."
+            },
+            {
+              "kind": "method",
+              "name": "__measure",
+              "privacy": "private",
+              "description": "Checks whether the collapsed code is taller than its cap."
+            },
+            {
+              "kind": "method",
+              "name": "__hasSlotted",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Whether light-DOM children are assigned to the named slot."
+            },
+            {
+              "kind": "method",
+              "name": "__handleCopyClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "__handleWrapClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "__handleExpandClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "__renderToken",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "str",
+                  "name": "token",
                   "type": {
-                    "text": "string"
+                    "text": "ThemedToken"
                   }
                 }
               ]
             },
             {
               "kind": "method",
-              "name": "__highlightCode",
+              "name": "__renderLine",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "line",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__renderActions",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "floating",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__renderHeader",
               "privacy": "private"
             },
             {
               "kind": "method",
-              "name": "__handleCopyClick",
+              "name": "__renderFooter",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "__renderInline",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "copied",
+              "type": {
+                "text": "CustomEvent<{value: string}>"
+              },
+              "description": "Dispatched after the copy button copies the code."
+            },
+            {
+              "name": "expanded-change",
+              "type": {
+                "text": "CustomEvent<{expanded: boolean}>"
+              },
+              "description": "Dispatched when a collapsible block is expanded or collapsed."
             }
           ],
           "attributes": [
             {
               "name": "language",
               "type": {
-                "text": "BundledLanguage"
+                "text": "CodeHighlighterLanguage"
               },
               "default": "'javascript'",
-              "fieldName": "language"
-            },
-            {
-              "name": "line-numbers",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "lineNumbers"
+              "description": "Language of the code. Unknown languages render as plain text.",
+              "fieldName": "language",
+              "expandedType": {
+                "text": "BundledLanguage | SpecialLanguage"
+              }
             },
             {
               "name": "value",
@@ -17740,23 +18351,166 @@
                 "text": "string"
               },
               "default": "''",
+              "description": "Code to display. When empty, the code is read from a light-DOM `<pre><code>`.",
               "fieldName": "value"
             },
             {
               "name": "format",
               "type": {
-                "text": "boolean | undefined"
+                "text": "boolean"
               },
               "default": "true",
+              "description": "Formats JavaScript, HTML and CSS with Prettier before display.\r\nSet `format=\"false\"` to show the code as written.",
               "fieldName": "format"
             },
             {
-              "name": "hideCopy",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Header title, such as a file path. Shows the header.",
+              "fieldName": "label"
+            },
+            {
+              "name": "line-numbers",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Shows line numbers.",
+              "fieldName": "lineNumbers"
+            },
+            {
+              "name": "start-line",
+              "type": {
+                "text": "number"
+              },
+              "default": "1",
+              "description": "Number of the first line when line numbers are shown.",
+              "fieldName": "startLine"
+            },
+            {
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Wraps long lines instead of scrolling horizontally.",
+              "fieldName": "wrap"
+            },
+            {
+              "name": "wrap-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Shows a button that turns line wrapping on and off.",
+              "fieldName": "wrapToggle"
+            },
+            {
+              "name": "highlight-lines",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Lines to highlight, such as `\"1, 3-5\"`. Counts displayed lines, after formatting.",
+              "fieldName": "highlightLines"
+            },
+            {
+              "name": "added-lines",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Lines shown as added in a diff, such as `\"4-6\"`.",
+              "fieldName": "addedLines"
+            },
+            {
+              "name": "removed-lines",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "description": "Lines shown as removed in a diff, such as `\"3\"`.",
+              "fieldName": "removedLines"
+            },
+            {
+              "name": "collapsible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Caps the height and adds a show more button when the code is taller.",
+              "fieldName": "collapsible"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether a collapsible block is expanded.",
+              "fieldName": "expanded"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "CodeHighlighterSize"
+              },
+              "default": "'md'",
+              "description": "Size of the block. `sm` suits tool output and dense layouts.",
+              "fieldName": "size",
+              "expandedType": {
+                "text": "'sm' | 'md'"
+              }
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "CodeHighlighterVariant"
+              },
+              "default": "'default'",
+              "description": "Visual variant. `error` tints the block for failure output.",
+              "fieldName": "variant",
+              "expandedType": {
+                "text": "'default' | 'error'"
+              }
+            },
+            {
+              "name": "hide-copy",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hides the copy button.",
               "fieldName": "hideCopy"
+            },
+            {
+              "name": "copy-value",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "Text the copy button copies instead of the displayed code.",
+              "fieldName": "copyValue"
+            },
+            {
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders the code inline, as a compact chip within text.",
+              "fieldName": "inline"
+            },
+            {
+              "name": "grouped",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\r\ntab, so the block drops its border and header.",
+              "fieldName": "grouped"
             }
           ],
           "superclass": {
@@ -17765,7 +18519,7 @@
           },
           "tagName": "wc-code-highlighter",
           "customElement": true,
-          "summary": "A component that provides syntax highlighting for code snippets.",
+          "summary": "Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.",
           "rawTag": {
             "name": "code-highlighter",
             "description": ""
@@ -17785,6 +18539,185 @@
     },
     {
       "kind": "javascript-module",
+      "path": "E:/git/redvars/peacock/components/src/code-highlighter/code-group.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "CodeGroup",
+          "cssParts": [
+            {
+              "description": "The outer frame.",
+              "name": "container"
+            },
+            {
+              "description": "The tab bar.",
+              "name": "header"
+            }
+          ],
+          "slots": [
+            {
+              "description": "`wc-code-highlighter` elements, one per tab.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "selectedIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Index of the shown block.",
+              "attribute": "selected-index",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_blocks",
+              "type": {
+                "text": "CodeBlockElement[]"
+              },
+              "privacy": "private",
+              "default": "[]",
+              "description": "The grouped code blocks, in slot order."
+            },
+            {
+              "kind": "field",
+              "name": "__labelObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "Re-renders the tabs when a block's label changes."
+            },
+            {
+              "kind": "field",
+              "name": "__activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "description": "The selected index, kept within the blocks.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "__syncBlocks",
+              "privacy": "private",
+              "description": "Marks every block as grouped and shows only the selected one."
+            },
+            {
+              "kind": "method",
+              "name": "__handleSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__handleTabChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent<{ index: number }>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__stopEvent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "__tabLabel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "block",
+                  "type": {
+                    "text": "CodeBlockElement"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent<{index: number}>"
+              },
+              "description": "Dispatched when the user selects another tab."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "selected-index",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Index of the shown block.",
+              "fieldName": "selectedIndex"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "wc-code-group",
+          "customElement": true,
+          "summary": "Shows several code blocks in one frame, with a tab for each block.",
+          "rawTag": {
+            "name": "code-group",
+            "description": ""
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CodeGroup",
+          "declaration": {
+            "name": "CodeGroup",
+            "module": "E:/git/redvars/peacock/components/src/code-highlighter/code-group.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "E:/git/redvars/peacock/components/src/code-highlighter/index.ts",
       "declarations": [],
       "exports": [
@@ -17794,6 +18727,14 @@
           "declaration": {
             "name": "CodeHighlighter",
             "module": "./code-highlighter.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CodeGroup",
+          "declaration": {
+            "name": "CodeGroup",
+            "module": "./code-group.js"
           }
         }
       ]
@@ -36393,6 +37334,14 @@
         },
         {
           "kind": "js",
+          "name": "CodeGroup",
+          "declaration": {
+            "name": "CodeGroup",
+            "module": "./code-highlighter/index.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "CodeEditor",
           "declaration": {
             "name": "CodeEditor",
@@ -37033,36 +37982,6 @@
       "path": "src/loader-full.ts",
       "declarations": [],
       "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/code-highlighter/constants.ts",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/code-highlighter/local.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "locale",
-          "type": {
-            "text": "{\n  loading: string;\n  copyToClipboard: string;\n  copied: string;\n  copiedCode: string;\n}"
-          },
-          "default": "{ loading: 'Loading code...', copyToClipboard: 'Copy to clipboard', copied: 'Copied', copiedCode: 'Copied code', }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "locale",
-          "declaration": {
-            "name": "locale",
-            "module": "src/code-highlighter/local.ts"
-          }
-        }
-      ]
     },
     {
       "kind": "javascript-module",

@@ -51,6 +51,7 @@ export { Timeline } from './timeline.js';
 export { TimelineItem } from './timeline-item.js';
 export { Item } from './item.js';
 export { CodeHighlighter } from './code-highlighter.js';
+export { CodeGroup } from './code-group.js';
 export { default as CodeEditor } from './code-editor.js';
 export { HtmlEditor } from './html-editor.js';
 export { MarkdownEditor } from './markdown-editor.js';

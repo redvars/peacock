@@ -116,68 +116,59 @@ const keywords = 'web components, button, input, grid, ui library, calendar, tab
           </li>
         </ul>
         <div class='container-code'>
-          <wc-tab-group>
-            <wc-tabs>
-              <wc-tab>Usage</wc-tab>
-              <wc-tab>Load single component</wc-tab>
-              <wc-tab>Custom theme</wc-tab>
-            </wc-tabs>
+          <wc-code-group>
+            <wc-code-highlighter label='Usage' language='html' id='get-started-code'></wc-code-highlighter>
+            <wc-code-highlighter label='Load single component' language='html' id='load-single-component-code'></wc-code-highlighter>
+            <wc-code-highlighter label='Custom theme' language='javascript' id='custom-theme-code'></wc-code-highlighter>
+          </wc-code-group>
 
-            <wc-tab-panel>
-              <wc-code-highlighter language='html' id='get-started-code' class='code-highlighter' />
               <script is:inline define:vars={{ title: SITE_TITLE, scriptUrl: getScriptUrl(), themeCss:  getThemeCssUrl()}}>
                 document.getElementById('get-started-code').value = `
-                 &lt;head>
+                 <head>
 
-                  &lt;link rel="preconnect" href="https://fonts.googleapis.com">
-                  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+                  <link rel="preconnect" href="https://fonts.googleapis.com">
+                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
                   <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  &lt;link rel="stylesheet" href='${themeCss}'/>
-                  &lt;script type='module' src='${scriptUrl}'>&lt;/script>
+                  <link rel="stylesheet" href='${themeCss}'/>
+                  <script type='module' src='${scriptUrl}'><\/script>
 
 
-                 &lt;/head>
+                 </head>
 
-                 &lt;body>
+                 <body>
 
                   <wc-button size='lg' color='primary'>Click me</wc-button>
 
-                 &lt;/body>`;
+                 </body>`;
               </script>
-            </wc-tab-panel>
 
-            <wc-tab-panel>
-              <wc-code-highlighter language='html' id='load-single-component-code' class='code-highlighter' />
               <script is:inline define:vars={{ title: SITE_TITLE, version: VERSION, themeCss:  getThemeCssUrl()}}>
-                document.getElementById('load-single-component-code').value = `&lt;head>
+                document.getElementById('load-single-component-code').value = `<head>
 
-                  &lt;link rel="preconnect" href="https://fonts.googleapis.com">
-                  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                  &lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+                  <link rel="preconnect" href="https://fonts.googleapis.com">
+                  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Pacifico&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
                   <!-- include your custom theme variable values, view variable names at ${themeCss} -->
-                  &lt;link rel="stylesheet" href='${themeCss}' />
+                  <link rel="stylesheet" href='${themeCss}' />
 
-                  &lt;script type='module'>
+                  <script type='module'>
     import {Button} from "https://cdn.jsdelivr.net/npm/@redvars/peacock@${version}/dist/button.js";
     customElements.define('my-button', Button);
- &lt;/script>
+ <\/script>
 
 
-                 &lt;/head>
+                 </head>
 
-                &lt;body>
+                <body>
 
                   <my-button size='lg' color='primary'>Click me</my-button>
 
-                 &lt;/body>`;
+                 </body>`;
               </script>
-            </wc-tab-panel>
 
-            <wc-tab-panel>
-              <wc-code-highlighter language='javascript' id='custom-theme-code' class='code-highlighter' />
               <script is:inline define:vars={{ version: VERSION }}>
                 document.getElementById('custom-theme-code').value = `// With a bundler: npm install @redvars/peacock
 import { applyTheme } from '@redvars/peacock/theme';
@@ -193,8 +184,6 @@ await applyTheme({
   font: { brand: 'Poppins', plain: 'Inter' },
 });`;
               </script>
-            </wc-tab-panel>
-          </wc-tab-group>
         </div>
       </div>
 
