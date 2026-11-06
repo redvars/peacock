@@ -1,0 +1,22 @@
+---
+export const title = 'Line numbers';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Add <code>line-numbers</code> to number the lines. Set <code>start-line</code> when the code is an
+  excerpt from a longer file. Numbers are not selected or copied with the code.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='javascript' label='src/math.js' line-numbers start-line='41' format='false' is:raw>
+    <pre><code>
+      export function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      export const lerp = (a, b, t) => a + (b - a) * t;
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

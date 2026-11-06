@@ -1,0 +1,42 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>data</code> to an array of rows and <code>index</code> to the field that names each category.
+  <code>config</code> lists the series to plot, keyed by data field, with an optional <code>label</code> and
+  <code>color</code>. Leave <code>config</code> out to plot every numeric field. The chart fills the width of
+  its container; <code>height</code> sets the plot height (300px by default). Hover a category or focus the
+  chart and use the arrow keys to see its values; click a legend entry to hide a series.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar id='bar-usage' index='month' label='Visitors by month'></wc-chart-bar>
+  <wc-button id='bar-usage-randomize' variant='tonal'>Randomize</wc-button>
+
+  <script is:inline>
+    const barUsage = document.getElementById('bar-usage');
+    barUsage.config = {
+      desktop: { label: 'Desktop' },
+      mobile: { label: 'Mobile' },
+    };
+    barUsage.data = [
+      { month: 'Jan', desktop: 186, mobile: 80 },
+      { month: 'Feb', desktop: 305, mobile: 200 },
+      { month: 'Mar', desktop: 237, mobile: 120 },
+      { month: 'Apr', desktop: 73, mobile: 190 },
+      { month: 'May', desktop: 209, mobile: 130 },
+      { month: 'Jun', desktop: 214, mobile: 140 },
+    ];
+
+    document.getElementById('bar-usage-randomize').addEventListener('click', () => {
+      barUsage.data = barUsage.data.map(row => ({
+        ...row,
+        desktop: Math.round(Math.random() * 300) + 20,
+        mobile: Math.round(Math.random() * 250) + 20,
+      }));
+    });
+  </script>
+</DemoComponentCard>

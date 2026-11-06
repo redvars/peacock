@@ -1,0 +1,148 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Charts overview (pages/charts/index.astro) and theming (pages/charts/theming.astro).
+
+.charts-page {
+  max-width: 80rem;
+}
+
+// ── Overview cards
+
+.charts-cards {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+}
+
+.charts-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  transition: background-color var(--duration-short4) var(--easing-standard);
+
+  &:hover,
+  &:focus-within {
+    background: var(--color-surface-container-high);
+  }
+}
+
+.charts-card-preview {
+  height: 11rem;
+  padding: var(--spacing-200) var(--spacing-200) var(--spacing-100);
+  border-block-end: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+}
+
+.charts-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding: var(--spacing-200) var(--spacing-300) var(--spacing-300);
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  code {
+    align-self: flex-start;
+    color: var(--color-on-surface-variant);
+  }
+}
+
+.charts-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+
+  wc-icon {
+    --icon-size: 1.5rem;
+    --icon-color: var(--color-primary);
+  }
+}
+
+// The title link covers the whole card.
+.charts-card-link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -2px;
+      border-radius: var(--shape-corner-large);
+    }
+  }
+}
+
+.charts-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding-inline-start: var(--spacing-300);
+}
+
+// ── Theming page
+
+.chart-palette {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chart-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-075);
+
+  span:first-child {
+    height: 4rem;
+    border-radius: var(--shape-corner-medium);
+  }
+}
+
+.chart-theme-pair {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+}
+
+.chart-theme-frame {
+  padding: var(--spacing-300);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.chart-token-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--spacing-100) var(--spacing-150);
+    border-block-end: 1px solid var(--color-outline-variant);
+    text-align: start;
+    vertical-align: top;
+  }
+}

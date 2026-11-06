@@ -9,6 +9,7 @@ import motion from '../tokens/primitive/animation/motion.json' with { type: 'jso
 import elevation from '../tokens/primitive/elevation/elevation.json' with { type: 'json' };
 import state from '../tokens/primitive/state/state.json' with { type: 'json' };
 import colorStatus from '../tokens/semantics/colors/color.status.json' with { type: 'json' };
+import colorChart from '../tokens/semantics/colors/color.chart.json' with { type: 'json' };
 import fontBody from '../tokens/semantics/typography/font.body.json' with { type: 'json' };
 import components from '../tokens/semantics/components/components.json' with { type: 'json' };
 
@@ -23,6 +24,7 @@ export const STATIC_TOKENS = [
   ['primitive/elevation/elevation.json', elevation],
   ['primitive/state/state.json', state],
   ['semantics/colors/color.status.json', colorStatus],
+  ['semantics/colors/color.chart.json', colorChart],
   ['semantics/typography/font.body.json', fontBody],
   ['semantics/components/components.json', components],
 ];

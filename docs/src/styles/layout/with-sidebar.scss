@@ -14,6 +14,8 @@
 .with-sidebar-layout-content {
   background: var(--color-surface);
   flex: 1;
+  // Without this the column grows to its widest content and the page scrolls sideways on phones.
+  min-width: 0;
   @include mixin.for-tablet-landscape-up {
     overflow-x: auto;
   }

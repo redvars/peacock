@@ -1,0 +1,54 @@
+---
+export const title = 'Header';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>label</code> to show a header with a title, such as a file path, and the actions on the
+  right. Put a <code>wc-icon</code> in the <code>icon</code> slot, or use the <code>title</code>
+  slot for richer content such as a link. Long titles are cut off with an ellipsis.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='typescript' label='src/api/chat/route.ts' format='false' is:raw>
+    <wc-icon slot='icon' name='description'></wc-icon>
+    <pre><code>
+      export async function POST(request: Request) {
+        const { messages } = await request.json();
+        return Response.json({ reply: messages.at(-1) });
+      }
+    </code></pre>
+  </wc-code-highlighter>
+
+  <wc-code-highlighter style='width: 100%;' language='bash' label='Terminal' copy-value='npm install @redvars/peacock' is:raw>
+    <wc-icon slot='icon' name='terminal'></wc-icon>
+    <pre><code>
+      $ npm install @redvars/peacock
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>
+
+<p>
+  <code>copy-value</code> sets what the copy button copies, here the command without the prompt.
+</p>
+
+<h3 class='text-title-medium'>Actions</h3>
+<p>
+  Add your own buttons to the <code>actions</code> slot. Round text icon buttons in the
+  <code>xs</code> size match the built-in ones. Without a header, they float with the copy button.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='json' label='package.json' format='false' is:raw>
+    <wc-icon-button slot='actions' variant='text' size='xs' shape='round' color='surface' aria-label='Download' tooltip='Download'>
+      <wc-icon name='download'></wc-icon>
+    </wc-icon-button>
+    <pre><code>
+      {
+        "name": "my-app",
+        "dependencies": { "@redvars/peacock": "latest" }
+      }
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

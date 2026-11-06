@@ -24,7 +24,7 @@ export const BLOCKS: BlockDefinition[] = [
     label: 'Dashboard',
     href: '/blocks/dashboard/',
     group: 'Application Shells',
-    summary: 'An admin dashboard with sidebar navigation, KPI cards, a bar chart, a doughnut chart and recent orders.',
+    summary: 'An admin dashboard with sidebar navigation, KPI cards, an area chart, a doughnut chart and recent orders.',
     tags: ['layout', 'charts', 'navigation'],
     icon: 'dashboard',
   },

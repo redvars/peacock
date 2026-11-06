@@ -1,81 +1,33 @@
-  ---
-  import { getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
-  interface Props {
-    component: any;
-  }
+---
+// A card on the Components overview. Styles live in styles/components.page.scss and match the
+// Charts and Blocks overview cards: a wireframe preview on top, title link covering the card.
+import { getTextTag } from '../_data/getLitComponentDetails.ts';
+import ComponentPreview from './ComponentPreview.astro';
 
-  const {component} = Astro.props;
-  ---
+interface Props {
+  component: any;
+}
 
+const { component } = Astro.props;
+const rawTag: string = getTextTag(component, 'rawTag') ?? '';
+const tag: string | null = getTextTag(component, 'tag');
+---
 
-  <style>
-    .component-card {
-      height: 100%;
-        --elevated-card-container-color: var(--color-surface-container-lowest);
-    }
-
-    .component-card-header {
-      position: relative;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 14rem;
-      overflow: hidden;
-      padding: .5rem 1rem;
-      border-bottom: 1px solid var(--color-outline-variant);
-
-      .component-image {
-        max-width: 100%;
-        max-height: 100%;
-      }
-    }
-
-    .component-card-body {
-      flex: 1;
-      .component-card-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 0;
-        margin-bottom: 0.5rem;
-      }
-
-      .component-card-summary {
-        margin-bottom: 0;
-      }
-
-      .link-icon {
-        --icon-size: 1.5rem;
-      }
-    }
-
-  </style>
-
-
-  { component &&
-
-    <wc-card class='component-card' href={`/components/${getTextTag(component, 'rawTag')}/#`}>
-      <div class='component-card-header'>
-
-        <Fragment set:html={getMarkdown(component, 'example')} />
-      <!-- {
-          declaration.example
-            ? <Fragment set:html={declaration.example} />
-            : <wc-image class="component-image" src={component.img} dark-src={component.imgDark}/>
-        }-->
-      </div>
-
-      <wc-card-content class='component-card-body'>
-        <h3 class='component-card-title text-headline-small' >
-          {getTextTag(component, 'label')}
-
-          <div>
-            {component?.wip ? <wc-tag color="red" title="Work in progress">WIP</wc-tag> : ''}
-            <wc-icon class="link-icon" name="arrow_outward"></wc-icon>
-          </div>
-        </h3>
-        <p class='text-body component-card-summary'>{getTextTag(component, 'summary')}</p>
-      </wc-card-content>
-    </wc-card>
-  }
+{component && (
+  <div class='component-card'>
+    <div class='component-card-preview' aria-hidden='true'>
+      <ComponentPreview name={rawTag} />
+    </div>
+    <div class='component-card-body'>
+      <h3 class='component-card-title text-title-large'>
+        <a class='component-card-link' href={`/components/${rawTag}/`}>{getTextTag(component, 'label')}</a>
+        <span class='component-card-meta'>
+          {component?.wip && <wc-tag color='red' size='sm' title='Work in progress'>WIP</wc-tag>}
+          <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
+        </span>
+      </h3>
+      <p class='text-body-medium doc-muted'>{getTextTag(component, 'summary')}</p>
+      {tag && <code class='text-label-medium'>{`<${tag}>`}</code>}
+    </div>
+  </div>
+)}

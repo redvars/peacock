@@ -52,7 +52,8 @@
 
   display: flex;
   width: max-content;
-  min-width: 100%;
+  // Fill the table when the columns are narrower, so the row dividers reach the edge.
+  min-width: max(100%, var(--_row-min-width, 0rem));
 }
 
 .columns {
@@ -266,6 +267,11 @@
   .skeleton-row .cell {
     cursor: default;
   }
+}
+
+// The footer's top border already closes the table, so the last row needs no divider.
+.has-footer .body .row:last-child .cell {
+  border-bottom-color: transparent;
 }
 
 :host([striped]) .body .row:nth-child(even):not(.selected) {

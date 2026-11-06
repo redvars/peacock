@@ -2,8 +2,12 @@ import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './Ind
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
-import { i as isDarkMode, o as observeThemeChange } from './is-dark-mode-DOcaw4Yq.js';
+import { o as observeThemeChange } from './observe-theme-change-DCifz1uv.js';
 import './base-Cl6v8-BZ.js';
+
+function isDarkMode() {
+    return document.documentElement.dataset.theme === 'dark';
+}
 
 var css_248z = i`@charset "UTF-8";
 :host {

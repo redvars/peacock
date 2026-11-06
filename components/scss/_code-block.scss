@@ -1,0 +1,139 @@
+@use './mixin';
+
+/// The frame, header and actions shared by wc-code-highlighter and wc-code-editor, so both
+/// read as the same block. `$name` prefixes the public custom properties:
+/// `--#{$name}-background`, `--#{$name}-border-color`, `--#{$name}-shape` and
+/// `--#{$name}-foreground`.
+///
+/// Markup: `.code-block` holds an optional `.header` (a `slot[name=icon]`, a `.title` and
+/// `.actions`), or `.actions.floating` when there is no header, plus a `.sr-only` live region.
+@mixin chrome($name) {
+  .code-block {
+    --_pad-block: var(--spacing-200);
+    --_pad-inline: var(--spacing-200);
+    --_pad-near: var(--spacing-100);
+    --_background: var(
+      --#{$name}-background,
+      var(--color-surface-container-low)
+    );
+    --_border-color: var(--#{$name}-border-color, var(--color-outline-variant));
+    --_foreground: var(--#{$name}-foreground, var(--color-on-surface));
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--_background);
+    color: var(--_foreground);
+    border: 1px solid var(--_border-color);
+    border-radius: var(--#{$name}-shape, var(--shape-corner-medium));
+  }
+
+  // ── Header ───────────────────────────────────────────────────────────────
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    min-width: 0;
+    padding: var(--_pad-block) var(--_pad-inline) 0;
+    color: var(--color-on-surface-variant);
+  }
+
+  ::slotted([slot='icon']) {
+    --icon-size: 1.125rem;
+
+    flex: none;
+    color: var(--color-on-surface-variant);
+  }
+
+  .title {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-on-surface);
+
+    @include mixin.get-typography(title-small);
+  }
+
+  // ── Actions ──────────────────────────────────────────────────────────────
+
+  .actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--spacing-025);
+    margin-inline-start: auto;
+  }
+
+  .header .actions {
+    margin-block: calc(-1 * var(--spacing-100));
+    margin-inline-end: calc(-1 * var(--spacing-100));
+  }
+
+  // Without a header, the actions float at the top end as a small toolbar that
+  // appears on hover or keyboard focus, and stays visible on touch screens.
+  .actions.floating {
+    position: absolute;
+    z-index: 1;
+    inset-block-start: var(--spacing-100);
+    inset-inline-end: var(--spacing-100);
+    padding: var(--spacing-025);
+    background: var(--color-surface);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--shape-corner-full);
+    opacity: 0;
+    transition: opacity var(--duration-short4) var(--easing-standard);
+  }
+
+  .code-block:hover .actions.floating,
+  .code-block:focus-within .actions.floating {
+    opacity: 1;
+  }
+
+  @media (pointer: coarse) {
+    .actions.floating {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .actions.floating {
+      transition: none;
+    }
+  }
+
+  // ── Accessibility ────────────────────────────────────────────────────────
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // ── Size ─────────────────────────────────────────────────────────────────
+
+  :host([size='sm']) {
+    .code-block {
+      --_pad-block: var(--spacing-150);
+      --_pad-inline: var(--spacing-150);
+      --_pad-near: var(--spacing-075);
+
+      border-radius: var(--#{$name}-shape, var(--shape-corner-small));
+    }
+
+    .title {
+      @include mixin.get-typography(label-medium);
+    }
+  }
+}

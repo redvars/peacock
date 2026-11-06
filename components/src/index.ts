@@ -45,7 +45,7 @@ export { List, ListItem } from './list/index.js';
 export { Timeline, TimelineItem } from './timeline/index.js';
 export { Item } from './item/index.js';
 
-export { CodeHighlighter } from './code-highlighter/index.js';
+export { CodeHighlighter, CodeGroup } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
 export { HtmlEditor } from './html-editor/index.js';
 export { MarkdownEditor } from './markdown-editor/index.js';
@@ -57,7 +57,9 @@ export { ColorPicker } from './color-picker/index.js';
 export { ColorField } from './color-field/index.js';
 export { ChartDoughnut } from './chart-doughnut/index.js';
 export { ChartPie } from './chart-pie/index.js';
-export { ChartBar, ChartStackedBar } from './chart-bar/index.js';
+export { ChartBar } from './chart-bar/index.js';
+export { ChartLine } from './chart-line/index.js';
+export { ChartArea } from './chart-area/index.js';
 export { Table } from './table/index.js';
 export { Pagination } from './pagination/index.js';
 export {

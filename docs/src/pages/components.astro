@@ -1,12 +1,13 @@
 ---
 import Layout from '../layouts/WithComponentsSidebar.astro';
+import '../styles/layout/doc-page.scss';
 import '../styles/components.page.scss';
 
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
 import WebComponentCard from '../components/WebComponentCard.astro';
-const title = 'Components Overview';
+const title = 'Components';
 const description =
-  'The overview page is the first page you see when you visit the components section of the website. It shows all the components that are available to use in the Goat UI library. It also shows the components that are coming soon.';
+  'Every Peacock web component, grouped by what it does. Search by name, or open a component for live demos and its API reference.';
 const componentEntries = getAllComponentsForShowcase();
 
 const componentGroups = [
@@ -29,10 +30,6 @@ const componentGroups = [
     ],
   },
   {
-    name: 'Charts',
-    components: ['chart-bar', 'chart-doughnut', 'chart-pie'],
-  },
-  {
     name: 'Navigation',
     components: [
       'navigation-rail',
@@ -41,7 +38,6 @@ const componentGroups = [
       'pagination',
       'tabs',
       'toolbar',
-      ,
     ],
   },
   {
@@ -107,8 +103,15 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
   description={description}
   classes="surface-container-lowest"
 >
-  <wc-container size="lg">
-    <h1 class="text-display page-title">Overview</h1>
+  <article class="doc-page components-page">
+    <header class="doc-header">
+      <h1 class="text-display-small">{title}</h1>
+      <p class="text-body-large doc-muted">{description}</p>
+      <p class="text-body-medium doc-muted">
+        Looking for bar, line, area, pie or doughnut charts? They have their own
+        <a href="/charts/">Charts</a> section.
+      </p>
+    </header>
 
     <div id="search-container">
       <wc-search id="component-search" layer="01" placeholder="Search"
@@ -121,7 +124,7 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
           group =>
             group.entries.length > 0 && (
               <section class="component-group">
-                <h2 class="text-headline group-title">{group.name}</h2>
+                <h2 class="text-headline-small group-title">{group.name}</h2>
                 <div class="cards">
                   {group.entries.map(component => (
                     <WebComponentCard component={component} />
@@ -140,7 +143,7 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
         ))}
       </div>
     </div>
-  </wc-container>
+  </article>
 
   <script is:inline>
     const $componentSearchElm = document.getElementById('component-search');

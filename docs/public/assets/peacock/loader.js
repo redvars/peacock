@@ -114,7 +114,7 @@ import './query-assigned-elements-BJaGSqM0.js';
 import './accordion-item.js';
 import './style-map-BQD5Et1D.js';
 import './base-progress-CLZTRveO.js';
-import './is-dark-mode-DOcaw4Yq.js';
+import './observe-theme-change-DCifz1uv.js';
 
 class LoaderUtils {
     constructor(loaderConfig) {
@@ -424,6 +424,9 @@ const loaderConfig = {
         'wc-code-highlighter': {
             importPath: `${distDirectory}/code-highlighter.js`,
         },
+        'wc-code-group': {
+            importPath: `${distDirectory}/code-group.js`,
+        },
         'wc-breadcrumb': {
             CustomElementClass: Breadcrumb,
         },
@@ -572,8 +575,11 @@ const loaderConfig = {
         'wc-chart-bar': {
             importPath: `${distDirectory}/chart-bar.js`,
         },
-        'wc-chart-stacked-bar': {
-            importPath: `${distDirectory}/chart-stacked-bar.js`,
+        'wc-chart-line': {
+            importPath: `${distDirectory}/chart-line.js`,
+        },
+        'wc-chart-area': {
+            importPath: `${distDirectory}/chart-area.js`,
         },
         'wc-condition-builder': {
             importPath: `${distDirectory}/condition-builder.js`,

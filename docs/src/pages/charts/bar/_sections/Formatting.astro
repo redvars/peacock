@@ -1,0 +1,32 @@
+---
+export const title = 'Formatting values';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  By default tooltips use the locale's number format and axis ticks are compact (<code>1.2K</code>). Set the
+  <code>valueFormatter</code> property to a function to format both, for example as currency. It applies to
+  tooltips, value labels and ticks on every chart.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-bar id='bar-format' show-values index='month' label='Revenue by month'></wc-chart-bar>
+
+  <script is:inline>
+    const barFormat = document.getElementById('bar-format');
+    const currency = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      notation: 'compact',
+    });
+    barFormat.valueFormatter = value => currency.format(value);
+    barFormat.config = { revenue: { label: 'Revenue' } };
+    barFormat.data = [
+      { month: 'Jan', revenue: 18600 },
+      { month: 'Feb', revenue: 30500 },
+      { month: 'Mar', revenue: 23700 },
+      { month: 'Apr', revenue: 27300 },
+    ];
+  </script>
+</DemoComponentCard>

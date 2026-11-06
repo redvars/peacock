@@ -5,6 +5,11 @@ import { LitElement } from 'lit';
  * @rawTag snackbar
  * @summary Snackbars provide brief messages about app processes at the bottom of the screen.
  *
+ * @overview
+ * <p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky
+ * headers, app bars and open modals whatever their <code>z-index</code>. Opening it again while it is
+ * visible brings it back in front of anything opened since.</p>
+ *
  * @cssprop --snackbar-container-color - Container color for the snackbar.
  * @cssprop --snackbar-label-text-color - Label text color for the snackbar.
  * @cssprop --snackbar-action-text-color - Action text color.
@@ -12,7 +17,7 @@ import { LitElement } from 'lit';
  * @cssprop --snackbar-border-radius - Border radius of the snackbar surface.
  * @cssprop --snackbar-offset-inline - Inline offset from viewport edges.
  * @cssprop --snackbar-offset-bottom - Bottom offset from viewport edge.
- * @cssprop --snackbar-z-index - Stacking order for the snackbar.
+ * @cssprop --snackbar-z-index - Stacking order for the snackbar in browsers without the Popover API.
  *
  * @example
  * ```html
@@ -40,6 +45,8 @@ export declare class Snackbar extends LitElement {
     preview: boolean;
     /** True while the exit animation is running before the snackbar fully closes. */
     private dismissing;
+    /** The positioned layer that is shown in the top layer as a popover. */
+    private layer?;
     /** Timer handle for the auto-hide timeout. */
     private hideTimer;
     /** Timer handle for the exit animation duration timeout. */
@@ -58,6 +65,11 @@ export declare class Snackbar extends LitElement {
     private clearTimer;
     private clearExitTimer;
     private handleAnimationEnd;
+    /**
+     * Shows the layer in the top layer while the snackbar is open, and hides it otherwise.
+     * With `raise`, an already showing layer is shown again so it moves above newer top-layer elements.
+     */
+    private syncLayer;
     private scheduleAutoHide;
     render(): import("lit-html").TemplateResult<1>;
 }

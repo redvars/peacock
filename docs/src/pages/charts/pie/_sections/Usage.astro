@@ -1,0 +1,34 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A pie chart takes <code>data</code> as a list of slices, each with a unique <code>name</code>, a
+  <code>value</code>, and an optional <code>label</code> and <code>color</code>. The pie is as large as the
+  smaller of the container width and <code>height</code>, and the legend always shows. Hover a slice to pull it
+  out and see its value and share. Keep it to about five slices; beyond that a bar chart reads better.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-pie id='pie-usage' label='Visitors by browser'></wc-chart-pie>
+  <wc-button id='pie-usage-randomize' variant='tonal'>Randomize</wc-button>
+
+  <script is:inline>
+    const pieUsage = document.getElementById('pie-usage');
+    pieUsage.data = [
+      { name: 'chrome', label: 'Chrome', value: 275 },
+      { name: 'safari', label: 'Safari', value: 200 },
+      { name: 'firefox', label: 'Firefox', value: 187 },
+      { name: 'edge', label: 'Edge', value: 173 },
+      { name: 'other', label: 'Other', value: 90 },
+    ];
+    document.getElementById('pie-usage-randomize').addEventListener('click', () => {
+      pieUsage.data = pieUsage.data.map(slice => ({
+        ...slice,
+        value: Math.round(Math.random() * 300) + 20,
+      }));
+    });
+  </script>
+</DemoComponentCard>

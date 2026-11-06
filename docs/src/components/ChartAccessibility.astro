@@ -1,0 +1,24 @@
+---
+// Accessibility notes shared by every chart page.
+interface Props {
+  /** What the arrow keys move between, for example "categories" or "slices". */
+  items?: string;
+}
+
+const { items = 'categories' } = Astro.props;
+---
+
+<ul>
+  <li>Give every chart a <code>label</code>. It names the chart for screen readers and captions its data table.</li>
+  <li>
+    The plot is focusable. The arrow keys move between {items}, Home and End jump to the ends, Escape clears the
+    focus and Enter selects. Each move is announced with its values.
+  </li>
+  <li>A visually hidden table carries the same data, so screen reader users can read every value in order.</li>
+  <li>Legend entries are buttons that report whether their series is shown.</li>
+  <li>Animations are skipped when the user prefers reduced motion, or always with <code>disable-animation</code>.</li>
+  <li>
+    Colors come from the <a href='/charts/theming/'>chart palette</a>. Do not rely on color alone: keep the legend,
+    or add value labels.
+  </li>
+</ul>

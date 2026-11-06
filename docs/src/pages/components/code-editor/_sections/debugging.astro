@@ -15,7 +15,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-code-editor id='debugging-editor' language='typescript' breakpoint-gutter current-line='4' style='display:block; width: 100%; --code-editor-height: 14rem;'></wc-code-editor>
+  <wc-code-editor id='debugging-editor' language='typescript' label='run.ts' breakpoint-gutter current-line='4' style='display:block; width: 100%; --code-editor-height: 14rem;'>
+    <wc-icon slot='icon' name='bug_report'></wc-icon>
+  </wc-code-editor>
   <script is:inline>
     const debuggingEditor = document.getElementById('debugging-editor');
     debuggingEditor.libSource = `declare module "app:greet" { export function greet(name: string): string; }`;

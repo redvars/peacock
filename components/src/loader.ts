@@ -279,6 +279,9 @@ const loaderConfig: LoaderConfig = {
     'wc-code-highlighter': {
       importPath: `${distDirectory}/code-highlighter.js`,
     },
+    'wc-code-group': {
+      importPath: `${distDirectory}/code-group.js`,
+    },
     'wc-breadcrumb': {
       CustomElementClass: Breadcrumb,
     },
@@ -427,8 +430,11 @@ const loaderConfig: LoaderConfig = {
     'wc-chart-bar': {
       importPath: `${distDirectory}/chart-bar.js`,
     },
-    'wc-chart-stacked-bar': {
-      importPath: `${distDirectory}/chart-stacked-bar.js`,
+    'wc-chart-line': {
+      importPath: `${distDirectory}/chart-line.js`,
+    },
+    'wc-chart-area': {
+      importPath: `${distDirectory}/chart-area.js`,
     },
     'wc-condition-builder': {
       importPath: `${distDirectory}/condition-builder.js`,

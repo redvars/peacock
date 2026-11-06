@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB" data-theme="dark">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -14,29 +14,56 @@
 
     <style>
       body {
+        display: grid;
+        gap: 1.5rem;
+        max-width: 48rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
         background: var(--color-surface);
+        color: var(--color-on-surface);
       }
     </style>
   </head>
   <body>
-    <code-editor
-      style="height: 400px"
+    <button
+      type="button"
+      onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'"
+    >
+      Toggle dark theme
+    </button>
+
+    <wc-code-editor
       id="business-rule-editor"
+      label="business-rule.js"
       language="javascript"
-    ></code-editor>
+      wrap-toggle
+    >
+      <wc-icon slot="icon" name="description"></wc-icon>
+    </wc-code-editor>
+
+    <wc-code-editor
+      id="read-only-editor"
+      language="css"
+      readonly
+      show-readonly-badge
+      style="--code-editor-height: 8rem"
+    ></wc-code-editor>
 
     <script type="module">
       import '/dist/loader.js';
 
       document.getElementById('business-rule-editor').value = `/**
-      * Sample Code
-      */
-      function myBusinessRuleFunction(){
-        const a = 1;
-        const b = 2;
-        let c = a + b;
-        console.log(c);
-      }`;
+ * Sample Code
+ */
+function myBusinessRuleFunction() {
+  const a = 1;
+  const b = 2;
+  let c = a + b;
+  console.log(c);
+}`;
+      document.getElementById('read-only-editor').value = `:root {
+  --color-primary: var(--color-primary-40);
+}`;
     </script>
   </body>
 </html>

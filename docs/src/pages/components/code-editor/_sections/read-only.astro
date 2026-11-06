@@ -6,13 +6,14 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
 
 <p class='text-body-medium'>
   Use <code class='text-code-block'>readonly</code> to show code people should read and copy, like generated
-  configuration. The copy button is on by default; hide it with <code class='text-code-block'>hide-copy</code>,
-  and add <code class='text-code-block'>show-readonly-badge</code> to label the editor as read-only. The
+  configuration. A read-only editor keeps full contrast; only <code class='text-code-block'>disabled</code> dims it.
+  The copy button is on by default; hide it with <code class='text-code-block'>hide-copy</code>, and add
+  <code class='text-code-block'>show-readonly-badge</code> to label the editor as read-only. The
   <code class='text-code-block'>copied</code> event fires after a copy.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-code-editor id='read-only-css-editor' language='css' readonly style='display:block; width: 100%; --code-editor-height: 12rem;'></wc-code-editor>
+  <wc-code-editor id='read-only-css-editor' language='css' label='tokens.css' readonly show-readonly-badge style='display:block; width: 100%; --code-editor-height: 12rem;'></wc-code-editor>
   <script is:inline>
     document.getElementById('read-only-css-editor').value = `:root {
   --color-primary: var(--color-primary-40);

@@ -1,0 +1,36 @@
+---
+export const title = 'Orientation';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<h4 class='text-title'>Horizontal (default)</h4>
+<p>Actions flow left to right. Left and Right move focus between them.</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-toolbar orientation='horizontal' aria-label='Alignment'>
+    <wc-icon-button variant='tonal' aria-label='Align left'><wc-icon name='format_align_left'></wc-icon></wc-icon-button>
+    <wc-icon-button variant='text' color='surface' aria-label='Align center'><wc-icon name='format_align_center'></wc-icon></wc-icon-button>
+    <wc-icon-button variant='text' color='surface' aria-label='Align right'><wc-icon name='format_align_right'></wc-icon></wc-icon-button>
+  </wc-toolbar>
+</DemoComponentCard>
+
+<br />
+
+<h4 class='text-title'>Vertical</h4>
+<p>
+  Set <code>orientation="vertical"</code> to stack actions top to bottom, for example as a tool
+  palette at the side of a canvas. Up and Down move focus; use a plain <code>wc-divider</code> to
+  separate groups.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-toolbar orientation='vertical' aria-label='Tools'>
+    <wc-icon-button variant='tonal' aria-label='Select'><wc-icon name='arrow_selector_tool'></wc-icon></wc-icon-button>
+    <wc-icon-button variant='text' color='surface' aria-label='Draw'><wc-icon name='draw'></wc-icon></wc-icon-button>
+    <wc-icon-button variant='text' color='surface' aria-label='Text'><wc-icon name='text_fields'></wc-icon></wc-icon-button>
+    <wc-divider></wc-divider>
+    <wc-icon-button variant='text' color='surface' aria-label='Zoom in'><wc-icon name='zoom_in'></wc-icon></wc-icon-button>
+    <wc-icon-button variant='text' color='surface' aria-label='Zoom out'><wc-icon name='zoom_out'></wc-icon></wc-icon-button>
+  </wc-toolbar>
+</DemoComponentCard>

@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
-  <link rel='stylesheet' href='/dist/assets/styles/tokens.css' />
+  <link rel='stylesheet' href='/dist/assets/tokens.css' />
   <style>
     body {
       background: #fafafa;
@@ -11,19 +11,54 @@
       display: grid;
       gap: 1rem;
     }
+
+    /* A fixed bar with a very high z-index: the open snackbar must still draw above it. */
+    .cover {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      height: 6rem;
+      z-index: 2147483647;
+      background: #d0e4ff;
+    }
   </style>
 </head>
 <body>
-  <wc-snackbar open message="File archived" action-label="Undo"></wc-snackbar>
-  <wc-snackbar open multiline show-close-icon>
+  <wc-snackbar preview message="File archived" action-label="Undo"></wc-snackbar>
+  <wc-snackbar preview multiline show-close-icon>
     Network connection was lost. Please try again when you are back online.
   </wc-snackbar>
 
+  <div>
+    <wc-button id='show-snackbar'>Show snackbar</wc-button>
+    <wc-button id='open-modal' variant='outlined'>Open modal</wc-button>
+  </div>
+
+  <div class='cover'></div>
+
+  <wc-snackbar id='live' message='Draft saved' action-label='Undo' show-close-icon duration='0'></wc-snackbar>
+
+  <wc-modal id='modal' heading='Edit profile'>
+    <p>Saving from inside the modal shows a snackbar above it.</p>
+    <wc-button slot='footer' id='save-in-modal'>Save</wc-button>
+  </wc-modal>
+
   <script type='module'>
-    import { Snackbar, Icon } from '/dist/index.js';
+    import { Snackbar, Modal, Button, IconButton, Icon } from '/dist/index.js';
 
     window.customElements.define('wc-snackbar', Snackbar);
+    window.customElements.define('wc-modal', Modal);
+    window.customElements.define('wc-button', Button);
+    window.customElements.define('wc-icon-button', IconButton);
     window.customElements.define('wc-icon', Icon);
+
+    const snackbar = document.getElementById('live');
+    const modal = document.getElementById('modal');
+    snackbar.duration = 0;
+
+    document.getElementById('show-snackbar').addEventListener('click', () => snackbar.show());
+    document.getElementById('open-modal').addEventListener('click', () => modal.show());
+    document.getElementById('save-in-modal').addEventListener('click', () => snackbar.show());
   </script>
 </body>
 </html>

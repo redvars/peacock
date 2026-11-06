@@ -1474,65 +1474,612 @@
     }
   },
   {
-    "label": "Chart Bar",
-    "tag": "wc-chart-bar",
-    "rawTag": "chart-bar",
-    "summary": "A vertical bar chart that follows color and spacing tokens.",
+    "label": "Area Chart",
+    "tag": "wc-chart-area",
+    "rawTag": "chart-area",
+    "summary": "A line chart with the area under each line filled, optionally stacked to show parts of a total over time.",
     "tags": "charts",
-    "example": "```html\n<wc-chart-bar width=\"520\" height=\"320\"></wc-chart-bar>\n<script>\n  document.querySelector('wc-chart-bar').data = [\n    { name: 'apples', label: 'Apples', value: 20 },\n    { name: 'bananas', label: 'Bananas', value: 35 },\n    { name: 'cherries', label: 'Cherries', value: 15 },\n  ];\n</script>\n```",
+    "example": "```html\n<wc-chart-area index=\"month\" stacked label=\"Visitors by month\"></wc-chart-area>\n<script>\n  const chart = document.querySelector('wc-chart-area');\n  chart.config = {\n    desktop: { label: 'Desktop' },\n    mobile: { label: 'Mobile' },\n  };\n  chart.data = [\n    { month: 'January', desktop: 186, mobile: 80 },\n    { month: 'February', desktop: 305, mobile: 200 },\n    { month: 'March', desktop: 237, mobile: 120 },\n  ];\n</script>\n```",
+    "slot": "empty - Shown when there is no data. Defaults to \"No data\".",
+    "fires": "chart-select - A category was clicked or chosen with Enter. `detail` holds `index` and `datum`.",
+    "csspart": "legend - The legend.",
+    "cssprop": "--chart-dim-opacity - Opacity of series that are not highlighted. Defaults to `0.4`.",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the first series; series cycle through `--color-chart-1` to `--color-chart-8`.",
+          "name": "--color-chart-1",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "Stroke width of the lines. Defaults to `2px`.",
+          "name": "--chart-line-width",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "Gridline and baseline color. Defaults to `--color-outline-variant`.",
+          "name": "--chart-grid-color",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "Axis label color. Defaults to `--color-on-surface-variant`.",
+          "name": "--chart-axis-color",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "Opacity of series that are not highlighted. Defaults to `0.4`.",
+          "name": "--chart-dim-opacity",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer wrapper.",
+          "name": "container",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "The focusable plot area holding the SVG.",
+          "name": "plot",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "The tooltip.",
+          "name": "tooltip",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "description": "The legend.",
+          "name": "legend",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        }
+      ],
+      "slots": [
+        {
+          "description": "Shown when there is no data. Defaults to \"No data\".",
+          "name": "empty",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "name": "chart-select",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          },
+          "description": "A category was clicked or chosen with Enter. `detail` holds `index` and `datum`."
+        }
+      ],
       "attributes": [
         {
-          "name": "width",
+          "name": "stacked",
           "type": {
-            "text": "number"
+            "text": "boolean"
           },
-          "default": "0",
-          "description": "Width of the chart in pixels.",
-          "fieldName": "width"
+          "default": "false",
+          "description": "Stacks the series on each other so the top line shows the total.",
+          "fieldName": "stacked"
+        },
+        {
+          "name": "curve",
+          "type": {
+            "text": "ChartCurve"
+          },
+          "default": "'monotone'",
+          "description": "How points are joined: `monotone` (smooth), `linear` or `step`.",
+          "fieldName": "curve",
+          "expandedType": {
+            "text": "'monotone' | 'linear' | 'step'"
+          },
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "name": "show-dots",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Draws a dot at every point. Dots always show for the hovered category.",
+          "fieldName": "showDots",
+          "inheritedFrom": {
+            "name": "ChartLine",
+            "module": "E:/git/redvars/peacock/components/src/chart-line/chart-line.ts"
+          }
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartDatum[]"
+          },
+          "default": "[]",
+          "description": "Rows to plot. Each row holds the category field (`index`) and a number per series.",
+          "fieldName": "data",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "config",
+          "type": {
+            "text": "ChartConfig"
+          },
+          "default": "{}",
+          "description": "Series to plot, keyed by data field, with optional label and color. Defaults to every numeric field.",
+          "fieldName": "config",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Data field that holds the category label, for example `month`.",
+          "fieldName": "index",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-grid",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the gridlines.",
+          "fieldName": "hideGrid",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-category-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the category axis labels.",
+          "fieldName": "hideCategoryAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-value-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the value axis labels.",
+          "fieldName": "hideValueAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
         },
         {
           "name": "height",
           "type": {
             "text": "number"
           },
-          "default": "DEFAULT_HEIGHT",
-          "description": "Height of the chart in pixels.",
-          "fieldName": "height"
+          "default": "300",
+          "description": "Height of the plot in pixels. The width follows the container.",
+          "fieldName": "height",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
-          "name": "margin",
+          "name": "label",
           "type": {
-            "text": "number"
+            "text": "string"
           },
-          "default": "24",
-          "description": "Margin around the chart drawing area.",
-          "fieldName": "margin"
+          "default": "''",
+          "description": "Accessible name of the chart, read by screen readers.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
-          "name": "data",
+          "name": "loading",
           "type": {
-            "text": "ChartBarItem[]"
+            "text": "boolean"
           },
-          "default": "[]",
-          "description": "Chart data array. Each item should have name, value, and optional label and color.",
-          "fieldName": "data"
+          "default": "false",
+          "description": "Shows a skeleton while data loads.",
+          "fieldName": "loading",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "show-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the legend even for a single series.",
+          "fieldName": "showLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the legend.",
+          "fieldName": "hideLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-tooltip",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the tooltip.",
+          "fieldName": "hideTooltip",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "disable-animation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns off enter and update animations. They are also off when the user prefers reduced motion.",
+          "fieldName": "disableAnimation",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "ChartLine",
+        "module": "/E:/git/redvars/peacock/components/src/chart-line/chart-line.js"
+      },
+      "tagName": "wc-chart-area",
+      "customElement": true,
+      "rawTag": {
+        "name": "chart-area",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Bar Chart",
+    "tag": "wc-chart-bar",
+    "rawTag": "chart-bar",
+    "summary": "Compares values across categories with vertical or horizontal bars, grouped or stacked by series.",
+    "tags": "charts",
+    "example": "```html\n<wc-chart-bar index=\"month\" label=\"Visitors by month\"></wc-chart-bar>\n<script>\n  const chart = document.querySelector('wc-chart-bar');\n  chart.config = {\n    desktop: { label: 'Desktop' },\n    mobile: { label: 'Mobile' },\n  };\n  chart.data = [\n    { month: 'January', desktop: 186, mobile: 80 },\n    { month: 'February', desktop: 305, mobile: 200 },\n    { month: 'March', desktop: 237, mobile: 120 },\n  ];\n</script>\n```",
+    "slot": "empty - Shown when there is no data. Defaults to \"No data\".",
+    "fires": "chart-select - A bar group was clicked or chosen with Enter. `detail` holds `index` and `datum`.",
+    "csspart": "legend - The legend.",
+    "cssprop": "--chart-dim-opacity - Opacity of marks that are not hovered. Defaults to `0.4`.",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the first series; series cycle through `--color-chart-1` to `--color-chart-8`.",
+          "name": "--color-chart-1"
+        },
+        {
+          "description": "Gridline and baseline color. Defaults to `--color-outline-variant`.",
+          "name": "--chart-grid-color"
+        },
+        {
+          "description": "Axis label color. Defaults to `--color-on-surface-variant`.",
+          "name": "--chart-axis-color"
+        },
+        {
+          "description": "Opacity of marks that are not hovered. Defaults to `0.4`.",
+          "name": "--chart-dim-opacity"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer wrapper.",
+          "name": "container"
+        },
+        {
+          "description": "The focusable plot area holding the SVG.",
+          "name": "plot"
+        },
+        {
+          "description": "The tooltip.",
+          "name": "tooltip"
+        },
+        {
+          "description": "The legend.",
+          "name": "legend"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Shown when there is no data. Defaults to \"No data\".",
+          "name": "empty"
+        }
+      ],
+      "events": [
+        {
+          "name": "chart-select",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          },
+          "description": "A bar group was clicked or chosen with Enter. `detail` holds `index` and `datum`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "stacked",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Stacks the series in each category instead of placing them side by side.",
+          "fieldName": "stacked"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "ChartOrientation"
+          },
+          "default": "'vertical'",
+          "description": "`vertical` draws columns; `horizontal` draws bars from the left.",
+          "fieldName": "orientation",
+          "expandedType": {
+            "text": "'vertical' | 'horizontal'"
+          }
         },
         {
           "name": "show-values",
           "type": {
             "text": "boolean"
           },
-          "default": "true",
-          "description": "Whether to render value labels above bars.",
+          "default": "false",
+          "description": "Prints each bar's value (each stack's total when stacked) at its end.",
           "fieldName": "showValues"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartDatum[]"
+          },
+          "default": "[]",
+          "description": "Rows to plot. Each row holds the category field (`index`) and a number per series.",
+          "fieldName": "data",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "config",
+          "type": {
+            "text": "ChartConfig"
+          },
+          "default": "{}",
+          "description": "Series to plot, keyed by data field, with optional label and color. Defaults to every numeric field.",
+          "fieldName": "config",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Data field that holds the category label, for example `month`.",
+          "fieldName": "index",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-grid",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the gridlines.",
+          "fieldName": "hideGrid",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-category-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the category axis labels.",
+          "fieldName": "hideCategoryAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-value-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the value axis labels.",
+          "fieldName": "hideValueAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "300",
+          "description": "Height of the plot in pixels. The width follows the container.",
+          "fieldName": "height",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the chart, read by screen readers.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a skeleton while data loads.",
+          "fieldName": "loading",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "show-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the legend even for a single series.",
+          "fieldName": "showLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the legend.",
+          "fieldName": "hideLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-tooltip",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the tooltip.",
+          "fieldName": "hideTooltip",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "disable-animation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns off enter and update animations. They are also off when the user prefers reduced motion.",
+          "fieldName": "disableAnimation",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CartesianChart",
+        "module": "/E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.js"
       },
       "tagName": "wc-chart-bar",
       "customElement": true,
@@ -1543,64 +2090,246 @@
     }
   },
   {
-    "label": "Chart Doughnut",
+    "label": "Doughnut Chart",
     "tag": "wc-chart-doughnut",
     "rawTag": "chart-doughnut",
-    "summary": "A doughnut chart is a circular chart with a blank center. The area in the center can be used to display information.",
+    "summary": "A pie chart with a hole that shows the total, or the hovered slice, in its centre.",
     "tags": "charts",
-    "example": "```html\n<wc-chart-doughnut width=\"400\" label=\"Total\"></wc-chart-doughnut>\n<script>\n  document.querySelector('wc-chart-doughnut').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```",
+    "example": "```html\n<wc-chart-doughnut label=\"Visitors by browser\" center-label=\"Visitors\"></wc-chart-doughnut>\n<script>\n  document.querySelector('wc-chart-doughnut').data = [\n    { name: 'chrome', label: 'Chrome', value: 275 },\n    { name: 'safari', label: 'Safari', value: 200 },\n    { name: 'firefox', label: 'Firefox', value: 187 },\n  ];\n</script>\n```",
+    "slot": "empty - Shown when there is no data. Defaults to \"No data\".",
+    "fires": "chart-select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.",
+    "csspart": "legend - The legend.",
+    "cssprop": "--chart-dim-opacity - Opacity of slices that are not hovered. Defaults to `0.4`.",
     "customElement": {
       "kind": "class",
       "description": "",
-      "attributes": [
+      "cssProperties": [
         {
-          "name": "width",
-          "type": {
-            "text": "number"
-          },
-          "default": "0",
-          "description": "Width (and height) of the chart in pixels.",
-          "fieldName": "width"
+          "description": "Color of the first slice; slices cycle through `--color-chart-1` to `--color-chart-8`.",
+          "name": "--color-chart-1",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
         },
         {
-          "name": "margin",
+          "description": "Opacity of slices that are not hovered. Defaults to `0.4`.",
+          "name": "--chart-dim-opacity",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer wrapper.",
+          "name": "container",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        },
+        {
+          "description": "The focusable plot area holding the SVG.",
+          "name": "plot",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        },
+        {
+          "description": "The centre content.",
+          "name": "center"
+        },
+        {
+          "description": "The tooltip.",
+          "name": "tooltip",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        },
+        {
+          "description": "The legend.",
+          "name": "legend",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        }
+      ],
+      "slots": [
+        {
+          "description": "Replaces the total and caption in the centre.",
+          "name": "center"
+        },
+        {
+          "description": "Shown when there is no data. Defaults to \"No data\".",
+          "name": "empty",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        }
+      ],
+      "events": [
+        {
+          "name": "chart-select",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "inner-radius",
           "type": {
             "text": "number"
           },
-          "default": "10",
-          "description": "Margin around the chart.",
-          "fieldName": "margin"
+          "default": "0.62",
+          "description": "Size of the hole as a fraction of the radius.",
+          "fieldName": "innerRadius",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
+        },
+        {
+          "name": "center-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "'Total'",
+          "description": "Caption under the total in the centre.",
+          "fieldName": "centerLabel"
+        },
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartPieItem[]"
+          },
+          "default": "[]",
+          "description": "Slices to draw.",
+          "fieldName": "data",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
         },
         {
           "name": "show-labels",
           "type": {
             "text": "boolean"
           },
-          "default": "true",
-          "description": "Whether to show labels outside the chart.",
-          "fieldName": "showLabels"
+          "default": "false",
+          "description": "Prints each slice's percentage inside it when it fits.",
+          "fieldName": "showLabels",
+          "inheritedFrom": {
+            "name": "ChartPie",
+            "module": "E:/git/redvars/peacock/components/src/chart-pie/chart-pie.ts"
+          }
         },
         {
-          "name": "data",
+          "name": "height",
           "type": {
-            "text": "ChartDoughnutItem[]"
+            "text": "number"
           },
-          "default": "[]",
-          "description": "Chart data array. Each item should have name, value, and optional label and color.",
-          "fieldName": "data"
+          "default": "300",
+          "description": "Height of the plot in pixels. The width follows the container.",
+          "fieldName": "height",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
           "name": "label",
           "type": {
-            "text": "string | undefined"
+            "text": "string"
           },
-          "description": "Label displayed in the center of the doughnut.",
-          "fieldName": "label"
+          "default": "''",
+          "description": "Accessible name of the chart, read by screen readers.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a skeleton while data loads.",
+          "fieldName": "loading",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "show-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the legend even for a single series.",
+          "fieldName": "showLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the legend.",
+          "fieldName": "hideLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-tooltip",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the tooltip.",
+          "fieldName": "hideTooltip",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "disable-animation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns off enter and update animations. They are also off when the user prefers reduced motion.",
+          "fieldName": "disableAnimation",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "ChartPie",
+        "module": "/E:/git/redvars/peacock/components/src/chart-pie/chart-pie.js"
       },
       "tagName": "wc-chart-doughnut",
       "customElement": true,
@@ -1611,139 +2340,471 @@
     }
   },
   {
-    "label": "Chart Pie",
-    "tag": "wc-chart-pie",
-    "rawTag": "chart-pie",
-    "summary": "A pie chart is a circular statistical graphic that visually represents numerical proportions.",
+    "label": "Line Chart",
+    "tag": "wc-chart-line",
+    "rawTag": "chart-line",
+    "summary": "Shows how values change across ordered categories such as time, with one line per series.",
     "tags": "charts",
-    "example": "```html\n<wc-chart-pie width=\"400\"></wc-chart-pie>\n<script>\n  document.querySelector('wc-chart-pie').data = [\n    { name: 'A', value: 30, label: 'Category A' },\n    { name: 'B', value: 50, label: 'Category B' },\n    { name: 'C', value: 20, label: 'Category C' },\n  ];\n</script>\n```",
+    "example": "```html\n<wc-chart-line index=\"month\" label=\"Visitors by month\"></wc-chart-line>\n<script>\n  const chart = document.querySelector('wc-chart-line');\n  chart.config = {\n    desktop: { label: 'Desktop' },\n    mobile: { label: 'Mobile' },\n  };\n  chart.data = [\n    { month: 'January', desktop: 186, mobile: 80 },\n    { month: 'February', desktop: 305, mobile: 200 },\n    { month: 'March', desktop: 237, mobile: 120 },\n  ];\n</script>\n```",
+    "slot": "empty - Shown when there is no data. Defaults to \"No data\".",
+    "fires": "chart-select - A category was clicked or chosen with Enter. `detail` holds `index` and `datum`.",
+    "csspart": "legend - The legend.",
+    "cssprop": "--chart-dim-opacity - Opacity of series that are not highlighted. Defaults to `0.4`.",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the first series; series cycle through `--color-chart-1` to `--color-chart-8`.",
+          "name": "--color-chart-1"
+        },
+        {
+          "description": "Stroke width of the lines. Defaults to `2px`.",
+          "name": "--chart-line-width"
+        },
+        {
+          "description": "Gridline and baseline color. Defaults to `--color-outline-variant`.",
+          "name": "--chart-grid-color"
+        },
+        {
+          "description": "Axis label color. Defaults to `--color-on-surface-variant`.",
+          "name": "--chart-axis-color"
+        },
+        {
+          "description": "Opacity of series that are not highlighted. Defaults to `0.4`.",
+          "name": "--chart-dim-opacity"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer wrapper.",
+          "name": "container"
+        },
+        {
+          "description": "The focusable plot area holding the SVG.",
+          "name": "plot"
+        },
+        {
+          "description": "The tooltip.",
+          "name": "tooltip"
+        },
+        {
+          "description": "The legend.",
+          "name": "legend"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Shown when there is no data. Defaults to \"No data\".",
+          "name": "empty"
+        }
+      ],
+      "events": [
+        {
+          "name": "chart-select",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          },
+          "description": "A category was clicked or chosen with Enter. `detail` holds `index` and `datum`."
+        }
+      ],
       "attributes": [
         {
-          "name": "width",
+          "name": "curve",
           "type": {
-            "text": "number"
+            "text": "ChartCurve"
           },
-          "default": "0",
-          "description": "Width (and height) of the chart in pixels.",
-          "fieldName": "width"
+          "default": "'monotone'",
+          "description": "How points are joined: `monotone` (smooth), `linear` or `step`.",
+          "fieldName": "curve",
+          "expandedType": {
+            "text": "'monotone' | 'linear' | 'step'"
+          }
         },
         {
-          "name": "margin",
-          "type": {
-            "text": "number"
-          },
-          "default": "10",
-          "description": "Margin around the chart.",
-          "fieldName": "margin"
-        },
-        {
-          "name": "show-labels",
+          "name": "show-dots",
           "type": {
             "text": "boolean"
           },
-          "default": "true",
-          "description": "Whether to show labels outside the chart.",
-          "fieldName": "showLabels"
+          "default": "false",
+          "description": "Draws a dot at every point. Dots always show for the hovered category.",
+          "fieldName": "showDots"
         },
         {
           "name": "data",
           "type": {
-            "text": "ChartPieItem[]"
+            "text": "ChartDatum[]"
           },
           "default": "[]",
-          "description": "Chart data array. Each item should have name, value, and optional label and color.",
-          "fieldName": "data"
-        }
-      ],
-      "superclass": {
-        "name": "LitElement",
-        "package": "lit"
-      },
-      "tagName": "wc-chart-pie",
-      "customElement": true,
-      "rawTag": {
-        "name": "chart-pie",
-        "description": ""
-      }
-    }
-  },
-  {
-    "label": "Chart Stacked Bar",
-    "tag": "wc-chart-stacked-bar",
-    "rawTag": "chart-stacked-bar",
-    "summary": "A stacked bar chart that groups series by category using tokens.",
-    "tags": "charts",
-    "example": "```html\n<wc-chart-stacked-bar width=\"560\" height=\"360\"></wc-chart-stacked-bar>\n<script>\n  document.querySelector('wc-chart-stacked-bar').data = [\n    {\n      name: 'q1',\n      label: 'Q1',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 40 },\n        { name: 'web', label: 'Web', value: 25 },\n        { name: 'store', label: 'Store', value: 15 },\n      ],\n    },\n    {\n      name: 'q2',\n      label: 'Q2',\n      segments: [\n        { name: 'mobile', label: 'Mobile', value: 32 },\n        { name: 'web', label: 'Web', value: 30 },\n        { name: 'store', label: 'Store', value: 18 },\n      ],\n    },\n  ];\n</script>\n```",
-    "customElement": {
-      "kind": "class",
-      "description": "",
-      "attributes": [
+          "description": "Rows to plot. Each row holds the category field (`index`) and a number per series.",
+          "fieldName": "data",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
         {
-          "name": "width",
+          "name": "config",
           "type": {
-            "text": "number"
+            "text": "ChartConfig"
           },
-          "default": "0",
-          "description": "Width of the chart in pixels.",
-          "fieldName": "width"
+          "default": "{}",
+          "description": "Series to plot, keyed by data field, with optional label and color. Defaults to every numeric field.",
+          "fieldName": "config",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "index",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Data field that holds the category label, for example `month`.",
+          "fieldName": "index",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-grid",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the gridlines.",
+          "fieldName": "hideGrid",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-category-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the category axis labels.",
+          "fieldName": "hideCategoryAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
+        },
+        {
+          "name": "hide-value-axis",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the value axis labels.",
+          "fieldName": "hideValueAxis",
+          "inheritedFrom": {
+            "name": "CartesianChart",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.ts"
+          }
         },
         {
           "name": "height",
           "type": {
             "text": "number"
           },
-          "default": "DEFAULT_HEIGHT",
-          "description": "Height of the chart in pixels.",
-          "fieldName": "height"
+          "default": "300",
+          "description": "Height of the plot in pixels. The width follows the container.",
+          "fieldName": "height",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
-          "name": "margin",
+          "name": "label",
           "type": {
-            "text": "number"
+            "text": "string"
           },
-          "default": "28",
-          "description": "Margin around the chart drawing area.",
-          "fieldName": "margin"
+          "default": "''",
+          "description": "Accessible name of the chart, read by screen readers.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
-          "name": "data",
-          "type": {
-            "text": "ChartStackedBarItem[]"
-          },
-          "default": "[]",
-          "description": "Chart data array. Each item holds the stacked segments for a category.",
-          "fieldName": "data"
-        },
-        {
-          "name": "show-values",
+          "name": "loading",
           "type": {
             "text": "boolean"
           },
-          "default": "true",
-          "description": "Whether to render total value labels above each stack.",
-          "fieldName": "showValues"
+          "default": "false",
+          "description": "Shows a skeleton while data loads.",
+          "fieldName": "loading",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         },
         {
           "name": "show-legend",
           "type": {
             "text": "boolean"
           },
-          "default": "true",
-          "description": "Whether to render the legend.",
-          "fieldName": "showLegend"
+          "default": "false",
+          "description": "Shows the legend even for a single series.",
+          "fieldName": "showLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the legend.",
+          "fieldName": "hideLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-tooltip",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the tooltip.",
+          "fieldName": "hideTooltip",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "disable-animation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns off enter and update animations. They are also off when the user prefers reduced motion.",
+          "fieldName": "disableAnimation",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
         }
       ],
       "superclass": {
-        "name": "LitElement",
-        "package": "lit"
+        "name": "CartesianChart",
+        "module": "/E:/git/redvars/peacock/components/src/__internal/chart/cartesian-chart.js"
       },
-      "tagName": "wc-chart-stacked-bar",
+      "tagName": "wc-chart-line",
       "customElement": true,
       "rawTag": {
-        "name": "chart-stacked-bar",
+        "name": "chart-line",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Pie Chart",
+    "tag": "wc-chart-pie",
+    "rawTag": "chart-pie",
+    "summary": "Shows how parts make up a whole. Best with a handful of slices.",
+    "tags": "charts",
+    "example": "```html\n<wc-chart-pie label=\"Visitors by browser\"></wc-chart-pie>\n<script>\n  document.querySelector('wc-chart-pie').data = [\n    { name: 'chrome', label: 'Chrome', value: 275 },\n    { name: 'safari', label: 'Safari', value: 200 },\n    { name: 'firefox', label: 'Firefox', value: 187 },\n  ];\n</script>\n```",
+    "slot": "empty - Shown when there is no data. Defaults to \"No data\".",
+    "fires": "chart-select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.",
+    "csspart": "legend - The legend.",
+    "cssprop": "--chart-dim-opacity - Opacity of slices that are not hovered. Defaults to `0.4`.",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the first slice; slices cycle through `--color-chart-1` to `--color-chart-8`.",
+          "name": "--color-chart-1"
+        },
+        {
+          "description": "Opacity of slices that are not hovered. Defaults to `0.4`.",
+          "name": "--chart-dim-opacity"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer wrapper.",
+          "name": "container"
+        },
+        {
+          "description": "The focusable plot area holding the SVG.",
+          "name": "plot"
+        },
+        {
+          "description": "The tooltip.",
+          "name": "tooltip"
+        },
+        {
+          "description": "The legend.",
+          "name": "legend"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Shown when there is no data. Defaults to \"No data\".",
+          "name": "empty"
+        }
+      ],
+      "events": [
+        {
+          "name": "chart-select",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "data",
+          "type": {
+            "text": "ChartPieItem[]"
+          },
+          "default": "[]",
+          "description": "Slices to draw.",
+          "fieldName": "data"
+        },
+        {
+          "name": "inner-radius",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Size of the hole as a fraction of the radius, from 0 (pie) to 0.9.",
+          "fieldName": "innerRadius"
+        },
+        {
+          "name": "show-labels",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Prints each slice's percentage inside it when it fits.",
+          "fieldName": "showLabels"
+        },
+        {
+          "name": "height",
+          "type": {
+            "text": "number"
+          },
+          "default": "300",
+          "description": "Height of the plot in pixels. The width follows the container.",
+          "fieldName": "height",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the chart, read by screen readers.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a skeleton while data loads.",
+          "fieldName": "loading",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "show-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the legend even for a single series.",
+          "fieldName": "showLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-legend",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the legend.",
+          "fieldName": "hideLegend",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "hide-tooltip",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the tooltip.",
+          "fieldName": "hideTooltip",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        },
+        {
+          "name": "disable-animation",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Turns off enter and update animations. They are also off when the user prefers reduced motion.",
+          "fieldName": "disableAnimation",
+          "inheritedFrom": {
+            "name": "ChartBase",
+            "module": "E:/git/redvars/peacock/components/src/__internal/chart/chart-base.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "ChartBase",
+        "module": "/E:/git/redvars/peacock/components/src/__internal/chart/chart-base.js"
+      },
+      "tagName": "wc-chart-pie",
+      "customElement": true,
+      "rawTag": {
+        "name": "chart-pie",
         "description": ""
       }
     }
@@ -2292,18 +3353,72 @@
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
     "summary": "A Monaco-based code editing component with syntax highlighting, completions and debugging marks.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin.\r\n - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, minimap, and dark/light theme.\r\n - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.\r\n - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.\r\n - `markers` underline problems, such as where a run failed.\r\n - With `fill`, the editor takes the height of its container.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
-    "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component, in the same frame as `wc-code-highlighter`: an optional header with a title and actions, or a copy button that floats at the top end. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin. The code shows as plain text until Monaco is ready.\n - Its colors come from the theme's color roles and the code highlighter's syntax colors, so light, dark, the system color scheme and custom themes all follow the tokens.\n - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, line wrapping and a minimap.\n - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.\n - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.\n - `markers` underline problems, such as where a run failed.\n - With `fill`, the editor drops its frame and takes the height of its container, as a pane of its own.\n - Emits `change` when content is edited and updates value from property changes.",
+    "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
+    "csspart": "editor - The area Monaco renders into.",
+    "cssprop": "--code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.",
     "fires": "breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.",
-    "example": "```html\r\n<wc-code-editor\r\n  language=\"css\"\r\n  readonly\r\n  style=\"width: 100%; --code-editor-height: 10rem;\"\r\n  value=\":root { --color-primary: #6341d5; }\">\r\n</wc-code-editor>\r\n```",
+    "example": "```html\n<wc-code-editor\n  language=\"css\"\n  label=\"theme.css\"\n  readonly\n  style=\"width: 100%; --code-editor-height: 10rem;\"\n  value=\":root { --color-primary: #6341d5; }\">\n</wc-code-editor>\n```",
     "tags": "input, editor",
     "customElement": {
       "kind": "class",
       "description": "",
       "cssProperties": [
         {
-          "description": "Height of the editor. Defaults to 300px.",
+          "description": "Height of the editing area. Defaults to 300px. Ignored with `fill`.",
           "name": "--code-editor-height"
+        },
+        {
+          "description": "Frame background. Defaults to `--color-surface-container-low`.",
+          "name": "--code-editor-background"
+        },
+        {
+          "description": "Frame border color. Defaults to `--color-outline-variant`.",
+          "name": "--code-editor-border-color"
+        },
+        {
+          "description": "Frame corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--code-editor-shape"
+        },
+        {
+          "description": "Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.",
+          "name": "--code-highlighter-token-keyword"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer frame.",
+          "name": "container"
+        },
+        {
+          "description": "The header row.",
+          "name": "header"
+        },
+        {
+          "description": "The header title.",
+          "name": "title"
+        },
+        {
+          "description": "The action buttons group.",
+          "name": "actions"
+        },
+        {
+          "description": "The area Monaco renders into.",
+          "name": "editor"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Header title content. Overrides `label` and shows the header.",
+          "name": "title"
+        },
+        {
+          "description": "Icon shown before the title in the header.",
+          "name": "icon"
+        },
+        {
+          "description": "Extra action buttons, shown in the header or floating at the top end.",
+          "name": "actions"
         }
       ],
       "events": [
@@ -2352,6 +3467,15 @@
           }
         },
         {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Header title, such as a file name. Shows the header.",
+          "fieldName": "label"
+        },
+        {
           "name": "lib-source",
           "type": {
             "text": "string | undefined"
@@ -2360,13 +3484,31 @@
           "fieldName": "libSource"
         },
         {
-          "name": "lineNumbers",
+          "name": "line-numbers",
           "type": {
             "text": "'off' | 'on'"
           },
           "default": "'on'",
           "description": "Whether line numbers show in the gutter.",
           "fieldName": "lineNumbers"
+        },
+        {
+          "name": "wrap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally.",
+          "fieldName": "wrap"
+        },
+        {
+          "name": "wrap-toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that turns line wrapping on and off.",
+          "fieldName": "wrapToggle"
         },
         {
           "name": "minimap",
@@ -2376,6 +3518,18 @@
           "default": "false",
           "description": "Shows the minimap. Leave the attribute out to hide it.",
           "fieldName": "minimap"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "CodeEditorSize"
+          },
+          "default": "'md'",
+          "description": "Size of the editor. `sm` uses smaller text and padding.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md'"
+          }
         },
         {
           "name": "hide-copy",
@@ -2392,7 +3546,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
+          "description": "Shows a \"Read only\" badge while the editor is read-only or disabled.",
           "fieldName": "showReadonlyBadge"
         },
         {
@@ -2418,7 +3572,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Takes the height of the container instead of `--code-editor-height`.",
+          "description": "Drops the frame and takes the height of the container instead of `--code-editor-height`.",
           "fieldName": "fill"
         },
         {
@@ -2487,31 +3641,203 @@
     }
   },
   {
-    "label": "Code Highlighter",
-    "tag": "wc-code-highlighter",
-    "rawTag": "code-highlighter",
-    "summary": "A component that provides syntax highlighting for code snippets.",
-    "example": "```html\n<wc-code-highlighter language=\"javascript\" style=\"height: 9rem\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
+    "label": "Code Group",
+    "tag": "wc-code-group",
+    "rawTag": "code-group",
+    "summary": "Shows several code blocks in one frame, with a tab for each block.",
+    "overview": "<p>Put <code>wc-code-highlighter</code> elements inside. Each block's <code>label</code> names its tab,\nand only the selected block is shown. The group draws the frame, so the blocks drop their own\nborder and header, and their actions float at the top end.</p>",
+    "example": "```html\n<wc-code-group>\n  <wc-code-highlighter label=\"greeting.ts\" language=\"typescript\"><pre><code>\n    export const greeting = 'Hello';</code></pre></wc-code-highlighter>\n  <wc-code-highlighter label=\"greeting.css\" language=\"css\"><pre><code>\n    p { color: var(--color-primary); }</code></pre></wc-code-highlighter>\n</wc-code-group>\n```",
+    "slot": "- `wc-code-highlighter` elements, one per tab.",
+    "csspart": "header - The tab bar.",
+    "fires": "change - Dispatched when the user selects another tab.",
     "tags": "display",
     "customElement": {
       "kind": "class",
       "description": "",
+      "cssParts": [
+        {
+          "description": "The outer frame.",
+          "name": "container"
+        },
+        {
+          "description": "The tab bar.",
+          "name": "header"
+        }
+      ],
+      "slots": [
+        {
+          "description": "`wc-code-highlighter` elements, one per tab.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{index: number}>"
+          },
+          "description": "Dispatched when the user selects another tab."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selected-index",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Index of the shown block.",
+          "fieldName": "selectedIndex"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-code-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "code-group",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Code Highlighter",
+    "tag": "wc-code-highlighter",
+    "rawTag": "code-highlighter",
+    "summary": "Displays a block of code with syntax highlighting, line numbers, line highlights, diffs and a copy button.",
+    "example": "```html\n<wc-code-highlighter language=\"javascript\" label=\"hello.js\" line-numbers highlight-lines=\"2\"><pre><code>\n  function helloWorld() {\n    console.log('Hello, world!');\n  }</code></pre>\n</wc-code-highlighter>\n```",
+    "slot": "actions - Extra action buttons, shown in the header or floating at the top end.",
+    "csspart": "footer - The footer holding the show more button.",
+    "cssprop": "--code-highlighter-token-punctuation - Punctuation color. Defaults to `--color-on-surface-variant`.",
+    "fires": "expanded-change - Dispatched when a collapsible block is expanded or collapsed.",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Block background. Defaults to `--color-surface-container-low`.",
+          "name": "--code-highlighter-background"
+        },
+        {
+          "description": "Block border color. Defaults to `--color-outline-variant`.",
+          "name": "--code-highlighter-border-color"
+        },
+        {
+          "description": "Block corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--code-highlighter-shape"
+        },
+        {
+          "description": "Caps the code area height; it scrolls beyond. Defaults to `none`.",
+          "name": "--code-highlighter-max-height"
+        },
+        {
+          "description": "Height of a collapsed `collapsible` block. Defaults to `16rem`.",
+          "name": "--code-highlighter-collapsed-height"
+        },
+        {
+          "description": "Plain code color. Defaults to `--color-on-surface`.",
+          "name": "--code-highlighter-foreground"
+        },
+        {
+          "description": "Keyword color. Defaults to `--color-purple`.",
+          "name": "--code-highlighter-token-keyword"
+        },
+        {
+          "description": "String color. Defaults to `--color-green`.",
+          "name": "--code-highlighter-token-string"
+        },
+        {
+          "description": "Function color. Defaults to `--color-blue`.",
+          "name": "--code-highlighter-token-function"
+        },
+        {
+          "description": "Constant and number color. Defaults to `--color-orange`.",
+          "name": "--code-highlighter-token-constant"
+        },
+        {
+          "description": "Comment color. Defaults to `--color-on-surface-variant`.",
+          "name": "--code-highlighter-token-comment"
+        },
+        {
+          "description": "Punctuation color. Defaults to `--color-on-surface-variant`.",
+          "name": "--code-highlighter-token-punctuation"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer block.",
+          "name": "container"
+        },
+        {
+          "description": "The header row.",
+          "name": "header"
+        },
+        {
+          "description": "The header title.",
+          "name": "title"
+        },
+        {
+          "description": "The action buttons group.",
+          "name": "actions"
+        },
+        {
+          "description": "The scrollable code area (`pre`).",
+          "name": "content"
+        },
+        {
+          "description": "Each code line.",
+          "name": "line"
+        },
+        {
+          "description": "The footer holding the show more button.",
+          "name": "footer"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Header title content. Overrides `label` and shows the header.",
+          "name": "title"
+        },
+        {
+          "description": "Icon shown before the title in the header.",
+          "name": "icon"
+        },
+        {
+          "description": "Extra action buttons, shown in the header or floating at the top end.",
+          "name": "actions"
+        }
+      ],
+      "events": [
+        {
+          "name": "copied",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched after the copy button copies the code."
+        },
+        {
+          "name": "expanded-change",
+          "type": {
+            "text": "CustomEvent<{expanded: boolean}>"
+          },
+          "description": "Dispatched when a collapsible block is expanded or collapsed."
+        }
+      ],
       "attributes": [
         {
           "name": "language",
           "type": {
-            "text": "BundledLanguage"
+            "text": "CodeHighlighterLanguage"
           },
           "default": "'javascript'",
-          "fieldName": "language"
-        },
-        {
-          "name": "line-numbers",
-          "type": {
-            "text": "boolean"
-          },
-          "default": "false",
-          "fieldName": "lineNumbers"
+          "description": "Language of the code. Unknown languages render as plain text.",
+          "fieldName": "language",
+          "expandedType": {
+            "text": "BundledLanguage | SpecialLanguage"
+          }
         },
         {
           "name": "value",
@@ -2519,23 +3845,166 @@
             "text": "string"
           },
           "default": "''",
+          "description": "Code to display. When empty, the code is read from a light-DOM `<pre><code>`.",
           "fieldName": "value"
         },
         {
           "name": "format",
           "type": {
-            "text": "boolean | undefined"
+            "text": "boolean"
           },
           "default": "true",
+          "description": "Formats JavaScript, HTML and CSS with Prettier before display.\nSet `format=\"false\"` to show the code as written.",
           "fieldName": "format"
         },
         {
-          "name": "hideCopy",
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Header title, such as a file path. Shows the header.",
+          "fieldName": "label"
+        },
+        {
+          "name": "line-numbers",
           "type": {
             "text": "boolean"
           },
           "default": "false",
+          "description": "Shows line numbers.",
+          "fieldName": "lineNumbers"
+        },
+        {
+          "name": "start-line",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Number of the first line when line numbers are shown.",
+          "fieldName": "startLine"
+        },
+        {
+          "name": "wrap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally.",
+          "fieldName": "wrap"
+        },
+        {
+          "name": "wrap-toggle",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that turns line wrapping on and off.",
+          "fieldName": "wrapToggle"
+        },
+        {
+          "name": "highlight-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines to highlight, such as `\"1, 3-5\"`. Counts displayed lines, after formatting.",
+          "fieldName": "highlightLines"
+        },
+        {
+          "name": "added-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines shown as added in a diff, such as `\"4-6\"`.",
+          "fieldName": "addedLines"
+        },
+        {
+          "name": "removed-lines",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Lines shown as removed in a diff, such as `\"3\"`.",
+          "fieldName": "removedLines"
+        },
+        {
+          "name": "collapsible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Caps the height and adds a show more button when the code is taller.",
+          "fieldName": "collapsible"
+        },
+        {
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether a collapsible block is expanded.",
+          "fieldName": "expanded"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "CodeHighlighterSize"
+          },
+          "default": "'md'",
+          "description": "Size of the block. `sm` suits tool output and dense layouts.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md'"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "CodeHighlighterVariant"
+          },
+          "default": "'default'",
+          "description": "Visual variant. `error` tints the block for failure output.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'default' | 'error'"
+          }
+        },
+        {
+          "name": "hide-copy",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the copy button.",
           "fieldName": "hideCopy"
+        },
+        {
+          "name": "copy-value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Text the copy button copies instead of the displayed code.",
+          "fieldName": "copyValue"
+        },
+        {
+          "name": "inline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Renders the code inline, as a compact chip within text.",
+          "fieldName": "inline"
+        },
+        {
+          "name": "grouped",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Set by `wc-code-group`. The group draws the frame and shows the label as a\ntab, so the block drops its border and header.",
+          "fieldName": "grouped"
         }
       ],
       "superclass": {
@@ -8324,8 +9793,9 @@
     "tag": "wc-snackbar",
     "rawTag": "snackbar",
     "summary": "Snackbars provide brief messages about app processes at the bottom of the screen.",
-    "cssprop": "--snackbar-z-index - Stacking order for the snackbar.",
-    "example": "```html\r\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\r\n```",
+    "overview": "<p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky\nheaders, app bars and open modals whatever their <code>z-index</code>. Opening it again while it is\nvisible brings it back in front of anything opened since.</p>",
+    "cssprop": "--snackbar-z-index - Stacking order for the snackbar in browsers without the Popover API.",
+    "example": "```html\n<wc-snackbar preview message=\"Message archived\" action-label=\"Undo\"></wc-snackbar>\n```",
     "tags": "display, feedback",
     "customElement": {
       "kind": "class",
@@ -8360,7 +9830,7 @@
           "name": "--snackbar-offset-bottom"
         },
         {
-          "description": "Stacking order for the snackbar.",
+          "description": "Stacking order for the snackbar in browsers without the Popover API.",
           "name": "--snackbar-z-index"
         }
       ],
@@ -9012,11 +10482,11 @@
     "tag": "wc-table",
     "rawTag": "table",
     "summary": "A configurable component for displaying tabular data.",
-    "overview": "<p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>\r\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>\r\n<p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>",
+    "overview": "<p>The table displays rows of data with sorting, pagination, row selection, sticky header and sticky start or end columns.</p>\n<p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text.</p>\n<p>When rows are selected, a bar over the header shows the count and the actions placed in the <code>bulk-actions</code> slot.</p>",
     "fires": "page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.",
     "slot": "bulk-actions - Actions shown in the selection bar while rows are selected.",
     "cssprop": "--table-cell-padding-inline - Horizontal padding of a cell.",
-    "example": "```html\r\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\r\n```",
+    "example": "```html\n<wc-table columns=\"[{'name': 'name','label': 'Name','width': 16},{'name': 'age','label': 'Age','width': 7,'type': 'number'}]\" data=\"[{'name': 'John','age': 30},{'name': 'Jane','age': 25}]\"></wc-table>\n```",
     "tags": "display, data",
     "customElement": {
       "kind": "class",
@@ -9085,7 +10555,7 @@
             "text": "TableColumn[]"
           },
           "default": "[]",
-          "description": "Grid columns configuration.\r\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
+          "description": "Grid columns configuration.\nEach column can have: name, label, width (rem), fixed, align, type, sortable, wrap, template.",
           "fieldName": "columns"
         },
         {
@@ -9199,7 +10669,7 @@
           "type": {
             "text": "number | undefined"
           },
-          "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\r\nunknown; the pagination then shows previous and next, driven by `has-next`.",
+          "description": "Total number of items (used in managed/controlled mode). Leave it unset when the total is\nunknown; the pagination then shows previous and next, driven by `has-next`.",
           "fieldName": "totalItems"
         },
         {
@@ -9247,7 +10717,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\r\nunder the header so the current rows stay readable.",
+          "description": "Shows a loading state: skeleton rows while there is no data, otherwise a progress bar\nunder the header so the current rows stay readable.",
           "fieldName": "loading"
         },
         {
@@ -9895,11 +11365,11 @@
     "label": "Toolbar",
     "tag": "wc-toolbar",
     "rawTag": "toolbar",
-    "summary": "A toolbar / app bar for navigation and actions.",
-    "overview": "<p>The toolbar component implements the app bar pattern. It supports a\r\ndocked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)\r\nvariant. The floating variant supports both horizontal and vertical orientations.</p>\r\n\r\n<p>Render toolbar actions directly as children of the component. The docked variant is\r\noptimized for a horizontal action row, while the floating variant supports both horizontal\r\nand vertical layouts.</p>",
-    "cssprop": "--toolbar-shadow - Box-shadow of the toolbar.",
-    "example": "```html\r\n<!-- Floating vertical toolbar -->\r\n<wc-toolbar variant=\"floating\" orientation=\"vertical\">\r\n  <wc-icon-button variant=\"tonal\"><wc-icon name=\"home\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"search\"></wc-icon></wc-icon-button>\r\n  <wc-icon-button variant=\"text\"><wc-icon name=\"favorite\"></wc-icon></wc-icon-button>\r\n</wc-toolbar>\r\n```",
-    "tags": "display navigation",
+    "summary": "A group of related actions, such as editor formatting controls.",
+    "overview": "<p>The toolbar groups related actions into one control. The <code>floating</code> variant\n(default) is an elevated pill that sits over content, such as a canvas or a selection. The\n<code>flat</code> variant has no container of its own, for embedding in existing chrome like a\ncard or editor header. Both variants lay their actions out horizontally or vertically.</p>\n\n<p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of\nactions; in a horizontal toolbar give it the <code>vertical</code> attribute.</p>\n\n<p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow\nkeys along its orientation move focus between actions (Home and End jump to the first and last).\nDisabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>",
+    "cssprop": "--toolbar-content-color - Color of text inside the toolbar.",
+    "example": "```html\n<!-- Flat toolbar inside existing chrome -->\n<wc-toolbar variant=\"flat\" aria-label=\"Row actions\">\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Edit\"><wc-icon name=\"edit\"></wc-icon></wc-icon-button>\n  <wc-icon-button variant=\"text\" color=\"surface\" aria-label=\"Delete\"><wc-icon name=\"delete\"></wc-icon></wc-icon-button>\n</wc-toolbar>\n```",
+    "tags": "display",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -9909,42 +11379,34 @@
           "name": "--toolbar-container-color"
         },
         {
-          "description": "Border radius of the toolbar. Relevant for the floating variant.",
+          "description": "Border radius of the floating toolbar.",
           "name": "--toolbar-container-shape"
         },
         {
-          "description": "Height of the toolbar (docked horizontal / floating horizontal).",
-          "name": "--toolbar-height"
+          "description": "Padding of the floating toolbar.",
+          "name": "--toolbar-padding"
         },
         {
-          "description": "Inline padding of the toolbar.",
-          "name": "--toolbar-padding-inline"
-        },
-        {
-          "description": "Gap between toolbar sections.",
+          "description": "Gap between toolbar actions.",
           "name": "--toolbar-gap"
         },
         {
-          "description": "Color of icon slots.",
+          "description": "Color of icons inside the toolbar.",
           "name": "--toolbar-icon-color"
         },
         {
-          "description": "Color of the title (default slot) text.",
-          "name": "--toolbar-title-color"
-        },
-        {
-          "description": "Box-shadow of the toolbar.",
-          "name": "--toolbar-shadow"
+          "description": "Color of text inside the toolbar.",
+          "name": "--toolbar-content-color"
         }
       ],
       "attributes": [
         {
           "name": "variant",
           "type": {
-            "text": "'docked' | 'floating'"
+            "text": "'floating' | 'flat'"
           },
-          "default": "'docked'",
-          "description": "Visual and layout variant of the toolbar.\r\n- `\"docked\"`: A full-width bar attached to the edge of the screen (default).\r\n- `\"floating\"`: A detached pill-shaped toolbar that floats over content.",
+          "default": "'floating'",
+          "description": "Visual variant of the toolbar.\n- `\"floating\"`: An elevated pill that floats over content (default).\n- `\"flat\"`: No container, fill or elevation; for embedding in existing chrome.",
           "fieldName": "variant"
         },
         {
@@ -9953,20 +11415,8 @@
             "text": "'horizontal' | 'vertical'"
           },
           "default": "'horizontal'",
-          "description": "Orientation of the toolbar content.\r\n- `\"horizontal\"`: Items are laid out left to right (default).\r\n- `\"vertical\"`: Items are stacked top to bottom. Primarily useful for the floating variant.",
+          "description": "Orientation of the toolbar. It sets the layout direction and the arrow keys that move focus\n(Left/Right for horizontal, Up/Down for vertical).",
           "fieldName": "orientation"
-        },
-        {
-          "name": "size",
-          "type": {
-            "text": "Size | LegacySize"
-          },
-          "default": "'sm'",
-          "description": "Size of the docked toolbar.\r\n- `\"sm\"`: 80dp height (default).\r\n- `\"md\"`: 96dp height.\r\n- `\"lg\"`: 112dp height.\r\n\r\nThe long names `\"small\"`, `\"medium\"` and `\"large\"` still work but are deprecated.",
-          "fieldName": "size",
-          "expandedType": {
-            "text": "'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large'"
-          }
         },
         {
           "name": "elevated",
@@ -9974,7 +11424,7 @@
             "text": "boolean"
           },
           "default": "false",
-          "description": "Whether the toolbar is visually elevated (adds a shadow).",
+          "description": "Raises the floating toolbar to a higher elevation. Has no effect on the flat variant.",
           "fieldName": "elevated"
         }
       ],

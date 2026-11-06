@@ -50,6 +50,12 @@ if (inline) {
     .demo-component-divider {
       --divider-spacing: 0;
     }
+
+    /* The code sits flush under the demo, inside the card's own border. */
+    .body > wc-code-highlighter {
+      --code-highlighter-shape: 0;
+      --code-highlighter-border-color: transparent;
+    }
   }
 </style>
 
@@ -60,7 +66,7 @@ if (inline) {
     </div>
   </wc-card-content>
   <div class='body'>
-    <wc-code-highlighter language={lang}>
+    <wc-code-highlighter language={lang} collapsible>
       <pre><code><Fragment set:html={html} /></code></pre>
     </wc-code-highlighter>
   </div>

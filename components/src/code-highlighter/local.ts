@@ -1,11 +1,17 @@
 export const locale: {
-  loading: string;
   copyToClipboard: string;
   copied: string;
   copiedCode: string;
+  wrapLines: string;
+  unwrapLines: string;
+  showMore: string;
+  showLess: string;
 } = {
-  loading: 'Loading code...',
   copyToClipboard: 'Copy to clipboard',
   copied: 'Copied',
-  copiedCode: 'Copied code',
+  copiedCode: 'Copied code to clipboard',
+  wrapLines: 'Wrap lines',
+  unwrapLines: 'Turn off line wrap',
+  showMore: 'Show more',
+  showLess: 'Show less',
 };

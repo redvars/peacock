@@ -1,16 +1,210 @@
-import { i, _ as __decorate, I as IndividualComponent, A, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
 import { r } from './state-DkTK9EGF.js';
 import { e } from './query-CHb9Ft_d.js';
 import { e as e$1 } from './class-map-DG7CA1et.js';
 import { B as BaseInput } from './BaseInput-CV0pZgSb.js';
-import { i as isDarkMode, o as observeThemeChange } from './is-dark-mode-DOcaw4Yq.js';
+import { o as observeThemeChange } from './observe-theme-change-DCifz1uv.js';
 import { r as redispatchEvent } from './dispatch-event-utils-CuEqjlPT.js';
-import { c as copyToClipboard } from './copy-to-clipboard-upGx-Ueo.js';
+import { t as tokenColor, c as copyToClipboard } from './token-colors-0TFHWbcq.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 import './element-internals-QME0yEz4.js';
 import './form-associated-Bhwwr6dT.js';
+
+/**
+ * The colors the editor theme is built from: Peacock color roles, plus the syntax colors
+ * wc-code-highlighter uses, so the two show code alike. Monaco takes hex colors only, so these
+ * are resolved on the page and converted.
+ */
+const PALETTE_SOURCES = {
+    surface: 'var(--color-surface)',
+    surfaceContainerHigh: 'var(--color-surface-container-high)',
+    surfaceContainerHighest: 'var(--color-surface-container-highest)',
+    onSurface: 'var(--color-on-surface)',
+    onSurfaceVariant: 'var(--color-on-surface-variant)',
+    outline: 'var(--color-outline)',
+    outlineVariant: 'var(--color-outline-variant)',
+    primary: 'var(--color-primary)',
+    secondary: 'var(--color-secondary)',
+    tertiary: 'var(--color-tertiary)',
+    secondaryContainer: 'var(--color-secondary-container)',
+    onSecondaryContainer: 'var(--color-on-secondary-container)',
+    error: 'var(--color-error)',
+    warning: 'var(--color-warning)',
+    info: 'var(--color-blue)',
+    foreground: tokenColor('foreground'),
+    keyword: tokenColor('token-keyword'),
+    string: tokenColor('token-string'),
+    func: tokenColor('token-function'),
+    constant: tokenColor('token-constant'),
+    comment: tokenColor('token-comment'),
+    punctuation: tokenColor('token-punctuation'),
+    parameter: tokenColor('token-parameter'),
+    link: tokenColor('token-link'),
+};
+let context;
+/**
+ * Converts any CSS color the browser understands (`rgb()`, `oklch()`, `color()`, …) to
+ * `#rrggbb`, or `#rrggbbaa` when it is not opaque, by painting one pixel.
+ */
+function cssColorToHex(color) {
+    context ??= document
+        .createElement('canvas')
+        .getContext('2d', { willReadFrequently: true });
+    if (!context)
+        return '#000000';
+    context.clearRect(0, 0, 1, 1);
+    context.fillStyle = '#000000';
+    context.fillStyle = color;
+    context.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = context.getImageData(0, 0, 1, 1).data;
+    const hex = [r, g, b, ...(a < 255 ? [a] : [])]
+        .map(value => value.toString(16).padStart(2, '0'))
+        .join('');
+    return `#${hex}`;
+}
+/**
+ * Resolves the palette where `probe` sits, so it follows the theme around the editor:
+ * `data-theme`, the system color scheme, or a custom theme.
+ */
+function resolvePalette(probe) {
+    const palette = {};
+    for (const [key, value] of Object.entries(PALETTE_SOURCES)) {
+        // eslint-disable-next-line no-param-reassign
+        probe.style.color = value;
+        palette[key] = cssColorToHex(getComputedStyle(probe).color);
+    }
+    // eslint-disable-next-line no-param-reassign
+    probe.style.color = '';
+    return palette;
+}
+/** `#rrggbb` with an alpha from 0 to 1. */
+function alpha(hex, opacity) {
+    const value = Math.round(Math.min(1, Math.max(0, opacity)) * 255);
+    return `${hex.slice(0, 7)}${value.toString(16).padStart(2, '0')}`;
+}
+/** Whether a `#rrggbb` color is dark, by relative luminance. */
+function isDark(hex) {
+    const [r, g, b] = [1, 3, 5].map(index => {
+        const channel = parseInt(hex.slice(index, index + 2), 16) / 255;
+        return channel <= 0.04045
+            ? channel / 12.92
+            : ((channel + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.18;
+}
+/** Monaco rules take colors without the `#`. */
+const bare = (hex) => hex.slice(1, 7);
+/**
+ * Builds the editor theme from a palette. The editor background is transparent, so the frame
+ * around it shows through; widgets such as suggestions and hovers sit on surface containers.
+ */
+function buildEditorTheme(p) {
+    return {
+        base: isDark(p.surface) ? 'vs-dark' : 'vs',
+        // Not inherited: Monaco's own rules are more specific than these (`string.value.json`,
+        // `keyword.flow`, …) and would keep its stock colors.
+        inherit: false,
+        rules: [
+            { token: '', foreground: bare(p.foreground) },
+            { token: 'comment', foreground: bare(p.comment), fontStyle: 'italic' },
+            { token: 'keyword', foreground: bare(p.keyword) },
+            { token: 'string', foreground: bare(p.string) },
+            { token: 'string.escape', foreground: bare(p.constant) },
+            { token: 'string.key.json', foreground: bare(p.keyword) },
+            { token: 'string.link', foreground: bare(p.link) },
+            { token: 'number', foreground: bare(p.constant) },
+            { token: 'constant', foreground: bare(p.constant) },
+            { token: 'regexp', foreground: bare(p.string) },
+            { token: 'type', foreground: bare(p.func) },
+            { token: 'identifier', foreground: bare(p.foreground) },
+            { token: 'variable', foreground: bare(p.parameter) },
+            { token: 'predefined', foreground: bare(p.func) },
+            { token: 'annotation', foreground: bare(p.func) },
+            { token: 'delimiter', foreground: bare(p.punctuation) },
+            { token: 'operator', foreground: bare(p.punctuation) },
+            { token: 'tag', foreground: bare(p.string) },
+            { token: 'metatag', foreground: bare(p.keyword) },
+            { token: 'attribute.name', foreground: bare(p.func) },
+            { token: 'attribute.value', foreground: bare(p.string) },
+            { token: 'tag.css', foreground: bare(p.func) },
+            { token: 'attribute.name.css', foreground: bare(p.constant) },
+            { token: 'attribute.value.css', foreground: bare(p.foreground) },
+            { token: 'attribute.value.number.css', foreground: bare(p.constant) },
+            { token: 'attribute.value.unit.css', foreground: bare(p.constant) },
+            { token: 'attribute.value.hex.css', foreground: bare(p.constant) },
+            { token: 'strong', fontStyle: 'bold' },
+            { token: 'emphasis', fontStyle: 'italic' },
+            { token: 'keyword.json', foreground: bare(p.constant) },
+            { token: 'invalid', foreground: bare(p.error) },
+        ],
+        colors: {
+            foreground: p.onSurface,
+            focusBorder: p.primary,
+            'editor.background': '#00000000',
+            'editor.foreground': p.foreground,
+            'editorGutter.background': '#00000000',
+            'editorLineNumber.foreground': p.onSurfaceVariant,
+            'editorLineNumber.activeForeground': p.onSurface,
+            'editor.lineHighlightBackground': alpha(p.onSurface, 0.05),
+            'editor.lineHighlightBorder': '#00000000',
+            'editorCursor.foreground': p.primary,
+            'editor.selectionBackground': alpha(p.primary, 0.24),
+            'editor.inactiveSelectionBackground': alpha(p.primary, 0.12),
+            'editor.selectionHighlightBackground': alpha(p.primary, 0.12),
+            'editor.wordHighlightBackground': alpha(p.primary, 0.1),
+            'editor.wordHighlightStrongBackground': alpha(p.primary, 0.16),
+            'editor.findMatchBackground': alpha(p.warning, 0.4),
+            'editor.findMatchHighlightBackground': alpha(p.warning, 0.2),
+            'editorBracketMatch.background': alpha(p.primary, 0.12),
+            'editorBracketMatch.border': alpha(p.primary, 0.5),
+            'editorIndentGuide.background1': alpha(p.outlineVariant, 0.6),
+            'editorIndentGuide.activeBackground1': p.outline,
+            'editorWhitespace.foreground': p.outlineVariant,
+            'editorError.foreground': p.error,
+            'editorWarning.foreground': p.warning,
+            'editorInfo.foreground': p.info,
+            'editorOverviewRuler.border': '#00000000',
+            'editorOverviewRuler.errorForeground': p.error,
+            'editorOverviewRuler.warningForeground': p.warning,
+            'editorWidget.background': p.surfaceContainerHigh,
+            'editorWidget.foreground': p.onSurface,
+            'editorWidget.border': p.outlineVariant,
+            'editorSuggestWidget.background': p.surfaceContainerHigh,
+            'editorSuggestWidget.border': p.outlineVariant,
+            'editorSuggestWidget.foreground': p.onSurface,
+            'editorSuggestWidget.highlightForeground': p.primary,
+            'editorSuggestWidget.selectedBackground': p.secondaryContainer,
+            'editorSuggestWidget.selectedForeground': p.onSecondaryContainer,
+            'editorHoverWidget.background': p.surfaceContainerHigh,
+            'editorHoverWidget.foreground': p.onSurface,
+            'editorHoverWidget.border': p.outlineVariant,
+            'input.background': p.surfaceContainerHighest,
+            'input.foreground': p.onSurface,
+            'input.border': p.outlineVariant,
+            'inputOption.activeBorder': p.primary,
+            'list.hoverBackground': alpha(p.onSurface, 0.08),
+            'list.activeSelectionBackground': p.secondaryContainer,
+            'list.activeSelectionForeground': p.onSecondaryContainer,
+            'list.highlightForeground': p.primary,
+            'scrollbar.shadow': '#00000000',
+            'scrollbarSlider.background': alpha(p.onSurface, 0.16),
+            'scrollbarSlider.hoverBackground': alpha(p.onSurface, 0.28),
+            'scrollbarSlider.activeBackground': alpha(p.onSurface, 0.38),
+            'minimap.background': '#00000000',
+            'widget.shadow': alpha('#000000', 0.2),
+            // Bracket pairs cycle through the theme's accent roles.
+            'editorBracketHighlight.foreground1': p.primary,
+            'editorBracketHighlight.foreground2': p.tertiary,
+            'editorBracketHighlight.foreground3': p.secondary,
+            'editorBracketHighlight.foreground4': p.primary,
+            'editorBracketHighlight.foreground5': p.tertiary,
+            'editorBracketHighlight.foreground6': p.secondary,
+            'editorBracketHighlight.unexpectedBracket.foreground': p.error,
+        },
+    };
+}
 
 var css_248z = i`@charset "UTF-8";
 * {
@@ -24,6 +218,124 @@ var css_248z = i`@charset "UTF-8";
 
 [hidden] {
   display: none !important;
+}
+
+.code-block {
+  --_pad-block: var(--spacing-200);
+  --_pad-inline: var(--spacing-200);
+  --_pad-near: var(--spacing-100);
+  --_background: var(
+    --code-editor-background,
+    var(--color-surface-container-low)
+  );
+  --_border-color: var(--code-editor-border-color, var(--color-outline-variant));
+  --_foreground: var(--code-editor-foreground, var(--color-on-surface));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--_background);
+  color: var(--_foreground);
+  border: 1px solid var(--_border-color);
+  border-radius: var(--code-editor-shape, var(--shape-corner-medium));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  min-width: 0;
+  padding: var(--_pad-block) var(--_pad-inline) 0;
+  color: var(--color-on-surface-variant);
+}
+
+::slotted([slot=icon]) {
+  --icon-size: 1.125rem;
+  flex: none;
+  color: var(--color-on-surface-variant);
+}
+
+.title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-on-surface);
+  font-family: var(--typography-title-small-font-family) !important;
+  font-size: var(--typography-title-small-font-size) !important;
+  font-weight: var(--typography-title-small-font-weight) !important;
+  line-height: var(--typography-title-small-line-height) !important;
+  letter-spacing: var(--typography-title-small-letter-spacing) !important;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-025);
+  margin-inline-start: auto;
+}
+
+.header .actions {
+  margin-block: calc(-1 * var(--spacing-100));
+  margin-inline-end: calc(-1 * var(--spacing-100));
+}
+
+.actions.floating {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--spacing-100);
+  inset-inline-end: var(--spacing-100);
+  padding: var(--spacing-025);
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-full);
+  opacity: 0;
+  transition: opacity var(--duration-short4) var(--easing-standard);
+}
+
+.code-block:hover .actions.floating,
+.code-block:focus-within .actions.floating {
+  opacity: 1;
+}
+
+@media (pointer: coarse) {
+  .actions.floating {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .actions.floating {
+    transition: none;
+  }
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+:host([size=sm]) .code-block {
+  --_pad-block: var(--spacing-150);
+  --_pad-inline: var(--spacing-150);
+  --_pad-near: var(--spacing-075);
+  border-radius: var(--code-editor-shape, var(--shape-corner-small));
+}
+:host([size=sm]) .title {
+  font-family: var(--typography-label-medium-font-family) !important;
+  font-size: var(--typography-label-medium-font-size) !important;
+  font-weight: var(--typography-label-medium-font-weight) !important;
+  line-height: var(--typography-label-medium-line-height) !important;
+  letter-spacing: var(--typography-label-medium-letter-spacing) !important;
 }
 
 /* stylelint-disable -- vendored Monaco editor CSS, kept as shipped */
@@ -6353,39 +6665,141 @@ var css_248z = i`@charset "UTF-8";
 /* stylelint-enable */
 :host {
   display: block;
-  height: 100%;
-  --code-editor-height: 300px;
+  min-width: 0;
 }
 
-.code-editor-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
+.code-block {
+  --_pad-top: var(--_pad-block);
+  height: auto;
+}
+.code-block.has-header {
+  --_pad-top: var(--_pad-near);
+}
+.code-block.focused {
+  border-color: var(--color-primary);
+  outline: 1px solid var(--color-primary);
+  outline-offset: -2px;
+}
+.code-block.disabled {
+  border-color: color-mix(in srgb, var(--color-on-surface) calc(var(--state-disabled-container-opacity) * 100%), transparent);
+}
+.code-block.disabled .header,
+.code-block.disabled .editor-area {
+  opacity: var(--state-disabled-content-opacity);
+}
+
+.actions.floating {
+  inset-inline-end: var(--spacing-300);
+}
+
+.actions.floating.pinned {
+  opacity: 1;
+}
+
+.read-only-badge {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: var(--spacing-050);
+  padding: 0 var(--spacing-100);
+  color: var(--color-on-surface-variant);
+  font-family: var(--typography-label-small-font-family) !important;
+  font-size: var(--typography-label-small-font-size) !important;
+  font-weight: var(--typography-label-small-font-weight) !important;
+  line-height: var(--typography-label-small-line-height) !important;
+  letter-spacing: var(--typography-label-small-letter-spacing) !important;
+}
+.read-only-badge wc-icon {
+  --icon-size: 0.875rem;
 }
 
-.code-editor-component {
-  display: block;
-  height: 100%;
+.editor-area {
   position: relative;
-  --field-height: var(--code-editor-height);
+  height: var(--code-editor-height, 300px);
+  min-height: 0;
 }
-.code-editor-component .editor {
-  height: var(--code-editor-height);
+
+.editor {
+  height: 100%;
 }
-.code-editor-component .monaco-editor {
+
+.probe {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  padding-block: var(--_pad-top) var(--_pad-block);
+  visibility: hidden;
+  pointer-events: none;
+  font-family: var(--typography-code-medium-font-family) !important;
+  font-size: var(--typography-code-medium-font-size) !important;
+  font-weight: var(--typography-code-medium-font-weight) !important;
+  line-height: var(--typography-code-medium-line-height) !important;
+  letter-spacing: var(--typography-code-medium-letter-spacing) !important;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding-block-start: var(--_pad-top);
+  padding-inline-start: calc(var(--_gutter, 0px) + var(--spacing-300));
+  overflow: hidden;
+  color: var(--_foreground);
+  white-space: pre;
+  pointer-events: none;
+  font-family: var(--typography-code-medium-font-family) !important;
+  font-size: var(--typography-code-medium-font-size) !important;
+  font-weight: var(--typography-code-medium-font-weight) !important;
+  line-height: var(--typography-code-medium-line-height) !important;
+  letter-spacing: var(--typography-code-medium-letter-spacing) !important;
+}
+
+.numbered {
+  --_gutter: 3ch;
+}
+
+.breakpoint-gutter .placeholder {
+  padding-inline-start: calc(var(--_gutter, 0px) + var(--spacing-300) + 1.25rem);
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+:host([size=sm]) .probe,
+:host([size=sm]) .placeholder {
+  font-family: var(--typography-code-small-font-family) !important;
+  font-size: var(--typography-code-small-font-size) !important;
+  font-weight: var(--typography-code-small-font-weight) !important;
+  line-height: var(--typography-code-small-line-height) !important;
+  letter-spacing: var(--typography-code-small-letter-spacing) !important;
+}
+
+:host([fill]) {
+  height: 100%;
+  min-height: 0;
+}
+:host([fill]) .code-block {
+  height: 100%;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+}
+:host([fill]) .editor-area {
+  flex: 1 1 auto;
+  height: auto;
+}
+
+.code-block .monaco-editor {
   --vscode-editor-background: transparent;
   --vscode-editorGutter-background: transparent;
 }
-.code-editor-component .wc-code-editor-breakpoint {
+.code-block .wc-code-editor-breakpoint {
   cursor: pointer;
 }
-.code-editor-component .wc-code-editor-breakpoint::before {
+.code-block .wc-code-editor-breakpoint::before {
   content: "";
   display: block;
   width: 10px;
@@ -6394,15 +6808,15 @@ var css_248z = i`@charset "UTF-8";
   border-radius: 50%;
   background: var(--color-error);
 }
-.code-editor-component .wc-code-editor-current-line {
+.code-block .wc-code-editor-current-line {
   background: color-mix(in srgb, var(--color-warning) 22%, transparent);
 }
-.code-editor-component .wc-code-editor-current-line-glyph,
-.code-editor-component .wc-code-editor-breakpoint.wc-code-editor-current-line-glyph {
+.code-block .wc-code-editor-current-line-glyph,
+.code-block .wc-code-editor-breakpoint.wc-code-editor-current-line-glyph {
   z-index: 1;
 }
-.code-editor-component .wc-code-editor-current-line-glyph::before,
-.code-editor-component .wc-code-editor-breakpoint.wc-code-editor-current-line-glyph::before {
+.code-block .wc-code-editor-current-line-glyph::before,
+.code-block .wc-code-editor-breakpoint.wc-code-editor-current-line-glyph::before {
   content: "";
   display: block;
   width: 0;
@@ -6413,33 +6827,18 @@ var css_248z = i`@charset "UTF-8";
   border-block: 6px solid transparent;
   border-inline-start: 10px solid var(--color-warning);
 }
-.code-editor-component .monaco-editor .margin-view-overlays .cgmr {
+.code-block .monaco-editor .margin-view-overlays .cgmr {
   cursor: pointer;
-}
-
-:host([fill]) {
-  --code-editor-height: 100%;
-  min-height: 0;
-}
-
-.code-editor-component.fill {
-  height: 100%;
-}
-
-.toolbar {
-  position: absolute;
-  top: var(--spacing-100);
-  inset-inline-end: var(--spacing-300);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-100);
 }`;
 
 const locale = {
     copied: 'Copied',
     copyToClipboard: 'Copy to clipboard',
-    readOnly: 'Read Only',
+    copiedCode: 'Copied code to clipboard',
+    readOnly: 'Read only',
+    wrapLines: 'Wrap lines',
+    unwrapLines: 'Turn off line wrap',
+    editorLabel: 'Code editor',
     breakpoint: 'Breakpoint',
     currentLine: 'Paused here',
 };
@@ -6452,31 +6851,46 @@ const EXTENSIONS = {
     scss: 'scss',
     markdown: 'md',
 };
+/** Monaco has one theme per page; every editor defines it from the tokens around it. */
+const THEME_NAME = 'peacock';
+/** How long the copy button shows its check. */
+const COPY_FEEDBACK_DURATION = 2000;
 /** Where the language workers are: `monaco/` beside the built component. */
 const WORKERS = new URL('./monaco/', import.meta.url);
 let loading;
 let instances = 0;
+/** The worker file for a Monaco language service label. */
+function workerFile(label) {
+    if (label === 'typescript' || label === 'javascript')
+        return 'ts.worker.js';
+    if (label === 'json')
+        return 'json.worker.js';
+    return 'editor.worker.js';
+}
+/** The next editor's model number. */
+function nextInstanceId() {
+    instances += 1;
+    return instances;
+}
 /**
  * Loads Monaco once per page: its workers come from this origin, and the icon font is declared in
  * the document, since a shadow root ignores `@font-face`.
  */
 function loadMonaco() {
     loading ??= (async () => {
-        Reflect.set(globalThis, 'MonacoEnvironment', {
+        Reflect.set(window, 'MonacoEnvironment', {
             getWorker(_id, label) {
-                const file = label === 'typescript' || label === 'javascript'
-                    ? 'ts.worker.js'
-                    : label === 'json'
-                        ? 'json.worker.js'
-                        : 'editor.worker.js';
-                return new Worker(new URL(file, WORKERS), { type: 'module' });
+                return new Worker(new URL(workerFile(label), WORKERS), {
+                    type: 'module',
+                });
             },
         });
         const font = css_248z.cssText.match(/@font-face\s*\{[^}]*font-family:\s*codicon[^}]*\}/);
         if (font && !document.getElementById('wc-code-editor-codicon')) {
+            const [declaration] = font;
             const style = document.createElement('style');
             style.id = 'wc-code-editor-codicon';
-            style.textContent = font[0];
+            style.textContent = declaration;
             document.head.append(style);
         }
         return import('./monaco-CM52C2ss.js').then(function (n) { return n.m; });
@@ -6490,16 +6904,30 @@ function loadMonaco() {
  *
  * @summary A Monaco-based code editing component with syntax highlighting, completions and debugging marks.
  * @overview
- *  - CodeEditor wraps Monaco Editor as a web component. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin.
- *  - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, minimap, and dark/light theme.
+ *  - CodeEditor wraps Monaco Editor as a web component, in the same frame as `wc-code-highlighter`: an optional header with a title and actions, or a copy button that floats at the top end. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin. The code shows as plain text until Monaco is ready.
+ *  - Its colors come from the theme's color roles and the code highlighter's syntax colors, so light, dark, the system color scheme and custom themes all follow the tokens.
+ *  - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, line wrapping and a minimap.
  *  - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.
  *  - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.
  *  - `markers` underline problems, such as where a run failed.
- *  - With `fill`, the editor takes the height of its container.
- *  - Has a copy button; hide it with `hide-copy`.
+ *  - With `fill`, the editor drops its frame and takes the height of its container, as a pane of its own.
  *  - Emits `change` when content is edited and updates value from property changes.
  *
- * @cssprop --code-editor-height - Height of the editor. Defaults to 300px.
+ * @slot title - Header title content. Overrides `label` and shows the header.
+ * @slot icon - Icon shown before the title in the header.
+ * @slot actions - Extra action buttons, shown in the header or floating at the top end.
+ *
+ * @csspart container - The outer frame.
+ * @csspart header - The header row.
+ * @csspart title - The header title.
+ * @csspart actions - The action buttons group.
+ * @csspart editor - The area Monaco renders into.
+ *
+ * @cssprop --code-editor-height - Height of the editing area. Defaults to 300px. Ignored with `fill`.
+ * @cssprop --code-editor-background - Frame background. Defaults to `--color-surface-container-low`.
+ * @cssprop --code-editor-border-color - Frame border color. Defaults to `--color-outline-variant`.
+ * @cssprop --code-editor-shape - Frame corner radius. Defaults to `--shape-corner-medium`.
+ * @cssprop --code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.
  *
  * @fires {Event} change - Dispatched when the user edits the content.
  * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the content.
@@ -6509,6 +6937,7 @@ function loadMonaco() {
  * ```html
  * <wc-code-editor
  *   language="css"
+ *   label="theme.css"
  *   readonly
  *   style="width: 100%; --code-editor-height: 10rem;"
  *   value=":root { --color-primary: #6341d5; }">
@@ -6526,13 +6955,21 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.value = '';
         /** Language used for syntax highlighting. Can be changed after the editor loads. */
         this.language = 'javascript';
+        /** Header title, such as a file name. Shows the header. */
+        this.label = '';
         /** Whether line numbers show in the gutter. */
         this.lineNumbers = 'on';
+        /** Wraps long lines instead of scrolling horizontally. */
+        this.wrap = false;
+        /** Shows a button that turns line wrapping on and off. */
+        this.wrapToggle = false;
         /** Shows the minimap. Leave the attribute out to hide it. */
         this.minimap = false;
+        /** Size of the editor. `sm` uses smaller text and padding. */
+        this.size = 'md';
         /** Hides the copy button. */
         this.hideCopy = false;
-        /** Shows a "Read Only" badge while the editor is read-only or disabled. */
+        /** Shows a "Read only" badge while the editor is read-only or disabled. */
         this.showReadonlyBadge = false;
         /** Shows a gutter for breakpoints; a click there, or on a line number, fires `breakpoint-toggle`. */
         this.breakpointGutter = false;
@@ -6540,28 +6977,45 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.breakpoints = [];
         /** Problems to underline, such as where a run failed. */
         this.markers = [];
-        /** Takes the height of the container instead of `--code-editor-height`. */
+        /** Drops the frame and takes the height of the container instead of `--code-editor-height`. */
         this.fill = false;
-        /** Whether the page is in dark mode; picks the Monaco theme. */
-        this._isDarkMode = isDarkMode();
         /** Whether the editor text has focus. */
         this.hasFocus = false;
-        /** Whether the copy button was just used; shows a check for a few seconds. */
+        /** Whether the copy button was just used; shows a check for a moment. */
         this._copied = false;
         /** This editor's model's address, unique on the page so two editors never share a model. */
-        this.__id = ++instances;
+        this.__id = nextInstanceId();
+        /** The font and padding last given to Monaco, to skip unchanged updates. */
+        this.__layoutKey = '';
+        // ── Private methods
+        /** Defines the page's editor theme from the tokens around this editor. */
+        this.__applyTheme = () => {
+            const { monaco, probeElement } = this;
+            if (!monaco || !probeElement)
+                return;
+            monaco.editor.defineTheme(THEME_NAME, buildEditorTheme(resolvePalette(probeElement)));
+            monaco.editor.setTheme(THEME_NAME);
+        };
     }
     // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
-        this.__unobserveTheme = observeThemeChange(() => {
-            this._isDarkMode = isDarkMode();
-            this.monaco?.editor.setTheme(this.getTheme());
+        this.__unobserveTheme = observeThemeChange(this.__applyTheme);
+        this.__colorScheme = window.matchMedia?.('(prefers-color-scheme: dark)');
+        this.__colorScheme?.addEventListener('change', this.__applyTheme);
+        this.__childObserver = new MutationObserver(() => this.requestUpdate());
+        this.__childObserver.observe(this, {
+            childList: true,
+            attributes: true,
+            attributeFilter: ['slot'],
+            subtree: true,
         });
     }
     disconnectedCallback() {
         super.disconnectedCallback();
         this.__unobserveTheme?.();
+        this.__colorScheme?.removeEventListener('change', this.__applyTheme);
+        this.__childObserver?.disconnect();
         clearTimeout(this.__copiedTimer);
         this.__lib?.forEach(lib => lib.dispose());
         this.__lib = undefined;
@@ -6574,30 +7028,39 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.initializeMonaco();
     }
     updated(changedProperties) {
-        if (changedProperties.has('libSource') || changedProperties.has('compilerOptions'))
+        if (changedProperties.has('libSource') ||
+            changedProperties.has('compilerOptions'))
             this.libSourceChanged();
         const editor = this.editorMonacoInstance;
         if (!editor || !this.monaco)
             return;
-        if (changedProperties.has('disabled') || changedProperties.has('readonly')) {
+        if (changedProperties.has('disabled') ||
+            changedProperties.has('readonly')) {
             editor.updateOptions({ readOnly: this.disabled || this.readonly });
         }
         if (changedProperties.has('lineNumbers') ||
             changedProperties.has('minimap') ||
-            changedProperties.has('breakpointGutter')) {
+            changedProperties.has('breakpointGutter') ||
+            changedProperties.has('wrap') ||
+            changedProperties.has('label')) {
             editor.updateOptions({
                 lineNumbers: this.lineNumbers,
                 minimap: { enabled: this.minimap },
                 glyphMargin: this.breakpointGutter,
+                wordWrap: this.wrap ? 'on' : 'off',
+                ariaLabel: this.label || locale.editorLabel,
             });
         }
+        // The header and size set the font and padding; read them back from the styles.
+        this.__applyLayout();
         if (changedProperties.has('language')) {
             this.monaco.editor.setModelLanguage(editor.getModel(), this.language);
         }
         if (changedProperties.has('value') && editor.getValue() !== this.value) {
             editor.setValue(this.value || '');
         }
-        if (changedProperties.has('breakpoints') || changedProperties.has('currentLine')) {
+        if (changedProperties.has('breakpoints') ||
+            changedProperties.has('currentLine')) {
             this.drawDecorations();
         }
         if (changedProperties.has('currentLine') && this.currentLine) {
@@ -6613,19 +7076,39 @@ let CodeEditor = class CodeEditor extends BaseInput {
         if (!this.isConnected || !this.editorElement)
             return;
         this.monaco = monaco;
+        this.__applyTheme();
         const model = monaco.editor.createModel(this.value, this.language, monaco.Uri.parse(`file:///wc-code-editor/${this.__id}/index.${EXTENSIONS[this.language] ?? 'txt'}`));
+        const layout = this.__readLayout();
+        this.__layoutKey = JSON.stringify(layout);
         this.editorMonacoInstance = monaco.editor.create(this.editorElement, {
             model,
+            ...layout,
             lineNumbers: this.lineNumbers,
             minimap: { enabled: this.minimap },
             glyphMargin: this.breakpointGutter,
-            theme: this.getTheme(),
+            wordWrap: this.wrap ? 'on' : 'off',
+            theme: THEME_NAME,
             readOnly: this.disabled || this.readonly,
+            ariaLabel: this.label || locale.editorLabel,
             automaticLayout: true,
             fixedOverflowWidgets: true,
             scrollBeyondLastLine: false,
+            lineNumbersMinChars: 3,
+            lineDecorationsWidth: 8,
+            renderLineHighlight: 'line',
+            renderLineHighlightOnlyWhenFocus: true,
+            overviewRulerBorder: false,
+            hideCursorInOverviewRuler: true,
+            stickyScroll: { enabled: false },
+            scrollbar: {
+                useShadows: false,
+                verticalScrollbarSize: 10,
+                horizontalScrollbarSize: 10,
+            },
         });
         this.__decorations = this.editorMonacoInstance.createDecorationsCollection([]);
+        // Monaco measures the font when it starts; measure again once web fonts have loaded.
+        document.fonts?.ready.then(() => this.monaco?.editor.remeasureFonts());
         this.libSourceChanged();
         this.drawDecorations();
         this.drawMarkers();
@@ -6641,7 +7124,8 @@ let CodeEditor = class CodeEditor extends BaseInput {
                 return;
             const type = e.target?.type;
             const { MouseTargetType } = monaco.editor;
-            if (type !== MouseTargetType.GUTTER_GLYPH_MARGIN && type !== MouseTargetType.GUTTER_LINE_NUMBERS)
+            if (type !== MouseTargetType.GUTTER_GLYPH_MARGIN &&
+                type !== MouseTargetType.GUTTER_LINE_NUMBERS)
                 return;
             const line = e.target.position?.lineNumber;
             if (!line)
@@ -6673,12 +7157,44 @@ let CodeEditor = class CodeEditor extends BaseInput {
         editor.revealLineInCenterIfOutsideViewport(line);
         editor.setPosition({ lineNumber: line, column: 1 });
     }
-    // ── Private methods
+    /** The font and padding the styles give the code, for Monaco's options. */
+    __readLayout() {
+        const probe = this.probeElement;
+        if (!probe)
+            return {};
+        const style = getComputedStyle(probe);
+        const fontSize = parseFloat(style.fontSize) || 14;
+        return {
+            fontFamily: style.fontFamily,
+            fontSize,
+            lineHeight: parseFloat(style.lineHeight) || Math.round(fontSize * 1.43),
+            padding: {
+                top: parseFloat(style.paddingTop) || 0,
+                bottom: parseFloat(style.paddingBottom) || 0,
+            },
+        };
+    }
+    /** Gives Monaco the font and padding when the header or size changed them. */
+    __applyLayout() {
+        const layout = this.__readLayout();
+        const key = JSON.stringify(layout);
+        if (key === this.__layoutKey)
+            return;
+        this.__layoutKey = key;
+        this.editorMonacoInstance?.updateOptions(layout);
+    }
+    /** Whether light-DOM children are assigned to the named slot. */
+    __hasSlotted(name) {
+        return Array.from(this.children).some(child => child.getAttribute('slot') === name);
+    }
     libSourceChanged() {
         const typescript = this.monaco?.typescript;
         if (!typescript)
             return;
-        const defaults = [typescript.typescriptDefaults, typescript.javascriptDefaults];
+        const defaults = [
+            typescript.typescriptDefaults,
+            typescript.javascriptDefaults,
+        ];
         for (const found of defaults) {
             found.setCompilerOptions({
                 target: typescript.ScriptTarget.ESNext,
@@ -6696,7 +7212,7 @@ let CodeEditor = class CodeEditor extends BaseInput {
             : undefined;
     }
     drawDecorations() {
-        const monaco = this.monaco;
+        const { monaco } = this;
         if (!monaco || !this.__decorations)
             return;
         const range = (line) => new monaco.Range(line, 1, line, 1);
@@ -6722,7 +7238,7 @@ let CodeEditor = class CodeEditor extends BaseInput {
         this.__decorations.set(decorations);
     }
     drawMarkers() {
-        const monaco = this.monaco;
+        const { monaco } = this;
         const model = this.editorMonacoInstance?.getModel();
         if (!monaco || !model)
             return;
@@ -6737,14 +7253,12 @@ let CodeEditor = class CodeEditor extends BaseInput {
                 startLineNumber: marker.line,
                 startColumn: marker.column ?? 1,
                 endLineNumber: endLine,
-                endColumn: marker.endColumn ?? model.getLineMaxColumn(Math.min(endLine, model.getLineCount())),
+                endColumn: marker.endColumn ??
+                    model.getLineMaxColumn(Math.min(endLine, model.getLineCount())),
                 message: marker.message,
                 severity: severity[marker.severity ?? 'error'],
             };
         }));
-    }
-    getTheme() {
-        return this._isDarkMode ? 'vs-dark' : 'vs';
     }
     async __handleCopyClick() {
         const value = this.editorMonacoInstance?.getValue() ?? this.value ?? '';
@@ -6753,77 +7267,124 @@ let CodeEditor = class CodeEditor extends BaseInput {
         clearTimeout(this.__copiedTimer);
         this.__copiedTimer = setTimeout(() => {
             this._copied = false;
-        }, 3000);
+        }, COPY_FEEDBACK_DURATION);
         this.dispatchEvent(new CustomEvent('copied', {
             detail: { value },
             bubbles: true,
             composed: true,
         }));
     }
+    __handleWrapClick() {
+        this.wrap = !this.wrap;
+    }
     // ── Render helpers
-    renderToolbar() {
-        const showBadge = this.showReadonlyBadge && (this.disabled || this.readonly);
-        if (this.hideCopy && !showBadge)
-            return A;
+    renderBadge() {
+        return b `<span class="read-only-badge">
+      <wc-icon name="lock"></wc-icon>${locale.readOnly}
+    </span>`;
+    }
+    renderActions(floating, showBadge) {
         return b `
-      <div class="toolbar">
-        ${showBadge
-            ? b `<wc-tag class="read-only-tag" color="red">${locale.readOnly}</wc-tag>`
+      <div
+        class=${e$1({
+            actions: true,
+            floating,
+            pinned: floating && showBadge,
+        })}
+        part="actions"
+      >
+        ${showBadge ? this.renderBadge() : A}
+        <slot name="actions"></slot>
+        ${this.wrapToggle
+            ? b `<wc-icon-button
+              class="wrap-button"
+              variant="text"
+              size="xs"
+              shape="round"
+              color="surface"
+              toggle
+              ?selected=${this.wrap}
+              aria-label=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              tooltip=${this.wrap ? locale.unwrapLines : locale.wrapLines}
+              @click=${this.__handleWrapClick}
+            >
+              <wc-icon name="wrap_text"></wc-icon>
+            </wc-icon-button>`
             : A}
         ${this.hideCopy
             ? A
             : b `<wc-icon-button
               class="copy-button"
-              color=${this._copied ? 'success' : 'surface'}
               variant="text"
               size="xs"
-              aria-label=${this._copied ? locale.copied : locale.copyToClipboard}
+              shape="round"
+              color=${this._copied ? 'success' : 'surface'}
+              aria-label=${this._copied
+                ? locale.copied
+                : locale.copyToClipboard}
               tooltip=${this._copied ? locale.copied : locale.copyToClipboard}
               @click=${this.__handleCopyClick}
             >
-              <wc-icon name=${this._copied ? 'check' : 'content_copy'}></wc-icon>
+              <wc-icon
+                name=${this._copied ? 'check' : 'content_copy'}
+              ></wc-icon>
             </wc-icon-button>`}
+      </div>
+    `;
+    }
+    renderHeader(showBadge) {
+        return b `
+      <div class="header" part="header">
+        <slot name="icon"></slot>
+        <div class="title" part="title">
+          <slot name="title">${this.label}</slot>
+        </div>
+        ${this.renderActions(false, showBadge)}
       </div>
     `;
     }
     // ── Render
     render() {
-        if (this.fill) {
-            // A pane of its own, such as an IDE's: no field outline, as tall as its container.
-            return b `
-        <div class="code-editor-component fill">
-          ${this.renderToolbar()}
-          <div class="editor"></div>
-          ${!this.editorMonacoInstance
-                ? b `<div class="code-editor-loader"><wc-spinner></wc-spinner> Loading...</div>`
-                : A}
-        </div>
-      `;
-        }
-        // The field isn't marked read-only: its read-only look dims the
-        // container, and a read-only editor is still meant to be read.
+        const hasHeader = !!this.label || this.__hasSlotted('title');
+        const showBadge = this.showReadonlyBadge && (this.disabled || this.readonly);
+        const hasActions = !this.hideCopy ||
+            this.wrapToggle ||
+            showBadge ||
+            this.__hasSlotted('actions');
+        const loaded = !!this.editorMonacoInstance;
+        // A read-only editor keeps full contrast: it is still meant to be read.
         return b `
-      <wc-field
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        ?skeleton=${this.skeleton}
-        ?focused=${this.hasFocus}
-        .host=${this}
-        class="${e$1({
-            'code-editor-component': true,
+      <div
+        class=${e$1({
+            'code-block': true,
+            'has-header': hasHeader,
+            focused: this.hasFocus,
             disabled: this.disabled,
-        })}"
+            numbered: this.lineNumbers !== 'off',
+            'breakpoint-gutter': this.breakpointGutter,
+        })}
+        part="container"
       >
-        ${this.renderToolbar()}
-        <div class="editor"></div>
-        ${!this.editorMonacoInstance
-            ? b `
-              <div class="code-editor-loader">
-                <wc-spinner></wc-spinner> Loading...
-              </div>
-            `
+        ${hasHeader ? this.renderHeader(showBadge) : A}
+        ${!hasHeader && hasActions
+            ? this.renderActions(true, showBadge)
             : A}
-      </wc-field>
+        <div class="editor-area">
+          <div class="editor" part="editor"></div>
+          ${loaded
+            ? A
+            : b `<pre class="placeholder" aria-hidden="true">
+${this.value}</pre
+              >`}
+          ${this.skeleton
+            ? b `<wc-skeleton class="skeleton" visible></wc-skeleton>`
+            : A}
+        </div>
+        <span class="probe" aria-hidden="true"></span>
+        <span class="sr-only" aria-live="polite"
+          >${this._copied ? locale.copiedCode : ''}</span
+        >
+      </div>
     `;
     }
 };
@@ -6835,17 +7396,29 @@ __decorate([
     n({ type: String })
 ], CodeEditor.prototype, "language", void 0);
 __decorate([
+    n({ type: String })
+], CodeEditor.prototype, "label", void 0);
+__decorate([
     n({ type: String, attribute: 'lib-source' })
 ], CodeEditor.prototype, "libSource", void 0);
 __decorate([
     n({ type: Object, attribute: false })
 ], CodeEditor.prototype, "compilerOptions", void 0);
 __decorate([
-    n({ type: String })
+    n({ type: String, attribute: 'line-numbers' })
 ], CodeEditor.prototype, "lineNumbers", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], CodeEditor.prototype, "wrap", void 0);
+__decorate([
+    n({ type: Boolean, attribute: 'wrap-toggle' })
+], CodeEditor.prototype, "wrapToggle", void 0);
 __decorate([
     n({ type: Boolean })
 ], CodeEditor.prototype, "minimap", void 0);
+__decorate([
+    n({ type: String, reflect: true })
+], CodeEditor.prototype, "size", void 0);
 __decorate([
     n({ type: Boolean, attribute: 'hide-copy' })
 ], CodeEditor.prototype, "hideCopy", void 0);
@@ -6869,9 +7442,6 @@ __decorate([
 ], CodeEditor.prototype, "fill", void 0);
 __decorate([
     r()
-], CodeEditor.prototype, "_isDarkMode", void 0);
-__decorate([
-    r()
 ], CodeEditor.prototype, "hasFocus", void 0);
 __decorate([
     r()
@@ -6882,6 +7452,9 @@ __decorate([
 __decorate([
     e('.editor')
 ], CodeEditor.prototype, "editorElement", void 0);
+__decorate([
+    e('.probe')
+], CodeEditor.prototype, "probeElement", void 0);
 CodeEditor = __decorate([
     IndividualComponent
 ], CodeEditor);

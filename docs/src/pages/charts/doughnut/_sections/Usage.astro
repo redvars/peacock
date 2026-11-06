@@ -1,0 +1,25 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A doughnut chart takes the same slices as the pie chart. Its centre shows the total of the visible slices
+  with <code>center-label</code> as the caption, and switches to the hovered or focused slice. Hide a slice from
+  the legend and the total updates.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-doughnut id='doughnut-usage' center-label='Visitors' label='Visitors by browser'></wc-chart-doughnut>
+
+  <script is:inline>
+    document.getElementById('doughnut-usage').data = [
+      { name: 'chrome', label: 'Chrome', value: 275 },
+      { name: 'safari', label: 'Safari', value: 200 },
+      { name: 'firefox', label: 'Firefox', value: 187 },
+      { name: 'edge', label: 'Edge', value: 173 },
+      { name: 'other', label: 'Other', value: 90 },
+    ];
+  </script>
+</DemoComponentCard>

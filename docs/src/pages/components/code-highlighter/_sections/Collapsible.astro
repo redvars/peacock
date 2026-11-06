@@ -1,0 +1,73 @@
+---
+export const title = 'Long code';
+export const order = 600;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Add <code>collapsible</code> to cap tall code and add a <strong>Show more</strong> button. The
+  button only appears when the code is taller than the cap, which
+  <code>--code-highlighter-collapsed-height</code> sets (16rem by default). The
+  <code>expanded-change</code> event reports each toggle.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%;' language='javascript' label='theme.js' collapsible format='false' is:raw>
+    <pre><code>
+      import { applyTheme } from '@redvars/peacock/theme';
+
+      const presets = {
+        ocean: { primary: '#0b57d0', variant: 'tonalSpot' },
+        forest: { primary: '#386a20', variant: 'vibrant' },
+        sunset: { primary: '#b3261e', variant: 'expressive' },
+      };
+
+      export async function useTheme(name) {
+        const preset = presets[name];
+        if (!preset) {
+          throw new Error(`Unknown theme: ${name}`);
+        }
+
+        await applyTheme({
+          ...preset,
+          contrast: 'standard',
+          shape: 'rounded',
+          font: { brand: 'Poppins', plain: 'Inter' },
+        });
+
+        document.documentElement.dataset.theme = 'light';
+        localStorage.setItem('theme', name);
+      }
+
+      export function restoreTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) {
+          return useTheme(saved);
+        }
+        return useTheme('ocean');
+      }
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>
+
+<h3 class='text-title-medium'>Fixed height</h3>
+<p>
+  To scroll inside the block instead, set <code>--code-highlighter-max-height</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-highlighter style='width: 100%; --code-highlighter-max-height: 10rem;' language='bash' line-numbers format='false' is:raw>
+    <pre><code>
+      npm install
+      npm run lint
+      npm run test
+      npm run build
+      npm run publish:docs
+      cd ../docs
+      npm install
+      npm run start
+      npm run build
+      npm run preview
+    </code></pre>
+  </wc-code-highlighter>
+</DemoComponentCard>

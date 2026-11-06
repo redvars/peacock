@@ -14,17 +14,81 @@
 
     <style>
       body {
-        background: #fafafa;
+        display: grid;
+        gap: 1.5rem;
+        max-width: 48rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        background: var(--color-surface);
+        color: var(--color-on-surface);
+        font-family: var(--font-family-sans, sans-serif);
       }
     </style>
   </head>
   <body>
-    <p-code-highlighter language="javascript">
+    <button
+      type="button"
+      onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'"
+    >
+      Toggle dark theme
+    </button>
+
+    <wc-code-highlighter language="javascript">
       <pre><code>
       const helloWorld = () => alert ('Hello World!');
       export { helloWorld };
-</code></pre>
-    </p-code-highlighter>
+      </code></pre>
+    </wc-code-highlighter>
+
+    <wc-code-highlighter
+      language="javascript"
+      label="src/math.js"
+      line-numbers
+      start-line="41"
+      highlight-lines="2"
+      wrap-toggle
+      format="false"
+    >
+      <wc-icon slot="icon" name="description"></wc-icon>
+      <pre><code>
+      export function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+      </code></pre>
+    </wc-code-highlighter>
+
+    <wc-code-highlighter
+      language="css"
+      label="button.scss"
+      removed-lines="2"
+      added-lines="3"
+      format="false"
+    >
+      <pre><code>
+      .button {
+        border-radius: 4px;
+        border-radius: var(--shape-corner-full);
+      }
+      </code></pre>
+    </wc-code-highlighter>
+
+    <wc-code-highlighter
+      size="sm"
+      variant="error"
+      language="text"
+      label="Build failed"
+    >
+      <pre><code>
+      TypeError: Cannot read properties of undefined (reading 'map')
+      </code></pre>
+    </wc-code-highlighter>
+
+    <p>
+      Inline:
+      <wc-code-highlighter inline language="javascript"
+        >button.focus()</wc-code-highlighter
+      >
+    </p>
 
     <script type="module" src="/dist/loader.js"></script>
   </body>

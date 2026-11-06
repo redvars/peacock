@@ -1,0 +1,31 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  An area chart is a line chart with the space under each line filled by a fading gradient of the series
+  color. It takes the same <code>data</code>, <code>index</code>, <code>config</code>, <code>curve</code> and
+  <code>show-dots</code> as the line chart. Use it when the volume under the line matters.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-area id='area-usage' index='month' label='Visitors by month'></wc-chart-area>
+
+  <script is:inline>
+    const areaUsage = document.getElementById('area-usage');
+    areaUsage.config = {
+      desktop: { label: 'Desktop' },
+      mobile: { label: 'Mobile' },
+    };
+    areaUsage.data = [
+      { month: 'Jan', desktop: 186, mobile: 80 },
+      { month: 'Feb', desktop: 305, mobile: 200 },
+      { month: 'Mar', desktop: 237, mobile: 120 },
+      { month: 'Apr', desktop: 73, mobile: 190 },
+      { month: 'May', desktop: 209, mobile: 130 },
+      { month: 'Jun', desktop: 214, mobile: 140 },
+    ];
+  </script>
+</DemoComponentCard>

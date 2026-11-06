@@ -1,89 +1,94 @@
 import { LitElement } from 'lit';
-import { type LegacySize, type Size } from '@/__internal/utils/size.js';
 /**
  * @label Toolbar
  * @tag wc-toolbar
  * @rawTag toolbar
  *
- * @summary A toolbar / app bar for navigation and actions.
+ * @summary A group of related actions, such as editor formatting controls.
  * @overview
- * <p>The toolbar component implements the app bar pattern. It supports a
- * docked (attached) variant for bottom-panel navigation and a floating (detached pill-shaped)
- * variant. The floating variant supports both horizontal and vertical orientations.</p>
+ * <p>The toolbar groups related actions into one control. The <code>floating</code> variant
+ * (default) is an elevated pill that sits over content, such as a canvas or a selection. The
+ * <code>flat</code> variant has no container of its own, for embedding in existing chrome like a
+ * card or editor header. Both variants lay their actions out horizontally or vertically.</p>
  *
- * <p>Render toolbar actions directly as children of the component. The docked variant is
- * optimized for a horizontal action row, while the floating variant supports both horizontal
- * and vertical layouts.</p>
+ * <p>Render actions directly as children. Use a <code>wc-divider</code> to separate groups of
+ * actions; in a horizontal toolbar give it the <code>vertical</code> attribute.</p>
+ *
+ * <p>The toolbar follows the WAI-ARIA toolbar pattern: it is a single tab stop, and the arrow
+ * keys along its orientation move focus between actions (Home and End jump to the first and last).
+ * Disabled actions and dividers are skipped. Give the toolbar an <code>aria-label</code>.</p>
  *
  * @cssprop --toolbar-container-color - Background color of the toolbar.
- * @cssprop --toolbar-container-shape - Border radius of the toolbar. Relevant for the floating variant.
- * @cssprop --toolbar-height - Height of the toolbar (docked horizontal / floating horizontal).
- * @cssprop --toolbar-padding-inline - Inline padding of the toolbar.
- * @cssprop --toolbar-gap - Gap between toolbar sections.
- * @cssprop --toolbar-icon-color - Color of icon slots.
- * @cssprop --toolbar-title-color - Color of the title (default slot) text.
- * @cssprop --toolbar-shadow - Box-shadow of the toolbar.
+ * @cssprop --toolbar-container-shape - Border radius of the floating toolbar.
+ * @cssprop --toolbar-padding - Padding of the floating toolbar.
+ * @cssprop --toolbar-gap - Gap between toolbar actions.
+ * @cssprop --toolbar-icon-color - Color of icons inside the toolbar.
+ * @cssprop --toolbar-content-color - Color of text inside the toolbar.
  *
  * @example
  * ```html
- * <!-- Docked toolbar -->
- * <wc-toolbar>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="tonal"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="favorite"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text" color="surface"><wc-icon name="account_circle"></wc-icon></wc-icon-button>
+ * <!-- Floating toolbar -->
+ * <wc-toolbar aria-label="Formatting">
+ *   <wc-icon-button variant="text" color="surface" aria-label="Undo"><wc-icon name="undo"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Redo"><wc-icon name="redo"></wc-icon></wc-icon-button>
+ *   <wc-divider vertical></wc-divider>
+ *   <wc-icon-button variant="tonal" aria-label="Bold"><wc-icon name="format_bold"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Italic"><wc-icon name="format_italic"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
  * @example
  * ```html
- * <!-- Floating horizontal toolbar -->
- * <wc-toolbar variant="floating" orientation="horizontal">
- *   <wc-icon-button variant="tonal"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="favorite"></wc-icon></wc-icon-button>
+ * <!-- Vertical floating toolbar -->
+ * <wc-toolbar orientation="vertical" aria-label="Tools">
+ *   <wc-icon-button variant="tonal" aria-label="Select"><wc-icon name="arrow_selector_tool"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Draw"><wc-icon name="draw"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Text"><wc-icon name="text_fields"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
  *
  * @example
  * ```html
- * <!-- Floating vertical toolbar -->
- * <wc-toolbar variant="floating" orientation="vertical">
- *   <wc-icon-button variant="tonal"><wc-icon name="home"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="search"></wc-icon></wc-icon-button>
- *   <wc-icon-button variant="text"><wc-icon name="favorite"></wc-icon></wc-icon-button>
+ * <!-- Flat toolbar inside existing chrome -->
+ * <wc-toolbar variant="flat" aria-label="Row actions">
+ *   <wc-icon-button variant="text" color="surface" aria-label="Edit"><wc-icon name="edit"></wc-icon></wc-icon-button>
+ *   <wc-icon-button variant="text" color="surface" aria-label="Delete"><wc-icon name="delete"></wc-icon></wc-icon-button>
  * </wc-toolbar>
  * ```
- * @tags display navigation
+ * @tags display
  */
 export declare class Toolbar extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     /**
-     * Visual and layout variant of the toolbar.
-     * - `"docked"`: A full-width bar attached to the edge of the screen (default).
-     * - `"floating"`: A detached pill-shaped toolbar that floats over content.
+     * Visual variant of the toolbar.
+     * - `"floating"`: An elevated pill that floats over content (default).
+     * - `"flat"`: No container, fill or elevation; for embedding in existing chrome.
      */
-    variant: 'docked' | 'floating';
+    variant: 'floating' | 'flat';
     /**
-     * Orientation of the toolbar content.
-     * - `"horizontal"`: Items are laid out left to right (default).
-     * - `"vertical"`: Items are stacked top to bottom. Primarily useful for the floating variant.
+     * Orientation of the toolbar. It sets the layout direction and the arrow keys that move focus
+     * (Left/Right for horizontal, Up/Down for vertical).
      */
     orientation: 'horizontal' | 'vertical';
     /**
-     * Size of the docked toolbar.
-     * - `"sm"`: 80dp height (default).
-     * - `"md"`: 96dp height.
-     * - `"lg"`: 112dp height.
-     *
-     * The long names `"small"`, `"medium"` and `"large"` still work but are deprecated.
-     */
-    size: Size | LegacySize;
-    /**
-     * Whether the toolbar is visually elevated (adds a shadow).
+     * Raises the floating toolbar to a higher elevation. Has no effect on the flat variant.
      */
     elevated: boolean;
+    /** The item that holds the toolbar's single tab stop. */
+    private __activeItem;
+    connectedCallback(): void;
+    firstUpdated(): void;
+    updated(changed: Map<string, unknown>): void;
+    /** Actions that can take focus, in slot order. */
+    private __getItems;
+    /** Gives the active item `tabindex="0"` and every other item `tabindex="-1"`. */
+    private __syncTabStops;
+    /** Makes `item` the tab stop and focuses it. */
+    private __focusItem;
+    /** Finds the toolbar item an event came from. */
+    private __itemFromEvent;
+    private __handleSlotChange;
+    private __handleFocusIn;
+    private __handleKeyDown;
     render(): import("lit-html").TemplateResult<1>;
-    private static __renderDocked;
-    private static __renderFloating;
 }

@@ -1,0 +1,32 @@
+---
+// A chart's page: its demo sections, then the API reference, under the Charts sidebar.
+import Layout from './WithChartsSidebar.astro';
+import Article from '../components/Article.astro';
+import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
+import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
+import type { Section } from '../_data/getSections.ts';
+
+interface Props {
+  componentName: string;
+  sections: Section[];
+}
+
+const { componentName, sections } = Astro.props;
+const componentDetails = getComponentDetails(componentName);
+const title: string = getTextTag(componentDetails, 'label') ?? componentName;
+const summary = getMarkdown(componentDetails, 'summary');
+
+const allSections: Section[] = [
+  ...sections,
+  {
+    title: 'API Reference',
+    order: 9999,
+    component: LitComponentApiPanel,
+    componentProps: { componentDetails },
+  },
+];
+---
+
+<Layout title={`${title} · Charts`} description={summary}>
+  <Article title={title} description={summary} sections={allSections} />
+</Layout>

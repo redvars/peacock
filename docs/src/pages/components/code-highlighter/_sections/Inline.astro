@@ -1,0 +1,18 @@
+---
+export const title = 'Inline';
+export const order = 900;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Add <code>inline</code> to highlight a short snippet inside text. It has no header, copy button or
+  formatting, and takes the text size around it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p class='text-body-large'>
+    Set <wc-code-highlighter inline language='html'>&lt;wc-button variant="tonal"&gt;</wc-code-highlighter>
+    for a softer button, or call
+    <wc-code-highlighter inline language='javascript'>button.focus()</wc-code-highlighter> to move focus to it.
+  </p>
+</DemoComponentCard>

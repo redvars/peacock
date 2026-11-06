@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
-    "defaultMode": "plan",
     "allow": [
       "Bash(npm run test)",
       "Bash(npm run lint)",
@@ -9,7 +8,8 @@
       "Bash(git status)",
       "Bash(git diff)",
       "Read(src/**)",
-      "Read(package.json)"
+      "Read(package.json)",
+      "Bash(git ls-remote *)"
     ],
     "deny": [
       "Read(.env)",
@@ -18,6 +18,7 @@
       "Bash(rm *)",
       "Bash(curl *)",
       "Bash(wget *)"
-    ]
+    ],
+    "defaultMode": "plan"
   }
 }

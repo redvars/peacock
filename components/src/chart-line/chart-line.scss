@@ -1,0 +1,25 @@
+:host {
+  --_chart-line-width: var(--chart-line-width, 2px);
+}
+
+.line {
+  fill: none;
+  stroke-width: var(--_chart-line-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.stop-start {
+  stop-opacity: 0.4;
+}
+
+.stop-end {
+  stop-opacity: 0.02;
+}
+
+.dot,
+.active-dot {
+  stroke: var(--color-surface);
+  stroke-width: 2px;
+  pointer-events: none;
+}

@@ -1,0 +1,33 @@
+---
+export const title = 'Stacked';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>stacked</code> each series sits on the one before, so the top edge shows the total and each band
+  shows one part. Hide a series from the legend and the others restack.
+</p>
+
+<DemoComponentCard lang='html'>
+  <wc-chart-area id='area-stacked' stacked index='week' label='Signups by source'></wc-chart-area>
+
+  <script is:inline>
+    const areaStacked = document.getElementById('area-stacked');
+    areaStacked.config = {
+      organic: { label: 'Organic' },
+      referral: { label: 'Referral' },
+      paid: { label: 'Paid' },
+    };
+    areaStacked.data = [
+      { week: 'W1', organic: 120, referral: 40, paid: 60 },
+      { week: 'W2', organic: 132, referral: 52, paid: 58 },
+      { week: 'W3', organic: 128, referral: 61, paid: 80 },
+      { week: 'W4', organic: 150, referral: 70, paid: 76 },
+      { week: 'W5', organic: 164, referral: 66, paid: 95 },
+      { week: 'W6', organic: 181, referral: 84, paid: 102 },
+      { week: 'W7', organic: 190, referral: 92, paid: 110 },
+      { week: 'W8', organic: 205, referral: 98, paid: 118 },
+    ];
+  </script>
+</DemoComponentCard>

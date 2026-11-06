@@ -1,137 +1,252 @@
 @use '../../scss/mixin';
+@use '../../scss/code-block';
 
 @include mixin.base-styles;
+@include code-block.chrome(code-highlighter);
 
 :host {
   display: block;
-  height: 100%;
-  --code-highlighter-background: var(--color-surface-container);
+  min-width: 0;
 }
 
-.code-loader {
-  height: 10rem;
-  background-color: var(--code-highlighter-background);
-  color: var(--color-on-surface);
+:host([hidden]) {
+  display: none;
+}
+
+.code-block:has(.content:focus-visible) {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// ── Content ────────────────────────────────────────────────────────────────
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--code-highlighter-max-height, none);
+  margin: 0;
+  padding-block: var(--_pad-block);
+  padding-inline: 0;
+  overflow: auto;
+  outline: none;
+  white-space: pre;
+  text-align: start;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+
+  @include mixin.get-typography(code-medium);
+}
+
+.has-header .content {
+  padding-block-start: var(--_pad-near);
+}
+
+.has-footer .content {
+  padding-block-end: var(--_pad-near);
+}
+
+.code {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  min-width: max-content;
+  min-height: 1lh;
+  font: inherit;
+}
+
+.line {
+  position: relative;
+  display: block;
+  min-height: 1lh;
+  padding-inline: var(--_pad-inline);
+}
+
+.line-numbers {
+  .code {
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--spacing-200);
+  }
+
+  .line {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+  }
+
+  .line::before {
+    min-width: 1.5rem;
+    color: var(--color-on-surface-variant);
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    counter-increment: line;
+    content: counter(line);
+    content: counter(line) / '';
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.wrap {
+  .code {
+    min-width: 0;
+  }
+
+  .line-content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+}
+
+// ── Line variants ──────────────────────────────────────────────────────────
+
+.line[data-variant='highlighted'] {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.line[data-variant='added'] {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+}
+
+.line[data-variant='removed'] {
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+}
+
+.line[data-variant='added']::after,
+.line[data-variant='removed']::after {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--spacing-050);
+  user-select: none;
+  pointer-events: none;
+}
+
+.line[data-variant='added']::after {
+  color: var(--color-success);
+  content: '+';
+}
+
+.line[data-variant='removed']::after {
+  color: var(--color-error);
+  content: '\2212';
+}
+
+// ── Tokens ─────────────────────────────────────────────────────────────────
+
+.italic {
+  font-style: italic;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+// ── Collapsible ────────────────────────────────────────────────────────────
+
+.collapsed .content {
+  max-height: var(--code-highlighter-collapsed-height, 16rem);
+  overflow-y: hidden;
+}
+
+.overflowing .content {
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(100% - var(--spacing-600)),
+    transparent
+  );
+}
+
+.footer {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: var(--spacing-050);
+  padding: 0 var(--_pad-inline) var(--spacing-100);
 }
 
-.code-highlighter {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--color-on-surface);
+.expand-icon {
+  transition: transform var(--duration-short4) var(--easing-standard);
 
-  .header {
-    padding: var(--spacing-100);
-    padding-inline-start: var(--spacing-200);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--code-highlighter-background);
-    border-bottom: 1px solid var(--color-outline-variant);
-
-    @include mixin.get-typography(body-medium);
-
-    .copy-button {
-      --button-container-shape: var(--shape-corner-full);
-    }
-  }
-
-  .scroll-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    background-color: var(--code-highlighter-background);
-
-    .highlighter {
-      margin: 0;
-      position: relative;
-
-      .shiki {
-        margin: 0;
-        padding: var(--spacing-200);
-        width: fit-content;
-        background: transparent !important;
-        font-family: var(--font-family-monospace);
-        --shiki-dark-bg: transparent !important;
-
-        code {
-          @include mixin.get-typography(code-medium);
-        }
-      }
-    }
-  }
-
-  &.line-numbers {
-    .highlighter .shiki {
-      /* Reset counter for line numbers */
-      counter-reset: line-counter;
-    }
-
-    .line {
-      position: relative;
-      padding-left: 2rem; /* Space for numbers */
-    }
-
-    .line::before {
-      counter-increment: line-counter;
-      content: counter(line-counter);
-
-      /* Positioning */
-      position: absolute;
-      left: -1.5rem; /* Pull back into padding */
-      width: 2.5rem; /* Fixed width for alignment */
-      text-align: right;
-      padding-right: 1rem;
-
-      /* Visuals */
-      color: var(--num-color);
-      opacity: 0.6;
-      font-variant-numeric: tabular-nums; /* Ensures numbers align vertically */
-      user-select: none; /* Don't copy line numbers when selecting text */
-      pointer-events: none;
-    }
+  &.flipped {
+    transform: rotate(180deg);
   }
 }
 
-:host-context([data-theme='dark']) {
-  .highlighter {
-    .shiki,
-    .shiki span {
-      color: var(--shiki-dark) !important;
-      background-color: var(--shiki-dark-bg) !important;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .expand-icon {
+    transition: none;
   }
 }
+
+// ── Size ───────────────────────────────────────────────────────────────────
+
+:host([size='sm']) {
+  .content {
+    @include mixin.get-typography(code-small);
+  }
+
+  .line[data-variant='added']::after,
+  .line[data-variant='removed']::after {
+    inset-inline-start: var(--spacing-025);
+  }
+}
+
+// ── Error variant ──────────────────────────────────────────────────────────
+
+:host([variant='error']) {
+  .code-block {
+    --_background: var(
+      --code-highlighter-background,
+      color-mix(
+        in srgb,
+        var(--color-error-container) 40%,
+        var(--color-surface-container-low)
+      )
+    );
+    --_border-color: var(
+      --code-highlighter-border-color,
+      color-mix(in srgb, var(--color-error) 40%, transparent)
+    );
+    --_foreground: var(--code-highlighter-foreground, var(--color-error));
+  }
+
+  .title,
+  ::slotted([slot='icon']) {
+    color: var(--color-error);
+  }
+}
+
+// ── Grouped ────────────────────────────────────────────────────────────────
+
+// Inside wc-code-group the group draws the frame, so the block sits flush and
+// its focus ring is drawn inside the frame instead of being clipped by it.
+:host([grouped]) .code-block {
+  border: 0;
+  border-radius: 0;
+
+  &:has(.content:focus-visible) {
+    outline-offset: -3px;
+  }
+}
+
+// ── Inline ─────────────────────────────────────────────────────────────────
 
 :host([inline]) {
   display: inline;
-  height: initial;
+}
 
-  .code-highlighter {
-    display: inline;
-    cursor: pointer;
-
-    .scroll-wrapper {
-      display: inline;
-
-      .line-numbers-wrapper {
-        padding: 0 var(--spacing-100);
-        font-size: inherit;
-        display: inline;
-        word-wrap: break-word;
-
-        .highlighter {
-          display: inline;
-        }
-      }
-    }
-  }
-
-  .code-loader {
-    height: initial;
-    display: inline;
-  }
+.inline {
+  padding: 0 var(--spacing-050);
+  font-family: var(--font-family-monospace);
+  font-size: 0.875em;
+  color: var(--code-highlighter-foreground, var(--color-on-surface));
+  background: var(--color-surface-container-high);
+  border-radius: var(--shape-corner-extra-small);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
