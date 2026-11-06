@@ -1,0 +1,83 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Settings block (pages/blocks/settings/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.settings-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300);
+  background: var(--color-surface-container-lowest);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-400);
+  }
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.settings-tabs wc-tab-panel {
+  padding-block-start: var(--spacing-300);
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  max-width: 40rem;
+
+  > * {
+    width: 100%;
+  }
+}
+
+.settings-grid {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.settings-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  padding-block: var(--spacing-150);
+
+  .settings-list > & {
+    border-block-end: 1px solid var(--color-outline-variant);
+
+    &:last-child {
+      border-block-end: none;
+    }
+  }
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  padding-block-start: var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+}

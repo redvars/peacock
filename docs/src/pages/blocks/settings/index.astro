@@ -1,0 +1,97 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/settings.scss';
+
+interface NotificationSetting {
+  label: string;
+  description: string;
+  checked: boolean;
+}
+
+const notifications: NotificationSetting[] = [
+  { label: 'Product updates', description: 'News about features and releases.', checked: true },
+  { label: 'Weekly summary', description: 'A digest of activity in your workspace.', checked: true },
+  { label: 'Mentions', description: 'When someone mentions you in a comment.', checked: true },
+  { label: 'Marketing email', description: 'Offers, events and surveys.', checked: false },
+];
+---
+
+<Layout
+  title='Settings'
+  description='An account settings page built from Peacock components: tabs for profile, notifications and security, form fields, switches, and save and cancel actions.'
+>
+  <div class='block-demo settings-shell'>
+    <div class='settings-header'>
+      <div>
+        <h2 class='text-headline-small'>Account settings</h2>
+        <p class='text-body-medium block-muted'>Manage your profile, notifications and security.</p>
+      </div>
+      <wc-avatar name='Jane Doe'></wc-avatar>
+    </div>
+
+    <wc-tab-group class='settings-tabs'>
+      <wc-tabs>
+        <wc-tab active>Profile</wc-tab>
+        <wc-tab>Notifications</wc-tab>
+        <wc-tab>Security</wc-tab>
+      </wc-tabs>
+
+      <wc-tab-panel>
+        <div class='settings-form'>
+          <div class='settings-grid'>
+            <wc-input label='First name' value='Jane'></wc-input>
+            <wc-input label='Last name' value='Doe'></wc-input>
+          </div>
+          <wc-input type='email' label='Email address' value='jane@example.com'></wc-input>
+          <wc-select label='Language' value='en' placeholder='Pick a language'>
+            <wc-option value='en'>English</wc-option>
+            <wc-option value='fr'>Français</wc-option>
+            <wc-option value='de'>Deutsch</wc-option>
+            <wc-option value='hi'>हिन्दी</wc-option>
+          </wc-select>
+          <wc-textarea
+            label='Bio'
+            rows='4'
+            placeholder='Tell people a little about yourself'
+            helper-text='Shown on your public profile.'
+          ></wc-textarea>
+        </div>
+      </wc-tab-panel>
+
+      <wc-tab-panel>
+        <ul class='settings-list'>
+          {notifications.map(item => (
+            <li class='settings-list-item'>
+              <div>
+                <div class='text-body-large'>{item.label}</div>
+                <div class='text-body-medium block-muted'>{item.description}</div>
+              </div>
+              <wc-switch checked={item.checked ? true : null} aria-label={item.label}></wc-switch>
+            </li>
+          ))}
+        </ul>
+      </wc-tab-panel>
+
+      <wc-tab-panel>
+        <div class='settings-form'>
+          <wc-input type='password' label='Current password'></wc-input>
+          <wc-input type='password' label='New password' helper-text='At least 12 characters.'></wc-input>
+          <wc-input type='password' label='Confirm new password'></wc-input>
+          <wc-divider></wc-divider>
+          <div class='settings-list-item'>
+            <div>
+              <div class='text-body-large'>Two-factor authentication</div>
+              <div class='text-body-medium block-muted'>Ask for a code from your authenticator app at sign-in.</div>
+            </div>
+            <wc-switch aria-label='Two-factor authentication'></wc-switch>
+          </div>
+        </div>
+      </wc-tab-panel>
+    </wc-tab-group>
+
+    <div class='settings-actions'>
+      <wc-button variant='text'>Cancel</wc-button>
+      <wc-button level='primary'>Save changes</wc-button>
+    </div>
+  </div>
+</Layout>

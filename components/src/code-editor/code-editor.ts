@@ -1,7 +1,6 @@
-import { html, nothing, PropertyValues } from 'lit';
+import { type CSSResult, html, nothing, PropertyValues } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { init } from 'modern-monaco';
 import IndividualComponent from '@/IndividualComponent.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
@@ -11,23 +10,93 @@ import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
 
 import styles from './code-editor.scss';
 
-export type CodeEditorLanguage = 'javascript' | 'json' | 'html' | 'css' | 'scss';
+export type CodeEditorLanguage =
+  | 'javascript'
+  | 'typescript'
+  | 'json'
+  | 'html'
+  | 'css'
+  | 'scss'
+  | 'markdown';
+
+/** A problem shown in the editor: a squiggle under the text and a mark in the scroll bar. Lines and columns count from 1. */
+export type CodeEditorMarker = {
+  line: number;
+  column?: number;
+  endLine?: number;
+  endColumn?: number;
+  message: string;
+  severity?: 'error' | 'warning' | 'info';
+};
+
+type Monaco = typeof import('./monaco.js');
 
 const locale = {
   copied: 'Copied',
   copyToClipboard: 'Copy to clipboard',
   readOnly: 'Read Only',
+  breakpoint: 'Breakpoint',
+  currentLine: 'Paused here',
 };
+
+const EXTENSIONS: Record<CodeEditorLanguage, string> = {
+  javascript: 'js',
+  typescript: 'ts',
+  json: 'json',
+  html: 'html',
+  css: 'css',
+  scss: 'scss',
+  markdown: 'md',
+};
+
+/** Where the language workers are: `monaco/` beside the built component. */
+const WORKERS = new URL('./monaco/', import.meta.url);
+
+let loading: Promise<Monaco> | undefined;
+let instances = 0;
+
+/**
+ * Loads Monaco once per page: its workers come from this origin, and the icon font is declared in
+ * the document, since a shadow root ignores `@font-face`.
+ */
+function loadMonaco(): Promise<Monaco> {
+  loading ??= (async () => {
+    Reflect.set(globalThis, 'MonacoEnvironment', {
+      getWorker(_id: string, label: string) {
+        const file =
+          label === 'typescript' || label === 'javascript'
+            ? 'ts.worker.js'
+            : label === 'json'
+              ? 'json.worker.js'
+              : 'editor.worker.js';
+        return new Worker(new URL(file, WORKERS), { type: 'module' });
+      },
+    });
+    const font = (styles as CSSResult).cssText.match(/@font-face\s*\{[^}]*font-family:\s*codicon[^}]*\}/);
+    if (font && !document.getElementById('wc-code-editor-codicon')) {
+      const style = document.createElement('style');
+      style.id = 'wc-code-editor-codicon';
+      style.textContent = font[0];
+      document.head.append(style);
+    }
+    return import('./monaco.js');
+  })();
+  return loading;
+}
 
 /**
  * @label Code Editor
  * @tag wc-code-editor
  * @rawTag code-editor
  *
- * @summary A Monaco-based code editing component with syntax highlighting and theming.
+ * @summary A Monaco-based code editing component with syntax highlighting, completions and debugging marks.
  * @overview
- *  - CodeEditor wraps Monaco Editor as a web component.
- *  - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.
+ *  - CodeEditor wraps Monaco Editor as a web component. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin.
+ *  - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, minimap, and dark/light theme.
+ *  - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.
+ *  - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.
+ *  - `markers` underline problems, such as where a run failed.
+ *  - With `fill`, the editor takes the height of its container.
  *  - Has a copy button; hide it with `hide-copy`.
  *  - Emits `change` when content is edited and updates value from property changes.
  *
@@ -35,6 +104,7 @@ const locale = {
  *
  * @fires {Event} change - Dispatched when the user edits the content.
  * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the content.
+ * @fires {CustomEvent<{line: number}>} breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.
  *
  * @example
  * ```html
@@ -65,9 +135,13 @@ export default class CodeEditor extends BaseInput {
   @property({ type: String })
   language: CodeEditorLanguage = 'javascript';
 
-  /** Extra source loaded as a separate model, e.g. type definitions for completions. */
-  @property({ type: Object })
-  libSource: any;
+  /** TypeScript declarations (a `.d.ts`) for completions in TypeScript and JavaScript, such as the modules the code may import. */
+  @property({ type: String, attribute: 'lib-source' })
+  libSource: string | undefined;
+
+  /** Compiler options for TypeScript and JavaScript, over the editor's defaults (target and modules ESNext, strict), such as `{ lib: ['es2022'] }`. */
+  @property({ type: Object, attribute: false })
+  compilerOptions: Record<string, unknown> | undefined;
 
   /** Whether line numbers show in the gutter. */
   @property({ type: String })
@@ -84,6 +158,26 @@ export default class CodeEditor extends BaseInput {
   /** Shows a "Read Only" badge while the editor is read-only or disabled. */
   @property({ type: Boolean, attribute: 'show-readonly-badge' })
   showReadonlyBadge = false;
+
+  /** Shows a gutter for breakpoints; a click there, or on a line number, fires `breakpoint-toggle`. */
+  @property({ type: Boolean, attribute: 'breakpoint-gutter' })
+  breakpointGutter = false;
+
+  /** The lines with a breakpoint, from 1. */
+  @property({ type: Array, attribute: false })
+  breakpoints: number[] = [];
+
+  /** The line a debugger is paused at, marked and scrolled into view; none when unset. */
+  @property({ type: Number, attribute: 'current-line' })
+  currentLine: number | undefined;
+
+  /** Problems to underline, such as where a run failed. */
+  @property({ type: Array, attribute: false })
+  markers: CodeEditorMarker[] = [];
+
+  /** Takes the height of the container instead of `--code-editor-height`. */
+  @property({ type: Boolean, reflect: true })
+  fill = false;
 
   /** Whether the page is in dark mode; picks the Monaco theme. */
   @state() private _isDarkMode: boolean = isDarkMode();
@@ -103,14 +197,23 @@ export default class CodeEditor extends BaseInput {
 
   // ── Private fields
 
-  /** The Monaco API returned by modern-monaco's init(). */
-  monaco: any;
+  /** The Monaco API, once loaded. */
+  monaco: Monaco | undefined;
+
+  /** This editor's model's address, unique on the page so two editors never share a model. */
+  private readonly __id = ++instances;
 
   /** Stops listening for theme changes. */
   private __unobserveTheme?: () => void;
 
   /** Resets the copied state of the copy button. */
   private __copiedTimer?: ReturnType<typeof setTimeout>;
+
+  /** The declarations added for `libSource`. */
+  private __lib?: { dispose(): void }[];
+
+  /** The breakpoint and current-line marks. */
+  private __decorations?: { set(decorations: unknown[]): void; clear(): void };
 
   // ── Lifecycle
 
@@ -126,7 +229,12 @@ export default class CodeEditor extends BaseInput {
     super.disconnectedCallback();
     this.__unobserveTheme?.();
     clearTimeout(this.__copiedTimer);
+    this.__lib?.forEach(lib => lib.dispose());
+    this.__lib = undefined;
+    const model = this.editorMonacoInstance?.getModel();
     this.editorMonacoInstance?.dispose();
+    model?.dispose();
+    this.editorMonacoInstance = undefined;
   }
 
   protected firstUpdated() {
@@ -134,19 +242,24 @@ export default class CodeEditor extends BaseInput {
   }
 
   protected updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('libSource')) this.libSourceChanged();
+    if (changedProperties.has('libSource') || changedProperties.has('compilerOptions')) this.libSourceChanged();
 
     const editor = this.editorMonacoInstance;
-    if (!editor) return;
+    if (!editor || !this.monaco) return;
 
     if (changedProperties.has('disabled') || changedProperties.has('readonly')) {
       editor.updateOptions({ readOnly: this.disabled || this.readonly });
     }
 
-    if (changedProperties.has('lineNumbers') || changedProperties.has('minimap')) {
+    if (
+      changedProperties.has('lineNumbers') ||
+      changedProperties.has('minimap') ||
+      changedProperties.has('breakpointGutter')
+    ) {
       editor.updateOptions({
         lineNumbers: this.lineNumbers,
         minimap: { enabled: this.minimap },
+        glyphMargin: this.breakpointGutter,
       });
     }
 
@@ -157,27 +270,46 @@ export default class CodeEditor extends BaseInput {
     if (changedProperties.has('value') && editor.getValue() !== this.value) {
       editor.setValue(this.value || '');
     }
+
+    if (changedProperties.has('breakpoints') || changedProperties.has('currentLine')) {
+      this.drawDecorations();
+    }
+    if (changedProperties.has('currentLine') && this.currentLine) {
+      editor.revealLineInCenterIfOutsideViewport(this.currentLine);
+    }
+
+    if (changedProperties.has('markers')) this.drawMarkers();
   }
 
   // ── Public methods
 
   async initializeMonaco() {
-    this.monaco = await init({
-      themes: ['github-light', 'github-dark'],
-    });
+    const monaco = await loadMonaco();
+    // Disconnected while Monaco loaded: nothing to put it in.
+    if (!this.isConnected || !this.editorElement) return;
+    this.monaco = monaco;
 
-    this.editorMonacoInstance = this.monaco.editor.create(this.editorElement, {
-      value: this.value,
+    const model = monaco.editor.createModel(
+      this.value,
+      this.language,
+      monaco.Uri.parse(`file:///wc-code-editor/${this.__id}/index.${EXTENSIONS[this.language] ?? 'txt'}`),
+    );
+    this.editorMonacoInstance = monaco.editor.create(this.editorElement, {
+      model,
       lineNumbers: this.lineNumbers,
-      language: this.language,
       minimap: { enabled: this.minimap },
+      glyphMargin: this.breakpointGutter,
       theme: this.getTheme(),
       readOnly: this.disabled || this.readonly,
+      automaticLayout: true,
+      fixedOverflowWidgets: true,
+      scrollBeyondLastLine: false,
     });
+    this.__decorations = this.editorMonacoInstance.createDecorationsCollection([]);
 
-    if (this.libSource) {
-      this.libSourceChanged();
-    }
+    this.libSourceChanged();
+    this.drawDecorations();
+    this.drawMarkers();
 
     this.editorMonacoInstance.onDidChangeModelContent((e: any) => {
       if (!e.isFlush) {
@@ -188,6 +320,22 @@ export default class CodeEditor extends BaseInput {
           new Event('change', { bubbles: true, composed: true }),
         );
       }
+    });
+
+    this.editorMonacoInstance.onMouseDown((e: any) => {
+      if (!this.breakpointGutter) return;
+      const type = e.target?.type;
+      const { MouseTargetType } = monaco.editor;
+      if (type !== MouseTargetType.GUTTER_GLYPH_MARGIN && type !== MouseTargetType.GUTTER_LINE_NUMBERS) return;
+      const line = e.target.position?.lineNumber;
+      if (!line) return;
+      this.dispatchEvent(
+        new CustomEvent('breakpoint-toggle', {
+          detail: { line },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     });
 
     this.editorMonacoInstance.onDidFocusEditorText(() => {
@@ -211,26 +359,91 @@ export default class CodeEditor extends BaseInput {
     ); /* Focus hack or use blur if available */
   }
 
+  /** Scrolls `line` into view and puts the cursor at its start. */
+  revealLine(line: number) {
+    const editor = this.editorMonacoInstance;
+    if (!editor) return;
+    editor.revealLineInCenterIfOutsideViewport(line);
+    editor.setPosition({ lineNumber: line, column: 1 });
+  }
+
   // ── Private methods
 
   private libSourceChanged() {
-    if (!this.monaco) return;
-    const libUri = 'java://peacock.redvars.com/lib.java';
-    const libModel = this.monaco.editor.getModel(this.monaco.Uri.parse(libUri));
-
-    if (libModel) libModel.dispose();
-
-    if (this.libSource) {
-      this.monaco.editor.createModel(
-        this.libSource,
-        this.language,
-        this.monaco.Uri.parse(libUri),
-      );
+    const typescript = this.monaco?.typescript;
+    if (!typescript) return;
+    const defaults = [typescript.typescriptDefaults, typescript.javascriptDefaults];
+    for (const found of defaults) {
+      found.setCompilerOptions({
+        target: typescript.ScriptTarget.ESNext,
+        module: typescript.ModuleKind.ESNext,
+        moduleResolution: typescript.ModuleResolutionKind.NodeJs,
+        allowNonTsExtensions: true,
+        strict: true,
+        noEmit: true,
+        ...this.compilerOptions,
+      });
     }
+    this.__lib?.forEach(lib => lib.dispose());
+    this.__lib = this.libSource
+      ? defaults.map(found => found.addExtraLib(this.libSource!, `file:///wc-code-editor/${this.__id}/lib.d.ts`))
+      : undefined;
+  }
+
+  private drawDecorations() {
+    const monaco = this.monaco;
+    if (!monaco || !this.__decorations) return;
+    const range = (line: number) => new monaco.Range(line, 1, line, 1);
+    const decorations: unknown[] = this.breakpoints.map(line => ({
+      range: range(line),
+      options: {
+        glyphMarginClassName: 'wc-code-editor-breakpoint',
+        glyphMarginHoverMessage: { value: locale.breakpoint },
+        stickiness: 1,
+      },
+    }));
+    if (this.currentLine) {
+      decorations.push({
+        range: range(this.currentLine),
+        options: {
+          isWholeLine: true,
+          className: 'wc-code-editor-current-line',
+          glyphMarginClassName: 'wc-code-editor-current-line-glyph',
+          glyphMarginHoverMessage: { value: locale.currentLine },
+        },
+      });
+    }
+    this.__decorations.set(decorations);
+  }
+
+  private drawMarkers() {
+    const monaco = this.monaco;
+    const model = this.editorMonacoInstance?.getModel();
+    if (!monaco || !model) return;
+    const severity = {
+      error: monaco.MarkerSeverity.Error,
+      warning: monaco.MarkerSeverity.Warning,
+      info: monaco.MarkerSeverity.Info,
+    };
+    monaco.editor.setModelMarkers(
+      model,
+      'wc-code-editor',
+      this.markers.map(marker => {
+        const endLine = marker.endLine ?? marker.line;
+        return {
+          startLineNumber: marker.line,
+          startColumn: marker.column ?? 1,
+          endLineNumber: endLine,
+          endColumn: marker.endColumn ?? model.getLineMaxColumn(Math.min(endLine, model.getLineCount())),
+          message: marker.message,
+          severity: severity[marker.severity ?? 'error'],
+        };
+      }),
+    );
   }
 
   private getTheme() {
-    return this._isDarkMode ? 'github-dark' : 'github-light';
+    return this._isDarkMode ? 'vs-dark' : 'vs';
   }
 
   private async __handleCopyClick() {
@@ -281,6 +494,18 @@ export default class CodeEditor extends BaseInput {
   // ── Render
 
   render() {
+    if (this.fill) {
+      // A pane of its own, such as an IDE's: no field outline, as tall as its container.
+      return html`
+        <div class="code-editor-component fill">
+          ${this.renderToolbar()}
+          <div class="editor"></div>
+          ${!this.editorMonacoInstance
+            ? html`<div class="code-editor-loader"><wc-spinner></wc-spinner> Loading...</div>`
+            : nothing}
+        </div>
+      `;
+    }
     // The field isn't marked read-only: its read-only look dims the
     // container, and a read-only editor is still meant to be read.
     return html`

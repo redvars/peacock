@@ -1,14 +1,14 @@
 // ── Site metadata ─────────────────────────────────────────────────────────
 export const SITE_TITLE = 'Peacock';
 export const SITE_DESCRIPTION =
-  "GOAT UI contains design system and most used web components built using Stencil. So you don't need to include any additional framework dependencies, You can simple import required component js, and right away start using it.";
+  'Peacock is a design system and a library of web components built with Lit. Import the component JavaScript and start using them, with no framework dependency.';
 export const SITE_TAGLINE = 'Rapidly build web applications';
 export const SITE_URL = 'https://peacock.redvars.com';
 export const BASE_URL = '';
 
 // ── Versioning ────────────────────────────────────────────────────────────
-export const VERSION = '3.13.0';
-export const FALLBACK_VERSION = '3.12.0';
+export const VERSION = '3.14.0';
+export const FALLBACK_VERSION = '3.13.0';
 export const NPM_PACKAGE = '@redvars/peacock';
 
 // ── Repository ────────────────────────────────────────────────────────────

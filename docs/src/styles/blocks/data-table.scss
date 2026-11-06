@@ -1,0 +1,61 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Data table block (pages/blocks/data-table/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.table-shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300);
+  background: var(--color-surface-container-lowest);
+}
+
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.table-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100);
+
+  .table-search {
+    flex: 1 1 14rem;
+    min-width: 0;
+  }
+}
+
+.customer-table {
+  width: 100%;
+  // Wide columns scroll inside the table on narrow screens.
+  contain: inline-size;
+}
+
+.table-empty-section {
+  margin-block-start: var(--spacing-600);
+}
+
+.table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-500) var(--spacing-200);
+  background: var(--color-surface-container-lowest);
+
+  wc-empty-state {
+    width: 100%;
+  }
+}

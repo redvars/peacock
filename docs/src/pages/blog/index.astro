@@ -1,35 +1,48 @@
 ---
-import Layout from '../../layouts/Default.astro';
-import '../../styles/blog.scss';
-import { SITE_TITLE } from '../../siteconfig';
+import Layout from '../../layouts/WithSidebar.astro';
 import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../siteconfig';
+import { formatPostDate, getPosts } from '../../_data/blog';
+import '../../styles/layout/doc-page.scss';
+import '../../styles/pages/blog.scss';
 
-const allPosts = Object.values(import.meta.glob('./posts/*.astro', { eager: true }));
+const posts = getPosts();
+const description = `News and announcements for all things ${SITE_TITLE}, including new releases.`;
+const sidebarItems = [{ label: 'All posts', href: '/blog/' }, ...posts.map(post => ({ label: post.title, href: post.href }))];
 ---
-<Layout  classes='surface'>
-  <div class='main-content'>
-    <wc-container class='blog-posts page-container'>
-      <h2 class='text-display'>Blog</h2>
-      <p class='text-body-large'>News and announcements for all things { SITE_TITLE }, including new releases</p>
 
-      <wc-divider></wc-divider>
+<Layout title='Blog' description={description} sidebarItems={sidebarItems}>
+  <div class='doc-page'>
+    <header class='doc-header'>
+      <h1 class='text-display-small'>Blog</h1>
+      <p class='text-body-large doc-muted'>{description}</p>
+    </header>
 
-      <div class='post-list'>
-        {allPosts.map((post: any) => {
-          return (
-            <div class='item'>
-              <h3 class='text-headline'>
-                <wc-link href={`${post.url}`} title='{{ post.title }}'>{post.title}</wc-link>
+    <section class='doc-section' aria-labelledby='posts-title'>
+      <h2 class='text-headline-small' id='posts-title'>All posts</h2>
+      <ul class='post-list'>
+        {posts.map(post => (
+          <li>
+            <a class='post-card' href={post.href}>
+              <h3 class='post-card-title text-title-large'>
+                {post.title}
+                <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
               </h3>
-              <p class='text-body-large'>{post.description}</p>
-              <p color='secondary'>
-                Posted on {post.publishedDate}
-              </p>
-            </div>);
-        })}
-
-      </div>
-    </wc-container>
-    <Footer />
+              <div class='post-meta text-label-large'>
+                <time datetime={post.publishedDate}>{formatPostDate(post.publishedDate)}</time>
+              </div>
+              <p class='text-body-large doc-muted'>{post.description}</p>
+              {post.tags && post.tags.length > 0 && (
+                <div class='post-tags'>
+                  {post.tags.map(tag => <wc-tag size='sm'>{tag}</wc-tag>)}
+                </div>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
   </div>
+
+  <Footer />
 </Layout>

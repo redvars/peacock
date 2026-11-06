@@ -42,6 +42,57 @@
     --vscode-editorGutter-background: transparent;
   }
 
+  // A breakpoint: a filled dot in the gutter.
+  .wc-code-editor-breakpoint {
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      margin: 4px auto 0;
+      border-radius: 50%;
+      background: var(--color-error);
+    }
+  }
+
+  // Where a debugger is paused: the line tinted, an arrow in the gutter over any breakpoint.
+  .wc-code-editor-current-line {
+    background: color-mix(in srgb, var(--color-warning) 22%, transparent);
+  }
+
+  // Monaco puts both classes on one element when the paused line has a breakpoint: the arrow wins.
+  .wc-code-editor-current-line-glyph,
+  .wc-code-editor-breakpoint.wc-code-editor-current-line-glyph {
+    z-index: 1;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      margin: 3px auto 0;
+      border-radius: 0;
+      background: none;
+      border-block: 6px solid transparent;
+      border-inline-start: 10px solid var(--color-warning);
+    }
+  }
+
+  .monaco-editor .margin-view-overlays .cgmr {
+    cursor: pointer;
+  }
+}
+
+// `fill`: the editor takes the height its container gives it.
+:host([fill]) {
+  --code-editor-height: 100%;
+  min-height: 0;
+}
+
+.code-editor-component.fill {
+  height: 100%;
 }
 
 .toolbar {

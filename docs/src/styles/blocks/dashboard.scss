@@ -1,157 +1,164 @@
 @charset "utf-8";
-@use "../mixin.scss";
+@use '../mixin';
+
+// Dashboard block (pages/blocks/dashboard/). The outer frame is .block-demo
+// from styles/pages/blocks.scss.
 
 .block-demo-shell {
   display: flex;
-  min-height: calc(100vh - 8rem);
-  overflow: hidden;
+  min-height: 44rem;
   background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-outline-variant);
-  border-radius: var(--shape-corner-large);
-  margin: 0 1.5rem 2rem;
 }
 
 .block-demo-sidebar {
+  display: none;
   width: 15rem;
-  height: 100%;
+  flex-shrink: 0;
   overflow-y: auto;
   border-inline-end: 1px solid var(--color-outline-variant);
   background: var(--color-surface-container);
-  flex-shrink: 0;
+
+  @include mixin.for-tablet-landscape-up {
+    display: block;
+  }
 
   .sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1.25rem 1rem;
-    border-bottom: 1px solid var(--color-outline-variant);
-    margin-bottom: 0.5rem;
+    gap: var(--spacing-100);
+    padding: var(--spacing-200) var(--spacing-150);
+    margin-block-end: var(--spacing-050);
+    border-block-end: 1px solid var(--color-outline-variant);
+
+    wc-icon {
+      color: var(--color-primary);
+    }
   }
 }
 
 .block-demo-main {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  overflow-y: auto;
   min-width: 0;
 }
 
 .block-demo-topbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid var(--color-outline-variant);
+  gap: var(--spacing-150);
+  padding: var(--spacing-100) var(--spacing-300);
+  border-block-end: 1px solid var(--color-outline-variant);
   background: var(--color-surface);
-  gap: 1rem;
-  flex-shrink: 0;
+
+  .topbar-search {
+    flex: 1 1 12rem;
+    max-width: 20rem;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-075);
+    margin-inline-start: auto;
+  }
 }
 
 .block-demo-content {
-  flex: 1;
-  padding: 1.5rem;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-200);
+  }
 }
 
 .stats-row {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  gap: var(--spacing-200);
 }
 
 .stat-card {
   .stat-card-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    padding: 1.25rem;
+    gap: var(--spacing-050);
+    padding: var(--spacing-200);
   }
 
   .stat-label {
     color: var(--color-on-surface-variant);
   }
 
-  .stat-value {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-
   .stat-trend {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    font-size: 0.8125rem;
-    color: var(--color-on-surface-variant);
-  }
+    gap: var(--spacing-025);
 
-  .stat-trend.up {
-    color: var(--color-secondary);
-  }
+    wc-icon {
+      --icon-size: 1rem;
+    }
 
-  .stat-trend.down {
-    color: var(--color-error);
+    &.up {
+      color: var(--color-success);
+    }
+
+    &.down {
+      color: var(--color-error);
+    }
   }
 }
 
 .charts-row {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1rem;
-
-  @include mixin.for-phone-only {
-    grid-template-columns: 1fr;
-  }
+  // Both charts draw at a fixed 320px; they sit side by side once that fits.
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--spacing-200);
 }
 
-.chart-card {
-  .chart-card-inner {
-    padding: 1.25rem;
-  }
-
-  .chart-title {
-    margin-bottom: 1rem;
-  }
-
-  .chart-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-}
-
+.chart-card,
 .activity-card {
+  .chart-card-inner,
   .activity-card-inner {
-    padding: 1.25rem;
+    padding: var(--spacing-200);
   }
 
+  .chart-title,
   .activity-title {
-    margin-bottom: 1rem;
+    margin: 0 0 var(--spacing-200);
+  }
+}
+
+.chart-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding-block: var(--spacing-100);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  &:last-child {
+    border-block-end: none;
   }
 
-  .activity-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .activity-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-outline-variant);
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    .activity-text {
-      flex: 1;
-      min-width: 0;
-    }
+  .activity-text {
+    flex: 1;
+    min-width: 0;
   }
 }

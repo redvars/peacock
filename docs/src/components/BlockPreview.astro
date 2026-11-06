@@ -1,0 +1,79 @@
+---
+// A static wireframe of a block for its card on the Blocks overview. Plain
+// markup and CSS (styles/pages/blocks.scss), no components or scripts.
+import type { BlockPreview } from '../_data/blocks';
+
+interface Props {
+  name: BlockPreview;
+  icon: string;
+}
+const { name, icon } = Astro.props;
+---
+
+{name === 'dashboard' && (
+  <div class='bp bp-dashboard'>
+    <div class='bp-side'>
+      <span class='bp-line bp-accent'></span>
+      <span class='bp-line'></span>
+      <span class='bp-line'></span>
+      <span class='bp-line'></span>
+    </div>
+    <div class='bp-main'>
+      <div class='bp-row'>
+        <span class='bp-tile'></span><span class='bp-tile'></span><span class='bp-tile'></span>
+      </div>
+      <div class='bp-row bp-grow'>
+        <span class='bp-panel bp-bars'><i></i><i></i><i></i><i></i><i></i></span>
+        <span class='bp-panel bp-ring-holder'><span class='bp-ring'></span></span>
+      </div>
+    </div>
+  </div>
+)}
+
+{(name === 'login' || name === 'signup') && (
+  <div class='bp bp-auth'>
+    <div class='bp-card'>
+      <span class='bp-dot'></span>
+      <span class='bp-line bp-short'></span>
+      <span class='bp-field'></span>
+      <span class='bp-field'></span>
+      {name === 'signup' && <span class='bp-field'></span>}
+      <span class='bp-button'></span>
+    </div>
+  </div>
+)}
+
+{name === 'settings' && (
+  <div class='bp bp-settings'>
+    <div class='bp-tabs'>
+      <span class='bp-tab bp-active'></span><span class='bp-tab'></span><span class='bp-tab'></span>
+    </div>
+    <div class='bp-form'>
+      <span class='bp-field'></span>
+      <span class='bp-field'></span>
+      <span class='bp-field bp-tall'></span>
+      <div class='bp-row bp-end'>
+        <span class='bp-button bp-ghost'></span><span class='bp-button'></span>
+      </div>
+    </div>
+  </div>
+)}
+
+{name === 'data-table' && (
+  <div class='bp bp-table'>
+    <div class='bp-row'>
+      <span class='bp-field bp-search'></span><span class='bp-button'></span>
+    </div>
+    <div class='bp-grid'>
+      {Array.from({ length: 5 }, (_, row) => (
+        <div class={row === 0 ? 'bp-tr bp-th' : 'bp-tr'}>
+          <span></span><span></span><span></span><span class='bp-pill'></span>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+{!['dashboard', 'login', 'signup', 'settings', 'data-table'].includes(name) && (
+  <wc-icon class='bp-fallback' name={icon}></wc-icon>
+)}

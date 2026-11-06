@@ -1,0 +1,341 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Blocks overview (pages/blocks/index.astro), the previews on its cards
+// (components/BlockPreview.astro) and the frame every block demo sits in.
+
+.blocks-page {
+  // Demos need more room than prose; the header keeps its own measure.
+  max-width: 90rem;
+}
+
+// ── Overview cards ────────────────────────────────────────────────────────
+
+.blocks-cards {
+  display: grid;
+  gap: var(--spacing-200);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+.block-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  text-decoration: none;
+  transition: background-color var(--duration-short4) var(--easing-standard);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-surface-container-high);
+  }
+}
+
+.block-card-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 11rem;
+  padding: var(--spacing-200);
+  border-block-end: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container);
+}
+
+.block-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  padding: var(--spacing-200) var(--spacing-300) var(--spacing-300);
+
+  p {
+    margin: 0;
+  }
+}
+
+.block-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  margin: 0;
+
+  wc-icon {
+    --icon-size: 1.5rem;
+    color: var(--color-primary);
+  }
+}
+
+.block-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-050);
+}
+
+// ── Previews (wireframes) ─────────────────────────────────────────────────
+
+.bp {
+  --_bp-ink: var(--color-outline-variant);
+  --_bp-paper: var(--color-surface-container-lowest);
+
+  display: flex;
+  width: 100%;
+  max-width: 17rem;
+  height: 100%;
+  gap: var(--spacing-075);
+
+  span,
+  i {
+    display: block;
+  }
+}
+
+.bp-line {
+  height: 0.375rem;
+  border-radius: var(--shape-corner-full);
+  background: var(--_bp-ink);
+
+  &.bp-short {
+    width: 50%;
+    align-self: center;
+  }
+}
+
+.bp-accent,
+.bp-active {
+  background: var(--color-primary) !important;
+}
+
+.bp-row {
+  display: flex;
+  gap: var(--spacing-075);
+
+  &.bp-grow {
+    flex: 1;
+  }
+
+  &.bp-end {
+    justify-content: flex-end;
+  }
+}
+
+.bp-field {
+  height: 1rem;
+  border: 1px solid var(--_bp-ink);
+  border-radius: var(--shape-corner-extra-small);
+  background: var(--_bp-paper);
+
+  &.bp-tall {
+    height: 2rem;
+  }
+}
+
+.bp-button {
+  width: 3rem;
+  height: 1rem;
+  border-radius: var(--shape-corner-full);
+  background: var(--color-primary);
+
+  &.bp-ghost {
+    background: transparent;
+    border: 1px solid var(--_bp-ink);
+  }
+}
+
+.bp-dashboard {
+  border: 1px solid var(--_bp-ink);
+  border-radius: var(--shape-corner-small);
+  background: var(--_bp-paper);
+  overflow: hidden;
+  gap: 0;
+
+  .bp-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-075);
+    width: 22%;
+    padding: var(--spacing-100) var(--spacing-075);
+    border-inline-end: 1px solid var(--_bp-ink);
+  }
+
+  .bp-main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--spacing-075);
+    padding: var(--spacing-100);
+  }
+
+  .bp-tile {
+    flex: 1;
+    height: 1.5rem;
+    border-radius: var(--shape-corner-extra-small);
+    background: var(--color-surface-container-high);
+  }
+
+  .bp-panel {
+    border-radius: var(--shape-corner-extra-small);
+    background: var(--color-surface-container-high);
+  }
+
+  .bp-bars {
+    display: flex !important;
+    flex: 2;
+    align-items: flex-end;
+    gap: 12%;
+    padding: var(--spacing-075);
+
+    i {
+      flex: 1;
+      background: var(--color-primary);
+      border-radius: 2px 2px 0 0;
+
+      &:nth-child(1) { height: 45%; }
+      &:nth-child(2) { height: 65%; }
+      &:nth-child(3) { height: 55%; }
+      &:nth-child(4) { height: 85%; }
+      &:nth-child(5) { height: 70%; }
+    }
+  }
+
+  .bp-ring-holder {
+    display: flex !important;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bp-ring {
+    width: 2.5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(closest-side, var(--color-surface-container-high) 58%, transparent 60%),
+      conic-gradient(var(--color-primary) 0 42%, var(--color-tertiary) 0 70%, var(--color-secondary) 0 88%, var(--_bp-ink) 0);
+  }
+}
+
+.bp-auth {
+  align-items: center;
+  justify-content: center;
+
+  .bp-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-075);
+    width: 9rem;
+    padding: var(--spacing-150);
+    border: 1px solid var(--_bp-ink);
+    border-radius: var(--shape-corner-small);
+    background: var(--_bp-paper);
+  }
+
+  .bp-dot {
+    width: 1rem;
+    aspect-ratio: 1;
+    align-self: center;
+    border-radius: 50%;
+    background: var(--color-primary);
+  }
+
+  .bp-button {
+    width: 100%;
+  }
+}
+
+.bp-settings,
+.bp-table {
+  flex-direction: column;
+  padding: var(--spacing-100);
+  border: 1px solid var(--_bp-ink);
+  border-radius: var(--shape-corner-small);
+  background: var(--_bp-paper);
+}
+
+.bp-settings {
+  .bp-tabs {
+    display: flex;
+    gap: var(--spacing-100);
+    padding-block-end: var(--spacing-050);
+    border-block-end: 1px solid var(--_bp-ink);
+  }
+
+  .bp-tab {
+    width: 2.5rem;
+    height: 0.375rem;
+    border-radius: var(--shape-corner-full);
+    background: var(--_bp-ink);
+  }
+
+  .bp-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-075);
+    width: 75%;
+  }
+}
+
+.bp-table {
+  .bp-search {
+    flex: 1;
+  }
+
+  .bp-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bp-tr {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1.5fr 1.5fr;
+    gap: var(--spacing-075);
+    align-items: center;
+    padding-block: var(--spacing-075);
+    border-block-end: 1px solid var(--_bp-ink);
+
+    span {
+      height: 0.375rem;
+      border-radius: var(--shape-corner-full);
+      background: var(--_bp-ink);
+    }
+
+    .bp-pill {
+      height: 0.625rem;
+      background: var(--color-secondary-container);
+    }
+  }
+
+  .bp-th span {
+    background: var(--color-on-surface-variant);
+    opacity: 0.6;
+  }
+}
+
+.bp-fallback {
+  --icon-size: 4rem;
+  opacity: 0.25;
+}
+
+// ── Demo frame shared by every block page ─────────────────────────────────
+
+.block-demo {
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-large);
+  background: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+}
+
+.block-demo-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40rem;
+  padding: var(--spacing-400) var(--spacing-200);
+}
+
+.block-muted {
+  color: var(--color-on-surface-variant);
+}

@@ -1,0 +1,71 @@
+---
+import Layout from '../../../layouts/Post.astro';
+import { SITE_TITLE } from '../../../siteconfig';
+export const title = `What's new in ${SITE_TITLE} 3.10 to 3.13`;
+export const description = `Self-hosted icons, a theme engine and theme builder, Foundations docs, four new components, a new condition builder, and lazy loading inside shadow roots.`;
+export const publishedDate = '2026-11-01';
+export const tags = ['release'];
+---
+
+<Layout title={title} description={description} publishedDate={publishedDate} tags={tags}>
+  <p>
+    Four minor releases shipped between October 28 and November 1. Here is what changed, release by release.
+  </p>
+
+  <h2 class='text-headline-small'>3.10: icons without a CDN</h2>
+  <p>
+    <code class='text-code-block'>wc-icon</code> used to fetch every icon from jsDelivr, so pages under a strict
+    content security policy, or on an intranet, showed none. The new <code class='text-code-block'>loader-full.js</code>
+    loads everything <code class='text-code-block'>loader.js</code> loads and ships the outlined Material Symbols
+    beside it. <code class='text-code-block'>setIconBase(provider, base)</code> is public for hosts that keep icons
+    elsewhere. 3.10.1 fixed the menu corners, width and alignment of <code class='text-code-block'>wc-select</code>.
+  </p>
+
+  <h2 class='text-headline-small'>3.11: themes, Foundations and new components</h2>
+  <ul>
+    <li>
+      <strong>Theme engine.</strong> One theme config now generates the palettes, color roles, shape and font tokens.
+      The same code builds <code class='text-code-block'>tokens.css</code> and ships as
+      <code class='text-code-block'>@redvars/peacock/theme</code>.
+    </li>
+    <li>
+      <strong>Theme builder.</strong> The new <a href='/theme-builder'>theme builder</a> picks seed colors, variant,
+      contrast, shape and fonts, with a live light and dark preview, generated CSS, download and a share link.
+    </li>
+    <li>
+      <strong>Foundations docs.</strong> The <a href='/foundations/'>Foundations</a> pages document color, shape,
+      elevation, motion, spacing, state layers and type. Pages without <code class='text-code-block'>data-theme</code>
+      now follow the system dark mode setting.
+    </li>
+    <li>
+      <strong>New components.</strong> <code class='text-code-block'>wc-radio-group</code>,
+      <code class='text-code-block'>wc-navigation-bar</code>, <code class='text-code-block'>wc-navigation-drawer</code>
+      and <code class='text-code-block'>wc-color-field</code>, each with a docs page.
+    </li>
+    <li>
+      <strong>Hardening.</strong> A stylelint rule rejects raw colors and hardcoded corner radii. Checkbox and switch
+      use <code class='text-code-block'>checked</code>, and form controls built on the shared input base join native
+      forms. <code class='text-code-block'>wc-code-editor</code> gains CSS and SCSS and a copy button.
+    </li>
+  </ul>
+
+  <h2 class='text-headline-small'>3.12: an interactive condition builder</h2>
+  <p>
+    <code class='text-code-block'>wc-condition-builder</code> is now an interactive query builder made of
+    <code class='text-code-block'>wc-cb-group</code> and <code class='text-code-block'>wc-cb-rule</code>. Groups join
+    their rules with an And/Or pill, and rules drag by their handle to reorder or move between groups. This is a
+    breaking change: <code class='text-code-block'>wc-cb-predicate</code>,
+    <code class='text-code-block'>wc-cb-compound-expression</code> and
+    <code class='text-code-block'>wc-cb-expression</code> are gone.
+  </p>
+
+  <h2 class='text-headline-small'>3.13: lazy loading inside shadow roots</h2>
+  <p>
+    The loader now finds and loads lazy components used inside other components' shadow roots, not only in the page.
+    Read-only fields no longer look disabled.
+  </p>
+
+  <p>
+    Browse the <a href='/components'>components</a> or start from a <a href='/blocks/'>block</a> to try them out.
+  </p>
+</Layout>

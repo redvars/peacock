@@ -1,0 +1,36 @@
+---
+export const title = 'TypeScript and debugging';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
+---
+
+<p class='text-body-medium'>
+  With <code class='text-code-block'>language="typescript"</code> the editor checks types and completes as you
+  type; <code class='text-code-block'>lib-source</code> adds declarations, such as the modules the code may import.
+  A debugger draws on it: <code class='text-code-block'>breakpoint-gutter</code> shows the gutter, and a click there
+  or on a line number fires <code class='text-code-block'>breakpoint-toggle</code> with the line; the page keeps
+  <code class='text-code-block'>breakpoints</code> and sets <code class='text-code-block'>current-line</code> where
+  it is paused. <code class='text-code-block'>markers</code> underline problems, such as where a run failed. Monaco is
+  bundled with Peacock and its workers are served beside it, so the editor needs nothing from another origin.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-editor id='debugging-editor' language='typescript' breakpoint-gutter current-line='4' style='display:block; width: 100%; --code-editor-height: 14rem;'></wc-code-editor>
+  <script is:inline>
+    const debuggingEditor = document.getElementById('debugging-editor');
+    debuggingEditor.libSource = `declare module "app:greet" { export function greet(name: string): string; }`;
+    debuggingEditor.value = `import { greet } from "app:greet";
+
+export default function run(names: string[]) {
+  const greetings = names.map((name) => greet(name));
+  return greetings.join("\\n");
+}`;
+    debuggingEditor.breakpoints = [4];
+    debuggingEditor.addEventListener('breakpoint-toggle', (event) => {
+      const { line } = event.detail;
+      const lines = debuggingEditor.breakpoints;
+      debuggingEditor.breakpoints = lines.includes(line) ? lines.filter((found) => found !== line) : [...lines, line];
+      myConsole.log(`Breakpoints: ${debuggingEditor.breakpoints.join(', ') || 'none'}`, 'wc-code-editor');
+    });
+  </script>
+</DemoComponentCard>
