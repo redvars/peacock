@@ -1,0 +1,19 @@
+---
+export const title = 'Typing and validation';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Typed text is read when the field loses focus or on Enter. The field accepts the locale's order
+  with <code>/</code>, <code>-</code>, <code>.</code> or a space between the parts, two-digit years,
+  and ISO dates. Valid text is rewritten in the locale's format. Text that isn't a date, or a date
+  outside <code>min</code> and <code>max</code>, shows an error and keeps the last good value.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-date-field label='Delivery date' min='2026-11-02' max='2026-12-18' helper-text='From November 2 to December 18'></wc-date-field>
+    <wc-date-field label='Geburtsdatum' locale='de-DE' value='1990-04-12'></wc-date-field>
+  </div>
+</DemoComponentCard>

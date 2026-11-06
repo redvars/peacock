@@ -1,12 +1,17 @@
 ---
-export const title = 'Sizes';
+export const title = 'Step and seconds';
 export const order = 200;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
-<p>Fancy larger or smaller input? Add size attribute for additional sizes.</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-time-picker size='lg'></goat-time-picker>
-  <goat-time-picker size='md'></goat-time-picker>
-  <goat-time-picker size='sm'></goat-time-picker>
-</HighlighterCard>
+<p>
+  <code>step</code> sets the minutes between entries, such as 15 for 00, 15, 30 and 45.
+  <code>seconds</code> adds a seconds column and makes the value <code>HH:mm:ss</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem;'>
+    <wc-time-picker value='14:15' step='15'></wc-time-picker>
+    <wc-time-picker value='14:15:30' seconds hour-cycle='h23'></wc-time-picker>
+  </div>
+</DemoComponentCard>

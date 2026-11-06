@@ -3,30 +3,76 @@
 @include mixin.base-styles;
 
 :host {
-  display: block;
-  width: 100%;
+  --_height: var(--time-picker-height, 14rem);
+  --_option-height: 2.25rem;
+
+  display: inline-block;
+  color: var(--color-on-surface);
+
+  @include mixin.get-typography-not-important(body-medium);
 }
 
-.input-element {
-  border: none;
+.time-picker {
+  display: flex;
+  gap: var(--spacing-050);
+
+  &.disabled {
+    opacity: var(--state-disabled-content-opacity, 0.38);
+    pointer-events: none;
+  }
+}
+
+.column {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+  width: 3.5rem;
+  height: var(--_height);
+  // Room above the first entry and below the last lets any entry scroll to the middle row.
+  padding-block: calc((var(--_height) - var(--_option-height)) / 2);
+  overflow-y: auto;
+  scrollbar-width: none;
+  border-radius: var(--shape-corner-small);
   outline: none;
-  margin: 0;
-  padding: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-primary);
+  }
+
+  & + .column {
+    border-inline-start: 1px solid var(--color-outline-variant);
+    border-radius: 0;
+    padding-inline-start: var(--spacing-050);
+    width: calc(3.5rem + var(--spacing-050));
+  }
 }
 
+.option {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_option-height);
+  border-radius: var(--shape-corner-small);
+  cursor: pointer;
+  user-select: none;
 
-.input-wrapper {
-  .input {
-    flex: 1;
-    width: 100%;
-    background: none;
-    cursor: inherit;
+  &:hover:not(.selected, [aria-disabled='true']) {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
   }
 
-  .input::-webkit-inner-spin-button,
-  .input::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
+  &.selected {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
   }
 
+  &[aria-disabled='true'] {
+    opacity: var(--state-disabled-content-opacity, 0.38);
+    cursor: not-allowed;
+  }
 }

@@ -1,13 +1,18 @@
 ---
-export const title = 'Sizes';
+export const title = 'Range';
 export const order = 200;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Fancy larger or smaller input? Add size attribute for additional sizes.</p>
+<p>
+  With <code>range</code> the picker takes two clicks: the first sets the start and fires
+  <code>input</code>, the second sets the end and fires <code>change</code>. The ends are put in
+  order, so the end can be picked before the start. While the end is being chosen, the band follows
+  the pointer. <code>months="2"</code> shows two months side by side.
+</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-date-picker size='lg'></goat-date-picker>
-  <goat-date-picker size='md'></goat-date-picker>
-  <goat-date-picker size='sm'></goat-date-picker>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <wc-date-picker range months='2' value='2026-11-03/2026-11-09'></wc-date-picker>
+</DemoComponentCard>
+
+<p>A range value is two ISO dates joined by a slash: <code>2026-11-03/2026-11-09</code>.</p>

@@ -1,35 +1,10 @@
 ---
-export const title = 'Events';
+export const title = 'Keyboard';
 export const order = 400;
-import Highlighter from '../../../../components/Highlighter.astro';
 ---
-<pc-text type='body'>On input change a <b>CustomEvent</b> <code class='highlighter-rouge'
-                                                                  data-lang='html'>goat:change</code> is triggered by
-  the element.
-</pc-text>
 
-<goat-card>
-  <pc-card-content>
-    <goat-time-picker id='time-field'></goat-time-picker>
-
-    <script is:inline>
-      document.querySelector('#time-field').addEventListener('goat:input', function(event) {
-        myConsole.log('goat:input :: ' + event.target.value);
-      });
-      document.querySelector('#time-field').addEventListener('goat:change', function(event) {
-        myConsole.warn('goat:change :: ' + event.target.value);
-      });
-    </script>
-  </pc-card-content>
-  <pc-card-content class='no-padding'>
-    <Highlighter lang='javascript' is:raw> document.querySelector('#time-field').addEventListener('goat:input',
-      function(event) {
-        console.log('goat:input :: ' + event.target.value);
-      });
-
-      document.querySelector('#time-field').addEventListener('goat:change', function(event) {
-        console.warn('goat:change :: ' + event.target.value);
-      });
-    </Highlighter>
-  </pc-card-content>
-</goat-card>
+<p>
+  The columns are listboxes, and the focused column is the only tab stop. Up and Down change the
+  focused column (wrapping around), Home and End go to its first and last entry, Left and Right move
+  between columns, and Enter commits the time with <code>change</code>.
+</p>

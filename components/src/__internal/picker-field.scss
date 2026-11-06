@@ -1,0 +1,30 @@
+// Shared styles for the fields built on PickerField (date, time and date-time fields).
+// Each field's stylesheet starts with `@use '../__internal/picker-field';`.
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.popover {
+  display: block;
+}
+
+.input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+
+.picker-panel {
+  --popover-content-min-width: auto;
+}

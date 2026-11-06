@@ -1,12 +1,25 @@
 ---
 export const title = 'Usage';
 export const order = 100;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<p>Here are different types of inputs.</p>
+<p>
+  <code>wc-date-picker</code> is a calendar for picking a date. It is the calendar inside
+  <code>wc-date-field</code>; use it on its own where the calendar should stay on the page, such as a
+  booking panel. For a form input, use <code>wc-date-field</code>.
+</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-date-picker label='Date' helper-text='Optional helper text'></wc-date-picker>
+  <wc-date-picker id='date-picker-demo' value='2026-11-06'></wc-date-picker>
+  <script is:inline>
+    document.querySelector('#date-picker-demo').addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value);
+    });
+  </script>
 </DemoComponentCard>
+
+<p>
+  The value is an ISO date (<code>2026-11-06</code>), whatever the locale. Click the month name to
+  switch to a month grid, and again for a decade of years, to jump further than the arrows go.
+</p>

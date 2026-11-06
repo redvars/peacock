@@ -3,30 +3,175 @@
 @include mixin.base-styles;
 
 :host {
-  display: block;
-  width: 100%;
+  --_cell: var(--date-picker-cell-size, 2.5rem);
+  --_hover: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+
+  display: inline-block;
+  color: var(--color-on-surface);
+
+  @include mixin.get-typography-not-important(body-medium);
 }
 
-.input-element {
-  border: none;
-  outline: none;
-  margin: 0;
+.date-picker.disabled {
+  opacity: var(--state-disabled-content-opacity, 0.38);
+  pointer-events: none;
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding-bottom: var(--spacing-100);
+}
+
+.view-button {
+  @include mixin.reset-button-styles;
+  @include mixin.get-typography-not-important(title-small);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-025);
+  min-height: 2rem;
+  padding: 0 var(--spacing-050) 0 var(--spacing-100);
+  border-radius: var(--shape-corner-full);
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--_hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.view-chevron {
+  --icon-size: 1.25rem;
+}
+
+.nav {
+  display: inline-flex;
+  margin-inline-start: auto;
+}
+
+// ── Day grid ─────────────────────────────────────────────────────────────────
+
+.months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-300);
+}
+
+.month {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  @include mixin.get-typography-not-important(label-medium);
+
+  width: var(--_cell);
+  height: 2rem;
+  padding: 0;
+  color: var(--color-on-surface-variant);
+  font-weight: inherit;
+}
+
+td {
+  position: relative;
+  width: var(--_cell);
+  height: var(--_cell);
   padding: 0;
 }
 
+// The range band sits behind the day buttons; its ends start and stop at the cell centre.
+td.in-range::before {
+  content: '';
+  position: absolute;
+  inset: 2px 0;
+  background: var(--color-primary-container);
+}
 
-.input-wrapper {
-  .input {
-    flex: 1;
-    width: 100%;
-    background: none;
-    cursor: inherit;
+td.in-range.range-start::before {
+  inset-inline-start: 50%;
+}
+
+td.in-range.range-end::before {
+  inset-inline-end: 50%;
+}
+
+td.in-range .day:not(.selected) {
+  color: var(--color-on-primary-container);
+}
+
+.cell {
+  @include mixin.reset-button-styles;
+
+  position: relative;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover:not(.selected, [aria-disabled='true']) {
+    background: var(--_hover);
   }
 
-  .input::-webkit-inner-spin-button,
-  .input::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
   }
 
+  &.outside {
+    color: var(--color-on-surface-variant);
+  }
+
+  &.today {
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  &.selected {
+    background: var(--color-primary);
+    box-shadow: none;
+    color: var(--color-on-primary);
+  }
+
+  &[aria-disabled='true'] {
+    opacity: var(--state-disabled-content-opacity, 0.38);
+    cursor: not-allowed;
+  }
+}
+
+.day {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--shape-corner-full);
+}
+
+// ── Month and year grids ─────────────────────────────────────────────────────
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-100) var(--spacing-050);
+  width: calc(var(--_cell) * 7);
+  padding-block: var(--spacing-100);
+}
+
+.choice {
+  height: 2.25rem;
+  border-radius: var(--shape-corner-full);
+}
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--spacing-100);
 }

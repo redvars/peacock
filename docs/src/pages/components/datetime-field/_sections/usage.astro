@@ -1,0 +1,30 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-datetime-field</code> is a text field for a date and a time. Its picker shows the calendar
+  and the time columns side by side, and stays open so both can be set; the value is committed with
+  <code>change</code> when the picker closes. Picking a date keeps the time, and picking a time first
+  uses today's date.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-datetime-field id='datetime-field-demo' label='Meeting' value='2026-11-06T09:30' step='15'></wc-datetime-field>
+    <wc-datetime-field label='Deadline' min='2026-11-06T09:00' helper-text='From November 6, 9:00 AM'></wc-datetime-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#datetime-field-demo').addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  Type the date and the time with a comma or a space between them, such as
+  <code>11/6/2026, 9:30 am</code>. The value is a local ISO date-time
+  (<code>2026-11-06T09:30</code>), and the field is form-associated.
+</p>

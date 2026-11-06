@@ -1,0 +1,24 @@
+@use '../__internal/picker-field';
+
+.picker-layout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+}
+
+.time-picker {
+  // Line the columns up with the calendar below its header: weekday row plus six weeks.
+  --time-picker-height: calc(var(--date-picker-cell-size, 2.5rem) * 6 + 2rem);
+
+  padding-top: 2.5rem;
+}
+
+// On a phone the columns wrap below the calendar: keep them short so the popover fits.
+@media (max-width: 599px) {
+  .time-picker {
+    --time-picker-height: 8.5rem;
+
+    padding-top: 0;
+  }
+}

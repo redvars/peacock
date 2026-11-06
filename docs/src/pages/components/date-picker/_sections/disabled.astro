@@ -1,20 +1,42 @@
 ---
-export const title = 'Disabled';
+export const title = 'Limits and states';
 export const order = 300;
-import HighlighterCard from '../../../../components/HighlighterCard.astro';
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
-<pc-text type='body'
->Make input look inactive by adding the disabled <code class='highlighter-rouge' data-lang='html'>boolean</code>
-  attribute to any
-  <code class='highlighter-rouge' data-lang='html'>&lt;input&gt;</code> element.
-</pc-text>
+<p>
+  <code>min</code> and <code>max</code> limit the dates that can be picked. For other dates, such as
+  weekends or holidays, set the <code>isDateDisabled</code> property to a function that takes an ISO
+  date and returns <code>true</code> for dates that are not available. The keyboard skips them.
+</p>
 
-<HighlighterCard lang={'html'}>
-  <goat-date-picker disabled></goat-date-picker>
-</HighlighterCard>
+<DemoComponentCard lang={'html'}>
+  <wc-date-picker id='date-picker-limits' value='2026-11-10' min='2026-11-02' max='2026-11-27'></wc-date-picker>
+  <script is:inline>
+    document.querySelector('#date-picker-limits').isDateDisabled = function (iso) {
+      const day = new Date(iso + 'T00:00').getDay();
+      return day === 0 || day === 6;
+    };
+  </script>
+</DemoComponentCard>
 
-<pc-text type="heading" heading-size="3">Read only</pc-text>
-<HighlighterCard lang={'html'}>
-  <goat-date-picker readonly></goat-date-picker>
-</HighlighterCard>
+<pc-text type='heading' heading-size='3'>Week start, actions and outside days</pc-text>
+
+<p>
+  The week starts on the locale's first day; <code>first-day-of-week</code> (0 for Sunday to 6)
+  changes it. <code>show-actions</code> adds Today and Clear buttons, and
+  <code>hide-outside-days</code> leaves the days of the neighbouring months blank.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-date-picker value='2026-11-06' first-day-of-week='1' show-actions hide-outside-days></wc-date-picker>
+</DemoComponentCard>
+
+<pc-text type='heading' heading-size='3'>Disabled and read only</pc-text>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem;'>
+    <wc-date-picker value='2026-11-06' disabled></wc-date-picker>
+    <wc-date-picker value='2026-11-06' readonly></wc-date-picker>
+  </div>
+</DemoComponentCard>

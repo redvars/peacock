@@ -1,0 +1,30 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-time-field</code> is a text field for a time of day. Type a time, or open the time picker
+  (<code>wc-time-picker</code>) from the button or with Alt + Arrow Down. Picking in the last column
+  closes the picker.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-time-field id='time-field-demo' label='Start time' value='09:30' step='15'></wc-time-field>
+    <wc-time-field label='Opening hours' hour-cycle='h23' min='08:00' max='18:00' helper-text='Between 08:00 and 18:00'></wc-time-field>
+    <wc-time-field label='Disabled' disabled value='17:00'></wc-time-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#time-field-demo').addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  Typed times can be <code>9:30</code>, <code>930</code>, <code>9:30 pm</code> or
+  <code>21:30</code>. The value is always a 24-hour ISO time (<code>09:30</code>), and the field is
+  form-associated.
+</p>
