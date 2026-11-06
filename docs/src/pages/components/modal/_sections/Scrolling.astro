@@ -1,0 +1,89 @@
+---
+export const title = 'Scrolling content';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  When the content is taller than the screen, only the body scrolls. The header and the
+  footer actions stay in view. The page behind the modal does not scroll while it is open.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button variant='outlined' data-open-modal='terms-modal'>Review terms of service</wc-button>
+
+  <wc-modal id='terms-modal' heading='Terms of service' subheading='Updated 1 November 2026' size='lg' no-scrim-close>
+    <h3 class='text-title-medium'>1. Your account</h3>
+    <p class='modal-demo-text text-body-medium'>
+      You are responsible for the activity on your account and for keeping your password safe.
+      Tell us straight away if you think someone else has used your account. You must be at
+      least 16 years old to create an account.
+    </p>
+
+    <h3 class='text-title-medium'>2. Your content</h3>
+    <p class='modal-demo-text text-body-medium'>
+      You keep ownership of everything you upload. You give us a licence to host, copy and
+      display it only so that we can run the service for you and the people you share it with.
+      The licence ends when you delete the content, apart from copies in backups, which expire
+      within 30 days.
+    </p>
+
+    <h3 class='text-title-medium'>3. Acceptable use</h3>
+    <p class='modal-demo-text text-body-medium'>
+      Don’t use the service to break the law, to send spam, or to get around usage limits. Don’t
+      probe, scan or test the security of the service without written permission. We may
+      suspend an account that puts other customers at risk; we will tell you why.
+    </p>
+
+    <h3 class='text-title-medium'>4. Plans and billing</h3>
+    <p class='modal-demo-text text-body-medium'>
+      Paid plans renew each month or year until you cancel. When you upgrade, you pay the
+      difference for the rest of the period. When you downgrade, the change starts at the next
+      renewal. Prices exclude tax, which we add where the law requires it.
+    </p>
+
+    <h3 class='text-title-medium'>5. Availability</h3>
+    <p class='modal-demo-text text-body-medium'>
+      We aim for 99.9% monthly uptime and publish incidents on our status page. Planned
+      maintenance is announced at least 48 hours ahead and does not count as downtime.
+    </p>
+
+    <h3 class='text-title-medium'>6. Ending the agreement</h3>
+    <p class='modal-demo-text text-body-medium'>
+      You can close your account at any time from Settings. You can export your data for 30
+      days after closing; after that we delete it. We can end the agreement with 30 days’
+      notice, or straight away if you seriously break these terms.
+    </p>
+
+    <h3 class='text-title-medium'>7. Liability</h3>
+    <p class='modal-demo-text text-body-medium'>
+      The service is provided as is. To the extent the law allows, our total liability is
+      limited to what you paid us in the 12 months before the claim. Nothing in these terms
+      limits liability that cannot be limited by law.
+    </p>
+
+    <h3 class='text-title-medium'>8. Changes to these terms</h3>
+    <p class='modal-demo-text text-body-medium'>
+      We will email you at least 30 days before a change that affects you. If you keep using
+      the service after the change takes effect, you accept the new terms.
+    </p>
+
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-checkbox id='terms-agree' label='I have read and agree'></wc-checkbox>
+      <span class='modal-demo-spacer'></span>
+      <wc-button variant='text' data-close-modal>Decline</wc-button>
+      <wc-button id='terms-accept' disabled data-close-modal>Accept</wc-button>
+    </div>
+  </wc-modal>
+
+  <script is:inline>
+    document.getElementById('terms-agree').addEventListener('change', event => {
+      document.getElementById('terms-accept').disabled = !event.target.checked;
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  This modal sets <code>no-scrim-close</code>, so a click outside it doesn’t dismiss it by
+  accident. Escape and the close button still work.
+</p>

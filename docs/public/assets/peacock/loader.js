@@ -118,6 +118,16 @@ import './is-dark-mode-DOcaw4Yq.js';
 
 class LoaderUtils {
     constructor(loaderConfig) {
+        this._observer = new MutationObserver(mutations => {
+            for (const { addedNodes } of mutations) {
+                for (const node of addedNodes) {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        this.load(node);
+                    }
+                }
+            }
+        });
+        this._observed = new WeakSet();
         this._loaderConfig = loaderConfig;
     }
     static registerComponent(tagName, CustomElementClass) {
@@ -126,8 +136,23 @@ class LoaderUtils {
         }
     }
     start() {
+        // Before the eager components are defined, so their shadow roots are watched too.
+        this.watchShadowRoots();
         this.eagerLoadComponents();
         this.lazyLoadComponents(document);
+    }
+    /**
+     * Watches every shadow root attached from now on, as it is attached, so lazy components that a
+     * component renders in its shadow root load as they do in the document.
+     */
+    watchShadowRoots() {
+        const watch = (shadowRoot) => this.lazyLoadComponents(shadowRoot);
+        const { attachShadow } = Element.prototype;
+        Element.prototype.attachShadow = function attachShadowAndWatch(init) {
+            const shadowRoot = attachShadow.call(this, init);
+            watch(shadowRoot);
+            return shadowRoot;
+        };
     }
     eagerLoadComponents() {
         if (!this._loaderConfig.components)
@@ -173,22 +198,22 @@ class LoaderUtils {
         const tagsToRegister = [...new Set(tags)];
         await Promise.allSettled(tagsToRegister.map(tagName => this.registerAsync(tagName)));
     }
+    /** Loads the lazy components in `root` (a document or a shadow root) and those added later. */
     lazyLoadComponents(root) {
-        this._observer = new MutationObserver(mutations => {
-            for (const { addedNodes } of mutations) {
-                for (const node of addedNodes) {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        this.load(node);
-                    }
-                }
-            }
-        });
         const target = root instanceof Document ? root.documentElement : root;
+        if (this._observed.has(target))
+            return;
+        this._observed.add(target);
         this.load(target);
         this._observer.observe(target, {
             subtree: true,
             childList: true,
         });
+        // Shadow roots attached before watchShadowRoots() ran; later ones are watched as attached.
+        for (const element of target.querySelectorAll('*')) {
+            if (element.shadowRoot)
+                this.lazyLoadComponents(element.shadowRoot);
+        }
     }
 }
 

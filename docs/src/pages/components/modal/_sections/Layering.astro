@@ -1,0 +1,64 @@
+---
+export const title = 'Layering';
+export const order = 500;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<style is:inline>
+  .modal-demo-layering {
+    display: grid;
+    gap: var(--spacing-200);
+    max-width: 28rem;
+    width: 100%;
+  }
+
+  /* A sticky banner with a very high z-index inside a card that creates its own stacking context. */
+  .modal-demo-sticky {
+    background: var(--color-primary-container);
+    border-radius: var(--shape-corner-medium);
+    color: var(--color-on-primary-container);
+    padding: var(--spacing-150) var(--spacing-200);
+    position: sticky;
+    top: var(--spacing-200);
+    z-index: 9999;
+  }
+
+  .modal-demo-trapped {
+    transform: translateZ(0);
+  }
+</style>
+
+<p>
+  The modal opens a native <code>&lt;dialog&gt;</code> in the browser’s top layer. Nothing on
+  the page can draw above it, whatever its <code>z-index</code>, and a parent with a
+  <code>transform</code> or its own stacking context can’t trap it. You don’t need to move the
+  modal to the end of <code>&lt;body&gt;</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div class='modal-demo-layering'>
+    <div class='modal-demo-sticky text-label-large'>Sticky banner, z-index: 9999</div>
+    <wc-card variant='elevated' class='modal-demo-trapped'>
+      <wc-card-content>
+        <p class='modal-demo-text text-body-medium'>
+          This card has a transform, so it creates a stacking context. The modal inside it still
+          covers the whole page.
+        </p>
+        <wc-button data-open-modal='layering-modal'>Open modal from inside the card</wc-button>
+
+        <wc-modal id='layering-modal' heading='Move 3 files' size='sm'>
+          <p class='modal-demo-text text-body-medium'>Choose the folder to move them to.</p>
+          <wc-select label='Destination' value='design'>
+            <wc-option value='design'>Design / Specs</wc-option>
+            <wc-option value='research'>Research / Interviews</wc-option>
+            <wc-option value='archive'>Archive</wc-option>
+          </wc-select>
+          <div slot='footer' class='modal-demo-actions'>
+            <wc-button variant='text' data-close-modal>Cancel</wc-button>
+            <wc-button data-close-modal>Move</wc-button>
+          </div>
+        </wc-modal>
+      </wc-card-content>
+    </wc-card>
+  </div>
+</DemoComponentCard>

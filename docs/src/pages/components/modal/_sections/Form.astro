@@ -1,0 +1,49 @@
+---
+export const title = 'Form';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A modal can collect a few fields without leaving the page. Selects, menus and tooltips opened
+  inside it draw above the modal, and the modal draws above everything on the page.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button data-open-modal='invite-modal'>Invite teammate</wc-button>
+
+  <wc-modal id='invite-modal' heading='Invite teammate' subheading='Atlas workspace' size='sm'>
+    <p class='modal-demo-text text-body-medium'>
+      They get an email with a link to join. Invites expire after 7 days.
+    </p>
+
+    <form id='invite-form' class='modal-demo-form'>
+      <wc-input label='Email address' type='email' name='email' placeholder='name@company.com' required></wc-input>
+      <wc-select label='Role' name='role' value='editor' helper-text='You can change this later in Members.'>
+        <wc-option value='viewer'>Viewer: can read and comment</wc-option>
+        <wc-option value='editor'>Editor: can edit pages</wc-option>
+        <wc-option value='admin'>Admin: can manage members and billing</wc-option>
+      </wc-select>
+      <wc-textarea label='Personal note (optional)' name='note' rows='3'></wc-textarea>
+    </form>
+
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-button variant='text' data-close-modal>Cancel</wc-button>
+      <wc-button id='invite-send'>Send invite</wc-button>
+    </div>
+  </wc-modal>
+
+  <script is:inline>
+    (() => {
+      const modal = document.getElementById('invite-modal');
+      document.getElementById('invite-send').addEventListener('click', () => {
+        modal.showLoader = true;
+        setTimeout(() => {
+          modal.showLoader = false;
+          modal.hide();
+          document.getElementById('invite-form').reset();
+        }, 1200);
+      });
+    })();
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,54 @@
+---
+export const title = 'Sizes';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The <code>size</code> attribute sets the maximum width: <code>xs</code> (320px),
+  <code>sm</code> (420px), <code>md</code> (560px, the default), <code>lg</code> (800px) and
+  <code>fullscreen</code>. On a narrow screen every size shrinks to fit.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button variant='tonal' data-open-modal='size-xs-modal'>Extra small</wc-button>
+  <wc-button variant='tonal' data-open-modal='size-md-modal'>Medium</wc-button>
+  <wc-button variant='tonal' data-open-modal='size-fullscreen-modal'>Fullscreen</wc-button>
+
+  <wc-modal id='size-xs-modal' heading='Discard draft?' size='xs' hide-close>
+    <p class='modal-demo-text text-body-medium'>Your changes to this reply will be lost.</p>
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-button variant='text' data-close-modal>Keep editing</wc-button>
+      <wc-button variant='text' data-close-modal>Discard</wc-button>
+    </div>
+  </wc-modal>
+
+  <wc-modal id='size-md-modal' heading='Share “Q4 roadmap”' size='md'>
+    <p class='modal-demo-text text-body-medium'>
+      Anyone in the Atlas workspace with the link can view this page. Turn on editing to let
+      them change it too.
+    </p>
+    <wc-checkbox label='Allow workspace members to edit'></wc-checkbox>
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-button variant='outlined' data-close-modal>Copy link</wc-button>
+      <wc-button data-close-modal>Done</wc-button>
+    </div>
+  </wc-modal>
+
+  <wc-modal id='size-fullscreen-modal' heading='New event' size='fullscreen'>
+    <div class='modal-demo-form'>
+      <wc-input label='Title' placeholder='Design review'></wc-input>
+      <wc-input label='Guests' type='email' placeholder='Add people by email'></wc-input>
+      <wc-textarea label='Description' rows='6'></wc-textarea>
+    </div>
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-button variant='text' data-close-modal>Cancel</wc-button>
+      <wc-button data-close-modal>Save event</wc-button>
+    </div>
+  </wc-modal>
+</DemoComponentCard>
+
+<p>
+  Use <code>fullscreen</code> on small screens for tasks with many fields. Use
+  <code>hide-close</code> only when the footer has a clear way out.
+</p>

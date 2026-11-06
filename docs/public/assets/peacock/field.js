@@ -227,13 +227,12 @@ var css_248z = i`* {
   --_container-opacity: 0.1;
   cursor: not-allowed;
 }
-.field.readonly {
+.field.readonly:not(.disabled) {
   cursor: initial;
-  --_input-text-color: var(--color-on-surface-variant);
+  --_container-color: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+}
+.field.readonly:not(.disabled):not(.focused) {
   --_outline-opacity: 0.38;
-  --_helper-text-opacity: 0.38;
-  --_container-color: var(--color-on-surface);
-  --_container-opacity: 0.38;
 }
 .field.show-skeleton .skeleton {
   display: block;

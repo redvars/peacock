@@ -20,32 +20,53 @@
   --modal-elevation: var(--elevation-level3);
 }
 
+/*
+ * Native dialog opened with showModal(): it renders in the browser's top layer, so no page
+ * z-index or stacking context can draw above it. It covers the viewport and stays transparent;
+ * the scrim and the container below are drawn inside it, in DOM order, without z-index.
+ */
+.native-dialog {
+  background: transparent;
+  block-size: 100%;
+  border: 0;
+  color: inherit;
+  inline-size: 100%;
+  inset: 0;
+  margin: 0;
+  max-block-size: none;
+  max-inline-size: none;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+
+  &::backdrop {
+    background: transparent;
+  }
+}
+
 /* Scrim backdrop */
 .scrim {
   background-color: var(--modal-scrim-color);
   inset: 0;
   opacity: 0;
-  pointer-events: none;
-  position: fixed;
+  position: absolute;
   transition: opacity var(--modal-transition-duration) var(--modal-transition-easing);
-  z-index: 1000;
 }
 
 .scrim.visible {
   opacity: 1;
-  pointer-events: auto;
 }
 
-/* Dialog wrapper — centres the dialog on screen */
+/* Dialog wrapper — centres the dialog on screen; a click on it (not the container) is a scrim click */
 .dialog-wrapper {
   align-items: center;
+  box-sizing: border-box;
   display: flex;
   inset: 0;
   justify-content: center;
   overflow-y: auto;
   padding: var(--spacing-400, 2rem) var(--spacing-200, 1rem);
-  position: fixed;
-  z-index: 1001;
+  position: absolute;
 }
 
 /* Dialog container */
@@ -57,16 +78,18 @@
   flex-direction: column;
   max-height: var(--modal-max-height);
   max-width: var(--modal-max-width);
-  min-width: var(--modal-min-width);
-  opacity: 0;
+  min-width: min(var(--modal-min-width), 100%);
   outline: none;
   overflow: hidden;
   position: relative;
-  transform: scale(0.9);
   width: 100%;
 
+  /*
+   * The open state keeps no transform: a transformed ancestor would become the containing
+   * block of fixed-position menus, selects and tooltips opened inside the modal.
+   */
   &.open {
-    animation: modal-enter var(--modal-transition-duration) var(--modal-transition-easing) forwards;
+    animation: modal-enter var(--modal-transition-duration) var(--modal-transition-easing) backwards;
   }
 
   &:not(.open) {
@@ -180,6 +203,17 @@
   inset: 0;
   opacity: 0.72;
   position: absolute;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim {
+    transition: none;
+  }
+
+  .dialog.open,
+  .dialog:not(.open) {
+    animation: none;
+  }
 }
 
 /* Animations */

@@ -1,7 +1,8 @@
 import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-Bdwyrvd6.js';
 import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { e } from './class-map-DG7CA1et.js';
+import { e } from './query-CHb9Ft_d.js';
+import { e as e$1 } from './class-map-DG7CA1et.js';
+import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`@charset "UTF-8";
@@ -35,32 +36,52 @@ var css_248z = i`@charset "UTF-8";
   --modal-elevation: var(--elevation-level3);
 }
 
+/*
+ * Native dialog opened with showModal(): it renders in the browser's top layer, so no page
+ * z-index or stacking context can draw above it. It covers the viewport and stays transparent;
+ * the scrim and the container below are drawn inside it, in DOM order, without z-index.
+ */
+.native-dialog {
+  background: transparent;
+  block-size: 100%;
+  border: 0;
+  color: inherit;
+  inline-size: 100%;
+  inset: 0;
+  margin: 0;
+  max-block-size: none;
+  max-inline-size: none;
+  overflow: hidden;
+  padding: 0;
+  position: fixed;
+}
+.native-dialog::backdrop {
+  background: transparent;
+}
+
 /* Scrim backdrop */
 .scrim {
   background-color: var(--modal-scrim-color);
   inset: 0;
   opacity: 0;
-  pointer-events: none;
-  position: fixed;
+  position: absolute;
   transition: opacity var(--modal-transition-duration) var(--modal-transition-easing);
-  z-index: 1000;
 }
 
 .scrim.visible {
   opacity: 1;
-  pointer-events: auto;
 }
 
-/* Dialog wrapper — centres the dialog on screen */
+/* Dialog wrapper — centres the dialog on screen; a click on it (not the container) is a scrim click */
 .dialog-wrapper {
   align-items: center;
+  box-sizing: border-box;
   display: flex;
   inset: 0;
   justify-content: center;
   overflow-y: auto;
   padding: var(--spacing-400, 2rem) var(--spacing-200, 1rem);
-  position: fixed;
-  z-index: 1001;
+  position: absolute;
 }
 
 /* Dialog container */
@@ -72,16 +93,18 @@ var css_248z = i`@charset "UTF-8";
   flex-direction: column;
   max-height: var(--modal-max-height);
   max-width: var(--modal-max-width);
-  min-width: var(--modal-min-width);
-  opacity: 0;
+  min-width: min(var(--modal-min-width), 100%);
   outline: none;
   overflow: hidden;
   position: relative;
-  transform: scale(0.9);
   width: 100%;
+  /*
+   * The open state keeps no transform: a transformed ancestor would become the containing
+   * block of fixed-position menus, selects and tooltips opened inside the modal.
+   */
 }
 .dialog.open {
-  animation: modal-enter var(--modal-transition-duration) var(--modal-transition-easing) forwards;
+  animation: modal-enter var(--modal-transition-duration) var(--modal-transition-easing) backwards;
 }
 .dialog:not(.open) {
   animation: modal-exit var(--modal-transition-duration) var(--modal-transition-easing) forwards;
@@ -195,6 +218,15 @@ var css_248z = i`@charset "UTF-8";
   position: absolute;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .scrim {
+    transition: none;
+  }
+  .dialog.open,
+  .dialog:not(.open) {
+    animation: none;
+  }
+}
 /* Animations */
 @keyframes modal-enter {
   from {
@@ -222,6 +254,10 @@ var css_248z = i`@charset "UTF-8";
  * @tag wc-modal
  * @rawTag modal
  * @summary A dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.
+ * @overview
+ * <p>The modal opens a native <code>&lt;dialog&gt;</code> with <code>showModal()</code>, so it renders in the
+ * browser's top layer: above sticky headers, app bars, cards and any stacking context on the page,
+ * whatever their z-index. Menus, selects and tooltips opened inside the modal render above it.</p>
  *
  * @cssprop --modal-container-color - Background color of the dialog container.
  * @cssprop --modal-scrim-color - Color of the scrim backdrop.
@@ -229,6 +265,8 @@ var css_248z = i`@charset "UTF-8";
  * @cssprop --modal-min-width - Minimum width of the dialog.
  * @cssprop --modal-max-width - Maximum width of the dialog.
  * @cssprop --modal-max-height - Maximum height of the dialog.
+ *
+ * @fires modal-close - Fired when the modal closes. `detail.reason` is `"close-button"`, `"scrim"`, `"escape"` or `"programmatic"`.
  *
  * @example
  * ```html
@@ -238,7 +276,9 @@ var css_248z = i`@charset "UTF-8";
  */
 let Modal = class Modal extends i$1 {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
+        // ── Properties ───────────────────────────────────────────────────────────
         /** Whether the modal is open. */
         this.open = false;
         /** Heading text shown in the modal header. */
@@ -260,18 +300,53 @@ let Modal = class Modal extends i$1 {
         this.showLoader = false;
         /** When true, clicking the scrim will not close the modal. */
         this.noScrimClose = false;
-        this._visible = false;
-        this._handleKeydown = (e) => {
-            if (e.key === 'Escape') {
-                this._close('escape');
-            }
-        };
     }
+    // ── Lifecycle ────────────────────────────────────────────────────────────
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        document.body.style.overflow = '';
+        if (this._dialog?.open)
+            this._dialog.close();
+    }
+    updated(changedProperties) {
+        if (changedProperties.has('open'))
+            this._syncDialog();
+    }
+    // ── Public methods ───────────────────────────────────────────────────────
+    /** Opens the modal. */
     show() {
         this.open = true;
     }
+    /** Closes the modal. */
     hide() {
         this._close('programmatic');
+    }
+    // ── Private methods ──────────────────────────────────────────────────────
+    /** Opens the native dialog in the top layer, or closes it once the exit animation ends. */
+    _syncDialog() {
+        const dialog = this._dialog;
+        if (!dialog)
+            return;
+        if (this.open) {
+            if (!dialog.open)
+                dialog.showModal();
+            document.body.style.overflow = 'hidden';
+            return;
+        }
+        document.body.style.overflow = '';
+        if (!dialog.open)
+            return;
+        const animations = this._panel?.getAnimations() ?? [];
+        if (animations.length === 0) {
+            dialog.close();
+            return;
+        }
+        Promise.all(animations.map(animation => animation.finished))
+            .catch(() => undefined)
+            .then(() => {
+            if (!this.open && dialog.open)
+                dialog.close();
+        });
     }
     _close(reason) {
         if (!this.open)
@@ -283,105 +358,106 @@ let Modal = class Modal extends i$1 {
             composed: true,
         }));
     }
-    _handleScrimClick() {
-        if (!this.noScrimClose) {
+    /** Escape: close through `open` so the property stays the source of truth. */
+    _handleCancel(event) {
+        event.preventDefault();
+        this._close('escape');
+    }
+    /** The browser closed the dialog by itself (for example a forced Escape): keep `open` in step. */
+    _handleNativeClose() {
+        if (this.open)
+            this._close('escape');
+    }
+    /** A click that lands outside the dialog container, not on its content, is a scrim click. */
+    _handleDialogClick(event) {
+        const target = event.target;
+        if (!target.classList?.contains('dialog-wrapper'))
+            return;
+        if (!this.noScrimClose)
             this._close('scrim');
-        }
     }
     _handleCloseClick() {
         this._close('close-button');
     }
-    updated(changedProperties) {
-        if (changedProperties.has('open')) {
-            if (this.open) {
-                this._visible = true;
-                document.body.style.overflow = 'hidden';
-                document.addEventListener('keydown', this._handleKeydown);
-            }
-            else {
-                document.body.style.overflow = '';
-                document.removeEventListener('keydown', this._handleKeydown);
-            }
-        }
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        document.body.style.overflow = '';
-        document.removeEventListener('keydown', this._handleKeydown);
-    }
-    _handleAnimationEnd(e) {
-        if (e.animationName === 'modal-exit') {
-            this._visible = false;
-        }
-    }
-    render() {
-        if (!this.open && !this._visible)
-            return A;
+    // ── Render helpers ───────────────────────────────────────────────────────
+    _renderHeader() {
         const hasHeader = this.heading || this.subheading || !this.hideClose;
+        if (!hasHeader)
+            return A;
         return b `
-      <div
-        class=${e({ scrim: true, visible: this.open })}
-        @click=${this._handleScrimClick}
-        aria-hidden="true"
-      ></div>
-
-      <div class="dialog-wrapper" role="presentation">
+      <div class="dialog-header">
+        <div class="dialog-heading-section">
+          ${this.subheading
+            ? b `<p class="dialog-subheading">${this.subheading}</p>`
+            : A}
+          ${this.heading
+            ? b `<h2 id="modal-heading" class="dialog-heading">
+                ${this.heading}
+              </h2>`
+            : A}
+        </div>
+        ${!this.hideClose
+            ? b `<wc-icon-button
+              class="dialog-close"
+              variant="text"
+              aria-label="Close dialog"
+              @click=${this._handleCloseClick}
+            >
+              <wc-icon name="close"></wc-icon>
+            </wc-icon-button>`
+            : A}
+      </div>
+    `;
+    }
+    // ── Render ───────────────────────────────────────────────────────────────
+    render() {
+        // The scrim click has its keyboard equivalent in Escape, which the native dialog reports as
+        // `cancel`; lit-a11y does not count that as a key listener.
+        /* eslint-disable lit-a11y/click-events-have-key-events */
+        return b `
+      <dialog
+        class="native-dialog"
+        part="dialog"
+        aria-labelledby=${this.heading ? 'modal-heading' : A}
+        @cancel=${this._handleCancel}
+        @close=${this._handleNativeClose}
+        @click=${this._handleDialogClick}
+      >
         <div
-          class=${e({
+          class=${e$1({ scrim: true, visible: this.open })}
+          aria-hidden="true"
+        ></div>
+
+        <div class="dialog-wrapper">
+          <div
+            class=${e$1({
             dialog: true,
             open: this.open,
             [`size-${this.size}`]: true,
             'show-loader': this.showLoader,
         })}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby=${this.heading ? 'modal-heading' : A}
-          @animationend=${this._handleAnimationEnd}
-        >
-          ${hasHeader
-            ? b `
-                <div class="dialog-header">
-                  <div class="dialog-heading-section">
-                    ${this.subheading
-                ? b `<p class="dialog-subheading">${this.subheading}</p>`
-                : A}
-                    ${this.heading
-                ? b `<h2 id="modal-heading" class="dialog-heading">
-                          ${this.heading}
-                        </h2>`
-                : A}
-                  </div>
-                  ${!this.hideClose
-                ? b `<wc-icon-button
-                        class="dialog-close"
-                        variant="text"
-                        aria-label="Close dialog"
-                        @click=${this._handleCloseClick}
-                      >
-                        <wc-icon name="close"></wc-icon>
-                      </wc-icon-button>`
-                : A}
-                </div>
-              `
-            : A}
+          >
+            ${this._renderHeader()}
 
-          <div class="dialog-content">
-            <slot></slot>
-          </div>
+            <div class="dialog-content">
+              <slot></slot>
+            </div>
 
-          <div class="dialog-footer">
-            <slot name="footer"></slot>
-          </div>
+            <div class="dialog-footer">
+              <slot name="footer"></slot>
+            </div>
 
-          ${this.showLoader
+            ${this.showLoader
             ? b `<div class="dialog-loader" aria-hidden="true">
-                <div class="dialog-loader-scrim"></div>
-                <wc-spinner></wc-spinner>
-              </div>`
+                  <div class="dialog-loader-scrim"></div>
+                  <wc-spinner></wc-spinner>
+                </div>`
             : A}
+          </div>
         </div>
-      </div>
+      </dialog>
     `;
+        /* eslint-enable lit-a11y/click-events-have-key-events */
     }
 };
 Modal.styles = [css_248z];
@@ -407,8 +483,11 @@ __decorate([
     n({ type: Boolean, attribute: 'no-scrim-close' })
 ], Modal.prototype, "noScrimClose", void 0);
 __decorate([
-    r()
-], Modal.prototype, "_visible", void 0);
+    e('dialog')
+], Modal.prototype, "_dialog", void 0);
+__decorate([
+    e('.dialog')
+], Modal.prototype, "_panel", void 0);
 Modal = __decorate([
     IndividualComponent
 ], Modal);

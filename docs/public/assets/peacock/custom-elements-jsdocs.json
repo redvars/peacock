@@ -2288,10 +2288,10 @@
     "label": "Code Editor",
     "tag": "wc-code-editor",
     "rawTag": "code-editor",
-    "summary": "A Monaco-based code editing component with syntax highlighting and theming.",
-    "overview": "- CodeEditor wraps Monaco Editor as a web component.\r\n - Supports JavaScript, JSON, HTML, CSS and SCSS, read-only mode, line numbers, minimap, and dark/light theme.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
+    "summary": "A Monaco-based code editing component with syntax highlighting, completions and debugging marks.",
+    "overview": "- CodeEditor wraps Monaco Editor as a web component. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin.\r\n - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, minimap, and dark/light theme.\r\n - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.\r\n - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.\r\n - `markers` underline problems, such as where a run failed.\r\n - With `fill`, the editor takes the height of its container.\r\n - Has a copy button; hide it with `hide-copy`.\r\n - Emits `change` when content is edited and updates value from property changes.",
     "cssprop": "--code-editor-height - Height of the editor. Defaults to 300px.",
-    "fires": "copied - Dispatched after the copy button copies the content.",
+    "fires": "breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.",
     "example": "```html\r\n<wc-code-editor\r\n  language=\"css\"\r\n  readonly\r\n  style=\"width: 100%; --code-editor-height: 10rem;\"\r\n  value=\":root { --color-primary: #6341d5; }\">\r\n</wc-code-editor>\r\n```",
     "tags": "input, editor",
     "customElement": {
@@ -2304,6 +2304,13 @@
         }
       ],
       "events": [
+        {
+          "name": "breakpoint-toggle",
+          "type": {
+            "text": "CustomEvent<{line: number}>"
+          },
+          "description": "Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself."
+        },
         {
           "name": "copied",
           "type": {
@@ -2338,15 +2345,15 @@
           "description": "Language used for syntax highlighting. Can be changed after the editor loads.",
           "fieldName": "language",
           "expandedType": {
-            "text": "'javascript' | 'json' | 'html' | 'css' | 'scss'"
+            "text": "'javascript' | 'typescript' | 'json' | 'html' | 'css' | 'scss' | 'markdown'"
           }
         },
         {
-          "name": "libSource",
+          "name": "lib-source",
           "type": {
-            "text": "any"
+            "text": "string | undefined"
           },
-          "description": "Extra source loaded as a separate model, e.g. type definitions for completions.",
+          "description": "TypeScript declarations (a `.d.ts`) for completions in TypeScript and JavaScript, such as the modules the code may import.",
           "fieldName": "libSource"
         },
         {
@@ -2384,6 +2391,32 @@
           "default": "false",
           "description": "Shows a \"Read Only\" badge while the editor is read-only or disabled.",
           "fieldName": "showReadonlyBadge"
+        },
+        {
+          "name": "breakpoint-gutter",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a gutter for breakpoints; a click there, or on a line number, fires `breakpoint-toggle`.",
+          "fieldName": "breakpointGutter"
+        },
+        {
+          "name": "current-line",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The line a debugger is paused at, marked and scrolled into view; none when unset.",
+          "fieldName": "currentLine"
+        },
+        {
+          "name": "fill",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Takes the height of the container instead of `--code-editor-height`.",
+          "fieldName": "fill"
         },
         {
           "name": "name",
@@ -5766,7 +5799,9 @@
     "tag": "wc-modal",
     "rawTag": "modal",
     "summary": "A dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.",
+    "overview": "<p>The modal opens a native <code>&lt;dialog&gt;</code> with <code>showModal()</code>, so it renders in the\nbrowser's top layer: above sticky headers, app bars, cards and any stacking context on the page,\nwhatever their z-index. Menus, selects and tooltips opened inside the modal render above it.</p>",
     "cssprop": "--modal-max-height - Maximum height of the dialog.",
+    "fires": "modal-close - Fired when the modal closes. `detail.reason` is `\"close-button\"`, `\"scrim\"`, `\"escape\"` or `\"programmatic\"`.",
     "example": "```html\nMODAL\n```",
     "tags": "overlay, dialog, feedback",
     "customElement": {
@@ -5803,7 +5838,8 @@
           "name": "modal-close",
           "type": {
             "text": "CustomEvent"
-          }
+          },
+          "description": "Fired when the modal closes. `detail.reason` is `\"close-button\"`, `\"scrim\"`, `\"escape\"` or `\"programmatic\"`."
         }
       ],
       "attributes": [

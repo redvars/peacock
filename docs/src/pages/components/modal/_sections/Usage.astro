@@ -4,82 +4,79 @@ export const order = 100;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
+<style is:inline>
+  /* Shared by every modal demo on this page. */
+  .modal-demo-text {
+    margin: 0 0 var(--spacing-200);
+  }
+
+  .modal-demo-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .modal-demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-100);
+    justify-content: flex-end;
+    padding: var(--spacing-200) var(--spacing-300);
+  }
+
+  .modal-demo-actions .modal-demo-spacer {
+    flex: 1 1 auto;
+  }
+
+  .modal-demo-form {
+    display: grid;
+    gap: var(--spacing-200);
+  }
+
+  .modal-demo-form > * {
+    display: block;
+    width: 100%;
+  }
+</style>
+
+<p>
+  Put the message in the default slot and the actions in the <code>footer</code> slot. Call
+  <code>show()</code> and <code>hide()</code>, or set the <code>open</code> attribute. The modal
+  fires <code>modal-close</code> with a <code>reason</code> when it closes: the close button, a
+  scrim click, Escape, or <code>hide()</code>.
+</p>
+<p>
+  A confirmation asks one question and names the action on its button. Keep it short: say what
+  will happen and whether it can be undone.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-button id='open-modal-btn'>Open Modal</wc-button>
-  <wc-button id='open-modal-loader-btn' variant='outlined'>Open with Loader</wc-button>
-  <wc-button id='open-modal-fullscreen-btn' variant='tonal'>Fullscreen</wc-button>
+  <wc-button level='danger' data-open-modal='delete-project-modal'>Delete project</wc-button>
 
-  <wc-modal id='sample-modal'
-            heading='Create User'
-            subheading='User management'
-            size='sm'>
-    <p style='margin: 0 0 1rem;'>Fill in the details below to create a new user account.</p>
-    <wc-input label='Full name' style='display: block; margin-bottom: 1rem;'></wc-input>
-    <wc-input label='Email address' type='email' style='display: block;'></wc-input>
+  <wc-modal id='delete-project-modal' heading='Delete “Atlas Website”?' size='sm'>
+    <p class='modal-demo-text text-body-medium'>
+      The project, its 14 pages and 3 environments are deleted for everyone on the team. This
+      can’t be undone.
+    </p>
 
-    <div slot='footer' style='display: flex;'>
-      <wc-button id='modal-cancel'
-                 variant='tonal'
-                 color='secondary'
-                 style='flex: 1; --tonal-button-container-shape: var(--shape-corner-none);'>
-        Cancel
-      </wc-button>
-      <wc-button id='modal-save'
-                 style='flex: 1; --filled-button-container-shape: var(--shape-corner-none);'>
-        Save
-      </wc-button>
-    </div>
-  </wc-modal>
-
-  <wc-modal id='loader-modal'
-            heading='Saving…'
-            hide-close
-            show-loader
-            size='xs'>
-    <p style='margin: 0;'>Please wait while we save your changes.</p>
-  </wc-modal>
-
-  <wc-modal id='fullscreen-modal'
-            heading='Fullscreen Dialog'
-            size='fullscreen'>
-    <p style='margin: 0;'>This modal occupies the full viewport.</p>
-    <div slot='footer' style='display: flex; justify-content: flex-end; padding: 1rem;'>
-      <wc-button id='fullscreen-close'>Close</wc-button>
+    <div slot='footer' class='modal-demo-actions'>
+      <wc-button variant='text' data-close-modal>Cancel</wc-button>
+      <wc-button level='danger' data-close-modal>Delete project</wc-button>
     </div>
   </wc-modal>
 
   <script is:inline>
-    const modal = document.querySelector('#sample-modal');
-    const loaderModal = document.querySelector('#loader-modal');
-    const fullscreenModal = document.querySelector('#fullscreen-modal');
-
-    document.querySelector('#open-modal-btn').addEventListener('click', () => {
-      modal.show();
-    });
-
-    document.querySelector('#open-modal-loader-btn').addEventListener('click', () => {
-      loaderModal.show();
-      setTimeout(() => loaderModal.hide(), 2000);
-    });
-
-    document.querySelector('#open-modal-fullscreen-btn').addEventListener('click', () => {
-      fullscreenModal.show();
-    });
-
-    document.querySelector('#modal-cancel').addEventListener('click', () => {
-      modal.hide();
-    });
-
-    document.querySelector('#modal-save').addEventListener('click', () => {
-      modal.showLoader = true;
-      setTimeout(() => {
-        modal.showLoader = false;
-        modal.hide();
-      }, 1200);
-    });
-
-    document.querySelector('#fullscreen-close').addEventListener('click', () => {
-      fullscreenModal.hide();
-    });
+    // Any element with data-open-modal="<id>" opens that modal; data-close-modal closes the
+    // modal it sits in. Every demo on this page uses these two attributes.
+    if (!window.__modalDemoWired) {
+      window.__modalDemoWired = true;
+      document.addEventListener('click', event => {
+        const opener = event.target.closest?.('[data-open-modal]');
+        if (opener) {
+          document.getElementById(opener.dataset.openModal)?.show();
+          return;
+        }
+        const closer = event.target.closest?.('[data-close-modal]');
+        if (closer) closer.closest('wc-modal')?.hide();
+      });
+    }
   </script>
 </DemoComponentCard>
