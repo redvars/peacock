@@ -55,6 +55,14 @@ export function localeHourCycle(locale: string): HourCycle {
     : 'h23';
 }
 
+/** The hour cycle a time control shows: the one it was given, else the locale's. */
+export function resolveHourCycle(
+  hourCycle: HourCycle | undefined,
+  locale: string,
+): HourCycle {
+  return hourCycle ?? localeHourCycle(locale);
+}
+
 /** The order of day, month and year in the locale's numeric date format. */
 export function localeDateOrder(
   locale: string,

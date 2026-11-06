@@ -22,7 +22,11 @@ import styles from './input.scss';
  * <p>It validates like a native input: <code>required</code> and an invalid <code>type="email"</code>
  * block form submission, and the message shows under the field once the value is committed or the
  * form is submitted. <code>checkValidity()</code>, <code>reportValidity()</code> and
- * <code>setCustomValidity()</code> work as on <code>&lt;input&gt;</code>.</p>
+ * <code>setCustomValidity()</code> work as on <code>&lt;input&gt;</code>, and so do
+ * <code>minlength</code>, <code>maxlength</code> and <code>pattern</code>. With
+ * <code>maxlength</code> a character counter shows under the field.</p>
+ * <p><code>type="password"</code> is deprecated: use <code>wc-password-field</code>. It keeps
+ * working until 4.0.</p>
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed.
@@ -48,11 +52,42 @@ export class Input extends BaseField {
   @property({ type: Boolean, reflect: true })
   inline = false;
 
+  /** Kind of text. `password` is deprecated: use `wc-password-field`. */
   @property({ type: String })
   type: 'text' | 'password' | 'email' | 'tel' = 'text';
 
+  /**
+   * Autofill hint for the browser, any `autocomplete` token such as `email`, `username`, `name`,
+   * `tel`, `one-time-code` or `off`. Unset by default, so the browser decides.
+   */
   @property({ type: String })
-  autocomplete: 'on' | 'off' = 'off';
+  autocomplete = '';
+
+  /** Fewest characters allowed. */
+  @property({ type: Number, attribute: 'minlength' })
+  minLength?: number;
+
+  /** Most characters allowed; the input stops taking more and shows a character counter. */
+  @property({ type: Number, attribute: 'maxlength' })
+  maxLength?: number;
+
+  /** Regular expression the whole value must match, as on `<input pattern>`. */
+  @property({ type: String })
+  pattern = '';
+
+  /**
+   * The `inputmode` attribute: which virtual keyboard to show (`numeric`, `decimal`, `email`,
+   * `tel`, `url`, `search`, `none`). Passed to the native input only when set.
+   */
+  @property({ type: String, attribute: 'inputmode' })
+  protected inputModeAttribute: string | null = null;
+
+  /**
+   * The `spellcheck` attribute (`true` or `false`). Passed to the native input only when set, so
+   * the browser default applies otherwise.
+   */
+  @property({ type: String, attribute: 'spellcheck' })
+  protected spellcheckAttribute: string | null = null;
 
   // ── State ────────────────────────────────────────────────────────────────
 
@@ -75,6 +110,9 @@ export class Input extends BaseField {
     super.willUpdate(changed);
     if (changed.has('inline') && this.inline) {
       deprecate('wc-input', '`inline`');
+    }
+    if (changed.has('type') && this.type === 'password') {
+      deprecate('wc-input', 'type="password"', 'wc-password-field');
     }
   }
 
@@ -148,7 +186,12 @@ export class Input extends BaseField {
         class="input input-element"
         type=${displayType}
         placeholder=${this.placeholder}
-        autocomplete=${this.autocomplete}
+        autocomplete=${this.autocomplete || nothing}
+        minlength=${this.minLength ?? nothing}
+        maxlength=${this.maxLength ?? nothing}
+        pattern=${this.pattern || nothing}
+        inputmode=${this.inputModeAttribute ?? nothing}
+        spellcheck=${this.spellcheckAttribute ?? nothing}
         .value=${this.value}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -159,7 +202,11 @@ export class Input extends BaseField {
         @blur=${this.handleFieldFocus}
         ${spread(this.fieldAria())}
       />`,
-      { populated: !!this.value, end: this.renderPasswordToggle() },
+      {
+        populated: !!this.value,
+        end: this.renderPasswordToggle(),
+        textCount: this.characterCount(this.maxLength),
+      },
     );
   }
 }

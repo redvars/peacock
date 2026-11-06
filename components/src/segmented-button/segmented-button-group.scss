@@ -7,6 +7,15 @@
   --_segmented-button-group-shape: var(--shape-corner-full, 9999px);
 }
 
+/* Read by the segments; `sm` keeps their own 2.5rem default. */
+:host([size='md']) {
+  --_segmented-button-group-height: 3.5rem;
+}
+
+:host([size='lg']) {
+  --_segmented-button-group-height: 4rem;
+}
+
 .segmented-button-group {
   display: flex;
   align-items: stretch;

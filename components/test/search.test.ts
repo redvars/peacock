@@ -12,7 +12,12 @@ describe('Search', () => {
     const el = await fixture<Search>(html`<wc-search></wc-search>`);
     await el.updateComplete;
 
-    expect(el.variant).to.equal('filled');
+    expect(el.variant).to.equal('default');
+    expect(
+      el.shadowRoot!.querySelector('.search')!.classList.contains(
+        'variant-filled',
+      ),
+    ).to.be.true;
     expect(el.placeholder).to.equal('');
     const input = el.shadowRoot?.querySelector('input');
     expect(input?.placeholder).to.equal('Search');
@@ -210,5 +215,87 @@ describe('Search', () => {
 
     const container = el.shadowRoot!.querySelector('.search');
     expect(container?.classList.contains('size-lg')).to.be.true;
+  });
+
+  function inputOf(el: Search) {
+    return el.shadowRoot!.querySelector<HTMLInputElement>('.search-input')!;
+  }
+
+  it('names the search box from label, else the placeholder', async () => {
+    const el = await fixture<Search>(
+      html`<wc-search label="Search products" placeholder="Find"></wc-search>`,
+    );
+    expect(inputOf(el).getAttribute('aria-label')).to.equal('Search products');
+    el.label = '';
+    await el.updateComplete;
+    expect(inputOf(el).getAttribute('aria-label')).to.equal('Find');
+  });
+
+  it('renders start and end slots, and still the deprecated leading and trailing', async () => {
+    const el = await fixture<Search>(html`
+      <wc-search>
+        <span slot="start" class="s"></span>
+        <span slot="end" class="e"></span>
+        <span slot="trailing" class="t"></span>
+      </wc-search>
+    `);
+    const slot = (name: string) =>
+      el.shadowRoot!.querySelector<HTMLSlotElement>(`slot[name="${name}"]`)!;
+    expect(slot('start').assignedElements()[0]).to.equal(el.querySelector('.s'));
+    expect(slot('end').assignedElements()[0]).to.equal(el.querySelector('.e'));
+    expect(slot('trailing').assignedElements()[0]).to.equal(
+      el.querySelector('.t'),
+    );
+    expect(slot('leading')).to.exist;
+  });
+
+  it('only stops Escape when it clears a value, and fires change on clear', async () => {
+    const el = await fixture<Search>(html`<wc-search value="q"></wc-search>`);
+    const outside: string[] = [];
+    el.addEventListener('keydown', e => outside.push(e.key));
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+
+    const escape = () =>
+      inputOf(el).dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    escape();
+    await el.updateComplete;
+    expect(el.value).to.equal('');
+    expect(outside).to.deep.equal([]);
+    expect(changes).to.deep.equal(['']);
+
+    escape();
+    expect(outside).to.deep.equal(['Escape']);
+  });
+
+  it('hides the clear button with clearable="false"', async () => {
+    const el = await fixture<Search>(
+      html`<wc-search value="q" clearable="false"></wc-search>`,
+    );
+    expect(el.clearable).to.be.false;
+    expect(el.shadowRoot!.querySelector('.clear-button')).to.not.exist;
+  });
+
+  it('submits its value with a form and resets', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-search name="q" value="start"></wc-search></form>
+    `);
+    const el = form.querySelector<Search>('wc-search')!;
+    await el.updateComplete;
+    expect(new FormData(form).get('q')).to.equal('start');
+
+    el.value = 'next';
+    await el.updateComplete;
+    expect(new FormData(form).get('q')).to.equal('next');
+    form.reset();
+    expect(el.value).to.equal('start');
   });
 });

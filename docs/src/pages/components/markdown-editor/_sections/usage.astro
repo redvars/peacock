@@ -24,8 +24,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
   ></wc-markdown-editor>
   <script is:inline>
     const mdEditor = document.getElementById('md-editor');
-    mdEditor.addEventListener('change', () => {
-      console.log('value changed:\n', mdEditor.value);
+    mdEditor.addEventListener('input', event => {
+      console.log('value changed:\n', event.detail.value);
     });
   </script>
 </DemoComponentCard>
@@ -110,7 +110,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
   <wc-markdown-editor
     id="md-editor-seeded"
     label="Release Notes"
-    helper-text="Edits dispatch a 'change' event with the updated markdown."
+    helper-text="Edits dispatch an 'input' event with the updated markdown."
     style="display:block;"
   ></wc-markdown-editor>
   <script is:inline>
@@ -140,8 +140,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
       'Happy writing!',
     ].join('\n');
 
-    seeded.addEventListener('change', () => {
-      console.log('release notes updated:\n', seeded.value);
+    seeded.addEventListener('input', event => {
+      console.log('release notes updated:\n', event.detail.value);
     });
   </script>
 </DemoComponentCard>

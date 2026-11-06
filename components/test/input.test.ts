@@ -3,6 +3,7 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Field } from '../src/field/index.js';
 import { Input } from '../src/input/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -156,6 +157,113 @@ describe('Input', () => {
     expect(el.value).to.equal('');
     expect(changes).to.deep.equal(['']);
     expect(el.shadowRoot!.querySelector('.clear-button')).to.not.exist;
+  });
+});
+
+describe('Input native attributes', () => {
+  it('renders no autocomplete attribute by default', async () => {
+    const el = await fixture<Input>(html`<wc-input></wc-input>`);
+    const input = nativeInput(el);
+    expect(input.hasAttribute('autocomplete')).to.be.false;
+    for (const name of [
+      'minlength',
+      'maxlength',
+      'pattern',
+      'inputmode',
+      'spellcheck',
+    ]) {
+      expect(input.hasAttribute(name), name).to.be.false;
+    }
+  });
+
+  it('passes any autocomplete token and the text constraints to the native input', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input
+        autocomplete="one-time-code"
+        minlength="2"
+        maxlength="6"
+        pattern="[0-9]+"
+        inputmode="numeric"
+        spellcheck="false"
+      ></wc-input>`,
+    );
+    const input = nativeInput(el);
+    expect(input.getAttribute('autocomplete')).to.equal('one-time-code');
+    expect(input.minLength).to.equal(2);
+    expect(input.maxLength).to.equal(6);
+    expect(input.pattern).to.equal('[0-9]+');
+    expect(input.getAttribute('inputmode')).to.equal('numeric');
+    expect(input.getAttribute('spellcheck')).to.equal('false');
+  });
+
+  it('follows the inputMode and spellcheck properties set on the host', async () => {
+    const el = await fixture<Input>(html`<wc-input></wc-input>`);
+    el.inputMode = 'email';
+    el.spellcheck = true;
+    await el.updateComplete;
+    expect(nativeInput(el).getAttribute('inputmode')).to.equal('email');
+    expect(nativeInput(el).getAttribute('spellcheck')).to.equal('true');
+  });
+
+  it('shows a character counter with maxlength', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input maxlength="10" value="abc"></wc-input>`,
+    );
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(field.textCount).to.equal('3/10');
+
+    const input = nativeInput(el);
+    input.value = 'abcde';
+    input.dispatchEvent(new InputEvent('input'));
+    await el.updateComplete;
+    expect(field.textCount).to.equal('5/10');
+  });
+
+  it('shows no counter without maxlength', async () => {
+    const el = await fixture<Input>(html`<wc-input value="abc"></wc-input>`);
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.textCount).to.equal(
+      '',
+    );
+  });
+
+  it('reports a pattern mismatch', async () => {
+    const el = await fixture<Input>(
+      html`<wc-input pattern="[0-9]+" value="abc"></wc-input>`,
+    );
+    expect(el.validity.patternMismatch).to.be.true;
+    el.value = '123';
+    await el.updateComplete;
+    expect(el.validity.valid).to.be.true;
+  });
+});
+
+describe('Input deprecations', () => {
+  let warnings: string[];
+  let original: typeof console.warn;
+
+  beforeEach(() => {
+    resetDeprecationWarnings();
+    warnings = [];
+    original = console.warn;
+    console.warn = (message: string) => {
+      warnings.push(message);
+    };
+  });
+
+  afterEach(() => {
+    console.warn = original;
+  });
+
+  it('warns that type="password" is deprecated for wc-password-field', async () => {
+    await fixture<Input>(html`<wc-input type="password"></wc-input>`);
+    expect(warnings).to.have.length(1);
+    expect(warnings[0]).to.contain('type="password"');
+    expect(warnings[0]).to.contain('wc-password-field');
+  });
+
+  it('does not warn for other types', async () => {
+    await fixture<Input>(html`<wc-input type="email"></wc-input>`);
+    expect(warnings).to.have.length(0);
   });
 });
 

@@ -38,7 +38,10 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  *
  * - Single and multi-select modes; a multi-select shows a checkbox on every option
  * - Client-side typeahead with `search="contains"`
- * - Server-side typeahead with `search="managed"`
+ * - Server-side typeahead with `search="managed"`: listen to `search`, replace the options and set
+ *   `loading` while they load; "No results" shows when the search leaves no option
+ * - `allow-custom` keeps typed text that matches no option as the value, through a
+ *   "Create …" row (or Enter in the search input) that fires `create`
  * - Multi-select chips on one row, with a "+N" chip for the ones that do not fit
  * - `clearable` adds a button that clears the value
  * - Form-associated: submits the value under `name` (one entry per value with `multiple`)
@@ -46,13 +49,25 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  *   the message shows under the field once a value is committed or the form is submitted
  * - The options open in the top layer, so a select works inside a wc-modal
  *
- * Keyboard: Enter, Space, Arrow Down or Arrow Up open the options and focus the selected one.
- * In the list, the arrows move, typing a letter jumps to the next option starting with it,
- * Enter or Space picks, Escape closes and returns focus to the field. With `search`, typing goes
- * to the search input; Arrow Down moves into the list and Enter picks the first match.
+ * Options come from `<wc-option>` children or from the `options` property; use one or the other.
+ * When both are given, both are shown: the options built from `options` follow the children, and
+ * for a value present in both, the child (first in order) gives the label.
  *
- * @fires {CustomEvent<{value: string}>} change - Dispatched when the selection changes.
- * @fires {CustomEvent<{value: string}>} select-search - Dispatched as the user types when `search="managed"`.
+ * Keyboard: Enter, Space, Arrow Down or Arrow Up open the options and focus the selected one.
+ * While closed, typing a letter selects the next option starting with it and Home or End select
+ * the first or last option (single select, like a native select). In the list, the arrows move,
+ * typing a letter jumps to the next option starting with it, Enter or Space picks, Escape closes
+ * and returns focus to the field. With `search`, typing goes to the search input; Arrow Down moves
+ * into the list and Enter picks the first match (with `allow-custom`, the typed text unless an
+ * option's label matches it exactly).
+ *
+ * @slot start - Leading content, such as an icon.
+ * @slot end - Trailing content, before the dropdown arrow.
+ *
+ * @fires {CustomEvent<{value: string, values: string[]}>} change - Dispatched when the selection changes. `values` is set with `multiple`.
+ * @fires {CustomEvent<{value: string}>} search - Dispatched as the user types when `search="managed"`.
+ * @fires {CustomEvent<{value: string}>} create - Dispatched when the person keeps typed text that matches no option (`allow-custom`). Cancel it to keep the value unchanged, for example to add the option yourself.
+ * @fires {CustomEvent<{value: string}>} select-search - Deprecated: use `search`. Still dispatched after `search` until 4.0.
  *
  * @example
  * ```html
@@ -74,7 +89,8 @@ export class Select extends BaseField {
 
   /**
    * Array of options to display in the dropdown.
-   * Setting this property creates matching `<wc-option>` children automatically.
+   * Setting this property creates matching `<wc-option>` children automatically, after any
+   * `<wc-option>` children of your own. Give options one way or the other.
    */
   @property({ type: Array })
   options: SelectOption[] = [];
@@ -94,10 +110,22 @@ export class Select extends BaseField {
   /**
    * Enable typeahead search.
    * - `'contains'`: filters options client-side.
-   * - `'managed'`: emits a `select-search` event for server-controlled filtering.
+   * - `'managed'`: emits a `search` event for server-controlled filtering.
    */
   @property({ type: String })
   search: '' | 'contains' | 'managed' = '';
+
+  /**
+   * Lets typed text that matches no option become the value (or one of the values with
+   * `multiple`). Turns on the search input (as `search="contains"` when `search` is not set).
+   * With `multiple`, custom values must not contain commas.
+   */
+  @property({ type: Boolean, attribute: 'allow-custom' })
+  allowCustom = false;
+
+  /** Shows a progress row in the options, for example while `search="managed"` fetches them. */
+  @property({ type: Boolean, reflect: true })
+  loading = false;
 
   /** Overrides Peacock's strings for this instance only. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
@@ -138,7 +166,18 @@ export class Select extends BaseField {
 
   private _chipsMeasureFrame = 0;
 
-  /** The selected values; for a single select, at most one. */
+  /** Characters typed on the closed combobox, matched against option labels. */
+  private _typeaheadBuffer = '';
+
+  private _typeaheadTimer = 0;
+
+  /** Whether the last render showed the "Create …" row, so the menu re-reads its items. */
+  private _createShown = false;
+
+  /**
+   * The selected values, kept in sync with `value` (comma-separated). Use it with `multiple`;
+   * for a single select it holds at most one value. The form gets one entry per value.
+   */
   get values(): string[] {
     return this._selectedValues;
   }
@@ -171,6 +210,7 @@ export class Select extends BaseField {
     this._chipsObserver?.disconnect();
     this._chipsObserver = undefined;
     cancelAnimationFrame(this._chipsMeasureFrame);
+    window.clearTimeout(this._typeaheadTimer);
     super.disconnectedCallback();
   }
 
@@ -192,6 +232,12 @@ export class Select extends BaseField {
       this._observeChips();
       this._scheduleChipMeasure();
     }
+
+    const createShown = this._showCreateOption;
+    if (createShown !== this._createShown) {
+      this._createShown = createShown;
+      this.updateComplete.then(() => this._menu?.syncItems());
+    }
   }
 
   // ── Protected ──────────────────────────────────────────────────────────────
@@ -209,6 +255,19 @@ export class Select extends BaseField {
     if (!this.value) return;
     this.value = '';
     this._dispatchChange();
+  }
+
+  /** The field event contract, plus `values` for a multi-select. */
+  protected override emitValue(type: 'input' | 'change') {
+    this.dispatchEvent(
+      new CustomEvent(type, {
+        detail: this.multiple
+          ? { value: this.value, values: this._selectedValues }
+          : { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   // ── Programmatic options ───────────────────────────────────────────────────
@@ -245,9 +304,7 @@ export class Select extends BaseField {
    */
   private _syncOptionStates() {
     const filtering =
-      this.search !== '' &&
-      this.search !== 'managed' &&
-      this._searchQuery !== '';
+      this._searchMode === 'contains' && this._searchQuery !== '';
     const searchText = this._searchQuery.toLowerCase();
     let visibleCount = 0;
     let filterChanged = false;
@@ -322,6 +379,35 @@ export class Select extends BaseField {
     return !this.disabled && !this.readonly && !this.skeleton;
   }
 
+  /** How the search input filters; `allow-custom` turns on `contains` when `search` is unset. */
+  private get _searchMode(): '' | 'contains' | 'managed' {
+    return this.search || (this.allowCustom ? 'contains' : '');
+  }
+
+  /** The enabled option whose label (or value) is the given text, ignoring case. */
+  private _findOptionByText(text: string): SelectOptionElement | undefined {
+    const wanted = text.trim().toLowerCase();
+    if (!wanted) return undefined;
+    return this._optionElements.find(
+      opt =>
+        !opt.disabled &&
+        ((opt.textContent?.trim().toLowerCase() ?? '') === wanted ||
+          opt.value.toLowerCase() === wanted),
+    );
+  }
+
+  /** Whether to offer the "Create …" row: typed text that is no option and no chosen value. */
+  private get _showCreateOption(): boolean {
+    const text = this._searchQuery.trim();
+    if (!this.allowCustom || !this._open || !text || this.loading) {
+      return false;
+    }
+    if (this._findOptionByText(text)) return false;
+    return !this._selectedValues.some(
+      value => value.toLowerCase() === text.toLowerCase(),
+    );
+  }
+
   // ── Menu open/close ────────────────────────────────────────────────────────
 
   private _openMenu(focusTarget: MenuFocusTarget = 'active') {
@@ -342,10 +428,10 @@ export class Select extends BaseField {
       `${Math.ceil(anchor.getBoundingClientRect().width)}px`,
     );
     // With search, focus goes to the input; otherwise the menu focuses the selected option.
-    menu.noAutofocus = this.search !== '';
+    menu.noAutofocus = this._searchMode !== '';
     menu.show(focusTarget);
 
-    if (this.search) {
+    if (this._searchMode) {
       this.updateComplete.then(() => {
         this._searchInputEl?.focus();
       });
@@ -420,9 +506,95 @@ export class Select extends BaseField {
           this._closeMenu();
         }
         break;
+      case 'Home':
+      case 'End':
+        if (!this._open && !this.multiple && this._isInteractive) {
+          event.preventDefault();
+          const options = this._selectableOptions;
+          const target =
+            event.key === 'Home' ? options[0] : options[options.length - 1];
+          if (target) this._selectWhileClosed(target.value);
+        }
+        break;
       default:
+        if (!this._open && this._isPrintableKey(event) && event.key !== ' ') {
+          this._handleClosedTypeahead(event);
+        }
         break;
     }
+  }
+
+  /** Options the keyboard can choose while the list is closed. */
+  private get _selectableOptions(): SelectOptionElement[] {
+    return this._optionElements.filter(opt => !opt.disabled && !opt.filtered);
+  }
+
+  private _isPrintableKey(event: KeyboardEvent): boolean {
+    return (
+      event.key.length === 1 &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey
+    );
+  }
+
+  /**
+   * Typing on the closed combobox: with search, opens the list with the character in the search
+   * input; a single select moves the selection to the next option starting with the typed text,
+   * like a native select.
+   */
+  private _handleClosedTypeahead(event: KeyboardEvent) {
+    if (!this._isInteractive) return;
+    if (this._searchMode) {
+      event.preventDefault();
+      this._openMenu();
+      this._setSearchQuery(event.key);
+      this.updateComplete.then(() => {
+        const input = this._searchInputEl;
+        if (!input) return;
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+      });
+      return;
+    }
+    if (this.multiple) return;
+    event.preventDefault();
+
+    window.clearTimeout(this._typeaheadTimer);
+    this._typeaheadTimer = window.setTimeout(() => {
+      this._typeaheadBuffer = '';
+    }, 500);
+
+    const key = event.key.toLowerCase();
+    const repeated =
+      this._typeaheadBuffer.length > 0 &&
+      [...this._typeaheadBuffer].every(char => char === key);
+    this._typeaheadBuffer += key;
+    // Typing the same letter again cycles through the options that start with it.
+    const prefix = repeated ? key : this._typeaheadBuffer;
+
+    const options = this._selectableOptions;
+    const current = options.findIndex(opt => opt.value === this.value);
+    const start = Math.max(current, 0);
+    const firstOffset = prefix.length === 1 && current >= 0 ? 1 : 0;
+    for (
+      let step = firstOffset;
+      step < options.length + firstOffset;
+      step += 1
+    ) {
+      const option = options[(start + step) % options.length];
+      if (option.typeaheadText.startsWith(prefix)) {
+        this._selectWhileClosed(option.value);
+        return;
+      }
+    }
+  }
+
+  /** Selects a value from the closed combobox and fires `change` when it differs. */
+  private _selectWhileClosed(value: string) {
+    if (value === this.value) return;
+    this.value = value;
+    this._dispatchChange();
   }
 
   /** Keys in the search input: arrows move into the list, Enter picks the first match. */
@@ -440,6 +612,17 @@ export class Select extends BaseField {
         break;
       case 'Enter': {
         event.preventDefault();
+        const text = this._searchQuery.trim();
+        if (this.allowCustom && text) {
+          // Free text: an option whose label is the text, else the text itself.
+          const exact = this._findOptionByText(text);
+          if (exact) {
+            this._pick(exact.value);
+          } else {
+            this._create(text);
+          }
+          break;
+        }
         const first = this._optionElements.find(
           opt => !opt.filtered && !opt.disabled,
         );
@@ -457,13 +640,8 @@ export class Select extends BaseField {
   /** With search, typing while an option has focus goes back to the input. */
   private _handleMenuKeyDownCapture = {
     handleEvent: (event: KeyboardEvent) => {
-      if (!this.search || !this._open) return;
-      const printable =
-        event.key.length === 1 &&
-        !event.ctrlKey &&
-        !event.metaKey &&
-        !event.altKey;
-      if (!printable && event.key !== 'Backspace') return;
+      if (!this._searchMode || !this._open) return;
+      if (!this._isPrintableKey(event) && event.key !== 'Backspace') return;
       if (event.key === ' ') return;
       // Stop the menu's own typeahead; the character lands in the input once it has focus.
       event.stopPropagation();
@@ -479,10 +657,42 @@ export class Select extends BaseField {
   }
 
   private _handleMenuItemActivate(event: CustomEvent) {
-    const item = event.detail?.item as { value?: string } | undefined;
+    const item = event.detail?.item as
+      | { value?: string; keepOpen?: boolean }
+      | undefined;
     if (!item || item.value === undefined) return;
     event.stopPropagation();
+    if (item instanceof Element && item.classList.contains('create-option')) {
+      // A multi-select stays open after creating, as after picking.
+      item.keepOpen = this.multiple;
+      this._create(this._searchQuery);
+      return;
+    }
     this._pick(item.value);
+  }
+
+  /**
+   * Keeps typed text as a value (`allow-custom`): fires a cancelable `create`, then picks the
+   * text unless the consumer cancelled it.
+   */
+  private _create(text: string) {
+    const value = text.trim();
+    if (!value) return;
+    const keep = this.dispatchEvent(
+      new CustomEvent('create', {
+        detail: { value },
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      }),
+    );
+    if (this.multiple) this._searchQuery = '';
+    if (keep) {
+      this._pick(value);
+    } else if (!this.multiple) {
+      this._closeMenu();
+      this._triggerEl?.focus();
+    }
   }
 
   /** Selects a value (toggles it for a multi-select) and fires `change`. */
@@ -513,16 +723,29 @@ export class Select extends BaseField {
   private _handleSearchInput(event: InputEvent) {
     // The native event escapes the shadow root; the search box is internal to the select.
     event.stopPropagation();
-    this._searchQuery = (event.target as HTMLInputElement).value;
-    if (this.search === 'managed') {
+    this._setSearchQuery((event.target as HTMLInputElement).value);
+  }
+
+  /** Sets the search text; with `search="managed"`, tells the consumer through `search`. */
+  private _setSearchQuery(text: string) {
+    this._searchQuery = text;
+    if (this.search !== 'managed') return;
+    for (const type of ['search', 'select-search']) {
+      // `select-search` is the deprecated name, kept until 4.0.
       this.dispatchEvent(
-        new CustomEvent('select-search', {
-          detail: { value: this._searchQuery },
+        new CustomEvent(type, {
+          detail: { value: text },
           bubbles: true,
           composed: true,
         }),
       );
     }
+  }
+
+  /** Options added or removed as children: update their state and the empty-state row. */
+  private _handleSlotChange() {
+    this._syncOptionStates();
+    this._menu?.syncItems();
   }
 
   private _handleChipDismiss(event: CustomEvent, chipValue: string) {
@@ -581,11 +804,32 @@ export class Select extends BaseField {
 
   // ── Render helpers ─────────────────────────────────────────────────────────
 
-  private _renderNoResults() {
+  /** The row under the options: progress while `loading`, else the empty state. */
+  private _renderStatusRow() {
+    if (this.loading) {
+      return html`<div class="loading-row" role="status">
+        <wc-circular-progress
+          class="loading-indicator"
+          indeterminate
+          aria-hidden="true"
+        ></wc-circular-progress>
+        <span>${this._i18n.t('loading')}</span>
+      </div>`;
+    }
+    if (!this._noOptionsVisible) return nothing;
     const hasSearchQuery = this._searchQuery.trim().length > 0;
     return html`<div class="no-results" role="presentation">
       ${this._i18n.t(hasSearchQuery ? 'noResults' : 'noOptions')}
     </div>`;
+  }
+
+  /** The "Create …" row of `allow-custom`. */
+  private _renderCreateOption() {
+    if (!this._showCreateOption) return nothing;
+    const text = this._searchQuery.trim();
+    return html`<wc-option class="create-option" icon="add" .value=${text}
+      >${this._i18n.t('createOption')(text)}</wc-option
+    >`;
   }
 
   private _renderChips() {
@@ -623,7 +867,7 @@ export class Select extends BaseField {
 
   private _renderTriggerContent() {
     // Typeahead: when open, show a text input for filtering
-    if (this.search && this._open) {
+    if (this._searchMode && this._open) {
       return html`<input
         class="search-input"
         .value=${this._searchQuery}
@@ -703,12 +947,13 @@ export class Select extends BaseField {
         placement="bottom-start"
         aria-label=${this.label || this._i18n.t('options')}
         aria-multiselectable=${this.multiple ? 'true' : nothing}
+        aria-busy=${this.loading ? 'true' : nothing}
         @closed=${this._handleMenuClosed}
         @menu-item-activate=${this._handleMenuItemActivate}
         @keydown=${this._handleMenuKeyDownCapture}
       >
-        <slot></slot>
-        ${this._noOptionsVisible ? this._renderNoResults() : nothing}
+        <slot @slotchange=${this._handleSlotChange}></slot>
+        ${this._renderCreateOption()} ${this._renderStatusRow()}
       </wc-menu>
     `;
     /* eslint-enable lit-a11y/click-events-have-key-events */

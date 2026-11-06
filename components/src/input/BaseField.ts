@@ -17,6 +17,8 @@ export interface FieldRenderOptions {
   start?: unknown;
   /** Extra content after the control (after the `end` slot), such as a picker button. */
   end?: unknown;
+  /** Character counter shown in the footer, such as `12/100`; empty or unset for none. */
+  textCount?: string;
 }
 
 let fieldCount = 0;
@@ -147,6 +149,7 @@ export default abstract class BaseField extends BaseInput {
         error-text=${errorText}
         ?warning=${this.warning}
         warning-text=${this.warningText}
+        text-count=${options.textCount ?? ''}
         ?populated=${options.populated}
         ?focused=${options.focused ?? this.focused}
         .host=${this}
@@ -179,6 +182,14 @@ export default abstract class BaseField extends BaseInput {
     this.value = '';
     this.emitValue('input');
     this.emitValue('change');
+  }
+
+  /** The counter text for a field with a `maxlength`: `12/100`, or '' when there is no limit. */
+  protected characterCount(maxLength: number | null | undefined): string {
+    if (typeof maxLength !== 'number' || !Number.isFinite(maxLength)) return '';
+    if (maxLength < 0) return '';
+    const count = String(this.value ?? '').length;
+    return peacockString('characterCount')(count, maxLength);
   }
 
   /** Tracks focus of the inner control; bind it to the control's `focus` and `blur`. */

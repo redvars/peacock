@@ -18,12 +18,14 @@ import { SegmentedButtonGroup } from '@/segmented-button/segmented-button-group.
 import { SplitButton } from '@/split-button/split-button.js';
 import { DropdownButton } from '@/dropdown-button/dropdown-button.js';
 import { Input } from '@/input/input.js';
+import { PasswordField } from '@/password-field/password-field.js';
 import { UrlField } from '@/url-field/url-field.js';
 import { Field } from '@/field/field.js';
 import { NumberField } from '@/number-field/number-field.js';
 import { DatePicker } from '@/date-picker/date-picker.js';
 import { TimePicker } from '@/time-picker/time-picker.js';
 import { DateField } from '@/date-field/date-field.js';
+import { DateRangeField } from '@/date-range-field/date-range-field.js';
 import { TimeField } from '@/time-field/time-field.js';
 import { DatetimeField } from '@/datetime-field/datetime-field.js';
 import { Textarea } from '@/textarea/textarea.js';
@@ -241,6 +243,9 @@ const loaderConfig: LoaderConfig = {
     'wc-input': {
       CustomElementClass: Input,
     },
+    'wc-password-field': {
+      CustomElementClass: PasswordField,
+    },
     'wc-url-field': {
       CustomElementClass: UrlField,
     },
@@ -258,6 +263,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-date-field': {
       CustomElementClass: DateField,
+    },
+    'wc-date-range-field': {
+      CustomElementClass: DateRangeField,
     },
     'wc-time-field': {
       CustomElementClass: TimeField,

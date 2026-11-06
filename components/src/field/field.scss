@@ -177,9 +177,10 @@
     margin-block-start: var(--spacing-050);
     padding-inline: var(--spacing-200);
 
+    // Supporting text: small, so a message under a 2.5rem field doesn't outweigh the field.
     .helper, .text-count {
       position: relative;
-      @include mixin.get-typography(body-large);
+      @include mixin.get-typography(body-small);
       color: var(--_helper-text-color);
       opacity: var(--_helper-text-opacity);
     }

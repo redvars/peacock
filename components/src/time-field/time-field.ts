@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
@@ -6,10 +6,11 @@ import PickerField, { type ValueProblem } from '@/__internal/picker-field.js';
 import {
   type HourCycle,
   formatTime,
-  localeHourCycle,
   parseIsoTime,
   parseTimeText,
+  resolveHourCycle,
 } from '@/__internal/utils/date.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './time-field.scss';
 
 /** Compares two ISO times, with or without seconds. */
@@ -40,7 +41,7 @@ function compareTime(a: string, b: string): number {
  *
  * @example
  * ```html
- * <wc-time-field label="Start time" value="09:30" step="15"></wc-time-field>
+ * <wc-time-field label="Start time" value="09:30" minute-step="15"></wc-time-field>
  * ```
  * @tags input, form
  */
@@ -53,9 +54,15 @@ export class TimeField extends PickerField {
   // ── Properties ───────────────────────────────────────────────────────────
 
   /** Minutes between entries in the picker's minute column. */
-  @property({ type: Number }) step = 1;
+  @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /** Includes seconds in the value and the picker. */
+  /**
+   * @deprecated Use `minute-step`. Minutes between entries in the minute column; unlike the native
+   * `step`, which counts seconds. Removed in 4.0.
+   */
+  @property({ type: Number }) step?: number;
+
+  /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
   /** `h12` or `h23`; defaults to the locale's. */
@@ -73,6 +80,16 @@ export class TimeField extends PickerField {
 
   protected get pickerLabel(): string {
     return this.i18n.t('chooseTime');
+  }
+
+  // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  protected override willUpdate(changed: PropertyValues<this>) {
+    if (changed.has('step') && this.step !== undefined) {
+      deprecate('wc-time-field', '`step`', '`minute-step`');
+      this.minuteStep = this.step;
+    }
+    super.willUpdate(changed);
   }
 
   // ── Protected methods ────────────────────────────────────────────────────
@@ -128,7 +145,7 @@ export class TimeField extends PickerField {
       <wc-time-picker
         class="picker"
         .value=${this.value}
-        step=${this.step}
+        minute-step=${this.minuteStep}
         ?seconds=${this.seconds}
         .hourCycle=${this.hourCycle}
         min=${this.min}
@@ -145,6 +162,6 @@ export class TimeField extends PickerField {
   // ── Private getters ──────────────────────────────────────────────────────
 
   private get resolvedHourCycle(): HourCycle {
-    return this.hourCycle ?? localeHourCycle(this.resolvedLocale);
+    return resolveHourCycle(this.hourCycle, this.resolvedLocale);
   }
 }

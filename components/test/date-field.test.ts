@@ -9,6 +9,7 @@ import { TimePicker } from '../src/time-picker/index.js';
 import { Field } from '../src/field/index.js';
 import { Popover, PopoverContent } from '../src/popover/index.js';
 import { IconButton } from '../src/button/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -231,6 +232,101 @@ describe('DatetimeField', () => {
   });
 });
 
+describe('Time and date-time fields: minute-step, seconds, actions', () => {
+  let warn: typeof console.warn;
+  const warnings: string[] = [];
+
+  beforeEach(() => {
+    resetDeprecationWarnings();
+    warnings.length = 0;
+    warn = console.warn;
+    console.warn = (message: string) => warnings.push(message);
+  });
+
+  afterEach(() => {
+    console.warn = warn;
+  });
+
+  const timePicker = (el: AnyField) =>
+    el.shadowRoot!.querySelector<TimePicker>('wc-time-picker')!;
+
+  for (const tag of ['wc-time-field', 'wc-datetime-field'] as const) {
+    it(`${tag} passes minute-step to the picker`, async () => {
+      const el = document.createElement(tag) as TimeField | DatetimeField;
+      el.setAttribute('minute-step', '15');
+      await fixture(el);
+      expect(timePicker(el).minuteStep).to.equal(15);
+      expect(warnings).to.be.empty;
+    });
+
+    it(`${tag} still takes the deprecated step, with a warning`, async () => {
+      const el = document.createElement(tag) as TimeField | DatetimeField;
+      el.setAttribute('step', '30');
+      await fixture(el);
+      expect(el.minuteStep).to.equal(30);
+      expect(timePicker(el).minuteStep).to.equal(30);
+      expect(warnings.some(w => w.includes(`${tag}: \`step\``))).to.be.true;
+    });
+  }
+
+  it('formats and parses seconds in a date-time field', async () => {
+    const el = await fixture<DatetimeField>(
+      html`<wc-datetime-field
+        value="2026-11-06T09:30:15"
+        locale="en-US"
+        hour-cycle="h23"
+        seconds
+      ></wc-datetime-field>`,
+    );
+    expect(textInput(el).value).to.equal('11/06/2026, 09:30:15');
+    expect(textInput(el).placeholder).to.equal('MM/DD/YYYY, hh:mm:ss');
+    expect(timePicker(el).seconds).to.be.true;
+    setTimeout(() => type(el, '12/1/2026 16:15:05'));
+    const event = (await oneEvent(el, 'change')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('2026-12-01T16:15:05');
+  });
+
+  it('rejects a typed date that isDateDisabled rules out in a date-time field', async () => {
+    const el = await fixture<DatetimeField>(
+      html`<wc-datetime-field
+        locale="en-US"
+        hour-cycle="h23"
+        .isDateDisabled=${(iso: string) => iso === '2026-12-25'}
+      ></wc-datetime-field>`,
+    );
+    await type(el, '12/25/2026 10:00');
+    expect(el.value).to.equal('');
+    expect(el.validity.badInput).to.be.true;
+    const datePicker =
+      el.shadowRoot!.querySelector<DatePicker>('wc-date-picker')!;
+    expect(datePicker.isDateDisabled?.('2026-12-25')).to.be.true;
+  });
+
+  it('shows the calendar actions in a date-time field and clears from them', async () => {
+    const el = await fixture<DatetimeField>(
+      html`<wc-datetime-field
+        value="2026-11-06T09:30"
+        show-actions
+      ></wc-datetime-field>`,
+    );
+    const datePicker =
+      el.shadowRoot!.querySelector<DatePicker>('wc-date-picker')!;
+    await datePicker.updateComplete;
+    expect(datePicker.showActions).to.be.true;
+    setTimeout(() =>
+      datePicker
+        .shadowRoot!.querySelector<HTMLElement>('.clear-button')!
+        .click(),
+    );
+    const event = (await oneEvent(el, 'input')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('');
+  });
+});
+
 for (const tag of [
   'wc-date-field',
   'wc-time-field',
@@ -316,6 +412,41 @@ for (const tag of [
     });
   });
 }
+
+describe('DateField deprecations', () => {
+  let warnings: string[];
+  let original: typeof console.warn;
+
+  beforeEach(() => {
+    resetDeprecationWarnings();
+    warnings = [];
+    original = console.warn;
+    console.warn = (message: string) => {
+      warnings.push(message);
+    };
+  });
+
+  afterEach(() => {
+    console.warn = original;
+  });
+
+  it('warns that range and months are deprecated for wc-date-range-field', async () => {
+    await fixture<DateField>(
+      html`<wc-date-field range months="2"></wc-date-field>`,
+    );
+    expect(warnings).to.have.length(2);
+    expect(warnings[0]).to.contain('`range`');
+    expect(warnings[1]).to.contain('`months`');
+    expect(warnings.every(w => w.includes('wc-date-range-field'))).to.be.true;
+  });
+
+  it('does not warn for a single date', async () => {
+    await fixture<DateField>(
+      html`<wc-date-field value="2026-11-06"></wc-date-field>`,
+    );
+    expect(warnings).to.have.length(0);
+  });
+});
 
 describe('PickerField range validity', () => {
   it('reports rangeUnderflow and rangeOverflow for typed dates', async () => {

@@ -32,12 +32,15 @@ export { LinearProgress } from './progress/linear-progress/index.js';
 export { CircularProgress } from './progress/circular-progress/index.js';
 export { Skeleton } from './skeleton/index.js';
 export { Input } from './input/index.js';
+export { PasswordField } from './password-field/index.js';
 export { UrlField } from './url-field/index.js';
 export { Field } from './field/index.js';
 export { NumberField } from './number-field/index.js';
 export { DatePicker } from './date-picker/index.js';
 export { TimePicker } from './time-picker/index.js';
 export { DateField } from './date-field/index.js';
+export { DateRangeField } from './date-range-field/index.js';
+export type { DateRangePreset } from './date-range-field/index.js';
 export { TimeField } from './time-field/index.js';
 export { DatetimeField } from './datetime-field/index.js';
 export { Textarea } from './textarea/index.js';
@@ -58,7 +61,13 @@ export { Item } from './item/index.js';
 
 export { CodeHighlighter, CodeGroup } from './code-highlighter/index.js';
 export { CodeEditor } from './code-editor/index.js';
+export type {
+  CodeEditorLanguage,
+  CodeEditorMarker,
+  CodeEditorSize,
+} from './code-editor/index.js';
 export { HtmlEditor } from './html-editor/index.js';
+export type { HtmlEditorMention } from './html-editor/index.js';
 export { MarkdownEditor } from './markdown-editor/index.js';
 export { Image } from './image/index.js';
 export { Svg } from './svg/index.js';
@@ -114,7 +123,10 @@ export {
   CbDivider,
 } from './condition-builder/index.js';
 export type {
+  CbGroupValue,
+  CbNodeValue,
   CbOperator,
   CbRuleMoveDetail,
   CbRuleRemoveDetail,
+  CbRuleValue,
 } from './condition-builder/index.js';

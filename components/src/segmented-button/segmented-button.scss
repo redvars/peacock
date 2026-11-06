@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--segmented-button-height, var(--_segmented-button-height));
+  height: var(--segmented-button-height, var(--_segmented-button-group-height, var(--_segmented-button-height)));
   padding: 0 1.5rem;
   cursor: pointer;
   flex: 1;

@@ -307,4 +307,87 @@ describe('RadioGroup', () => {
       Array.from(el.querySelectorAll<Radio>('wc-radio')).some(r => r.checked),
     ).to.be.false;
   });
+
+  it('passes required and readonly to its radios, which validate as a group', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <wc-radio-group name="plan" required readonly>
+          <wc-radio value="a"></wc-radio>
+          <wc-radio value="b"></wc-radio>
+        </wc-radio-group>
+      </form>
+    `);
+    const group = form.querySelector<RadioGroup>('wc-radio-group')!;
+    await group.updateComplete;
+    const [a, b] = Array.from(group.querySelectorAll<Radio>('wc-radio'));
+    expect(a.required && b.required).to.be.true;
+    expect(a.readonly && b.readonly).to.be.true;
+
+    // Read-only controls are barred from validation, as natively.
+    group.readonly = false;
+    await group.updateComplete;
+    expect(a.readonly).to.be.false;
+    expect(form.checkValidity()).to.be.false;
+
+    group.value = 'b';
+    await group.updateComplete;
+    expect(form.checkValidity()).to.be.true;
+  });
+
+  it('names the radiogroup by its visible label and describes it with helper text', async () => {
+    const el = await fixture<RadioGroup>(html`
+      <wc-radio-group label="Plan" helper-text="Billed monthly">
+        <wc-radio value="a"></wc-radio>
+      </wc-radio-group>
+    `);
+    const group = el.shadowRoot!.querySelector('[role="radiogroup"]')!;
+    const label = el.shadowRoot!.getElementById(
+      group.getAttribute('aria-labelledby')!,
+    )!;
+    expect(label.textContent?.trim()).to.equal('Plan');
+    expect(label.hasAttribute('aria-hidden')).to.be.false;
+    expect(group.hasAttribute('aria-label')).to.be.false;
+    const description = el.shadowRoot!.getElementById(
+      group.getAttribute('aria-describedby')!,
+    )!;
+    expect(description.textContent?.trim()).to.equal('Billed monthly');
+  });
+
+  it('shows error-text while error is set', async () => {
+    const el = await fixture<RadioGroup>(html`
+      <wc-radio-group error error-text="Pick a plan" helper-text="Help">
+        <wc-radio value="a"></wc-radio>
+      </wc-radio-group>
+    `);
+    expect(
+      el.shadowRoot!.querySelector('.helper')?.textContent?.trim(),
+    ).to.equal('Pick a plan');
+    expect(
+      el
+        .shadowRoot!.querySelector('[role="radiogroup"]')!
+        .getAttribute('aria-invalid'),
+    ).to.equal('true');
+  });
+
+  it('shows the validation message after a failed check, until a radio is checked', async () => {
+    const el = await fixture<RadioGroup>(html`
+      <wc-radio-group required>
+        <wc-radio value="a"></wc-radio>
+        <wc-radio value="b"></wc-radio>
+      </wc-radio-group>
+    `);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.error-text')).to.be.null;
+
+    const [a] = Array.from(el.querySelectorAll<Radio>('wc-radio'));
+    expect(a.reportValidity()).to.be.false;
+    await el.updateComplete;
+    expect(
+      el.shadowRoot!.querySelector('.error-text')?.textContent?.trim(),
+    ).to.equal('Please select one of these options.');
+
+    a.shadowRoot!.querySelector<HTMLElement>('.container')!.click();
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.error-text')).to.be.null;
+  });
 });

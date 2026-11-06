@@ -65,6 +65,15 @@ export class NumberField extends BaseField {
   @property({ type: Boolean })
   stepper: boolean = false;
 
+  /**
+   * How to show the value while the field is not focused, as `Intl.NumberFormat` options (for
+   * example `{ style: 'currency', currency: 'EUR' }`). While focused the field shows the plain
+   * number to edit. `value` stays a number either way. Formatted in the field's locale: the
+   * nearest `lang`, else the browser's.
+   */
+  @property({ type: Object })
+  format?: Intl.NumberFormatOptions;
+
   // ── Queries ──────────────────────────────────────────────────────────────
 
   @query('.input-element')
@@ -120,6 +129,19 @@ export class NumberField extends BaseField {
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
+
+  /** The value as `format` shows it, or '' when there is nothing to format. */
+  private formattedValue(): string {
+    if (!this.format || this.value === undefined) return '';
+    try {
+      return new Intl.NumberFormat(this.i18n.locale, this.format).format(
+        this.value,
+      );
+    } catch {
+      // Options Intl rejects (such as a currency style without a currency): show the number.
+      return String(this.value);
+    }
+  }
 
   /** The input's value as a number, or `undefined` when it is empty or not a number. */
   private static __toValue(input: HTMLInputElement): number | undefined {
@@ -180,36 +202,50 @@ export class NumberField extends BaseField {
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
+    // The formatted text covers the input while it is not focused; the input keeps the number, so
+    // validation and editing work on the raw value.
+    const formatted = this.focused ? '' : this.formattedValue();
     const classes = {
       input: true,
       'input-element': true,
       'no-spin-buttons': this.stepper,
+      'show-formatted': !!formatted,
     };
 
-    return this.renderField(
-      html`<input
-        class=${classMap(classes)}
-        type="number"
-        placeholder=${this.placeholder}
-        autocomplete=${this.autocomplete}
-        .value=${this.value === undefined ? '' : String(this.value)}
-        ?readonly=${this.readonly}
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-        min=${ifDefined(this.min)}
-        max=${ifDefined(this.max)}
-        step=${ifDefined(this.step)}
-        @input=${this.__handleInput}
-        @change=${this.__handleChange}
-        @focus=${this.handleFieldFocus}
-        @blur=${this.handleFieldFocus}
-        ${spread(this.fieldAria())}
-      />`,
-      {
-        populated: this.value !== undefined,
-        start: this.renderStepper('down'),
-        end: this.renderStepper('up'),
-      },
-    );
+    const input = html`<input
+      class=${classMap(classes)}
+      type="number"
+      placeholder=${this.placeholder}
+      autocomplete=${this.autocomplete}
+      .value=${this.value === undefined ? '' : String(this.value)}
+      ?readonly=${this.readonly}
+      ?required=${this.required}
+      ?disabled=${this.disabled}
+      min=${ifDefined(this.min)}
+      max=${ifDefined(this.max)}
+      step=${ifDefined(this.step)}
+      @input=${this.__handleInput}
+      @change=${this.__handleChange}
+      @focus=${this.handleFieldFocus}
+      @blur=${this.handleFieldFocus}
+      ${spread(this.fieldAria())}
+    />`;
+
+    const control = this.format
+      ? html`<span class="format-control">
+          ${input}
+          ${formatted
+            ? html`<span class="formatted" aria-hidden="true"
+                >${formatted}</span
+              >`
+            : nothing}
+        </span>`
+      : input;
+
+    return this.renderField(control, {
+      populated: this.value !== undefined,
+      start: this.renderStepper('down'),
+      end: this.renderStepper('up'),
+    });
   }
 }

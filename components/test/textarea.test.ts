@@ -106,6 +106,73 @@ describe('Textarea', () => {
   });
 });
 
+describe('Textarea sizing and length', () => {
+  it('takes rows as a number, defaulting to 3', async () => {
+    const el = await fixture<Textarea>(html`<wc-textarea></wc-textarea>`);
+    expect(el.rows).to.equal(3);
+    expect(nativeTextarea(el).rows).to.equal(3);
+    el.rows = 6;
+    await el.updateComplete;
+    expect(nativeTextarea(el).rows).to.equal(6);
+  });
+
+  it('passes minlength and maxlength and shows a character counter', async () => {
+    const el = await fixture<Textarea>(
+      html`<wc-textarea minlength="2" maxlength="20" value="Hi"></wc-textarea>`,
+    );
+    const textarea = nativeTextarea(el);
+    const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
+    expect(textarea.minLength).to.equal(2);
+    expect(textarea.maxLength).to.equal(20);
+    expect(field.textCount).to.equal('2/20');
+
+    textarea.value = 'Hello';
+    textarea.dispatchEvent(new InputEvent('input'));
+    await el.updateComplete;
+    expect(field.textCount).to.equal('5/20');
+  });
+
+  it('leaves out the length attributes and counter when unset', async () => {
+    const el = await fixture<Textarea>(html`<wc-textarea></wc-textarea>`);
+    expect(nativeTextarea(el).hasAttribute('maxlength')).to.be.false;
+    expect(nativeTextarea(el).hasAttribute('minlength')).to.be.false;
+    expect(el.shadowRoot!.querySelector<Field>('wc-field')!.textCount).to.equal(
+      '',
+    );
+  });
+
+  it('maps resize to CSS, defaulting to vertical', async () => {
+    const el = await fixture<Textarea>(html`<wc-textarea></wc-textarea>`);
+    expect(getComputedStyle(nativeTextarea(el)).resize).to.equal('vertical');
+    el.resize = 'none';
+    await el.updateComplete;
+    expect(getComputedStyle(nativeTextarea(el)).resize).to.equal('none');
+    el.resize = 'both';
+    await el.updateComplete;
+    expect(getComputedStyle(nativeTextarea(el)).resize).to.equal('both');
+  });
+
+  it('grows with the content when auto-grow is set, up to max-rows', async () => {
+    const el = await fixture<Textarea>(
+      html`<wc-textarea auto-grow rows="1" max-rows="4"></wc-textarea>`,
+    );
+    const textarea = nativeTextarea(el);
+    const start = textarea.getBoundingClientRect().height;
+
+    el.value = 'one\ntwo\nthree';
+    await el.updateComplete;
+    const grown = textarea.getBoundingClientRect().height;
+    expect(grown).to.be.greaterThan(start);
+
+    el.value = Array.from({ length: 20 }, (_, i) => `line ${i}`).join('\n');
+    await el.updateComplete;
+    const capped = textarea.getBoundingClientRect().height;
+    expect(capped).to.be.greaterThan(grown);
+    expect(capped).to.be.lessThan(textarea.scrollHeight);
+    expect(getComputedStyle(textarea).resize).to.equal('none');
+  });
+});
+
 describe('Textarea validation', () => {
   it('blocks form submission while required and empty', async () => {
     const form = await fixture<HTMLFormElement>(html`

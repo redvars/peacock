@@ -24,11 +24,25 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   ></wc-input>
 </DemoComponentCard>
 
+<p>
+  <code>type='password'</code> is deprecated and will be removed in 4.0: use
+  <a href='/components/password-field'><code>wc-password-field</code></a>.
+</p>
+
+<p>
+  <code>autocomplete</code> takes any autofill token (<code>email</code>, <code>username</code>,
+  <code>one-time-code</code>, ...) and is left to the browser when unset. <code>minlength</code>,
+  <code>maxlength</code>, <code>pattern</code>, <code>inputmode</code> and <code>spellcheck</code> pass
+  to the native input; with <code>maxlength</code> a character counter shows under the field.
+</p>
+
 <DemoComponentCard lang={'html'}>
-  <wc-input type='password'
-           label='Password'
-           helper-text='Optional help text'
-           placeholder='Optional placeholder text'></wc-input>
+  <wc-input label='Verification code'
+           autocomplete='one-time-code'
+           inputmode='numeric'
+           pattern='[0-9]{6}'
+           maxlength='6'
+  ></wc-input>
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>

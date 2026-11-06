@@ -1,4 +1,4 @@
-import { html, nothing } from 'lit';
+import { html, nothing, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { Editor, Extension, Range } from '@tiptap/core';
@@ -16,7 +16,6 @@ import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import BaseInput from '../input/BaseInput.js';
-import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
 
 import styles from './markdown-editor.scss';
 
@@ -128,14 +127,24 @@ const SLASH_ITEMS: SlashItem[] = [
  *
  * <p>The canonical <code>value</code> is Markdown. Use the bottom segmented
  * switch to toggle between the rendered editor and the raw markdown source.
- * The component dispatches a <code>change</code> event whenever content
- * changes.</p>
+ * The component fires <code>input</code> with <code>{ value }</code> as the content changes
+ * (after <code>debounce</code> milliseconds without typing) and <code>change</code> with
+ * <code>{ value }</code> when focus leaves the editor after an edit. With
+ * <code>required</code>, an empty editor blocks form submission.</p>
+ *
+ * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
+ * <code>wc-code-editor</code>.</p>
+ *
+ * <p><strong>Breaking in 3.x:</strong> <code>change</code> used to fire, debounced, on every
+ * edit; it now fires once when the edit is committed (on blur), and the debounced event is
+ * <code>input</code>. Listen for <code>input</code> to keep the old timing.</p>
  *
  * @cssprop --markdown-editor-min-height - Minimum height of the editable area. Defaults to 12rem.
  * @cssprop --markdown-editor-bubble-background - Background color of the selection bubble menu.
  * @cssprop --markdown-editor-slash-background - Background color of the slash command menu.
  *
- * @fires {Event} change - Fired whenever the markdown content changes.
+ * @fires {CustomEvent<{value: string}>} input - Dispatched as the content changes, after `debounce` milliseconds without typing.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when focus leaves the editor after an edit.
  *
  * @example
  * ```html
@@ -170,6 +179,10 @@ export class MarkdownEditor extends BaseInput {
   @property({ type: String })
   variant: 'filled' | 'outlined' | 'default' = 'default';
 
+  /** Size of the text: `sm` or `md`. */
+  @property({ type: String, reflect: true })
+  size: 'sm' | 'md' = 'md';
+
   /** Helper text displayed below the editor. */
   @property({ type: String, attribute: 'helper-text' })
   helperText = '';
@@ -182,7 +195,7 @@ export class MarkdownEditor extends BaseInput {
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 
-  /** Debounce in milliseconds for dispatching `change`. */
+  /** Debounce in milliseconds for dispatching `input`. */
   @property({ type: Number })
   debounce = 250;
 
@@ -215,7 +228,7 @@ export class MarkdownEditor extends BaseInput {
   // ── Queries ───────────────────────────────────────────────────────────────
 
   @query('.tiptap-root')
-  private _editorEl!: HTMLDivElement;
+  private _editorEl?: HTMLDivElement;
 
   @query('.bubble-menu')
   private _bubbleEl?: HTMLDivElement;
@@ -231,8 +244,14 @@ export class MarkdownEditor extends BaseInput {
   /** TipTap editor instance. */
   private _editor?: Editor;
 
-  /** Debounce timer for the `change` event. */
-  private _changeTimeout?: number;
+  /** Debounce timer for the `input` event. */
+  private _inputTimeout?: number;
+
+  /** Whether focus is somewhere inside the editor. */
+  private _focusWithin = false;
+
+  /** The value when focus entered the editor; `change` fires on leaving when it differs. */
+  private _valueAtFocus = '';
 
   /** Most recent slash-suggestion bounding rect (for popup placement). */
   private _slashClientRect: (() => DOMRect | null) | null = null;
@@ -259,16 +278,19 @@ export class MarkdownEditor extends BaseInput {
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
+  constructor() {
+    super();
+    this.addEventListener('focusin', this._onFocusIn);
+    this.addEventListener('focusout', this._onFocusOut);
+  }
+
   protected firstUpdated() {
     this._initializeEditor();
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
-    if (this._changeTimeout) {
-      window.clearTimeout(this._changeTimeout);
-      this._changeTimeout = undefined;
-    }
+    this._flushInput();
     if (this._blockHandleHideTimeout) {
       window.clearTimeout(this._blockHandleHideTimeout);
       this._blockHandleHideTimeout = undefined;
@@ -276,7 +298,7 @@ export class MarkdownEditor extends BaseInput {
     this._destroyEditor();
   }
 
-  protected override updated(changed: Map<string, unknown>) {
+  protected override updated(changed: PropertyValues<this>) {
     super.updated(changed);
     if (changed.has('value') && this._editor) {
       const currentMd = MarkdownEditor._normalizeMd(
@@ -299,6 +321,13 @@ export class MarkdownEditor extends BaseInput {
       this._destroyEditor();
       this._initializeEditor();
     }
+  }
+
+  // ── Public methods ────────────────────────────────────────────────────────
+
+  override focus() {
+    if (this._editor && this._mode === 'editor') this._editor.commands.focus();
+    else super.focus();
   }
 
   // ── Private methods: conversion ───────────────────────────────────────────
@@ -367,11 +396,9 @@ export class MarkdownEditor extends BaseInput {
         const nextMd = MarkdownEditor._normalizeMd(
           this._htmlToMarkdown(this._editor.getHTML()),
         );
-        if (nextMd !== this.value) {
-          this.value = nextMd;
-        }
-
-        this._dispatchDebouncedChange();
+        if (nextMd === this.value) return;
+        this.value = nextMd;
+        this._dispatchDebouncedInput();
       },
       onSelectionUpdate: () => {
         this._updateBubbleMenu();
@@ -379,6 +406,8 @@ export class MarkdownEditor extends BaseInput {
     });
 
     this._editorEl.addEventListener('click', this._focusEditorOnContainerClick);
+    // Render the bubble menu, which needs the editor.
+    this.requestUpdate();
   }
 
   private _focusEditorOnContainerClick = (event: Event) => {
@@ -747,17 +776,56 @@ export class MarkdownEditor extends BaseInput {
 
   // ── Private methods: events / mode ────────────────────────────────────────
 
-  private _dispatchDebouncedChange() {
-    if (this._changeTimeout) {
-      window.clearTimeout(this._changeTimeout);
-    }
+  private _emitValue(type: 'input' | 'change') {
+    this.dispatchEvent(
+      new CustomEvent(type, {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
-    this._changeTimeout = window.setTimeout(() => {
-      redispatchEvent(
-        this,
-        new Event('change', { bubbles: true, composed: true }),
-      );
+  private _dispatchDebouncedInput() {
+    window.clearTimeout(this._inputTimeout);
+    this._inputTimeout = window.setTimeout(() => {
+      this._inputTimeout = undefined;
+      this._emitValue('input');
     }, this.debounce);
+  }
+
+  /** Fires a pending debounced `input` now. */
+  private _flushInput() {
+    if (this._inputTimeout === undefined) return;
+    window.clearTimeout(this._inputTimeout);
+    this._inputTimeout = undefined;
+    this._emitValue('input');
+  }
+
+  private _onFocusIn = () => {
+    if (this._focusWithin) return;
+    this._focusWithin = true;
+    this._valueAtFocus = this.value;
+  };
+
+  private _onFocusOut = (event: FocusEvent) => {
+    // Focus moving between parts of the editor arrives retargeted to the host.
+    const next = event.relatedTarget as Node | null;
+    if (next && (next === this || this.contains(next))) return;
+    this._focusWithin = false;
+    this._commit();
+  };
+
+  /** Commits the value: `change` when it differs from the value when focus entered. */
+  private _commit() {
+    this._flushInput();
+    if (this.value === this._valueAtFocus) return;
+    this._valueAtFocus = this.value;
+    this._emitValue('change');
+  }
+
+  private _stopEvent(event: Event) {
+    event.stopPropagation();
   }
 
   private _execCommand(command: () => void) {
@@ -784,14 +852,14 @@ export class MarkdownEditor extends BaseInput {
     this._mode = nextMode;
   };
 
-  private _handleSourceChange = (event: Event) => {
+  /** The source editor's `input`: take its value. */
+  private _handleSourceInput = (event: CustomEvent<{ value: string }>) => {
     event.stopPropagation();
-    const target = event.currentTarget as { value?: string };
-    const nextValue = target.value ?? '';
+    const nextValue = event.detail?.value ?? '';
     if (nextValue === this.value) return;
 
     this.value = nextValue;
-    this._dispatchDebouncedChange();
+    this._dispatchDebouncedInput();
   };
 
   // ── Render helpers ────────────────────────────────────────────────────────
@@ -950,6 +1018,7 @@ export class MarkdownEditor extends BaseInput {
 
   render() {
     const isEmpty = !this.value || this.value.trim() === '';
+    const { validationText } = this;
 
     return html`
       <wc-field
@@ -959,8 +1028,8 @@ export class MarkdownEditor extends BaseInput {
         ?readonly=${this.readonly}
         ?skeleton=${this.skeleton}
         ?focused=${this._focused}
-        ?error=${this.error}
-        error-text=${this.errorText}
+        ?error=${this.error || !!validationText}
+        error-text=${this.error ? this.errorText : validationText}
         helper-text=${this.helperText}
         variant=${this.variant}
         ?populated=${!isEmpty}
@@ -978,6 +1047,8 @@ export class MarkdownEditor extends BaseInput {
             hidden: this._mode !== 'editor',
           })}
           data-placeholder=${this._placeholderText()}
+          @input=${this._stopEvent}
+          @beforeinput=${this._stopEvent}
         >
           <div class="tiptap-root"></div>
         </div>
@@ -990,10 +1061,12 @@ export class MarkdownEditor extends BaseInput {
         >
           <wc-code-editor
             language="markdown"
+            size=${this.size}
             .value=${this.value}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
-            @change=${this._handleSourceChange}
+            @input=${this._handleSourceInput}
+            @change=${this._stopEvent}
           ></wc-code-editor>
         </div>
 

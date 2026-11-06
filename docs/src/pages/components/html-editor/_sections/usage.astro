@@ -35,8 +35,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
       editor.readonly = evt.target.value;
     });
 
-    editor.addEventListener('change', () => {
-      console.log('html-editor value changed:', editor.value);
+    // `input` fires while editing; `change` when focus leaves with a different value.
+    editor.addEventListener('input', event => {
+      console.log('html-editor input:', event.detail.value);
+    });
+    editor.addEventListener('change', event => {
+      console.log('html-editor change:', event.detail.value);
     });
   </script>
 </DemoComponentCard>
@@ -57,9 +61,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
   <script is:inline>
     const managedEditor = document.getElementById('html-editor-managed');
 
-    managedEditor.addEventListener('search', event => {
+    // Answer each `mention-search` by setting `mentions` (now or later, e.g. after a fetch).
+    managedEditor.addEventListener('mention-search', event => {
       const query = (event.detail?.query || '').toLowerCase();
-      const callback = event.detail?.callback;
       const directory = [
         { label: 'Alex Morgan', value: 'alex.morgan' },
         { label: 'Alicia Torres', value: 'alicia.torres' },
@@ -67,8 +71,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro'
         { label: 'Pat Kim', value: 'pat.kim' },
       ];
 
-      const results = directory.filter(item => item.label.toLowerCase().includes(query));
-      callback?.(results);
+      managedEditor.mentions = directory.filter(item =>
+        item.label.toLowerCase().includes(query),
+      );
     });
   </script>
 </DemoComponentCard>

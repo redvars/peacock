@@ -29,6 +29,7 @@ export const defaultStrings = {
   showPassword: 'Show password',
   hidePassword: 'Hide password',
   invalidUrl: 'Please enter a valid URL',
+  editUrl: 'Edit URL',
   slider: 'Slider',
   increase: 'Increase',
   decrease: 'Decrease',
@@ -50,6 +51,8 @@ export const defaultStrings = {
   noOptions: 'No options',
   /** Label of an option whose value is empty and that has no label of its own. */
   none: 'None',
+  /** Row of a select with `allow-custom` that keeps the typed text, for example `Create "Kiwi"`. */
+  createOption: (text: string): string => `Create "${text}"`,
 
   // ── Color ────────────────────────────────────────────────────────────────
   chooseColor: 'Choose color',
@@ -61,6 +64,8 @@ export const defaultStrings = {
   opacity: 'Opacity',
   opacityPercentage: 'Opacity percentage',
   hexColorError: 'Enter a hex color, such as #7c5df0',
+  /** The same error for a color field with `alpha`, which also takes an opacity. */
+  hexColorAlphaError: 'Enter a hex color, such as #7c5df0 or #7c5df080',
   /** Spoken value of the saturation and brightness area, for example "Saturation 40%, Brightness 80%". */
   saturationBrightnessValue: (saturation: string, brightness: string): string =>
     `Saturation ${saturation}%, Brightness ${brightness}%`,
@@ -218,6 +223,27 @@ export const defaultStrings = {
   /** Label of the and/or toggle, for example "Match conditions with And". */
   matchConditionsWith: (operator: string): string =>
     `Match conditions with ${operator}`,
+  /** Description of a rule's handle: the keys that move the rule. */
+  reorderConditionHint:
+    'Arrow Up and Arrow Down move the condition. Arrow Right moves it into the group beside it, Arrow Left out of its group.',
+  /** Announced after a rule moved with the keyboard, for example "Moved to position 2 of 3". */
+  conditionMoved: (position: number, total: number): string =>
+    `Moved to position ${position} of ${total}`,
+  /** Announced after a rule moved into a group with the keyboard. */
+  conditionMovedIntoGroup: (position: number, total: number): string =>
+    `Moved into group, position ${position} of ${total}`,
+  /** Announced after a rule moved out of its group with the keyboard. */
+  conditionMovedOutOfGroup: (position: number, total: number): string =>
+    `Moved out of group, position ${position} of ${total}`,
+
+  // ── Date range field ─────────────────────────────────────────────────────
+  chooseDateRange: 'Choose date range',
+  /** Accessible name of the list of preset ranges beside the calendar. */
+  dateRangePresets: 'Preset ranges',
+
+  // ── Character counter ────────────────────────────────────────────────────
+  /** Text of a field's character counter, for example "12/100". */
+  characterCount: (count: number, max: number): string => `${count}/${max}`,
 };
 
 /** The string table. Overrides must keep each entry's type, so a function stays a function. */

@@ -1,0 +1,46 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-password-field</code> is a text field for a password. What is typed stays hidden until the
+  person presses the eye button, which shows it; pressing it again hides it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-password-field id='password-field-demo' label='Password' required></wc-password-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#password-field-demo').addEventListener('change', function () {
+      myConsole.log('change');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>New passwords</h3>
+<p>
+  <code>autocomplete</code> tells password managers what the field is for. The default,
+  <code>current-password</code>, suits sign-in forms; use <code>new-password</code> on sign-up and
+  change-password forms so the password manager offers to generate one.
+  <code>minlength</code>, <code>maxlength</code> and <code>pattern</code> work as on a native
+  input and block form submission until they are met.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-password-field
+      label='New password'
+      autocomplete='new-password'
+      minlength='12'
+      helper-text='At least 12 characters'
+    ></wc-password-field>
+  </div>
+</DemoComponentCard>
+
+<p>
+  <code>wc-password-field</code> replaces <code>wc-input type="password"</code>, which still works
+  but is deprecated and will be removed in 4.0.
+</p>

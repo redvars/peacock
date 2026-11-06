@@ -147,6 +147,11 @@
   }
 }
 
+// `size="sm"`: smaller text, as on wc-code-editor.
+:host([size='sm']) .markdown-editor-content {
+  @include mixin.get-typography-not-important(body-medium);
+}
+
 .markdown-source {
   &.hidden {
     display: none;

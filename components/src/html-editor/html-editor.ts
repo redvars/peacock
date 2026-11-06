@@ -1,4 +1,4 @@
-﻿import { html, nothing } from 'lit';
+import { html, nothing, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { Editor, mergeAttributes } from '@tiptap/core';
@@ -11,10 +11,16 @@ import { html as beautifyHtml } from 'js-beautify';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import BaseInput from '../input/BaseInput.js';
-import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
+import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
 
 import styles from './html-editor.scss';
+
+/** A mention suggestion. */
+export interface HtmlEditorMention {
+  label: string;
+  value: string;
+}
 
 /**
  * @label HTML Editor
@@ -24,21 +30,40 @@ import styles from './html-editor.scss';
  * @summary A Tiptap-powered HTML editor with visual and source editing modes.
  * @overview
  * <p>The HTML Editor provides a rich-text editing experience built on Tiptap.
- * It wraps the editable area in A styled <code>wc-field</code>,
+ * It wraps the editable area in a styled <code>wc-field</code>,
  * exposes common formatting actions, and includes a segmented switch between
  * <strong>Visual</strong> and <strong>HTML</strong> source modes.</p>
  *
- * <p>Get and set the HTML content via the <code>value</code> property. The component
- * dispatches a <code>change</code> event whenever the content is modified.
- * Mention suggestions are supported through the <code>mentions</code> property,
- * with optional externally managed lookup via the <code>search</code> event.</p>
+ * <p>Get and set the HTML content via the <code>value</code> property; an empty editor has the
+ * value <code>''</code>. The component fires <code>input</code> with <code>{ value }</code> as the
+ * content changes (after <code>debounce</code> milliseconds without typing) and
+ * <code>change</code> with <code>{ value }</code> when focus leaves the editor after an edit.
+ * With <code>required</code>, an empty editor blocks form submission.</p>
+ *
+ * <p>Mention suggestions come from the <code>mentions</code> property. With
+ * <code>mentions-search="managed"</code> the editor fires <code>mention-search</code> with the
+ * typed <code>query</code>; set <code>mentions</code> in response, at once or after a request.</p>
+ *
+ * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
+ * <code>wc-code-editor</code>.</p>
+ *
+ * <p><strong>Breaking in 3.x:</strong> <code>change</code> used to fire, debounced, on every
+ * edit; it now fires once when the edit is committed (on blur), and the debounced event is
+ * <code>input</code>. Listen for <code>input</code> to keep the old timing.</p>
+ *
+ * <p><strong>Deprecated:</strong> the <code>search</code> event with a <code>callback</code> in its
+ * detail still fires next to <code>mention-search</code>; calling the callback logs a warning.
+ * <code>showToolbar = false</code> and <code>showSuggestionCharacter = false</code> still work
+ * with a warning; use <code>hide-toolbar</code> and <code>hide-suggestion-character</code>.</p>
  *
  * @cssprop --html-editor-min-height - Minimum height of the editable area. Defaults to 8rem.
  * @cssprop --html-editor-toolbar-background - Background color of the toolbar.
  * @cssprop --html-editor-toolbar-border-color - Border color between toolbar and editing area.
  *
- * @fires {Event} change - Fired whenever the editable content changes.
- * @fires {CustomEvent} search - Fired in managed mention mode with { query, callback } detail.
+ * @fires {CustomEvent<{value: string}>} input - Dispatched as the content changes, after `debounce` milliseconds without typing.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when focus leaves the editor after an edit.
+ * @fires {CustomEvent<{query: string}>} mention-search - Dispatched in managed mention mode as the user types after the suggestion character. Set `mentions` in response.
+ * @fires {CustomEvent<{query: string, callback: (mentions) => void}>} search - Deprecated: use `mention-search`.
  *
  * @example
  * ```html
@@ -52,13 +77,19 @@ import styles from './html-editor.scss';
  */
 @IndividualComponent
 export class HtmlEditor extends BaseInput {
+  // ── Static ────────────────────────────────────────────────────────────────
+
   static styles = [styles];
 
-  private _editor?: Editor;
+  private static _normalizeHtml(value: string) {
+    return beautifyHtml(value ?? '', {
+      wrap_line_length: 120,
+    });
+  }
 
-  private _changeTimeout?: number;
+  // ── Properties ────────────────────────────────────────────────────────────
 
-  /** Current HTML value of the editor. */
+  /** Current HTML value of the editor; `''` while it is empty. */
   @property({ type: String })
   value = '';
 
@@ -74,6 +105,10 @@ export class HtmlEditor extends BaseInput {
   @property({ type: String })
   variant: 'filled' | 'outlined' | 'default' = 'default';
 
+  /** Size of the text: `sm` or `md`. */
+  @property({ type: String, reflect: true })
+  size: 'sm' | 'md' = 'md';
+
   /** Helper text displayed below the editor. */
   @property({ type: String, attribute: 'helper-text' })
   helperText = '';
@@ -86,15 +121,19 @@ export class HtmlEditor extends BaseInput {
   @property({ type: String, attribute: 'error-text' })
   errorText = '';
 
-  /** Whether toolbar controls should be displayed in visual mode. */
+  /** Hides the formatting toolbar of the visual mode. */
+  @property({ type: Boolean, attribute: 'hide-toolbar' })
+  hideToolbar = false;
+
+  /** @deprecated Use `hide-toolbar`. Setting it to `false` still hides the toolbar. */
   @property({ type: Boolean, attribute: 'show-toolbar' })
   showToolbar = true;
 
   /** Mention suggestions used by the mention extension. */
   @property({ type: Array })
-  mentions: Array<{ label: string; value: string }> = [];
+  mentions: HtmlEditorMention[] = [];
 
-  /** Mention filtering mode. */
+  /** Mention filtering mode: `contains` filters `mentions`; `managed` fires `mention-search`. */
   @property({ type: String, attribute: 'mentions-search' })
   mentionsSearch: 'contains' | 'managed' = 'contains';
 
@@ -102,47 +141,91 @@ export class HtmlEditor extends BaseInput {
   @property({ type: String, attribute: 'suggestion-character' })
   suggestionCharacter = '@';
 
-  /** Whether to include the suggestion character in rendered mention text. */
+  /** Leaves the suggestion character out of rendered mention text. */
+  @property({ type: Boolean, attribute: 'hide-suggestion-character' })
+  hideSuggestionCharacter = false;
+
+  /** @deprecated Use `hide-suggestion-character`. Setting it to `false` still hides the character. */
   @property({ type: Boolean, attribute: 'show-suggestion-character' })
   showSuggestionCharacter = true;
 
-  /** Debounce in milliseconds for dispatching `change`. */
+  /** Debounce in milliseconds for dispatching `input`. */
   @property({ type: Number })
   debounce = 250;
 
   /** Overrides Peacock's strings for this instance only. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
+  // ── State ─────────────────────────────────────────────────────────────────
+
   @state() private _focused = false;
 
   @state() private _mode: 'visual' | 'html' = 'visual';
 
+  // ── Queries ───────────────────────────────────────────────────────────────
+
   @query('.tiptap-root')
-  private _editorEl!: HTMLDivElement;
+  private _editorEl?: HTMLDivElement;
+
+  // ── Private fields ────────────────────────────────────────────────────────
+
+  private _editor?: Editor;
+
+  /** Timer of the debounced `input` event. */
+  private _inputTimeout?: number;
+
+  /** Whether focus is somewhere inside the editor. */
+  private _focusWithin = false;
+
+  /** The value when focus entered the editor; `change` fires on leaving when it differs. */
+  private _valueAtFocus = '';
+
+  /** Resolves the pending managed mention search with the next `mentions`. */
+  private _resolveMentionSearch?: (values: string[]) => void;
 
   /** Peacock's strings for the toolbar, modes, tags and placeholder. */
   private readonly i18n = new I18nController(this);
 
-  // ─── Lifecycle ─────────────────────────────────────────────────────────────
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  constructor() {
+    super();
+    this.addEventListener('focusin', this._onFocusIn);
+    this.addEventListener('focusout', this._onFocusOut);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this._flushInput();
+    this._destroyEditor();
+  }
+
+  protected override willUpdate(changed: PropertyValues<this>) {
+    super.willUpdate(changed);
+    if (changed.has('showToolbar') && !this.showToolbar) {
+      deprecate('wc-html-editor', '`showToolbar = false`', '`hide-toolbar`');
+    }
+    if (
+      changed.has('showSuggestionCharacter') &&
+      !this.showSuggestionCharacter
+    ) {
+      deprecate(
+        'wc-html-editor',
+        '`showSuggestionCharacter = false`',
+        '`hide-suggestion-character`',
+      );
+    }
+  }
 
   protected firstUpdated() {
     this._initializeEditor();
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this._changeTimeout) {
-      window.clearTimeout(this._changeTimeout);
-      this._changeTimeout = undefined;
-    }
-    this._destroyEditor();
-  }
-
-  protected override updated(changed: Map<string, unknown>) {
+  protected override updated(changed: PropertyValues<this>) {
     super.updated(changed);
     if (changed.has('value') && this._editor) {
-      const editorHtml = HtmlEditor._normalizeHtml(this._editor.getHTML());
-      const nextHtml = HtmlEditor._normalizeHtml(this.value);
+      const editorHtml = this._editorValue();
+      const nextHtml = this.value ? HtmlEditor._normalizeHtml(this.value) : '';
       if (editorHtml !== nextHtml) {
         this._editor.commands.setContent(this.value ?? '', false);
       }
@@ -153,36 +236,72 @@ export class HtmlEditor extends BaseInput {
     }
 
     if (
-      (changed.has('placeholder') || changed.has('strings')) &&
+      (changed.has('placeholder') ||
+        changed.has('strings') ||
+        changed.has('hideSuggestionCharacter') ||
+        changed.has('showSuggestionCharacter')) &&
       this._editor
     ) {
       this._destroyEditor();
       this._initializeEditor();
     }
 
-    if (changed.has('mentions') && this._editor) {
-      const oldMentions = changed.get('mentions') as Array<{
-        label: string;
-        value: string;
-      }>;
-      if (oldMentions !== this.mentions) {
+    if (changed.has('mentions')) {
+      if (this._resolveMentionSearch) {
+        // The consumer answered `mention-search`.
+        this._resolveMentionSearch(this.mentions.map(item => item.value));
+        this._resolveMentionSearch = undefined;
+      } else if (
+        this._editor &&
+        this.mentionsSearch !== 'managed' &&
+        changed.get('mentions') !== undefined
+      ) {
+        // Re-render mentions already in the content with their new labels.
         this._destroyEditor();
         this._initializeEditor();
       }
     }
   }
 
-  // ─── Private helpers ───────────────────────────────────────────────────────
+  // ── Public methods ────────────────────────────────────────────────────────
 
-  private static _normalizeHtml(value: string) {
-    return beautifyHtml(value ?? '', {
-      wrap_line_length: 120,
-    });
+  override focus() {
+    if (this._editor && this._mode === 'visual') this._editor.commands.focus();
+    else super.focus();
+  }
+
+  // ── Protected methods ─────────────────────────────────────────────────────
+
+  /** `required` fails while the editor has no content, even an empty paragraph. */
+  protected override computeValidity(): ControlValidity {
+    const empty = this._editor
+      ? this._editor.isEmpty
+      : !(this.value ?? '').replace(/<[^>]*>/g, '').trim();
+    if (this.required && empty && !this.disabled) {
+      return {
+        flags: { valueMissing: true },
+        message: this.valueMissingText(),
+      };
+    }
+    return { flags: {}, message: '' };
+  }
+
+  // ── Private methods ───────────────────────────────────────────────────────
+
+  /** The editor's content as `value` holds it: normalized HTML, or `''` when empty. */
+  private _editorValue(): string {
+    if (!this._editor || this._editor.isEmpty) return '';
+    return HtmlEditor._normalizeHtml(this._editor.getHTML());
   }
 
   /** The `placeholder`, or Peacock's default when it is empty. */
   private _placeholderText() {
     return this.placeholder || this.i18n.t('enterTextPlaceholder');
+  }
+
+  /** Whether mention text includes the suggestion character. */
+  private _showSuggestionCharacter() {
+    return !this.hideSuggestionCharacter && this.showSuggestionCharacter;
   }
 
   private _destroyEditor() {
@@ -218,7 +337,7 @@ export class HtmlEditor extends BaseInput {
                 { contenteditable: false },
                 options.HTMLAttributes,
               ),
-              `${this.showSuggestionCharacter ? options.suggestion.char : ''}${
+              `${this._showSuggestionCharacter() ? options.suggestion.char : ''}${
                 item ? item.label : node.attrs.id
               }`,
             ];
@@ -254,16 +373,18 @@ export class HtmlEditor extends BaseInput {
       onUpdate: () => {
         if (!this._editor) return;
 
-        const nextHtml = HtmlEditor._normalizeHtml(this._editor.getHTML());
-        if (nextHtml !== this.value) {
-          this.value = nextHtml;
-        }
-
-        this._dispatchDebouncedChange();
+        const nextHtml = this._editorValue();
+        if (nextHtml === this.value) return;
+        this.value = nextHtml;
+        this._dispatchDebouncedInput();
       },
+      // The toolbar shows which marks are active at the selection.
+      onTransaction: () => this.requestUpdate(),
     });
 
     this._editorEl.addEventListener('click', this._focusEditorOnContainerClick);
+    // Render the toolbar, which needs the editor.
+    this.requestUpdate();
   }
 
   private _focusEditorOnContainerClick = (event: Event) => {
@@ -273,28 +394,77 @@ export class HtmlEditor extends BaseInput {
     }
   };
 
-  private _dispatchDebouncedChange() {
-    if (this._changeTimeout) {
-      window.clearTimeout(this._changeTimeout);
-    }
+  private _emitValue(type: 'input' | 'change') {
+    this.dispatchEvent(
+      new CustomEvent(type, {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
-    this._changeTimeout = window.setTimeout(() => {
-      redispatchEvent(
-        this,
-        new Event('change', { bubbles: true, composed: true }),
-      );
+  private _dispatchDebouncedInput() {
+    window.clearTimeout(this._inputTimeout);
+    this._inputTimeout = window.setTimeout(() => {
+      this._inputTimeout = undefined;
+      this._emitValue('input');
     }, this.debounce);
   }
 
+  /** Fires a pending debounced `input` now. */
+  private _flushInput() {
+    if (this._inputTimeout === undefined) return;
+    window.clearTimeout(this._inputTimeout);
+    this._inputTimeout = undefined;
+    this._emitValue('input');
+  }
+
+  private _onFocusIn = () => {
+    if (this._focusWithin) return;
+    this._focusWithin = true;
+    this._valueAtFocus = this.value;
+  };
+
+  private _onFocusOut = (event: FocusEvent) => {
+    // Focus moving between parts of the editor arrives retargeted to the host.
+    const next = event.relatedTarget as Node | null;
+    if (next && (next === this || this.contains(next))) return;
+    this._focusWithin = false;
+    this._commit();
+  };
+
+  /** Commits the value: `change` when it differs from the value when focus entered. */
+  private _commit() {
+    this._flushInput();
+    if (this.value === this._valueAtFocus) return;
+    this._valueAtFocus = this.value;
+    this._emitValue('change');
+  }
+
   private _requestManagedMentions(mentionQuery: string): Promise<string[]> {
+    // A newer query replaces an unanswered one.
+    this._resolveMentionSearch?.(this.mentions.map(item => item.value));
     return new Promise(resolve => {
+      this._resolveMentionSearch = resolve;
+      this.dispatchEvent(
+        new CustomEvent<{ query: string }>('mention-search', {
+          detail: { query: mentionQuery },
+          bubbles: true,
+          composed: true,
+        }),
+      );
       this.dispatchEvent(
         new CustomEvent('search', {
           detail: {
             query: mentionQuery,
-            callback: (mentions: Array<{ label: string; value: string }>) => {
+            callback: (mentions: HtmlEditorMention[]) => {
+              deprecate(
+                'wc-html-editor',
+                'the `search` event callback',
+                'the `mention-search` event and the `mentions` property',
+              );
               this.mentions = mentions;
-              resolve(this.mentions.map(item => item.value));
             },
           },
           bubbles: true,
@@ -321,24 +491,28 @@ export class HtmlEditor extends BaseInput {
     if (nextMode === this._mode) return;
 
     if (nextMode === 'html' && this._editor) {
-      this.value = HtmlEditor._normalizeHtml(this._editor.getHTML());
+      this.value = this._editorValue();
     }
 
     this._mode = nextMode;
   }
 
-  private _handleSourceChange(event: Event) {
+  /** The source editor's `input`: take its value. */
+  private _handleSourceInput(event: CustomEvent<{ value: string }>) {
     event.stopPropagation();
-    const target = event.currentTarget as { value?: string };
-    const nextValue = target.value ?? '';
-
+    const nextValue = event.detail?.value ?? '';
     if (nextValue === this.value) return;
 
     this.value = nextValue;
-    this._dispatchDebouncedChange();
+    this._dispatchDebouncedInput();
   }
 
-  // ─── Toolbar button ────────────────────────────────────────────────────────
+  /** The source editor's own `change`; the editor commits when focus leaves it as a whole. */
+  private _stopEvent(event: Event) {
+    event.stopPropagation();
+  }
+
+  // ── Render helpers ────────────────────────────────────────────────────────
 
   private _toolbarButton(
     icon: string,
@@ -366,10 +540,13 @@ export class HtmlEditor extends BaseInput {
     `;
   }
 
-  // ─── Toolbar ───────────────────────────────────────────────────────────────
-
   private _renderToolbar() {
-    if (!this._editor || !this.showToolbar || this._mode !== 'visual') {
+    if (
+      !this._editor ||
+      this.hideToolbar ||
+      !this.showToolbar ||
+      this._mode !== 'visual'
+    ) {
       return nothing;
     }
 
@@ -445,10 +622,11 @@ export class HtmlEditor extends BaseInput {
     return nothing;
   }
 
-  // ─── Render ────────────────────────────────────────────────────────────────
+  // ── Render ────────────────────────────────────────────────────────────────
 
   render() {
     const isEmpty = !this.value || this.value === '<br>';
+    const { validationText } = this;
 
     return html`
       <wc-field
@@ -458,8 +636,8 @@ export class HtmlEditor extends BaseInput {
         ?readonly=${this.readonly}
         ?skeleton=${this.skeleton}
         ?focused=${this._focused}
-        ?error=${this.error}
-        error-text=${this.errorText}
+        ?error=${this.error || !!validationText}
+        error-text=${this.error ? this.errorText : validationText}
         helper-text=${this.helperText}
         variant=${this.variant}
         ?populated=${!isEmpty}
@@ -498,6 +676,8 @@ export class HtmlEditor extends BaseInput {
             hidden: this._mode !== 'visual',
           })}
           data-placeholder=${this._placeholderText()}
+          @input=${this._stopEvent}
+          @beforeinput=${this._stopEvent}
         >
           <div class="tiptap-root"></div>
         </div>
@@ -510,10 +690,12 @@ export class HtmlEditor extends BaseInput {
         >
           <wc-code-editor
             language="html"
+            size=${this.size}
             .value=${this.value}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
-            @change=${this._handleSourceChange}
+            @input=${this._handleSourceInput}
+            @change=${this._stopEvent}
           ></wc-code-editor>
         </div>
 

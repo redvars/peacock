@@ -490,4 +490,188 @@ describe('Select', () => {
 
     expect(el.value).to.equal('banana');
   });
+
+  function key(target: HTMLElement, name: string) {
+    target.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: name,
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  async function typeSearch(el: Select, text: string) {
+    const input =
+      el.shadowRoot!.querySelector<HTMLInputElement>('.search-input')!;
+    input.value = text;
+    input.dispatchEvent(new InputEvent('input'));
+    await settle(el);
+    return input;
+  }
+
+  it('keeps values in sync with value and sends values in change', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select multiple>
+        <wc-option value="a">A</wc-option>
+        <wc-option value="b">B</wc-option>
+      </wc-select>
+    `);
+    el.values = ['a', 'b'];
+    expect(el.value).to.equal('a,b');
+    el.value = 'b';
+    expect(el.values).to.deep.equal(['b']);
+
+    setTimeout(() => activate(el, 'a'));
+    const event = await oneEvent(el, 'change');
+    expect(event.detail).to.deep.equal({ value: 'b,a', values: ['b', 'a'] });
+  });
+
+  it('keeps typed text as the value with allow-custom and fires create', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'Kiwi');
+
+    const create =
+      el.shadowRoot!.querySelector<SelectOptionElement>('.create-option')!;
+    expect(create.textContent?.trim()).to.equal('Create "Kiwi"');
+
+    const created: string[] = [];
+    el.addEventListener('create', e =>
+      created.push((e as CustomEvent).detail.value),
+    );
+    menuOf(el).dispatchEvent(
+      new CustomEvent('menu-item-activate', { detail: { item: create } }),
+    );
+    await settle(el);
+
+    expect(created).to.deep.equal(['Kiwi']);
+    expect(el.value).to.equal('Kiwi');
+    expect(
+      el.shadowRoot!.querySelector('.display-value')?.textContent,
+    ).to.equal('Kiwi');
+  });
+
+  it('hides the create row when the text matches an option, and picks it on Enter', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom>
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    const input = await typeSearch(el, 'apple');
+    expect(el.shadowRoot!.querySelector('.create-option')).to.be.null;
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.value).to.equal('apple');
+  });
+
+  it('adds custom values with Enter in multiple mode, unless create is cancelled', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select allow-custom multiple value="apple">
+        <wc-option value="apple">Apple</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    let input = await typeSearch(el, 'Kiwi');
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.values).to.deep.equal(['apple', 'Kiwi']);
+
+    el.addEventListener('create', e => e.preventDefault(), { once: true });
+    input = await typeSearch(el, 'Lime');
+    key(input, 'Enter');
+    await settle(el);
+    expect(el.values).to.deep.equal(['apple', 'Kiwi']);
+  });
+
+  it('fires search, and the deprecated select-search, in managed mode', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select search="managed"></wc-select>
+    `);
+    const fired: string[] = [];
+    for (const type of ['search', 'select-search']) {
+      el.addEventListener(type, e =>
+        fired.push(`${type}:${(e as CustomEvent).detail.value}`),
+      );
+    }
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'ap');
+    expect(fired).to.deep.equal(['search:ap', 'select-search:ap']);
+  });
+
+  it('shows a loading row, then no results once managed options come back empty', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select search="managed" loading>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    trigger(el).click();
+    await settle(el);
+    await typeSearch(el, 'zz');
+    expect(el.shadowRoot!.querySelector('.loading-row')).to.exist;
+    expect(el.shadowRoot!.querySelector('.no-results')).to.be.null;
+    expect(menuOf(el).getAttribute('aria-busy')).to.equal('true');
+
+    el.querySelector('wc-option')!.remove();
+    el.loading = false;
+    await settle(el);
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector('.loading-row')).to.be.null;
+    expect(
+      el.shadowRoot!.querySelector('.no-results')?.textContent?.trim(),
+    ).to.equal('No results');
+  });
+
+  it('renders a start slot for a leading icon', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select label="Fruit">
+        <span slot="start" class="lead">*</span>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const slot =
+      el.shadowRoot!.querySelector<HTMLSlotElement>('slot[name="start"]')!;
+    expect(slot.assignedElements()[0]).to.equal(el.querySelector('.lead'));
+  });
+
+  it('selects by typing a letter and with Home and End while closed', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select>
+        <wc-option value="apple">Apple</wc-option>
+        <wc-option value="banana">Banana</wc-option>
+        <wc-option value="blueberry">Blueberry</wc-option>
+        <wc-option value="cherry">Cherry</wc-option>
+      </wc-select>
+    `);
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+    trigger(el).focus();
+
+    key(trigger(el), 'b');
+    await settle(el);
+    expect(el.value).to.equal('banana');
+    key(trigger(el), 'b');
+    await settle(el);
+    expect(el.value).to.equal('blueberry');
+    expect(menuOf(el).open).to.be.false;
+
+    key(trigger(el), 'End');
+    await settle(el);
+    expect(el.value).to.equal('cherry');
+    key(trigger(el), 'Home');
+    await settle(el);
+    expect(el.value).to.equal('apple');
+    expect(changes).to.deep.equal(['banana', 'blueberry', 'cherry', 'apple']);
+  });
 });

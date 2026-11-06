@@ -30,3 +30,16 @@
     resize: vertical;
   }
 }
+
+:host([resize='none']) .field .input,
+:host([auto-grow]) .field .input {
+  resize: none;
+}
+
+:host([resize='both']) .field .input {
+  resize: both;
+}
+
+:host([auto-grow]) .field .input {
+  overflow-y: hidden;
+}

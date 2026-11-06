@@ -23,6 +23,30 @@
   }
 }
 
+/* With `format`: the formatted text lies over the input while it is not focused. */
+.format-control {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.formatted {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+.show-formatted {
+  color: transparent;
+}
+
 /* With the stepper buttons, hide the native spin buttons. */
 .no-spin-buttons {
   /* Chrome, Safari, Edge, Opera */

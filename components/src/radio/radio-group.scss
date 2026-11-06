@@ -33,7 +33,20 @@
     gap: var(--radio-group-gap, var(--spacing-300));
   }
 
-  &.disabled .label {
+  .helper {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+  }
+
+  &.error {
+    .label,
+    .helper {
+      color: var(--color-error);
+    }
+  }
+
+  &.disabled .label,
+  &.disabled .helper {
     opacity: 0.38;
   }
 }

@@ -3,6 +3,8 @@ import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
 import { Field } from '../src/field/field.js';
 import { UrlField } from '../src/url-field/url-field.js';
+import { setPeacockStrings } from '../src/__internal/i18n/strings.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -128,5 +130,122 @@ describe('UrlField validation', () => {
       html`<wc-url-field editing value="not a url"></wc-url-field>`,
     );
     expect(el.validity.typeMismatch).to.be.true;
+  });
+
+  it("uses Peacock's message for a malformed URL", async () => {
+    setPeacockStrings({ invalidUrl: 'Adresse invalide' });
+    try {
+      const el = await fixture<UrlField>(
+        html`<wc-url-field editing value="not a url"></wc-url-field>`,
+      );
+      expect(el.validationMessage).to.equal('Adresse invalide');
+    } finally {
+      setPeacockStrings({});
+    }
+  });
+});
+
+describe('UrlField editing', () => {
+  let warn: typeof console.warn;
+  let warnings: string[];
+
+  beforeEach(() => {
+    resetDeprecationWarnings();
+    warnings = [];
+    warn = console.warn;
+    console.warn = (message: string) => warnings.push(message);
+  });
+
+  afterEach(() => {
+    console.warn = warn;
+  });
+
+  it('starts editing on focus and focuses the input once rendered', async () => {
+    const el = await fixture<UrlField>(
+      html`<wc-url-field value="https://a.b"></wc-url-field>`,
+    );
+    el.focus();
+    await el.updateComplete;
+    const input = urlInput(el)!;
+    expect(input).to.exist;
+    expect(el.shadowRoot!.activeElement).to.equal(input);
+    expect(el.hasAttribute('editing')).to.be.false;
+    expect(warnings).to.be.empty;
+  });
+
+  it('starts editing from the edit button, which has a label', async () => {
+    const el = await fixture<UrlField>(
+      html`<wc-url-field value="https://a.b"></wc-url-field>`,
+    );
+    const button = el.shadowRoot!.querySelector<HTMLElement>('.edit-button')!;
+    expect(button.getAttribute('aria-label')).to.equal('Edit URL');
+    button.click();
+    await el.updateComplete;
+    expect(urlInput(el)).to.exist;
+  });
+
+  it('cancels editing with Escape and restores the value', async () => {
+    const el = await fixture<UrlField>(
+      html`<wc-url-field value="https://a.b"></wc-url-field>`,
+    );
+    el.focus();
+    await el.updateComplete;
+    const input = urlInput(el)!;
+    input.value = 'not a url';
+    input.dispatchEvent(new InputEvent('input'));
+    expect(el.value).to.equal('not a url');
+
+    const changes: string[] = [];
+    el.addEventListener('change', e =>
+      changes.push((e as CustomEvent).detail.value),
+    );
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal('https://a.b');
+    expect(changes).to.deep.equal(['https://a.b']);
+    expect(urlInput(el)).to.not.exist;
+    expect(el.shadowRoot!.querySelector('.url-link')).to.exist;
+    expect(el.validity.valid).to.be.true;
+  });
+
+  it('shows the start and end slots while viewing and editing', async () => {
+    const el = await fixture<UrlField>(
+      html`<wc-url-field value="https://a.b"
+        ><span slot="start">S</span><span slot="end">E</span></wc-url-field
+      >`,
+    );
+    const assigned = () =>
+      ['start', 'end'].map(
+        name =>
+          el
+            .shadowRoot!.querySelector<HTMLSlotElement>(`slot[name="${name}"]`)
+            ?.assignedElements().length,
+      );
+    expect(assigned()).to.deep.equal([1, 1]);
+    el.focus();
+    await el.updateComplete;
+    expect(urlInput(el)).to.exist;
+    expect(assigned()).to.deep.equal([1, 1]);
+  });
+
+  it('still reads the deprecated editing attribute, with a warning', async () => {
+    const el = await fixture<UrlField>(
+      html`<wc-url-field editing></wc-url-field>`,
+    );
+    expect(urlInput(el)).to.exist;
+    expect(el.editing).to.be.true;
+    expect(warnings).to.have.length(1);
+    expect(warnings[0]).to.contain('wc-url-field');
+  });
+
+  it('still takes the deprecated editing property, with a warning', async () => {
+    const el = await fixture<UrlField>(html`<wc-url-field></wc-url-field>`);
+    el.editing = true;
+    await el.updateComplete;
+    expect(urlInput(el)).to.exist;
+    expect(warnings).to.have.length(1);
   });
 });

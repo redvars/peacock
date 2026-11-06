@@ -19,6 +19,10 @@
   background: var(--color-surface);
 }
 
+.rule.disabled .content {
+  opacity: var(--state-disabled-content-opacity);
+}
+
 .handle {
   position: relative;
   display: flex;

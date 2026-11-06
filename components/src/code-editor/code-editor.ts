@@ -4,9 +4,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
-import { redispatchEvent } from '../__internal/utils/dispatch-event-utils.js';
 import { copyToClipboard } from '../__internal/utils/copy-to-clipboard.js';
 import { buildEditorTheme, resolvePalette } from './editor-theme.js';
 
@@ -56,6 +56,23 @@ const WORKERS = new URL('./monaco/', import.meta.url);
 
 let loading: Promise<Monaco> | undefined;
 let instances = 0;
+
+/**
+ * Reads `line-numbers`: a boolean that is on by default, so `line-numbers="false"` turns it
+ * off. The old `"on"` and `"off"` still work, with a deprecation warning.
+ */
+const lineNumbersConverter = {
+  fromAttribute(value: string | null): boolean {
+    if (value === 'on' || value === 'off') {
+      deprecate(
+        'wc-code-editor',
+        `line-numbers="${value}"`,
+        value === 'off' ? 'line-numbers="false"' : 'line-numbers',
+      );
+    }
+    return value !== 'off' && value !== 'false';
+  },
+};
 
 /** The worker file for a Monaco language service label. */
 function workerFile(label: string): string {
@@ -112,9 +129,16 @@ function loadMonaco(): Promise<Monaco> {
  *  - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.
  *  - `markers` underline problems, such as where a run failed.
  *  - With `fill`, the editor drops its frame and takes the height of its container, as a pane of its own.
- *  - Emits `change` when content is edited and updates value from property changes.
+ *  - It is a form field: `label` shows above the editor (and names it for assistive technology), `helper-text` below it, `error` with `error-text` puts it in its error state, and `required` blocks form submission while it is empty, with the message shown below once the value is committed or the form is submitted.
+ *  - `file-name` is the header title, such as `theme.css`.
+ *  - Fires `input` with `{ value }` on each edit and `change` with `{ value }` when the editor loses focus after an edit.
+ *  - `size` sets the size of the code text: `sm` or `md` (the default), as on `wc-code-highlighter`.
  *
- * @slot title - Header title content. Overrides `label` and shows the header.
+ * **Breaking in 3.x:** `change` used to fire as a plain `Event` on every edit; it now fires once when the edit is committed (on blur), and `input` fires on every edit. Listen for `input` to keep the old timing.
+ *
+ * **Deprecated:** `label` without `file-name` still shows in the header, as before, and logs a warning; set `file-name` for the header (or `file-name=""` for none) and `label` becomes the field label above the editor. In 4.0 `label` is always the field label. `line-numbers="on"` and `line-numbers="off"` still work; `line-numbers` is now a boolean that is on by default, so use `line-numbers="false"` (or the `lineNumbers = false` property) to hide them.
+ *
+ * @slot title - Header title content. Overrides `file-name` and shows the header.
  * @slot icon - Icon shown before the title in the header.
  * @slot actions - Extra action buttons, shown in the header or floating at the top end.
  *
@@ -130,7 +154,8 @@ function loadMonaco(): Promise<Monaco> {
  * @cssprop --code-editor-shape - Frame corner radius. Defaults to `--shape-corner-medium`.
  * @cssprop --code-highlighter-token-keyword - Keyword color, shared with `wc-code-highlighter`, like the other `--code-highlighter-token-*` colors.
  *
- * @fires {Event} change - Dispatched when the user edits the content.
+ * @fires {CustomEvent<{value: string}>} input - Dispatched on each edit.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the editor loses focus after an edit.
  * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the content.
  * @fires {CustomEvent<{line: number}>} breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.
  *
@@ -138,7 +163,7 @@ function loadMonaco(): Promise<Monaco> {
  * ```html
  * <wc-code-editor
  *   language="css"
- *   label="theme.css"
+ *   file-name="theme.css"
  *   readonly
  *   style="width: 100%; --code-editor-height: 10rem;"
  *   value=":root { --color-primary: #6341d5; }">
@@ -147,7 +172,7 @@ function loadMonaco(): Promise<Monaco> {
  * @tags input, editor
  */
 @IndividualComponent
-export default class CodeEditor extends BaseInput {
+export class CodeEditor extends BaseInput {
   // ── Static
 
   static styles = [styles];
@@ -164,9 +189,27 @@ export default class CodeEditor extends BaseInput {
   @property({ type: String })
   language: CodeEditorLanguage = 'javascript';
 
-  /** Header title, such as a file name. Shows the header. */
+  /**
+   * Label shown above the editor; also its accessible name. Until 4.0, a `label` without
+   * `file-name` shows in the header instead, as it used to (deprecated).
+   */
   @property({ type: String })
   label = '';
+
+  /** Header title, such as a file name. Shows the header; `""` shows none. */
+  @property({ type: String, attribute: 'file-name' })
+  fileName: string | undefined = undefined;
+
+  /** Help text shown below the editor. */
+  @property({ type: String, attribute: 'helper-text' })
+  helperText = '';
+
+  /** Shows the editor in its error state with `error-text`. */
+  @property({ type: Boolean })
+  error = false;
+
+  @property({ type: String, attribute: 'error-text' })
+  errorText = '';
 
   /** TypeScript declarations (a `.d.ts`) for completions in TypeScript and JavaScript, such as the modules the code may import. */
   @property({ type: String, attribute: 'lib-source' })
@@ -176,9 +219,12 @@ export default class CodeEditor extends BaseInput {
   @property({ type: Object, attribute: false })
   compilerOptions: Record<string, unknown> | undefined;
 
-  /** Whether line numbers show in the gutter. */
-  @property({ type: String, attribute: 'line-numbers' })
-  lineNumbers: 'off' | 'on' = 'on';
+  /**
+   * Whether line numbers show in the gutter. On by default; `line-numbers="false"` hides them.
+   * The old `"on"` and `"off"` still work (deprecated).
+   */
+  @property({ attribute: 'line-numbers', converter: lineNumbersConverter })
+  lineNumbers = true;
 
   /** Wraps long lines instead of scrolling horizontally. */
   @property({ type: Boolean, reflect: true })
@@ -274,6 +320,9 @@ export default class CodeEditor extends BaseInput {
   /** The font and padding last given to Monaco, to skip unchanged updates. */
   private __layoutKey = '';
 
+  /** The value when the editor text gained focus; `change` fires on blur when it differs. */
+  private __valueAtFocus = '';
+
   // ── Lifecycle
 
   connectedCallback() {
@@ -304,6 +353,26 @@ export default class CodeEditor extends BaseInput {
     this.editorMonacoInstance = undefined;
   }
 
+  protected override willUpdate(changedProperties: PropertyValues<this>) {
+    super.willUpdate(changedProperties);
+    if (
+      (changedProperties.has('label') || changedProperties.has('fileName')) &&
+      this.__labelInHeader
+    ) {
+      deprecate('wc-code-editor', '`label` as the header title', '`file-name`');
+    }
+    // The old string values, set as a property.
+    const lineNumbers = this.lineNumbers as unknown;
+    if (lineNumbers === 'on' || lineNumbers === 'off') {
+      deprecate(
+        'wc-code-editor',
+        `lineNumbers = '${lineNumbers}'`,
+        'a boolean',
+      );
+      this.lineNumbers = lineNumbers === 'on';
+    }
+  }
+
   protected firstUpdated() {
     this.initializeMonaco();
   }
@@ -332,14 +401,15 @@ export default class CodeEditor extends BaseInput {
       changedProperties.has('breakpointGutter') ||
       changedProperties.has('wrap') ||
       changedProperties.has('label') ||
+      changedProperties.has('fileName') ||
       changedProperties.has('strings')
     ) {
       editor.updateOptions({
-        lineNumbers: this.lineNumbers,
+        lineNumbers: this.lineNumbers ? 'on' : 'off',
         minimap: { enabled: this.minimap },
         glyphMargin: this.breakpointGutter,
         wordWrap: this.wrap ? 'on' : 'off',
-        ariaLabel: this.label || this.i18n.t('codeEditor'),
+        ariaLabel: this.__accessibleName,
       });
     }
 
@@ -389,13 +459,13 @@ export default class CodeEditor extends BaseInput {
     this.editorMonacoInstance = monaco.editor.create(this.editorElement, {
       model,
       ...layout,
-      lineNumbers: this.lineNumbers,
+      lineNumbers: this.lineNumbers ? 'on' : 'off',
       minimap: { enabled: this.minimap },
       glyphMargin: this.breakpointGutter,
       wordWrap: this.wrap ? 'on' : 'off',
       theme: THEME_NAME,
       readOnly: this.disabled || this.readonly,
-      ariaLabel: this.label || this.i18n.t('codeEditor'),
+      ariaLabel: this.__accessibleName,
       automaticLayout: true,
       fixedOverflowWidgets: true,
       scrollBeyondLastLine: false,
@@ -425,12 +495,8 @@ export default class CodeEditor extends BaseInput {
 
     this.editorMonacoInstance.onDidChangeModelContent((e: any) => {
       if (!e.isFlush) {
-        const newValue = this.editorMonacoInstance!.getValue();
-        this.value = newValue;
-        redispatchEvent(
-          this,
-          new Event('change', { bubbles: true, composed: true }),
-        );
+        this.value = this.editorMonacoInstance?.getValue() ?? '';
+        this.__emitValue('input');
       }
     });
 
@@ -455,16 +521,21 @@ export default class CodeEditor extends BaseInput {
     });
 
     this.editorMonacoInstance.onDidFocusEditorText(() => {
-      this.hasFocus = true;
+      this.handleEditorFocus();
     });
 
     this.editorMonacoInstance.onDidBlurEditorText(() => {
-      this.hasFocus = false;
+      this.handleEditorBlur();
     });
   }
 
+  override focus() {
+    if (this.editorMonacoInstance) this.editorMonacoInstance.focus();
+    else super.focus();
+  }
+
   async setFocus() {
-    this.editorMonacoInstance?.focus();
+    this.focus();
   }
 
   async setBlur() {
@@ -483,7 +554,66 @@ export default class CodeEditor extends BaseInput {
     editor.setPosition({ lineNumber: line, column: 1 });
   }
 
+  // ── Protected methods
+
+  /** The editor text gained focus: remember the value, to commit on blur. */
+  protected handleEditorFocus() {
+    this.hasFocus = true;
+    this.__valueAtFocus = this.value;
+  }
+
+  /** The editor text lost focus: commit the value with `change` when it was edited. */
+  protected handleEditorBlur() {
+    this.hasFocus = false;
+    if (this.value !== this.__valueAtFocus) {
+      this.__valueAtFocus = this.value;
+      this.__emitValue('change');
+    }
+  }
+
   // ── Private methods
+
+  /** Whether `label` shows in the header, the 3.x behaviour without `file-name` (deprecated). */
+  private get __labelInHeader(): boolean {
+    return this.fileName === undefined && !!this.label;
+  }
+
+  /** The header title: `file-name`, or the deprecated `label` in the header. */
+  private get __headerTitle(): string {
+    return this.fileName ?? (this.__labelInHeader ? this.label : '');
+  }
+
+  /** The label shown above the editor. */
+  private get __fieldLabel(): string {
+    return this.__labelInHeader ? '' : this.label;
+  }
+
+  /** Monaco's accessible name. */
+  private get __accessibleName(): string {
+    return this.label || this.fileName || this.i18n.t('codeEditor');
+  }
+
+  /** The text under the editor: the consumer's error, the validation message or the help. */
+  private get __footerText(): string {
+    if (this.error) return this.errorText;
+    return this.validationText || this.helperText;
+  }
+
+  /** Dispatches `input` or `change` with the current value. */
+  private __emitValue(type: 'input' | 'change') {
+    this.dispatchEvent(
+      new CustomEvent(type, {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  /** Stops Monaco's native `input` events, which cross the shadow boundary, at the editor. */
+  private __stopNativeInput(event: Event) {
+    event.stopPropagation();
+  }
 
   /** Defines the page's editor theme from the tokens around this editor. */
   private __applyTheme = () => {
@@ -696,17 +826,33 @@ export default class CodeEditor extends BaseInput {
       <div class="header" part="header">
         <slot name="icon"></slot>
         <div class="title" part="title">
-          <slot name="title">${this.label}</slot>
+          <slot name="title">${this.__headerTitle}</slot>
         </div>
         ${this.renderActions(false, showBadge)}
       </div>
     `;
   }
 
+  private renderFieldLabel() {
+    const label = this.__fieldLabel;
+    if (!label) return nothing;
+    return html`<div class="field-label" part="label">
+      ${label}${this.required
+        ? html`<span class="required" aria-hidden="true">*</span>`
+        : nothing}
+    </div>`;
+  }
+
+  private renderFooter() {
+    const text = this.__footerText;
+    if (!text) return nothing;
+    return html`<div class="field-footer" part="helper-text">${text}</div>`;
+  }
+
   // ── Render
 
   render() {
-    const hasHeader = !!this.label || this.__hasSlotted('title');
+    const hasHeader = !!this.__headerTitle || this.__hasSlotted('title');
     const showBadge =
       this.showReadonlyBadge && (this.disabled || this.readonly);
     const hasActions =
@@ -715,16 +861,19 @@ export default class CodeEditor extends BaseInput {
       showBadge ||
       this.__hasSlotted('actions');
     const loaded = !!this.editorMonacoInstance;
+    const invalid = this.error || !!this.validationText;
 
     // A read-only editor keeps full contrast: it is still meant to be read.
     return html`
+      ${this.renderFieldLabel()}
       <div
         class=${classMap({
           'code-block': true,
           'has-header': hasHeader,
           focused: this.hasFocus,
           disabled: this.disabled,
-          numbered: this.lineNumbers !== 'off',
+          'has-error': invalid,
+          numbered: this.lineNumbers,
           'breakpoint-gutter': this.breakpointGutter,
         })}
         part="container"
@@ -734,7 +883,12 @@ export default class CodeEditor extends BaseInput {
           ? this.renderActions(true, showBadge)
           : nothing}
         <div class="editor-area">
-          <div class="editor" part="editor"></div>
+          <div
+            class="editor"
+            part="editor"
+            @input=${this.__stopNativeInput}
+            @beforeinput=${this.__stopNativeInput}
+          ></div>
           ${loaded
             ? nothing
             : html`<pre class="placeholder" aria-hidden="true">
@@ -749,6 +903,9 @@ ${this.value}</pre
           >${this._copied ? this.i18n.t('copiedCode') : ''}</span
         >
       </div>
+      ${this.renderFooter()}
     `;
   }
 }
+
+export default CodeEditor;

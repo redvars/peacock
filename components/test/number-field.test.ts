@@ -211,3 +211,68 @@ describe('NumberField validation', () => {
     expect(el.checkValidity()).to.be.true;
   });
 });
+
+describe('NumberField format', () => {
+  const formatted = (el: NumberField) =>
+    el.shadowRoot!.querySelector<HTMLElement>('.formatted');
+
+  it('shows the formatted value while not focused, and the number while focused', async () => {
+    const el = await fixture<NumberField>(
+      html`<div lang="en-US">
+        <wc-number-field
+          value="1234.5"
+          .format=${{ style: 'currency', currency: 'USD' }}
+        ></wc-number-field>
+      </div>`,
+    ).then(div => div.querySelector<NumberField>('wc-number-field')!);
+    expect(formatted(el)!.textContent!.trim()).to.equal('$1,234.50');
+    expect(formatted(el)!.getAttribute('aria-hidden')).to.equal('true');
+    expect(input(el).value).to.equal('1234.5');
+    expect(input(el).classList.contains('show-formatted')).to.be.true;
+
+    input(el).dispatchEvent(new FocusEvent('focus'));
+    await el.updateComplete;
+    expect(formatted(el)).to.be.null;
+    expect(input(el).classList.contains('show-formatted')).to.be.false;
+
+    input(el).value = '99';
+    input(el).dispatchEvent(new InputEvent('input'));
+    input(el).dispatchEvent(new FocusEvent('blur'));
+    await el.updateComplete;
+    expect(el.value).to.equal(99);
+    expect(formatted(el)!.textContent!.trim()).to.equal('$99.00');
+  });
+
+  it('formats in the locale of the nearest lang', async () => {
+    const div = await fixture<HTMLDivElement>(
+      html`<div lang="de-DE">
+        <wc-number-field
+          value="1234.5"
+          .format=${{ minimumFractionDigits: 2 }}
+        ></wc-number-field>
+      </div>`,
+    );
+    const el = div.querySelector<NumberField>('wc-number-field')!;
+    await el.updateComplete;
+    expect(formatted(el)!.textContent!.trim()).to.equal('1.234,50');
+  });
+
+  it('takes format as a JSON attribute and keeps value numeric', async () => {
+    const el = await fixture<NumberField>(
+      html`<wc-number-field
+        lang="en-US"
+        value="0.25"
+        format='{"style":"percent"}'
+      ></wc-number-field>`,
+    );
+    expect(formatted(el)!.textContent!.trim()).to.equal('25%');
+    expect(el.value).to.equal(0.25);
+  });
+
+  it('shows nothing formatted while empty', async () => {
+    const el = await fixture<NumberField>(
+      html`<wc-number-field .format=${{ style: 'percent' }}></wc-number-field>`,
+    );
+    expect(formatted(el)).to.be.null;
+  });
+});

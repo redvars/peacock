@@ -14,6 +14,40 @@
   min-width: 0;
 }
 
+// ── Field label and helper text, as on wc-field ──────────────────────────
+
+.field-label {
+  margin-block-end: var(--spacing-100);
+  color: var(--color-on-surface-variant);
+
+  @include mixin.get-typography(body-small);
+
+  .required {
+    padding-inline-start: var(--spacing-025);
+    color: var(--color-error);
+  }
+}
+
+.field-footer {
+  margin-block-start: var(--spacing-050);
+  color: var(--color-on-surface-variant);
+
+  @include mixin.get-typography(body-small);
+}
+
+.code-block.has-error {
+  border-color: var(--color-error);
+
+  &.focused {
+    border-color: var(--color-error);
+    outline-color: var(--color-error);
+  }
+}
+
+.code-block.has-error ~ .field-footer {
+  color: var(--color-error);
+}
+
 // ── Frame ──────────────────────────────────────────────────────────────────
 
 .code-block {
@@ -133,11 +167,15 @@
 
 // `fill`: a pane of its own, such as an IDE's: no frame, as tall as its container.
 :host([fill]) {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   min-height: 0;
 
   .code-block {
-    height: 100%;
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
     background: transparent;
     border: 0;
     border-radius: 0;

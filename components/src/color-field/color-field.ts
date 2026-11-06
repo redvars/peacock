@@ -12,12 +12,21 @@ import styles from './color-field.scss';
 
 const HEX_COLOR = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
-/** Normalizes `abc`, `#ABC` or `#aabbcc` to `#aabbcc`; returns null for anything else. */
-function normalizeHex(input: string): string | null {
-  const match = input.trim().match(HEX_COLOR);
+const HEX_COLOR_ALPHA =
+  /^#?([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+
+/** The color the picker starts on while the field is empty. */
+const PICKER_START_COLOR = '#7c5df0';
+
+/**
+ * Normalizes `abc`, `#ABC` or `#aabbcc` to `#aabbcc`, and with `alpha` also `#abcd` or
+ * `#aabbccdd` to `#aabbccdd`; returns null for anything else.
+ */
+function normalizeHex(input: string, alpha = false): string | null {
+  const match = input.trim().match(alpha ? HEX_COLOR_ALPHA : HEX_COLOR);
   if (!match) return null;
   const hex = match[1].toLowerCase();
-  return `#${hex.length === 3 ? hex.replace(/./g, c => c + c) : hex}`;
+  return `#${hex.length <= 4 ? hex.replace(/./g, c => c + c) : hex}`;
 }
 
 /**
@@ -30,7 +39,11 @@ function normalizeHex(input: string): string | null {
  * <p>Color field shows the current color as a swatch next to its hex value. Type a hex value, or
  * click the swatch to pick one with <code>wc-color-picker</code> in a popover.</p>
  * <p>It is form-associated: the hex value is submitted under its <code>name</code>.
- * <code>required</code> and text that is not a hex color block form submission.</p>
+ * <code>required</code> and text that is not a hex color block form submission. The field starts
+ * empty, so an untouched field submits an empty value and <code>required</code> can catch it.</p>
+ * <p>With <code>alpha</code> the picker shows an opacity slider and the value is an 8-digit hex
+ * color (<code>#rrggbbaa</code>).</p>
+ * <p><code>readonly</code> shows the color but keeps the picker closed and the text read-only.</p>
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched while the color changes in the picker.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when a color is committed, from the picker or the text field.
@@ -49,8 +62,14 @@ export class ColorField extends BaseField {
 
   // ── Properties ───────────────────────────────────────────────────────────
 
-  /** The color as a 6-digit hex string, such as `"#7c5df0"`. */
-  @property({ type: String }) value = '#7c5df0';
+  /**
+   * The color as a hex string: `#rrggbb` such as `"#7c5df0"`, or `#rrggbbaa` with `alpha`.
+   * Empty when no color is set.
+   */
+  @property({ type: String }) value = '';
+
+  /** Lets the color carry an opacity: the picker shows an alpha slider, the value is `#rrggbbaa`. */
+  @property({ type: Boolean }) alpha = false;
 
   /** Where the picker opens, relative to the field. */
   @property({ type: String }) placement: Popover['placement'] = 'bottom-start';
@@ -108,10 +127,16 @@ export class ColorField extends BaseField {
     if (this.invalid && !this.disabled) {
       return {
         flags: { badInput: true },
-        message: this.i18n.t('hexColorError'),
+        message: this.hexErrorText,
       };
     }
     return super.computeValidity();
+  }
+
+  // ── Private getters ──────────────────────────────────────────────────────
+
+  private get hexErrorText(): string {
+    return this.i18n.t(this.alpha ? 'hexColorAlphaError' : 'hexColorError');
   }
 
   protected override validityAnchor() {
@@ -149,9 +174,15 @@ export class ColorField extends BaseField {
   }
 
   private commitDraft() {
-    const hex = normalizeHex(this.draft);
+    if (this.readonly) return;
+    if (!this.draft.trim()) {
+      this.invalid = false;
+      if (this.value) this.commit('');
+      return;
+    }
+    const hex = normalizeHex(this.draft, this.alpha);
     if (!hex) {
-      this.invalid = this.draft.trim() !== '';
+      this.invalid = true;
       return;
     }
     if (hex !== this.value) this.commit(hex);
@@ -207,7 +238,7 @@ export class ColorField extends BaseField {
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
-    const controlError = this.invalid ? this.i18n.t('hexColorError') : '';
+    const controlError = this.invalid ? this.hexErrorText : '';
     const aria = this.fieldAria(controlError);
     if (!aria['aria-label']) aria['aria-label'] = this.i18n.t('hexColor');
 
@@ -229,7 +260,7 @@ export class ColorField extends BaseField {
             class="input"
             spellcheck="false"
             autocomplete="off"
-            maxlength="7"
+            maxlength=${this.alpha ? 9 : 7}
             placeholder=${this.placeholder}
             .value=${this.draft}
             ?disabled=${this.disabled}
@@ -243,7 +274,7 @@ export class ColorField extends BaseField {
             ${spread(aria)}
           />`,
           {
-            populated: true,
+            populated: !!this.draft,
             focused: this.focused || this.pickerOpen,
             controlError,
             start: this.renderSwatch(),
@@ -251,8 +282,10 @@ export class ColorField extends BaseField {
         )}
         <wc-popover-content class="picker-panel">
           <wc-color-picker
-            .value=${this.value}
-            ?disabled=${this.disabled || this.readonly}
+            .value=${this.value || PICKER_START_COLOR}
+            ?alpha=${this.alpha}
+            ?disabled=${this.disabled}
+            ?readonly=${this.readonly}
             @input=${this.handlePickerInput}
             @change=${this.handlePickerChange}
           ></wc-color-picker>

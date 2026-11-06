@@ -159,7 +159,7 @@ describe('ColorField', () => {
 
   it('clears the value with the clear button', async () => {
     const el = await fixture<ColorField>(
-      html`<wc-color-field clearable></wc-color-field>`,
+      html`<wc-color-field clearable value="#123456"></wc-color-field>`,
     );
     const changes: string[] = [];
     el.addEventListener('change', e =>
@@ -239,5 +239,100 @@ describe('ColorField', () => {
     await el.updateComplete;
 
     expect(el.value).to.equal('#336699');
+  });
+
+  it('starts empty, so an untouched required field blocks submission', async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form><wc-color-field name="c" required></wc-color-field></form>
+    `);
+    const el = form.querySelector<ColorField>('wc-color-field')!;
+    await el.updateComplete;
+
+    expect(el.value).to.equal('');
+    expect(textInput(el).value).to.equal('');
+    expect(new FormData(form).get('c')).to.equal('');
+    expect(form.checkValidity()).to.be.false;
+    expect(el.validity.valueMissing).to.be.true;
+  });
+
+  it('clears the value when the text is emptied', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field value="#123456"></wc-color-field>`,
+    );
+    const input = textInput(el);
+    input.value = '';
+    input.dispatchEvent(new InputEvent('input'));
+    setTimeout(() => input.dispatchEvent(new Event('change')));
+    const event = (await oneEvent(el, 'change')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('');
+    expect(el.validity.valid).to.be.true;
+  });
+
+  it('takes an 8-digit hex value with alpha', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field alpha></wc-color-field>`,
+    );
+    const input = textInput(el);
+    expect(input.maxLength).to.equal(9);
+    input.value = '#11223380';
+    input.dispatchEvent(new InputEvent('input'));
+    setTimeout(() => input.dispatchEvent(new Event('change')));
+    const event = (await oneEvent(el, 'change')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('#11223380');
+    const picker =
+      el.shadowRoot!.querySelector<ColorPicker>('wc-color-picker')!;
+    expect(picker.alpha).to.be.true;
+    expect(picker.value).to.equal('#11223380');
+  });
+
+  it('rejects an 8-digit hex value without alpha', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field></wc-color-field>`,
+    );
+    const input = textInput(el);
+    input.value = '#11223380';
+    input.dispatchEvent(new InputEvent('input'));
+    input.dispatchEvent(new Event('change'));
+    await el.updateComplete;
+    expect(el.value).to.equal('');
+    expect(el.validity.badInput).to.be.true;
+  });
+
+  it('keeps the picker closed and the text read-only while readonly', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field readonly value="#123456"></wc-color-field>`,
+    );
+    const popover = el.shadowRoot!.querySelector<Popover>('wc-popover')!;
+    await popover.updateComplete;
+    const swatch = el.shadowRoot!.querySelector<HTMLButtonElement>('.swatch')!;
+    expect(swatch.disabled).to.be.true;
+    el.showPicker();
+    textInput(el).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', altKey: true }),
+    );
+    await el.updateComplete;
+    expect(popover.open).to.be.false;
+    expect(textInput(el).readOnly).to.be.true;
+    expect(
+      el.shadowRoot!.querySelector<ColorPicker>('wc-color-picker')!.readonly,
+    ).to.be.true;
+  });
+
+  it('renders the start and end slots', async () => {
+    const el = await fixture<ColorField>(
+      html`<wc-color-field value="#123456"
+        ><span slot="start">S</span><span slot="end">E</span></wc-color-field
+      >`,
+    );
+    for (const name of ['start', 'end']) {
+      const slot = el.shadowRoot!.querySelector<HTMLSlotElement>(
+        `slot[name="${name}"]`,
+      )!;
+      expect(slot.assignedElements()).to.have.length(1);
+    }
   });
 });

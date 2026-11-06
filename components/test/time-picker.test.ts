@@ -2,6 +2,7 @@
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
 import { TimePicker } from '../src/time-picker/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-time-picker')) {
   customElements.define('wc-time-picker', TimePicker);
@@ -88,6 +89,72 @@ describe('TimePicker', () => {
     hours.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
     await el.updateComplete;
     expect(el.value).to.equal('08:00');
+  });
+
+  it('spaces the minute column by minute-step', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker
+        value="09:30"
+        hour-cycle="h23"
+        minute-step="20"
+      ></wc-time-picker>`,
+    );
+    const labels = Array.from(
+      column(el, 'minute').querySelectorAll('[role="option"]'),
+    ).map(o => o.textContent!.trim());
+    expect(labels).to.deep.equal(['00', '20', '40']);
+  });
+
+  describe('deprecated step', () => {
+    let warn: typeof console.warn;
+    let warnings: string[];
+
+    beforeEach(() => {
+      resetDeprecationWarnings();
+      warnings = [];
+      warn = console.warn;
+      console.warn = (message: string) => warnings.push(message);
+    });
+
+    afterEach(() => {
+      console.warn = warn;
+    });
+
+    it('still sets the minute step, with a warning', async () => {
+      const el = await fixture<TimePicker>(
+        html`<wc-time-picker hour-cycle="h23" step="30"></wc-time-picker>`,
+      );
+      expect(el.minuteStep).to.equal(30);
+      expect(
+        column(el, 'minute').querySelectorAll('[role="option"]'),
+      ).to.have.length(2);
+      expect(warnings).to.have.length(1);
+      expect(warnings[0]).to.contain('wc-time-picker: `step`');
+      expect(warnings[0]).to.contain('`minute-step`');
+    });
+
+    it('does not warn for minute-step', async () => {
+      await fixture<TimePicker>(
+        html`<wc-time-picker minute-step="30"></wc-time-picker>`,
+      );
+      expect(warnings).to.be.empty;
+    });
+  });
+
+  it('shows seconds in the value only with seconds', async () => {
+    const el = await fixture<TimePicker>(
+      html`<wc-time-picker
+        value="09:30"
+        hour-cycle="h23"
+        seconds
+      ></wc-time-picker>`,
+    );
+    expect(column(el, 'second')).to.exist;
+    setTimeout(() => option(el, 'second', '15').click());
+    const event = (await oneEvent(el, 'change')) as CustomEvent<{
+      value: string;
+    }>;
+    expect(event.detail.value).to.equal('09:30:15');
   });
 
   it('does not reflect value to an attribute', async () => {

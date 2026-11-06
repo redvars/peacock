@@ -39,6 +39,8 @@ type View = 'day' | 'month' | 'year';
  * month or year grid from the header to jump further. With <code>range</code> it picks a start and
  * an end date. It is the calendar inside <code>wc-date-field</code> and can also be placed inline.</p>
  * <p>Values are ISO dates (<code>2026-11-06</code>); a range is <code>start/end</code>.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-date-field</code> or <code>wc-datetime-field</code>.</p>
  *
  * @cssprop --date-picker-cell-size - Size of a day cell. Defaults to 2.5rem.
  *
@@ -434,7 +436,6 @@ export class DatePicker extends LitElement {
         <button
           class="view-button"
           type="button"
-          aria-live="polite"
           ?disabled=${this.disabled}
           @click=${this.cycleView}
         >
@@ -444,6 +445,7 @@ export class DatePicker extends LitElement {
             name=${this.view === 'day' ? 'arrow_drop_down' : 'arrow_drop_up'}
           ></wc-icon>
         </button>
+        <span class="live-region" aria-live="polite">${label}</span>
         <span class="nav">
           <wc-icon-button
             class="prev"
@@ -575,7 +577,7 @@ export class DatePicker extends LitElement {
     const names = monthNames(this.resolvedLocale, 'short');
     const current = parseIsoDate(todayIso());
     return html`
-      <div class="choices" role="grid" aria-label=${String(this.viewYear)}>
+      <div class="choices" role="listbox" aria-label=${String(this.viewYear)}>
         ${names.map((name, i) => {
           const month = i + 1;
           const disabled = this.monthDisabled(this.viewYear, month);
@@ -589,7 +591,7 @@ export class DatePicker extends LitElement {
                   current?.year === this.viewYear && current.month === month,
                 selected: month === this.viewMonth,
               })}
-              role="gridcell"
+              role="option"
               tabindex=${month === this.viewMonth ? 0 : -1}
               aria-selected=${month === this.viewMonth ? 'true' : 'false'}
               aria-disabled=${disabled ? 'true' : nothing}
@@ -613,7 +615,7 @@ export class DatePicker extends LitElement {
     return html`
       <div
         class="choices"
-        role="grid"
+        role="listbox"
         aria-label=${`${decade} – ${decade + 9}`}
       >
         ${years.map(year => {
@@ -628,7 +630,7 @@ export class DatePicker extends LitElement {
                 today: year === currentYear,
                 selected: year === this.viewYear,
               })}
-              role="gridcell"
+              role="option"
               tabindex=${year === this.viewYear ? 0 : -1}
               aria-selected=${year === this.viewYear ? 'true' : 'false'}
               aria-disabled=${disabled ? 'true' : nothing}

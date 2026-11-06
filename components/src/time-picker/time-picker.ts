@@ -7,10 +7,11 @@ import {
   type HourCycle,
   type TimeParts,
   dayPeriodNames,
-  localeHourCycle,
   parseIsoTime,
+  resolveHourCycle,
   toIsoTime,
 } from '@/__internal/utils/date.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './time-picker.scss';
 
@@ -40,6 +41,8 @@ const toSeconds = ({ hour, minute, second }: TimeParts) =>
  * <code>wc-time-field</code> and can also be placed inline.</p>
  * <p>Values are 24-hour ISO times (<code>09:30</code>, or <code>09:30:15</code> with
  * <code>seconds</code>), whatever the display.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-time-field</code> or <code>wc-datetime-field</code>.</p>
  *
  * @cssprop --time-picker-height - Height of the columns. Defaults to 14rem.
  *
@@ -48,7 +51,7 @@ const toSeconds = ({ hour, minute, second }: TimeParts) =>
  *
  * @example
  * ```html
- * <wc-time-picker value="09:30" step="15"></wc-time-picker>
+ * <wc-time-picker value="09:30" minute-step="15"></wc-time-picker>
  * ```
  * @tags input
  */
@@ -64,9 +67,15 @@ export class TimePicker extends LitElement {
   @property({ type: String }) value = '';
 
   /** Minutes between entries in the minute column, such as 15 for 00, 15, 30 and 45. */
-  @property({ type: Number }) step = 1;
+  @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /** Adds a seconds column. */
+  /**
+   * @deprecated Use `minute-step`. Minutes between entries in the minute column; unlike the native
+   * `step`, which counts seconds. Removed in 4.0.
+   */
+  @property({ type: Number }) step?: number;
+
+  /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
   /** `h12` shows 1–12 with AM/PM, `h23` shows 0–23; defaults to the locale's. */
@@ -96,6 +105,13 @@ export class TimePicker extends LitElement {
   private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  protected override willUpdate(changed: Map<PropertyKey, unknown>) {
+    if (changed.has('step') && this.step !== undefined) {
+      deprecate('wc-time-picker', '`step`', '`minute-step`');
+      this.minuteStep = this.step;
+    }
+  }
 
   protected override updated(changed: Map<PropertyKey, unknown>) {
     if (changed.has('value')) this.scrollToSelected();
@@ -130,7 +146,7 @@ export class TimePicker extends LitElement {
   }
 
   private get resolvedHourCycle(): HourCycle {
-    return this.hourCycle ?? localeHourCycle(this.i18n.locale);
+    return resolveHourCycle(this.hourCycle, this.i18n.locale);
   }
 
   private get columns(): Column[] {
@@ -145,7 +161,7 @@ export class TimePicker extends LitElement {
     const parsed = parseIsoTime(this.value);
     if (parsed) return parsed;
     const now = new Date();
-    const step = Math.max(1, this.step);
+    const step = Math.max(1, this.minuteStep);
     return {
       hour: now.getHours(),
       minute: Math.floor(now.getMinutes() / step) * step,
@@ -218,7 +234,7 @@ export class TimePicker extends LitElement {
       ];
     } else {
       const step =
-        column === 'minute' ? Math.max(1, Math.min(60, this.step)) : 1;
+        column === 'minute' ? Math.max(1, Math.min(60, this.minuteStep)) : 1;
       values = Array.from({ length: Math.ceil(60 / step) }, (_, i) => [
         i * step,
         pad(i * step),

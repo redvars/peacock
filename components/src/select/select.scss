@@ -80,6 +80,20 @@
   padding: var(--spacing-100) var(--spacing-200);
 }
 
+/* Shown in the menu while `loading`. */
+.loading-row {
+  @include mixin.get-typography(body-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-100) var(--spacing-200);
+}
+
+.loading-indicator {
+  --progress-height: 1.25rem;
+}
+
 /* Dropdown chevron icon */
 .dropdown-icon {
   --icon-size: 1.5rem;

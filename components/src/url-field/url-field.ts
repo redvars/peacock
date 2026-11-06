@@ -2,6 +2,7 @@ import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
 import { spread } from '@/__internal/directive/spread.js';
+import { deprecate } from '@/__internal/utils/deprecate.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
@@ -16,7 +17,12 @@ import styles from './url-field.scss';
  *
  * @summary A field for entering and displaying URLs with validation.
  * @overview
- * <p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.</p>
+ * <p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.
+ * The edit button or focusing the field starts editing; leaving the field with a valid URL ends it,
+ * and Escape ends it and restores the URL editing started with. The <code>start</code> and
+ * <code>end</code> slots show in both modes.</p>
+ * <p>The <code>editing</code> attribute and property are deprecated: editing is internal state. The
+ * attribute is still read once when the field connects, and the property still works, until 4.0.</p>
  * <p>It is form-associated: the URL is submitted under its <code>name</code>, and
  * <code>required</code> or an invalid URL blocks form submission.</p>
  *
@@ -42,9 +48,6 @@ export class UrlField extends BaseField {
   @property({ type: String })
   value: string = '';
 
-  @property({ type: Boolean, reflect: true })
-  editing: boolean = false;
-
   /** Delay, in ms, of the deprecated `value-change` event. */
   @property({ type: Number })
   debounce: number = 300;
@@ -53,6 +56,10 @@ export class UrlField extends BaseField {
 
   @state()
   private isValid: boolean = true;
+
+  /** Whether the input shows instead of the link. Starts when the person clicks edit or focuses. */
+  @state()
+  private isEditing = false;
 
   // ── Queries ──────────────────────────────────────────────────────────────
 
@@ -63,10 +70,24 @@ export class UrlField extends BaseField {
 
   private debounceTimer?: ReturnType<typeof setTimeout>;
 
+  /** The value when editing started; Escape restores it. */
+  private valueBeforeEditing = '';
+
   /** Peacock's strings for the invalid URL message. */
   private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    // The `editing` attribute used to be public; read it once so markup that sets it still works.
+    if (this.hasAttribute('editing')) {
+      deprecate('wc-url-field', 'the `editing` attribute');
+      this.removeAttribute('editing');
+      this.isEditing = true;
+      this.valueBeforeEditing = this.value;
+    }
+  }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -77,8 +98,22 @@ export class UrlField extends BaseField {
 
   // ── Public methods ───────────────────────────────────────────────────────
 
+  /**
+   * @deprecated Editing is internal state; it starts when the person clicks edit or the field
+   * gets focus. Reading it still works; setting it logs a warning. Removed in 4.0.
+   */
+  get editing(): boolean {
+    return this.isEditing;
+  }
+
+  set editing(editing: boolean) {
+    deprecate('wc-url-field', '`editing`');
+    if (editing && !this.isEditing) this.valueBeforeEditing = this.value;
+    this.isEditing = editing;
+  }
+
   override focus() {
-    if (!this.editing && !this.disabled && !this.readonly) {
+    if (!this.isEditing && !this.disabled && !this.readonly) {
       this.startEditing();
       return;
     }
@@ -92,9 +127,13 @@ export class UrlField extends BaseField {
   // ── Protected methods ────────────────────────────────────────────────────
 
   protected override computeValidity(): ControlValidity {
-    return this.editing && this.inputElement
-      ? nativeValidity(this.inputElement)
-      : super.computeValidity();
+    if (!this.isEditing || !this.inputElement) return super.computeValidity();
+    const validity = nativeValidity(this.inputElement);
+    // Show Peacock's (translatable) message for a malformed URL instead of the browser's.
+    if (validity.flags.typeMismatch) {
+      return { ...validity, message: this.i18n.t('invalidUrl') };
+    }
+    return validity;
   }
 
   protected override validityAnchor() {
@@ -104,10 +143,26 @@ export class UrlField extends BaseField {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private startEditing() {
+  private async startEditing() {
     if (this.disabled || this.readonly) return;
-    this.editing = true;
-    setTimeout(() => this.inputElement?.focus(), 80);
+    if (!this.isEditing) this.valueBeforeEditing = this.value;
+    this.isEditing = true;
+    await this.updateComplete;
+    this.inputElement?.focus();
+  }
+
+  /** Leaves editing, restores the value editing started with and keeps focus on the field. */
+  private async cancelEditing() {
+    const changed = this.value !== this.valueBeforeEditing;
+    this.value = this.valueBeforeEditing;
+    this.isValid = true;
+    this.isEditing = false;
+    if (changed) {
+      this.emitValue('input');
+      this.emitValue('change');
+    }
+    await this.updateComplete;
+    this.renderRoot.querySelector<HTMLElement>('.edit-button')?.focus();
   }
 
   private closeEditing() {
@@ -122,7 +177,7 @@ export class UrlField extends BaseField {
     );
 
     if (this.isValid) {
-      this.editing = false;
+      this.isEditing = false;
     }
   }
 
@@ -167,7 +222,16 @@ export class UrlField extends BaseField {
 
   private handleBlur(event: FocusEvent) {
     this.handleFieldFocus(event);
+    // Escape already left editing; the blur that follows must not report on the old text.
+    if (!this.isEditing) return;
     this.closeEditing();
+  }
+
+  private handleKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') return;
+    // Keep Escape from also closing a dialog the field sits in.
+    event.stopPropagation();
+    this.cancelEditing();
   }
 
   // ── Render helpers ───────────────────────────────────────────────────────
@@ -190,12 +254,14 @@ export class UrlField extends BaseField {
   }
 
   private renderEditButton() {
-    if (this.editing || this.disabled || this.readonly) return nothing;
+    if (this.isEditing || this.disabled || this.readonly) return nothing;
     return html`
       <wc-icon-button
         class="edit-button"
         slot="field-end"
+        shape="round"
         variant="text"
+        aria-label=${this.i18n.t('editUrl')}
         @click=${(event: MouseEvent) => {
           event.stopPropagation();
           this.startEditing();
@@ -211,7 +277,7 @@ export class UrlField extends BaseField {
   render() {
     const controlError = this.isValid ? '' : this.i18n.t('invalidUrl');
 
-    const control = this.editing
+    const control = this.isEditing
       ? html`<input
           class="url-input"
           type="url"
@@ -222,6 +288,7 @@ export class UrlField extends BaseField {
           ?disabled=${this.disabled}
           @input=${this.handleInput}
           @change=${this.handleChange}
+          @keydown=${this.handleKeyDown}
           @focus=${this.handleFieldFocus}
           @blur=${this.handleBlur}
           ${spread(this.fieldAria(controlError))}
@@ -229,7 +296,7 @@ export class UrlField extends BaseField {
       : html`<div class="url-display">${this.renderDisplayValue()}</div>`;
 
     return this.renderField(control, {
-      populated: !!this.value || this.editing,
+      populated: !!this.value || this.isEditing,
       controlError,
       end: this.renderEditButton(),
     });

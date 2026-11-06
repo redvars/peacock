@@ -162,6 +162,11 @@
   }
 }
 
+// `size="sm"`: smaller text, as on wc-code-editor.
+:host([size='sm']) .html-editor-content {
+  @include mixin.get-typography-not-important(body-small);
+}
+
 .html-source {
   &.hidden {
     display: none;

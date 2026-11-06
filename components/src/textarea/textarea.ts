@@ -1,4 +1,4 @@
-import { html, type PropertyValues } from 'lit';
+import { html, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
 import { spread } from '@/__internal/directive/spread.js';
@@ -17,8 +17,13 @@ import styles from './textarea.scss';
  * @overview
  * <p>Textarea is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
- * <p>It validates like a native textarea: <code>required</code> blocks form submission, and the
- * message shows under the field once the value is committed or the form is submitted.</p>
+ * <p>It validates like a native textarea: <code>required</code>, <code>minlength</code> and
+ * <code>maxlength</code> block form submission, and the message shows under the field once the
+ * value is committed or the form is submitted. With <code>maxlength</code> a character counter
+ * shows under the field.</p>
+ * <p><code>rows</code> sets the starting height. With <code>auto-grow</code> the height follows the
+ * content, up to <code>max-rows</code> when it is set; <code>resize</code> controls whether the
+ * person can drag the corner to resize it.</p>
  * @tags input
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
@@ -27,6 +32,10 @@ import styles from './textarea.scss';
  * @example
  * ```html
  * <wc-textarea label="Description" placeholder="Enter text"></wc-textarea>
+ * ```
+ * @example
+ * ```html
+ * <wc-textarea label="Bio" maxlength="280" auto-grow max-rows="8"></wc-textarea>
  * ```
  */
 @IndividualComponent
@@ -46,7 +55,28 @@ export class Textarea extends BaseField {
 
   @property({ type: String }) autocomplete: 'on' | 'off' = 'off';
 
-  @property({ type: String }) rows = '3';
+  /** Visible lines of text; the starting height with `auto-grow`. */
+  @property({ type: Number }) rows = 3;
+
+  /** Fewest characters allowed. */
+  @property({ type: Number, attribute: 'minlength' })
+  minLength?: number;
+
+  /** Most characters allowed; the textarea stops taking more and shows a character counter. */
+  @property({ type: Number, attribute: 'maxlength' })
+  maxLength?: number;
+
+  /** Grows the height with the content instead of scrolling. */
+  @property({ type: Boolean, attribute: 'auto-grow', reflect: true })
+  autoGrow = false;
+
+  /** With `auto-grow`, the most lines it grows to before it scrolls; unset for no limit. */
+  @property({ type: Number, attribute: 'max-rows' })
+  maxRows?: number;
+
+  /** Which way the person can resize it by dragging the corner. */
+  @property({ type: String, reflect: true })
+  resize: 'none' | 'vertical' | 'both' = 'vertical';
 
   // ── Queries ──────────────────────────────────────────────────────────────
 
@@ -59,6 +89,18 @@ export class Textarea extends BaseField {
     super.willUpdate(changed);
     if (changed.has('inline') && this.inline) {
       deprecate('wc-textarea', '`inline`');
+    }
+  }
+
+  protected override updated(changed: PropertyValues<this>) {
+    super.updated(changed);
+    if (
+      changed.has('value') ||
+      changed.has('autoGrow') ||
+      changed.has('maxRows') ||
+      changed.has('rows')
+    ) {
+      this.fitToContent();
     }
   }
 
@@ -87,6 +129,30 @@ export class Textarea extends BaseField {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
+  /** With `auto-grow`, sets the height to the content's, capped at `max-rows` lines. */
+  private fitToContent() {
+    const textarea = this.inputElement;
+    if (!textarea) return;
+    if (!this.autoGrow) {
+      textarea.style.removeProperty('block-size');
+      textarea.style.removeProperty('overflow-y');
+      return;
+    }
+    textarea.style.blockSize = 'auto';
+    const content = textarea.scrollHeight;
+    let height = content;
+    if (this.maxRows && this.maxRows > 0) {
+      const style = getComputedStyle(textarea);
+      const lineHeight =
+        parseFloat(style.lineHeight) || parseFloat(style.fontSize) * 1.2;
+      const padding =
+        parseFloat(style.paddingBlockStart) + parseFloat(style.paddingBlockEnd);
+      height = Math.min(content, lineHeight * this.maxRows + padding);
+    }
+    textarea.style.blockSize = `${height}px`;
+    textarea.style.overflowY = content > height ? 'auto' : 'hidden';
+  }
+
   private handleInput(event: Event) {
     // Replace the native event, which escapes the shadow root, with the field's own.
     event.stopPropagation();
@@ -108,6 +174,8 @@ export class Textarea extends BaseField {
         rows=${this.rows}
         placeholder=${this.placeholder}
         autocomplete=${this.autocomplete}
+        minlength=${this.minLength ?? nothing}
+        maxlength=${this.maxLength ?? nothing}
         .value=${this.value}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -118,7 +186,10 @@ export class Textarea extends BaseField {
         @blur=${this.handleFieldFocus}
         ${spread(this.fieldAria())}
       ></textarea>`,
-      { populated: !!this.value },
+      {
+        populated: !!this.value,
+        textCount: this.characterCount(this.maxLength),
+      },
     );
   }
 }

@@ -12,6 +12,7 @@ import {
 } from '../src/code-editor/editor-theme.js';
 import { Icon } from '../src/icon/index.js';
 import { IconButton } from '../src/button/index.js';
+import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 // Monaco is a large chunk with workers, which the test server does not build;
 // these tests cover the component shell around it.
@@ -113,20 +114,116 @@ describe('CodeEditor', () => {
     expect(event.detail.value).to.equal(':root { --x: 1px; }');
   });
 
-  it('shows a header for a label or a title slot', async () => {
-    const labelled = await fixture<CodeEditor>(
-      html`<wc-code-editor label="theme.css"></wc-code-editor>`,
+  it('shows a header for a file name or a title slot', async () => {
+    const named = await fixture<CodeEditor>(
+      html`<wc-code-editor file-name="theme.css"></wc-code-editor>`,
     );
-    expect(root(labelled).querySelector('.title')?.textContent).to.contain(
+    expect(root(named).querySelector('.title')?.textContent).to.contain(
       'theme.css',
     );
-    expect(root(labelled).querySelector('.header .actions .copy-button')).to
+    expect(root(named).querySelector('.header .actions .copy-button')).to
       .exist;
 
     const slotted = await fixture<CodeEditor>(
       html`<wc-code-editor><span slot="title">Script</span></wc-code-editor>`,
     );
     expect(root(slotted).querySelector('.header')).to.exist;
+  });
+
+  it('still shows a label without file-name in the header, with a warning', async () => {
+    resetDeprecationWarnings();
+    const warnings: string[] = [];
+    const { warn } = console;
+    console.warn = (message: string) => warnings.push(message);
+    try {
+      const el = await fixture<CodeEditor>(
+        html`<wc-code-editor label="theme.css"></wc-code-editor>`,
+      );
+      expect(root(el).querySelector('.title')?.textContent).to.contain(
+        'theme.css',
+      );
+      expect(root(el).querySelector('.field-label')).to.not.exist;
+    } finally {
+      console.warn = warn;
+    }
+    expect(warnings.some(message => message.includes('file-name'))).to.be
+      .true;
+  });
+
+  it('shows label, required mark and helper text as a field with file-name', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor
+        label="Script"
+        file-name="main.ts"
+        helper-text="Runs on save"
+        required
+      ></wc-code-editor>`,
+    );
+    expect(root(el).querySelector('.field-label')?.textContent).to.contain(
+      'Script',
+    );
+    expect(root(el).querySelector('.field-label .required')).to.exist;
+    expect(root(el).querySelector('.title')?.textContent).to.contain(
+      'main.ts',
+    );
+    expect(root(el).querySelector('.field-footer')?.textContent).to.contain(
+      'Runs on save',
+    );
+
+    const fieldOnly = await fixture<CodeEditor>(
+      html`<wc-code-editor label="Script" file-name=""></wc-code-editor>`,
+    );
+    expect(root(fieldOnly).querySelector('.header')).to.not.exist;
+    expect(root(fieldOnly).querySelector('.field-label')).to.exist;
+  });
+
+  it('shows error-text in the error state', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor
+        error
+        error-text="Does not compile"
+        helper-text="Help"
+      ></wc-code-editor>`,
+    );
+    expect(root(el).querySelector('.code-block.has-error')).to.exist;
+    expect(root(el).querySelector('.field-footer')?.textContent).to.contain(
+      'Does not compile',
+    );
+  });
+
+  it('is invalid while required and empty', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor required></wc-code-editor>`,
+    );
+    expect(el.checkValidity()).to.equal(false);
+    expect(el.validity.valueMissing).to.equal(true);
+
+    el.value = 'let a = 1;';
+    await el.updateComplete;
+    expect(el.checkValidity()).to.equal(true);
+  });
+
+  it('fires change on blur only after an edit', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor .value=${'a'}></wc-code-editor>`,
+    );
+    const handlers = el as unknown as {
+      handleEditorFocus(): void;
+      handleEditorBlur(): void;
+    };
+    const changes: unknown[] = [];
+    el.addEventListener('change', event =>
+      changes.push((event as CustomEvent).detail),
+    );
+
+    handlers.handleEditorFocus();
+    handlers.handleEditorBlur();
+    expect(changes).to.deep.equal([]);
+
+    handlers.handleEditorFocus();
+    el.value = 'ab';
+    handlers.handleEditorBlur();
+    expect(changes).to.deep.equal([{ value: 'ab' }]);
   });
 
   it('shows the code as plain text until Monaco loads', async () => {
@@ -150,12 +247,35 @@ describe('CodeEditor', () => {
     expect(el.language).to.equal('scss');
   });
 
-  it('reads line-numbers as a dashed attribute', async () => {
-    const el = await fixture<CodeEditor>(
+  it('shows line numbers by default and hides them with line-numbers="false"', async () => {
+    const plain = await fixture<CodeEditor>(
+      html`<wc-code-editor></wc-code-editor>`,
+    );
+    expect(plain.lineNumbers).to.equal(true);
+    expect(root(plain).querySelector('.code-block.numbered')).to.exist;
+
+    const off = await fixture<CodeEditor>(
+      html`<wc-code-editor line-numbers="false"></wc-code-editor>`,
+    );
+    expect(off.lineNumbers).to.equal(false);
+    expect(root(off).querySelector('.code-block.numbered')).to.not.exist;
+  });
+
+  it('still reads the deprecated line-numbers="off" and "on"', async () => {
+    const off = await fixture<CodeEditor>(
       html`<wc-code-editor line-numbers="off"></wc-code-editor>`,
     );
-    expect(el.lineNumbers).to.equal('off');
-    expect(root(el).querySelector('.code-block.numbered')).to.not.exist;
+    expect(off.lineNumbers).to.equal(false);
+    expect(root(off).querySelector('.code-block.numbered')).to.not.exist;
+
+    const on = await fixture<CodeEditor>(
+      html`<wc-code-editor line-numbers="on"></wc-code-editor>`,
+    );
+    expect(on.lineNumbers).to.equal(true);
+
+    (on as unknown as { lineNumbers: string }).lineNumbers = 'off';
+    await on.updateComplete;
+    expect(on.lineNumbers).to.equal(false);
   });
 
   it('toggles wrapping from the wrap button', async () => {
