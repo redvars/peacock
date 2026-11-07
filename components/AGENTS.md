@@ -29,6 +29,14 @@ You are an expert Frontend Engineer specializing in **Lit** (3.x), TypeScript, a
 - Use design tokens: `npm run lint:css` (stylelint, `stylelint/token-compliance.mjs`) rejects raw colors and hardcoded corner radii in `src/**/*.scss`. A raw color is fine as a `var()` fallback; radii may be `0`, a percentage or a `--shape-corner-*` token.
 - Name private custom properties `--_*` (for example `--_button-icon-size`); public ones `--<component>-*`.
 
+## Framework Bindings
+`npm run build` also generates the React, Vue and Angular packages in `../frameworks/` from `dist/custom-elements.json` (`bin/framework-gen.mjs`, run alone with `npm run build:frameworks`). A component's public API is therefore what the analyzer sees:
+- Public, writable fields become props. Prefix internals with `_` or mark them `private`/`readonly` to keep them out.
+- Document every event with `@fires name - …` and a `{CustomEvent<Detail>}` type so the bindings type it. Export the detail type from the component's module or `src/index.ts`, or it falls back to `CustomEvent<unknown>`.
+- Form fields get two-way binding when they have `value` plus an `input`/`change` event whose detail has `value`, or `checked` plus `change`.
+- Bindings register elements themselves. They find the `wc-*` tags a component renders by scanning its source, so write tags literally in templates (`<wc-icon`), not built from strings.
+- After changing a component's API, run `node --test bin/` and, from the repository root, `npm run smoke`.
+
 ## Testing Rules
 - Use `@web/test-runner`.
 - Write tests in `test/` (for example `test/select.test.ts`). They import from `../src/…` and are compiled to `dist/test/` before running.
