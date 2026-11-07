@@ -1,78 +1,51 @@
-import { LitElement } from 'lit';
-import { type FormRestoreState, type FormValue, getFormState, getFormValue } from '@/__internal/mixins/form-associated.js';
-declare const Radio_base: import("../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>;
-export declare class Radio extends Radio_base {
+import { type PropertyValues } from 'lit';
+import ToggleBase from '@/__internal/toggle-base.js';
+import type { ControlValidity } from '@/input/BaseInput.js';
+/**
+ * @label Radio
+ * @tag wc-radio
+ * @rawTag radio
+ * @summary A round button for choosing one option from a set; radios that share a name form a group.
+ * @overview
+ * <p>Radios that share a <code>name</code> form a group. Wrap them in <code>wc-radio-group</code> to get a
+ * group label and a single <code>change</code> event for the whole set.</p>
+ * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.
+ * When any radio of a group is <code>required</code>, the group blocks form submission until one is checked.</p>
+ *
+ * @cssprop --radio-size: Size of the outer radio circle.
+ * @cssprop --radio-dot-size: Size of the inner dot when selected.
+ * @cssprop --radio-selected-color: Color of the radio when selected.
+ * @cssprop --radio-unselected-color: Color of the radio outline when unselected.
+ * @cssprop --radio-state-layer-size: Size of the state layer for touch target.
+ * @cssprop --radio-disabled-opacity: Opacity applied when the radio is disabled.
+ *
+ * @fires {CustomEvent<{checked: boolean, value: string, originalEvent?: Event}>} change - Dispatched when the radio is selected.
+ *
+ * @example
+ * ```html
+ * <wc-radio name="fruits" value="apple" label="Apple"></wc-radio>
+ * ```
+ * @tags input, form
+ */
+export declare class Radio extends ToggleBase {
     private static readonly DIRECTION_NEXT;
     private static readonly DIRECTION_PREVIOUS;
     static styles: import("lit").CSSResultGroup[];
-    /**
-     * The submitted value when this radio is selected.
-     */
-    value: string;
-    /**
-     * The radio label.
-     */
-    label: string;
-    /**
-     * Whether the radio is selected.
-     */
-    checked: boolean;
-    /**
-     * If true, required icon is shown. Defaults to `false`.
-     */
-    required: boolean;
-    /**
-     * If true, the radio is readonly. Defaults to `false`.
-     */
-    readonly: boolean;
-    /**
-     * Configuration object for aria attributes.
-     */
-    configAria: Record<string, string>;
-    /** True while the radio container has keyboard focus. */
-    private hasFocus;
-    /** True while the user is actively pressing the radio (mouse/keyboard). */
-    private isActive;
-    /** True when slotted label content or `label` property is present. */
-    private slotHasContent;
     /** True for the one radio in the group that should receive tab focus (roving tabindex). */
     private isGroupFocusTarget;
-    private containerElement?;
-    /** Captured `tabindex` attribute value forwarded to the inner container. */
-    private tabindex?;
-    /** `checked` when first connected; `form.reset()` returns to it. */
-    private defaultChecked?;
-    connectedCallback(): void;
-    disconnectedCallback(): void;
-    firstUpdated(): void;
-    updated(changedProps: Map<string, unknown>): void;
-    /**
-     * Sets focus on the radio.
-     */
-    focus(): void;
-    /**
-     * Removes focus from the radio.
-     */
-    blur(): void;
-    [getFormValue](): FormValue | null;
-    [getFormState](): FormValue | null;
-    formResetCallback(): void;
-    formStateRestoreCallback(state: FormRestoreState | null): void;
-    private handleInitialAttributes;
-    private windowMouseUp;
-    private windowKeyUp;
-    private mouseDownHandler;
+    protected firstUpdated(): void;
+    protected updated(changed: PropertyValues<this>): void;
+    /** A radio submits nothing but its `value`; there is no `"on"` default to show. */
+    protected get defaultToggleValue(): string;
+    /** Invalid while any radio of the group is required and none is checked. */
+    protected computeValidity(): ControlValidity;
     private keyDownHandler;
     private clickHandler;
-    private blurHandler;
-    private focusHandler;
     private selectRadio;
-    private dispatchChange;
     private uncheckSiblings;
     private getGroupRadios;
-    private isRadioEnabled;
+    private static isRadioEnabled;
     private updateGroupFocusTarget;
     private navigateGroup;
     render(): import("lit-html").TemplateResult<1>;
 }
-export {};

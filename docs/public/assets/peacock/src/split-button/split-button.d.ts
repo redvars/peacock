@@ -1,12 +1,14 @@
 import { LitElement } from 'lit';
+import type { OverlayPlacement } from '@/__internal/utils/placement.js';
+import type { MenuFocusTarget } from '../menu/menu/menu.js';
 /**
  * @label Split Button
  * @tag wc-split-button
  * @rawTag split-button
  *
- * @summary A split button lets users perform a default action or choose from a set of related actions via a dropdown menu.
+ * @summary A button for a default action joined to an arrow that opens a menu of related actions.
  * @overview
- * <p>A split button combines a primary action button with a dropdown arrow that opens a menu. Following M3 Material Design, the split button provides a default action alongside a set of secondary options, reducing clutter while keeping alternative actions accessible.</p>
+ * <p>The main button runs the default action; the arrow beside it opens a menu of related actions.</p>
  *
  * @cssprop --split-button-container-shape: Defines the border radius of the split button container shape.
  *
@@ -20,7 +22,8 @@ import { LitElement } from 'lit';
  * @cssprop --tonal-split-button-label-text-color: Text color of the tonal split button label.
  *
  * @fires {MouseEvent} click - Dispatched when the primary action button is clicked.
- * @fires {CustomEvent} toggle-menu - Dispatched when the dropdown menu is opened or closed.
+ * @fires {CustomEvent} open - Dispatched after the menu opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` or the primary action `api`.
  *
  * @example
  * ```html
@@ -56,17 +59,24 @@ export declare class SplitButton extends LitElement {
      * Whether the split button is disabled.
      */
     disabled: boolean;
-    private _menuOpen;
-    private readonly _dropdownButton;
-    private readonly _menu;
-    private _menuId;
+    /** Visual variant of the menu: one surface (`"standard"`) or segmented groups (`"expressive"`). */
+    menuVariant: 'standard' | 'expressive';
+    /**
+     * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
+     * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+     * Defaults to `"bottom-end"`.
+     */
+    placement: OverlayPlacement;
+    private readonly _menu?;
+    /** Peacock's strings for the menu trigger label. */
+    private readonly i18n;
+    /** Opens and closes the menu and fires `open` / `close`. */
+    private readonly _trigger;
     focus(): void;
+    /** Opens the menu and focuses its first (or last) item. */
+    show(focusTarget?: MenuFocusTarget): void;
+    /** Closes the menu. */
+    close(): void;
     private _onActionClick;
-    private _onDropdownClick;
-    private _onMenuOpened;
-    private _onMenuClosed;
-    private _onKeyDown;
-    connectedCallback(): void;
-    disconnectedCallback(): void;
     render(): import("lit-html").TemplateResult<1>;
 }

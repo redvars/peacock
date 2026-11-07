@@ -26,7 +26,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       var upload = document.querySelector('#file-upload-progress');
       var started = new WeakSet();
       upload.addEventListener('change', function (event) {
-        event.detail.files.forEach(function (file) {
+        event.detail.value.forEach(function (file) {
           if (started.has(file)) return;
           started.add(file);
           var progress = 0;

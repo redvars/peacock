@@ -1,20 +1,24 @@
-import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
-import { o } from './if-defined-BXZpRQ4P.js';
+import { e } from './class-map-NDIkZErE.js';
+import { o } from './if-defined-D9DEJR_6.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
-import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
+import { i as isActivationClick, d as dispatchActivationClick, t as throttle } from './throttle-SQ9t-HL7.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
-import { t as throttle } from './throttle-C7ZAPqtu.js';
 import { s as spread } from './spread-B5cgadZl.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
-import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
+import { a as mixinBaseButton } from './base-button-Do2TUy8M.js';
+import { m as mixinHyperlink } from './hyperlink-DhE9RlVS.js';
+import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './warn-once-BNxX1Y98.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z$1 = i`* {
   box-sizing: border-box;
@@ -22,13 +26,35 @@ var css_248z$1 = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   position: relative;
   display: inline-flex;
@@ -57,7 +83,8 @@ var css_248z$1 = i`* {
   display: inline-flex;
   align-items: center;
   height: var(--chip-height, var(--_chip-height, 2rem));
-  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
   cursor: pointer;
   z-index: 0;
 }
@@ -87,23 +114,6 @@ var css_248z$1 = i`* {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.chip .tag-content .close-btn {
-  height: 100%;
-  padding: 0;
-  padding-inline: calc(var(--chip-container-padding) / 2);
-  margin: 0;
-  border: none;
-  background: transparent;
-  line-height: 0;
-  cursor: pointer;
-}
-.chip .tag-content .close-btn .close-btn-icon {
-  --icon-size: 1rem;
-  --icon-color: var(--_chip-text-color);
-}
-.chip .tag-content .close-btn:hover {
-  background: var(--chip-hover-color);
-}
 .chip .tag-content .icon-slot-container {
   height: 100%;
   display: flex;
@@ -114,6 +124,42 @@ var css_248z$1 = i`* {
 .chip.disabled {
   cursor: not-allowed;
 }
+
+/*
+  The dismiss button sits next to the chip's button, not inside it: a button inside a button is
+  invalid and keyboard users could not reach it.
+ */
+.close-btn {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  height: var(--chip-height, var(--_chip-height, 2rem));
+  padding: 0;
+  padding-inline: calc(var(--chip-container-padding) / 2);
+  margin: 0;
+  border: none;
+  border-start-end-radius: var(--chip-container-shape);
+  border-end-end-radius: var(--chip-container-shape);
+  background: transparent;
+  line-height: 0;
+  cursor: pointer;
+  opacity: var(--_chip-text-opacity, 1);
+}
+.close-btn .close-btn-icon {
+  --icon-size: 1rem;
+  --icon-color: var(--_chip-text-color);
+}
+.close-btn:hover {
+  background: var(--chip-hover-color);
+}
+.close-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+.close-btn:disabled {
+  cursor: not-allowed;
+}
+
 .chip.dismissible .tag-content {
   padding-inline-end: 0;
 }
@@ -147,11 +193,12 @@ var css_248z$1 = i`* {
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   border-radius: var(--chip-container-shape);
   background: var(--_chip-container-color);
+  opacity: var(--_chip-container-opacity, 1);
   pointer-events: none;
 }
 
@@ -160,7 +207,7 @@ var css_248z$1 = i`* {
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   border-radius: var(--chip-container-shape);
@@ -265,11 +312,27 @@ var css_248z = i`.tag {
  * @label Chip
  * @tag wc-chip
  * @rawTag chip
- * @summary Chip component for displaying compact information with optional actions.
+ * @summary A compact button for an action, a filter or an entered value, with an optional icon and dismiss button.
+ *
+ * @overview
+ * <p>A chip is a button, or a link when <code>href</code> is set. The default slot holds the label
+ * and the <code>icon</code> slot a leading icon, which a check replaces while the chip is
+ * <code>selected</code>. For a read-only status label use <code>wc-tag</code>; to lay chips out or
+ * let the person pick from them use <code>wc-chip-set</code>.</p>
+ * <p>With <code>selectable</code> the chip is a toggle (a filter chip) and its button gets
+ * <code>aria-pressed</code> from <code>selected</code>. A selecting <code>wc-chip-set</code> sets
+ * this and handles the selection; a standalone selectable chip does not toggle itself, so set
+ * <code>selected</code> on <code>click</code>. <code>value</code> is what the chip set reports,
+ * and defaults to the chip's text.</p>
+ * <p><code>dismissible</code> adds a close button, labelled from Peacock's strings, that fires
+ * <code>dismiss</code>; the chip does not remove itself. <code>disabled</code> turns the chip off;
+ * <code>soft-disabled</code> with <code>disabled-reason</code> keeps it focusable and reads the
+ * reason to screen readers. <code>skeleton</code> shows a placeholder while the content is not
+ * known yet and ignores clicks. <code>tooltip</code> adds a tooltip and
+ * <code>throttle-delay</code> throttles clicks.</p>
  * @tags display
  *
  * @fires {CustomEvent} dismiss - Dispatched when the dismiss button of a `dismissible` chip is clicked.
- * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
  *
  * @example
  * ```html
@@ -283,10 +346,27 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
         this.dismissible = false;
         /** True when the `icon` slot contains at least one node. */
         this._hasIconSlotContent = false;
-        /** When true, renders the chip in a loading skeleton state. */
+        /**
+         * When true, renders the chip as a placeholder (a skeleton) while its content is not known yet,
+         * and ignores clicks. It is a look, not a busy state: for a chip whose action is running, use
+         * `soft-disabled` with a `disabled-reason`.
+         */
         this.skeleton = false;
-        /** When true, the chip is in the selected/pressed state. */
+        /**
+         * When true, the chip is in the selected/pressed state. Assistive technology hears it only on a
+         * `selectable` chip (or a chip in a selecting `wc-chip-set`), as `aria-pressed`.
+         */
         this.selected = false;
+        /**
+         * Makes the chip a toggle (a filter chip): its button gets `aria-pressed` from `selected`. A
+         * `wc-chip-set` with `selectable` or `multiple` sets it on its chips and handles the selection;
+         * a standalone selectable chip does not toggle itself, so the page sets `selected` on `click`.
+         */
+        this.selectable = false;
+        /** The value a selecting `wc-chip-set` reports for this chip; defaults to its text. */
+        this.value = '';
+        /** Peacock's strings for the dismiss button label. */
+        this.i18n = new I18nController(this);
         this.__dispatchClickWithThrottle = event => {
             this.__dispatchClick(event);
         };
@@ -345,8 +425,6 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
     _dismissClickHandler(e) {
         e.stopPropagation();
         this.dispatchEvent(new CustomEvent('dismiss', { bubbles: true, composed: true }));
-        // Deprecated: kept for listeners written before `dismiss`.
-        this.dispatchEvent(new CustomEvent('tag--dismiss', { bubbles: true, composed: true }));
     }
     _renderCloseButton() {
         if (!this.dismissible)
@@ -355,7 +433,8 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
       <button
         class="close-btn"
         @click=${this._dismissClickHandler}
-        aria-label="Dismiss"
+        aria-label=${this.i18n.t('dismiss')}
+        ?disabled=${this.disabled}
       >
         <wc-icon class="close-btn-icon" name="close"></wc-icon>
       </button>
@@ -369,7 +448,8 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
       <div class="outline"></div>
       <wc-ripple class="ripple" for="button"></wc-ripple>
 
-      ${this.renderChipElement()} ${this.__renderTooltip()}
+      ${this.renderChipElement()} ${this._renderCloseButton()}
+      ${this.__renderTooltip()}
     `;
     }
     renderChipElement() {
@@ -385,7 +465,8 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
         class=${e(cssClasses)}
         id="button"
         aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : A}
+        aria-pressed=${this.selectable ? String(this.selected) : A}
         ?disabled=${this.disabled}
         ${spread(this.configAria)}
       >
@@ -400,7 +481,8 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
       tabindex=${this.disabled ? '-1' : '0'}
       role="button"
       aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : A}
+      aria-pressed=${this.selectable ? String(this.selected) : A}
       ${spread(this.configAria)}
     >
       ${this.renderChipContent()}
@@ -417,7 +499,6 @@ let Chip = class Chip extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(
         <div class="label-container">
           <slot></slot>
         </div>
-        ${this._renderCloseButton()}
       </div>
     `;
     }
@@ -446,7 +527,13 @@ __decorate([
     n({ type: Boolean, reflect: true })
 ], Chip.prototype, "selected", void 0);
 __decorate([
-    n()
+    n({ type: Boolean, reflect: true })
+], Chip.prototype, "selectable", void 0);
+__decorate([
+    n({ type: String, reflect: true })
+], Chip.prototype, "value", void 0);
+__decorate([
+    n({ type: Number, attribute: 'throttle-delay' })
 ], Chip.prototype, "throttleDelay", void 0);
 __decorate([
     n()

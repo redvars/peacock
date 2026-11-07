@@ -19,20 +19,23 @@ import { EventManager } from './event-manager.js';
 import type { ColumnEvent } from './event-manager.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { resolveLocale } from '@/__internal/i18n/locale.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type { WeekDay } from '@/__internal/utils/date.js';
 import styles from './calendar-column-view.scss';
 
 /**
- * @internal Rendered by `wc-calendar`; not meant to be used on its own.
+ * @internal
  *
  * @label Calendar Column View
  * @tag wc-calendar-column-view
  * @rawTag calendar-column-view
- * @summary Internal column view component for the calendar (day/week views).
+ * @summary The calendar's day and week view, with one column of timed events per day.
  *
- * The view is a region labelled with the dates it shows. Day numbers in the header are buttons
- * that open the day; events are buttons labelled with their title and time.
+ * @overview
+ * <p>Rendered by <code>wc-calendar</code>; not meant to be used on its own.</p>
+ * <p>The view is a region labelled with the dates it shows. Day numbers in the header are buttons
+ * that open the day; events are buttons labelled with their title and time, or notes that cannot
+ * be focused when <code>events-readonly</code> is set. Events lasting a day or more are shown in a
+ * row above the hours.</p>
  *
  * @fires date-click - Internal, does not bubble; a day number was chosen. Detail contains `{ date }`.
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
@@ -60,13 +63,6 @@ export class CalendarColumnView extends LitElement {
   /** Events are shown but cannot be clicked or focused. */
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
-
-  /**
-   * Whether events are clickable.
-   * @deprecated Use `events-readonly`.
-   */
-  @property({ type: Boolean, attribute: 'event-clickable' })
-  eventClickable: boolean = true;
 
   /** Now, which places the current-time line and marks today. */
   @property({ type: Object, attribute: false })
@@ -121,13 +117,6 @@ export class CalendarColumnView extends LitElement {
 
   override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
-    if (changed.has('eventClickable') && !this.eventClickable) {
-      deprecate(
-        'wc-calendar-column-view',
-        '`event-clickable`',
-        '`events-readonly`',
-      );
-    }
     if (
       changed.has('events') ||
       changed.has('contextDate') ||
@@ -142,7 +131,7 @@ export class CalendarColumnView extends LitElement {
   // ── Private methods
 
   private get _interactive(): boolean {
-    return !this.eventsReadonly && this.eventClickable;
+    return !this.eventsReadonly;
   }
 
   /** The locale dates and times are formatted in. */

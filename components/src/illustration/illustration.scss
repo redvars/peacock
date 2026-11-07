@@ -1,0 +1,203 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --illustration-size: 10rem;
+  --_primary: var(--illustration-primary-color, var(--color-primary));
+  --_primary-soft: var(
+    --illustration-primary-container-color,
+    var(--color-primary-container)
+  );
+  --_accent: var(--illustration-accent-color, var(--color-tertiary-container));
+  --_accent-alt: var(
+    --illustration-accent-alt-color,
+    var(--color-secondary-container)
+  );
+  --_surface: var(--illustration-surface-color, var(--color-surface-bright));
+  --_inset: var(
+    --illustration-inset-color,
+    var(--color-surface-container-highest)
+  );
+  --_backdrop: var(
+    --illustration-backdrop-color,
+    var(--color-surface-container-high)
+  );
+  --_outline: var(--illustration-outline-color, var(--color-outline-variant));
+  --_detail: var(--illustration-detail-color, var(--color-outline));
+
+  display: inline-block;
+  vertical-align: middle;
+  inline-size: var(--illustration-size);
+  max-inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  line-height: 0;
+}
+
+:host([size='sm']) {
+  --illustration-size: 6rem;
+}
+
+:host([size='lg']) {
+  --illustration-size: 15rem;
+}
+
+.art {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.backdrop {
+  fill: var(--_backdrop);
+}
+
+.shadow {
+  fill: var(--_inset);
+}
+
+.surface {
+  fill: var(--_surface);
+  stroke: var(--_outline);
+  stroke-width: 2;
+}
+
+.inset {
+  fill: var(--_inset);
+}
+
+.primary {
+  fill: var(--_primary);
+}
+
+.primary-soft {
+  fill: var(--_primary-soft);
+}
+
+.accent {
+  fill: var(--_accent);
+}
+
+.accent-alt {
+  fill: var(--_accent-alt);
+}
+
+.detail {
+  fill: var(--_detail);
+}
+
+.on-primary {
+  fill: var(--color-on-primary);
+}
+
+.error {
+  fill: var(--color-error);
+}
+
+.error-soft {
+  fill: var(--color-error-container);
+}
+
+.success {
+  fill: var(--color-success);
+}
+
+.success-soft {
+  fill: var(--color-success-container);
+}
+
+.warning {
+  fill: var(--color-warning);
+}
+
+.warning-soft {
+  fill: var(--color-warning-container);
+}
+
+.knockout {
+  fill: var(--_surface);
+}
+
+// Stroke widths are set on each shape (and default to 3 on the svg), so no CSS stroke-width here.
+[class^='stroke'] {
+  fill: none;
+}
+
+.stroke {
+  stroke: var(--_detail);
+}
+
+.stroke-primary {
+  stroke: var(--_primary);
+}
+
+.stroke-on-primary {
+  stroke: var(--color-on-primary);
+}
+
+.stroke-error {
+  stroke: var(--color-error);
+}
+
+.stroke-surface {
+  stroke: var(--_surface);
+}
+
+.stroke-dashed {
+  stroke: var(--_primary);
+  stroke-dasharray: 7 7;
+}
+
+// High contrast: soft fills drop out, every shape is outlined in the text color and the solid
+// accents fill with it, so the drawing still reads as line art.
+@media (forced-colors: active) {
+  .art {
+    forced-color-adjust: none;
+  }
+
+  .backdrop,
+  .shadow {
+    fill: none;
+  }
+
+  .surface,
+  .inset,
+  .primary-soft,
+  .accent,
+  .accent-alt,
+  .error-soft,
+  .success-soft,
+  .warning-soft {
+    fill: Canvas;
+    stroke: CanvasText;
+    stroke-width: 2;
+  }
+
+  .primary,
+  .detail,
+  .error,
+  .success,
+  .warning {
+    fill: CanvasText;
+  }
+
+  .on-primary,
+  .knockout {
+    fill: Canvas;
+  }
+
+  .stroke,
+  .stroke-primary,
+  .stroke-error,
+  .stroke-dashed {
+    stroke: CanvasText;
+  }
+
+  .stroke-on-primary,
+  .stroke-surface {
+    stroke: Canvas;
+  }
+}

@@ -12,10 +12,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </p>
 
 <p>
-  Set <code>legend="hide"</code> to hide the legend. Deprecated: <code>inner-radius</code> still cuts a hole in
-  a pie but logs a warning; a chart with a hole is a <code>wc-chart-doughnut</code>, which owns
-  <code>inner-radius</code> and the centre label. <code>hide-legend</code> still works; use
-  <code>legend="hide"</code>. Both are removed in 4.0.
+  Set <code>legend="hide"</code> to hide the legend. A pie has no hole: for one, with a centre label, use
+  <code>wc-chart-doughnut</code> and its <code>inner-radius</code>.
 </p>
 
 <DemoComponentCard lang='html'>

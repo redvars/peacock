@@ -1,4 +1,4 @@
-@use "../../../scss/mixin";
+@use '../../../scss/mixin';
 
 @include mixin.base-styles;
 
@@ -15,7 +15,7 @@
   @include mixin.get-typography('body-medium');
 }
 
-.breadcrumb-item.active {
+.breadcrumb-item.current {
   @include mixin.get-typography('body-medium-emphasized');
   color: var(--color-on-surface);
 }

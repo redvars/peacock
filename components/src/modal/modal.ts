@@ -7,19 +7,9 @@ import {
   type CloseReason,
   OverlayController,
 } from '@/__internal/controllers/overlay-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './modal.scss';
 
 type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
-
-/** The `modal-close` reasons from before `close` (deprecated event). */
-const LEGACY_REASONS: Record<CloseReason, string> = {
-  escape: 'escape',
-  'light-dismiss': 'scrim',
-  action: 'close-button',
-  timeout: 'programmatic',
-  api: 'programmatic',
-};
 
 /**
  * @label Modal
@@ -42,8 +32,7 @@ const LEGACY_REASONS: Record<CloseReason, string> = {
  * @cssprop --modal-max-height - Maximum height of the dialog.
  *
  * @fires {CustomEvent} open - Fired when the modal opens.
- * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the modal closes: Escape, a scrim click, the close button, or `hide()` / `open = false`.
- * @fires {CustomEvent<{reason: string}>} modal-close - Deprecated, use `close`. `detail.reason` is `"close-button"`, `"scrim"`, `"escape"` or `"programmatic"`.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the modal closes: Escape, a scrim click, the close button, or `hide()`.
  *
  * @example
  * ```html
@@ -94,13 +83,6 @@ export class Modal extends LitElement {
   @property({ type: Boolean, attribute: 'no-light-dismiss' }) noLightDismiss =
     false;
 
-  /** @deprecated Use `loading`. */
-  @property({ type: Boolean, attribute: 'show-loader' }) showLoader = false;
-
-  /** @deprecated Use `no-light-dismiss`. */
-  @property({ type: Boolean, attribute: 'no-scrim-close' }) noScrimClose =
-    false;
-
   // ── Queries ──────────────────────────────────────────────────────────────
 
   @query('dialog') private _dialog?: HTMLDialogElement;
@@ -120,15 +102,6 @@ export class Modal extends LitElement {
   });
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('showLoader') && this.showLoader) {
-      deprecate('wc-modal', '`show-loader`', '`loading`');
-    }
-    if (changed.has('noScrimClose') && this.noScrimClose) {
-      deprecate('wc-modal', '`no-scrim-close`', '`no-light-dismiss`');
-    }
-  }
 
   protected override updated(changed: PropertyValues<this>) {
     if (!changed.has('open')) return;
@@ -154,23 +127,12 @@ export class Modal extends LitElement {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private get _isLoading() {
-    return this.loading || this.showLoader;
-  }
-
   private _close(reason: CloseReason) {
     if (!this.open) return;
     this.open = false;
     this.dispatchEvent(
       new CustomEvent('close', {
         detail: { reason },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent('modal-close', {
-        detail: { reason: LEGACY_REASONS[reason] },
         bubbles: true,
         composed: true,
       }),
@@ -197,8 +159,7 @@ export class Modal extends LitElement {
   private _handleDialogClick(event: MouseEvent) {
     const target = event.target as Element;
     if (!target.classList?.contains('dialog-wrapper')) return;
-    if (!this.noLightDismiss && !this.noScrimClose)
-      this._close('light-dismiss');
+    if (!this.noLightDismiss) this._close('light-dismiss');
   }
 
   private _handleCloseClick() {
@@ -249,7 +210,7 @@ export class Modal extends LitElement {
         class="native-dialog"
         part="dialog"
         aria-labelledby=${this.heading ? 'modal-heading' : nothing}
-        aria-busy=${this._isLoading ? 'true' : nothing}
+        aria-busy=${this.loading ? 'true' : nothing}
         @cancel=${this._handleCancel}
         @close=${this._handleNativeClose}
         @click=${this._handleDialogClick}
@@ -265,7 +226,7 @@ export class Modal extends LitElement {
               dialog: true,
               open: this.open,
               [`size-${this.size}`]: true,
-              'show-loader': this._isLoading,
+              'show-loader': this.loading,
             })}
           >
             ${this._renderHeader()}
@@ -278,7 +239,7 @@ export class Modal extends LitElement {
               <slot name="footer"></slot>
             </div>
 
-            ${this._isLoading
+            ${this.loading
               ? html`<div class="dialog-loader" aria-hidden="true">
                   <div class="dialog-loader-scrim"></div>
                   <wc-circular-progress indeterminate></wc-circular-progress>

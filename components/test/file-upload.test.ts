@@ -136,10 +136,21 @@ describe('FileUpload', () => {
     expect(el.files.map(file => file.name)).to.deep.equal(['a.txt', 'b.txt']);
     expect(el.value).to.equal(el.files);
     expect(events).to.have.length(1);
-    expect(events[0].files).to.equal(el.files);
     expect(events[0].value).to.equal(el.files);
     expect(listedNames(el)).to.deep.equal(['a.txt', 'b.txt']);
     expect(nativeInput(el).value).to.equal('');
+  });
+
+  it("keeps the native input's input event inside", async () => {
+    const el = await create(html`<wc-file-upload></wc-file-upload>`);
+    let leaked = 0;
+    el.addEventListener('input', () => {
+      leaked += 1;
+    });
+    nativeInput(el).dispatchEvent(
+      new Event('input', { bubbles: true, composed: true }),
+    );
+    expect(leaked).to.equal(0);
   });
 
   it('adds dropped files and shows the drag state', async () => {
@@ -254,7 +265,7 @@ describe('FileUpload', () => {
     el.addEventListener('change', event => {
       order.push('change');
       expect(
-        (event as CustomEvent<FileUploadChangeDetail>).detail.files,
+        (event as CustomEvent<FileUploadChangeDetail>).detail.value,
       ).to.deep.equal([b]);
     });
     const [button] = removeButtons(el);

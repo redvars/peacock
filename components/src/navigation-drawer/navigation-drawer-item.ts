@@ -16,8 +16,7 @@ import styles from './navigation-drawer-item.scss';
  * (<code>current</code>) gets the pill-shaped active indicator and <code>aria-current="page"</code>.
  * With <code>href</code> it renders a link, otherwise a button.</p>
  * <p>Place items directly in <code>wc-navigation-drawer</code> or inside a
- * <code>wc-navigation-drawer-group</code>. <code>active</code> is a deprecated alias of
- * <code>current</code> and is removed in 4.0.</p>
+ * <code>wc-navigation-drawer-group</code>.</p>
  *
  * @slot - The label.
  * @slot icon - Leading icon.

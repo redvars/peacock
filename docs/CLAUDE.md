@@ -7,7 +7,7 @@ You are an expert Frontend Engineer specializing in **Astro**, TypeScript, SCSS,
 - **Framework:** Astro (v6+)
 - **Language:** TypeScript (strict mode)
 - **Styling:** SCSS (sass-embedded)
-- **Search:** astro-pagefind
+- **Search:** astro-pagefind builds the index; `src/components/navigation/SiteSearch.astro` searches it through the Pagefind JS API in a `wc-command-palette` (Ctrl/Cmd+K)
 - **Goal:** Maintain and extend the documentation site for the Peacock web component library.
 
 ## Commands

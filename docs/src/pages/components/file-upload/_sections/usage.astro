@@ -17,7 +17,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   </div>
   <script is:inline>
     document.querySelector('#file-upload-demo').addEventListener('change', function (event) {
-      myConsole.log('change: ' + event.detail.files.map(function (file) { return file.name; }).join(', '));
+      myConsole.log('change: ' + event.detail.value.map(function (file) { return file.name; }).join(', '));
     });
   </script>
 </DemoComponentCard>

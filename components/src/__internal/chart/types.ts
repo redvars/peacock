@@ -41,7 +41,7 @@ export type ChartTooltipModel = {
 /** When the legend shows. */
 export type ChartLegendMode = 'auto' | 'show' | 'hide';
 
-/** Detail of the `select` event (and the deprecated `chart-select`). */
+/** Detail of the `select` event. */
 export type ChartSelectDetail = {
   /** Index of the selected category or slice in `data`. */
   index: number;

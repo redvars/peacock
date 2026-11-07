@@ -102,19 +102,6 @@ describe('Table features', () => {
       expect(warnings).to.have.length(0);
     });
 
-    it('maps the deprecated selection-type="checkbox" to multiple and warns once', async () => {
-      const el = await render(
-        html`<wc-table selection-type="checkbox"></wc-table>`,
-        people(2),
-      );
-      expect(grid(el).getAttribute('aria-multiselectable')).to.equal('true');
-      expect(warnings).to.have.length(1);
-      expect(warnings[0]).to.contain('selection="multiple"');
-      el.requestUpdate();
-      await el.updateComplete;
-      expect(warnings).to.have.length(1);
-    });
-
     it('selects one row at a time with selection="single"', async () => {
       const el = await render(
         html`<wc-table selection="single"></wc-table>`,
@@ -228,8 +215,13 @@ describe('Table features', () => {
   describe('empty and error states', () => {
     it('shows the empty slot, falling back to the default empty state', async () => {
       const el = await render(html`<wc-table></wc-table>`, []);
-      const empty = root(el).querySelector('wc-empty-state');
-      expect(empty?.getAttribute('headline')).to.equal('No items');
+      const empty = root(el).querySelector('.empty-table .state-message');
+      expect(empty?.querySelector('.state-headline')?.textContent).to.equal(
+        'No items',
+      );
+      expect(
+        empty?.querySelector('wc-illustration')?.getAttribute('name'),
+      ).to.equal('empty');
       expect(
         root(el).querySelector('.empty-table')?.getAttribute('role'),
       ).to.equal('gridcell');
@@ -254,9 +246,12 @@ describe('Table features', () => {
       expect(bodyRows(el)).to.have.length(0);
       const error = root(el).querySelector('.error-table');
       expect(error).to.not.equal(null);
+      expect(error?.querySelector('.state-text')?.textContent).to.equal(
+        'The server is down',
+      );
       expect(
-        error?.querySelector('wc-empty-state')?.getAttribute('description'),
-      ).to.equal('The server is down');
+        error?.querySelector('wc-illustration')?.getAttribute('name'),
+      ).to.equal('error');
       const live = root(el).querySelector(
         '[aria-live="polite"].visually-hidden',
       );
@@ -337,18 +332,6 @@ describe('Table features', () => {
       expect(bodyRows(el)).to.have.length(10);
       expect(bodyRows(el)[0].getAttribute('aria-rowindex')).to.equal('12');
       expect(grid(el).getAttribute('aria-rowcount')).to.equal('43');
-    });
-
-    it('warns once when the deprecated paginate is set', async () => {
-      const el = await render(
-        html`<wc-table paginate page-size="2"></wc-table>`,
-        people(5),
-      );
-      expect(bodyRows(el)).to.have.length(2);
-      expect(
-        root(el).querySelector('.table-footer wc-pagination'),
-      ).to.not.equal(null);
-      expect(warnings.filter(w => w.includes('paginate'))).to.have.length(1);
     });
   });
 

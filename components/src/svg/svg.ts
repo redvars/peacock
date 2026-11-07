@@ -2,7 +2,6 @@ import { html, LitElement, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { sanitizeSvg } from '@/__internal/utils/sanitize-svg.js';
 import { fetchSVG } from '../icon/datasource.js';
 
@@ -14,8 +13,20 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  * @label SVG
  * @tag wc-svg
  * @rawTag svg
- * @summary An SVG component with lazy loading and optional preview support.
- * @overview Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an optional click-to-preview lightbox.
+ * @summary An SVG image from a URL, drawn inline so it takes the text color, loaded once it scrolls into view.
+ * @overview
+ * <p>Renders an inline SVG fetched from a URL, with lazy loading via IntersectionObserver and an
+ * optional click-to-preview lightbox.</p>
+ * <ul>
+ * <li><code>src</code> is the URL of the SVG. It is fetched when the element enters the viewport,
+ * sanitized, and rendered inline; a placeholder shows until then.</li>
+ * <li><code>alt</code> is the text alternative, as on a native <code>&lt;img&gt;</code>: with it
+ * the SVG is <code>role="img"</code>; without it, it is decorative.</li>
+ * <li><code>preview</code> opens the SVG enlarged in a modal lightbox on click. Focus moves to its
+ * close button, Escape closes it, and focus returns to the SVG.</li>
+ * <li><code>--svg-color</code>, or the inherited <code>color</code>, tints the SVG;
+ * <code>--svg-size</code> sets its size.</li>
+ * </ul>
  *
  * @cssprop --svg-color - Controls the fill color of the SVG.
  * @cssprop [--svg-size=1rem] - Controls the size of the SVG. Defaults to "1rem"
@@ -37,9 +48,6 @@ export class Svg extends LitElement {
    * named by it; leave it empty for a decorative SVG.
    */
   @property() alt = '';
-
-  /** @deprecated Use `alt`. Still works through 3.x. */
-  @property({ attribute: 'image-title' }) imageTitle = '';
 
   /** Enable click-to-preview lightbox. */
   @property({ type: Boolean, reflect: true }) preview = false;
@@ -73,12 +81,6 @@ export class Svg extends LitElement {
     this._setupIntersectionObserver();
   }
 
-  protected willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('imageTitle') && this.imageTitle) {
-      deprecate('wc-svg', '`image-title`', '`alt`');
-    }
-  }
-
   updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('src')) {
       // Reset lazy-load state so the new src is fetched when visible
@@ -106,11 +108,6 @@ export class Svg extends LitElement {
     );
 
     this._intersectionObserver.observe(wrapper);
-  }
-
-  /** `alt`, else the deprecated `image-title`. */
-  private get _alt(): string {
-    return this.alt || this.imageTitle;
   }
 
   private async _fetchSvg() {
@@ -161,8 +158,8 @@ export class Svg extends LitElement {
         ${this._loaded && this._svgContent
           ? html`<div
               class="svg-content ${this.preview ? 'clickable' : ''}"
-              role=${this._alt ? 'img' : 'presentation'}
-              aria-label=${this._alt || nothing}
+              role=${this.alt ? 'img' : 'presentation'}
+              aria-label=${this.alt || nothing}
               @click=${this._handleClick}
             >
               ${unsafeSVG(this._svgContent)}
@@ -174,8 +171,8 @@ export class Svg extends LitElement {
         class="preview-overlay ${this._previewOpen ? 'open' : ''}"
         role="dialog"
         aria-modal="true"
-        aria-label=${this._alt
-          ? this.i18n.t('previewTitle')(this._alt)
+        aria-label=${this.alt
+          ? this.i18n.t('previewTitle')(this.alt)
           : this.i18n.t('svgPreview')}
         @click=${this._closePreview}
         @keydown=${(e: KeyboardEvent) =>

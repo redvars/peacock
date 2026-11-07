@@ -14,9 +14,8 @@ import styles from './switch.scss';
  * @tag wc-switch
  * @rawTag switch
  *
- * @summary Captures boolean input with an on/off switch interaction.
+ * @summary An on and off switch for a single setting, such as turning notifications on.
  * @overview
- * <p>Toggles are used to enable or disable a single option. They provide immediate feedback about whether an option is active or inactive.</p>
  * <p>The switch is form-associated: when <code>checked</code>, it submits its <code>value</code>
  * (<code>on</code> by default) under its <code>name</code>. With <code>required</code> it blocks form
  * submission until it is on.</p>

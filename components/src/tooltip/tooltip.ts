@@ -1,9 +1,7 @@
 import { html, LitElement, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import styles from './tooltip.scss';
 import { FloatingController } from '../__internal/controllers/floating-controller.js';
-import { deprecate } from '../__internal/utils/deprecate.js';
 import {
   type OverlayPlacement,
   toPhysicalPlacement,
@@ -24,7 +22,7 @@ let nextTooltipId = 0;
  * @label Tooltip
  * @tag wc-tooltip
  * @rawTag tooltip
- * @summary Displays a tooltip for an element.
+ * @summary A short text label shown next to an element on hover or keyboard focus.
  * @overview
  * <p>A short text label shown next to its target on hover or focus. It opens in the browser's top layer,
  * so it shows above modals and menus, and describes the target through <code>aria-describedby</code>.
@@ -33,7 +31,7 @@ let nextTooltipId = 0;
  * shadow root, or else the parent element. When the target is in another shadow root, the link uses
  * <code>ariaDescribedByElements</code> where the browser supports it; elsewhere the target is not
  * described.</p>
- * <p><code>variant="rich"</code> is deprecated: use <code>wc-popover</code> for rich content with actions.</p>
+ * <p>Use <code>wc-popover</code> for rich content with actions.</p>
  * @tags display
  *
  * @example
@@ -68,10 +66,6 @@ export class Tooltip extends LitElement {
   @property({ type: String, reflect: true }) placement: OverlayPlacement =
     'top';
 
-  /** Visual variant. `rich` is deprecated: use `wc-popover`. */
-  @property({ type: String, reflect: true }) variant: 'plain' | 'rich' =
-    'plain';
-
   /**
    * Renders the tooltip statically in the page flow, always visible.
    * @internal For the documentation demos only.
@@ -104,12 +98,6 @@ export class Tooltip extends LitElement {
     this._detach();
     window.removeEventListener('keydown', this._handleKeydown, true);
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('variant') && this.variant === 'rich') {
-      deprecate('wc-tooltip', 'variant="rich"', 'wc-popover');
-    }
   }
 
   protected override updated(changed: PropertyValues<this>) {
@@ -155,7 +143,7 @@ export class Tooltip extends LitElement {
   }
 
   private _physicalPlacement() {
-    return toPhysicalPlacement(this.placement, this, 'wc-tooltip');
+    return toPhysicalPlacement(this.placement, this);
   }
 
   /** The tooltip is a manual popover in the top layer, except in preview. */
@@ -287,47 +275,13 @@ export class Tooltip extends LitElement {
     else this.open = false;
   };
 
-  // ── Render helpers ───────────────────────────────────────────────────────
-
-  // eslint-disable-next-line class-methods-use-this
-  private _renderPlainTooltip() {
-    return html`<div class="tooltip-content">
-      <slot></slot>
-    </div>`;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private _renderRichTooltip() {
-    return html`
-      <div class="tooltip-content">
-        <wc-elevation class="elevation"></wc-elevation>
-
-        <div class="tooltip-title">
-          <slot name="title"></slot>
-        </div>
-        <div class="tooltip-support-text">
-          <slot></slot>
-        </div>
-        <div class="tooltip-actions">
-          <slot name="actions"></slot>
-        </div>
-      </div>
-    `;
-  }
-
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
-    return html`<div
-      class=${classMap({
-        tooltip: true,
-        [`variant-${this.variant}`]: true,
-      })}
-      id="tooltip"
-    >
-      ${this.variant === 'plain'
-        ? this._renderPlainTooltip()
-        : this._renderRichTooltip()}
+    return html`<div class="tooltip" id="tooltip">
+      <div class="tooltip-content">
+        <slot></slot>
+      </div>
     </div>`;
   }
 }

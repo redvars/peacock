@@ -1,10 +1,9 @@
 /// <reference types="mocha" />
-import { html } from 'lit';
-import { fixture, fixtureSync, expect, oneEvent } from '@open-wc/testing';
+import { html, type TemplateResult } from 'lit';
+import { fixture, fixtureSync, expect } from '@open-wc/testing';
 import { Field } from '../src/field/field.js';
 import { UrlField } from '../src/url-field/url-field.js';
 import { setPeacockStrings } from '../src/__internal/i18n/strings.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -15,6 +14,14 @@ for (const [tag, element] of [
 
 function urlInput(el: UrlField) {
   return el.shadowRoot!.querySelector<HTMLInputElement>('.url-input');
+}
+
+/** Renders a URL field and starts editing, the way focusing it does. */
+async function editingField(template: TemplateResult) {
+  const el = await fixture<UrlField>(template);
+  el.focus();
+  await el.updateComplete;
+  return el;
 }
 
 describe('UrlField', () => {
@@ -29,9 +36,11 @@ describe('UrlField', () => {
 
   it('fires input and change with the value in detail, and no native events', async () => {
     const wrapper = fixtureSync<HTMLDivElement>(
-      html`<div><wc-url-field editing></wc-url-field></div>`,
+      html`<div><wc-url-field></wc-url-field></div>`,
     );
     const el = wrapper.querySelector<UrlField>('wc-url-field')!;
+    await el.updateComplete;
+    el.focus();
     await el.updateComplete;
     const events: Event[] = [];
     wrapper.addEventListener('input', e => events.push(e));
@@ -50,21 +59,9 @@ describe('UrlField', () => {
     expect(el.value).to.equal('https://a.b');
   });
 
-  it('still fires the deprecated value-change event', async () => {
-    const el = await fixture<UrlField>(
-      html`<wc-url-field editing debounce="0"></wc-url-field>`,
-    );
-    const input = urlInput(el)!;
-    input.value = 'https://a.b';
-    setTimeout(() => input.dispatchEvent(new InputEvent('input')));
-
-    const event = (await oneEvent(el, 'value-change')) as CustomEvent<string>;
-    expect(event.detail).to.equal('https://a.b');
-  });
-
   it('names the native input from its label', async () => {
-    const el = await fixture<UrlField>(
-      html`<wc-url-field editing label="Website"></wc-url-field>`,
+    const el = await editingField(
+      html`<wc-url-field label="Website"></wc-url-field>`,
     );
     expect(urlInput(el)!.getAttribute('aria-label')).to.equal('Website');
   });
@@ -112,8 +109,8 @@ describe('UrlField validation', () => {
   });
 
   it('shows the message under the field after reportValidity()', async () => {
-    const el = await fixture<UrlField>(
-      html`<wc-url-field label="Website" required editing></wc-url-field>`,
+    const el = await editingField(
+      html`<wc-url-field label="Website" required></wc-url-field>`,
     );
     const field = el.shadowRoot!.querySelector<Field>('wc-field')!;
     expect(field.error).to.be.false;
@@ -127,8 +124,8 @@ describe('UrlField validation', () => {
   });
 
   it('reports a malformed URL while editing', async () => {
-    const el = await fixture<UrlField>(
-      html`<wc-url-field editing value="not a url"></wc-url-field>`,
+    const el = await editingField(
+      html`<wc-url-field value="not a url"></wc-url-field>`,
     );
     expect(el.validity.typeMismatch).to.be.true;
   });
@@ -136,8 +133,8 @@ describe('UrlField validation', () => {
   it("uses Peacock's message for a malformed URL", async () => {
     setPeacockStrings({ invalidUrl: 'Adresse invalide' });
     try {
-      const el = await fixture<UrlField>(
-        html`<wc-url-field editing value="not a url"></wc-url-field>`,
+      const el = await editingField(
+        html`<wc-url-field value="not a url"></wc-url-field>`,
       );
       expect(el.validationMessage).to.equal('Adresse invalide');
     } finally {
@@ -147,20 +144,6 @@ describe('UrlField validation', () => {
 });
 
 describe('UrlField editing', () => {
-  let warn: typeof console.warn;
-  let warnings: string[];
-
-  beforeEach(() => {
-    resetDeprecationWarnings();
-    warnings = [];
-    warn = console.warn;
-    console.warn = (message: string) => warnings.push(message);
-  });
-
-  afterEach(() => {
-    console.warn = warn;
-  });
-
   it('starts editing on focus and focuses the input once rendered', async () => {
     const el = await fixture<UrlField>(
       html`<wc-url-field value="https://a.b"></wc-url-field>`,
@@ -170,8 +153,6 @@ describe('UrlField editing', () => {
     const input = urlInput(el)!;
     expect(input).to.exist;
     expect(el.shadowRoot!.activeElement).to.equal(input);
-    expect(el.hasAttribute('editing')).to.be.false;
-    expect(warnings).to.be.empty;
   });
 
   it('starts editing from the edit button, which has a label', async () => {
@@ -230,23 +211,5 @@ describe('UrlField editing', () => {
     await el.updateComplete;
     expect(urlInput(el)).to.exist;
     expect(assigned()).to.deep.equal([1, 1]);
-  });
-
-  it('still reads the deprecated editing attribute, with a warning', async () => {
-    const el = await fixture<UrlField>(
-      html`<wc-url-field editing></wc-url-field>`,
-    );
-    expect(urlInput(el)).to.exist;
-    expect(el.editing).to.be.true;
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('wc-url-field');
-  });
-
-  it('still takes the deprecated editing property, with a warning', async () => {
-    const el = await fixture<UrlField>(html`<wc-url-field></wc-url-field>`);
-    el.editing = true;
-    await el.updateComplete;
-    expect(urlInput(el)).to.exist;
-    expect(warnings).to.have.length(1);
   });
 });

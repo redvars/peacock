@@ -14,9 +14,9 @@ describe('Search', () => {
 
     expect(el.variant).to.equal('default');
     expect(
-      el.shadowRoot!.querySelector('.search')!.classList.contains(
-        'variant-filled',
-      ),
+      el
+        .shadowRoot!.querySelector('.search')!
+        .classList.contains('variant-filled'),
     ).to.be.true;
     expect(el.placeholder).to.equal('');
     const input = el.shadowRoot?.querySelector('input');
@@ -208,9 +208,7 @@ describe('Search', () => {
   });
 
   it('applies size class', async () => {
-    const el = await fixture<Search>(
-      html`<wc-search size="lg"></wc-search>`,
-    );
+    const el = await fixture<Search>(html`<wc-search size="lg"></wc-search>`);
     await el.updateComplete;
 
     const container = el.shadowRoot!.querySelector('.search');
@@ -231,22 +229,19 @@ describe('Search', () => {
     expect(inputOf(el).getAttribute('aria-label')).to.equal('Find');
   });
 
-  it('renders start and end slots, and still the deprecated leading and trailing', async () => {
+  it('renders start and end slots', async () => {
     const el = await fixture<Search>(html`
       <wc-search>
         <span slot="start" class="s"></span>
         <span slot="end" class="e"></span>
-        <span slot="trailing" class="t"></span>
       </wc-search>
     `);
     const slot = (name: string) =>
       el.shadowRoot!.querySelector<HTMLSlotElement>(`slot[name="${name}"]`)!;
-    expect(slot('start').assignedElements()[0]).to.equal(el.querySelector('.s'));
-    expect(slot('end').assignedElements()[0]).to.equal(el.querySelector('.e'));
-    expect(slot('trailing').assignedElements()[0]).to.equal(
-      el.querySelector('.t'),
+    expect(slot('start').assignedElements()[0]).to.equal(
+      el.querySelector('.s'),
     );
-    expect(slot('leading')).to.exist;
+    expect(slot('end').assignedElements()[0]).to.equal(el.querySelector('.e'));
   });
 
   it('only stops Escape when it clears a value, and fires change on clear', async () => {

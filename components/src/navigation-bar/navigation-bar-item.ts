@@ -11,7 +11,6 @@ import { IndicatorNavigationItem } from '@/__internal/indicator-navigation-item.
  * <p>Shows an icon inside the active-indicator pill with a label below. The current item
  * (<code>current</code>) gets the indicator and <code>aria-current="page"</code>. With
  * <code>href</code> it renders a link, otherwise a button.</p>
- * <p><code>active</code> is a deprecated alias of <code>current</code> and is removed in 4.0.</p>
  *
  * @slot - The label.
  * @slot icon - The icon.

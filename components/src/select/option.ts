@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-option
  * @rawTag option
  *
- * @summary An option of a wc-select.
+ * @summary One option in a select dropdown, with an optional icon before its label.
  * @overview
  * <p>Options are menu items with the <code>option</code> role. The selected option of a single select
  * shows a check mark at the end; in a multi-select every option shows a checkbox at the start.</p>

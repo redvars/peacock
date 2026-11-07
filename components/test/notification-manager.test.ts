@@ -3,7 +3,6 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { NotificationManager } from '../src/notification-manager/notification-manager.js';
 import { Snackbar } from '../src/snackbar/snackbar.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-notification-manager')) {
   customElements.define('wc-notification-manager', NotificationManager);
@@ -46,22 +45,6 @@ async function settle(el: NotificationManager) {
 }
 
 describe('NotificationManager', () => {
-  let warn: typeof console.warn;
-  let warnings: string[];
-
-  beforeEach(() => {
-    resetDeprecationWarnings();
-    warnings = [];
-    warn = console.warn;
-    console.warn = (message: string) => {
-      warnings.push(message);
-    };
-  });
-
-  afterEach(() => {
-    console.warn = warn;
-  });
-
   it('queues toasts as snackbars in a top-layer region', async () => {
     const el = await fixture<NotificationManager>(html`
       <wc-notification-manager></wc-notification-manager>
@@ -115,7 +98,6 @@ describe('NotificationManager', () => {
     expect(snackbars(side)).to.have.length(1);
     expect(snackbars(global)).to.have.length(0);
     expect(id).to.equal(snackbars(side)[0].id);
-    expect(warnings).to.have.length(0);
   });
 
   it('removes a toast after its exit animation', async () => {
@@ -161,54 +143,22 @@ describe('NotificationManager', () => {
       }),
     );
     await waitFor(() => snackbars(el).length === 0);
-    expect(warnings).to.have.length(0);
   });
 
-  it('keeps the deprecated window events working and warns', async () => {
+  it('ignores the removed notification window events', async () => {
     const el = await fixture<NotificationManager>(html`
       <wc-notification-manager></wc-notification-manager>
     `);
-    let id = '';
     window.dispatchEvent(
       new CustomEvent('notification', {
-        detail: {
-          title: 'Old',
-          variant: 'error',
-          timeout: 0,
-          callback: (toastId: string) => {
-            id = toastId;
-          },
-        },
+        detail: { title: 'Old', duration: 0 },
       }),
     );
     await settle(el);
-    const [toast] = snackbars(el);
-    expect(toast.intent).to.equal('danger');
-    expect(toast.duration).to.equal(0);
-    expect(warnings.some(w => w.includes('`peacock-toast`'))).to.equal(true);
-
-    // wc-notification's own dismiss event (no ids) reaches the window too: ignored, no warning.
-    window.dispatchEvent(
-      new CustomEvent('notification-dismiss', {
-        detail: { reason: 'dismiss' },
-      }),
-    );
-    expect(warnings.some(w => w.includes('`peacock-toast-dismiss`'))).to.equal(
-      false,
-    );
-
-    window.dispatchEvent(
-      new CustomEvent('notification-dismiss', {
-        detail: { notifications: [id] },
-      }),
-    );
-    expect(warnings.some(w => w.includes('`peacock-toast-dismiss`'))).to.equal(
-      true,
-    );
-    await waitFor(() => snackbars(el).length === 0);
+    expect(snackbars(el)).to.have.length(0);
   });
 
-  it('fires close with the toast id and keeps the legacy dismiss event', async () => {
+  it('fires close with the toast id', async () => {
     const el = await fixture<NotificationManager>(html`
       <wc-notification-manager></wc-notification-manager>
     `);
@@ -216,19 +166,30 @@ describe('NotificationManager', () => {
     await settle(el);
 
     const closes: { id: string; reason: string }[] = [];
-    const legacy: string[] = [];
     el.addEventListener('close', event => {
       closes.push(
         (event as CustomEvent<{ id: string; reason: string }>).detail,
       );
     });
-    el.addEventListener('notification-manager-dismiss', event => {
-      legacy.push((event as CustomEvent<{ id: string }>).detail.id);
-    });
 
     snackbars(el)[0].shadowRoot?.querySelector<HTMLElement>('.close')?.click();
     expect(closes).to.deep.equal([{ id, reason: 'action' }]);
-    expect(legacy).to.deep.equal([id]);
+  });
+
+  it('fires action with the toast id', async () => {
+    const el = await fixture<NotificationManager>(html`
+      <wc-notification-manager></wc-notification-manager>
+    `);
+    const id = el.show({ title: 'Deleted', action: 'Undo' });
+    await settle(el);
+
+    const actions: string[] = [];
+    el.addEventListener('action', event => {
+      actions.push((event as CustomEvent<{ id: string }>).detail.id);
+    });
+
+    snackbars(el)[0].shadowRoot?.querySelector<HTMLElement>('.action')?.click();
+    expect(actions).to.deep.equal([id]);
   });
 
   describe('placement', () => {
@@ -262,16 +223,6 @@ describe('NotificationManager', () => {
       const rect = region(el).getBoundingClientRect();
       expect(rect.top).to.be.closeTo(16, 2);
       expect(rect.left).to.be.closeTo(16, 2);
-      expect(warnings).to.have.length(0);
-    });
-
-    it('maps the deprecated position to placement and warns', async () => {
-      const el = await fixture<NotificationManager>(html`
-        <wc-notification-manager position="top-right"></wc-notification-manager>
-      `);
-      expect(region(el).classList.contains('placement-top-end')).to.equal(true);
-      expect(warnings).to.have.length(1);
-      expect(warnings[0]).to.contain('`placement`');
     });
   });
 });

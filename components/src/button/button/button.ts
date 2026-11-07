@@ -1,4 +1,4 @@
-import { html, LitElement, nothing, type PropertyValues } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -7,13 +7,11 @@ import IndividualComponent from '@/IndividualComponent.js';
 import styles from './button.scss';
 
 import type { ButtonSize, ButtonShape } from '@/button/ButtonTypes.js';
-import { isLink } from '@/__internal/utils/is-link.js';
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
 import {
   dispatchActivationClick,
   isActivationClick,
 } from '@/__internal/utils/dispatch-event-utils.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { DISABLED_REASON_ID } from '@/button/ButtonConstants.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
@@ -25,8 +23,6 @@ import {
   toggleButtonSelected,
 } from '../base-button/base-button.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
-import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
-import { migrateLegacySize } from '@/__internal/utils/size.js';
 
 export type {
   ButtonSize,
@@ -41,12 +37,11 @@ export type {
  * @tag wc-button
  * @rawTag button
  *
- * @summary Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+ * @summary A button with a text label that runs an action, such as saving a form or sending a message; it can also toggle.
  * @overview
- * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
  * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over it.</p>
  * <p>Set <code>toggle</code> to make a toggle button: it renders <code>aria-pressed</code>, flips <code>selected</code> on each click and fires <code>change</code>. <code>selected</code> does nothing without <code>toggle</code>.</p>
- * <p><code>href</code> is deprecated: use <code>wc-link-button</code> for a link that looks like a button.</p>
+ * <p>For a link that looks like a button, use <code>wc-link-button</code>.</p>
  *
  * @cssprop --button-container-shape - Defines the border radius of the button container shape.
  *
@@ -85,11 +80,9 @@ export type {
 @IndividualComponent
 export class Button extends mixinButtonLevel(
   mixinBaseButton(
-    mixinHyperlink(
-      mixinDelegatesAria(
-        mixinFormSubmitter(
-          mixinFormAssociated(mixinElementInternals(LitElement)),
-        ),
+    mixinDelegatesAria(
+      mixinFormSubmitter(
+        mixinFormAssociated(mixinElementInternals(LitElement)),
       ),
     ),
   ),
@@ -180,17 +173,6 @@ export class Button extends mixinButtonLevel(
     super.disconnectedCallback();
   }
 
-  override willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('size')) {
-      const size = migrateLegacySize('wc-button', this.size);
-      if (size) this.size = size;
-    }
-    if (changedProperties.has('href') && this.href !== undefined) {
-      deprecate('wc-button', '`href`', 'wc-link-button');
-    }
-  }
-
   override firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
     // Initialize slot presence tracking for smooth transitions when label/icon are added/removed
@@ -234,15 +216,10 @@ export class Button extends mixinButtonLevel(
   // ── Private methods ───────────────────────────────────────────────────────
 
   __dispatchClick = (event: MouseEvent | KeyboardEvent) => {
-    // If the button is soft-disabled, loading or a disabled link, we need to
-    // explicitly prevent the click from propagating to other event listeners
-    // as well as prevent the default action.
-    if (
-      this.softDisabled ||
-      this.loading ||
-      (this.disabled && this.href) ||
-      this.skeleton
-    ) {
+    // If the button is soft-disabled or loading, we need to explicitly prevent
+    // the click from propagating to other event listeners as well as prevent
+    // the default action.
+    if (this.softDisabled || this.loading || this.skeleton) {
       event.stopImmediatePropagation();
       event.preventDefault();
       return;
@@ -250,7 +227,7 @@ export class Button extends mixinButtonLevel(
 
     // Each activation reaches this listener once: either the inner button's
     // click bubbling out, or a click fired at the host and forwarded below.
-    if (!isLink(this)) toggleButtonSelected(this);
+    toggleButtonSelected(this);
 
     if (!isActivationClick(event) || !this.buttonElement) {
       return;
@@ -263,39 +240,15 @@ export class Button extends mixinButtonLevel(
   // ── Render helpers ────────────────────────────────────────────────────────
 
   renderButtonElement() {
-    const isElementLink = isLink(this);
-
     const cssClasses = {
       button: true,
-      'native-button': !isElementLink,
-      'native-link': isElementLink,
+      'native-button': true,
       'trailing-icon': this.trailingIcon,
     };
 
     // Needed for closure conformance
     const { ariaLabel, ariaHasPopup, ariaExpanded } = this as ARIAMixinStrict;
 
-    if (isElementLink) {
-      return html`<a
-        class=${classMap(cssClasses)}
-        id="link"
-        href=${this.href}
-        target=${this.target}
-        rel=${this.rel || nothing}
-        download=${this.download || nothing}
-        tabindex=${this.disabled ? '-1' : '0'}
-        aria-label="${ariaLabel || nothing}"
-        aria-haspopup="${ariaHasPopup || nothing}"
-        aria-expanded="${ariaExpanded || nothing}"
-        aria-describedby=${ifDefined(
-          this.softDisabled ? DISABLED_REASON_ID : undefined,
-        )}
-        aria-disabled=${this.softDisabled ? 'true' : nothing}
-        aria-busy=${this.loading ? 'true' : nothing}
-      >
-        ${this.renderButtonContent()}
-      </a>`;
-    }
     return html`<button
       class=${classMap(cssClasses)}
       id="button"
@@ -347,8 +300,7 @@ export class Button extends mixinButtonLevel(
 
   renderTooltip() {
     if (this.tooltip) {
-      const buttonId = isLink(this) ? 'link' : 'button';
-      return html`<wc-tooltip class="tooltip" for=${buttonId}
+      return html`<wc-tooltip class="tooltip" for="button"
         >${this.tooltip}</wc-tooltip
       >`;
     }
@@ -358,10 +310,8 @@ export class Button extends mixinButtonLevel(
   // ── Render ────────────────────────────────────────────────────────────────
 
   override render() {
-    const buttonId = isLink(this) ? 'link' : 'button';
-
     return html`
-      <wc-focus-ring class="focus-ring" for=${buttonId}></wc-focus-ring>
+      <wc-focus-ring class="focus-ring" for="button"></wc-focus-ring>
       <wc-elevation class="elevation"></wc-elevation>
       ${when(
         this.variant === 'neo',
@@ -372,7 +322,7 @@ export class Button extends mixinButtonLevel(
         this.variant === 'outlined' || this.variant === 'neo',
         () => html`<div class="outline"></div>`,
       )}
-      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
+      <wc-ripple class="ripple" for="button"></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.renderTooltip()}

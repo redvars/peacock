@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit';
 import { property, queryAssignedElements } from 'lit/decorators.js';
 import styles from './sub-menu.scss';
 import { MenuItem } from '../menu-item/menu-item.js';
-import { Menu, type MenuCloseReason } from '../menu/menu.js';
+import { Menu, type MenuCloseDetail } from '../menu/menu.js';
 import IndividualComponent from '@/IndividualComponent.js';
 
 let subMenuIdCounter = 0;
@@ -12,6 +12,20 @@ let subMenuIdCounter = 0;
  * @tag wc-sub-menu
  * @rawTag sub-menu
  * @summary Connects a menu item to a nested menu.
+ *
+ * @overview
+ * <p>Put it inside a <code>wc-menu</code>, with a <code>wc-menu-item</code> in the
+ * <code>item</code> slot and a <code>wc-menu</code> in the <code>menu</code> slot. The nested menu
+ * opens beside the item (on the left in right-to-left pages), takes the parent menu's
+ * <code>variant</code>, and the item gets <code>aria-haspopup</code>,
+ * <code>aria-expanded</code> and <code>aria-controls</code>.</p>
+ * <p>Clicking the item opens or closes the nested menu. Resting the pointer on it opens the menu
+ * after <code>hover-open-delay</code> (120ms) without moving focus, and leaving closes it after
+ * <code>hover-close-delay</code> (180ms).</p>
+ * <p>ArrowRight (ArrowLeft in right-to-left pages), Enter or Space on the item opens the nested
+ * menu and focuses its first enabled item. Escape or ArrowLeft (ArrowRight in right-to-left
+ * pages) closes it and returns focus to the item. Choosing an item in the nested menu closes the
+ * parent menu too. <code>show()</code> and <code>close()</code> open and close it from code.</p>
  */
 @IndividualComponent
 export class SubMenu extends LitElement {
@@ -39,9 +53,10 @@ export class SubMenu extends LitElement {
     return item.itemElement ?? item;
   }
 
-  private readonly _onChildMenuOpened = () => {
+  private readonly _onChildMenuOpened = (event: Event) => {
     const { item } = this;
-    if (!item) {
+    // `open` bubbles: a deeper submenu's event is not this menu's own.
+    if (!item || event.target !== event.currentTarget) {
       return;
     }
 
@@ -51,15 +66,16 @@ export class SubMenu extends LitElement {
 
   private readonly _onChildMenuClosed = (event: Event) => {
     const { item } = this;
-    if (!item) {
+    // `close` bubbles: a deeper submenu's event is not this menu's own.
+    if (!item || event.target !== event.currentTarget) {
       return;
     }
 
     item.submenuOpen = false;
     item.setAttribute('aria-expanded', 'false');
 
-    const { reason } =
-      (event as CustomEvent<{ reason?: MenuCloseReason }>).detail ?? {};
+    const reason = (event as CustomEvent<Partial<MenuCloseDetail>>).detail
+      ?.cause;
     if (reason?.kind === 'click-selection') {
       // Picking an item in the submenu completes the whole menu, so close the parent too.
       this._parentMenu()?.close({ kind: 'click-selection' });
@@ -93,8 +109,8 @@ export class SubMenu extends LitElement {
 
   disconnectedCallback() {
     const { menu } = this;
-    menu?.removeEventListener('opened', this._onChildMenuOpened);
-    menu?.removeEventListener('closed', this._onChildMenuClosed);
+    menu?.removeEventListener('open', this._onChildMenuOpened);
+    menu?.removeEventListener('close', this._onChildMenuClosed);
     this.removeEventListener('mouseenter', this._onMouseEnter);
     this.removeEventListener('mouseleave', this._onMouseLeave);
     window.clearTimeout(this._openTimeout);
@@ -165,10 +181,10 @@ export class SubMenu extends LitElement {
     item.setAttribute('aria-expanded', String(menu.open));
     item.setAttribute('aria-controls', menu.id);
 
-    menu.removeEventListener('opened', this._onChildMenuOpened);
-    menu.removeEventListener('closed', this._onChildMenuClosed);
-    menu.addEventListener('opened', this._onChildMenuOpened);
-    menu.addEventListener('closed', this._onChildMenuClosed);
+    menu.removeEventListener('open', this._onChildMenuOpened);
+    menu.removeEventListener('close', this._onChildMenuClosed);
+    menu.addEventListener('open', this._onChildMenuOpened);
+    menu.addEventListener('close', this._onChildMenuClosed);
 
     menu.isSubmenu = true;
     menu.anchorElement = this._resolveAnchorElement(item);

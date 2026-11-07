@@ -1,7 +1,6 @@
-import { html, LitElement, type PropertyValues } from 'lit';
+import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import { migrateLegacySize } from '@/__internal/utils/size.js';
 import styles from './button-group.scss';
 import { Button, ButtonColor } from '../button/button.js';
 import { IconButton } from '../icon-button/icon-button.js';
@@ -11,8 +10,18 @@ import { IconButton } from '../icon-button/icon-button.js';
  * @tag wc-button-group
  * @rawTag button-group
  *
- * @summary Group a series of buttons together on a single line with the button group, and super-power.
-
+ * @summary A row of related buttons or icon buttons that share one size, color and style.
+ *
+ * @overview
+ * <p>Put <code>wc-button</code> or <code>wc-icon-button</code> elements inside. The group passes
+ * its <code>size</code> (<code>sm</code> by default), and its <code>color</code> and
+ * <code>variant</code> when set, to every button, overriding what the buttons set themselves.</p>
+ * <p>By default the buttons sit with a small gap between them. With <code>connected</code> they sit
+ * 2px apart with rounded outer corners, for a set such as bold, italic and underline toggles.</p>
+ * <p>The group is layout only: it adds no group role, keyboard handling or selection, so each
+ * button keeps its own focus stop and toggle state. For choosing one or several options from a
+ * set use <code>wc-segmented-button-group</code>.</p>
+ *
  * @example
  * ```html
  * <wc-button-group connected>
@@ -43,7 +52,7 @@ class ButtonGroup extends LitElement {
 
   /**
    * Button size.
-   * Possible values are `"sm"`, `"md"`, `"lg"`. Defaults to `"md"`.
+   * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
    */
   @property({ reflect: true }) size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
@@ -70,13 +79,6 @@ class ButtonGroup extends LitElement {
     | 'filled'
     | 'tonal'
     | 'outlined';
-
-  override willUpdate(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has('size')) {
-      const size = migrateLegacySize('wc-button-group', this.size);
-      if (size) this.size = size;
-    }
-  }
 
   override updated() {
     this._syncButtonProperties();

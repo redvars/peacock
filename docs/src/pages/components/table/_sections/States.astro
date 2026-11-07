@@ -12,9 +12,11 @@ import dataSource from '../_data-source.json';
   under the header instead, so the current page stays readable while the next one loads.
 </p>
 <p>
-  With no rows and no loading, the empty state appears. Set its text with
-  <code>empty-state-headline</code> and <code>empty-state-description</code>, or replace it with
-  your own content in the <code>empty</code> slot.
+  With no rows and no loading, the table shows its empty state: a small
+  <code>wc-illustration</code>, a headline and a line of text. Set the text with
+  <code>empty-state-headline</code> and <code>empty-state-description</code>, or put your own
+  content in the <code>empty</code> slot, for example an illustration that fits, a call to action
+  or an "Add" button.
 </p>
 <p>
   Set <code>error</code> when loading failed: an error row takes the place of the data and its text

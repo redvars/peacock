@@ -1,19 +1,20 @@
-import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
+import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
-import { o } from './if-defined-BXZpRQ4P.js';
-import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
+import { e } from './class-map-NDIkZErE.js';
+import { o } from './if-defined-D9DEJR_6.js';
+import { i as isActivationClick, d as dispatchActivationClick } from './throttle-SQ9t-HL7.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
-import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
-import { m as mixinFormSubmitter } from './form-submitter-DPI4L6gj.js';
+import { a as mixinBaseButton, t as toggleButtonSelected, w as warnIfUnnamed, i as iconButtonLabel } from './base-button-Do2TUy8M.js';
+import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
+import { m as mixinFormSubmitter } from './form-submitter-DWwv6K9-.js';
+import { m as mixinHyperlink } from './hyperlink-DhE9RlVS.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinFormAssociated } from './form-associated-Bhwwr6dT.js';
+import { m as mixinFormAssociated } from './form-associated-D3Tn33s_.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './throttle-C7ZAPqtu.js';
+import './warn-once-BNxX1Y98.js';
 
 var css_248z$2 = i`* {
   box-sizing: border-box;
@@ -21,13 +22,35 @@ var css_248z$2 = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   position: relative;
   display: inline-flex;
@@ -190,6 +213,25 @@ var css_248z$2 = i`* {
   opacity: 0.38;
 }
 
+/* Loading: a spinner takes the icon's place */
+.loading-indicator {
+  flex-shrink: 0;
+  inline-size: var(--_button-icon-size);
+  --progress-height: var(--_button-icon-size);
+  --progress-container-color: var(--_button-label-text-color);
+  --progress-track-color: transparent;
+}
+
+:host([loading]) .fab-element {
+  cursor: progress;
+}
+:host([loading]) .fab-content slot {
+  display: none;
+}
+:host([loading]) .ripple {
+  display: none;
+}
+
 :host([variant=tonal]) {
   --_button-container-color: var(--tonal-fab-container-color);
   --_button-label-text-color: var(--tonal-fab-label-text-color);
@@ -276,16 +318,19 @@ var css_248z = i`@charset "UTF-8";
  * @tag wc-fab
  * @rawTag fab
  *
- * @summary The FAB (Floating Action Button) represents the primary action on a screen.
+ * @summary A floating action button: a prominent button for the main action of a screen, such as composing a message.
  * @overview
- * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the specification and supports four color roles and two variants.</p>
+ * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It supports four color roles and two variants.</p>
+ * <p>An icon-only FAB needs an accessible name: set <code>aria-label</code>, or a <code>tooltip</code>, which is used when no <code>aria-label</code> is set. With neither (and no <code>label</code>), a warning is logged once.</p>
+ * <p>Set <code>toggle</code> for a toggle FAB with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported on the FAB.</p>
  *
  * @cssprop --fab-container-color: Background color of the FAB container.
  * @cssprop --fab-label-text-color: Text and icon color of the FAB label.
  * @cssprop --fab-container-shape: Corner radius of the FAB. Defaults to var(--shape-corner-large).
  * @cssprop --fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.
  *
- * @fires {MouseEvent} click - Dispatched when the FAB is clicked.
+ * @fires {MouseEvent} click - Dispatched when the FAB is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` FAB after a click flips `selected`.
  *
  * @example
  * ```html
@@ -294,8 +339,14 @@ var css_248z = i`@charset "UTF-8";
  * @tags controls
  */
 let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(i$1)))))) {
+    // ── Constructor ───────────────────────────────────────────────────────────
     constructor() {
         super();
+        /**
+         * When true, the FAB is busy: it shows a spinner in place of its icon, sets `aria-busy="true"`
+         * and ignores clicks, like `soft-disabled`.
+         */
+        this.loading = false;
         /**
          * The color role of the FAB.
          * `"surface"` uses the surface color role.
@@ -321,18 +372,32 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
          * If `true`, the FAB is in a lowered (resting) state with reduced elevation.
          */
         this.lowered = false;
+        /** When true, renders the FAB as a placeholder skeleton while the page loads. */
         this.skeleton = false;
+        /**
+         * When true, the FAB is a toggle button: it renders `aria-pressed`, flips `selected` on click
+         * and fires `change`.
+         */
         this.toggle = false;
+        /** The pressed state of a `toggle` FAB. Has no effect without `toggle`. */
         this.selected = false;
+        // ── Private methods ───────────────────────────────────────────────────────
         this.__dispatchClick = (event) => {
-            // If the button is soft-disabled or a disabled link, we need to explicitly
-            // prevent the click from propagating to other event listeners as well as
-            // prevent the default action.
-            if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+            // If the button is soft-disabled, loading or a disabled link, we need to
+            // explicitly prevent the click from propagating to other event listeners
+            // as well as prevent the default action.
+            if (this.softDisabled ||
+                this.loading ||
+                (this.disabled && this.href) ||
+                this.skeleton) {
                 event.stopImmediatePropagation();
                 event.preventDefault();
                 return;
             }
+            // Each activation reaches this listener once: either the inner button's
+            // click bubbling out, or a click fired at the host and forwarded below.
+            if (!isLink(this))
+                toggleButtonSelected(this);
             if (!isActivationClick(event) || !this.buttonElement) {
                 return;
             }
@@ -341,12 +406,19 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
         };
         this.addEventListener('click', this.__dispatchClickWithThrottle);
     }
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+    firstUpdated(changedProperties) {
+        super.firstUpdated(changedProperties);
+        warnIfUnnamed(this, this.ariaLabel, this.label, this.tooltip);
+    }
+    // ── Public methods ────────────────────────────────────────────────────────
     focus() {
         this.buttonElement?.focus();
     }
     blur() {
         this.buttonElement?.blur();
     }
+    // ── Render helpers ────────────────────────────────────────────────────────
     renderDisabledReason(softDisabled) {
         if (softDisabled)
             return b `<div
@@ -369,6 +441,10 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
     }
     renderFabElement(isExtended) {
         const { ariaLabel, ariaHasPopup, ariaExpanded } = this;
+        // An extended FAB is named by its label; an icon-only one falls back to its tooltip.
+        const label = isExtended
+            ? ariaLabel
+            : iconButtonLabel(ariaLabel, this.tooltip);
         const cssClasses = {
             button: true,
             fab: true,
@@ -385,11 +461,13 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
         class=${e(cssClasses)}
         id="button"
         type="button"
-        aria-label="${ariaLabel || A}"
+        aria-label="${label || A}"
         aria-haspopup="${ariaHasPopup || A}"
         aria-expanded="${ariaExpanded || A}"
         aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : A}
+        aria-pressed=${this.toggle ? String(this.selected) : A}
+        aria-busy=${this.loading ? 'true' : A}
         ?disabled=${this.disabled}
       >
         ${this.renderFabContent(isExtended)}
@@ -402,11 +480,12 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
       href=${o(this.href)}
       target=${this.target}
       role="button"
-      aria-label="${ariaLabel || A}"
+      aria-label="${label || A}"
       aria-haspopup="${ariaHasPopup || A}"
       aria-expanded="${ariaExpanded || A}"
       aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : A}
+      aria-busy=${this.loading ? 'true' : A}
     >
       ${this.renderFabContent(isExtended)}
     </a>`;
@@ -414,6 +493,13 @@ let Fab = class Fab extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mi
     renderFabContent(isExtended) {
         return b `
       <div class="fab-content">
+        ${this.loading
+            ? b `<wc-circular-progress
+              class="loading-indicator"
+              indeterminate
+              aria-hidden="true"
+            ></wc-circular-progress>`
+            : A}
         <slot></slot>
         ${isExtended
             ? b `<span class="fab-label">${this.label}</span>`
@@ -446,6 +532,9 @@ Fab.styles = [css_248z$2, css_248z$1, css_248z];
 __decorate([
     n({ type: String })
 ], Fab.prototype, "label", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], Fab.prototype, "loading", void 0);
 __decorate([
     n({ reflect: true })
 ], Fab.prototype, "color", void 0);

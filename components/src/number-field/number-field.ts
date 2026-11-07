@@ -1,10 +1,9 @@
-import { html, nothing, type PropertyValues } from 'lit';
+import { html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { spread } from '@/__internal/directive/spread.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { FormRestoreState } from '@/__internal/mixins/form-associated.js';
 
@@ -18,7 +17,7 @@ import styles from './number-field.scss';
  * @tag wc-number-field
  * @rawTag number-field
  *
- * @summary The Number Field component is used to capture numeric user input.
+ * @summary A text field for a number, with optional buttons that step it down and up.
  * @overview
  * <p>Number Field is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
@@ -46,10 +45,6 @@ export class NumberField extends BaseField {
 
   @property({ type: Number })
   value?: number;
-
-  /** @deprecated Has no effect; it will be removed in 4.0. */
-  @property({ type: Boolean, reflect: true })
-  inline = false;
 
   @property({ type: Number })
   max?: number;
@@ -85,15 +80,6 @@ export class NumberField extends BaseField {
 
   /** Peacock's strings for the stepper buttons. */
   private readonly i18n = new I18nController(this);
-
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    super.willUpdate(changed);
-    if (changed.has('inline') && this.inline) {
-      deprecate('wc-number-field', '`inline`');
-    }
-  }
 
   // ── Public methods ───────────────────────────────────────────────────────
 

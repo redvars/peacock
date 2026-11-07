@@ -53,17 +53,17 @@ describe('AccordionItem', () => {
     expect(region.getAttribute('aria-labelledby')).to.equal(button.id);
   });
 
-  it('fires open and close with the reason, and the deprecated toggle event', async () => {
+  it('fires open and close with the reason', async () => {
     const el = await fixture<AccordionItem>(html`
       <wc-accordion-item
         ><span slot="heading">Billing</span>Body</wc-accordion-item
       >
     `);
     const events: string[] = [];
-    for (const type of ['open', 'close', 'accordion-item-toggle']) {
+    for (const type of ['open', 'close']) {
       el.addEventListener(type, event => {
         const { detail } = event as CustomEvent;
-        events.push(`${type}:${detail.reason ?? detail.open}`);
+        events.push(`${type}:${detail.reason}`);
       });
     }
 
@@ -74,12 +74,7 @@ describe('AccordionItem', () => {
     el.show();
     await el.updateComplete;
 
-    expect(events).to.deep.equal([
-      'accordion-item-toggle:true',
-      'open:action',
-      'close:api',
-      'open:api',
-    ]);
+    expect(events).to.deep.equal(['open:action', 'close:api', 'open:api']);
   });
 
   it('does not fire open for an item that starts open', async () => {
@@ -141,9 +136,7 @@ async function accordion(multiple = false) {
 describe('Accordion', () => {
   it('keeps every header in the Tab order, as in the WAI-ARIA accordion pattern', async () => {
     const { buttons } = await accordion();
-    expect(buttons.map(button => button.tabIndex)).to.deep.equal([
-      0, 0, 0, 0,
-    ]);
+    expect(buttons.map(button => button.tabIndex)).to.deep.equal([0, 0, 0, 0]);
   });
 
   it('moves focus between headers with Up, Down, Home and End', async () => {

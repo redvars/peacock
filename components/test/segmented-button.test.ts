@@ -5,7 +5,6 @@ import {
   SegmentedButton,
   SegmentedButtonGroup,
 } from '../src/segmented-button/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-segmented-button', SegmentedButton],
@@ -25,15 +24,11 @@ function click(button: SegmentedButton) {
 }
 
 describe('SegmentedButton', () => {
-  it('fires change, and the deprecated segmented-button--change, when clicked', async () => {
+  it('fires change when clicked', async () => {
     const el = await fixture<SegmentedButton>(
       html`<wc-segmented-button value="day">Day</wc-segmented-button>`,
     );
 
-    let legacy: CustomEvent | undefined;
-    el.addEventListener('segmented-button--change', event => {
-      legacy = event as CustomEvent;
-    });
     setTimeout(() => click(el));
     const event = (await oneEvent(el, 'change')) as CustomEvent<{
       value: string;
@@ -42,7 +37,6 @@ describe('SegmentedButton', () => {
 
     expect(event.detail.value).to.equal('day');
     expect(event.detail.selected).to.be.true;
-    expect(legacy?.detail.value).to.equal('day');
   });
 
   it('does nothing while disabled', async () => {
@@ -109,9 +103,9 @@ describe('SegmentedButtonGroup', () => {
     expect(segment(group, 'day').selected).to.be.false;
   });
 
-  it('toggles segments independently with multi-select', async () => {
+  it('toggles segments independently with multiple', async () => {
     const group = await fixture<SegmentedButtonGroup>(html`
-      <wc-segmented-button-group multi-select>
+      <wc-segmented-button-group multiple>
         <wc-segmented-button value="a">A</wc-segmented-button>
         <wc-segmented-button value="b">B</wc-segmented-button>
       </wc-segmented-button-group>
@@ -145,21 +139,7 @@ describe('SegmentedButtonGroup', () => {
     );
   }
 
-  it('toggles segments with multiple and still accepts multi-select', async () => {
-    const original = console.warn;
-    const warnings: string[] = [];
-    console.warn = (message: string) => warnings.push(message);
-    resetDeprecationWarnings();
-    try {
-      const legacy = await fixture<SegmentedButtonGroup>(html`
-        <wc-segmented-button-group multi-select></wc-segmented-button-group>
-      `);
-      expect(legacy.multiple).to.be.true;
-      expect(warnings.some(w => w.includes('`multi-select`'))).to.be.true;
-    } finally {
-      console.warn = original;
-    }
-
+  it('toggles segments with multiple, in segment order', async () => {
     const group = await fixture<SegmentedButtonGroup>(html`
       <wc-segmented-button-group multiple>
         <wc-segmented-button value="a">A</wc-segmented-button>

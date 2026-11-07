@@ -172,7 +172,7 @@ export class HoverCard extends LitElement {
   protected updated(changed: PropertyValues<this>) {
     if (changed.has('placement')) {
       this._floating.setOptions({
-        placement: toPhysicalPlacement(this.placement, this, 'wc-hover-card'),
+        placement: toPhysicalPlacement(this.placement, this),
       });
     }
     if (changed.has('open')) this._syncOpen(changed.get('open') === true);
@@ -220,7 +220,7 @@ export class HoverCard extends LitElement {
     this._syncDetails();
     if (this._trigger && this._card) {
       this._floating.setOptions({
-        placement: toPhysicalPlacement(this.placement, this, 'wc-hover-card'),
+        placement: toPhysicalPlacement(this.placement, this),
       });
       this._floating.setElements(this._trigger, this._card);
     }

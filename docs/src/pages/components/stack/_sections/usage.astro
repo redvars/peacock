@@ -13,9 +13,9 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <wc-stack gap='200' style='width: 100%; max-width: 320px;'>
-    <wc-text>First item</wc-text>
-    <wc-text>Second item</wc-text>
-    <wc-text>Third item</wc-text>
+    <wc-card variant='outlined'><wc-card-content>First item</wc-card-content></wc-card>
+    <wc-card variant='outlined'><wc-card-content>Second item</wc-card-content></wc-card>
+    <wc-card variant='outlined'><wc-card-content>Third item</wc-card-content></wc-card>
   </wc-stack>
 </DemoComponentCard>
 
@@ -32,7 +32,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <DemoComponentCard lang={'html'}>
   <wc-stack direction='horizontal' gap='100' align='center' justify='space-between' style='width: 100%;'>
     <wc-avatar name='Ada Lovelace'></wc-avatar>
-    <wc-text>Ada Lovelace</wc-text>
+    <span>Ada Lovelace</span>
     <wc-button>Follow</wc-button>
   </wc-stack>
 </DemoComponentCard>

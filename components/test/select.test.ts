@@ -592,20 +592,43 @@ describe('Select', () => {
     expect(el.values).to.deep.equal(['apple', 'Kiwi']);
   });
 
-  it('fires search, and the deprecated select-search, in managed mode', async () => {
+  it('resets its open state when the list closes, not when a nested close bubbles', async () => {
+    const el = await fixture<Select>(html`
+      <wc-select>
+        <wc-option value="a">A</wc-option>
+      </wc-select>
+    `);
+    const outside: Event[] = [];
+    el.addEventListener('close', e => outside.push(e));
+    trigger(el).click();
+    await settle(el);
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('true');
+
+    el.querySelector('wc-option')!.dispatchEvent(
+      new CustomEvent('close', { bubbles: true, composed: true }),
+    );
+    await settle(el);
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('true');
+
+    menuOf(el).open = false;
+    await settle(el);
+    await el.updateComplete;
+    expect(trigger(el).getAttribute('aria-expanded')).to.equal('false');
+    expect(outside).to.be.empty;
+  });
+
+  it('fires search in managed mode', async () => {
     const el = await fixture<Select>(html`
       <wc-select search="managed"></wc-select>
     `);
     const fired: string[] = [];
-    for (const type of ['search', 'select-search']) {
-      el.addEventListener(type, e =>
-        fired.push(`${type}:${(e as CustomEvent).detail.value}`),
-      );
-    }
+    el.addEventListener('search', e =>
+      fired.push((e as CustomEvent).detail.value),
+    );
     trigger(el).click();
     await settle(el);
     await typeSearch(el, 'ap');
-    expect(fired).to.deep.equal(['search:ap', 'select-search:ap']);
+    expect(fired).to.deep.equal(['ap']);
   });
 
   it('shows a loading row, then no results once managed options come back empty', async () => {

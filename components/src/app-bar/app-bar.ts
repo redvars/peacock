@@ -2,7 +2,6 @@ import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './app-bar.scss';
 import colorStyles from './app-bar-colors.scss';
 
@@ -28,14 +27,9 @@ import colorStyles from './app-bar-colors.scss';
  * <p>The app bar is not a landmark on its own, so it can sit in cards, panes and dialogs. For the
  * page's banner, put it in a <code>&lt;header&gt;</code> element.</p>
  *
- * <p>The <code>leading</code> and <code>trailing</code> slots are deprecated aliases of
- * <code>start</code> and <code>end</code> and are removed in 4.0.</p>
- *
  * @slot start - Navigation icon placed at the start of the bar.
  * @slot - Headline / title text.
  * @slot end - Action icon buttons placed at the end of the bar.
- * @slot leading - Deprecated: use `start`.
- * @slot trailing - Deprecated: use `end`.
  *
  * @cssprop --app-bar-container-color - Background color of the app bar.
  * @cssprop --app-bar-container-height - Height of the bar in small / center-aligned variants.
@@ -113,39 +107,16 @@ export class AppBar extends LitElement {
   @property({ type: Boolean, reflect: true })
   scrolled: boolean = false;
 
-  // ── Private methods ──────────────────────────────────────────────────────
-
-  /** Warns when content uses the deprecated `leading` or `trailing` slot. */
-  private handleDeprecatedSlotChange(event: Event) {
-    const slot = event.target as HTMLSlotElement;
-    if (slot.assignedNodes().length === 0) return;
-    deprecate(
-      'wc-app-bar',
-      `slot="${slot.name}"`,
-      `slot="${slot.name === 'leading' ? 'start' : 'end'}"`,
-    );
-  }
-
   // ── Render helpers ───────────────────────────────────────────────────────
 
+  // eslint-disable-next-line class-methods-use-this
   private renderStart() {
-    return html`<div class="start">
-      <slot name="start"></slot>
-      <slot
-        name="leading"
-        @slotchange=${this.handleDeprecatedSlotChange}
-      ></slot>
-    </div>`;
+    return html`<div class="start"><slot name="start"></slot></div>`;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private renderEnd() {
-    return html`<div class="end">
-      <slot name="end"></slot>
-      <slot
-        name="trailing"
-        @slotchange=${this.handleDeprecatedSlotChange}
-      ></slot>
-    </div>`;
+    return html`<div class="end"><slot name="end"></slot></div>`;
   }
 
   private renderSingleRow(cssClasses: Record<string, boolean>) {

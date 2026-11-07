@@ -13,6 +13,20 @@ export type AccordionItemReason = 'action' | 'api';
  * @rawTag accordion-item
  * @summary An expansion panel with a header that reveals or hides associated content.
  *
+ * @overview
+ * <p>Use it on its own, or several inside a <code>wc-accordion</code>, which moves focus between
+ * their headers and can keep a single panel open.</p>
+ * <p>The header is a button with <code>aria-expanded</code> that controls the content, a region
+ * labelled by the header. Clicking it, or pressing Enter or Space on it, toggles
+ * <code>open</code>. The <code>heading</code> slot holds the title and <code>description</code> an
+ * optional subtitle. Buttons in the <code>header-actions</code> slot sit next to the header
+ * button, not inside it, so they stay reachable by keyboard.</p>
+ * <p><code>open</code> fires after the panel expands and <code>close</code> after it collapses, with
+ * <code>reason: 'action'</code> when the person used the header and <code>'api'</code> when
+ * <code>open</code> was set, including by <code>show()</code>, <code>hide()</code> and
+ * <code>toggle()</code>. Neither fires for a panel that starts open. <code>disabled</code> stops
+ * the header responding, and <code>hide-toggle</code> hides the arrow icon.</p>
+ *
  * @slot - The body content revealed when the panel is expanded.
  * @slot heading - The panel title. Renders as `body-large` text.
  * @slot description - Optional subtitle rendered below the title. Renders as `body-small` text.
@@ -25,7 +39,6 @@ export type AccordionItemReason = 'action' | 'api';
  *
  * @fires {CustomEvent<{ reason: 'action' | 'api' }>} open - Fired after the panel expands: `reason` is `'action'` when the person used the header, `'api'` when `open` was set (including by a single-panel `wc-accordion` closing the others).
  * @fires {CustomEvent<{ reason: 'action' | 'api' }>} close - Fired after the panel collapses, with the same `reason`.
- * @fires {CustomEvent<{ open: boolean }>} accordion-item-toggle - Deprecated: use `open` and `close`. Fired when the person expands or collapses the panel.
  *
  * @example
  * ```html
@@ -68,10 +81,6 @@ export class AccordionItem extends LitElement {
   /** True when the `description` slot contains at least one non-empty node. */
   @state()
   private _hasDescriptionSlot = false;
-
-  /** True when the `heading` slot contains at least one non-empty node. */
-  @state()
-  private _hasHeadingSlot = false;
 
   // ── Queries
 
@@ -135,14 +144,6 @@ export class AccordionItem extends LitElement {
     if (this.disabled) return;
     this.#reason = 'action';
     this.open = !this.open;
-    // Deprecated: use `open` and `close`.
-    this.dispatchEvent(
-      new CustomEvent('accordion-item-toggle', {
-        bubbles: true,
-        composed: true,
-        detail: { open: this.open },
-      }),
-    );
   }
 
   private static _onSlotChange(e: Event, setter: (v: boolean) => void) {
@@ -190,13 +191,7 @@ export class AccordionItem extends LitElement {
           >
             <span class="header-label">
               <span part="title" class="panel-title">
-                <slot
-                  name="heading"
-                  @slotchange=${(e: Event) =>
-                    AccordionItem._onSlotChange(e, v => {
-                      this._hasHeadingSlot = v;
-                    })}
-                ></slot>
+                <slot name="heading"></slot>
               </span>
               <span
                 part="description"

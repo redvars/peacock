@@ -4,18 +4,16 @@ import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './breadcrumb-item.scss';
 import IndividualComponent from '@/IndividualComponent.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 /**
  * @label Breadcrumb Item
  * @tag wc-breadcrumb-item
  * @rawTag breadcrumb-item
- * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
+ * @summary One link in a breadcrumb trail, or the current page as plain text.
  * @overview
  * <p>The item is the list item of the breadcrumb's list (<code>role="listitem"</code> on the
  * element itself, since the list sits in the breadcrumb's shadow root). Mark the page the user is on
- * with <code>current</code>: it renders as text with <code>aria-current="page"</code>.
- * <code>active</code> is a deprecated alias of <code>current</code> and is removed in 4.0.</p>
+ * with <code>current</code>: it renders as text with <code>aria-current="page"</code>.</p>
  * @tags navigation
  *
  * @example
@@ -43,20 +41,6 @@ export class BreadcrumbItem extends LitElement {
 
   /** Whether this item is the current page. Sets `aria-current="page"`. */
   @property({ type: Boolean, reflect: true }) current = false;
-
-  /**
-   * Deprecated alias of `current`, kept until 4.0.
-   * @deprecated Use `current`.
-   */
-  @property({ type: Boolean, attribute: 'active' })
-  get active(): boolean {
-    return this.current;
-  }
-
-  set active(value: boolean) {
-    deprecate('wc-breadcrumb-item', 'active', 'current');
-    this.current = value;
-  }
 
   /**
    * Custom separator character. If not provided, default "/" is used.
@@ -95,7 +79,7 @@ export class BreadcrumbItem extends LitElement {
   render() {
     return html`
       <div
-        class=${classMap({ 'breadcrumb-item': true, active: this.current })}
+        class=${classMap({ 'breadcrumb-item': true, current: this.current })}
         itemprop="itemListElement"
         itemscope
         itemtype="https://schema.org/ListItem"

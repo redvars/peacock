@@ -4,10 +4,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
-import { writeClipboardText } from '../__internal/utils/clipboard.js';
 import { buildEditorTheme, resolvePalette } from './editor-theme.js';
 
 import styles from './code-editor.scss';
@@ -49,7 +47,6 @@ const EXTENSIONS: Record<CodeEditorLanguage, string> = {
 const THEME_NAME = 'peacock';
 
 /** How long the copy button shows its check. */
-const COPY_FEEDBACK_DURATION = 2000;
 
 /** Where the language workers are: `monaco/` beside the built component. */
 const WORKERS = new URL('./monaco/', import.meta.url);
@@ -59,18 +56,11 @@ let instances = 0;
 
 /**
  * Reads `line-numbers`: a boolean that is on by default, so `line-numbers="false"` turns it
- * off. The old `"on"` and `"off"` still work, with a deprecation warning.
+ * off.
  */
 const lineNumbersConverter = {
   fromAttribute(value: string | null): boolean {
-    if (value === 'on' || value === 'off') {
-      deprecate(
-        'wc-code-editor',
-        `line-numbers="${value}"`,
-        value === 'off' ? 'line-numbers="false"' : 'line-numbers',
-      );
-    }
-    return value !== 'off' && value !== 'false';
+    return value !== 'false';
   },
 };
 
@@ -120,23 +110,39 @@ function loadMonaco(): Promise<Monaco> {
  * @tag wc-code-editor
  * @rawTag code-editor
  *
- * @summary A Monaco-based code editing component with syntax highlighting, completions and debugging marks.
+ * @summary A code editor built on Monaco, with syntax highlighting, completions and debugging marks.
  * @overview
- *  - CodeEditor wraps Monaco Editor as a web component, in the same frame as `wc-code-highlighter`: an optional header with a title and actions, or a copy button that floats at the top end. Monaco is bundled with Peacock and loaded when the first editor appears; nothing comes from a CDN, so it works under a content security policy that allows only its own origin. The code shows as plain text until Monaco is ready.
- *  - Its colors come from the theme's color roles and the code highlighter's syntax colors, so light, dark, the system color scheme and custom themes all follow the tokens.
- *  - Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, line wrapping and a minimap.
- *  - `lib-source` adds TypeScript declarations for completions, such as the modules a script may import.
- *  - With `breakpoint-gutter`, a click in the gutter fires `breakpoint-toggle`; `breakpoints` and `current-line` draw the marks a debugger shows.
- *  - `markers` underline problems, such as where a run failed.
- *  - With `fill`, the editor drops its frame and takes the height of its container, as a pane of its own.
- *  - It is a form field: `label` shows above the editor (and names it for assistive technology), `helper-text` below it, `error` with `error-text` puts it in its error state, and `required` blocks form submission while it is empty, with the message shown below once the value is committed or the form is submitted.
- *  - `file-name` is the header title, such as `theme.css`.
- *  - Fires `input` with `{ value }` on each edit and `change` with `{ value }` when the editor loses focus after an edit.
- *  - `size` sets the size of the code text: `sm` or `md` (the default), as on `wc-code-highlighter`.
- *
- * **Breaking in 3.x:** `change` used to fire as a plain `Event` on every edit; it now fires once when the edit is committed (on blur), and `input` fires on every edit. Listen for `input` to keep the old timing.
- *
- * **Deprecated:** `label` without `file-name` still shows in the header, as before, and logs a warning; set `file-name` for the header (or `file-name=""` for none) and `label` becomes the field label above the editor. In 4.0 `label` is always the field label. `line-numbers="on"` and `line-numbers="off"` still work; `line-numbers` is now a boolean that is on by default, so use `line-numbers="false"` (or the `lineNumbers = false` property) to hide them.
+ * <ul>
+ * <li>CodeEditor wraps Monaco Editor as a web component, in the same frame as
+ * <code>wc-code-highlighter</code>: an optional header with a title and actions, or a copy button
+ * that floats at the top end. Monaco is bundled with Peacock and loaded when the first editor
+ * appears; nothing comes from a CDN, so it works under a content security policy that allows only
+ * its own origin. The code shows as plain text until Monaco is ready.</li>
+ * <li>Its colors come from the theme's color roles and the code highlighter's syntax colors, so
+ * light, dark, the system color scheme and custom themes all follow the tokens.</li>
+ * <li>Supports TypeScript, JavaScript, JSON, HTML, CSS, SCSS and Markdown, with completions and
+ * errors for TypeScript, JavaScript and JSON; read-only mode, line numbers, line wrapping and a
+ * minimap.</li>
+ * <li><code>lib-source</code> adds TypeScript declarations for completions, such as the modules a
+ * script may import.</li>
+ * <li>With <code>breakpoint-gutter</code>, a click in the gutter fires
+ * <code>breakpoint-toggle</code>; <code>breakpoints</code> and <code>current-line</code> draw the
+ * marks a debugger shows.</li>
+ * <li><code>markers</code> underline problems, such as where a run failed.</li>
+ * <li>With <code>fill</code>, the editor drops its frame and takes the height of its container, as
+ * a pane of its own.</li>
+ * <li>It is a form field: <code>label</code> shows above the editor (and names it for assistive
+ * technology), <code>helper-text</code> below it, <code>error</code> with <code>error-text</code>
+ * puts it in its error state, and <code>required</code> blocks form submission while it is empty,
+ * with the message shown below once the value is committed or the form is submitted.</li>
+ * <li><code>file-name</code> is the header title, such as <code>theme.css</code>.</li>
+ * <li>Fires <code>input</code> with <code>{ value }</code> on each edit and <code>change</code> with
+ * <code>{ value }</code> when the editor loses focus after an edit.</li>
+ * <li><code>size</code> sets the size of the code text: <code>sm</code> or <code>md</code> (the
+ * default), as on <code>wc-code-highlighter</code>.</li>
+ * <li>Line numbers show by default; <code>line-numbers="false"</code> (or the
+ * <code>lineNumbers = false</code> property) hides them.</li>
+ * </ul>
  *
  * @slot title - Header title content. Overrides `file-name` and shows the header.
  * @slot icon - Icon shown before the title in the header.
@@ -156,7 +162,8 @@ function loadMonaco(): Promise<Monaco> {
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched on each edit.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the editor loses focus after an edit.
- * @fires {CustomEvent<{value: string}>} copied - Dispatched after the copy button copies the content.
+ * @fires {CustomEvent<{value: string}>} copied - Dispatched by the copy button (`wc-copy-button`) after it copies the content.
+ * @fires {CustomEvent<{value: string, error: unknown}>} copy-error - Dispatched by the copy button when the content could not be copied.
  * @fires {CustomEvent<{line: number}>} breakpoint-toggle - Dispatched when the gutter of a line is clicked, with `breakpoint-gutter` set. The component does not change `breakpoints` itself.
  *
  * @example
@@ -189,16 +196,13 @@ export class CodeEditor extends BaseInput {
   @property({ type: String })
   language: CodeEditorLanguage = 'javascript';
 
-  /**
-   * Label shown above the editor; also its accessible name. Until 4.0, a `label` without
-   * `file-name` shows in the header instead, as it used to (deprecated).
-   */
+  /** Label shown above the editor; also its accessible name. */
   @property({ type: String })
   label = '';
 
-  /** Header title, such as a file name. Shows the header; `""` shows none. */
+  /** Header title, such as a file name. Shows the header when set. */
   @property({ type: String, attribute: 'file-name' })
-  fileName: string | undefined = undefined;
+  fileName = '';
 
   /** Help text shown below the editor. */
   @property({ type: String, attribute: 'helper-text' })
@@ -219,10 +223,7 @@ export class CodeEditor extends BaseInput {
   @property({ type: Object, attribute: false })
   compilerOptions: Record<string, unknown> | undefined;
 
-  /**
-   * Whether line numbers show in the gutter. On by default; `line-numbers="false"` hides them.
-   * The old `"on"` and `"off"` still work (deprecated).
-   */
+  /** Whether line numbers show in the gutter. On by default; `line-numbers="false"` hides them. */
   @property({ attribute: 'line-numbers', converter: lineNumbersConverter })
   lineNumbers = true;
 
@@ -276,9 +277,6 @@ export class CodeEditor extends BaseInput {
   /** Whether the editor text has focus. */
   @state() private hasFocus = false;
 
-  /** Whether the copy button was just used; shows a check for a moment. */
-  @state() private _copied = false;
-
   /** The Monaco editor instance, once loaded. */
   @state() private editorMonacoInstance?: any;
 
@@ -307,9 +305,6 @@ export class CodeEditor extends BaseInput {
 
   /** Re-renders when slotted header content is added or removed. */
   private __childObserver?: MutationObserver;
-
-  /** Resets the copied state of the copy button. */
-  private __copiedTimer?: ReturnType<typeof setTimeout>;
 
   /** The declarations added for `libSource`. */
   private __lib?: { dispose(): void }[];
@@ -344,33 +339,12 @@ export class CodeEditor extends BaseInput {
     this.__unobserveTheme?.();
     this.__colorScheme?.removeEventListener('change', this.__applyTheme);
     this.__childObserver?.disconnect();
-    clearTimeout(this.__copiedTimer);
     this.__lib?.forEach(lib => lib.dispose());
     this.__lib = undefined;
     const model = this.editorMonacoInstance?.getModel();
     this.editorMonacoInstance?.dispose();
     model?.dispose();
     this.editorMonacoInstance = undefined;
-  }
-
-  protected override willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    if (
-      (changedProperties.has('label') || changedProperties.has('fileName')) &&
-      this.__labelInHeader
-    ) {
-      deprecate('wc-code-editor', '`label` as the header title', '`file-name`');
-    }
-    // The old string values, set as a property.
-    const lineNumbers = this.lineNumbers as unknown;
-    if (lineNumbers === 'on' || lineNumbers === 'off') {
-      deprecate(
-        'wc-code-editor',
-        `lineNumbers = '${lineNumbers}'`,
-        'a boolean',
-      );
-      this.lineNumbers = lineNumbers === 'on';
-    }
   }
 
   protected firstUpdated() {
@@ -573,21 +547,6 @@ export class CodeEditor extends BaseInput {
 
   // ── Private methods
 
-  /** Whether `label` shows in the header, the 3.x behaviour without `file-name` (deprecated). */
-  private get __labelInHeader(): boolean {
-    return this.fileName === undefined && !!this.label;
-  }
-
-  /** The header title: `file-name`, or the deprecated `label` in the header. */
-  private get __headerTitle(): string {
-    return this.fileName ?? (this.__labelInHeader ? this.label : '');
-  }
-
-  /** The label shown above the editor. */
-  private get __fieldLabel(): string {
-    return this.__labelInHeader ? '' : this.label;
-  }
-
   /** Monaco's accessible name. */
   private get __accessibleName(): string {
     return this.label || this.fileName || this.i18n.t('codeEditor');
@@ -742,27 +701,18 @@ export class CodeEditor extends BaseInput {
     );
   }
 
-  private async __handleCopyClick() {
-    const value = this.editorMonacoInstance?.getValue() ?? this.value ?? '';
-    try {
-      await writeClipboardText(value);
-    } catch {
-      // Nothing was copied: no "Copied" feedback and no copied event.
-      return;
-    }
-    this._copied = true;
-    clearTimeout(this.__copiedTimer);
-    this.__copiedTimer = setTimeout(() => {
-      this._copied = false;
-    }, COPY_FEEDBACK_DURATION);
-    this.dispatchEvent(
-      new CustomEvent('copied', {
-        detail: { value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
+  /**
+   * Hands the copy button the editor's current text just before it copies: a capture listener on
+   * the button runs before the button's own click handler, and the text changes as the person
+   * types without a re-render.
+   */
+  private __prepareCopy = {
+    handleEvent: (event: Event) => {
+      const button = event.currentTarget as HTMLElement & { value?: string };
+      button.value = this.editorMonacoInstance?.getValue() ?? this.value ?? '';
+    },
+    capture: true,
+  };
 
   private __handleWrapClick() {
     this.wrap = !this.wrap;
@@ -778,7 +728,6 @@ export class CodeEditor extends BaseInput {
 
   private renderActions(floating: boolean, showBadge: boolean) {
     const wrapLabel = this.i18n.t(this.wrap ? 'unwrapLines' : 'wrapLines');
-    const copyLabel = this.i18n.t(this._copied ? 'copied' : 'copyToClipboard');
     return html`
       <div
         class=${classMap({
@@ -808,20 +757,12 @@ export class CodeEditor extends BaseInput {
           : nothing}
         ${this.hideCopy
           ? nothing
-          : html`<wc-icon-button
+          : html`<wc-copy-button
               class="copy-button"
-              variant="text"
               size="xs"
-              shape="round"
-              color=${this._copied ? 'success' : 'surface'}
-              aria-label=${copyLabel}
-              tooltip=${copyLabel}
-              @click=${this.__handleCopyClick}
-            >
-              <wc-icon
-                name=${this._copied ? 'check' : 'content_copy'}
-              ></wc-icon>
-            </wc-icon-button>`}
+              label=${this.i18n.t('copyToClipboard')}
+              @click=${this.__prepareCopy}
+            ></wc-copy-button>`}
       </div>
     `;
   }
@@ -831,7 +772,7 @@ export class CodeEditor extends BaseInput {
       <div class="header" part="header">
         <slot name="icon"></slot>
         <div class="title" part="title">
-          <slot name="title">${this.__headerTitle}</slot>
+          <slot name="title">${this.fileName}</slot>
         </div>
         ${this.renderActions(false, showBadge)}
       </div>
@@ -839,10 +780,9 @@ export class CodeEditor extends BaseInput {
   }
 
   private renderFieldLabel() {
-    const label = this.__fieldLabel;
-    if (!label) return nothing;
+    if (!this.label) return nothing;
     return html`<div class="field-label" part="label">
-      ${label}${this.required
+      ${this.label}${this.required
         ? html`<span class="required" aria-hidden="true">*</span>`
         : nothing}
     </div>`;
@@ -857,7 +797,7 @@ export class CodeEditor extends BaseInput {
   // ── Render
 
   render() {
-    const hasHeader = !!this.__headerTitle || this.__hasSlotted('title');
+    const hasHeader = !!this.fileName || this.__hasSlotted('title');
     const showBadge =
       this.showReadonlyBadge && (this.disabled || this.readonly);
     const hasActions =
@@ -904,9 +844,6 @@ ${this.value}</pre
             : nothing}
         </div>
         <span class="probe" aria-hidden="true"></span>
-        <span class="sr-only" aria-live="polite"
-          >${this._copied ? this.i18n.t('copiedCode') : ''}</span
-        >
       </div>
       ${this.renderFooter()}
     `;

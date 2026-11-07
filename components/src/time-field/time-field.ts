@@ -1,4 +1,4 @@
-import { html, type PropertyValues } from 'lit';
+import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
@@ -10,7 +10,6 @@ import {
   parseTimeText,
   resolveHourCycle,
 } from '@/__internal/utils/date.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './time-field.scss';
 
 /** Compares two ISO times, with or without seconds. */
@@ -56,12 +55,6 @@ export class TimeField extends PickerField {
   /** Minutes between entries in the picker's minute column. */
   @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /**
-   * @deprecated Use `minute-step`. Minutes between entries in the minute column; unlike the native
-   * `step`, which counts seconds. Removed in 4.0.
-   */
-  @property({ type: Number }) step?: number;
-
   /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
@@ -80,16 +73,6 @@ export class TimeField extends PickerField {
 
   protected get pickerLabel(): string {
     return this.i18n.t('chooseTime');
-  }
-
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('step') && this.step !== undefined) {
-      deprecate('wc-time-field', '`step`', '`minute-step`');
-      this.minuteStep = this.step;
-    }
-    super.willUpdate(changed);
   }
 
   // ── Protected methods ────────────────────────────────────────────────────

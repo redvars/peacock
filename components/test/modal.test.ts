@@ -21,14 +21,6 @@ function panel(el: Modal): HTMLElement {
   return container;
 }
 
-function silenceWarnings() {
-  const original = console.warn;
-  console.warn = () => {};
-  return () => {
-    console.warn = original;
-  };
-}
-
 describe('Modal', () => {
   it('opens a native dialog in the top layer', async () => {
     const el = await fixture<Modal>(
@@ -109,14 +101,9 @@ describe('Modal', () => {
     const el = await fixture<Modal>(html`<wc-modal open>Body</wc-modal>`);
     await el.updateComplete;
 
-    let legacyReason = '';
-    el.addEventListener('modal-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => el.hide());
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('api');
-    expect(legacyReason).to.equal('programmatic');
 
     await el.updateComplete;
     await Promise.all(
@@ -135,7 +122,7 @@ describe('Modal', () => {
     setTimeout(() =>
       nativeDialog(el).dispatchEvent(new Event('cancel', { cancelable: true })),
     );
-    const event = await oneEvent(el, 'modal-close');
+    const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('escape');
     expect(el.open).to.equal(false);
   });
@@ -160,18 +147,18 @@ describe('Modal', () => {
     expect(event.detail.reason).to.equal('light-dismiss');
   });
 
-  it('still honours the deprecated no-scrim-close', async () => {
-    const restore = silenceWarnings();
-    try {
-      const el = await fixture<Modal>(
-        html`<wc-modal open no-scrim-close>Body</wc-modal>`,
-      );
-      await el.updateComplete;
-      el.shadowRoot!.querySelector<HTMLElement>('.dialog-wrapper')!.click();
-      expect(el.open).to.equal(true);
-    } finally {
-      restore();
-    }
+  it('shows a loader and marks the dialog busy while loading', async () => {
+    const el = await fixture<Modal>(
+      html`<wc-modal open loading>Body</wc-modal>`,
+    );
+    await el.updateComplete;
+    expect(nativeDialog(el).getAttribute('aria-busy')).to.equal('true');
+    expect(el.shadowRoot?.querySelector('.dialog-loader')).to.exist;
+
+    el.loading = false;
+    await el.updateComplete;
+    expect(nativeDialog(el).hasAttribute('aria-busy')).to.equal(false);
+    expect(el.shadowRoot?.querySelector('.dialog-loader')).to.equal(null);
   });
 
   it('closes on an Escape keypress, and only the topmost of two modals', async () => {
@@ -215,12 +202,15 @@ describe('Modal', () => {
   });
 
   it('focuses an autofocus element, fires open, and returns focus on close', async () => {
+    // The modal moves focus to [autofocus] itself; that is the behaviour under test.
+    /* eslint-disable lit-a11y/no-autofocus */
     const wrapper = await fixture<HTMLDivElement>(html`
       <div>
         <button id="opener">Open</button>
         <wc-modal><button id="ok" autofocus>OK</button></wc-modal>
       </div>
     `);
+    /* eslint-enable lit-a11y/no-autofocus */
     const opener = wrapper.querySelector<HTMLButtonElement>('#opener')!;
     const el = wrapper.querySelector<Modal>('wc-modal')!;
     opener.focus();

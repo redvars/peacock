@@ -4,7 +4,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import BaseInput, {
   type ControlValidity,
   nativeValidity,
@@ -23,10 +22,9 @@ const clearableConverter = {
  * @tag wc-search
  * @rawTag search
  *
- * @summary A search bar for filtering and finding content.
+ * @summary A search box with a search icon and a clear button, for finding or filtering content.
  * @overview
- * <p>The search component provides a text input designed for search interactions.
- * It has the field variants (<code>default</code>, <code>filled</code>, <code>outlined</code>), a
+ * <p>Search has the field variants (<code>default</code>, <code>filled</code>, <code>outlined</code>), a
  * clear button, and <code>start</code>/<code>end</code> slots for icons and actions.</p>
  * <p><code>label</code> is the accessible name of the search box (it is not shown); without it the
  * placeholder names it.</p>
@@ -38,13 +36,9 @@ const clearableConverter = {
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.
  * It shows no validation message, so use <code>wc-input</code> for a search term that must be
  * validated.</p>
- * <p>Deprecated: the <code>leading</code> and <code>trailing</code> slots still work until 4.0; use
- * <code>start</code> and <code>end</code>.</p>
  *
  * @slot start - Leading content; replaces the search icon.
  * @slot end - Trailing content, after the clear button.
- * @slot leading - Deprecated: use `start`.
- * @slot trailing - Deprecated: use `end`.
  *
  * @cssprop --search-container-shape - Border radius of the search bar. Defaults to full (pill shape).
  * @cssprop --search-container-color - Background color of the search container.
@@ -204,17 +198,6 @@ export class Search extends BaseInput {
     this.__emit('change');
   }
 
-  /** Content in the old `leading`/`trailing` slots still renders, with a deprecation warning. */
-  private __handleDeprecatedSlotChange(event: Event) {
-    const slot = event.target as HTMLSlotElement;
-    if (!slot.assignedNodes().length) return;
-    deprecate(
-      'wc-search',
-      `the \`${slot.name}\` slot`,
-      slot.name === 'leading' ? '`start`' : '`end`',
-    );
-  }
-
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private __renderClearButton() {
@@ -237,9 +220,7 @@ export class Search extends BaseInput {
     return html`
       <div class="leading-icon">
         <slot name="start">
-          <slot name="leading" @slotchange=${this.__handleDeprecatedSlotChange}>
-            <wc-icon name="search"></wc-icon>
-          </slot>
+          <wc-icon name="search"></wc-icon>
         </slot>
       </div>
     `;
@@ -288,10 +269,6 @@ export class Search extends BaseInput {
         <div class="trailing-actions">
           ${this.__renderClearButton()}
           <slot name="end"></slot>
-          <slot
-            name="trailing"
-            @slotchange=${this.__handleDeprecatedSlotChange}
-          ></slot>
         </div>
       </div>
     `;

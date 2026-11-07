@@ -1,4 +1,4 @@
-import { html, LitElement, nothing, type PropertyValues } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -13,7 +13,6 @@ import { mixinBaseButton } from '@/button/base-button/base-button.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
 import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 /** Where a list item sits among its sibling items; set by `wc-list`. */
 export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
@@ -23,7 +22,7 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @tag wc-list-item
  * @rawTag list-item
  *
- * @summary A list item with start, end and content slots.
+ * @summary One row of a list, with a label, optional text above and below it, and leading and trailing content.
  *
  * @slot - The item's label.
  * @slot start - Leading content, such as an icon or avatar.
@@ -32,8 +31,6 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @slot headline - The label, as an alternative to the default slot.
  * @slot supporting-text - Text below the label.
  * @slot trailing-supporting-text - Short text before the `end` slot, such as a count.
- * @slot leading - Deprecated: use `start`. Rendered in the same place.
- * @slot trailing - Deprecated: use `end`. Rendered in the same place.
  *
  * @cssprop --list-item-container-color - Row background.
  * @cssprop --list-item-label-text-color - Label color.
@@ -46,9 +43,8 @@ export type ListItemPosition = 'first' | 'middle' | 'last' | 'only';
  * @cssprop --list-item-outer-container-shape - Corner radius of the outer corners of the first and last rows (set by `wc-list` in the segmented variant).
  *
  * @overview
- * <p>Deprecated: <code>selected</code>, which is visual only. Use <code>current</code> for the
- * row of the current page in a navigation list, or <code>wc-listbox</code> to let the person
- * choose items.</p>
+ * <p>Use <code>current</code> for the row of the current page in a navigation list, or
+ * <code>wc-listbox</code> to let the person choose items.</p>
  *
  * @example
  * ```html
@@ -78,16 +74,9 @@ export class ListItem extends mixinBaseButton(
 
   /**
    * Marks the row of the current page or location in a navigation list: `aria-current="page"`
-   * on a link row, `aria-current="true"` otherwise. Styled like the old `selected`.
+   * on a link row, `aria-current="true"` otherwise.
    */
   @property({ type: Boolean, reflect: true }) current = false;
-
-  /**
-   * Shows the row as selected, actionable or not. Visual only: it tells assistive technology
-   * nothing.
-   * @deprecated Use `current` for navigation, or `wc-listbox` to let the person choose items.
-   */
-  @property({ type: Boolean, reflect: true }) selected = false;
 
   /**
    * When true, renders the list-item as a placeholder (a skeleton) while its content is not known
@@ -141,17 +130,6 @@ export class ListItem extends mixinBaseButton(
   disconnectedCallback() {
     this._contentObserver.disconnect();
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    super.willUpdate(changed);
-    if (changed.has('selected') && this.selected) {
-      deprecate(
-        'wc-list-item',
-        '`selected`',
-        '`current` (navigation) or wc-listbox (selection)',
-      );
-    }
   }
 
   protected override updated() {
@@ -261,11 +239,10 @@ export class ListItem extends mixinBaseButton(
   }
 
   renderContent(clickable: boolean) {
-    // `leading` / `trailing` are deprecated aliases of `start` / `end`; both
-    // land in the same wc-item slot. The slots are rendered only when used so
-    // an empty start or end column does not take up space.
-    const hasStart = this.__hasNamedSlot('start', 'leading');
-    const hasEnd = this.__hasNamedSlot('end', 'trailing');
+    // The start and end slots are rendered only when used so an empty start or
+    // end column does not take up space.
+    const hasStart = this.__hasNamedSlot('start');
+    const hasEnd = this.__hasNamedSlot('end');
     const hasTrailingSupportingText = this.__hasNamedSlot(
       'trailing-supporting-text',
     );
@@ -288,8 +265,7 @@ export class ListItem extends mixinBaseButton(
         <wc-skeleton class="skeleton" slot="container"></wc-skeleton>
 
         ${hasStart
-          ? html`<slot class="icon-slot" name="start" slot="start"></slot
-              ><slot class="icon-slot" name="leading" slot="start"></slot>`
+          ? html`<slot class="icon-slot" name="start" slot="start"></slot>`
           : nothing}
         <slot name="overline" slot="overline"></slot>
         <slot name="headline" slot="headline"></slot>
@@ -302,8 +278,7 @@ export class ListItem extends mixinBaseButton(
             ></slot>`
           : nothing}
         ${hasEnd
-          ? html`<slot class="icon-slot" name="end" slot="end"></slot
-              ><slot class="icon-slot" name="trailing" slot="end"></slot>`
+          ? html`<slot class="icon-slot" name="end" slot="end"></slot>`
           : nothing}
       </wc-item>
     `;

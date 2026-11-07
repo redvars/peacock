@@ -343,7 +343,6 @@ export class Tour extends LitElement {
         placement: toPhysicalPlacement(
           step.placement ?? 'bottom',
           this,
-          'wc-tour',
         ),
       });
       this.floating.setElements(target, popup);

@@ -5,14 +5,17 @@ import { NavigationRailItem } from './navigation-rail-item.js';
  * @tag wc-navigation-rail
  * @rawTag navigation-rail
  *
- * @summary A vertical side navigation for medium-sized screens,.
+ * @summary A vertical side navigation for medium-sized screens.
  * @overview
  * <p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>
- * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>
+ * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations. Clicking an item makes it the
+ * current one (<code>aria-current="page"</code>) and fires <code>change</code>.</p>
  *
+ * @slot - The rail items.
  * @slot header - Content displayed above the rail items.
  * @slot footer - Content pinned to the bottom of the rail.
  *
+ * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationRailItem}>} change - Dispatched when the user activates an item. *
  * @cssprop --nav-rail-width - Width of the rail container. Defaults to 5rem (80dp).
  * @cssprop --nav-rail-container-color - Background color of the rail. Defaults to surface color.
  * @cssprop --nav-rail-indicator-color - Color of the active indicator. Defaults to secondary-container.
@@ -27,7 +30,7 @@ import { NavigationRailItem } from './navigation-rail-item.js';
  * @example
  * ```html
  * <wc-navigation-rail>
- *   <wc-navigation-rail-item active>
+ *   <wc-navigation-rail-item current>
  *     <wc-icon slot="icon" name="home"></wc-icon>
  *     Home
  *   </wc-navigation-rail-item>
@@ -48,16 +51,21 @@ export declare class NavigationRail extends LitElement {
      * - `"collapsed"`: hides labels.
      */
     mode: 'expanded' | 'collapsed';
-    /**
-     * Whether to show a divider between the header and items sections.
-     */
+    /** Whether to show a divider between the header and items sections. */
     showDivider: boolean;
+    /** Peacock's strings for the default landmark label. */
+    private readonly i18n;
+    /** The `aria-label` the rail set itself, so it follows the string table until the author sets one. */
+    private defaultLabel?;
     connectedCallback(): void;
     disconnectedCallback(): void;
+    protected willUpdate(): void;
     protected firstUpdated(): void;
     protected updated(changedProperties: PropertyValues<this>): void;
-    private _handleItemClick;
-    private _getItems;
-    private _syncItemMode;
+    private handleItemClick;
+    /** Gives the landmark the default label unless the author set one. */
+    private syncLabel;
+    private getItems;
+    private syncItemMode;
     render(): import("lit-html").TemplateResult<1>;
 }

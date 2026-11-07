@@ -7,7 +7,7 @@ const warned = new Set<string>();
  * migrate (ADR-030001). Pass the component tag, the old API and its replacement.
  *
  * @example
- * deprecate('wc-input', 'type="password"', 'wc-password-field');
+ * deprecate('wc-example', '`old-name`', '`new-name`');
  */
 export function deprecate(
   tag: string,

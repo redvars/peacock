@@ -13,7 +13,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
 <DemoComponentCard lang={'html'}>
   <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
-    <wc-datetime-field id='datetime-field-demo' label='Meeting' value='2026-11-06T09:30' step='15'></wc-datetime-field>
+    <wc-datetime-field id='datetime-field-demo' label='Meeting' value='2026-11-06T09:30' minute-step='15'></wc-datetime-field>
     <wc-datetime-field label='Deadline' min='2026-11-06T09:00' helper-text='From November 6, 9:00 AM'></wc-datetime-field>
   </div>
   <script is:inline>

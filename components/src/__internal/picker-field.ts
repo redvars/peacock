@@ -259,10 +259,6 @@ export default abstract class PickerField extends BaseField {
     else this.handlePopoverClose();
   };
 
-  private static stopEvent(event: Event) {
-    event.stopPropagation();
-  }
-
   private handlePopoverOpen() {
     this.pickerOpen = true;
   }
@@ -308,8 +304,6 @@ export default abstract class PickerField extends BaseField {
         @keydown=${this.handleKeyDown}
         @open=${this.handleOverlayEvent}
         @close=${this.handleOverlayEvent}
-        @wc-popover--open=${PickerField.stopEvent}
-        @wc-popover--close=${PickerField.stopEvent}
       >
         ${this.renderField(
           html`<input

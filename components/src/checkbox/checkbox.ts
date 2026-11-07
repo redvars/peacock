@@ -12,10 +12,10 @@ import styles from './checkbox.scss';
  * @label Checkbox
  * @tag wc-checkbox
  * @rawTag checkbox
- * @summary Captures boolean input with an optional indeterminate mode.
+ * @summary A box the person checks to turn an option on or off, with a mixed state for a partly checked group.
  * @overview
- * <p>Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off.</p>
- * <p>checkboxes feature a smooth animation and clear visual states for checked, unchecked, and indeterminate.</p>
+ * <p>Set <code>indeterminate</code> for the mixed state, such as on a checkbox for a group whose
+ * items are only partly checked.</p>
  * <p>The checkbox is form-associated: when <code>checked</code>, it submits its <code>value</code>
  * (<code>on</code> by default) under its <code>name</code>. With <code>required</code> it blocks form
  * submission until it is checked.</p>

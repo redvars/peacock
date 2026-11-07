@@ -1,7 +1,6 @@
 import { html, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import {
   type FormRestoreState,
   type FormValue,
@@ -36,19 +35,13 @@ export default abstract class ToggleBase extends BaseInput {
 
   /**
    * The value submitted with a form while checked. Defaults to `"on"` for checkboxes and switches.
-   * Setting a boolean is deprecated: it sets `checked`, as the old `value` alias did.
    */
   @property({ type: String })
   get value(): string {
     return this.toggleValue;
   }
 
-  set value(value: string | boolean) {
-    if (typeof value === 'boolean') {
-      deprecate(this.localName, 'setting `value` to a boolean', '`checked`');
-      this.checked = value;
-      return;
-    }
+  set value(value: string) {
     const old = this.toggleValue;
     this.toggleValue = value ?? '';
     this.requestUpdate('value', old);
@@ -206,7 +199,7 @@ export default abstract class ToggleBase extends BaseInput {
 
   /**
    * Fires `change`. `detail.checked` is the new state and `detail.value` the submitted value
-   * while checked. (`detail.value` was the boolean state before 3.18.)
+   * while checked.
    */
   protected dispatchChange(originalEvent?: Event) {
     this.dispatchEvent(

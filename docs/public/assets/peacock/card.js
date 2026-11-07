@@ -1,14 +1,13 @@
-import { i, a as i$1, A, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, a as i$1, A, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
-import { o } from './if-defined-BXZpRQ4P.js';
-import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
+import { e } from './class-map-NDIkZErE.js';
+import { o } from './if-defined-D9DEJR_6.js';
+import { i as isActivationClick, d as dispatchActivationClick, t as throttle } from './throttle-SQ9t-HL7.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
-import { t as throttle } from './throttle-C7ZAPqtu.js';
-import { N as NativeHyperlinkMixin } from './NativeHyperlinkMixin-D9J4aBTy.js';
+import { N as NativeHyperlinkMixin } from './NativeHyperlinkMixin-WdY0fM-H.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -18,13 +17,35 @@ var css_248z$1 = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   position: relative;
   display: block;
@@ -123,7 +144,7 @@ var css_248z$1 = i`* {
   display: block;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   background-color: var(--_container-color);
@@ -150,7 +171,7 @@ var css_248z$1 = i`* {
   z-index: 0;
   display: none;
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   width: 100%;
   height: 100%;
@@ -284,7 +305,21 @@ const DISABLED_REASON_ID = 'disabled-reason';
  * @label Card
  * @tag wc-card
  * @rawTag card
- * @summary A surface that groups content and actions about one subject. Set `actionable` to make the whole card a button, or `href` to make it a link.
+ * @summary A surface that groups content and actions about one subject.
+ *
+ * @overview
+ * <p>A card is <code>elevated</code> (the default), <code>filled</code> or <code>outlined</code>.
+ * It adds no padding of its own: put text in <code>wc-card-content</code>, which can sit next to
+ * edge-to-edge media.</p>
+ * <p>Set <code>actionable</code> to make the whole card a single button that fires
+ * <code>click</code>, or <code>href</code> (with <code>target</code>, <code>rel</code> and
+ * <code>download</code>) to make it a link. The content of an actionable or link card is inert, so
+ * don't put buttons or links inside one; use a plain card with its own actions instead.
+ * <code>throttle-delay</code> throttles activation.</p>
+ * <p><code>disabled</code> dims the card and makes its content inert; an actionable or link card
+ * also stops responding to clicks and leaves the tab order. With <code>disabled-reason</code> it
+ * stays focusable and screen readers read the reason with it.</p>
+ *
  * @cssprop --card-container-shape - Corner radius of the card. Defaults to `--shape-corner-large`.
  * @cssprop --card-padding - Padding inside the card, around its children. Defaults to 0; `wc-card-content` adds its own padding.
  * @cssprop --card-gap - Gap between the card's children. Defaults to 0.

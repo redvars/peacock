@@ -140,6 +140,7 @@ export class AttachableController implements ReactiveController, Attachable {
       (shadowHost as HTMLElement | null)
     );
   }
+
   set control(control: HTMLElement | null) {
     if (control) {
       this.attach(control);

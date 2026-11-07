@@ -90,29 +90,31 @@ describe('SplitButton', () => {
     expect(document.activeElement === items[1]).to.be.true;
   });
 
-  it('reports toggle-menu and keeps the menu open/close events inside', async () => {
+  it('fires its own open and close, with the menu reason, in place of the menu events', async () => {
     const el = await fixture<SplitButton>(html`
       <wc-split-button>
         Save
         <wc-menu-item slot="menu">Draft</wc-menu-item>
       </wc-split-button>
     `);
-    const toggles: boolean[] = [];
-    const leaked: string[] = [];
-    el.addEventListener('toggle-menu', event =>
-      toggles.push((event as CustomEvent<{ open: boolean }>).detail.open),
-    );
-    for (const type of ['open', 'close']) {
-      document.addEventListener(type, () => leaked.push(type), { once: true });
-    }
+    const seen: string[] = [];
+    const record = (event: Event) => {
+      const { reason } =
+        (event as CustomEvent<{ reason?: string } | null>).detail ?? {};
+      const from = event.target === el ? 'host' : 'inner';
+      seen.push([event.type, from, reason].filter(Boolean).join(':'));
+    };
+    document.addEventListener('open', record);
+    document.addEventListener('close', record);
 
     el.show();
     await settle(el);
-    el.close();
+    parts(el).menu.close({ kind: 'keydown', key: 'Escape' });
     await settle(el);
 
-    expect(toggles).to.deep.equal([true, false]);
-    expect(leaked).to.deep.equal([]);
+    document.removeEventListener('open', record);
+    document.removeEventListener('close', record);
+    expect(seen).to.deep.equal(['open:host', 'close:host:escape']);
   });
 
   it('closes the menu when the primary action is clicked', async () => {

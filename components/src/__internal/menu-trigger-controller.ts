@@ -1,7 +1,10 @@
 import type { ReactiveControllerHost } from 'lit';
-import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
-import { deprecate } from './utils/deprecate.js';
-import type { OverlayPlacement } from './utils/placement.js';
+import type { CloseReason } from './controllers/overlay-controller.js';
+import type {
+  Menu,
+  MenuCloseDetail,
+  MenuFocusTarget,
+} from '../menu/menu/menu.js';
 
 export interface MenuTriggerOptions {
   /** The menu the trigger opens, usually a `@query('wc-menu')` of the host. */
@@ -10,17 +13,15 @@ export interface MenuTriggerOptions {
   disabled: () => boolean;
   /** Prefix of the generated menu id, such as `dropdown-menu`. */
   idPrefix: string;
-  /** Tag of the host, named in deprecation warnings. */
-  tag: string;
 }
 
 /**
  * The menu wiring shared by buttons that open a `wc-menu` (dropdown button, split button):
  * show / close / toggle, Arrow Up / Down on the trigger, the trigger's `aria-haspopup`,
- * `aria-expanded` and `aria-controls`, and the host's `toggle-menu` event.
+ * `aria-expanded` and `aria-controls`, and the host's `open` / `close` events (ADR-030001).
  *
- * The menu's own `open` / `close` events are stopped at the host, which reports `toggle-menu`
- * instead. The host renders the menu with `id=${trigger.menuId}`, `@open=${trigger.handleMenuOpen}`
+ * The menu's own `open` / `close` events are stopped inside the host, which fires its own `open`
+ * and `close` instead; `close` carries `detail.reason` from the menu's close event. The host renders the menu with `id=${trigger.menuId}`, `@open=${trigger.handleMenuOpen}`
  * and `@close=${trigger.handleMenuClose}`, and the trigger button with
  * `.configAria=${trigger.triggerAria}`, `@click=${trigger.handleTriggerClick}` and
  * `@keydown=${trigger.handleTriggerKeyDown}`.
@@ -81,27 +82,6 @@ export class MenuTriggerController {
     }
   }
 
-  /**
-   * The placement to give the menu. The physical `left` / `right` sides are turned into the
-   * logical `start` / `end` for the writing direction, with a deprecation warning for the host.
-   */
-  menuPlacement(placement: OverlayPlacement): OverlayPlacement {
-    const [side, alignment] = placement.split('-');
-    if (side !== 'left' && side !== 'right') return placement;
-
-    const logical = alignment ? (`-${alignment}` as const) : '';
-    const rtl = getComputedStyle(this.host).direction === 'rtl';
-    const start = (side === 'left') !== rtl;
-    const replacement =
-      `${start ? 'start' : 'end'}${logical}` as OverlayPlacement;
-    deprecate(
-      this.options.tag,
-      `placement="${placement}"`,
-      `placement="${side === 'left' ? 'start' : 'end'}${logical}" (logical)`,
-    );
-    return replacement;
-  }
-
   handleTriggerClick = (event: MouseEvent) => {
     event.stopPropagation();
     if (this.options.disabled()) return;
@@ -119,26 +99,33 @@ export class MenuTriggerController {
   };
 
   handleMenuOpen = (event: Event) => {
-    this._onMenuToggle(event, true);
-  };
-
-  handleMenuClose = (event: Event) => {
-    this._onMenuToggle(event, false);
-  };
-
-  private _onMenuToggle(event: Event, open: boolean) {
-    // The menu's events are internal; the host reports `toggle-menu` instead.
-    event.stopPropagation();
-    // A submenu's `open` / `close` bubble through the menu; only the menu's own count.
-    if (event.target !== event.currentTarget) return;
-    this._open = open;
-    this.host.requestUpdate();
+    if (!this._onMenuToggle(event, true)) return;
     this.host.dispatchEvent(
-      new CustomEvent('toggle-menu', {
-        detail: { open },
+      new CustomEvent('open', { bubbles: true, composed: true }),
+    );
+  };
+
+  handleMenuClose = (event: CustomEvent<MenuCloseDetail>) => {
+    if (!this._onMenuToggle(event, false)) return;
+    this.host.dispatchEvent(
+      new CustomEvent<{ reason: CloseReason }>('close', {
+        detail: { reason: event.detail.reason },
         bubbles: true,
         composed: true,
       }),
     );
+  };
+
+  /**
+   * Stops the menu's event inside the host (the host fires its own `open` / `close`) and records
+   * the new state. Returns whether the event was the menu's own rather than a submenu's.
+   */
+  private _onMenuToggle(event: Event, open: boolean) {
+    event.stopPropagation();
+    // A submenu's `open` / `close` bubble through the menu; only the menu's own count.
+    if (event.target !== event.currentTarget) return false;
+    this._open = open;
+    this.host.requestUpdate();
+    return true;
   }
 }

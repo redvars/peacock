@@ -1,4 +1,4 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -6,13 +6,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 /**
  * Derived from Material Design Elevation
  * https://github.com/material-components/material-web/blob/main/elevation/internal/_elevation.scss
@@ -112,10 +134,21 @@ var css_248z = i`* {
  * @tag wc-elevation
  * @rawTag elevation
  *
- * @summary Adds elevation to an element.
+ * @summary A shadow layer placed inside an element to lift it off the page, with a shadow depth set per level and per side.
  * @overview
- *  - Elevation adds a shadow effect to an element to give it depth.
- *  - It can be used to create a sense of hierarchy or to draw attention to a particular element.
+ * <ul>
+ * <li>Elevation adds a shadow effect to an element to give it depth.</li>
+ * <li>It can be used to create a sense of hierarchy or to draw attention to a particular
+ * element.</li>
+ * <li>It fills its nearest positioned ancestor, so place it inside an element with
+ * <code>position: relative</code>. It ignores pointer events.</li>
+ * <li><code>--elevation-level</code> sets the level. <code>--elevation-level-block-start</code>,
+ * <code>--elevation-level-block-end</code>, <code>--elevation-level-inline-start</code> and
+ * <code>--elevation-level-inline-end</code> set the level of one side and override
+ * <code>--elevation-level</code> for it; the inline sides follow the reading direction.</li>
+ * <li>Match the shadow to the element's corners with
+ * <code>--elevation-container-shape</code>.</li>
+ * </ul>
  *
  * @cssprop --elevation-level - Controls the elevation level of the shadow.
  * @cssprop --elevation-color - Controls the color of the shadow.

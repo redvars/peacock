@@ -3,7 +3,11 @@ import { LitElement } from 'lit';
  * @label Breadcrumb Item
  * @tag wc-breadcrumb-item
  * @rawTag breadcrumb-item
- * @summary A breadcrumb item component that represents a single item in a breadcrumb navigation.
+ * @summary One link in a breadcrumb trail, or the current page as plain text.
+ * @overview
+ * <p>The item is the list item of the breadcrumb's list (<code>role="listitem"</code> on the
+ * element itself, since the list sits in the breadcrumb's shadow root). Mark the page the user is on
+ * with <code>current</code>: it renders as text with <code>aria-current="page"</code>.</p>
  * @tags navigation
  *
  * @example
@@ -21,10 +25,8 @@ export declare class BreadcrumbItem extends LitElement {
      * Sets or retrieves the window or frame at which to target content.
      */
     target?: string;
-    /**
-     * Indicates if this is the active (current) breadcrumb item.
-     */
-    active: boolean;
+    /** Whether this item is the current page. Sets `aria-current="page"`. */
+    current: boolean;
     /**
      * Custom separator character. If not provided, default "/" is used.
      */

@@ -22,9 +22,7 @@ import { selectNavigationItem } from '@/__internal/navigation-item-base.js';
  * @slot header - Content displayed above the rail items.
  * @slot footer - Content pinned to the bottom of the rail.
  *
- * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationRailItem}>} change - Dispatched when the user activates an item.
- * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationRailItem}>} nav-change - Deprecated: use `change`. Removed in 4.0.
- *
+ * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationRailItem}>} change - Dispatched when the user activates an item. *
  * @cssprop --nav-rail-width - Width of the rail container. Defaults to 5rem (80dp).
  * @cssprop --nav-rail-container-color - Background color of the rail. Defaults to surface color.
  * @cssprop --nav-rail-indicator-color - Color of the active indicator. Defaults to secondary-container.
@@ -110,19 +108,10 @@ export class NavigationRail extends LitElement {
   // ── Private methods ──────────────────────────────────────────────────────
 
   private handleItemClick = (event: Event) => {
-    const detail = selectNavigationItem<NavigationRailItem>(
+    selectNavigationItem<NavigationRailItem>(
       this,
       event,
       'wc-navigation-rail-item',
-    );
-    if (!detail) return;
-    // Deprecated name, kept until 4.0 (ADR-030001).
-    this.dispatchEvent(
-      new CustomEvent('nav-change', {
-        detail,
-        bubbles: true,
-        composed: true,
-      }),
     );
   };
 

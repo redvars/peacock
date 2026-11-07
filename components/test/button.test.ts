@@ -44,29 +44,22 @@ describe('Button', () => {
     expect(el.getAttribute('color')).to.equal('primary');
   });
 
-  it('renders a native button, or a link when href is set', async () => {
+  it('always renders a native button, even with an href attribute', async () => {
     const button = await fixture<Button>(html`<wc-button>Save</wc-button>`);
     expect(button.shadowRoot!.querySelector('#button')?.tagName).to.equal(
       'BUTTON',
     );
 
-    const link = await fixture<Button>(
+    const withHref = await fixture<Button>(
       html`<wc-button href="/docs">Docs</wc-button>`,
     );
-    const anchor = link.shadowRoot!.querySelector('#link');
-    expect(anchor?.tagName).to.equal('A');
-    expect(anchor?.getAttribute('href')).to.equal('/docs');
+    expect(withHref.shadowRoot!.querySelector('a')).to.be.null;
+    expect(withHref.shadowRoot!.querySelector('#button')?.tagName).to.equal(
+      'BUTTON',
+    );
   });
 
-  it('warns once that href is deprecated in favour of wc-link-button', async () => {
-    await fixture<Button>(html`<wc-button href="/a">A</wc-button>`);
-    await fixture<Button>(html`<wc-button href="/b">B</wc-button>`);
-    const hrefWarnings = warnings.filter(w => w.includes('`href`'));
-    expect(hrefWarnings).to.have.length(1);
-    expect(hrefWarnings[0]).to.contain('wc-link-button');
-  });
-
-  it('does not warn about href when none is set', async () => {
+  it('does not warn for a plain button', async () => {
     await fixture<Button>(html`<wc-button>Save</wc-button>`);
     expect(warnings).to.have.length(0);
   });
@@ -76,11 +69,6 @@ describe('Button', () => {
       html`<wc-button tooltip="Save the file">Save</wc-button>`,
     );
     expect(button.shadowRoot!.querySelectorAll('wc-tooltip')).to.have.length(1);
-
-    const link = await fixture<Button>(
-      html`<wc-button href="/docs" tooltip="Open docs">Docs</wc-button>`,
-    );
-    expect(link.shadowRoot!.querySelectorAll('wc-tooltip')).to.have.length(1);
   });
 
   it('renders no tooltip without the tooltip property', async () => {
@@ -167,17 +155,6 @@ describe('Button', () => {
     );
     const native = el.shadowRoot!.querySelector<HTMLButtonElement>('#button');
     expect(native?.disabled).to.be.true;
-  });
-
-  it('passes rel and download to its link', async () => {
-    const el = await fixture<Button>(
-      html`<wc-button href="/report.csv" rel="noopener" download="report.csv"
-        >Get</wc-button
-      >`,
-    );
-    const link = el.shadowRoot!.querySelector('#link')!;
-    expect(link.getAttribute('rel')).to.equal('noopener');
-    expect(link.getAttribute('download')).to.equal('report.csv');
   });
 
   it('sets aria-disabled="true" when soft-disabled, and omits it otherwise', async () => {

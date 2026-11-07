@@ -1,8 +1,7 @@
-@use "../../scss/mixin";
-@use "sass:string";
+@use '../../scss/mixin';
+@use 'sass:string';
 
 @include mixin.base-styles;
-
 
 :host(:not([preview])) {
   /* Reset the UA popover styles; floating-ui positions the tooltip in the top layer. */
@@ -44,7 +43,7 @@
   }
 }
 
-.variant-plain .tooltip-content {
+.tooltip-content {
   display: inline-block;
   @include mixin.get-typography(body-small);
   max-width: 17.5rem;
@@ -54,40 +53,3 @@
   background-color: var(--color-inverse-surface);
   border-radius: var(--shape-corner-extra-small);
 }
-
-.variant-rich {
-
-  .tooltip-content {
-    display: inline-block;
-    max-width: 17.5rem;
-    padding-block: var(--spacing-150) var(--spacing-100);
-    color: var(--color-on-surface-variant);
-    background-color: var(--color-surface-container);
-    border-radius: var(--shape-corner-medium);
-  }
-
-  .elevation {
-    --elevation-level: 2;
-    --elevation-container-shape: var(--shape-corner-medium);
-  }
-
-  .tooltip-title {
-    @include mixin.get-typography(title-small);
-    margin-block-end: var(--spacing-050);
-    padding-inline: var(--spacing-200);
-  }
-
-  .tooltip-support-text {
-    @include mixin.get-typography(body-medium);
-    padding-inline: var(--spacing-200);
-  }
-
-  .tooltip-actions {
-    margin-block-start: var(--spacing-150);
-    padding-inline: var(--spacing-050);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-100);
-  }
-}
-

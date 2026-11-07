@@ -1,29 +1,21 @@
-import { LitElement, html, nothing, type PropertyValues } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './alert.scss';
 
 type AlertIntent = 'note' | 'info' | 'success' | 'warning' | 'danger';
 
-/** The meaning values `variant` took before `intent` (deprecated). */
-type LegacyAlertVariant = 'note' | 'info' | 'success' | 'warning' | 'error';
-
-const LEGACY_VARIANT_INTENTS: Record<LegacyAlertVariant, AlertIntent> = {
-  note: 'note',
-  info: 'info',
-  success: 'success',
-  warning: 'warning',
-  error: 'danger',
-};
-
 /** The string key of each intent's label. */
 const INTENT_LABEL_KEYS: Record<
   AlertIntent,
-  'intentNote' | 'intentInfo' | 'intentSuccess' | 'intentWarning' | 'intentError'
+  | 'intentNote'
+  | 'intentInfo'
+  | 'intentSuccess'
+  | 'intentWarning'
+  | 'intentError'
 > = {
   note: 'intentNote',
   info: 'intentInfo',
@@ -40,15 +32,11 @@ const INTENT_ICONS: Record<AlertIntent, string> = {
   danger: 'error',
 };
 
-function isLegacyVariant(value: unknown): value is LegacyAlertVariant {
-  return typeof value === 'string' && value in LEGACY_VARIANT_INTENTS;
-}
-
 /**
  * @label Alert
  * @tag wc-alert
  * @rawTag alert
- * @summary Alerts show short, prominent contextual messages in the page, with an optional icon, action and close button.
+ * @summary A short, prominent message in the page, with an optional icon, action and close button.
  *
  * @overview
  * <p>An alert is part of the page. For a transient message use <code>wc-snackbar</code>, or
@@ -96,13 +84,6 @@ export class Alert extends LitElement {
   intent?: AlertIntent;
 
   /**
-   * @deprecated Use `intent`. The meaning values (`note`, `info`, `success`, `warning`, `error`)
-   * still work; `error` is `intent="danger"`.
-   */
-  @property({ type: String })
-  variant?: string;
-
-  /**
    * Optional explicit label text. Falls back to the intent's label.
    */
   @property({ type: String })
@@ -141,22 +122,11 @@ export class Alert extends LitElement {
   /** Peacock's strings for the intent labels and the close button. */
   private readonly i18n = new I18nController(this);
 
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('variant') && isLegacyVariant(this.variant)) {
-      deprecate('wc-alert', '`variant` for meaning', '`intent`');
-    }
-  }
-
   // ── Private methods ──────────────────────────────────────────────────────
 
-  /** `intent`, else the deprecated meaning `variant`, else `note`. */
+  /** `intent`, else `note`. */
   private get resolvedIntent(): AlertIntent {
     if (this.intent && this.intent in INTENT_ICONS) return this.intent;
-    if (isLegacyVariant(this.variant)) {
-      return LEGACY_VARIANT_INTENTS[this.variant];
-    }
     return 'note';
   }
 

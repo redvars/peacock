@@ -37,20 +37,16 @@ describe('Chip', () => {
     expect(el.shadowRoot!.querySelector('.selected-icon')).to.exist;
   });
 
-  it('fires dismiss, and the deprecated tag--dismiss, from the close button', async () => {
+  it('fires a composed dismiss from the close button', async () => {
     const el = await fixture<Chip>(html`<wc-chip dismissible>Chip</wc-chip>`);
     const close = el.shadowRoot!.querySelector<HTMLButtonElement>('.close-btn');
     expect(close).to.exist;
 
-    let legacyFired = false;
-    el.addEventListener('tag--dismiss', () => {
-      legacyFired = true;
-    });
-
     setTimeout(() => close!.click());
-    await oneEvent(el, 'dismiss');
+    const event = await oneEvent(el, 'dismiss');
 
-    expect(legacyFired).to.be.true;
+    expect(event.bubbles).to.be.true;
+    expect(event.composed).to.be.true;
   });
 
   it('renders the dismiss button next to the chip button, not inside it', async () => {

@@ -3,12 +3,7 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { LinearProgress } from '../src/progress/linear-progress/linear-progress.js';
 import { CircularProgress } from '../src/progress/circular-progress/circular-progress.js';
-import { Spinner } from '../src/spinner/spinner.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
-if (!customElements.get('wc-spinner')) {
-  customElements.define('wc-spinner', Spinner);
-}
 if (!customElements.get('wc-linear-progress')) {
   customElements.define('wc-linear-progress', LinearProgress);
 }
@@ -83,6 +78,7 @@ describe('CircularProgress', () => {
     el.indeterminate = true;
     await el.updateComplete;
     expect(bar(el).hasAttribute('aria-valuenow')).to.be.false;
+    expect(bar(el).getAttribute('aria-label')).to.equal('Loading');
   });
 
   it('takes max and clamps, and is named by its label', async () => {
@@ -99,36 +95,5 @@ describe('CircularProgress', () => {
     expect(el.shadowRoot!.getElementById(labelId)!.textContent).to.equal(
       'Syncing',
     );
-  });
-});
-
-describe('Spinner', () => {
-  let warn: typeof console.warn;
-  let warnings: string[];
-
-  beforeEach(() => {
-    resetDeprecationWarnings();
-    warnings = [];
-    warn = console.warn;
-    console.warn = (message: string) => {
-      warnings.push(message);
-    };
-  });
-
-  afterEach(() => {
-    console.warn = warn;
-  });
-
-  it('is an indeterminate, named progressbar and warns once', async () => {
-    const el = await fixture<Spinner>(html`<wc-spinner></wc-spinner>`);
-    await fixture<Spinner>(html`<wc-spinner></wc-spinner>`);
-
-    expect(el).to.be.instanceOf(CircularProgress);
-    expect(el.indeterminate).to.be.true;
-    expect(bar(el).getAttribute('aria-label')).to.equal('Loading');
-    expect(bar(el).hasAttribute('aria-valuenow')).to.be.false;
-    expect(warnings).to.deep.equal([
-      '[peacock] wc-spinner: <wc-spinner> is deprecated and will be removed in 4.0. Use <wc-circular-progress indeterminate> instead.',
-    ]);
   });
 });

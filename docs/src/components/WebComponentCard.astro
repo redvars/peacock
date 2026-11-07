@@ -22,7 +22,6 @@ const tag: string | null = getTextTag(component, 'tag');
       <h3 class='component-card-title text-title-large'>
         <a class='component-card-link' href={`/components/${rawTag}/`}>{getTextTag(component, 'label')}</a>
         <span class='component-card-meta'>
-          {component?.wip && <wc-tag intent='danger' size='sm' title='Work in progress'>WIP</wc-tag>}
           <wc-icon name='arrow_forward' aria-hidden='true'></wc-icon>
         </span>
       </h3>

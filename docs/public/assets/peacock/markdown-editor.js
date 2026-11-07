@@ -1,16 +1,18 @@
-import { i, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
 import { N as NodeSelection, S as Slice, F as Fragment, D as DOMSerializer, E as Editor, a as StarterKit, U as Underline, P as Placeholder, b as Extension, c as Suggestion, d as Plugin } from './index-DcbiqHpf.js';
-import { c as computePosition, o as offset, f as flip, s as shift } from './floating-ui.dom-oQieRCpS.js';
-import { B as BaseInput } from './BaseInput-CV0pZgSb.js';
-import { r as redispatchEvent } from './dispatch-event-utils-CuEqjlPT.js';
+import { d as computePosition, o as offset, f as flip, s as shift } from './floating-ui.dom-IXnOdYJ1.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { B as BaseInput } from './BaseInput-DJ7w21-i.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 import './element-internals-QME0yEz4.js';
-import './form-associated-Bhwwr6dT.js';
+import './form-associated-D3Tn33s_.js';
 
 /**
  * marked v14.1.4 - a markdown parser
@@ -3286,13 +3288,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   width: 100%;
@@ -3331,7 +3355,7 @@ var css_248z = i`* {
   color: var(--color-on-surface-variant, #49454f);
   opacity: 0.55;
   pointer-events: none;
-  float: left;
+  float: inline-start;
   height: 0;
 }
 .markdown-editor-content .ProseMirror h1 {
@@ -3404,6 +3428,14 @@ var css_248z = i`* {
 .markdown-editor-content .ProseMirror strong,
 .markdown-editor-content .ProseMirror b {
   font-weight: 600;
+}
+
+:host([size=sm]) .markdown-editor-content {
+  font-family: var(--typography-body-medium-font-family);
+  font-size: var(--typography-body-medium-font-size);
+  font-weight: var(--typography-body-medium-font-weight);
+  line-height: var(--typography-body-medium-line-height);
+  letter-spacing: var(--typography-body-medium-letter-spacing);
 }
 
 .markdown-source.hidden {
@@ -3570,7 +3602,7 @@ var css_248z = i`* {
 var MarkdownEditor_1;
 const SLASH_ITEMS = [
     {
-        title: 'Heading 1',
+        titleKey: 'heading1',
         hint: '#',
         icon: 'title',
         command: ({ editor, range }) => editor
@@ -3581,7 +3613,7 @@ const SLASH_ITEMS = [
             .run(),
     },
     {
-        title: 'Heading 2',
+        titleKey: 'heading2',
         hint: '##',
         icon: 'title',
         command: ({ editor, range }) => editor
@@ -3592,7 +3624,7 @@ const SLASH_ITEMS = [
             .run(),
     },
     {
-        title: 'Heading 3',
+        titleKey: 'heading3',
         hint: '###',
         icon: 'title',
         command: ({ editor, range }) => editor
@@ -3603,31 +3635,31 @@ const SLASH_ITEMS = [
             .run(),
     },
     {
-        title: 'Bulleted list',
+        titleKey: 'bulletedList',
         hint: '-',
         icon: 'format_list_bulleted',
         command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleBulletList().run(),
     },
     {
-        title: 'Numbered list',
+        titleKey: 'numberedList',
         hint: '1.',
         icon: 'format_list_numbered',
         command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleOrderedList().run(),
     },
     {
-        title: 'Quote',
+        titleKey: 'quote',
         hint: '>',
         icon: 'format_quote',
         command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleBlockquote().run(),
     },
     {
-        title: 'Code block',
+        titleKey: 'codeBlock',
         hint: '```',
         icon: 'code',
         command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
     {
-        title: 'Divider',
+        titleKey: 'divider',
         hint: '---',
         icon: 'horizontal_rule',
         command: ({ editor, range }) => editor.chain().focus().deleteRange(range).setHorizontalRule().run(),
@@ -3638,24 +3670,28 @@ const SLASH_ITEMS = [
  * @tag wc-markdown-editor
  * @rawTag markdown-editor
  *
- * @summary A Tiptap-powered Notion-like Markdown editor with a bottom toggle
- *   between rendered and raw markdown views.
+ * @summary A block-based Markdown editor with a slash menu and a formatting toolbar, and a switch between rendered and raw Markdown.
  * @overview
- * <p>The Markdown Editor provides a block-based, Notion-like writing surface
- * built on Tiptap. Type <code>/</code> to open a slash menu for inserting
+ * <p>The editor is built on Tiptap. Type <code>/</code> to open a slash menu for inserting
  * headings, lists, quotes, code blocks, and dividers. Select text to reveal
  * a floating bubble toolbar with inline formatting actions.</p>
  *
  * <p>The canonical <code>value</code> is Markdown. Use the bottom segmented
  * switch to toggle between the rendered editor and the raw markdown source.
- * The component dispatches a <code>change</code> event whenever content
- * changes.</p>
+ * The component fires <code>input</code> with <code>{ value }</code> as the content changes
+ * (after <code>debounce</code> milliseconds without typing) and <code>change</code> with
+ * <code>{ value }</code> when focus leaves the editor after an edit. With
+ * <code>required</code>, an empty editor blocks form submission.</p>
+ *
+ * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
+ * <code>wc-code-editor</code>.</p>
  *
  * @cssprop --markdown-editor-min-height - Minimum height of the editable area. Defaults to 12rem.
  * @cssprop --markdown-editor-bubble-background - Background color of the selection bubble menu.
  * @cssprop --markdown-editor-slash-background - Background color of the slash command menu.
  *
- * @fires {Event} change - Fired whenever the markdown content changes.
+ * @fires {CustomEvent<{value: string}>} input - Dispatched as the content changes, after `debounce` milliseconds without typing.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when focus leaves the editor after an edit.
  *
  * @example
  * ```html
@@ -3667,25 +3703,27 @@ const SLASH_ITEMS = [
  * @tags input editor
  */
 let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
     constructor() {
-        // ── Static ────────────────────────────────────────────────────────────────
-        super(...arguments);
+        super();
         // ── Properties ────────────────────────────────────────────────────────────
         /** Current Markdown value of the editor. */
         this.value = '';
         /** Label displayed above the editor. */
         this.label = '';
-        /** Placeholder text shown when the editor is empty. */
-        this.placeholder = "Type '/' for commands…";
+        /** Placeholder text shown when the editor is empty. Defaults to Peacock's "Type '/' for commands…". */
+        this.placeholder = '';
         /** Visual style of the wrapping field. */
         this.variant = 'default';
+        /** Size of the text: `sm` or `md`. */
+        this.size = 'md';
         /** Helper text displayed below the editor. */
         this.helperText = '';
         /** Whether to show an error state. */
         this.error = false;
         /** Error message text. */
         this.errorText = '';
-        /** Debounce in milliseconds for dispatching `change`. */
+        /** Debounce in milliseconds for dispatching `input`. */
         this.debounce = 250;
         // ── State ─────────────────────────────────────────────────────────────────
         /** Whether the editor currently has focus. */
@@ -3702,10 +3740,16 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         this._slashIndex = 0;
         /** Whether the block handle panel is visible. */
         this._blockHandleVisible = false;
+        /** Whether focus is somewhere inside the editor. */
+        this._focusWithin = false;
+        /** The value when focus entered the editor; `change` fires on leaving when it differs. */
+        this._valueAtFocus = '';
         /** Most recent slash-suggestion bounding rect (for popup placement). */
         this._slashClientRect = null;
         /** ProseMirror doc position (inside-block) of the block under the handle. */
         this._blockHandleNodePos = -1;
+        /** Peacock's strings for the menus, handles, modes, tags and placeholder. */
+        this.i18n = new I18nController(this);
         /** Reusable Turndown serializer instance. */
         this._turndown = new TurndownService({
             headingStyle: 'atx',
@@ -3777,7 +3821,9 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                 this._slashOpen = true;
                 this._positionSlashMenu();
             }
-            catch { /* ignore */ }
+            catch {
+                /* ignore */
+            }
         };
         this._onDragHandleMouseDown = (event) => {
             event.preventDefault();
@@ -3791,7 +3837,9 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                 const sel = NodeSelection.create(state.doc, nodePos);
                 view.dispatch(state.tr.setSelection(sel));
             }
-            catch { /* ignore */ }
+            catch {
+                /* ignore */
+            }
         };
         this._onDragHandleDragStart = (event) => {
             if (!this._editor || !event.dataTransfer)
@@ -3813,11 +3861,27 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                 event.dataTransfer.effectAllowed = 'move';
                 view.dragging = { slice, move: true };
             }
-            catch { /* ignore */ }
+            catch {
+                /* ignore */
+            }
         };
         this._onDragHandleDragEnd = () => {
             if (this._editor)
                 this._editor.view.dragging = null;
+        };
+        this._onFocusIn = () => {
+            if (this._focusWithin)
+                return;
+            this._focusWithin = true;
+            this._valueAtFocus = this.value;
+        };
+        this._onFocusOut = (event) => {
+            // Focus moving between parts of the editor arrives retargeted to the host.
+            const next = event.relatedTarget;
+            if (next && (next === this || this.contains(next)))
+                return;
+            this._focusWithin = false;
+            this._commit();
         };
         this._switchMode = (event) => {
             event.stopPropagation();
@@ -3833,26 +3897,24 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
             }
             this._mode = nextMode;
         };
-        this._handleSourceChange = (event) => {
+        /** The source editor's `input`: take its value. */
+        this._handleSourceInput = (event) => {
             event.stopPropagation();
-            const target = event.currentTarget;
-            const nextValue = target.value ?? '';
+            const nextValue = event.detail?.value ?? '';
             if (nextValue === this.value)
                 return;
             this.value = nextValue;
-            this._dispatchDebouncedChange();
+            this._dispatchDebouncedInput();
         };
+        this.addEventListener('focusin', this._onFocusIn);
+        this.addEventListener('focusout', this._onFocusOut);
     }
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
     firstUpdated() {
         this._initializeEditor();
     }
     disconnectedCallback() {
         super.disconnectedCallback();
-        if (this._changeTimeout) {
-            window.clearTimeout(this._changeTimeout);
-            this._changeTimeout = undefined;
-        }
+        this._flushInput();
         if (this._blockHandleHideTimeout) {
             window.clearTimeout(this._blockHandleHideTimeout);
             this._blockHandleHideTimeout = undefined;
@@ -3860,6 +3922,7 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         this._destroyEditor();
     }
     updated(changed) {
+        super.updated(changed);
         if (changed.has('value') && this._editor) {
             const currentMd = MarkdownEditor_1._normalizeMd(this._htmlToMarkdown(this._editor.getHTML()));
             const nextMd = MarkdownEditor_1._normalizeMd(this.value);
@@ -3870,10 +3933,18 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         if ((changed.has('disabled') || changed.has('readonly')) && this._editor) {
             this._editor.setEditable(!(this.disabled || this.readonly));
         }
-        if (changed.has('placeholder') && this._editor) {
+        if ((changed.has('placeholder') || changed.has('strings')) &&
+            this._editor) {
             this._destroyEditor();
             this._initializeEditor();
         }
+    }
+    // ── Public methods ────────────────────────────────────────────────────────
+    focus() {
+        if (this._editor && this._mode === 'editor')
+            this._editor.commands.focus();
+        else
+            super.focus();
     }
     // ── Private methods: conversion ───────────────────────────────────────────
     static _normalizeMd(value) {
@@ -3890,6 +3961,10 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         return this._turndown.turndown(htmlStr ?? '');
     }
     // ── Private methods: TipTap setup ─────────────────────────────────────────
+    /** The `placeholder`, or Peacock's default when it is empty. */
+    _placeholderText() {
+        return this.placeholder || this.i18n.t('slashCommandsPlaceholder');
+    }
     _destroyEditor() {
         if (!this._editor)
             return;
@@ -3906,7 +3981,7 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                 StarterKit,
                 Underline,
                 Placeholder.configure({
-                    placeholder: this.placeholder,
+                    placeholder: () => this._placeholderText(),
                 }),
                 this._buildSlashExtension(),
                 this._buildBlockHandleExtension(),
@@ -3926,16 +4001,18 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                 if (!this._editor)
                     return;
                 const nextMd = MarkdownEditor_1._normalizeMd(this._htmlToMarkdown(this._editor.getHTML()));
-                if (nextMd !== this.value) {
-                    this.value = nextMd;
-                }
-                this._dispatchDebouncedChange();
+                if (nextMd === this.value)
+                    return;
+                this.value = nextMd;
+                this._dispatchDebouncedInput();
             },
             onSelectionUpdate: () => {
                 this._updateBubbleMenu();
             },
         });
         this._editorEl.addEventListener('click', this._focusEditorOnContainerClick);
+        // Render the bubble menu, which needs the editor.
+        this.requestUpdate();
     }
     // ── Private methods: slash command ────────────────────────────────────────
     _buildSlashExtension() {
@@ -3951,7 +4028,7 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                         allowSpaces: false,
                         items: ({ query: slashQuery }) => {
                             const q = slashQuery.toLowerCase();
-                            return SLASH_ITEMS.filter(item => item.title.toLowerCase().includes(q)).slice(0, 10);
+                            return SLASH_ITEMS.filter(item => host.i18n.t(item.titleKey).toLowerCase().includes(q)).slice(0, 10);
                         },
                         command: ({ editor, range, props }) => {
                             props.command({ editor, range });
@@ -4046,7 +4123,9 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                         props: {
                             handleDOMEvents: {
                                 mousemove: (view, event) => {
-                                    if (host.disabled || host.readonly || host._mode !== 'editor') {
+                                    if (host.disabled ||
+                                        host.readonly ||
+                                        host._mode !== 'editor') {
                                         host._blockHandleVisible = false;
                                         return false;
                                     }
@@ -4073,7 +4152,8 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
                                     return false;
                                 },
                                 mouseleave: (_view, event) => {
-                                    const rel = event.relatedTarget;
+                                    const rel = event
+                                        .relatedTarget;
                                     if (host._blockHandleEl?.contains(rel) ||
                                         rel === host._blockHandleEl)
                                         return false;
@@ -4176,13 +4256,38 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         this._bubbleEl.style.top = `${y}px`;
     }
     // ── Private methods: events / mode ────────────────────────────────────────
-    _dispatchDebouncedChange() {
-        if (this._changeTimeout) {
-            window.clearTimeout(this._changeTimeout);
-        }
-        this._changeTimeout = window.setTimeout(() => {
-            redispatchEvent(this, new Event('change', { bubbles: true, composed: true }));
+    _emitValue(type) {
+        this.dispatchEvent(new CustomEvent(type, {
+            detail: { value: this.value },
+            bubbles: true,
+            composed: true,
+        }));
+    }
+    _dispatchDebouncedInput() {
+        window.clearTimeout(this._inputTimeout);
+        this._inputTimeout = window.setTimeout(() => {
+            this._inputTimeout = undefined;
+            this._emitValue('input');
         }, this.debounce);
+    }
+    /** Fires a pending debounced `input` now. */
+    _flushInput() {
+        if (this._inputTimeout === undefined)
+            return;
+        window.clearTimeout(this._inputTimeout);
+        this._inputTimeout = undefined;
+        this._emitValue('input');
+    }
+    /** Commits the value: `change` when it differs from the value when focus entered. */
+    _commit() {
+        this._flushInput();
+        if (this.value === this._valueAtFocus)
+            return;
+        this._valueAtFocus = this.value;
+        this._emitValue('change');
+    }
+    _stopEvent(event) {
+        event.stopPropagation();
     }
     _execCommand(command) {
         if (this.disabled || this.readonly || !this._editor)
@@ -4215,13 +4320,13 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
       <div
         class=${e$1({ 'bubble-menu': true, open: this._bubbleOpen })}
         role="toolbar"
-        aria-label="Inline formatting"
+        aria-label=${this.i18n.t('inlineFormatting')}
       >
-        ${this._renderToolbarButton('format_bold', 'Bold', () => this._editor?.chain().focus().toggleBold().run(), this._editor.isActive('bold'))}
-        ${this._renderToolbarButton('format_italic', 'Italic', () => this._editor?.chain().focus().toggleItalic().run(), this._editor.isActive('italic'))}
-        ${this._renderToolbarButton('format_underlined', 'Underline', () => this._editor?.chain().focus().toggleUnderline().run(), this._editor.isActive('underline'))}
-        ${this._renderToolbarButton('format_strikethrough', 'Strikethrough', () => this._editor?.chain().focus().toggleStrike().run(), this._editor.isActive('strike'))}
-        ${this._renderToolbarButton('code', 'Inline code', () => this._editor?.chain().focus().toggleCode().run(), this._editor.isActive('code'))}
+        ${this._renderToolbarButton('format_bold', this.i18n.t('bold'), () => this._editor?.chain().focus().toggleBold().run(), this._editor.isActive('bold'))}
+        ${this._renderToolbarButton('format_italic', this.i18n.t('italic'), () => this._editor?.chain().focus().toggleItalic().run(), this._editor.isActive('italic'))}
+        ${this._renderToolbarButton('format_underlined', this.i18n.t('underline'), () => this._editor?.chain().focus().toggleUnderline().run(), this._editor.isActive('underline'))}
+        ${this._renderToolbarButton('format_strikethrough', this.i18n.t('strikethrough'), () => this._editor?.chain().focus().toggleStrike().run(), this._editor.isActive('strike'))}
+        ${this._renderToolbarButton('code', this.i18n.t('inlineCode'), () => this._editor?.chain().focus().toggleCode().run(), this._editor.isActive('code'))}
       </div>
     `;
     }
@@ -4230,7 +4335,7 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
       <div
         class=${e$1({ 'slash-menu': true, open: this._slashOpen })}
         role="listbox"
-        aria-label="Insert block"
+        aria-label=${this.i18n.t('insertBlock')}
       >
         ${this._slashItems.map((item, index) => b `
             <button
@@ -4246,7 +4351,9 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
               @click=${this._onSlashItemClick}
             >
               <wc-icon name=${item.icon} size="sm"></wc-icon>
-              <span class="slash-item-label">${item.title}</span>
+              <span class="slash-item-label"
+                >${this.i18n.t(item.titleKey)}</span
+              >
               <span class="slash-item-hint">${item.hint}</span>
             </button>
           `)}
@@ -4267,8 +4374,8 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
       >
         <button
           class="block-handle-btn drag-btn"
-          title="Drag to reorder"
-          aria-label="Drag to reorder"
+          title=${this.i18n.t('dragToReorder')}
+          aria-label=${this.i18n.t('dragToReorder')}
           draggable="true"
           ?disabled=${this.disabled || this.readonly}
           @mousedown=${this._onDragHandleMouseDown}
@@ -4279,8 +4386,8 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         </button>
         <button
           class="block-handle-btn insert-btn"
-          title="Insert block below"
-          aria-label="Insert block below"
+          title=${this.i18n.t('insertBlockBelow')}
+          aria-label=${this.i18n.t('insertBlockBelow')}
           ?disabled=${this.disabled || this.readonly}
           @mousedown=${(e) => e.preventDefault()}
           @click=${this._onInsertBlockClick}
@@ -4292,16 +4399,21 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
     }
     _renderReadonlyTag() {
         if (this.disabled) {
-            return b `<wc-tag class="read-only-tag" color="red">Disabled</wc-tag>`;
+            return b `<wc-tag class="read-only-tag" intent="danger"
+        >${this.i18n.t('disabled')}</wc-tag
+      >`;
         }
         if (this.readonly) {
-            return b `<wc-tag class="read-only-tag" color="red">Read Only</wc-tag>`;
+            return b `<wc-tag class="read-only-tag" intent="danger"
+        >${this.i18n.t('readOnlyTag')}</wc-tag
+      >`;
         }
         return A;
     }
     // ── Render ────────────────────────────────────────────────────────────────
     render() {
         const isEmpty = !this.value || this.value.trim() === '';
+        const { validationText } = this;
         return b `
       <wc-field
         label=${this.label}
@@ -4310,8 +4422,8 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         ?readonly=${this.readonly}
         ?skeleton=${this.skeleton}
         ?focused=${this._focused}
-        ?error=${this.error}
-        error-text=${this.errorText}
+        ?error=${this.error || !!validationText}
+        error-text=${this.error ? this.errorText : validationText}
         helper-text=${this.helperText}
         variant=${this.variant}
         ?populated=${!isEmpty}
@@ -4328,7 +4440,9 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
             'is-empty': isEmpty,
             hidden: this._mode !== 'editor',
         })}
-          data-placeholder=${this.placeholder}
+          data-placeholder=${this._placeholderText()}
+          @input=${this._stopEvent}
+          @beforeinput=${this._stopEvent}
         >
           <div class="tiptap-root"></div>
         </div>
@@ -4341,10 +4455,12 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
         >
           <wc-code-editor
             language="markdown"
+            size=${this.size}
             .value=${this.value}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
-            @change=${this._handleSourceChange}
+            @input=${this._handleSourceInput}
+            @change=${this._stopEvent}
           ></wc-code-editor>
         </div>
 
@@ -4355,14 +4471,14 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
               ?selected=${this._mode === 'editor'}
               ?disabled=${this.disabled}
             >
-              Editor
+              ${this.i18n.t('editorMode')}
             </wc-segmented-button>
             <wc-segmented-button
               value="markdown"
               ?selected=${this._mode === 'markdown'}
               ?disabled=${this.disabled}
             >
-              Markdown
+              ${this.i18n.t('markdownMode')}
             </wc-segmented-button>
           </wc-segmented-button-group>
         </div>
@@ -4375,6 +4491,7 @@ let MarkdownEditor = MarkdownEditor_1 = class MarkdownEditor extends BaseInput {
     `;
     }
 };
+// ── Static ────────────────────────────────────────────────────────────────
 MarkdownEditor.styles = [css_248z];
 __decorate([
     n({ type: String })
@@ -4389,6 +4506,9 @@ __decorate([
     n({ type: String })
 ], MarkdownEditor.prototype, "variant", void 0);
 __decorate([
+    n({ type: String, reflect: true })
+], MarkdownEditor.prototype, "size", void 0);
+__decorate([
     n({ type: String, attribute: 'helper-text' })
 ], MarkdownEditor.prototype, "helperText", void 0);
 __decorate([
@@ -4400,6 +4520,9 @@ __decorate([
 __decorate([
     n({ type: Number })
 ], MarkdownEditor.prototype, "debounce", void 0);
+__decorate([
+    n({ attribute: false })
+], MarkdownEditor.prototype, "strings", void 0);
 __decorate([
     r()
 ], MarkdownEditor.prototype, "_focused", void 0);

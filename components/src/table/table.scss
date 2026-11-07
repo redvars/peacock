@@ -667,10 +667,29 @@
   min-height: 16rem;
   padding: var(--spacing-400, 2rem) var(--spacing-200, 1rem);
 
-  .empty-state {
-    // The empty state sizes itself to its container, so give it the width to fill.
-    inline-size: 100%;
-    max-width: 24rem;
+  .state-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-100, 0.5rem);
+    max-inline-size: 24rem;
+    text-align: center;
+  }
+
+  .state-illustration {
+    margin-block-end: var(--spacing-100, 0.5rem);
+  }
+
+  .state-headline {
+    @include mixin.get-typography-not-important(title-medium);
+    margin: 0;
+    color: var(--color-on-surface);
+  }
+
+  .state-text {
+    @include mixin.get-typography-not-important(body-medium);
+    margin: 0;
+    color: var(--color-on-surface-variant);
   }
 }
 

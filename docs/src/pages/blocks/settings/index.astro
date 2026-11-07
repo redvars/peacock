@@ -31,7 +31,7 @@ const notifications: NotificationSetting[] = [
 
     <wc-tab-group class='settings-tabs'>
       <wc-tabs>
-        <wc-tab active>Profile</wc-tab>
+        <wc-tab selected>Profile</wc-tab>
         <wc-tab>Notifications</wc-tab>
         <wc-tab>Security</wc-tab>
       </wc-tabs>
@@ -74,9 +74,9 @@ const notifications: NotificationSetting[] = [
 
       <wc-tab-panel>
         <div class='settings-form'>
-          <wc-input type='password' label='Current password'></wc-input>
-          <wc-input type='password' label='New password' helper-text='At least 12 characters.'></wc-input>
-          <wc-input type='password' label='Confirm new password'></wc-input>
+          <wc-password-field label='Current password'></wc-password-field>
+          <wc-password-field label='New password' autocomplete='new-password' minlength='12' helper-text='At least 12 characters.'></wc-password-field>
+          <wc-password-field label='Confirm new password' autocomplete='new-password'></wc-password-field>
           <wc-divider></wc-divider>
           <div class='settings-list-item'>
             <div>

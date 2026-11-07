@@ -24,7 +24,7 @@ import styles from './navigation-drawer-group.scss';
  * @slot icon - The header's leading icon.
  *
  * @fires {CustomEvent} open - Dispatched on the group when the user expands it. Does not bubble, so it is not mistaken for the drawer's own `open`.
- * @fires {CustomEvent} close - Dispatched on the group when the user collapses it. Does not bubble.
+ * @fires {CustomEvent<{reason: 'action'}>} close - Dispatched on the group when the user collapses it. Does not bubble.
  *
  * @example
  * ```html

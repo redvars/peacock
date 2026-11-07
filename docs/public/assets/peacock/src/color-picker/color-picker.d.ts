@@ -4,12 +4,17 @@ import { LitElement } from 'lit';
  * @tag wc-color-picker
  * @rawTag color-picker
  *
- * @summary A color picker component for selecting colors via a hue/saturation/value interface.
+ * @summary A panel for picking a color from a saturation and brightness square and a hue slider, with optional opacity and a hex field.
  *
  * @overview
  * <p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.
  * An optional alpha slider allows controlling opacity. The current hex value is displayed in
  * an editable text field.</p>
+ * <p>With <code>alpha</code> the value carries the opacity as an 8-digit hex color
+ * (<code>#rrggbbaa</code>); without it the value is <code>#rrggbb</code>. Events also give the
+ * opacity, 0–1, as <code>detail.alpha</code>.</p>
+ * <p>It is a building block, not a form control: it has no <code>name</code> and is not submitted
+ * with a form. In a form, use <code>wc-color-field</code>.</p>
  *
  * @cssprop --color-picker-width - Overall width of the component. Defaults to 240px.
  * @cssprop --color-picker-sv-height - Height of the saturation/brightness panel. Defaults to 160px.
@@ -30,17 +35,20 @@ import { LitElement } from 'lit';
 export declare class ColorPicker extends LitElement {
     static styles: import("lit").CSSResultGroup[];
     /**
-     * The current color as a 6-digit hex string (e.g. `"#ff5733"`).
+     * The current color as a hex string: `#rrggbb` (e.g. `"#ff5733"`), or `#rrggbbaa` with `alpha`.
      */
     value: string;
     /**
-     * Whether to show the alpha (opacity) slider and input.
+     * Whether to show the alpha (opacity) slider and input. The value then carries the opacity
+     * as its last two hex digits.
      */
     alpha: boolean;
     /**
      * Whether the color picker is disabled.
      */
     disabled: boolean;
+    /** Shows the color but does not let it be changed by pointer or keyboard. */
+    readonly: boolean;
     /** Current hue, 0–360. */
     private _hue;
     /** Current saturation, 0–1 (x-axis of the SV panel). */
@@ -58,10 +66,17 @@ export declare class ColorPicker extends LitElement {
     private _dragging;
     /** The last `value` we set ourselves, used to skip redundant re-syncs in `updated`. */
     private _lastEmittedValue;
+    /** Peacock's strings for the slider and input labels. */
+    private readonly i18n;
     connectedCallback(): void;
     willUpdate(changed: Map<PropertyKey, unknown>): void;
+    /** Whether the color can be changed: not disabled and not read-only. */
+    private get _locked();
     private _syncFromValue;
+    /** The color without opacity, as `#rrggbb`. */
     private _computeHex;
+    /** The value to emit: `#rrggbb`, or `#rrggbbaa` with `alpha`. */
+    private _computeValue;
     private _emitValue;
     private _onSvPointerDown;
     private _onSvPointerMove;
@@ -80,6 +95,7 @@ export declare class ColorPicker extends LitElement {
     private _onAlphaKeyDown;
     private _onHexInput;
     private _onHexChange;
+    private _stopNativeInput;
     private _onAlphaNumberChange;
     render(): import("lit-html").TemplateResult<1>;
 }

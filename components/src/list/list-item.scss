@@ -124,10 +124,9 @@
   --_state-opacity: 0.12;
 }
 
-// ── Current (and the deprecated selected) ────────────────────────────────
+// ── Current ──────────────────────────────────────────────────────────────
 
-:host([current]),
-:host([selected]) {
+:host([current]) {
   --_container-color: var(
     --list-item-selected-container-color,
     var(--color-secondary-container)
@@ -161,9 +160,7 @@
 }
 
 :host([current][disabled]),
-:host([current][soft-disabled]),
-:host([selected][disabled]),
-:host([selected][soft-disabled]) {
+:host([current][soft-disabled]) {
   --_container-color: var(--color-on-surface);
   --_container-opacity: 0.12;
 }

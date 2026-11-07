@@ -3,7 +3,6 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Field } from '../src/field/index.js';
 import { Input } from '../src/input/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -79,17 +78,6 @@ describe('Input', () => {
 
     expect(el.disabled).to.be.true;
     expect(nativeInput(el).disabled).to.be.true;
-  });
-
-  it('toggles password visibility', async () => {
-    const el = await fixture<Input>(
-      html`<wc-input type="password" value="secret"></wc-input>`,
-    );
-    expect(nativeInput(el).type).to.equal('password');
-
-    el.shadowRoot!.querySelector<HTMLElement>('.password-toggle')!.click();
-    await el.updateComplete;
-    expect(nativeInput(el).type).to.equal('text');
   });
 
   it('fires input and change with the value in detail, and no native events', async () => {
@@ -234,36 +222,6 @@ describe('Input native attributes', () => {
     el.value = '123';
     await el.updateComplete;
     expect(el.validity.valid).to.be.true;
-  });
-});
-
-describe('Input deprecations', () => {
-  let warnings: string[];
-  let original: typeof console.warn;
-
-  beforeEach(() => {
-    resetDeprecationWarnings();
-    warnings = [];
-    original = console.warn;
-    console.warn = (message: string) => {
-      warnings.push(message);
-    };
-  });
-
-  afterEach(() => {
-    console.warn = original;
-  });
-
-  it('warns that type="password" is deprecated for wc-password-field', async () => {
-    await fixture<Input>(html`<wc-input type="password"></wc-input>`);
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('type="password"');
-    expect(warnings[0]).to.contain('wc-password-field');
-  });
-
-  it('does not warn for other types', async () => {
-    await fixture<Input>(html`<wc-input type="email"></wc-input>`);
-    expect(warnings).to.have.length(0);
   });
 });
 

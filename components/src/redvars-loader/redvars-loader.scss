@@ -1,0 +1,315 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  vertical-align: middle;
+  // Redvars red and white are the brand's own colors, not theme roles.
+  --_size: var(--redvars-loader-size, 4rem);
+  --_tile: var(--redvars-loader-tile-color, #ff0000);
+  --_mark: var(--redvars-loader-mark-color, #ffffff);
+  --_duration: var(--redvars-loader-duration, 2.4s);
+}
+
+.redvars-loader {
+  position: relative;
+  isolation: isolate;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  line-height: 0;
+}
+
+svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.tile {
+  fill: var(--_tile);
+}
+
+.mark,
+.stem,
+.arm,
+.ghost {
+  fill: var(--_mark);
+}
+
+// ── Trace: the outline draws itself, fills, then rubs out in the same direction
+
+.trace .mark {
+  fill-opacity: 0;
+  stroke: var(--_mark);
+  stroke-width: 5;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: redvars-loader-trace var(--_duration) infinite;
+}
+
+@keyframes redvars-loader-trace {
+  0% {
+    stroke-dashoffset: 1;
+    fill-opacity: 0;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  42% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+    animation-timing-function: ease-out;
+  }
+
+  56%,
+  78% {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  100% {
+    stroke-dashoffset: -1;
+    fill-opacity: 0;
+  }
+}
+
+// ── Build: the stem rises from the baseline, the arm swings out, then both fold away
+
+.build .stem {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: redvars-loader-stem var(--_duration) infinite;
+}
+
+.build .arm {
+  transform-box: fill-box;
+  transform-origin: 9% 40%;
+  animation: redvars-loader-arm var(--_duration) infinite;
+}
+
+@keyframes redvars-loader-stem {
+  0% {
+    transform: scaleY(0);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  24%,
+  70% {
+    transform: scaleY(1);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+  }
+
+  88%,
+  100% {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes redvars-loader-arm {
+  0%,
+  16% {
+    transform: rotate(60deg) scale(0);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  44%,
+  60% {
+    transform: rotate(0deg) scale(1);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+  }
+
+  74%,
+  100% {
+    transform: rotate(60deg) scale(0);
+  }
+}
+
+// ── Fill and progress: a faint r with a solid one clipped over it
+
+.ghost {
+  opacity: 0.3;
+}
+
+.fill .mark {
+  animation: redvars-loader-fill var(--_duration)
+    cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.progress .mark {
+  clip-path: inset(calc((1 - var(--_progress, 0)) * 100%) 0 0 0);
+  transition: clip-path 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes redvars-loader-fill {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+
+  60%,
+  72% {
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+// ── Pulse: the tile beats twice and sends out a ring, a little faster than the other loops
+
+.pulse svg {
+  animation: redvars-loader-beat calc(var(--_duration) * 0.75) infinite;
+}
+
+.pulse::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: calc(var(--_size) / 24) solid var(--_tile);
+  opacity: 0;
+  animation: redvars-loader-ring calc(var(--_duration) * 0.75)
+    cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+@keyframes redvars-loader-beat {
+  0%,
+  40%,
+  100% {
+    transform: scale(1);
+  }
+
+  8% {
+    transform: scale(0.9);
+  }
+
+  16% {
+    transform: scale(1.05);
+  }
+
+  24% {
+    transform: scale(0.95);
+  }
+
+  32% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes redvars-loader-ring {
+  0%,
+  14% {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  16% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  72%,
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+// ── Orbit: the mark holds still while a runner chases round a track outside it
+
+.track,
+.runner {
+  fill: none;
+  stroke: var(--_tile);
+  stroke-width: 10;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.track {
+  stroke-opacity: 0.16;
+}
+
+.runner {
+  stroke-dasharray: 0.04 0.96;
+  animation: redvars-loader-orbit var(--_duration)
+    cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes redvars-loader-orbit {
+  0% {
+    stroke-dasharray: 0.04 0.96;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 0.4 0.6;
+    stroke-dashoffset: -0.3;
+  }
+
+  100% {
+    stroke-dasharray: 0.04 0.96;
+    stroke-dashoffset: -1;
+  }
+}
+
+// ── Reduced motion: the whole mark, breathing gently, unless full-motion is set
+
+@media (prefers-reduced-motion: reduce) {
+  :host(:not([full-motion])) .redvars-loader *,
+  :host(:not([full-motion])) .redvars-loader::before {
+    animation: none;
+  }
+
+  :host(:not([full-motion])) .trace .mark {
+    fill-opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  :host(:not([full-motion])) .fill .mark {
+    clip-path: none;
+  }
+
+  :host(:not([full-motion])) .runner {
+    display: none;
+  }
+
+  :host(:not([full-motion])) .redvars-loader:not(.progress) svg {
+    animation: redvars-loader-breathe 2s ease-in-out infinite;
+  }
+}
+
+@keyframes redvars-loader-breathe {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+// ── High contrast: the tile and track take the text color, the r the background
+
+@media (forced-colors: active) {
+  .tile {
+    fill: CanvasText;
+  }
+
+  .mark,
+  .stem,
+  .arm,
+  .ghost {
+    fill: Canvas;
+  }
+
+  .trace .mark {
+    stroke: Canvas;
+  }
+
+  .track,
+  .runner,
+  .pulse::before {
+    stroke: CanvasText;
+    border-color: CanvasText;
+  }
+}

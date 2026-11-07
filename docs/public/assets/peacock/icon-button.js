@@ -1,20 +1,21 @@
-import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n as n$1 } from './property-B49QQ8pS.js';
+import { i, a as i$1, b, A, _ as __decorate, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n as n$1 } from './property-B2TG3KEE.js';
 import { e as e$1 } from './query-CHb9Ft_d.js';
-import { e } from './class-map-DG7CA1et.js';
-import { o } from './if-defined-BXZpRQ4P.js';
+import { e } from './class-map-NDIkZErE.js';
+import { o } from './if-defined-D9DEJR_6.js';
 import { n } from './when-DEJm_QN9.js';
 import { i as isLink } from './is-link-Dk2OV3PM.js';
-import { i as isActivationClick, d as dispatchActivationClick } from './dispatch-event-utils-CuEqjlPT.js';
+import { i as isActivationClick, d as dispatchActivationClick } from './throttle-SQ9t-HL7.js';
 import { D as DISABLED_REASON_ID } from './ButtonConstants-CahP2_NA.js';
-import { m as mixinBaseButton, a as mixinHyperlink } from './hyperlink-DLvb6MXE.js';
-import { m as mixinDelegatesAria } from './delegate-py-Ets8N.js';
-import { m as mixinFormSubmitter } from './form-submitter-DPI4L6gj.js';
-import { m as mixinFormAssociated } from './form-associated-Bhwwr6dT.js';
+import { m as mixinButtonLevel, a as mixinBaseButton, t as toggleButtonSelected, w as warnIfUnnamed, i as iconButtonLabel } from './base-button-Do2TUy8M.js';
+import { m as mixinHyperlink } from './hyperlink-DhE9RlVS.js';
+import { m as mixinDelegatesAria } from './delegate-Bw2wdPFP.js';
+import { m as mixinFormSubmitter } from './form-submitter-DWwv6K9-.js';
+import { m as mixinFormAssociated } from './form-associated-D3Tn33s_.js';
 import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
-import './throttle-C7ZAPqtu.js';
+import './warn-once-BNxX1Y98.js';
 
 var css_248z = i`.button {
   transition-property: inset, width, height, transform, opacity;
@@ -173,13 +174,35 @@ var css_248z = i`.button {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   --button-icon-size: unset;
   --button-container-padding: unset;
@@ -289,6 +312,32 @@ var css_248z = i`.button {
 }
 :host([skeleton]) .ripple {
   display: none;
+}
+
+/*
+ * Loading: a spinner takes the icon's place (or sits before the label).
+ */
+.loading-indicator {
+  flex-shrink: 0;
+  inline-size: var(--button-icon-size, var(--_button-icon-size));
+  pointer-events: none;
+  --progress-height: var(--button-icon-size, var(--_button-icon-size));
+  --progress-container-color: var(--_button-label-text-color);
+  --progress-track-color: transparent;
+}
+
+:host([loading]) {
+  --_button-cursor: progress;
+}
+:host([loading]) .icon-slot {
+  display: none;
+}
+:host([loading]) .ripple {
+  display: none;
+}
+
+:host([loading][has-label]) .button {
+  gap: var(--_button-icon-label-spacing);
 }
 
 /**
@@ -454,22 +503,22 @@ var css_248z = i`.button {
 :host([shape=square]:not([selected])):host {
   --button-container-shape-variant: squircle;
 }
-:host([shape=square]:not([selected])):host([size=xs]), :host([shape=square]:not([selected])):host([size=extra-small]), :host([shape=square]:not([selected])):host([size=sm]), :host([shape=square]:not([selected])):host([size=small]) {
+:host([shape=square]:not([selected])):host([size=xs]), :host([shape=square]:not([selected])):host([size=sm]) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=square]:not([selected])):host([size=xs]:active), :host([shape=square]:not([selected])):host([size=extra-small]:active), :host([shape=square]:not([selected])):host([size=sm]:active), :host([shape=square]:not([selected])):host([size=small]:active) {
+:host([shape=square]:not([selected])):host([size=xs]:active), :host([shape=square]:not([selected])):host([size=sm]:active) {
   --button-container-shape: var(--shape-corner-small);
 }
-:host([shape=square]:not([selected])):host([size=md]), :host([shape=square]:not([selected])):host([size=medium]), :host([shape=square]:not([selected])):host([size=lg]), :host([shape=square]:not([selected])):host([size=large]) {
+:host([shape=square]:not([selected])):host([size=md]), :host([shape=square]:not([selected])):host([size=lg]) {
   --button-container-shape: var(--shape-corner-large);
 }
-:host([shape=square]:not([selected])):host([size=md]:active), :host([shape=square]:not([selected])):host([size=medium]:active), :host([shape=square]:not([selected])):host([size=lg]:active), :host([shape=square]:not([selected])):host([size=large]:active) {
+:host([shape=square]:not([selected])):host([size=md]:active), :host([shape=square]:not([selected])):host([size=lg]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=square]:not([selected])):host([size=xl]), :host([shape=square]:not([selected])):host([size=extra-large]) {
+:host([shape=square]:not([selected])):host([size=xl]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=square]:not([selected])):host([size=xl]:active), :host([shape=square]:not([selected])):host([size=extra-large]:active) {
+:host([shape=square]:not([selected])):host([size=xl]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -495,62 +544,42 @@ var css_248z = i`.button {
 :host([shape=wide][selected]):host {
   --button-container-shape-variant: squircle;
 }
-:host([shape=round][selected]):host([size=xs]), :host([shape=round][selected]):host([size=extra-small]), :host([shape=round][selected]):host([size=sm]), :host([shape=round][selected]):host([size=small]),
+:host([shape=round][selected]):host([size=xs]), :host([shape=round][selected]):host([size=sm]),
 :host([shape=narrow][selected]):host([size=xs]),
-:host([shape=narrow][selected]):host([size=extra-small]),
 :host([shape=narrow][selected]):host([size=sm]),
-:host([shape=narrow][selected]):host([size=small]),
 :host([shape=wide][selected]):host([size=xs]),
-:host([shape=wide][selected]):host([size=extra-small]),
-:host([shape=wide][selected]):host([size=sm]),
-:host([shape=wide][selected]):host([size=small]) {
+:host([shape=wide][selected]):host([size=sm]) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=round][selected]):host([size=xs]:active), :host([shape=round][selected]):host([size=extra-small]:active), :host([shape=round][selected]):host([size=sm]:active), :host([shape=round][selected]):host([size=small]:active),
+:host([shape=round][selected]):host([size=xs]:active), :host([shape=round][selected]):host([size=sm]:active),
 :host([shape=narrow][selected]):host([size=xs]:active),
-:host([shape=narrow][selected]):host([size=extra-small]:active),
 :host([shape=narrow][selected]):host([size=sm]:active),
-:host([shape=narrow][selected]):host([size=small]:active),
 :host([shape=wide][selected]):host([size=xs]:active),
-:host([shape=wide][selected]):host([size=extra-small]:active),
-:host([shape=wide][selected]):host([size=sm]:active),
-:host([shape=wide][selected]):host([size=small]:active) {
+:host([shape=wide][selected]):host([size=sm]:active) {
   --button-container-shape: var(--shape-corner-small);
 }
-:host([shape=round][selected]):host([size=md]), :host([shape=round][selected]):host([size=medium]), :host([shape=round][selected]):host([size=lg]), :host([shape=round][selected]):host([size=large]),
+:host([shape=round][selected]):host([size=md]), :host([shape=round][selected]):host([size=lg]),
 :host([shape=narrow][selected]):host([size=md]),
-:host([shape=narrow][selected]):host([size=medium]),
 :host([shape=narrow][selected]):host([size=lg]),
-:host([shape=narrow][selected]):host([size=large]),
 :host([shape=wide][selected]):host([size=md]),
-:host([shape=wide][selected]):host([size=medium]),
-:host([shape=wide][selected]):host([size=lg]),
-:host([shape=wide][selected]):host([size=large]) {
+:host([shape=wide][selected]):host([size=lg]) {
   --button-container-shape: var(--shape-corner-large);
 }
-:host([shape=round][selected]):host([size=md]:active), :host([shape=round][selected]):host([size=medium]:active), :host([shape=round][selected]):host([size=lg]:active), :host([shape=round][selected]):host([size=large]:active),
+:host([shape=round][selected]):host([size=md]:active), :host([shape=round][selected]):host([size=lg]:active),
 :host([shape=narrow][selected]):host([size=md]:active),
-:host([shape=narrow][selected]):host([size=medium]:active),
 :host([shape=narrow][selected]):host([size=lg]:active),
-:host([shape=narrow][selected]):host([size=large]:active),
 :host([shape=wide][selected]):host([size=md]:active),
-:host([shape=wide][selected]):host([size=medium]:active),
-:host([shape=wide][selected]):host([size=lg]:active),
-:host([shape=wide][selected]):host([size=large]:active) {
+:host([shape=wide][selected]):host([size=lg]:active) {
   --button-container-shape: var(--shape-corner-medium);
 }
-:host([shape=round][selected]):host([size=xl]), :host([shape=round][selected]):host([size=extra-large]),
+:host([shape=round][selected]):host([size=xl]),
 :host([shape=narrow][selected]):host([size=xl]),
-:host([shape=narrow][selected]):host([size=extra-large]),
-:host([shape=wide][selected]):host([size=xl]),
-:host([shape=wide][selected]):host([size=extra-large]) {
+:host([shape=wide][selected]):host([size=xl]) {
   --button-container-shape: var(--shape-corner-extra-large);
 }
-:host([shape=round][selected]):host([size=xl]:active), :host([shape=round][selected]):host([size=extra-large]:active),
+:host([shape=round][selected]):host([size=xl]:active),
 :host([shape=narrow][selected]):host([size=xl]:active),
-:host([shape=narrow][selected]):host([size=extra-large]:active),
-:host([shape=wide][selected]):host([size=xl]:active),
-:host([shape=wide][selected]):host([size=extra-large]:active) {
+:host([shape=wide][selected]):host([size=xl]:active) {
   --button-container-shape: var(--shape-corner-large);
 }
 
@@ -814,42 +843,34 @@ var css_248z = i`.button {
   --_button-container-padding: 0;
 }
 
-:host([size=xs]),
-:host([size=extra-small]) {
-  --button-height: 2rem;
+:host([size=xs]) {
+  --button-height: calc(2rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.25rem;
 }
-:host([size=xs]):host([shape=narrow]),
-:host([size=extra-small]):host([shape=narrow]) {
+:host([size=xs]):host([shape=narrow]) {
   --button-width: 1.75rem;
 }
-:host([size=xs]):host([shape=wide]),
-:host([size=extra-small]):host([shape=wide]) {
+:host([size=xs]):host([shape=wide]) {
   --button-width: 2rem;
 }
 
-:host([size=sm]),
-:host([size=small]) {
-  --button-height: 2.5rem;
+:host([size=sm]) {
+  --button-height: calc(2.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.25rem;
 }
-:host([size=sm]):host([shape=narrow]),
-:host([size=small]):host([shape=narrow]) {
+:host([size=sm]):host([shape=narrow]) {
   --button-width: 2rem;
 }
-:host([size=sm]):host([shape=wide]),
-:host([size=small]):host([shape=wide]) {
+:host([size=sm]):host([shape=wide]) {
   --button-width: 3.25rem;
 }
 
-:host([size=md]),
-:host([size=medium]) {
-  --button-height: 3.5rem;
+:host([size=md]) {
+  --button-height: calc(3.5rem + var(--density, 0) * 0.25rem);
   --_button-icon-size: 1.5rem;
 }
 
-:host([size=lg]),
-:host([size=large]) {
+:host([size=lg]) {
   --button-height: 6rem;
   --_button-icon-size: 2rem;
 }
@@ -864,10 +885,11 @@ var css_248z = i`.button {
  * @tag wc-icon-button
  * @rawTag icon-button
  *
- * @summary Icon buttons allow users to take actions, and make choices, with a single tap.
+ * @summary A button that shows only an icon, for compact actions such as close or more options; it can also toggle.
  *
  * @overview
- * <p>Icon buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
+ * <p>An icon button has no visible text, so give it an <code>aria-label</code>. Without one, its <code>tooltip</code> text is used as the accessible name; with neither, a warning is logged once.</p>
+ * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>, the same as on <code>wc-button</code>. Set <code>toggle</code> for a toggle button with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported, for toolbar links.</p>
  *
  * @cssprop --button-container-shape: Defines the border radius of the button container shape.
  *
@@ -894,17 +916,20 @@ var css_248z = i`.button {
  * @cssprop --neo-button-container-color: Color of the neo button container.
  * @cssprop --neo-button-label-text-color: Text color of the neo button label.
  *
- * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` button after a click flips `selected`.
  *
  * @example
  * ```html
- * <wc-icon-button><wc-icon name="home"></wc-icon></wc-icon-button>
+ * <wc-icon-button aria-label="Home"><wc-icon name="home"></wc-icon></wc-icon-button>
  * ```
  * @tags display
  */
-let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(i$1)))))) {
+let IconButton = class IconButton extends mixinButtonLevel(mixinBaseButton(mixinHyperlink(mixinDelegatesAria(mixinFormSubmitter(mixinFormAssociated(mixinElementInternals(i$1))))))) {
+    // ── Constructor ───────────────────────────────────────────────────────────
     constructor() {
         super();
+        // ── Properties ───────────────────────────────────────────────────────────
         /**
          * Button size.
          * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
@@ -912,36 +937,37 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
         this.size = 'sm';
         /** Shape of the button container. */
         this.shape = 'square';
-        /**
-         * The visual style of the button.
-         *
-         *  Possible variant values:
-         * `"filled"` is a filled button.
-         * `"outlined"` is an outlined button.
-         * `"text"` is a transparent button.
-         * `"tonal"` is a light color button.
-         * `"elevated"` is elevated button
-         */
-        this.variant = 'filled';
-        /**
-         * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-         */
-        this.color = 'primary';
-        /** When true, renders the button in a loading skeleton state. */
+        /** When true, renders the button as a placeholder skeleton while the page loads. */
         this.skeleton = false;
-        /** When true, the button acts as a toggle. Use with `selected`. */
+        /**
+         * When true, the button is busy: it shows a spinner in place of its icon, sets
+         * `aria-busy="true"` and ignores clicks, like `soft-disabled`.
+         */
+        this.loading = false;
+        /**
+         * When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click
+         * and fires `change`.
+         */
         this.toggle = false;
-        /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+        /** The pressed state of a `toggle` button. Has no effect without `toggle`. */
         this.selected = false;
+        // ── Private methods ───────────────────────────────────────────────────────
         this.__dispatchClick = (event) => {
-            // If the button is soft-disabled or a disabled link, we need to explicitly
-            // prevent the click from propagating to other event listeners as well as
-            // prevent the default action.
-            if (this.softDisabled || (this.disabled && this.href) || this.skeleton) {
+            // If the button is soft-disabled, loading or a disabled link, we need to
+            // explicitly prevent the click from propagating to other event listeners
+            // as well as prevent the default action.
+            if (this.softDisabled ||
+                this.loading ||
+                (this.disabled && this.href) ||
+                this.skeleton) {
                 event.stopImmediatePropagation();
                 event.preventDefault();
                 return;
             }
+            // Each activation reaches this listener once: either the inner button's
+            // click bubbling out, or a click fired at the host and forwarded below.
+            if (!isLink(this))
+                toggleButtonSelected(this);
             if (!isActivationClick(event) || !this.buttonElement) {
                 return;
             }
@@ -950,34 +976,19 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
         };
         this.addEventListener('click', this.__dispatchClickWithThrottle);
     }
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+    firstUpdated(changedProperties) {
+        super.firstUpdated(changedProperties);
+        warnIfUnnamed(this, this.ariaLabel, this.tooltip);
+    }
+    // ── Public methods ────────────────────────────────────────────────────────
     focus() {
         this.buttonElement?.focus();
     }
     blur() {
         this.buttonElement?.blur();
     }
-    firstUpdated(changedProperties) {
-        super.firstUpdated(changedProperties);
-        this.__convertTypeToVariantAndColor();
-    }
-    __convertTypeToVariantAndColor() {
-        if (this.type === 'primary') {
-            this.color = 'primary';
-            this.variant = 'filled';
-        }
-        else if (this.type === 'secondary') {
-            this.color = 'surface';
-            this.variant = 'filled';
-        }
-        else if (this.type === 'tertiary') {
-            this.color = 'primary';
-            this.variant = 'text';
-        }
-        else if (this.type === 'danger') {
-            this.color = 'danger';
-            this.variant = 'filled';
-        }
-    }
+    // ── Render helpers ────────────────────────────────────────────────────────
     renderDisabledReason(softDisabled) {
         if (softDisabled)
             return b `<div
@@ -999,8 +1010,18 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
         }
         return A;
     }
+    renderLoadingIndicator() {
+        if (!this.loading)
+            return A;
+        return b `<wc-circular-progress
+      class="loading-indicator"
+      indeterminate
+      aria-hidden="true"
+    ></wc-circular-progress>`;
+    }
     renderButtonContent() {
         return b `
+      ${this.renderLoadingIndicator()}
       <slot class="icon-slot"></slot>
       <div class="touch"></div>
       ${this.renderDisabledReason(this.softDisabled)}
@@ -1009,20 +1030,23 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
     renderButtonElement() {
         const isElementLink = isLink(this);
         const { ariaLabel, ariaHasPopup, ariaExpanded } = this;
+        const label = iconButtonLabel(ariaLabel, this.tooltip);
         const cssClasses = {
             button: true,
             'native-button': !isElementLink,
             'native-link': isElementLink,
         };
-        if (!isLink(this)) {
+        if (!isElementLink) {
             return b `<button
         class=${e(cssClasses)}
         id="button"
-        aria-label="${ariaLabel || A}"
+        aria-label="${label || A}"
         aria-haspopup="${ariaHasPopup || A}"
         aria-expanded="${ariaExpanded || A}"
         aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-        ?aria-disabled=${this.softDisabled}
+        aria-disabled=${this.softDisabled ? 'true' : A}
+        aria-pressed=${this.toggle ? String(this.selected) : A}
+        aria-busy=${this.loading ? 'true' : A}
         ?disabled=${this.disabled}
       >
         ${this.renderButtonContent()}
@@ -1033,12 +1057,15 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
       id="link"
       href=${this.href}
       target=${this.target}
+      rel=${this.rel || A}
+      download=${this.download || A}
       tabindex=${this.disabled ? '-1' : '0'}
-      aria-label="${ariaLabel || A}"
+      aria-label="${label || A}"
       aria-haspopup="${ariaHasPopup || A}"
       aria-expanded="${ariaExpanded || A}"
       aria-describedby=${o(this.softDisabled ? DISABLED_REASON_ID : undefined)}
-      ?aria-disabled=${this.softDisabled}
+      aria-disabled=${this.softDisabled ? 'true' : A}
+      aria-busy=${this.loading ? 'true' : A}
     >
       ${this.renderButtonContent()}
     </a>`;
@@ -1052,7 +1079,7 @@ let IconButton = class IconButton extends mixinBaseButton(mixinHyperlink(mixinDe
       ${n(this.variant === 'neo', () => b `<div class="neo-background"></div>`)}
       <div class="background"></div>
       ${n(this.variant === 'outlined' || this.variant === 'neo', () => b `<div class="outline"></div>`)}
-      <wc-ripple class="ripple" for="button"></wc-ripple>
+      <wc-ripple class="ripple" for=${buttonId}></wc-ripple>
       <wc-skeleton class="skeleton"></wc-skeleton>
 
       ${this.renderButtonElement()} ${this.renderTooltip()}
@@ -1070,20 +1097,14 @@ __decorate([
     n$1({ reflect: true })
 ], IconButton.prototype, "size", void 0);
 __decorate([
-    n$1({ type: String })
-], IconButton.prototype, "level", void 0);
-__decorate([
     n$1({ type: String, reflect: true })
 ], IconButton.prototype, "shape", void 0);
 __decorate([
-    n$1({ reflect: true })
-], IconButton.prototype, "variant", void 0);
-__decorate([
-    n$1({ reflect: true })
-], IconButton.prototype, "color", void 0);
-__decorate([
     n$1({ type: Boolean, reflect: true })
 ], IconButton.prototype, "skeleton", void 0);
+__decorate([
+    n$1({ type: Boolean, reflect: true })
+], IconButton.prototype, "loading", void 0);
 __decorate([
     n$1({ type: Boolean, reflect: true })
 ], IconButton.prototype, "toggle", void 0);

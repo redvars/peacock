@@ -1,9 +1,9 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
-import { A as AttachableController } from './attachable-controller-CAKVrfcG.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
+import { A as AttachableController } from './attachable-controller-DofeyflD.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
 
@@ -86,9 +86,12 @@ const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
  * @tag wc-ripple
  * @rawTag ripple
  *
- * @summary Provides ripple effect for interactive elements.
+ * @summary The hover tint and press ripple of a button or another control it is attached to.
  * @overview
- * <p>Ripple creates a visual feedback effect when users interact with buttons or other clickable elements.</p>
+ * <p>The ripple attaches to its parent element, or to the element whose id is in <code>for</code>, or to a
+ * control passed to <code>attach()</code>,
+ * and is hidden from assistive technology. Give the control <code>position: relative</code> and
+ * <code>overflow: hidden</code> so the ripple stays inside it.</p>
  *
  * @example
  * ```html

@@ -46,7 +46,7 @@ let listCount = 0;
  * @label Mention Input
  * @tag wc-mention-input
  * @rawTag mention-input
- * @summary A multiline text field where typing `@` (or another trigger) suggests people or tags to mention.
+ * @summary A multiline text field where typing a trigger character, such as the at sign, suggests people or tags to mention.
  * @overview
  * <p>Mention input is a textarea in which a trigger character, <code>@</code> by default, opens a
  * list of suggestions at the caret. Picking one inserts the trigger and the suggestion's label as

@@ -1,0 +1,60 @@
+---
+import Layout from '../../../layouts/Post.astro';
+import { SITE_TITLE } from '../../../siteconfig';
+export const title = `${SITE_TITLE} 4.0`;
+export const description = `One set of conventions across every component, real form validation, overlays in the top layer, and more than 50 new components for enterprise apps.`;
+export const publishedDate = '2026-11-07';
+export const tags = ['release'];
+---
+
+<Layout title={title} description={description} publishedDate={publishedDate} tags={tags}>
+  <p>
+    {SITE_TITLE} 4.0 is the biggest release so far. Every component now follows the same conventions, so once you
+    know one you know them all, and the library grows from about 80 to more than 120 components. Upgrading from 3.x?
+    The <a class='link' href='https://github.com/redvars/peacock/blob/main/MIGRATION.md'>migration guide</a> lists
+    every change.
+  </p>
+
+  <h2 class='text-headline-small'>One way to do things</h2>
+  <ul>
+    <li>
+      <strong>Events.</strong> Every field fires <code class='text-code-block'>input</code> and
+      <code class='text-code-block'>change</code> with <code class='text-code-block'>detail.value</code>; every overlay
+      fires <code class='text-code-block'>open</code> and <code class='text-code-block'>close</code> with a
+      <code class='text-code-block'>reason</code>.
+    </li>
+    <li>
+      <strong>Words.</strong> <code class='text-code-block'>intent</code> for meaning,
+      <code class='text-code-block'>variant</code> for style, <code class='text-code-block'>current</code> for the page
+      you are on, <code class='text-code-block'>start</code> and <code class='text-code-block'>end</code> for sides that
+      follow the writing direction.
+    </li>
+    <li>
+      <strong>Sizes.</strong> One scale, <code class='text-code-block'>xs</code> to <code class='text-code-block'>xl</code>,
+      with fields and buttons at the same height by default.
+    </li>
+  </ul>
+
+  <h2 class='text-headline-small'>Foundations</h2>
+  <ul>
+    <li><strong>Forms.</strong> Fields take part in native validation, block submission while invalid and show the message under the field. <code class='text-code-block'>wc-form</code> adds an error summary, unsaved-changes tracking and server errors.</li>
+    <li><strong>Overlays.</strong> Modals, sheets, menus, popovers, tooltips and toasts render in the top layer, stack correctly, trap and return focus, and close with Escape one at a time.</li>
+    <li><strong>Everywhere.</strong> Translatable text with <code class='text-code-block'>setPeacockStrings()</code>, right-to-left layouts, a density setting and high-contrast support.</li>
+  </ul>
+
+  <h2 class='text-headline-small'>New components</h2>
+  <ul>
+    <li><strong>Data:</strong> a data grid with column resize, reorder, groups, multi-sort, row details, inline editing, grouping, totals, virtual scrolling and CSV export; a filter bar, description list, stat, sparkline, virtual list, kanban, JSON viewer and diff viewer.</li>
+    <li><strong>Inputs:</strong> password with rules, PIN, phone, currency, date range, mention, inline edit, rating, signature, file upload, checkbox group, listbox, transfer list and tree.</li>
+    <li><strong>App:</strong> app shell, page header, stack, grid, resizable panels, scroll area, stepper, anchor navigation, command palette, workspace switcher, user menu, notification center, banner, confirm dialog, hover card, tour and comment thread; illustrations for empty, error and success screens, and the Redvars loader.</li>
+  </ul>
+
+  <h2 class='text-headline-small'>Removed</h2>
+  <p>
+    Everything deprecated during 3.x is gone, including <code class='text-code-block'>wc-notification</code>
+    (use <code class='text-code-block'>wc-alert</code> or <code class='text-code-block'>wc-snackbar</code>),
+    <code class='text-code-block'>wc-sidebar-menu</code> (use <code class='text-code-block'>wc-navigation-drawer</code>),
+    <code class='text-code-block'>wc-spinner</code> (use <code class='text-code-block'>wc-circular-progress</code>)
+    and <code class='text-code-block'>wc-empty-state</code> (compose your own message from <code class='text-code-block'>wc-illustration</code>, a heading, text and buttons).
+  </p>
+</Layout>

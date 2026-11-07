@@ -1,26 +1,10 @@
 import componentsDetails from './custom-elements-jsdocs.json';
 import { marked } from 'marked';
 
-const otherComps = [
-  {
-    rawTag: 'footer',
-    label: 'Footer',
-    summary:
-      'The footer component represents the bottom section of a web page.',
-    tag: 'footer',
-    wip: true,
-    customElement: {
-      attributes: [],
-      events: [],
-      cssProperties: [],
-    },
-  },
-];
-
 export function getAllComponentDetails() {
   const detailsByTag = new Map<string, any>();
 
-  [...componentsDetails, ...otherComps].forEach(component => {
+  componentsDetails.forEach(component => {
     if (component?.rawTag) {
       detailsByTag.set(component.rawTag, component);
     }
@@ -41,8 +25,6 @@ export function getAllComponentsForShowcase() {
       'code-group',
       'tab',
       'popover-content',
-      'sidebar-menu-item',
-      'sidebar-sub-menu',
       'segmented-button',
       'option',
       'navigation-rail-item',
@@ -61,8 +43,16 @@ export function getAllComponentsForShowcase() {
       'calendar-month-view',
       'breadcrumb-item',
       'accordion-item',
-      'chip-set',
-      'timeline-item'
+      'timeline-item',
+      // Children documented on their parent's page.
+      'radio',
+      'comment',
+      'description-item',
+      'navigation-bar-item',
+      'navigation-drawer-item',
+      'panel',
+      'step',
+      'tree-item',
     ].includes(component.rawTag);
   });
 }

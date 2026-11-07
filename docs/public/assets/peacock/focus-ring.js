@@ -1,6 +1,6 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { A as AttachableController } from './attachable-controller-CAKVrfcG.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1 } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { A as AttachableController } from './attachable-controller-DofeyflD.js';
 
 var css_248z = i`:host {
   display: none;
@@ -35,12 +35,22 @@ const HANDLED_BY_FOCUS_RING = Symbol('handledByFocusRing');
  * @tag wc-focus-ring
  * @rawTag focus-ring
  *
- * @summary Adds a focus ring to an element.
+ * @summary A ring drawn around a control while it has keyboard focus, so people can see where focus is.
  *
+ * @overview
+ * <p>Attach it to a control with <code>for</code> (the control's id), by setting
+ * <code>control</code>, or by calling <code>attach()</code>; otherwise it follows its parent. It
+ * shows when the control gains focus and matches <code>:focus-visible</code>, and hides on blur
+ * or a pointer press, so mouse and touch users do not see it. When several focus rings sit inside
+ * one component, only the first to handle a focus event reacts.</p>
+ * <p><code>inward</code> draws the ring inside the control's edge, for controls inside a
+ * container. <code>visible</code> reflects whether the ring shows and fires
+ * <code>visibility-changed</code> when it changes. The ring is hidden from assistive
+ * technology.</p>
  *
  * @tags display
  *
- * @fires visibility-changed {Event} Fired whenever `visible` changes.
+ * @fires {Event} visibility-changed - Dispatched whenever `visible` changes.
  */
 let FocusRing = class FocusRing extends i$1 {
     constructor() {

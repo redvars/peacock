@@ -346,31 +346,6 @@ describe('Menu', () => {
     expect(activatedItem).to.equal(item);
   });
 
-  it('fires opened and closed on itself without bubbling, with the close reason', async () => {
-    const wrapper = await fixture<HTMLDivElement>(html`
-      <div>
-        <wc-menu>
-          <wc-menu-item>One</wc-menu-item>
-        </wc-menu>
-      </div>
-    `);
-    const el = wrapper.querySelector<Menu>('wc-menu')!;
-    const seen: string[] = [];
-    wrapper.addEventListener('opened', () => seen.push('wrapper:opened'));
-    wrapper.addEventListener('closed', () => seen.push('wrapper:closed'));
-    el.addEventListener('opened', () => seen.push('opened'));
-    el.addEventListener('closed', event =>
-      seen.push(`closed:${(event as CustomEvent).detail.reason.kind}`),
-    );
-
-    el.show();
-    await el.updateComplete;
-    key(el, 'Escape');
-    await el.updateComplete;
-
-    expect(seen).to.deep.equal(['opened', 'closed:keydown']);
-  });
-
   it('fires bubbling open and close with the shared reason and the menu cause', async () => {
     const wrapper = await fixture<HTMLDivElement>(html`
       <div>

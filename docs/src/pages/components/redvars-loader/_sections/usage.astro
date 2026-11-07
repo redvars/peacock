@@ -1,0 +1,66 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-redvars-loader</code> is the Redvars r mark as a loading indicator, for the brand moment
+  such as the first load of an app. Inside a page, use <code>wc-circular-progress</code> or
+  <code>wc-linear-progress</code> instead. It is a <code>progressbar</code> named by
+  <code>label</code> ("Loading" by default).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;'>
+    <wc-redvars-loader></wc-redvars-loader>
+    <wc-redvars-loader variant='trace'></wc-redvars-loader>
+    <wc-redvars-loader variant='fill'></wc-redvars-loader>
+    <wc-redvars-loader variant='pulse'></wc-redvars-loader>
+    <wc-redvars-loader variant='orbit'></wc-redvars-loader>
+  </div>
+</DemoComponentCard>
+
+<h3>Variants</h3>
+<p>
+  <code>variant</code> picks how the mark moves: <code>build</code> (the default: the stem rises
+  and the arm swings out), <code>trace</code> (the outline draws itself and fills),
+  <code>fill</code> (the r fills from the bottom), <code>pulse</code> (the tile beats and sends out
+  a ring) or <code>orbit</code> (a runner chases round the tile).
+</p>
+
+<h3>Progress</h3>
+<p>
+  With <code>value</code> (0 to 100) the loader stops looping and fills the r to that level, and
+  reports it with <code>aria-valuenow</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-redvars-loader id='redvars-loader-progress' value='0' label='Installing'></wc-redvars-loader>
+  <script is:inline>
+    (function () {
+      var loader = document.getElementById('redvars-loader-progress');
+      var value = 0;
+      setInterval(function () {
+        value = value >= 100 ? 0 : value + 10;
+        loader.value = value;
+      }, 600);
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Size, color and motion</h3>
+<p>
+  <code>--redvars-loader-size</code> sets the edge (4rem by default),
+  <code>--redvars-loader-tile-color</code> and <code>--redvars-loader-mark-color</code> the colors,
+  and <code>--redvars-loader-duration</code> the length of one loop. When the system asks for
+  reduced motion the mark only breathes gently; <code>full-motion</code> plays the full animation
+  anyway.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-redvars-loader
+    variant='orbit'
+    style='--redvars-loader-size: 6rem; --redvars-loader-duration: 3s;'
+  ></wc-redvars-loader>
+</DemoComponentCard>

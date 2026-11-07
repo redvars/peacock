@@ -162,7 +162,7 @@
   }
 
   /* Active state */
-  &.active {
+  &.current {
     --_state-color: var(--_active-icon-color);
 
     .indicator {
@@ -183,7 +183,7 @@
   }
 
   /* Active icon slot: show when active and slot has content */
-  &.active.has-active-icon {
+  &.current.has-active-icon {
     .active-icon-slot {
       display: flex;
     }

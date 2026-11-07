@@ -11,10 +11,12 @@ import {
 import { Icon } from '../src/icon/index.js';
 import { Button, IconButton } from '../src/button/index.js';
 import { Tab, Tabs } from '../src/tabs/index.js';
+import { CopyButton } from '../src/copy-button/index.js';
 
 for (const [tag, element] of [
   ['wc-icon', Icon],
   ['wc-icon-button', IconButton],
+  ['wc-copy-button', CopyButton],
   ['wc-button', Button],
   ['wc-tabs', Tabs],
   ['wc-tab', Tab],
@@ -54,6 +56,13 @@ function stubClipboard(succeed: boolean) {
       document.execCommand = originalExec;
     },
   };
+}
+
+/** The button inside the highlighter's wc-copy-button, where a real click lands. */
+async function copyControl(el: CodeHighlighter): Promise<HTMLElement> {
+  const copy = root(el).querySelector('.copy-button') as CopyButton;
+  await copy.updateComplete;
+  return copy.shadowRoot!.querySelector('wc-icon-button') as HTMLElement;
 }
 
 function lines(el: CodeHighlighter): HTMLElement[] {
@@ -217,7 +226,7 @@ describe('CodeHighlighter', () => {
         .value=${'npm i\nnpm test\n'}
       ></wc-code-highlighter>
     `);
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
+    const button = await copyControl(el);
     const clipboard = stubClipboard(true);
     try {
       setTimeout(() => button.click());
@@ -231,23 +240,22 @@ describe('CodeHighlighter', () => {
     }
   });
 
-  it('fires no copied and shows no feedback when nothing could be copied', async () => {
+  it('fires copy-error, not copied, when nothing could be copied', async () => {
     const el = await fixture<CodeHighlighter>(html`
       <wc-code-highlighter language="text" .value=${'a'}></wc-code-highlighter>
     `);
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
+    const button = await copyControl(el);
     let copied = false;
     el.addEventListener('copied', () => {
       copied = true;
     });
     const clipboard = stubClipboard(false);
     try {
-      button.click();
-      await waitUntil(() => clipboard.writes.length === 1);
-      await new Promise(resolve => {
-        setTimeout(resolve, 50);
-      });
-      await el.updateComplete;
+      setTimeout(() => button.click());
+      const error = (await oneEvent(el, 'copy-error')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(error.detail.value).to.equal('a');
       expect(copied).to.be.false;
     } finally {
       clipboard.restore();
@@ -262,7 +270,7 @@ describe('CodeHighlighter', () => {
         .value=${'$ npm i\nadded 1 package'}
       ></wc-code-highlighter>
     `);
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
+    const button = await copyControl(el);
     const clipboard = stubClipboard(true);
     try {
       setTimeout(() => button.click());

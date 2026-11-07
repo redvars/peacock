@@ -26,7 +26,7 @@ const ITEM_ROLES: Record<MenuItemType, string> = {
  * @label Menu Item
  * @tag wc-menu-item
  * @rawTag menu-item
- * @summary An item in a menu list.
+ * @summary One action or choice in a menu; it can be a link, a checkbox or radio choice, or open a submenu.
  * @overview
  * <p>A menu item is a button, or a link when it has an <code>href</code>. A selected item shows a
  * check mark at the end; an item with a submenu shows a chevron. Put an icon in the

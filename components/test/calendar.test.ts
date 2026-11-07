@@ -7,7 +7,6 @@ import { CalendarMonthView } from '../src/calendar/calendar-month-view.js';
 import type { CalendarDateChangeDetail } from '../src/calendar/calendar.js';
 import type { EventType } from '../src/calendar/types.js';
 import { toZonedWallClock, zonedParts } from '../src/calendar/utils.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 import { dateToIso } from '../src/__internal/utils/date.js';
 
 for (const [tag, element] of [
@@ -16,21 +15,6 @@ for (const [tag, element] of [
   ['wc-calendar-month-view', CalendarMonthView],
 ] as const) {
   if (!customElements.get(tag)) customElements.define(tag, element);
-}
-
-/** Replaces console.warn and records its messages. */
-function stubWarn() {
-  const original = console.warn;
-  const messages: string[] = [];
-  console.warn = (...args: unknown[]) => {
-    messages.push(args.map(String).join(' '));
-  };
-  return {
-    messages,
-    restore() {
-      console.warn = original;
-    },
-  };
 }
 
 const events: EventType[] = [
@@ -155,18 +139,6 @@ describe('wc-calendar', () => {
     expect(body()?.getAttribute('aria-busy')).to.equal('true');
   });
 
-  it('keeps show-loader working as a deprecated alias of loading', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const el = await mount(html`<wc-calendar show-loader></wc-calendar>`);
-      expect(root(el).querySelector('wc-linear-progress')).to.not.equal(null);
-      expect(warn.messages.some(m => m.includes('show-loader'))).to.equal(true);
-    } finally {
-      warn.restore();
-    }
-  });
-
   it('fires event-click from a focusable event, unless events-readonly', async () => {
     const el = await mount(
       html`<wc-calendar
@@ -198,30 +170,6 @@ describe('wc-calendar', () => {
     block().click();
     expect(block().hasAttribute('tabindex')).to.equal(false);
     expect(fired).to.equal(false);
-  });
-
-  it('keeps event-clickable=false working with a deprecation warning', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const el = await mount(
-        html`<wc-calendar
-          view="week"
-          date="2026-11-04"
-          .eventClickable=${false}
-          .events=${events}
-        ></wc-calendar>`,
-      );
-      const block = viewRoot(el).querySelector(
-        '.events-container .event',
-      ) as HTMLElement;
-      expect(block.classList.contains('clickable')).to.equal(false);
-      expect(warn.messages.some(m => m.includes('event-clickable'))).to.equal(
-        true,
-      );
-    } finally {
-      warn.restore();
-    }
   });
 
   it('labels the column view as a region and opens a day from its header', async () => {

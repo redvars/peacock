@@ -1,9 +1,8 @@
-import { html, PropertyValues, svg } from 'lit';
+import { html, svg } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { arc, easeCubicOut, interpolate, pie, PieArcDatum, select } from 'd3';
 import IndividualComponent from '@/IndividualComponent.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { ChartBase, chartColor } from '../__internal/chart/chart-base.js';
 import type {
   ChartSeries,
@@ -51,6 +50,31 @@ const MIN_LABEL_ANGLE = 0.35;
  * @tag wc-chart-pie
  * @rawTag chart-pie
  * @summary Shows how parts make up a whole. Best with a handful of slices.
+ *
+ * @overview
+ * <p>Set <code>data</code> to an array of slices, each with a unique <code>name</code>, a
+ * <code>value</code>, and an optional <code>label</code> and <code>color</code>. Slices keep the
+ * order they are given in. Use <code>wc-chart-doughnut</code> to show the total in the centre, and
+ * <code>wc-chart-bar</code> when there are many parts or they need to be compared precisely.</p>
+ * <ul>
+ * <li><code>show-labels</code> prints each slice's percentage inside it when the slice is big
+ * enough.</li>
+ * <li><code>height</code> sets the plot height in pixels (300 by default); the width follows the
+ * container.</li>
+ * </ul>
+ * <p>Hovering or focusing a slice pulls it out, dims the others and shows a tooltip with its value
+ * and share of the visible total (<code>hide-tooltip</code> turns it off). Slices are told apart by
+ * the legend, so it shows by default (<code>legend</code>: <code>auto</code>, <code>show</code> or
+ * <code>hide</code>); each entry is a toggle button that hides or shows its slice, and percentages
+ * are worked out from the visible slices. <code>valueFormatter</code> formats the values.</p>
+ * <p>The plot is focusable. The arrow keys move through the slices (Left and Right follow the
+ * reading direction), Home and End jump to the first and last, Escape clears the focus, and Enter or
+ * Space fires <code>select</code>. Each move is announced through a polite live region, and a
+ * visually hidden table lists each slice's name, value and share for screen readers. Give the chart
+ * a <code>label</code> to name it.</p>
+ * <p><code>loading</code> shows a skeleton, and the <code>empty</code> slot shows when no slice has a
+ * value above zero. Slices sweep in and animate on data changes unless
+ * <code>disable-animation</code> is set or the user prefers reduced motion.</p>
  * @tags charts
  *
  * @example
@@ -67,8 +91,7 @@ const MIN_LABEL_ANGLE = 0.35;
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
- * @fires chart-select - Deprecated: use `select`. Fires after `select` with the same detail.
+ * @fires {CustomEvent<ChartSelectDetail>} select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.
@@ -89,13 +112,6 @@ export class ChartPie extends ChartBase {
   /** Slices to draw. */
   @property({ type: Array }) data: ChartPieItem[] = [];
 
-  /**
-   * Size of the hole as a fraction of the radius, from 0 (pie) to 0.9.
-   * @deprecated A pie has no hole: use `wc-chart-doughnut`, which owns `inner-radius` and the centre label.
-   */
-  @property({ type: Number, attribute: 'inner-radius' }) innerRadius: number =
-    0;
-
   /** Prints each slice's percentage inside it when it fits. */
   @property({ type: Boolean, attribute: 'show-labels' }) showLabels: boolean =
     false;
@@ -111,24 +127,10 @@ export class ChartPie extends ChartBase {
   /** Pie centre from the last draw, in plot coordinates. */
   private center = { x: 0, y: 0 };
 
-  // ── Lifecycle
-
-  willUpdate(changed: PropertyValues) {
-    super.willUpdate(changed);
-    if (changed.has('innerRadius') && this.innerRadius && !this.ownsHole()) {
-      deprecate(this.localName, '`inner-radius`', '`wc-chart-doughnut`');
-    }
-  }
-
   // ── Private methods
 
-  /** Whether `inner-radius` is part of this chart's API. Doughnut returns true. */
-  protected ownsHole(): boolean {
-    return false;
-  }
-
   protected drawProperties(): string[] {
-    return [...super.drawProperties(), 'data', 'innerRadius', 'showLabels'];
+    return [...super.drawProperties(), 'data', 'showLabels'];
   }
 
   protected hasData(): boolean {
@@ -169,9 +171,10 @@ export class ChartPie extends ChartBase {
       : '';
   }
 
-  /** The hole as a clamped fraction of the radius. */
+  /** The hole as a fraction of the radius: none for a pie. `wc-chart-doughnut` overrides it. */
+  // eslint-disable-next-line class-methods-use-this
   protected innerFraction(): number {
-    return Math.min(Math.max(this.innerRadius || 0, 0), 0.9);
+    return 0;
   }
 
   protected draw(animate: boolean): void {

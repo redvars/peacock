@@ -11,7 +11,7 @@ import styles from './description-item.scss';
  * @tag wc-description-item
  * @rawTag description-item
  *
- * @summary One label and value of a `wc-description-list`.
+ * @summary One label and its value in a description list.
  * @overview
  * <p>Description item is one entry of a <code>wc-description-list</code>: a <code>label</code>
  * ("Status") and its value in the default slot ("Active"). It renders a real

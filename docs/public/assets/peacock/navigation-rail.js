@@ -1,15 +1,18 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { e } from './class-map-DG7CA1et.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { e } from './class-map-NDIkZErE.js';
 import { NavigationRailItem } from './navigation-rail-item.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
+import { s as selectNavigationItem } from './navigation-item-base-kUrvJgCx.js';
 import './directive-ZPhl09Yt.js';
-import './state-DkTK9EGF.js';
+import './indicator-navigation-item-CmyhsOmy.js';
+import './state-BCeDVCI9.js';
+import './observe-slot-change-DPxaZrZF.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './dispatch-event-utils-CuEqjlPT.js';
-import './observe-slot-change-DPxaZrZF.js';
-import './throttle-C7ZAPqtu.js';
-import './is-link-Dk2OV3PM.js';
+import './throttle-SQ9t-HL7.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -17,13 +20,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   height: 100%;
@@ -90,14 +115,17 @@ var css_248z = i`* {
  * @tag wc-navigation-rail
  * @rawTag navigation-rail
  *
- * @summary A vertical side navigation for medium-sized screens,.
+ * @summary A vertical side navigation for medium-sized screens.
  * @overview
  * <p>Navigation rail provides access to primary destinations in an app using icons—with or without labels—on a vertical rail.</p>
- * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations.</p>
+ * <p>Use navigation rail on medium-sized screens (tablets) with 3–7 destinations. Clicking an item makes it the
+ * current one (<code>aria-current="page"</code>) and fires <code>change</code>.</p>
  *
+ * @slot - The rail items.
  * @slot header - Content displayed above the rail items.
  * @slot footer - Content pinned to the bottom of the rail.
  *
+ * @fires {CustomEvent<{value: string | undefined, index: number, item: NavigationRailItem}>} change - Dispatched when the user activates an item. *
  * @cssprop --nav-rail-width - Width of the rail container. Defaults to 5rem (80dp).
  * @cssprop --nav-rail-container-color - Background color of the rail. Defaults to surface color.
  * @cssprop --nav-rail-indicator-color - Color of the active indicator. Defaults to secondary-container.
@@ -112,7 +140,7 @@ var css_248z = i`* {
  * @example
  * ```html
  * <wc-navigation-rail>
- *   <wc-navigation-rail-item active>
+ *   <wc-navigation-rail-item current>
  *     <wc-icon slot="icon" name="home"></wc-icon>
  *     Home
  *   </wc-navigation-rail-item>
@@ -126,63 +154,65 @@ var css_248z = i`* {
  */
 let NavigationRail = class NavigationRail extends i$1 {
     constructor() {
+        // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
+        // ── Properties ───────────────────────────────────────────────────────────
         /**
          * Display mode of the navigation rail.
          * - `"expanded"`: shows labels.
          * - `"collapsed"`: hides labels.
          */
         this.mode = 'expanded';
-        /**
-         * Whether to show a divider between the header and items sections.
-         */
+        /** Whether to show a divider between the header and items sections. */
         this.showDivider = false;
-        this._handleItemClick = (event) => {
-            const target = event.target;
-            const item = target.closest('wc-navigation-rail-item');
-            if (!item || item.disabled)
-                return;
-            // Deactivate all items and activate the clicked one
-            for (const railItem of this._getItems()) {
-                railItem.active = railItem === item;
-            }
-            this.dispatchEvent(new CustomEvent('nav-change', {
-                detail: {
-                    value: item.value,
-                    item,
-                },
-                bubbles: true,
-                composed: true,
-            }));
+        // ── Private fields ───────────────────────────────────────────────────────
+        /** Peacock's strings for the default landmark label. */
+        this.i18n = new I18nController(this);
+        // ── Private methods ──────────────────────────────────────────────────────
+        this.handleItemClick = (event) => {
+            selectNavigationItem(this, event, 'wc-navigation-rail-item');
         };
-        this._syncItemMode = () => {
+        this.syncItemMode = () => {
             const isCollapsed = this.mode === 'collapsed';
-            for (const railItem of this._getItems()) {
+            for (const railItem of this.getItems()) {
                 railItem.collapsed = isCollapsed;
             }
         };
     }
+    // ── Lifecycle ────────────────────────────────────────────────────────────
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('click', this._handleItemClick);
+        this.addEventListener('click', this.handleItemClick);
         this.setAttribute('role', 'navigation');
-        this.setAttribute('aria-label', this.getAttribute('aria-label') ?? 'Main navigation');
+        this.syncLabel();
     }
     disconnectedCallback() {
-        this.removeEventListener('click', this._handleItemClick);
+        this.removeEventListener('click', this.handleItemClick);
         super.disconnectedCallback();
     }
+    willUpdate() {
+        this.syncLabel();
+    }
     firstUpdated() {
-        this._syncItemMode();
+        this.syncItemMode();
     }
     updated(changedProperties) {
         if (changedProperties.has('mode')) {
-            this._syncItemMode();
+            this.syncItemMode();
         }
     }
-    _getItems() {
+    /** Gives the landmark the default label unless the author set one. */
+    syncLabel() {
+        const current = this.getAttribute('aria-label');
+        if (current !== null && current !== this.defaultLabel)
+            return;
+        this.defaultLabel = this.i18n.t('mainNavigation');
+        this.setAttribute('aria-label', this.defaultLabel);
+    }
+    getItems() {
         return Array.from(this.querySelectorAll('wc-navigation-rail-item'));
     }
+    // ── Render ───────────────────────────────────────────────────────────────
     render() {
         const cssClasses = {
             rail: true,
@@ -194,9 +224,9 @@ let NavigationRail = class NavigationRail extends i$1 {
           <slot name="header"></slot>
         </div>
         ${this.showDivider ? b `<wc-divider></wc-divider>` : ''}
-        <nav class="items" role="presentation">
-          <slot @slotchange=${this._syncItemMode}></slot>
-        </nav>
+        <div class="items">
+          <slot @slotchange=${this.syncItemMode}></slot>
+        </div>
         <div class="footer">
           <slot name="footer"></slot>
         </div>

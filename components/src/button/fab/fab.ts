@@ -31,9 +31,9 @@ import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
  * @tag wc-fab
  * @rawTag fab
  *
- * @summary The FAB (Floating Action Button) represents the primary action on a screen.
+ * @summary A floating action button: a prominent button for the main action of a screen, such as composing a message.
  * @overview
- * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the specification and supports four color roles and two variants.</p>
+ * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It supports four color roles and two variants.</p>
  * <p>An icon-only FAB needs an accessible name: set <code>aria-label</code>, or a <code>tooltip</code>, which is used when no <code>aria-label</code> is set. With neither (and no <code>label</code>), a warning is logged once.</p>
  * <p>Set <code>toggle</code> for a toggle FAB with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported on the FAB.</p>
  *

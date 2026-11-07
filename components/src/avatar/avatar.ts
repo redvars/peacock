@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Avatar
  * @tag wc-avatar
  * @rawTag avatar
- * @summary The Avatar component is used to represent user, and displays the profile picture, initials or fallback icon.
+ * @summary A person's picture, or their initials or a person icon when there is no picture.
  * @overview
  * <p>The avatar shows the image at <code>src</code>. Without one, or when the image fails to
  * load, it shows the initials of <code>name</code> (the first letters of its first and last

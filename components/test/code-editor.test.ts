@@ -12,7 +12,36 @@ import {
 } from '../src/code-editor/editor-theme.js';
 import { Icon } from '../src/icon/index.js';
 import { IconButton } from '../src/button/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
+import { CopyButton } from '../src/copy-button/index.js';
+
+/**
+ * Replaces `navigator.clipboard.writeText` for one test: background test pages are not focused,
+ * so the real one rejects.
+ */
+function stubClipboard() {
+  const original = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
+  const writes: string[] = [];
+  Object.defineProperty(navigator, 'clipboard', {
+    configurable: true,
+    value: {
+      writeText: async (text: string) => {
+        writes.push(text);
+      },
+    },
+  });
+  return {
+    writes,
+    restore() {
+      if (original) Object.defineProperty(navigator, 'clipboard', original);
+      else delete (navigator as { clipboard?: unknown }).clipboard;
+    },
+  };
+}
+
+/** The button inside a wc-copy-button, where a real click lands. */
+function copyControl(copyButton: Element): HTMLElement {
+  return copyButton.shadowRoot!.querySelector('wc-icon-button') as HTMLElement;
+}
 
 // Monaco is a large chunk with workers, which the test server does not build;
 // these tests cover the component shell around it.
@@ -23,6 +52,7 @@ CodeEditor.prototype.initializeMonaco = async function initializeMonaco() {
 for (const [tag, element] of [
   ['wc-icon', Icon],
   ['wc-icon-button', IconButton],
+  ['wc-copy-button', CopyButton],
   ['wc-code-editor', CodeEditor],
 ] as const) {
   if (!customElements.get(tag)) customElements.define(tag, element);
@@ -84,10 +114,10 @@ describe('CodeEditor', () => {
       html`<wc-code-editor></wc-code-editor>`,
     );
     expect(root(el).querySelector('.header')).to.not.exist;
-    expect(root(el).querySelector('.actions.floating .copy-button')).to.exist;
-    expect(
-      root(el).querySelector('.copy-button')?.getAttribute('shape'),
-    ).to.equal('round');
+    const copy = root(el).querySelector('.actions.floating .copy-button');
+    expect(copy?.localName).to.equal('wc-copy-button');
+    await (copy as CopyButton).updateComplete;
+    expect(copyControl(copy!).getAttribute('shape')).to.equal('round');
   });
 
   it('hides the copy button with hide-copy', async () => {
@@ -106,12 +136,27 @@ describe('CodeEditor', () => {
         .value=${':root { --x: 1px; }'}
       ></wc-code-editor>`,
     );
-    const button = root(el).querySelector('.copy-button') as HTMLElement;
-    setTimeout(() => button.click());
-    const event = (await oneEvent(el, 'copied')) as CustomEvent<{
-      value: string;
-    }>;
-    expect(event.detail.value).to.equal(':root { --x: 1px; }');
+    const copy = root(el).querySelector('.copy-button') as CopyButton;
+    await copy.updateComplete;
+    const clipboard = stubClipboard();
+    try {
+      setTimeout(() => copyControl(copy).click());
+      const event = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(event.detail.value).to.equal(':root { --x: 1px; }');
+      expect(clipboard.writes).to.deep.equal([':root { --x: 1px; }']);
+
+      // The text changes as the person types; the button copies what is there at click time.
+      el.value = 'a { color: red; }';
+      setTimeout(() => copyControl(copy).click());
+      const second = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(second.detail.value).to.equal('a { color: red; }');
+    } finally {
+      clipboard.restore();
+    }
   });
 
   it('shows a header for a file name or a title slot', async () => {
@@ -121,8 +166,7 @@ describe('CodeEditor', () => {
     expect(root(named).querySelector('.title')?.textContent).to.contain(
       'theme.css',
     );
-    expect(root(named).querySelector('.header .actions .copy-button')).to
-      .exist;
+    expect(root(named).querySelector('.header .actions .copy-button')).to.exist;
 
     const slotted = await fixture<CodeEditor>(
       html`<wc-code-editor><span slot="title">Script</span></wc-code-editor>`,
@@ -130,24 +174,14 @@ describe('CodeEditor', () => {
     expect(root(slotted).querySelector('.header')).to.exist;
   });
 
-  it('still shows a label without file-name in the header, with a warning', async () => {
-    resetDeprecationWarnings();
-    const warnings: string[] = [];
-    const { warn } = console;
-    console.warn = (message: string) => warnings.push(message);
-    try {
-      const el = await fixture<CodeEditor>(
-        html`<wc-code-editor label="theme.css"></wc-code-editor>`,
-      );
-      expect(root(el).querySelector('.title')?.textContent).to.contain(
-        'theme.css',
-      );
-      expect(root(el).querySelector('.field-label')).to.not.exist;
-    } finally {
-      console.warn = warn;
-    }
-    expect(warnings.some(message => message.includes('file-name'))).to.be
-      .true;
+  it('shows a label without file-name above the editor, with no header', async () => {
+    const el = await fixture<CodeEditor>(
+      html`<wc-code-editor label="Script"></wc-code-editor>`,
+    );
+    expect(root(el).querySelector('.field-label')?.textContent).to.contain(
+      'Script',
+    );
+    expect(root(el).querySelector('.header')).to.not.exist;
   });
 
   it('shows label, required mark and helper text as a field with file-name', async () => {
@@ -163,9 +197,7 @@ describe('CodeEditor', () => {
       'Script',
     );
     expect(root(el).querySelector('.field-label .required')).to.exist;
-    expect(root(el).querySelector('.title')?.textContent).to.contain(
-      'main.ts',
-    );
+    expect(root(el).querySelector('.title')?.textContent).to.contain('main.ts');
     expect(root(el).querySelector('.field-footer')?.textContent).to.contain(
       'Runs on save',
     );
@@ -259,23 +291,6 @@ describe('CodeEditor', () => {
     );
     expect(off.lineNumbers).to.equal(false);
     expect(root(off).querySelector('.code-block.numbered')).to.not.exist;
-  });
-
-  it('still reads the deprecated line-numbers="off" and "on"', async () => {
-    const off = await fixture<CodeEditor>(
-      html`<wc-code-editor line-numbers="off"></wc-code-editor>`,
-    );
-    expect(off.lineNumbers).to.equal(false);
-    expect(root(off).querySelector('.code-block.numbered')).to.not.exist;
-
-    const on = await fixture<CodeEditor>(
-      html`<wc-code-editor line-numbers="on"></wc-code-editor>`,
-    );
-    expect(on.lineNumbers).to.equal(true);
-
-    (on as unknown as { lineNumbers: string }).lineNumbers = 'off';
-    await on.updateComplete;
-    expect(on.lineNumbers).to.equal(false);
   });
 
   it('toggles wrapping from the wrap button', async () => {

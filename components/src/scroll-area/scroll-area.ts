@@ -55,7 +55,7 @@ const NO_OVERFLOW: Overflow = {
  * <p><code>scrollTo()</code> and <code>scrollBy()</code> scroll the content, and the element fires
  * <code>scroll</code> (not bubbling, like a native scroll container).</p>
  *
- * @fires scroll - When the content scrolls. Does not bubble.
+ * @fires {Event} scroll - Dispatched when the content scrolls. Does not bubble, like a native scroll event.
  *
  * @cssprop --scroll-area-thumb-color - Color of the scrollbar thumb.
  * @cssprop --scroll-area-track-color - Color of the scrollbar track; transparent by default.

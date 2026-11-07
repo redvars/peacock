@@ -87,7 +87,7 @@ function fraction(offset: number, size: number): number {
  * @tag wc-color-picker
  * @rawTag color-picker
  *
- * @summary A color picker component for selecting colors via a hue/saturation/value interface.
+ * @summary A panel for picking a color from a saturation and brightness square and a hue slider, with optional opacity and a hex field.
  *
  * @overview
  * <p>The color picker presents a 2D saturation–brightness panel with a hue slider below it.

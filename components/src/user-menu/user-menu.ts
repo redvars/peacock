@@ -129,7 +129,6 @@ export class UserMenu extends LitElement {
     menu: () => this._menu,
     disabled: () => false,
     idPrefix: 'user-menu',
-    tag: 'wc-user-menu',
   });
 
   // ── Public methods ───────────────────────────────────────────────────────

@@ -48,11 +48,9 @@ export { DatetimeField } from './datetime-field/index.js';
 export { Textarea } from './textarea/index.js';
 export { Switch } from './switch/index.js';
 export { Checkbox } from './checkbox/index.js';
-export { Spinner } from './spinner/index.js';
 export { Container } from './container/index.js';
 
 export { NumberCounter } from './number-counter/index.js';
-export { EmptyState } from './empty-state/index.js';
 export { Tooltip } from './popover/index.js';
 export { Popover, PopoverContent } from './popover/index.js';
 export { Breadcrumb, BreadcrumbItem } from './breadcrumb/index.js';
@@ -98,14 +96,8 @@ export type {
   TableGroupToggleDetail,
 } from './table/table.js';
 export { Pagination } from './pagination/index.js';
-export {
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarSubMenu,
-} from './sidebar-menu/index.js';
 export { Card } from './card/index.js';
 export { Alert } from './alert/index.js';
-export { Notification } from './notification/index.js';
 export { NotificationManager } from './notification-manager/index.js';
 export { Snackbar } from './snackbar/index.js';
 export { Radio, RadioGroup } from './radio/index.js';
@@ -315,6 +307,17 @@ export type {
   RelativeTimeNumeric,
   RelativeTimeStyle,
 } from './relative-time/index.js';
+export { RedvarsLoader } from './redvars-loader/index.js';
+export type { RedvarsLoaderVariant } from './redvars-loader/index.js';
+export {
+  Illustration,
+  registerIllustration,
+  illustrationNames,
+} from './illustration/index.js';
+export type {
+  IllustrationArt,
+  IllustrationName,
+} from './illustration/index.js';
 export type {
   CommentActionDetail,
   CommentCopyLinkDetail,

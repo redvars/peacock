@@ -1,9 +1,8 @@
-import { html, nothing, type PropertyValues } from 'lit';
+import { html, nothing } from 'lit';
 import { property, state, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import type { FormRestoreState } from '@/__internal/mixins/form-associated.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type { Size } from '@/__internal/utils/size.js';
 import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
 import sliderStyles from './slider.scss';
@@ -20,7 +19,7 @@ export type SliderValueLabel = 'thumb' | 'end' | 'none';
  * @tag wc-slider
  * @rawTag slider
  *
- * @summary Sliders allow users to make selections from a range of values.
+ * @summary A track with a thumb the person drags to pick a number from a range.
  * @overview
  * <p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,
  * and <code>form.reset()</code> restores the starting value. Without a <code>value</code> it starts
@@ -33,8 +32,6 @@ export type SliderValueLabel = 'thumb' | 'end' | 'none';
  * it focusable but its value cannot change.</p>
  * <p>Keyboard: the arrows move one step (ten with Shift), Page Up and Page Down move ten steps,
  * Home and End go to <code>min</code> and <code>max</code>.</p>
- * <p>Deprecated: <code>labeled</code> and <code>show-value</code> still work until 4.0; use
- * <code>value-label="thumb"</code>, <code>"end"</code> or <code>"none"</code>.</p>
  *
  * @fires {CustomEvent<{value: number}>} input - Dispatched when the slider value changes during interaction.
  * @fires {CustomEvent<{value: number}>} change - Dispatched when the slider interaction ends.
@@ -105,23 +102,11 @@ export class Slider extends BaseInput {
    * track) or `none`.
    */
   @property({ type: String, attribute: 'value-label' })
-  valueLabel?: SliderValueLabel;
+  valueLabel: SliderValueLabel = 'thumb';
 
   /** Formats the value for `aria-valuetext` and the visible value. */
   @property({ attribute: false })
   valueText?: (value: number) => string;
-
-  /**
-   * Whether to show the value on the thumb. Defaults to true.
-   * @deprecated Use `value-label="thumb"` or `value-label="none"`.
-   */
-  @property({ type: Boolean }) labeled?: boolean;
-
-  /**
-   * Whether to show the current value beside the slider.
-   * @deprecated Use `value-label="end"`.
-   */
-  @property({ type: Boolean, attribute: 'show-value' }) showValue?: boolean;
 
   // ── State ────────────────────────────────────────────────────────────────
 
@@ -152,16 +137,6 @@ export class Slider extends BaseInput {
   override connectedCallback() {
     this.startedWithValue ??= this.explicitValue !== undefined;
     super.connectedCallback();
-  }
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    super.willUpdate(changed);
-    if (changed.has('labeled') && this.labeled !== undefined) {
-      deprecate('wc-slider', '`labeled`', '`value-label="thumb"`');
-    }
-    if (changed.has('showValue') && this.showValue !== undefined) {
-      deprecate('wc-slider', '`show-value`', '`value-label="end"`');
-    }
   }
 
   // ── Public methods ───────────────────────────────────────────────────────
@@ -205,15 +180,12 @@ export class Slider extends BaseInput {
     return !this.disabled && !this.readonly;
   }
 
-  /** Where the value shows, from `value-label` or the deprecated `labeled`/`show-value`. */
+  /** Where the value shows, from `value-label`. */
   private get valuePlacement(): { thumb: boolean; end: boolean } {
-    if (this.valueLabel) {
-      return {
-        thumb: this.valueLabel === 'thumb',
-        end: this.valueLabel === 'end',
-      };
-    }
-    return { thumb: this.labeled ?? true, end: this.showValue ?? false };
+    return {
+      thumb: this.valueLabel === 'thumb',
+      end: this.valueLabel === 'end',
+    };
   }
 
   private formatValue(value: number): string {

@@ -1,12 +1,24 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { o as observeThemeChange } from './observe-theme-change-DCifz1uv.js';
+import { o as observeThemeChange } from './observe-theme-change-CkSENG98.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './base-Cl6v8-BZ.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
+/**
+ * Whether Peacock is showing its dark theme, the same way the tokens decide it: `data-theme="dark"`
+ * or `"light"` on the root element wins; without it, the system `prefers-color-scheme` applies.
+ */
 function isDarkMode() {
-    return document.documentElement.dataset.theme === 'dark';
+    const { theme } = document.documentElement.dataset;
+    if (theme === 'dark')
+        return true;
+    if (theme === 'light')
+        return false;
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 }
 
 var css_248z = i`@charset "UTF-8";
@@ -73,7 +85,16 @@ img.clickable {
  * @label Image
  * @tag wc-image
  * @rawTag image
- * @summary An image component with lazy loading and theme support.
+ * @summary An image that loads as it nears the viewport, with an optional dark-theme source and a click-to-enlarge preview.
+ *
+ * @overview
+ * <p>Until the image is within 200px of the viewport a placeholder is shown in its place; then
+ * the <code>&lt;img&gt;</code> is rendered. Set <code>alt</code> as on a native image, or leave it
+ * empty for a decorative one.</p>
+ * <p><code>dark-src</code> is used instead of <code>src</code> while the theme is dark; when the
+ * theme changes the image loads again from the matching source.</p>
+ * <p>With <code>preview</code>, clicking the image opens it in a modal dialog labelled from
+ * Peacock's strings. Clicking the backdrop closes it.</p>
  * @tags media
  *
  * @example
@@ -88,8 +109,8 @@ let Image = class Image extends i$1 {
         this.src = '';
         /** Optional dark-mode image source */
         this.darkSrc = '';
-        /** Alt text / title for the image */
-        this.imageTitle = '';
+        /** Text alternative for the image, as on a native `<img>`. Leave empty for a decorative image. */
+        this.alt = '';
         /** Enable click-to-preview lightbox */
         this.preview = false;
         /** True when the OS/app theme is dark, used to select `darkSrc`. */
@@ -101,6 +122,8 @@ let Image = class Image extends i$1 {
         this._intersectionObserver = null;
         /** Cleanup function returned by `observeThemeChange`. */
         this._themeCleanup = null;
+        /** Peacock's strings for the preview dialog label. */
+        this.i18n = new I18nController(this);
     }
     connectedCallback() {
         super.connectedCallback();
@@ -153,7 +176,7 @@ let Image = class Image extends i$1 {
         ${this._loaded
             ? b `<img
               src=${this._activeSrc}
-              alt=${this.imageTitle}
+              alt=${this.alt}
               class=${this.preview ? 'clickable' : ''}
               @click=${this._handleClick}
             />`
@@ -163,12 +186,12 @@ let Image = class Image extends i$1 {
       <!-- Lightbox preview dialog — uses native top-layer to avoid stacking context issues -->
       <dialog
         class="preview-dialog"
-        aria-label="Image preview"
+        aria-label=${this.i18n.t('imagePreview')}
         @click=${this._handleDialogClick}
       >
         <img
           src=${this._activeSrc}
-          alt=${this.imageTitle}
+          alt=${this.alt}
           @click=${(e) => e.stopPropagation()}
         />
       </dialog>
@@ -183,8 +206,8 @@ __decorate([
     n({ reflect: true, attribute: 'dark-src' })
 ], Image.prototype, "darkSrc", void 0);
 __decorate([
-    n({ attribute: 'image-title' })
-], Image.prototype, "imageTitle", void 0);
+    n()
+], Image.prototype, "alt", void 0);
 __decorate([
     n({ type: Boolean, reflect: true })
 ], Image.prototype, "preview", void 0);

@@ -349,19 +349,13 @@
   padding: 0;
 }
 
-.cp-page-body {
+// Under .bp so it beats the primitives' `.bp span { display: block }` (it is often a span).
+.bp .cp-page-body {
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: var(--spacing-075);
   padding: var(--spacing-100);
-}
-
-.cp-footer {
-  display: flex;
-  gap: var(--spacing-200);
-  padding: var(--spacing-100);
-  background: var(--color-surface-container-high);
 }
 
 .cp-col {

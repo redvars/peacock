@@ -35,19 +35,3 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     </wc-tabs>
   </nav>
 </DemoComponentCard>
-
-<h3>Deprecated</h3>
-<p>These still work through 3.x and log a console warning; 4.0 removes them.</p>
-<ul>
-  <li><code>active</code> on <code>wc-tab</code>: use <code>selected</code>.</li>
-  <li>
-    The <code>disabledreason</code> and <code>throttledelay</code> attributes
-    (written <code>disabledReason</code> and <code>throttleDelay</code> in HTML):
-    use <code>disabled-reason</code> and <code>throttle-delay</code>.
-  </li>
-  <li>The <code>tab-click</code> event: use <code>change</code>.</li>
-  <li>
-    Linking a panel to a tab by the tab's <code>target</code>: use
-    <code>value</code>.
-  </li>
-</ul>

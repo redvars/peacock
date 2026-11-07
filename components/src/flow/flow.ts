@@ -90,15 +90,28 @@ const OPPOSITE: Record<FlowHandlePosition, FlowHandlePosition> = {
  * @label Flow
  * @tag wc-flow
  * @rawTag flow
- * @summary An interactive node editor canvas with draggable nodes, custom HTML element rendering, and pointer-based edge connection creation on a dotted grid.
+ * @summary A node editor on a dotted grid, where the person moves nodes and draws connections between them.
  *
- * Nodes are dragged with a mouse, pen or touch. Each node is focusable: arrow keys move the focused
- * node by one grid step (20px), Shift + arrow by 100px, and Enter or Space selects it. Arrow keys
- * follow the canvas axes, so they are not mirrored in right-to-left layouts.
- *
- * Moving a node never mutates the objects you passed: the flow replaces the moved node with a new
- * object (`{ ...node, position }`) and assigns a new array to `nodes`. Read `flow.nodes`, or save
- * the position from `node-drag-end`, to keep the change.
+ * @overview
+ * <p>Set <code>nodes</code> and <code>edges</code> as properties. A node shows its
+ * <code>data.label</code> (or its id) on a default card, or renders your own element when
+ * <code>data</code> is an element or has an <code>element</code>. Each node has input handles
+ * (left by default) and output handles (right by default); an edge is drawn as a smooth step,
+ * bezier or straight line, solid, dashed or animated dashed.</p>
+ * <p>Nodes are dragged with a mouse, pen or touch; <code>node-drag</code> fires while a node moves
+ * and <code>node-drag-end</code> once when the drag ends. A press without movement selects the
+ * node, sets <code>selected</code> and fires <code>select</code>. Dragging from an output handle
+ * onto another node's input handle fires <code>connect</code>; the flow does not add the edge, so
+ * add it to <code>edges</code> yourself.</p>
+ * <p>Each node is focusable and named by its label. Arrow keys move the focused node by one grid
+ * step (20px), Shift + arrow by 100px, and each move fires <code>node-drag-end</code>; Enter or
+ * Space selects it. Arrow keys follow the canvas axes, so they are not mirrored in right-to-left
+ * layouts.</p>
+ * <p>Moving a node never mutates the objects you passed: the flow replaces the moved node with a
+ * new object (<code>{ ...node, position }</code>) and assigns a new array to <code>nodes</code>.
+ * Read <code>flow.nodes</code>, or save the position from <code>node-drag-end</code>, to keep the
+ * change. <code>zoom</code> scales the canvas and <code>padding</code> sets the space around the
+ * nodes.</p>
  *
  * @example
  * ```html

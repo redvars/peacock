@@ -5,7 +5,6 @@ import { fixture, expect } from '@open-wc/testing';
 // test server cannot load.
 import { Item } from '../src/item/index.js';
 import { List, ListItem } from '../src/list/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-item')) {
   customElements.define('wc-item', Item);
@@ -143,28 +142,6 @@ describe('List', () => {
     expect(inner(plain).hasAttribute('aria-current')).to.be.false;
   });
 
-  it('warns once that selected is deprecated', async () => {
-    resetDeprecationWarnings();
-    const warnings: string[] = [];
-    const { warn } = console;
-    console.warn = (message: string) => {
-      warnings.push(message);
-    };
-    try {
-      const el = await fixture<ListItem>(
-        html`<wc-list-item selected>Inbox</wc-list-item>`,
-      );
-      el.selected = false;
-      await el.updateComplete;
-      el.selected = true;
-      await el.updateComplete;
-    } finally {
-      console.warn = warn;
-    }
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('wc-list-item: `selected`');
-  });
-
   it('renders the current background on non-actionable items', async () => {
     const el = await fixture<List>(html`
       <wc-list style="--list-item-selected-container-color: rgb(1, 2, 3)">
@@ -216,24 +193,6 @@ describe('List', () => {
     ]);
     expect(assignedTo(el, 'end').map(n => n.textContent)).to.deep.equal([
       'End',
-    ]);
-  });
-
-  it('places the deprecated leading and trailing content in the same slots', async () => {
-    const el = await fixture<ListItem>(html`
-      <wc-list-item>
-        <span slot="leading">Leading</span>
-        Profile
-        <span slot="trailing">Trailing</span>
-      </wc-list-item>
-    `);
-    await el.updateComplete;
-
-    expect(assignedTo(el, 'start').map(n => n.textContent)).to.deep.equal([
-      'Leading',
-    ]);
-    expect(assignedTo(el, 'end').map(n => n.textContent)).to.deep.equal([
-      'Trailing',
     ]);
   });
 

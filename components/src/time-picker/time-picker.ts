@@ -11,7 +11,6 @@ import {
   resolveHourCycle,
   toIsoTime,
 } from '@/__internal/utils/date.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import styles from './time-picker.scss';
 
@@ -69,12 +68,6 @@ export class TimePicker extends LitElement {
   /** Minutes between entries in the minute column, such as 15 for 00, 15, 30 and 45. */
   @property({ type: Number, attribute: 'minute-step' }) minuteStep = 1;
 
-  /**
-   * @deprecated Use `minute-step`. Minutes between entries in the minute column; unlike the native
-   * `step`, which counts seconds. Removed in 4.0.
-   */
-  @property({ type: Number }) step?: number;
-
   /** The value's format: `HH:mm:ss` with seconds (and a seconds column), else `HH:mm`. */
   @property({ type: Boolean }) seconds = false;
 
@@ -105,13 +98,6 @@ export class TimePicker extends LitElement {
   private readonly i18n = new I18nController(this);
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: Map<PropertyKey, unknown>) {
-    if (changed.has('step') && this.step !== undefined) {
-      deprecate('wc-time-picker', '`step`', '`minute-step`');
-      this.minuteStep = this.step;
-    }
-  }
 
   protected override updated(changed: Map<PropertyKey, unknown>) {
     if (changed.has('value')) this.scrollToSelected();

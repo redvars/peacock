@@ -2,7 +2,6 @@
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
 import { Tab, TabGroup, TabPanel, Tabs } from '../src/tabs/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-tab', Tab],
@@ -50,22 +49,6 @@ async function tabList(dir = 'ltr') {
   `);
   await settle(el);
   return { el, tabs: Array.from(el.querySelectorAll<Tab>('wc-tab')) };
-}
-
-/** Collects deprecation warnings while `run` runs. */
-async function warningsFrom(run: () => Promise<void>) {
-  resetDeprecationWarnings();
-  const warnings: string[] = [];
-  const { warn } = console;
-  console.warn = (message: string) => {
-    warnings.push(message);
-  };
-  try {
-    await run();
-  } finally {
-    console.warn = warn;
-  }
-  return warnings;
 }
 
 describe('Tab', () => {
@@ -122,30 +105,11 @@ describe('Tab', () => {
     expect(el.throttleDelay).to.equal(200);
   });
 
-  it('keeps `active` working as a deprecated alias of `selected`', async () => {
-    const warnings = await warningsFrom(async () => {
-      const el = await fixture<Tab>(html`<wc-tab active>Billing</wc-tab>`);
-      expect(el.selected).to.be.true;
-      expect(el.active).to.be.true;
-      el.selected = false;
-      expect(el.active).to.be.false;
-    });
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('`active`');
-  });
-
-  it('keeps the old lowercase attributes working, with a warning', async () => {
-    const warnings = await warningsFrom(async () => {
-      const el = await fixture<Tab>(
-        html`<wc-tab disabled disabledReason="No access" throttleDelay="100"
-          >Billing</wc-tab
-        >`,
-      );
-      expect(el.disabledReason).to.equal('No access');
-      expect(el.throttleDelay).to.equal(100);
-    });
-    expect(warnings.some(w => w.includes('disabled-reason'))).to.be.true;
-    expect(warnings.some(w => w.includes('throttle-delay'))).to.be.true;
+  it('reads the kebab-case disabled-reason attribute', async () => {
+    const el = await fixture<Tab>(
+      html`<wc-tab disabled disabled-reason="No access">Billing</wc-tab>`,
+    );
+    expect(el.disabledReason).to.equal('No access');
   });
 });
 
@@ -201,12 +165,8 @@ describe('Tabs', () => {
     expect(one.selected).to.be.true;
   });
 
-  it('selects on click and fires change and the deprecated tab-click', async () => {
+  it('selects on click and fires change', async () => {
     const { el, tabs } = await tabList();
-    let tabClicks = 0;
-    el.addEventListener('tab-click', () => {
-      tabClicks += 1;
-    });
     setTimeout(() => tabs[1].click());
     const event = (await oneEvent(el, 'change')) as CustomEvent<{
       index: number;
@@ -214,7 +174,6 @@ describe('Tabs', () => {
     }>;
     expect(event.detail).to.deep.equal({ index: 1, value: 'two' });
     expect(tabs[1].selected).to.be.true;
-    expect(tabClicks).to.equal(1);
   });
 
   it('leaves the selection to the consumer when managed', async () => {
@@ -273,12 +232,12 @@ describe('TabGroup', () => {
     expect(two.active).to.be.true;
   });
 
-  it('still selects from the deprecated `active` attribute', async () => {
+  it('shows the panel at the selected tab position when tabs have no value', async () => {
     const el = await fixture<TabGroup>(html`
       <wc-tab-group>
         <wc-tabs>
           <wc-tab>One</wc-tab>
-          <wc-tab active>Two</wc-tab>
+          <wc-tab selected>Two</wc-tab>
         </wc-tabs>
         <wc-tab-panel>Panel 1</wc-tab-panel>
         <wc-tab-panel>Panel 2</wc-tab-panel>

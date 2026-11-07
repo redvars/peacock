@@ -14,7 +14,6 @@ import {
   NavigationRail,
   NavigationRailItem,
 } from '../src/navigation-rail/index.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 for (const [tag, element] of [
   ['wc-navigation-bar', NavigationBar],
@@ -36,22 +35,6 @@ type ChangeEvent = CustomEvent<{
 
 function innerItem(item: HTMLElement) {
   return item.shadowRoot!.querySelector('#item') as HTMLElement;
-}
-
-/** Captures `console.warn` for the deprecation tests. */
-function captureWarnings() {
-  const warnings: string[] = [];
-  const original = console.warn;
-  resetDeprecationWarnings();
-  console.warn = (message: string) => {
-    warnings.push(message);
-  };
-  return {
-    warnings,
-    restore: () => {
-      console.warn = original;
-    },
-  };
 }
 
 /** A container with a current item `a` and an item `b`. */
@@ -139,17 +122,22 @@ describe('NavigationBar', () => {
 });
 
 describe('NavigationRail', () => {
-  it('keeps firing the deprecated nav-change', async () => {
+  it('no longer fires the removed nav-change', async () => {
     const el = await fixture<NavigationRail>(html`
       <wc-navigation-rail>
         <wc-navigation-rail-item value="a">A</wc-navigation-rail-item>
         <wc-navigation-rail-item value="b">B</wc-navigation-rail-item>
       </wc-navigation-rail>
     `);
+    let navChanges = 0;
+    el.addEventListener('nav-change', () => {
+      navChanges += 1;
+    });
     const b = el.querySelector<NavigationRailItem>('[value="b"]')!;
     setTimeout(() => b.click());
-    const event = (await oneEvent(el, 'nav-change')) as ChangeEvent;
+    const event = (await oneEvent(el, 'change')) as ChangeEvent;
     expect(event.detail).to.include({ value: 'b', index: 1, item: b });
+    expect(navChanges).to.equal(0);
   });
 
   it('collapses item labels in collapsed mode', async () => {
@@ -179,46 +167,6 @@ describe('NavigationRail', () => {
     expect(item.shadowRoot!.getElementById(id)?.textContent).to.contain(
       'No access',
     );
-  });
-});
-
-describe('Deprecated active', () => {
-  const capture = { warnings: [] as string[], restore: () => {} };
-
-  beforeEach(() => {
-    Object.assign(capture, captureWarnings());
-  });
-
-  afterEach(() => {
-    capture.restore();
-  });
-
-  for (const tag of [
-    'wc-navigation-bar-item',
-    'wc-navigation-rail-item',
-    'wc-navigation-drawer-item',
-  ]) {
-    it(`${tag} maps active to current and warns once`, async () => {
-      const item = document.createElement(tag) as NavigationDrawerItem;
-      item.setAttribute('active', '');
-      document.body.append(item);
-      await item.updateComplete;
-
-      expect(item.current).to.be.true;
-      expect(item.active).to.be.true;
-      expect(innerItem(item).getAttribute('aria-current')).to.equal('page');
-      expect(capture.warnings).to.have.length(1);
-      expect(capture.warnings[0]).to.contain(tag);
-      expect(capture.warnings[0]).to.contain('current');
-      item.remove();
-    });
-  }
-
-  it('does not warn for current', async () => {
-    await fixture(
-      html`<wc-navigation-drawer-item current>A</wc-navigation-drawer-item>`,
-    );
-    expect(capture.warnings).to.have.length(0);
   });
 });
 

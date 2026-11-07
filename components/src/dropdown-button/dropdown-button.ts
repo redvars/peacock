@@ -12,13 +12,14 @@ import type { Menu, MenuFocusTarget } from '../menu/menu/menu.js';
  * @tag wc-dropdown-button
  * @rawTag dropdown-button
  *
- * @summary A button that opens a dropdown menu when clicked.
+ * @summary A button that opens a menu of actions or options.
  * @overview
- * <p>The dropdown button combines a single button with a dropdown menu. Clicking the button toggles a menu of actions or options. It follows M3 Material Design, keeping a compact control while exposing related actions on demand.</p>
+ * <p>Clicking the button opens its menu, and clicking it again closes it.</p>
  *
  * @cssprop --dropdown-button-container-shape: Defines the border radius of the dropdown button container shape.
  *
- * @fires {CustomEvent} toggle-menu - Dispatched when the dropdown menu is opened or closed.
+ * @fires {CustomEvent} open - Dispatched after the menu opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Dispatched after the menu closes: an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` `api`.
  *
  * @example
  * ```html
@@ -77,8 +78,8 @@ export class DropdownButton extends LitElement {
 
   /**
    * Where the menu opens relative to the button: `top`, `bottom`, `start` or `end`, optionally
-   * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction;
-   * the physical `left` / `right` still work but are deprecated. Defaults to `"bottom-start"`.
+   * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
+   * Defaults to `"bottom-start"`.
    */
   @property({ reflect: true }) placement: OverlayPlacement = 'bottom-start';
 
@@ -91,12 +92,11 @@ export class DropdownButton extends LitElement {
 
   @query('wc-menu') private readonly _menu?: Menu;
 
-  /** Opens and closes the menu and reports `toggle-menu`. */
+  /** Opens and closes the menu and fires `open` / `close`. */
   private readonly _trigger = new MenuTriggerController(this, {
     menu: () => this._menu,
     disabled: () => this.disabled,
     idPrefix: 'dropdown-menu',
-    tag: 'wc-dropdown-button',
   });
 
   override focus() {
@@ -143,7 +143,7 @@ export class DropdownButton extends LitElement {
 
       <wc-menu
         id=${this._trigger.menuId}
-        .placement=${this._trigger.menuPlacement(this.placement)}
+        .placement=${this.placement}
         variant=${this.menuVariant}
         @open=${this._trigger.handleMenuOpen}
         @close=${this._trigger.handleMenuClose}

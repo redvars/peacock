@@ -90,9 +90,12 @@ const FORCED_COLORS = window.matchMedia('(forced-colors: active)');
  * @tag wc-ripple
  * @rawTag ripple
  *
- * @summary Provides ripple effect for interactive elements.
+ * @summary The hover tint and press ripple of a button or another control it is attached to.
  * @overview
- * <p>Ripple creates a visual feedback effect when users interact with buttons or other clickable elements.</p>
+ * <p>The ripple attaches to its parent element, or to the element whose id is in <code>for</code>, or to a
+ * control passed to <code>attach()</code>,
+ * and is hidden from assistive technology. Give the control <code>position: relative</code> and
+ * <code>overflow: hidden</code> so the ripple stays inside it.</p>
  *
  * @example
  * ```html

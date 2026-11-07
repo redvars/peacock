@@ -48,9 +48,8 @@ const customers: Customer[] = [
       id='customer-table'
       class='customer-table'
       key-field='id'
-      selection-type='checkbox'
+      selection='multiple'
       sortable
-      paginate
       page-size='10'
       empty-state-headline='No customers found'
       empty-state-description='Try a different name or email.'
@@ -58,6 +57,7 @@ const customers: Customer[] = [
     >
       <wc-button slot='bulk-actions' variant='text' size='sm'>Export</wc-button>
       <wc-button slot='bulk-actions' variant='text' size='sm'>Change plan</wc-button>
+      <wc-pagination slot='footer' page-size='10'></wc-pagination>
     </wc-table>
   </div>
 
@@ -65,11 +65,9 @@ const customers: Customer[] = [
     <h2 class='text-headline-small' id='empty-title'>Empty state</h2>
     <p class='text-body-large doc-muted'>Before the first record exists, show what the list is for and how to start it.</p>
     <div class='block-demo table-empty'>
-      <wc-empty-state
-        illustration='no-document'
-        headline='No customers yet'
-        description='Customers you add or import will appear here.'
-      ></wc-empty-state>
+      <wc-illustration name='empty' size='md'></wc-illustration>
+      <h3 class='text-title-large'>No customers yet</h3>
+      <p class='text-body-medium doc-muted'>Customers you add or import will appear here.</p>
       <wc-button level='primary'>Add customer</wc-button>
     </div>
   </section>

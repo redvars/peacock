@@ -51,11 +51,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-200);
+  gap: var(--spacing-100);
   padding: var(--spacing-500) var(--spacing-200);
   background: var(--color-surface-container-lowest);
+  text-align: center;
 
-  wc-empty-state {
-    width: 100%;
+  h3,
+  p {
+    margin: 0;
+  }
+
+  wc-button {
+    margin-block-start: var(--spacing-100);
   }
 }

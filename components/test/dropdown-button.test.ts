@@ -92,7 +92,7 @@ describe('DropdownButton', () => {
     expect(parts(el).menu.open).to.be.false;
   });
 
-  it('reports toggle-menu, keeps the menu events inside and updates the trigger ARIA', async () => {
+  it('fires its own open and close, with the menu reason, and updates the trigger ARIA', async () => {
     const el = await fixture<DropdownButton>(html`
       <wc-dropdown-button>
         Actions
@@ -100,14 +100,15 @@ describe('DropdownButton', () => {
       </wc-dropdown-button>
     `);
     const { triggerEl, menu } = parts(el);
-    const toggles: boolean[] = [];
-    const leaked: string[] = [];
-    el.addEventListener('toggle-menu', event =>
-      toggles.push((event as CustomEvent<{ open: boolean }>).detail.open),
-    );
-    for (const type of ['open', 'close']) {
-      document.addEventListener(type, () => leaked.push(type), { once: true });
-    }
+    const seen: string[] = [];
+    const record = (event: Event) => {
+      const { reason } =
+        (event as CustomEvent<{ reason?: string } | null>).detail ?? {};
+      const from = event.target === el ? 'host' : 'inner';
+      seen.push([event.type, from, reason].filter(Boolean).join(':'));
+    };
+    document.addEventListener('open', record);
+    document.addEventListener('close', record);
     const aria = () =>
       (triggerEl as HTMLElement & { configAria: Record<string, string> })
         .configAria;
@@ -126,11 +127,12 @@ describe('DropdownButton', () => {
     await settle(el);
     await el.updateComplete;
     expect(aria()['aria-expanded']).to.equal('false');
-    expect(toggles).to.deep.equal([true, false]);
-    expect(leaked).to.deep.equal([]);
+    document.removeEventListener('open', record);
+    document.removeEventListener('close', record);
+    expect(seen).to.deep.equal(['open:host', 'close:host:api']);
   });
 
-  it('passes logical placements to the menu and maps deprecated physical sides', async () => {
+  it('passes logical placements to the menu', async () => {
     const el = await fixture<DropdownButton>(html`
       <wc-dropdown-button placement="end-start">
         Actions
@@ -139,18 +141,9 @@ describe('DropdownButton', () => {
     `);
     expect(parts(el).menu.placement).to.equal('end-start');
 
-    const warnings: string[] = [];
-    const originalWarn = console.warn;
-    console.warn = (message: string) => warnings.push(message);
-    try {
-      el.placement = 'left-start';
-      await el.updateComplete;
-      expect(parts(el).menu.placement).to.equal('start-start');
-      expect(warnings.some(message => message.includes('wc-dropdown-button')))
-        .to.be.true;
-    } finally {
-      console.warn = originalWarn;
-    }
+    el.placement = 'top-end';
+    await el.updateComplete;
+    expect(parts(el).menu.placement).to.equal('top-end');
   });
 
   it('passes menu-variant to the menu', async () => {

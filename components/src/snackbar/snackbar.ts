@@ -5,12 +5,8 @@ import styles from './snackbar.scss';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { CloseReason } from '@/__internal/controllers/overlay-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 export type SnackbarIntent = 'info' | 'success' | 'warning' | 'danger';
-
-/** The `snackbar-close` reasons from before `close` (deprecated event). */
-type LegacyCloseReason = 'timeout' | 'dismiss' | 'action' | 'programmatic';
 
 /** The reasons `close` carries for a snackbar. */
 export type SnackbarCloseReason = Extract<
@@ -40,7 +36,7 @@ const INTENT_LABEL_KEYS: Record<
  * @label Snackbar
  * @tag wc-snackbar
  * @rawTag snackbar
- * @summary Snackbars show brief, transient messages about app processes at the bottom of the screen.
+ * @summary A brief message at the bottom of the screen about something the app did, with an optional action, that hides itself.
  *
  * @overview
  * <p>An open snackbar is shown as a manual popover, so it renders in the browser's top layer, above sticky
@@ -58,8 +54,6 @@ const INTENT_LABEL_KEYS: Record<
  * @fires {CustomEvent} open - Fired when the snackbar opens.
  * @fires {CustomEvent<{reason: 'timeout' | 'action' | 'escape' | 'api'}>} close - Fired when the snackbar starts to close: the timer ran out (`timeout`), the action or close button was pressed (`action`), Escape (`escape`), or `hide()`, `open = false` or another snackbar opening (`api`).
  * @fires {CustomEvent} action - Fired when the action button is pressed, before `close`.
- * @fires {CustomEvent<{reason: string}>} snackbar-close - Deprecated, use `close`. `detail.reason` is `"timeout"`, `"action"`, `"dismiss"` (close button or Escape) or `"programmatic"`.
- * @fires {CustomEvent} snackbar-action - Deprecated, use `action`.
  *
  * @cssprop --snackbar-container-color - Container color for the snackbar.
  * @cssprop --snackbar-label-text-color - Label text color for the snackbar.
@@ -103,10 +97,6 @@ export class Snackbar extends LitElement {
 
   /** Shows a close button, and lets Escape close the snackbar while focus is inside it. */
   @property({ type: Boolean, reflect: true }) dismissible = false;
-
-  /** @deprecated Use `dismissible`. */
-  @property({ type: Boolean, attribute: 'show-close-icon' })
-  showCloseIcon = false;
 
   /**
    * Auto-hide duration in milliseconds. Set to `0` to disable auto-hide. A snackbar with an
@@ -178,14 +168,14 @@ export class Snackbar extends LitElement {
       event.defaultPrevented ||
       !this.open ||
       this.dismissing ||
-      !this.isDismissible ||
+      !this.dismissible ||
       !event.composedPath().includes(this)
     ) {
       return;
     }
     event.preventDefault();
     event.stopPropagation();
-    this.close('escape', 'dismiss');
+    this.close('escape');
   };
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
@@ -209,12 +199,6 @@ export class Snackbar extends LitElement {
     this.clearTimer();
     this.syncLayer();
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('showCloseIcon') && this.showCloseIcon) {
-      deprecate('wc-snackbar', '`show-close-icon`', '`dismissible`');
-    }
   }
 
   protected override updated(changed: PropertyValues<this>) {
@@ -243,7 +227,7 @@ export class Snackbar extends LitElement {
         // Closed by `open = false` rather than through `close()`.
         this.clearExitTimer();
         this.dismissing = false;
-        if (!this.closeEventSent) this.dispatchClose('api', 'programmatic');
+        if (!this.closeEventSent) this.dispatchClose('api');
         this.closeEventSent = false;
       }
     }
@@ -275,21 +259,17 @@ export class Snackbar extends LitElement {
 
   /** Closes the snackbar (`close` reason `api`). */
   hide() {
-    this.close('api', 'programmatic');
+    this.close('api');
   }
 
   // ── Private methods ──────────────────────────────────────────────────────
-
-  private get isDismissible() {
-    return this.dismissible || this.showCloseIcon;
-  }
 
   /** Whether the timer may close the snackbar: it has a duration and no action. */
   private get autoHides() {
     return this.duration > 0 && !this.actionLabel;
   }
 
-  private close(reason: SnackbarCloseReason, legacyReason: LegacyCloseReason) {
+  private close(reason: SnackbarCloseReason) {
     if (!this.open || this.dismissing) {
       return;
     }
@@ -302,23 +282,13 @@ export class Snackbar extends LitElement {
     }, Snackbar.EXIT_ANIMATION_MS);
 
     this.closeEventSent = true;
-    this.dispatchClose(reason, legacyReason);
+    this.dispatchClose(reason);
   }
 
-  private dispatchClose(
-    reason: SnackbarCloseReason,
-    legacyReason: LegacyCloseReason,
-  ) {
+  private dispatchClose(reason: SnackbarCloseReason) {
     this.dispatchEvent(
       new CustomEvent('close', {
         detail: { reason },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent('snackbar-close', {
-        detail: { reason: legacyReason },
         bubbles: true,
         composed: true,
       }),
@@ -338,14 +308,11 @@ export class Snackbar extends LitElement {
     this.dispatchEvent(
       new CustomEvent('action', { bubbles: true, composed: true }),
     );
-    this.dispatchEvent(
-      new CustomEvent('snackbar-action', { bubbles: true, composed: true }),
-    );
-    this.close('action', 'action');
+    this.close('action');
   }
 
   private handleCloseClick() {
-    this.close('action', 'dismiss');
+    this.close('action');
   }
 
   private handleMouseEnter() {
@@ -430,7 +397,7 @@ export class Snackbar extends LitElement {
     }
 
     this.hideTimer = setTimeout(() => {
-      this.close('timeout', 'timeout');
+      this.close('timeout');
     }, this.duration);
   }
 
@@ -490,7 +457,7 @@ export class Snackbar extends LitElement {
                 ${this.actionLabel}
               </wc-button>`
             : nothing}
-          ${this.isDismissible
+          ${this.dismissible
             ? html`<wc-icon-button
                 class="close"
                 variant="text"

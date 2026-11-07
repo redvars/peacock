@@ -11,7 +11,6 @@ import { html as beautifyHtml } from 'js-beautify';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import BaseInput, { type ControlValidity } from '../input/BaseInput.js';
 
 import styles from './html-editor.scss';
@@ -27,10 +26,9 @@ export interface HtmlEditorMention {
  * @tag wc-html-editor
  * @rawTag html-editor
  *
- * @summary A Tiptap-powered HTML editor with visual and source editing modes.
+ * @summary A rich text editor for HTML, with formatting actions and a switch to edit the HTML source.
  * @overview
- * <p>The HTML Editor provides a rich-text editing experience built on Tiptap.
- * It wraps the editable area in a styled <code>wc-field</code>,
+ * <p>The editor is built on Tiptap. It wraps the editable area in a styled <code>wc-field</code>,
  * exposes common formatting actions, and includes a segmented switch between
  * <strong>Visual</strong> and <strong>HTML</strong> source modes.</p>
  *
@@ -47,24 +45,13 @@ export interface HtmlEditorMention {
  * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
  * <code>wc-code-editor</code>.</p>
  *
- * <p><strong>Breaking in 3.x:</strong> <code>change</code> used to fire, debounced, on every
- * edit; it now fires once when the edit is committed (on blur), and the debounced event is
- * <code>input</code>. Listen for <code>input</code> to keep the old timing.</p>
- *
- * <p><strong>Deprecated:</strong> the <code>search</code> event with a <code>callback</code> in its
- * detail still fires next to <code>mention-search</code>; calling the callback logs a warning.
- * <code>showToolbar = false</code> and <code>showSuggestionCharacter = false</code> still work
- * with a warning; use <code>hide-toolbar</code> and <code>hide-suggestion-character</code>.</p>
- *
  * @cssprop --html-editor-min-height - Minimum height of the editable area. Defaults to 8rem.
  * @cssprop --html-editor-toolbar-background - Background color of the toolbar.
  * @cssprop --html-editor-toolbar-border-color - Border color between toolbar and editing area.
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the content changes, after `debounce` milliseconds without typing.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when focus leaves the editor after an edit.
- * @fires {CustomEvent<{query: string}>} mention-search - Dispatched in managed mention mode as the user types after the suggestion character. Set `mentions` in response.
- * @fires {CustomEvent<{query: string, callback: (mentions) => void}>} search - Deprecated: use `mention-search`.
- *
+ * @fires {CustomEvent<{query: string}>} mention-search - Dispatched in managed mention mode as the user types after the suggestion character. Set `mentions` in response. *
  * @example
  * ```html
  * <wc-html-editor
@@ -125,10 +112,6 @@ export class HtmlEditor extends BaseInput {
   @property({ type: Boolean, attribute: 'hide-toolbar' })
   hideToolbar = false;
 
-  /** @deprecated Use `hide-toolbar`. Setting it to `false` still hides the toolbar. */
-  @property({ type: Boolean, attribute: 'show-toolbar' })
-  showToolbar = true;
-
   /** Mention suggestions used by the mention extension. */
   @property({ type: Array })
   mentions: HtmlEditorMention[] = [];
@@ -144,10 +127,6 @@ export class HtmlEditor extends BaseInput {
   /** Leaves the suggestion character out of rendered mention text. */
   @property({ type: Boolean, attribute: 'hide-suggestion-character' })
   hideSuggestionCharacter = false;
-
-  /** @deprecated Use `hide-suggestion-character`. Setting it to `false` still hides the character. */
-  @property({ type: Boolean, attribute: 'show-suggestion-character' })
-  showSuggestionCharacter = true;
 
   /** Debounce in milliseconds for dispatching `input`. */
   @property({ type: Number })
@@ -200,23 +179,6 @@ export class HtmlEditor extends BaseInput {
     this._destroyEditor();
   }
 
-  protected override willUpdate(changed: PropertyValues<this>) {
-    super.willUpdate(changed);
-    if (changed.has('showToolbar') && !this.showToolbar) {
-      deprecate('wc-html-editor', '`showToolbar = false`', '`hide-toolbar`');
-    }
-    if (
-      changed.has('showSuggestionCharacter') &&
-      !this.showSuggestionCharacter
-    ) {
-      deprecate(
-        'wc-html-editor',
-        '`showSuggestionCharacter = false`',
-        '`hide-suggestion-character`',
-      );
-    }
-  }
-
   protected firstUpdated() {
     this._initializeEditor();
   }
@@ -238,8 +200,7 @@ export class HtmlEditor extends BaseInput {
     if (
       (changed.has('placeholder') ||
         changed.has('strings') ||
-        changed.has('hideSuggestionCharacter') ||
-        changed.has('showSuggestionCharacter')) &&
+        changed.has('hideSuggestionCharacter')) &&
       this._editor
     ) {
       this._destroyEditor();
@@ -301,7 +262,7 @@ export class HtmlEditor extends BaseInput {
 
   /** Whether mention text includes the suggestion character. */
   private _showSuggestionCharacter() {
-    return !this.hideSuggestionCharacter && this.showSuggestionCharacter;
+    return !this.hideSuggestionCharacter;
   }
 
   private _destroyEditor() {
@@ -454,23 +415,6 @@ export class HtmlEditor extends BaseInput {
           composed: true,
         }),
       );
-      this.dispatchEvent(
-        new CustomEvent('search', {
-          detail: {
-            query: mentionQuery,
-            callback: (mentions: HtmlEditorMention[]) => {
-              deprecate(
-                'wc-html-editor',
-                'the `search` event callback',
-                'the `mention-search` event and the `mentions` property',
-              );
-              this.mentions = mentions;
-            },
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
     });
   }
 
@@ -541,12 +485,7 @@ export class HtmlEditor extends BaseInput {
   }
 
   private _renderToolbar() {
-    if (
-      !this._editor ||
-      this.hideToolbar ||
-      !this.showToolbar ||
-      this._mode !== 'visual'
-    ) {
+    if (!this._editor || this.hideToolbar || this._mode !== 'visual') {
       return nothing;
     }
 

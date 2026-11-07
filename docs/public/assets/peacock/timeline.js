@@ -1,6 +1,9 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
 import { TimelineItem } from './timeline-item.js';
-import './property-B49QQ8pS.js';
+import './property-B2TG3KEE.js';
+import './i18n-controller-Dxqz0Aof.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {
   display: block;
@@ -10,7 +13,7 @@ var css_248z = i`:host {
   display: grid;
   gap: 0;
   position: relative;
-  padding-left: calc(var(--timeline-dot-size, 2rem) / 2);
+  padding-inline-start: calc(var(--timeline-dot-size, 2rem) / 2);
 }`;
 
 /**
@@ -18,13 +21,20 @@ var css_248z = i`:host {
  * @tag wc-timeline
  * @rawTag timeline
  *
- * @summary A vertical timeline layout for a series of timeline items.
+ * @summary A vertical list of events in order, such as the history of a record, each with a marker and details.
+ * @overview
+ * <p>The timeline is a list (<code>role="list"</code>) of <code>wc-timeline-item</code>s. Each
+ * item takes its title in the default slot, its details in the <code>content</code> slot and its
+ * marker icon in the <code>dot</code> slot.</p>
+ *
+ * @slot - The `wc-timeline-item`s.
  *
  * @example
  * ```html
  * <wc-timeline>
- *   <wc-timeline-item description="Task completed">
+ *   <wc-timeline-item>
  *     <span>Task title</span>
+ *     <span slot="content">Task completed</span>
  *     <wc-icon slot="dot" name="check"></wc-icon>
  *   </wc-timeline-item>
  * </wc-timeline>

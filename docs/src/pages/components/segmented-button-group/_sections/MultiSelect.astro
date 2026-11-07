@@ -5,12 +5,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  In multi-select mode, multiple segments can be active simultaneously.
-  Add the <code>multi-select</code> attribute to the group to enable this behaviour.
+  With <code>multiple</code>, segments toggle independently and several can be selected at once. Read
+  them from <code>values</code>.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-segmented-button-group multi-select>
+  <wc-segmented-button-group multiple>
     <wc-segmented-button value="bold" selected>Bold</wc-segmented-button>
     <wc-segmented-button value="italic">Italic</wc-segmented-button>
     <wc-segmented-button value="underline" selected>Underline</wc-segmented-button>
@@ -18,7 +18,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 </DemoComponentCard>
 
 <DemoComponentCard lang={'html'}>
-  <wc-segmented-button-group multi-select>
+  <wc-segmented-button-group multiple>
     <wc-segmented-button value="wifi">Wi-Fi</wc-segmented-button>
     <wc-segmented-button value="bluetooth" selected>Bluetooth</wc-segmented-button>
     <wc-segmented-button value="nfc">NFC</wc-segmented-button>

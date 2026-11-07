@@ -1,6 +1,7 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { o } from './style-map-BQD5Et1D.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { o } from './style-map-CHOg6N_R.js';
+import { r as resolveLocale } from './locale-DEsJZCQG.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -9,15 +10,38 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
+  position: relative;
   --number-counter-font-size: 1rem;
 }
 
@@ -28,7 +52,7 @@ var css_248z = i`* {
 .digit {
   position: relative;
   overflow: hidden;
-  height: calc(var(--number-counter-font-size) * 1.1);
+  block-size: calc(var(--number-counter-font-size) * 1.1);
 }
 
 .digit-content {
@@ -42,13 +66,37 @@ var css_248z = i`* {
   align-items: center;
   justify-content: center;
   font-size: var(--number-counter-font-size);
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digit-content {
+    transition: none;
+  }
 }`;
 
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 /**
  * @label Number Counter
  * @tag wc-number-counter
  * @rawTag number-counter
- * @summary Displays a number with commas for thousands.
+ * @summary Displays a number with locale grouping, rolling each digit to its new value.
+ * @overview
+ * <p>The rolling digit columns are hidden from assistive technology; screen readers read the
+ * formatted value from a visually hidden copy instead.</p>
+ *
+ * @cssprop [--number-counter-font-size=1rem] - Font size of the digits.
  *
  * @example
  * ```html
@@ -68,27 +116,23 @@ var css_248z = i`* {
 let NumberCounter = class NumberCounter extends i$1 {
     constructor() {
         super(...arguments);
+        /** The number to display. */
         this.value = 0;
-        /**
-         * Optional: Allow users to pass a locale, defaulting to 'en-US' for commas.
-         */
-        this.locale = 'en-US';
     }
-    render() {
-        return b `<div class="number-counter">${this.renderDigits()}</div>`;
-    }
-    renderDigits() {
+    // ── Private ───────────────────────────────────────────────────────────────
+    /** The value formatted for the resolved locale, or `''` when there is no value. */
+    get formattedValue() {
         if (this.value === undefined || this.value === null)
+            return '';
+        return new Intl.NumberFormat(resolveLocale(this.locale, this)).format(this.value);
+    }
+    // ── Render helpers ────────────────────────────────────────────────────────
+    renderDigits(formattedValue) {
+        if (!formattedValue)
             return A;
-        // 1. Format the number with commas (e.g., 1234 -> "1,234")
-        const formattedValue = new Intl.NumberFormat(this.locale).format(this.value);
-        // 2. Split the string into individual characters
-        const chars = formattedValue.split('');
-        return b `${chars.map(char => {
-            // 3. Check if the character is a digit or a separator (comma/dot)
+        return b `${formattedValue.split('').map(char => {
             const digit = parseInt(char, 10);
-            // eslint-disable-next-line no-restricted-globals
-            if (isNaN(digit)) {
+            if (Number.isNaN(digit)) {
                 return b `<div class="digit-separator">${char}</div>`;
             }
             return this.renderDigit(digit);
@@ -96,16 +140,21 @@ let NumberCounter = class NumberCounter extends i$1 {
     }
     // eslint-disable-next-line class-methods-use-this
     renderDigit(digit) {
-        // Each 'each-digit' is 10% of the 'digit-content' height (since there are 10 numbers)
-        const offset = digit * 10;
-        const style = {
-            transform: `translateY(-${offset}%)`,
-        };
-        return b ` <div class="digit">
+        // Each digit is 10% of the column's height (there are 10 numbers).
+        const style = { transform: `translateY(-${digit * 10}%)` };
+        return b `<div class="digit">
       <div class="digit-content" style=${o(style)}>
-        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => b `<div class="each-digit">${n}</div>`)}
+        ${DIGITS.map(n => b `<div class="each-digit">${n}</div>`)}
       </div>
     </div>`;
+    }
+    // ── Render ────────────────────────────────────────────────────────────────
+    render() {
+        const { formattedValue } = this;
+        return b `<div class="number-counter" aria-hidden="true">
+        ${this.renderDigits(formattedValue)}
+      </div>
+      <span class="visually-hidden">${formattedValue}</span>`;
     }
 };
 NumberCounter.styles = [css_248z];

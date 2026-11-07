@@ -21,7 +21,7 @@ export type MenuCloseReason =
 export interface MenuCloseDetail {
   /** The shared overlay close reason (ADR-030001). */
   reason: CloseReason;
-  /** The menu's own, more detailed reason, as sent with the deprecated `closed` event. */
+  /** The menu's own, more detailed reason. */
   cause: MenuCloseReason;
 }
 
@@ -61,7 +61,7 @@ const POSITION_ATTRIBUTES = [
  * @label Menu
  * @tag wc-menu
  * @rawTag menu
- * @summary A temporary surface that shows a list of actions or choices.
+ * @summary A list of actions or choices that opens next to a button or another element.
  * @overview
  * <p>A menu opens next to an anchor element, in the browser's top layer, so it shows above dialogs,
  * sticky headers and any parent with <code>overflow: hidden</code>. Items are <code>wc-menu-item</code>
@@ -85,8 +85,6 @@ const POSITION_ATTRIBUTES = [
  *
  * @fires {CustomEvent} open - Dispatched after the menu opens. Bubbles and is composed: check `event.target` to tell a submenu's event from the menu's own.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api', cause: MenuCloseReason}>} close - Dispatched after the menu closes. `reason` is the shared overlay reason (an item pick is `action`, Escape `escape`, a press outside or Tab `light-dismiss`, `close()` / `open = false` `api`); `cause` is the menu's detailed reason. Bubbles and is composed.
- * @fires {CustomEvent} opened - Deprecated, use `open`. Dispatched on the menu after it opens. Does not bubble.
- * @fires {CustomEvent<{reason: MenuCloseReason}>} closed - Deprecated, use `close`. Dispatched on the menu after it closes. Does not bubble.
  * @fires {CustomEvent<{item: MenuItem}>} menu-item-activate - Dispatched when an item is activated.
  *
  * @example
@@ -146,7 +144,7 @@ export class Menu extends LitElement {
   /**
    * Where the menu opens relative to its anchor: `top`, `bottom`, `start` or `end`, optionally
    * followed by `-start` or `-end` (ADR-030001). `start` and `end` follow the writing direction.
-   * The physical `left` / `right` still work but are deprecated. Defaults to `"bottom-start"`.
+   * Defaults to `"bottom-start"`.
    */
   @property({ type: String })
   placement: OverlayPlacement = 'bottom-start';
@@ -188,7 +186,7 @@ export class Menu extends LitElement {
   /** Element that had focus before the menu opened; restored on close. */
   private _lastFocusedElement: HTMLElement | null = null;
 
-  /** Reason that triggered the most recent close, included in the `closed` event detail. */
+  /** Reason that triggered the most recent close, sent as `cause` in the `close` event detail. */
   private _closeReason: MenuCloseReason = { kind: 'programmatic' };
 
   /** Item to focus when the menu opens; set by `show()`. */
@@ -735,7 +733,7 @@ export class Menu extends LitElement {
     }
 
     this._floatingController.setOptions({
-      placement: toPhysicalPlacement(this.placement, this, 'wc-menu'),
+      placement: toPhysicalPlacement(this.placement, this),
       offset: this.offset,
       strategy: 'fixed',
       closeOnClickOutside: !this.stayOpenOnOutsideClick,
@@ -773,7 +771,6 @@ export class Menu extends LitElement {
         this.dispatchEvent(
           new CustomEvent('open', { bubbles: true, composed: true }),
         );
-        this.dispatchEvent(new CustomEvent('opened'));
       } else if (changedProperties.get('open') === true) {
         this._floatingController.close();
 
@@ -785,7 +782,6 @@ export class Menu extends LitElement {
             composed: true,
           }),
         );
-        this.dispatchEvent(new CustomEvent('closed', { detail: { reason } }));
 
         const shouldRestoreFocus =
           reason.kind !== 'outside-click' &&

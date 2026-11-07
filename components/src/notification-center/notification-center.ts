@@ -327,7 +327,6 @@ export class NotificationCenter extends LitElement {
             placement: toPhysicalPlacement(
               this.placement,
               this,
-              'wc-notification-center',
             ),
           });
           this.floating.open();

@@ -1,11 +1,12 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
 import { o } from './query-assigned-elements-BJaGSqM0.js';
 import { AccordionItem } from './accordion-item.js';
+import { R as RovingFocusController } from './roving-focus-controller-fm95JkZJ.js';
 import './base-Cl6v8-BZ.js';
-import './state-DkTK9EGF.js';
+import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
-import './class-map-DG7CA1et.js';
+import './class-map-NDIkZErE.js';
 import './directive-ZPhl09Yt.js';
 
 var css_248z = i`* {
@@ -14,13 +15,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
 }
@@ -43,7 +66,13 @@ var css_248z = i`* {
  * @label Accordion
  * @tag wc-accordion
  * @rawTag accordion
- * @summary A vertically stacked set of expansion panels.
+ * @summary A stack of panels whose headers the person opens to show or hide their content.
+ * @overview
+ * <p>Every panel header is in the Tab order; the Up and Down arrow keys also move focus between
+ * the headers, Home and End jump to the first and last. Disabled panels are skipped. Without
+ * <code>multiple</code>, opening a panel (by the person or by setting <code>open</code>) closes
+ * the others.</p>
+ * <p>Items fire <code>open</code> and <code>close</code>.</p>
  *
  * @example
  * ```html
@@ -63,7 +92,9 @@ var css_248z = i`* {
  */
 let Accordion = class Accordion extends i$1 {
     constructor() {
+        // ── Static
         super(...arguments);
+        // ── Properties
         /**
          * Whether multiple panels can be expanded simultaneously.
          * When `false` (default), expanding one panel collapses all others.
@@ -80,70 +111,51 @@ let Accordion = class Accordion extends i$1 {
          * When `false` (default), the icon is placed at the trailing end.
          */
         this.leadingToggle = false;
+        // ── Private fields
+        /** Up/Down, Home and End move focus between the header buttons. */
+        this.roving = new RovingFocusController(this, {
+            items: () => (this.items ?? [])
+                .map(item => item.headerButton)
+                .filter((button) => !!button),
+            orientation: () => 'vertical',
+            // WAI-ARIA accordion: every header stays in the Tab order; the arrow keys are a shortcut.
+            manageTabIndex: () => false,
+        });
+        // ── Private
+        this.__handleItemOpen = (event) => {
+            const targetItem = event.target;
+            // Ignore events from nested accordions — only handle direct children
+            if (targetItem.parentElement !== this || this.multiple)
+                return;
+            for (const item of this.items) {
+                if (item !== targetItem && item.open)
+                    item.open = false;
+            }
+        };
+        this.__handleSlotChange = async () => {
+            // The header buttons exist once the items have rendered.
+            await Promise.all(this.items.map(item => item.updateComplete));
+            this.roving.sync();
+        };
     }
+    // ── Lifecycle
     connectedCallback() {
         super.connectedCallback();
-        // @ts-ignore
-        // eslint-disable-next-line wc/require-listener-teardown
-        this.addEventListener('accordion-item-toggle', this._onItemToggle);
-        this.addEventListener('keydown', this._onKeyDown);
+        this.addEventListener('open', this.__handleItemOpen);
     }
     disconnectedCallback() {
+        this.removeEventListener('open', this.__handleItemOpen);
         super.disconnectedCallback();
-        // @ts-ignore
-        this.removeEventListener('accordion-item-toggle', this._onItemToggle);
-        this.removeEventListener('keydown', this._onKeyDown);
     }
-    _onItemToggle(e) {
-        const targetItem = e.target;
-        // Ignore events from nested accordions — only handle direct children
-        if (targetItem.parentElement !== this)
-            return;
-        if (!this.multiple && targetItem.open) {
-            this.items.forEach(item => {
-                if (item !== targetItem && item.open) {
-                    // eslint-disable-next-line no-param-reassign
-                    item.open = false;
-                }
-            });
-        }
-    }
-    _onKeyDown(e) {
-        const focusedItemIndex = this.items.findIndex(item => {
-            const root = item.shadowRoot;
-            return root?.activeElement?.classList.contains('header-button');
-        });
-        if (focusedItemIndex === -1)
-            return;
-        let nextIndex = -1;
-        // eslint-disable-next-line default-case
-        switch (e.key) {
-            case 'ArrowDown':
-                e.preventDefault();
-                nextIndex = (focusedItemIndex + 1) % this.items.length;
-                break;
-            case 'ArrowUp':
-                e.preventDefault();
-                nextIndex =
-                    (focusedItemIndex - 1 + this.items.length) % this.items.length;
-                break;
-            case 'Home':
-                e.preventDefault();
-                nextIndex = 0;
-                break;
-            case 'End':
-                e.preventDefault();
-                nextIndex = this.items.length - 1;
-                break;
-        }
-        if (nextIndex !== -1) {
-            const itemToFocus = this.items[nextIndex];
-            const button = itemToFocus.shadowRoot?.querySelector('.header-button');
-            button?.focus();
-        }
-    }
+    // ── Render
     render() {
-        return b `<div class="accordion"><slot></slot></div>`;
+        return b `<div
+      class="accordion"
+      @keydown=${this.roving.handleKeyDown}
+      @focusin=${this.roving.handleFocusIn}
+    >
+      <slot @slotchange=${this.__handleSlotChange}></slot>
+    </div>`;
     }
 };
 Accordion.styles = [css_248z];

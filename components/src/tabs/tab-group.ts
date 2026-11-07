@@ -4,25 +4,10 @@ import { Tabs, type TabsChangeDetail } from './tabs.js';
 import { TabPanel } from './tab-panel.js';
 import type { Tab } from './tab.js';
 import IndividualComponent from '@/IndividualComponent.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
-/**
- * The key that links a tab to its panel: the tab's `value`. A tab without `value` and without
- * `href` may still use `target` (deprecated); a link tab's `target` is a link target, never a key.
- */
+/** The key that links a tab to its panel: the tab's `value`. */
 function tabKey(tab: HTMLElement): string | null {
-  const value = tab.getAttribute('value') ?? (tab as Tab).value;
-  if (value) return value;
-  const target = tab.getAttribute('target');
-  if (target && !tab.hasAttribute('href')) {
-    deprecate(
-      'wc-tab-group',
-      "linking panels by the tab's `target`",
-      '`value` on wc-tab',
-    );
-    return target;
-  }
-  return null;
+  return tab.getAttribute('value') || (tab as Tab).value || null;
 }
 
 /** Gives `element` an id if it has none, so ARIA attributes can point at it. */
@@ -39,13 +24,10 @@ function ensureId(element: HTMLElement, prefix: string): string {
  * @tag wc-tab-group
  * @rawTag tab-group
  *
- * @summary The tab group component is used to display multiple panels of content in a container.
+ * @summary Pairs a row of tabs with their panels and shows the panel of the selected tab.
  * @overview
- * <p>The tab group component allows users to switch between different views or content sections.</p>
  * <p>Tabs and panels are matched by <code>value</code> (<code>&lt;wc-tab value="billing"&gt;</code> shows
- * <code>&lt;wc-tab-panel value="billing"&gt;</code>), or by position when no tab has a value.
- * Matching by the tab's <code>target</code> is deprecated and will be removed in 4.0; a link tab's
- * <code>target</code> is always a link target.</p>
+ * <code>&lt;wc-tab-panel value="billing"&gt;</code>), or by position when no tab has a value.</p>
  * <p>The group wires the tabs pattern: each panel is labelled by its tab, and each tab points at
  * its panel. Tabs and panels added later are wired too. When the <code>wc-tabs</code> is
  * <code>managed</code>, the group leaves the selection to the consumer.</p>
@@ -178,9 +160,7 @@ export class TabGroup extends LitElement {
       }
     });
 
-    const selected = tabs.findIndex(
-      tab => tab.selected || tab.hasAttribute('active'),
-    );
+    const selected = tabs.findIndex(tab => tab.selected);
     const index = selected >= 0 ? selected : 0;
     if (tabs.length === 0) return;
     if (keyed) {

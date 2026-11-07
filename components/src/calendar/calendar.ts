@@ -6,7 +6,6 @@ import type { CalendarViewType, EventType } from './types.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import {
   dateToIso,
   isoToDate,
@@ -27,15 +26,33 @@ export type CalendarDateChangeDetail = {
  * @label Calendar
  * @tag wc-calendar
  * @rawTag calendar
- * @summary A full calendar component for displaying events in day, week, or month views.
+ * @summary A calendar that shows events by day, week or month, with controls to move between periods.
+ *
+ * @overview
+ * <p>Pass events as the <code>events</code> property; each has a <code>start</code>,
+ * <code>end</code>, <code>title</code> and optional palette <code>color</code>. The day and week
+ * views lay timed events out in a column per day, with events lasting a day or more in a row
+ * above; the month view shows six weeks. <code>available-views</code> sets the views offered in
+ * the header's segmented buttons, and <code>view</code> the one shown.</p>
+ * <p>The header has a Today button, previous and next buttons and the current date, which is a
+ * polite live region. <code>previous()</code>, <code>next()</code> and <code>today()</code> do the
+ * same from code; each fires <code>date-change</code>. The date shown is <code>date</code> (an ISO
+ * string) or <code>contextDate</code> (a <code>Date</code>), kept in step. Choosing a day number
+ * in a column view switches to the day view and fires <code>view-change</code> and
+ * <code>date-change</code>.</p>
+ * <p>Events are buttons, chosen with a click, Enter or Space, which fire <code>event-click</code>.
+ * With <code>events-readonly</code> they are shown but cannot be focused or clicked.
+ * <code>loading</code> shows a progress bar and marks the calendar busy. <code>first-day</code>
+ * sets the week start (else the locale's), <code>timezone</code> the zone the current time is
+ * shown in, and <code>locale</code> the language of names and times.</p>
  *
  * @cssprop --calendar-border-color - Border color used throughout the calendar grid.
  * @cssprop --calendar-event-bg-color - Background color for calendar events.
  * @cssprop --calendar-event-border-color - Left border color for calendar events.
  *
- * @fires {CustomEvent} event-click - An event was clicked, or chosen with Enter or Space. Detail contains `{ event }`. Not fired with `events-readonly`.
- * @fires {CustomEvent} view-change - The view changed. Detail contains `{ view }`.
- * @fires {CustomEvent} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
+ * @fires {CustomEvent<{event: EventType}>} event-click - An event was clicked, or chosen with Enter or Space. Detail contains `{ event }`. Not fired with `events-readonly`.
+ * @fires {CustomEvent<{view: string}>} view-change - The view changed. Detail contains `{ view }`.
+ * @fires {CustomEvent<{date: Date, value: string}>} date-change - The context date changed. Detail contains `{ date, value }`: the `Date` and its ISO string.
  *
  * @example
  * ```html
@@ -92,23 +109,9 @@ export class Calendar extends LitElement {
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
 
-  /**
-   * Whether events are clickable.
-   * @deprecated Use `events-readonly`.
-   */
-  @property({ type: Boolean, attribute: 'event-clickable' })
-  eventClickable: boolean = true;
-
   /** Shows a progress bar and marks the calendar busy while events load. */
   @property({ type: Boolean, reflect: true })
   loading: boolean = false;
-
-  /**
-   * Shows a progress bar while events load.
-   * @deprecated Use `loading`.
-   */
-  @property({ type: Boolean, attribute: 'show-loader' })
-  showLoader: boolean = false;
 
   /** IANA time zone the current time is shown in, for example `America/New_York`. Defaults to the browser's. */
   @property({ type: String })
@@ -158,12 +161,6 @@ export class Calendar extends LitElement {
       this._currentTime = this._now();
     }
     this._syncDate(changed);
-    if (changed.has('showLoader') && this.showLoader) {
-      deprecate('wc-calendar', '`show-loader`', '`loading`');
-    }
-    if (changed.has('eventClickable') && !this.eventClickable) {
-      deprecate('wc-calendar', '`event-clickable`', '`events-readonly`');
-    }
   }
 
   // ── Public methods
@@ -220,9 +217,9 @@ export class Calendar extends LitElement {
     return weekStart(this._i18n.locale);
   }
 
-  /** Whether events can be clicked: not `events-readonly` and not the deprecated `event-clickable="false"`. */
+  /** Whether events can be clicked: not `events-readonly`. */
   private _eventsInteractive(): boolean {
-    return !this.eventsReadonly && this.eventClickable;
+    return !this.eventsReadonly;
   }
 
   private _step(direction: 1 | -1) {
@@ -408,7 +405,7 @@ export class Calendar extends LitElement {
   // ── Render
 
   render() {
-    const busy = this.loading || this.showLoader;
+    const busy = this.loading;
     return html`
       <div class="calendar">
         <div class="calendar-header">${this._renderHeader()}</div>

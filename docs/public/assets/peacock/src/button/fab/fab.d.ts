@@ -1,20 +1,23 @@
-import { LitElement, nothing } from 'lit';
+import { LitElement, nothing, type PropertyValues } from 'lit';
 declare const Fab_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("../base-button/base-button.js").BaseButton>;
 /**
  * @label FAB
  * @tag wc-fab
  * @rawTag fab
  *
- * @summary The FAB (Floating Action Button) represents the primary action on a screen.
+ * @summary A floating action button: a prominent button for the main action of a screen, such as composing a message.
  * @overview
- * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It follows the specification and supports four color roles and two variants.</p>
+ * <p>A Floating Action Button (FAB) is a circular button that represents the primary action on a screen. It supports four color roles and two variants.</p>
+ * <p>An icon-only FAB needs an accessible name: set <code>aria-label</code>, or a <code>tooltip</code>, which is used when no <code>aria-label</code> is set. With neither (and no <code>label</code>), a warning is logged once.</p>
+ * <p>Set <code>toggle</code> for a toggle FAB with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported on the FAB.</p>
  *
  * @cssprop --fab-container-color: Background color of the FAB container.
  * @cssprop --fab-label-text-color: Text and icon color of the FAB label.
  * @cssprop --fab-container-shape: Corner radius of the FAB. Defaults to var(--shape-corner-large).
  * @cssprop --fab-container-elevation-level: Elevation level of the FAB. Defaults to 3.
  *
- * @fires {MouseEvent} click - Dispatched when the FAB is clicked.
+ * @fires {MouseEvent} click - Dispatched when the FAB is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` FAB after a click flips `selected`.
  *
  * @example
  * ```html
@@ -30,6 +33,11 @@ export declare class Fab extends Fab_base {
      * When set, the FAB displays both the icon and a text label.
      */
     label?: string;
+    /**
+     * When true, the FAB is busy: it shows a spinner in place of its icon, sets `aria-busy="true"`
+     * and ignores clicks, like `soft-disabled`.
+     */
+    loading: boolean;
     /**
      * The color role of the FAB.
      * `"surface"` uses the surface color role.
@@ -56,17 +64,25 @@ export declare class Fab extends Fab_base {
      */
     lowered: boolean;
     /**
-     * Tooltip text shown on hover.
+     * Tooltip text shown on hover. Without a `label`, also the accessible name when no
+     * `aria-label` is set.
      */
     tooltip?: string;
+    /** When true, renders the FAB as a placeholder skeleton while the page loads. */
     skeleton: boolean;
+    /**
+     * When true, the FAB is a toggle button: it renders `aria-pressed`, flips `selected` on click
+     * and fires `change`.
+     */
     toggle: boolean;
+    /** The pressed state of a `toggle` FAB. Has no effect without `toggle`. */
     selected: boolean;
     readonly buttonElement: HTMLElement | null;
     constructor();
-    __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
+    firstUpdated(changedProperties: PropertyValues<this>): void;
     focus(): void;
     blur(): void;
+    __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
     renderDisabledReason(softDisabled: boolean): typeof nothing | import("lit-html").TemplateResult<1>;
     renderTooltip(): typeof nothing | import("lit-html").TemplateResult<1>;
     renderFabElement(isExtended: boolean): import("lit-html").TemplateResult<1>;

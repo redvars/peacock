@@ -14,16 +14,11 @@
   padding: 0;
 }
 
-
 .field {
   .input {
     flex: 1;
     width: 100%;
     background: none;
     cursor: inherit;
-  }
-
-  .password-toggle {
-    --button-container-shape: var(--shape-corner-full);
   }
 }

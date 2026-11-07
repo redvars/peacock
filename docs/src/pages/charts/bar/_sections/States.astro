@@ -19,7 +19,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <script is:inline>
     const barLoading = document.getElementById('bar-loading');
     document.getElementById('bar-loading-toggle').addEventListener('click', () => {
-      barLoading.index = 'day';
+      barLoading.categoryKey = 'day';
       barLoading.data = [
         { day: 'Mon', orders: 32 },
         { day: 'Tue', orders: 45 },

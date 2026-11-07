@@ -44,7 +44,6 @@ describe('Overlay events', () => {
     const heard: string[] = [];
     wrapper.addEventListener('open', e => heard.push(e.type));
     wrapper.addEventListener('close', e => heard.push(e.type));
-    wrapper.addEventListener('wc-popover--open', e => heard.push(e.type));
 
     field.showPicker();
     await field.updateComplete;

@@ -5,7 +5,6 @@ import {
   dispatchActivationClick,
   isActivationClick,
 } from './utils/dispatch-event-utils.js';
-import { deprecate } from './utils/deprecate.js';
 import { throttle } from './utils/throttle.js';
 
 /**
@@ -27,20 +26,6 @@ export abstract class NavigationItemBase extends LitElement {
 
   /** Whether this item is the current destination. Sets `aria-current="page"`. */
   @property({ type: Boolean, reflect: true }) current = false;
-
-  /**
-   * Deprecated alias of `current`, kept until 4.0.
-   * @deprecated Use `current`.
-   */
-  @property({ type: Boolean, attribute: 'active' })
-  get active(): boolean {
-    return this.current;
-  }
-
-  set active(value: boolean) {
-    deprecate(this.localName, 'active', 'current');
-    this.current = value;
-  }
 
   /** Whether this item is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -168,8 +153,6 @@ export abstract class NavigationItemBase extends LitElement {
       item: true,
       ...this.itemClasses(),
       current: this.current,
-      // Kept for consumers and styles that target the old class name.
-      active: this.current,
       disabled: this.disabled,
     });
     const describedBy =

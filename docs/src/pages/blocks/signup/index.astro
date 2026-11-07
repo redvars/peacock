@@ -19,13 +19,14 @@ import '../../../styles/blocks/auth.scss';
         <div class='auth-fields'>
           <wc-input label='Full name' placeholder='Jane Doe' autocomplete='on' required></wc-input>
           <wc-input type='email' label='Email address' placeholder='you@example.com' required></wc-input>
-          <wc-input
-            type='password'
+          <wc-password-field
+            id='signup-password'
             label='Password'
             placeholder='Create a password'
-            helper-text='At least 12 characters.'
+            autocomplete='new-password'
             required
-          ></wc-input>
+          ></wc-password-field>
+          <wc-password-rules for='signup-password' minlength='12' require-number></wc-password-rules>
         </div>
 
         <wc-checkbox label='I agree to the terms of service and privacy policy' required></wc-checkbox>

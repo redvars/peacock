@@ -35,10 +35,9 @@ export interface FileState {
   done?: boolean;
 }
 
-/** `detail` of `change`: the accepted files, as `value` (the field convention) and `files`. */
+/** `detail` of `change`: the accepted files, as `value` (the field convention). */
 export interface FileUploadChangeDetail {
   value: File[];
-  files: File[];
 }
 
 /** `detail` of `reject`. */
@@ -122,7 +121,7 @@ let fileUploadCount = 0;
  * zone and the remove buttons.</p>
  *
  * @fires {CustomEvent<{value: File[], files: File[]}>} change - Dispatched when files are added or removed. `value` and `files` are the same array: the accepted files.
- * @fires {CustomEvent<{files: {file: File, reason: 'type' | 'size' | 'count'}[]}>} reject - Dispatched when chosen or dropped files are not added.
+ * @fires {CustomEvent<{value: File[]}>} change - Dispatched when files are added or removed; `value` is the accepted files.
  * @fires {CustomEvent<{file: File}>} remove - Dispatched when the person removes a file, before `change`.
  *
  * @cssprop --file-upload-drop-zone-color - Background of the drop zone.
@@ -401,10 +400,7 @@ export class FileUpload extends BaseInput {
   }
 
   private emitChange() {
-    this.emit<FileUploadChangeDetail>('change', {
-      value: this.files,
-      files: this.files,
-    });
+    this.emit<FileUploadChangeDetail>('change', { value: this.files });
   }
 
   private announce(message: string) {
@@ -448,6 +444,12 @@ export class FileUpload extends BaseInput {
       event.preventDefault();
       this.showPicker();
     }
+  }
+
+  /** The native `input` escapes the shadow root too; the component reports `change` only. */
+  // eslint-disable-next-line class-methods-use-this
+  private stopNativeEvent(event: Event) {
+    event.stopPropagation();
   }
 
   private handleNativeChange(event: Event) {
@@ -531,6 +533,7 @@ export class FileUpload extends BaseInput {
         accept=${this.accept || nothing}
         ?multiple=${this.multiple}
         ?disabled=${this.disabled}
+        @input=${this.stopNativeEvent}
         @change=${this.handleNativeChange}
       />
     `;

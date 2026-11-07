@@ -148,6 +148,12 @@ export class AvatarGroup extends LitElement {
     return { name, src: item.getAttribute('src') ?? undefined, label };
   }
 
+  /** The overflow popover's `open` / `close` are internal; they would escape as the group's. */
+  // eslint-disable-next-line class-methods-use-this
+  private __stopPopoverEvent(event: Event) {
+    event.stopPropagation();
+  }
+
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private __renderOverflow(hidden: HTMLElement[]) {
@@ -159,6 +165,8 @@ export class AvatarGroup extends LitElement {
       trigger="click"
       placement="bottom-start"
       label=${moreLabel}
+      @open=${this.__stopPopoverEvent}
+      @close=${this.__stopPopoverEvent}
     >
       <button class="more" type="button" aria-label=${moreLabel}>
         +${count}

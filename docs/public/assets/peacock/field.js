@@ -1,8 +1,8 @@
-import { i, a as i$1, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, a as i$1, _ as __decorate, I as IndividualComponent, b, A } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { e as e$1 } from './class-map-DG7CA1et.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
 import { o as observerSlotChangesWithCallback } from './observe-slot-change-DPxaZrZF.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
@@ -13,16 +13,47 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   --field-height: unset;
   --field-padding-block: unset;
+  --_field-size-height: 2.5rem;
+}
+
+:host([size=md]) {
+  --_field-size-height: 3.5rem;
+}
+
+:host([size=lg]) {
+  --_field-size-height: 4rem;
 }
 
 .field {
@@ -72,7 +103,7 @@ var css_248z = i`* {
 .field .field-body .outline {
   position: absolute;
   z-index: 2;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -86,7 +117,7 @@ var css_248z = i`* {
 .field .field-body .background {
   position: absolute;
   z-index: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -102,7 +133,7 @@ var css_248z = i`* {
   align-items: center;
   flex: 1;
   min-width: 0;
-  min-height: var(--field-height, 3.5rem);
+  min-height: var(--field-height, calc(var(--_field-size-height) + var(--density, 0) * 0.25rem));
   padding-block: var(--field-padding-block);
   z-index: 1;
 }
@@ -115,7 +146,7 @@ var css_248z = i`* {
 .field .field-body .field-content .input-wrapper .outlined-label {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   align-items: center;
   height: 100%;
   width: 100%;
@@ -167,11 +198,11 @@ var css_248z = i`* {
 }
 .field .field-footer .helper, .field .field-footer .text-count {
   position: relative;
-  font-family: var(--typography-body-large-font-family) !important;
-  font-size: var(--typography-body-large-font-size) !important;
-  font-weight: var(--typography-body-large-font-weight) !important;
-  line-height: var(--typography-body-large-line-height) !important;
-  letter-spacing: var(--typography-body-large-letter-spacing) !important;
+  font-family: var(--typography-body-small-font-family) !important;
+  font-size: var(--typography-body-small-font-size) !important;
+  font-weight: var(--typography-body-small-font-weight) !important;
+  line-height: var(--typography-body-small-line-height) !important;
+  letter-spacing: var(--typography-body-small-letter-spacing) !important;
   color: var(--_helper-text-color);
   opacity: var(--_helper-text-opacity);
 }
@@ -245,7 +276,7 @@ var css_248z = i`* {
   z-index: 2;
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   --skeleton-container-shape-start-start: var(--_container-shape-start-start);
   --skeleton-container-shape-start-end: var(--_container-shape-start-end);
   --skeleton-container-shape-end-start: var(--_container-shape-end-start);
@@ -257,9 +288,12 @@ var css_248z = i`* {
  * @tag wc-field
  * @rawTag field
  *
- * @summary Wrapper for form fields with label and help text.
+ * @summary The box around a form control, with its label, required mark, helper, error or warning text and a character count.
  * @overview
- * <p>Field provides consistent styling and behavior for form inputs.</p>
+ * <p>The field draws the frame of a form control: the label with a required mark, the bordered
+ * box with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,
+ * error or warning text and a character count. Wrap a custom control in it to match the
+ * built-in fields.</p>
  *
  * @example
  * ```html
@@ -274,8 +308,6 @@ let Field = class Field extends i$1 {
         super(...arguments);
         /** Label text shown above the field input. */
         this.label = '';
-        /** Help text (deprecated — prefer `helperText`). */
-        this.help = '';
         /** When true, marks the field as required and shows a required indicator. */
         this.required = false;
         /** When true, the field and its slotted input are disabled. */
@@ -302,6 +334,11 @@ let Field = class Field extends i$1 {
         this.populated = false;
         /** Visual variant of the field container. */
         this.variant = 'default';
+        /**
+         * Height of the field box: `sm` (2.5rem, the default, the same as a default button), `md`
+         * (3.5rem) or `lg` (4rem). `data-density` on an ancestor shortens it further.
+         */
+        this.size = 'sm';
         /** True when the `field-start` slot contains at least one node. */
         this.slotStartHasContent = false;
         /** True when the `field-end` slot contains at least one node. */
@@ -432,9 +469,6 @@ __decorate([
     n({ type: String })
 ], Field.prototype, "label", void 0);
 __decorate([
-    n({ type: String })
-], Field.prototype, "help", void 0);
-__decorate([
     n({ type: Boolean })
 ], Field.prototype, "required", void 0);
 __decorate([
@@ -473,6 +507,9 @@ __decorate([
 __decorate([
     n({ type: String })
 ], Field.prototype, "variant", void 0);
+__decorate([
+    n({ type: String, reflect: true })
+], Field.prototype, "size", void 0);
 __decorate([
     n({ type: Object })
 ], Field.prototype, "host", void 0);

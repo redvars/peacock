@@ -125,7 +125,6 @@ export class WorkspaceSwitcher extends LitElement {
     menu: () => this._menu,
     disabled: () => this.disabled,
     idPrefix: 'workspace-menu',
-    tag: 'wc-workspace-switcher',
   });
 
   /** Typing while a workspace has focus goes back to the search field. */

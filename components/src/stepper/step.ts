@@ -30,7 +30,7 @@ const STEPPER_INPUTS = ['value', 'error', 'disabled', 'optional'] as const;
  * @tag wc-step
  * @rawTag step
  *
- * @summary One step of a `wc-stepper`.
+ * @summary One step of a stepper, shown as complete, current or upcoming from its position.
  * @overview
  * <p>Step is one entry in a <code>wc-stepper</code>. Its state comes from its position: steps
  * before the stepper's <code>current</code> step are complete (a check), the current one has

@@ -10,12 +10,13 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <code>description</code>, <code>icon</code>, displayed <code>shortcut</code>,
   <code>keywords</code> and <code>disabled</code>. Typing filters them and highlights the match;
   Arrow keys move, Enter runs the command (<code>select</code>), Escape clears the query and then
-  closes. <code>shortcut="mod+k"</code> opens it with Ctrl+K, or Command+K on a Mac.
+  closes. <code>shortcut="mod+k"</code> opens it with Ctrl+K, or Command+K on a Mac. On this site
+  Ctrl+K opens the site search, so the demo below uses <code>mod+shift+k</code>.
 </p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-button id='command-palette-demo-open'>Open command palette (Ctrl+K)</wc-button>
-  <wc-command-palette id='command-palette-demo' shortcut='mod+k'></wc-command-palette>
+  <wc-button id='command-palette-demo-open'>Open command palette (Ctrl+Shift+K)</wc-button>
+  <wc-command-palette id='command-palette-demo' shortcut='mod+shift+k'></wc-command-palette>
   <script is:inline>
     (function () {
       const palette = document.querySelector('#command-palette-demo');

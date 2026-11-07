@@ -75,6 +75,40 @@ describe('Condition builder', () => {
     expect(group.shadowRoot?.querySelector('.operator-pill')).to.exist;
   });
 
+  it('tracks its operator menu with open and close, ignoring bubbled ones', async () => {
+    const { el } = await renderBuilder();
+    const menu = el.shadowRoot!.querySelector('wc-menu')!;
+    const expanded = () =>
+      el
+        .shadowRoot!.querySelector('.operator-pill')!
+        .getAttribute('aria-expanded');
+    expect(expanded()).to.equal('false');
+    const outside: Event[] = [];
+    el.addEventListener('open', e => outside.push(e));
+    el.addEventListener('close', e => outside.push(e));
+
+    const inner = document.createElement('span');
+    menu.append(inner);
+    inner.dispatchEvent(new CustomEvent('open', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('false');
+
+    menu.dispatchEvent(new CustomEvent('open', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('true');
+
+    inner.dispatchEvent(new CustomEvent('close', { bubbles: true }));
+    await el.updateComplete;
+    expect(expanded()).to.equal('true');
+
+    menu.dispatchEvent(
+      new CustomEvent('close', { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(expanded()).to.equal('false');
+    expect(outside).to.be.empty;
+  });
+
   it('switches the operator from the menu and fires operator-change', async () => {
     const { el } = await renderBuilder();
     let detail: unknown;
@@ -240,7 +274,9 @@ describe('Condition builder', () => {
           <input name="value" value="open" />
         </wc-cb-rule>
         <wc-cb-group id="g">
-          <wc-cb-rule id="plain"><input value="x" /><input value="y" /></wc-cb-rule>
+          <wc-cb-rule id="plain"
+            ><input value="x" /><input value="y"
+          /></wc-cb-rule>
           <wc-cb-rule id="own" data-kind="custom"></wc-cb-rule>
         </wc-cb-group>
       </wc-condition-builder>
@@ -289,7 +325,9 @@ describe('Condition builder', () => {
     const handle = () =>
       b.shadowRoot?.querySelector('.handle') as HTMLElement | null;
 
-    handle()?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    handle()?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight' }),
+    );
     expect(ids(group)).to.deep.equal(['b', 'c']);
     expect(ids(el)).to.deep.equal(['a', 'g']);
     await nextFrame();
@@ -334,8 +372,8 @@ describe('Condition builder', () => {
     expect(rule.locked).to.be.true;
     expect(rule.shadowRoot?.querySelector('.handle')).to.not.exist;
     expect(rule.shadowRoot?.querySelector('.remove')).to.not.exist;
-    expect(el.shadowRoot?.querySelector('.actions slot[name="actions"]')).to
-      .not.exist;
+    expect(el.shadowRoot?.querySelector('.actions slot[name="actions"]')).to.not
+      .exist;
     expect(el.shadowRoot?.querySelector('wc-menu')).to.not.exist;
     expect(group.shadowRoot?.querySelector('.footer')).to.not.exist;
 

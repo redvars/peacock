@@ -89,7 +89,7 @@ describe('Popover', () => {
     const trigger = el.querySelector('button')!;
     const listeners = trackClickListeners(trigger);
 
-    for (const placement of ['top', 'bottom', 'right'] as const) {
+    for (const placement of ['top', 'bottom', 'end'] as const) {
       el.placement = placement;
       // eslint-disable-next-line no-await-in-loop
       await el.updateComplete;
@@ -179,15 +179,10 @@ describe('Popover', () => {
     expect(event.detail.reason).to.equal('action');
   });
 
-  it('fires open and close, and the deprecated prefixed events', async () => {
+  it('fires open and close', async () => {
     const el = await basic();
     const seen: string[] = [];
-    for (const type of [
-      'open',
-      'close',
-      'wc-popover--open',
-      'wc-popover--close',
-    ]) {
+    for (const type of ['open', 'close']) {
       el.addEventListener(type, event => {
         const { detail } = event as CustomEvent<{ reason?: string } | null>;
         seen.push(detail?.reason ? `${type}:${detail.reason}` : type);
@@ -203,16 +198,7 @@ describe('Popover', () => {
     el.open = false;
     await el.updateComplete;
 
-    expect(seen).to.deep.equal([
-      'open',
-      'wc-popover--open',
-      'close:api',
-      'wc-popover--close',
-      'open',
-      'wc-popover--open',
-      'close:api',
-      'wc-popover--close',
-    ]);
+    expect(seen).to.deep.equal(['open', 'close:api', 'open', 'close:api']);
   });
 
   it('links the trigger to the content', async () => {

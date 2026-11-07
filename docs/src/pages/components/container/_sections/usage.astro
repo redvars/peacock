@@ -1,0 +1,30 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-container</code> centres page content and caps its width, so lines stay readable on
+  wide screens. <code>size</code> picks the maximum width from the container tokens:
+  <code>sm</code> (320px), <code>md</code> (672px), <code>lg</code> (1056px), <code>xl</code>
+  (1312px) or <code>max</code> (1584px). The default, <code>full</code>, has no maximum.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; border: 1px dashed var(--color-outline-variant);'>
+    <wc-container size='sm'>
+      <wc-card variant='outlined'>
+        <wc-card-content>This content is at most 320px wide and centred.</wc-card-content>
+      </wc-card>
+    </wc-container>
+  </div>
+</DemoComponentCard>
+
+<h3>Layout</h3>
+<p>
+  The container only sets the width. Put a <code>wc-stack</code> or <code>wc-grid</code> inside it
+  to arrange the content, and use <code>wc-app-shell</code> for the frame of a whole app.
+  <code>--container-max-width</code> overrides the width and <code>--container-padding</code> the
+  space at the sides.
+</p>

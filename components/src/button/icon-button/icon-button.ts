@@ -24,7 +24,6 @@ import { mixinFormSubmitter } from '@/__internal/mixins/form-submitter.js';
 import { mixinFormAssociated } from '@/__internal/mixins/form-associated.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
-import { migrateLegacySize } from '@/__internal/utils/size.js';
 import type { ButtonShape, ButtonSize } from '@/button/ButtonTypes.js';
 
 /**
@@ -32,10 +31,9 @@ import type { ButtonShape, ButtonSize } from '@/button/ButtonTypes.js';
  * @tag wc-icon-button
  * @rawTag icon-button
  *
- * @summary Icon buttons allow users to take actions, and make choices, with a single tap.
+ * @summary A button that shows only an icon, for compact actions such as close or more options; it can also toggle.
  *
  * @overview
- * <p>Icon buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
  * <p>An icon button has no visible text, so give it an <code>aria-label</code>. Without one, its <code>tooltip</code> text is used as the accessible name; with neither, a warning is logged once.</p>
  * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>, the same as on <code>wc-button</code>. Set <code>toggle</code> for a toggle button with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported, for toolbar links.</p>
  *
@@ -141,14 +139,6 @@ export class IconButton extends mixinButtonLevel(
   }
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
-
-  override willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('size')) {
-      const size = migrateLegacySize('wc-icon-button', this.size);
-      if (size) this.size = size;
-    }
-  }
 
   override firstUpdated(changedProperties: PropertyValues<this>) {
     super.firstUpdated(changedProperties);

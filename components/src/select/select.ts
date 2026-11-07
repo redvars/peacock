@@ -32,34 +32,38 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  * @tag wc-select
  * @rawTag select
  *
- * @summary A dropdown select component supporting single and multi-select with optional typeahead search.
+ * @summary A field that opens a list of options to pick one or several from, with optional search as you type.
  * @overview
- * Select builds on wc-field and wc-menu to provide a fully-featured dropdown picker.
- *
- * - Single and multi-select modes; a multi-select shows a checkbox on every option
- * - Client-side typeahead with `search="contains"`
- * - Server-side typeahead with `search="managed"`: listen to `search`, replace the options and set
- *   `loading` while they load; "No results" shows when the search leaves no option
- * - `allow-custom` keeps typed text that matches no option as the value, through a
- *   "Create …" row (or Enter in the search input) that fires `create`
- * - Multi-select chips on one row, with a "+N" chip for the ones that do not fit
- * - `clearable` adds a button that clears the value
- * - Form-associated: submits the value under `name` (one entry per value with `multiple`)
- * - Validates like a native select: `required` with nothing selected blocks form submission, and
- *   the message shows under the field once a value is committed or the form is submitted
- * - The options open in the top layer, so a select works inside a wc-modal
- *
- * Options come from `<wc-option>` children or from the `options` property; use one or the other.
- * When both are given, both are shown: the options built from `options` follow the children, and
- * for a value present in both, the child (first in order) gives the label.
- *
- * Keyboard: Enter, Space, Arrow Down or Arrow Up open the options and focus the selected one.
- * While closed, typing a letter selects the next option starting with it and Home or End select
- * the first or last option (single select, like a native select). In the list, the arrows move,
- * typing a letter jumps to the next option starting with it, Enter or Space picks, Escape closes
- * and returns focus to the field. With `search`, typing goes to the search input; Arrow Down moves
- * into the list and Enter picks the first match (with `allow-custom`, the typed text unless an
- * option's label matches it exactly).
+ * <p>Select builds on <code>wc-field</code> and <code>wc-menu</code> to provide a fully-featured
+ * dropdown picker.</p>
+ * <ul>
+ * <li>Single and multi-select modes; a multi-select shows a checkbox on every option.</li>
+ * <li>Client-side typeahead with <code>search="contains"</code>.</li>
+ * <li>Server-side typeahead with <code>search="managed"</code>: listen to <code>search</code>,
+ * replace the options and set <code>loading</code> while they load; "No results" shows when the
+ * search leaves no option.</li>
+ * <li><code>allow-custom</code> keeps typed text that matches no option as the value, through a
+ * "Create …" row (or Enter in the search input) that fires <code>create</code>.</li>
+ * <li>Multi-select chips on one row, with a "+N" chip for the ones that do not fit.</li>
+ * <li><code>clearable</code> adds a button that clears the value.</li>
+ * <li>Form-associated: submits the value under <code>name</code> (one entry per value with
+ * <code>multiple</code>).</li>
+ * <li>Validates like a native select: <code>required</code> with nothing selected blocks form
+ * submission, and the message shows under the field once a value is committed or the form is
+ * submitted.</li>
+ * <li>The options open in the top layer, so a select works inside a <code>wc-modal</code>.</li>
+ * </ul>
+ * <p>Options come from <code>&lt;wc-option&gt;</code> children or from the <code>options</code>
+ * property; use one or the other. When both are given, both are shown: the options built from
+ * <code>options</code> follow the children, and for a value present in both, the child (first in
+ * order) gives the label.</p>
+ * <p><strong>Keyboard:</strong> Enter, Space, Arrow Down or Arrow Up open the options and focus the
+ * selected one. While closed, typing a letter selects the next option starting with it and Home or
+ * End select the first or last option (single select, like a native select). In the list, the
+ * arrows move, typing a letter jumps to the next option starting with it, Enter or Space picks,
+ * Escape closes and returns focus to the field. With <code>search</code>, typing goes to the search
+ * input; Arrow Down moves into the list and Enter picks the first match (with
+ * <code>allow-custom</code>, the typed text unless an option's label matches it exactly).</p>
  *
  * @slot start - Leading content, such as an icon.
  * @slot end - Trailing content, before the dropdown arrow.
@@ -67,7 +71,6 @@ const OVERFLOW_CHIP_RESERVE_PX = 56;
  * @fires {CustomEvent<{value: string, values: string[]}>} change - Dispatched when the selection changes. `values` is set with `multiple`.
  * @fires {CustomEvent<{value: string}>} search - Dispatched as the user types when `search="managed"`.
  * @fires {CustomEvent<{value: string}>} create - Dispatched when the person keeps typed text that matches no option (`allow-custom`). Cancel it to keep the value unchanged, for example to add the option yourself.
- * @fires {CustomEvent<{value: string}>} select-search - Deprecated: use `search`. Still dispatched after `search` until 4.0.
  *
  * @example
  * ```html
@@ -655,7 +658,11 @@ export class Select extends BaseField {
     event.stopPropagation();
   }
 
-  private _handleMenuClosed() {
+  /** The menu's `close` is internal too; when the list itself closes, reset the open state. */
+  private _handleMenuClose(event: Event) {
+    event.stopPropagation();
+    // A sub-menu's `close` bubbles through the list; only the list's own counts.
+    if (event.target !== event.currentTarget) return;
     this._open = false;
     this._focused = false;
     this._searchQuery = '';
@@ -735,16 +742,13 @@ export class Select extends BaseField {
   private _setSearchQuery(text: string) {
     this._searchQuery = text;
     if (this.search !== 'managed') return;
-    for (const type of ['search', 'select-search']) {
-      // `select-search` is the deprecated name, kept until 4.0.
-      this.dispatchEvent(
-        new CustomEvent(type, {
-          detail: { value: text },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent('search', {
+        detail: { value: text },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   /** Options added or removed as children: update their state and the empty-state row. */
@@ -953,9 +957,8 @@ export class Select extends BaseField {
         aria-label=${this.label || this._i18n.t('options')}
         aria-multiselectable=${this.multiple ? 'true' : nothing}
         aria-busy=${this.loading ? 'true' : nothing}
-        @closed=${this._handleMenuClosed}
         @open=${Select._stopMenuEvent}
-        @close=${Select._stopMenuEvent}
+        @close=${this._handleMenuClose}
         @menu-item-activate=${this._handleMenuItemActivate}
         @keydown=${this._handleMenuKeyDownCapture}
       >

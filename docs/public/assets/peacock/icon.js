@@ -1,10 +1,10 @@
-import { i, _ as __decorate, a as i$1, b, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
-import { s as sanitizeSvg, o } from './sanitize-svg-_VNFLm82.js';
+import { i, _ as __decorate, a as i$1, b, I as IndividualComponent } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
+import { s as sanitizeSvg, o } from './sanitize-svg-zWrzQaZj.js';
 import { a as fetchIcon, f as fetchSVG } from './datasource-OwvH7SVq.js';
 import './directive-ZPhl09Yt.js';
-import './unsafe-html-Ct0N2_UU.js';
+import './unsafe-html-Cy_JqoPT.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -12,13 +12,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: inline-flex;
   vertical-align: middle;
@@ -43,11 +65,18 @@ var css_248z = i`* {
  * @label Icon
  * @tag wc-icon
  * @rawTag icon
- * @summary Icons are visual symbols used to represent ideas, objects, or actions.
- * @overview Icons are visual symbols used to represent ideas, objects, or actions. They communicate messages at a glance, afford interactivity, and draw attention to important information.
+ * @summary An icon by name from an icon library, Material Symbols by default, or an SVG file loaded from a URL.
+ * @overview
+ * <p>Set <code>name</code> for an icon from the <code>provider</code> library (Material Symbols by
+ * default), or <code>src</code> for an SVG file, which is fetched and rendered inline.</p>
+ * <p>Icons are decorative by default (<code>aria-hidden="true"</code> on the host). Give an icon that carries
+ * meaning on its own a <code>label</code>; it then becomes <code>role="img"</code> with that accessible name. Inside a
+ * labelled control (an icon button, for example) leave the icon unlabelled and name the control.</p>
  *
  * @cssprop --icon-color - Controls the color of the icon.
  * @cssprop [--icon-size=1rem] - Controls the size of the icon. Defaults to "1rem"
+ *
+ * @fires {CustomEvent<{name?: string, src?: string, error: Error}>} icon-error - Dispatched when the icon's SVG fails to load.
  *
  * @example
  * ```html
@@ -60,6 +89,11 @@ let Icon = class Icon extends i$1 {
         super(...arguments);
         /** Icon library provider. Defaults to `"material-symbols"`. */
         this.provider = 'material-symbols';
+        /**
+         * Accessible name for an icon that carries meaning on its own. With a label the icon is
+         * `role="img"` named by it; without one it is decorative and hidden from assistive technology.
+         */
+        this.label = '';
         /** Rendered SVG markup, updated after each successful fetch. */
         this.svgContent = '';
         /** True while an SVG fetch is in-flight. */
@@ -69,8 +103,15 @@ let Icon = class Icon extends i$1 {
         // ── Private fields ────────────────────────────────────────────────────────
         /** Monotonically incrementing token used to discard stale fetch results. */
         this._fetchId = 0;
+        /** True while the host's `role` and `aria-label` are the ones set from `label`. */
+        this._labelled = false;
     }
     // ── Lifecycle ─────────────────────────────────────────────────────────────
+    willUpdate(changedProperties) {
+        if (!this.hasUpdated || changedProperties.has('label')) {
+            this.__syncAccessibility();
+        }
+    }
     firstUpdated() {
         // perform initial fetch once component is connected and rendered
         this.__scheduleUpdate();
@@ -82,6 +123,28 @@ let Icon = class Icon extends i$1 {
         }
     }
     // ── Private methods ───────────────────────────────────────────────────────
+    /**
+     * Names the host from `label`, or hides it as decorative. An `aria-label` or `aria-labelledby`
+     * the consumer put on the host is left alone, so the icon is not hidden over it.
+     */
+    __syncAccessibility() {
+        if (this.label) {
+            this.setAttribute('role', 'img');
+            this.setAttribute('aria-label', this.label);
+            this.removeAttribute('aria-hidden');
+            this._labelled = true;
+            return;
+        }
+        if (this._labelled) {
+            this.removeAttribute('role');
+            this.removeAttribute('aria-label');
+            this._labelled = false;
+        }
+        if (!this.hasAttribute('aria-label') &&
+            !this.hasAttribute('aria-labelledby')) {
+            this.setAttribute('aria-hidden', 'true');
+        }
+    }
     // small debounce to coalesce rapid changes (50ms)
     __scheduleUpdate() {
         if (this._debounceTimer) {
@@ -155,6 +218,9 @@ __decorate([
 __decorate([
     n({ type: String })
 ], Icon.prototype, "provider", void 0);
+__decorate([
+    n()
+], Icon.prototype, "label", void 0);
 __decorate([
     r()
 ], Icon.prototype, "svgContent", void 0);

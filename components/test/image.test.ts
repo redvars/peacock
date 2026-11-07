@@ -93,16 +93,6 @@ describe('Image', () => {
     expect(warnings).to.have.length(0);
   });
 
-  it('keeps the deprecated image-title working, with a warning', async () => {
-    const el = await fixture<Image>(
-      html`<wc-image src=${LIGHT} image-title="A lake"></wc-image>`,
-    );
-    expect((await loaded(el)).alt).to.equal('A lake');
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('wc-image');
-    expect(warnings[0]).to.contain('`alt`');
-  });
-
   it('switches to dark-src when data-theme changes', async () => {
     document.documentElement.dataset.theme = 'light';
     const el = await fixture<Image>(
@@ -148,15 +138,5 @@ describe('Svg', () => {
     const close = el.shadowRoot?.querySelector('.preview-close');
     expect(close?.getAttribute('aria-label')).to.be.a('string').and.not.empty;
     expect(warnings).to.have.length(0);
-  });
-
-  it('keeps the deprecated image-title working, with a warning', async () => {
-    const el = await fixture<Svg>(
-      html`<wc-svg image-title="Bug icon"></wc-svg>`,
-    );
-    const dialog = el.shadowRoot?.querySelector('[role="dialog"]');
-    expect(dialog?.getAttribute('aria-label')).to.contain('Bug icon');
-    expect(warnings).to.have.length(1);
-    expect(warnings[0]).to.contain('wc-svg');
   });
 });

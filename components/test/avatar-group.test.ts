@@ -88,6 +88,23 @@ describe('AvatarGroup', () => {
     await waitUntil(() => popover.open, 'popover did not open');
   });
 
+  it("keeps the popover's open and close events inside", async () => {
+    const el = await render(
+      html`<wc-avatar-group max="1">${five}</wc-avatar-group>`,
+    );
+    const leaked: string[] = [];
+    el.addEventListener('open', () => leaked.push('open'));
+    el.addEventListener('close', () => leaked.push('close'));
+    const popover = el.shadowRoot!.querySelector('wc-popover') as Popover;
+    await popover.updateComplete;
+    (el.shadowRoot!.querySelector('.more') as HTMLButtonElement).click();
+    await waitUntil(() => popover.open, 'popover did not open');
+    popover.open = false;
+    await waitUntil(() => !popover.open, 'popover did not close');
+    await popover.updateComplete;
+    expect(leaked).to.deep.equal([]);
+  });
+
   it('drops the button when max covers every avatar', async () => {
     const el = await render(
       html`<wc-avatar-group max="3">${five}</wc-avatar-group>`,

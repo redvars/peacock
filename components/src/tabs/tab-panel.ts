@@ -8,9 +8,9 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @tag wc-tab-panel
  * @rawTag tab-panel
  *
- * @summary Content panel for tabs.
+ * @summary The content of one tab, shown while that tab is selected.
  * @overview
- * <p>TabPanel contains the content associated with a tab. It has <code>role="tabpanel"</code>;
+ * <p>The panel has <code>role="tabpanel"</code>;
  * inside a <code>wc-tab-group</code> it is labelled by its tab (<code>aria-labelledby</code>) and
  * shown while that tab is selected. It is focusable, so keyboard users reach the content right
  * after the tab list.</p>

@@ -11,15 +11,14 @@ import { RovingFocusController } from '@/__internal/controllers/roving-focus-con
  * @tag wc-list
  * @rawTag list
  *
- * @summary A list container for one or more list items.
+ * @summary A vertical list of rows, such as contacts or settings; rows that act are reached with the arrow keys.
  * @overview
  * <p>A list shows rows of content. Rows that act (<code>actionable</code> or with an
  * <code>href</code>) form one tab stop: the Up and Down arrow keys move between them, Home and
  * End jump to the first and last, and disabled rows are skipped.</p>
  * <p>For a navigation list, mark the row of the page the person is on with
  * <code>current</code> (<code>aria-current</code>). To let the person choose items, use
- * <code>wc-listbox</code>. The row's <code>selected</code> attribute is visual only and
- * deprecated.</p>
+ * <code>wc-listbox</code>.</p>
  *
  * @example
  * ```html

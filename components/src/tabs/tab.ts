@@ -10,17 +10,10 @@ import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot
 import { throttle } from '@/__internal/utils/throttle.js';
 import { isLink } from '@/__internal/utils/is-link.js';
 import { spread } from '@/__internal/directive/spread.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 import styles from './tab.scss';
 import type { Tabs } from './tabs.js';
 import IndividualComponent from '@/IndividualComponent.js';
-
-/** Old camelCase attribute names, which HTML lowercases; they still work, with a warning. */
-const LEGACY_ATTRIBUTES: Record<string, string> = {
-  disabledreason: 'disabled-reason',
-  throttledelay: 'throttle-delay',
-};
 
 /** An element that can point at the elements it controls (ARIA element reflection). */
 type AriaControlsElement = HTMLElement & {
@@ -32,17 +25,14 @@ type AriaControlsElement = HTMLElement & {
  * @tag wc-tab
  * @rawTag tab
  *
- * @summary A tab component for use within tabs.
+ * @summary One tab in a row of tabs, with an optional icon and badge; with a link address it navigates instead.
  * @overview
- * <p>Tab represents an individual tab in a <code>wc-tabs</code> list. It renders a control with
+ * <p>A tab in a <code>wc-tabs</code> list renders a control with
  * <code>role="tab"</code> and <code>aria-selected</code>; inside a <code>wc-tab-group</code> the
  * control also points at its panel.</p>
  * <p>A tab with <code>href</code> is a link, not a tab: it renders a plain <code>&lt;a&gt;</code>
  * with <code>aria-current="page"</code> when selected. Tabs that navigate between pages are
  * navigation, so put link tabs in a <code>&lt;nav&gt;</code>.</p>
- * <p>Deprecated: <code>active</code> (use <code>selected</code>), and the
- * <code>disabledreason</code> and <code>throttledelay</code> attributes (use
- * <code>disabled-reason</code> and <code>throttle-delay</code>).</p>
  *
  * @slot - The tab label.
  * @slot icon - An icon shown with the label.
@@ -66,28 +56,10 @@ export class Tab extends LitElement {
 
   static styles = [styles];
 
-  static override get observedAttributes() {
-    return [...super.observedAttributes, ...Object.keys(LEGACY_ATTRIBUTES)];
-  }
-
   // ── Properties
 
   /** Whether this is the chosen tab. Reflects to `aria-selected` (or `aria-current` on a link tab). */
   @property({ type: Boolean, reflect: true }) selected = false;
-
-  /**
-   * Deprecated alias of `selected`.
-   * @deprecated Use `selected`.
-   */
-  @property({ type: Boolean, noAccessor: true })
-  get active(): boolean {
-    return this.selected;
-  }
-
-  set active(value: boolean) {
-    deprecate('wc-tab', '`active`', '`selected`');
-    this.selected = Boolean(value);
-  }
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -139,19 +111,6 @@ export class Tab extends LitElement {
   constructor() {
     super();
     this.addEventListener('click', this.__dispatchClickWithThrottle);
-  }
-
-  override attributeChangedCallback(
-    name: string,
-    old: string | null,
-    value: string | null,
-  ) {
-    super.attributeChangedCallback(name, old, value);
-    const replacement = LEGACY_ATTRIBUTES[name];
-    if (!replacement || value === null) return;
-    deprecate('wc-tab', `the \`${name}\` attribute`, `\`${replacement}\``);
-    if (name === 'disabledreason') this.disabledReason = value;
-    else this.throttleDelay = Number(value);
   }
 
   override firstUpdated() {

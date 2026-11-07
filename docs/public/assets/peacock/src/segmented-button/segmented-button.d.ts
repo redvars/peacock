@@ -3,9 +3,9 @@ import { LitElement } from 'lit';
  * @label Segmented Button
  * @tag wc-segmented-button
  * @rawTag segmented-button
- * @summary An individual segment within a segmented button group.
+ * @summary One option of a segmented button group.
  * @overview
- * <p>Segmented buttons help people select options, switch views, or sort elements. They are used within a <code>wc-segmented-button-group</code>.</p>
+ * <p>Use it inside a <code>wc-segmented-button-group</code>, which manages the selection.</p>
  *
  * @cssprop --segmented-button-height: Height of the segmented button.
  * @cssprop --segmented-button-selected-container-color: Background color when the segment is selected.
@@ -14,8 +14,9 @@ import { LitElement } from 'lit';
  * @cssprop --segmented-button-outline-color: Outline / border color.
  * @cssprop --segmented-button-disabled-opacity: Opacity when the segment is disabled.
  *
- * @fires {CustomEvent} change - Dispatched when the segment is activated. Detail: `{ value, selected, originalEvent }`, where `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
- * @fires {CustomEvent} segmented-button--change - Deprecated alias of `change`, fired alongside it.
+ * @fires {CustomEvent<{value: string, selected: boolean, originalEvent: MouseEvent | KeyboardEvent}>} change - Dispatched when the segment is activated; `selected` is the requested state. Inside a `wc-segmented-button-group` the group swallows it and fires its own `change` instead.
+ * @fires {CustomEvent<FocusEvent>} focus - Dispatched when the segment gains focus. Bubbles; `detail` is the native focus event.
+ * @fires {CustomEvent<FocusEvent>} blur - Dispatched when the segment loses focus. Bubbles; `detail` is the native blur event.
  *
  * @example
  * ```html
@@ -46,6 +47,16 @@ export declare class SegmentedButton extends LitElement {
      * Optional icon name to display (uses wc-icon).
      */
     icon?: string;
+    /**
+     * How the segment is exposed: `radio` (with `aria-checked`) in a single-select group, `button`
+     * (with `aria-pressed`) otherwise. Set by `wc-segmented-button-group`.
+     */
+    groupRole: 'button' | 'radio';
+    /**
+     * Tab index of the segment; a single-select group gives only one segment `0` (roving tabindex).
+     * Set by `wc-segmented-button-group`.
+     */
+    groupTabIndex?: number;
     /** True while the segment has keyboard focus. */
     private hasFocus;
     /** True while the user is actively pressing the segment. */

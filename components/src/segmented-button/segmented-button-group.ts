@@ -7,7 +7,6 @@ import {
   getFormValue,
   mixinFormAssociated,
 } from '@/__internal/mixins/form-associated.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type { Size } from '@/__internal/utils/size.js';
 import styles from './segmented-button-group.scss';
 import { SegmentedButton } from './segmented-button.js';
@@ -22,9 +21,8 @@ function segmentValue(segment: SegmentedButton): string {
  * @label Segmented Button Group
  * @tag wc-segmented-button-group
  * @rawTag segmented-button-group
- * @summary A container for segmented buttons.
+ * @summary A row of joined buttons for choosing one option, or several, such as a view or a sort order.
  * @overview
- * <p>Segmented buttons help people select options, switch views, or sort elements. They follow the specification.</p>
  * <p>By default one segment is selected at a time: the group is a <code>radiogroup</code> of
  * <code>radio</code> segments, with one tab stop and the arrow keys (and Home/End) moving the
  * selection. <code>nullable</code> lets the selected segment be clicked again to leave nothing
@@ -37,7 +35,6 @@ function segmentValue(segment: SegmentedButton): string {
  * <p>The group is form-associated: it submits the selected value under <code>name</code> (one entry
  * per value with <code>multiple</code>), and <code>form.reset()</code> restores the starting
  * selection. <code>disabled</code> disables every segment.</p>
- * <p>Deprecated: <code>multi-select</code> still works until 4.0; use <code>multiple</code>.</p>
  *
  * @cssprop --segmented-button-group-shape: Border-radius of the group container.
  *
@@ -70,20 +67,6 @@ export class SegmentedButtonGroup extends mixinFormAssociated(
   /** When true, segments toggle independently and the group has several `values`. */
   @property({ type: Boolean, reflect: true })
   multiple: boolean = false;
-
-  /**
-   * When true, multiple segments can be selected simultaneously.
-   * @deprecated Use `multiple`.
-   */
-  @property({ type: Boolean, attribute: 'multi-select' })
-  get multiSelect(): boolean {
-    return this.multiple;
-  }
-
-  set multiSelect(value: boolean) {
-    deprecate('wc-segmented-button-group', '`multi-select`', '`multiple`');
-    this.multiple = value;
-  }
 
   /**
    * When true, in single-select mode the currently selected segment can be
@@ -149,9 +132,6 @@ export class SegmentedButtonGroup extends mixinFormAssociated(
   connectedCallback() {
     super.connectedCallback();
     this.addEventListener('change', this._onSegmentChange, { capture: true });
-    this.addEventListener('segmented-button--change', this._stopLegacyChange, {
-      capture: true,
-    });
     this.addEventListener('keydown', this._onKeyDown);
   }
 
@@ -160,11 +140,6 @@ export class SegmentedButtonGroup extends mixinFormAssociated(
     this.removeEventListener('change', this._onSegmentChange, {
       capture: true,
     });
-    this.removeEventListener(
-      'segmented-button--change',
-      this._stopLegacyChange,
-      { capture: true },
-    );
     this.removeEventListener('keydown', this._onKeyDown);
   }
 
@@ -259,11 +234,6 @@ export class SegmentedButtonGroup extends mixinFormAssociated(
       const tabIndex = segment === focusTarget ? 0 : -1;
       segment.groupTabIndex = this.multiple ? undefined : tabIndex;
     }
-  };
-
-  /** The segments' deprecated event stays inside the group, as before. */
-  private _stopLegacyChange = (ev: Event) => {
-    if (ev.target !== this) ev.stopPropagation();
   };
 
   /**

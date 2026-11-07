@@ -9,7 +9,7 @@ import styles from './panel.scss';
  * @tag wc-panel
  * @rawTag panel
  *
- * @summary One pane of a `wc-resizable-panels` split view.
+ * @summary One pane of a resizable split view, with its own size limits and optional collapse.
  * @overview
  * <p>A panel holds one pane's content. <code>size</code> is its share of the split view in
  * percent; panels without one share what the others leave. <code>min-size</code> and

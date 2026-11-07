@@ -58,9 +58,7 @@ import { PopoverContent } from '@/popover/popover-content.js';
 import { Breadcrumb, BreadcrumbItem } from '@/breadcrumb/index.js';
 
 import { Skeleton } from '@/skeleton/skeleton.js';
-import { Spinner } from '@/spinner/spinner.js';
 
-import { EmptyState } from '@/empty-state/empty-state.js';
 import { Container } from '@/container/container.js';
 import { Image } from '@/image/image.js';
 import { Svg } from '@/svg/svg.js';
@@ -74,13 +72,9 @@ import { ColorPicker } from '@/color-picker/color-picker.js';
 import { ColorField } from '@/color-field/color-field.js';
 import { Table } from '@/table/table.js';
 import { Pagination } from '@/pagination/pagination.js';
-import { SidebarMenu } from '@/sidebar-menu/sidebar-menu.js';
-import { SidebarMenuItem } from '@/sidebar-menu/sidebar-menu-item.js';
-import { SidebarSubMenu } from '@/sidebar-menu/sidebar-sub-menu.js';
 import { Card } from '@/card/card.js';
 import { CardContent } from '@/card/card-content.js';
 import { Alert } from '@/alert/alert.js';
-import { Notification } from '@/notification/notification.js';
 import { NotificationManager } from '@/notification-manager/notification-manager.js';
 import { Snackbar } from '@/snackbar/snackbar.js';
 import { BottomSheet } from '@/bottom-sheet/bottom-sheet.js';
@@ -135,6 +129,8 @@ import { AnchorNav } from '@/anchor-nav/anchor-nav.js';
 import { ScrollArea } from '@/scroll-area/scroll-area.js';
 import { PresenceIndicator } from '@/presence-indicator/presence-indicator.js';
 import { RelativeTime } from '@/relative-time/relative-time.js';
+import { RedvarsLoader } from '@/redvars-loader/redvars-loader.js';
+import { Illustration } from '@/illustration/illustration.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -158,26 +154,6 @@ const includeStyles = params.has('styles');
 if (includeStyles) {
   await loadCSS(`${distDirectory}/assets/styles.css`);
 }
-
-/*
-import tooltipStyles from './popover/tooltip.css-component.scss';
-
-function buildSheet(styleSheet: any) {
-  const sheet = new CSSStyleSheet();
-  // Add rules
-  sheet.replaceSync(styleSheet.toString());
-  return sheet;
-}
-
-const styleSheets = [
-// buildSheet(cssComponentsStyleSheet),
-// buildSheet(linkStyles),
-// buildSheet(textStylesheet),
-  buildSheet(tooltipStyles),
-];
-
-document.adoptedStyleSheets = styleSheets;
-*/
 
 const loaderConfig: LoaderConfig = {
   components: {
@@ -268,9 +244,6 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-alert': {
       CustomElementClass: Alert,
-    },
-    'wc-notification': {
-      CustomElementClass: Notification,
     },
     'wc-notification-manager': {
       CustomElementClass: NotificationManager,
@@ -371,12 +344,6 @@ const loaderConfig: LoaderConfig = {
     'wc-radio-group': {
       CustomElementClass: RadioGroup,
     },
-    'wc-spinner': {
-      CustomElementClass: Spinner,
-    },
-    'wc-empty-state': {
-      CustomElementClass: EmptyState,
-    },
     'wc-menu': {
       CustomElementClass: Menu,
     },
@@ -424,15 +391,6 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-pagination': {
       CustomElementClass: Pagination,
-    },
-    'wc-sidebar-menu': {
-      CustomElementClass: SidebarMenu,
-    },
-    'wc-sidebar-menu-item': {
-      CustomElementClass: SidebarMenuItem,
-    },
-    'wc-sidebar-sub-menu': {
-      CustomElementClass: SidebarSubMenu,
     },
     'wc-snackbar': {
       CustomElementClass: Snackbar,
@@ -607,6 +565,12 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-presence-indicator': {
       CustomElementClass: PresenceIndicator,
+    },
+    'wc-illustration': {
+      CustomElementClass: Illustration,
+    },
+    'wc-redvars-loader': {
+      CustomElementClass: RedvarsLoader,
     },
     'wc-relative-time': {
       CustomElementClass: RelativeTime,

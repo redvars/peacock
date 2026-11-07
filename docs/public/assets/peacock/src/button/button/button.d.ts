@@ -1,15 +1,17 @@
 import { LitElement, nothing } from 'lit';
-import type { ButtonSize, ButtonLevel, ButtonShape, ButtonVariant, ButtonColor } from '@/button/ButtonTypes.js';
+import type { ButtonSize, ButtonShape } from '@/button/ButtonTypes.js';
 export type { ButtonSize, ButtonLevel, ButtonShape, ButtonVariant, ButtonColor, } from '@/button/ButtonTypes.js';
-declare const Button_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("../base-button/base-button.js").BaseButton>;
+declare const Button_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("../base-button/base-button.js").BaseButton>, import("../base-button/base-button.js").ButtonLevelAppearance>;
 /**
  * @label Button
  * @tag wc-button
  * @rawTag button
  *
- * @summary Buttons help people initiate actions, from sending an email, to sharing a document, to liking a post.
+ * @summary A button with a text label that runs an action, such as saving a form or sending a message; it can also toggle.
  * @overview
- * <p>Buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. Button labels express what action will occur when the user interacts with it.</p>
+ * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>: <code>primary</code> (primary, filled), <code>secondary</code> (surface, tonal), <code>tertiary</code> (primary, text) and <code>danger</code> (danger, filled). A <code>color</code> or <code>variant</code> you set wins over it.</p>
+ * <p>Set <code>toggle</code> to make a toggle button: it renders <code>aria-pressed</code>, flips <code>selected</code> on each click and fires <code>change</code>. <code>selected</code> does nothing without <code>toggle</code>.</p>
+ * <p>For a link that looks like a button, use <code>wc-link-button</code>.</p>
  *
  * @cssprop --button-container-shape - Defines the border radius of the button container shape.
  *
@@ -36,7 +38,8 @@ declare const Button_base: import("../../__internal/mixins/mixin.js").MixinRetur
  * @cssprop --neo-button-container-color - Color of the neo button container.
  * @cssprop --neo-button-label-text-color - Text color of the neo button label.
  *
- * @fires {MouseEvent} click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` button after a click flips `selected`.
  *
  * @example
  * ```html
@@ -48,8 +51,8 @@ export declare class Button extends Button_base {
     /** @nocollapse */ static shadowRootOptions: ShadowRootInit;
     static styles: import("lit").CSSResultGroup[];
     /**
-     * When `true` (default), the icon is placed after the label (trailing).
-     * When `false`, the icon is placed before the label (leading).
+     * When `true`, the icon is placed after the label (trailing).
+     * When `false` (default), the icon is placed before the label (leading).
      */
     trailingIcon: boolean;
     /**
@@ -57,32 +60,21 @@ export declare class Button extends Button_base {
      * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
      */
     size: ButtonSize;
-    /**
-     * Level is preset of color and variant. If Level provided it overrides the default color and variant.
-     */
-    level?: ButtonLevel;
     /** Shape of the button container. */
     shape: ButtonShape;
-    /**
-     * The visual style of the button.
-     *
-     *  Possible variant values:
-     * `"filled"` is a filled button.
-     * `"outlined"` is an outlined button.
-     * `"text"` is a transparent button.
-     * `"tonal"` is a light color button.
-     * `"elevated"` is elevated button
-     */
-    variant: ButtonVariant;
-    /**
-     * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-     */
-    color: ButtonColor;
-    /** When true, renders the button in a loading skeleton state. */
+    /** When true, renders the button as a placeholder skeleton while the page loads. */
     skeleton: boolean;
-    /** When true, the button acts as a toggle. Use with `selected`. */
+    /**
+     * When true, the button is busy: it shows a spinner in place of its icon (or before the label),
+     * sets `aria-busy="true"` and ignores clicks, like `soft-disabled`.
+     */
+    loading: boolean;
+    /**
+     * When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click
+     * and fires `change`.
+     */
     toggle: boolean;
-    /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+    /** The pressed state of a `toggle` button. Has no effect without `toggle`. */
     selected: boolean;
     /** Optional tooltip text displayed on hover. */
     tooltip?: string;
@@ -96,10 +88,10 @@ export declare class Button extends Button_base {
     firstUpdated(changedProperties: Map<PropertyKey, unknown>): void;
     focus(): void;
     blur(): void;
-    __convertTypeToVariantAndColor(): void;
     __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
     renderButtonElement(): import("lit-html").TemplateResult<1>;
     renderButtonContent(): import("lit-html").TemplateResult<1>;
+    renderLoadingIndicator(): typeof nothing | import("lit-html").TemplateResult<1>;
     renderDisabledReason(softDisabled: boolean): typeof nothing | import("lit-html").TemplateResult<1>;
     renderTooltip(): typeof nothing | import("lit-html").TemplateResult<1>;
     render(): import("lit-html").TemplateResult<1>;

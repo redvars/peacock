@@ -44,9 +44,9 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@3.17.0/dist/assets/styles.css"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@redvars/peacock@4.0.0/dist/assets/styles.css"></link>
   <script type='module'
-          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@3.17.0/dist/loader.js'></script>
+          src='https://cdn.jsdelivr.net/npm/@redvars/peacock@4.0.0/dist/loader.js'></script>
 </head>
 
 <wc-button>Button</wc-button>
@@ -69,7 +69,7 @@ To keep icons somewhere else, call `setIconBase('material-symbols', '/my/icons/'
 Components render some text of their own: icon-button labels, screen-reader text, empty states, "3 selected". Every string has an English default, and `setPeacockStrings` replaces them for the whole page. Entries you leave out stay English, a string with values is a function, and connected components re-render.
 
 ```js
-import { setPeacockStrings } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@3.17.0/dist/loader.js';
+import { setPeacockStrings } from 'https://cdn.jsdelivr.net/npm/@redvars/peacock@4.0.0/dist/loader.js';
 
 setPeacockStrings({
   dismiss: 'Fermer',
@@ -106,133 +106,178 @@ In Windows high contrast (`forced-colors: active`), selected and current items a
 
 # Components
 
-- 🟢 ready (feature complete for now)
-- 🟡 beta (changes possible, not feature complete)
-- 🔴 not ready (unstyled / no functions)
-- 🔵 planned (created, but empty files)
+Every component below ships in 4.0. Each name links to its page on [peacock.redvars.com](https://peacock.redvars.com/components), with live demos and the API reference. Upgrading from 3.x? Read the [migration guide](https://github.com/redvars/peacock/blob/main/MIGRATION.md).
 
-## Input Controls
+## Layout and app shell
 
-Input controls are UI design elements that allow users to input information into the system. They are essential for
-collecting data and enabling user interactions. Some common examples of input controls include text fields, dropdown
-menus, checkboxes, and radio buttons.
+[App shell](https://peacock.redvars.com/components/app-shell) `wc-app-shell` ·
+[App bar](https://peacock.redvars.com/components/app-bar) `wc-app-bar` ·
+[Page header](https://peacock.redvars.com/components/page-header) `wc-page-header` ·
+[Container](https://peacock.redvars.com/components/container) `wc-container` ·
+[Stack](https://peacock.redvars.com/components/stack) `wc-stack` ·
+[Grid](https://peacock.redvars.com/components/grid) `wc-grid` ·
+[Card](https://peacock.redvars.com/components/card) `wc-card` ·
+[Accordion](https://peacock.redvars.com/components/accordion) `wc-accordion` ·
+[Resizable panels](https://peacock.redvars.com/components/resizable-panels) `wc-resizable-panels` ·
+[Scroll area](https://peacock.redvars.com/components/scroll-area) `wc-scroll-area` ·
+[Divider](https://peacock.redvars.com/components/divider) `wc-divider`
 
-| Name                                                                | Component       | State |
-|---------------------------------------------------------------------|-----------------|-------|
-| [Checkbox](https://peacock.redvars.com/components/checkbox)         | wc-checkbox     | 🟢    |
-| [Code editor](https://peacock.redvars.com/components/code-editor)   | wc-code-editor  | 🟢    |
-| [Color picker](https://peacock.redvars.com/components/color-picker) | wc-color-picker | 🟡    |
-| [Date field](https://peacock.redvars.com/components/date-field)     | wc-date-field   | 🟡    |
-| [Date picker](https://peacock.redvars.com/components/date-picker)   | wc-date-picker  | 🟡    |
-| [Date time field](https://peacock.redvars.com/components/datetime-field) | wc-datetime-field | 🟡 |
-| [Field / Form control](https://peacock.redvars.com/components/field) | wc-field       | 🟡    |
-| File picker                                                         | file-picker     | 🔴    |
-| [HTML editor](https://peacock.redvars.com/components/html-editor)   | wc-html-editor  | 🟡    |
-| [Input](https://peacock.redvars.com/components/input)               | wc-input        | 🟢    |
-| Input URL                                                           | input-url       | 🔴    |
-| Month picker                                                        | month-picker    | 🔴    |
-| [Number field](https://peacock.redvars.com/components/number)       | wc-number-field | 🟢    |
-| [Radio](https://peacock.redvars.com/components/radio)               | wc-radio        | 🟢    |
-| [Search](https://peacock.redvars.com/components/search)             | wc-search       | 🟡    |
-| [Select](https://peacock.redvars.com/components/select)             | wc-select       | 🟢    |
-| [Textarea](https://peacock.redvars.com/components/textarea)         | wc-textarea     | 🟢    |
-| [Time field](https://peacock.redvars.com/components/time-field)     | wc-time-field   | 🟡    |
-| [Time picker](https://peacock.redvars.com/components/time-picker)   | wc-time-picker  | 🟡    |
-| Week picker                                                         | week-picker     | 🔴    |
+## Buttons
+
+[Button](https://peacock.redvars.com/components/button) `wc-button` ·
+[Link button](https://peacock.redvars.com/components/link-button) `wc-link-button` ·
+[Icon button](https://peacock.redvars.com/components/icon-button) `wc-icon-button` ·
+[FAB](https://peacock.redvars.com/components/fab) `wc-fab` ·
+[Button group](https://peacock.redvars.com/components/button-group) `wc-button-group` ·
+[Dropdown button](https://peacock.redvars.com/components/dropdown-button) `wc-dropdown-button` ·
+[Split button](https://peacock.redvars.com/components/split-button) `wc-split-button` ·
+[Segmented button](https://peacock.redvars.com/components/segmented-button-group) `wc-segmented-button-group` ·
+[Copy button](https://peacock.redvars.com/components/copy-button) `wc-copy-button`
 
 ## Navigation
 
-Navigational components are UI elements that help users move around the app or website. They provide users with a clear
-and intuitive way to navigate through different sections and pages. Some common examples of navigational components
-include menus, tabs, and breadcrumbs.
+[Navigation drawer](https://peacock.redvars.com/components/navigation-drawer) `wc-navigation-drawer` ·
+[Navigation rail](https://peacock.redvars.com/components/navigation-rail) `wc-navigation-rail` ·
+[Navigation bar](https://peacock.redvars.com/components/navigation-bar) `wc-navigation-bar` ·
+[Breadcrumb](https://peacock.redvars.com/components/breadcrumb) `wc-breadcrumb` ·
+[Tabs](https://peacock.redvars.com/components/tabs) `wc-tabs` ·
+[Pagination](https://peacock.redvars.com/components/pagination) `wc-pagination` ·
+[Stepper](https://peacock.redvars.com/components/stepper) `wc-stepper` ·
+[Anchor nav](https://peacock.redvars.com/components/anchor-nav) `wc-anchor-nav` ·
+[Toolbar](https://peacock.redvars.com/components/toolbar) `wc-toolbar` ·
+[Menu](https://peacock.redvars.com/components/menu) `wc-menu` ·
+[Command palette](https://peacock.redvars.com/components/command-palette) `wc-command-palette` ·
+[Workspace switcher](https://peacock.redvars.com/components/workspace-switcher) `wc-workspace-switcher` ·
+[User menu](https://peacock.redvars.com/components/user-menu) `wc-user-menu` ·
+[Link](https://peacock.redvars.com/components/link) `wc-link`
 
-| Name                                                                    | Component     | State |
-|-------------------------------------------------------------------------|---------------|-------|
-| [Breadcrumb](https://peacock.redvars.com/components/breadcrumb)         | wc-breadcrumb | 🟢    |
-| Dropdown                                                                | wc-dropdown   | 🔴    |
-| [Menu](https://peacock.redvars.com/components/menu)                     | wc-menu       | 🟡    |
-| [Tabs](https://peacock.redvars.com/components/tabs)                     | wc-tabs       | 🟢    |
-| [Toolbar](https://peacock.redvars.com/components/toolbar)               | wc-toolbar    | 🟡    |
+## Text inputs
 
-## Informational
+[Input](https://peacock.redvars.com/components/input) `wc-input` ·
+[Password field](https://peacock.redvars.com/components/password-field) `wc-password-field` ·
+[Password rules](https://peacock.redvars.com/components/password-rules) `wc-password-rules` ·
+[Number field](https://peacock.redvars.com/components/number-field) `wc-number-field` ·
+[Currency field](https://peacock.redvars.com/components/currency-field) `wc-currency-field` ·
+[Phone field](https://peacock.redvars.com/components/phone-field) `wc-phone-field` ·
+[URL field](https://peacock.redvars.com/components/url-field) `wc-url-field` ·
+[Textarea](https://peacock.redvars.com/components/textarea) `wc-textarea` ·
+[Mention input](https://peacock.redvars.com/components/mention-input) `wc-mention-input` ·
+[PIN input](https://peacock.redvars.com/components/pin-input) `wc-pin-input` ·
+[Search](https://peacock.redvars.com/components/search) `wc-search` ·
+[Inline edit](https://peacock.redvars.com/components/inline-edit) `wc-inline-edit`
 
-Informational components are UI elements that provide information to users. They communicate important messages,
-updates, or instructions within the app or website. Some common examples of informational components
-include notifications, tooltips, and progress bars.
+## Selection
 
-| Name                                                                          | Component            | State |
-|-------------------------------------------------------------------------------|----------------------|-------|
-| [Badge](https://peacock.redvars.com/components/badge)                         | wc-badge             | 🟢    |
-| [Alert](https://peacock.redvars.com/components/alert)                         | wc-alert             | 🟡    |
-| [Circular Progress](https://peacock.redvars.com/components/circular-progress) | wc-circular-progress | 🟢    |
-| [Linear Progress](https://peacock.redvars.com/components/linear-progress)     | wc-linear-progress   | 🟢    |
-| [Notification](https://peacock.redvars.com/components/notification)           | wc-notification      | 🟢    |
-| [Skeleton](https://peacock.redvars.com/components/skeleton)                   | wc-skeleton          | 🟢    |
-| [Snackbar](https://peacock.redvars.com/components/snackbar)                   | wc-snackbar          | 🟡    |
-| [Spinner](https://peacock.redvars.com/components/spinner)                     | wc-spinner           | 🟢    |
-| [Tooltip](https://peacock.redvars.com/components/tooltip)                     | wc-tooltip           | 🟢    |
+[Select](https://peacock.redvars.com/components/select) `wc-select` ·
+[Listbox](https://peacock.redvars.com/components/listbox) `wc-listbox` ·
+[Checkbox](https://peacock.redvars.com/components/checkbox) `wc-checkbox` ·
+[Checkbox group](https://peacock.redvars.com/components/checkbox-group) `wc-checkbox-group` ·
+[Radio](https://peacock.redvars.com/components/radio-group) `wc-radio`, `wc-radio-group` ·
+[Switch](https://peacock.redvars.com/components/switch) `wc-switch` ·
+[Slider](https://peacock.redvars.com/components/slider) `wc-slider` ·
+[Rating](https://peacock.redvars.com/components/rating) `wc-rating` ·
+[Chip set](https://peacock.redvars.com/components/chip) `wc-chip-set` ·
+[Transfer list](https://peacock.redvars.com/components/transfer-list) `wc-transfer-list` ·
+[Tree](https://peacock.redvars.com/components/tree) `wc-tree`
 
+## Date and time
 
-## Containers
+[Date field](https://peacock.redvars.com/components/date-field) `wc-date-field` ·
+[Date range field](https://peacock.redvars.com/components/date-range-field) `wc-date-range-field` ·
+[Date picker](https://peacock.redvars.com/components/date-picker) `wc-date-picker` ·
+[Time field](https://peacock.redvars.com/components/time-field) `wc-time-field` ·
+[Time picker](https://peacock.redvars.com/components/time-picker) `wc-time-picker` ·
+[Date time field](https://peacock.redvars.com/components/datetime-field) `wc-datetime-field` ·
+[Calendar](https://peacock.redvars.com/components/calendar) `wc-calendar` ·
+[Clock](https://peacock.redvars.com/components/clock) `wc-clock` ·
+[Relative time](https://peacock.redvars.com/components/relative-time) `wc-relative-time`
 
-Containers are UI elements that group similar content together, making it easier for users to navigate and scan through
-the interface. Examples of common containers include cards, carousels, and accordions, which provide structure and
-organization to the content.
+## Forms
 
-| Name                                                                  | Component        | State |
-|-----------------------------------------------------------------------|------------------|-------|
-| [Accordion](https://peacock.redvars.com/components/accordion)         | wc-accordion     | 🟢    |
-| [Bottom Sheet](https://peacock.redvars.com/components/bottom-sheet)   | wc-bottom-sheet  | 🟡    |
-| [Card](https://peacock.redvars.com/components/card)                   | wc-card          | 🟢    |
-| Container                                                             | wc-container     | 🟡    |
-| [Side Sheet](https://peacock.redvars.com/components/side-sheet)       | wc-side-sheet    | 🟡    |
+[Form](https://peacock.redvars.com/components/form) `wc-form` ·
+[Fieldset](https://peacock.redvars.com/components/fieldset) `wc-fieldset` ·
+[Field](https://peacock.redvars.com/components/field) `wc-field` ·
+[File upload](https://peacock.redvars.com/components/file-upload) `wc-file-upload` ·
+[Signature pad](https://peacock.redvars.com/components/signature-pad) `wc-signature-pad` ·
+[Color field](https://peacock.redvars.com/components/color-field) `wc-color-field` ·
+[Color picker](https://peacock.redvars.com/components/color-picker) `wc-color-picker` ·
+[Condition builder](https://peacock.redvars.com/components/condition-builder) `wc-condition-builder` ·
+[Filter bar](https://peacock.redvars.com/components/filter-bar) `wc-filter-bar`
 
-## General
+## Data display
 
-These components are used for general purpose. They include
-
-| Name                                                                        | Component             | State |
-|-----------------------------------------------------------------------------|-----------------------|-------|
-| [Avatar](https://peacock.redvars.com/components/avatar)                     | wc-avatar             | 🟢    |
-| [Button](https://peacock.redvars.com/components/button)                     | wc-button             | 🟢    |
-| [Button Group](https://peacock.redvars.com/components/button-group)         | wc-button-group       | 🟢    |
-| Calendar                                                                    | calendar              | 🔴    |
-| Card Select                                                                 | card-select           | 🔴    |
-| [Chip](https://peacock.redvars.com/components/chip)                         | wc-chip               | 🟢    |
-| [Clock](https://peacock.redvars.com/components/clock)                       | wc-clock              | 🟡    |
-| [Code Highlighter](https://peacock.redvars.com/components/code-highlighter) | wc-code-highlighter   | 🟢    |
-| [Divider](https://peacock.redvars.com/components/divider)                   | wc-divider            | 🟢    |
-| [Empty State](https://peacock.redvars.com/components/empty-state)           | wc-empty-state        | 🟡    |
-| [FAB](https://peacock.redvars.com/components/fab)                           | wc-fab                | 🟢    |
-| [Flow Designer](https://peacock.redvars.com/components/flow-designer)       | flow-designer         | 🔵    |
-| Header                                                                      | header                | 🔴    |
-| [Icon](https://peacock.redvars.com/components/icon)                         | wc-icon               | 🟢    |
-| [Icon Button](https://peacock.redvars.com/components/icon-button)           | wc-icon-button        | 🟢    |
-| [Image](https://peacock.redvars.com/components/image)                       | wc-image              | 🟡    |
-| [Link](https://peacock.redvars.com/components/link)                         | wc-link               | 🟢    |
-| Modal                                                                       | modal                 | 🔴    |
-| [Number Counter](https://peacock.redvars.com/components/number-counter)     | wc-number-counter     | 🟡    |
-| [Pagination](https://peacock.redvars.com/components/pagination)             | wc-pagination         | 🟡    |
-| [Segmented Button](https://peacock.redvars.com/components/segmented-button) | wc-segmented-button   | 🟡    |
-| [Slider](https://peacock.redvars.com/components/slider)                     | wc-slider             | 🟡    |
-| [Switch](https://peacock.redvars.com/components/switch)                     | wc-switch             | 🟢    |
-| [Table](https://peacock.redvars.com/components/table)                       | wc-table              | 🟡    |
-| [Tag](https://peacock.redvars.com/components/tag)                           | wc-tag                | 🟢    |
-| Text                                                                        | text                  | 🔴    |
-| [Sidebar Menu](https://peacock.redvars.com/components/sidebar-menu)         | wc-sidebar-menu       | 🟡    |
+[Table](https://peacock.redvars.com/components/table) `wc-table` ·
+[List](https://peacock.redvars.com/components/list) `wc-list` ·
+[Virtual list](https://peacock.redvars.com/components/virtual-list) `wc-virtual-list` ·
+[Description list](https://peacock.redvars.com/components/description-list) `wc-description-list` ·
+[Stat](https://peacock.redvars.com/components/stat) `wc-stat` ·
+[Sparkline](https://peacock.redvars.com/components/sparkline) `wc-sparkline` ·
+[Kanban](https://peacock.redvars.com/components/kanban) `wc-kanban` ·
+[Timeline](https://peacock.redvars.com/components/timeline) `wc-timeline` ·
+[JSON viewer](https://peacock.redvars.com/components/json-viewer) `wc-json-viewer` ·
+[Diff viewer](https://peacock.redvars.com/components/diff-viewer) `wc-diff-viewer` ·
+[Code highlighter](https://peacock.redvars.com/components/code-highlighter) `wc-code-highlighter` ·
+[Number counter](https://peacock.redvars.com/components/number-counter) `wc-number-counter` ·
+[Image](https://peacock.redvars.com/components/image) `wc-image` ·
+SVG `wc-svg` ·
+[Icon](https://peacock.redvars.com/components/icon) `wc-icon` ·
+[Keyboard key](https://peacock.redvars.com/components/kbd) `wc-kbd`
 
 ## Charts
 
-These components are used to display data in a graphical format. They include
+[Area](https://peacock.redvars.com/charts/area/) `wc-chart-area` ·
+[Bar](https://peacock.redvars.com/charts/bar/) `wc-chart-bar` ·
+[Line](https://peacock.redvars.com/charts/line/) `wc-chart-line` ·
+[Pie](https://peacock.redvars.com/charts/pie/) `wc-chart-pie` ·
+[Doughnut](https://peacock.redvars.com/charts/doughnut/) `wc-chart-doughnut`
 
-| Name                                                                            | Component              | State |
-|---------------------------------------------------------------------------------|------------------------|-------|
-| [Area Chart](https://peacock.redvars.com/charts/area/)                          | wc-chart-area          | 🟢    |
-| [Bar Chart](https://peacock.redvars.com/charts/bar/)                            | wc-chart-bar           | 🟢    |
-| [Doughnut Chart](https://peacock.redvars.com/charts/doughnut/)                  | wc-chart-doughnut      | 🟢    |
-| [Line Chart](https://peacock.redvars.com/charts/line/)                          | wc-chart-line          | 🟢    |
-| [Pie Chart](https://peacock.redvars.com/charts/pie/)                            | wc-chart-pie           | 🟢    |
+## People and status
 
+[Avatar](https://peacock.redvars.com/components/avatar) `wc-avatar` ·
+[Avatar group](https://peacock.redvars.com/components/avatar-group) `wc-avatar-group` ·
+[Presence indicator](https://peacock.redvars.com/components/presence-indicator) `wc-presence-indicator` ·
+[Badge](https://peacock.redvars.com/components/badge) `wc-badge` ·
+[Tag](https://peacock.redvars.com/components/tag) `wc-tag` ·
+[Chip](https://peacock.redvars.com/components/chip) `wc-chip` ·
+[Status indicator](https://peacock.redvars.com/components/status-indicator) `wc-status-indicator` ·
+[Comment thread](https://peacock.redvars.com/components/comment-thread) `wc-comment-thread`
+
+## Feedback
+
+[Alert](https://peacock.redvars.com/components/alert) `wc-alert` ·
+[Banner](https://peacock.redvars.com/components/banner) `wc-banner` ·
+[Snackbar](https://peacock.redvars.com/components/snackbar) `wc-snackbar` ·
+[Notification manager](https://peacock.redvars.com/components/notification-manager) `wc-notification-manager` ·
+[Notification center](https://peacock.redvars.com/components/notification-center) `wc-notification-center` ·
+[Illustration](https://peacock.redvars.com/components/illustration) `wc-illustration` ·
+[Skeleton](https://peacock.redvars.com/components/skeleton) `wc-skeleton` ·
+[Circular progress](https://peacock.redvars.com/components/circular-progress) `wc-circular-progress` ·
+[Linear progress](https://peacock.redvars.com/components/linear-progress) `wc-linear-progress` ·
+[Redvars loader](https://peacock.redvars.com/components/redvars-loader) `wc-redvars-loader`
+
+## Overlays
+
+[Modal](https://peacock.redvars.com/components/modal) `wc-modal` ·
+[Confirm dialog](https://peacock.redvars.com/components/confirm-dialog) `wc-confirm-dialog` ·
+[Side sheet](https://peacock.redvars.com/components/side-sheet) `wc-side-sheet` ·
+[Bottom sheet](https://peacock.redvars.com/components/bottom-sheet) `wc-bottom-sheet` ·
+[Popover](https://peacock.redvars.com/components/popover) `wc-popover` ·
+[Tooltip](https://peacock.redvars.com/components/tooltip) `wc-tooltip` ·
+[Hover card](https://peacock.redvars.com/components/hover-card) `wc-hover-card` ·
+[Tour](https://peacock.redvars.com/components/tour) `wc-tour`
+
+## Editors
+
+[Code editor](https://peacock.redvars.com/components/code-editor) `wc-code-editor` ·
+[HTML editor](https://peacock.redvars.com/components/html-editor) `wc-html-editor` ·
+[Markdown editor](https://peacock.redvars.com/components/markdown-editor) `wc-markdown-editor` ·
+[Flow](https://peacock.redvars.com/components/flow) `wc-flow`
+
+## Primitives
+
+[Ripple](https://peacock.redvars.com/components/ripple) `wc-ripple` ·
+[Elevation](https://peacock.redvars.com/components/elevation) `wc-elevation` ·
+[Focus ring](https://peacock.redvars.com/components/focus-ring) `wc-focus-ring`
 
 ## 📄 License
 

@@ -2,7 +2,6 @@ import { html, nothing, type PropertyValues } from 'lit';
 import { property, query } from 'lit/decorators.js';
 
 import { spread } from '@/__internal/directive/spread.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import BaseField from '../input/BaseField.js';
@@ -13,7 +12,7 @@ import styles from './textarea.scss';
  * @label Textarea
  * @tag wc-textarea
  * @rawTag textarea
- * @summary The Textarea component is used to capture user input.
+ * @summary A multi-line text field that can grow with its content.
  * @overview
  * <p>Textarea is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>
@@ -49,10 +48,6 @@ export class Textarea extends BaseField {
   @property({ type: String })
   value = '';
 
-  /** @deprecated Has no effect; it will be removed in 4.0. */
-  @property({ type: Boolean, reflect: true })
-  inline = false;
-
   @property({ type: String }) autocomplete: 'on' | 'off' = 'off';
 
   /** Visible lines of text; the starting height with `auto-grow`. */
@@ -84,13 +79,6 @@ export class Textarea extends BaseField {
   private inputElement?: HTMLTextAreaElement;
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    super.willUpdate(changed);
-    if (changed.has('inline') && this.inline) {
-      deprecate('wc-textarea', '`inline`');
-    }
-  }
 
   protected override updated(changed: PropertyValues<this>) {
     super.updated(changed);

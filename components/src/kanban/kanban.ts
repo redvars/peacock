@@ -146,7 +146,7 @@ function prefersReducedMotion(): boolean {
  * more cards. <code>addable</code> adds an "Add card" button to every column, which fires
  * <code>card-add</code>.</p>
  *
- * @fires {CustomEvent<KanbanCardMoveDetail>} card-move - Dispatched when the person drops a card in a new place. Cancelable: cancel it to keep the cards as they are.
+ * @fires {CustomEvent<{cardId: string, fromColumn: string, toColumn: string, fromIndex: number, toIndex: number}>} card-move - Dispatched when the person drops a card in a new place. Cancelable: cancel it to keep the cards as they are.
  * @fires {CustomEvent<{columnId: string}>} card-add - Dispatched when the person presses a column's "Add card" button.
  *
  * @cssprop --kanban-column-inline-size - The width of a column. Defaults to `18rem`.

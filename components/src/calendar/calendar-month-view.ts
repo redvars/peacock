@@ -18,7 +18,6 @@ import { MonthEventManager } from './event-manager.js';
 import type { ColumnEvent } from './event-manager.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { resolveLocale } from '@/__internal/i18n/locale.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type { WeekDay } from '@/__internal/utils/date.js';
 import styles from './calendar-month-view.scss';
 
@@ -26,15 +25,19 @@ import styles from './calendar-month-view.scss';
 type PlacedEvent = { node: ColumnEvent; id: string; dayIndex: number };
 
 /**
- * @internal Rendered by `wc-calendar`; not meant to be used on its own.
+ * @internal
  *
  * @label Calendar Month View
  * @tag wc-calendar-month-view
  * @rawTag calendar-month-view
- * @summary Internal month view component for the calendar.
+ * @summary The calendar's month view, six weeks of days with the events on each.
  *
- * The month is an ARIA grid: one row per week, one gridcell per day labelled with its full date.
- * Each event is owned (`aria-owns`) by the cell of the day it starts on in that week.
+ * @overview
+ * <p>Rendered by <code>wc-calendar</code>; not meant to be used on its own.</p>
+ * <p>The month is a read-only ARIA grid labelled with the month and year: one row per week, one
+ * gridcell per day labelled with its full date. Each event is owned (<code>aria-owns</code>) by the
+ * cell of the day it starts on in that week. Events are buttons labelled with their title and
+ * time, or notes that cannot be focused when <code>events-readonly</code> is set.</p>
  *
  * @fires event-click - Internal, does not bubble; `wc-calendar` re-fires it. Detail contains `{ event }`.
  */
@@ -53,13 +56,6 @@ export class CalendarMonthView extends LitElement {
   /** Events are shown but cannot be clicked or focused. */
   @property({ type: Boolean, attribute: 'events-readonly' })
   eventsReadonly: boolean = false;
-
-  /**
-   * Whether events are clickable.
-   * @deprecated Use `events-readonly`.
-   */
-  @property({ type: Boolean, attribute: 'event-clickable' })
-  eventClickable: boolean = true;
 
   /** Now, which marks today. */
   @property({ type: Object, attribute: false })
@@ -110,13 +106,6 @@ export class CalendarMonthView extends LitElement {
 
   override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
-    if (changed.has('eventClickable') && !this.eventClickable) {
-      deprecate(
-        'wc-calendar-month-view',
-        '`event-clickable`',
-        '`events-readonly`',
-      );
-    }
     if (
       changed.has('events') ||
       changed.has('contextDate') ||
@@ -129,7 +118,7 @@ export class CalendarMonthView extends LitElement {
   // ── Private methods
 
   private get _interactive(): boolean {
-    return !this.eventsReadonly && this.eventClickable;
+    return !this.eventsReadonly;
   }
 
   private _processEvents() {

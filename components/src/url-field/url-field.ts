@@ -2,7 +2,6 @@ import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
 import { spread } from '@/__internal/directive/spread.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
@@ -15,21 +14,17 @@ import styles from './url-field.scss';
  * @tag wc-url-field
  * @rawTag url-field
  *
- * @summary A field for entering and displaying URLs with validation.
+ * @summary A field for a web address that shows it as a link until the person edits it, and checks that it is valid.
  * @overview
  * <p>URL Field wraps an input with URL validation, showing a clickable link preview when not in edit mode.
  * The edit button or focusing the field starts editing; leaving the field with a valid URL ends it,
  * and Escape ends it and restores the URL editing started with. The <code>start</code> and
  * <code>end</code> slots show in both modes.</p>
- * <p>The <code>editing</code> attribute and property are deprecated: editing is internal state. The
- * attribute is still read once when the field connects, and the property still works, until 4.0.</p>
  * <p>It is form-associated: the URL is submitted under its <code>name</code>, and
  * <code>required</code> or an invalid URL blocks form submission.</p>
  *
  * @fires {CustomEvent<{value: string}>} input - Dispatched as the user types.
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed.
- * @fires {CustomEvent<string>} value-change - Deprecated, use `change`. Dispatched `debounce` ms after the user stops typing.
- * @fires {CustomEvent<boolean>} input-invalid - Deprecated, use `validity` or `checkValidity()`. Dispatched when editing ends; `detail` is true when the URL is invalid.
  *
  * @example
  * ```html
@@ -48,10 +43,6 @@ export class UrlField extends BaseField {
   @property({ type: String })
   value: string = '';
 
-  /** Delay, in ms, of the deprecated `value-change` event. */
-  @property({ type: Number })
-  debounce: number = 300;
-
   // ── State ────────────────────────────────────────────────────────────────
 
   @state()
@@ -68,49 +59,13 @@ export class UrlField extends BaseField {
 
   // ── Private fields ───────────────────────────────────────────────────────
 
-  private debounceTimer?: ReturnType<typeof setTimeout>;
-
   /** The value when editing started; Escape restores it. */
   private valueBeforeEditing = '';
 
   /** Peacock's strings for the invalid URL message. */
   private readonly i18n = new I18nController(this);
 
-  // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-    // The `editing` attribute used to be public; read it once so markup that sets it still works.
-    if (this.hasAttribute('editing')) {
-      deprecate('wc-url-field', 'the `editing` attribute');
-      this.removeAttribute('editing');
-      this.isEditing = true;
-      this.valueBeforeEditing = this.value;
-    }
-  }
-
-  override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
-  }
-
   // ── Public methods ───────────────────────────────────────────────────────
-
-  /**
-   * @deprecated Editing is internal state; it starts when the person clicks edit or the field
-   * gets focus. Reading it still works; setting it logs a warning. Removed in 4.0.
-   */
-  get editing(): boolean {
-    return this.isEditing;
-  }
-
-  set editing(editing: boolean) {
-    deprecate('wc-url-field', '`editing`');
-    if (editing && !this.isEditing) this.valueBeforeEditing = this.value;
-    this.isEditing = editing;
-  }
 
   override focus() {
     if (!this.isEditing && !this.disabled && !this.readonly) {
@@ -167,15 +122,6 @@ export class UrlField extends BaseField {
 
   private closeEditing() {
     this.isValid = this.validateUrl(this.value);
-    // Deprecated event (documented); no warning, since it fires whether or not anyone listens.
-    this.dispatchEvent(
-      new CustomEvent('input-invalid', {
-        detail: !this.isValid,
-        bubbles: true,
-        composed: true,
-      }),
-    );
-
     if (this.isValid) {
       this.isEditing = false;
     }
@@ -198,21 +144,6 @@ export class UrlField extends BaseField {
     this.value = (event.target as HTMLInputElement).value;
     this.isValid = true;
     this.emitValue('input');
-
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
-
-    this.debounceTimer = setTimeout(() => {
-      // Deprecated event (documented); no warning, since it fires whether or not anyone listens.
-      this.dispatchEvent(
-        new CustomEvent('value-change', {
-          detail: this.value,
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    }, this.debounce);
   }
 
   private handleChange(event: Event) {

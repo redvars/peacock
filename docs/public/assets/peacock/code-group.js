@@ -1,6 +1,6 @@
-import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, a as i$1, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 
 var css_248z = i`* {
   box-sizing: border-box;
@@ -8,13 +8,35 @@ var css_248z = i`* {
 }
 
 .screen-reader-only {
-  display: none !important;
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 [hidden] {
   display: none !important;
 }
 
+@media (forced-colors: active) {
+  .selected,
+  [aria-selected=true],
+  [aria-pressed=true],
+  [aria-checked=true],
+  [aria-current]:not([aria-current=false]) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .disabled,
+  [aria-disabled=true] {
+    color: GrayText;
+  }
+}
 :host {
   display: block;
   min-width: 0;
@@ -139,10 +161,6 @@ let CodeGroup = class CodeGroup extends i$1 {
             composed: true,
         }));
     }
-    // eslint-disable-next-line class-methods-use-this
-    __stopEvent(event) {
-        event.stopPropagation();
-    }
     // ── Render helpers ────────────────────────────────────────────────────────
     // eslint-disable-next-line class-methods-use-this
     __tabLabel(block, index) {
@@ -161,9 +179,8 @@ let CodeGroup = class CodeGroup extends i$1 {
             class="tabs"
             variant="secondary"
             @change=${this.__handleTabChange}
-            @tab-click=${this.__stopEvent}
           >
-            ${this._blocks.map((block, index) => b `<wc-tab .active=${index === active}
+            ${this._blocks.map((block, index) => b `<wc-tab .selected=${index === active}
                   >${this.__tabLabel(block, index)}</wc-tab
                 >`)}
           </wc-tabs>

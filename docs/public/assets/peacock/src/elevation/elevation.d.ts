@@ -4,10 +4,21 @@ import { LitElement } from 'lit';
  * @tag wc-elevation
  * @rawTag elevation
  *
- * @summary Adds elevation to an element.
+ * @summary A shadow layer placed inside an element to lift it off the page, with a shadow depth set per level and per side.
  * @overview
- *  - Elevation adds a shadow effect to an element to give it depth.
- *  - It can be used to create a sense of hierarchy or to draw attention to a particular element.
+ * <ul>
+ * <li>Elevation adds a shadow effect to an element to give it depth.</li>
+ * <li>It can be used to create a sense of hierarchy or to draw attention to a particular
+ * element.</li>
+ * <li>It fills its nearest positioned ancestor, so place it inside an element with
+ * <code>position: relative</code>. It ignores pointer events.</li>
+ * <li><code>--elevation-level</code> sets the level. <code>--elevation-level-block-start</code>,
+ * <code>--elevation-level-block-end</code>, <code>--elevation-level-inline-start</code> and
+ * <code>--elevation-level-inline-end</code> set the level of one side and override
+ * <code>--elevation-level</code> for it; the inline sides follow the reading direction.</li>
+ * <li>Match the shadow to the element's corners with
+ * <code>--elevation-container-shape</code>.</li>
+ * </ul>
  *
  * @cssprop --elevation-level - Controls the elevation level of the shadow.
  * @cssprop --elevation-color - Controls the color of the shadow.

@@ -1,14 +1,17 @@
-import { LitElement } from 'lit';
+import { LitElement, type PropertyValues } from 'lit';
 type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
 /**
  * @label Modal
  * @tag wc-modal
  * @rawTag modal
- * @summary A dialog/modal for displaying content in a layer above the page, with optional header, body, and footer slots.
+ * @summary A dialog for content in a layer above the page, with optional header, body and footer.
  * @overview
  * <p>The modal opens a native <code>&lt;dialog&gt;</code> with <code>showModal()</code>, so it renders in the
  * browser's top layer: above sticky headers, app bars, cards and any stacking context on the page,
  * whatever their z-index. Menus, selects and tooltips opened inside the modal render above it.</p>
+ * <p>While it is open the rest of the page is inert and does not scroll; focus moves to the first
+ * element with <code>autofocus</code> inside it, and returns where it was when the modal closes.
+ * Escape and a click on the scrim close it (<code>no-light-dismiss</code> keeps it open on scrim clicks).</p>
  *
  * @cssprop --modal-container-color - Background color of the dialog container.
  * @cssprop --modal-scrim-color - Color of the scrim backdrop.
@@ -17,11 +20,17 @@ type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'fullscreen';
  * @cssprop --modal-max-width - Maximum width of the dialog.
  * @cssprop --modal-max-height - Maximum height of the dialog.
  *
- * @fires modal-close - Fired when the modal closes. `detail.reason` is `"close-button"`, `"scrim"`, `"escape"` or `"programmatic"`.
+ * @fires {CustomEvent} open - Fired when the modal opens.
+ * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the modal closes: Escape, a scrim click, the close button, or `hide()`.
  *
  * @example
  * ```html
- * MODAL
+ * <wc-button onclick="document.getElementById('confirm').show()">Delete project</wc-button>
+ * <wc-modal id="confirm" heading="Delete project?">
+ *   This deletes the project and its 12 files. You can't undo this.
+ *   <wc-button slot="footer" variant="text" onclick="this.closest('wc-modal').hide()">Cancel</wc-button>
+ *   <wc-button slot="footer" color="danger" autofocus>Delete</wc-button>
+ * </wc-modal>
  * ```
  * @tags overlay, dialog, feedback
  */
@@ -42,26 +51,29 @@ export declare class Modal extends LitElement {
      * - `"fullscreen"`: Full-screen dialog.
      */
     size: ModalSize;
-    /** When true, hides the close button in the header. */
+    /** Hides the close button in the header. */
     hideClose: boolean;
-    /** When true, renders a loading overlay inside the modal. */
-    showLoader: boolean;
-    /** When true, clicking the scrim will not close the modal. */
-    noScrimClose: boolean;
+    /** Shows a loading overlay inside the modal. */
+    loading: boolean;
+    /** Keeps the modal open when the scrim is clicked. Escape still closes it. */
+    noLightDismiss: boolean;
     private _dialog?;
     private _panel?;
-    disconnectedCallback(): void;
-    protected updated(changedProperties: Map<string, unknown>): void;
+    /** Peacock's strings for the close button label. */
+    private readonly i18n;
+    private readonly overlay;
+    protected updated(changed: PropertyValues<this>): void;
     /** Opens the modal. */
     show(): void;
     /** Closes the modal. */
     hide(): void;
-    /** Opens the native dialog in the top layer, or closes it once the exit animation ends. */
-    private _syncDialog;
     private _close;
-    /** Escape: close through `open` so the property stays the source of truth. */
+    /** The native Escape `cancel`: the overlay controller handles Escape, so keep `open` in charge. */
     private _handleCancel;
-    /** The browser closed the dialog by itself (for example a forced Escape): keep `open` in step. */
+    /**
+     * The browser closed the dialog by itself: keep `open` in step. A `close` from content inside
+     * the dialog (a popover, menu or select closing; they bubble and are composed) is not ours.
+     */
     private _handleNativeClose;
     /** A click that lands outside the dialog container, not on its content, is a scrim click. */
     private _handleDialogClick;

@@ -8,17 +8,7 @@ import {
   type CloseReason,
   OverlayController,
 } from '@/__internal/controllers/overlay-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './bottom-sheet.scss';
-
-/** The `bottom-sheet-close` reasons from before `close` (deprecated event). */
-const LEGACY_REASONS: Record<CloseReason, string> = {
-  escape: 'esc',
-  'light-dismiss': 'scrim',
-  action: 'drag',
-  timeout: 'programmatic',
-  api: 'programmatic',
-};
 
 /** How far (px) the sheet must be dragged down to close. */
 const DRAG_CLOSE_DISTANCE = 80;
@@ -30,7 +20,7 @@ const DRAG_CLICK_TOLERANCE = 4;
  * @label Bottom Sheet
  * @tag wc-bottom-sheet
  * @rawTag bottom-sheet
- * @summary Bottom sheets slide up from the bottom of the screen to reveal additional content. Supports standard and modal variants.
+ * @summary A panel that slides up from the bottom of the screen with extra content, either modal over the page or alongside it.
  * @overview
  * <p>The sheet renders a native <code>&lt;dialog&gt;</code>. The <code>modal</code> variant (the default)
  * opens it with <code>showModal()</code>: it renders in the browser's top layer above the page, with a
@@ -48,7 +38,6 @@ const DRAG_CLICK_TOLERANCE = 4;
  *
  * @fires {CustomEvent} open - Fired when the sheet opens.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the sheet closes: Escape, a scrim click, the drag handle (`action`), or `hide()`.
- * @fires {CustomEvent<{reason: string}>} bottom-sheet-close - Deprecated, use `close`. `detail.reason` is `"esc"`, `"scrim"`, `"drag"` or `"programmatic"`.
  *
  * @example
  * ```html
@@ -92,9 +81,6 @@ export class BottomSheet extends LitElement {
   @property({ type: Boolean, attribute: 'no-light-dismiss' }) noLightDismiss =
     false;
 
-  /** @deprecated Use `hide-handle`. */
-  @property({ type: Boolean, attribute: 'show-handle' }) showHandle = true;
-
   // ── State ────────────────────────────────────────────────────────────────
 
   @state() private _dragging = false;
@@ -128,9 +114,6 @@ export class BottomSheet extends LitElement {
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
   protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('showHandle') && !this.showHandle) {
-      deprecate('wc-bottom-sheet', '`showHandle = false`', '`hide-handle`');
-    }
     if (changed.has('open') && this.open) {
       this._dragOffsetY = 0;
     }
@@ -170,23 +153,12 @@ export class BottomSheet extends LitElement {
     return this.variant !== 'standard';
   }
 
-  private get _hasHandle() {
-    return this.showHandle && !this.hideHandle;
-  }
-
   private _close(reason: CloseReason) {
     if (!this.open) return;
     this.open = false;
     this.dispatchEvent(
       new CustomEvent('close', {
         detail: { reason },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent('bottom-sheet-close', {
-        detail: { reason: LEGACY_REASONS[reason] },
         bubbles: true,
         composed: true,
       }),
@@ -259,7 +231,7 @@ export class BottomSheet extends LitElement {
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private _renderHandle() {
-    if (!this._hasHandle) return nothing;
+    if (this.hideHandle) return nothing;
     return html`<button
       class="handle-area"
       part="handle"

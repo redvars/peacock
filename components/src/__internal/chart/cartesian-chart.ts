@@ -1,7 +1,6 @@
-import { html, PropertyValues, svg } from 'lit';
+import { html, svg } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ScaleBand, ScaleLinear, ScalePoint, select, Selection } from 'd3';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { ChartBase, chartColor } from './chart-base.js';
 import type {
   ChartConfig,
@@ -48,12 +47,6 @@ export abstract class CartesianChart extends ChartBase {
   @property({ type: String, attribute: 'category-key' }) categoryKey: string =
     '';
 
-  /**
-   * Data field that holds the category label.
-   * @deprecated Use `category-key`; `index` is also the name of the selected position in `select`'s detail.
-   */
-  @property({ type: String }) index: string = '';
-
   /** Hides the gridlines. */
   @property({ type: Boolean, attribute: 'hide-grid' }) hideGrid: boolean =
     false;
@@ -93,15 +86,6 @@ export abstract class CartesianChart extends ChartBase {
   /** Whether the cursor is a band (bars) or a line (line, area). */
   protected cursorKind: 'band' | 'line' = 'band';
 
-  // ── Lifecycle
-
-  willUpdate(changed: PropertyValues) {
-    super.willUpdate(changed);
-    if (changed.has('index') && this.index) {
-      deprecate(this.localName, '`index`', '`category-key`');
-    }
-  }
-
   // ── Overrides
 
   protected drawProperties(): string[] {
@@ -110,7 +94,6 @@ export abstract class CartesianChart extends ChartBase {
       'data',
       'config',
       'categoryKey',
-      'index',
       'hideGrid',
       'hideCategoryAxis',
       'hideValueAxis',
@@ -243,9 +226,9 @@ export abstract class CartesianChart extends ChartBase {
 
   // ── Helpers for subclasses
 
-  /** The category field: `categoryKey`, else the deprecated `index`. */
+  /** The category field (`categoryKey`). */
   protected categoryField(): string {
-    return this.categoryKey || this.index;
+    return this.categoryKey;
   }
 
   /** Series keys from `config`, or every numeric field of the first row except the category field. */

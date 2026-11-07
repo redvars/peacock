@@ -8,7 +8,7 @@ import styles from './listbox-option.scss';
  * @tag wc-listbox-option
  * @rawTag listbox-option
  *
- * @summary An option of a wc-listbox.
+ * @summary One option in a listbox, with optional leading content, supporting text and trailing content.
  * @overview
  * <p>The option has <code>role="option"</code> and <code>aria-selected</code>. Its
  * <code>value</code> is what the listbox reports; without one, the option's text is used.

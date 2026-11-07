@@ -22,7 +22,7 @@ const {title, description, sidebarItems = []} = Astro.props;
 
   <div class="with-sidebar-layout">
 
-    <div class='sidenav-container'>
+    <div class='sidenav-container' data-pagefind-ignore="all">
       <wc-navigation-drawer class='sidenav' open>
         {
             sidebarItems.map((item) => {

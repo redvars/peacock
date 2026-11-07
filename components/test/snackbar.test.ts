@@ -2,7 +2,6 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Snackbar } from '../src/snackbar/snackbar.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-snackbar')) {
   customElements.define('wc-snackbar', Snackbar);
@@ -70,10 +69,10 @@ describe('Snackbar', () => {
 
     let actionEventCount = 0;
     let closeReason = '';
-    el.addEventListener('snackbar-action', () => {
+    el.addEventListener('action', () => {
       actionEventCount += 1;
     });
-    el.addEventListener('snackbar-close', (event: Event) => {
+    el.addEventListener('close', (event: Event) => {
       closeReason = (event as CustomEvent<{ reason: string }>).detail.reason;
     });
 
@@ -95,19 +94,14 @@ describe('Snackbar', () => {
     await el.updateComplete;
 
     let closeReason = '';
-    let legacyReason = '';
     el.addEventListener('close', (event: Event) => {
       closeReason = (event as CustomEvent<{ reason: string }>).detail.reason;
-    });
-    el.addEventListener('snackbar-close', (event: Event) => {
-      legacyReason = (event as CustomEvent<{ reason: string }>).detail.reason;
     });
 
     // Wait for the timer and the exit animation, with a generous margin for slow runners.
     await waitFor(() => !el.open, 3000);
 
     expect(closeReason).to.equal('timeout');
-    expect(legacyReason).to.equal('timeout');
     expect(el.open).to.equal(false);
   });
 
@@ -208,24 +202,19 @@ describe('Snackbar', () => {
   describe('close reasons', () => {
     function record(el: Snackbar) {
       const reasons: string[] = [];
-      const legacy: string[] = [];
       el.addEventListener('close', event => {
         reasons.push((event as CustomEvent<{ reason: string }>).detail.reason);
       });
-      el.addEventListener('snackbar-close', event => {
-        legacy.push((event as CustomEvent<{ reason: string }>).detail.reason);
-      });
-      return { reasons, legacy };
+      return { reasons };
     }
 
-    it('close button: action (legacy dismiss)', async () => {
+    it('close button: action', async () => {
       const el = await fixture<Snackbar>(html`
         <wc-snackbar open dismissible .duration=${0}></wc-snackbar>
       `);
-      const { reasons, legacy } = record(el);
+      const { reasons } = record(el);
       el.shadowRoot?.querySelector<HTMLElement>('.close')?.click();
       expect(reasons).to.deep.equal(['action']);
-      expect(legacy).to.deep.equal(['dismiss']);
     });
 
     it('action button: action event, then close action', async () => {
@@ -242,14 +231,13 @@ describe('Snackbar', () => {
       expect(reasons).to.deep.equal(['action']);
     });
 
-    it('hide(): api (legacy programmatic)', async () => {
+    it('hide(): api', async () => {
       const el = await fixture<Snackbar>(html`
         <wc-snackbar open .duration=${0}></wc-snackbar>
       `);
-      const { reasons, legacy } = record(el);
+      const { reasons } = record(el);
       el.hide();
       expect(reasons).to.deep.equal(['api']);
-      expect(legacy).to.deep.equal(['programmatic']);
     });
 
     it('open = false: api, fired once', async () => {
@@ -288,52 +276,26 @@ describe('Snackbar', () => {
         <wc-snackbar open action-label="Undo"></wc-snackbar>
       `);
       const { reasons } = record(el);
-      el.shadowRoot
-        ?.querySelector('.action')
-        ?.dispatchEvent(
-          new KeyboardEvent('keydown', {
-            key: 'Escape',
-            bubbles: true,
-            composed: true,
-          }),
-        );
+      el.shadowRoot?.querySelector('.action')?.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Escape',
+          bubbles: true,
+          composed: true,
+        }),
+      );
       expect(reasons).to.deep.equal([]);
     });
   });
 
-  describe('dismissible', () => {
-    let warn: typeof console.warn;
-    let warnings: string[];
+  it('shows a close button only when dismissible', async () => {
+    const el = await fixture<Snackbar>(html`
+      <wc-snackbar open dismissible .duration=${0}></wc-snackbar>
+    `);
+    expect(el.shadowRoot?.querySelector('.close')).to.not.equal(null);
 
-    beforeEach(() => {
-      resetDeprecationWarnings();
-      warnings = [];
-      warn = console.warn;
-      console.warn = (message: string) => {
-        warnings.push(message);
-      };
-    });
-
-    afterEach(() => {
-      console.warn = warn;
-    });
-
-    it('shows a close button', async () => {
-      const el = await fixture<Snackbar>(html`
-        <wc-snackbar open dismissible .duration=${0}></wc-snackbar>
-      `);
-      expect(el.shadowRoot?.querySelector('.close')).to.not.equal(null);
-      expect(warnings).to.have.length(0);
-    });
-
-    it('keeps the deprecated show-close-icon working and warns', async () => {
-      const el = await fixture<Snackbar>(html`
-        <wc-snackbar open show-close-icon .duration=${0}></wc-snackbar>
-      `);
-      expect(el.shadowRoot?.querySelector('.close')).to.not.equal(null);
-      expect(warnings).to.have.length(1);
-      expect(warnings[0]).to.contain('`dismissible`');
-    });
+    el.dismissible = false;
+    await el.updateComplete;
+    expect(el.shadowRoot?.querySelector('.close')).to.equal(null);
   });
 
   it('closes previous snackbar when another one opens', async () => {
@@ -343,7 +305,7 @@ describe('Snackbar', () => {
     await first.updateComplete;
 
     let firstCloseReason = '';
-    first.addEventListener('snackbar-close', (event: Event) => {
+    first.addEventListener('close', (event: Event) => {
       firstCloseReason = (event as CustomEvent<{ reason: string }>).detail
         .reason;
     });
@@ -357,7 +319,7 @@ describe('Snackbar', () => {
     await second.updateComplete;
     await first.updateComplete;
 
-    expect(firstCloseReason).to.equal('programmatic');
+    expect(firstCloseReason).to.equal('api');
     expect(first.open).to.equal(true);
 
     finishDismissAnimation(first);

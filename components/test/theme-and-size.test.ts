@@ -2,8 +2,6 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { isDarkMode } from '../src/__internal/utils/is-dark-mode.js';
-import { migrateLegacySize } from '../src/__internal/utils/size.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 import { Button } from '../src/button/index.js';
 import { LoaderUtils } from '../src/LoaderUtils.js';
 
@@ -41,36 +39,6 @@ describe('isDarkMode', () => {
     expect(isDarkMode()).to.equal(
       window.matchMedia('(prefers-color-scheme: dark)').matches,
     );
-  });
-});
-
-describe('migrateLegacySize', () => {
-  beforeEach(() => resetDeprecationWarnings());
-
-  it('maps long names to the scale and warns', () => {
-    const { warnings, restore } = silenceWarnings();
-    try {
-      expect(migrateLegacySize('wc-button', 'small')).to.equal('sm');
-      expect(migrateLegacySize('wc-button', 'extra-large')).to.equal('xl');
-      expect(migrateLegacySize('wc-button', 'md')).to.be.undefined;
-      expect(warnings).to.have.length(2);
-    } finally {
-      restore();
-    }
-  });
-
-  it('turns a legacy size on a button into the short name', async () => {
-    const { restore } = silenceWarnings();
-    try {
-      const el = await fixture<Button>(
-        html`<wc-button size="large">Go</wc-button>`,
-      );
-      await el.updateComplete;
-      expect(el.size).to.equal('lg');
-      expect(el.getAttribute('size')).to.equal('lg');
-    } finally {
-      restore();
-    }
   });
 });
 

@@ -1,0 +1,42 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The illustration draws the art named by <code>name</code>. Each illustration is a small module,
+  loaded the first time its name appears on the page, so a page pays only for the art it shows.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-illustration name='no-results'></wc-illustration>
+  <wc-illustration name='success'></wc-illustration>
+</DemoComponentCard>
+
+<h3>Accessible name</h3>
+
+<p>
+  An illustration is decorative by default and hidden from assistive technology, because the heading
+  next to it says the same thing. Set <code>label</code> only when the picture carries meaning the
+  text around it does not; it then has <code>role="img"</code> with that name.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-illustration name='success' label='Payment complete'></wc-illustration>
+</DemoComponentCard>
+
+<h3>Sizes</h3>
+
+<p>
+  <code>size</code> is <code>sm</code> (6rem wide, for menus and popups), <code>md</code> (10rem,
+  default, for empty tables and lists) or <code>lg</code> (15rem, for full pages). The height
+  follows at 4:3. Setting <code>--illustration-size</code>, or a width in CSS, still wins.
+</p>
+
+<DemoComponentCard lang={'html'} inline>
+  <wc-illustration name='empty' size='sm'></wc-illustration>
+  <wc-illustration name='empty'></wc-illustration>
+  <wc-illustration name='empty' size='lg'></wc-illustration>
+  <wc-illustration name='empty' style='width: 20rem'></wc-illustration>
+</DemoComponentCard>

@@ -1,0 +1,48 @@
+---
+export const title = 'Your own illustrations';
+export const order = 400;
+---
+
+<p>
+  <code>registerIllustration(name, art)</code> adds an illustration under a name of your own, or
+  replaces a shipped one, for every <code>wc-illustration</code> on the page; elements already
+  showing that name update. <code>art</code> is a Lit <code>svg</code> template of the shapes inside
+  the picture, drawn in the same <code>240 × 180</code> viewBox as the shipped set, or a function
+  returning a promise of one, called the first time the name is shown.
+</p>
+
+<pre><code>{`import { svg } from 'lit';
+import { registerIllustration } from '@redvars/peacock';
+
+registerIllustration('no-invoices', svg\`
+  <circle class="backdrop" cx="120" cy="88" r="70"/>
+  <rect class="surface" x="80" y="40" width="80" height="104" rx="8"/>
+  <rect class="primary" x="94" y="60" width="40" height="8" rx="4"/>
+\`);
+
+// Loaded the first time it is shown:
+registerIllustration('no-reports', () => import('./art/no-reports.js').then(m => m.default));`}</code></pre>
+
+<p>
+  Use the same classes as the shipped art and your illustration follows the theme, dark mode, the
+  <code>--illustration-*-color</code> properties and high-contrast mode with the rest:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Class</th><th>Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>backdrop</code></td><td>The round shape behind the subject.</td></tr>
+    <tr><td><code>shadow</code></td><td>The ground shadow under the subject.</td></tr>
+    <tr><td><code>surface</code></td><td>Bodies of objects such as paper and cards, with an outline.</td></tr>
+    <tr><td><code>inset</code></td><td>Recessed areas and placeholder lines.</td></tr>
+    <tr><td><code>knockout</code></td><td>A small surface-colored hole, without outline.</td></tr>
+    <tr><td><code>primary</code>, <code>primary-soft</code></td><td>The subject's main and soft fill.</td></tr>
+    <tr><td><code>accent</code>, <code>accent-alt</code></td><td>Sparkles, dots and other supporting details.</td></tr>
+    <tr><td><code>detail</code></td><td>Small solid details such as lines of text.</td></tr>
+    <tr><td><code>on-primary</code></td><td>Marks drawn on a <code>primary</code> shape.</td></tr>
+    <tr><td><code>error</code>, <code>error-soft</code>, <code>success</code>, <code>success-soft</code>, <code>warning</code>, <code>warning-soft</code></td><td>Status colors.</td></tr>
+    <tr><td><code>stroke</code>, <code>stroke-primary</code>, <code>stroke-on-primary</code>, <code>stroke-error</code>, <code>stroke-surface</code>, <code>stroke-dashed</code></td><td>Unfilled lines; set <code>stroke-width</code> on the shape (default 3).</td></tr>
+  </tbody>
+</table>

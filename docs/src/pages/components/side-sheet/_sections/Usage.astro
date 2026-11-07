@@ -81,17 +81,3 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <code>detail.reason</code>: <code>'escape'</code>, <code>'light-dismiss'</code> (a scrim
   click), <code>'action'</code> (the close button) or <code>'api'</code> (<code>hide()</code>).
 </p>
-
-<h3>Deprecated</h3>
-<ul>
-  <li>
-    <code>position="left" | "right"</code>: use <code>placement="start" | "end"</code>.
-    <code>left</code> maps to <code>start</code> and <code>right</code> to <code>end</code>, so in
-    right-to-left pages the edge flips.
-  </li>
-  <li>
-    The <code>side-sheet-close</code> event: use <code>close</code>. It still fires, with
-    <code>reason</code> <code>escape</code>, <code>scrim</code>, <code>close-button</code> or
-    <code>programmatic</code>.
-  </li>
-</ul>

@@ -1,17 +1,22 @@
-import { i, a as i$1, b, _ as __decorate, I as IndividualComponent } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { r } from './state-DkTK9EGF.js';
+import { i, _ as __decorate, I as IndividualComponent, A, b } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { r } from './state-BCeDVCI9.js';
 import { e } from './query-CHb9Ft_d.js';
-import { o } from './style-map-BQD5Et1D.js';
-import { m as mixinElementInternals } from './element-internals-QME0yEz4.js';
-import { m as mixinFormAssociated, g as getFormValue } from './form-associated-Bhwwr6dT.js';
+import { e as e$1 } from './class-map-NDIkZErE.js';
+import { o } from './style-map-CHOg6N_R.js';
+import { B as BaseInput } from './BaseInput-DJ7w21-i.js';
+import { I as I18nController } from './i18n-controller-Dxqz0Aof.js';
 import './base-Cl6v8-BZ.js';
 import './directive-ZPhl09Yt.js';
+import './element-internals-QME0yEz4.js';
+import './form-associated-D3Tn33s_.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 var css_248z = i`:host {
-  --_track-height: 4px;
-  --_thumb-size: 20px;
-  --thumb-half: 10px;
+  --_track-height: 0.25rem;
+  --_thumb-size: 1.25rem;
+  --thumb-half: calc(var(--_thumb-size) / 2);
   --_active-track-color: var(--color-primary);
   --_inactive-track-color: var(--color-secondary-container);
   --_thumb-color: var(--color-primary);
@@ -22,6 +27,52 @@ var css_248z = i`:host {
   min-width: 200px;
   vertical-align: middle;
   touch-action: none;
+}
+
+:host([size=md]) {
+  --_track-height: 0.5rem;
+  --_thumb-size: 1.5rem;
+}
+
+:host([size=lg]) {
+  --_track-height: 0.75rem;
+  --_thumb-size: 1.75rem;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  width: 100%;
+}
+.wrapper .label {
+  font-family: var(--typography-body-small-font-family) !important;
+  font-size: var(--typography-body-small-font-size) !important;
+  font-weight: var(--typography-body-small-font-weight) !important;
+  line-height: var(--typography-body-small-line-height) !important;
+  letter-spacing: var(--typography-body-small-letter-spacing) !important;
+  color: var(--color-on-surface-variant);
+}
+.wrapper .helper {
+  font-family: var(--typography-body-small-font-family) !important;
+  font-size: var(--typography-body-small-font-size) !important;
+  font-weight: var(--typography-body-small-font-weight) !important;
+  line-height: var(--typography-body-small-line-height) !important;
+  letter-spacing: var(--typography-body-small-letter-spacing) !important;
+  color: var(--color-on-surface-variant);
+}
+.wrapper.error .label,
+.wrapper.error .helper {
+  color: var(--color-error);
+}
+.wrapper.disabled .label, .wrapper.disabled .helper {
+  opacity: 0.38;
+}
+.wrapper.readonly .slider-container {
+  cursor: default;
+}
+.wrapper.readonly .thumb {
+  cursor: default;
 }
 
 .slider {
@@ -149,31 +200,41 @@ var css_248z = i`:host {
   transform: translateY(0);
 }`;
 
+let sliderCount = 0;
 /**
  * @label Slider
  * @tag wc-slider
  * @rawTag slider
  *
- * @summary Sliders allow users to make selections from a range of values.
+ * @summary A track with a thumb the person drags to pick a number from a range.
  * @overview
  * <p>The slider is form-associated: its <code>value</code> is submitted under its <code>name</code>,
- * and <code>form.reset()</code> restores the starting value.</p>
+ * and <code>form.reset()</code> restores the starting value. Without a <code>value</code> it starts
+ * at the middle of <code>min</code>–<code>max</code>, like a native range input.</p>
+ * <p><code>label</code> is shown above the track, as on fields, and names the thumb; without it the
+ * thumb is named "Slider". <code>value-text</code> (the <code>valueText</code> property) formats
+ * the value for <code>aria-valuetext</code> and the visible value, for example
+ * <code>v =&gt; `${v}%`</code>.</p>
+ * <p><code>required</code> does not apply: a slider always has a value. <code>readonly</code> keeps
+ * it focusable but its value cannot change.</p>
+ * <p>Keyboard: the arrows move one step (ten with Shift), Page Up and Page Down move ten steps,
+ * Home and End go to <code>min</code> and <code>max</code>.</p>
  *
- * @fires {CustomEvent} input - Dispatched when the slider value changes during interaction.
- * @fires {CustomEvent} change - Dispatched when the slider interaction ends.
+ * @fires {CustomEvent<{value: number}>} input - Dispatched when the slider value changes during interaction.
+ * @fires {CustomEvent<{value: number}>} change - Dispatched when the slider interaction ends.
  *
  * @example
  * ```html
- * <wc-slider min="0" max="100" value="50"></wc-slider>
+ * <wc-slider label="Volume" min="0" max="100" value="50"></wc-slider>
  * ```
  * @tags input, form
  */
-let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)) {
+let Slider = class Slider extends BaseInput {
     constructor() {
         // ── Static ───────────────────────────────────────────────────────────────
         super(...arguments);
         // ── Properties ───────────────────────────────────────────────────────────
-        // `name` and `disabled` come from mixinFormAssociated.
+        // `name` and `disabled` come from mixinFormAssociated; `readonly` and `required` from BaseInput.
         /**
          * The minimum value of the slider.
          */
@@ -183,24 +244,29 @@ let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)
          */
         this.max = 100;
         /**
-         * The current value of the slider.
-         */
-        this.value = 50;
-        /**
          * The step increment for the slider.
          */
         this.step = 1;
+        /** Label shown above the slider; also the thumb's accessible name. */
+        this.label = '';
+        /** Help text shown below the slider. */
+        this.helperText = '';
+        /** Shows the slider in its error state with `error-text`. */
+        this.error = false;
+        this.errorText = '';
+        /** Size of the track and thumb: `sm` (default), `md` or `lg`. */
+        this.size = 'sm';
         /**
-         * Whether to show labels on the slider.
+         * Where the value shows: `thumb` (on the thumb while it is used; the default), `end` (after the
+         * track) or `none`.
          */
-        this.labeled = true;
-        /**
-         * Whether to show the current value beside the slider.
-         */
-        this.showValue = false;
+        this.valueLabel = 'thumb';
         // ── State ────────────────────────────────────────────────────────────────
         /** True while the user is actively dragging the thumb. */
         this.isDragging = false;
+        this.idPrefix = `wc-slider-${(sliderCount += 1)}`;
+        /** Peacock's strings for the thumb label. */
+        this.i18n = new I18nController(this);
         this.onMouseMove = (e) => {
             if (this.isDragging) {
                 e.preventDefault();
@@ -213,11 +279,7 @@ let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)
             this.isDragging = false;
             this.container.classList.remove('dragging');
             this.thumbElement.classList.remove('dragging');
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: { value: this.value },
-                bubbles: true,
-                composed: true,
-            }));
+            this.emit('change');
             window.removeEventListener('mousemove', this.onMouseMove);
             window.removeEventListener('mouseup', this.onMouseUp);
             window.removeEventListener('touchmove', this.onMouseMove);
@@ -225,27 +287,75 @@ let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)
             window.removeEventListener('touchcancel', this.onMouseUp);
         };
     }
+    /**
+     * The current value of the slider. Defaults to the middle of `min`–`max`.
+     */
+    get value() {
+        return this.explicitValue ?? this.snapToStep((this.min + this.max) / 2);
+    }
+    set value(value) {
+        const old = this.value;
+        this.explicitValue =
+            value === undefined || value === null || Number.isNaN(Number(value))
+                ? undefined
+                : Number(value);
+        this.requestUpdate('value', old);
+    }
     // ── Lifecycle ────────────────────────────────────────────────────────────
     connectedCallback() {
+        this.startedWithValue ??= this.explicitValue !== undefined;
         super.connectedCallback();
-        this.defaultValue ??= this.value;
+    }
+    // ── Public methods ───────────────────────────────────────────────────────
+    focus() {
+        this.thumbElement?.focus();
+    }
+    blur() {
+        this.thumbElement?.blur();
     }
     // ── Form association ─────────────────────────────────────────────────────
-    [getFormValue]() {
-        return String(this.value);
-    }
     formResetCallback() {
-        this.value = this.defaultValue ?? this.value;
+        super.formResetCallback();
+        if (!this.startedWithValue)
+            this.value = undefined;
     }
-    formStateRestoreCallback(state) {
-        const restored = Number(state);
-        if (typeof state === 'string' && !Number.isNaN(restored)) {
-            this.value = restored;
-        }
+    parseRestoreState(restored) {
+        const value = Number(restored);
+        return typeof restored === 'string' && !Number.isNaN(value)
+            ? value
+            : this.value;
+    }
+    // ── Protected methods ────────────────────────────────────────────────────
+    /** A slider always has a value in range, so only `setCustomValidity()` makes it invalid. */
+    computeValidity() {
+        return { flags: {}, message: '' };
+    }
+    validityAnchor() {
+        return this.thumbElement;
     }
     // ── Private methods ──────────────────────────────────────────────────────
+    get isInteractive() {
+        return !this.disabled && !this.readonly;
+    }
+    /** Where the value shows, from `value-label`. */
+    get valuePlacement() {
+        return {
+            thumb: this.valueLabel === 'thumb',
+            end: this.valueLabel === 'end',
+        };
+    }
+    formatValue(value) {
+        return this.valueText ? this.valueText(value) : String(value);
+    }
+    emit(type) {
+        this.dispatchEvent(new CustomEvent(type, {
+            detail: { value: this.value },
+            bubbles: true,
+            composed: true,
+        }));
+    }
     handleInput(event) {
-        if (this.disabled)
+        if (!this.isInteractive)
             return;
         const rect = this.container.getBoundingClientRect();
         const clientX = 'touches' in event
@@ -255,19 +365,14 @@ let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)
         let percentage = (clientX - rect.left) / rect.width;
         percentage = Math.max(0, Math.min(1, percentage));
         const rawValue = this.min + percentage * (this.max - this.min);
-        const steppedValue = Math.round(rawValue / this.step) * this.step;
+        const steppedValue = this.snapToStep(rawValue);
         const oldValue = this.value;
         this.value = Math.max(this.min, Math.min(this.max, steppedValue));
-        if (oldValue !== this.value) {
-            this.dispatchEvent(new CustomEvent('input', {
-                detail: { value: this.value },
-                bubbles: true,
-                composed: true,
-            }));
-        }
+        if (oldValue !== this.value)
+            this.emit('input');
     }
     onMouseDown(e) {
-        if (this.disabled)
+        if (!this.isInteractive)
             return;
         e.preventDefault();
         this.isDragging = true;
@@ -281,83 +386,124 @@ let Slider = class Slider extends mixinFormAssociated(mixinElementInternals(i$1)
         window.addEventListener('touchend', this.onMouseUp);
         window.addEventListener('touchcancel', this.onMouseUp);
     }
+    /**
+     * Rounds a value to the nearest step counted from `min`, like a native range input, so a slider
+     * with `min="1" step="5"` lands on 1, 6, 11. Rounds away float noise from fractional steps.
+     */
+    snapToStep(raw) {
+        if (!(this.step > 0))
+            return raw;
+        const stepped = this.min + Math.round((raw - this.min) / this.step) * this.step;
+        const decimals = Math.max((String(this.step).split('.')[1] ?? '').length, (String(this.min).split('.')[1] ?? '').length);
+        return Number(stepped.toFixed(decimals));
+    }
     handleKeyDown(e) {
-        if (this.disabled)
+        if (!this.isInteractive)
             return;
         const increment = e.shiftKey ? this.step * 10 : this.step;
-        let newValue = this.value;
+        const page = this.step * 10;
+        const current = this.value;
+        let newValue = current;
         if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-            newValue = Math.min(this.max, this.value + increment);
-            e.preventDefault();
+            newValue = Math.min(this.max, current + increment);
         }
         else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-            newValue = Math.max(this.min, this.value - increment);
-            e.preventDefault();
+            newValue = Math.max(this.min, current - increment);
+        }
+        else if (e.key === 'PageUp') {
+            newValue = Math.min(this.max, current + page);
+        }
+        else if (e.key === 'PageDown') {
+            newValue = Math.max(this.min, current - page);
         }
         else if (e.key === 'Home') {
             newValue = this.min;
-            e.preventDefault();
         }
         else if (e.key === 'End') {
             newValue = this.max;
-            e.preventDefault();
         }
-        if (newValue !== this.value) {
+        else {
+            return;
+        }
+        e.preventDefault();
+        if (newValue !== current) {
             this.value = newValue;
-            this.dispatchEvent(new CustomEvent('input', {
-                detail: { value: this.value },
-                bubbles: true,
-                composed: true,
-            }));
-            this.dispatchEvent(new CustomEvent('change', {
-                detail: { value: this.value },
-                bubbles: true,
-                composed: true,
-            }));
+            this.emit('input');
+            this.emit('change');
         }
     }
     // ── Render ───────────────────────────────────────────────────────────────
     render() {
-        const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
+        const { value } = this;
+        const range = this.max - this.min;
+        const percentage = range > 0 ? ((value - this.min) / range) * 100 : 0;
+        const placement = this.valuePlacement;
+        const formatted = this.formatValue(value);
+        const labelId = `${this.idPrefix}-label`;
+        const descriptionId = `${this.idPrefix}-description`;
+        const errorText = this.error ? this.errorText : this.validationText;
+        const invalid = this.error || !!errorText;
+        const description = errorText || this.helperText;
         return b `
-      <div class="slider ${this.showValue ? 'with-value' : ''}">
-        <div
-          class="slider-container ${this.disabled ? 'disabled' : ''}"
-          @mousedown=${this.onMouseDown}
-          @touchstart=${this.onMouseDown}
-        >
-          <div class="track">
-            <div
-              class="track-active"
-              style=${o({ width: `${percentage}%` })}
-            ></div>
-          </div>
-
+      <div
+        class=${e$1({
+            wrapper: true,
+            [`size-${this.size}`]: true,
+            disabled: this.disabled,
+            readonly: this.readonly,
+            error: invalid,
+        })}
+      >
+        ${this.label
+            ? b `<div class="label" id=${labelId}>${this.label}</div>`
+            : A}
+        <div class="slider ${placement.end ? 'with-value' : ''}">
           <div
-            class="thumb"
-            role="slider"
-            aria-label="Slider"
-            tabindex="${this.disabled ? -1 : 0}"
-            aria-valuemin=${this.min}
-            aria-valuemax=${this.max}
-            aria-valuenow=${this.value}
-            aria-disabled=${this.disabled}
-            style=${o({
+            class="slider-container ${this.disabled ? 'disabled' : ''}"
+            @mousedown=${this.onMouseDown}
+            @touchstart=${this.onMouseDown}
+          >
+            <div class="track">
+              <div
+                class="track-active"
+                style=${o({ width: `${percentage}%` })}
+              ></div>
+            </div>
+
+            <div
+              class="thumb"
+              role="slider"
+              aria-label=${this.label ? A : this.i18n.t('slider')}
+              aria-labelledby=${this.label ? labelId : A}
+              aria-describedby=${description ? descriptionId : A}
+              tabindex="${this.disabled ? -1 : 0}"
+              aria-valuemin=${this.min}
+              aria-valuemax=${this.max}
+              aria-valuenow=${value}
+              aria-valuetext=${this.valueText ? formatted : A}
+              aria-disabled=${this.disabled ? 'true' : A}
+              aria-readonly=${this.readonly ? 'true' : A}
+              aria-invalid=${invalid ? 'true' : A}
+              style=${o({
             left: `calc(${percentage}% - var(--thumb-half))`,
         })}
-            @keydown=${this.handleKeyDown}
-          >
-            ${this.labeled
-            ? b `<div class="value-label">${this.value}</div>`
+              @keydown=${this.handleKeyDown}
+            >
+              ${placement.thumb
+            ? b `<div class="value-label">${formatted}</div>`
             : ''}
+            </div>
           </div>
-        </div>
 
-        ${this.showValue
-            ? b `<output class="value-display" aria-live="polite"
-              >${this.value}</output
-            >`
+          ${placement.end
+            ? b `<output class="value-display" aria-hidden="true"
+                >${formatted}</output
+              >`
             : ''}
+        </div>
+        ${description
+            ? b `<div class="helper" id=${descriptionId}>${description}</div>`
+            : A}
       </div>
     `;
     }
@@ -370,17 +516,32 @@ __decorate([
     n({ type: Number })
 ], Slider.prototype, "max", void 0);
 __decorate([
-    n({ type: Number, reflect: true })
-], Slider.prototype, "value", void 0);
+    n({ type: Number })
+], Slider.prototype, "value", null);
 __decorate([
     n({ type: Number })
 ], Slider.prototype, "step", void 0);
 __decorate([
-    n({ type: Boolean })
-], Slider.prototype, "labeled", void 0);
+    n({ type: String })
+], Slider.prototype, "label", void 0);
 __decorate([
-    n({ type: Boolean, attribute: 'show-value' })
-], Slider.prototype, "showValue", void 0);
+    n({ type: String, attribute: 'helper-text' })
+], Slider.prototype, "helperText", void 0);
+__decorate([
+    n({ type: Boolean, reflect: true })
+], Slider.prototype, "error", void 0);
+__decorate([
+    n({ type: String, attribute: 'error-text' })
+], Slider.prototype, "errorText", void 0);
+__decorate([
+    n({ type: String, reflect: true })
+], Slider.prototype, "size", void 0);
+__decorate([
+    n({ type: String, attribute: 'value-label' })
+], Slider.prototype, "valueLabel", void 0);
+__decorate([
+    n({ attribute: false })
+], Slider.prototype, "valueText", void 0);
 __decorate([
     r()
 ], Slider.prototype, "isDragging", void 0);

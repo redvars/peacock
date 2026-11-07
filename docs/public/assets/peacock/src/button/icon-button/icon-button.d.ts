@@ -1,15 +1,16 @@
-import { LitElement, nothing } from 'lit';
-import type { ButtonColor, ButtonLevel, ButtonShape, ButtonSize, ButtonVariant } from '@/button/ButtonTypes.js';
-declare const IconButton_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("../base-button/base-button.js").BaseButton>;
+import { LitElement, nothing, type PropertyValues } from 'lit';
+import type { ButtonShape, ButtonSize } from '@/button/ButtonTypes.js';
+declare const IconButton_base: import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<import("../../__internal/mixins/mixin.js").MixinReturn<(abstract new (...args: any[]) => import("@/__internal/mixins/element-internals.js").WithElementInternals) & typeof LitElement & import("@/__internal/mixins/form-associated.js").FormAssociatedConstructor, import("@/__internal/mixins/form-associated.js").FormAssociated>, import("@/__internal/mixins/form-submitter.js").FormSubmitter>>, import("@/__internal/mixins/hyperlink.js").Hyperlink>, import("../base-button/base-button.js").BaseButton>, import("../base-button/base-button.js").ButtonLevelAppearance>;
 /**
  * @label Icon Button
  * @tag wc-icon-button
  * @rawTag icon-button
  *
- * @summary Icon buttons allow users to take actions, and make choices, with a single tap.
+ * @summary A button that shows only an icon, for compact actions such as close or more options; it can also toggle.
  *
  * @overview
- * <p>Icon buttons are clickable elements that are used to trigger actions. They communicate calls to action to the user and allow users to interact with pages in a variety of ways. IconButton labels express what action will occur when the user interacts with it.</p>
+ * <p>An icon button has no visible text, so give it an <code>aria-label</code>. Without one, its <code>tooltip</code> text is used as the accessible name; with neither, a warning is logged once.</p>
+ * <p><code>level</code> is a preset of <code>color</code> and <code>variant</code>, the same as on <code>wc-button</code>. Set <code>toggle</code> for a toggle button with <code>aria-pressed</code>; <code>selected</code> does nothing without it. Link mode (<code>href</code>) stays supported, for toolbar links.</p>
  *
  * @cssprop --button-container-shape: Defines the border radius of the button container shape.
  *
@@ -36,11 +37,12 @@ declare const IconButton_base: import("../../__internal/mixins/mixin.js").MixinR
  * @cssprop --neo-button-container-color: Color of the neo button container.
  * @cssprop --neo-button-label-text-color: Text color of the neo button label.
  *
- * @fires {CustomEvent} button:click - Dispatched when the button is clicked.
+ * @fires {MouseEvent} click - Dispatched when the button is clicked. Not dispatched while `loading`, `soft-disabled` or `skeleton`.
+ * @fires {CustomEvent<{ selected: boolean }>} change - Dispatched by a `toggle` button after a click flips `selected`.
  *
  * @example
  * ```html
- * <wc-icon-button><wc-icon name="home"></wc-icon></wc-icon-button>
+ * <wc-icon-button aria-label="Home"><wc-icon name="home"></wc-icon></wc-icon-button>
  * ```
  * @tags display
  */
@@ -52,45 +54,35 @@ export declare class IconButton extends IconButton_base {
      * Possible values are `"xs"`, `"sm"`, `"md"`, `"lg"`, `"xl"`. Defaults to `"sm"`.
      */
     size: ButtonSize;
-    /**
-     * Type is preset of color and variant. Type will be only applied.
-     *
-     */
-    level?: ButtonLevel;
     /** Shape of the button container. */
     shape?: ButtonShape;
-    /**
-     * The visual style of the button.
-     *
-     *  Possible variant values:
-     * `"filled"` is a filled button.
-     * `"outlined"` is an outlined button.
-     * `"text"` is a transparent button.
-     * `"tonal"` is a light color button.
-     * `"elevated"` is elevated button
-     */
-    variant: ButtonVariant;
-    /**
-     * Defines the primary color of the button. This can be set to predefined color names to apply specific color themes.
-     */
-    color: ButtonColor;
-    /** When true, renders the button in a loading skeleton state. */
+    /** When true, renders the button as a placeholder skeleton while the page loads. */
     skeleton: boolean;
-    /** When true, the button acts as a toggle. Use with `selected`. */
+    /**
+     * When true, the button is busy: it shows a spinner in place of its icon, sets
+     * `aria-busy="true"` and ignores clicks, like `soft-disabled`.
+     */
+    loading: boolean;
+    /**
+     * When true, the button is a toggle button: it renders `aria-pressed`, flips `selected` on click
+     * and fires `change`.
+     */
     toggle: boolean;
-    /** When true (and `toggle` is set), the button is in the selected/pressed state. */
+    /** The pressed state of a `toggle` button. Has no effect without `toggle`. */
     selected: boolean;
-    /** Optional tooltip text displayed on hover. */
+    /**
+     * Tooltip text displayed on hover. Also the accessible name when no `aria-label` is set.
+     */
     tooltip?: string;
     readonly buttonElement: HTMLElement | null;
     constructor();
-    __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
+    firstUpdated(changedProperties: PropertyValues<this>): void;
     focus(): void;
     blur(): void;
-    firstUpdated(changedProperties: Map<PropertyKey, unknown>): void;
-    __convertTypeToVariantAndColor(): void;
+    __dispatchClick: (event: MouseEvent | KeyboardEvent) => void;
     renderDisabledReason(softDisabled: boolean): typeof nothing | import("lit-html").TemplateResult<1>;
     renderTooltip(): typeof nothing | import("lit-html").TemplateResult<1>;
+    renderLoadingIndicator(): typeof nothing | import("lit-html").TemplateResult<1>;
     renderButtonContent(): import("lit-html").TemplateResult<1>;
     renderButtonElement(): import("lit-html").TemplateResult<1>;
     render(): import("lit-html").TemplateResult<1>;

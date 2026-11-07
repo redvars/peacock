@@ -1,7 +1,6 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
 import { fixture, expect, aTimeout } from '@open-wc/testing';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 import type { HtmlEditor } from '../src/html-editor/index.js';
 
 // wc-code-editor is left undefined so Monaco is not loaded; the tests talk to the source view
@@ -36,20 +35,6 @@ type MentionRequester = {
 
 function sourceEditor(el: HtmlEditor): HTMLElement {
   return el.shadowRoot?.querySelector('wc-code-editor') as HTMLElement;
-}
-
-/** Collects the console warnings logged while `run` runs. */
-async function warningsOf(run: () => Promise<void>): Promise<string[]> {
-  resetDeprecationWarnings();
-  const warnings: string[] = [];
-  const { warn } = console;
-  console.warn = (message: string) => warnings.push(message);
-  try {
-    await run();
-  } finally {
-    console.warn = warn;
-  }
-  return warnings;
 }
 
 describe('HtmlEditor', () => {
@@ -116,18 +101,6 @@ describe('HtmlEditor', () => {
       .exist;
   });
 
-  it('still hides the toolbar with the deprecated showToolbar = false', async () => {
-    const warnings = await warningsOf(async () => {
-      const el = await fixture<HtmlEditor>(
-        html`<wc-html-editor .showToolbar=${false}></wc-html-editor>`,
-      );
-      await el.updateComplete;
-      expect(el.shadowRoot?.querySelector('.html-editor-toolbar')).to.not.exist;
-    });
-    expect(warnings.some(message => message.includes('hide-toolbar'))).to.be
-      .true;
-  });
-
   it('fires mention-search and resolves with the mentions set in response', async () => {
     const el = await fixture<HtmlEditor>(
       html`<wc-html-editor mentions-search="managed"></wc-html-editor>`,
@@ -143,30 +116,6 @@ describe('HtmlEditor', () => {
     )._requestManagedMentions('al');
     expect(query).to.equal('al');
     expect(values).to.deep.equal(['alex']);
-  });
-
-  it('still answers the deprecated search callback, with a warning', async () => {
-    const el = await fixture<HtmlEditor>(
-      html`<wc-html-editor mentions-search="managed"></wc-html-editor>`,
-    );
-    el.addEventListener('search', event => {
-      const { callback } = (
-        event as CustomEvent<{
-          callback: (mentions: { label: string; value: string }[]) => void;
-        }>
-      ).detail;
-      callback([{ label: 'Sam', value: 'sam' }]);
-    });
-
-    let values: string[] = [];
-    const warnings = await warningsOf(async () => {
-      values = await (
-        el as unknown as MentionRequester
-      )._requestManagedMentions('s');
-    });
-    expect(values).to.deep.equal(['sam']);
-    expect(warnings.some(message => message.includes('mention-search'))).to.be
-      .true;
   });
 
   it('reflects size and passes it to the source editor', async () => {

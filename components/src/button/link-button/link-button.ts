@@ -16,7 +16,6 @@ import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
 import { ARIAMixinStrict } from '@/__internal/aria/aria.js';
 import { mixinElementInternals } from '@/__internal/mixins/element-internals.js';
 import { mixinHyperlink } from '@/__internal/mixins/hyperlink.js';
-import { migrateLegacySize } from '@/__internal/utils/size.js';
 import {
   mixinBaseButton,
   mixinButtonLevel,
@@ -30,8 +29,6 @@ import {
  * @summary A link that looks like a button, for navigation that should read as a call to action.
  * @overview
  * <p>The link button renders a native <code>&lt;a&gt;</code> with the button's look: the same <code>variant</code>, <code>color</code>, <code>level</code>, <code>size</code>, <code>shape</code> and icon slot as <code>wc-button</code>. Use it when activating the control navigates (<code>href</code>, <code>target</code>, <code>rel</code>, <code>download</code>); use <code>wc-button</code> when it performs an action or submits a form.</p>
- * <p>It replaces <code>wc-button href</code>, which is deprecated and will be removed in 4.0.</p>
- *
  * @cssprop --button-container-shape - Defines the border radius of the button container shape.
  * @cssprop --filled-button-container-color - Color of the filled button container.
  * @cssprop --filled-button-label-text-color - Text color of the filled button label.
@@ -113,14 +110,6 @@ export class LinkButton extends mixinButtonLevel(
     this.__iconSlotCleanup = null;
     this.__labelSlotCleanup = null;
     super.disconnectedCallback();
-  }
-
-  override willUpdate(changedProperties: PropertyValues<this>) {
-    super.willUpdate(changedProperties);
-    if (changedProperties.has('size')) {
-      const size = migrateLegacySize('wc-link-button', this.size);
-      if (size) this.size = size;
-    }
   }
 
   override firstUpdated(changedProperties: PropertyValues<this>) {

@@ -91,20 +91,15 @@ describe('BottomSheet', () => {
     await settle(el);
   });
 
-  it('closes on Escape with reason escape and the legacy esc reason', async () => {
+  it('closes on Escape with reason escape', async () => {
     const el = await fixture<BottomSheet>(
       html`<wc-bottom-sheet open>Body</wc-bottom-sheet>`,
     );
     await el.updateComplete;
 
-    let legacyReason = '';
-    el.addEventListener('bottom-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(pressEscape);
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('escape');
-    expect(legacyReason).to.equal('esc');
     await settle(el);
     expect(document.documentElement.style.overflow).to.equal('');
   });
@@ -120,14 +115,9 @@ describe('BottomSheet', () => {
     expect(el.open).to.equal(true);
 
     el.noLightDismiss = false;
-    let legacyReason = '';
-    el.addEventListener('bottom-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => scrim(el).click());
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('light-dismiss');
-    expect(legacyReason).to.equal('scrim');
   });
 
   it('fires close with api for hide()', async () => {
@@ -135,14 +125,9 @@ describe('BottomSheet', () => {
       html`<wc-bottom-sheet open>Body</wc-bottom-sheet>`,
     );
     await el.updateComplete;
-    let legacyReason = '';
-    el.addEventListener('bottom-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => el.hide());
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('api');
-    expect(legacyReason).to.equal('programmatic');
   });
 
   it('focuses an autofocus element, fires open, and returns focus on close', async () => {
@@ -193,15 +178,10 @@ describe('BottomSheet', () => {
     button.focus();
     expect(el.shadowRoot?.activeElement).to.equal(button);
 
-    let legacyReason = '';
-    el.addEventListener('bottom-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     // Enter and Space on a focused native button activate it as a click.
     setTimeout(() => button.click());
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('action');
-    expect(legacyReason).to.equal('drag');
   });
 
   it('closes when the handle is dragged down far enough, and not on a short drag', async () => {
@@ -220,10 +200,6 @@ describe('BottomSheet', () => {
     expect(el.open).to.equal(true);
     expect(sheet(el).style.transform).to.equal('');
 
-    let legacyReason = '';
-    el.addEventListener('bottom-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => {
       button.dispatchEvent(pointer('pointerdown', 100));
       button.dispatchEvent(pointer('pointermove', 250));
@@ -231,7 +207,6 @@ describe('BottomSheet', () => {
     });
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('action');
-    expect(legacyReason).to.equal('drag');
   });
 
   it('hides the handle with hide-handle', async () => {

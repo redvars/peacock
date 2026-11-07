@@ -7,22 +7,6 @@ import { ChartArea } from '../src/chart-area/index.js';
 import { ChartPie } from '../src/chart-pie/index.js';
 import { ChartDoughnut } from '../src/chart-doughnut/index.js';
 import type { ChartSelectDetail } from '../src/__internal/chart/types.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
-
-/** Replaces console.warn and records its messages. */
-function stubWarn() {
-  const original = console.warn;
-  const messages: string[] = [];
-  console.warn = (...args: unknown[]) => {
-    messages.push(args.map(String).join(' '));
-  };
-  return {
-    messages,
-    restore() {
-      console.warn = original;
-    },
-  };
-}
 
 for (const [tag, element] of [
   ['wc-chart-bar', ChartBar],
@@ -206,66 +190,22 @@ describe('wc-chart-bar', () => {
     expect(root(el).querySelector('.legend')).to.equal(null);
   });
 
-  it('keeps show-legend and hide-legend working with a deprecation warning', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const single = { desktop: { label: 'Desktop' } };
-      const el = await mount<ChartBar>(
-        html`<wc-chart-bar
-          disable-animation
-          show-legend
-          category-key="month"
-          .config=${single}
-          .data=${data}
-        ></wc-chart-bar>`,
-      );
-      expect(root(el).querySelector('.legend')).to.not.equal(null);
-      const other = await mount<ChartBar>(
-        html`<wc-chart-bar
-          disable-animation
-          hide-legend
-          category-key="month"
-          .config=${config}
-          .data=${data}
-        ></wc-chart-bar>`,
-      );
-      expect(root(other).querySelector('.legend')).to.equal(null);
-      // An explicit legend wins over the deprecated booleans.
-      other.legend = 'show';
-      await settle(other);
-      expect(root(other).querySelector('.legend')).to.not.equal(null);
-      expect(warn.messages.some(m => m.includes('show-legend'))).to.equal(true);
-      expect(warn.messages.some(m => m.includes('hide-legend'))).to.equal(true);
-    } finally {
-      warn.restore();
-    }
-  });
-
-  it('keeps the deprecated index attribute working as the category field', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const el = await mount<ChartBar>(
-        html`<wc-chart-bar
-          disable-animation
-          index="month"
-          .config=${config}
-          .data=${data}
-        ></wc-chart-bar>`,
-      );
-      const categories = [
-        ...root(el).querySelectorAll('.category-axis text'),
-      ].map(t => t.textContent);
-      expect(categories).to.deep.equal(['Jan', 'Feb', 'Mar', 'Apr']);
-      expect(
-        warn.messages.some(
-          m => m.includes('index') && m.includes('category-key'),
-        ),
-      ).to.equal(true);
-    } finally {
-      warn.restore();
-    }
+  it('ignores the removed show-legend, hide-legend and index attributes', async () => {
+    const single = { desktop: { label: 'Desktop' } };
+    const el = await mount<ChartBar>(
+      html`<wc-chart-bar
+        disable-animation
+        show-legend
+        index="month"
+        .config=${single}
+        .data=${data}
+      ></wc-chart-bar>`,
+    );
+    expect(root(el).querySelector('.legend')).to.equal(null);
+    const categories = [
+      ...root(el).querySelectorAll('.category-axis text'),
+    ].map(t => t.textContent);
+    expect(categories).to.not.include('Jan');
   });
 
   it('mirrors Left and Right in RTL', async () => {
@@ -321,7 +261,7 @@ describe('wc-chart-bar', () => {
     expect(root(el).querySelector('.tooltip')).to.equal(null);
   });
 
-  it('fires select, then the deprecated chart-select, on Enter', async () => {
+  it('fires select on Enter', async () => {
     const el = await mount<ChartBar>(
       html`<wc-chart-bar
         disable-animation
@@ -332,12 +272,6 @@ describe('wc-chart-bar', () => {
     );
     await press(el, 'ArrowRight');
     await press(el, 'ArrowRight');
-    const order: string[] = [];
-    let legacy: CustomEvent<ChartSelectDetail> | undefined;
-    el.addEventListener('chart-select', e => {
-      order.push('chart-select');
-      legacy = e as CustomEvent<ChartSelectDetail>;
-    });
     setTimeout(() =>
       plot(el).dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' })),
     );
@@ -345,13 +279,10 @@ describe('wc-chart-bar', () => {
       el,
       'select',
     )) as CustomEvent<ChartSelectDetail>;
-    order.unshift('select');
     expect(event.bubbles).to.equal(true);
     expect(event.composed).to.equal(true);
     expect(event.detail.index).to.equal(1);
     expect(event.detail.datum).to.equal(data[1]);
-    expect(order).to.deep.equal(['select', 'chart-select']);
-    expect(legacy?.detail).to.deep.equal(event.detail);
   });
 
   it('draws horizontal bars with values', async () => {
@@ -546,26 +477,11 @@ describe('wc-chart-pie', () => {
     expect(root(el).querySelector('.legend')).to.equal(null);
   });
 
-  it('keeps inner-radius working on a pie with a deprecation warning', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const el = await mount<ChartPie>(
-        html`<wc-chart-pie
-          disable-animation
-          inner-radius="0.5"
-          .data=${slices}
-        ></wc-chart-pie>`,
-      );
-      expect(el.innerRadius).to.equal(0.5);
-      expect(
-        warn.messages.some(
-          m => m.includes('wc-chart-pie') && m.includes('inner-radius'),
-        ),
-      ).to.equal(true);
-    } finally {
-      warn.restore();
-    }
+  it('has no inner-radius: a pie has no hole', async () => {
+    const el = await mount<ChartPie>(
+      html`<wc-chart-pie disable-animation .data=${slices}></wc-chart-pie>`,
+    );
+    expect('innerRadius' in el).to.equal(false);
   });
 
   it('shows value and share in the tooltip', async () => {
@@ -606,27 +522,19 @@ describe('wc-chart-doughnut', () => {
     );
   });
 
-  it('owns inner-radius without a warning and drops the centre at 0', async () => {
-    resetDeprecationWarnings();
-    const warn = stubWarn();
-    try {
-      const el = await mount<ChartDoughnut>(
-        html`<wc-chart-doughnut
-          disable-animation
-          inner-radius="0.5"
-          .data=${slices}
-        ></wc-chart-doughnut>`,
-      );
-      expect(root(el).querySelector('.center')).to.not.equal(null);
-      el.innerRadius = 0;
-      await settle(el);
-      expect(root(el).querySelector('.center')).to.equal(null);
-      expect(warn.messages.some(m => m.includes('inner-radius'))).to.equal(
-        false,
-      );
-    } finally {
-      warn.restore();
-    }
+  it('owns inner-radius and drops the centre at 0', async () => {
+    const el = await mount<ChartDoughnut>(
+      html`<wc-chart-doughnut
+        disable-animation
+        inner-radius="0.5"
+        .data=${slices}
+      ></wc-chart-doughnut>`,
+    );
+    expect(el.innerRadius).to.equal(0.5);
+    expect(root(el).querySelector('.center')).to.not.equal(null);
+    el.innerRadius = 0;
+    await settle(el);
+    expect(root(el).querySelector('.center')).to.equal(null);
   });
 
   it('drops a hidden slice from the total', async () => {

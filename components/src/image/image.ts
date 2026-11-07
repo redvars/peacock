@@ -1,7 +1,6 @@
-import { LitElement, PropertyValues, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import { isDarkMode } from '@/__internal/utils/is-dark-mode.js';
 import { observeThemeChange } from '@/__internal/utils/observe-theme-change.js';
 
@@ -13,7 +12,16 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  * @label Image
  * @tag wc-image
  * @rawTag image
- * @summary An image component with lazy loading and theme support.
+ * @summary An image that loads as it nears the viewport, with an optional dark-theme source and a click-to-enlarge preview.
+ *
+ * @overview
+ * <p>Until the image is within 200px of the viewport a placeholder is shown in its place; then
+ * the <code>&lt;img&gt;</code> is rendered. Set <code>alt</code> as on a native image, or leave it
+ * empty for a decorative one.</p>
+ * <p><code>dark-src</code> is used instead of <code>src</code> while the theme is dark; when the
+ * theme changes the image loads again from the matching source.</p>
+ * <p>With <code>preview</code>, clicking the image opens it in a modal dialog labelled from
+ * Peacock's strings. Clicking the backdrop closes it.</p>
  * @tags media
  *
  * @example
@@ -33,9 +41,6 @@ export class Image extends LitElement {
 
   /** Text alternative for the image, as on a native `<img>`. Leave empty for a decorative image. */
   @property() alt = '';
-
-  /** @deprecated Use `alt`. Still works through 3.x. */
-  @property({ attribute: 'image-title' }) imageTitle = '';
 
   /** Enable click-to-preview lightbox */
   @property({ type: Boolean, reflect: true }) preview = false;
@@ -77,12 +82,6 @@ export class Image extends LitElement {
     this._themeCleanup?.();
   }
 
-  protected willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('imageTitle') && this.imageTitle) {
-      deprecate('wc-image', '`image-title`', '`alt`');
-    }
-  }
-
   firstUpdated() {
     this._setupIntersectionObserver();
   }
@@ -104,11 +103,6 @@ export class Image extends LitElement {
     );
 
     this._intersectionObserver.observe(wrapper);
-  }
-
-  /** `alt`, else the deprecated `image-title`. */
-  private get _alt(): string {
-    return this.alt || this.imageTitle;
   }
 
   private get _activeSrc(): string {
@@ -134,7 +128,7 @@ export class Image extends LitElement {
         ${this._loaded
           ? html`<img
               src=${this._activeSrc}
-              alt=${this._alt}
+              alt=${this.alt}
               class=${this.preview ? 'clickable' : ''}
               @click=${this._handleClick}
             />`
@@ -149,7 +143,7 @@ export class Image extends LitElement {
       >
         <img
           src=${this._activeSrc}
-          alt=${this._alt}
+          alt=${this.alt}
           @click=${(e: Event) => e.stopPropagation()}
         />
       </dialog>

@@ -8,7 +8,7 @@ import styles from './popover-content.scss';
  * @label Popover Content
  * @tag wc-popover-content
  * @rawTag popover-content
- * @summary Content container for the wc-popover component.
+ * @summary The floating panel of a popover, with an optional heading and an arrow pointing at the trigger.
  * @overview
  * <p>The panel of a <code>wc-popover</code>. The popover shows it in the browser's top layer, gives it
  * <code>role="dialog"</code> and names it from the popover's <code>label</code> or from the element in the

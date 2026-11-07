@@ -8,7 +8,7 @@ import IndividualComponent from '@/IndividualComponent.js';
  * @label Badge
  * @tag wc-badge
  * @rawTag badge
- * @summary The badge component is used to display a small amount of information to the user.
+ * @summary A small count or dot on an icon or a label, such as the number of unread messages.
  * @overview
  * <p>A badge shows a count, or with <code>dot</code> (or no <code>value</code>) a small dot. A
  * number above <code>max</code> (default 99) shows as <code>99+</code>.</p>

@@ -5,11 +5,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 ---
 
 <p>
-  <code>views</code> lists named filter sets, <code>{ id, label, value }</code>, in a views menu
+  <code>views</code> lists named filter sets, <code>{'{ id, label, value }'}</code>, in a views menu
   with "All". Picking one sets <code>view</code> to its id (<code>''</code> for "All"), replaces
   <code>value</code> with the view's value and fires <code>view-change</code> with
-  <code>{ id }</code>, then <code>change</code>. With <code>saveable</code> the menu also has
-  "Save view", which fires <code>view-save</code> with the current <code>{ value }</code>: store
+  <code>{'{ value }'}</code> (the view's id), then <code>change</code>. With <code>saveable</code> the menu also has
+  "Save view", which fires <code>view-save</code> with the current <code>{'{ value }'}</code>: store
   it and add it to <code>views</code>. <code>view</code> stays as it is when the person edits the
   filters afterwards; clear it yourself if your app shows edited views differently.
 </p>
@@ -36,7 +36,7 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
       { id: 'mine', label: 'My open issues', value: { status: 'open', owner: 'Ada' } },
       { id: 'archive', label: 'Archive', value: { archived: true } },
     ];
-    $views.addEventListener('view-change', event => console.log('view-change', event.detail.id));
+    $views.addEventListener('view-change', event => console.log('view-change', event.detail.value));
     $views.addEventListener('view-save', event => {
       const label = window.prompt('Name this view');
       if (!label) return;

@@ -18,10 +18,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <wc-slider id='slider' value='60' step='1'></wc-slider>
 </DemoComponentCard>
 
-<p>Enable a persistent value display with <code>show-value</code>.</p>
+<p>Show the value after the track with <code>value-label="end"</code>.</p>
 
 <DemoComponentCard lang={'html'}>
-  <wc-slider id='slider-with-value' value='25' min='0' max='100' step='1' show-value></wc-slider>
+  <wc-slider id='slider-with-value' value='25' min='0' max='100' step='1' value-label='end'></wc-slider>
 </DemoComponentCard>
 
 <script is:inline>

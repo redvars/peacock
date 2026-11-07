@@ -38,27 +38,6 @@
     }
   }
 
-  .dismiss-button {
-    position: relative;
-    border-radius: var(--shape-corner-full);
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: transparent;
-    line-height: 0;
-    cursor: pointer;
-
-    .dismiss-button-icon {
-      --icon-size: var(--tag-icon-size, var(--_tag-icon-size));
-      --icon-color: var(--_input-text-color);
-    }
-
-    .ripple {
-      --ripple-state-opacity: var(--_container-state-opacity, 0);
-      --ripple-pressed-color: var(--_container-state-color);
-    }
-  }
-
   /**
    * Tag background layers
    */
@@ -89,10 +68,6 @@
     border-radius: var(--_container-shape);
     corner-shape: var(--_container-corner-shape-variant);
   }
-
-  &.dismissible .tag-content {
-    padding-inline-end: .25rem;
-  }
 }
 
 slot::slotted(*) {
@@ -107,40 +82,19 @@ slot::slotted(*) {
   --_container-color: var(--elevated-tag-container-color);
   --_input-text-color: var(--elevated-tag-label-text-color);
   --_container-elevation-level: 1;
-
-  --_container-state-color: var(--_input-text-color);
-  .dismiss-button:hover {
-    --_container-state-opacity: 0.08;
-  }
-
 }
 
 .tag.variant-filled {
   --_container-color: var(--filled-tag-container-color);
   --_input-text-color: var(--filled-tag-label-text-color);
-
-  --_container-state-color: var(--_input-text-color);
-  .dismiss-button:hover {
-    --_container-state-opacity: 0.08;
-  }
 }
 
 .tag.variant-tonal {
   --_container-color: var(--tonal-tag-container-color);
   --_input-text-color: var(--tonal-tag-label-text-color);
-
-  --_container-state-color: var(--_input-text-color);
-  .dismiss-button:hover {
-    --_container-state-opacity: 0.08;
-  }
 }
 
 .tag.variant-outlined {
   --_outline-color: var(--outlined-tag-outline-color);
   --_input-text-color: var(--outlined-tag-label-text-color);
-
-  --_container-state-color: var(--_input-text-color);
-  .dismiss-button:hover {
-    --_container-state-opacity: 0.08;
-  }
 }

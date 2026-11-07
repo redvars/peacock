@@ -39,7 +39,7 @@ export function resetPaginationWarnings(): void {
  * <p>Three variants cover different data sets: <code>full</code> lists page numbers with ellipses, <code>compact</code> shows "Page [n] of N" with a field to jump to a page, and <code>simple</code> shows previous and next only. When <code>total-items</code> is not set, the total is unknown (cursor-based APIs): the control shows previous and next, and <code>has-next</code> says whether another page exists.</p>
  * <p>On a narrow container the <code>full</code> variant collapses to <code>compact</code>.</p>
  *
- * @fires {CustomEvent} page - Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.
+ * @fires {CustomEvent<{page: number, pageSize: number}>} page -Dispatched when the page or page size changes. Detail: `{ page, pageSize }`.
  *
  * @cssprop --pagination-background - Background of the control. Defaults to the surface color.
  *

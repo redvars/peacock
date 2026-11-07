@@ -2,7 +2,7 @@
 import Layout from './Base.astro';
 import SideNavigation from '../components/navigation/SideNavigation.astro';
 import MobileNavigation from '../components/navigation/MobileNavigation.astro';
-import PagefindModal from '../components/navigation/PagefindModal.astro';
+import SiteSearch from '../components/navigation/SiteSearch.astro';
 import '../styles/layout/default.scss';
 
 interface Props {
@@ -40,7 +40,7 @@ const {
 
   <wc-notification-manager placement='bottom-end' class="page-notification-manager"></wc-notification-manager>
 
-  <PagefindModal />
+  <SiteSearch />
 
 
   <!-- Scripts -->

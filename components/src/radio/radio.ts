@@ -16,9 +16,8 @@ type RadioDirection = 1 | -1;
  * @label Radio
  * @tag wc-radio
  * @rawTag radio
- * @summary Allows selection of a single option from a set.
+ * @summary A round button for choosing one option from a set; radios that share a name form a group.
  * @overview
- * <p>Radio buttons follow the specifications with clear focus, hover, and selected states.</p>
  * <p>Radios that share a <code>name</code> form a group. Wrap them in <code>wc-radio-group</code> to get a
  * group label and a single <code>change</code> event for the whole set.</p>
  * <p>The radio is form-associated: the checked radio submits its <code>value</code> under its <code>name</code>.

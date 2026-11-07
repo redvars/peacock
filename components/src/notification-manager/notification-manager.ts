@@ -1,10 +1,9 @@
-import { LitElement, html, nothing, type PropertyValues } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { repeat } from 'lit/directives/repeat.js';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type { CloseReason } from '@/__internal/controllers/overlay-controller.js';
 import type { SnackbarIntent } from '@/snackbar/snackbar.js';
 import styles from './notification-manager.scss';
@@ -18,12 +17,6 @@ export type ToastPlacement =
   | 'bottom-center'
   | 'bottom-end';
 
-/** The physical `position` values from before `placement` (deprecated). */
-type LegacyPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-
-/** The meaning values `variant` took before `intent` (deprecated). */
-type LegacyVariant = 'success' | 'error' | 'info' | 'warning';
-
 const PLACEMENTS: ToastPlacement[] = [
   'top-start',
   'top-center',
@@ -33,29 +26,11 @@ const PLACEMENTS: ToastPlacement[] = [
   'bottom-end',
 ];
 
-const LEGACY_POSITIONS: Record<LegacyPosition, ToastPlacement> = {
-  'top-right': 'top-end',
-  'top-left': 'top-start',
-  'bottom-right': 'bottom-end',
-  'bottom-left': 'bottom-start',
-};
-
-const LEGACY_VARIANTS: Record<LegacyVariant, SnackbarIntent> = {
-  success: 'success',
-  error: 'danger',
-  info: 'info',
-  warning: 'warning',
-};
-
 const INTENTS: SnackbarIntent[] = ['info', 'success', 'warning', 'danger'];
 
 /** The window event that shows a toast, and the one that hides toasts. */
 const TOAST_EVENT = 'peacock-toast';
 const TOAST_DISMISS_EVENT = 'peacock-toast-dismiss';
-
-/** The names they had before (deprecated); `notification-dismiss` collided with wc-notification's own event. */
-const LEGACY_TOAST_EVENT = 'notification';
-const LEGACY_TOAST_DISMISS_EVENT = 'notification-dismiss';
 
 /** What a toast shows; the `detail` of a `peacock-toast` window event, or the argument of `show()`. */
 export interface ToastOptions {
@@ -67,14 +42,10 @@ export interface ToastOptions {
   action?: string;
   /** `info` (default), `success`, `warning` or `danger`. */
   intent?: SnackbarIntent;
-  /** @deprecated Use `intent`; `error` is `danger`. */
-  variant?: LegacyVariant;
   /** Shows a close button. */
   dismissible?: boolean;
   /** Milliseconds before the toast hides itself; `0` keeps it. Default 5000. */
   duration?: number;
-  /** @deprecated Use `duration`. */
-  timeout?: number;
   /** CSS width of the toast, for example `24rem`. */
   width?: string;
   /** Name of the manager that shows it; unset, the manager named `global`. Window events only. */
@@ -106,9 +77,6 @@ function nextId(): string {
 
 function resolveIntent(options: ToastOptions): SnackbarIntent {
   if (options.intent && INTENTS.includes(options.intent)) return options.intent;
-  if (options.variant && options.variant in LEGACY_VARIANTS) {
-    return LEGACY_VARIANTS[options.variant];
-  }
   return 'info';
 }
 
@@ -130,14 +98,9 @@ function resolveIntent(options: ToastOptions): SnackbarIntent {
  * options plus <code>target</code> (the manager's <code>name</code>; unset goes to the manager named
  * <code>global</code>) and <code>callback(id)</code>. Hide toasts with <code>manager.hide(id)</code> or a
  * <code>peacock-toast-dismiss</code> window event with <code>detail.notifications</code>, an array of ids.</p>
- * <p>Deprecated: the window events <code>notification</code> and <code>notification-dismiss</code> (the
- * second collided with <code>wc-notification</code>'s own event), <code>position</code>, and the toast
- * options <code>variant</code> and <code>timeout</code>.</p>
  *
  * @fires {CustomEvent<{id: string, reason: 'timeout' | 'action' | 'escape' | 'api'}>} close - Fired when a toast starts to close.
  * @fires {CustomEvent<{id: string}>} action - Fired when the action button of a toast is pressed.
- * @fires {CustomEvent<{id: string}>} notification-manager-action - Deprecated, use `action`.
- * @fires {CustomEvent<{id: string}>} notification-manager-dismiss - Deprecated, use `close`. Fired when a toast's close button is pressed or Escape closes it.
  *
  * @cssprop --notification-manager-offset - Distance of the toast stack from the viewport edges.
  * @cssprop --z-index-notification-manager - Stacking order in browsers without the Popover API.
@@ -173,12 +136,6 @@ export class NotificationManager extends LitElement {
    * `bottom-center` or `bottom-end` (the default).
    */
   @property({ type: String, reflect: true }) placement?: ToastPlacement;
-
-  /**
-   * @deprecated Use `placement`: `top-right` is `top-end`, `top-left` `top-start`,
-   * `bottom-right` `bottom-end`, `bottom-left` `bottom-start`.
-   */
-  @property({ type: String }) position?: LegacyPosition;
 
   // ── State ────────────────────────────────────────────────────────────────
 
@@ -218,14 +175,6 @@ export class NotificationManager extends LitElement {
       return;
     }
 
-    if (event.type === LEGACY_TOAST_EVENT) {
-      deprecate(
-        'wc-notification-manager',
-        'the `notification` window event',
-        '`peacock-toast`',
-      );
-    }
-
     evt.stopPropagation();
     detail.processed = true;
 
@@ -238,15 +187,7 @@ export class NotificationManager extends LitElement {
   private readonly handleWindowDismiss = (event: Event) => {
     const { detail } = event as CustomEvent<ToastDismissDetail | null>;
     const ids = detail?.notifications;
-    // wc-notification's own `notification-dismiss` also reaches the window, without ids.
     if (!Array.isArray(ids)) return;
-    if (event.type === LEGACY_TOAST_DISMISS_EVENT) {
-      deprecate(
-        'wc-notification-manager',
-        'the `notification-dismiss` window event',
-        '`peacock-toast-dismiss`',
-      );
-    }
     ids.forEach(id => this.hide(id));
   };
 
@@ -255,9 +196,7 @@ export class NotificationManager extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener(TOAST_EVENT, this.handleWindowToast);
-    window.addEventListener(LEGACY_TOAST_EVENT, this.handleWindowToast);
     window.addEventListener(TOAST_DISMISS_EVENT, this.handleWindowDismiss);
-    window.addEventListener(LEGACY_TOAST_DISMISS_EVENT, this.handleWindowDismiss);
     this.closedObserver.observe(this.renderRoot, {
       attributes: true,
       attributeFilter: ['open'],
@@ -267,21 +206,10 @@ export class NotificationManager extends LitElement {
 
   disconnectedCallback() {
     window.removeEventListener(TOAST_EVENT, this.handleWindowToast);
-    window.removeEventListener(LEGACY_TOAST_EVENT, this.handleWindowToast);
     window.removeEventListener(TOAST_DISMISS_EVENT, this.handleWindowDismiss);
-    window.removeEventListener(
-      LEGACY_TOAST_DISMISS_EVENT,
-      this.handleWindowDismiss,
-    );
     this.closedObserver.disconnect();
     this.syncRegion();
     super.disconnectedCallback();
-  }
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('position') && this.position) {
-      deprecate('wc-notification-manager', '`position`', '`placement`');
-    }
   }
 
   protected override updated(changed: Map<PropertyKey, unknown>) {
@@ -299,12 +227,6 @@ export class NotificationManager extends LitElement {
 
   /** Queues a toast and returns its id. */
   show(options: ToastOptions = {}): string {
-    if (options.variant !== undefined) {
-      deprecate('wc-notification-manager', 'the toast option `variant`', '`intent`');
-    }
-    if (options.timeout !== undefined) {
-      deprecate('wc-notification-manager', 'the toast option `timeout`', '`duration`');
-    }
     const toast: ToastEntry = {
       id: nextId(),
       title: options.title ?? '',
@@ -312,7 +234,7 @@ export class NotificationManager extends LitElement {
       action: options.action,
       intent: resolveIntent(options),
       dismissible: options.dismissible ?? false,
-      duration: options.duration ?? options.timeout ?? 5000,
+      duration: options.duration ?? 5000,
       width: options.width,
     };
     this.toasts = [...this.toasts, toast];
@@ -329,13 +251,10 @@ export class NotificationManager extends LitElement {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  /** `placement`, else the deprecated `position`, else `bottom-end`. */
+  /** `placement`, else `bottom-end`. */
   private get resolvedPlacement(): ToastPlacement {
     if (this.placement && PLACEMENTS.includes(this.placement)) {
       return this.placement;
-    }
-    if (this.position && this.position in LEGACY_POSITIONS) {
-      return LEGACY_POSITIONS[this.position];
     }
     return 'bottom-end';
   }
@@ -371,23 +290,10 @@ export class NotificationManager extends LitElement {
     );
   }
 
-  private handleLegacyToastClose(id: string, event: Event) {
-    event.stopPropagation();
-    const { reason } = (event as CustomEvent<{ reason: string }>).detail;
-    if (reason !== 'dismiss') return;
-    this.dispatchEvent(
-      new CustomEvent('notification-manager-dismiss', {
-        detail: { id },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
-  private handleToastAction(id: string, event: Event, legacy: boolean) {
+  private handleToastAction(id: string, event: Event) {
     event.stopPropagation();
     this.dispatchEvent(
-      new CustomEvent(legacy ? 'notification-manager-action' : 'action', {
+      new CustomEvent('action', {
         detail: { id },
         bubbles: true,
         composed: true,
@@ -412,12 +318,7 @@ export class NotificationManager extends LitElement {
         style=${toast.width ? `width: ${toast.width}` : nothing}
         @open=${(event: Event) => event.stopPropagation()}
         @close=${(event: Event) => this.handleToastClose(toast.id, event)}
-        @snackbar-close=${(event: Event) =>
-          this.handleLegacyToastClose(toast.id, event)}
-        @action=${(event: Event) =>
-          this.handleToastAction(toast.id, event, false)}
-        @snackbar-action=${(event: Event) =>
-          this.handleToastAction(toast.id, event, true)}
+        @action=${(event: Event) => this.handleToastAction(toast.id, event)}
       >
         <span class="toast-text">
           <span class=${classMap({ 'toast-title': !!toast.subtitle })}

@@ -14,10 +14,25 @@ export declare class LoaderUtils {
     private _observed;
     constructor(loaderConfig: LoaderConfig);
     static registerComponent(tagName: string, CustomElementClass: any): void;
-    start(): void;
+    /**
+     * Warns once that a tag is already defined by other code, such as a second copy or another
+     * version of Peacock on the page. The existing definition stays; Peacock does not replace it.
+     */
+    static warnTaken(tagName: string): void;
+    /**
+     * Defines the eager components and starts loading lazy ones as they appear.
+     *
+     * By default it also wraps `Element.prototype.attachShadow` so components rendered inside any
+     * shadow root load too. Pass `watchShadowRoots: false` (or load `loader.js?no-shadow-watch`) to
+     * leave `attachShadow` alone, and call `loadComponents(shadowRoot)` for your own shadow roots.
+     */
+    start({ watchShadowRoots }?: {
+        watchShadowRoots?: boolean;
+    }): void;
     /**
      * Watches every shadow root attached from now on, as it is attached, so lazy components that a
-     * component renders in its shadow root load as they do in the document.
+     * component renders in its shadow root load as they do in the document. Patches
+     * `attachShadow` once per page, even when two loaders run.
      */
     watchShadowRoots(): void;
     eagerLoadComponents(): void;

@@ -128,11 +128,6 @@ export class CodeGroup extends LitElement {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private __stopEvent(event: Event) {
-    event.stopPropagation();
-  }
-
   // ── Render helpers ────────────────────────────────────────────────────────
 
   // eslint-disable-next-line class-methods-use-this
@@ -156,7 +151,6 @@ export class CodeGroup extends LitElement {
             class="tabs"
             variant="secondary"
             @change=${this.__handleTabChange}
-            @tab-click=${this.__stopEvent}
           >
             ${this._blocks.map(
               (block, index) =>

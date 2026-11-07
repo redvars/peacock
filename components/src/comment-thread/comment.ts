@@ -39,7 +39,7 @@ type ValueElement = HTMLElement & { value: string };
  * @tag wc-comment
  * @rawTag comment
  *
- * @summary One comment in a `wc-comment-thread`, with its replies.
+ * @summary One comment in a comment thread, with its author, time, text, actions and replies.
  * @overview
  * <p>A comment shows its <code>author</code> (with a <code>wc-avatar</code> from
  * <code>avatar-src</code>, or the author's initials), its time and its text. <code>datetime</code>

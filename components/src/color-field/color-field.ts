@@ -207,10 +207,6 @@ export class ColorField extends BaseField {
     this.pickerOpen = event.type === 'open';
   };
 
-  private static stopEvent(event: Event) {
-    event.stopPropagation();
-  }
-
   private handlePickerInput(event: Event) {
     event.stopPropagation();
     // Only the picker's own CustomEvent carries a value; ignore native events from its inputs.
@@ -264,8 +260,6 @@ export class ColorField extends BaseField {
         offset="4"
         @open=${this.handleOverlayEvent}
         @close=${this.handleOverlayEvent}
-        @wc-popover--open=${ColorField.stopEvent}
-        @wc-popover--close=${ColorField.stopEvent}
       >
         ${this.renderField(
           html`<input

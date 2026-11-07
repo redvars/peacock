@@ -9,11 +9,18 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  * @label Breadcrumb
  * @tag wc-breadcrumb
  * @rawTag breadcrumb
- * @summary A breadcrumb is a secondary navigation scheme that reveals the user's location in a website or web application.
+ * @summary A trail of links that shows where the current page sits in the site and leads back up it.
  * @overview
- *  - Breadcrumbs provide a trail for users to follow back to the starting or entry point.
- *  - They help users understand their current location within the site hierarchy.
- *  - Follows WCAG 2.1 guidelines for accessible navigation landmarks.
+ * <ul>
+ * <li>Breadcrumbs provide a trail for users to follow back to the starting or entry point.</li>
+ * <li>They help users understand their current location within the site hierarchy.</li>
+ * <li>Follows WCAG 2.1 guidelines for accessible navigation landmarks: the breadcrumb is a
+ * <code>&lt;nav&gt;</code> landmark named by <code>label</code> (by default Peacock's
+ * <code>breadcrumb</code> string) holding an ordered list, and each
+ * <code>wc-breadcrumb-item</code> is one of its list items.</li>
+ * <li>Mark the page the user is on with <code>current</code> on its item: it renders as text with
+ * <code>aria-current="page"</code>.</li>
+ * </ul>
  * @tags navigation
  *
  * @example

@@ -2,7 +2,6 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { Alert } from '../src/alert/alert.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-alert')) {
   customElements.define('wc-alert', Alert);
@@ -11,21 +10,29 @@ if (!customElements.get('wc-alert')) {
 describe('Alert', () => {
   it('renders default note label and description', async () => {
     const el = await fixture<Alert>(html`
-      <wc-alert description="Use semantic roles with adequate contrast."></wc-alert>
+      <wc-alert
+        description="Use semantic roles with adequate contrast."
+      ></wc-alert>
     `);
     await el.updateComplete;
 
     const root = el.shadowRoot;
     const label = root?.querySelector('.alert-label')?.textContent ?? '';
-    const description = root?.querySelector('.alert-description')?.textContent ?? '';
+    const description =
+      root?.querySelector('.alert-description')?.textContent ?? '';
 
     expect(label.trim()).to.equal('Note:');
-    expect(description.trim()).to.equal('Use semantic roles with adequate contrast.');
+    expect(description.trim()).to.equal(
+      'Use semantic roles with adequate contrast.',
+    );
   });
 
-  it('applies variant class for styling', async () => {
+  it('applies the intent class for styling', async () => {
     const el = await fixture<Alert>(html`
-      <wc-alert variant="warning" description="Careful with destructive actions."></wc-alert>
+      <wc-alert
+        intent="warning"
+        description="Careful with destructive actions."
+      ></wc-alert>
     `);
     await el.updateComplete;
 
@@ -47,7 +54,9 @@ describe('Alert', () => {
     // shadow DOM's fallback text.
     const assignedText = (selector: string) =>
       (
-        el.shadowRoot?.querySelector<HTMLSlotElement>(selector)?.assignedNodes() ?? []
+        el.shadowRoot
+          ?.querySelector<HTMLSlotElement>(selector)
+          ?.assignedNodes() ?? []
       )
         .map(node => node.textContent ?? '')
         .join('')
@@ -55,26 +64,12 @@ describe('Alert', () => {
 
     expect(assignedText('slot[name="label"]')).to.equal('Heads up:');
     expect(assignedText('slot[name="icon"]')).to.equal('priority_high');
-    expect(assignedText('slot:not([name])')).to.equal('Custom description via slot');
+    expect(assignedText('slot:not([name])')).to.equal(
+      'Custom description via slot',
+    );
   });
 
   describe('intent', () => {
-    let warn: typeof console.warn;
-    let warnings: string[];
-
-    beforeEach(() => {
-      resetDeprecationWarnings();
-      warnings = [];
-      warn = console.warn;
-      console.warn = (message: string) => {
-        warnings.push(message);
-      };
-    });
-
-    afterEach(() => {
-      console.warn = warn;
-    });
-
     it('styles and labels each intent', async () => {
       const el = await fixture<Alert>(html`
         <wc-alert intent="danger" description="Could not save."></wc-alert>
@@ -86,43 +81,32 @@ describe('Alert', () => {
       expect(
         el.shadowRoot?.querySelector('wc-icon')?.getAttribute('name'),
       ).to.equal('error');
-      expect(warnings).to.have.length(0);
     });
 
-    it('maps the deprecated meaning variant to intent and warns once', async () => {
+    it('ignores the removed meaning variant', async () => {
       const el = await fixture<Alert>(html`
         <wc-alert variant="error" description="Could not save."></wc-alert>
       `);
       const surface = el.shadowRoot?.querySelector('.alert');
-      expect(surface?.classList.contains('danger')).to.equal(true);
-      expect(warnings).to.have.length(1);
-      expect(warnings[0]).to.contain('wc-alert');
-      expect(warnings[0]).to.contain('`intent`');
-
-      await fixture<Alert>(html`<wc-alert variant="info"></wc-alert>`);
-      expect(warnings).to.have.length(1);
-    });
-
-    it('prefers intent over the deprecated variant', async () => {
-      const el = await fixture<Alert>(html`
-        <wc-alert intent="success" variant="error"></wc-alert>
-      `);
-      const surface = el.shadowRoot?.querySelector('.alert');
-      expect(surface?.classList.contains('success')).to.equal(true);
+      expect(surface?.classList.contains('note')).to.equal(true);
       expect(surface?.classList.contains('danger')).to.equal(false);
     });
   });
 
   describe('live region', () => {
     it('has no live role by default', async () => {
-      const el = await fixture<Alert>(html`<wc-alert description="x"></wc-alert>`);
+      const el = await fixture<Alert>(
+        html`<wc-alert description="x"></wc-alert>`,
+      );
       const surface = el.shadowRoot?.querySelector('.alert');
       expect(surface?.hasAttribute('role')).to.equal(false);
       expect(surface?.hasAttribute('aria-live')).to.equal(false);
     });
 
     it('is a status for live="polite" and an alert for live="assertive"', async () => {
-      const el = await fixture<Alert>(html`<wc-alert live="polite"></wc-alert>`);
+      const el = await fixture<Alert>(
+        html`<wc-alert live="polite"></wc-alert>`,
+      );
       const surface = () => el.shadowRoot?.querySelector('.alert');
       expect(surface()?.getAttribute('role')).to.equal('status');
 

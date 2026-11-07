@@ -323,6 +323,16 @@ export class CbGroupBase extends LitElement {
     }
   }
 
+  /**
+   * The operator menu's `open`/`close` are internal: they bubble and are composed, so stop them
+   * here. Only the menu's own (not a nested one's) changes the open state.
+   */
+  private _onMenuToggle(event: Event) {
+    event.stopPropagation();
+    if (event.target !== event.currentTarget) return;
+    this._menuOpen = event.type === 'open';
+  }
+
   private _onMenuActivate(event: CustomEvent<{ item: { value: string } }>) {
     const operator = event.detail.item.value as CbOperator;
     if (this.locked || operator === this.operator) return;
@@ -443,12 +453,8 @@ export class CbGroupBase extends LitElement {
     return html`
       <wc-menu
         id=${this._menuId}
-        @opened=${() => {
-          this._menuOpen = true;
-        }}
-        @closed=${() => {
-          this._menuOpen = false;
-        }}
+        @open=${this._onMenuToggle}
+        @close=${this._onMenuToggle}
         @menu-item-activate=${this._onMenuActivate}
       >
         ${(Object.keys(OPERATOR_LABEL_KEYS) as CbOperator[]).map(

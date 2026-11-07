@@ -29,15 +29,13 @@ let nextContentId = 0;
  * the content's <code>heading</code> slot. With <code>trigger="click"</code> or <code>"hover"</code> the trigger gets
  * <code>aria-haspopup="dialog"</code>, <code>aria-controls</code> and <code>aria-expanded</code>; with
  * <code>"manual"</code> the component that opens the popover owns the trigger's ARIA.</p>
- * <p>Use a popover, not <code>wc-tooltip variant="rich"</code>, for rich content with actions.</p>
+ * <p>Use a popover, not a <code>wc-tooltip</code>, for rich content with actions.</p>
  * @tags display, overlay
  *
  * @slot - The trigger element followed by a `wc-popover-content`.
  *
  * @fires {CustomEvent} open - Fired when the popover opens.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the popover closes: Escape, a press outside, the trigger (a second click, or the pointer leaving a hover trigger is `light-dismiss`), or `hide()` / `open = false`.
- * @fires {CustomEvent} wc-popover--open - Deprecated, use `open`.
- * @fires {CustomEvent} wc-popover--close - Deprecated, use `close`.
  *
  * @example
  * ```html
@@ -65,8 +63,7 @@ export class Popover extends LitElement {
 
   /**
    * Preferred placement of the panel relative to the trigger: `top`, `bottom`, `start` or `end`,
-   * optionally with `-start` or `-end` alignment. `start` and `end` follow the writing direction;
-   * the physical `left` and `right` still work but are deprecated.
+   * optionally with `-start` or `-end` alignment. `start` and `end` follow the writing direction.
    */
   @property({ reflect: true }) placement: OverlayPlacement = 'bottom';
 
@@ -208,7 +205,7 @@ export class Popover extends LitElement {
     this._syncTriggerAria();
 
     this._floating = new FloatingController(this, {
-      placement: toPhysicalPlacement(this.placement, this, 'wc-popover'),
+      placement: toPhysicalPlacement(this.placement, this),
       strategy: 'fixed',
       offset: this.offset,
       trigger: this.trigger,
@@ -274,12 +271,10 @@ export class Popover extends LitElement {
     // Fire after the overlay moved focus back, so a listener that moves focus has the last word.
     if (this.open) {
       this._dispatch('open');
-      this._dispatch('wc-popover--open');
     } else if (wasOpen) {
       const reason = this._closeReason;
       this._closeReason = 'api';
       this._dispatch('close', { reason });
-      this._dispatch('wc-popover--close');
     }
   }
 

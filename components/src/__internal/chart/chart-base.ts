@@ -13,7 +13,6 @@ import { BaseType, easeCubicOut, Selection } from 'd3';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import { isRtl } from '@/__internal/i18n/locale.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import type {
   ChartLegendMode,
   ChartSelectDetail,
@@ -58,20 +57,6 @@ export abstract class ChartBase extends LitElement {
    * doughnut slices), `show` always, `hide` never.
    */
   @property({ type: String, reflect: true }) legend: ChartLegendMode = 'auto';
-
-  /**
-   * Shows the legend even for a single series.
-   * @deprecated Use `legend="show"`.
-   */
-  @property({ type: Boolean, attribute: 'show-legend' }) showLegend: boolean =
-    false;
-
-  /**
-   * Hides the legend.
-   * @deprecated Use `legend="hide"`.
-   */
-  @property({ type: Boolean, attribute: 'hide-legend' }) hideLegend: boolean =
-    false;
 
   /** Hides the tooltip. */
   @property({ type: Boolean, attribute: 'hide-tooltip' }) hideTooltip: boolean =
@@ -148,16 +133,6 @@ export abstract class ChartBase extends LitElement {
     this.resizeObserver = undefined;
   }
 
-  willUpdate(changed: PropertyValues) {
-    super.willUpdate(changed);
-    if (changed.has('showLegend') && this.showLegend) {
-      deprecate(this.localName, '`show-legend`', '`legend="show"`');
-    }
-    if (changed.has('hideLegend') && this.hideLegend) {
-      deprecate(this.localName, '`hide-legend`', '`legend="hide"`');
-    }
-  }
-
   updated(changed: PropertyValues) {
     super.updated(changed);
     if (!this.svgElement || this.plotWidth <= 0) return;
@@ -214,12 +189,11 @@ export abstract class ChartBase extends LitElement {
     return ['height', 'plotWidth', 'hiddenKeys', 'loading', 'valueFormatter'];
   }
 
-  /** The legend mode in effect: `legend`, else the deprecated booleans. */
+  /** The legend mode in effect: unknown values count as `auto`. */
   protected legendMode(): ChartLegendMode {
-    if (this.legend === 'show' || this.legend === 'hide') return this.legend;
-    if (this.hideLegend) return 'hide';
-    if (this.showLegend) return 'show';
-    return 'auto';
+    return this.legend === 'show' || this.legend === 'hide'
+      ? this.legend
+      : 'auto';
   }
 
   /** Whether the legend shows when `legend` is `auto`. */
@@ -400,18 +374,15 @@ export abstract class ChartBase extends LitElement {
       : '';
   }
 
-  /** Fires `select`, then the deprecated `chart-select` with the same detail. */
+  /** Fires `select` for the item at `index`. */
   private selectItem(index: number) {
-    const detail = this.getSelectDetail(index);
-    for (const type of ['select', 'chart-select']) {
-      this.dispatchEvent(
-        new CustomEvent<ChartSelectDetail>(type, {
-          bubbles: true,
-          composed: true,
-          detail,
-        }),
-      );
-    }
+    this.dispatchEvent(
+      new CustomEvent<ChartSelectDetail>('select', {
+        bubbles: true,
+        composed: true,
+        detail: this.getSelectDetail(index),
+      }),
+    );
   }
 
   private toggleSeries(key: string) {

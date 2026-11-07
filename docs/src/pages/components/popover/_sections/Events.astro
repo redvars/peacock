@@ -14,7 +14,7 @@ import Highlighter from '../../../../components/Highlighter.astro';
   <code>aria-expanded</code>; with <code>"manual"</code> the code that opens the popover sets them.
 </p>
 <p class='text-body-medium'>
-  Use a popover for rich content with actions; it replaces <code>wc-tooltip variant="rich"</code>.
+  Use a popover, not a tooltip, for rich content with actions.
 </p>
 
 <DemoComponentCard lang='html'>
@@ -41,8 +41,3 @@ popover.addEventListener('close', event => {
   if (event.target !== popover) return;
   console.log('Closed by', event.detail.reason);
 });</Highlighter>
-
-<h3>Deprecated</h3>
-<ul>
-  <li><code>wc-popover--open</code> and <code>wc-popover--close</code>: use <code>open</code> and <code>close</code>.</li>
-</ul>

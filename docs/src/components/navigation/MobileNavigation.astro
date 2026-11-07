@@ -28,7 +28,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
   }
 </style>
 
-<header class="show-tablet-portrait-below">
+<header class="show-tablet-portrait-below" data-pagefind-ignore="all">
 <wc-app-bar>
   <wc-icon-button slot="start" variant="text" id="show-main-menu">
     <wc-icon name="menu"></wc-icon>
@@ -44,7 +44,7 @@ const isBlocksPage = pathname === '/blocks' || pathname.startsWith('/blocks/');
 </wc-app-bar>
 </header>
 
-<wc-side-sheet id="main-menu-modal" variant="modal" placement="start" label="Main menu" class="show-tablet-portrait-below">
+<wc-side-sheet id="main-menu-modal" variant="modal" placement="start" label="Main menu" class="show-tablet-portrait-below" data-pagefind-ignore="all">
 
   <wc-icon-button variant="text" id="hide-main-menu">
     <wc-icon name="close"></wc-icon>

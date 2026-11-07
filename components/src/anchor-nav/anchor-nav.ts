@@ -121,7 +121,7 @@ function buildTree(items: AnchorNavItem[]): ItemNode[] {
  * <code>top</code> when it should stay visible while the page scrolls. Call
  * <code>refresh()</code> after replacing the content wholesale or moving the sections.</p>
  *
- * @fires change - When the section in view changes. `detail.value` is its id.
+ * @fires {CustomEvent<{value: string}>} change - Dispatched when the section in view changes. `value` is its id.
  *
  * @cssprop --anchor-nav-text-color - Color of the links.
  * @cssprop --anchor-nav-current-color - Color of the current link and its marker.

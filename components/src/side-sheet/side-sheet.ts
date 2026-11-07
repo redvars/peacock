@@ -7,25 +7,15 @@ import {
   type CloseReason,
   OverlayController,
 } from '@/__internal/controllers/overlay-controller.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 import styles from './side-sheet.scss';
 
 type SideSheetPlacement = 'start' | 'end';
-
-/** The `side-sheet-close` reasons from before `close` (deprecated event). */
-const LEGACY_REASONS: Record<CloseReason, string> = {
-  escape: 'escape',
-  'light-dismiss': 'scrim',
-  action: 'close-button',
-  timeout: 'programmatic',
-  api: 'programmatic',
-};
 
 /**
  * @label Side Sheet
  * @tag wc-side-sheet
  * @rawTag side-sheet
- * @summary Side sheets slide in from the start or end edge of the screen to reveal supplemental content. Supports standard and modal variants.
+ * @summary A panel that slides in from the start or end edge of the screen with extra content, either modal over the page or beside it.
  * @overview
  * <p>The sheet renders a native <code>&lt;dialog&gt;</code>. The <code>modal</code> variant (the default)
  * opens it with <code>showModal()</code>: it renders in the browser's top layer above the page, with a
@@ -45,7 +35,6 @@ const LEGACY_REASONS: Record<CloseReason, string> = {
  *
  * @fires {CustomEvent} open - Fired when the sheet opens.
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the sheet closes: Escape, a scrim click, the close button, or `hide()`.
- * @fires {CustomEvent<{reason: string}>} side-sheet-close - Deprecated, use `close`. `detail.reason` is `"escape"`, `"scrim"`, `"close-button"` or `"programmatic"`.
  *
  * @example
  * ```html
@@ -98,9 +87,6 @@ export class SideSheet extends LitElement {
   @property({ type: Boolean, attribute: 'no-light-dismiss' }) noLightDismiss =
     false;
 
-  /** @deprecated Use `placement` (`left` → `start`, `right` → `end`). */
-  @property({ type: String }) position?: 'left' | 'right';
-
   // ── Queries ──────────────────────────────────────────────────────────────
 
   @query('dialog') private _dialog?: HTMLDialogElement;
@@ -121,13 +107,6 @@ export class SideSheet extends LitElement {
   });
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
-
-  protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('position') && this.position) {
-      deprecate('wc-side-sheet', '`position`', '`placement`');
-      this.placement = this.position === 'left' ? 'start' : 'end';
-    }
-  }
 
   protected override updated(changed: PropertyValues<this>) {
     if (!changed.has('open')) return;
@@ -169,13 +148,6 @@ export class SideSheet extends LitElement {
     this.dispatchEvent(
       new CustomEvent('close', {
         detail: { reason },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    this.dispatchEvent(
-      new CustomEvent('side-sheet-close', {
-        detail: { reason: LEGACY_REASONS[reason] },
         bubbles: true,
         composed: true,
       }),

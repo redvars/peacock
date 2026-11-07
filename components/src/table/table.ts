@@ -38,11 +38,7 @@ import styles from './table.scss';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
-import type {
-  Pagination,
-  PaginationVariant,
-} from '../pagination/pagination.js';
+import type { Pagination } from '../pagination/pagination.js';
 import {
   buildGridColumns,
   buildHeaderGroups,
@@ -214,7 +210,7 @@ function remSize(): number {
  * @label Table
  * @tag wc-table
  * @rawTag table
- * @summary A configurable component for displaying tabular data.
+ * @summary A data table with sorting, row selection, resizable and reorderable columns, inline editing and paging.
  * @overview
  * <p>The table displays rows of data with sorting (also by several columns), row selection, a sticky header, sticky start or end columns, and columns the user can resize, reorder and hide.</p>
  * <p>It follows the grid keyboard pattern: the table is one tab stop and the arrow keys move between cells. <kbd>Space</kbd> selects the focused row, <kbd>Enter</kbd> activates the focused cell, and <kbd>Ctrl</kbd>+<kbd>C</kbd> copies its text. On a column header, <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a sort level and <kbd>Alt</kbd>+<kbd>Left</kbd>/<kbd>Right</kbd> moves a reorderable column.</p>
@@ -225,7 +221,6 @@ function remSize(): number {
  * @fires {CustomEvent} row-click - Dispatched when a row is clicked or activated with Enter. Detail: `{ record }`.
  * @fires {CustomEvent} selection-change - Dispatched when the row selection changes. Detail: `{ value, isSelectAll, allPages }`; `value` holds string keys.
  * @fires {CustomEvent} sort - Dispatched when the table is sorted. Detail: `{ sortBy, sortOrder, sorts }`: the primary column and order, and every level as `{ name, order }`.
- * @fires {CustomEvent} page - Dispatched by the built-in pagination (deprecated `paginate`) when the page or page size changes. Detail: `{ page, pageSize }`. A slotted `wc-pagination` fires its own `page` event.
  * @fires {CustomEvent} column-resize - Dispatched when the user finishes resizing a column. Detail: `{ name, width }`, width in rem.
  * @fires {CustomEvent} column-reorder - Dispatched when the user moves a column. Detail: `{ order }`, every column name in display order.
  * @fires {CustomEvent} column-visibility - Dispatched when the user shows or hides a column from the column menu. Detail: `{ name, hidden }`.
@@ -277,12 +272,6 @@ export class Table extends LitElement {
    */
   @property({ type: String })
   selection: TableSelection = 'none';
-
-  /**
-   * Deprecated: use `selection="multiple"`. `"checkbox"` turns on multiple selection.
-   */
-  @property({ type: String, attribute: 'selection-type' })
-  selectionType: 'checkbox' | undefined;
 
   /**
    * Keys of the selected rows. Keys are compared as strings, so a numeric `id` of `1` matches
@@ -357,12 +346,6 @@ export class Table extends LitElement {
   columnMenu: boolean = false;
 
   /**
-   * Deprecated: put a `wc-pagination` in the `footer` slot. Turns on the built-in pagination.
-   */
-  @property({ type: Boolean })
-  paginate: boolean = false;
-
-  /**
    * The current page number (1-based). Defaults to `1`. Follows a slotted `wc-pagination`.
    */
   @property({ type: Number })
@@ -373,31 +356,6 @@ export class Table extends LitElement {
    */
   @property({ type: Number, attribute: 'page-size' })
   pageSize: number = 10;
-
-  /**
-   * Deprecated with `paginate`: set `page-sizes` on the slotted `wc-pagination`.
-   */
-  @property({ type: Array, attribute: 'page-sizes' })
-  pageSizes: number[] | undefined;
-
-  /**
-   * Deprecated with `paginate`: set `total-items` on the slotted `wc-pagination`. Total number of
-   * items in managed mode; leave it unset when the total is unknown.
-   */
-  @property({ type: Number, attribute: 'total-items' })
-  totalItems: number | undefined;
-
-  /**
-   * Deprecated with `paginate`: set `has-next` on the slotted `wc-pagination`.
-   */
-  @property({ type: Boolean, attribute: 'has-next' })
-  hasNext: boolean = false;
-
-  /**
-   * Deprecated with `paginate`: set `variant` on the slotted `wc-pagination`.
-   */
-  @property({ type: String, attribute: 'pagination-variant' })
-  paginationVariant: PaginationVariant = 'full';
 
   /**
    * Row height: `compact`, `default` or `comfortable`. Defaults to `default`.
@@ -489,7 +447,7 @@ export class Table extends LitElement {
   @property({ type: String, attribute: 'aggregate-scope' })
   aggregateScope: 'all' | 'page' = 'all';
 
-  /** Overrides Peacock's strings for this instance only, including its pagination. */
+  /** Overrides Peacock's strings for this instance only. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
   // ── States ───────────────────────────────────────────────────────────────
@@ -621,21 +579,6 @@ export class Table extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues<Table>): void {
-    if (changed.has('selectionType') && this.selectionType) {
-      deprecate(
-        'wc-table',
-        `selection-type="${this.selectionType}"`,
-        'selection="multiple"',
-      );
-    }
-    if (changed.has('paginate') && this.paginate) {
-      deprecate(
-        'wc-table',
-        'paginate (with page-sizes, total-items, has-next and pagination-variant)',
-        'a wc-pagination in the footer slot',
-      );
-    }
-
     if (changed.has('selectedRowKeys')) {
       const keys = normalizeKeys(this.selectedRowKeys);
       if (keys !== this.selectedRowKeys) this.selectedRowKeys = keys;
@@ -779,17 +722,16 @@ export class Table extends LitElement {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  /** The selection mode in effect, with the deprecated `selection-type` mapped. */
+  /** The selection mode in effect: unknown values select nothing. */
   private get selectionMode(): TableSelection {
-    if (this.selection === 'single' || this.selection === 'multiple') {
-      return this.selection;
-    }
-    return this.selectionType === 'checkbox' ? 'multiple' : 'none';
+    return this.selection === 'single' || this.selection === 'multiple'
+      ? this.selection
+      : 'none';
   }
 
   /** True when rows are split into pages. */
   private get isPaging(): boolean {
-    return this.paginate || !!this.slottedPagination;
+    return !!this.slottedPagination;
   }
 
   /** Rows above the data rows: the column header row, plus the column group row. */
@@ -861,10 +803,7 @@ export class Table extends LitElement {
   /** Total item count across pages, or `undefined` when it is unknown. */
   private getTotalItems(): number | undefined {
     if (!this.managed) return this.data?.length ?? 0;
-    if (this.slottedPagination) {
-      return this.slottedPagination.totalItems ?? undefined;
-    }
-    return this.totalItems ?? undefined;
+    return this.slottedPagination?.totalItems ?? undefined;
   }
 
   /** The rows, memoised while the inputs they come from stay the same. */
@@ -1246,14 +1185,6 @@ export class Table extends LitElement {
   }
 
   // Pagination
-
-  /** The built-in pagination's page event, re-dispatched from the table. */
-  private onPage(event: CustomEvent<{ page: number; pageSize: number }>) {
-    event.stopPropagation();
-    this.page = event.detail.page;
-    this.pageSize = event.detail.pageSize;
-    this.dispatch('page', { page: this.page, pageSize: this.pageSize });
-  }
 
   /** A slotted pagination's page event: followed, and left to bubble to the consumer. */
   private onSlottedPage = (event: Event) => {
@@ -2438,18 +2369,34 @@ export class Table extends LitElement {
     `;
   }
 
+  /** The table's own empty and error message: a small illustration, a headline and a line of text. */
+  private renderStateMessage(
+    illustration: string,
+    headline: string,
+    text: string,
+  ) {
+    return html`<div class="state-message" part="state-message">
+      <wc-illustration
+        class="state-illustration"
+        name=${illustration}
+        size="sm"
+      ></wc-illustration>
+      <p class="state-headline">${headline}</p>
+      <p class="state-text">${text}</p>
+    </div>`;
+  }
+
   private renderEmptyState(columns: GridColumn[]) {
     return this.renderStateRow(
       columns,
       'empty',
       html`<slot name="empty"
-        ><wc-empty-state
-          class="empty-state"
-          headline=${this.emptyStateHeadline || this.i18n.t('noItems')}
-          description=${this.emptyStateDescription ||
-          this.i18n.t('noItemsDescription')}
-        ></wc-empty-state
-      ></slot>`,
+        >${this.renderStateMessage(
+          'empty',
+          this.emptyStateHeadline || this.i18n.t('noItems'),
+          this.emptyStateDescription || this.i18n.t('noItemsDescription'),
+        )}</slot
+      >`,
     );
   }
 
@@ -2458,12 +2405,12 @@ export class Table extends LitElement {
       columns,
       'error',
       html`<slot name="error"
-        ><wc-empty-state
-          class="empty-state error-state"
-          headline=${this.i18n.t('tableError')}
-          description=${this.errorText || this.i18n.t('tableErrorDescription')}
-        ></wc-empty-state
-      ></slot>`,
+        >${this.renderStateMessage(
+          'error',
+          this.i18n.t('tableError'),
+          this.errorText || this.i18n.t('tableErrorDescription'),
+        )}</slot
+      >`,
     );
   }
 
@@ -2558,29 +2505,10 @@ export class Table extends LitElement {
     `;
   }
 
-  /** The built-in pagination of the deprecated `paginate`. */
-  private renderPagination() {
-    const total = this.getTotalItems();
-    return html`
-      <wc-pagination
-        .page=${this.page}
-        .pageSize=${this.pageSize}
-        .totalItems=${total}
-        .hasNext=${this.hasNext}
-        .variant=${total === undefined ? 'simple' : this.paginationVariant}
-        .pageSizes=${this.pageSizes ?? [10, 25, 50, 100]}
-        .strings=${this.strings}
-        @page=${this.onPage}
-      ></wc-pagination>
-    `;
-  }
-
-  /** The footer: the built-in pagination (deprecated) or the `footer` slot. */
+  /** The footer: the `footer` slot, usually holding a `wc-pagination`. */
   private renderFooter() {
-    const builtIn = this.paginate && !this.slottedPagination;
     return html`
-      <div class="table-footer" ?hidden=${!builtIn && !this.hasFooterContent}>
-        ${builtIn ? this.renderPagination() : nothing}
+      <div class="table-footer" ?hidden=${!this.hasFooterContent}>
         <slot
           name="footer"
           @slotchange=${this.onFooterSlotChange}
@@ -2597,8 +2525,7 @@ export class Table extends LitElement {
     const view = this.getView();
     const pageRows = this.error ? [] : view.pageRows;
     const hasRows = pageRows.length > 0;
-    const hasFooter =
-      (this.paginate && !this.slottedPagination) || this.hasFooterContent;
+    const hasFooter = this.hasFooterContent;
     const ariaRowCount = this.getAriaRowCount(hasRows);
 
     this.tabRowOverride = undefined;

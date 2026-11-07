@@ -9,7 +9,7 @@ import { BaseProgress } from '../base-progress.js';
  * @label Linear Progress
  * @tag wc-linear-progress
  * @rawTag linear-progress
- * @summary A linear progress indicator is a visual representation of progress toward a specific goal.
+ * @summary A bar that fills to show how much of a task is done, or moves on its own when the length of the wait is unknown.
  * @overview
  * <p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that
  * range. The visible <code>label</code> names the bar through <code>aria-labelledby</code>; without

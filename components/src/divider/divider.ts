@@ -3,7 +3,6 @@ import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 
 import { observerSlotChangesWithCallback } from '@/__internal/utils/observe-slot-change.js';
-import { deprecate } from '@/__internal/utils/deprecate.js';
 
 import styles from './divider.scss';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -15,11 +14,16 @@ export type DividerOrientation = 'horizontal' | 'vertical';
  * @tag wc-divider
  * @rawTag divider
  *
- * @summary The divider component is used to visually separate content.
+ * @summary A horizontal or vertical line that separates groups of content, with an optional label such as "or".
  * @overview
- *  - Dividers are used to separate content into clear groups, making it easier for users to scan and understand the information presented.
- *  - Set `orientation` to `horizontal` (the default) or `vertical`, depending on the layout.
- *  - The host is `role="separator"` with a matching `aria-orientation`.
+ * <ul>
+ * <li>Dividers are used to separate content into clear groups, making it easier for users to scan
+ * and understand the information presented.</li>
+ * <li>Set <code>orientation</code> to <code>horizontal</code> (the default) or
+ * <code>vertical</code>, depending on the layout.</li>
+ * <li>Content in the default slot, such as "or", shows in the middle of the line.</li>
+ * <li>The host is <code>role="separator"</code> with a matching <code>aria-orientation</code>.</li>
+ * </ul>
  *
  * @cssprop --divider-color - Controls the color of the divider.
  * @cssprop --divider-spacing - Controls the space around the divider.
@@ -38,11 +42,6 @@ export class Divider extends LitElement {
   /** Direction of the line. */
   @property({ reflect: true }) orientation: DividerOrientation = 'horizontal';
 
-  /**
-   * @deprecated Use `orientation="vertical"`. Still works through 3.x.
-   */
-  @property({ type: Boolean }) vertical = false;
-
   /** True when the default slot contains content, used to show the label variant. */
   @state()
   slotHasContent = false;
@@ -57,11 +56,7 @@ export class Divider extends LitElement {
   }
 
   protected willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('vertical') && this.vertical) {
-      deprecate('wc-divider', '`vertical`', '`orientation="vertical"`');
-      this.orientation = 'vertical';
-    }
-    if (changed.has('orientation') || changed.has('vertical')) {
+    if (changed.has('orientation')) {
       this.setAttribute('aria-orientation', this.orientation);
     }
   }

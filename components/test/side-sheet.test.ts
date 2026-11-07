@@ -43,20 +43,6 @@ function pressEscape() {
   );
 }
 
-function silenceWarnings() {
-  const original = console.warn;
-  const messages: string[] = [];
-  console.warn = (message: string) => {
-    messages.push(message);
-  };
-  return {
-    messages,
-    restore: () => {
-      console.warn = original;
-    },
-  };
-}
-
 describe('SideSheet', () => {
   it('opens a modal native dialog in the top layer and locks scrolling', async () => {
     const el = await fixture<SideSheet>(
@@ -96,20 +82,15 @@ describe('SideSheet', () => {
     expect(nativeDialog(el).open).to.equal(false);
   });
 
-  it('closes on Escape with reason escape and the legacy event', async () => {
+  it('closes on Escape with reason escape', async () => {
     const el = await fixture<SideSheet>(
       html`<wc-side-sheet open>Body</wc-side-sheet>`,
     );
     await el.updateComplete;
 
-    let legacyReason = '';
-    el.addEventListener('side-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(pressEscape);
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('escape');
-    expect(legacyReason).to.equal('escape');
     expect(el.open).to.equal(false);
     await settle(el);
     expect(document.documentElement.style.overflow).to.equal('');
@@ -126,14 +107,9 @@ describe('SideSheet', () => {
     expect(el.open).to.equal(true);
 
     el.noLightDismiss = false;
-    let legacyReason = '';
-    el.addEventListener('side-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => scrim(el).click());
     const event = await oneEvent(el, 'close');
     expect(event.detail.reason).to.equal('light-dismiss');
-    expect(legacyReason).to.equal('scrim');
   });
 
   it('fires close with api for hide() and action for the close button', async () => {
@@ -142,14 +118,9 @@ describe('SideSheet', () => {
     );
     await el.updateComplete;
 
-    let legacyReason = '';
-    el.addEventListener('side-sheet-close', e => {
-      legacyReason = (e as CustomEvent).detail.reason;
-    });
     setTimeout(() => el.hide());
     const apiEvent = await oneEvent(el, 'close');
     expect(apiEvent.detail.reason).to.equal('api');
-    expect(legacyReason).to.equal('programmatic');
 
     el.show();
     await el.updateComplete;
@@ -158,7 +129,6 @@ describe('SideSheet', () => {
     setTimeout(() => close.click());
     const actionEvent = await oneEvent(el, 'close');
     expect(actionEvent.detail.reason).to.equal('action');
-    expect(legacyReason).to.equal('close-button');
 
     el.hideClose = true;
     await el.updateComplete;
@@ -237,25 +207,5 @@ describe('SideSheet', () => {
     await settle(el);
     const box = sheet(el).getBoundingClientRect();
     expect(Math.round(box.left)).to.equal(0);
-  });
-
-  it('maps the deprecated position to placement and warns', async () => {
-    const warnings = silenceWarnings();
-    try {
-      const el = await fixture<SideSheet>(
-        html`<wc-side-sheet position="left">Body</wc-side-sheet>`,
-      );
-      expect(el.placement).to.equal('start');
-      expect(sheet(el).classList.contains('placement-start')).to.equal(true);
-
-      el.position = 'right';
-      await el.updateComplete;
-      expect(el.placement).to.equal('end');
-      expect(
-        warnings.messages.some(message => message.includes('`position`')),
-      ).to.equal(true);
-    } finally {
-      warnings.restore();
-    }
   });
 });

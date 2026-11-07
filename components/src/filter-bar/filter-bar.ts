@@ -61,7 +61,8 @@ export interface FilterBarChangeDetail {
 
 /** `detail` of the `view-change` event. */
 export interface FilterBarViewChangeDetail {
-  id: string;
+  /** The id of the picked view, or `''` for "All" (the new `view`). */
+  value: string;
 }
 
 /** Key of the search text in `value`. */
@@ -73,17 +74,11 @@ const INNER_EVENTS = [
   'input',
   'open',
   'close',
-  'opened',
-  'closed',
   'search',
   'clear',
   'create',
   'dismiss',
-  'tag--dismiss',
   'menu-item-activate',
-  'select-search',
-  'wc-popover--open',
-  'wc-popover--close',
 ];
 
 function isEmptyValue(value: FilterValue | undefined): boolean {
@@ -150,7 +145,7 @@ function sameValue(a: FilterBarValue, b: FilterBarValue): boolean {
  *
  * @fires {CustomEvent<{value: FilterBarValue}>} change - Dispatched when the active filters (or the committed search text) change.
  * @fires {CustomEvent<{value: FilterBarValue}>} input - Dispatched while the person types in the search box; `detail.value` holds the text under `q`.
- * @fires {CustomEvent<{id: string}>} view-change - Dispatched when the person picks a saved view, or "All" (`id` is `''`).
+ * @fires {CustomEvent<{value: string}>} view-change - Dispatched when the person picks a saved view; `value` is its id, or `''` for "All".
  * @fires {CustomEvent<{value: FilterBarValue}>} view-save - Dispatched when the person picks "Save view".
  *
  * @example
@@ -558,7 +553,7 @@ export class FilterBar extends LitElement {
     this.view = id;
     this._pending = null;
     this._editing = null;
-    this.__dispatch<FilterBarViewChangeDetail>('view-change', { id });
+    this.__dispatch<FilterBarViewChangeDetail>('view-change', { value: id });
     this.__commit(view ? copyValue(view.value) : {});
   };
 

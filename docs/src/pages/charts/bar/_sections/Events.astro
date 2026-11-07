@@ -10,11 +10,6 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   or filter other views. Every chart fires it; pie and doughnut charts add the slice's <code>series</code>.
 </p>
 
-<p>
-  Deprecated: <code>chart-select</code> still fires, right after <code>select</code> with the same detail, and
-  is removed in 4.0.
-</p>
-
 <DemoComponentCard lang='html'>
   <wc-chart-bar id='bar-select' category-key='month' height='240' label='Orders by month'></wc-chart-bar>
   <p id='bar-select-output' class='text-body-medium'>Click a bar.</p>

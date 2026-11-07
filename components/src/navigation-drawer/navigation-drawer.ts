@@ -17,8 +17,7 @@ import styles from './navigation-drawer.scss';
  * <p>Navigation drawer holds <code>wc-navigation-drawer-item</code> destinations. Clicking an item makes
  * it the current one (<code>aria-current="page"</code>) and fires <code>change</code>.</p>
  * <p>Put items in a <code>wc-navigation-drawer-group</code> for an expandable section: its header is a
- * disclosure button and its items follow in the Tab order while it is expanded. Groups replace the
- * deprecated <code>wc-sidebar-menu</code>.</p>
+ * disclosure button and its items follow in the Tab order while it is expanded.</p>
  * <ul>
  *   <li><code>variant="standard"</code> (default) sits in the page layout, next to the content.</li>
  *   <li><code>variant="modal"</code> opens over the page with a scrim. It traps focus, closes on Escape,

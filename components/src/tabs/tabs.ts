@@ -17,7 +17,7 @@ export interface TabsChangeDetail {
  * @tag wc-tabs
  * @rawTag tabs
  *
- * @summary Container for tab components.
+ * @summary The row of tabs, which the person moves between by clicking or with the arrow keys.
  * @overview
  * <p>Tabs holds the tab buttons and manages their layout. It follows the WAI-ARIA tabs pattern:
  * the host has <code>role="tablist"</code> (give it an <code>aria-label</code>), only the selected
@@ -28,10 +28,8 @@ export interface TabsChangeDetail {
  * <code>change</code> and the consumer sets <code>selected</code> on the chosen tab.</p>
  * <p>When every tab is a link (<code>href</code>), the tabs are navigation rather than a tablist:
  * the host gets no tablist role, so wrap it in a <code>&lt;nav&gt;</code>.</p>
- * <p>Deprecated: the <code>tab-click</code> event (use <code>change</code>).</p>
  *
- * @fires {CustomEvent<{index: number, value: string}>} change - Dispatched when the user selects a tab, by click or with the arrow keys.
- * @fires {CustomEvent<{index: number, value: string}>} tab-click - Deprecated alias of `change`, fired alongside it.
+ * @fires {CustomEvent<{index: number, value: string | undefined}>} change - Dispatched when the user selects a tab, by click or with the arrow keys.
  *
  * @example
  * ```html
@@ -237,9 +235,6 @@ export class Tabs extends LitElement {
     };
     this.dispatchEvent(
       new CustomEvent('change', { bubbles: true, composed: true, detail }),
-    );
-    this.dispatchEvent(
-      new CustomEvent('tab-click', { bubbles: true, composed: true, detail }),
     );
   }
 

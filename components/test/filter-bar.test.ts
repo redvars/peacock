@@ -431,7 +431,7 @@ describe('FilterBar', () => {
     await settle(el);
 
     expect(order).to.deep.equal(['view-change', 'change']);
-    expect(viewDetail).to.deep.equal({ id: 'mine' });
+    expect(viewDetail).to.deep.equal({ value: 'mine' });
     expect(el.view).to.equal('mine');
     expect(el.value).to.deep.equal({ status: 'open', owner: 'me' });
     expect(chipText(button)).to.equal('My open issues');
@@ -446,7 +446,7 @@ describe('FilterBar', () => {
     await settle(el);
     expect(el.view).to.equal('');
     expect(el.value).to.deep.equal({});
-    expect(viewDetail).to.deep.equal({ id: '' });
+    expect(viewDetail).to.deep.equal({ value: '' });
   });
 
   it('fires view-save with the current value', async () => {

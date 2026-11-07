@@ -26,12 +26,3 @@ menu.addEventListener('close', event => {
   if (event.target !== menu) return;
   console.log('Closed by', event.detail.reason, event.detail.cause.kind);
 });</Highlighter>
-
-<h3>Deprecated</h3>
-<ul>
-  <li>
-    <code>opened</code> and <code>closed</code>: use <code>open</code> and <code>close</code>. They still fire
-    on the menu itself without bubbling, and <code>closed</code> still carries the menu reason as
-    <code>detail.reason</code>.
-  </li>
-</ul>

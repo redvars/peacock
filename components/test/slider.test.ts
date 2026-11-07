@@ -2,7 +2,6 @@
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
 import { Slider } from '../src/slider/slider.js';
-import { resetDeprecationWarnings } from '../src/__internal/utils/deprecate.js';
 
 if (!customElements.get('wc-slider')) {
   customElements.define('wc-slider', Slider);
@@ -76,9 +75,9 @@ describe('Slider', () => {
     expect(thumb(el).getAttribute('tabindex')).to.equal('-1');
   });
 
-  it('shows the value beside the track with show-value', async () => {
+  it('shows the value beside the track with value-label="end"', async () => {
     const el = await fixture<Slider>(
-      html`<wc-slider value="30" show-value></wc-slider>`,
+      html`<wc-slider value="30" value-label="end"></wc-slider>`,
     );
     expect(
       el.shadowRoot!.querySelector('.value-display')?.textContent,
@@ -216,20 +215,11 @@ describe('Slider', () => {
     expect(el.getAttribute('size')).to.equal('lg');
   });
 
-  it('maps the deprecated labeled and show-value to value-label', async () => {
-    const original = console.warn;
-    const warnings: string[] = [];
-    console.warn = (message: string) => warnings.push(message);
-    resetDeprecationWarnings();
-    try {
-      const el = await fixture<Slider>(
-        html`<wc-slider .labeled=${false} show-value></wc-slider>`,
-      );
-      expect(el.shadowRoot!.querySelector('.value-label')).to.be.null;
-      expect(el.shadowRoot!.querySelector('.value-display')).to.exist;
-      expect(warnings.some(w => w.includes('`labeled`'))).to.be.true;
-    } finally {
-      console.warn = original;
-    }
+  it('shows no value with value-label="none"', async () => {
+    const el = await fixture<Slider>(
+      html`<wc-slider value-label="none"></wc-slider>`,
+    );
+    expect(el.shadowRoot!.querySelector('.value-label')).to.be.null;
+    expect(el.shadowRoot!.querySelector('.value-display')).to.be.null;
   });
 });

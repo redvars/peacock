@@ -95,7 +95,7 @@ function rememberDismissal(dismissKey: string) {
  * ```html
  * <wc-banner intent="warning" headline="Scheduled maintenance" dismissible dismiss-key="maint-2026-11-20">
  *   The service is unavailable on Friday from 22:00 to 23:00 UTC.
- *   <wc-button slot="action" variant="text" size="sm" href="/status">Status page</wc-button>
+ *   <wc-link-button slot="action" variant="text" size="sm" href="/status">Status page</wc-link-button>
  * </wc-banner>
  * ```
  * @example

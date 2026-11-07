@@ -117,11 +117,9 @@ const SLASH_ITEMS: SlashItem[] = [
  * @tag wc-markdown-editor
  * @rawTag markdown-editor
  *
- * @summary A Tiptap-powered Notion-like Markdown editor with a bottom toggle
- *   between rendered and raw markdown views.
+ * @summary A block-based Markdown editor with a slash menu and a formatting toolbar, and a switch between rendered and raw Markdown.
  * @overview
- * <p>The Markdown Editor provides a block-based, Notion-like writing surface
- * built on Tiptap. Type <code>/</code> to open a slash menu for inserting
+ * <p>The editor is built on Tiptap. Type <code>/</code> to open a slash menu for inserting
  * headings, lists, quotes, code blocks, and dividers. Select text to reveal
  * a floating bubble toolbar with inline formatting actions.</p>
  *
@@ -134,10 +132,6 @@ const SLASH_ITEMS: SlashItem[] = [
  *
  * <p><code>size</code> sets the text size: <code>sm</code> or <code>md</code> (the default), as on
  * <code>wc-code-editor</code>.</p>
- *
- * <p><strong>Breaking in 3.x:</strong> <code>change</code> used to fire, debounced, on every
- * edit; it now fires once when the edit is committed (on blur), and the debounced event is
- * <code>input</code>. Listen for <code>input</code> to keep the old timing.</p>
  *
  * @cssprop --markdown-editor-min-height - Minimum height of the editable area. Defaults to 12rem.
  * @cssprop --markdown-editor-bubble-background - Background color of the selection bubble menu.
@@ -317,7 +311,10 @@ export class MarkdownEditor extends BaseInput {
       this._editor.setEditable(!(this.disabled || this.readonly));
     }
 
-    if ((changed.has('placeholder') || changed.has('strings')) && this._editor) {
+    if (
+      (changed.has('placeholder') || changed.has('strings')) &&
+      this._editor
+    ) {
       this._destroyEditor();
       this._initializeEditor();
     }
@@ -549,7 +546,11 @@ export class MarkdownEditor extends BaseInput {
             props: {
               handleDOMEvents: {
                 mousemove: (view, event) => {
-                  if (host.disabled || host.readonly || host._mode !== 'editor') {
+                  if (
+                    host.disabled ||
+                    host.readonly ||
+                    host._mode !== 'editor'
+                  ) {
                     host._blockHandleVisible = false;
                     return false;
                   }
@@ -575,7 +576,8 @@ export class MarkdownEditor extends BaseInput {
                   return false;
                 },
                 mouseleave: (_view, event) => {
-                  const rel = (event as MouseEvent).relatedTarget as Node | null;
+                  const rel = (event as MouseEvent)
+                    .relatedTarget as Node | null;
                   if (
                     host._blockHandleEl?.contains(rel) ||
                     rel === host._blockHandleEl
@@ -679,7 +681,9 @@ export class MarkdownEditor extends BaseInput {
       };
       this._slashOpen = true;
       this._positionSlashMenu();
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   };
 
   private _onDragHandleMouseDown = (event: MouseEvent) => {
@@ -689,10 +693,13 @@ export class MarkdownEditor extends BaseInput {
     const { state } = view;
     try {
       const $pos = state.doc.resolve(this._blockHandleNodePos);
-      const nodePos = $pos.depth > 0 ? $pos.before(1) : this._blockHandleNodePos;
+      const nodePos =
+        $pos.depth > 0 ? $pos.before(1) : this._blockHandleNodePos;
       const sel = NodeSelection.create(state.doc, nodePos);
       view.dispatch(state.tr.setSelection(sel));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   };
 
   private _onDragHandleDragStart = (event: DragEvent) => {
@@ -701,7 +708,8 @@ export class MarkdownEditor extends BaseInput {
     const { state } = view;
     try {
       const $pos = state.doc.resolve(this._blockHandleNodePos);
-      const nodePos = $pos.depth > 0 ? $pos.before(1) : this._blockHandleNodePos;
+      const nodePos =
+        $pos.depth > 0 ? $pos.before(1) : this._blockHandleNodePos;
       const node = state.doc.nodeAt(nodePos);
       if (!node) return;
       const slice = new Slice(Fragment.from(node), 0, 0);
@@ -714,7 +722,9 @@ export class MarkdownEditor extends BaseInput {
       event.dataTransfer.setData('text/plain', container.textContent ?? '');
       event.dataTransfer.effectAllowed = 'move';
       view.dragging = { slice, move: true };
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   };
 
   private _onDragHandleDragEnd = () => {

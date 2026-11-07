@@ -24,11 +24,27 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
  * @label Chip
  * @tag wc-chip
  * @rawTag chip
- * @summary Chip component for displaying compact information with optional actions.
+ * @summary A compact button for an action, a filter or an entered value, with an optional icon and dismiss button.
+ *
+ * @overview
+ * <p>A chip is a button, or a link when <code>href</code> is set. The default slot holds the label
+ * and the <code>icon</code> slot a leading icon, which a check replaces while the chip is
+ * <code>selected</code>. For a read-only status label use <code>wc-tag</code>; to lay chips out or
+ * let the person pick from them use <code>wc-chip-set</code>.</p>
+ * <p>With <code>selectable</code> the chip is a toggle (a filter chip) and its button gets
+ * <code>aria-pressed</code> from <code>selected</code>. A selecting <code>wc-chip-set</code> sets
+ * this and handles the selection; a standalone selectable chip does not toggle itself, so set
+ * <code>selected</code> on <code>click</code>. <code>value</code> is what the chip set reports,
+ * and defaults to the chip's text.</p>
+ * <p><code>dismissible</code> adds a close button, labelled from Peacock's strings, that fires
+ * <code>dismiss</code>; the chip does not remove itself. <code>disabled</code> turns the chip off;
+ * <code>soft-disabled</code> with <code>disabled-reason</code> keeps it focusable and reads the
+ * reason to screen readers. <code>skeleton</code> shows a placeholder while the content is not
+ * known yet and ignores clicks. <code>tooltip</code> adds a tooltip and
+ * <code>throttle-delay</code> throttles clicks.</p>
  * @tags display
  *
  * @fires {CustomEvent} dismiss - Dispatched when the dismiss button of a `dismissible` chip is clicked.
- * @fires {CustomEvent} tag--dismiss - Deprecated alias of `dismiss`, fired alongside it.
  *
  * @example
  * ```html
@@ -177,10 +193,6 @@ export class Chip extends mixinBaseButton(
 
     this.dispatchEvent(
       new CustomEvent('dismiss', { bubbles: true, composed: true }),
-    );
-    // Deprecated: kept for listeners written before `dismiss`.
-    this.dispatchEvent(
-      new CustomEvent('tag--dismiss', { bubbles: true, composed: true }),
     );
   }
 

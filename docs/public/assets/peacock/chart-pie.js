@@ -1,13 +1,16 @@
-import { i, _ as __decorate, I as IndividualComponent, b, w } from './IndividualComponent-Bdwyrvd6.js';
-import { n } from './property-B49QQ8pS.js';
-import { o } from './style-map-BQD5Et1D.js';
-import { a as constant, b as array, c as css_248z$1, C as ChartBase, d as chartColor, s as select, e as cubicOut, i as interpolate } from './chart-base-C2qRMF48.js';
+import { i, _ as __decorate, I as IndividualComponent, b, w } from './IndividualComponent-BK7XZjE2.js';
+import { n } from './property-B2TG3KEE.js';
+import { o } from './style-map-CHOg6N_R.js';
+import { a as constant, b as array, c as css_248z$1, C as ChartBase, d as chartColor, s as select, e as cubicOut, i as interpolate } from './chart-base-CisqEeGa.js';
 import { w as withPath } from './path-CJ0Arqcy.js';
 import './directive-ZPhl09Yt.js';
-import './state-DkTK9EGF.js';
+import './state-BCeDVCI9.js';
 import './query-CHb9Ft_d.js';
 import './base-Cl6v8-BZ.js';
-import './class-map-DG7CA1et.js';
+import './class-map-NDIkZErE.js';
+import './i18n-controller-Dxqz0Aof.js';
+import './strings-WY90FZfd.js';
+import './locale-DEsJZCQG.js';
 
 const abs = Math.abs;
 const atan2 = Math.atan2;
@@ -447,6 +450,31 @@ const MIN_LABEL_ANGLE = 0.35;
  * @tag wc-chart-pie
  * @rawTag chart-pie
  * @summary Shows how parts make up a whole. Best with a handful of slices.
+ *
+ * @overview
+ * <p>Set <code>data</code> to an array of slices, each with a unique <code>name</code>, a
+ * <code>value</code>, and an optional <code>label</code> and <code>color</code>. Slices keep the
+ * order they are given in. Use <code>wc-chart-doughnut</code> to show the total in the centre, and
+ * <code>wc-chart-bar</code> when there are many parts or they need to be compared precisely.</p>
+ * <ul>
+ * <li><code>show-labels</code> prints each slice's percentage inside it when the slice is big
+ * enough.</li>
+ * <li><code>height</code> sets the plot height in pixels (300 by default); the width follows the
+ * container.</li>
+ * </ul>
+ * <p>Hovering or focusing a slice pulls it out, dims the others and shows a tooltip with its value
+ * and share of the visible total (<code>hide-tooltip</code> turns it off). Slices are told apart by
+ * the legend, so it shows by default (<code>legend</code>: <code>auto</code>, <code>show</code> or
+ * <code>hide</code>); each entry is a toggle button that hides or shows its slice, and percentages
+ * are worked out from the visible slices. <code>valueFormatter</code> formats the values.</p>
+ * <p>The plot is focusable. The arrow keys move through the slices (Left and Right follow the
+ * reading direction), Home and End jump to the first and last, Escape clears the focus, and Enter or
+ * Space fires <code>select</code>. Each move is announced through a polite live region, and a
+ * visually hidden table lists each slice's name, value and share for screen readers. Give the chart
+ * a <code>label</code> to name it.</p>
+ * <p><code>loading</code> shows a skeleton, and the <code>empty</code> slot shows when no slice has a
+ * value above zero. Slices sweep in and animate on data changes unless
+ * <code>disable-animation</code> is set or the user prefers reduced motion.</p>
  * @tags charts
  *
  * @example
@@ -463,7 +491,7 @@ const MIN_LABEL_ANGLE = 0.35;
  *
  * @slot empty - Shown when there is no data. Defaults to "No data".
  *
- * @fires chart-select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
+ * @fires {CustomEvent<ChartSelectDetail>} select - A slice was clicked or chosen with Enter. `detail` holds `index`, `series` (the slice name) and `datum`.
  *
  * @csspart container - The outer wrapper.
  * @csspart plot - The focusable plot area holding the SVG.
@@ -480,8 +508,6 @@ let ChartPie = class ChartPie extends ChartBase {
         // ── Properties
         /** Slices to draw. */
         this.data = [];
-        /** Size of the hole as a fraction of the radius, from 0 (pie) to 0.9. */
-        this.innerRadius = 0;
         /** Prints each slice's percentage inside it when it fits. */
         this.showLabels = false;
         // ── Private fields
@@ -494,7 +520,7 @@ let ChartPie = class ChartPie extends ChartBase {
     }
     // ── Private methods
     drawProperties() {
-        return [...super.drawProperties(), 'data', 'innerRadius', 'showLabels'];
+        return [...super.drawProperties(), 'data', 'showLabels'];
     }
     hasData() {
         return this.data.some(item => item.value > 0);
@@ -506,8 +532,9 @@ let ChartPie = class ChartPie extends ChartBase {
             color: item.color ?? chartColor(i),
         }));
     }
-    legendVisible() {
-        return !this.hideLegend;
+    /** Slices are only told apart by the legend, so `auto` always shows it. */
+    legendAuto() {
+        return true;
     }
     getItemCount() {
         return this.data.length;
@@ -521,14 +548,16 @@ let ChartPie = class ChartPie extends ChartBase {
     percent(value) {
         const total = this.visibleTotal();
         return total
-            ? new Intl.NumberFormat(undefined, {
+            ? new Intl.NumberFormat(this.i18n.locale, {
                 style: 'percent',
                 maximumFractionDigits: 1,
             }).format(value / total)
             : '';
     }
+    /** The hole as a fraction of the radius: none for a pie. `wc-chart-doughnut` overrides it. */
+    // eslint-disable-next-line class-methods-use-this
     innerFraction() {
-        return Math.min(Math.max(this.innerRadius || 0, 0), 0.9);
+        return 0;
     }
     draw(animate) {
         if (!this.svgElement)
@@ -678,9 +707,9 @@ let ChartPie = class ChartPie extends ChartBase {
     renderTable() {
         return b `<thead>
         <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Value</th>
-          <th scope="col">Share</th>
+          <th scope="col">${this.i18n.t('name')}</th>
+          <th scope="col">${this.i18n.t('value')}</th>
+          <th scope="col">${this.i18n.t('share')}</th>
         </tr>
       </thead>
       <tbody>
@@ -696,9 +725,6 @@ ChartPie.styles = [css_248z$1, css_248z];
 __decorate([
     n({ type: Array })
 ], ChartPie.prototype, "data", void 0);
-__decorate([
-    n({ type: Number, attribute: 'inner-radius' })
-], ChartPie.prototype, "innerRadius", void 0);
 __decorate([
     n({ type: Boolean, attribute: 'show-labels' })
 ], ChartPie.prototype, "showLabels", void 0);

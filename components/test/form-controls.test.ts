@@ -15,14 +15,6 @@ for (const [tag, element] of [
   if (!customElements.get(tag)) customElements.define(tag, element);
 }
 
-function silenceWarnings() {
-  const original = console.warn;
-  console.warn = () => {};
-  return () => {
-    console.warn = original;
-  };
-}
-
 describe('Checkbox', () => {
   it('has a string value, "on" by default, submitted while checked', async () => {
     const form = await fixture<HTMLFormElement>(html`
@@ -35,18 +27,6 @@ describe('Checkbox', () => {
     expect(a.value).to.equal('on');
     expect(b.value).to.equal('yes');
     expect(new FormData(form).get('b')).to.equal('yes');
-  });
-
-  it('still sets checked when value is set to a boolean (deprecated)', async () => {
-    const restore = silenceWarnings();
-    try {
-      const el = await fixture<Checkbox>(html`<wc-checkbox></wc-checkbox>`);
-      (el as unknown as { value: boolean }).value = true;
-      expect(el.checked).to.be.true;
-      expect(el.value).to.equal('on');
-    } finally {
-      restore();
-    }
   });
 
   it('blocks form submission while required and unchecked', async () => {

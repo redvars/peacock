@@ -207,7 +207,6 @@ export const defaultStrings = {
   codeEditor: 'Code editor',
   copyToClipboard: 'Copy to clipboard',
   copied: 'Copied',
-  copiedCode: 'Copied code to clipboard',
   wrapLines: 'Wrap lines',
   unwrapLines: 'Turn off line wrap',
   showMore: 'Show more',
