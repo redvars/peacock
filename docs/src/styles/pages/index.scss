@@ -360,6 +360,41 @@
   text-align: center;
 }
 
+// AI section: three points and a live summary over a form with a suggested value.
+.home-ai-points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+  }
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    flex: none;
+    color: var(--color-primary);
+  }
+}
+
+.home-ai-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+
+.home-ai-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+
 // Theming swatches, drawn from the live theme tokens.
 .home-swatches {
   display: grid;

@@ -29,7 +29,7 @@ const explore = [
     href: '/components/',
     icon: 'widgets',
     title: 'Components',
-    text: `${componentCount} elements for fields, data, navigation, overlays and feedback.`,
+    text: `${componentCount} elements for fields, data, navigation, overlays, feedback and the assistant.`,
   },
   {
     href: '/charts/',
@@ -41,7 +41,7 @@ const explore = [
     href: '/blocks/',
     icon: 'dashboard',
     title: 'Blocks',
-    text: 'Whole screens such as dashboards, sign-in and settings, ready to copy.',
+    text: 'Whole screens such as dashboards, sign-in, settings and an assistant panel, ready to copy.',
   },
   {
     href: '/foundations/',
@@ -186,7 +186,7 @@ await applyTheme({
   },
 ];
 
-const keywords = 'web components, design system, lit, react components, vue components, angular components, ui library, button, input, select, table, data grid, calendar, date picker, modal, tabs, menu, charts, dashboard, theme builder, accessibility, right-to-left';
+const keywords = 'web components, design system, lit, react components, vue components, angular components, ui library, button, input, select, table, data grid, calendar, date picker, modal, tabs, menu, charts, dashboard, theme builder, accessibility, right-to-left, ai components, assistant, chat ui, generative ui';
 ---
 
 <Layout keywords={keywords}>
@@ -300,6 +300,54 @@ const keywords = 'web components, design system, lit, react components, vue comp
             <span class='home-group-count text-label-medium'>{group.entries.length}</span>
           </a>
         ))}
+      </div>
+    </section>
+
+    <!-- AI -->
+    <section class='home-section home-split home-ai' aria-labelledby='ai-native'>
+      <header class='home-section-header'>
+        <h2 id='ai-native' class='text-headline-large'>AI native, never AI only</h2>
+        <p class='text-body-large home-muted'>
+          Components for an assistant that works inside your app: summaries that cite their sources, a
+          chat panel, suggested values and drafts the person confirms, answers shown as charts and tables.
+          Peacock never calls a model. Your app registers one provider with <code>setPeacockAi()</code>,
+          and turning AI off removes every trace of it while the page keeps working.
+        </p>
+        <ul class='home-ai-points text-body-medium'>
+          <li><wc-icon name='label' aria-hidden='true'></wc-icon>Everything the assistant wrote is marked, and shows why.</li>
+          <li><wc-icon name='task_alt' aria-hidden='true'></wc-icon>It never writes on its own: values are suggestions, records are drafts.</li>
+          <li><wc-icon name='shield' aria-hidden='true'></wc-icon>Model text is shown as text, never run; sensitive fields never reach it.</li>
+        </ul>
+        <div class='home-links'>
+          <wc-link href='/components/#group-ai'>AI components</wc-link>
+          <wc-link href='/blocks/assistant/'>Assistant panel</wc-link>
+          <wc-link href='/blocks/home-ai/'>Home with AI</wc-link>
+        </div>
+      </header>
+      <div class='home-ai-demo' aria-label='A live example of the AI components'>
+        <wc-ai-summary
+          headline='For you today'
+          hide-actions
+          value={'- Your leave on 13 November is still waiting for Ada Lovelace.\n- INC-2318 is waiting for your reply.'}
+        ></wc-ai-summary>
+        <wc-card variant='outlined'>
+          <wc-card-content class='home-ai-form'>
+            <div class='text-title-medium'>New incident</div>
+            <wc-input id='home-ai-field' label='Short description'></wc-input>
+            <div class='home-demo-actions'>
+              <wc-button variant='text'>Discard</wc-button>
+              <wc-button level='primary'>Raise incident</wc-button>
+            </div>
+          </wc-card-content>
+        </wc-card>
+        <script is:inline>
+          customElements.whenDefined('wc-input').then(function () {
+            document.getElementById('home-ai-field').suggestion = {
+              value: 'Cracked screen on laptop LT-0412',
+              reason: 'From what you told the assistant',
+            };
+          });
+        </script>
       </div>
     </section>
 
