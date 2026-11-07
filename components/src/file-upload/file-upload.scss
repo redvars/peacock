@@ -8,10 +8,20 @@
 }
 
 .file-upload {
+  // The same fill as a default field, so the zone and the file rows stand out on cards and
+  // dialogs as well as on the page.
   --_drop-zone-color: var(
     --file-upload-drop-zone-color,
-    var(--color-surface-container-low)
+    var(--color-surface-container-lowest)
   );
+  --_file-item-color: var(
+    --file-upload-file-item-color,
+    var(--color-surface-container-lowest)
+  );
+  --_file-item-border-color: var(--color-outline-variant, var(--color-outline));
+  --_content-color: var(--color-on-surface);
+  --_muted-color: var(--color-on-surface-variant);
+  --_accent-color: var(--color-primary);
   --_drop-zone-border-color: var(
     --file-upload-drop-zone-border-color,
     var(--color-outline)
@@ -31,6 +41,23 @@
     --_label-text-color: var(--color-error);
     --_helper-text-color: var(--color-error);
     --_drop-zone-border-color: var(--color-error);
+  }
+
+  // M3 disabled, as on fields: content in on-surface at 38%, outlines in on-surface at 12%
+  // and containers in on-surface at 4%.
+  &.disabled {
+    --_drop-zone-color: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+    --_drop-zone-border-color: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+    --_file-item-color: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+    --_file-item-border-color: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+    --_content-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+    --_muted-color: var(--_content-color);
+    --_accent-color: var(--_content-color);
+  }
+
+  // A list to read: the rows keep full contrast in a faint box, like a read-only field.
+  &.readonly:not(.disabled) {
+    --_file-item-color: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
   }
 }
 
@@ -56,7 +83,7 @@
   border: 0.0625rem dashed var(--_drop-zone-border-color);
   border-radius: var(--_drop-zone-shape);
   background-color: var(--_drop-zone-color);
-  color: var(--color-on-surface);
+  color: var(--_content-color);
   text-align: center;
   cursor: pointer;
   outline: none;
@@ -68,11 +95,11 @@
 
   .drop-icon {
     --icon-size: 2rem;
-    --icon-color: var(--color-on-surface-variant);
+    --icon-color: var(--_muted-color);
   }
 
   .browse {
-    color: var(--color-primary);
+    color: var(--_accent-color);
     text-decoration: underline;
   }
 
@@ -95,10 +122,9 @@
 
 .disabled .drop-zone {
   cursor: not-allowed;
-  opacity: 0.38;
 
   &:hover {
-    --_drop-zone-border-color: var(--color-outline);
+    --_drop-zone-border-color: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
   }
 }
 
@@ -136,13 +162,14 @@
   gap: var(--spacing-150);
   padding: var(--spacing-100) var(--spacing-100) var(--spacing-100)
     var(--spacing-200);
-  border: 0.0625rem solid var(--color-outline-variant, var(--color-outline));
+  border: 0.0625rem solid var(--_file-item-border-color);
   border-radius: var(--shape-corner-small);
-  color: var(--color-on-surface);
+  background-color: var(--_file-item-color);
+  color: var(--_content-color);
 
   .file-icon {
     --icon-size: 1.5rem;
-    --icon-color: var(--color-on-surface-variant);
+    --icon-color: var(--_muted-color);
 
     flex: none;
   }
@@ -184,7 +211,7 @@
   @include mixin.get-typography(body-small);
 
   flex: none;
-  color: var(--color-on-surface-variant);
+  color: var(--_muted-color);
 }
 
 .file-error {
