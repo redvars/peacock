@@ -1,0 +1,47 @@
+---
+export const title = 'Rules';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The common requirements are attributes, with labels translated through
+  <code>setPeacockStrings()</code>: <code>minlength</code> (counted in characters, so an emoji is
+  one), <code>require-uppercase</code>, <code>require-lowercase</code>, <code>require-number</code>
+  and <code>require-symbol</code> (anything that is not a letter, digit or space). They work with any
+  script, not only A–Z. For other policies set <code>rules</code> to
+  <code>{'{ id, label, test }'}</code> objects, where <code>test</code> is a <code>RegExp</code> the
+  password must match or a function returning whether it passes. Custom rules are listed after the
+  built-in ones, and <code>change</code> reports failing rules by <code>id</code>.
+</p>
+<p>
+  Without <code>for</code>, set <code>value</code> yourself; the checklist then only displays and
+  reports, and making a field invalid is up to you.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 0.5rem;'>
+    <wc-password-field id='password-rules-custom-field' label='Passphrase'></wc-password-field>
+    <wc-password-rules id='password-rules-custom' for='password-rules-custom-field' minlength='16'
+    ></wc-password-rules>
+  </div>
+  <script is:inline>
+    document.querySelector('#password-rules-custom').rules = [
+      { id: 'words', label: 'At least four words', test: /(\S+\s+){3}\S+/ },
+      {
+        id: 'no-name',
+        label: 'Does not contain "peacock"',
+        test: function (value) {
+          return value.toLowerCase().indexOf('peacock') === -1;
+        },
+      },
+    ];
+  </script>
+</DemoComponentCard>
+
+<h3>No strength meter</h3>
+<p>
+  The checklist has no strength meter on purpose: a meter built from how many rules pass only repeats
+  the checklist, and an honest strength estimate needs a dictionary-based estimator such as zxcvbn.
+  Pair the field with your own <code>wc-linear-progress</code> if you use one.
+</p>

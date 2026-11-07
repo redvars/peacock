@@ -1,4 +1,3 @@
-
 /**
  * Dispatches a click event to the given element that triggers a native action,
  * but is not composed and therefore is not seen outside the element.
@@ -84,7 +83,7 @@ export function isActivationClick(event: Event) {
   if (event.composedPath()[0] !== event.target) {
     return false;
   }
- 
+
   // Target must not be disabled; this should only occur for a synthetically
   // dispatched click.
   if ((event.target as EventTarget & { disabled: boolean }).disabled) {

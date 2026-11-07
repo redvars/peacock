@@ -155,25 +155,5 @@ export function buildDisplayItems(
   return { items, count: ariaRowIndex - options.firstAriaRowIndex };
 }
 
-/** Rows rendered by a virtual body, with `overscan` extra rows on each side. */
-export function virtualWindow(
-  count: number,
-  {
-    rowHeight,
-    scrollTop,
-    viewport,
-    overscan,
-  }: {
-    rowHeight: number;
-    scrollTop: number;
-    viewport: number;
-    overscan: number;
-  },
-): { start: number; end: number } {
-  if (count <= 0 || rowHeight <= 0) return { start: 0, end: 0 };
-  const first = Math.floor(Math.max(0, scrollTop) / rowHeight);
-  const visible = Math.ceil(Math.max(0, viewport) / rowHeight) + 1;
-  const start = Math.min(Math.max(0, first - overscan), count);
-  const end = Math.min(count, first + visible + overscan);
-  return { start, end: Math.max(start, end) };
-}
+/** Rows rendered by a virtual body; shared with `wc-virtual-list`. */
+export { virtualWindow } from '@/__internal/utils/virtual-window.js';

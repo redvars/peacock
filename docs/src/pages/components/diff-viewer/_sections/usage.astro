@@ -1,0 +1,76 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+const before = `server:
+  host: localhost
+  port: 8080
+  timeout: 30
+logging:
+  level: info
+  format: text
+features:
+  search: true
+  export: false
+  beta: false
+cache:
+  enabled: true
+  ttl: 300
+`;
+const after = `server:
+  host: 0.0.0.0
+  port: 9090
+  timeout: 30
+logging:
+  level: info
+  format: text
+features:
+  search: true
+  export: true
+  beta: false
+cache:
+  enabled: true
+  ttl: 600
+  size: 512
+`;
+---
+
+<p>
+  <code>wc-diff-viewer</code> shows what changed between <code>old-value</code> and
+  <code>new-value</code>, for config changes, audit history or document versions. A summary sits
+  at the top, changed words are marked inside changed lines, and unchanged lines more than
+  <code>context</code> lines (default 3) from a change fold into a button that shows them.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diff-viewer style='width: 100%;' label='config.yaml' old-value={before} new-value={after}
+  ></wc-diff-viewer>
+</DemoComponentCard>
+
+<h3>Split view</h3>
+<p>
+  <code>view="split"</code> shows the old text on the left and the new text on the right. Add
+  <code>wrap</code> to wrap long lines instead of scrolling.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-diff-viewer
+    style='width: 100%;'
+    view='split'
+    context='1'
+    wrap
+    label='config.yaml'
+    old-value={before}
+    new-value={after}
+  ></wc-diff-viewer>
+</DemoComponentCard>
+
+<h3>Edge cases</h3>
+<p>
+  Lines are compared without their line endings, so a CRLF file and its LF copy show no changes
+  and a note about the endings. A last line without a line break is marked when the other side
+  ends with one. Texts too different or too large to compare line by line within a time budget
+  are shown as removed and then added, with a note. The text is plain: there is no syntax
+  highlighting.
+</p>

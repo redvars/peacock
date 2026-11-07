@@ -1,0 +1,45 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-password-rules</code> is a checklist under a new-password field. Point <code>for</code> at
+  the field's id: the list ticks each requirement off as the person types, and while a typed password
+  fails a rule the field is invalid ("Password does not meet the requirements."), so the form does
+  not submit. An empty field is left to its own <code>required</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 0.5rem;'>
+    <wc-password-field
+      id='password-rules-demo-field'
+      label='New password'
+      autocomplete='new-password'
+      required
+    ></wc-password-field>
+    <wc-password-rules
+      id='password-rules-demo'
+      for='password-rules-demo-field'
+      minlength='12'
+      require-uppercase
+      require-lowercase
+      require-number
+      require-symbol
+    ></wc-password-rules>
+  </div>
+  <script is:inline>
+    document.querySelector('#password-rules-demo').addEventListener('change', function (event) {
+      myConsole.log('change: valid=' + event.detail.valid + ' failed=' + event.detail.failed.join(','));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  Each requirement shows its state with an icon shape (a tick or an empty circle), never color alone,
+  and screen readers hear "met" or "not met" after it. Changes are announced politely once typing
+  pauses for a second, and only for the requirements whose state flipped; when the last one is met,
+  "All password requirements met" is announced instead.
+</p>

@@ -9,6 +9,13 @@ import {
   type CloseReason,
   OverlayController,
 } from '@/__internal/controllers/overlay-controller.js';
+import {
+  DAY,
+  MINUTE,
+  WEEK,
+  formatTime,
+  onTick,
+} from '@/__internal/utils/relative-time.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import {
   type OverlayPlacement,
@@ -69,10 +76,6 @@ const INTENT_ICONS: Record<
   danger: 'error',
 };
 
-const MINUTE = 60_000;
-const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
-
 /** The panel becomes a full-height side sheet at phone width (the `for-phone-only` breakpoint). */
 const NARROW_QUERY = '(max-width: 671px)';
 
@@ -88,22 +91,13 @@ function daysAgo(time: number, now: number): number {
 }
 
 /** "now", "5 min. ago", "3 hr. ago", "2 days ago"; older than a week, the date. */
-export function formatRelativeTime(
-  time: number,
-  now: number,
-  locale: string,
-): string {
-  const diff = time - now;
-  const abs = Math.abs(diff);
-  const rtf = new Intl.RelativeTimeFormat(locale, {
+function formatItemTime(time: number, now: number, locale: string): string {
+  return formatTime(time, locale, {
+    now,
     numeric: 'auto',
     style: 'short',
+    absoluteAfter: WEEK,
   });
-  if (abs < MINUTE) return rtf.format(0, 'second');
-  if (abs < HOUR) return rtf.format(Math.round(diff / MINUTE), 'minute');
-  if (abs < DAY) return rtf.format(Math.round(diff / HOUR), 'hour');
-  if (abs < 7 * DAY) return rtf.format(Math.round(diff / DAY), 'day');
-  return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(time);
 }
 
 /**
@@ -229,7 +223,7 @@ export class NotificationCenter extends LitElement {
   private knownIds: Set<string> | null = null;
 
   /** Refreshes `now` while the panel is open. */
-  private clock?: ReturnType<typeof setInterval>;
+  private stopTicking?: () => void;
 
   /** Reason for the close in progress, sent with `close`. */
   private closeReason: CloseReason = 'api';
@@ -354,16 +348,20 @@ export class NotificationCenter extends LitElement {
     }
   }
 
+  /** Refreshes relative times every minute while the panel is open, on the page's shared ticker. */
   private startClock() {
     this.stopClock();
-    this.clock = setInterval(() => {
-      this.now = Date.now();
-    }, MINUTE);
+    this.stopTicking = onTick(
+      () => {
+        this.now = Date.now();
+      },
+      () => MINUTE,
+    );
   }
 
   private stopClock() {
-    if (this.clock !== undefined) clearInterval(this.clock);
-    this.clock = undefined;
+    this.stopTicking?.();
+    this.stopTicking = undefined;
   }
 
   /** Announces unread notifications that arrived while the panel is closed. */
@@ -561,7 +559,7 @@ export class NotificationCenter extends LitElement {
                 dateStyle: 'full',
                 timeStyle: 'short',
               }).format(time)}
-              >${formatRelativeTime(time, this.now, this.i18n.locale)}</time
+              >${formatItemTime(time, this.now, this.i18n.locale)}</time
             >`
           : nothing}
       </span>

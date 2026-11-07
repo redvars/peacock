@@ -1,0 +1,37 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 400;
+---
+
+<p>
+  The viewer follows the WAI-ARIA tree view pattern, like <code>wc-tree</code>: a
+  <code>role="tree"</code> named by <code>label</code> (default "JSON"), rows with
+  <code>role="treeitem"</code>, <code>aria-level</code>, <code>aria-setsize</code>,
+  <code>aria-posinset</code> and, for objects and arrays, <code>aria-expanded</code>. Each row's
+  name is its key and value, such as "roles: 2 items". It is one tab stop.
+</p>
+<ul>
+  <li><kbd>Up</kbd> and <kbd>Down</kbd> move between rows.</li>
+  <li>
+    <kbd>Right</kbd> expands a row or moves to its first child; <kbd>Left</kbd> collapses it or
+    moves to its parent. Both are mirrored in right-to-left layouts.
+  </li>
+  <li><kbd>Home</kbd> and <kbd>End</kbd> jump to the first and last row.</li>
+  <li><kbd>*</kbd> expands the row and all its siblings.</li>
+  <li>Typing moves to the next row whose key starts with the typed text.</li>
+  <li>
+    <kbd>Enter</kbd> toggles a row, shows a long string in full, or shows the next children of a
+    large array or object.
+  </li>
+  <li><kbd>Tab</kbd> from a row reaches its copy buttons; a polite live region confirms a copy.</li>
+</ul>
+
+<h3>Large documents</h3>
+<p>
+  Children are rendered only when their parent is expanded, and at most 100 at a time: a row
+  such as "Show 100 more of 12,245" renders the next batch. A 10 MB payload at depth 1 renders
+  just its top level. Strings longer than 200 characters are cut until clicked.
+</p>
+<p>
+  Search and filtering are not built in: filter the value before passing it in.
+</p>

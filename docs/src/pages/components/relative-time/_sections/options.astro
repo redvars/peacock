@@ -1,0 +1,42 @@
+---
+export const title = 'Wording and dates';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>numeric="always"</code> says "1 day ago" instead of "yesterday".
+  <code>format-style</code> is <code>long</code> (the default), <code>short</code> ("5 min. ago")
+  or <code>narrow</code> ("5m ago"); it is not <code>style</code>, which is the HTML attribute for
+  inline CSS.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div id='relative-time-options' style='display: flex; flex-direction: column; gap: 0.5rem;'>
+    <wc-relative-time data-ago='86400000'></wc-relative-time>
+    <wc-relative-time data-ago='86400000' numeric='always'></wc-relative-time>
+    <wc-relative-time data-ago='300000' format-style='short'></wc-relative-time>
+    <wc-relative-time data-ago='300000' format-style='narrow'></wc-relative-time>
+    <wc-relative-time data-ago='300000' lang='de'></wc-relative-time>
+  </div>
+  <script is:inline>
+    document.querySelectorAll('#relative-time-options wc-relative-time').forEach(function (el) {
+      el.datetime = new Date(Date.now() - Number(el.dataset.ago)).toISOString();
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Switching to a date</h3>
+<p>
+  Far from now, a relative time is harder to read than a date. <code>absolute-after</code> is an
+  ISO 8601 duration, such as <code>P7D</code> (7 days) or <code>PT12H</code> (12 hours): times
+  farther away than that show as a date, such as "Nov 2", with the year when it is not this year.
+  Without it the time is always relative.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 0.5rem;'>
+    <wc-relative-time datetime='2026-10-02T08:00:00Z' absolute-after='P7D'></wc-relative-time>
+    <wc-relative-time datetime='2025-03-14T08:00:00Z' absolute-after='P7D'></wc-relative-time>
+  </div>
+</DemoComponentCard>

@@ -1,0 +1,88 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-virtual-list</code> shows a long list, such as 10,000 people, by rendering only the
+  items in view plus <code>overscan</code> items on each side. Set <code>items</code> to the array
+  and <code>renderItem</code> to a function that renders one item. Every item is
+  <code>item-height</code> pixels high (48 by default). The list scrolls inside itself, so give it a
+  height; the default is <code>20rem</code>.
+</p>
+<p>
+  Items are rendered into the list's own light DOM, each inside a
+  <code>&lt;div role="listitem"&gt;</code>, so your page styles apply to them. The list manages
+  its children: do not add your own.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-virtual-list
+    id='virtual-list-demo'
+    label='People'
+    item-height='48'
+    style='width: 100%; max-width: 360px; height: 20rem; border: 1px solid var(--color-outline-variant);'
+  ></wc-virtual-list>
+  <script is:inline>
+    const $list = document.getElementById('virtual-list-demo');
+    $list.items = Array.from({ length: 10000 }, (_, index) => ({
+      name: `Person ${index + 1}`,
+      email: `person${index + 1}@example.com`,
+    }));
+    // Plain JavaScript: return a DOM node (or a string).
+    $list.renderItem = (person, index) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;flex-direction:column;justify-content:center;height:100%;padding:0 1rem;';
+      row.innerHTML = '<strong></strong><small></small>';
+      row.querySelector('strong').textContent = person.name;
+      row.querySelector('small').textContent = person.email;
+      return row;
+    };
+  </script>
+</DemoComponentCard>
+
+<h3>Rendering with Lit</h3>
+<p>
+  In a Lit component, return a template. Use arrow functions for event listeners inside it, since
+  the list, not your component, renders the template.
+</p>
+
+<pre><code>{`import { html } from 'lit';
+
+html\`<wc-virtual-list
+  label="People"
+  item-height="48"
+  .items=\${this.people}
+  .renderItem=\${(person, index) => html\`<div class="row" @click=\${() => this.open(person)}>
+    \${index + 1}. \${person.name}
+  </div>\`}
+></wc-virtual-list>\`;`}</code></pre>
+
+<h3>Scrolling to an item</h3>
+<p>
+  <code>scrollToIndex(index, {'{'} align, behavior {'}'})</code> scrolls an item into view.
+  <code>align</code> is <code>start</code>, <code>center</code>, <code>end</code> or
+  <code>nearest</code> (the default, which scrolls only as far as needed). <code>behavior:
+  'smooth'</code> animates, unless the person prefers reduced motion.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 360px;'>
+    <wc-button id='virtual-list-jump'>Go to item 5,000</wc-button>
+    <wc-virtual-list
+      id='virtual-list-scroll'
+      label='Numbers'
+      item-height='32'
+      style='height: 12rem; border: 1px solid var(--color-outline-variant);'
+    ></wc-virtual-list>
+  </div>
+  <script is:inline>
+    const $numbers = document.getElementById('virtual-list-scroll');
+    $numbers.items = Array.from({ length: 10000 }, (_, index) => `Item ${index + 1}`);
+    $numbers.renderItem = item => item;
+    document.getElementById('virtual-list-jump').addEventListener('click', () => {
+      $numbers.scrollToIndex(4999, { align: 'center', behavior: 'smooth' });
+    });
+  </script>
+</DemoComponentCard>

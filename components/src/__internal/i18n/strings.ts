@@ -518,11 +518,6 @@ export const defaultStrings = {
   userMenuThemeDark: 'Dark',
   /** The theme that follows the operating system's light or dark setting. */
   userMenuThemeSystem: 'System',
-  /** Presence shown in a user menu's header (`status`). */
-  userMenuStatusOnline: 'Online',
-  userMenuStatusAway: 'Away',
-  userMenuStatusBusy: 'Busy',
-  userMenuStatusOffline: 'Offline',
 
   // ── Banner, notification center, tour ────────────────────────────────────
   /** Accessible name of a banner's close button. */
@@ -603,6 +598,225 @@ export const defaultStrings = {
   commentAdded: (author: string): string => `New comment by ${author}`,
   /** Author shown for a comment without one. */
   commentUnknownAuthor: 'Unknown author',
+
+  // ── Password rules, rating, signature pad ────────────────────────────────
+  /** Accessible name of a password rules checklist. */
+  passwordRulesLabel: 'Password requirements',
+  /** Built-in `min-length` rule, for example "At least 12 characters". */
+  passwordRuleMinLength: (count: number): string =>
+    count === 1 ? 'At least 1 character' : `At least ${count} characters`,
+  /** Built-in `require-uppercase` rule. */
+  passwordRuleUppercase: 'One uppercase letter',
+  /** Built-in `require-lowercase` rule. */
+  passwordRuleLowercase: 'One lowercase letter',
+  /** Built-in `require-number` rule. */
+  passwordRuleNumber: 'One number',
+  /** Built-in `require-symbol` rule. */
+  passwordRuleSymbol: 'One symbol',
+  /** Status of a met password rule, read after its label. */
+  passwordRuleMet: 'met',
+  /** Status of an unmet password rule, read after its label. */
+  passwordRuleNotMet: 'not met',
+  /** Announced when a rule flips, for example "One number: met". */
+  passwordRuleAnnouncement: (label: string, status: string): string =>
+    `${label}: ${status}`,
+  /** Announced when the last failing rule is met. */
+  passwordRulesAllMet: 'All password requirements met',
+  /** Validation message set on the connected password field while rules fail. */
+  passwordRulesInvalid: 'Password does not meet the requirements.',
+  /** Default accessible name of a rating. */
+  ratingLabel: 'Rating',
+  /** Value text of a rating, for example "3 out of 5". */
+  ratingValueText: (value: string, max: string): string =>
+    `${value} out of ${max}`,
+  /** Value text of a rating with no value. */
+  ratingNoValue: 'No rating',
+  /** Accessible name of a read-only rating, for example "Rated 4.3 out of 5". */
+  ratingReadonly: (value: string, max: string): string =>
+    `Rated ${value} out of ${max}`,
+  /** Validation message of a required rating with no value. */
+  valueMissingRating: 'Please choose a rating.',
+  /** Default accessible name of a signature pad. */
+  signaturePadLabel: 'Signature',
+  /** Hint shown on an empty signature pad. */
+  signaturePadPlaceholder: 'Sign here',
+  /** Status of an empty signature pad, read after its label. */
+  signaturePadEmpty: 'empty',
+  /** Status of a signed signature pad, read after its label. */
+  signaturePadSigned: 'signed',
+  /** Accessible name of a signature pad's drawing, for example "Signature, empty". */
+  signaturePadImage: (label: string, status: string): string =>
+    `${label}, ${status}`,
+  /** Undo button of a signature pad. */
+  signaturePadUndo: 'Undo last stroke',
+  /** Clear button of a signature pad. */
+  signaturePadClear: 'Clear signature',
+  /** Button that switches a signature pad to typing the name. */
+  signaturePadTypeInstead: 'Type your name instead',
+  /** Button that switches a signature pad back to drawing. */
+  signaturePadDrawInstead: 'Draw instead',
+  /** Label of the name field of a signature pad in typing mode. */
+  signaturePadTypedName: 'Your name',
+  /** Validation message of a required signature pad with no signature. */
+  valueMissingSignature: 'Please sign.',
+
+  // ── Mention input, kbd, hover card ───────────────────────────────────────
+  /** Accessible name of a mention input's suggestion list. */
+  mentionSuggestions: 'Suggestions',
+  /** Announced as a mention input's suggestions change; `formatted` is `count` formatted. */
+  mentionResults: (count: number, formatted: string): string =>
+    count === 1 ? '1 suggestion' : `${formatted} suggestions`,
+  /** Spoken names of keys in `wc-kbd`, read instead of the symbols. */
+  kbdCommand: 'Command',
+  kbdControl: 'Control',
+  kbdOption: 'Option',
+  kbdAlt: 'Alt',
+  kbdShift: 'Shift',
+  kbdWindows: 'Windows',
+  kbdEnter: 'Enter',
+  kbdReturn: 'Return',
+  kbdEscape: 'Escape',
+  kbdTab: 'Tab',
+  kbdBackspace: 'Backspace',
+  kbdDelete: 'Delete',
+  kbdSpace: 'Space',
+  kbdArrowUp: 'Up arrow',
+  kbdArrowDown: 'Down arrow',
+  kbdArrowLeft: 'Left arrow',
+  kbdArrowRight: 'Right arrow',
+  kbdPageUp: 'Page up',
+  kbdPageDown: 'Page down',
+  kbdHome: 'Home',
+  kbdEnd: 'End',
+  kbdCapsLock: 'Caps Lock',
+  /** Short labels `wc-kbd` shows off Apple platforms. */
+  kbdCtrlShort: 'Ctrl',
+  kbdWinShort: 'Win',
+  kbdEscShort: 'Esc',
+  kbdDelShort: 'Del',
+  kbdPageUpShort: 'PgUp',
+  kbdPageDownShort: 'PgDn',
+
+  // ── Kanban, virtual list ─────────────────────────────────────────────────
+  /** Default accessible name of a kanban board. */
+  kanbanLabel: 'Board',
+  /** Read with each kanban card, from `aria-describedby`. */
+  kanbanInstructions:
+    'Press Space or Enter to pick up the card. Use the arrow keys to move it, Space or Enter to drop it, and Escape to cancel.',
+  /** Accessible name of a column's card count, for example "3 cards" or "6 of 5 cards". */
+  kanbanCount: (count: number, formatted: string, limit?: string): string => {
+    if (limit) return `${formatted} of ${limit} cards`;
+    return count === 1 ? '1 card' : `${formatted} cards`;
+  },
+  /** Shown in a column header with more cards than its limit. */
+  kanbanOverLimit: 'Over limit',
+  /** A column without cards. */
+  kanbanEmpty: 'No cards',
+  /** A column's add button. */
+  kanbanAddCard: 'Add card',
+  /** Accessible name of a column's add button, for example "Add card to To do". */
+  kanbanAddCardTo: (column: string): string => `Add card to ${column}`,
+  /** Announced when a card is picked up, for example "Picked up card Fix login. Column To do, position 2 of 5." */
+  kanbanPickedUp: (
+    card: string,
+    column: string,
+    position: string,
+    total: string,
+  ): string =>
+    `Picked up card ${card}. Column ${column}, position ${position} of ${total}.`,
+  /** Announced at each keyboard move of a lifted card. */
+  kanbanMoved: (
+    card: string,
+    column: string,
+    position: string,
+    total: string,
+  ): string =>
+    `Card ${card}: column ${column}, position ${position} of ${total}.`,
+  /** Announced when a card is dropped. */
+  kanbanDropped: (
+    card: string,
+    column: string,
+    position: string,
+    total: string,
+  ): string =>
+    `Dropped card ${card}. Column ${column}, position ${position} of ${total}.`,
+  /** Announced when a move is canceled, by Escape or by the app. */
+  kanbanCanceled: (
+    card: string,
+    column: string,
+    position: string,
+    total: string,
+  ): string =>
+    `Move canceled. Card ${card} is back in column ${column}, position ${position} of ${total}.`,
+
+  // ── JSON viewer, diff viewer ─────────────────────────────────────────────
+  /** Default accessible name of a JSON viewer's tree. */
+  jsonViewer: 'JSON',
+  /** Size of a collapsed object, for example "3 keys"; `formatted` is `count` formatted. */
+  jsonViewerKeys: (count: number, formatted: string): string =>
+    count === 1 ? '1 key' : `${formatted} keys`,
+  /** Size of a collapsed array, for example "12 items"; `formatted` is `count` formatted. */
+  jsonViewerItems: (count: number, formatted: string): string =>
+    count === 1 ? '1 item' : `${formatted} items`,
+  /** Row that renders the next children of a large node, for example "Show 100 more of 12,245". */
+  jsonViewerShowMore: (next: string, hidden: string): string =>
+    `Show ${next} more of ${hidden}`,
+  /** After a truncated string, for example "1,234 more characters". */
+  jsonViewerMoreCharacters: (count: number, formatted: string): string =>
+    count === 1 ? '1 more character' : `${formatted} more characters`,
+  jsonViewerCopyValue: 'Copy value',
+  jsonViewerCopyPath: 'Copy path',
+  /** Announced after a JSON value or path is copied. */
+  jsonViewerCopiedValue: 'Copied value to clipboard',
+  jsonViewerCopiedPath: 'Copied path to clipboard',
+  /** Shown instead of a value that contains itself. */
+  jsonViewerCircular: 'Circular reference',
+  /** Shown when the `value` attribute is not valid JSON, with the parser's message. */
+  jsonViewerInvalid: (message: string): string => `Invalid JSON: ${message}`,
+  /** Default accessible name of a diff viewer's table. */
+  diffViewer: 'Changes',
+  /** Summary above a diff, for example "3 additions, 2 deletions"; the strings are the counts formatted. */
+  diffSummary: (
+    additions: number,
+    deletions: number,
+    formattedAdditions: string,
+    formattedDeletions: string,
+  ): string =>
+    `${additions === 1 ? '1 addition' : `${formattedAdditions} additions`}, ${
+      deletions === 1 ? '1 deletion' : `${formattedDeletions} deletions`
+    }`,
+  /** Summary above a diff of two identical texts. */
+  diffNoChanges: 'No changes',
+  /** Screen-reader text before an added line, for example "Added line 13"; `line` is formatted. */
+  diffAddedLine: (line: string): string => `Added line ${line}`,
+  /** Screen-reader text before a removed line, for example "Removed line 12"; `line` is formatted. */
+  diffRemovedLine: (line: string): string => `Removed line ${line}`,
+  /** Button that shows hidden unchanged lines, for example "Show 24 unchanged lines". */
+  diffShowUnchanged: (count: number, formatted: string): string =>
+    count === 1 ? 'Show 1 unchanged line' : `Show ${formatted} unchanged lines`,
+  /** Shown on the last line of a side that does not end with a line break, when the other does. */
+  diffNoNewline: 'No newline at end of file',
+  /** Note shown when the texts are too different or too large to compare line by line. */
+  diffApproximate:
+    'These texts are too different to compare line by line, so the changed part is shown as removed and then added.',
+  /** Note shown when only the line endings tell the sides apart, for example "CRLF" and "LF". */
+  diffLineEndings: (oldEnding: string, newEnding: string): string =>
+    `Line endings differ: ${oldEnding} in the old text, ${newEnding} in the new text.`,
+  /** Column headers of a split diff. */
+  diffOld: 'Old',
+  diffNew: 'New',
+
+  // ── Anchor nav, scroll area, presence indicator, relative time ───────────
+  /** Default accessible name of an anchor nav's `nav` landmark. */
+  anchorNavLabel: 'On this page',
+  /** Presence status of a person, read after their name. */
+  presenceOnline: 'Online',
+  presenceAway: 'Away',
+  presenceBusy: 'Busy',
+  presenceOffline: 'Offline',
+  /** Accessible name of an avatar with a presence indicator, for example "Ana Lima, online". */
+  presenceLabel: (name: string, status: string): string =>
+    name ? `${name}, ${status.toLowerCase()}` : status,
 
   // ── Confirm dialog ───────────────────────────────────────────────────────
   /** Default label of a confirm dialog's confirm button. */

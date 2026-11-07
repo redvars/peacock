@@ -1,0 +1,31 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-relative-time</code> shows <code>datetime</code> (ISO 8601) relative to now, such as
+  "5 minutes ago" or "in 3 days", in the page's locale. Hover it for the absolute date and time.
+  It keeps itself current: every relative time on the page shares one timer, which refreshes each
+  one as often as its text can change and pauses while the page is hidden.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div id='relative-time-demo' style='display: flex; flex-direction: column; gap: 0.5rem;'>
+    <span>Edited <wc-relative-time data-ago='20000'></wc-relative-time></span>
+    <span>Commented <wc-relative-time data-ago='300000'></wc-relative-time></span>
+    <span>Created <wc-relative-time data-ago='86400000'></wc-relative-time></span>
+    <span>Due <wc-relative-time data-ago='-259200000'></wc-relative-time></span>
+  </div>
+  <script is:inline>
+    document.querySelectorAll('#relative-time-demo wc-relative-time').forEach(function (el) {
+      el.datetime = new Date(Date.now() - Number(el.dataset.ago)).toISOString();
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  Content inside the element is shown while <code>datetime</code> is missing or not a date, and
+  before the component loads, so put the absolute date there for pages rendered on the server.
+</p>

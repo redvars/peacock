@@ -1,0 +1,63 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-json-viewer</code> shows a JSON value as a tree that expands and collapses, for API
+  responses, audit-log payloads or webhook bodies. Give it JSON text with the
+  <code>value</code> attribute, or any JavaScript value with the <code>value</code> property.
+  Collapsed objects and arrays show their size, such as <code>{3 keys}</code> or
+  <code>[2 items]</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-json-viewer
+    id='json-viewer-demo'
+    style='width: 100%;'
+    root-label='response'
+    expand-depth='2'
+    value='{"id": 42, "name": "Ada Lovelace", "active": true, "manager": null, "roles": ["admin", "ops"], "address": {"city": "London", "zip": "N1 9GU"}}'
+  ></wc-json-viewer>
+  <script is:inline>
+    document.querySelector('#json-viewer-demo').addEventListener('copied', function (event) {
+      myConsole.log('copied ' + event.detail.kind + ': ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Expanding</h3>
+<p>
+  <code>expand-depth</code> sets how many levels start expanded: <code>0</code> none,
+  <code>1</code> the root (the default), <code>all</code> everything. <code>expandAll()</code> and
+  <code>collapseAll()</code> do the same from script. <code>sort-keys</code> lists object keys
+  alphabetically.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-json-viewer
+    style='width: 100%;'
+    expand-depth='all'
+    sort-keys
+    value='{"webhook": "invoice.paid", "data": {"total": 1250.5, "currency": "EUR", "lines": [{"sku": "A-1", "qty": 2}]}}'
+  ></wc-json-viewer>
+</DemoComponentCard>
+
+<h3>Copying</h3>
+<p>
+  Hovering or focusing a row shows two round buttons: one copies the value (a string as is,
+  anything else as indented JSON), the other its JSONPath, such as
+  <code>$.data.lines[0].sku</code>. Both fire <code>copied</code> with
+  <code>detail.value</code>, <code>detail.kind</code> (<code>value</code> or
+  <code>path</code>) and <code>detail.path</code>.
+</p>
+
+<h3>Invalid JSON</h3>
+<p>
+  When the <code>value</code> attribute is not valid JSON, the viewer shows the parser's message.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-json-viewer style='width: 100%;' value='{"id": 42, "name": }'></wc-json-viewer>
+</DemoComponentCard>

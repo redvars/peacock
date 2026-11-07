@@ -1,0 +1,64 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-flex;
+  vertical-align: baseline;
+
+  /**
+   * @prop --kbd-background: Background of a key cap
+   */
+  --kbd-background: var(--color-surface-container-highest);
+
+  /**
+   * @prop --kbd-color: Text color of a key cap
+   */
+  --kbd-color: var(--color-on-surface-variant);
+
+  /**
+   * @prop --kbd-border-color: Border color of a key cap
+   */
+  --kbd-border-color: var(--color-outline-variant);
+}
+
+.shortcut {
+  display: inline-flex;
+  font: inherit;
+}
+
+.keys {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-025, 0.125rem);
+}
+
+.key {
+  display: inline-block;
+  box-sizing: border-box;
+  min-inline-size: 1.6em;
+  padding: 0 0.35em;
+  font-family: inherit;
+  font-size: 0.8em;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--kbd-color);
+  background-color: var(--kbd-background);
+  border: 1px solid var(--kbd-border-color);
+  border-block-end-width: 2px;
+  border-radius: var(--shape-corner-extra-small);
+}
+
+.separator {
+  font-size: 0.8em;
+  color: var(--kbd-color);
+}
+
+@media (forced-colors: active) {
+  .key {
+    border-color: CanvasText;
+    color: CanvasText;
+  }
+}

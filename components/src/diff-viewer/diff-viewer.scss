@@ -1,0 +1,231 @@
+@use '../../scss/mixin';
+@use '../../scss/code-block';
+
+@include mixin.base-styles;
+@include code-block.chrome(diff-viewer);
+
+:host {
+  --_added: var(--diff-viewer-added-color, var(--color-success));
+  --_removed: var(--diff-viewer-removed-color, var(--color-error));
+
+  display: block;
+  min-width: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.code-block:has(.content:focus-visible) {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// ── Header ─────────────────────────────────────────────────────────────────
+
+.header {
+  padding-block-end: var(--_pad-near);
+}
+
+.summary {
+  flex: none;
+  margin-inline-start: auto;
+  color: var(--color-on-surface-variant);
+
+  @include mixin.get-typography(label-medium);
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  padding: 0 var(--_pad-inline) var(--_pad-near);
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  margin: 0;
+  color: var(--color-on-surface-variant);
+
+  @include mixin.get-typography(body-small);
+
+  wc-icon {
+    --icon-size: 1rem;
+    --icon-color: currentColor;
+
+    flex: none;
+  }
+}
+
+// ── Table ──────────────────────────────────────────────────────────────────
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: var(--diff-viewer-max-height, none);
+  padding-block-end: var(--_pad-near);
+  overflow: auto;
+  outline: none;
+  text-align: start;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-outline-variant) transparent;
+
+  @include mixin.get-typography(code-medium);
+}
+
+.diff {
+  min-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: inherit;
+}
+
+.wrap .diff {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.split .text-column {
+  width: 50%;
+}
+
+.number-column {
+  width: 3.5rem;
+}
+
+td {
+  padding: 0;
+  vertical-align: top;
+}
+
+// Number columns shrink to their content; the text takes the rest.
+.number {
+  width: 1%;
+  min-width: 2.5rem;
+  padding-inline: var(--spacing-100);
+  color: var(--color-on-surface-variant);
+  text-align: end;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.text {
+  position: relative;
+  height: 1lh;
+  padding-inline: var(--spacing-300) var(--_pad-inline);
+  white-space: nowrap;
+}
+
+// Only the line's own text keeps its white space; the template's collapses.
+.code {
+  white-space: pre;
+}
+
+.wrap .text {
+  white-space: normal;
+}
+
+.wrap .code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.split .text[data-side='old'] {
+  border-inline-end: 1px solid var(--color-outline-variant);
+}
+
+.marker {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--spacing-100);
+  user-select: none;
+}
+
+.no-newline {
+  margin-inline-start: var(--spacing-100);
+  padding: 0 var(--spacing-050);
+  color: var(--color-on-surface-variant);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--shape-corner-extra-small);
+  white-space: nowrap;
+  user-select: none;
+
+  @include mixin.get-typography(label-small);
+}
+
+// ── Line types ─────────────────────────────────────────────────────────────
+
+.line[data-type='added'],
+.line[data-new-type='added'] .text[data-side='new'] {
+  --_line-color: var(--_added);
+}
+
+.line[data-type='removed'],
+.line[data-old-type='removed'] .text[data-side='old'] {
+  --_line-color: var(--_removed);
+}
+
+.line[data-type='added'] td,
+.line[data-type='removed'] td,
+.split .text[data-side='new'],
+.split .text[data-side='old'] {
+  background: color-mix(
+    in srgb,
+    var(--_line-color, transparent) 12%,
+    transparent
+  );
+}
+
+.line[data-type='added'] .number,
+.line[data-type='removed'] .number {
+  background: color-mix(
+    in srgb,
+    var(--_line-color, transparent) 18%,
+    transparent
+  );
+}
+
+.marker {
+  color: var(--_line-color, var(--color-on-surface-variant));
+}
+
+.word {
+  background: color-mix(
+    in srgb,
+    var(--_line-color, transparent) 30%,
+    transparent
+  );
+  border-radius: var(--shape-corner-extra-small);
+}
+
+.split .text.empty {
+  background: color-mix(in srgb, var(--color-on-surface) 4%, transparent);
+}
+
+// ── Separators ─────────────────────────────────────────────────────────────
+
+.gap td {
+  padding: var(--spacing-025) var(--spacing-100);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+}
+
+.gap-button wc-icon {
+  --icon-color: currentColor;
+}
+
+// ── Forced colors ──────────────────────────────────────────────────────────
+
+// The fills disappear; the markers stay, and changed words are underlined.
+@media (forced-colors: active) {
+  .word {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .marker {
+    color: CanvasText;
+  }
+}

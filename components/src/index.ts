@@ -252,6 +252,69 @@ export type {
 } from './tour/index.js';
 export { InlineEdit } from './inline-edit/index.js';
 export { CommentThread, CommentElement } from './comment-thread/index.js';
+export { PasswordRules } from './password-rules/index.js';
+export type {
+  BuiltInPasswordRuleId,
+  PasswordRule,
+  PasswordRulesChangeDetail,
+} from './password-rules/index.js';
+export { Rating } from './rating/index.js';
+export type { RatingChangeDetail } from './rating/index.js';
+export { SignaturePad } from './signature-pad/index.js';
+export type {
+  SignaturePadChangeDetail,
+  SignaturePadMode,
+} from './signature-pad/index.js';
+export { MentionInput } from './mention-input/index.js';
+export type {
+  Mention,
+  MentionInputValueDetail,
+  MentionInsertDetail,
+  MentionSearchDetail,
+  MentionSuggestion,
+} from './mention-input/index.js';
+export { Kbd } from './kbd/index.js';
+export type { KbdPlatform } from './kbd/index.js';
+export { HoverCard } from './hover-card/index.js';
+export type { HoverCardCloseDetail } from './hover-card/index.js';
+export { Kanban, applyKanbanMove } from './kanban/index.js';
+export type {
+  KanbanCard,
+  KanbanCardAddDetail,
+  KanbanCardMoveDetail,
+  KanbanColumn,
+  KanbanRenderCard,
+} from './kanban/index.js';
+export { VirtualList } from './virtual-list/index.js';
+export type {
+  VirtualListEndReachedDetail,
+  VirtualListRenderItem,
+  VirtualListScrollOptions,
+} from './virtual-list/index.js';
+export { JsonViewer } from './json-viewer/index.js';
+export type {
+  JsonViewerCopyDetail,
+  JsonViewerToggleDetail,
+} from './json-viewer/index.js';
+export { DiffViewer } from './diff-viewer/index.js';
+export type { DiffViewerView } from './diff-viewer/index.js';
+export { AnchorNav } from './anchor-nav/index.js';
+export type {
+  AnchorNavChangeDetail,
+  AnchorNavItem,
+} from './anchor-nav/index.js';
+export { ScrollArea } from './scroll-area/index.js';
+export type { ScrollAreaOrientation } from './scroll-area/index.js';
+export { PresenceIndicator } from './presence-indicator/index.js';
+export type {
+  PresenceIndicatorSize,
+  PresenceStatus,
+} from './presence-indicator/index.js';
+export { RelativeTime } from './relative-time/index.js';
+export type {
+  RelativeTimeNumeric,
+  RelativeTimeStyle,
+} from './relative-time/index.js';
 export type {
   CommentActionDetail,
   CommentCopyLinkDetail,

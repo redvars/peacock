@@ -121,6 +121,20 @@ import { NotificationCenter } from '@/notification-center/notification-center.js
 import { Tour } from '@/tour/tour.js';
 import { InlineEdit } from '@/inline-edit/inline-edit.js';
 import { CommentThread, CommentElement } from '@/comment-thread/index.js';
+import { PasswordRules } from '@/password-rules/password-rules.js';
+import { Rating } from '@/rating/rating.js';
+import { SignaturePad } from '@/signature-pad/signature-pad.js';
+import { MentionInput } from '@/mention-input/mention-input.js';
+import { Kbd } from '@/kbd/kbd.js';
+import { HoverCard } from '@/hover-card/hover-card.js';
+import { Kanban } from '@/kanban/kanban.js';
+import { VirtualList } from '@/virtual-list/virtual-list.js';
+import { JsonViewer } from '@/json-viewer/json-viewer.js';
+import { DiffViewer } from '@/diff-viewer/diff-viewer.js';
+import { AnchorNav } from '@/anchor-nav/anchor-nav.js';
+import { ScrollArea } from '@/scroll-area/scroll-area.js';
+import { PresenceIndicator } from '@/presence-indicator/presence-indicator.js';
+import { RelativeTime } from '@/relative-time/relative-time.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -554,6 +568,48 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-comment': {
       CustomElementClass: CommentElement,
+    },
+    'wc-password-rules': {
+      CustomElementClass: PasswordRules,
+    },
+    'wc-rating': {
+      CustomElementClass: Rating,
+    },
+    'wc-signature-pad': {
+      CustomElementClass: SignaturePad,
+    },
+    'wc-mention-input': {
+      CustomElementClass: MentionInput,
+    },
+    'wc-kbd': {
+      CustomElementClass: Kbd,
+    },
+    'wc-hover-card': {
+      CustomElementClass: HoverCard,
+    },
+    'wc-kanban': {
+      CustomElementClass: Kanban,
+    },
+    'wc-virtual-list': {
+      CustomElementClass: VirtualList,
+    },
+    'wc-json-viewer': {
+      CustomElementClass: JsonViewer,
+    },
+    'wc-diff-viewer': {
+      CustomElementClass: DiffViewer,
+    },
+    'wc-anchor-nav': {
+      CustomElementClass: AnchorNav,
+    },
+    'wc-scroll-area': {
+      CustomElementClass: ScrollArea,
+    },
+    'wc-presence-indicator': {
+      CustomElementClass: PresenceIndicator,
+    },
+    'wc-relative-time': {
+      CustomElementClass: RelativeTime,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,

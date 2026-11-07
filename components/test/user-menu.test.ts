@@ -81,9 +81,11 @@ describe('UserMenu', () => {
     expect(header?.querySelector('.email')?.textContent).to.equal(
       'ada@example.com',
     );
-    const status = header?.querySelector('wc-status-indicator');
-    expect(status?.getAttribute('label')).to.equal('Away');
-    expect(status?.getAttribute('intent')).to.equal('warning');
+    // A presence dot on the avatar, and the status written out under the email.
+    const presence = header?.querySelector('wc-presence-indicator');
+    expect(presence?.getAttribute('status')).to.equal('away');
+    expect(presence?.querySelector('wc-avatar')).to.exist;
+    expect(header?.querySelector('.status')?.textContent).to.equal('Away');
   });
 
   it('lists slotted items and footer items in the menu', async () => {

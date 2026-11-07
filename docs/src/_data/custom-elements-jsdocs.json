@@ -190,6 +190,101 @@
     }
   },
   {
+    "label": "Anchor Nav",
+    "tag": "wc-anchor-nav",
+    "rawTag": "anchor-nav",
+    "summary": "\"On this page\" links to the sections of a long page, highlighting the one in view.",
+    "overview": "<p>An anchor nav lists the sections of a long settings or documentation page and marks the one\nbeing read. Point <code>for</code> at the element holding the content and it lists its\n<code>h2</code> and <code>h3</code> headings (an <code>h3</code> nested under the\n<code>h2</code> before it), using each heading's text as the link and its <code>id</code> as\nthe target; a heading without an <code>id</code> gets one made from its text. It follows\nheadings added, removed or renamed later. Or set <code>items</code> to\n<code>{ id, label, level? }</code> objects, for sections that are not headings or labels that\ndiffer from them; <code>items</code> wins when both are set.</p>\n<p>The link of the section in view has <code>aria-current=\"location\"</code>. A section is in\nview once its top passes the first third of the scroll container; at the very end of the page\nthe last section is current even when it is too short to reach that line. The nav fires\n<code>change</code> when the current section changes.</p>\n<p>Pressing a link scrolls its section into view, smoothly unless the person asks for reduced\nmotion, and moves focus to the section's heading (giving it <code>tabindex=\"-1\"</code> when it\nis not focusable), so keyboard and screen reader users continue reading from there. Set\n<code>update-hash</code> to also put the section in the address bar with\n<code>history.replaceState()</code>, without adding a history entry. Links are real\n<code>#id</code> links, so they can be copied or opened in a new tab.</p>\n<p>The sections may scroll inside an element rather than the page: the nav uses the nearest\nscrolling ancestor of the sections (such as a <code>wc-scroll-area</code>), or the element\nthat <code>scroll-container</code> selects. Set <code>scroll-margin-top</code> on the headings\nwhen a sticky header covers the top of the scroll container.</p>\n<p>The nav is a <code>nav</code> landmark named \"On this page\" (<code>label</code> to change\nit); <code>headline</code> shows a visible title, which then names the landmark. It does not\nstick in place on its own: put it in a sidebar and give it <code>position: sticky</code> and\n<code>top</code> when it should stay visible while the page scrolls. Call\n<code>refresh()</code> after replacing the content wholesale or moving the sections.</p>",
+    "fires": "change - When the section in view changes. `detail.value` is its id.",
+    "cssprop": "--anchor-nav-track-color - Color of the line along the links.",
+    "example": "```html\n<wc-anchor-nav id=\"settings-nav\"></wc-anchor-nav>\n<script>\n  document.querySelector('#settings-nav').items = [\n    { id: 'profile', label: 'Profile' },\n    { id: 'notifications', label: 'Notifications' },\n    { id: 'email', label: 'Email', level: 2 },\n  ];\n</script>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the links.",
+          "name": "--anchor-nav-text-color"
+        },
+        {
+          "description": "Color of the current link and its marker.",
+          "name": "--anchor-nav-current-color"
+        },
+        {
+          "description": "Color of the line along the links.",
+          "name": "--anchor-nav-track-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "When the section in view changes. `detail.value` is its id."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "for",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The id of the element whose `h2` and `h3` headings become the links.",
+          "fieldName": "for"
+        },
+        {
+          "name": "scroll-container",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A selector for the element the sections scroll in; defaults to their nearest scrolling ancestor.",
+          "fieldName": "scrollContainer"
+        },
+        {
+          "name": "update-hash",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Puts the section in the address bar (`history.replaceState()`) when a link is pressed.",
+          "fieldName": "updateHash"
+        },
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A visible title above the links, such as \"On this page\"; it then names the landmark.",
+          "fieldName": "headline"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The landmark's accessible name; defaults to `headline`, else \"On this page\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-anchor-nav",
+      "customElement": true,
+      "rawTag": {
+        "name": "anchor-nav",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "App Bar",
     "tag": "wc-app-bar",
     "rawTag": "app-bar",
@@ -7731,6 +7826,138 @@
     }
   },
   {
+    "label": "Diff Viewer",
+    "tag": "wc-diff-viewer",
+    "rawTag": "diff-viewer",
+    "summary": "Shows what changed between two texts, such as two versions of a config or document.",
+    "overview": "<p>The viewer compares <code>old-value</code> and <code>new-value</code> line by line\n(Myers' algorithm) and marks the changed words inside each pair of changed lines. A summary\nsuch as \"3 additions, 2 deletions\" sits at the top. Unchanged lines more than\n<code>context</code> lines (default 3) away from a change fold into a \"Show 24 unchanged lines\"\nbutton that expands them.</p>\n<p><code>view=\"unified\"</code> (the default) lists removed lines before the added lines that\nreplace them, with old and new line numbers; <code>view=\"split\"</code> puts the old text on the\nleft and the new text on the right (code reads left to right, also in right-to-left pages).</p>\n<p>Lines are compared without their line endings, so CRLF and LF texts match; a note says when\nthe endings differ. A last line without a line break is marked when the other side has one.\nTexts that are too different or too large to compare line by line within a time budget are\nshown as the changed part removed and then added, with a note.</p>\n<p>The diff is a table: each row is a line, removed and added lines carry a <code>−</code> or\n<code>+</code> marker besides their color, and screen readers hear \"Removed line 12\" or\n\"Added line 13\" before the text. The text is shown plain, without syntax highlighting.</p>",
+    "cssprop": "--diff-viewer-removed-color - Hue of removed lines and words. Defaults to `--color-error`.",
+    "csspart": "content - The scrollable area holding the table.",
+    "example": "```html\n<wc-diff-viewer view=\"split\" context=\"1\" old-value=\"a&#10;b&#10;c\" new-value=\"a&#10;B&#10;c\"></wc-diff-viewer>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Block background. Defaults to `--color-surface-container-low`.",
+          "name": "--diff-viewer-background"
+        },
+        {
+          "description": "Block border color. Defaults to `--color-outline-variant`.",
+          "name": "--diff-viewer-border-color"
+        },
+        {
+          "description": "Block corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--diff-viewer-shape"
+        },
+        {
+          "description": "Text color. Defaults to `--color-on-surface`.",
+          "name": "--diff-viewer-foreground"
+        },
+        {
+          "description": "Caps the height of the lines; they scroll beyond. Defaults to `none`.",
+          "name": "--diff-viewer-max-height"
+        },
+        {
+          "description": "Hue of added lines and words. Defaults to `--color-success`.",
+          "name": "--diff-viewer-added-color"
+        },
+        {
+          "description": "Hue of removed lines and words. Defaults to `--color-error`.",
+          "name": "--diff-viewer-removed-color"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer block.",
+          "name": "container"
+        },
+        {
+          "description": "The row with the label and the summary.",
+          "name": "header"
+        },
+        {
+          "description": "The additions and deletions summary.",
+          "name": "summary"
+        },
+        {
+          "description": "The scrollable area holding the table.",
+          "name": "content"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "old-value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The text before the change.",
+          "fieldName": "oldValue"
+        },
+        {
+          "name": "new-value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The text after the change.",
+          "fieldName": "newValue"
+        },
+        {
+          "name": "view",
+          "type": {
+            "text": "DiffViewerView"
+          },
+          "default": "'unified'",
+          "description": "`unified` lists both sides in one column; `split` shows them side by side.",
+          "fieldName": "view",
+          "expandedType": {
+            "text": "'unified' | 'split'"
+          }
+        },
+        {
+          "name": "context",
+          "type": {
+            "text": "number"
+          },
+          "default": "3",
+          "description": "Unchanged lines shown around each change; the rest fold into separators.",
+          "fieldName": "context"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Title shown in the header, such as a file name; also the table's accessible name.",
+          "fieldName": "label"
+        },
+        {
+          "name": "wrap",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Wraps long lines instead of scrolling horizontally.",
+          "fieldName": "wrap"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-diff-viewer",
+      "customElement": true,
+      "rawTag": {
+        "name": "diff-viewer",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Divider",
     "tag": "wc-divider",
     "rawTag": "divider",
@@ -8904,6 +9131,126 @@
       "customElement": true,
       "rawTag": {
         "name": "grid",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Hover Card",
+    "tag": "wc-hover-card",
+    "rawTag": "hover-card",
+    "summary": "A rich preview, such as a profile card or a link preview, shown while the pointer rests on a trigger or the trigger has keyboard focus.",
+    "overview": "<p>The first child is the trigger, usually a link; the element with <code>slot=\"content\"</code>\nis the card. The card opens after <code>open-delay</code> (500 ms) of hovering or of keyboard\nfocus on the trigger, and closes <code>close-delay</code> (300 ms) after the pointer and focus\nhave left both the trigger and the card, so the pointer can cross the gap into the card. It\nstays open while hovered or while focus is inside it. Escape closes it, and so does a press\noutside.</p>\n<p>Unlike <code>wc-tooltip</code>, which is short plain text that describes its target, the card\ncan hold links and buttons; unlike <code>wc-popover</code>, nothing opens it on click. The card\nis a supplement: the trigger keeps its own action (following the link), and everything in the\ncard must also be reachable without it, for example on the page the link goes to.</p>\n<p>The trigger gets <code>aria-details</code> pointing at the content, which screen readers\nannounce as \"has details\" and let the person jump to. It gets no\n<code>aria-haspopup</code> or <code>aria-expanded</code>, because activating it does not open\nthe card. Once open, the card's content follows the trigger in the Tab order.</p>\n<p>Touch screens have no hover: a tap activates the trigger and does not open the card. Use\n<code>show()</code> from your own control if touch users need the preview.</p>",
+    "tags": "display, overlay",
+    "slot": "content - The card's content.",
+    "csspart": "card - The card surface.",
+    "cssprop": "--hover-card-width - Width of the card. Defaults to `20rem`.",
+    "fires": "close - Fired when the card closes: Escape, the pointer and focus leaving, or a press outside (`light-dismiss`), or `hide()` / `open = false` (`api`).",
+    "example": "```html\n<wc-hover-card>\n  <a href=\"/people/ana\">Ana Lima</a>\n  <div slot=\"content\">\n    <strong>Ana Lima</strong>\n    <p>Product designer, Lisbon</p>\n    <wc-button size=\"sm\">Follow</wc-button>\n  </div>\n</wc-hover-card>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the card. Defaults to `var(--color-surface-container)`.",
+          "name": "--hover-card-background"
+        },
+        {
+          "description": "Padding of the card. Defaults to `var(--spacing-200)`.",
+          "name": "--hover-card-padding"
+        },
+        {
+          "description": "Width of the card. Defaults to `20rem`.",
+          "name": "--hover-card-width"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The card surface.",
+          "name": "card"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The trigger: the first child element.",
+          "name": ""
+        },
+        {
+          "description": "The card's content.",
+          "name": "content"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the card opens.",
+          "name": "open"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'api'}>"
+          },
+          "description": "Fired when the card closes: Escape, the pointer and focus leaving, or a press outside (`light-dismiss`), or `hide()` / `open = false` (`api`).",
+          "name": "close"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the card is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "OverlayPlacement"
+          },
+          "default": "'bottom'",
+          "description": "Preferred placement of the card: `top`, `bottom`, `start` or `end`, optionally with `-start`\nor `-end` alignment. It flips to stay in the viewport.",
+          "fieldName": "placement",
+          "expandedType": {
+            "text": "'top' | 'bottom' | 'start' | 'end' |  |  | Placement"
+          }
+        },
+        {
+          "name": "open-delay",
+          "type": {
+            "text": "number"
+          },
+          "default": "500",
+          "description": "Milliseconds of hover or focus on the trigger before the card opens.",
+          "fieldName": "openDelay"
+        },
+        {
+          "name": "close-delay",
+          "type": {
+            "text": "number"
+          },
+          "default": "300",
+          "description": "Milliseconds after the pointer and focus leave before the card closes.",
+          "fieldName": "closeDelay"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-hover-card",
+      "customElement": true,
+      "rawTag": {
+        "name": "hover-card",
         "description": ""
       }
     }
@@ -10196,6 +10543,208 @@
     "tags": "display"
   },
   {
+    "label": "JSON Viewer",
+    "tag": "wc-json-viewer",
+    "rawTag": "json-viewer",
+    "summary": "A collapsible tree of a JSON value, such as an API response or a webhook body.",
+    "overview": "<p>Set <code>value</code> to any JavaScript value from script, or to JSON text with the\n<code>value</code> attribute. Text that is not valid JSON shows an error with the parser's\nmessage. (A string set from script is shown as a string, not parsed.)</p>\n<p>Objects and arrays expand and collapse; a collapsed one shows its size, such as\n<code>{3 keys}</code> or <code>[12 items]</code>. <code>expand-depth</code> sets how many\nlevels start expanded (default 1, the root; <code>all</code> expands everything). Children are\nrendered only once their parent is expanded, and at most 100 at a time with a row that shows\nthe next 100, so a large payload stays fast. Strings longer than 200 characters are cut until\nclicked or Enter is pressed. Values are colored with the code highlighter's syntax colors.</p>\n<p>Hovering or focusing a row shows buttons that copy its value (strings as is, anything else\nas indented JSON) and its JSONPath, such as <code>$.items[2].id</code>.</p>\n<p>The tree follows the WAI-ARIA tree view pattern and is one tab stop: Up and Down move\nbetween rows, Right expands a row or moves to its first child, Left collapses it or moves to\nits parent (mirrored in right-to-left), Home and End jump to the first and last row,\n<code>*</code> expands every sibling, and typing moves to the next row whose key starts with\nthe typed text. Tab from a row reaches its copy buttons.</p>",
+    "fires": "copied - Dispatched after a copy button copied a value or a path.",
+    "cssprop": "--json-viewer-indent - Indentation per level. Defaults to `1.25rem`.",
+    "csspart": "error - The invalid JSON message.",
+    "example": "```html\n<wc-json-viewer\n  root-label=\"response\"\n  expand-depth=\"2\"\n  value='{\"id\": 42, \"name\": \"Ada\", \"tags\": [\"admin\", \"ops\"], \"manager\": null}'\n></wc-json-viewer>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Block background. Defaults to `--color-surface-container-low`.",
+          "name": "--json-viewer-background"
+        },
+        {
+          "description": "Block border color. Defaults to `--color-outline-variant`.",
+          "name": "--json-viewer-border-color"
+        },
+        {
+          "description": "Block corner radius. Defaults to `--shape-corner-medium`.",
+          "name": "--json-viewer-shape"
+        },
+        {
+          "description": "Plain text color. Defaults to `--color-on-surface`.",
+          "name": "--json-viewer-foreground"
+        },
+        {
+          "description": "Caps the height; the tree scrolls beyond. Defaults to `none`.",
+          "name": "--json-viewer-max-height"
+        },
+        {
+          "description": "Indentation per level. Defaults to `1.25rem`.",
+          "name": "--json-viewer-indent"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The outer block.",
+          "name": "container"
+        },
+        {
+          "description": "The scrollable tree.",
+          "name": "tree"
+        },
+        {
+          "description": "Each node's row.",
+          "name": "row"
+        },
+        {
+          "description": "The invalid JSON message.",
+          "name": "error"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "name": "copied",
+          "type": {
+            "text": "CustomEvent<{value: string, kind: 'value' | 'path', path: string}>"
+          },
+          "description": "Dispatched after a copy button copied a value or a path."
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{path: string}>"
+          },
+          "description": "Dispatched when the person expands a node.",
+          "name": "expand"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{path: string}>"
+          },
+          "description": "Dispatched when the person collapses a node.",
+          "name": "collapse"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value"
+        },
+        {
+          "name": "expand-depth",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "How many levels start expanded: `0` none, `1` the root (default), `all` everything.",
+          "fieldName": "expandDepth"
+        },
+        {
+          "name": "sort-keys",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows object keys in alphabetical order instead of their own order.",
+          "fieldName": "sortKeys"
+        },
+        {
+          "name": "root-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Key shown on the root row, such as `response`. Without it the root shows its value only.",
+          "fieldName": "rootLabel"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The tree's accessible name. Defaults to \"JSON\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-json-viewer",
+      "customElement": true,
+      "rawTag": {
+        "name": "json-viewer",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Kanban",
+    "tag": "wc-kanban",
+    "rawTag": "kanban",
+    "summary": "A board of columns whose cards the person moves by drag and drop or with the keyboard.",
+    "overview": "<p>The board is data-driven: <code>columns</code> (<code>{id, title, limit?}</code>) and\n<code>cards</code> (<code>{id, columnId, title, ...}</code>), where the order of\n<code>cards</code> is the order within each column. <code>renderCard</code> renders a card's\ncontent; without it a card shows its <code>title</code>. Cards are rendered into the light DOM,\nso page styles reach the content, and each sits in a wrapper with <code>role=\"listitem\"</code>\ninside its column's <code>role=\"list\"</code>, named by the column title.</p>\n<p>Moving a card fires the cancelable <code>card-move</code> event with\n<code>{cardId, fromColumn, toColumn, fromIndex, toIndex}</code>. Unless it is canceled, the\nboard applies the move itself and replaces <code>cards</code> with a new array. To confirm a\nmove with a server first, cancel the event and apply it later with\n<code>applyKanbanMove()</code>.</p>\n<p>With a pointer, drag a card (on touch, hold it briefly first, so a swipe still scrolls). A\nplaceholder shows where it will land, and the board and columns scroll when the card nears\ntheir edges. Escape cancels.</p>\n<p>Cards are one tab stop. The arrow keys move focus between cards (Left and Right between\ncolumns, mirrored in right-to-left), Home and End to the first and last card of the column.\nSpace or Enter picks the focused card up; the arrow keys then move it, Space or Enter drops it\nand Escape or Tab cancels. Each step is announced in a live region.</p>\n<p>A column with a <code>limit</code> shows its count against it and is flagged when it holds\nmore cards. <code>addable</code> adds an \"Add card\" button to every column, which fires\n<code>card-add</code>.</p>",
+    "fires": "card-add - Dispatched when the person presses a column's \"Add card\" button.",
+    "cssprop": "--kanban-card-padding - The padding of a card. Defaults to `var(--spacing-150)`.",
+    "example": "```html\n<wc-kanban id=\"board\" label=\"Sprint\" style=\"height: 28rem\" addable></wc-kanban>\n<script>\n  const board = document.getElementById('board');\n  board.columns = [\n    { id: 'todo', title: 'To do' },\n    { id: 'doing', title: 'In progress', limit: 2 },\n    { id: 'done', title: 'Done' },\n  ];\n  board.cards = [\n    { id: '1', columnId: 'todo', title: 'Fix login' },\n    { id: '2', columnId: 'doing', title: 'Write docs' },\n  ];\n  board.addEventListener('card-move', event => console.log(event.detail));\n</script>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "KanbanCard[]"
+        }
+      },
+      "parameters": [
+        {
+          "name": "cards",
+          "type": {
+            "text": "readonly KanbanCard[]"
+          }
+        },
+        {
+          "name": "move",
+          "type": {
+            "text": "Pick<KanbanCardMoveDetail, 'cardId' | 'toColumn' | 'toIndex'>"
+          }
+        }
+      ],
+      "description": "Moves a card in a `cards` array the way the board does, returning a new array. Use it to apply\na `card-move` you canceled, for example once the server has accepted it."
+    }
+  },
+  {
+    "label": "Kbd",
+    "tag": "wc-kbd",
+    "rawTag": "kbd",
+    "summary": "Shows a keyboard shortcut as key caps, with the platform's key names and symbols.",
+    "overview": "<p><code>keys</code> takes a shortcut such as <code>mod+shift+p</code> and shows one\n<code>&lt;kbd&gt;</code> per key. <code>mod</code> is Command on Apple platforms and Ctrl\nelsewhere. On Apple platforms modifiers show as symbols without separators (⌘⇧P), as macOS\nmenus do; elsewhere they show as names joined by <code>+</code> (Ctrl+Shift+P).\n<code>platform</code> forces one style, for documentation.</p>\n<p>Key names: <code>mod</code>, <code>ctrl</code>, <code>meta</code> (<code>cmd</code>),\n<code>alt</code> (<code>option</code>), <code>shift</code>, <code>enter</code>,\n<code>escape</code> (<code>esc</code>), <code>tab</code>, <code>backspace</code>,\n<code>delete</code>, <code>space</code>, <code>up</code>, <code>down</code>, <code>left</code>,\n<code>right</code>, <code>pageup</code>, <code>pagedown</code>, <code>home</code>,\n<code>end</code>, <code>capslock</code>; any other key shows as written, a single letter\nupper-cased.</p>\n<p>Screen readers read symbols badly, so the caps are hidden from them and a spelled-out copy is\nread instead, such as \"Control+Shift+P\". The names come from Peacock's strings and can be\ntranslated.</p>\n<p>Without <code>keys</code>, the content shows as one key cap:\n<code>&lt;wc-kbd&gt;Esc&lt;/wc-kbd&gt;</code>.</p>",
+    "tags": "display",
+    "slot": "- A key to show as written, when `keys` is not set.",
+    "csspart": "separator - The `+` between keys off Apple platforms.",
+    "cssprop": "--kbd-border-color - Border color of a key cap.",
+    "example": "```html\n<p>Press <wc-kbd>Esc</wc-kbd> to close.</p>\n```",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "string[]"
+        }
+      },
+      "parameters": [
+        {
+          "name": "shortcut",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "Splits a shortcut such as `mod+shift+p` into its keys; `ctrl++` is Ctrl and the plus key."
+    }
+  },
+  {
     "label": "Linear Progress",
     "tag": "wc-linear-progress",
     "rawTag": "linear-progress",
@@ -11381,6 +11930,346 @@
       "customElement": true,
       "rawTag": {
         "name": "markdown-editor",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Mention Input",
+    "tag": "wc-mention-input",
+    "rawTag": "mention-input",
+    "summary": "A multiline text field where typing `@` (or another trigger) suggests people or tags to mention.",
+    "overview": "<p>Mention input is a textarea in which a trigger character, <code>@</code> by default, opens a\nlist of suggestions at the caret. Picking one inserts the trigger and the suggestion's label as\ntext, such as <code>@Ana Lima</code>, followed by a space.</p>\n<p><code>value</code> is the plain text the person sees, and it is what the field submits with a\nform. <code>mentions</code> lists the mentions in it, each <code>{id, label, trigger, start,\nend}</code>; the field keeps the positions up to date as the text changes. Editing inside a\nmention turns it back into plain text; Backspace right after a mention (or Delete right before\nit) removes the whole mention. To load saved text, set <code>value</code> and then\n<code>mentions</code>; entries that do not match the text are dropped.</p>\n<p>The app supplies the suggestions: on <code>search</code> (<code>detail: {trigger,\nquery}</code>) it sets <code>suggestions</code> to the matches, each <code>{id, label,\ndescription?, avatar?}</code>, and sets <code>loading</code> while it fetches them. The list\nshows while there are suggestions or <code>loading</code> is set. <code>triggers</code> takes\nseveral characters, such as <code>\"@#\"</code> for people and tags.</p>\n<p>Focus stays in the textarea: Arrow Up and Down move the highlighted suggestion\n(<code>aria-activedescendant</code>), Enter or Tab inserts it, Escape closes the list. A\ntrigger counts at the start of the text or after a space or an opening bracket or quote, so\nemail addresses do not open the list.</p>\n<p>It validates like <code>wc-textarea</code> (<code>required</code>, <code>minlength</code>,\n<code>maxlength</code>) and grows with the text with <code>auto-grow</code>. It works as the\n<code>composer</code> of <code>wc-comment-thread</code>.</p>",
+    "tags": "input, form",
+    "fires": "mention - Dispatched when a suggestion is inserted.",
+    "cssprop": "--mention-input-list-width - Width of the suggestion list. Defaults to `18rem`.",
+    "example": "```html\n<wc-mention-input id=\"note\" label=\"Note\" placeholder=\"Type @ to mention someone\"></wc-mention-input>\n<script>\n  const people = [{ id: '42', label: 'Ana Lima', description: 'Design' }];\n  const note = document.getElementById('note');\n  note.addEventListener('search', event => {\n    const q = event.detail.query.toLowerCase();\n    note.suggestions = people.filter(p => p.label.toLowerCase().includes(q));\n  });\n</script>\n```",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Maximum height of the suggestion list. Defaults to `16rem`.",
+          "name": "--mention-input-list-max-height"
+        },
+        {
+          "description": "Width of the suggestion list. Defaults to `18rem`.",
+          "name": "--mention-input-list-width"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "search",
+          "type": {
+            "text": "CustomEvent<{trigger: string, query: string}>"
+          },
+          "description": "Dispatched as the person types after a trigger; set `suggestions` in response."
+        },
+        {
+          "name": "mention",
+          "type": {
+            "text": "CustomEvent<{mention: Mention, suggestion: MentionSuggestion}>"
+          },
+          "description": "Dispatched when a suggestion is inserted."
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, mentions: Mention[]}>"
+          },
+          "description": "Dispatched as the text changes, including when a mention is inserted or removed.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, mentions: Mention[]}>"
+          },
+          "description": "Dispatched when the field loses focus with a changed value.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "description": "The text, with mentions as their visible text (`@Ana Lima`). Submitted with a form.",
+          "fieldName": "value"
+        },
+        {
+          "name": "triggers",
+          "type": {
+            "text": "string"
+          },
+          "default": "'@'",
+          "description": "Characters that start a mention, such as `\"@\"` (default) or `\"@#\"`.",
+          "fieldName": "triggers"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a progress row in the list while the app fetches suggestions.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "rows",
+          "type": {
+            "text": "number"
+          },
+          "default": "3",
+          "description": "Visible lines of text; the starting height with `auto-grow`.",
+          "fieldName": "rows"
+        },
+        {
+          "name": "minlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Fewest characters allowed.",
+          "fieldName": "minLength"
+        },
+        {
+          "name": "maxlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Most characters allowed; shows a character counter. A mention that would not fit is not inserted.",
+          "fieldName": "maxLength"
+        },
+        {
+          "name": "auto-grow",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Grows the height with the content instead of scrolling.",
+          "fieldName": "autoGrow"
+        },
+        {
+          "name": "max-rows",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "With `auto-grow`, the most lines it grows to before it scrolls; unset for no limit.",
+          "fieldName": "maxRows"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the field; also the control's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the field.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its error state with `error-text`.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its warning state with `warning-text`.",
+          "fieldName": "warning",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'default' | 'filled' | 'outlined'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Height of the field: `sm` (2.5rem, default), `md` (3.5rem) or `lg` (4rem).",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that clears the value while the field has one.",
+          "fieldName": "clearable",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "ARIA attributes moved from the host onto the inner control.",
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseField",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseField.js"
+      },
+      "tagName": "wc-mention-input",
+      "customElement": true,
+      "rawTag": {
+        "name": "mention-input",
         "description": ""
       }
     }
@@ -12943,33 +13832,140 @@
     "example": "```html\n<wc-notification-center id=\"inbox\"></wc-notification-center>\n<script>\n  const inbox = document.querySelector('#inbox');\n  inbox.notifications = [\n    { id: '1', title: 'Build failed', body: 'main #4521', timestamp: new Date().toISOString(), intent: 'danger' },\n    { id: '2', title: 'Ada commented', timestamp: '2026-11-01T09:30:00Z', read: true },\n  ];\n  inbox.addEventListener('read-change', e => {\n    inbox.notifications = inbox.notifications.map(n =>\n      e.detail.ids.includes(n.id) ? { ...n, read: e.detail.read } : n);\n  });\n</script>\n```",
     "tags": "feedback, overlay",
     "customElement": {
-      "kind": "function",
-      "return": {
-        "type": {
-          "text": "string"
-        }
-      },
-      "parameters": [
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
         {
-          "name": "time",
+          "description": "Width of the panel. Defaults to `24rem`.",
+          "name": "--notification-center-panel-width"
+        },
+        {
+          "description": "Maximum height of the anchored panel. Defaults to `32rem`.",
+          "name": "--notification-center-panel-max-height"
+        },
+        {
+          "description": "Color of the unread marker and the unread item tint.",
+          "name": "--notification-center-unread-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
           "type": {
-            "text": "number"
+            "text": "CustomEvent"
           }
         },
         {
-          "name": "now",
           "type": {
-            "text": "number"
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the panel opens.",
+          "name": "open"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>"
+          },
+          "description": "Fired when the panel closes.",
+          "name": "close"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{notification: NotificationCenterItem}>"
+          },
+          "description": "Fired, cancelable, when a notification is activated. Cancelling stops a link from navigating.",
+          "name": "item-click"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{ids: string[], read: boolean}>"
+          },
+          "description": "Fired when the person marks notifications read or unread.",
+          "name": "read-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{notification: NotificationCenterItem}>"
+          },
+          "description": "Fired when the person dismisses a notification.",
+          "name": "dismiss"
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the person presses Load more.",
+          "name": "load-more"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the panel is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a progress bar at the end of the list while notifications load.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "has-more",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a Load more button at the end of the list, which fires `load-more`.",
+          "fieldName": "hasMore"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "OverlayPlacement"
+          },
+          "default": "'bottom-end'",
+          "description": "Where the panel opens relative to the bell.",
+          "fieldName": "placement",
+          "expandedType": {
+            "text": "'top' | 'bottom' | 'start' | 'end' |  |  | Placement"
           }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Name of the bell and the panel. Defaults to \"Notifications\".",
+          "fieldName": "label"
         },
         {
           "name": "locale",
           "type": {
-            "text": "string"
-          }
+            "text": "string | undefined"
+          },
+          "description": "Locale for dates and relative times. Defaults to the nearest `lang`.",
+          "fieldName": "locale"
         }
       ],
-      "description": "\"now\", \"5 min. ago\", \"3 hr. ago\", \"2 days ago\"; older than a week, the date."
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-notification-center",
+      "customElement": true,
+      "rawTag": {
+        "name": "notification-center",
+        "description": ""
+      }
     }
   },
   {
@@ -13963,6 +14959,40 @@
     }
   },
   {
+    "label": "Password Rules",
+    "tag": "wc-password-rules",
+    "rawTag": "password-rules",
+    "summary": "A live checklist of password requirements, shown under a new-password field.",
+    "overview": "<p>Password rules lists what a new password needs (\"At least 12 characters\", \"One number\") and\nticks each requirement off as the person types. Each item shows its state with an icon shape and,\nfor screen readers, the words \"met\" or \"not met\"; color is never the only cue. Changes are\nannounced politely once typing pauses, and only for the requirements whose state flipped.</p>\n<p>Point <code>for</code> at the id of a <code>wc-password-field</code> in the same document or\nshadow root: the checklist follows the field's <code>input</code> events and, while a typed\npassword fails a rule, sets the field's custom validity, so the form will not submit. An empty\nfield is left to its own <code>required</code>. Without <code>for</code>, set\n<code>value</code> yourself.</p>\n<p>The common rules are attributes with translated labels: <code>minlength</code>,\n<code>require-uppercase</code>, <code>require-lowercase</code>, <code>require-number</code> and\n<code>require-symbol</code>. Add your own with the <code>rules</code> property:\n<code>{ id, label, test }</code>, where <code>test</code> is a <code>RegExp</code> or a function.\nThey are listed after the built-in ones.</p>",
+    "fires": "change - Dispatched when the password goes from failing to passing or back. `failed` holds the ids of the failing rules.",
+    "cssprop": "--password-rules-unmet-color - Icon color of an unmet rule.",
+    "example": "```html\n<wc-password-field id=\"new-password\" label=\"New password\" autocomplete=\"new-password\" required></wc-password-field>\n<wc-password-rules for=\"new-password\" minlength=\"12\" require-number require-symbol></wc-password-rules>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "boolean"
+        }
+      },
+      "parameters": [
+        {
+          "name": "rule",
+          "type": {
+            "text": "PasswordRule"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "Whether `value` passes `rule`. Stateless, even for a global pattern."
+    }
+  },
+  {
     "label": "Phone Field",
     "tag": "wc-phone-field",
     "rawTag": "phone-field",
@@ -14770,6 +15800,74 @@
     }
   },
   {
+    "label": "Presence Indicator",
+    "tag": "wc-presence-indicator",
+    "rawTag": "presence-indicator",
+    "summary": "A small online, away, busy or offline dot on the corner of a person's avatar.",
+    "overview": "<p>A presence indicator shows whether a person is available, in chat, collaboration and people\nlists. Wrap an avatar in it and the dot sits on the avatar's bottom-end corner (bottom right,\nor bottom left in right-to-left pages) inside a ring of the surface color, sized to the\navatar:</p>\n<pre><code>&lt;wc-presence-indicator status=\"online\"&gt;\n  &lt;wc-avatar name=\"Ana Lima\"&gt;&lt;/wc-avatar&gt;\n&lt;/wc-presence-indicator&gt;</code></pre>\n<p><code>status</code> is <code>online</code>, <code>away</code>, <code>busy</code> or\n<code>offline</code> (the default). Each has its own shape as well as its own color, so it does\nnot rest on color alone, and forced-colors mode keeps the shapes: a filled circle (online), a\ncrescent moon (away), a circle with a dash (busy) and a hollow ring (offline).</p>\n<p>The status is part of the person's name, not a separate announcement: a wrapped\n<code>wc-avatar</code> is named \"Ana Lima, online\" (its <code>label</code> attribute, else its\n<code>name</code>, then the status). Other wrapped content, such as an <code>img</code>, is\nfollowed by the status as screen-reader text. On its own, without content, the dot is an image\nnamed by the status. <code>label</code> replaces the status text, such as \"In a meeting\".</p>\n<p><code>size</code> follows the wrapped avatar's size; set it for a dot on its own, or to\noverride.</p>\n<p>Which one to use: <code>wc-presence-indicator</code> for a person's availability, attached to\ntheir avatar, where the four statuses and their shapes are fixed and people recognise them from\nchat apps. <code>wc-status-indicator</code> for the state of a thing (a service, a job, a\ndevice) shown as a dot and a visible label next to its name, with the general intents\n(<code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>). A\nperson's status written out in a list or a profile (\"Away\") can be either; prefer the status\nindicator when the label is visible.</p>",
+    "cssprop": "--presence-indicator-ring-color - Color of the ring around the dot and of its holes; defaults to the surface color. Set it to the background behind the avatar.",
+    "example": "```html\n<wc-presence-indicator status=\"busy\" label=\"In a meeting\"></wc-presence-indicator>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the dot; defaults to the status's color.",
+          "name": "--presence-indicator-color"
+        },
+        {
+          "description": "Color of the ring around the dot and of its holes; defaults to the surface color. Set it to the background behind the avatar.",
+          "name": "--presence-indicator-ring-color"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "status",
+          "type": {
+            "text": "PresenceStatus"
+          },
+          "default": "'offline'",
+          "description": "Whether the person is available: `online`, `away`, `busy` or `offline` (default).",
+          "fieldName": "status",
+          "expandedType": {
+            "text": "'online' | 'away' | 'busy' | 'offline'"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Replaces the status text in the accessible name, such as \"In a meeting\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "PresenceIndicatorSize | undefined"
+          },
+          "description": "Size of the dot: `sm`, `md` or `lg`. Defaults to the wrapped avatar's size, else `md`.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg' | undefined"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-presence-indicator",
+      "customElement": true,
+      "rawTag": {
+        "name": "presence-indicator",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Radio",
     "tag": "wc-radio",
     "rawTag": "radio",
@@ -15070,6 +16168,302 @@
     }
   },
   {
+    "label": "Rating",
+    "tag": "wc-rating",
+    "rawTag": "rating",
+    "summary": "A star rating: pick how many stars, or show an average such as 4.3 out of 5.",
+    "overview": "<p>Rating lets the person pick a score from 1 to <code>max</code> (5 by default) by clicking a\nstar or with the keyboard. Pointing at the stars previews the score; nothing changes until the\nclick. With <code>precision=\"0.5\"</code> the left half of a star (the right half in right-to-left\nlayouts) picks a half star. With <code>clearable</code>, choosing the current score again clears\nit.</p>\n<p>It is one keyboard stop that follows the WAI-ARIA slider pattern: the arrow keys change the\nscore by one step (mirrored in right-to-left layouts), Home and End go to the lowest and highest\nscore, and the digit keys pick that many stars. Screen readers hear \"3 out of 5\".</p>\n<p><code>readonly</code> turns it into a display, for example a product's average review: any\nvalue is drawn with a partly filled star, and it is a single image named \"Rated 4.3 out of 5\".\nInside a <code>&lt;form&gt;</code> the score is submitted under <code>name</code>; no score submits\nnothing, and <code>required</code> blocks submission until one is picked.</p>\n<p>The stars are Material Symbols: <code>icon</code> names the empty shape and\n<code>&lt;icon&gt;-fill</code> the filled one, so any symbol with a fill variant works\n(<code>favorite</code>, <code>thumb_up</code>).</p>",
+    "fires": "change - Dispatched with `input`, when the person picks a score. `0` means cleared.",
+    "cssprop": "--rating-icon-size - Size of one star; overrides `size`.",
+    "example": "```html\n<wc-rating label=\"Average\" readonly value=\"4.3\"></wc-rating>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of filled stars.",
+          "name": "--rating-filled-color"
+        },
+        {
+          "description": "Color of empty stars.",
+          "name": "--rating-empty-color"
+        },
+        {
+          "description": "Size of one star; overrides `size`.",
+          "name": "--rating-icon-size"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: number}>"
+          },
+          "description": "Dispatched when the person picks a score (not while previewing).",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: number}>"
+          },
+          "description": "Dispatched with `input`, when the person picks a score. `0` means cleared.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "The score; `0` for none. Read-only ratings show any value, others snap to `precision`.",
+          "fieldName": "value"
+        },
+        {
+          "name": "max",
+          "type": {
+            "text": "number"
+          },
+          "default": "5",
+          "description": "Number of stars, the highest score.",
+          "fieldName": "max"
+        },
+        {
+          "name": "precision",
+          "type": {
+            "text": "1 | 0.5"
+          },
+          "default": "1",
+          "description": "Step of the score: `1` for whole stars, `0.5` for half stars.",
+          "fieldName": "precision"
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Choosing the current score again, or going below the lowest, clears it to `0`.",
+          "fieldName": "clearable"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the stars; also their accessible name.",
+          "fieldName": "label"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the stars.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the rating in its error state with `error-text`.",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Size of the stars: `sm` (default), `md` or `lg`.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          }
+        },
+        {
+          "name": "icon",
+          "type": {
+            "text": "string"
+          },
+          "default": "'star'",
+          "description": "Material Symbols name of the empty star; `<icon>-fill` is the filled one.",
+          "fieldName": "icon"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Locale for the spoken numbers; defaults to the nearest `lang`.",
+          "fieldName": "locale"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
+      },
+      "tagName": "wc-rating",
+      "customElement": true,
+      "rawTag": {
+        "name": "rating",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Relative Time",
+    "tag": "wc-relative-time",
+    "rawTag": "relative-time",
+    "summary": "A date and time shown relative to now, such as \"5 minutes ago\" or \"in 3 days\", that keeps itself current.",
+    "overview": "<p><code>wc-relative-time</code> shows <code>datetime</code> (ISO 8601, such as\n<code>2026-11-07T08:00:00Z</code>) relative to now with <code>Intl.RelativeTimeFormat</code> in\nthe resolved locale (<code>locale</code>, else the nearest <code>lang</code>, else the\nbrowser's): \"now\", \"5 minutes ago\", \"yesterday\", \"in 3 days\". It renders a\n<code>&lt;time datetime&gt;</code> whose tooltip (<code>title</code>) is the absolute date and\ntime, such as \"Nov 7, 2026, 8:00 AM\".</p>\n<p><code>numeric=\"always\"</code> says \"1 day ago\" instead of \"yesterday\".\n<code>format-style</code> is <code>long</code> (the default, \"5 minutes ago\"),\n<code>short</code> (\"5 min. ago\") or <code>narrow</code> (\"5m ago\"). (It is not\n<code>style</code>, which is the HTML attribute for inline CSS.)</p>\n<p><code>absolute-after</code> is an ISO 8601 duration such as <code>P7D</code> (7 days) or\n<code>PT12H</code>: times farther from now than that show as a date instead, such as \"Nov 2\"\n(with the year when it is not this year). Without it the time is always relative.</p>\n<p>The text stays current: every <code>wc-relative-time</code> on the page shares one timer,\nwhich refreshes each one as often as its text can change (every 10 seconds under a minute,\nevery minute under an hour, less often after that) and pauses while the page is hidden.</p>\n<p>Content inside the element is the fallback, shown while <code>datetime</code> is missing or\nnot a date, and before the component loads.</p>",
+    "cssprop": "--relative-time-text-color - Color of the text; defaults to the surrounding text color.",
+    "example": "```html\n<wc-relative-time datetime=\"2026-11-07T08:00:00Z\">Nov 7, 2026</wc-relative-time>\n<wc-relative-time datetime=\"2026-11-06T08:00:00Z\" numeric=\"always\"></wc-relative-time>\n<wc-relative-time datetime=\"2026-11-07T08:00:00Z\" format-style=\"short\"></wc-relative-time>\n<wc-relative-time datetime=\"2026-10-02T08:00:00Z\" absolute-after=\"P7D\"></wc-relative-time>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the text; defaults to the surrounding text color.",
+          "name": "--relative-time-text-color"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The date and time to show, as ISO 8601 (or anything `Date` reads).",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "numeric",
+          "type": {
+            "text": "RelativeTimeNumeric"
+          },
+          "default": "'auto'",
+          "description": "\"yesterday\" (`auto`, the default) or \"1 day ago\" (`always`).",
+          "fieldName": "numeric",
+          "expandedType": {
+            "text": "'auto' | 'always'"
+          }
+        },
+        {
+          "name": "format-style",
+          "type": {
+            "text": "RelativeTimeStyle"
+          },
+          "default": "'long'",
+          "description": "`long` (\"5 minutes ago\", the default), `short` (\"5 min. ago\") or `narrow` (\"5m ago\").",
+          "fieldName": "formatStyle",
+          "expandedType": {
+            "text": "'long' | 'short' | 'narrow'"
+          }
+        },
+        {
+          "name": "absolute-after",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "An ISO 8601 duration, such as `P7D`: farther from now than that, the time shows as a date\n(\"Nov 2\"). Unset, it is always relative.",
+          "fieldName": "absoluteAfter"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The locale to format in; defaults to the nearest `lang`, else the browser's.",
+          "fieldName": "locale"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-relative-time",
+      "customElement": true,
+      "rawTag": {
+        "name": "relative-time",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Resizable Panels",
     "tag": "wc-resizable-panels",
     "rawTag": "resizable-panels",
@@ -15197,6 +16591,78 @@
       "customElement": true,
       "rawTag": {
         "name": "ripple",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Scroll Area",
+    "tag": "wc-scroll-area",
+    "rawTag": "scroll-area",
+    "summary": "A scroll container with thin themed scrollbars and shadows at the edges that have more content.",
+    "overview": "<p><code>wc-scroll-area</code> scrolls its content natively (the browser does the scrolling,\nso touch, wheel, keyboard and scroll snapping behave as usual) with thin scrollbars in the\ntheme's colors, and a soft shadow at each edge that has more content beyond it, so people can\nsee there is more. The shadows follow the scroll position with a scroll-driven animation where\nthe browser supports one, and a scroll listener elsewhere.</p>\n<p>Give the scroll area a size, such as <code>block-size</code> or\n<code>max-block-size</code> for a vertical one: it scrolls what does not fit.\n<code>orientation</code> is <code>vertical</code> (the default), <code>horizontal</code> or\n<code>both</code>.</p>\n<p>When the content overflows, the scroll area is focusable (<code>tabindex=\"0\"</code>), so\nkeyboard users can scroll it with the arrow keys, Page Up and Page Down. Give it a\n<code>label</code> that says what it holds, such as \"Terms of service\": it is then a\n<code>region</code> landmark with that name, which screen readers announce on focus.</p>\n<p><code>scrollTo()</code> and <code>scrollBy()</code> scroll the content, and the element fires\n<code>scroll</code> (not bubbling, like a native scroll container).</p>",
+    "fires": "scroll - When the content scrolls. Does not bubble.",
+    "cssprop": "--scroll-area-shadow-size - Depth of the edge shadows.",
+    "example": "```html\n<wc-scroll-area orientation=\"horizontal\" label=\"Photos\">\n  <div style=\"display: flex; gap: 1rem\">...</div>\n</wc-scroll-area>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the scrollbar thumb.",
+          "name": "--scroll-area-thumb-color"
+        },
+        {
+          "description": "Color of the scrollbar track; transparent by default.",
+          "name": "--scroll-area-track-color"
+        },
+        {
+          "description": "Color of the edge shadows.",
+          "name": "--scroll-area-shadow-color"
+        },
+        {
+          "description": "Depth of the edge shadows.",
+          "name": "--scroll-area-shadow-size"
+        }
+      ],
+      "events": [
+        {
+          "description": "When the content scrolls. Does not bubble.",
+          "name": "scroll"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "orientation",
+          "type": {
+            "text": "ScrollAreaOrientation"
+          },
+          "default": "'vertical'",
+          "description": "The directions it scrolls in: `vertical` (default), `horizontal` or `both`.",
+          "fieldName": "orientation",
+          "expandedType": {
+            "text": "'vertical' | 'horizontal' | 'both'"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The accessible name; makes the scroll area a `region` landmark.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-scroll-area",
+      "customElement": true,
+      "rawTag": {
+        "name": "scroll-area",
         "description": ""
       }
     }
@@ -16677,6 +18143,40 @@
         "name": "side-sheet",
         "description": ""
       }
+    }
+  },
+  {
+    "label": "Signature Pad",
+    "tag": "wc-signature-pad",
+    "rawTag": "signature-pad",
+    "summary": "An area to sign with a mouse, finger or pen, or by typing a name.",
+    "overview": "<p>Signature pad records a handwritten signature. Strokes are smoothed, and a pen draws thicker\nthe harder it presses. The undo button removes the last stroke and the clear button starts over.\nStrokes are stored as points, so the pad can resize with its container, and draws at the\nscreen's pixel density, without blurring.</p>\n<p>A signature cannot be drawn with a keyboard, so the pad also takes a typed name: the\n\"Type your name instead\" button shows a name field, and the name is drawn on the pad in a script\nfont (<code>--signature-pad-font-family</code>). The drawing is announced as \"Signature, empty\"\nor \"Signature, signed\".</p>\n<p><code>value</code> is the signature as a PNG data URL with a transparent background, or\n<code>''</code> while the pad is empty; <code>change</code> fires after each stroke. Inside a\n<code>&lt;form&gt;</code> it is submitted under <code>name</code> as a PNG file, like a file\ninput, so the server receives an upload rather than a long base64 string.\n<code>required</code> blocks submission until the person signs. <code>toDataURL()</code>,\n<code>toBlob()</code> and <code>fromDataURL()</code> export and load images.</p>\n<p>On screen the ink follows the theme (<code>--signature-pad-ink-color</code>, light in dark\nmode). Exports always use <code>--signature-pad-export-ink-color</code>, black by default, so a\nsignature made in dark mode does not come out white on a white document.</p>",
+    "fires": "change - Dispatched after each stroke, undo and clear, and when a typed name is committed.",
+    "cssprop": "--signature-pad-font-family - Script font of a typed name.",
+    "example": "```html\n<wc-signature-pad label=\"Signature\" name=\"signature\" required></wc-signature-pad>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "File | null"
+        }
+      },
+      "parameters": [
+        {
+          "name": "dataUrl",
+          "type": {
+            "text": "string"
+          }
+        },
+        {
+          "name": "fileName",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "Decodes a base64 or URL-encoded data URL into a `File`."
     }
   },
   {
@@ -21015,6 +22515,95 @@
       "customElement": true,
       "rawTag": {
         "name": "user-menu",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Virtual List",
+    "tag": "wc-virtual-list",
+    "rawTag": "virtual-list",
+    "summary": "A long list that renders only the items in view, for thousands of items or infinite scroll.",
+    "overview": "<p><code>wc-virtual-list</code> takes an array of <code>items</code> and a\n<code>renderItem</code> function, and renders only the items in view plus\n<code>overscan</code> items on each side. Every item has the same height,\n<code>item-height</code> pixels. The list is its own scroll container: give it a height\n(the default is <code>20rem</code>).</p>\n<p>Items are rendered into the list's light DOM, each in a wrapper\n<code>&lt;div role=\"listitem\"&gt;</code>, so page styles reach them. The list manages its\nchildren: do not add your own. <code>renderItem</code> returns a Lit template, a DOM node or a\nstring; use arrow functions for event listeners in the template.</p>\n<p>The host has <code>role=\"list\"</code> and each rendered item <code>aria-setsize</code> and\n<code>aria-posinset</code>, so screen readers announce the real length. A focused item stays\nrendered when it scrolls out of view. With <code>navigable</code>, the items are one tab stop\nand Up, Down, Page Up, Page Down, Home and End move focus through the whole list.</p>\n<p>For infinite scroll, listen for <code>end-reached</code>, which fires once per length when\nthe last visible item is within <code>threshold</code> items of the end, and append items.\nThe scroll position is kept. Set <code>loading</code> while they load.</p>",
+    "fires": "end-reached - Dispatched once per `items.length` when the end of the list comes within `threshold` items of the view. Not dispatched while `loading`.",
+    "example": "```html\n<wc-virtual-list id=\"people\" label=\"People\" item-height=\"48\" style=\"height: 20rem\"></wc-virtual-list>\n<script>\n  const list = document.getElementById('people');\n  list.items = Array.from({ length: 10000 }, (_, i) => ({ name: `Person ${i + 1}` }));\n  list.renderItem = item => item.name;\n</script>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "events": [
+        {
+          "name": "end-reached",
+          "type": {
+            "text": "CustomEvent<{count: number}>"
+          },
+          "description": "Dispatched once per `items.length` when the end of the list comes within `threshold` items of the view. Not dispatched while `loading`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "item-height",
+          "type": {
+            "text": "number"
+          },
+          "default": "48",
+          "description": "The height of every item, in pixels.",
+          "fieldName": "itemHeight"
+        },
+        {
+          "name": "overscan",
+          "type": {
+            "text": "number"
+          },
+          "default": "3",
+          "description": "Items rendered beyond each edge of the view, so fast scrolling shows no gaps.",
+          "fieldName": "overscan"
+        },
+        {
+          "name": "threshold",
+          "type": {
+            "text": "number"
+          },
+          "default": "5",
+          "description": "How many items before the end `end-reached` fires.",
+          "fieldName": "threshold"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The accessible name, when no `aria-label` or `aria-labelledby` is set.",
+          "fieldName": "label"
+        },
+        {
+          "name": "navigable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Makes the items one tab stop that the arrow keys, Page Up/Down, Home and End move through.",
+          "fieldName": "navigable"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a progress indicator after the last item and sets `aria-busy`.",
+          "fieldName": "loading"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-virtual-list",
+      "customElement": true,
+      "rawTag": {
+        "name": "virtual-list",
         "description": ""
       }
     }

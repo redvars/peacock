@@ -1,0 +1,65 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-presence-indicator</code> shows whether a person is available. Wrap their avatar in it:
+  the dot sits on the avatar's bottom-end corner (bottom left in right-to-left pages) inside a ring
+  of the surface color, and is sized to the avatar. Each <code>status</code> has its own shape as
+  well as its own color: a filled circle (online), a crescent moon (away), a circle with a dash
+  (busy) and a hollow ring (offline).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem;'>
+    <wc-presence-indicator status='online'><wc-avatar name='Ana Lima'></wc-avatar></wc-presence-indicator>
+    <wc-presence-indicator status='away'><wc-avatar name='Grace Hopper'></wc-avatar></wc-presence-indicator>
+    <wc-presence-indicator status='busy'><wc-avatar name='Ada Lovelace'></wc-avatar></wc-presence-indicator>
+    <wc-presence-indicator status='offline'><wc-avatar name='Alan Turing'></wc-avatar></wc-presence-indicator>
+  </div>
+</DemoComponentCard>
+
+<h3>Sizes</h3>
+<p>
+  The dot follows the avatar's <code>size</code>. Set <code>size</code> on the indicator to
+  override it, or for a dot on its own.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; align-items: center; gap: 1.5rem;'>
+    <wc-presence-indicator status='online'><wc-avatar name='Ana Lima' size='sm'></wc-avatar></wc-presence-indicator>
+    <wc-presence-indicator status='online'><wc-avatar name='Ana Lima' size='md'></wc-avatar></wc-presence-indicator>
+    <wc-presence-indicator status='online'><wc-avatar name='Ana Lima' size='lg'></wc-avatar></wc-presence-indicator>
+  </div>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The status is read as part of the person's name, not announced separately: the avatar above is
+  named "Ana Lima, online". On its own, without an avatar, the dot is an image named by the
+  status. <code>label</code> replaces the status text, such as "In a meeting". When the avatar
+  sits on something other than the surface color, set <code>--presence-indicator-ring-color</code>
+  to that background.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; align-items: center; gap: 0.5rem;'>
+    <wc-presence-indicator status='busy' label='In a meeting'></wc-presence-indicator>
+    <span>In a meeting</span>
+  </div>
+</DemoComponentCard>
+
+<h3>Presence or status indicator</h3>
+<ul>
+  <li>
+    <code>wc-presence-indicator</code>: a person's availability, attached to their avatar. The four
+    statuses and their shapes are fixed and familiar from chat apps.
+  </li>
+  <li>
+    <code>wc-status-indicator</code>: the state of a thing (a service, a job, a device), a dot and a
+    visible label next to its name, with the general intents. Use it too when a person's status is
+    written out, such as "Away" in a profile.
+  </li>
+</ul>

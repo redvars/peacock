@@ -1,0 +1,38 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The list has <code>role="list"</code>, named by <code>label</code>, and each rendered item
+  <code>role="listitem"</code> with <code>aria-setsize</code> (the full length) and
+  <code>aria-posinset</code>, so a screen reader announces "item 4,312 of 10,000" even though only
+  a few items exist in the page. An item that has focus stays rendered when it scrolls out of view,
+  so focus is never lost to recycling.
+</p>
+<p>
+  By default the list is one scroll container that the keyboard scrolls, and controls inside the
+  items keep their own Tab order. Set <code>navigable</code> to make the items themselves one tab
+  stop: <kbd>Up</kbd> and <kbd>Down</kbd> move to the previous and next item,
+  <kbd>Page Up</kbd> and <kbd>Page Down</kbd> by a view, <kbd>Home</kbd> and <kbd>End</kbd> to the
+  first and last of all items, scrolling as needed.
+</p>
+<p>
+  Every item has the same height. Items of different heights are not supported.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-virtual-list
+    id='virtual-list-navigable'
+    navigable
+    label='Countries'
+    item-height='40'
+    style='width: 100%; max-width: 360px; height: 12rem; border: 1px solid var(--color-outline-variant);'
+  ></wc-virtual-list>
+  <script is:inline>
+    const $countries = document.getElementById('virtual-list-navigable');
+    $countries.items = Array.from({ length: 2000 }, (_, index) => `Row ${index + 1}`);
+    $countries.renderItem = item => item;
+  </script>
+</DemoComponentCard>

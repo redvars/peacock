@@ -1,0 +1,59 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-scroll-area</code> scrolls what does not fit, natively, with thin scrollbars in the
+  theme's colors and a soft shadow at each edge that has more content beyond it. Give it a size,
+  such as <code>block-size</code> or <code>max-block-size</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-scroll-area label='Release notes' style='max-block-size: 12rem; inline-size: 100%; max-inline-size: 360px;'>
+    <div style='padding: 0 1rem;'>
+      <h4>3.4.0</h4>
+      <p>New anchor nav, scroll area, presence indicator and relative time components.</p>
+      <h4>3.3.0</h4>
+      <p>Pin input, file upload, stepper, tree and confirm dialog.</p>
+      <h4>3.2.0</h4>
+      <p>Table and data grid, filter bar.</p>
+      <h4>3.1.0</h4>
+      <p>Buttons, chips, display, charts and calendar.</p>
+    </div>
+  </wc-scroll-area>
+</DemoComponentCard>
+
+<h3>Horizontal and both</h3>
+<p>
+  <code>orientation</code> is <code>vertical</code> (the default), <code>horizontal</code> or
+  <code>both</code>. Horizontal shadows are at the start and end edges and mirror in right-to-left
+  pages.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-scroll-area orientation='horizontal' label='Team' style='inline-size: 100%; max-inline-size: 360px;'>
+    <div style='display: flex; gap: 0.75rem; padding: 0.5rem 0;'>
+      <wc-avatar name='Ana Lima' size='lg'></wc-avatar>
+      <wc-avatar name='Grace Hopper' size='lg'></wc-avatar>
+      <wc-avatar name='Ada Lovelace' size='lg'></wc-avatar>
+      <wc-avatar name='Alan Turing' size='lg'></wc-avatar>
+      <wc-avatar name='Katherine Johnson' size='lg'></wc-avatar>
+      <wc-avatar name='Margaret Hamilton' size='lg'></wc-avatar>
+      <wc-avatar name='Linus Torvalds' size='lg'></wc-avatar>
+      <wc-avatar name='Barbara Liskov' size='lg'></wc-avatar>
+      <wc-avatar name='Tim Berners-Lee' size='lg'></wc-avatar>
+      <wc-avatar name='Radia Perlman' size='lg'></wc-avatar>
+    </div>
+  </wc-scroll-area>
+</DemoComponentCard>
+
+<h3>Keyboard and screen readers</h3>
+<p>
+  When the content overflows, the scroll area takes focus (<code>tabindex="0"</code>), so keyboard
+  users can scroll it with the arrow keys and Page Up / Page Down. Give it a <code>label</code>
+  that says what it holds: it is then a <code>region</code> landmark with that name, announced on
+  focus. <code>scrollTo()</code> and <code>scrollBy()</code> scroll the content, and the element
+  fires <code>scroll</code>.
+</p>

@@ -3,9 +3,9 @@ import { html } from 'lit';
 import { expect, fixtureSync, waitUntil } from '@open-wc/testing';
 import {
   NotificationCenter,
-  formatRelativeTime,
   type NotificationCenterItem,
 } from '../src/notification-center/index.js';
+import { formatTime, WEEK } from '../src/__internal/utils/relative-time.js';
 
 if (!customElements.get('wc-notification-center')) {
   customElements.define('wc-notification-center', NotificationCenter);
@@ -154,16 +154,23 @@ describe('wc-notification-center', () => {
     expect(lists[0].getAttribute('aria-labelledby')).to.equal('group-0');
   });
 
-  it('formats relative times with Intl', () => {
+  it('formats relative times with Intl, as the panel shows them', () => {
     const now = Date.now();
-    expect(formatRelativeTime(now - 10_000, now, 'en-US')).to.equal('now');
-    expect(formatRelativeTime(now - 5 * MINUTE, now, 'en-US')).to.contain(
-      '5 min',
-    );
-    expect(formatRelativeTime(now - 3 * HOUR, now, 'en-US')).to.contain('3 hr');
-    expect(formatRelativeTime(now - DAY, now, 'en-US')).to.equal('yesterday');
-    expect(formatRelativeTime(now - 10 * DAY, now, 'en-US')).to.match(/\d{4}/);
-    expect(formatRelativeTime(now - 5 * MINUTE, now, 'de')).to.contain('5');
+    // The same options the panel uses (the shared relative-time module).
+    const at = (time: number, locale = 'en-US') =>
+      formatTime(time, locale, {
+        now,
+        numeric: 'auto',
+        style: 'short',
+        absoluteAfter: WEEK,
+      });
+    expect(at(now - 10_000)).to.equal('now');
+    expect(at(now - 5 * MINUTE)).to.contain('5 min');
+    expect(at(now - 3 * HOUR)).to.contain('3 hr');
+    expect(at(now - DAY)).to.equal('yesterday');
+    // Older than a week: an absolute date such as "Oct 28" (with the year in another year).
+    expect(at(now - 10 * DAY)).to.match(/^[A-Z][a-z]{2} \d{1,2}/);
+    expect(at(now - 5 * MINUTE, 'de')).to.contain('5');
   });
 
   it('marks unread items and reads them out', async () => {

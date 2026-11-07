@@ -9,9 +9,9 @@ import type { Menu } from '../menu/menu/menu.js';
 import {
   formatAbsoluteTime,
   formatRelativeTime,
-  onMinuteTick,
   parseDatetime,
-} from './relative-time.js';
+  watchRelativeTime,
+} from '@/__internal/utils/relative-time.js';
 import styles from './comment.scss';
 
 /** `detail` of `submit`: the text, and the comment it replies to (`null` for a new comment). */
@@ -183,7 +183,10 @@ export class CommentElement extends LitElement {
     this.internals.role = 'article';
     // Feed articles take focus from the thread's Page Up / Page Down.
     if (!this.hasAttribute('tabindex')) this.tabIndex = -1;
-    this.stopTicking = onMinuteTick(() => this.requestUpdate());
+    this.stopTicking = watchRelativeTime(
+      () => this.date,
+      () => this.requestUpdate(),
+    );
   }
 
   override disconnectedCallback() {

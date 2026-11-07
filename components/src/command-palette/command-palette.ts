@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { isApplePlatform } from '@/__internal/utils/platform.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import {
   type CloseReason,
@@ -23,7 +24,10 @@ export interface Command {
   description?: string;
   /** Material Symbols icon name shown before the label. */
   icon?: string;
-  /** Keyboard shortcut to display, such as "Ctrl+Shift+P". The palette only shows it. */
+  /**
+   * Keyboard shortcut to display, in `wc-kbd` syntax such as `mod+shift+p` (⌘⇧P on Apple
+   * platforms, Ctrl+Shift+P elsewhere). The palette only shows it.
+   */
   shortcut?: string;
   /** More words that find the command, such as synonyms. Matched, not shown. */
   keywords?: string[];
@@ -115,15 +119,6 @@ function group(commands: Command[]): Section[] {
     heading,
     commands: list,
   }));
-}
-
-/** Whether the person is on a Mac-like platform, where `mod` is the Command key. */
-function isApplePlatform(): boolean {
-  const nav = navigator as Navigator & {
-    userAgentData?: { platform?: string };
-  };
-  const platform = nav.userAgentData?.platform || navigator.platform || '';
-  return /mac|iphone|ipad|ipod/i.test(platform);
 }
 
 /** Whether a keydown matches a shortcut such as `mod+k` or `ctrl+shift+p`. */
@@ -609,14 +604,9 @@ export class CommandPalette extends LitElement {
     );
   }
 
+  /** `mod+k` shows as ⌘K on Apple platforms and Ctrl+K elsewhere, and is read out in full. */
   private _renderShortcut(shortcut: string) {
-    const keys = shortcut
-      .split('+')
-      .map(key => key.trim())
-      .filter(Boolean);
-    return html`<span class="shortcut"
-      >${keys.map(key => html`<kbd>${key}</kbd>`)}</span
-    >`;
+    return html`<wc-kbd class="shortcut" keys=${shortcut}></wc-kbd>`;
   }
 
   private _renderOption(command: Command, index: number) {

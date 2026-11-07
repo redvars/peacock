@@ -1,0 +1,14 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline;
+  color: var(--relative-time-text-color, inherit);
+}
+
+time {
+  font: inherit;
+  color: inherit;
+  white-space: nowrap;
+}

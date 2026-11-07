@@ -1,0 +1,172 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.signature-pad {
+  --_label-text-color: var(--color-primary);
+  --_helper-text-color: var(--color-on-surface-variant);
+  --_border-color: var(--color-outline);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  &.has-error {
+    --_label-text-color: var(--color-error);
+    --_helper-text-color: var(--color-error);
+    --_border-color: var(--color-error);
+  }
+}
+
+.label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_label-text-color);
+
+  .required {
+    color: var(--color-error);
+    padding-inline-start: var(--spacing-025);
+  }
+}
+
+.helper {
+  @include mixin.get-typography(body-small);
+
+  padding-inline: var(--spacing-200);
+  color: var(--_helper-text-color);
+}
+
+.surface {
+  position: relative;
+  block-size: var(--signature-pad-block-size, 10rem);
+  border: 0.0625rem solid var(--_border-color);
+  border-radius: var(--shape-corner-medium);
+  background-color: var(
+    --signature-pad-background,
+    var(--color-surface-container-lowest)
+  );
+  overflow: hidden;
+}
+
+canvas {
+  // Read by the component: `color` is the ink on screen, `--_export-ink` the ink of exports,
+  // `font-family` the font of a typed name.
+  --_export-ink: var(
+    --signature-pad-export-ink-color,
+    var(--color-black, black)
+  );
+
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  color: var(--signature-pad-ink-color, var(--color-on-surface));
+  font-family: var(
+    --signature-pad-font-family,
+    'Segoe Script',
+    'Brush Script MT',
+    'Snell Roundhand',
+    'URW Chancery L',
+    cursive
+  );
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.hint {
+  @include mixin.get-typography(body-medium);
+
+  position: absolute;
+  inset-inline-start: var(--spacing-300);
+  inset-block-end: calc(25% + var(--spacing-100));
+  color: var(--color-on-surface-variant);
+  pointer-events: none;
+}
+
+// The line to sign on.
+.baseline {
+  position: absolute;
+  inset-inline: var(--spacing-300);
+  inset-block-end: 25%;
+  border-block-end: 0.0625rem dashed var(--color-outline-variant);
+  pointer-events: none;
+}
+
+.typing .baseline {
+  display: none;
+}
+
+.toolbar {
+  position: absolute;
+  inset-block-start: var(--spacing-050);
+  inset-inline-end: var(--spacing-050);
+  display: flex;
+  gap: var(--spacing-025);
+}
+
+.name-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+}
+
+.name-label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--color-on-surface-variant);
+}
+
+.name-input {
+  @include mixin.get-typography(body-large);
+
+  block-size: calc(2.5rem + var(--density, 0) * 0.25rem);
+  padding-inline: var(--spacing-200);
+  border: 0.0625rem solid var(--color-outline);
+  border-radius: var(--shape-corner-extra-small);
+  background: none;
+  color: var(--color-on-surface);
+  outline: none;
+
+  &:focus-visible {
+    border-color: var(--color-primary);
+    box-shadow: inset 0 0 0 0.0625rem var(--color-primary);
+  }
+}
+
+.readonly canvas,
+.disabled canvas {
+  cursor: default;
+}
+
+.disabled {
+  .surface,
+  .label,
+  .helper,
+  .name-field {
+    opacity: 0.38;
+  }
+}
+
+@media (forced-colors: active) {
+  .surface {
+    border-color: CanvasText;
+  }
+
+  canvas {
+    color: CanvasText;
+  }
+
+  .name-input {
+    border-color: CanvasText;
+
+    &:focus-visible {
+      outline: 0.125rem solid Highlight;
+    }
+  }
+}

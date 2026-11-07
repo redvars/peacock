@@ -15,11 +15,12 @@ export type UserMenuStatus = 'online' | 'away' | 'busy' | 'offline';
 export type UserMenuTheme = 'light' | 'dark' | 'system';
 
 /** Status indicator intent and string key of each presence. */
-const STATUSES = {
-  online: { intent: 'success', key: 'userMenuStatusOnline' },
-  away: { intent: 'warning', key: 'userMenuStatusAway' },
-  busy: { intent: 'danger', key: 'userMenuStatusBusy' },
-  offline: { intent: undefined, key: 'userMenuStatusOffline' },
+/** The status text under the email; the dot on the avatar is a wc-presence-indicator. */
+const STATUS_LABELS = {
+  online: 'presenceOnline',
+  away: 'presenceAway',
+  busy: 'presenceBusy',
+  offline: 'presenceOffline',
 } as const;
 
 /** The theme choices, in menu order. */
@@ -199,24 +200,28 @@ export class UserMenu extends LitElement {
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private _renderHeader() {
-    const status = this.status ? STATUSES[this.status] : undefined;
+    const statusKey = this.status ? STATUS_LABELS[this.status] : undefined;
+    // The avatar is decorative (the name is shown next to it), so the status is also written out
+    // as text; the presence dot on the avatar is the visual cue.
+    const avatar = html`<wc-avatar
+      class="header-avatar"
+      size="lg"
+      name=${this.name}
+      src=${this.src ?? nothing}
+    ></wc-avatar>`;
     return html`<div class="header" role="none">
-      <wc-avatar
-        class="header-avatar"
-        size="lg"
-        name=${this.name}
-        src=${this.src ?? nothing}
-        aria-hidden="true"
-      ></wc-avatar>
+      <div aria-hidden="true">
+        ${this.status
+          ? html`<wc-presence-indicator status=${this.status}
+              >${avatar}</wc-presence-indicator
+            >`
+          : avatar}
+      </div>
       <div class="identity">
         ${this.name ? html`<span class="name">${this.name}</span>` : nothing}
         ${this.email ? html`<span class="email">${this.email}</span>` : nothing}
-        ${status
-          ? html`<wc-status-indicator
-              class="status"
-              intent=${status.intent ?? nothing}
-              label=${this.i18n.t(status.key)}
-            ></wc-status-indicator>`
+        ${statusKey
+          ? html`<span class="status">${this.i18n.t(statusKey)}</span>`
           : nothing}
       </div>
     </div>`;

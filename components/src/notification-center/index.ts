@@ -1,6 +1,5 @@
 export {
   NotificationCenter,
-  formatRelativeTime,
   type NotificationCenterCloseDetail,
   type NotificationCenterItem,
   type NotificationCenterItemDetail,

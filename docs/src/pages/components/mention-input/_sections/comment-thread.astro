@@ -1,0 +1,62 @@
+---
+export const title = 'In a comment thread';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Put a <code>wc-mention-input</code> in the <code>composer</code> slot of
+  <code>wc-comment-thread</code>. The thread reads its <code>value</code> on <code>input</code>,
+  sends it with Ctrl+Enter or the Send button, and empties it afterwards, which also clears the
+  mentions. Read <code>mentions</code> in the <code>submit</code> listener, before the thread
+  empties the field, to notify the people mentioned.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 560px;'>
+    <wc-comment-thread id='mention-thread-demo'>
+      <wc-comment
+        comment-id='1'
+        author='Ada Lovelace'
+        datetime='2026-11-06T09:30:00Z'
+        body='Who can review the release notes?'
+      ></wc-comment>
+      <wc-mention-input
+        slot='composer'
+        id='mention-thread-composer'
+        rows='2'
+        auto-grow
+        max-rows='10'
+        placeholder='Reply, @ to mention'
+        aria-label='Add a comment'
+      ></wc-mention-input>
+    </wc-comment-thread>
+  </div>
+  <script is:inline>
+    (function () {
+      const people = [
+        { id: '42', label: 'Ana Lima' },
+        { id: '7', label: 'Bo Chen' },
+      ];
+      const thread = document.querySelector('#mention-thread-demo');
+      const composer = document.querySelector('#mention-thread-composer');
+      composer.addEventListener('search', function (event) {
+        const query = event.detail.query.toLowerCase();
+        composer.suggestions = people.filter(function (person) {
+          return person.label.toLowerCase().includes(query);
+        });
+      });
+      thread.addEventListener('submit', function (event) {
+        const notify = composer.mentions.map(function (mention) {
+          return mention.id;
+        });
+        myConsole.log('submit', event.detail.body, 'notify', notify);
+        const comment = document.createElement('wc-comment');
+        comment.author = 'You';
+        comment.datetime = new Date().toISOString();
+        comment.body = event.detail.body;
+        thread.insertBefore(comment, composer);
+      });
+    })();
+  </script>
+</DemoComponentCard>

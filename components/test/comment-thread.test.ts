@@ -10,7 +10,7 @@ import { CommentElement, CommentThread } from '../src/comment-thread/index.js';
 import {
   formatRelativeTime,
   parseDatetime,
-} from '../src/comment-thread/relative-time.js';
+} from '../src/__internal/utils/relative-time.js';
 
 for (const [tag, element] of [
   ['wc-field', Field],
@@ -70,7 +70,8 @@ function ctrlEnter(target: Element) {
 describe('relative time', () => {
   it('formats past times in the locale', () => {
     const now = Date.parse('2026-11-07T12:00:00Z');
-    const at = (iso: string) => formatRelativeTime(new Date(iso), 'en', now);
+    const at = (iso: string) =>
+      formatRelativeTime(new Date(iso), 'en', { now });
     expect(at('2026-11-07T11:59:50Z')).to.equal('now');
     expect(at('2026-11-07T11:55:00Z')).to.equal('5 minutes ago');
     expect(at('2026-11-07T09:00:00Z')).to.equal('3 hours ago');
@@ -79,7 +80,7 @@ describe('relative time', () => {
     expect(at('2026-08-07T12:00:00Z')).to.equal('3 months ago');
     expect(at('2024-11-07T12:00:00Z')).to.equal('2 years ago');
     expect(
-      formatRelativeTime(new Date('2026-11-07T11:55:00Z'), 'de', now),
+      formatRelativeTime(new Date('2026-11-07T11:55:00Z'), 'de', { now }),
     ).to.equal('vor 5 Minuten');
   });
 

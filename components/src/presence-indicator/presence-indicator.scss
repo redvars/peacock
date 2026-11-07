@@ -1,0 +1,86 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_dot-color: var(--presence-indicator-color, var(--color-outline));
+  --_ring-color: var(--presence-indicator-ring-color, var(--color-surface));
+  --_ring-width: 2px;
+  --_dot-size: 0.625rem;
+
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+:host([status='online']) {
+  --_dot-color: var(--presence-indicator-color, var(--color-success));
+}
+
+:host([status='away']) {
+  --_dot-color: var(--presence-indicator-color, var(--color-warning));
+}
+
+:host([status='busy']) {
+  --_dot-color: var(--presence-indicator-color, var(--color-error));
+}
+
+.dot {
+  display: inline-flex;
+  flex: none;
+  box-sizing: content-box;
+  inline-size: var(--_dot-size);
+  block-size: var(--_dot-size);
+  color: var(--_dot-color);
+}
+
+.size-sm {
+  --_dot-size: 0.5rem;
+  --_ring-width: 1.5px;
+}
+
+.size-lg {
+  --_dot-size: 0.875rem;
+}
+
+// On an avatar: the bottom-end corner (mirrors in RTL), inside a ring of the surface color.
+.attached {
+  position: absolute;
+  inset-block-end: calc(var(--_ring-width) * -1);
+  inset-inline-end: calc(var(--_ring-width) * -1);
+  padding: var(--_ring-width);
+  border-radius: var(--shape-corner-full);
+  background-color: var(--_ring-color);
+  pointer-events: none;
+}
+
+.shape {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.fill {
+  fill: currentColor;
+}
+
+.cutout {
+  fill: var(--_ring-color);
+}
+
+// Forced colors: the shapes carry the meaning, drawn in the text color with holes of the canvas.
+@media (forced-colors: active) {
+  .dot {
+    color: CanvasText;
+  }
+
+  .attached {
+    background-color: Canvas;
+  }
+
+  .cutout {
+    fill: Canvas;
+  }
+}

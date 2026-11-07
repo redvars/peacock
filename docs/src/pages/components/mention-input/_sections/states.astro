@@ -1,0 +1,40 @@
+---
+export const title = 'Variants and states';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The field takes the same <code>variant</code>, <code>size</code>, helper, error, warning and
+  <code>clearable</code> options as <code>wc-textarea</code>, plus <code>rows</code>,
+  <code>auto-grow</code>, <code>max-rows</code>, <code>minlength</code> and
+  <code>maxlength</code>. It is form-associated: inside a <code>&lt;form&gt;</code> it submits its
+  text under its <code>name</code>, <code>required</code> and the length limits block submission,
+  and <code>form.reset()</code> restores its first value. A mention that would go over
+  <code>maxlength</code> is not inserted.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-mention-input label='Outlined' variant='outlined' value='Thanks @Ana Lima'></wc-mention-input>
+    <wc-mention-input label='Required, at most 140 characters' required maxlength='140'></wc-mention-input>
+    <wc-mention-input label='Error' error error-text='Mention at least one reviewer'></wc-mention-input>
+    <wc-mention-input label='Disabled' disabled value='Thanks @Ana Lima'></wc-mention-input>
+    <wc-mention-input label='Read only' readonly value='Thanks @Ana Lima'></wc-mention-input>
+  </div>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<ul>
+  <li>
+    The textarea keeps its multiline text box role, named by <code>label</code>. While the list
+    is open it points at the list (<code>aria-controls</code>, <code>aria-haspopup="listbox"</code>,
+    <code>aria-autocomplete="list"</code>) and at the highlighted suggestion
+    (<code>aria-activedescendant</code>); focus never leaves the textarea.
+  </li>
+  <li>The number of suggestions is announced politely as it changes.</li>
+  <li>
+    Escape closes the list without closing a dialog the field is in. Enter inserts a suggestion
+    only while one is highlighted; Ctrl+Enter and Shift+Enter keep their usual meaning.
+  </li>
+</ul>

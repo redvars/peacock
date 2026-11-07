@@ -77,6 +77,8 @@
 }
 
 .status {
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
   margin-block-start: var(--spacing-025, 0.125rem);
 }
 

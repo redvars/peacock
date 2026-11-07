@@ -1,0 +1,61 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-kanban</code> is a board of columns whose cards the person moves by drag and drop or
+  with the keyboard. It is data-driven: <code>columns</code> is an array of
+  <code>{'{'} id, title, limit? {'}'}</code> and <code>cards</code> an array of
+  <code>{'{'} id, columnId, title, ... {'}'}</code>, where the order of <code>cards</code> is the
+  order within each column. Data, not child elements, because a move is a data change you save, and
+  the keyboard can move a card to any column without the board knowing your markup.
+</p>
+<p>
+  <code>renderCard</code> renders a card's content; without it a card shows its
+  <code>title</code>. Cards are rendered into the board's light DOM, so your page styles reach
+  them. Give the board a height for its columns to scroll; the board scrolls sideways when the
+  columns do not fit.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-kanban id='kanban-demo' label='Sprint 12' style='width: 100%; height: 26rem;'></wc-kanban>
+  <script is:inline>
+    const $board = document.getElementById('kanban-demo');
+    $board.columns = [
+      { id: 'todo', title: 'To do' },
+      { id: 'doing', title: 'In progress' },
+      { id: 'review', title: 'Review' },
+      { id: 'done', title: 'Done' },
+    ];
+    $board.cards = [
+      { id: '1', columnId: 'todo', title: 'Fix login', owner: 'Ada' },
+      { id: '2', columnId: 'todo', title: 'Update icons', owner: 'Grace' },
+      { id: '3', columnId: 'todo', title: 'Write release notes', owner: 'Linus' },
+      { id: '4', columnId: 'doing', title: 'Table virtual scroll', owner: 'Ada' },
+      { id: '5', columnId: 'review', title: 'Dark mode tokens', owner: 'Grace' },
+      { id: '6', columnId: 'done', title: 'Pin input', owner: 'Linus' },
+    ];
+    // Plain JavaScript: return a DOM node (or a string).
+    $board.renderCard = card => {
+      const content = document.createElement('div');
+      content.innerHTML = '<div style="font-weight:500"></div><small style="opacity:.7"></small>';
+      content.firstChild.textContent = card.title;
+      content.lastChild.textContent = card.owner;
+      return content;
+    };
+    $board.addEventListener('card-move', event => {
+      myConsole.log(`card-move ${JSON.stringify(event.detail)}`);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Rendering with Lit</h3>
+<pre><code>{`html\`<wc-kanban
+  label="Sprint"
+  .columns=\${this.columns}
+  .cards=\${this.cards}
+  .renderCard=\${card => html\`<strong>\${card.title}</strong><p>\${card.owner}</p>\`}
+  @card-move=\${(event) => this.save(event.detail)}
+></wc-kanban>\`;`}</code></pre>

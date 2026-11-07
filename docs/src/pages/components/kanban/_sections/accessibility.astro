@@ -1,0 +1,42 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 400;
+---
+
+<p>
+  Each column is a <code>section</code> with a <code>role="list"</code> named by the column
+  title, and each card a <code>role="listitem"</code> with <code>aria-setsize</code> and
+  <code>aria-posinset</code>. Every card is described by instructions for moving it. The cards are
+  one tab stop, and the column buttons are tab stops of their own.
+</p>
+<ul>
+  <li>
+    <kbd>Up</kbd> and <kbd>Down</kbd> move focus within a column, <kbd>Home</kbd> and
+    <kbd>End</kbd> to its first and last card. <kbd>Left</kbd> and <kbd>Right</kbd> move to the
+    card at the same position in the nearest column with cards.
+  </li>
+  <li><kbd>Space</kbd> or <kbd>Enter</kbd> picks up the focused card.</li>
+  <li>
+    While a card is picked up, <kbd>Up</kbd> and <kbd>Down</kbd> move it within its column and
+    <kbd>Left</kbd> and <kbd>Right</kbd> to the neighboring column. <kbd>Space</kbd> or
+    <kbd>Enter</kbd> drops it, which fires <code>card-move</code>; <kbd>Escape</kbd> or
+    <kbd>Tab</kbd> puts it back.
+  </li>
+  <li><kbd>Left</kbd> and <kbd>Right</kbd> are mirrored in right-to-left layouts.</li>
+</ul>
+<p>
+  Each step is announced in a polite live region, for example "Picked up card Fix login. Column To
+  do, position 2 of 5.", then the new position after each move, and "Dropped" or "Move canceled".
+  The words come from Peacock's strings (<code>kanbanPickedUp</code>, <code>kanbanMoved</code>,
+  <code>kanbanDropped</code>, <code>kanbanCanceled</code>, <code>kanbanInstructions</code>), and
+  numbers are formatted in the board's locale.
+</p>
+<p>
+  Because Space and Enter pick a card up, put a button or link inside the card for opening it;
+  keys and clicks on controls inside a card belong to them.
+</p>
+<p>
+  Style the board with <code>--kanban-column-inline-size</code> (default <code>18rem</code>),
+  <code>--kanban-column-container-color</code>, <code>--kanban-card-container-color</code> and
+  <code>--kanban-card-padding</code>.
+</p>

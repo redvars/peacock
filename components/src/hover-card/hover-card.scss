@@ -1,0 +1,78 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline;
+
+  /**
+   * @prop --hover-card-background: Background of the card
+   */
+  --hover-card-background: var(--color-surface-container);
+
+  /**
+   * @prop --hover-card-padding: Padding of the card
+   */
+  --hover-card-padding: var(--spacing-200);
+
+  /**
+   * @prop --hover-card-width: Width of the card
+   */
+  --hover-card-width: 20rem;
+
+  --_hover-card-duration: var(--duration-short2, 0.1s);
+  --_hover-card-easing: var(--easing-standard, ease-in-out);
+}
+
+.card {
+  /* Reset the UA popover styles; floating-ui positions the card in the top layer. */
+  margin: 0;
+  border: 0;
+  inset: auto;
+  position: fixed;
+  top: 0;
+  // floating-ui positions the card with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
+  left: 0;
+  box-sizing: border-box;
+  inline-size: var(--hover-card-width);
+  max-inline-size: calc(100vw - 2 * var(--spacing-100, 0.5rem));
+  max-block-size: var(--floating-available-height, none);
+  overflow: auto;
+  padding: var(--hover-card-padding);
+  color: var(--color-on-surface);
+  background-color: var(--hover-card-background);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level2);
+  @include mixin.get-typography-not-important(body-medium);
+
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity var(--_hover-card-duration) var(--_hover-card-easing),
+    transform var(--_hover-card-duration) var(--_hover-card-easing),
+    display var(--_hover-card-duration) allow-discrete,
+    overlay var(--_hover-card-duration) allow-discrete;
+}
+
+.card:popover-open {
+  opacity: 1;
+  transform: none;
+
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .card {
+    border: 1px solid CanvasText;
+  }
+}
