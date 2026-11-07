@@ -75,6 +75,13 @@ describe('wc-virtual-list', () => {
     expect(content?.style.blockSize).to.equal('200000px');
   });
 
+  it('keeps the wheel inside the list at its ends, so the page does not move', async () => {
+    const el = await mount(range(100));
+    const style = getComputedStyle(el);
+    expect(style.overscrollBehaviorY).to.equal('contain');
+    expect(style.overflowY).to.equal('auto');
+  });
+
   it('renders the window around the scroll position', async () => {
     const el = await mount(range(10000));
     scrollTo(el, 2000);

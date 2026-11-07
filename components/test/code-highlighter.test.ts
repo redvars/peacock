@@ -344,6 +344,50 @@ describe('CodeHighlighter', () => {
     expect(button.textContent).to.contain('Show less');
   });
 
+  it('settles on one state for code just over the collapsed height (no footer loop)', async () => {
+    const el = await fixture<CodeHighlighter>(html`
+      <wc-code-highlighter
+        language="text"
+        collapsible
+        style="--spacing-200: 16px; --spacing-100: 8px"
+        .value=${'one\ntwo\nthree\nfour'}
+      ></wc-code-highlighter>
+    `);
+    await el.updateComplete;
+    const content = root(el).querySelector('.content') as HTMLElement;
+    const code = root(el).querySelector('.code') as HTMLElement;
+    const style = getComputedStyle(content);
+    const room =
+      code.offsetHeight +
+      parseFloat(style.paddingTop) +
+      parseFloat(style.paddingBottom);
+    // 3px short of fitting with the full bottom padding, but it would fit with the footer's
+    // smaller one: the footer used to shrink the padding, then go away, forever.
+    el.style.setProperty(
+      '--code-highlighter-collapsed-height',
+      `${room - 3}px`,
+    );
+    await waitUntil(
+      () => root(el).querySelector('.footer'),
+      'footer did not appear',
+    );
+    const footerChanges: boolean[] = [];
+    const observer = new MutationObserver(() =>
+      footerChanges.push(!!root(el).querySelector('.footer')),
+    );
+    observer.observe(root(el), { childList: true, subtree: true });
+    for (let frame = 0; frame < 10; frame += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise(resolve => {
+        requestAnimationFrame(resolve);
+      });
+    }
+    observer.disconnect();
+    expect(footerChanges.filter(shown => !shown)).to.deep.equal([]);
+    // Collapsed, the footer keeps the full bottom padding.
+    expect(getComputedStyle(content).paddingBottom).to.equal(style.paddingTop);
+  });
+
   it('renders inline code without block chrome', async () => {
     const el = await fixture<CodeHighlighter>(html`
       <wc-code-highlighter inline language="text"

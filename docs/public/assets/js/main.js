@@ -2,34 +2,29 @@
   "use strict";
 
   // @ts-ignore
+  // Shows a demo's output as a toast through the page's wc-notification-manager.
+  // The toast renders text, so the message goes in as plain text.
+  function toast(message, title, intent) {
+    const text = typeof message === "string" ? message : JSON.stringify(message);
+    window.dispatchEvent(
+      new CustomEvent("peacock-toast", {
+        detail: {
+          title: title || text,
+          subtitle: title ? text : undefined,
+          intent,
+        },
+      }),
+    );
+  }
+
   window.myConsole = {
     log: function (message, title) {
       console.log(message);
-      window.dispatchEvent(
-        new CustomEvent("notification", {
-          bubbles: true,
-          detail: {
-            target: "global",
-            title: title ? title : undefined,
-            subtitle: `<pre>${message}</pre>`,
-            variant: "success",
-          },
-        }),
-      );
+      toast(message, title, "success");
     },
     warn: function (message, title) {
       console.warn(message);
-      window.dispatchEvent(
-        new CustomEvent("notification", {
-          bubbles: true,
-          detail: {
-            target: "global",
-            title: title ? title : undefined,
-            subtitle: `<pre>${message}</pre>`,
-            variant: "warning",
-          },
-        }),
-      );
+      toast(message, title, "warning");
     },
   };
 
