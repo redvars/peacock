@@ -1,7 +1,7 @@
 ---
 import { convertToSectionId } from '../_data/utils.ts';
 import '../styles/layout/article.scss';
-import LitComponentApiPanel from './LitComponentApiPanel.astro';
+import OnThisPageNavigation from './OnThisPageNavigation.astro';
 
 interface Section {
   title: string;
@@ -17,10 +17,14 @@ interface Props {
 
 const { title, description, sections = [] } = Astro.props;
 
+const navItems = sections.map(section => ({
+  id: `section-${convertToSectionId(section.title)}`,
+  label: section.title,
+}));
 ---
 <div class="article-layout">
 
-  <article class="article">
+  <article class="article with-on-this-page">
     <wc-container size="lg">
 
         <h1 class="text-display article-title">{title}</h1>
@@ -40,120 +44,27 @@ const { title, description, sections = [] } = Astro.props;
     </wc-container>
   </article>
 
-  <div class="on-this-page">
-    <div class="text-label">On this page</div>
-    <h2 class="text-headline">{title}</h2>
-    <nav class="section-nav">
-      {
-        sections.map((section) => (
-          <wc-navigation-drawer-item
-            href={`#section-${convertToSectionId(section.title)}`}
-            data-section={`section-${convertToSectionId(section.title)}`}
-          >{section.title}</wc-navigation-drawer-item>
-        ))
-      }
-    </nav>
+  <OnThisPageNavigation title={title} items={navItems} navId="article-on-this-page" />
 
-    <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script is:inline>
-      document.addEventListener('DOMContentLoaded', function () {
-        const nav = document.querySelector('.on-this-page .section-nav');
-        if (!nav) return;
-
-        // Build id → nav item map for h2 sections
-        const navMap = {};
-        nav.querySelectorAll('wc-navigation-drawer-item').forEach(function (item) {
-          navMap[item.dataset.section] = item;
-        });
-
-        // Inject wc-navigation-drawer-item for each h3, assign ids, and register in navMap
-        const tracked = [];
-        document.querySelectorAll('.article .section').forEach(function (section) {
-          // Track the h2 heading, not the whole section — sections are too large
-          // and stay in the visible set even when a subsection is active
-          const h2 = section.querySelector('h2.section-title');
-          if (h2) {
-            h2.dataset.navId = section.id;
-            tracked.push(h2);
+  <script is:inline>
+    // Adds each section's h3 headings under it. Headings inside a live demo are part of the
+    // example, not the page outline.
+    document.addEventListener('DOMContentLoaded', function () {
+      const nav = document.getElementById('article-on-this-page');
+      if (!nav) return;
+      const items = [];
+      document.querySelectorAll('.article .section').forEach(function (section) {
+        const h2 = section.querySelector('h2.section-title');
+        items.push({ id: section.id, label: h2 ? h2.textContent.trim() : section.id });
+        section.querySelectorAll('h3').forEach(function (h3) {
+          if (h3.closest('.demo-card')) return;
+          if (!h3.id) {
+            h3.id = 'sub-' + h3.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
           }
-
-          const sectionNavItem = navMap[section.id];
-          let lastInserted = sectionNavItem;
-
-          section.querySelectorAll('h3').forEach(function (h3) {
-            // Headings inside a live demo are part of the example, not the page outline.
-            if (h3.closest('.demo-card')) return;
-            if (!h3.id) {
-              h3.id = 'sub-' + h3.textContent.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-            }
-            h3.dataset.navId = h3.id;
-            tracked.push(h3);
-
-            if (sectionNavItem) {
-              const sub = document.createElement('wc-navigation-drawer-item');
-              sub.setAttribute('href', '#' + h3.id);
-              sub.textContent = h3.textContent.trim();
-              sub.classList.add('sub-section');
-              sub.dataset.section = h3.id;
-              navMap[h3.id] = sub;
-              lastInserted.insertAdjacentElement('afterend', sub);
-              lastInserted = sub;
-            }
-          });
+          items.push({ id: h3.id, label: h3.textContent.trim(), level: 2 });
         });
-
-        // Immediately activate on click + smooth scroll
-        Object.values(navMap).forEach(function (item) {
-          item.addEventListener('click', function (e) {
-            e.preventDefault();
-            Object.values(navMap).forEach(function (i) { i.current = false; });
-            item.current = true;
-            const target = document.getElementById(item.dataset.section);
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        });
-
-        // Scrollspy: last heading whose top is above 25% of the viewport is active
-        function updateActive() {
-          const threshold = window.innerHeight * 0.25;
-          let activeId = null;
-          for (var i = 0; i < tracked.length; i++) {
-            if (tracked[i].getBoundingClientRect().top <= threshold) {
-              activeId = tracked[i].dataset.navId;
-            }
-          }
-          Object.values(navMap).forEach(function (item) { item.current = false; });
-          if (activeId && navMap[activeId]) navMap[activeId].current = true;
-        }
-
-        let ticking = false;
-        document.addEventListener('scroll', function () {
-          if (!ticking) {
-            requestAnimationFrame(function () { updateActive(); ticking = false; });
-            ticking = true;
-          }
-        }, true);
-
-        updateActive();
       });
-    </script>
-
-    <script is:inline>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-      const interval = window.setInterval(() => {
-        if (window.document.documentElement.classList.contains('hydrated') || true) {
-          window.clearInterval(interval);
-
-          setTimeout(function () {
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3120721550776061';
-            script.crossOrigin = 'anonymous';
-            script.async = true;
-            document.body.appendChild(script);
-          }, 800);
-        }
-      }, 300);
-    </script>
-  </div>
+      nav.items = items;
+    });
+  </script>
 </div>

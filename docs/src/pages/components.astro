@@ -5,6 +5,8 @@ import '../styles/components.page.scss';
 
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
 import WebComponentCard from '../components/WebComponentCard.astro';
+import OnThisPageNavigation from '../components/OnThisPageNavigation.astro';
+import { convertToSectionId } from '../_data/utils.ts';
 const title = 'Components';
 const description =
   'Every Peacock web component, grouped by what it does. Search by name, or open a component for live demos and its API reference.';
@@ -213,7 +215,13 @@ const groupsWithEntries = componentGroups.map(g => ({
     g.entries ?? componentEntries.filter(c => g.components.includes(c.rawTag)),
 }));
 
-const sortedComponents = [...componentEntries].sort((a, b) =>
+const groupId = (name: string) => `group-${convertToSectionId(name)}`;
+
+const navItems = groupsWithEntries
+  .filter(group => group.entries.length > 0)
+  .map(group => ({ id: groupId(group.name), label: group.name }));
+
+const sortedComponents =[...componentEntries].sort((a, b) =>
   a.rawTag.localeCompare(b.rawTag),
 );
 ---
@@ -223,7 +231,7 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
   description={description}
   classes="surface-container-lowest"
 >
-  <article class="doc-page components-page">
+  <article class="doc-page components-page with-on-this-page">
     <header class="doc-header">
       <h1 class="text-display-small">{title}</h1>
       <p class="text-body-large doc-muted">{description}</p>
@@ -243,7 +251,7 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
         groupsWithEntries.map(
           group =>
             group.entries.length > 0 && (
-              <section class="component-group">
+              <section class="component-group" id={groupId(group.name)}>
                 <h2 class="text-headline-small group-title">{group.name}</h2>
                 <div class="cards">
                   {group.entries.map(component => (
@@ -265,6 +273,8 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
     </div>
   </article>
 
+  <OnThisPageNavigation title={title} items={navItems} navId="components-on-this-page" />
+
   <script is:inline>
     const $componentSearchElm = document.getElementById('component-search');
     customElements.whenDefined('wc-search').then(function () {
@@ -273,10 +283,13 @@ const sortedComponents = [...componentEntries].sort((a, b) =>
 
     const $groupedView = document.getElementById('grouped-view');
     const $flatView = document.getElementById('flat-view');
+    // The groups are hidden while searching, so their links are too.
+    const $onThisPage = document.getElementById('components-on-this-page').closest('.on-this-page');
 
     $componentSearchElm.addEventListener('input', function (e) {
       window.scrollTo({ top: 0, behavior: 'instant' });
       const query = e.target.value.toLowerCase();
+      $onThisPage.hidden = !!query;
 
       if (query) {
         $groupedView.classList.add('hidden');

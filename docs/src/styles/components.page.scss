@@ -32,6 +32,8 @@
 
   .component-group {
     margin-bottom: var(--spacing-600);
+    // Clear of the search bar, which is pinned to the top once the page scrolls.
+    scroll-margin-top: 5rem;
 
     .group-title {
       margin: 0 0 var(--spacing-200);

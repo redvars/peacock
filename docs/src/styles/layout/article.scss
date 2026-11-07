@@ -7,7 +7,6 @@
     flex: 1;
 
     @include mixin.for-tablet-landscape-up {
-      margin-inline-end: 15rem;
       margin-block-start: 4rem;
     }
 
@@ -53,75 +52,5 @@
         vertical-align: middle;
       }
     }
-  }
-}
-
-.on-this-page {
-  display: none;
-
-  @include mixin.for-tablet-landscape-up {
-    display: block;
-  }
-
-  width: 12rem;
-  margin-inline-end: 2rem;
-  margin-block-start: 4rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-
-  .section-nav {
-    display: flex;
-    flex-direction: column;
-    margin-block: 0.5rem 2rem;
-    margin-inline-start: -0.5rem;
-    margin-inline-end: -0.5rem;
-
-    wc-navigation-drawer-item {
-      --navigation-drawer-item-height: 3rem;
-    }
-
-    wc-navigation-drawer-item.sub-section {
-      position: relative;
-      --typography-label-large-font-size: 0.8rem;
-      --navigation-drawer-item-height: 2.25rem;
-      --navigation-drawer-item-indent: 0.75rem;
-
-      &::before {
-        content: '';
-        position: absolute;
-        inset-inline-start: 0.75rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        border: 1.5px solid currentColor;
-        opacity: 0.5;
-        z-index: 3;
-        pointer-events: none;
-      }
-    }
-  }
-
-  .sub-section-nav-links {
-    list-style: circle;
-    padding-inline-start: 1rem;
-    margin-block-start: 0.25rem;
-
-    li {
-      margin-block: 0.25rem;
-
-      wc-link {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: block;
-        font-size: 0.85em;
-      }
-    }
-  }
-
-  .sponser-icon {
-    --icon-color: var(--color-red);
   }
 }

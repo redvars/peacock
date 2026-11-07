@@ -1,57 +1,62 @@
 ---
-import { convertToSectionId } from '../_data/utils.ts';
-interface Props {
-  sections: string[];
-  title?: string;
+// The "On this page" column on the right of a docs page: a wc-anchor-nav of the page's
+// sections, then an ad. It is fixed to the right edge on wide screens; give the page content
+// the `with-on-this-page` class so it leaves room for it. Styles: styles/layout/on-this-page.scss.
+import '../styles/layout/on-this-page.scss';
+
+export interface OnThisPageItem {
+  /** The id of the section or its heading. */
+  id: string;
+  label: string;
+  /** 1 (default) for a section, 2 for a subsection. */
+  level?: number;
 }
 
-const { sections, title } = Astro.props;
+interface Props {
+  title?: string;
+  items: OnThisPageItem[];
+  /** The id of the wc-anchor-nav, for a page script that replaces its items. */
+  navId?: string;
+}
+
+const { title, items, navId = 'on-this-page-nav' } = Astro.props;
 ---
 
-<style>
-  .on-this-page {
-    color: var(--color-on-surface-variant);
-  }
+<aside class="on-this-page">
+  <div class="text-label on-this-page-eyebrow">On this page</div>
+  {title && <div class="text-headline-small on-this-page-title">{title}</div>}
+  <wc-anchor-nav
+    id={navId}
+    class="on-this-page-nav"
+    label="On this page"
+    update-hash
+    data-items={JSON.stringify(items)}
+  ></wc-anchor-nav>
 
-  .section-nav-links {
-    list-style: disc;
-    padding-inline-start: 1.25rem;
-  }
-  .section-nav-links li {
-    margin-block: 0.5rem;
-  }
-</style>
+  <ins
+    class="adsbygoogle on-this-page-ad"
+    data-ad-client="ca-pub-3120721550776061"
+    data-ad-slot="1398164690"
+    data-ad-format="auto"
+    data-full-width-responsive="true"
+  ></ins>
 
-<div class="section-nav">
-  <div class="section-nav-content">
+  <script is:inline>
+    (function () {
+      document.querySelectorAll('.on-this-page wc-anchor-nav[data-items]').forEach(function (nav) {
+        nav.items = JSON.parse(nav.dataset.items);
+        nav.removeAttribute('data-items');
+      });
 
-    <p class="text-title on-this-page">On this page</p>
-    <h2 class="text-headline">{title}</h2>
-    <ul class="section-nav-links">
-      {
-        sections.map((section: string) => {
-          return <li><wc-link href={`#section-${convertToSectionId(section)}`}>{section}</wc-link></li>
-        })
-      }
-    </ul>
-
-    <ins class="adsbygoogle" data-ad-client="ca-pub-3120721550776061" data-ad-slot="1398164690" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script is:inline>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-      const interval = window.setInterval(() => {
-        if (window.document.documentElement.classList.contains('hydrated') || true) {
-          window.clearInterval(interval);
-
-          setTimeout(function () {
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3120721550776061';
-            script.crossOrigin = 'anonymous';
-            script.async = true;
-            document.body.appendChild(script);
-          }, 800);
-        }
-      }, 300);
-    </script>
-  </div>
-</div>
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      setTimeout(function () {
+        const script = document.createElement('script');
+        script.src =
+          'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3120721550776061';
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        document.body.appendChild(script);
+      }, 800);
+    })();
+  </script>
+</aside>
