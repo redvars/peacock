@@ -19,7 +19,7 @@ Peacock is more than just a collection of components; it is an aesthetic philoso
 
 **Foundation First:** Similar to projects like `shadcn/ui`, Peacock focuses on providing the foundational primitives, ensuring maximum flexibility for customization without sacrificing initial polish.
 
-**Seamless Integration:** Designed with modern web frameworks in mind (e.g., React, Vue), integrating Peacock into your existing project structure is fast, efficient, and empowering.
+**Works in any framework:** The components are custom elements, so they work in plain HTML and every framework. React, Vue and Angular get packages with typed components and two-way binding (see [Frameworks](#frameworks)).
 
 ## Key Features
 Vibrant & Consistent Design System: Every component—from buttons and cards to complex data tables—shares a cohesive, high-quality visual language.
@@ -51,6 +51,29 @@ Visit [https://peacock.redvars.com](https://peacock.redvars.com) to view the doc
 
 <wc-button>Button</wc-button>
 ```
+
+### Frameworks
+
+Each framework package is generated from `custom-elements.json`. It has typed props and events, two-way binding on fields and toggles, and it registers the elements you import, so no `loader.js` is needed:
+
+| Package | Framework | Two-way binding |
+|:--|:--|:--|
+| [`@redvars/peacock-react`](https://github.com/redvars/peacock/tree/main/frameworks/react) | React 18 and 19 | `value` / `checked` with `onInput` / `onChange` |
+| [`@redvars/peacock-vue`](https://github.com/redvars/peacock/tree/main/frameworks/vue) | Vue 3.3+ | `v-model` |
+| [`@redvars/peacock-angular`](https://github.com/redvars/peacock/tree/main/frameworks/angular) | Angular 17+ | `ngModel`, `formControl`, `formControlName` |
+
+```bash
+npm install @redvars/peacock @redvars/peacock-react
+```
+
+```tsx
+import '@redvars/peacock/styles.css';
+import { Button, Input } from '@redvars/peacock-react';
+
+<Input label="Name" value={name} onInput={event => setName(event.detail.value)} />
+```
+
+See [peacock.redvars.com/frameworks](https://peacock.redvars.com/frameworks/) for each framework.
 
 ### Icons without the CDN
 

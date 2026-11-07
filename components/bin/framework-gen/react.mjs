@@ -15,7 +15,7 @@ export function emitReact(model) {
   const files = {};
   const barrel = [];
 
-  for (const element of model.elements) {
+  for (const element of model.elements.filter(e => !e.registrationOnly)) {
     const imports = new ImportSet();
     imports.add(`import * as React from 'react';`);
     imports.add(`import { createComponent } from '@lit/react';`);

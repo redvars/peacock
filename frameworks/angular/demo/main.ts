@@ -18,7 +18,7 @@ import { PEACOCK_COMPONENTS } from '@redvars/peacock-angular';
         label="Choice"
         [options]="options"
         [(ngModel)]="choice"
-        (change)="lastChange = $event.detail.value"
+        (change)="lastChange = $event.detail.value; changeCount = changeCount + 1"
       ></wc-select>
       <output id="state">{{ state() }}</output>
     </main>
@@ -42,12 +42,16 @@ class App {
   /** From the typed `(change)` output: `$event.detail.value` is checked as a string. */
   lastChange = '';
 
+  changeCount = 0;
+
   state(): string {
     return JSON.stringify({
       clicks: this.clicks(),
       name: this.name,
       enabled: this.enabled,
       choice: this.choice,
+      lastChange: this.lastChange,
+      changeCount: this.changeCount,
     });
   }
 }

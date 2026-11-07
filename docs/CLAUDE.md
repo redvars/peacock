@@ -38,6 +38,7 @@ Reusable Astro components for the documentation UI. Key files:
 - `Default.astro` — Main layout with sidebar.
 - `LitComponent.astro` — Layout for individual component documentation pages.
 - `Foundations.astro` — Layout for the Foundations pages: sidebar, header and previous/next links.
+- `Frameworks.astro` — The same for the Frameworks pages (`src/_data/frameworks.ts` lists them).
 
 ### Pages (`src/pages/`)
 - `index.astro` — Homepage.

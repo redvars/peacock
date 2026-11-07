@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Frameworks.astro';
+import Highlighter from '../../components/Highlighter.astro';
+
+const install = `npm install @redvars/peacock @redvars/peacock-vue`;
+
+const usage = `<script setup lang="ts">
+import { ref } from 'vue';
+import '@redvars/peacock/styles.css';
+import { WcButton, WcInput, WcSelect, WcSwitch } from '@redvars/peacock-vue';
+
+const options = [
+  { label: 'Alpha', value: 'alpha' },
+  { label: 'Beta', value: 'beta' },
+];
+const name = ref('Ada');
+const enabled = ref(false);
+const choice = ref('alpha');
+</script>
+
+<template>
+  <WcInput label="Name" v-model="name" />
+  <WcSwitch label="Enabled" v-model="enabled" />
+  <WcSelect label="Choice" :options="options" v-model="choice" @change="e => console.log(e.detail.values)" />
+  <WcButton @click="save">Save</WcButton>
+</template>`;
+
+const plugin = `import { createApp } from 'vue';
+import { PeacockVue } from '@redvars/peacock-vue';
+
+createApp(App).use(PeacockVue).mount('#app');
+// <WcButton> and the rest now work in every template, typed by Volar.`;
+---
+
+<Layout
+  title='Vue'
+  description='@redvars/peacock-vue gives every Peacock element a Vue component with typed props and events, and v-model on fields and toggles. It works with Vue 3.3 and later.'
+>
+  <section class='foundation-section' aria-labelledby='install-title'>
+    <h2 class='text-headline-small' id='install-title'>Install</h2>
+    <Highlighter lang='bash'><Fragment set:text={install} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='usage-title'>
+    <h2 class='text-headline-small' id='usage-title'>Use</h2>
+    <p class='text-body-large'>
+      Components are named after the tag: <code class='text-code-block'>wc-button</code> is
+      <code class='text-code-block'>WcButton</code>. Props are set as element properties, so
+      <code class='text-code-block'>:options</code> passes the array itself. Leave the Vue compiler
+      settings alone: you use the Vue components, not the custom elements, so no
+      <code class='text-code-block'>isCustomElement</code> is needed.
+    </p>
+    <Highlighter lang='html'><Fragment set:text={usage} /></Highlighter>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='model-title'>
+    <h2 class='text-headline-small' id='model-title'>v-model and events</h2>
+    <p class='text-body-large'>
+      Fields bind <code class='text-code-block'>value</code> and toggles such as switches, checkboxes and
+      radios bind <code class='text-code-block'>checked</code>. Text fields update as you type; selects,
+      pickers and the like update when the value is committed. Every Peacock event is emitted with
+      its typed <code class='text-code-block'>detail</code>: listen with
+      <code class='text-code-block'>@change</code>, <code class='text-code-block'>@menu-item-activate</code>
+      and so on.
+    </p>
+    <p class='text-body-large'>
+      Named slots work as on the element: put <code class='text-code-block'>slot="start"</code> on the
+      child.
+    </p>
+  </section>
+
+  <section class='foundation-section' aria-labelledby='plugin-title'>
+    <h2 class='text-headline-small' id='plugin-title'>Global registration</h2>
+    <p class='text-body-large'>
+      The plugin registers every component globally, which also includes every component in your
+      bundle. Import components where you use them to keep the bundle to what you need.
+    </p>
+    <Highlighter lang='ts'><Fragment set:text={plugin} /></Highlighter>
+  </section>
+</Layout>

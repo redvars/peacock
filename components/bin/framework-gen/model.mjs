@@ -1,7 +1,7 @@
 // Turns custom-elements.json into the model the framework emitters share: one entry per element
 // with its props, events, two-way binding kind and the other Peacock tags it renders.
 
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 /** Event types that are plain DOM events, for which frameworks need no custom binding. */
@@ -116,7 +116,9 @@ function renderedTags(file, srcDir, cache) {
     if (seen.has(current)) continue;
     seen.add(current);
     if (!cache.has(current)) {
-      const code = readFileSync(current, 'utf8').replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, '');
+      // Comments are scanned too: stripping them with a regex can swallow code (a `/*` inside a
+      // string), and a tag named in a comment only costs one extra registration.
+      const code = readFileSync(current, 'utf8');
       cache.set(current, {
         tags: [...code.matchAll(/<(wc-[a-z0-9-]+)/g)].map(m => m[1]),
         imports: localImports(current, srcDir),
@@ -199,6 +201,8 @@ export function buildModel(manifest, { srcDir, resolveType = () => undefined } =
     }
   }
 
+  if (srcDir) elements.push(...unlistedElements(srcDir, new Set(elements.map(e => e.tagName))));
+
   elements.sort((a, b) => a.tagName.localeCompare(b.tagName));
 
   if (srcDir) {
@@ -214,6 +218,44 @@ export function buildModel(manifest, { srcDir, resolveType = () => undefined } =
   }
 
   return { elements };
+}
+
+/**
+ * Components the manifest misses (the analyzer does not see every class declaration) but that
+ * other components render, found by their `@tag` JSDoc. They get a registration module only, with
+ * no framework wrapper: `registrationOnly: true`.
+ */
+function unlistedElements(srcDir, known) {
+  const result = [];
+  const walk = dir => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(file);
+      else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) {
+        const code = readFileSync(file, 'utf8');
+        const match = /@tag\s+(wc-[a-z0-9-]+)[\s\S]*?export\s+(default\s+)?class\s+(\w+)/.exec(code);
+        if (!match || known.has(match[1]) || !/@IndividualComponent/.test(code)) continue;
+        const modulePath = `src/${path.relative(srcDir, file).replace(/\\/g, '/')}`;
+        result.push({
+          tagName: match[1],
+          className: match[3],
+          exportName: match[2] ? 'default' : match[3],
+          name: tagToName(match[1]),
+          modulePath,
+          entry: `${path.posix.basename(modulePath, '.ts')}.js`,
+          typesPath: modulePath.replace(/^src\//, 'dist/src/').replace(/\.ts$/, '.js'),
+          description: '',
+          props: [],
+          events: [],
+          slots: [],
+          dependencies: [],
+          registrationOnly: true,
+        });
+      }
+    }
+  };
+  walk(srcDir);
+  return result;
 }
 
 /**

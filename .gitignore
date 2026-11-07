@@ -28,3 +28,4 @@ UserInterfaceState.xcuserstate
 frameworks/*/src/generated/
 out-tsc/
 .angular/
+frameworks/.smoke/

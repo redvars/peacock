@@ -9,7 +9,7 @@ export function emitVue(model) {
   const barrel = [];
   const names = [];
 
-  for (const element of model.elements) {
+  for (const element of model.elements.filter(e => !e.registrationOnly)) {
     const name = `Wc${element.name}`;
     const imports = new ImportSet();
     imports.add(`import { defineComponent, h } from 'vue';`);

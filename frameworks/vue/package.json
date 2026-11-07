@@ -19,7 +19,7 @@
     "readme.md"
   ],
   "sideEffects": [
-    "./dist/generated/define/*.js"
+    "**/generated/define/*"
   ],
   "keywords": [
     "peacock",
