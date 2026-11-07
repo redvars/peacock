@@ -18,6 +18,13 @@ import IndividualComponent from '@/IndividualComponent.js';
  * box with <code>field-start</code> and <code>field-end</code> slots, and a footer with helper,
  * error or warning text and a character count. Wrap a custom control in it to match the
  * built-in fields.</p>
+ * <p>The <code>default</code> variant fills its box with <code>surface-container-lowest</code>, so it
+ * stands out on cards and dialogs as well as on the page. <code>outlined</code> has no fill (the
+ * outline alone marks it) and <code>filled</code> uses <code>surface-container-highest</code>, as in
+ * Material 3. Disabled follows M3: the text at 38%, the outline at 12% and a 4% fill. Read-only
+ * keeps the label and value at full contrast in a faint box, so it reads as information.</p>
+ *
+ * @cssprop --field-container-color - The box's fill. Defaults to `surface-container-lowest` (default variant), `surface-container-highest` (filled) or none (outlined).
  *
  * @example
  * ```html

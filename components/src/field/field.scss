@@ -28,7 +28,10 @@
   --_container-shape-end-start: var(--field-container-shape-end-start, var(--shape-corner-extra-small));
   --_container-shape-end-end: var(--field-container-shape-end-end, var(--shape-corner-extra-small));
 
-  --_container-color: var(--field-container-color);
+  // The default field gets a fill one step off the cards and panels it usually sits on, so
+  // it reads as a field on any surface, not only on the page background. `outlined` stays
+  // transparent, as M3 specifies; `filled` uses surface-container-highest.
+  --_container-color: var(--field-container-color, var(--color-surface-container-lowest));
   --_outline-width: var(--field-outline-width, 0.0675rem);
   --_outline-color: var(--field-outline-color, var(--color-outline));
   --_input-text-color: var(--field-label-text-color, var(--color-on-surface));
@@ -217,6 +220,11 @@
     }
   }
 
+  // M3 outlined text field: no container, the outline alone marks the field.
+  &.variant-outlined {
+    --_container-color: var(--field-container-color, transparent);
+  }
+
   &.focused {
     --_outline-color: var(--color-primary);
     --_outline-width: 0.125rem;
@@ -237,16 +245,30 @@
   }
 
 
+  // M3 disabled text field: label, value and helper in on-surface at 38%, the outline in
+  // on-surface at 12% and the container in on-surface at 4%. The filled field's bottom line
+  // stays at 38%, and the outlined field keeps no container.
   &.disabled {
     .label {
       opacity: 0.38;
     }
-    --_input-text-color: var(--color-on-surface-variant);
-    --_outline-opacity: 0.38;
+    --_label-text-color: var(--color-on-surface);
+    --_input-text-color: color-mix(in srgb, var(--color-on-surface) 38%, transparent);
+    --_helper-text-color: var(--color-on-surface);
     --_helper-text-opacity: 0.38;
+    --_outline-color: var(--color-on-surface);
+    --_outline-opacity: 0.12;
     --_container-color: var(--color-on-surface);
-    --_container-opacity: 0.1;
+    --_container-opacity: 0.04;
     cursor: not-allowed;
+
+    &.variant-filled {
+      --_outline-opacity: 0.38;
+    }
+
+    &.variant-outlined {
+      --_container-color: transparent;
+    }
   }
 
   // A value to read, not a control switched off: the text, label and helper stay at full
