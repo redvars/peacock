@@ -1,0 +1,50 @@
+---
+export const title = 'Variants, sizes and states';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The cells sit in one field box, so pin input takes the same <code>variant</code>,
+  <code>size</code> (<code>sm</code> by default), helper, error and warning options as the other
+  fields. Set <code>--pin-input-cell-width</code> to change the width of the cells.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-pin-input label='Filled' variant='filled' value='123'></wc-pin-input>
+    <wc-pin-input label='Medium' size='md' value='123'></wc-pin-input>
+    <wc-pin-input label='Error' error error-text='That code is not right' value='123456'></wc-pin-input>
+    <wc-pin-input label='Disabled' disabled value='123456'></wc-pin-input>
+    <wc-pin-input label='Read only' readonly value='123456'></wc-pin-input>
+  </div>
+</DemoComponentCard>
+
+<h3>Forms and validation</h3>
+<p>
+  Inside a <code>&lt;form&gt;</code> the code is submitted under its <code>name</code>, and
+  <code>form.reset()</code> restores its first value. With <code>required</code>, an empty code is
+  <code>valueMissing</code>. A code that is started but not complete is <code>tooShort</code>,
+  whether required or not, like text under a native <code>minlength</code>. The message shows under
+  the cells once the code is committed or the form is submitted.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <form id='pin-input-form' style='display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;'>
+    <wc-pin-input name='code' label='Verification code' required></wc-pin-input>
+    <wc-button type='submit'>Verify</wc-button>
+  </form>
+  <script is:inline>
+    document.querySelector('#pin-input-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      myConsole.log('code: ' + new FormData(event.target).get('code'));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The cells form a group named by <code>label</code>; each cell is named by its position, such as
+  "Digit 2 of 6" (the <code>pinInputDigit</code> and <code>pinInputCharacter</code> strings). The
+  helper or error text is linked to every cell with <code>aria-describedby</code>.
+</p>

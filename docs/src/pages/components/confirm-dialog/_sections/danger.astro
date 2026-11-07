@@ -1,0 +1,39 @@
+---
+export const title = 'Destructive actions';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>intent="danger"</code> when the action deletes or breaks something: the confirm button
+  turns the danger color and Cancel gets the initial focus, so a stray Enter does not run it.
+  <code>intent</code> takes the same values as on <code>wc-alert</code>.
+</p>
+<p>
+  For actions that are hard to undo, set <code>confirm-text</code>: Confirm stays disabled until the
+  person types that text exactly (case matters), for example the project name. The field gets the
+  initial focus, and Enter in it confirms once the text matches.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button level='danger' id='confirm-dialog-danger-open'>Delete project</wc-button>
+  <wc-confirm-dialog
+    id='confirm-dialog-danger'
+    headline='Delete acme-prod?'
+    intent='danger'
+    confirm-label='Delete project'
+    confirm-text='acme-prod'
+  >
+    The project, its 14 pages and 3 environments are deleted for everyone on the team. This can’t
+    be undone.
+  </wc-confirm-dialog>
+  <script is:inline>
+    (function () {
+      const dialog = document.querySelector('#confirm-dialog-danger');
+      document
+        .querySelector('#confirm-dialog-danger-open')
+        .addEventListener('click', () => dialog.show());
+      dialog.addEventListener('confirm', () => myConsole.log('confirm'));
+    })();
+  </script>
+</DemoComponentCard>

@@ -3771,9 +3771,9 @@
     "tag": "wc-circular-progress",
     "rawTag": "circular-progress",
     "summary": "A circular progress indicator is a visual representation of progress toward a specific goal.",
-    "overview": "<p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that\nrange. The visible <code>label</code> names the indicator through\n<code>aria-labelledby</code>; without one it is named \"Loading\". With\n<code>indeterminate</code> it spins, and replaces the deprecated <code>wc-spinner</code>.</p>",
+    "overview": "<p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that\r\nrange. The visible <code>label</code> names the indicator through\r\n<code>aria-labelledby</code>; without one, an <code>aria-label</code> on the element names it,\r\nelse it is named \"Loading\". With\r\n<code>indeterminate</code> it spins, and replaces the deprecated <code>wc-spinner</code>.</p>",
     "tags": "display",
-    "example": "```html\n<wc-circular-progress value=\"30\"></wc-circular-progress>\n```",
+    "example": "```html\r\n<wc-circular-progress value=\"30\"></wc-circular-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -3830,7 +3830,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
+          "description": "A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -5123,6 +5123,146 @@
           }
         }
       ]
+    }
+  },
+  {
+    "label": "Confirm Dialog",
+    "tag": "wc-confirm-dialog",
+    "rawTag": "confirm-dialog",
+    "summary": "A ready-made \"Are you sure?\" dialog with confirm and cancel buttons.",
+    "overview": "<p>Confirm dialog asks one question before an action runs. It opens in the browser's top layer\nlike <code>wc-modal</code> (same overlay stack: scroll lock, Escape, focus return), with the\n<code>alertdialog</code> role: the headline is its name and the message its description.</p>\n<p>Escape and the cancel button close it; a click on the scrim does not, because a confirmation\nneeds an explicit answer. Set <code>intent=\"danger\"</code> for destructive actions: the confirm\nbutton turns the danger color and Cancel gets the initial focus. Set <code>confirm-text</code> to\nmake the person type that text (for example the project name) before Confirm enables.</p>\n<p>For an async action, call <code>preventDefault()</code> on <code>confirm</code>: the dialog\nstays open; set <code>loading</code> while the request runs (the buttons are disabled and\nEscape does nothing), then call <code>hide()</code>. For a quick question from script, use the\n<code>confirmDialog()</code> helper, which resolves to <code>true</code> or <code>false</code>.</p>",
+    "slot": "- The message: what will happen and whether it can be undone. It is the dialog's accessible description.",
+    "cssprop": "--confirm-dialog-max-width - Maximum width of the dialog.",
+    "fires": "close - Fired when the dialog closes. `reason` is `action` for both buttons, `escape`, or `api` (`hide()` / `open = false`); `confirmed` says whether the person confirmed, including an async confirm the app finished with `hide()`.",
+    "example": "```js\nimport { confirmDialog } from '@redvars/peacock';\nif (await confirmDialog({ headline: 'Sign out?', message: 'You will need to sign in again.' })) {\n  signOut();\n}\n```",
+    "tags": "overlay, dialog, feedback",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background color of the dialog container.",
+          "name": "--confirm-dialog-container-color"
+        },
+        {
+          "description": "Color of the scrim backdrop.",
+          "name": "--confirm-dialog-scrim-color"
+        },
+        {
+          "description": "Corner radius of the dialog container.",
+          "name": "--confirm-dialog-shape"
+        },
+        {
+          "description": "Maximum width of the dialog.",
+          "name": "--confirm-dialog-max-width"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The message: what will happen and whether it can be undone. It is the dialog's accessible description.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the dialog opens."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'action' | 'api', confirmed: boolean}>"
+          },
+          "description": "Fired when the dialog closes. `reason` is `action` for both buttons, `escape`, or `api` (`hide()` / `open = false`); `confirmed` says whether the person confirmed, including an async confirm the app finished with `hide()`."
+        },
+        {
+          "name": "confirm",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the person confirms. Cancelable: `preventDefault()` keeps the dialog open, so the app can set `loading`, await its request and call `hide()`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the dialog is open.",
+          "fieldName": "open"
+        },
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The question, shown as the dialog's title and used as its accessible name.",
+          "fieldName": "headline"
+        },
+        {
+          "name": "confirm-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label of the confirm button. Default \"Confirm\"; name the action, such as \"Delete project\".",
+          "fieldName": "confirmLabel"
+        },
+        {
+          "name": "cancel-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label of the cancel button. Default \"Cancel\".",
+          "fieldName": "cancelLabel"
+        },
+        {
+          "name": "intent",
+          "type": {
+            "text": "ConfirmDialogIntent | undefined"
+          },
+          "description": "`danger` for destructive actions: a danger-colored confirm button, and Cancel focused first.",
+          "fieldName": "intent",
+          "expandedType": {
+            "text": "'info' | 'success' | 'warning' | 'danger' | undefined"
+          }
+        },
+        {
+          "name": "confirm-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text the person must type, exactly, before Confirm enables, such as the project name.",
+          "fieldName": "confirmText"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "An async confirm is running: buttons are disabled, Confirm shows a spinner, Escape does nothing.",
+          "fieldName": "loading"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-confirm-dialog",
+      "customElement": true,
+      "rawTag": {
+        "name": "confirm-dialog",
+        "description": ""
+      }
     }
   },
   {
@@ -7122,6 +7262,40 @@
     }
   },
   {
+    "label": "File Upload",
+    "tag": "wc-file-upload",
+    "rawTag": "file-upload",
+    "summary": "A drop zone and file picker that collects files into a list, for the app to upload.",
+    "overview": "<p>File upload collects files: the person drops them on the zone, or activates it (click, Enter\nor Space) to open the system file picker. Chosen files are listed with their name and size and a\nbutton that removes them. The component uploads nothing itself: the app listens for\n<code>change</code>, uploads <code>files</code> however it likes and reports back per file with\n<code>setFileState(file, { progress, error, done })</code>, which shows a progress bar, an error\nor a done mark on that file.</p>\n<p><code>accept</code>, <code>max-size</code> (bytes per file) and <code>max-files</code> (with\n<code>multiple</code>) decide what is added. Files that do not fit are left out, listed in a short\nmessage under the zone, and reported in a <code>reject</code> event. Without\n<code>multiple</code>, a new file replaces the chosen one. A file that is already listed is not\nadded twice. Adding, removing and rejecting files is announced to screen readers.</p>\n<p>Inside a <code>&lt;form&gt;</code> the files are submitted under <code>name</code>, like a\nnative file input; <code>required</code> blocks submission while no file is chosen, and\n<code>form.reset()</code> clears the list. <code>readonly</code> shows the list without the drop\nzone and the remove buttons.</p>",
+    "fires": "remove - Dispatched when the person removes a file, before `change`.",
+    "cssprop": "--file-upload-drop-zone-min-block-size - Minimum height of the drop zone.",
+    "example": "```html\n<wc-file-upload\n  label=\"Photos\"\n  name=\"photos\"\n  accept=\"image/*\"\n  multiple\n  max-files=\"5\"\n  max-size=\"5000000\"\n  helper-text=\"Up to 5 images, 5 MB each\"\n></wc-file-upload>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "string"
+        }
+      },
+      "parameters": [
+        {
+          "name": "bytes",
+          "type": {
+            "text": "number"
+          }
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "Formats a size in bytes with `Intl`, in decimal units: \"512 bytes\", \"1.5 MB\"."
+    }
+  },
+  {
     "label": "Filter Bar",
     "tag": "wc-filter-bar",
     "rawTag": "filter-bar",
@@ -8454,9 +8628,9 @@
     "tag": "wc-linear-progress",
     "rawTag": "linear-progress",
     "summary": "A linear progress indicator is a visual representation of progress toward a specific goal.",
-    "overview": "<p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that\nrange. The visible <code>label</code> names the bar through <code>aria-labelledby</code>; without\none the bar is named \"Loading\". Use <code>indeterminate</code> when the amount of work is not\nknown.</p>",
+    "overview": "<p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that\r\nrange. The visible <code>label</code> names the bar through <code>aria-labelledby</code>; without\r\none, an <code>aria-label</code> on the element names it, else it is named \"Loading\". Use <code>indeterminate</code> when the amount of work is not\r\nknown.</p>",
     "tags": "display",
-    "example": "```html\n<wc-linear-progress value=\"30\" label=\"Uploading\" style=\"width:10rem\"></wc-linear-progress>\n<wc-linear-progress value=\"3\" max=\"8\" label=\"Step 3 of 8\"></wc-linear-progress>\n```",
+    "example": "```html\r\n<wc-linear-progress value=\"30\" label=\"Uploading\" style=\"width:10rem\"></wc-linear-progress>\r\n<wc-linear-progress value=\"3\" max=\"8\" label=\"Step 3 of 8\"></wc-linear-progress>\r\n```",
     "customElement": {
       "kind": "class",
       "description": "",
@@ -8513,7 +8687,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
+          "description": "A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -11957,6 +12131,306 @@
     }
   },
   {
+    "label": "Pin Input",
+    "tag": "wc-pin-input",
+    "rawTag": "pin-input",
+    "summary": "A row of single-character cells for a one-time code or PIN.",
+    "overview": "<p>Pin input takes a code of <code>length</code> characters (6 by default), one per cell. Its\n<code>value</code> is the code as one string, and inside a <code>&lt;form&gt;</code> it is\nsubmitted under its <code>name</code>. The cells sit in one field box, so <code>variant</code>,\n<code>size</code>, the states and the <code>start</code>/<code>end</code> slots look as on every\nother field.</p>\n<p><code>type=\"numeric\"</code> (the default) takes digits and shows the numeric keypad on phones;\n<code>type=\"alphanumeric\"</code> takes the letters A–Z and digits and uppercases letters, so the\nvalue is what the cells show. Anything else is ignored, so a pasted or autofilled\n<code>123-456</code> or <code>G-123456</code> fills <code>123456</code>. <code>masked</code>\nhides the characters like a password.</p>\n<p>The first cell has <code>autocomplete=\"one-time-code\"</code>, so a code from a text message can\nbe filled in by the phone. Typing moves to the next cell and typing over a filled cell replaces\nit. Backspace clears the cell, or, in an empty cell, the one before it; Delete clears the cell.\nLeft, Right, Home and End move between cells, and Tab leaves the row. The code is always filled\nfrom the start: a cell after the first empty one cannot be focused. The cells always run left to\nright, as codes are written, also in right-to-left pages.</p>\n<p>Validation: with <code>required</code> an empty code is <code>valueMissing</code>; a code that\nis started but not complete is <code>tooShort</code> (whether required or not), like text under\na native <code>minlength</code>. The message shows once the code is committed or the form is\nsubmitted.</p>",
+    "fires": "complete - Dispatched when the person fills the last empty cell.",
+    "cssprop": "--pin-input-cell-width - Width of each cell.",
+    "example": "```html\n<wc-pin-input label=\"PIN\" length=\"4\" masked></wc-pin-input>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width of each cell.",
+          "name": "--pin-input-cell-width"
+        }
+      ],
+      "events": [
+        {
+          "name": "complete",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when the person fills the last empty cell."
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched on every change of the code.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched when the code is committed: when it becomes complete, and when focus leaves the cells after a change.",
+          "name": "change"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The code as one string, from the first cell on.",
+          "fieldName": "value"
+        },
+        {
+          "name": "length",
+          "type": {
+            "text": "number"
+          },
+          "default": "6",
+          "description": "Number of cells, the length of a complete code.",
+          "fieldName": "length"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "PinInputType"
+          },
+          "default": "'numeric'",
+          "description": "Which characters the cells take: `numeric` (digits) or `alphanumeric` (A–Z and digits).",
+          "fieldName": "type",
+          "expandedType": {
+            "text": "'numeric' | 'alphanumeric'"
+          }
+        },
+        {
+          "name": "masked",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the characters like a password.",
+          "fieldName": "masked"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the field; also the control's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the field.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its error state with `error-text`.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its warning state with `warning-text`.",
+          "fieldName": "warning",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'default' | 'filled' | 'outlined'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Height of the field: `sm` (2.5rem, default), `md` (3.5rem) or `lg` (4rem).",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that clears the value while the field has one.",
+          "fieldName": "clearable",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "ARIA attributes moved from the host onto the inner control.",
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseField",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseField.js"
+      },
+      "tagName": "wc-pin-input",
+      "customElement": true,
+      "rawTag": {
+        "name": "pin-input",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Popover",
     "tag": "wc-popover",
     "rawTag": "popover",
@@ -14495,7 +14969,7 @@
           "type": {
             "text": "string | undefined"
           },
-          "description": "A visible label describing the progress, which also names the progress bar\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
+          "description": "A visible label describing the progress, which also names the progress bar\r\n(`aria-labelledby`). Without one the bar is named \"Loading\" (string `loading`).",
           "fieldName": "label",
           "inheritedFrom": {
             "name": "BaseProgress",
@@ -14660,6 +15134,198 @@
       "customElement": true,
       "rawTag": {
         "name": "split-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Step",
+    "tag": "wc-step",
+    "rawTag": "step",
+    "summary": "One step of a `wc-stepper`.",
+    "overview": "<p>Step is one entry in a <code>wc-stepper</code>. Its state comes from its position: steps\nbefore the stepper's <code>current</code> step are complete (a check), the current one has\n<code>aria-current=\"step\"</code>, and later ones are upcoming (their number). <code>error</code>\nmarks it with a warning icon and <code>error-text</code>, <code>disabled</code> takes it out of\nnavigation, and <code>optional</code> adds an \"Optional\" caption.</p>\n<p>A screen reader reads each step as its position, label and state, for example\n\"Step 2 of 4, Shipping, Completed\".</p>",
+    "slot": "icon - An icon shown instead of the step number while the step is current or upcoming.",
+    "example": "```html\n<wc-step value=\"shipping\" label=\"Shipping\" description=\"Address and delivery\"></wc-step>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "An icon shown instead of the step number while the step is current or upcoming.",
+          "name": "icon"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Names the step; the stepper's `current` and the `change` event use it. Defaults to the step's zero-based index.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The step's visible name.",
+          "fieldName": "label"
+        },
+        {
+          "name": "description",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A line of text under the label.",
+          "fieldName": "description"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Marks the step as having a problem: a warning icon replaces its number or check.",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Explains the error, shown under the label in place of the description.",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Takes the step out of navigation: it cannot be activated or focused.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "optional",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows an \"Optional\" caption; in a `linear` stepper an optional step does not block later ones.",
+          "fieldName": "optional"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-step",
+      "customElement": true,
+      "rawTag": {
+        "name": "step",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Stepper",
+    "tag": "wc-stepper",
+    "rawTag": "stepper",
+    "summary": "Shows progress through a multi-step flow, such as a wizard, onboarding or checkout.",
+    "overview": "<p>Stepper shows where the person is in a flow; the app renders each step's content itself.\n<code>current</code> names the current step by its <code>value</code> (a step without one is\nnamed by its zero-based index, so <code>current=\"1\"</code> is the second step). An empty or\nunknown <code>current</code> means the first step. Steps before the current one are complete\nand later ones upcoming; each step can add <code>error</code>, <code>disabled</code> or\n<code>optional</code>.</p>\n<p>By default (<code>navigation=\"none\"</code>) the stepper is a plain list and the app\nmoves it with <code>current</code>, <code>next()</code> and <code>previous()</code>. With\n<code>navigation=\"free\"</code> every step that is not disabled is a button; with\n<code>navigation=\"linear\"</code> only the steps up to the first unfinished required step are, so\nthe person can go back but not skip ahead. Activating a step fires a cancelable\n<code>change</code> and then moves <code>current</code>. The steps are one tab stop: the arrow\nkeys (mirrored in right-to-left layouts), Home and End move between them, and Enter or Space\nactivates one.</p>",
+    "fires": "change - Dispatched when the person activates a step. Cancel it to keep the current step.",
+    "cssprop": "--stepper-connector-complete-color - Color of the line after a complete step.",
+    "example": "```html\n<wc-stepper orientation=\"vertical\" navigation=\"linear\" current=\"1\">\n  <wc-step label=\"Account\" description=\"Name and email\"></wc-step>\n  <wc-step label=\"Team\" optional></wc-step>\n  <wc-step label=\"Billing\" error error-text=\"Card declined\"></wc-step>\n</wc-stepper>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Diameter of the step indicators.",
+          "name": "--stepper-indicator-size"
+        },
+        {
+          "description": "Color of the line between upcoming steps.",
+          "name": "--stepper-connector-color"
+        },
+        {
+          "description": "Color of the line after a complete step.",
+          "name": "--stepper-connector-complete-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{value: string, index: number}>"
+          },
+          "description": "Dispatched when the person activates a step. Cancel it to keep the current step."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "current",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The current step's `value` (or zero-based index, for steps without a value).",
+          "fieldName": "current"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'horizontal' | 'vertical'"
+          },
+          "default": "'horizontal'",
+          "description": "Lays the steps out in a row (labels collapse when narrow) or a column (with descriptions).",
+          "fieldName": "orientation"
+        },
+        {
+          "name": "navigation",
+          "type": {
+            "text": "StepperNavigation"
+          },
+          "default": "'none'",
+          "description": "How the person can move between steps: not at all, back and up to the next step, or freely.",
+          "fieldName": "navigation",
+          "expandedType": {
+            "text": "'none' | 'linear' | 'free'"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "default": "'md'",
+          "description": "Size of the indicators and text.",
+          "fieldName": "size"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the list; defaults to \"Progress\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-stepper",
+      "customElement": true,
+      "rawTag": {
+        "name": "stepper",
         "description": ""
       }
     }
@@ -16823,6 +17489,252 @@
       "customElement": true,
       "rawTag": {
         "name": "tooltip",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Tree",
+    "tag": "wc-tree",
+    "rawTag": "tree",
+    "summary": "A hierarchy the person expands, navigates and chooses from, such as files or categories.",
+    "overview": "<p>The tree follows the WAI-ARIA tree view pattern: the host has <code>role=\"tree\"</code>\n(with <code>aria-multiselectable</code> for <code>selection=\"multiple\"</code>), each\n<code>wc-tree-item</code> has <code>role=\"treeitem\"</code> with <code>aria-level</code>,\n<code>aria-setsize</code>, <code>aria-posinset</code> and, when it has children,\n<code>aria-expanded</code>. Nest items to give them children.</p>\n<p>It is one tab stop. Up and Down move between visible items, Right expands an item or moves\nto its first child, Left collapses it or moves to its parent (both mirrored in right-to-left),\nHome and End jump to the first and last item, <code>*</code> expands every sibling, and typing\na letter moves to the next item whose label starts with it. Enter or a double-click fires\n<code>activate</code>, which toggles an item with children unless canceled. Disabled items are\nskipped.</p>\n<p><code>selection</code> is <code>none</code> (navigate and activate only),\n<code>single</code> (the selection follows focus, <code>value</code> is the chosen item) or\n<code>multiple</code> (each item has a checkbox that Space or a click toggles;\n<code>value</code> is a comma-separated list, also readable as <code>values</code>). Checking\nan item checks its descendants, and an item is checked when all its children are and\nindeterminate when only some are. Disabled items keep their state.</p>\n<p>For lazy loading, give an item <code>has-children</code> and add its child items when it\nfires <code>expand</code>; it shows <code>loading</code> until they arrive.</p>",
+    "slot": "- `wc-tree-item` elements.",
+    "fires": "activate - Dispatched from an item on Enter or double-click. Cancel it to keep an item with children from toggling.",
+    "cssprop": "--tree-indent - The indentation per level. Defaults to `1.5rem`.",
+    "example": "```html\n<wc-tree label=\"Permissions\" selection=\"multiple\" value=\"users.read\">\n  <wc-tree-item value=\"users\" label=\"Users\" expanded>\n    <wc-tree-item value=\"users.read\" label=\"Read\"></wc-tree-item>\n    <wc-tree-item value=\"users.write\" label=\"Write\"></wc-tree-item>\n  </wc-tree-item>\n</wc-tree>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "The indentation per level. Defaults to `1.5rem`.",
+          "name": "--tree-indent"
+        }
+      ],
+      "slots": [
+        {
+          "description": "`wc-tree-item` elements.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{value: string, values?: string[]}>"
+          },
+          "description": "Dispatched when the person changes the selection. `values` is set with `selection=\"multiple\"`."
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched from an item when the person expands it.",
+          "name": "expand"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched from an item when the person collapses it.",
+          "name": "collapse"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched from an item on Enter or double-click. Cancel it to keep an item with children from toggling.",
+          "name": "activate"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "selection",
+          "type": {
+            "text": "TreeSelection"
+          },
+          "default": "'none'",
+          "description": "How the person chooses items: `none` (navigate and activate only), `single` or `multiple`\n(checkboxes).",
+          "fieldName": "selection",
+          "expandedType": {
+            "text": "'none' | 'single' | 'multiple'"
+          }
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The selected item's value. With `selection=\"multiple\"`, a comma-separated list of the checked\nitems' values (use `values`), so item values must not contain commas.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The accessible name, when no `aria-label` or `aria-labelledby` is set.",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tree",
+      "customElement": true,
+      "rawTag": {
+        "name": "tree",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Tree Item",
+    "tag": "wc-tree-item",
+    "rawTag": "tree-item",
+    "summary": "An item of a wc-tree; nest items inside it to give it children.",
+    "overview": "<p>The item has <code>role=\"treeitem\"</code>; <code>wc-tree</code> sets its\n<code>aria-level</code>, <code>aria-setsize</code> and <code>aria-posinset</code>, and its\n<code>selected</code> state, shown as <code>aria-selected</code> in a single-select tree and as\na checkbox with <code>aria-checked</code> (<code>\"mixed\"</code> when only some of its\ndescendants are checked) in a multi-select tree.</p>\n<p>Its text is <code>label</code>; the default slot holds its child items, which it shows in a\n<code>role=\"group\"</code> while <code>expanded</code>. An item with <code>has-children</code>\nand no child items yet shows an expander too: expanding it fires <code>expand</code>, and it\nshows <code>loading</code> until child items are added. If loading fails, remove\n<code>loading</code> (and <code>has-children</code> when it turned out empty).</p>",
+    "slot": "end - Trailing content, such as a badge or a round icon button.",
+    "fires": "activate - Dispatched on Enter or double-click. Cancelable; unless canceled, activating an item with children toggles it.",
+    "cssprop": "--tree-item-selected-label-text-color - Label color of a selected item.",
+    "example": "```html\n<wc-tree label=\"Files\">\n  <wc-tree-item value=\"src\" label=\"src\" expanded>\n    <wc-icon slot=\"start\" name=\"folder\"></wc-icon>\n    <wc-tree-item value=\"src/index.ts\" label=\"index.ts\"></wc-tree-item>\n  </wc-tree-item>\n</wc-tree>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "The indentation per level. Defaults to `1.5rem`.",
+          "name": "--tree-indent"
+        },
+        {
+          "description": "The minimum height of an item's row. Follows the density.",
+          "name": "--tree-item-height"
+        },
+        {
+          "description": "Background of a selected item.",
+          "name": "--tree-item-selected-container-color"
+        },
+        {
+          "description": "Label color of a selected item.",
+          "name": "--tree-item-selected-label-text-color"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Child `wc-tree-item` elements.",
+          "name": ""
+        },
+        {
+          "description": "Leading content, such as a file or folder icon.",
+          "name": "start"
+        },
+        {
+          "description": "Trailing content, such as a badge or a round icon button.",
+          "name": "end"
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched when the person expands the item.",
+          "name": "expand"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched when the person collapses the item.",
+          "name": "collapse"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{item: TreeItem, value: string}>"
+          },
+          "description": "Dispatched on Enter or double-click. Cancelable; unless canceled, activating an item with children toggles it.",
+          "name": "activate"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The item's text, which is also what typing a letter matches.",
+          "fieldName": "label"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The value the tree reports for this item; defaults to `label`. Must not contain commas in a\nmulti-select tree.",
+          "fieldName": "value"
+        },
+        {
+          "name": "expanded",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item's children are shown.",
+          "fieldName": "expanded"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item cannot be focused, chosen, expanded or activated.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "has-children",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item has children that are not loaded yet: it shows an expander, and expanding it\nfires `expand` so you can add them.",
+          "fieldName": "hasChildren"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item's children are loading. Set when a `has-children` item expands with none.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "selected",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the item is chosen (checked in a multi-select tree). Set by `wc-tree` from its value.",
+          "fieldName": "selected"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tree-item",
+      "customElement": true,
+      "rawTag": {
+        "name": "tree-item",
         "description": ""
       }
     }

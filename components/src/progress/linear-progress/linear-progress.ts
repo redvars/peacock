@@ -13,7 +13,7 @@ import { BaseProgress } from '../base-progress.js';
  * @overview
  * <p><code>value</code> runs from 0 to <code>max</code> (default 100) and is clamped into that
  * range. The visible <code>label</code> names the bar through <code>aria-labelledby</code>; without
- * one the bar is named "Loading". Use <code>indeterminate</code> when the amount of work is not
+ * one, an <code>aria-label</code> on the element names it, else it is named "Loading". Use <code>indeterminate</code> when the amount of work is not
  * known.</p>
  * @tags display
  *
@@ -47,7 +47,7 @@ export class LinearProgress extends BaseProgress {
           <div
             class="linear-progress-container"
             aria-labelledby=${this.label ? 'label' : nothing}
-            aria-label=${this.label ? nothing : this.i18n.t('loading')}
+            aria-label=${this.label ? nothing : this.__fallbackLabel}
             aria-valuenow=${this.indeterminate
               ? nothing
               : String(this.__clampedValue)}

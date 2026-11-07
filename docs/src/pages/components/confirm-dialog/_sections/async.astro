@@ -1,0 +1,43 @@
+---
+export const title = 'Async confirm';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  When confirming starts a request, call <code>preventDefault()</code> on <code>confirm</code>: the
+  dialog stays open. Set <code>loading</code> while the request runs; Confirm shows a spinner, the
+  buttons are disabled and Escape does nothing. Call <code>hide()</code> when it succeeds: the
+  <code>close</code> event then has <code>confirmed: true</code>. If it fails, clear
+  <code>loading</code> and tell the person, so they can retry or cancel.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='confirm-dialog-async-open'>Archive workspace</wc-button>
+  <wc-confirm-dialog
+    id='confirm-dialog-async'
+    headline='Archive this workspace?'
+    confirm-label='Archive'
+  >
+    Members lose access until an admin restores it.
+  </wc-confirm-dialog>
+  <script is:inline>
+    (function () {
+      const dialog = document.querySelector('#confirm-dialog-async');
+      document
+        .querySelector('#confirm-dialog-async-open')
+        .addEventListener('click', () => dialog.show());
+      dialog.addEventListener('confirm', async event => {
+        event.preventDefault();
+        dialog.loading = true;
+        // Stands in for the app's request.
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        dialog.loading = false;
+        dialog.hide();
+      });
+      dialog.addEventListener('close', event => {
+        myConsole.log(`close: ${JSON.stringify(event.detail)}`);
+      });
+    })();
+  </script>
+</DemoComponentCard>

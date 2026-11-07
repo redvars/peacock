@@ -1,0 +1,42 @@
+@use '../../scss/mixin';
+
+/*
+ * The container, scrim, header and animations come from modal.scss (imported first in the
+ * component's styles); these rules map the public props onto it and add the message, the
+ * type-to-confirm field and the action row.
+ */
+:host {
+  --modal-container-color: var(
+    --confirm-dialog-container-color,
+    var(--color-surface-container-high)
+  );
+  --modal-scrim-color: var(
+    --confirm-dialog-scrim-color,
+    color-mix(in srgb, var(--color-scrim), transparent 32%)
+  );
+  --modal-shape: var(--confirm-dialog-shape, var(--shape-corner-extra-large));
+  --modal-max-width: var(--confirm-dialog-max-width, 420px);
+}
+
+.message {
+  @include mixin.get-typography(body-medium);
+}
+
+.confirm-field {
+  display: block;
+  margin-block-start: var(--spacing-200, 1rem);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100, 0.5rem);
+  justify-content: flex-end;
+  padding: 0 var(--spacing-300, 1.5rem) var(--spacing-300, 1.5rem);
+}
+
+@media (forced-colors: active) {
+  .dialog {
+    border: 1px solid CanvasText;
+  }
+}

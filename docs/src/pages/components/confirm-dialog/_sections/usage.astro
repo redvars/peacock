@@ -1,0 +1,49 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-confirm-dialog</code> asks one question before an action runs, so apps don't build
+  their own "Are you sure?" modal. Put the question in <code>headline</code> and the message in the
+  default slot: say what will happen and whether it can be undone. Name the action on the confirm
+  button with <code>confirm-label</code>; the defaults are "Confirm" and "Cancel".
+</p>
+<p>
+  It opens in the top layer like <code>wc-modal</code>, with the <code>alertdialog</code> role: the
+  headline is its accessible name and the message its description. Confirm gets the initial focus.
+  Escape and Cancel close it; a click on the scrim does not, because a confirmation needs an
+  explicit answer.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='confirm-dialog-simple-open'>Discard changes</wc-button>
+  <wc-confirm-dialog
+    id='confirm-dialog-simple'
+    headline='Discard changes?'
+    confirm-label='Discard'
+  >
+    Your edits to this page are not saved and will be lost.
+  </wc-confirm-dialog>
+  <script is:inline>
+    (function () {
+      const dialog = document.querySelector('#confirm-dialog-simple');
+      document
+        .querySelector('#confirm-dialog-simple-open')
+        .addEventListener('click', () => dialog.show());
+      dialog.addEventListener('close', event => {
+        myConsole.log(`close: ${JSON.stringify(event.detail)}`);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Events</h3>
+<p>
+  <code>confirm</code> fires when the person confirms. <code>close</code> fires whenever the dialog
+  closes, with <code>detail.reason</code> (<code>'action'</code> for either button,
+  <code>'escape'</code>, or <code>'api'</code> for <code>hide()</code>) and
+  <code>detail.confirmed</code>, which says whether the person confirmed. Use
+  <code>confirmed</code> rather than the reason to tell the two buttons apart.
+</p>

@@ -1,0 +1,56 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-file-upload</code> collects files: drop them on the zone, or click it (or press Enter or
+  Space) to open the system file picker. Chosen files are listed with their name, size and a remove
+  button. The component uploads nothing itself; read <code>files</code> when it fires
+  <code>change</code>, or submit it with a form.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px;'>
+    <wc-file-upload id='file-upload-demo' label='Attachments' multiple></wc-file-upload>
+  </div>
+  <script is:inline>
+    document.querySelector('#file-upload-demo').addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.files.map(function (file) { return file.name; }).join(', '));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Limits</h3>
+<p>
+  <code>accept</code> takes the same list as a native file input (<code>.pdf</code>,
+  <code>image/png</code>, <code>image/*</code>). <code>max-size</code> is the largest size of one
+  file in bytes, and <code>max-files</code> the most files the list holds with
+  <code>multiple</code>. Files that do not fit are not added: a short message lists them under the
+  zone, and <code>reject</code> fires with <code>detail.files</code>, each a
+  <code>{'{ file, reason }'}</code> where <code>reason</code> is <code>'type'</code>,
+  <code>'size'</code> or <code>'count'</code>. Without <code>multiple</code>, a new file replaces
+  the chosen one.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px;'>
+    <wc-file-upload
+      id='file-upload-limits'
+      label='Photos'
+      accept='image/*'
+      multiple
+      max-files='3'
+      max-size='2000000'
+      helper-text='Up to 3 images, 2 MB each'
+    ></wc-file-upload>
+  </div>
+  <script is:inline>
+    document.querySelector('#file-upload-limits').addEventListener('reject', function (event) {
+      myConsole.log('reject: ' + event.detail.files.map(function (entry) {
+        return entry.file.name + ' (' + entry.reason + ')';
+      }).join(', '));
+    });
+  </script>
+</DemoComponentCard>

@@ -1,0 +1,64 @@
+---
+export const title = 'Step states';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A step's state comes from its position: complete before <code>current</code>, upcoming after it.
+  Each step can add <code>error</code> (a warning icon, with <code>error-text</code> under the
+  label), <code>disabled</code> (out of navigation) and <code>optional</code> (an "Optional"
+  caption). An <code>icon</code> slot replaces the number on current and upcoming steps.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-stepper current='review'>
+      <wc-step value='details' label='Details'></wc-step>
+      <wc-step value='payment' label='Payment' error error-text='Card declined'></wc-step>
+      <wc-step value='gift' label='Gift wrap' optional></wc-step>
+      <wc-step value='review' label='Review'></wc-step>
+      <wc-step value='confirm' label='Confirm'>
+        <wc-icon slot='icon' name='flag'></wc-icon>
+      </wc-step>
+    </wc-stepper>
+  </div>
+</DemoComponentCard>
+
+<h3>Vertical</h3>
+<p>
+  <code>orientation="vertical"</code> stacks the steps, with each <code>description</code> under its
+  label. A horizontal stepper narrower than 36rem shows only the current step's text; screen readers
+  still hear every step.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 360px;'>
+    <wc-stepper orientation='vertical' current='team'>
+      <wc-step value='account' label='Account' description='Name and email'></wc-step>
+      <wc-step value='team' label='Team' description='Invite the people you work with'></wc-step>
+      <wc-step value='billing' label='Billing' description='Plan and payment method'></wc-step>
+    </wc-stepper>
+  </div>
+</DemoComponentCard>
+
+<h3>Sizes</h3>
+<p>
+  <code>size</code> is <code>sm</code>, <code>md</code> (the default) or <code>lg</code>, and the
+  steps tighten with <code>data-density</code> like other controls.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-stepper size='sm' current='1'>
+      <wc-step label='One'></wc-step>
+      <wc-step label='Two'></wc-step>
+      <wc-step label='Three'></wc-step>
+    </wc-stepper>
+    <wc-stepper size='lg' current='1'>
+      <wc-step label='One'></wc-step>
+      <wc-step label='Two'></wc-step>
+      <wc-step label='Three'></wc-step>
+    </wc-stepper>
+  </div>
+</DemoComponentCard>

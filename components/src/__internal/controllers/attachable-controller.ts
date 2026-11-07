@@ -131,7 +131,14 @@ export class AttachableController implements ReactiveController, Attachable {
       ).querySelector<HTMLElement>(`#${this.htmlFor}`);
     }
 
-    return this.currentControl || this.host.parentElement;
+    // Directly under a shadow root there is no parent element: the shadow host is the control.
+    const root = this.host.getRootNode();
+    const shadowHost = root instanceof ShadowRoot ? root.host : null;
+    return (
+      this.currentControl ||
+      this.host.parentElement ||
+      (shadowHost as HTMLElement | null)
+    );
   }
   set control(control: HTMLElement | null) {
     if (control) {

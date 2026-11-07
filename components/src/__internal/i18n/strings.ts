@@ -297,6 +297,74 @@ export const defaultStrings = {
   filterRemoved: (label: string): string => `${label} filter removed`,
   /** Announced after "Clear all". */
   filtersCleared: 'All filters cleared',
+
+  // ── Pin input ────────────────────────────────────────────────────────────
+  /** Accessible name of a numeric pin input's cell, for example "Digit 2 of 6". */
+  pinInputDigit: (position: number, total: number): string =>
+    `Digit ${position} of ${total}`,
+  /** Accessible name of an alphanumeric pin input's cell, for example "Character 2 of 6". */
+  pinInputCharacter: (position: number, total: number): string =>
+    `Character ${position} of ${total}`,
+  /** Message of a pin input whose code is only partly entered, for example "Enter all 6 characters.". */
+  pinInputIncomplete: (total: number): string =>
+    `Enter all ${total} characters.`,
+
+  // ── File upload ──────────────────────────────────────────────────────────
+  /** Drop zone text before the browse link, with `multiple`. */
+  dropFilesHere: 'Drag files here or',
+  /** Drop zone text before the browse link, without `multiple`. */
+  dropFileHere: 'Drag a file here or',
+  /** Browse link in the drop zone, with `multiple`. */
+  chooseFiles: 'choose files',
+  /** Browse link in the drop zone, without `multiple`. */
+  chooseFile: 'choose a file',
+  /** Accessible name of the list of chosen files. */
+  chosenFiles: 'Chosen files',
+  /** Remove button of a listed file, for example "Remove report.pdf". */
+  removeFile: (name: string): string => `Remove ${name}`,
+  /** Status of a file the app marked as done. */
+  fileUploaded: 'Uploaded',
+  /** Accessible name of a file's progress bar, for example "Uploading report.pdf". */
+  uploadingFile: (name: string): string => `Uploading ${name}`,
+  /** A file not added because `accept` does not allow it. */
+  fileTypeRejected: (name: string): string =>
+    `${name} is not an accepted file type`,
+  /** A file not added because it is over `max-size`, for example "a.png is larger than 5 MB". */
+  fileSizeRejected: (name: string, maxSize: string): string =>
+    `${name} is larger than ${maxSize}`,
+  /** A file not added because the list is full. */
+  fileCountRejected: (name: string, maxFiles: number): string =>
+    `${name} was not added: no more than ${maxFiles} ${maxFiles === 1 ? 'file' : 'files'}`,
+  /** Announced after files are added. */
+  filesAdded: (count: number): string =>
+    count === 1 ? '1 file added' : `${count} files added`,
+  /** Announced after a file is removed. */
+  fileRemoved: (name: string): string => `${name} removed`,
+  /** Validation message of a required file upload with no file. */
+  valueMissingFile: 'Please select a file.',
+
+  // ── Stepper ──────────────────────────────────────────────────────────────
+  /** Accessible name of a stepper that has no `label`. */
+  stepperLabel: 'Progress',
+  /** Position of a step, read before its label, for example "Step 2 of 4". */
+  stepPosition: (step: string, total: string): string =>
+    `Step ${step} of ${total}`,
+  stepCompleted: 'Completed',
+  stepNotStarted: 'Not started',
+  stepError: 'Error',
+  stepOptional: 'Optional',
+
+  // ── Tree ─────────────────────────────────────────────────────────────────
+  /** Shown under a tree item while its children load. */
+  treeLoading: 'Loading…',
+
+  // ── Confirm dialog ───────────────────────────────────────────────────────
+  /** Default label of a confirm dialog's confirm button. */
+  confirm: 'Confirm',
+  /** Default label of a confirm dialog's cancel button. */
+  cancel: 'Cancel',
+  /** Label of a confirm dialog's type-to-confirm field, for example "Type acme-prod to confirm". */
+  typeToConfirm: (text: string): string => `Type ${text} to confirm`,
 };
 
 /** The string table. Overrides must keep each entry's type, so a function stays a function. */

@@ -1,8 +1,14 @@
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { mixinDelegatesAria } from '@/__internal/aria/delegate.js';
+import type { ARIAMixinStrict } from '@/__internal/aria/aria.js';
 
-export class BaseProgress extends LitElement {
+/**
+ * `aria-label` on the host names the progress bar without a visible label (it moves to the inner
+ * `role="progressbar"` element, as on buttons).
+ */
+export class BaseProgress extends mixinDelegatesAria(LitElement) {
   /** The current value, clamped into `0`–`max`. */
   @property({ type: Number }) value?: number;
 
@@ -23,6 +29,11 @@ export class BaseProgress extends LitElement {
 
   /** Peacock's strings, for the fallback accessible name. */
   protected readonly i18n = new I18nController(this);
+
+  /** The bar's name without a visible `label`: the host's `aria-label`, else "Loading". */
+  protected get __fallbackLabel(): string {
+    return (this as ARIAMixinStrict).ariaLabel || this.i18n.t('loading');
+  }
 
   /** `max`, or 100 when it is not a positive number. */
   protected get __max(): number {

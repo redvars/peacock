@@ -1,0 +1,199 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+// Sizes come from the parent stepper through inheritance; these fallbacks cover a lone step.
+:host {
+  --_size: var(--_stepper-indicator-size, 1.5rem);
+  --_padding: var(--_stepper-step-padding, 0.5rem);
+  --_connector-color: var(
+    --stepper-connector-color,
+    var(--color-outline-variant)
+  );
+  --_connector-complete-color: var(
+    --stepper-connector-complete-color,
+    var(--color-primary)
+  );
+
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-inline-size: 0;
+}
+
+.step {
+  @include mixin.reset-button-styles;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-inline-size: 0;
+  padding: var(--_padding);
+  border-radius: var(--shape-corner-small);
+  color: var(--color-on-surface);
+  font: inherit;
+  text-align: start;
+
+  &.vertical {
+    align-items: flex-start;
+    // Room for the connector line down to the next step.
+    padding-block-end: calc(var(--_padding) + 1.5rem);
+
+    &.last {
+      padding-block-end: var(--_padding);
+    }
+  }
+
+  &.clickable {
+    cursor: pointer;
+
+    // State layer.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: var(--color-on-surface);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-short4) var(--easing-standard);
+    }
+
+    &:hover::before {
+      opacity: 0.08;
+    }
+
+    &:active::before {
+      opacity: 0.12;
+    }
+  }
+
+  &.disabled {
+    opacity: 0.38;
+  }
+}
+
+.focus-ring {
+  --focus-ring-container-shape-start-start: var(--shape-corner-small);
+  --focus-ring-container-shape-start-end: var(--shape-corner-small);
+  --focus-ring-container-shape-end-start: var(--shape-corner-small);
+  --focus-ring-container-shape-end-end: var(--shape-corner-small);
+}
+
+.indicator {
+  @include mixin.get-typography-not-important('label-medium');
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  border-radius: var(--shape-corner-full);
+  background: var(--color-surface-container-highest);
+  color: var(--color-on-surface-variant);
+  --icon-size: calc(var(--_size) * 0.66);
+  --icon-color: currentColor;
+
+  ::slotted(*) {
+    --icon-size: calc(var(--_size) * 0.66);
+    --icon-color: currentColor;
+  }
+
+  .current &,
+  .complete & {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .error & {
+    background: var(--color-error);
+    color: var(--color-on-error);
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.label {
+  @include mixin.get-typography-not-important('title-small');
+  color: var(--color-on-surface);
+
+  .upcoming & {
+    color: var(--color-on-surface-variant);
+  }
+
+  .horizontal & {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.description,
+.caption {
+  @include mixin.get-typography-not-important('body-small');
+  color: var(--color-on-surface-variant);
+}
+
+.error-text {
+  color: var(--color-error);
+}
+
+.connector {
+  flex: 1 1 auto;
+  background: var(--_connector-color);
+
+  &.complete {
+    background: var(--_connector-complete-color);
+  }
+
+  &.last {
+    display: none;
+  }
+
+  // A line from this step's indicator to the next step's, level with the indicators.
+  &.horizontal {
+    min-inline-size: 1rem;
+    block-size: 1px;
+    margin-block-start: calc(var(--_padding) + var(--_size) / 2);
+  }
+
+  // A line down from under this step's indicator to the next step.
+  &.vertical {
+    position: absolute;
+    inline-size: 1px;
+    inset-inline-start: calc(var(--_padding) + var(--_size) / 2);
+    inset-block-start: calc(var(--_padding) + var(--_size) + 0.25rem);
+    inset-block-end: 0.25rem;
+  }
+}
+
+// A narrow horizontal stepper shows only the current step's text; screen readers still get every
+// step's announcement, which sits outside `.text`.
+@container stepper (inline-size < 36rem) {
+  .step.horizontal:not(.current) .text {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step.clickable::before {
+    transition: none;
+  }
+}
+
+// Forced colors drop fills: outline the indicators and draw the lines in the text color.
+@media (forced-colors: active) {
+  .indicator {
+    border: 1px solid CanvasText;
+  }
+
+  .connector {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

@@ -1,0 +1,54 @@
+---
+export const title = 'Upload progress';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  The app uploads the files and reports back per file with
+  <code>setFileState(file, {'{ progress, error, done }'})</code>. <code>progress</code> (0–100)
+  shows a progress bar, <code>error</code> shows a message under the file and <code>done</code> marks
+  it uploaded; an error wins over done, and done over progress. Each call replaces only the keys it
+  gives. The state belongs to the <code>File</code> object, so it goes away when the file is removed
+  or <code>files</code> is replaced. <code>getFileState(file)</code> reads it back.
+</p>
+<p>
+  This demo pretends to upload each added file with a timer; files whose name contains "fail" stop
+  halfway with an error.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 420px;'>
+    <wc-file-upload id='file-upload-progress' label='Documents' multiple></wc-file-upload>
+  </div>
+  <script is:inline>
+    (function () {
+      var upload = document.querySelector('#file-upload-progress');
+      var started = new WeakSet();
+      upload.addEventListener('change', function (event) {
+        event.detail.files.forEach(function (file) {
+          if (started.has(file)) return;
+          started.add(file);
+          var progress = 0;
+          var timer = setInterval(function () {
+            if (!upload.files.includes(file)) {
+              clearInterval(timer);
+              return;
+            }
+            progress += 10;
+            if (progress >= 50 && file.name.indexOf('fail') !== -1) {
+              clearInterval(timer);
+              upload.setFileState(file, { error: 'Upload failed' });
+            } else if (progress >= 100) {
+              clearInterval(timer);
+              upload.setFileState(file, { progress: 100, done: true });
+              myConsole.log('uploaded ' + file.name);
+            } else {
+              upload.setFileState(file, { progress: progress });
+            }
+          }, 300);
+        });
+      });
+    })();
+  </script>
+</DemoComponentCard>

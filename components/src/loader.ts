@@ -91,6 +91,11 @@ import { Listbox, ListboxOption } from '@/listbox/index.js';
 import { SelectOptionElement } from '@/select/option.js';
 import { Search } from '@/search/search.js';
 import { FilterBar } from '@/filter-bar/filter-bar.js';
+import { PinInput } from '@/pin-input/pin-input.js';
+import { FileUpload } from '@/file-upload/file-upload.js';
+import { Stepper, Step } from '@/stepper/index.js';
+import { ConfirmDialog } from '@/confirm-dialog/confirm-dialog.js';
+import { Tree, TreeItem } from '@/tree/index.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -419,6 +424,27 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-filter-bar': {
       CustomElementClass: FilterBar,
+    },
+    'wc-pin-input': {
+      CustomElementClass: PinInput,
+    },
+    'wc-file-upload': {
+      CustomElementClass: FileUpload,
+    },
+    'wc-stepper': {
+      CustomElementClass: Stepper,
+    },
+    'wc-step': {
+      CustomElementClass: Step,
+    },
+    'wc-confirm-dialog': {
+      CustomElementClass: ConfirmDialog,
+    },
+    'wc-tree': {
+      CustomElementClass: Tree,
+    },
+    'wc-tree-item': {
+      CustomElementClass: TreeItem,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,

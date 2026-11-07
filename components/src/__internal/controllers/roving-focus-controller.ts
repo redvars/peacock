@@ -9,6 +9,8 @@ export interface RovingFocusOptions {
   wrap?: () => boolean;
   /** Whether typing a character moves to the next item whose text starts with it. Default false. */
   typeahead?: () => boolean;
+  /** The text typeahead matches for an item. Default: its `textContent`. */
+  itemText?: (item: HTMLElement) => string;
   /** The item that should hold the tab stop when none has it yet (default: the first). */
   initialItem?: (items: HTMLElement[]) => HTMLElement | null | undefined;
   /** Called after focus moved to `item` by keyboard, for components that select on focus (tabs). */
@@ -108,7 +110,12 @@ export class RovingFocusController implements ReactiveController {
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
-    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) {
+    if (
+      event.defaultPrevented ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey
+    ) {
       return;
     }
     const items = this.focusableItems();
@@ -172,7 +179,11 @@ export class RovingFocusController implements ReactiveController {
     if (event.key === 'Home') return items[0];
     if (event.key === 'End') return items[items.length - 1];
 
-    if (this.options.typeahead?.() && event.key.length === 1 && event.key !== ' ') {
+    if (
+      this.options.typeahead?.() &&
+      event.key.length === 1 &&
+      event.key !== ' '
+    ) {
       return this.typeaheadTarget(event.key, items, index);
     }
     return undefined;
@@ -192,7 +203,8 @@ export class RovingFocusController implements ReactiveController {
     const start = query.length === 1 ? index + 1 : index;
     for (let offset = 0; offset < items.length; offset += 1) {
       const item = items[(start + offset) % items.length];
-      if ((item.textContent ?? '').trim().toLowerCase().startsWith(query)) {
+      const text = this.options.itemText?.(item) ?? item.textContent ?? '';
+      if (text.trim().toLowerCase().startsWith(query)) {
         return item;
       }
     }

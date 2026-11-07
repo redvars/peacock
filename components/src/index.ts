@@ -138,6 +138,35 @@ export {
 } from './navigation-drawer/index.js';
 export { Listbox, ListboxOption } from './listbox/index.js';
 export type { ListboxChangeDetail } from './listbox/index.js';
+export { PinInput } from './pin-input/index.js';
+export type { PinInputType } from './pin-input/index.js';
+export { FileUpload } from './file-upload/index.js';
+export type {
+  FileRejection,
+  FileRejectionReason,
+  FileState,
+  FileUploadChangeDetail,
+  FileUploadRejectDetail,
+  FileUploadRemoveDetail,
+} from './file-upload/index.js';
+export { Stepper, Step } from './stepper/index.js';
+export type {
+  StepperChangeDetail,
+  StepperNavigation,
+  StepStatus,
+} from './stepper/index.js';
+export { ConfirmDialog, confirmDialog } from './confirm-dialog/index.js';
+export type {
+  ConfirmDialogCloseDetail,
+  ConfirmDialogIntent,
+  ConfirmDialogOptions,
+} from './confirm-dialog/index.js';
+export { Tree, TreeItem } from './tree/index.js';
+export type {
+  TreeChangeDetail,
+  TreeItemEventDetail,
+  TreeSelection,
+} from './tree/index.js';
 export {
   Calendar,
   CalendarColumnView,
