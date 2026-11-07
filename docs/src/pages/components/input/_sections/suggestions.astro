@@ -1,0 +1,75 @@
+---
+export const title = 'Suggested values';
+export const order = 450;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Every Peacock field can hold a value the assistant suggested (ADR-030002). Set
+  <code>suggestion</code> to <code>{'{ value, reason }'}</code>: the field takes the value, shows a
+  Suggested badge, and shows the reason where its helper text was. The suggestion is accepted when
+  the person edits the value or the form is submitted (<code>accept</code>, with
+  <code>cause</code>); the badge's clear button puts the previous value back
+  (<code>dismiss</code>, then <code>input</code> and <code>change</code>).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: 1rem; max-width: 28rem;'>
+    <wc-input id='suggest-asset' label='Asset' value='LT-0001' helper-text='The tag on the base of the laptop.'></wc-input>
+    <wc-input id='suggest-due' label='Due date' value='Monday 2 November'></wc-input>
+    <wc-button id='suggest-again' variant='text' size='sm' style='justify-self: start;'>Suggest again</wc-button>
+  </div>
+  <script is:inline>
+    (function () {
+      var asset = document.querySelector('#suggest-asset');
+      var due = document.querySelector('#suggest-due');
+      function suggest() {
+        asset.suggestion = { value: 'LT-0412 · 14-inch laptop', reason: 'Assigned to you in Asset management.' };
+        due.suggestion = { value: 'Friday 30 October', reason: 'Your leave starts Friday.' };
+      }
+      [asset, due].forEach(function (field) {
+        field.addEventListener('accept', function (event) {
+          myConsole.log(field.label + ': accept (' + event.detail.cause + ')');
+        });
+        field.addEventListener('dismiss', function (event) {
+          myConsole.log(field.label + ': dismiss ' + event.detail.value);
+        });
+      });
+      document.querySelector('#suggest-again').addEventListener('click', suggest);
+      customElements.whenDefined('wc-input').then(suggest);
+    })();
+  </script>
+</DemoComponentCard>
+
+<p>
+  <code>acceptSuggestion()</code> and <code>dismissSuggestion()</code> do the same from code, and
+  <code>suggested</code> says whether the field still holds one. Selects mark the suggested option
+  in their list; checkboxes, switches, radio groups, checkbox groups, sliders and ratings show the
+  badge beside their label. To fill a whole form at once, use <code>wc-form</code>'s
+  <code>suggest()</code>.
+</p>
+
+<h3>Sensitive fields</h3>
+<p>
+  <code>sensitive</code> marks a field whose value must never reach a model, such as a salary or a
+  bank account: it ignores suggestions and offers no AI features. Password fields and PIN inputs are
+  always sensitive.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-input label='Salary' sensitive style='max-width: 28rem;'></wc-input>
+</DemoComponentCard>
+
+<h3>When AI is off</h3>
+<p>
+  While the page has AI off (<code>setPeacockAi({'{ enabled: false }'})</code>), suggestions are
+  ignored: the value doesn't change and nothing is marked. A field that already holds one keeps the
+  value but loses the badge and the reason.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  The field's description reads "Suggested by the assistant." and the reason (the
+  <code>aiSuggestedDescription</code> string), so screen readers announce the suggestion with the
+  field. The clear button is named "Clear suggestion".
+</p>

@@ -1,0 +1,69 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-citation</code> links an answer to the record or page it is based on, so a person can check
+  it. Facts come from the platform and words from the model; citations show which facts.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p style='max-width: 36rem;'>
+    Salary is readable by 4 people in Human resources<wc-citation
+      label='1'
+      value='role_4'
+      headline='HR manager'
+      supporting-text='Role · Human resources'
+      href='#role-4'
+    ></wc-citation>
+    and by the Payroll integration<wc-citation
+      label='2'
+      value='rule_88'
+      headline='Payroll integration reads Employee.Salary'
+      supporting-text='Access rule · Human resources'
+      href='#rule-88'
+    >
+      <span>Granted by Ada Lovelace on 3 October.</span>
+    </wc-citation>. No other app can read it.
+  </p>
+</DemoComponentCard>
+
+<h3>Preview</h3>
+<p>
+  <code>headline</code> and <code>supporting-text</code> describe the source in a card that opens while
+  the chip is hovered or focused. Anything in the default slot is added to the card. Without any of
+  them there is no card, only the chip.
+</p>
+
+<h3>Links and buttons</h3>
+<p>
+  With <code>href</code> the chip is a link to the source. Without it, it is a button. Either way it
+  fires <code>select</code> with the source's <code>value</code>; cancel the event to handle the chip
+  yourself, for example to open the record in a side sheet.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p>
+    Fixed in 4.2.1<wc-citation id='citation-select' label='3' value='comment_17' headline="Ravi Kumar's comment"></wc-citation>.
+  </p>
+  <script is:inline>
+    document.querySelector('#citation-select').addEventListener('select', function (event) {
+      myConsole.log('select: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>In Markdown</h3>
+<p>
+  <code>wc-markdown</code> renders links written as <code>[2](cite:rule_88)</code> as citations, filled
+  from its <code>citations</code> property. See the Markdown component's Citations section.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  The chip is named "Source 2: Payroll integration reads Employee.Salary", so it reads well out of
+  context (the <code>citationLabel</code> string). The preview is a supplement: everything in it must
+  also be reachable on the page the chip links to.
+</p>

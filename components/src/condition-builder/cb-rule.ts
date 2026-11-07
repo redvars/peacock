@@ -3,6 +3,7 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { AiController } from '@/__internal/ai/ai-controller.js';
 import { claimDropTarget, getActiveRule, setActiveRule } from './cb-drag.js';
 import { CbGroupBase } from './cb-group-base.js';
 import type { CbRuleRemoveDetail, CbRuleValue } from './cb-types.js';
@@ -62,6 +63,13 @@ export class CbRule extends LitElement {
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
+  /**
+   * The assistant wrote this rule (ADR-030002): it shows a Suggested badge until the person changes
+   * one of its controls. Remove it to discard it.
+   */
+  @property({ type: Boolean, reflect: true })
+  suggested = false;
+
   // ── State ─────────────────────────────────────────────────────────────────
 
   /** `disabled` passed down by the enclosing group. */
@@ -84,6 +92,27 @@ export class CbRule extends LitElement {
 
   /** Id of the handle's hidden description. */
   private readonly _hintId = `cb-rule-hint-${(ruleCount += 1)}`;
+
+  private readonly _ai = new AiController(this);
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener('change', this._onControlChange);
+    this.addEventListener('input', this._onControlChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener('change', this._onControlChange);
+    this.removeEventListener('input', this._onControlChange);
+  }
+
+  /** Changing a suggested rule's control makes it the person's own. */
+  private _onControlChange = (event: Event) => {
+    if (this.suggested && event.target !== this) this.suggested = false;
+  };
 
   // ── Public methods ────────────────────────────────────────────────────────
 
@@ -293,6 +322,9 @@ export class CbRule extends LitElement {
         <div class="content">
           <slot></slot>
         </div>
+        ${this.suggested && this._ai.available
+          ? html`<wc-ai-badge class="suggested-badge"></wc-ai-badge>`
+          : nothing}
         ${this._renderRemove()}
       </div>
     `;

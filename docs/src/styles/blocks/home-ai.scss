@@ -1,0 +1,115 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Home with AI block (pages/blocks/home-ai/). The frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.home-ai-shell {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-container-lowest);
+}
+
+.home-ai-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: var(--spacing-100) var(--spacing-200);
+  border-block-end: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+}
+
+.home-ai-logo {
+  display: grid;
+  flex: none;
+  inline-size: 2rem;
+  block-size: 2rem;
+  place-items: center;
+  font-weight: 700;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--shape-corner-small);
+}
+
+.home-ai-search {
+  flex: 1;
+  max-inline-size: 40rem;
+  margin-inline: auto;
+}
+
+.home-ai-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-200);
+
+  @include mixin.for-tablet-portrait-up {
+    padding: var(--spacing-400);
+  }
+
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+.home-ai-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-200);
+  align-items: start;
+
+  @include mixin.for-tablet-landscape-up {
+    grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
+  }
+}
+
+.home-ai-apps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+
+.home-ai-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: var(--spacing-150);
+}
+
+.home-ai-tile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.home-ai-mark {
+  display: grid;
+  flex: none;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: var(--shape-corner-small);
+}
+
+.home-ai-mark-it {
+  color: var(--color-on-blue-container);
+  background: var(--color-blue-container);
+}
+
+.home-ai-mark-hr {
+  color: var(--color-on-red-container);
+  background: var(--color-red-container);
+}
+
+.home-ai-mark-pr {
+  color: var(--color-on-purple-container);
+  background: var(--color-purple-container);
+}
+
+.home-ai-mark-ex {
+  color: var(--color-on-green-container);
+  background: var(--color-green-container);
+}

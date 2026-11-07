@@ -1,0 +1,76 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  color: var(--color-on-surface);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150, 0.75rem);
+  min-inline-size: 0;
+}
+
+.badge {
+  align-self: flex-start;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150, 0.75rem);
+  min-inline-size: 0;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.node {
+  min-inline-size: 0;
+}
+
+// A button keeps its own width in a column instead of stretching across it.
+wc-button.node {
+  align-self: flex-start;
+}
+
+// A card's padded content, which the view adds around its children.
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150, 0.75rem);
+}
+
+.text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.text-headline {
+  @include mixin.get-typography-not-important(title-large);
+}
+
+.text-title {
+  @include mixin.get-typography-not-important(title-medium);
+}
+
+.text-body {
+  @include mixin.get-typography-not-important(body-medium);
+}
+
+.text-label {
+  @include mixin.get-typography-not-important(label-large);
+}
+
+.text-caption {
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}

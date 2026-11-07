@@ -24,6 +24,7 @@ import {
   type RichTextMentionHost,
 } from '@/__internal/rich-text/mention-controller.js';
 import { RichTextSlashController } from '@/__internal/rich-text/slash-controller.js';
+import { RichTextAiController } from '@/__internal/rich-text/ai-controller.js';
 import { safeUrl } from '@/__internal/rich-text/url.js';
 import type { MentionSuggestion } from '../mention-input/mention-model.js';
 import {
@@ -325,6 +326,21 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
   @property({ converter: zoomConverter })
   zoom: DocumentZoom = 'fit';
 
+  /**
+   * Suggests how to go on after a pause in typing, as ghost text at the end of the paragraph: Tab
+   * takes it, Mod+→ takes a word, Escape dismisses it. Needs a provider with `complete`.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'ai-completion' })
+  aiCompletion = false;
+
+  /** Turns the AI actions and ghost text off for this document, even when the page offers them. */
+  @property({ type: Boolean, reflect: true, attribute: 'no-ai' })
+  noAi = false;
+
+  /** Keeps the document out of every AI request; no AI actions or ghost text are offered. */
+  @property({ type: Boolean, reflect: true })
+  sensitive = false;
+
   // ── State ─────────────────────────────────────────────────────────────────
 
   @state() private _pages = 1;
@@ -413,9 +429,15 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
     i18n: this._i18n,
   });
 
+  private readonly _ai = new RichTextAiController(this, {
+    editor: () => this._body,
+    i18n: this._i18n,
+  });
+
   private readonly _slash = new RichTextSlashController(this, {
     editor: () => this._body,
     i18n: this._i18n,
+    actions: () => this._ai.slashActions(),
   });
 
   private readonly _link = new RichTextLinkController(this, {
@@ -430,20 +452,21 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
       this._region === 'body' &&
       !this._link.open &&
       !this._slash.visible &&
-      !this._mentions.visible,
+      !this._mentions.visible &&
+      !this._ai.open,
     editLink: () => this._link.show(),
     extra: () =>
       html`<wc-icon-button
-        class="bubble-button"
-        variant="text"
-        color="surface"
-        shape="round"
-        size="xs"
-        aria-label=${this._i18n.t('addComment')}
-        tooltip=${this._i18n.t('addComment')}
-        @click=${this._addComment}
-        ><wc-icon name="add_comment"></wc-icon
-      ></wc-icon-button>`,
+          class="bubble-button"
+          variant="text"
+          color="surface"
+          shape="round"
+          size="xs"
+          aria-label=${this._i18n.t('addComment')}
+          tooltip=${this._i18n.t('addComment')}
+          @click=${this._addComment}
+          ><wc-icon name="add_comment"></wc-icon></wc-icon-button
+        >${this._ai.bubbleButton()}`,
   });
 
   private readonly _blockHandle = new RichTextBlockHandleController(this, {
@@ -693,6 +716,7 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
           PageBreak.configure({ label: this._i18n.t('pageBreak') }),
           CommentMark,
           paginationExtension(),
+          this._ai.extension(),
           this._slash.extension(),
           this._link.extension(),
           this._blockHandle.extension(),
@@ -1596,6 +1620,7 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
       this._run(e => e.chain().focus().setPageBreak().run()),
     )}
     ${this._tool('add_comment', i18n.t('addComment'), this._addComment)}
+    ${this._ai.toolbarButton()}
     ${this.triggers
       ? this._tool('alternate_email', i18n.t('mentionSomeone'), () =>
           this._mentions.insertTrigger(),
@@ -2017,6 +2042,7 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
       ${this._mentions.render()}
       <span class="slash-anchor" aria-hidden="true"></span>
       ${this._slash.render()} ${this._bubble.render()} ${this._link.render()}
-      ${this._blockHandle.render()} ${this._blockHandle.renderDropLine()}`;
+      ${this._blockHandle.render()} ${this._blockHandle.renderDropLine()}
+      ${this._ai.render()}`;
   }
 }

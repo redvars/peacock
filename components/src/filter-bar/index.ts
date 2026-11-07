@@ -1,4 +1,8 @@
-export { FilterBar, FILTER_BAR_SEARCH_KEY } from './filter-bar.js';
+export {
+  FilterBar,
+  FILTER_BAR_SEARCH_KEY,
+  filtersFromParse,
+} from './filter-bar.js';
 export type {
   FilterBarChangeDetail,
   FilterBarValue,

@@ -24,6 +24,36 @@
   display: contents;
 }
 
+// Filters from a sentence (ADR-030002).
+.button-sparkle,
+.chip-sparkle {
+  display: inline-grid;
+  place-items: center;
+
+  .sparkle {
+    inline-size: 1rem;
+    block-size: 1rem;
+    fill: var(--color-primary);
+  }
+}
+
+.button-sparkle .sparkle {
+  fill: currentColor;
+}
+
+.filter-chip.suggested {
+  --chip-outline-color: var(--color-primary);
+  --chip-container-color: color-mix(
+    in srgb,
+    var(--color-primary-container) 45%,
+    var(--color-surface)
+  );
+}
+
+.suggestion-badge {
+  align-self: center;
+}
+
 .editor {
   display: flex;
   flex-direction: column;

@@ -3,6 +3,8 @@ import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '../IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { AiController } from '@/__internal/ai/ai-controller.js';
+import { sparkle } from '@/__internal/ai/sparkle.js';
 import { isApplePlatform } from '@/__internal/utils/platform.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import {
@@ -57,6 +59,21 @@ interface Section {
 
 /** How many options PageUp / PageDown move. */
 const PAGE_SIZE = 10;
+
+/** Id of the Ask row, which is not one of the app's commands. */
+const ASK_ID = '\u0000ask';
+
+/** Words a question usually starts with, for putting the Ask row first. */
+const QUESTION_START =
+  /^(who|what|when|where|why|how|which|whose|can|could|should|would|will|is|are|was|were|do|does|did|has|have)\b/i;
+
+/** Whether a query reads like a question for the assistant rather than a command name. */
+function isQuestion(text: string): boolean {
+  return (
+    text.endsWith('?') ||
+    (QUESTION_START.test(text) && text.split(/\s+/).length > 2)
+  );
+}
 
 /** The query split into lower-cased words. */
 function tokenize(text: string): string[] {
@@ -200,6 +217,10 @@ function isEditable(target: EventTarget | undefined): boolean {
  * <code>shortcut="mod+k"</code>, where <code>mod</code> is Command on Apple platforms and Ctrl
  * elsewhere. The shortcut is ignored while the person types in another field, and closes the
  * palette when it is open.</p>
+ * <p><b>Ask.</b> With <code>ask</code>, typing offers "Ask the assistant: “…”" too (ADR-030002):
+ * first when the query reads like a question or nothing else matches, last otherwise. Choosing it
+ * fires a cancelable <code>ask</code> with the query and closes the palette; open the assistant with
+ * it. With AI off for the page, the row is not offered.</p>
  *
  * @cssprop --command-palette-container-color - Background color of the palette.
  * @cssprop --command-palette-scrim-color - Color of the scrim backdrop.
@@ -212,6 +233,7 @@ function isEditable(target: EventTarget | undefined): boolean {
  * @fires {CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>} close - Fired when the palette closes: Escape on an empty query, a scrim click, a run command or the shortcut (`action`), or `hide()` / `open = false` (`api`).
  * @fires {CustomEvent<{value: string}>} search - Fired as the query changes. With `search="managed"`, filter in the app and set `commands`.
  * @fires {CustomEvent<{command: Command}>} select - Fired when the person runs a command. Cancelable: `preventDefault()` keeps the palette open.
+ * @fires {CustomEvent<{value: string}>} ask - With `ask`: the person chose to ask the assistant the query. Cancelable: `preventDefault()` keeps the palette open.
  *
  * @example
  * ```html
@@ -269,6 +291,9 @@ export class CommandPalette extends LitElement {
   /** Per-instance overrides of Peacock's strings. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
+  /** Offers "Ask the assistant" for what was typed, firing `ask`. */
+  @property({ type: Boolean, reflect: true }) ask = false;
+
   // ── State ────────────────────────────────────────────────────────────────
 
   /** What the person typed. */
@@ -291,6 +316,8 @@ export class CommandPalette extends LitElement {
 
   /** Peacock's strings for the name, placeholder, headings and empty state. */
   private readonly i18n = new I18nController(this);
+
+  private readonly ai = new AiController(this);
 
   /** The sections shown, recomputed when the commands or the query change. */
   private _sections: Section[] = [];
@@ -418,6 +445,22 @@ export class CommandPalette extends LitElement {
         .sort((a, b) => a.score - b.score || a.index - b.index);
       this._sections = group(scored.map(entry => entry.command));
     }
+    if (text && this.ask && this.ai.available) {
+      const askRow: Section = {
+        heading: '',
+        commands: [
+          {
+            id: ASK_ID,
+            label: this.i18n.t('commandPaletteAsk')(text),
+            description: this.i18n.t('commandPaletteAskDescription'),
+          },
+        ],
+      };
+      const first = isQuestion(text) || !this._sections.length;
+      this._sections = first
+        ? [askRow, ...this._sections]
+        : [...this._sections, askRow];
+    }
     this._flat = this._sections.flatMap(section => section.commands);
   }
 
@@ -452,6 +495,18 @@ export class CommandPalette extends LitElement {
   /** Fires `select` for a command and closes, unless the listener prevented it. */
   private _run(command: Command | undefined) {
     if (!command || command.disabled) return;
+    if (command.id === ASK_ID) {
+      const asked = this.dispatchEvent(
+        new CustomEvent<{ value: string }>('ask', {
+          detail: { value: this._query.trim() },
+          bubbles: true,
+          composed: true,
+          cancelable: true,
+        }),
+      );
+      if (asked) this._close('action');
+      return;
+    }
     const proceed = this.dispatchEvent(
       new CustomEvent<CommandPaletteSelectDetail>('select', {
         detail: { command },
@@ -628,7 +683,12 @@ export class CommandPalette extends LitElement {
       @click=${(event: MouseEvent) => this._handleOptionClick(event, index)}
       @pointermove=${() => this._handleOptionPointermove(index)}
     >
-      ${command.icon
+      ${command.id === ASK_ID
+        ? html`<span class="option-icon ask-icon" aria-hidden="true"
+            >${sparkle}</span
+          >`
+        : nothing}
+      ${command.icon && command.id !== ASK_ID
         ? html`<wc-icon
             class="option-icon"
             name=${command.icon}
@@ -636,7 +696,11 @@ export class CommandPalette extends LitElement {
           ></wc-icon>`
         : nothing}
       <span class="option-text">
-        <span class="option-label">${this._renderText(command.label)}</span>
+        <span class="option-label"
+          >${command.id === ASK_ID
+            ? command.label
+            : this._renderText(command.label)}</span
+        >
         ${command.description
           ? html`<span class="option-description"
               >${this._renderText(command.description)}</span

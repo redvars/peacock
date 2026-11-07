@@ -1,0 +1,81 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-draft-card</code> is how the assistant's writes appear (ADR-000007: reads are free, writes
+  are drafts). It shows the record the assistant prepared; nothing is saved until the person presses
+  the confirm button. Press <strong>Raise incident</strong> in the demo.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-draft-card id='draft-demo' headline='New incident' supporting-text='IT service desk' confirm-label='Raise incident' style='inline-size: 100%; max-inline-size: 30rem;'>
+    <span slot='start' style='display: grid; place-items: center; inline-size: 2rem; block-size: 2rem; border-radius: var(--shape-corner-small); background: var(--color-blue-container); color: var(--color-on-blue-container); font-weight: 700; font-size: 0.75rem;'>IT</span>
+  </wc-draft-card>
+  <wc-button id='draft-reset' variant='text' size='sm' style='margin-top: 0.75rem;'>Reset</wc-button>
+  <script is:inline>
+    (function () {
+      var card = document.querySelector('#draft-demo');
+      card.fields = [
+        { label: 'Short description', value: 'Cracked screen on laptop LT-0412' },
+        { label: 'Asset', value: 'LT-0412, assigned to you' },
+        { label: 'Urgency', value: '3 · Medium', suggested: true, reason: "You didn't say you can't work. Make it High if you can't." },
+      ];
+      card.addEventListener('confirm', function () {
+        card.state = 'submitting';
+        setTimeout(function () {
+          card.state = 'done';
+          card.resultText = 'Raised INC-2318 in IT service desk';
+          card.resultHref = '#inc-2318';
+        }, 1000);
+      });
+      card.addEventListener('edit', function () {
+        myConsole.log('edit: open the incident form with form.suggest()');
+      });
+      document.querySelector('#draft-reset').addEventListener('click', function () {
+        card.state = 'draft';
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>States</h3>
+<p>
+  The buttons fire events and the app sets <code>state</code>: <code>submitting</code> while it saves,
+  then <code>done</code> with <code>result-text</code> and <code>result-href</code>, or
+  <code>error</code> with <code>error-text</code>. <code>discard</code> turns the card
+  <code>discarded</code> unless the event is cancelled. <strong>Edit in form</strong> fires
+  <code>edit</code>: open the app's own form, filled with the draft by <code>wc-form</code>'s
+  <code>suggest()</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: 1rem; inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-draft-card headline='New incident' supporting-text='IT service desk' state='error' error-text='Asset is required by IT service desk.' confirm-label='Raise incident'></wc-draft-card>
+    <wc-draft-card headline='Leave request' supporting-text='Human resources' state='discarded'></wc-draft-card>
+  </div>
+</DemoComponentCard>
+
+<h3>Irreversible drafts</h3>
+<p>
+  With <code>irreversible</code>, the confirm button is a danger button and asks again in a
+  <code>wc-confirm-dialog</code> before firing <code>confirm</code>; <code>irreversible-text</code>
+  says what can't be undone.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-draft-card id='draft-irreversible' headline='Remove Grace Hopper from Payroll' supporting-text='Administration' confirm-label='Remove access' irreversible irreversible-text='Grace loses access to Payroll right away.' style='inline-size: 100%; max-inline-size: 30rem;'></wc-draft-card>
+  <script is:inline>
+    document.querySelector('#draft-irreversible').addEventListener('confirm', function () {
+      myConsole.log('confirm (after the second ask)');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>When AI is off</h3>
+<p>
+  The card is the assistant's output, so it renders nothing while the page has AI off. The app's own
+  form is always there for the same task.
+</p>

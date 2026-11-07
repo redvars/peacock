@@ -1,0 +1,80 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-ai-badge</code> is the one marker for anything the assistant made that a person hasn't
+  accepted yet. Peacock's AI rules (ADR-030002, after Redvars ADR-000007) ask that AI output is
+  visible as such, says why, and can be cleared in one action; this badge does all three.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;'>
+    <wc-ai-badge></wc-ai-badge>
+    <wc-ai-badge kind='draft'></wc-ai-badge>
+    <wc-ai-badge kind='generated'></wc-ai-badge>
+    <wc-ai-badge kind='generated'>Summary by the assistant</wc-ai-badge>
+  </div>
+</DemoComponentCard>
+
+<h3>Kinds</h3>
+<ul>
+  <li><code>suggested</code> (default): a value the person hasn't accepted, such as a field the assistant filled in.</li>
+  <li><code>draft</code>: a record or text waiting to be confirmed, such as an incident the assistant prepared.</li>
+  <li><code>generated</code>: read-only output, such as a summary. It shows as colored text without a container.</li>
+</ul>
+
+<h3>Saying why</h3>
+<p>
+  <code>reason</code> is one sentence on why the assistant chose this. It shows in a tooltip on hover
+  or keyboard focus, and screen readers read it as the badge's description.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <p style='display: flex; gap: 0.75rem; align-items: center;'>
+    Urgency: 3 · Medium
+    <wc-ai-badge reason="You didn't say you can't work. Make it High if you can't."></wc-ai-badge>
+  </p>
+</DemoComponentCard>
+
+<h3>Clearing in one action</h3>
+<p>
+  <code>dismissible</code> adds a clear button. It fires <code>dismiss</code>; the app then removes the
+  suggestion, discards the draft or hides the summary. The button is named for the kind: "Clear
+  suggestion", "Discard draft" or "Hide".
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; gap: 1rem; align-items: center;'>
+    <wc-ai-badge id='ai-badge-dismiss' dismissible reason='Assigned to you in Asset management.'></wc-ai-badge>
+    <wc-ai-badge kind='draft' dismissible></wc-ai-badge>
+  </div>
+  <script is:inline>
+    document.querySelector('#ai-badge-dismiss').addEventListener('dismiss', function (event) {
+      myConsole.log('dismiss');
+      event.target.hidden = true;
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>When AI is off</h3>
+<p>
+  When the page turns AI off, every badge renders nothing, so a page that still passes AI state in
+  never shows a stale marker:
+</p>
+
+<pre><code>import {'{ setPeacockAi }'} from '@redvars/peacock';
+
+// The instance turned the assistant off.
+setPeacockAi({'{ enabled: false }'});</code></pre>
+
+<h3>Accessibility</h3>
+<p>
+  The label is always text, never only the color or the sparkle, which is hidden from screen readers.
+  With a reason, the label is focusable so keyboard users can reach the tooltip. The labels are Peacock
+  strings (<code>aiSuggested</code>, <code>aiDraft</code>, <code>aiGenerated</code>,
+  <code>aiClearSuggestion</code>, <code>aiDiscardDraft</code>, <code>aiHideGenerated</code>) and can be
+  translated with <code>setPeacockStrings()</code>.
+</p>

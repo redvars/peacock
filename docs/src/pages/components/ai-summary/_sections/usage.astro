@@ -1,0 +1,92 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-ai-summary</code> is a summary the assistant wrote: the day's items on Home, a long thread,
+  the answer to an administrator's question. The facts come from the platform; the summary puts them
+  into words, cites the records, and is marked as the assistant's (ADR-030002).
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-ai-summary
+    id='summary-demo'
+    headline='For you today'
+    badge-label='Summary by the assistant'
+    style='inline-size: 100%; max-inline-size: 36rem;'
+    value={'- Your leave on 13 November is still waiting for Ada Lovelace[1](cite:lv_7). You asked 6 days ago.\n- 3 of your tasks in Website relaunch are due this week; one was due yesterday[2](cite:pr_12).'}
+  >
+    <wc-link slot='why' href='#'>Why these items?</wc-link>
+  </wc-ai-summary>
+  <script is:inline>
+    (function () {
+      var el = document.querySelector('#summary-demo');
+      el.citations = [
+        { id: 'lv_7', headline: 'Leave request · 13 November', supportingText: 'Human resources' },
+        { id: 'pr_12', headline: 'Update the pricing page copy', supportingText: 'Projects · Website relaunch' },
+      ];
+      var full = el.value;
+      el.addEventListener('regenerate', function () {
+        el.loading = true;
+        el.status = 'Checking your apps…';
+        setTimeout(function () {
+          el.loading = false;
+          el.streaming = true;
+          var shown = 0;
+          var timer = setInterval(function () {
+            shown = Math.min(full.length, shown + 5);
+            el.value = full.slice(0, shown);
+            if (shown >= full.length) {
+              clearInterval(timer);
+              el.streaming = false;
+            }
+          }, 40);
+        }, 1200);
+      });
+      el.addEventListener('dismiss', function () {
+        myConsole.log('dismiss: hide it for today');
+        el.hidden = true;
+        setTimeout(function () {
+          el.hidden = false;
+        }, 1500);
+      });
+      el.addEventListener('feedback', function (event) {
+        myConsole.log('feedback: ' + (event.detail.value || 'none'));
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>States</h3>
+<p>
+  <code>loading</code> shows placeholder lines and <code>status</code> while the summary is prepared;
+  <code>streaming</code> grows the text with a caret; <code>error</code> says it couldn't be written and
+  offers Try again, leaving whatever it sits on unaffected. Press Try again in the demo above.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: grid; gap: 1rem; inline-size: 100%; max-inline-size: 36rem;'>
+    <wc-ai-summary headline='Thread summary' loading status='Reading 14 comments…'></wc-ai-summary>
+    <wc-ai-summary headline='Thread summary' error></wc-ai-summary>
+  </div>
+</DemoComponentCard>
+
+<h3>Inline insight</h3>
+<p>
+  <code>variant="inline"</code> is a single line with a sparkle, for the <code>insight</code> slot of
+  <code>wc-stat</code> and the charts. The number comes from the platform; the insight only explains it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stat label='Open incidents' value='42' previous='31' variant='outlined' style='inline-size: 100%; max-inline-size: 22rem;'>
+    <wc-ai-summary slot='insight' variant='inline' value='Up 35% since Monday: 9 of the 11 new ones are the export failure.'></wc-ai-summary>
+  </wc-stat>
+</DemoComponentCard>
+
+<h3>When AI is off</h3>
+<p>
+  The summary renders nothing, so the page under it must make sense without it: Home still shows the
+  app tiles, the thread still shows every comment.
+</p>

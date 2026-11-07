@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
+import { AiController } from '@/__internal/ai/ai-controller.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
 import { buildEditorTheme, resolvePalette } from './editor-theme.js';
@@ -274,6 +275,19 @@ export class CodeEditor extends BaseInput {
   /** Overrides Peacock's strings for this instance only. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
+  /**
+   * Suggests code after a pause in typing, as Monaco's inline ghost text: Tab takes it. Needs a
+   * provider with `complete`, which gets `language` with the code before and after the caret.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'ai-completion' })
+  aiCompletion = false;
+
+  /** AI availability and requests for `ai-completion` (ADR-030002). */
+  private readonly __ai = new AiController(this, 'complete');
+
+  /** The inline-completions provider registered for `ai-completion`. */
+  private __inlineCompletions?: { dispose(): void };
+
   /** Whether the editor text has focus. */
   @state() private hasFocus = false;
 
@@ -341,6 +355,8 @@ export class CodeEditor extends BaseInput {
     this.__childObserver?.disconnect();
     this.__lib?.forEach(lib => lib.dispose());
     this.__lib = undefined;
+    this.__inlineCompletions?.dispose();
+    this.__inlineCompletions = undefined;
     const model = this.editorMonacoInstance?.getModel();
     this.editorMonacoInstance?.dispose();
     model?.dispose();
@@ -361,6 +377,8 @@ export class CodeEditor extends BaseInput {
 
     const editor = this.editorMonacoInstance;
     if (!editor || !this.monaco) return;
+
+    if (changedProperties.has('aiCompletion')) this.__syncInlineCompletions();
 
     if (
       changedProperties.has('disabled') ||
@@ -464,6 +482,7 @@ export class CodeEditor extends BaseInput {
     document.fonts?.ready.then(() => this.monaco?.editor.remeasureFonts());
 
     this.libSourceChanged();
+    this.__syncInlineCompletions();
     this.drawDecorations();
     this.drawMarkers();
 
@@ -616,6 +635,76 @@ export class CodeEditor extends BaseInput {
     return Array.from(this.children).some(
       child => child.getAttribute('slot') === name,
     );
+  }
+
+  /**
+   * Registers Monaco's inline-completions provider while `ai-completion` is on and the page's AI
+   * offers completions; Monaco shows the result as ghost text that Tab accepts. Providers are
+   * global to Monaco, so this one answers only for this editor's model.
+   */
+  private __syncInlineCompletions() {
+    const { monaco } = this;
+    this.__inlineCompletions?.dispose();
+    this.__inlineCompletions = undefined;
+    if (!monaco || !this.aiCompletion) return;
+    this.__inlineCompletions =
+      monaco.languages.registerInlineCompletionsProvider(
+        { pattern: '**' },
+        {
+          provideInlineCompletions: async (
+            model,
+            position,
+            _context,
+            token,
+          ) => {
+            const empty = { items: [] };
+            const { provider } = this.__ai;
+            if (
+              model !== this.editorMonacoInstance?.getModel() ||
+              !provider?.complete ||
+              this.disabled ||
+              this.readonly
+            ) {
+              return empty;
+            }
+            // Wait for a pause in typing; Monaco cancels the token on the next keystroke.
+            await new Promise(resolve => {
+              setTimeout(resolve, 400);
+            });
+            if (token.isCancellationRequested) return empty;
+            const controller = new AbortController();
+            token.onCancellationRequested(() => controller.abort());
+            const text = model.getValue();
+            const offset = model.getOffsetAt(position);
+            try {
+              const completion = await provider.complete({
+                signal: controller.signal,
+                context: this.__ai.context(),
+                before: text.slice(Math.max(0, offset - 4000), offset),
+                after: text.slice(offset, offset + 1000),
+                language: this.language,
+              });
+              if (!completion || token.isCancellationRequested) return empty;
+              return {
+                items: [
+                  {
+                    insertText: completion,
+                    range: new monaco.Range(
+                      position.lineNumber,
+                      position.column,
+                      position.lineNumber,
+                      position.column,
+                    ),
+                  },
+                ],
+              };
+            } catch {
+              return empty;
+            }
+          },
+          disposeInlineCompletions: () => {},
+        },
+      );
   }
 
   private libSourceChanged() {

@@ -1,0 +1,33 @@
+---
+export const title = 'Ask';
+export const order = 450;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>ask</code>, the search box is also where people ask the assistant (ADR-030002): the
+  <strong>Ask</strong> button and Ctrl+Enter (⌘Enter) fire <code>ask</code>, while Enter still fires
+  <code>search</code>. <code>ask-placeholder</code> says both are possible. With AI off for the page,
+  it is a plain search box: no button, the usual placeholder.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-search
+    id='search-ask'
+    ask
+    placeholder='Search apps and records'
+    ask-placeholder='Ask for something, or search apps and records'
+    style='inline-size: 100%; max-inline-size: 36rem;'
+  ></wc-search>
+  <script is:inline>
+    (function () {
+      var el = document.querySelector('#search-ask');
+      el.addEventListener('ask', function (event) {
+        myConsole.log('ask: ' + event.detail.value + ' (open the assistant with it)');
+      });
+      el.addEventListener('search', function (event) {
+        myConsole.log('search: ' + event.detail.value);
+      });
+    })();
+  </script>
+</DemoComponentCard>

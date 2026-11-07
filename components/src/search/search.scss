@@ -18,10 +18,22 @@
   width: 100%;
   gap: 0.25rem;
 
-  --_container-shape-start-start: var(--search-container-shape-start-start, var(--search-container-shape));
-  --_container-shape-start-end: var(--search-container-shape-start-end, var(--search-container-shape));
-  --_container-shape-end-start: var(--search-container-shape-end-start, var(--search-container-shape));
-  --_container-shape-end-end: var(--search-container-shape-end-end, var(--search-container-shape));
+  --_container-shape-start-start: var(
+    --search-container-shape-start-start,
+    var(--search-container-shape)
+  );
+  --_container-shape-start-end: var(
+    --search-container-shape-start-end,
+    var(--search-container-shape)
+  );
+  --_container-shape-end-start: var(
+    --search-container-shape-end-start,
+    var(--search-container-shape)
+  );
+  --_container-shape-end-end: var(
+    --search-container-shape-end-end,
+    var(--search-container-shape)
+  );
 
   border-start-start-radius: var(--_container-shape-start-start);
   border-start-end-radius: var(--_container-shape-start-end);
@@ -129,6 +141,42 @@
 }
 
 /* Clear button */
+// Ask (ADR-030002): a tonal pill at the end of the box.
+.ask-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-050, 0.25rem);
+  block-size: 2rem;
+  padding-inline: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  color: var(--color-on-primary-container);
+  font: inherit;
+  cursor: pointer;
+  background: var(--color-primary-container);
+  border: none;
+  border-radius: var(--shape-corner-full);
+  @include mixin.get-typography-not-important(label-large);
+
+  .sparkle {
+    inline-size: 1rem;
+    block-size: 1rem;
+    fill: currentColor;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.size-sm .ask-button {
+  block-size: 1.75rem;
+}
+
 .clear-button {
   display: flex;
   align-items: center;

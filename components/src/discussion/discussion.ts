@@ -55,6 +55,7 @@ type Entry = DiscussionComment | DiscussionActivity;
  *
  * @slot - The entries: `wc-discussion-comment` and `wc-discussion-activity` elements.
  * @slot header - Above the entries, such as a title and a count.
+ * @slot summary - Between the header and the entries, such as a `wc-ai-summary` of a long thread.
  * @slot composer - Replaces the built-in composer with your own `wc-comment-composer`.
  * @slot empty - Replaces the "No comments yet" message.
  *
@@ -199,6 +200,17 @@ export class Discussion extends LitElement {
     this.mainComposer()?.focus();
   }
 
+  /**
+   * Drafts a reply in the composer for the person to edit and send (ADR-030002): it is marked
+   * "Suggested reply" with `reason` until they edit or send it, and its clear button empties the
+   * composer again. Ignored while AI is off.
+   */
+  suggestReply(value: string, reason = '') {
+    const composer = this.mainComposer();
+    if (!composer) return;
+    composer.suggestion = { value, reason };
+  }
+
   // ── Private methods ───────────────────────────────────────────────────────
 
   private mainComposer(): CommentComposer | undefined {
@@ -322,6 +334,7 @@ export class Discussion extends LitElement {
 
   render() {
     return html`<slot name="header"></slot>
+      <slot name="summary"></slot>
       <div
         class="feed"
         role="feed"

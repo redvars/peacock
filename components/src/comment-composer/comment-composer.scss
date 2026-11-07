@@ -90,6 +90,20 @@
   flex: 1;
 }
 
+// A reply the assistant drafted (ADR-030002).
+.suggestion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem) 0;
+}
+
+.suggestion-reason {
+  color: var(--color-on-surface-variant);
+  @include mixin.get-typography-not-important(body-small);
+}
+
 .error-text {
   margin-block-start: var(--spacing-050, 0.25rem);
   color: var(--color-error);

@@ -42,6 +42,13 @@ export class SelectOptionElement extends MenuItem {
   @property({ type: Boolean, reflect: true })
   filtered: boolean = false;
 
+  /**
+   * Marks the option the assistant suggested with a Suggested badge, while the select holds the
+   * suggestion. Set by wc-select.
+   */
+  @property({ type: Boolean, reflect: true })
+  suggested: boolean = false;
+
   protected override willUpdate(changed: PropertyValues<this>) {
     super.willUpdate(changed);
     if (changed.has('filtered')) {
@@ -81,6 +88,8 @@ export class SelectOptionElement extends MenuItem {
 
   protected override renderEnd(): TemplateResult | typeof nothing {
     // A multi-select shows its state in the leading checkbox instead of a trailing check.
-    return this.multiple ? nothing : super.renderEnd();
+    const end = this.multiple ? nothing : super.renderEnd();
+    if (!this.suggested) return end;
+    return html`<wc-ai-badge class="suggested-badge"></wc-ai-badge>${end}`;
   }
 }

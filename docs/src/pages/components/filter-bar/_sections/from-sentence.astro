@@ -1,0 +1,40 @@
+---
+export const title = 'Filters from a sentence';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>search</code> and a provider that offers <code>parse</code> (ADR-030002), typing a sentence
+  offers <strong>Turn into filters</strong>. The provider gets the sentence and the filter definitions,
+  never record values, and answers with a value; the bar keeps only known filters with valid values,
+  and leaves words it could not map as search text. Type "urgent hardware incidents in Pune" below. The
+  demo's provider is scripted.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-filter-bar id='filter-sentence' search search-placeholder='Search incidents' style='inline-size: 100%;'></wc-filter-bar>
+  <script type='module' src='/assets/js/ai-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var bar = document.querySelector('#filter-sentence');
+      bar.filters = [
+        { key: 'urgency', label: 'Urgency', type: 'select', options: [{ label: '1 · High', value: '1' }, { label: '2 · Medium', value: '2' }, { label: '3 · Low', value: '3' }] },
+        { key: 'category', label: 'Category', type: 'multiselect', options: [{ label: 'Hardware', value: 'hardware' }, { label: 'Software', value: 'software' }] },
+        { key: 'location', label: 'Location', type: 'select', options: [{ label: 'Pune', value: 'pune' }, { label: 'London', value: 'london' }] },
+        { key: 'mine', label: 'Assigned to me', type: 'boolean' },
+      ];
+      bar.addEventListener('change', function (event) {
+        myConsole.log('change: ' + JSON.stringify(event.detail.value));
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Suggested until edited</h3>
+<p>
+  The new chips are marked with a sparkle, and one Suggested badge sits after them. Its clear button
+  puts the previous filters back. Editing or removing a chip makes it the person's own. The table
+  reloads from <code>change</code> exactly as if the person had added the filters themselves.
+  <code>no-ai</code> turns this off for one bar.
+</p>

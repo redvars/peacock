@@ -51,6 +51,7 @@
     "build:lit": "rollup -c && node ./bin/fix-dts-aliases.mjs",
     "build:scss": "node ./bin/scss-build.mjs",
     "build:frameworks": "node ./bin/framework-gen.mjs",
+    "build:catalog": "node ./bin/generative-catalog.mjs",
     "publish:docs": "node ./bin/docs-publish.mjs",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore && npm run lint:css",
     "lint:css": "stylelint \"src/**/*.scss\"",

@@ -205,6 +205,23 @@ const GROUPS: { name: string; components: string[] }[] = [
     name: 'Editors',
     components: ['code-editor', 'html-editor', 'markdown-editor', 'markdown', 'comment-composer', 'document-editor', 'flow'],
   },
+  {
+    // ADR-030002: building blocks for AI-native pages that also work without AI.
+    name: 'AI',
+    components: [
+      'assistant-panel',
+      'ai-summary',
+      'generative-view',
+      'chat-thread',
+      'chat-message',
+      'prompt-input',
+      'assistant-steps',
+      'draft-card',
+      'ai-badge',
+      'typing-indicator',
+      'citation',
+    ],
+  },
 ];
 
 export function componentGroupId(name: string): string {

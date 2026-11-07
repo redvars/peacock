@@ -5,3 +5,4 @@ Decisions that shape Peacock. One file per decision, numbered in the order it wa
 | ADR | Decision | Status |
 |---|---|---|
 | [030001](030001-component-api-conventions.md) | Component API conventions: when to split a component, events, vocabulary, deprecation | Proposed |
+| [030002](030002-ai-native-components.md) | AI-native components: model-free components with one registered provider, AI off removes AI cleanly, one marker for AI output | Proposed |

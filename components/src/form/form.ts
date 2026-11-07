@@ -1,6 +1,13 @@
 import { LitElement, html, nothing, type PropertyValues } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 
+import { AiController } from '@/__internal/ai/ai-controller.js';
+import { sparkle } from '@/__internal/ai/sparkle.js';
+import {
+  SUGGESTION_CHANGE_EVENT,
+  type SuggestionAcceptCause,
+} from '@/__internal/ai/suggestion-controller.js';
+import type { AiSuggestion } from '@/__internal/ai/types.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import styles from './form.scss';
@@ -16,6 +23,20 @@ export interface FormSubmitDetail {
   formData: FormData;
   /** The button that submitted the form, or `null` for `requestSubmit()` and Enter. */
   submitter: HTMLElement | null;
+  /**
+   * Names of the fields that still held an assistant's suggestion, which this submission accepts.
+   * Record them so the change shows as made "through the assistant" (ADR-000007).
+   */
+  suggested: string[];
+}
+
+/** A field or group that can hold a suggestion. */
+interface SuggestionHolder extends HTMLElement {
+  name?: string;
+  suggestion?: AiSuggestion | null;
+  suggested?: boolean;
+  acceptSuggestion?: (cause?: SuggestionAcceptCause) => void;
+  dismissSuggestion?: () => void;
 }
 
 /** `detail` of `dirty-change`. */
@@ -149,13 +170,22 @@ let formCount = 0;
  * named fields invalid with those messages (through <code>setCustomValidity()</code>) and lists them
  * in the summary. An error clears when its field changes. A name that matches no field is listed
  * in the summary without a link, for errors about the whole form.</p>
+ * <p><strong>Drafts from the assistant.</strong> <code>suggest(values)</code> fills named fields
+ * with suggested values, each marked Suggested with its reason (ADR-030002). While any field holds
+ * a suggestion, a banner at the top says the form was drafted by the assistant and offers Clear
+ * all (<code>hide-draft-banner</code> turns it off). Editing a field accepts its suggestion;
+ * submitting accepts the rest, and <code>submit</code>'s <code>detail.suggested</code> lists the
+ * fields that were still suggested, so the change can be recorded as made through the assistant.
+ * With AI off, suggestions are ignored and the form is unchanged.</p>
  *
  * @slot - The native `<form>`.
  *
- * @fires {CustomEvent<{value: object, formData: FormData, submitter: HTMLElement | null}>} submit - Dispatched, cancelable, when a valid form is submitted. Cancel it to stop the native submission and save the data yourself.
+ * @fires {CustomEvent<FormSubmitDetail>} submit - Dispatched, cancelable, when a valid form is submitted. Cancel it to stop the native submission and save the data yourself. `detail.suggested` names the fields that still held an assistant's suggestion.
  * @fires {CustomEvent<{dirty: boolean}>} dirty-change - Dispatched when `dirty` flips.
  *
  * @cssprop --form-summary-gap - Space between the error summary and the form.
+ *
+ * @csspart draft-banner - The banner shown while fields hold the assistant's suggestions.
  *
  * @example
  * ```html
@@ -188,10 +218,17 @@ export class Form extends LitElement {
   @property({ type: Boolean, reflect: true })
   loading = false;
 
+  /** Turns off the banner shown while fields hold the assistant's suggestions. */
+  @property({ type: Boolean, reflect: true, attribute: 'hide-draft-banner' })
+  hideDraftBanner = false;
+
   // ── State ────────────────────────────────────────────────────────────────
 
   /** The errors the summary lists; empty while it is hidden. */
   @state() private errors: FormError[] = [];
+
+  /** Whether any field holds a suggestion. */
+  @state() private drafted = false;
 
   /** Whether any field's value differs from the baseline. */
   @state() private isDirty = false;
@@ -203,6 +240,8 @@ export class Form extends LitElement {
   // ── Private fields ───────────────────────────────────────────────────────
 
   private readonly i18n = new I18nController(this);
+
+  private readonly ai = new AiController(this);
 
   /** Id of the summary's headline, which names the summary. */
   private readonly headlineId = `wc-form-summary-${(formCount += 1)}`;
@@ -238,6 +277,7 @@ export class Form extends LitElement {
     this.addEventListener('input', this.handleValueEvent);
     this.addEventListener('change', this.handleValueEvent);
     this.addEventListener('reset', this.handleReset);
+    this.addEventListener(SUGGESTION_CHANGE_EVENT, this.handleSuggestionChange);
   }
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
@@ -315,6 +355,35 @@ export class Form extends LitElement {
     this.summaryActive = true;
     await this.refreshSummary();
     this.focusSummary();
+  }
+
+  /**
+   * Fills named fields with the assistant's suggestions, each marked until the person accepts or
+   * clears it, and shows the draft banner. Names that match no field, or a field that is
+   * `sensitive`, are skipped. Resolves with the names that took a suggestion. Does nothing while AI
+   * is off.
+   *
+   * @example
+   * form.suggest({ urgency: { value: '3', reason: "You didn't say you can't work." } });
+   */
+  async suggest(values: Record<string, AiSuggestion>): Promise<string[]> {
+    const applied: string[] = [];
+    for (const [name, suggestion] of Object.entries(values)) {
+      const holders = this.holdersNamed(name);
+      for (const holder of holders) holder.suggestion = suggestion;
+      if (holders.some(holder => holder.suggested)) applied.push(name);
+    }
+    await this.settle();
+    this.updateDrafted();
+    // A drafted form has unsaved values, so `warn-unsaved` protects the draft.
+    this.updateDirty();
+    return applied;
+  }
+
+  /** Clears every suggestion in the form, putting each field's previous value back. */
+  clearSuggestions(): void {
+    for (const holder of this.suggestionHolders()) holder.dismissSuggestion?.();
+    this.updateDrafted();
   }
 
   /** Checks every field and shows the summary for the invalid ones; returns whether all are valid. */
@@ -400,6 +469,43 @@ export class Form extends LitElement {
       control => (control.name ?? control.getAttribute('name')) === name,
     );
   }
+
+  /**
+   * The fields and groups named `name` that take suggestions. A radio's suggestion goes to its
+   * `wc-radio-group`, since the group holds the value.
+   */
+  private holdersNamed(name: string): SuggestionHolder[] {
+    const holders = new Set<SuggestionHolder>();
+    for (const control of this.controlsNamed(name)) {
+      const group = control.closest(
+        'wc-radio-group',
+      ) as SuggestionHolder | null;
+      const holder = (group ?? control) as SuggestionHolder;
+      if ('suggestion' in holder) holders.add(holder);
+    }
+    return [...holders];
+  }
+
+  /** The fields and groups in the form that hold a suggestion. */
+  private suggestionHolders(): SuggestionHolder[] {
+    const holders = new Set<SuggestionHolder>();
+    for (const control of this.controls()) {
+      const group = control.closest(
+        'wc-radio-group',
+      ) as SuggestionHolder | null;
+      const holder = (group ?? control) as SuggestionHolder;
+      if (holder.suggested) holders.add(holder);
+    }
+    return [...holders];
+  }
+
+  private updateDrafted() {
+    this.drafted = this.suggestionHolders().length > 0;
+  }
+
+  private handleSuggestionChange = () => {
+    this.updateDrafted();
+  };
 
   /** Waits for every Peacock field to render, so its validity and form value are current. */
   private async settle() {
@@ -618,13 +724,24 @@ export class Form extends LitElement {
       // `submitter` is not a native submit button, such as `wc-button`.
       formData = new FormData(form);
     }
+    const holders = this.suggestionHolders();
+    const suggested = [
+      ...new Set(holders.map(holder => holder.name ?? '').filter(Boolean)),
+    ];
     const custom = new CustomEvent<FormSubmitDetail>('submit', {
-      detail: { value: formDataToObject(formData), formData, submitter },
+      detail: {
+        value: formDataToObject(formData),
+        formData,
+        submitter,
+        suggested,
+      },
       bubbles: true,
       composed: true,
       cancelable: true,
     });
     if (!this.dispatchEvent(custom)) event.preventDefault();
+    // Submitting is the person's confirmation of what the assistant drafted.
+    for (const holder of holders) holder.acceptSuggestion?.('submit');
   };
 
   private handleValueEvent = async (event: Event) => {
@@ -705,10 +822,31 @@ export class Form extends LitElement {
     </wc-alert>`;
   }
 
+  private renderDraftBanner() {
+    if (this.hideDraftBanner || !this.drafted || !this.ai.available) {
+      return nothing;
+    }
+    return html`<div class="draft-banner" part="draft-banner" role="status">
+      ${sparkle}
+      <span class="draft-text"
+        ><strong>${this.i18n.t('aiDraftBannerHeadline')}</strong> ${this.i18n.t(
+          'aiDraftBannerText',
+        )}</span
+      >
+      <wc-button
+        class="draft-clear"
+        variant="text"
+        size="sm"
+        @click=${() => this.clearSuggestions()}
+        >${this.i18n.t('aiClearAll')}</wc-button
+      >
+    </div>`;
+  }
+
   // ── Render ───────────────────────────────────────────────────────────────
 
   render() {
-    return html`${this.renderSummary()}<slot
+    return html`${this.renderSummary()}${this.renderDraftBanner()}<slot
         @slotchange=${this.handleSlotChange}
       ></slot>`;
   }

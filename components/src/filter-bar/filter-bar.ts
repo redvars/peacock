@@ -6,6 +6,8 @@ import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { RovingFocusController } from '@/__internal/controllers/roving-focus-controller.js';
 import { isoToDate, parseRange } from '@/__internal/utils/date.js';
+import { AiController } from '@/__internal/ai/ai-controller.js';
+import { sparkle } from '@/__internal/ai/sparkle.js';
 import type { Menu } from '@/menu/menu/menu.js';
 import type { MenuItem } from '@/menu/menu-item/menu-item.js';
 import type { Popover } from '@/popover/popover.js';
@@ -88,6 +90,47 @@ function isEmptyValue(value: FilterValue | undefined): boolean {
 }
 
 /** A deep copy of a filter value, so consumers never hold the bar's own arrays. */
+/**
+ * The filters a provider's `parse()` answer may set: only known keys, with values of the filter's
+ * type and, for choices, one of its options. Anything else is dropped, never guessed. Leftover text
+ * the answer puts under `q` stays as search text.
+ */
+export function filtersFromParse(
+  answer: unknown,
+  filters: FilterDefinition[],
+): FilterBarValue {
+  const result: FilterBarValue = {};
+  if (!answer || typeof answer !== 'object') return result;
+  const source = answer as Record<string, unknown>;
+  for (const def of filters) {
+    const raw = source[def.key];
+    const options = def.options?.map(option => option.value);
+    const allowed = (value: string) => !options || options.includes(value);
+    if (def.type === 'boolean') {
+      if (raw === true) result[def.key] = true;
+    } else if (def.type === 'multiselect') {
+      const values = (Array.isArray(raw) ? raw : [raw]).filter(
+        (value): value is string => typeof value === 'string' && allowed(value),
+      );
+      if (values.length) result[def.key] = values;
+    } else if (def.type === 'date-range') {
+      if (
+        typeof raw === 'string' &&
+        /^\d{4}-\d{2}-\d{2}\/\d{4}-\d{2}-\d{2}$/.test(raw)
+      ) {
+        result[def.key] = raw;
+      }
+    } else if (typeof raw === 'string' && raw.trim() && allowed(raw)) {
+      result[def.key] = raw;
+    }
+  }
+  const q = source[FILTER_BAR_SEARCH_KEY];
+  if (typeof q === 'string' && q.trim()) {
+    result[FILTER_BAR_SEARCH_KEY] = q.trim();
+  }
+  return result;
+}
+
 function copyValue(value: FilterBarValue): FilterBarValue {
   const copy: FilterBarValue = {};
   for (const [key, item] of Object.entries(value ?? {})) {
@@ -142,6 +185,14 @@ function sameValue(a: FilterBarValue, b: FilterBarValue): boolean {
  * are one tab stop: the arrow keys move between them (mirrored in right-to-left), Home and End jump
  * to the ends. Each popover is a dialog named after its filter; Escape closes it and returns focus
  * to the chip. Removing a filter is announced through a polite live region.</p>
+ * <p><b>Filters from a sentence.</b> With <code>search</code> and a provider that offers
+ * <code>parse</code> (ADR-030002), typing a sentence such as "urgent hardware incidents in Pune"
+ * offers <strong>Turn into filters</strong>. The provider gets the sentence and the filter
+ * definitions (never record values) with <code>target: 'filter-bar'</code>, and answers with a
+ * value; only known filters with valid values are kept, and words it could not map stay as search
+ * text. The new chips are marked with a sparkle and one Suggested badge whose clear button puts the
+ * previous filters back; editing or removing a chip accepts it. <code>no-ai</code> turns this
+ * off.</p>
  *
  * @fires {CustomEvent<{value: FilterBarValue}>} change - Dispatched when the active filters (or the committed search text) change.
  * @fires {CustomEvent<{value: FilterBarValue}>} input - Dispatched while the person types in the search box; `detail.value` holds the text under `q`.
@@ -197,6 +248,12 @@ export class FilterBar extends LitElement {
   /** Overrides Peacock's strings for this instance only. */
   @property({ attribute: false }) strings?: Partial<PeacockStrings>;
 
+  /** Turns off Turn into filters, even when the page's AI offers it. */
+  @property({ type: Boolean, reflect: true, attribute: 'no-ai' }) noAi = false;
+
+  /** Keys of the filters the assistant suggested and the person hasn't touched yet. */
+  @state() private _suggested: string[] = [];
+
   // ── State
 
   /** Key of the filter whose popover is open. */
@@ -240,6 +297,11 @@ export class FilterBar extends LitElement {
 
   /** Whether the bar set its own `aria-label`, so it removes only that one. */
   private __ownsAriaLabel = false;
+
+  private readonly __ai = new AiController(this, 'parse');
+
+  /** The value before the assistant's filters, which clearing the suggestion restores. */
+  private __beforeSuggestion: FilterBarValue | null = null;
 
   // ── Lifecycle
 
@@ -295,6 +357,8 @@ export class FilterBar extends LitElement {
   /** Removes every filter (not the search text) and fires `change`. */
   async clearFilters() {
     const hadFocus = this.matches(':focus-within');
+    this._suggested = [];
+    this.__beforeSuggestion = null;
     const next: FilterBarValue = {};
     const q = this.value?.[FILTER_BAR_SEARCH_KEY];
     if (!isEmptyValue(q)) next[FILTER_BAR_SEARCH_KEY] = q;
@@ -328,8 +392,71 @@ export class FilterBar extends LitElement {
     );
   }
 
+  /** The person changed a suggested filter: it is theirs now. */
+  private __acceptSuggested(key: string) {
+    if (!this._suggested.includes(key)) return;
+    this._suggested = this._suggested.filter(item => item !== key);
+    if (!this._suggested.length) this.__beforeSuggestion = null;
+  }
+
+  /** Asks the provider to turn the search text into filters, and applies them as suggestions. */
+  private async __fromSentence() {
+    const { provider } = this.__ai;
+    const text = this._query.trim();
+    if (!provider?.parse || !text) return;
+    const schema = this.filters.map(({ key, label, type, options }) => ({
+      key,
+      label,
+      type,
+      ...(options ? { options } : {}),
+    }));
+    const answer = await this.__ai.run(signal =>
+      provider.parse!({
+        signal,
+        context: this.__ai.context(),
+        target: 'filter-bar',
+        text,
+        schema,
+      }),
+    );
+    if (answer === undefined) {
+      if (this.__ai.error) this.__announce(this.i18n.t('filterBarAiFailed'));
+      return;
+    }
+    const parsed = filtersFromParse(answer, this.filters);
+    const keys = Object.keys(parsed).filter(
+      key => key !== FILTER_BAR_SEARCH_KEY,
+    );
+    if (!keys.length) {
+      this.__announce(this.i18n.t('filterBarAiFailed'));
+      return;
+    }
+    const previous = copyValue(this.value ?? {});
+    const next = copyValue(previous);
+    delete next[FILTER_BAR_SEARCH_KEY];
+    Object.assign(next, parsed);
+    this.__beforeSuggestion ??= previous;
+    this._suggested = [...new Set([...this._suggested, ...keys])];
+    this._query =
+      typeof parsed[FILTER_BAR_SEARCH_KEY] === 'string'
+        ? (parsed[FILTER_BAR_SEARCH_KEY] as string)
+        : '';
+    this.__commit(next);
+    this.__announce(this.i18n.t('filterBarAiApplied')(keys.length));
+  }
+
+  /** Clears the suggested filters and puts the previous value back. */
+  private __clearSuggestion = (event: Event) => {
+    event.stopPropagation();
+    const previous = this.__beforeSuggestion;
+    this._suggested = [];
+    this.__beforeSuggestion = null;
+    if (previous) this.__commit(previous);
+  };
+
   /** Sets one filter; an empty value removes it (it stays as a pending chip while edited). */
   private __setFilter(key: string, filterValue: FilterValue) {
+    this.__acceptSuggested(key);
     const next = copyValue(this.value ?? {});
     if (isEmptyValue(filterValue)) {
       delete next[key];
@@ -342,6 +469,7 @@ export class FilterBar extends LitElement {
   }
 
   private async __remove(key: string) {
+    this.__acceptSuggested(key);
     const def = this.__definition(key);
     const chips = this.__chips();
     const index = chips.findIndex(chip => chip.dataset.key === key);
@@ -662,6 +790,7 @@ export class FilterBar extends LitElement {
       ? this.i18n.t('filterValue')(def.label, short)
       : def.label;
     const name = full ? this.i18n.t('filterValue')(def.label, full) : def.label;
+    const suggested = this._suggested.includes(def.key) && this.__ai.available;
     return html`<wc-popover
       trigger="manual"
       placement="bottom-start"
@@ -672,7 +801,7 @@ export class FilterBar extends LitElement {
         this.__handlePopoverClose(def.key, event)}
     >
       <wc-chip
-        class="filter-chip"
+        class=${suggested ? 'filter-chip suggested' : 'filter-chip'}
         data-key=${def.key}
         dismissible
         .configAria=${{
@@ -683,7 +812,9 @@ export class FilterBar extends LitElement {
         }}
         @click=${() => this.__handleChipClick(def.key)}
         @dismiss=${() => this.__remove(def.key)}
-        >${text}</wc-chip
+        >${suggested
+          ? html`<span slot="icon" class="chip-sparkle">${sparkle}</span>`
+          : nothing}${text}</wc-chip
       >
       <wc-popover-content>
         <div class="editor">${open ? this.__renderControl(def) : nothing}</div>
@@ -739,6 +870,29 @@ export class FilterBar extends LitElement {
     </div>`;
   }
 
+  /** Turn into filters, once the search text reads like a sentence. */
+  private __renderFromSentence() {
+    const words = this._query.trim().split(/\s+/).filter(Boolean).length;
+    if (
+      !this.search ||
+      !this.__ai.available ||
+      words < 3 ||
+      !this.filters.length
+    ) {
+      return nothing;
+    }
+    return html`<wc-button
+      class="from-sentence"
+      variant="tonal"
+      size="sm"
+      ?loading=${this.__ai.busy}
+      @click=${() => this.__fromSentence()}
+      ><span slot="icon" class="button-sparkle">${sparkle}</span>${this.i18n.t(
+        'filterBarFromSentence',
+      )}</wc-button
+    >`;
+  }
+
   private __renderAdd(active: FilterDefinition[]) {
     if (!this.filters.length) return nothing;
     const available = this.filters.filter(
@@ -791,6 +945,7 @@ export class FilterBar extends LitElement {
               @change=${this.__handleSearchChange}
             ></wc-search>`
           : nothing}
+        ${this.__renderFromSentence()}
         <div
           class="chips"
           @keydown=${this.__handleChipKeyDown}
@@ -801,6 +956,13 @@ export class FilterBar extends LitElement {
             def => def.key,
             def => this.__renderChip(def),
           )}
+          ${this._suggested.length && this.__ai.available
+            ? html`<wc-ai-badge
+                class="suggestion-badge"
+                dismissible
+                @dismiss=${this.__clearSuggestion}
+              ></wc-ai-badge>`
+            : nothing}
         </div>
         ${this.__renderAdd(active)}
         ${hasFilters

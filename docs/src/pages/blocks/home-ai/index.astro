@@ -1,0 +1,93 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/home-ai.scss';
+---
+
+<Layout
+  title='Home with AI'
+  description='A home page built from Peacock components, with the assistant as a layer on it: an ask bar over search, a summary of the day above the app tiles, an insight under a number, and the assistant beside the page when you ask.'
+>
+  <div class='block-demo home-ai-shell'>
+    <header class='home-ai-bar'>
+      <span class='home-ai-logo' aria-hidden='true'>A</span>
+      <strong class='text-title-medium'>Acme</strong>
+      <wc-search
+        id='home-ai-search'
+        class='home-ai-search'
+        ask
+        size='sm'
+        placeholder='Search apps and records'
+        ask-placeholder='Ask for something, or search apps and records'
+      ></wc-search>
+      <wc-avatar name='Alan Turing' size='sm'></wc-avatar>
+    </header>
+
+    <main class='home-ai-main'>
+      <h2 class='text-headline-small'>Good morning, Alan</h2>
+
+      <div class='home-ai-top'>
+        <wc-ai-summary
+          id='home-ai-summary'
+          class='home-ai-summary'
+          headline='For you today'
+          badge-label='Summary by the assistant'
+          value={'- Your leave on 13 November is still waiting for Ada Lovelace[1](cite:lv_7). You asked 6 days ago.\n- 3 of your tasks in Website relaunch are due this week; one was due yesterday[2](cite:pr_12).\n- INC-2318 is waiting for your reply[3](cite:inc_2318).'}
+        >
+          <wc-link slot='why' href='#'>Why these items?</wc-link>
+        </wc-ai-summary>
+
+        <wc-stat label='Your open requests' value='4' previous='2' variant='outlined' class='home-ai-stat'>
+          <wc-ai-summary slot='insight' variant='inline' value='Two are waiting on Ada Lovelace; the oldest is 6 days old.'></wc-ai-summary>
+        </wc-stat>
+      </div>
+
+      <section class='home-ai-apps'>
+        <h3 class='text-title-medium'>Your apps</h3>
+        <div class='home-ai-tiles'>
+          <wc-card variant='outlined'><wc-card-content class='home-ai-tile'><span class='home-ai-mark home-ai-mark-it'>IT</span><div><strong>IT service desk</strong><p class='text-body-small block-muted'>Incidents and requests</p></div></wc-card-content></wc-card>
+          <wc-card variant='outlined'><wc-card-content class='home-ai-tile'><span class='home-ai-mark home-ai-mark-hr'>HR</span><div><strong>Human resources</strong><p class='text-body-small block-muted'>Leave and people</p></div></wc-card-content></wc-card>
+          <wc-card variant='outlined'><wc-card-content class='home-ai-tile'><span class='home-ai-mark home-ai-mark-pr'>PR</span><div><strong>Projects</strong><p class='text-body-small block-muted'>Tasks and milestones</p></div></wc-card-content></wc-card>
+          <wc-card variant='outlined'><wc-card-content class='home-ai-tile'><span class='home-ai-mark home-ai-mark-ex'>EX</span><div><strong>Expenses</strong><p class='text-body-small block-muted'>Claims and approvals</p></div></wc-card-content></wc-card>
+        </div>
+      </section>
+      <p class='text-body-small block-muted'>
+        Turn the assistant off and this page still works: search instead of ask, the tiles without the summary.
+      </p>
+    </main>
+
+    <wc-assistant-panel id='home-ai-panel' variant='modal' supporting-text='Acting as Alan Turing, with your access'>
+      <wc-chat-thread id='home-ai-thread'>
+        <p slot='empty'>What can I help with?</p>
+      </wc-chat-thread>
+      <wc-prompt-input id='home-ai-prompt' slot='composer'></wc-prompt-input>
+    </wc-assistant-panel>
+  </div>
+
+  <script is:inline src='/assets/js/assistant-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var panel = document.getElementById('home-ai-panel');
+      var thread = document.getElementById('home-ai-thread');
+      var prompt = document.getElementById('home-ai-prompt');
+      var search = document.getElementById('home-ai-search');
+      var summary = document.getElementById('home-ai-summary');
+      window.peacockAssistantDemo(panel, thread, prompt);
+      summary.citations = [
+        { id: 'lv_7', headline: 'Leave request · 13 November', supportingText: 'Human resources' },
+        { id: 'pr_12', headline: 'Update the pricing page copy', supportingText: 'Projects · Website relaunch' },
+        { id: 'inc_2318', headline: 'INC-2318 · Cracked screen on LT-0412', supportingText: 'IT service desk' },
+      ];
+      search.addEventListener('ask', function (event) {
+        panel.show();
+        var question = event.detail.value;
+        search.value = '';
+        setTimeout(function () {
+          thread.dispatchEvent(new CustomEvent('suggestion-select', { detail: { value: question } }));
+        }, 300);
+      });
+      summary.addEventListener('dismiss', function () {
+        summary.hidden = true;
+      });
+    })();
+  </script>
+</Layout>

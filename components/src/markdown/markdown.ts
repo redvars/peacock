@@ -9,13 +9,12 @@ import { property } from 'lit/decorators.js';
 import type { Token, Tokens } from 'marked';
 
 import IndividualComponent from '@/IndividualComponent.js';
-import {
-  lexMarkdown,
-  type MentionToken,
-} from '@/__internal/rich-text/markdown-lexer.js';
+import type { AiCitation } from '@/__internal/ai/types.js';
+import type { MentionToken } from '@/__internal/rich-text/markdown-lexer.js';
 import { safeUrl } from '@/__internal/rich-text/url.js';
 
 import styles from './markdown.scss';
+import { StreamLexer } from './streaming.js';
 
 export { safeUrl };
 
@@ -43,11 +42,29 @@ type Content = TemplateResult | string | typeof nothing;
  * <p><code>inline</code> shows the Markdown as a run of text without block spacing, for a
  * one-line summary or an activity entry.</p>
  *
+ * <p><b>Streaming.</b> For an answer that arrives in pieces, set <code>streaming</code> and keep
+ * replacing <code>value</code> with the text so far. Only the last blocks are parsed again, an
+ * unfinished <code>**</code>, <code>`</code> or link at the end is shown as it will be once
+ * complete, and a caret marks the end. The content is <code>aria-busy</code> until
+ * <code>streaming</code> is turned off, so screen readers wait for the finished text.</p>
+ *
+ * <p><b>Citations.</b> Links written as <code>[2](cite:rule_88)</code> show as
+ * <code>wc-citation</code> chips. <code>citations</code> supplies each source's headline,
+ * supporting text and address by id; <code>citation-href</code> (with <code>{id}</code>) is the
+ * address of sources it doesn't list. A chip fires <code>select</code>.</p>
+ *
  * @cssprop --prose-link-color - Color of links.
  * @cssprop --prose-mention-background - Background of mention chips.
  * @cssprop --prose-mention-color - Text color of mention chips.
  * @cssprop --prose-code-background - Background of inline code and code blocks.
+ * @cssprop --markdown-caret-color - Color of the caret shown while streaming.
  *
+ * @fires {CustomEvent<CitationSelectDetail>} select - Fired by a citation chip when it is pressed; cancel it to stop the link from being followed.
+ *
+ * @example
+ * ```html
+ * <wc-markdown streaming value="Desk support has 2 loaners free[1](cite:asset_9). Incidents"></wc-markdown>
+ * ```
  * @example
  * ```html
  * <wc-markdown value="**Done.** Thanks [@Ana Lima](mention:usr_142)."></wc-markdown>
@@ -78,14 +95,36 @@ export class Markdown extends LitElement {
   @property({ type: String, reflect: true })
   size: 'sm' | 'md' = 'md';
 
+  /** The text is still arriving: parse only its end, show a caret and mark the content busy. */
+  @property({ type: Boolean, reflect: true })
+  streaming = false;
+
+  /** The sources that `cite:` links refer to, by id. */
+  @property({ attribute: false })
+  citations: AiCitation[] = [];
+
+  /** Address of a cited source not in `citations`; `{id}` is replaced by its id. */
+  @property({ type: String, attribute: 'citation-href' })
+  citationHref = '';
+
   // ── Private fields ────────────────────────────────────────────────────────
 
   private _tokens: Token[] = [];
 
+  private readonly _lexer = new StreamLexer();
+
+  /** The last block that isn't blank space; the streaming caret goes in it. */
+  private _lastBlock?: Token;
+
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   protected override willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('value')) this._tokens = lexMarkdown(this.value);
+    if (changed.has('value') || changed.has('streaming')) {
+      this._tokens = this._lexer.lex(this.value, this.streaming);
+      this._lastBlock = [...this._tokens]
+        .reverse()
+        .find(token => token.type !== 'space' && token.type !== 'def');
+    }
   }
 
   // ── Render helpers: inline ────────────────────────────────────────────────
@@ -133,6 +172,7 @@ export class Markdown extends LitElement {
   }
 
   private _link(token: Tokens.Link): Content {
+    if (/^cite:/i.test(token.href)) return this._citation(token);
     const href = safeUrl(token.href);
     const content = this._inline(token.tokens);
     if (!href) return html`${content}`;
@@ -144,6 +184,34 @@ export class Markdown extends LitElement {
       rel=${external ? 'noopener noreferrer' : nothing}
       >${content}</a
     >`;
+  }
+
+  private _citation(token: Tokens.Link): Content {
+    let id = token.href.slice('cite:'.length).trim();
+    try {
+      id = decodeURIComponent(id);
+    } catch {
+      // Keep the id as written.
+    }
+    const source = this.citations.find(citation => citation.id === id);
+    const href =
+      source?.href ??
+      (this.citationHref
+        ? this.citationHref.replace(/\{id\}/g, encodeURIComponent(id))
+        : '');
+    return html`<wc-citation
+      label=${token.text}
+      value=${id}
+      headline=${source?.headline ?? ''}
+      supporting-text=${source?.supportingText ?? ''}
+      href=${href}
+    ></wc-citation>`;
+  }
+
+  private _caret(): Content {
+    return this.streaming
+      ? html`<span class="stream-caret" aria-hidden="true"></span>`
+      : nothing;
   }
 
   private _image(token: Tokens.Image): Content {
@@ -182,7 +250,8 @@ export class Markdown extends LitElement {
       case 'def':
         return nothing;
       case 'paragraph':
-        return html`<p>${this._inline((token as Tokens.Paragraph).tokens)}</p>`;
+        // prettier-ignore
+        return html`<p>${this._inline((token as Tokens.Paragraph).tokens)}${token === this._lastBlock ? this._caret() : nothing}</p>`;
       case 'text': {
         // Text directly in a tight list item.
         const text = token as Tokens.Text;
@@ -335,10 +404,16 @@ export class Markdown extends LitElement {
   // ── Render ────────────────────────────────────────────────────────────────
 
   render() {
-    return this.inline
-      ? html`<span class="prose" part="content">${this._inlineRun()}</span>`
-      : html`<div class="prose" part="content">
-          ${this._blocks(this._tokens)}
-        </div>`;
+    const busy = this.streaming ? 'true' : nothing;
+    if (this.inline) {
+      return html`<span class="prose" part="content" aria-busy=${busy}
+        >${this._inlineRun()}${this._caret()}</span
+      >`;
+    }
+    // The caret sits in the last paragraph; after any other last block it goes on its own line.
+    const caretAfter = this._lastBlock?.type !== 'paragraph';
+    return html`<div class="prose" part="content" aria-busy=${busy}>
+      ${this._blocks(this._tokens)}${caretAfter ? this._caret() : nothing}
+    </div>`;
   }
 }

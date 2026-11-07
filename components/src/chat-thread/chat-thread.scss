@@ -1,0 +1,77 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+
+  /**
+   * @prop --chat-thread-gap: Space between messages
+   */
+  --chat-thread-gap: var(--spacing-200, 1rem);
+
+  /**
+   * @prop --chat-thread-padding: Padding of the scrolling area
+   */
+  --chat-thread-padding: var(--spacing-200, 1rem);
+}
+
+.scroller {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--chat-thread-gap);
+  padding: var(--chat-thread-padding);
+}
+
+::slotted(wc-chat-message) {
+  display: block;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-200, 1rem);
+  padding-block: var(--spacing-400, 2rem);
+  text-align: center;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-100, 0.5rem);
+}
+
+.jump {
+  position: absolute;
+  inset-block-end: var(--spacing-150, 0.75rem);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  box-shadow: var(--elevation-level2);
+  border-radius: var(--shape-corner-full);
+}
+
+:host(:dir(rtl)) .jump {
+  translate: 50% 0;
+}

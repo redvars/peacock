@@ -36,6 +36,7 @@ You are an expert Frontend Engineer specializing in **Lit** (3.x), TypeScript, a
 - Form fields get two-way binding when they have `value` plus an `input`/`change` event whose detail has `value`, or `checked` plus `change`.
 - Bindings register elements themselves. They find the `wc-*` tags a component renders by scanning its source, so write tags literally in templates (`<wc-icon`), not built from strings.
 - After changing a component's API, run `node --test bin/` and, from the repository root, `npm run smoke`.
+- `wc-generative-view` renders only the components and props in `bin/generative-catalog/allow-list.mjs`; their types come from the manifest into `src/generative-view/catalog.generated.ts`. After changing an allowed component's props, or the allow-list, run `npm run build` and then `npm run build:catalog`; `node --test bin/` fails while the catalog is stale.
 
 ## Testing Rules
 - Use `@web/test-runner`.

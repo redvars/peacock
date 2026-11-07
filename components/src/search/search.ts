@@ -1,9 +1,11 @@
-﻿import { html, nothing } from 'lit';
+import { html, nothing } from 'lit';
 import { property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { live } from 'lit/directives/live.js';
 import IndividualComponent from '@/IndividualComponent.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
+import { AiController } from '@/__internal/ai/ai-controller.js';
+import { sparkle } from '@/__internal/ai/sparkle.js';
 import BaseInput, {
   type ControlValidity,
   nativeValidity,
@@ -36,6 +38,11 @@ const clearableConverter = {
  * submitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.
  * It shows no validation message, so use <code>wc-input</code> for a search term that must be
  * validated.</p>
+ * <p><b>Ask.</b> With <code>ask</code>, the box is also where people ask the assistant
+ * (ADR-030002): an <strong>Ask</strong> button and Ctrl+Enter (⌘Enter) fire <code>ask</code> with
+ * the text, while Enter still searches. <code>ask-placeholder</code> replaces the placeholder, such
+ * as "Ask for something, or search apps and records". With AI off for the page, the box is a plain
+ * search: no button, the usual placeholder, and no <code>ask</code>.</p>
  *
  * @slot start - Leading content; replaces the search icon.
  * @slot end - Trailing content, after the clear button.
@@ -52,6 +59,7 @@ const clearableConverter = {
  * @fires {CustomEvent<{value: string}>} change - Dispatched when the value is committed: on blur, Enter, or when it is cleared.
  * @fires {CustomEvent} clear - Dispatched when the value is cleared with the clear button or Escape.
  * @fires {CustomEvent<{value: string}>} search - Dispatched when the user submits the search (presses Enter).
+ * @fires {CustomEvent<{value: string}>} ask - With `ask`: the person pressed Ask or Ctrl+Enter (⌘Enter) to ask the assistant.
  *
  * @example
  * ```html
@@ -104,6 +112,14 @@ export class Search extends BaseInput {
   @property({ type: String, reflect: true })
   size: 'sm' | 'md' | 'lg' = 'md';
 
+  /** Lets people ask the assistant from the box: an Ask button and Ctrl+Enter fire `ask`. */
+  @property({ type: Boolean, reflect: true })
+  ask = false;
+
+  /** Placeholder while asking is offered, such as "Ask for something, or search apps and records". */
+  @property({ type: String, attribute: 'ask-placeholder' })
+  askPlaceholder = '';
+
   // ── State ────────────────────────────────────────────────────────────────
 
   @state()
@@ -118,6 +134,13 @@ export class Search extends BaseInput {
 
   /** Peacock's strings for the placeholder and clear button. */
   private readonly i18n = new I18nController(this);
+
+  private readonly ai = new AiController(this);
+
+  /** Whether Ask is offered now: `ask`, and AI on for the page. */
+  private get __asking(): boolean {
+    return this.ask && this.ai.available;
+  }
 
   // ── Public methods ───────────────────────────────────────────────────────
 
@@ -143,7 +166,7 @@ export class Search extends BaseInput {
 
   // ── Private methods ──────────────────────────────────────────────────────
 
-  private __emit(type: 'input' | 'change' | 'search') {
+  private __emit(type: 'input' | 'change' | 'search' | 'ask') {
     this.dispatchEvent(
       new CustomEvent(type, {
         detail: { value: this.value },
@@ -170,6 +193,13 @@ export class Search extends BaseInput {
   }
 
   private __handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      if (this.__asking) {
+        event.preventDefault();
+        this.__ask();
+        return;
+      }
+    }
     if (event.key === 'Enter') {
       this.__emit('search');
     }
@@ -198,7 +228,25 @@ export class Search extends BaseInput {
     this.__emit('change');
   }
 
+  private __ask() {
+    if (!this.value.trim() || this.disabled) return;
+    this.__emit('ask');
+  }
+
   // ── Render helpers ───────────────────────────────────────────────────────
+
+  private __renderAskButton() {
+    if (!this.__asking) return nothing;
+    return html`<button
+      class="ask-button"
+      type="button"
+      aria-label=${this.i18n.t('searchAskLabel')}
+      ?disabled=${this.disabled || !this.value.trim()}
+      @click=${this.__ask}
+    >
+      ${sparkle}<span>${this.i18n.t('searchAsk')}</span>
+    </button>`;
+  }
 
   private __renderClearButton() {
     if (!this.clearable || !this.value || this.readonly) return nothing;
@@ -240,7 +288,10 @@ export class Search extends BaseInput {
       'has-value': !!this.value,
     };
 
-    const placeholder = this.placeholder || this.i18n.t('search');
+    const placeholder =
+      (this.__asking && this.askPlaceholder) ||
+      this.placeholder ||
+      this.i18n.t('search');
 
     return html`
       <div class=${classMap(cssClasses)} role="search">
@@ -269,6 +320,7 @@ export class Search extends BaseInput {
         <div class="trailing-actions">
           ${this.__renderClearButton()}
           <slot name="end"></slot>
+          ${this.__renderAskButton()}
         </div>
       </div>
     `;

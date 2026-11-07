@@ -1,0 +1,77 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-chat-message</code> is one turn of a conversation. <code>from="user"</code> shows the
+  person's text in a bubble; the default, <code>from="assistant"</code>, shows the answer as formatted
+  Markdown with its actions: copy, Try again and a good or bad rating.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem; inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-chat-message from='user' value='Will I get a loaner before Friday?'></wc-chat-message>
+    <wc-chat-message id='message-answer' value='Desk support in Pune has **2 loaner laptops** free[1](cite:asset_9). Incidents raised before noon are usually handled the same day.'></wc-chat-message>
+  </div>
+  <script is:inline>
+    (function () {
+      var answer = document.querySelector('#message-answer');
+      answer.citations = [{ id: 'asset_9', headline: 'Loaner pool · Pune', supportingText: 'Asset management' }];
+      answer.addEventListener('feedback', function (event) {
+        myConsole.log('feedback: ' + (event.detail.value || 'none'));
+      });
+      answer.addEventListener('regenerate', function () {
+        myConsole.log('regenerate');
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Streaming</h3>
+<p>
+  While an answer arrives, set <code>streaming</code> and keep replacing <code>value</code>. Before the
+  first words a typing indicator shows <code>status</code>. Actions appear once streaming stops.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-message id='message-stream' streaming status='Checking loaner stock in Asset management…' style='inline-size: 100%; max-inline-size: 30rem;'></wc-chat-message>
+  <wc-button id='message-stream-play' variant='text' size='sm' style='margin-top: 0.75rem;'>Play again</wc-button>
+  <script is:inline>
+    (function () {
+      var el = document.querySelector('#message-stream');
+      var text = 'Desk support has 2 loaner laptops free. Raise the incident before noon and pick one up at desk 4.';
+      var timer;
+      function play() {
+        clearInterval(timer);
+        el.value = '';
+        el.streaming = true;
+        var shown = 0;
+        setTimeout(function () {
+          timer = setInterval(function () {
+            shown = Math.min(text.length, shown + 4);
+            el.value = text.slice(0, shown);
+            if (shown >= text.length) {
+              clearInterval(timer);
+              el.streaming = false;
+            }
+          }, 45);
+        }, 1200);
+      }
+      document.querySelector('#message-stream-play').addEventListener('click', play);
+      play();
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Steps, drafts and errors</h3>
+<p>
+  Put <code>wc-assistant-steps</code> in the <code>steps</code> slot, above the text, and
+  <code>wc-draft-card</code>s in the default slot, below it. With <code>error</code> the message says
+  the answer failed and offers Try again.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-chat-message error style='inline-size: 100%; max-inline-size: 30rem;'></wc-chat-message>
+</DemoComponentCard>

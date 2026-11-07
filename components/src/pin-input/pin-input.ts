@@ -2,6 +2,7 @@ import { html, nothing, type PropertyValues } from 'lit';
 import { property, queryAll } from 'lit/decorators.js';
 import { live } from 'lit/directives/live.js';
 
+import { ALWAYS_SENSITIVE } from '@/__internal/ai/ai-controller.js';
 import { spread } from '@/__internal/directive/spread.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import IndividualComponent from '@/IndividualComponent.js';
@@ -62,6 +63,9 @@ export class PinInput extends BaseField {
   // ── Static ───────────────────────────────────────────────────────────────
 
   static styles = [styles];
+
+  /** A PIN or one-time code never reaches a model (ADR-030002). */
+  static readonly [ALWAYS_SENSITIVE] = true;
 
   // ── Properties ───────────────────────────────────────────────────────────
 

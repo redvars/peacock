@@ -23,9 +23,29 @@ interface SlashHost extends ReactiveControllerHost, HTMLElement {
   readonly renderRoot: HTMLElement | DocumentFragment;
 }
 
+/** A slash-menu entry that runs a command instead of inserting a block, such as an AI action. */
+export interface SlashAction {
+  id: string;
+  label: string;
+  /** Leading glyph; the sparkle for AI actions. */
+  glyph: TemplateResult;
+  /** Heading shown above the first action, such as "Assistant". */
+  group: string;
+  /** Runs once the typed `/query` is removed. */
+  run(editor: Editor): void;
+}
+
+type SlashItem = BlockCommand | SlashAction;
+
+function isAction(item: SlashItem): item is SlashAction {
+  return 'label' in item;
+}
+
 interface SlashOptions {
   editor: () => Editor | undefined;
   i18n: I18nController;
+  /** Actions listed before the blocks while typing `/`; not offered by the block handle. */
+  actions?: () => SlashAction[];
 }
 
 let slashCount = 0;
@@ -46,7 +66,7 @@ export class RichTextSlashController implements ReactiveController {
 
   private readonly listId = `wc-rich-text-slash-${(slashCount += 1)}`;
 
-  private items: BlockCommand[] = [];
+  private items: SlashItem[] = [];
 
   private activeIndex = 0;
 
@@ -117,14 +137,19 @@ export class RichTextSlashController implements ReactiveController {
       name: 'peacockSlashMenu',
       addProseMirrorPlugins() {
         return [
-          Suggestion<BlockCommand, BlockCommand>({
+          Suggestion<SlashItem, SlashItem>({
             editor: this.editor,
             char: '/',
             pluginKey: new PluginKey('peacockSlashMenu'),
             allowSpaces: false,
             items: ({ query, editor }) => controller.filter(editor, query),
             command: ({ editor, range, props }) => {
-              props.run(editor.chain().focus().deleteRange(range)).run();
+              if (isAction(props)) {
+                editor.chain().focus().deleteRange(range).run();
+                props.run(editor);
+              } else {
+                props.run(editor.chain().focus().deleteRange(range)).run();
+              }
             },
             render: () => ({
               onStart: props => controller.onChange(props),
@@ -167,6 +192,13 @@ export class RichTextSlashController implements ReactiveController {
     const item = this.items[index];
     const editor = this.options.editor();
     if (!item || !editor) return;
+    if (isAction(item)) {
+      const { range } = this;
+      this.close();
+      if (range) editor.chain().focus().deleteRange(range).run();
+      item.run(editor);
+      return;
+    }
     if (this.range) {
       item.run(editor.chain().focus().deleteRange(this.range)).run();
     } else if (this.insertAt !== null) {
@@ -208,16 +240,20 @@ export class RichTextSlashController implements ReactiveController {
   /** Where the block handle's insert button puts the new block, when it opened the menu. */
   private insertAt: number | null = null;
 
-  private filter(editor: Editor, query: string): BlockCommand[] {
+  private filter(editor: Editor, query: string): SlashItem[] {
     const q = query.toLowerCase();
-    return blocksFor(editor).filter(
+    const actions = (this.options.actions?.() ?? []).filter(action =>
+      action.label.toLowerCase().includes(q),
+    );
+    const blocks = blocksFor(editor).filter(
       block =>
         block.id !== 'paragraph' &&
         this.options.i18n.t(block.id).toLowerCase().includes(q),
     );
+    return [...actions, ...blocks];
   }
 
-  private onChange(props: SuggestionProps<BlockCommand, BlockCommand>) {
+  private onChange(props: SuggestionProps<SlashItem, SlashItem>) {
     this.items = props.items;
     this.activeIndex = 0;
     this.range = props.range;
@@ -300,29 +336,60 @@ export class RichTextSlashController implements ReactiveController {
     }
   }
 
-  private renderItem(item: BlockCommand, index: number) {
+  /** A heading above the first action and, when there are actions, above the first block. */
+  private renderHeading(item: SlashItem, index: number) {
+    const previous = this.items[index - 1];
+    const hasActions = this.items.some(isAction);
+    if (!hasActions) return nothing;
+    if (isAction(item)) {
+      return previous && isAction(previous) && previous.group === item.group
+        ? nothing
+        : html`<div class="slash-group" role="presentation">
+            ${item.group}
+          </div>`;
+    }
+    return previous && !isAction(previous)
+      ? nothing
+      : html`<div class="slash-group" role="presentation">
+          ${this.options.i18n.t('slashBlocksGroup')}
+        </div>`;
+  }
+
+  private renderItem(item: SlashItem, index: number) {
     const active = index === this.activeIndex;
+    const action = isAction(item);
     /* eslint-disable lit-a11y/click-events-have-key-events */
-    return html`<div
-      id="${this.listId}-${index}"
-      class=${classMap({ 'slash-item': true, active })}
-      role="option"
-      aria-selected=${active ? 'true' : 'false'}
-      @click=${() => this.choose(index)}
-      @pointermove=${() => {
-        if (this.activeIndex === index) return;
-        this.activeIndex = index;
-        this.host.requestUpdate();
-      }}
-    >
-      <wc-icon name=${item.icon} size="sm" aria-hidden="true"></wc-icon>
-      <span class="slash-item-label">${this.options.i18n.t(item.id)}</span>
-      ${item.hint
-        ? html`<span class="slash-item-hint" aria-hidden="true"
-            >${item.hint}</span
-          >`
-        : nothing}
-    </div>`;
+    return html`${this.renderHeading(item, index)}
+      <div
+        id="${this.listId}-${index}"
+        class=${classMap({ 'slash-item': true, active })}
+        role="option"
+        aria-selected=${active ? 'true' : 'false'}
+        @click=${() => this.choose(index)}
+        @pointermove=${() => {
+          if (this.activeIndex === index) return;
+          this.activeIndex = index;
+          this.host.requestUpdate();
+        }}
+      >
+        ${action
+          ? html`<span class="slash-item-glyph" aria-hidden="true"
+              >${item.glyph}</span
+            >`
+          : html`<wc-icon
+              name=${item.icon}
+              size="sm"
+              aria-hidden="true"
+            ></wc-icon>`}
+        <span class="slash-item-label"
+          >${action ? item.label : this.options.i18n.t(item.id)}</span
+        >
+        ${!action && item.hint
+          ? html`<span class="slash-item-hint" aria-hidden="true"
+              >${item.hint}</span
+            >`
+          : nothing}
+      </div>`;
     /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 }

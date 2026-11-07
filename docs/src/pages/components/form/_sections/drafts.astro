@@ -1,0 +1,73 @@
+---
+export const title = 'Drafts from the assistant';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  When the assistant drafts a record, it opens in the same form the page uses without AI
+  (ADR-000007). <code>suggest(values)</code> fills the named fields, each marked Suggested with its
+  reason. While any field still holds a suggestion, a banner says the form was drafted by the
+  assistant and offers <strong>Clear all</strong>, which puts every previous value back.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-form id='draft-form' style='display: block; max-width: 32rem;'>
+    <form style='display: grid; gap: 1rem;'>
+      <wc-input name='title' label='Short description' placeholder='What happened?'></wc-input>
+      <wc-select name='category' label='Category' placeholder='Choose a category'>
+        <wc-option value='hardware'>Hardware</wc-option>
+        <wc-option value='software'>Software</wc-option>
+        <wc-option value='access'>Access</wc-option>
+      </wc-select>
+      <wc-radio-group name='urgency' label='Urgency' value='2' orientation='horizontal'>
+        <wc-radio value='1' label='High'></wc-radio>
+        <wc-radio value='2' label='Medium-high'></wc-radio>
+        <wc-radio value='3' label='Medium'></wc-radio>
+      </wc-radio-group>
+      <wc-input name='asset' label='Asset' placeholder='Search assets'></wc-input>
+      <div style='display: flex; gap: 0.5rem; justify-content: flex-end;'>
+        <wc-button id='draft-fill' type='button' variant='text'>Ask the assistant to draft</wc-button>
+        <wc-button type='submit'>Raise incident</wc-button>
+      </div>
+    </form>
+  </wc-form>
+  <script is:inline>
+    (function () {
+      var form = document.querySelector('#draft-form');
+      document.querySelector('#draft-fill').addEventListener('click', function () {
+        form.suggest({
+          title: { value: 'Cracked screen on laptop LT-0412' },
+          category: { value: 'hardware', reason: 'A cracked screen is a hardware fault.' },
+          urgency: { value: '3', reason: "You didn't say you can't work. Make it High if you can't." },
+          asset: { value: 'LT-0412 · 14-inch laptop', reason: 'Assigned to you in Asset management.' },
+        });
+      });
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        myConsole.log('submit, suggested: ' + JSON.stringify(event.detail.suggested));
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Accepting a draft</h3>
+<p>
+  Editing a field accepts its suggestion. Submitting accepts the rest: <code>submit</code>'s
+  <code>detail.suggested</code> lists the fields that were still suggested, so the app can record the
+  change as made through the assistant. <code>clearSuggestions()</code> does what Clear all does. A
+  drafted form counts as <code>dirty</code>, so <code>warn-unsaved</code> protects the draft.
+</p>
+
+<p>
+  Names that match no field, and <code>sensitive</code> fields, are skipped; <code>suggest()</code>
+  resolves with the names that took a suggestion. A radio's suggestion goes to its
+  <code>wc-radio-group</code>. <code>hide-draft-banner</code> turns the banner off, for a form that
+  explains the draft another way.
+</p>
+
+<h3>When AI is off</h3>
+<p>
+  With AI off for the page, <code>suggest()</code> does nothing and resolves with an empty list, and
+  no banner shows. The form works exactly as it does without AI.
+</p>

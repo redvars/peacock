@@ -28,6 +28,38 @@
   display: inline;
 }
 
+/**
+ * @prop --markdown-caret-color: Color of the caret shown while streaming
+ */
+.stream-caret {
+  display: inline-block;
+  inline-size: 0.5em;
+  block-size: 1em;
+  margin-inline-start: 0.125em;
+  vertical-align: -0.125em;
+  background: var(--markdown-caret-color, var(--color-primary));
+  border-radius: var(--shape-corner-extra-small);
+  animation: caret-blink 1s steps(2, start) infinite;
+}
+
+@keyframes caret-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stream-caret {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .stream-caret {
+    background: CanvasText;
+  }
+}
+
 .code-block {
   display: block;
   min-inline-size: 0;

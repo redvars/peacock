@@ -1,0 +1,52 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-assistant-steps</code> shows what the assistant did to answer: one line that sums it up,
+  opening to a <code>wc-assistant-step</code> for each lookup or action. Steps are the platform's
+  calls, not the model's words, so they show what an answer is based on.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-assistant-steps label='Looked up 2 records in 2 apps.' open style='inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-assistant-step status='done' app='Asset management'>found LT-0412 assigned to you</wc-assistant-step>
+    <wc-assistant-step status='done' app='Human resources'>leave balance 6 of 25 days</wc-assistant-step>
+    <wc-assistant-step status='blocked' app='Payroll'>not read: you don't have access</wc-assistant-step>
+  </wc-assistant-steps>
+</DemoComponentCard>
+
+<h3>Status</h3>
+<p>
+  Each step's <code>status</code> is <code>pending</code>, <code>running</code>, <code>done</code>,
+  <code>error</code>, or <code>blocked</code> when the person's access did not allow it (the
+  assistant acts as the person and has no access of its own). The summary's icon follows the steps:
+  working while any runs, an error if any failed, done otherwise.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-assistant-steps id='steps-live' label='Checking loaner stock…' open style='inline-size: 100%; max-inline-size: 30rem;'>
+    <wc-assistant-step status='done' app='Asset management'>found the loaner pool in Pune</wc-assistant-step>
+    <wc-assistant-step status='running' app='Asset management'>counting free laptops</wc-assistant-step>
+  </wc-assistant-steps>
+  <script is:inline>
+    (function () {
+      var steps = document.querySelector('#steps-live');
+      var step = steps.children[1];
+      setInterval(function () {
+        var done = step.status === 'running';
+        step.status = done ? 'done' : 'running';
+        steps.label = done ? 'Found 2 free loaners.' : 'Checking loaner stock…';
+      }, 2000);
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Accessibility</h3>
+<p>
+  The toggle is a button with <code>aria-expanded</code>. Each step reads its app, what it did and its
+  status, such as "Payroll · not read: you don't have access, Not allowed". The running icon stops
+  spinning with reduced motion. With AI off for the page, the steps render nothing.
+</p>

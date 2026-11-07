@@ -43,3 +43,42 @@
 :host([auto-grow]) .field .input {
   overflow-y: hidden;
 }
+
+// ── Ghost text (ai-completion, ADR-030002) ─────────────────────────────────
+
+.ghost-wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+// Laid over the textarea with its text metrics, so the suggestion wraps like real text.
+.ghost-mirror {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  color: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  pointer-events: none;
+}
+
+.ghost-before {
+  visibility: hidden;
+}
+
+.ghost-text {
+  color: var(--color-on-surface-variant);
+  opacity: 0.7;
+}
+
+@media (forced-colors: active) {
+  .ghost-text {
+    color: GrayText;
+    opacity: 1;
+  }
+}

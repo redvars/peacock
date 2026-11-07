@@ -333,6 +333,24 @@ export class CheckboxGroup extends BaseInput {
     );
   };
 
+  /** A suggestion for a checkbox group is a comma-separated string or an array of values. */
+  protected override writeSuggestionValue(value: unknown): void {
+    if (Array.isArray(value)) this.values = value.map(String);
+    else this.value = value == null ? '' : String(value);
+  }
+
+  protected override emitSuggestionValue(): void {
+    for (const type of ['input', 'change']) {
+      this.dispatchEvent(
+        new CustomEvent<CheckboxGroupChangeDetail>(type, {
+          detail: { value: this.value, values: this.values },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+  }
+
   // ── Render helpers ───────────────────────────────────────────────────────
 
   private renderSelectAll() {
@@ -352,7 +370,8 @@ export class CheckboxGroup extends BaseInput {
   render() {
     const { errorMessage } = this;
     const invalid = this.error || !!errorMessage;
-    const description = errorMessage || this.helperText;
+    const description =
+      errorMessage || this.suggestionReason || this.helperText;
 
     return html`
       <div
@@ -368,12 +387,14 @@ export class CheckboxGroup extends BaseInput {
         aria-disabled=${this.disabled ? 'true' : nothing}
       >
         ${this.label
-          ? html`<div class="label" id=${this.labelId}>
-              ${this.label}${this.required
-                ? html`<span class="required" aria-hidden="true">*</span>`
-                : nothing}
-            </div>`
-          : nothing}
+          ? this.labelWithSuggestion(
+              html`<div class="label" id=${this.labelId}>
+                ${this.label}${this.required
+                  ? html`<span class="required" aria-hidden="true">*</span>`
+                  : nothing}
+              </div>`,
+            )
+          : this.suggestionBadge()}
         ${this.selectAll ? this.renderSelectAll() : nothing}
         <div class=${classMap({ checkboxes: true, nested: this.selectAll })}>
           <slot @slotchange=${this.syncCheckboxes}></slot>

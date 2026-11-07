@@ -119,6 +119,17 @@ import { Rating } from '@/rating/rating.js';
 import { SignaturePad } from '@/signature-pad/signature-pad.js';
 import { MentionInput } from '@/mention-input/mention-input.js';
 import { Kbd } from '@/kbd/kbd.js';
+import { AiBadge } from '@/ai-badge/ai-badge.js';
+import { TypingIndicator } from '@/typing-indicator/typing-indicator.js';
+import { Citation } from '@/citation/citation.js';
+import { ChatMessage } from '@/chat-message/chat-message.js';
+import { ChatThread } from '@/chat-thread/chat-thread.js';
+import { AssistantSteps } from '@/assistant-steps/assistant-steps.js';
+import { AssistantStep } from '@/assistant-steps/assistant-step.js';
+import { DraftCard } from '@/draft-card/draft-card.js';
+import { AssistantPanel } from '@/assistant-panel/assistant-panel.js';
+import { AiSummary } from '@/ai-summary/ai-summary.js';
+import { GenerativeView } from '@/generative-view/generative-view.js';
 import { HoverCard } from '@/hover-card/hover-card.js';
 import { Kanban } from '@/kanban/kanban.js';
 import { VirtualList } from '@/virtual-list/virtual-list.js';
@@ -313,21 +324,23 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-html-editor': {
       importPath: `${distDirectory}/html-editor.js`,
-      dependencies: ['wc-code-editor'],
+      dependencies: ['wc-code-editor', 'wc-markdown'],
     },
     'wc-markdown-editor': {
       importPath: `${distDirectory}/markdown-editor.js`,
-      dependencies: ['wc-code-editor'],
+      dependencies: ['wc-code-editor', 'wc-markdown'],
     },
     'wc-markdown': {
       importPath: `${distDirectory}/markdown.js`,
-      dependencies: ['wc-code-highlighter'],
+      dependencies: ['wc-code-highlighter', 'wc-citation'],
     },
     'wc-comment-composer': {
       importPath: `${distDirectory}/comment-composer.js`,
+      dependencies: ['wc-markdown'],
     },
     'wc-document-editor': {
       importPath: `${distDirectory}/document-editor.js`,
+      dependencies: ['wc-markdown'],
     },
     'wc-discussion': {
       importPath: `${distDirectory}/discussion.js`,
@@ -561,6 +574,42 @@ const loaderConfig: LoaderConfig = {
     'wc-kbd': {
       CustomElementClass: Kbd,
     },
+    'wc-ai-badge': {
+      CustomElementClass: AiBadge,
+    },
+    'wc-typing-indicator': {
+      CustomElementClass: TypingIndicator,
+    },
+    'wc-citation': {
+      CustomElementClass: Citation,
+    },
+    'wc-chat-message': {
+      CustomElementClass: ChatMessage,
+    },
+    'wc-chat-thread': {
+      CustomElementClass: ChatThread,
+    },
+    'wc-assistant-steps': {
+      CustomElementClass: AssistantSteps,
+    },
+    'wc-assistant-step': {
+      CustomElementClass: AssistantStep,
+    },
+    'wc-draft-card': {
+      CustomElementClass: DraftCard,
+    },
+    'wc-assistant-panel': {
+      CustomElementClass: AssistantPanel,
+    },
+    'wc-ai-summary': {
+      CustomElementClass: AiSummary,
+    },
+    'wc-generative-view': {
+      CustomElementClass: GenerativeView,
+    },
+    'wc-prompt-input': {
+      importPath: `${distDirectory}/prompt-input.js`,
+    },
     'wc-hover-card': {
       CustomElementClass: HoverCard,
     },
@@ -689,3 +738,15 @@ export {
   defaultStrings,
 } from '@/__internal/i18n/strings.js';
 export type { PeacockStrings } from '@/__internal/i18n/strings.js';
+export {
+  setPeacockAi,
+  peacockAi,
+  onPeacockAiChange,
+  isAiAvailable,
+} from '@/__internal/ai/config.js';
+export { readStream } from '@/__internal/ai/stream.js';
+export { generativeViewSchema } from '@/generative-view/schema.js';
+export type {
+  PeacockAiConfig,
+  PeacockAiProvider,
+} from '@/__internal/ai/types.js';

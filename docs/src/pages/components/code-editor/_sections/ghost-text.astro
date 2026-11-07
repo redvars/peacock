@@ -1,0 +1,27 @@
+---
+export const title = 'Ghost text';
+export const order = 400;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>ai-completion</code> and a provider that offers completions (ADR-030002), the editor
+  registers a Monaco inline-completions provider: after a pause in typing, the suggestion shows as
+  Monaco's own ghost text, and <strong>Tab</strong> takes it. <code>complete()</code> gets the code
+  before and after the caret and <code>language</code>, and its signal aborts on the next keystroke.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-code-editor
+    language='javascript'
+    ai-completion
+    value={'// Retry the export, at most five times\nfunction retryExport(job) {\n  '}
+    style='display: block; width: 100%; --code-editor-height: 12rem;'
+  ></wc-code-editor>
+  <script type='module' src='/assets/js/ai-demo.js'></script>
+</DemoComponentCard>
+
+<p>
+  As everywhere, nothing is suggested while the page has AI off, or when the editor is read-only,
+  disabled or <code>sensitive</code>.
+</p>

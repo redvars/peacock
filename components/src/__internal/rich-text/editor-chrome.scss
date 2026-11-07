@@ -284,6 +284,226 @@
     }
   }
 
+  // ── AI (ADR-030002) ───────────────────────────────────────────────────────
+
+  .sparkle {
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
+    flex: none;
+    fill: currentColor;
+  }
+
+  // Ghost text: what the assistant would write next, until Tab takes it.
+  .ghost-text {
+    color: var(--color-on-surface-variant);
+    opacity: 0.7;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .slash-group {
+    padding: var(--spacing-100, 0.5rem) var(--spacing-100, 0.5rem)
+      var(--spacing-050, 0.25rem);
+    color: var(--color-on-surface-variant);
+    @include mixin.get-typography-not-important(label-small);
+  }
+
+  .slash-item-glyph {
+    display: inline-grid;
+    inline-size: 1.25rem;
+    place-items: center;
+    color: var(--color-primary);
+  }
+
+  .bubble-divider {
+    align-self: center;
+    inline-size: 1px;
+    block-size: 1.25rem;
+    margin-inline: var(--spacing-025, 0.125rem);
+    background: var(--color-outline-variant);
+  }
+
+  .bubble-ai {
+    @include mixin.reset-button-styles;
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-050, 0.25rem);
+    block-size: 2rem;
+    padding-inline: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+    color: var(--color-on-primary-container);
+    cursor: pointer;
+    background: var(--color-primary-container);
+    border-radius: var(--shape-corner-full);
+    @include mixin.get-typography-not-important(label-large);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .ai-tool {
+    color: var(--color-primary);
+  }
+
+  .ai-anchor {
+    @include anchor;
+  }
+
+  .ai-panel {
+    @include popup-surface;
+
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-100, 0.5rem);
+    inline-size: min(30rem, calc(100vw - 2rem));
+    max-block-size: min(28rem, var(--floating-available-height, 100vh));
+    overflow-y: auto;
+    padding: var(--spacing-100, 0.5rem);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--shape-corner-medium);
+
+    &:popover-open {
+      display: flex;
+    }
+
+    &:has(.ai-menu) {
+      inline-size: 16rem;
+      border-color: transparent;
+    }
+  }
+
+  .ai-menu {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-menu-item {
+    @include mixin.reset-button-styles;
+
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.5rem);
+    min-block-size: 2.25rem;
+    padding: 0 var(--spacing-100, 0.5rem);
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+    border-radius: var(--shape-corner-extra-small);
+    @include mixin.get-typography-not-important(body-medium);
+
+    .sparkle {
+      color: var(--color-primary);
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--color-secondary-container);
+      color: var(--color-on-secondary-container);
+    }
+  }
+
+  .ai-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100, 0.5rem);
+    padding-inline: var(--spacing-050, 0.25rem);
+    color: var(--color-on-surface-variant);
+    @include mixin.get-typography-not-important(body-small);
+  }
+
+  .ai-head-label {
+    flex: 1;
+  }
+
+  .ai-result {
+    padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+    background: var(--color-surface);
+    border-radius: var(--shape-corner-small);
+  }
+
+  .ai-changes {
+    margin: 0;
+    padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+    white-space: pre-wrap;
+    background: var(--color-surface);
+    border-radius: var(--shape-corner-small);
+    @include mixin.get-typography-not-important(body-medium);
+
+    del {
+      color: var(--color-on-error-container);
+      background: var(--color-error-container);
+      text-decoration: line-through;
+    }
+
+    ins {
+      color: var(--color-on-success-container);
+      background: var(--color-success-container);
+      text-decoration: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ai-changes ins {
+      text-decoration: underline;
+    }
+  }
+
+  .ai-error {
+    margin: 0;
+    padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+    color: var(--color-on-error-container);
+    background: var(--color-error-container);
+    border-radius: var(--shape-corner-small);
+    @include mixin.get-typography-not-important(body-medium);
+  }
+
+  .ai-instruction-row {
+    display: flex;
+    gap: var(--spacing-100, 0.5rem);
+    align-items: center;
+  }
+
+  .ai-instruction {
+    flex: 1;
+    min-inline-size: 0;
+    block-size: 2.5rem;
+    padding: 0 var(--spacing-150, 0.75rem);
+    color: var(--color-on-surface);
+    background: var(--color-surface);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--shape-corner-extra-small);
+    @include mixin.get-typography-not-important(body-medium);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: -1px;
+    }
+  }
+
+  .ai-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-050, 0.25rem);
+  }
+
+  .ai-spacer {
+    flex: 1;
+  }
+
+  @media (forced-colors: active) {
+    .ghost-text {
+      color: GrayText;
+      opacity: 1;
+    }
+
+    .ai-panel {
+      border-color: CanvasText;
+    }
+  }
+
   // ── Link editor ───────────────────────────────────────────────────────────
 
   .link-editor {

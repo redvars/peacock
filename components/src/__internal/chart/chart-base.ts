@@ -505,6 +505,7 @@ export abstract class ChartBase extends LitElement {
       aria-busy=${this.loading ? 'true' : 'false'}
     >
       ${body} ${hasContent ? this.renderLegend() : nothing}
+      <slot name="insight" class="insight"></slot>
       ${hasContent
         ? html`<table class="sr-only">
             <caption>

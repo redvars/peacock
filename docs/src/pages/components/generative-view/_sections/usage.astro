@@ -1,0 +1,88 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Some answers read better as a few numbers, a chart or a table than as a paragraph. The assistant
+  returns them as JSON nodes, and <code>wc-generative-view</code> lays them out with Peacock
+  components (ADR-030002). The numbers come from the platform; the model only chooses how to show
+  them. Press a bar, a row or a button: each fires <code>action</code> with the node's id, and the
+  view does nothing else.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-generative-view id='generative-demo' label='Incidents this week' style='inline-size: 100%; max-inline-size: 44rem;'></wc-generative-view>
+  <script is:inline src='/assets/js/generative-demo.js'></script>
+  <script is:inline>
+    (function () {
+      var view = document.querySelector('#generative-demo');
+      view.citations = window.peacockGenerativeDemo.citations;
+      view.value = window.peacockGenerativeDemo.answer;
+      view.addEventListener('action', function (event) {
+        myConsole.log('action: ' + JSON.stringify(event.detail));
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Nodes</h3>
+<p>
+  A node is <code>{"type", "props", "children", "slot", "action", "payload"}</code>. <code>type</code>
+  is a component of the catalog, such as <code>stat</code>, <code>chart-bar</code> or
+  <code>table</code>, or <code>text</code> for a heading or paragraph. Children are nodes or plain
+  text, never HTML; a child with <code>slot</code> goes in that named slot, such as a stat's
+  <code>insight</code>. A card puts its children in padded content.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-generative-view
+    style='inline-size: 100%; max-inline-size: 22rem;'
+    hide-badge
+    value={JSON.stringify({
+      type: 'card',
+      props: { variant: 'outlined' },
+      children: [
+        { type: 'stat', props: { label: 'Your open requests', value: 4, previous: 2, variant: 'plain' }, children: [
+          { type: 'markdown', slot: 'insight', props: { size: 'sm', value: 'Two are waiting on **Ada Lovelace**.' } },
+        ] },
+        { type: 'button', props: { level: 'secondary', size: 'sm' }, action: 'open-requests', children: ['See them'] },
+      ],
+    })}
+  ></wc-generative-view>
+</DemoComponentCard>
+
+<h3>What it refuses</h3>
+<p>
+  Model text is untrusted, so the view renders only what its catalog allows, and
+  <code>issues</code> lists what it dropped. There is no HTML, no <code>href</code> or
+  <code>src</code>, no callback; an unknown node shows as its text, an unknown or ill-typed prop is
+  dropped, icon names are plain names, colors are plain colors or tokens, and the tree stops at 12
+  levels and 500 nodes. Below, an answer with an <code>iframe</code>, a link and an HTML string: only
+  the text and the button's label survive.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-generative-view
+    id='generative-refuse'
+    style='inline-size: 100%; max-inline-size: 30rem;'
+    value={JSON.stringify([
+      '<img src=x onerror="alert(1)"> is shown as text.',
+      { type: 'iframe', props: { src: 'https://example.com' }, children: ['An unknown node shows its text.'] },
+      { type: 'button', props: { href: 'https://example.com', level: 'primary' }, children: ['No link'] },
+    ])}
+  ></wc-generative-view>
+  <script is:inline>
+    (function () {
+      var view = document.querySelector('#generative-refuse');
+      customElements.whenDefined('wc-generative-view').then(function () {
+        return view.updateComplete;
+      }).then(function () {
+        view.issues.forEach(function (issue) {
+          myConsole.log('issue: ' + issue);
+        });
+      });
+    })();
+  </script>
+</DemoComponentCard>

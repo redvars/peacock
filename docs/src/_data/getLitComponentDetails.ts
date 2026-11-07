@@ -54,6 +54,7 @@ export function getAllComponentsForShowcase() {
       'panel',
       'step',
       'tree-item',
+      'assistant-step',
     ].includes(component.rawTag);
   });
 }
