@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": ".",
+  "cli": { "analytics": false },
+  "projects": {
+    "demo": {
+      "projectType": "application",
+      "root": "demo",
+      "sourceRoot": "demo",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": { "base": "demo/dist", "browser": "" },
+            "index": "demo/index.html",
+            "browser": "demo/main.ts",
+            "tsConfig": "demo/tsconfig.json",
+            "styles": ["@redvars/peacock/styles.css"],
+            "optimization": true,
+            "budgets": []
+          }
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": { "buildTarget": "demo:build" }
+        }
+      }
+    }
+  }
+}
