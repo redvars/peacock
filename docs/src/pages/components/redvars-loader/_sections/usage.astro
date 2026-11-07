@@ -8,7 +8,8 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
   <code>wc-redvars-loader</code> is the Redvars r mark as a loading indicator, for the brand moment
   such as the first load of an app. Inside a page, use <code>wc-circular-progress</code> or
   <code>wc-linear-progress</code> instead. It is a <code>progressbar</code> named by
-  <code>label</code> ("Loading" by default).
+  <code>label</code> ("Loading" by default). It plays its full animation by default: that is the
+  point of the loader.
 </p>
 
 <DemoComponentCard lang={'html'}>
@@ -53,9 +54,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 <p>
   <code>--redvars-loader-size</code> sets the edge (4rem by default),
   <code>--redvars-loader-tile-color</code> and <code>--redvars-loader-mark-color</code> the colors,
-  and <code>--redvars-loader-duration</code> the length of one loop. When the system asks for
-  reduced motion the mark only breathes gently; <code>full-motion</code> plays the full animation
-  anyway.
+  and <code>--redvars-loader-duration</code> the length of one loop. Add
+  <code>respect-reduced-motion</code> to follow the system's reduced-motion setting (on Windows,
+  "Animation effects" turned off): every variant then becomes a slow fill of the r with nothing
+  moving.
 </p>
 
 <DemoComponentCard lang={'html'}>

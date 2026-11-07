@@ -256,35 +256,34 @@ svg {
   }
 }
 
-// ── Reduced motion: the whole mark, breathing gently, unless full-motion is set
+// ── Reduced motion, with respect-reduced-motion: every variant becomes a slow fill of the r. Nothing
+// moves, scales or turns, yet it still reads as loading (a fade in and out looked like blinking).
 
 @media (prefers-reduced-motion: reduce) {
-  :host(:not([full-motion])) .redvars-loader *,
-  :host(:not([full-motion])) .redvars-loader::before {
+  :host([respect-reduced-motion]) .redvars-loader *,
+  :host([respect-reduced-motion]) .redvars-loader::before {
     animation: none;
   }
 
-  :host(:not([full-motion])) .trace .mark {
-    fill-opacity: 1;
-    stroke-dashoffset: 0;
-  }
-
-  :host(:not([full-motion])) .fill .mark {
-    clip-path: none;
-  }
-
-  :host(:not([full-motion])) .runner {
+  :host([respect-reduced-motion]) .runner,
+  :host([respect-reduced-motion]) .track,
+  :host([respect-reduced-motion]) .pulse::before {
     display: none;
   }
 
-  :host(:not([full-motion])) .redvars-loader:not(.progress) svg {
-    animation: redvars-loader-breathe 2s ease-in-out infinite;
+  :host([respect-reduced-motion]) .trace .mark {
+    fill-opacity: 1;
+    stroke: none;
   }
-}
 
-@keyframes redvars-loader-breathe {
-  50% {
-    opacity: 0.55;
+  :host([respect-reduced-motion]) .redvars-loader:not(.progress) {
+    .mark,
+    .stem,
+    .arm {
+      transform: none;
+      animation: redvars-loader-fill calc(var(--_duration) * 1.5)
+        cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
   }
 }
 

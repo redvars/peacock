@@ -9,6 +9,9 @@
   overflow: auto;
   // Rows are positioned absolutely; anchoring would fight the list's own scroll offset.
   overflow-anchor: none;
+  // At either end, keep the wheel in the list: the page lurching while the pointer is still over
+  // the list read as a flicker. Like wc-scroll-area.
+  overscroll-behavior: contain;
   outline: none;
 }
 

@@ -1,5 +1,16 @@
 {
+  "private": true,
+  "workspaces": [
+    "frameworks/*"
+  ],
+  "scripts": {
+    "build": "npm --prefix components run build && npm run build -ws",
+    "build:frameworks": "npm --prefix components run build:frameworks && npm run build -ws",
+    "test": "npm --prefix components test && node --test components/bin/ && npm run smoke",
+    "smoke": "node frameworks/smoke.mjs"
+  },
   "devDependencies": {
-    "eslint": "^10.3.0"
+    "eslint": "^10.3.0",
+    "puppeteer-core": "^25.16.0"
   }
 }

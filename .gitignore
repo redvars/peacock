@@ -23,3 +23,8 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
+
+# framework bindings
+frameworks/*/src/generated/
+out-tsc/
+.angular/

@@ -71,12 +71,14 @@ describe('RedvarsLoader', () => {
     expect(bar(el).getAttribute('aria-label')).to.equal('Chargement');
   });
 
-  it('reflects full-motion', async () => {
+  it('plays the full animation by default and reflects respect-reduced-motion', async () => {
     const el = await fixture<RedvarsLoader>(
       html`<wc-redvars-loader></wc-redvars-loader>`,
     );
-    el.fullMotion = true;
+    expect(el.respectReducedMotion).to.be.false;
+    expect(el.hasAttribute('respect-reduced-motion')).to.be.false;
+    el.respectReducedMotion = true;
     await el.updateComplete;
-    expect(el.hasAttribute('full-motion')).to.be.true;
+    expect(el.hasAttribute('respect-reduced-motion')).to.be.true;
   });
 });

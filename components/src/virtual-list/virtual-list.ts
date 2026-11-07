@@ -52,7 +52,8 @@ function prefersReducedMotion(): boolean {
  * <code>renderItem</code> function, and renders only the items in view plus
  * <code>overscan</code> items on each side. Every item has the same height,
  * <code>item-height</code> pixels. The list is its own scroll container: give it a height
- * (the default is <code>20rem</code>).</p>
+ * (the default is <code>20rem</code>). Scrolling stays inside it at either end, so the page does
+ * not start moving under the pointer.</p>
  * <p>Items are rendered into the list's light DOM, each in a wrapper
  * <code>&lt;div role="listitem"&gt;</code>, so page styles reach them. The list manages its
  * children: do not add your own. <code>renderItem</code> returns a Lit template, a DOM node or a

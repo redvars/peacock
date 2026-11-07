@@ -36,8 +36,10 @@ const TRACK_PATH = 'M128 -20H276V276H-20V-20Z';
  * round the tile).</p>
  * <p>With <code>value</code> (0 to 100) it stops looping and fills the r to that level, as a
  * determinate progress bar. It is <code>role="progressbar"</code>, named by <code>label</code>
- * ("Loading" by default). When the system asks for reduced motion the mark only breathes gently,
- * unless <code>full-motion</code> is set.</p>
+ * ("Loading" by default).</p>
+ * <p>The full animation plays by default: it is the point of the loader. With
+ * <code>respect-reduced-motion</code>, a system that asks for reduced motion gets a slow fill of
+ * the r instead, with nothing moving.</p>
  * <p>For loading inside a page, use <code>wc-circular-progress</code> or
  * <code>wc-linear-progress</code>; this one is the brand moment, such as the first load of an
  * app.</p>
@@ -73,9 +75,17 @@ export class RedvarsLoader extends LitElement {
   /** The accessible name. Defaults to Peacock's `loading` string ("Loading"). */
   @property({ type: String }) label = '';
 
-  /** Plays the full animation even when the system asks for reduced motion. */
-  @property({ type: Boolean, reflect: true, attribute: 'full-motion' })
-  fullMotion = false;
+  /**
+   * Follows the system's reduced-motion setting: when it asks for less motion, every variant
+   * becomes a slow fill of the r. Off by default, because the animation is the point of the
+   * loader.
+   */
+  @property({
+    type: Boolean,
+    reflect: true,
+    attribute: 'respect-reduced-motion',
+  })
+  respectReducedMotion = false;
 
   // ── Private fields ───────────────────────────────────────────────────────
 

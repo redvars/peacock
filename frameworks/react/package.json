@@ -1,0 +1,57 @@
+{
+  "name": "@redvars/peacock-react",
+  "description": "React components for Peacock, generated from its custom elements manifest",
+  "license": "Apache-2.0",
+  "version": "4.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "readme.md"
+  ],
+  "sideEffects": [
+    "./dist/generated/define/*.js"
+  ],
+  "keywords": [
+    "peacock",
+    "react",
+    "web components"
+  ],
+  "repository": {
+    "url": "https://github.com/redvars/peacock",
+    "directory": "frameworks/react"
+  },
+  "scripts": {
+    "generate": "node ../../components/bin/framework-gen.mjs --only react",
+    "build": "npm run generate && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "demo": "vite demo",
+    "demo:build": "vite build demo"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.8"
+  },
+  "peerDependencies": {
+    "@redvars/peacock": "^4.0.0",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@redvars/peacock": "file:../../components",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^6.2.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "~6.0.0",
+    "vite": "^8.3.6"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@redvars/peacock-angular",
+  "description": "Angular components and form bindings for Peacock, generated from its custom elements manifest",
+  "license": "Apache-2.0",
+  "version": "4.0.0",
+  "keywords": [
+    "peacock",
+    "angular",
+    "web components"
+  ],
+  "repository": {
+    "url": "https://github.com/redvars/peacock",
+    "directory": "frameworks/angular"
+  },
+  "sideEffects": true,
+  "scripts": {
+    "generate": "node ../../components/bin/framework-gen.mjs --only angular",
+    "build": "npm run generate && ng-packagr -p ng-package.json -c tsconfig.lib.json",
+    "demo": "ng serve demo",
+    "demo:build": "ng build demo"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=17",
+    "@angular/forms": ">=17",
+    "@redvars/peacock": "^4.0.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.6",
+    "@angular/cli": "^22.2.6",
+    "@angular/common": "^22.2.5",
+    "@angular/compiler": "^22.2.5",
+    "@angular/compiler-cli": "^22.2.5",
+    "@angular/core": "^22.2.5",
+    "@angular/forms": "^22.2.5",
+    "@angular/platform-browser": "^22.2.5",
+    "@redvars/peacock": "file:../../components",
+    "ng-packagr": "^22.2.6",
+    "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
+    "typescript": "~6.0.0"
+  }
+}

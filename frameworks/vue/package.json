@@ -1,0 +1,52 @@
+{
+  "name": "@redvars/peacock-vue",
+  "description": "Vue components for Peacock, generated from its custom elements manifest",
+  "license": "Apache-2.0",
+  "version": "4.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "readme.md"
+  ],
+  "sideEffects": [
+    "./dist/generated/define/*.js"
+  ],
+  "keywords": [
+    "peacock",
+    "vue",
+    "web components"
+  ],
+  "repository": {
+    "url": "https://github.com/redvars/peacock",
+    "directory": "frameworks/vue"
+  },
+  "scripts": {
+    "generate": "node ../../components/bin/framework-gen.mjs --only vue",
+    "build": "npm run generate && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit && vue-tsc -p demo/tsconfig.json --noEmit",
+    "demo": "vite demo",
+    "demo:build": "vite build demo"
+  },
+  "peerDependencies": {
+    "@redvars/peacock": "^4.0.0",
+    "vue": ">=3.3"
+  },
+  "devDependencies": {
+    "@redvars/peacock": "file:../../components",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "typescript": "~6.0.0",
+    "vite": "^8.3.6",
+    "vue": "^3.5.45",
+    "vue-tsc": "^3.3.14"
+  }
+}
