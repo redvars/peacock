@@ -27,8 +27,12 @@ const navItems = sections.map(section => ({
   <article class="article with-on-this-page">
     <wc-container size="lg">
 
-        <h1 class="text-display article-title">{title}</h1>
-        <div class="article-description text-title-large"><Fragment set:html={description}/></div>
+        <header class="article-header">
+          {Astro.slots.has('eyebrow') && <div class="article-eyebrow text-label-large"><slot name="eyebrow" /></div>}
+          <h1 class="text-display-small article-title">{title}</h1>
+          <div class="article-description text-body-large"><Fragment set:html={description}/></div>
+          {Astro.slots.has('meta') && <div class="article-meta" data-pagefind-ignore="all"><slot name="meta" /></div>}
+        </header>
 
         {
           sections.map((section) => (
@@ -40,6 +44,8 @@ const navItems = sections.map(section => ({
             </section>
           ))
         }
+
+        <slot name="footer" />
 
     </wc-container>
   </article>

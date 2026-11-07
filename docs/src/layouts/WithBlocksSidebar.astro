@@ -1,6 +1,7 @@
 ---
 import Layout from './WithSidebar.astro';
 import Footer from '../components/Footer.astro';
+import DocPager from '../components/DocPager.astro';
 import { BLOCKS, BLOCKS_OVERVIEW } from '../_data/blocks';
 import '../styles/layout/doc-page.scss';
 import '../styles/pages/blocks.scss';
@@ -34,22 +35,11 @@ const next = index >= 0 ? BLOCKS[index + 1] : undefined;
 
     <slot />
 
-    {(previous || next) && (
-      <nav class='doc-pager' aria-label='Blocks'>
-        {previous && (
-          <a class='doc-pager-link' href={previous.href} rel='prev'>
-            <span class='text-label-medium doc-muted'>Previous</span>
-            <span class='text-title-medium'>{previous.label}</span>
-          </a>
-        )}
-        {next && (
-          <a class='doc-pager-link doc-pager-next' href={next.href} rel='next'>
-            <span class='text-label-medium doc-muted'>Next</span>
-            <span class='text-title-medium'>{next.label}</span>
-          </a>
-        )}
-      </nav>
-    )}
+    <DocPager
+      label='Blocks'
+      previous={previous && { label: previous.label, href: previous.href, description: previous.summary }}
+      next={next && { label: next.label, href: next.href, description: next.summary }}
+    />
   </article>
 
   <Footer />

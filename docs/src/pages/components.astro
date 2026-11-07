@@ -4,224 +4,20 @@ import '../styles/layout/doc-page.scss';
 import '../styles/components.page.scss';
 
 import { getAllComponentsForShowcase } from '../_data/getLitComponentDetails.ts';
+import { getGroupedComponents } from '../_data/componentGroups.ts';
 import WebComponentCard from '../components/WebComponentCard.astro';
 import OnThisPageNavigation from '../components/OnThisPageNavigation.astro';
-import { convertToSectionId } from '../_data/utils.ts';
 const title = 'Components';
 const description =
   'Every Peacock web component, grouped by what it does. Search by name, or open a component for live demos and its API reference.';
 const componentEntries = getAllComponentsForShowcase();
 
-// Groups follow what a component is for. A component missing from every group still shows,
-// under "Others", so a new component is never hidden; add it to a group when you add it.
-const componentGroups = [
-  {
-    name: 'Primitive',
-    components: ['ripple', 'elevation', 'icon', 'focus-ring', 'divider', 'kbd'],
-  },
-  {
-    name: 'Layout & App shell',
-    components: [
-      'app-shell',
-      'app-bar',
-      'page-header',
-      'container',
-      'stack',
-      'grid',
-      'card',
-      'resizable-panels',
-      'scroll-area',
-    ],
-  },
-  {
-    name: 'Buttons',
-    components: [
-      'button',
-      'icon-button',
-      'link-button',
-      'fab',
-      'button-group',
-      'dropdown-button',
-      'split-button',
-      'segmented-button-group',
-      'copy-button',
-    ],
-  },
-  {
-    name: 'Navigation',
-    components: [
-      'navigation-drawer',
-      'navigation-rail',
-      'navigation-bar',
-      'breadcrumb',
-      'pagination',
-      'tabs',
-      'stepper',
-      'anchor-nav',
-      'toolbar',
-      'menu',
-      'command-palette',
-      'workspace-switcher',
-      'user-menu',
-    ],
-  },
-  {
-    name: 'Text inputs',
-    components: [
-      'input',
-      'password-field',
-      'password-rules',
-      'number-field',
-      'currency-field',
-      'phone-field',
-      'url-field',
-      'textarea',
-      'mention-input',
-      'pin-input',
-      'search',
-      'inline-edit',
-    ],
-  },
-  {
-    name: 'Selection',
-    components: [
-      'select',
-      'listbox',
-      'checkbox',
-      'checkbox-group',
-      'radio',
-      'radio-group',
-      'switch',
-      'slider',
-      'rating',
-      'chip-set',
-      'transfer-list',
-      'tree',
-    ],
-  },
-  {
-    name: 'Date & Time',
-    components: [
-      'date-field',
-      'date-range-field',
-      'date-picker',
-      'time-field',
-      'time-picker',
-      'datetime-field',
-      'calendar',
-      'clock',
-      'relative-time',
-    ],
-  },
-  {
-    name: 'Forms',
-    components: [
-      'form',
-      'fieldset',
-      'file-upload',
-      'signature-pad',
-      'color-field',
-      'color-picker',
-      'condition-builder',
-      'filter-bar',
-    ],
-  },
-  {
-    name: 'Data display',
-    components: [
-      'table',
-      'list',
-      'virtual-list',
-      'description-list',
-      'stat',
-      'sparkline',
-      'kanban',
-      'timeline',
-      'json-viewer',
-      'diff-viewer',
-      'code-highlighter',
-      'number-counter',
-    ],
-  },
-  {
-    name: 'People & status',
-    components: [
-      'avatar',
-      'avatar-group',
-      'presence-indicator',
-      'badge',
-      'tag',
-      'chip',
-      'status-indicator',
-      'comment-thread',
-    ],
-  },
-  {
-    name: 'Feedback',
-    components: [
-      'alert',
-      'banner',
-      'snackbar',
-      'notification-manager',
-      'notification-center',
-      'illustration',
-      'skeleton',
-    ],
-  },
-  {
-    name: 'Overlays',
-    components: [
-      'modal',
-      'confirm-dialog',
-      'side-sheet',
-      'bottom-sheet',
-      'popover',
-      'tooltip',
-      'hover-card',
-      'tour',
-    ],
-  },
-  {
-    name: 'Loading & Progress',
-    components: ['circular-progress', 'linear-progress', 'redvars-loader'],
-  },
-  {
-    name: 'Editors',
-    components: ['code-editor', 'html-editor', 'markdown-editor', 'flow'],
-  },
-];
+// The groups live in _data/componentGroups.ts; add a new component to one there.
+const groupsWithEntries = getGroupedComponents();
 
-const groupedTags = componentGroups.flatMap(g => g.components);
-componentGroups.push(
-  ...(() => {
-    const othersArr = componentEntries.filter(
-      c => !groupedTags.includes(c.rawTag),
-    );
-    return othersArr.length
-      ? [
-          {
-            name: 'Others',
-            components: othersArr.map(c => c.rawTag),
-            entries: othersArr,
-          },
-        ]
-      : [];
-  })(),
-);
+const navItems = groupsWithEntries.map(group => ({ id: group.id, label: group.name }));
 
-const groupsWithEntries = componentGroups.map(g => ({
-  ...g,
-  entries:
-    g.entries ?? componentEntries.filter(c => g.components.includes(c.rawTag)),
-}));
-
-const groupId = (name: string) => `group-${convertToSectionId(name)}`;
-
-const navItems = groupsWithEntries
-  .filter(group => group.entries.length > 0)
-  .map(group => ({ id: groupId(group.name), label: group.name }));
-
-const sortedComponents =[...componentEntries].sort((a, b) =>
+const sortedComponents = [...componentEntries].sort((a, b) =>
   a.rawTag.localeCompare(b.rawTag),
 );
 ---
@@ -248,19 +44,16 @@ const sortedComponents =[...componentEntries].sort((a, b) =>
 
     <div id="grouped-view" class="cards-holder">
       {
-        groupsWithEntries.map(
-          group =>
-            group.entries.length > 0 && (
-              <section class="component-group" id={groupId(group.name)}>
-                <h2 class="text-headline-small group-title">{group.name}</h2>
-                <div class="cards">
-                  {group.entries.map(component => (
-                    <WebComponentCard component={component} />
-                  ))}
-                </div>
-              </section>
-            ),
-        )
+        groupsWithEntries.map(group => (
+          <section class="component-group" id={group.id}>
+            <h2 class="text-headline-small group-title">{group.name}</h2>
+            <div class="cards">
+              {group.entries.map(component => (
+                <WebComponentCard component={component} />
+              ))}
+            </div>
+          </section>
+        ))
       }
     </div>
 

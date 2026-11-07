@@ -8,12 +8,19 @@ type SidebarMenuItem = {
   href: string;
 };
 
+type SidebarMenuGroup = {
+  label: string;
+  items: SidebarMenuItem[];
+};
+
 interface Props {
   title: string;
   description?: string;
   sidebarItems?: SidebarMenuItem[];
+  /** Collapsible groups after the items. The group holding the current page starts expanded. */
+  sidebarGroups?: SidebarMenuGroup[];
 }
-const {title, description, sidebarItems = []} = Astro.props;
+const {title, description, sidebarItems = [], sidebarGroups = []} = Astro.props;
 
 
 
@@ -31,6 +38,19 @@ const {title, description, sidebarItems = []} = Astro.props;
               href={item.href}
               current={item.href === pathname ? true : null}>{item.label}</wc-navigation-drawer-item>
             })
+        }
+        {
+            sidebarGroups.map((group) => (
+              <wc-navigation-drawer-group expanded={group.items.some(item => item.href === pathname) ? true : null}>
+                <span slot='label'>{group.label}</span>
+                {group.items.map((item) => (
+                  <wc-navigation-drawer-item
+                    value={item.href}
+                    href={item.href}
+                    current={item.href === pathname ? true : null}>{item.label}</wc-navigation-drawer-item>
+                ))}
+              </wc-navigation-drawer-group>
+            ))
         }
       </wc-navigation-drawer>
     </div>

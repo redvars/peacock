@@ -1,7 +1,12 @@
 ---
+// A component's page: eyebrow (Components › group), title, summary and the meta row; its demo
+// sections and the API reference; then previous/next cards in gallery order.
 import Layout from './WithComponentsSidebar.astro';
 import Article from '../components/Article.astro';
+import ComponentMeta from '../components/ComponentMeta.astro';
+import DocPager from '../components/DocPager.astro';
 import { getComponentDetails, getMarkdown, getTextTag } from '../_data/getLitComponentDetails.ts';
+import { getComponentGroup, getComponentNeighbours } from '../_data/componentGroups.ts';
 import type { Section } from '../_data/getSections.ts';
 import LitComponentApiPanel from '../components/LitComponentApiPanel.astro';
 
@@ -10,24 +15,38 @@ interface Props {
   sections: Section[];
 }
 
-const { componentName, sections} = Astro.props;
+const { componentName, sections } = Astro.props;
 const componentDetails = getComponentDetails(componentName);
-const title = getTextTag(componentDetails, 'label');
+const title: string = getTextTag(componentDetails, 'label') ?? componentName;
 const description = getTextTag(componentDetails, 'description');
 const summary = getMarkdown(componentDetails, 'summary');
+const tagName: string = getTextTag(componentDetails, 'tag') ?? `wc-${componentName}`;
+const group = getComponentGroup(componentName);
+const { previous, next } = getComponentNeighbours(componentName);
 
-// @ts-ignore
-sections.push({
-  title: 'API Reference',
-  component: LitComponentApiPanel,
-  componentProps: {
-    componentDetails: componentDetails
+const allSections: Section[] = [
+  ...sections,
+  {
+    title: 'API Reference',
+    order: 9999,
+    component: LitComponentApiPanel,
+    componentProps: { componentDetails },
   },
-})
-
+];
 ---
 
 <Layout title={title} description={description}>
-  <Article title={title} description={summary || description} sections={sections}>
+  <Article title={title} description={summary || description} sections={allSections}>
+    <Fragment slot='eyebrow'>
+      <a href='/components/'>Components</a>
+      {group && (
+        <>
+          <wc-icon name='chevron_right' aria-hidden='true'></wc-icon>
+          <a href={`/components/#${group.id}`}>{group.name}</a>
+        </>
+      )}
+    </Fragment>
+    <ComponentMeta slot='meta' tagName={tagName} pageFolder={`components/${componentName}`} />
+    <DocPager slot='footer' label='Components' previous={previous} next={next} />
   </Article>
 </Layout>

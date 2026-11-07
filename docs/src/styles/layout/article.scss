@@ -10,12 +10,131 @@
       margin-block-start: 4rem;
     }
 
+    .article-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+      padding-block-end: var(--spacing-400);
+      margin-block-end: var(--spacing-500);
+      border-block-end: 1px solid var(--color-outline-variant);
+    }
+
+    .article-eyebrow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-050);
+      color: var(--color-on-surface-variant);
+
+      wc-icon {
+        --icon-size: 1rem;
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
     .article-title {
-      margin-block-end: 1rem;
+      margin: 0;
     }
 
     .article-description {
-      margin-block-end: 2rem;
+      max-width: 48rem;
+      color: var(--color-on-surface-variant);
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .article-meta {
+      margin-block-start: var(--spacing-100);
+    }
+
+    // components/ComponentMeta.astro
+    .component-meta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+    }
+
+    .component-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-100) var(--spacing-200);
+    }
+
+    .component-meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-050);
+      padding-inline: var(--spacing-150) var(--spacing-050);
+      border-radius: var(--shape-corner-full);
+      background: var(--color-surface-container-high);
+
+      code {
+        font-family: var(--font-family-monospace);
+        color: var(--color-on-surface);
+      }
+    }
+
+    .component-meta-link,
+    .component-meta-usage > summary {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-050);
+      color: var(--color-primary);
+      text-decoration: none;
+      cursor: pointer;
+
+      wc-icon {
+        --icon-size: 1.125rem;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .component-meta-usage {
+      > summary {
+        list-style: none;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+      }
+
+      &[open] > summary {
+        margin-block-end: var(--spacing-150);
+      }
+    }
+
+    .component-meta-usage-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-100);
+      max-width: 48rem;
+
+      wc-code-highlighter {
+        contain: inline-size;
+      }
+
+      p {
+        margin: 0;
+        color: var(--color-on-surface-variant);
+      }
+
+      a {
+        color: var(--color-primary);
+      }
     }
 
     .section {

@@ -1,6 +1,7 @@
 ---
 import Layout from './WithSidebar.astro';
 import Footer from '../components/Footer.astro';
+import DocPager from '../components/DocPager.astro';
 import { FOUNDATION_PAGES } from '../_data/foundations.ts';
 import '../styles/pages/foundations.scss';
 
@@ -27,20 +28,7 @@ const next = index >= 0 ? FOUNDATION_PAGES[index + 1] : undefined;
 
     <slot />
 
-    <nav class='foundation-pager' aria-label='Foundations pages'>
-      {previous && (
-        <a class='foundation-pager-link' href={previous.href} rel='prev'>
-          <span class='text-label-medium foundation-muted'>Previous</span>
-          <span class='text-title-medium'>{previous.label}</span>
-        </a>
-      )}
-      {next && (
-        <a class='foundation-pager-link foundation-pager-next' href={next.href} rel='next'>
-          <span class='text-label-medium foundation-muted'>Next</span>
-          <span class='text-title-medium'>{next.label}</span>
-        </a>
-      )}
-    </nav>
+    <DocPager label='Foundations' previous={previous} next={next} />
   </article>
 
   <Footer />

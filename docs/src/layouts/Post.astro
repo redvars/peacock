@@ -1,6 +1,7 @@
 ---
 import Layout from './WithSidebar.astro';
 import Footer from '../components/Footer.astro';
+import DocPager from '../components/DocPager.astro';
 import { AUTHOR } from '../siteconfig';
 import { formatPostDate, getPosts } from '../_data/blog';
 import '../styles/layout/doc-page.scss';
@@ -47,20 +48,13 @@ const sidebarItems = [{ label: 'All posts', href: '/blog/' }, ...posts.map(post 
       <slot />
     </div>
 
-    <nav class='doc-pager' aria-label='Blog posts'>
-      {older && (
-        <a class='doc-pager-link' href={older.href} rel='prev'>
-          <span class='text-label-medium doc-muted'>Older post</span>
-          <span class='text-title-medium'>{older.title}</span>
-        </a>
-      )}
-      {newer && (
-        <a class='doc-pager-link doc-pager-next' href={newer.href} rel='next'>
-          <span class='text-label-medium doc-muted'>Newer post</span>
-          <span class='text-title-medium'>{newer.title}</span>
-        </a>
-      )}
-    </nav>
+    <DocPager
+      label='Blog'
+      previousCaption='Older post'
+      nextCaption='Newer post'
+      previous={older && { label: older.title, href: older.href }}
+      next={newer && { label: newer.title, href: newer.href }}
+    />
   </article>
 
   <Footer />

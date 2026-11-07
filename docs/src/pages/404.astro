@@ -1,7 +1,8 @@
 ---
-import Layout from '../layouts/Base.astro';
+// Not found: the usual navigation (rail and site search), with ways back in.
+import Layout from '../layouts/Default.astro';
 ---
-<Layout>
+<Layout title='Page not found'>
   <style is:inline>
     .not-found {
       display: flex;
@@ -9,23 +10,42 @@ import Layout from '../layouts/Base.astro';
       align-items: center;
       justify-content: center;
       gap: var(--spacing-200);
-      min-height: 100vh;
-      padding: var(--spacing-400);
+      min-height: 80vh;
+      padding: var(--spacing-400) var(--spacing-200);
       text-align: center;
     }
 
+    .not-found h1,
     .not-found p {
       margin: 0;
+    }
+
+    .not-found p {
       max-width: 28rem;
+      color: var(--color-on-surface-variant);
+    }
+
+    .not-found-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-150);
+      margin-block-start: var(--spacing-200);
     }
   </style>
   <main class='not-found'>
     <wc-illustration name='not-found' size='lg'></wc-illustration>
     <h1 class='text-headline-medium'>Page not found</h1>
-    <p class='text-body-large doc-muted'>The page you are looking for does not exist. Check the address, or go back to the home page.</p>
-    <wc-link-button href='/' trailing-icon>
-      Go to home page
-      <wc-icon name='arrow_right_alt' slot='icon'></wc-icon>
-    </wc-link-button>
+    <p class='text-body-large'>
+      The page you are looking for does not exist or has moved. Search the docs, or start from one of these.
+    </p>
+    <div class='not-found-actions'>
+      <wc-button class='search-button' level='primary'>
+        <wc-icon slot='icon' name='search'></wc-icon>
+        Search the docs
+      </wc-button>
+      <wc-link-button href='/components/' level='secondary' variant='tonal'>Components</wc-link-button>
+      <wc-link-button href='/' variant='text'>Home</wc-link-button>
+    </div>
   </main>
 </Layout>
