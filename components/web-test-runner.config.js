@@ -2,6 +2,7 @@
 
 import path from 'node:path';
 import * as sass from 'sass';
+import { chromeLauncher } from '@web/test-runner-chrome';
 
 const filteredLogs = ['Running in dev mode', 'Lit is in dev mode'];
 
@@ -40,8 +41,11 @@ const aliasResolvePlugin = {
   resolveImport({ source, context }) {
     if (source.startsWith('@/')) {
       const importerDir = path.dirname(context.path);
-      const targetPath = '/' + path.join('dist', 'src', source.slice(2)).replace(/\\/g, '/');
-      let relativePath = path.relative(importerDir, targetPath).replace(/\\/g, '/');
+      const targetPath =
+        '/' + path.join('dist', 'src', source.slice(2)).replace(/\\/g, '/');
+      let relativePath = path
+        .relative(importerDir, targetPath)
+        .replace(/\\/g, '/');
       if (!relativePath.startsWith('.')) {
         relativePath = './' + relativePath;
       }
@@ -89,6 +93,25 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
    * timeout. 4 is both stable and faster.
    */
   concurrency: 4,
+
+  /**
+   * Test files run in parallel pages, so all but one are background pages, which Chrome pauses at
+   * random: no animation frames and no focus events. open-wc's `fixture()` waits for a frame, so
+   * a paused page timed out every test in its file. Focus emulation makes each page behave as the
+   * focused, visible one.
+   */
+  browsers: [
+    chromeLauncher({
+      async createPage({ context }) {
+        const page = await context.newPage();
+        const session = await page.createCDPSession();
+        await session.send('Emulation.setFocusEmulationEnabled', {
+          enabled: true,
+        });
+        return page;
+      },
+    }),
+  ],
 
   /** Browsers to run tests on */
   // browsers: [

@@ -1,0 +1,46 @@
+---
+export const title = 'Aggregates';
+export const order = 540;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  Set <code>aggregate</code> on a column to show a footer row under the body, above the
+  <code>footer</code> slot: <code>sum</code>, <code>avg</code>, <code>min</code>, <code>max</code>
+  (over the values that are numbers or numeric strings), <code>count</code> (the rows), or a
+  function of the rows that returns the text or number to show. Numbers are formatted with
+  <code>Intl.NumberFormat</code> in the table's locale (the nearest <code>lang</code>); built-in
+  aggregates carry a small label such as <em>Sum</em>.
+</p>
+<p>
+  Aggregates cover every row, across pages. Set <code>aggregate-scope="page"</code> to cover the
+  current page only. A managed table aggregates the <code>data</code> it has. The footer row sticks to
+  the bottom of the table, is a <code>row</code> in its own <code>rowgroup</code> (counted in
+  <code>aria-rowcount</code>), and is not part of the arrow-key grid.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 24rem;'>
+    <wc-table id='table-aggregates' key-field='_id' label='People'>
+      <wc-pagination slot='footer' page-size='5' page-sizes='[5, 10]'></wc-pagination>
+    </wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-aggregates');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14, aggregate: 'count' },
+      { name: 'age', label: 'Age', width: 8, type: 'number', aggregate: 'avg' },
+      {
+        name: 'isActive',
+        label: 'Active',
+        width: 8,
+        template: row => (row.isActive ? 'Yes' : 'No'),
+        aggregate: rows => `${rows.filter(row => row.isActive).length} active`,
+      },
+    ];
+    $table.data = dataSource;
+  </script>
+</DemoComponentCard>

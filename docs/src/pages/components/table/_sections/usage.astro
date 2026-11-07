@@ -26,7 +26,9 @@ import dataSource from '../_data-source.json';
 
 <DemoComponentCard lang='html'>
   <div class='table-demo'>
-    <wc-table id='table-usage' key-field='_id' selection-type='checkbox' paginate label='People'></wc-table>
+    <wc-table id='table-usage' key-field='_id' selection='multiple' label='People'>
+      <wc-pagination slot='footer'></wc-pagination>
+    </wc-table>
   </div>
 
   <script is:inline define:vars={{ dataSource }}>
@@ -63,7 +65,10 @@ import dataSource from '../_data-source.json';
   The table is a single tab stop. Inside it, the arrow keys move between cells, <kbd>Home</kbd> and
   <kbd>End</kbd> jump to the ends of a row, <kbd>Space</kbd> selects the focused row,
   <kbd>Enter</kbd> fires <code>cell-click</code> and <code>row-click</code>, and
-  <kbd>Ctrl</kbd>+<kbd>C</kbd> copies the cell text.
+  <kbd>Ctrl</kbd>+<kbd>C</kbd> copies the cell text. On a column header, <kbd>Enter</kbd> sorts,
+  <kbd>Shift</kbd>+<kbd>Enter</kbd> adds a sort level and <kbd>Alt</kbd>+<kbd>Left</kbd> or
+  <kbd>Alt</kbd>+<kbd>Right</kbd> moves a reorderable column. The grid always reports
+  <code>aria-rowcount</code> and <code>aria-colcount</code>.
 </p>
 <p>
   A column <code>template</code> may return a Lit <code>TemplateResult</code> or a string. A string

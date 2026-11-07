@@ -149,6 +149,9 @@ export class OverlayController implements ReactiveController {
 
   private exitGeneration = 0;
 
+  /** Dialog `close()` calls made here whose native `close` event has not arrived yet. */
+  private ownCloses = 0;
+
   constructor(
     host: ReactiveControllerHost & HTMLElement,
     options: OverlayOptions,
@@ -191,6 +194,18 @@ export class OverlayController implements ReactiveController {
   sync(open: boolean) {
     if (open && this.host.isConnected) this.enter();
     else this.leave(false);
+  }
+
+  /**
+   * For a dialog surface's native `close` event: true when this controller closed the dialog,
+   * false when the browser did (a form with `method="dialog"`, for example). The event arrives a
+   * task after `close()`, when the host may already be open again, so hosts check this before
+   * treating the event as a close of their own.
+   */
+  takeOwnClose(): boolean {
+    if (this.ownCloses === 0) return false;
+    this.ownCloses -= 1;
+    return true;
   }
 
   /** Asks the host to close; used for Escape and light dismiss. */
@@ -306,7 +321,10 @@ export class OverlayController implements ReactiveController {
 
   private hideSurface(surface: HTMLElement) {
     if (surface instanceof HTMLDialogElement) {
-      if (surface.open) surface.close();
+      if (surface.open) {
+        this.ownCloses += 1;
+        surface.close();
+      }
       return;
     }
     if (

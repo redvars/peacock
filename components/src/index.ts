@@ -84,6 +84,19 @@ export { ChartBar } from './chart-bar/index.js';
 export { ChartLine } from './chart-line/index.js';
 export { ChartArea } from './chart-area/index.js';
 export { Table } from './table/index.js';
+export type {
+  TableColumn,
+  TableRow,
+  TableSort,
+  TableSelection,
+  TableAggregate,
+  TableEditor,
+  TableEditorOption,
+  TableExportOptions,
+  TableCellEditDetail,
+  TableRowExpandDetail,
+  TableGroupToggleDetail,
+} from './table/table.js';
 export { Pagination } from './pagination/index.js';
 export {
   SidebarMenu,
@@ -103,6 +116,17 @@ export { Select } from './select/index.js';
 export type { SelectOption } from './select/index.js';
 export { SelectOptionElement } from './select/index.js';
 export { Search } from './search/index.js';
+export { FilterBar, FILTER_BAR_SEARCH_KEY } from './filter-bar/index.js';
+export type {
+  FilterBarChangeDetail,
+  FilterBarValue,
+  FilterBarView,
+  FilterBarViewChangeDetail,
+  FilterDefinition,
+  FilterOption,
+  FilterType,
+  FilterValue,
+} from './filter-bar/index.js';
 export { Toolbar } from './toolbar/index.js';
 export { AppBar } from './app-bar/index.js';
 export { NavigationRail, NavigationRailItem } from './navigation-rail/index.js';

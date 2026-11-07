@@ -12,6 +12,23 @@ const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
 
 export type PaginationVariant = 'full' | 'compact' | 'simple';
 
+let variantWarned = false;
+
+/** Warns once per page that a `full` or `compact` variant shows as `simple` without a total. */
+function warnVariantForced(variant: PaginationVariant) {
+  if (variantWarned) return;
+  variantWarned = true;
+  // eslint-disable-next-line no-console
+  console.warn(
+    `[peacock] wc-pagination: variant="${variant}" needs total-items; it shows as "simple" while the total is unknown.`,
+  );
+}
+
+/** Lets the next forced variant warn again. For tests only. */
+export function resetPaginationWarnings(): void {
+  variantWarned = false;
+}
+
 /**
  * @label Pagination
  * @tag wc-pagination
@@ -67,10 +84,18 @@ export class Pagination extends LitElement {
 
   /**
    * How the pages are shown: `full` (page numbers), `compact` ("Page [n] of N") or `simple`
-   * (previous and next only). Defaults to `full`.
+   * (previous and next only). Defaults to `full`. Without `total-items` the control can only show
+   * `simple`; a `full` or `compact` set explicitly then logs one console warning.
    */
   @property({ type: String, reflect: true })
-  variant: PaginationVariant = 'full';
+  get variant(): PaginationVariant {
+    return this._variant;
+  }
+
+  set variant(value: PaginationVariant) {
+    this._variant = value;
+    this.variantSet = true;
+  }
 
   /**
    * Whether another page exists after this one. Used only when `total-items` is unset.
@@ -104,6 +129,12 @@ export class Pagination extends LitElement {
 
   /** Peacock's strings and the locale page numbers are formatted in. */
   private readonly i18n = new I18nController(this);
+
+  /** Backing field of `variant`. */
+  private _variant: PaginationVariant = 'full';
+
+  /** True once `variant` was set by the consumer rather than left at its default. */
+  private variantSet: boolean = false;
 
   // ── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -153,6 +184,10 @@ export class Pagination extends LitElement {
     const totalPages = this.getTotalPages();
     if (totalPages !== undefined && this.page > totalPages) {
       this.page = totalPages;
+    }
+
+    if (this.variantSet && this.variant !== 'simple' && !this.hasTotal) {
+      warnVariantForced(this.variant);
     }
   }
 

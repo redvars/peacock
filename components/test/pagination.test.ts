@@ -2,6 +2,7 @@
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
 import { Pagination } from '../src/pagination/index.js';
+import { resetPaginationWarnings } from '../src/pagination/pagination.js';
 import { getPageItems } from '../src/pagination/page-items.js';
 
 if (!customElements.get('wc-pagination')) {
@@ -195,5 +196,47 @@ describe('Pagination', () => {
     setTimeout(() => last.click());
     const event = await oneEvent(el, 'page');
     expect(event.detail.page).to.equal(24);
+  });
+
+  describe('variant without a total', () => {
+    let warnings: string[];
+    let originalWarn: typeof console.warn;
+
+    beforeEach(() => {
+      resetPaginationWarnings();
+      warnings = [];
+      originalWarn = console.warn;
+      console.warn = (message: string) => {
+        warnings.push(message);
+      };
+    });
+
+    afterEach(() => {
+      console.warn = originalWarn;
+    });
+
+    it('warns once when an explicit variant is forced to simple', async () => {
+      const el = await fixture<Pagination>(
+        html`<wc-pagination variant="compact" has-next></wc-pagination>`,
+      );
+      expect(root(el).querySelector('.variant-simple')).to.not.equal(null);
+      el.page = 2;
+      await el.updateComplete;
+      await fixture<Pagination>(
+        html`<wc-pagination variant="full"></wc-pagination>`,
+      );
+      expect(warnings).to.have.length(1);
+      expect(warnings[0]).to.contain('total-items');
+    });
+
+    it('does not warn for the default variant or with a total', async () => {
+      await fixture<Pagination>(html`<wc-pagination has-next></wc-pagination>`);
+      const el = await fixture<Pagination>(
+        html`<wc-pagination variant="full" total-items="20"></wc-pagination>`,
+      );
+      el.variant = 'compact';
+      await el.updateComplete;
+      expect(warnings).to.have.length(0);
+    });
   });
 });

@@ -205,6 +205,7 @@ export class BottomSheet extends LitElement {
    */
   private _handleNativeClose(event: Event) {
     if (event.target !== this._dialog) return;
+    if (this.overlay.takeOwnClose()) return;
     if (this.open) this._close('escape');
   }
 

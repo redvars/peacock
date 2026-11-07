@@ -1,0 +1,48 @@
+---
+export const title = 'Grouping';
+export const order = 550;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  Set <code>group-by</code> to a field name to group the rows under header rows. A group header is
+  one cell across every column with a toggle button (<code>aria-expanded</code>), the group's value
+  (or <code>groupTemplate(group, rows)</code>) and its row count. Rows with an empty value share the
+  <em>(Empty)</em> group, which comes last.
+</p>
+<p>
+  Groups are ordered by value; sorting applies within each group, and a sort on the grouped field
+  orders the groups (descending sorts reverse them). In managed mode, groups keep the order the rows
+  arrive in. <code>collapsed-groups</code> holds the collapsed groups' values as strings; the table
+  updates it and fires <code>group-toggle</code> with <code>{'{ group, expanded }'}</code>.
+</p>
+<p>
+  Group headers are rows of the arrow-key grid: <kbd>Up</kbd> and <kbd>Down</kbd> reach them, and
+  <kbd>Enter</kbd> or <kbd>Space</kbd> collapses or expands the group. <kbd>Left</kbd> and
+  <kbd>Right</kbd> stay on the header, and moving on keeps the column you came from. Headers count
+  in <code>aria-rowcount</code> and <code>aria-rowindex</code>, which number every header and row
+  across pages.
+</p>
+<p>
+  With pagination, pages hold data rows; a group that continues on the next page repeats its header
+  there. Rows of a collapsed group still count towards their page, so prefer grouping without
+  pagination, or with <code>virtual</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 28rem;'>
+    <wc-table id='table-grouping' key-field='_id' group-by='eyeColor' sort-by='name' label='People'></wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-grouping');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'eyeColor', label: 'Eye color', width: 10 },
+      { name: 'age', label: 'Age', width: 7, type: 'number', aggregate: 'avg' },
+    ];
+    $table.data = dataSource;
+  </script>
+</DemoComponentCard>

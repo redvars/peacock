@@ -1,0 +1,79 @@
+---
+export const title = 'Pagination';
+export const order = 350;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  Put a <code>wc-pagination</code> in the <code>footer</code> slot and configure it there:
+  <code>page-size</code>, <code>page-sizes</code>, <code>variant</code>, <code>show-first-last</code>.
+  Its page and page size are the table's starting point.
+</p>
+<p>
+  <strong>Client mode</strong> (the default): the table sets the pagination's
+  <code>total-items</code> to the number of rows, follows its <code>page</code> event and shows the
+  rows of the current page. Sorting applies to every row before paging.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 28rem;'>
+    <wc-table id='table-paging' key-field='_id' label='People'>
+      <wc-pagination slot='footer' page-size='5' page-sizes='[5, 10, 25]'></wc-pagination>
+    </wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-paging');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'company', label: 'Company', width: 12 },
+      { name: 'age', label: 'Age', width: 6, type: 'number' },
+    ];
+    $table.data = dataSource;
+  </script>
+</DemoComponentCard>
+
+<p>
+  <strong>Managed mode</strong> (<code>managed</code>): the table shows <code>data</code> as given.
+  Handle the pagination's <code>page</code> event, load that page and set <code>data</code>; set
+  <code>total-items</code> (or <code>has-next</code> for an unknown total) on the pagination
+  yourself. The table reads the pagination's page, page size and total for
+  <code>aria-rowindex</code> and <code>aria-rowcount</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 24rem;'>
+    <wc-table id='table-managed' key-field='_id' label='People' managed>
+      <wc-pagination id='managed-pagination' slot='footer' page-size='5' page-sizes='[5, 10]'></wc-pagination>
+    </wc-table>
+  </div>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $managed = document.getElementById('table-managed');
+    const $pagination = document.getElementById('managed-pagination');
+    $managed.columns = [
+      { name: 'name', label: 'Name', width: 14 },
+      { name: 'company', label: 'Company', width: 12 },
+    ];
+
+    function loadPage(page, pageSize) {
+      $managed.loading = true;
+      setTimeout(() => {
+        $managed.data = dataSource.slice((page - 1) * pageSize, page * pageSize);
+        $pagination.totalItems = dataSource.length;
+        $managed.loading = false;
+      }, 400);
+    }
+    $pagination.addEventListener('page', event => {
+      loadPage(event.detail.page, event.detail.pageSize);
+    });
+    loadPage(1, 5);
+  </script>
+</DemoComponentCard>
+
+<p>
+  The <code>page</code> event comes from the slotted pagination itself (its
+  <code>event.target</code>), not from the table.
+</p>

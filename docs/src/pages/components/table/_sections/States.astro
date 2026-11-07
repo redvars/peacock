@@ -1,5 +1,5 @@
 ---
-export const title = 'Loading and empty states';
+export const title = 'Loading, empty and error states';
 export const order = 400;
 import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
@@ -13,13 +13,20 @@ import dataSource from '../_data-source.json';
 </p>
 <p>
   With no rows and no loading, the empty state appears. Set its text with
-  <code>empty-state-headline</code> and <code>empty-state-description</code>.
+  <code>empty-state-headline</code> and <code>empty-state-description</code>, or replace it with
+  your own content in the <code>empty</code> slot.
+</p>
+<p>
+  Set <code>error</code> when loading failed: an error row takes the place of the data and its text
+  is announced politely to screen readers. <code>error-text</code> sets the message; the
+  <code>error</code> slot replaces the whole state, for example with a retry button.
 </p>
 
 <DemoComponentCard lang='html'>
   <wc-button id='reload-button' variant='tonal'>Reload</wc-button>
   <wc-button id='refresh-button' variant='outlined'>Refresh in place</wc-button>
   <wc-button id='clear-button' variant='text'>Clear data</wc-button>
+  <wc-button id='error-button' variant='text'>Fail</wc-button>
 
   <div style='width: 100%; height: 24rem;'>
     <wc-table
@@ -28,6 +35,7 @@ import dataSource from '../_data-source.json';
       label='People'
       empty-state-headline='No people yet'
       empty-state-description='People you add will appear here.'
+      error-text='The people service did not answer.'
     ></wc-table>
   </div>
 
@@ -42,6 +50,7 @@ import dataSource from '../_data-source.json';
     $table.data = rows;
 
     function load(keepRows) {
+      $table.error = false;
       if (!keepRows) $table.data = [];
       $table.loading = true;
       setTimeout(() => {
@@ -53,7 +62,12 @@ import dataSource from '../_data-source.json';
     document.getElementById('refresh-button').addEventListener('click', () => load(true));
     document.getElementById('clear-button').addEventListener('click', () => {
       $table.loading = false;
+      $table.error = false;
       $table.data = [];
+    });
+    document.getElementById('error-button').addEventListener('click', () => {
+      $table.loading = false;
+      $table.error = true;
     });
   </script>
 </DemoComponentCard>

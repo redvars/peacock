@@ -12,7 +12,11 @@
   --table-header-background: var(--color-surface, #fff);
   --table-background: var(--color-surface, #fff);
   --_table-checkbox-width: 3rem;
-  --_table-edge-shadow: color-mix(in srgb, var(--color-shadow) 14%, transparent);
+  --_table-edge-shadow: color-mix(
+    in srgb,
+    var(--color-shadow) 14%,
+    transparent
+  );
 }
 
 :host([density='compact']) {
@@ -60,14 +64,12 @@
   display: flex;
 }
 
+// Cells size themselves inline (`flex: <grow> 0 <width>`): `flex` columns, or else the last
+// scrolling column, take the spare width.
 .scroll-group {
   flex: 1 0 auto;
   // Keeps positioned cell content (tags, buttons) below the pinned columns.
   isolation: isolate;
-
-  > .cell:last-child {
-    flex-grow: 1;
-  }
 }
 
 .pinned-group {
@@ -123,6 +125,187 @@
     width: var(--_table-checkbox-width);
     padding-inline: 0;
   }
+
+  &.cell-menu,
+  &.cell-expand {
+    padding-inline: 0;
+    justify-content: center;
+  }
+
+  &.editing {
+    padding-inline: var(--spacing-050, 0.25rem);
+  }
+}
+
+// ── Row toggles (row details, groups) ───────────────────────────────────────
+
+.row-toggle {
+  @include mixin.reset-button-styles;
+
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: var(--shape-corner-full);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    font-size: 1.25rem;
+    transition: transform var(--duration-short4, 200ms) ease;
+  }
+
+  &[aria-expanded='true'] wc-icon {
+    transform: rotate(90deg);
+  }
+
+  // The chevron points along the reading direction.
+  &:dir(rtl) wc-icon {
+    transform: scaleX(-1);
+  }
+
+  &:dir(rtl)[aria-expanded='true'] wc-icon {
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    background: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+// ── Detail, group header and aggregate rows ─────────────────────────────────
+
+.body .detail-row {
+  --_cell-background: var(
+    --color-surface-container-lowest,
+    var(--table-background)
+  );
+}
+
+.detail-cell {
+  flex: 1 0 auto;
+  min-inline-size: 0;
+  background: var(--_cell-background);
+  border-bottom: 1px solid var(--table-border-color);
+}
+
+.detail-content {
+  // Stays in view while wide rows scroll sideways.
+  position: sticky;
+  inset-inline-start: 0;
+  padding: var(--spacing-200, 1rem) var(--table-cell-padding-inline);
+}
+
+.body .row.group-header-row {
+  --_cell-background: var(--color-surface-container-low);
+
+  &:hover {
+    --_cell-background: var(--color-surface-container);
+  }
+}
+
+.group-header-cell {
+  flex: 1 0 auto;
+  padding-inline: var(--spacing-050, 0.25rem);
+
+  @include mixin.get-typography-not-important('label-large');
+
+  .body &.cell {
+    cursor: default;
+  }
+}
+
+.group-header-content {
+  position: sticky;
+  inset-inline-start: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.5rem);
+  min-inline-size: 0;
+}
+
+.group-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.group-count {
+  flex: none;
+  color: var(--color-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+
+  @include mixin.get-typography-not-important('body-small');
+}
+
+.aggregates {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+
+  .row {
+    --_cell-background: var(--color-surface-container-low);
+  }
+
+  .cell {
+    gap: var(--spacing-050, 0.25rem);
+    font-variant-numeric: tabular-nums;
+    border-top: 1px solid var(--table-border-color);
+  }
+}
+
+.aggregate-label {
+  color: var(--color-on-surface-variant);
+
+  @include mixin.get-typography-not-important('label-small');
+}
+
+.cell-editor {
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  min-inline-size: 0;
+
+  .editor {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  wc-checkbox.editor {
+    inline-size: auto;
+  }
+}
+
+// ── Virtual scrolling: every row has the same, fixed height ────────────────
+
+.is-virtual {
+  .body .row {
+    block-size: var(--table-row-height);
+  }
+
+  .body .cell {
+    box-sizing: border-box;
+    min-block-size: 0;
+    block-size: 100%;
+  }
+
+  .body .cell-text {
+    padding-block: 0;
+    white-space: nowrap;
+  }
+}
+
+.virtual-spacer {
+  pointer-events: none;
 }
 
 .cell-text {
@@ -168,6 +351,44 @@
     &.sorted {
       color: var(--color-on-surface);
     }
+
+    &.reorderable {
+      cursor: grab;
+    }
+
+    &.dragging {
+      opacity: 0.6;
+      cursor: grabbing;
+    }
+
+    // Where a dragged column lands.
+    &.drop-target::before {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      inline-size: 2px;
+      background: var(--color-primary);
+      pointer-events: none;
+    }
+  }
+
+  .group-cell {
+    justify-content: flex-start;
+
+    &.has-group {
+      color: var(--color-on-surface);
+      box-shadow: inset 0 -2px 0 var(--color-outline-variant);
+    }
+
+    &.has-group,
+    &.has-group + .group-cell {
+      border-inline-start: 1px solid var(--table-border-color);
+    }
+
+    &:first-child {
+      border-inline-start: 0;
+    }
   }
 
   .header-label {
@@ -195,8 +416,10 @@
   text-align: inherit;
   cursor: pointer;
 
+  // Reversed, so the icon leads the label; flex-start then packs at the end edge.
   .align-end & {
     flex-direction: row-reverse;
+    justify-content: flex-start;
   }
 
   &:hover {
@@ -226,6 +449,55 @@
   }
 }
 
+.sort-priority {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1rem;
+  block-size: 1rem;
+  padding-inline: var(--spacing-025, 0.125rem);
+  border-radius: var(--shape-corner-full);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+
+  @include mixin.get-typography-not-important('label-small');
+}
+
+// ── Column resize ───────────────────────────────────────────────────────────
+
+.resize-handle {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 1;
+  inline-size: 0.5rem;
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block: 25%;
+    inset-inline-end: 0;
+    inline-size: 2px;
+    background: var(--table-border-color);
+    transition: background var(--duration-short2, 100ms) ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    inset-block: 0;
+    background: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
 .loading-bar {
   position: absolute;
   inset-inline: 0;
@@ -239,7 +511,8 @@
   .cell {
     cursor: pointer;
 
-    &.cell-checkbox {
+    &.cell-checkbox,
+    &.cell-menu {
       cursor: default;
     }
   }
@@ -336,6 +609,11 @@
   position: absolute;
   top: 0;
   inset-inline: var(--_table-checkbox-width) 0;
+
+  // The column group row is one row tall; the bar covers the column labels under it.
+  &.below-groups {
+    top: var(--table-row-height);
+  }
   z-index: 4;
   display: flex;
   align-items: center;
@@ -376,9 +654,13 @@
 
 // ── Empty state and footer ──────────────────────────────────────────────────
 
-.empty-table {
+.state-row {
   position: sticky;
   inset-inline-start: 0;
+}
+
+.empty-table,
+.error-table {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -386,6 +668,8 @@
   padding: var(--spacing-400, 2rem) var(--spacing-200, 1rem);
 
   .empty-state {
+    // The empty state sizes itself to its container, so give it the width to fill.
+    inline-size: 100%;
     max-width: 24rem;
   }
 }
@@ -393,4 +677,20 @@
 .table-footer {
   flex: none;
   border-top: 1px solid var(--table-border-color);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

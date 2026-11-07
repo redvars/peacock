@@ -1,0 +1,69 @@
+---
+export const title = 'Inline editing';
+export const order = 510;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<p>
+  Set <code>editable: true</code> on a column to let the user edit its cells in place.
+  <kbd>Enter</kbd>, <kbd>F2</kbd> or a double-click swaps the cell for a small Peacock field;
+  <kbd>Enter</kbd> or moving focus away commits, <kbd>Escape</kbd> cancels, and focus returns to the
+  cell. <kbd>Enter</kbd> on an editable cell opens the editor instead of firing
+  <code>cell-click</code>.
+</p>
+<p>
+  <code>editor</code> picks the field: <code>text</code> (<code>wc-input</code>, the default),
+  <code>number</code> (<code>wc-number-field</code>, the default for number columns),
+  <code>select</code> (<code>wc-select</code> with the column's <code>options</code>),
+  <code>date</code> (<code>wc-date-field</code>, ISO dates) or <code>checkbox</code>. Select, date
+  and checkbox editors also commit when the user picks a value.
+</p>
+<p>
+  <code>required</code>, <code>min</code>, <code>max</code> and <code>step</code> on the column
+  validate the value, and <code>validate(value, row)</code> can return a message of your own. While
+  the value is invalid, the editor stays open and shows the field's message.
+</p>
+<p>
+  A changed value fires <code>cell-edit</code> with
+  <code>{'{ key, column, value, oldValue, record }'}</code> (<code>column</code> is the column
+  name). The event is cancelable: call <code>preventDefault()</code> to reject the value. Otherwise
+  the table replaces the row in <code>data</code> with a copy holding the new value (a new array; the
+  old record is untouched). A <code>managed</code> table only fires the event: save the value and set
+  <code>data</code> yourself.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 24rem;'>
+    <wc-table id='table-editing' key-field='_id' label='People'></wc-table>
+  </div>
+  <p class='text-body-medium'>Last edit: <code id='editing-output'>none</code></p>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-editing');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14, editable: true, required: true },
+      { name: 'age', label: 'Age', width: 7, type: 'number', editable: true, min: 0, max: 120 },
+      {
+        name: 'eyeColor',
+        label: 'Eye color',
+        width: 10,
+        editable: true,
+        editor: 'select',
+        options: [
+          { label: 'Blue', value: 'blue' },
+          { label: 'Brown', value: 'brown' },
+          { label: 'Green', value: 'green' },
+        ],
+      },
+      { name: 'isActive', label: 'Active', width: 7, editable: true, editor: 'checkbox' },
+    ];
+    $table.data = dataSource.slice(0, 8);
+    $table.addEventListener('cell-edit', event => {
+      const { column, oldValue, value } = event.detail;
+      document.getElementById('editing-output').textContent =
+        `${column}: ${JSON.stringify(oldValue)} → ${JSON.stringify(value)}`;
+    });
+  </script>
+</DemoComponentCard>

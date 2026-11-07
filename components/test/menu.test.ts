@@ -1,6 +1,12 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect, nextFrame } from '@open-wc/testing';
+import {
+  fixture,
+  fixtureSync,
+  expect,
+  nextFrame,
+  waitUntil,
+} from '@open-wc/testing';
 // Import modules directly: src/index.js pulls in html-editor's CommonJS js-beautify, which the
 // test server cannot load.
 import { Item } from '../src/item/index.js';
@@ -278,7 +284,9 @@ describe('Menu', () => {
   });
 
   it('opens on the logical side of its anchor, mirrored in right-to-left', async () => {
-    const container = await fixture<HTMLElement>(html`
+    // fixtureSync and waitUntil: a non-Lit root and nextFrame both wait on animation frames,
+    // which a background test page may not get.
+    const container = fixtureSync<HTMLElement>(html`
       <div style="padding: 200px">
         <button id="logical-anchor">Anchor</button>
         <wc-menu anchor="logical-anchor" placement="end-start">
@@ -287,20 +295,20 @@ describe('Menu', () => {
       </div>
     `);
     const el = container.querySelector<Menu>('wc-menu')!;
+    await el.updateComplete;
     const anchor = container.querySelector('button')!;
     const surface = () =>
       el
         .shadowRoot!.querySelector<HTMLElement>('.menu')!
         .getBoundingClientRect();
+    const near = (a: number, b: number) => Math.abs(a - b) <= 1;
 
     el.open = true;
     await el.updateComplete;
-    await nextFrame();
-    await nextFrame();
     // end-start: beside the anchor's end edge, offset 4px, top edges aligned.
-    expect(surface().left).to.be.closeTo(
-      anchor.getBoundingClientRect().right + 4,
-      1,
+    await waitUntil(
+      () => near(surface().left, anchor.getBoundingClientRect().right + 4),
+      'menu did not open beside the anchor end edge',
     );
     expect(surface().top).to.be.closeTo(anchor.getBoundingClientRect().top, 1);
 
@@ -309,8 +317,10 @@ describe('Menu', () => {
     container.dir = 'rtl';
     el.open = true;
     await el.updateComplete;
-    await nextFrame();
-    await nextFrame();
+    await waitUntil(
+      () => near(surface().right, anchor.getBoundingClientRect().left - 4),
+      'menu did not mirror in right-to-left',
+    );
     expect(surface().right).to.be.closeTo(
       anchor.getBoundingClientRect().left - 4,
       1,

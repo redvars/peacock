@@ -1,6 +1,6 @@
 /// <reference types="mocha" />
 import { html } from 'lit';
-import { fixture, expect, oneEvent } from '@open-wc/testing';
+import { fixture, fixtureSync, expect, oneEvent } from '@open-wc/testing';
 import { Field } from '../src/field/field.js';
 import { UrlField } from '../src/url-field/url-field.js';
 import { setPeacockStrings } from '../src/__internal/i18n/strings.js';
@@ -28,10 +28,11 @@ describe('UrlField', () => {
   });
 
   it('fires input and change with the value in detail, and no native events', async () => {
-    const wrapper = await fixture<HTMLDivElement>(
+    const wrapper = fixtureSync<HTMLDivElement>(
       html`<div><wc-url-field editing></wc-url-field></div>`,
     );
     const el = wrapper.querySelector<UrlField>('wc-url-field')!;
+    await el.updateComplete;
     const events: Event[] = [];
     wrapper.addEventListener('input', e => events.push(e));
     wrapper.addEventListener('change', e => events.push(e));
@@ -95,7 +96,7 @@ describe('UrlField', () => {
 
 describe('UrlField validation', () => {
   it('blocks form submission while required and empty', async () => {
-    const form = await fixture<HTMLFormElement>(html`
+    const form = fixtureSync<HTMLFormElement>(html`
       <form><wc-url-field name="site" required></wc-url-field></form>
     `);
     const el = form.querySelector<UrlField>('wc-url-field')!;

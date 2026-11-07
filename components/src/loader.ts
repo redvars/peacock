@@ -90,6 +90,7 @@ import { Select } from '@/select/select.js';
 import { Listbox, ListboxOption } from '@/listbox/index.js';
 import { SelectOptionElement } from '@/select/option.js';
 import { Search } from '@/search/search.js';
+import { FilterBar } from '@/filter-bar/filter-bar.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -415,6 +416,9 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-search': {
       CustomElementClass: Search,
+    },
+    'wc-filter-bar': {
+      CustomElementClass: FilterBar,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,

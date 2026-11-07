@@ -159,6 +159,35 @@ export const defaultStrings = {
   selection: 'Selection',
   selectedCount: (count: string): string => `${count} selected`,
   selectAllCount: (count: string): string => `Select all ${count}`,
+  tableError: 'Something went wrong',
+  tableErrorDescription: 'The data could not be loaded.',
+  showHideColumns: 'Show or hide columns',
+  /** Label of a column's resize handle, for example "Resize Name". */
+  resizeColumn: (column: string): string => `Resize ${column}`,
+  /** Text of a secondary sort level on its header, for example "Sort priority 2, ascending". */
+  sortPriority: (priority: string, ascending: boolean): string =>
+    `Sort priority ${priority}, ${ascending ? 'ascending' : 'descending'}`,
+  /** Announced after a column moved, for example "Name moved to position 2 of 5". */
+  columnMoved: (column: string, position: string, total: string): string =>
+    `${column} moved to position ${position} of ${total}`,
+  /** Header of the row expander column. */
+  rowDetails: 'Row details',
+  expandRow: 'Show row details',
+  collapseRow: 'Hide row details',
+  /** Toggle of a group header, for example "Expand group Brown". */
+  expandGroup: (group: string): string => `Expand group ${group}`,
+  collapseGroup: (group: string): string => `Collapse group ${group}`,
+  /** Row count of a group header; `count` is formatted, `n` the number for plural rules. */
+  groupRowCount: (count: string, n: number): string =>
+    n === 1 ? `${count} row` : `${count} rows`,
+  /** Group header of rows whose `group-by` value is empty. */
+  emptyGroup: '(Empty)',
+  /** Labels of the footer aggregates. */
+  aggregateSum: 'Sum',
+  aggregateAvg: 'Average',
+  aggregateMin: 'Min',
+  aggregateMax: 'Max',
+  aggregateCount: 'Count',
 
   // ── Charts ───────────────────────────────────────────────────────────────
   chart: 'Chart',
@@ -247,6 +276,27 @@ export const defaultStrings = {
   // ── Character counter ────────────────────────────────────────────────────
   /** Text of a field's character counter, for example "12/100". */
   characterCount: (count: number, max: number): string => `${count}/${max}`,
+
+  // ── Filter bar ───────────────────────────────────────────────────────────
+  /** Accessible name of a filter bar without a `label`. */
+  filters: 'Filters',
+  addFilter: 'Add filter',
+  clearFilters: 'Clear all',
+  saveView: 'Save view',
+  /** The views menu entry that shows every item, with no filter. */
+  allItems: 'All',
+  /** Accessible name of the saved views menu button. */
+  views: 'Views',
+  yes: 'Yes',
+  no: 'No',
+  /** Text of an active filter chip, for example "Status: Open". */
+  filterValue: (label: string, value: string): string => `${label}: ${value}`,
+  /** Count of values a filter chip does not show, for example "+2". */
+  moreValues: (count: number): string => `+${count}`,
+  /** Announced after a filter is removed, for example "Status filter removed". */
+  filterRemoved: (label: string): string => `${label} filter removed`,
+  /** Announced after "Clear all". */
+  filtersCleared: 'All filters cleared',
 };
 
 /** The string table. Overrides must keep each entry's type, so a function stays a function. */

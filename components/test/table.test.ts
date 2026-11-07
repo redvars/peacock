@@ -60,6 +60,16 @@ async function render(
 }
 
 describe('Table', () => {
+  // These tests still use the deprecated selection-type and paginate.
+  let originalWarn: typeof console.warn;
+  before(() => {
+    originalWarn = console.warn;
+    console.warn = () => {};
+  });
+  after(() => {
+    console.warn = originalWarn;
+  });
+
   describe('sorting', () => {
     it('cycles ascending, descending and off, and sets aria-sort', async () => {
       const el = await render(html`<wc-table></wc-table>`, people(5));
@@ -81,7 +91,11 @@ describe('Table', () => {
 
       setTimeout(() => button().click());
       const event = await oneEvent(el, 'sort');
-      expect(event.detail).to.deep.equal({ sortBy: '', sortOrder: 'asc' });
+      expect(event.detail).to.deep.equal({
+        sortBy: '',
+        sortOrder: 'asc',
+        sorts: [],
+      });
     });
 
     it('sorts text in natural number order', async () => {

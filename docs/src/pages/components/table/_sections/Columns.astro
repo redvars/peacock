@@ -1,0 +1,84 @@
+---
+export const title = 'Columns';
+export const order = 270;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+
+import dataSource from '../_data-source.json';
+---
+
+<h3>Widths</h3>
+<p>
+  <code>width</code> is the column's width in rem (16 by default). <code>flex</code> is a grow
+  factor: columns with <code>flex</code> share the spare width of the row, like CSS
+  <code>flex-grow</code>, starting from their <code>width</code>. <code>minWidth</code> and
+  <code>maxWidth</code> (rem) bound both growing and resizing. When no scrolling column sets
+  <code>flex</code>, the last one fills the row.
+</p>
+
+<h3>Resize, reorder and show or hide</h3>
+<p>
+  <code>resizable</code> adds a handle to each header's end edge: drag it, or focus it
+  (<kbd>Tab</kbd> from the focused header) and press <kbd>Left</kbd> or <kbd>Right</kbd> to change
+  the width by 1rem. The table fires <code>column-resize</code> with
+  <code>{'{ name, width }'}</code> when a resize ends.
+</p>
+<p>
+  <code>reorderable</code> lets the user drag a header to a new place, or press
+  <kbd>Alt</kbd>+<kbd>Left</kbd>/<kbd>Right</kbd> on a focused header. Pinned columns move only among
+  the columns pinned to the same edge. The table fires <code>column-reorder</code> with
+  <code>{'{ order }'}</code>, every column name in display order.
+</p>
+<p>
+  <code>column-menu</code> adds a button at the end of the header that opens a menu of the columns
+  with a checkbox each. <code>hidden: true</code> on a column hides it from the start, and
+  <code>hideable: false</code> keeps a column out of the menu. The table fires
+  <code>column-visibility</code> with <code>{'{ name, hidden }'}</code>. The last visible column
+  cannot be hidden.
+</p>
+<p>
+  A column's own <code>resizable</code> or <code>reorderable</code> overrides the table's. The
+  table keeps these changes while <code>columns</code> keeps the same names; listen to the events to
+  save them, and give the saved <code>width</code>, <code>hidden</code> and order back in
+  <code>columns</code>.
+</p>
+
+<DemoComponentCard lang='html'>
+  <div style='width: 100%; height: 26rem;'>
+    <wc-table id='table-columns' key-field='_id' label='People' resizable reorderable column-menu></wc-table>
+  </div>
+  <p class='text-body-medium'>Last change: <code id='columns-output'>none</code></p>
+
+  <script is:inline define:vars={{ dataSource }}>
+    const $table = document.getElementById('table-columns');
+    $table.columns = [
+      { name: 'name', label: 'Name', width: 14, fixed: 'start', minWidth: 8 },
+      { name: 'age', label: 'Age', width: 6, type: 'number', group: 'Person' },
+      { name: 'eyeColor', label: 'Eye color', width: 9, group: 'Person' },
+      { name: 'company', label: 'Company', width: 10, group: 'Work', flex: 1 },
+      { name: 'email', label: 'Email', width: 18, group: 'Work', maxWidth: 30 },
+      { name: 'address', label: 'Address', width: 24, hidden: true },
+    ];
+    $table.data = dataSource;
+    const $output = document.getElementById('columns-output');
+    ['column-resize', 'column-reorder', 'column-visibility'].forEach(type => {
+      $table.addEventListener(type, event => {
+        $output.textContent = `${type} ${JSON.stringify(event.detail)}`;
+      });
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Column groups</h3>
+<p>
+  Give neighbouring columns the same <code>group</code> to put a shared header above them. The group
+  row is a header row of its own (<code>aria-colspan</code> on each group cell), so the data rows'
+  <code>aria-rowindex</code> starts one later. Group cells are not part of arrow-key navigation.
+  Columns pinned to different edges never share a group cell.
+</p>
+
+<h3>Custom headers</h3>
+<p>
+  <code>headerTemplate: column =&gt; ...</code> returns the header content: a Lit
+  <code>TemplateResult</code>, or a string shown as text. It sits inside the sort button, so keep it
+  non-interactive.
+</p>
