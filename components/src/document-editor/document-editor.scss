@@ -11,6 +11,10 @@
   border-radius: var(--shape-corner-medium);
   overflow: hidden;
   background: var(--color-surface);
+  // Pagination takes the page gaps out to measure and puts them back on every change, and the
+  // comment threads move as the text does. Scroll anchoring would follow those moves and scroll
+  // the page around the editor while someone types, so nothing in the editor is an anchor.
+  overflow-anchor: none;
 }
 
 .document {
@@ -121,6 +125,8 @@
   overflow: auto;
   // A scrollbar coming and going would change the fit-width zoom, and with it the height.
   scrollbar-gutter: stable;
+  // The editor keeps its own scroll position (zoom, pagination), so the canvas does not anchor.
+  overflow-anchor: none;
   padding: var(--spacing-300, 1.5rem);
   background: var(--document-editor-canvas, var(--color-surface-container));
 }

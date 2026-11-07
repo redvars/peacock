@@ -708,6 +708,11 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
           'aria-multiline': 'true',
           'aria-label': this.label || this._i18n.t('documentLabel'),
         },
+        // A click can put the caret out of view: below a page break it goes to the next page.
+        handleClick: () => {
+          requestAnimationFrame(() => this._revealCaret());
+          return false;
+        },
         handlePaste: (_view, event) => this._takeImages(event.clipboardData),
         handleDrop: (_view, event) =>
           this._takeImages((event as DragEvent).dataTransfer),
@@ -1044,6 +1049,27 @@ export class DocumentEditor extends LitElement implements RichTextMentionHost {
     const canvas = event.currentTarget as HTMLElement;
     if (track) track.style.transform = `translateY(${-canvas.scrollTop}px)`;
   };
+
+  /**
+   * Scrolls the canvas to the caret when it is out of view, leaving the top margin of its page
+   * above it, so the page it is on shows.
+   */
+  private _revealCaret() {
+    const body = this._body;
+    const canvas = this.renderRoot.querySelector<HTMLElement>('.canvas');
+    if (!body || body.isDestroyed || !canvas) return;
+    const caret = body.view.coordsAtPos(body.state.selection.head);
+    const view = canvas.getBoundingClientRect();
+    if (caret.top >= view.top && caret.bottom <= view.bottom) return;
+    const room = this._geometry().marginTop * this._shownScale + 16;
+    const reduce = window.matchMedia?.(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    canvas.scrollBy({
+      top: caret.top - view.top - room,
+      behavior: reduce ? 'auto' : 'smooth',
+    });
+  }
 
   /** The thread under the caret becomes the active one. */
   private _onSelectionChange() {

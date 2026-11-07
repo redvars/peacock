@@ -314,6 +314,93 @@ describe('DocumentEditor', () => {
     expect(labels).to.include('Print');
     expect(root(el).querySelector('.zoom-menu')).to.exist;
   });
+
+  it('does not scroll the page around it while the pages reflow', async () => {
+    const wrapper = await fixture<HTMLElement>(
+      html`<div style="height: 400px; overflow: auto">
+        <div style="height: 600px"></div>
+        <wc-document-editor
+          style="--document-editor-height: 30rem"
+        ></wc-document-editor>
+        <div style="height: 2000px"></div>
+      </div>`,
+    );
+    const el = wrapper.querySelector('wc-document-editor') as DocumentEditor;
+    await el.updateComplete;
+    const text = (t: string) => ({
+      type: 'paragraph',
+      content: [{ type: 'text', text: t }],
+    });
+    el.value = normalizeDocument({
+      body: {
+        type: 'doc',
+        content: [text(paragraph), { type: 'pageBreak' }, text(paragraph)],
+      },
+    });
+    await waitUntil(() => el.pageCount === 2, 'no second page');
+    // As in the docs: the editor just below the top of the scrolled area, the second page in view.
+    wrapper.scrollTop = 590;
+    const canvas = root(el).querySelector('.canvas') as HTMLElement;
+    const second = body(el).view.dom.querySelectorAll('p')[1] as HTMLElement;
+    canvas.scrollTop +=
+      second.getBoundingClientRect().top -
+      canvas.getBoundingClientRect().top -
+      20;
+    await frame();
+    const outer = wrapper.scrollTop;
+    const inner = canvas.scrollTop;
+    const at = body(el).state.doc.content.size - 20;
+
+    for (const word of [' one', ' two', ' three']) {
+      body(el).chain().setTextSelection(at).insertContent(word).run();
+      // eslint-disable-next-line no-await-in-loop
+      await settle(150);
+    }
+    expect(wrapper.scrollTop).to.equal(outer);
+    expect(canvas.scrollTop).to.equal(inner);
+    expect(getComputedStyle(el).overflowAnchor).to.equal('none');
+  });
+});
+
+describe('DocumentEditor clicks', () => {
+  it('scrolls to the next page after a click below a page break', async () => {
+    const el = await documentEditor();
+    const text = (t: string) => ({
+      type: 'paragraph',
+      content: [{ type: 'text', text: t }],
+    });
+    el.value = normalizeDocument({
+      body: {
+        type: 'doc',
+        content: [text('First page'), { type: 'pageBreak' }, text('Second')],
+      },
+    });
+    await waitUntil(() => el.pageCount === 2, 'no second page');
+    const canvas = root(el).querySelector('.canvas') as HTMLElement;
+    const view = canvas.getBoundingClientRect();
+    const rule = root(el).querySelector('.page-break') as HTMLElement;
+    const ruleBox = rule.getBoundingClientRect();
+    // The empty rest of the first page, still inside the canvas.
+    const point = {
+      clientX: ruleBox.left + ruleBox.width / 2,
+      clientY: Math.min(ruleBox.bottom + 80, view.bottom - 10),
+      bubbles: true,
+      button: 0,
+      detail: 1,
+    };
+    const { dom } = body(el).view;
+    dom.dispatchEvent(new MouseEvent('mousedown', point));
+    dom.dispatchEvent(new MouseEvent('mouseup', point));
+
+    expect(body(el).state.selection.$head.parent.textContent).to.equal(
+      'Second',
+    );
+    await waitUntil(() => {
+      const caret = body(el).view.coordsAtPos(body(el).state.selection.head);
+      return caret.top >= view.top && caret.bottom <= view.bottom;
+    }, 'the caret stayed out of view');
+    expect(canvas.scrollTop).to.be.greaterThan(0);
+  });
 });
 
 describe('DocumentEditor zoom', () => {

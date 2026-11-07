@@ -48,7 +48,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     helper-text="Type / for blocks, select text to format, @ to mention."
     style="display:block; width: 100%;"
   ></wc-markdown-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(document.getElementById('md-editor'));
     document.getElementById('md-editor').value = [
       '## Steps to reproduce',
       '',

@@ -41,8 +41,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     label="Letter"
     style="width: 100%; --document-editor-height: 32rem;"
   ></wc-document-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
     const letterEditor = document.getElementById('document-pages');
+    window.peacockMentionDemo(letterEditor);
     customElements.whenDefined('wc-document-editor').then(async () => {
       await letterEditor.updateComplete;
       letterEditor.value = {

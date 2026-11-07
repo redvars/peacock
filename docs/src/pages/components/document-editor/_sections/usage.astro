@@ -45,8 +45,11 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
 
     style="width: 100%; --document-editor-height: 44rem;"
   ></wc-document-editor>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
     const documentEditor = document.getElementById('document-demo');
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(documentEditor);
     customElements.whenDefined('wc-document-editor').then(async () => {
       await documentEditor.updateComplete;
       const pageNumbers = {

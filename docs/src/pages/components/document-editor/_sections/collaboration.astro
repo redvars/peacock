@@ -70,11 +70,14 @@ editor.collaboration = {'{'}
       style="--document-editor-height: 24rem;"
     ></wc-document-editor>
   </div>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script type="module" is:inline>
     import { connect } from '/assets/js/collaboration-demo.js';
 
     const ana = document.getElementById('collab-ana');
     const ravi = document.getElementById('collab-ravi');
+    window.peacockMentionDemo(ana);
+    window.peacockMentionDemo(ravi);
     await customElements.whenDefined('wc-document-editor');
     await ana.updateComplete;
     ana.importMarkdown(

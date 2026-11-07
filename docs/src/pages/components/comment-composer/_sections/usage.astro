@@ -24,9 +24,12 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     <wc-comment-composer id="composer-usage"></wc-comment-composer>
     <p id="composer-sent" class="text-body-small" style="margin: 8px 0 0;"></p>
   </div>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
     const composer = document.getElementById('composer-usage');
     const sent = document.getElementById('composer-sent');
+    // Answers `search` with people (@) and tickets (#), so mentions list suggestions.
+    window.peacockMentionDemo(composer);
     composer.addEventListener('submit', event => {
       // Pretend to save for a moment.
       composer.loading = true;

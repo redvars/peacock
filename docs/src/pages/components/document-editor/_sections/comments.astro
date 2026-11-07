@@ -50,8 +50,10 @@ import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
     </wc-discussion>
   </wc-document-editor>
   <script is:inline src="/assets/js/discussion-demo.js"></script>
+  <script is:inline src="/assets/js/mention-demo.js"></script>
   <script is:inline>
     const contract = document.getElementById('document-comments');
+    window.peacockMentionDemo(contract);
     customElements.whenDefined('wc-document-editor').then(async () => {
       await contract.updateComplete;
       contract.importMarkdown(
