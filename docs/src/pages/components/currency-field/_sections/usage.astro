@@ -1,0 +1,66 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-currency-field</code> takes an amount of money in <code>currency</code> (ISO 4217).
+  <code>value</code> is a decimal <strong>string</strong> with exactly the currency's decimals
+  (<code>"1234.50"</code> for EUR, <code>"1234"</code> for JPY, <code>"1.250"</code> for KWD), so the
+  amount is never rounded by floating point. The symbol sits where the locale puts it; the amount
+  shows with grouping until the field is focused, then plain to edit. Pasted amounts such as
+  <code>€1,234.50</code> are read too.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-currency-field id='currency-field-demo' label='Price' currency='EUR' value='1234.50'></wc-currency-field>
+    <wc-currency-field label='Preis' lang='de-DE' currency='EUR' value='1234.50'></wc-currency-field>
+    <wc-currency-field label='Price (yen)' currency='JPY' value='1500'></wc-currency-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#currency-field-demo').addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value + ' ' + event.detail.currency);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Choosing the currency</h3>
+<p>
+  With <code>currencies</code> the symbol becomes a currency selector and <code>currency</code>
+  follows it. Every <code>input</code> and <code>change</code> event carries
+  <code>detail.currency</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-currency-field
+      label='Amount'
+      currency='USD'
+      currencies='["USD", "EUR", "GBP", "JPY"]'
+    ></wc-currency-field>
+  </div>
+</DemoComponentCard>
+
+<h3>Decimals and limits</h3>
+<p>
+  More decimals than the currency has are rejected, not rounded: <code>1.255</code> in euros shows
+  an error and leaves <code>value</code> empty until it is fixed. <code>min</code> and
+  <code>max</code> are decimal strings compared exactly.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-currency-field label='Donation' currency='USD' min='1' max='10000' required></wc-currency-field>
+  </div>
+</DemoComponentCard>
+
+<h3>Currency field or number field?</h3>
+<p>
+  Use <code>wc-number-field</code> with <code>format='{"style":"currency","currency":"EUR"}'</code>
+  when a number shown as money is enough: its <code>value</code> is a JavaScript number, it has
+  <code>step</code> and stepper buttons, and the symbol shows only while not editing. Use
+  <code>wc-currency-field</code> for real money: an exact decimal string, decimals that follow the
+  currency, the symbol always in view, pasted formatted amounts, or a currency the person chooses.
+</p>

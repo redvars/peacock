@@ -96,6 +96,16 @@ import { FileUpload } from '@/file-upload/file-upload.js';
 import { Stepper, Step } from '@/stepper/index.js';
 import { ConfirmDialog } from '@/confirm-dialog/confirm-dialog.js';
 import { Tree, TreeItem } from '@/tree/index.js';
+import { CheckboxGroup } from '@/checkbox-group/checkbox-group.js';
+import { Fieldset } from '@/fieldset/fieldset.js';
+import { Form } from '@/form/form.js';
+import { PhoneField } from '@/phone-field/phone-field.js';
+import { CurrencyField } from '@/currency-field/currency-field.js';
+import { DescriptionList, DescriptionItem } from '@/description-list/index.js';
+import { Stat } from '@/stat/stat.js';
+import { Sparkline } from '@/sparkline/sparkline.js';
+import { TransferList } from '@/transfer-list/transfer-list.js';
+import { StatusIndicator } from '@/status-indicator/status-indicator.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -445,6 +455,39 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-tree-item': {
       CustomElementClass: TreeItem,
+    },
+    'wc-checkbox-group': {
+      CustomElementClass: CheckboxGroup,
+    },
+    'wc-fieldset': {
+      CustomElementClass: Fieldset,
+    },
+    'wc-form': {
+      CustomElementClass: Form,
+    },
+    'wc-phone-field': {
+      CustomElementClass: PhoneField,
+    },
+    'wc-currency-field': {
+      CustomElementClass: CurrencyField,
+    },
+    'wc-description-list': {
+      CustomElementClass: DescriptionList,
+    },
+    'wc-description-item': {
+      CustomElementClass: DescriptionItem,
+    },
+    'wc-stat': {
+      CustomElementClass: Stat,
+    },
+    'wc-sparkline': {
+      CustomElementClass: Sparkline,
+    },
+    'wc-transfer-list': {
+      CustomElementClass: TransferList,
+    },
+    'wc-status-indicator': {
+      CustomElementClass: StatusIndicator,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,

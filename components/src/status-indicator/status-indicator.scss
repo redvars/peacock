@@ -1,0 +1,122 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  --_dot-color: var(--status-indicator-color, var(--color-outline));
+  --_label-text-color: var(
+    --status-indicator-label-text-color,
+    var(--color-on-surface)
+  );
+  --_dot-size: 0.625rem;
+  --_gap: var(--spacing-100);
+
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([intent='info']) {
+  --_dot-color: var(--status-indicator-color, var(--color-primary));
+}
+
+:host([intent='success']) {
+  --_dot-color: var(--status-indicator-color, var(--color-success));
+}
+
+:host([intent='warning']) {
+  --_dot-color: var(--status-indicator-color, var(--color-warning));
+}
+
+:host([intent='danger']) {
+  --_dot-color: var(--status-indicator-color, var(--color-error));
+}
+
+:host([size='md']) {
+  --_dot-size: 0.75rem;
+}
+
+:host([size='lg']) {
+  --_dot-size: 0.875rem;
+  --_gap: var(--spacing-150);
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_gap);
+  min-inline-size: 0;
+}
+
+.dot {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--_dot-size);
+  block-size: var(--_dot-size);
+  color: var(--_dot-color);
+}
+
+.shape {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.label {
+  @include mixin.get-typography(body-small);
+
+  color: var(--_label-text-color);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+:host([size='md']) .label {
+  @include mixin.get-typography(body-medium);
+}
+
+:host([size='lg']) .label {
+  @include mixin.get-typography(body-large);
+}
+
+// A ring that grows and fades from the dot, for live and in-progress states.
+:host([pulse]) .dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--shape-corner-full);
+  background-color: currentColor;
+  opacity: 0;
+  animation: status-indicator-pulse 1.6s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes status-indicator-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([pulse]) .dot::after {
+    animation: none;
+  }
+}
+
+// Forced colors: the shapes carry the meaning, drawn in the text color.
+@media (forced-colors: active) {
+  .dot {
+    color: CanvasText;
+  }
+
+  :host([pulse]) .dot::after {
+    display: none;
+  }
+}

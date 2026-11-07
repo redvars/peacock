@@ -1,0 +1,51 @@
+---
+export const title = 'Saving and server errors';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Set <code>loading</code> while the app saves: submit buttons become busy (a <code>wc-button</code>
+  shows its spinner, a native button is disabled), the form gets <code>aria-busy</code>, and further
+  submits are ignored until it is cleared.
+</p>
+<p>
+  When the server rejects values, pass its messages to
+  <code>setErrors({'{'} email: 'Already taken' {'}'})</code>. The named fields become invalid with
+  those messages and the summary lists them; each clears when its field changes. A name that matches
+  no field is listed without a link, for errors about the whole form. <code>setErrors({'{}'})</code>
+  clears them all.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 400px;'>
+    <wc-form id='form-saving-demo'>
+      <form style='display: flex; flex-direction: column; gap: 1rem;'>
+        <wc-input label='Username' name='username' value='admin' helper-text='"admin" is taken'></wc-input>
+        <div>
+          <wc-button type='submit'>Create account</wc-button>
+        </div>
+      </form>
+    </wc-form>
+  </div>
+  <script is:inline>
+    (function () {
+      var wcForm = document.querySelector('#form-saving-demo');
+      wcForm.addEventListener('submit', function (event) {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        var value = event.detail.value;
+        wcForm.loading = true;
+        setTimeout(function () {
+          wcForm.loading = false;
+          if (value.username === 'admin') {
+            wcForm.setErrors({ username: 'This username is already taken' });
+          } else {
+            wcForm.markClean();
+            myConsole.log('saved ' + value.username);
+          }
+        }, 1000);
+      });
+    })();
+  </script>
+</DemoComponentCard>

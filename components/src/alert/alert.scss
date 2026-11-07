@@ -26,6 +26,8 @@
 .alert-icon {
   align-items: center;
   color: var(--alert-icon-color);
+  // wc-icon paints with --icon-color, which the page sets; follow the alert's intent instead.
+  --icon-color: var(--alert-icon-color);
   display: inline-flex;
   justify-content: center;
   --icon-size: 1.5rem;

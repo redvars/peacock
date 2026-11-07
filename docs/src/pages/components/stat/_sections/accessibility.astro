@@ -1,0 +1,17 @@
+---
+export const title = 'Accessibility';
+export const order = 300;
+---
+
+<p>
+  A screen reader reads the tile as one sentence: the label, the formatted value and the change, for
+  example "Monthly revenue, $12,400, up 8% vs last month". Without a <code>comparison</code> the
+  sentence ends "from last period". While <code>loading</code>, the tile is busy and reads its label
+  and "Loading". The <code>help</code> button is named "About this metric" and described by the help
+  text in its tooltip.
+</p>
+<p>
+  The strings are translated with <code>setPeacockStrings()</code>: <code>statUp</code>,
+  <code>statDown</code>, <code>statUnchanged</code>, <code>statComparison</code>,
+  <code>statHelp</code>, <code>notSet</code> and the shared <code>loading</code>.
+</p>

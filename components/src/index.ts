@@ -167,6 +167,38 @@ export type {
   TreeItemEventDetail,
   TreeSelection,
 } from './tree/index.js';
+export { CheckboxGroup } from './checkbox-group/index.js';
+export type { CheckboxGroupChangeDetail } from './checkbox-group/index.js';
+export { Fieldset } from './fieldset/index.js';
+export { Form, formDataToObject } from './form/index.js';
+export type {
+  FormDirtyChangeDetail,
+  FormError,
+  FormSubmitDetail,
+  FormValueObject,
+} from './form/index.js';
+export { PhoneField } from './phone-field/index.js';
+export type { PhoneFieldEventDetail } from './phone-field/index.js';
+export { CurrencyField } from './currency-field/index.js';
+export type { CurrencyFieldEventDetail } from './currency-field/index.js';
+export { DescriptionList, DescriptionItem } from './description-list/index.js';
+export type { DescriptionListLayout } from './description-list/index.js';
+export { Stat } from './stat/index.js';
+export type {
+  StatDeltaFormat,
+  StatDirection,
+  StatPositive,
+  StatVariant,
+} from './stat/index.js';
+export { Sparkline } from './sparkline/index.js';
+export type { SparklineType } from './sparkline/index.js';
+export { TransferList } from './transfer-list/index.js';
+export type {
+  TransferListChangeDetail,
+  TransferListOption,
+} from './transfer-list/index.js';
+export { StatusIndicator } from './status-indicator/index.js';
+export type { StatusIndicatorIntent } from './status-indicator/index.js';
 export {
   Calendar,
   CalendarColumnView,

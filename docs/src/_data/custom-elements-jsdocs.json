@@ -3388,6 +3388,170 @@
     }
   },
   {
+    "label": "Checkbox Group",
+    "tag": "wc-checkbox-group",
+    "rawTag": "checkbox-group",
+    "summary": "Groups checkboxes under one label, one name and a list of checked values.",
+    "overview": "<p>Checkbox group is the multi-select sibling of <code>wc-radio-group</code>. Its\n<code>wc-checkbox</code> children are the options: <code>values</code> lists the values of the\nchecked ones, in checkbox order, and <code>value</code> is the same list comma-separated (as on\n<code>wc-listbox multiple</code> and <code>wc-select multiple</code>), so checkbox values must not\ncontain commas. Setting either checks the matching checkboxes. With no value set, the group\nadopts the checkboxes checked in markup.</p>\n<p>The group is the form control: it submits one entry per checked value under its\n<code>name</code>, like native checkboxes sharing a name. Its checkboxes do not submit on their\nown: the group removes their <code>name</code> while they are inside it (and gives it back when\none leaves). <code>required</code> blocks form submission until at least one checkbox is\nchecked; <code>disabled</code> and <code>readonly</code> are passed to every checkbox.</p>\n<p><code>select-all</code> adds a parent checkbox above the options that checks or clears every\nenabled option, and shows the mixed state while only some are checked.</p>\n<p>The group has <code>role=\"group\"</code>, named by its <code>label</code>; the helper,\nerror or validation text below it is linked with <code>aria-describedby</code>.</p>",
+    "slot": "- `wc-checkbox` elements, each with its own `value`.",
+    "fires": "change - Dispatched when the person checks or clears a checkbox (or uses select all). The group swallows the checkboxes' own `change` events.",
+    "cssprop": "--checkbox-group-gap - Space between checkboxes. Defaults to `--spacing-100` (`--spacing-300` in a row).",
+    "example": "```html\n<wc-checkbox-group label=\"Notify me about\" name=\"notify\" select-all>\n  <wc-checkbox value=\"comments\" label=\"Comments\"></wc-checkbox>\n  <wc-checkbox value=\"mentions\" label=\"Mentions\"></wc-checkbox>\n  <wc-checkbox value=\"releases\" label=\"Releases\"></wc-checkbox>\n</wc-checkbox-group>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space between checkboxes. Defaults to `--spacing-100` (`--spacing-300` in a row).",
+          "name": "--checkbox-group-gap"
+        }
+      ],
+      "slots": [
+        {
+          "description": "`wc-checkbox` elements, each with its own `value`.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, values: string[]}>"
+          },
+          "description": "Dispatched when the person checks or clears a checkbox (or uses select all). The group swallows the checkboxes' own `change` events.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The checked values, comma-separated (use `values` for the list).",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Group label, shown above the checkboxes and used as the accessible name.",
+          "fieldName": "label"
+        },
+        {
+          "name": "orientation",
+          "type": {
+            "text": "'vertical' | 'horizontal'"
+          },
+          "default": "'vertical'",
+          "description": "Lays the checkboxes out in a column (default) or a row.",
+          "fieldName": "orientation"
+        },
+        {
+          "name": "select-all",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Adds a parent checkbox that checks or clears every enabled checkbox.",
+          "fieldName": "selectAll"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the checkboxes.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the group in its error state with `error-text`.",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text shown below the checkboxes while `error` is set.",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
+      },
+      "tagName": "wc-checkbox-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "checkbox-group",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Chip",
     "tag": "wc-chip",
     "rawTag": "chip",
@@ -5313,6 +5477,302 @@
     }
   },
   {
+    "label": "Currency Field",
+    "tag": "wc-currency-field",
+    "rawTag": "currency-field",
+    "summary": "A field for an amount of money, kept as an exact decimal string in a given currency.",
+    "overview": "<p>Currency field takes an amount of money in <code>currency</code> (ISO 4217, such as\n<code>EUR</code>). Its <code>value</code> is a decimal <strong>string</strong> with exactly the\ncurrency's decimals (<code>\"1234.50\"</code> for EUR, <code>\"1234\"</code> for JPY,\n<code>\"1.250\"</code> for KWD), or '' while empty, so an amount is never rounded by binary\nfloating point on its way to the server. Inside a <code>&lt;form&gt;</code> that string is\nsubmitted under its <code>name</code>.</p>\n<p>The currency symbol sits before or after the amount, wherever the locale (the nearest\n<code>lang</code>, else the browser's) puts it. While the field is not focused the amount shows\nwith grouping (<code>1,234.50</code>); while editing it is plain (<code>1234.50</code>). Typing\ntakes the locale's decimal separator, and pasted amounts such as <code>€1,234.50</code>,\n<code>1.234,50 €</code> or <code>(12.00)</code> are read too.</p>\n<p>More decimals than the currency has are <strong>rejected, not rounded</strong>:\n<code>1.255</code> in euros shows \"Enter an amount with at most 2 decimal places\" and leaves\n<code>value</code> empty until it is fixed, because silently rounding money changes it. Trailing\nzeros are fine (<code>1.250</code> is <code>1.25</code>). <code>min</code> and <code>max</code>\n(decimal strings) are compared exactly; with <code>required</code> and text that does not read\nas an amount they block form submission.</p>\n<p>Set <code>currencies</code> to let the person choose the currency: the symbol becomes a\ncurrency selector and <code>currency</code> follows it. Every event carries\n<code>detail.currency</code>.</p>\n<p><strong>Currency field or number field?</strong> Use <code>wc-number-field</code> with\n<code>format='{\"style\":\"currency\",\"currency\":\"EUR\"}'</code> when a number that happens to be\nshown as money is enough: its <code>value</code> is a JavaScript number, it has\n<code>step</code> and stepper buttons, and the symbol only shows while not editing. Use\n<code>wc-currency-field</code> for real money: an exact decimal string, decimals that follow the\ncurrency, the symbol always in view, pasted formatted amounts, or a currency the person\nchooses.</p>",
+    "fires": "change - Dispatched when the amount or the currency is committed.",
+    "cssprop": "--currency-field-symbol-color - Color of the currency symbol.",
+    "example": "```html\n<wc-currency-field\n  label=\"Amount\"\n  currency=\"USD\"\n  currencies='[\"USD\", \"EUR\", \"GBP\", \"JPY\"]'\n  min=\"0\"\n  required\n></wc-currency-field>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the currency symbol.",
+          "name": "--currency-field-symbol-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, currency: string}>"
+          },
+          "description": "Dispatched as the user types or picks a currency.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, currency: string}>"
+          },
+          "description": "Dispatched when the amount or the currency is committed.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The amount as a decimal string with the currency's decimals (`\"1234.50\"`), or ''.",
+          "fieldName": "value"
+        },
+        {
+          "name": "currency",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The currency, ISO 4217 (`EUR`). Sets the symbol and the number of decimals. Required.",
+          "fieldName": "currency"
+        },
+        {
+          "name": "currencies",
+          "type": {
+            "text": "string[] | undefined"
+          },
+          "description": "Currencies the person can choose from; the symbol becomes a selector when set.",
+          "fieldName": "currencies"
+        },
+        {
+          "name": "min",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Smallest amount allowed, as a decimal string (`\"0\"`).",
+          "fieldName": "min"
+        },
+        {
+          "name": "max",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Largest amount allowed, as a decimal string (`\"10000\"`).",
+          "fieldName": "max"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the field; also the control's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the field.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its error state with `error-text`.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its warning state with `warning-text`.",
+          "fieldName": "warning",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'default' | 'filled' | 'outlined'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Height of the field: `sm` (2.5rem, default), `md` (3.5rem) or `lg` (4rem).",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that clears the value while the field has one.",
+          "fieldName": "clearable",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "ARIA attributes moved from the host onto the inner control.",
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseField",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseField.js"
+      },
+      "tagName": "wc-currency-field",
+      "customElement": true,
+      "rawTag": {
+        "name": "currency-field",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Date Field",
     "tag": "wc-date-field",
     "rawTag": "date-field",
@@ -6513,6 +6973,130 @@
     }
   },
   {
+    "label": "Description Item",
+    "tag": "wc-description-item",
+    "rawTag": "description-item",
+    "summary": "One label and value of a `wc-description-list`.",
+    "overview": "<p>Description item is one entry of a <code>wc-description-list</code>: a <code>label</code>\n(\"Status\") and its value in the default slot (\"Active\"). It renders a real\n<code>&lt;dl&gt;</code> with one <code>&lt;dt&gt;</code> and one <code>&lt;dd&gt;</code>, so a\nscreen reader reads the label as the term and the slotted content as its definition.</p>\n<p>An item without a value shows a dash, read as \"Not set\". The <code>actions</code> slot holds\nsmall controls for the value, such as a copy or edit button. <code>span</code> makes the item\ntake a whole row of a multi-column list.</p>",
+    "slot": "actions - Controls for the value, such as a copy or edit icon button.",
+    "example": "```html\n<wc-description-item label=\"Owner\">Ana Lima</wc-description-item>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The value.",
+          "name": ""
+        },
+        {
+          "description": "Controls for the value, such as a copy or edit icon button.",
+          "name": "actions"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The term, for example \"Status\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "span",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Takes a whole row of a multi-column list, for long values such as a description.",
+          "fieldName": "span"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-description-item",
+      "customElement": true,
+      "rawTag": {
+        "name": "description-item",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Description List",
+    "tag": "wc-description-list",
+    "rawTag": "description-list",
+    "summary": "Shows the details of a record as labels and values, such as \"Status: Active\" and \"Owner: Ana\".",
+    "overview": "<p>Description list lays out <code>wc-description-item</code>s, each a label and a value, for\nrecord and detail pages. With <code>layout=\"stacked\"</code> (the default) each label sits above\nits value; with <code>layout=\"inline\"</code> it sits beside it, in a column of the same width\nfor every item, so the values line up.</p>\n<p><code>columns</code> (1 to 4) puts the items in a grid. The grid follows the width of the\nlist, not of the window: below 40rem it drops to at most two columns and below 24rem to one,\nwhere inline items also stack. <code>divided</code> draws a line under every item. An item\nwith <code>span</code> takes a whole row.</p>\n<p>Each item is its own <code>&lt;dl&gt;</code> with a <code>&lt;dt&gt;</code> and a\n<code>&lt;dd&gt;</code>, so screen readers announce every label as the term of its value.</p>",
+    "cssprop": "--description-list-row-gap - Space between the rows.",
+    "example": "```html\n<wc-description-list layout=\"inline\" divided>\n  <wc-description-item label=\"Order\">#10042</wc-description-item>\n  <wc-description-item label=\"Total\">€ 1,240.00</wc-description-item>\n</wc-description-list>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Width of the label column in the inline layout.",
+          "name": "--description-list-label-width"
+        },
+        {
+          "description": "Space between the columns.",
+          "name": "--description-list-column-gap"
+        },
+        {
+          "description": "Space between the rows.",
+          "name": "--description-list-row-gap"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "layout",
+          "type": {
+            "text": "DescriptionListLayout"
+          },
+          "default": "'stacked'",
+          "description": "Puts each label above its value (`stacked`) or beside it (`inline`).",
+          "fieldName": "layout",
+          "expandedType": {
+            "text": "'stacked' | 'inline'"
+          }
+        },
+        {
+          "name": "columns",
+          "type": {
+            "text": "number"
+          },
+          "default": "1",
+          "description": "Number of columns, 1 to 4; fewer when the list is narrow.",
+          "fieldName": "columns"
+        },
+        {
+          "name": "divided",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Draws a line under every item.",
+          "fieldName": "divided"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-description-list",
+      "customElement": true,
+      "rawTag": {
+        "name": "description-list",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Divider",
     "tag": "wc-divider",
     "rawTag": "divider",
@@ -7262,6 +7846,72 @@
     }
   },
   {
+    "label": "Fieldset",
+    "tag": "wc-fieldset",
+    "rawTag": "fieldset",
+    "summary": "Groups related fields under a headline and disables them together.",
+    "overview": "<p>Fieldset renders a native <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>,\nso assistive technology announces its fields as a group named by the <code>headline</code>;\n<code>supporting-text</code> describes the group. The fields stack with the standard gap\nbetween fields, which follows the density.</p>\n<p><code>disabled</code> disables every form control inside, as on a native fieldset: Peacock\nfields and buttons, other form-associated elements, and native inputs, selects, text areas and\nbuttons, however deeply nested and including ones added later. Disabled controls are left out\nof form submission. A slotted control is not inside the shadow <code>&lt;fieldset&gt;</code>\nas far as the browser is concerned, so the fieldset sets <code>disabled</code> on each control\nitself, and turning it off re-enables only the controls it disabled. A nested\n<code>wc-fieldset</code> is disabled as a whole and handles its own controls.</p>",
+    "slot": "- The fields.",
+    "cssprop": "--fieldset-gap - Space between the fields. Defaults to `--spacing-200`, less with density.",
+    "example": "```html\n<wc-fieldset headline=\"Shipping address\" supporting-text=\"Where should we send the order?\">\n  <wc-input label=\"Street\" name=\"street\"></wc-input>\n  <wc-input label=\"City\" name=\"city\"></wc-input>\n  <wc-select label=\"Country\" name=\"country\"></wc-select>\n</wc-fieldset>\n```",
+    "tags": "form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space between the fields. Defaults to `--spacing-200`, less with density.",
+          "name": "--fieldset-gap"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The fields.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Title of the group, rendered as its `<legend>` and used as its accessible name.",
+          "fieldName": "headline"
+        },
+        {
+          "name": "supporting-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text under the headline that describes the group, linked with `aria-describedby`.",
+          "fieldName": "supportingText"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables every form control inside, like a disabled native `<fieldset>`.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-fieldset",
+      "customElement": true,
+      "rawTag": {
+        "name": "fieldset",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "File Upload",
     "tag": "wc-file-upload",
     "rawTag": "file-upload",
@@ -7490,6 +8140,35 @@
         "name": "focus-ring",
         "description": ""
       }
+    }
+  },
+  {
+    "label": "Form",
+    "tag": "wc-form",
+    "rawTag": "form",
+    "summary": "Wraps a native form with an error summary, dirty tracking, a busy state and server errors.",
+    "overview": "<p>Put a native <code>&lt;form&gt;</code> inside <code>wc-form</code>:\n<code>&lt;wc-form&gt;&lt;form&gt;…&lt;/form&gt;&lt;/wc-form&gt;</code>. The form stays in the\npage (light DOM), so every Peacock field and native control joins it as usual; a form inside\n<code>wc-form</code>'s own shadow root could not see slotted fields.</p>\n<p><strong>Validation.</strong> On submit, <code>wc-form</code> checks every field. While any is\ninvalid the form is not submitted: an error summary (a danger <code>wc-alert</code>) at the top\nlists each field's label and message as links that focus the field, and focus moves to the\nsummary. The summary updates as fields are fixed and goes away when all are. Peacock fields also\nshow their message under the field. With <code>no-summary</code>, focus moves to the first\ninvalid field instead. A <code>novalidate</code> form, or a submit button with\n<code>formnovalidate</code>, skips validation as natively.</p>\n<p><strong>Submitting.</strong> A valid submission fires a cancelable <code>submit</code>\n<code>CustomEvent</code> whose <code>detail.value</code> is the form data as a plain object\n(repeated names become arrays), read through <code>FormData</code>. Call\n<code>preventDefault()</code> to save it yourself; otherwise the form submits natively to its\n<code>action</code>. The native <code>submit</code> event stops at <code>wc-form</code>, so\nlisteners see one event. Set <code>loading</code> while saving: submit buttons become busy\n(<code>wc-button</code> gets <code>loading</code>, native buttons are disabled), the form gets\n<code>aria-busy</code>, and further submits are ignored.</p>\n<p><strong>Unsaved changes.</strong> <code>dirty</code> is true while any field's value differs\nfrom its value when the form was set up, and <code>dirty-change</code> fires when it flips. Call\n<code>markClean()</code> after a successful save to make the current values the new baseline;\nresetting the form also makes it clean. <code>warn-unsaved</code> asks the browser to confirm\nleaving the page while the form is dirty.</p>\n<p><strong>Server errors.</strong> <code>setErrors({ email: 'Already taken' })</code> marks the\nnamed fields invalid with those messages (through <code>setCustomValidity()</code>) and lists them\nin the summary. An error clears when its field changes. A name that matches no field is listed\nin the summary without a link, for errors about the whole form.</p>",
+    "slot": "- The native `<form>`.",
+    "fires": "dirty-change - Dispatched when `dirty` flips.",
+    "cssprop": "--form-summary-gap - Space between the error summary and the form.",
+    "example": "```html\n<wc-form>\n  <form>\n    <wc-input label=\"Email\" name=\"email\" type=\"email\" required></wc-input>\n    <wc-button type=\"submit\">Save</wc-button>\n  </form>\n</wc-form>\n```",
+    "tags": "form",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "FormValueObject"
+        }
+      },
+      "parameters": [
+        {
+          "name": "data",
+          "type": {
+            "text": "FormData"
+          }
+        }
+      ],
+      "description": "Turns `FormData` into a plain object; a name that appears more than once becomes an array."
     }
   },
   {
@@ -11518,7 +12197,7 @@
     "tag": "wc-number-field",
     "rawTag": "number-field",
     "summary": "The Number Field component is used to capture numeric user input.",
-    "overview": "<p>Number Field is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is\nsubmitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>\n<p>It validates like a native number input: <code>required</code>, <code>min</code>,\n<code>max</code> and <code>step</code> block form submission, and the message shows under the\nfield once the value is committed or the form is submitted.</p>",
+    "overview": "<p>Number Field is form-associated: inside a <code>&lt;form&gt;</code> its <code>value</code> is\nsubmitted under its <code>name</code>, and <code>form.reset()</code> restores the starting value.</p>\n<p>It validates like a native number input: <code>required</code>, <code>min</code>,\n<code>max</code> and <code>step</code> block form submission, and the message shows under the\nfield once the value is committed or the form is submitted.</p>\n<p>For money, use <code>wc-currency-field</code>: its value is an exact decimal string with the\ncurrency's number of decimals, where this field's value is a JavaScript number.</p>",
     "fires": "change - Dispatched when the value is committed.",
     "example": "```html\n<wc-number-field label=\"Age\" placeholder=\"Enter your age\"></wc-number-field>\n```",
     "customElement": {
@@ -12126,6 +12805,294 @@
       "customElement": true,
       "rawTag": {
         "name": "password-field",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Phone Field",
+    "tag": "wc-phone-field",
+    "rawTag": "phone-field",
+    "summary": "A field for a phone number, with a country selector for the calling code.",
+    "overview": "<p>Phone field has a country selector at its start, showing the flag and calling code (such as\n<code>+44</code>), and a field for the national number. Its <code>value</code> is the whole\nnumber in E.164 form (<code>+442079460958</code>), ready to store or dial, or '' while the field\nholds no valid number. A full international number typed or pasted into the field (starting\nwith <code>+</code> or <code>00</code>, such as <code>+44 20 7946 0958</code>) selects its\ncountry and leaves the national part. A leading trunk 0 (<code>020 7946 0958</code>) is dropped,\nexcept in Italy, Vatican City, San Marino, Côte d'Ivoire and Congo, which keep it.</p>\n<p>The field checks the shape of the number, not whether it exists: digits only (spaces, dashes\nand brackets are allowed between them), 4 to 15 digits with the calling code, as E.164 allows.\nAnything else shows \"Enter a valid phone number\" and blocks form submission, as does an empty\n<code>required</code> field. Inside a <code>&lt;form&gt;</code> the E.164 value is submitted under\nits <code>name</code>.</p>\n<p>The country list holds every ITU calling code, named in the field's locale (the nearest\n<code>lang</code>, else the browser's). <code>country</code> starts as the locale's region (so\n<code>lang=\"en-GB\"</code> starts on the United Kingdom), else the United States. Countries that\nshare a code, such as the +1 countries, keep the one the person selected. Limit or order the list\nwith <code>countries</code> and pin the likely ones to the top with\n<code>preferred-countries</code>.</p>",
+    "fires": "change - Dispatched when the number or the country is committed.",
+    "cssprop": "--phone-field-country-gap - Space between the flag, the calling code and the arrow.",
+    "example": "```html\n<wc-phone-field\n  label=\"Mobile\"\n  country=\"GB\"\n  preferred-countries='[\"GB\", \"IE\"]'\n  value=\"+447700900123\"\n></wc-phone-field>\n```",
+    "tags": "input, form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space between the flag, the calling code and the arrow.",
+          "name": "--phone-field-country-gap"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, country: string}>"
+          },
+          "description": "Dispatched as the user types or picks a country.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string, country: string}>"
+          },
+          "description": "Dispatched when the number or the country is committed.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The number in E.164 form (`+442079460958`), or '' while there is no valid number.",
+          "fieldName": "value"
+        },
+        {
+          "name": "country",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The selected country, ISO 3166-1 alpha-2 (`GB`). Starts as the locale's region, else `US`.\nA `value` with another calling code selects that code's country.",
+          "fieldName": "country"
+        },
+        {
+          "name": "countries",
+          "type": {
+            "text": "string[] | undefined"
+          },
+          "description": "Limits and orders the country list, as alpha-2 codes. All countries, by name, when unset.",
+          "fieldName": "countries"
+        },
+        {
+          "name": "preferred-countries",
+          "type": {
+            "text": "string[] | undefined"
+          },
+          "description": "Countries pinned to the top of the list, in this order, above a separator.",
+          "fieldName": "preferredCountries"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the field; also the control's accessible name.",
+          "fieldName": "label",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "placeholder",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the field.",
+          "fieldName": "helperText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its error state with `error-text`.",
+          "fieldName": "error",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the field in its warning state with `warning-text`.",
+          "fieldName": "warning",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "warning-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "warningText",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "'default' | 'filled' | 'outlined'"
+          },
+          "default": "'default'",
+          "description": "Visual variant of the field.",
+          "fieldName": "variant",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Height of the field: `sm` (2.5rem, default), `md` (3.5rem) or `lg` (4rem).",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          },
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "clearable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a button that clears the value while the field has one.",
+          "fieldName": "clearable",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "configAria",
+          "type": {
+            "text": "Record<string, string>"
+          },
+          "default": "{}",
+          "description": "ARIA attributes moved from the host onto the inner control.",
+          "fieldName": "configAria",
+          "inheritedFrom": {
+            "name": "BaseField",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseField.ts"
+          }
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseField",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseField.js"
+      },
+      "tagName": "wc-phone-field",
+      "customElement": true,
+      "rawTag": {
+        "name": "phone-field",
         "description": ""
       }
     }
@@ -14891,6 +15858,89 @@
     }
   },
   {
+    "label": "Sparkline",
+    "tag": "wc-sparkline",
+    "rawTag": "sparkline",
+    "summary": "A tiny inline chart without axes that shows the shape of a series, for example in a KPI tile or a table cell.",
+    "overview": "<p>Sparkline draws <code>data</code> (an array of numbers) as a <code>line</code>, an\n<code>area</code> or <code>bar</code>s. It has no axes, labels or tooltips: it shows a trend at a\nglance, next to the number it explains. Values that are not finite numbers are skipped.</p>\n<p>It fills its own box, which defaults to 6rem by 1.5rem; set <code>width</code> and\n<code>height</code> in CSS to change it. The line keeps its stroke width however the box is\nstretched. <code>highlight-last</code> marks the latest value with a dot (or, for bars, dims the\nothers). A flat series is drawn across the middle, and an empty one draws nothing.</p>\n<p>A screen reader reads it as one image: the <code>label</code> and then a summary, for example\n\"Signups, Trend from 12 to 18, high 21, low 9\". <code>format</code> formats those numbers, in the\nnearest <code>lang</code>.</p>",
+    "cssprop": "--sparkline-stroke-width - Width of the line.",
+    "example": "```html\n<wc-sparkline type=\"bar\" highlight-last data=\"[4, 6, 3, 8, 7]\"></wc-sparkline>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the line, area and bars. Defaults to the primary color.",
+          "name": "--sparkline-color"
+        },
+        {
+          "description": "Width of the line.",
+          "name": "--sparkline-stroke-width"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "data",
+          "type": {
+            "text": "number[]"
+          },
+          "default": "[]",
+          "description": "The values to draw, oldest first. In HTML, a JSON array.",
+          "fieldName": "data"
+        },
+        {
+          "name": "type",
+          "type": {
+            "text": "SparklineType"
+          },
+          "default": "'line'",
+          "description": "Draws the values as a line, a line with a filled area under it, or bars.",
+          "fieldName": "type",
+          "expandedType": {
+            "text": "'line' | 'area' | 'bar'"
+          }
+        },
+        {
+          "name": "highlight-last",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Marks the latest value: a dot on a line or area, full color on the last bar.",
+          "fieldName": "highlightLast"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "What the series is; read before the automatic summary.",
+          "fieldName": "label"
+        },
+        {
+          "name": "format",
+          "type": {
+            "text": "Intl.NumberFormatOptions | undefined"
+          },
+          "description": "How to format the numbers in the summary, as `Intl.NumberFormat` options.",
+          "fieldName": "format"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-sparkline",
+      "customElement": true,
+      "rawTag": {
+        "name": "sparkline",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Spinner",
     "tag": "wc-spinner",
     "rawTag": "spinner",
@@ -15134,6 +16184,252 @@
       "customElement": true,
       "rawTag": {
         "name": "split-button",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Stat",
+    "tag": "wc-stat",
+    "rawTag": "stat",
+    "summary": "A KPI tile: a labelled number with its change since the last period.",
+    "overview": "<p>Stat shows one metric: a <code>label</code> (\"Monthly revenue\") and a <code>value</code>,\nformatted with <code>Intl.NumberFormat</code> in the nearest <code>lang</code> using\n<code>format</code> (for example <code>{\"style\": \"currency\", \"currency\": \"USD\"}</code>).</p>\n<p>The change comes from <code>previous</code>, the value of the last period, or is given as\n<code>delta</code>. <code>delta-format=\"percent\"</code> (the default) shows it as a share of\nthe previous value; with <code>delta</code> it is then a fraction, so <code>0.08</code> is 8%.\n<code>delta-format=\"absolute\"</code> shows the amount, formatted like the value. An arrow shows\nthe direction, and the color whether it is good: green when the value moves the\n<code>positive</code> way (up by default), red when it moves the other way. Set\n<code>positive=\"down\"</code> for metrics such as churn, or <code>none</code> for neutral ones.\n<code>comparison</code> names the period (\"vs last month\").</p>\n<p>A screen reader reads the tile as one sentence, for example \"Monthly revenue, $12,400, up 8%\nfrom last period\". <code>help</code> adds an info button with a tooltip,\n<code>loading</code> shows a placeholder, and the <code>trend</code> slot holds a\n<code>wc-sparkline</code>. <code>variant=\"plain\"</code> drops the tile's own outline and padding,\nfor a stat inside a <code>wc-card</code>.</p>",
+    "slot": "trend - A small chart of the metric's history, usually a `wc-sparkline`.",
+    "cssprop": "--stat-container-shape - Corner radius of the tile.",
+    "example": "```html\n<wc-stat label=\"Churn\" value=\"0.031\" delta=\"-0.004\" delta-format=\"absolute\" positive=\"down\"\n  format='{\"style\": \"percent\", \"maximumFractionDigits\": 1}'></wc-stat>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Padding inside the tile.",
+          "name": "--stat-padding"
+        },
+        {
+          "description": "Background of the filled tile.",
+          "name": "--stat-container-color"
+        },
+        {
+          "description": "Corner radius of the tile.",
+          "name": "--stat-container-shape"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A small chart of the metric's history, usually a `wc-sparkline`.",
+          "name": "trend"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "What the number is, for example \"Monthly revenue\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The current value. Without one the tile shows a dash.",
+          "fieldName": "value"
+        },
+        {
+          "name": "format",
+          "type": {
+            "text": "Intl.NumberFormatOptions | undefined"
+          },
+          "description": "How to format the value (and an absolute change), as `Intl.NumberFormat` options.",
+          "fieldName": "format"
+        },
+        {
+          "name": "previous",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The value of the last period; the change is worked out from it unless `delta` is set.",
+          "fieldName": "previous"
+        },
+        {
+          "name": "delta",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "The change, when it is not worked out from `previous`: a fraction for `percent`, an amount for `absolute`.",
+          "fieldName": "delta"
+        },
+        {
+          "name": "delta-format",
+          "type": {
+            "text": "StatDeltaFormat"
+          },
+          "default": "'percent'",
+          "description": "Shows the change as a percentage of the previous value, or as an amount.",
+          "fieldName": "deltaFormat",
+          "expandedType": {
+            "text": "'percent' | 'absolute'"
+          }
+        },
+        {
+          "name": "positive",
+          "type": {
+            "text": "StatPositive"
+          },
+          "default": "'up'",
+          "description": "Which direction of change is good: green when the value moves this way, red when it moves the other.",
+          "fieldName": "positive",
+          "expandedType": {
+            "text": "'up' | 'down' | 'none'"
+          }
+        },
+        {
+          "name": "comparison",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Names what the change is measured against, for example \"vs last month\".",
+          "fieldName": "comparison"
+        },
+        {
+          "name": "help",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Explains the metric in a tooltip on an info button next to the label.",
+          "fieldName": "help"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows a placeholder while the value is on its way.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "StatVariant"
+          },
+          "default": "'outlined'",
+          "description": "A tile with an outline or a fill, or `plain` with no chrome (inside a card).",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'outlined' | 'filled' | 'plain'"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-stat",
+      "customElement": true,
+      "rawTag": {
+        "name": "stat",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Status Indicator",
+    "tag": "wc-status-indicator",
+    "rawTag": "status-indicator",
+    "summary": "A small dot and label for the state of a system or an entity, such as \"Operational\" or \"Offline\".",
+    "overview": "<p>A status indicator shows the state of something: a service, a device, a sync job, a person's\npresence. <code>intent</code> (<code>info</code>, <code>success</code>, <code>warning</code>,\n<code>danger</code>; unset is neutral) picks the color and the shape of the dot (a square,\ncircle, triangle, diamond, or a ring for neutral), so it does not rest on color alone, and\nforced-colors mode keeps the shapes. <code>label</code> is the text next to the dot, such as\n\"Degraded\"; always give one, it is what the indicator says.</p>\n<p><code>pulse</code> animates the dot for a live or in-progress state (\"Syncing\",\n\"Recording\"); the animation is off when the person asks for reduced motion.\n<code>dot-only</code> hides the label where there is no room, such as a dense table column:\nthe label is then still read by screen readers and shown as a tooltip.</p>\n<p>By default the indicator is plain text, read where it stands. Set <code>live</code> when its\nstatus changes while the person is on the page and the change should be announced: it gets\n<code>role=\"status\"</code>, a polite live region. Do not set it on many indicators at once,\nsuch as every row of a table, or the announcements pile up.</p>\n<p>Which one to use: <code>wc-status-indicator</code> for the state of a thing, read next to its\nname (\"API: Operational\"). <code>wc-badge</code> for a count or an unread dot attached to\nanother element, such as an icon button. <code>wc-tag</code> for a label or a category in a\nfilled container (\"Draft\", \"Design\"), often several side by side.</p>",
+    "cssprop": "--status-indicator-label-text-color - Color of the label.",
+    "example": "```html\n<wc-status-indicator intent=\"success\" label=\"Online\" dot-only></wc-status-indicator>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the dot; defaults to the intent's color.",
+          "name": "--status-indicator-color"
+        },
+        {
+          "description": "Color of the label.",
+          "name": "--status-indicator-label-text-color"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "intent",
+          "type": {
+            "text": "StatusIndicatorIntent | undefined"
+          },
+          "description": "What the status means: `info`, `success`, `warning` or `danger`. Unset is neutral.",
+          "fieldName": "intent",
+          "expandedType": {
+            "text": "'info' | 'success' | 'warning' | 'danger' | undefined"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The status text, such as \"Operational\". With `dot-only`, the accessible name and tooltip.",
+          "fieldName": "label"
+        },
+        {
+          "name": "pulse",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Animates the dot for a live or in-progress state; off under reduced motion.",
+          "fieldName": "pulse"
+        },
+        {
+          "name": "dot-only",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the label visually; it stays the accessible name and shows as a tooltip.",
+          "fieldName": "dotOnly"
+        },
+        {
+          "name": "live",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Announces changes: gives the indicator `role=\"status\"`. For a status that changes live.",
+          "fieldName": "live"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "Size"
+          },
+          "default": "'sm'",
+          "description": "Size of the dot and the label: `sm` (default), `md` or `lg`.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-status-indicator",
+      "customElement": true,
+      "rawTag": {
+        "name": "status-indicator",
         "description": ""
       }
     }
@@ -17489,6 +18785,205 @@
       "customElement": true,
       "rawTag": {
         "name": "tooltip",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Transfer List",
+    "tag": "wc-transfer-list",
+    "rawTag": "transfer-list",
+    "summary": "Two lists side by side; the person moves items from \"Available\" to \"Selected\" to choose them.",
+    "overview": "<p>A transfer list chooses several items from a long list, such as roles for a user, columns\nfor a report or members of a group, where seeing what is chosen next to what is left matters.\nThe items come from <code>options</code>; the ones in the \"Selected\" list are the value. For a\nshort list use <code>wc-listbox multiple</code> or <code>wc-checkbox-group</code>; inside a\ncompact form use <code>wc-select multiple</code>.</p>\n<p>Each list is a <code>wc-listbox multiple</code>, so its keyboard and ARIA work as there: Up\nand Down move, Space (or a click) checks an item, Ctrl+A (Cmd+A) checks all. The buttons\nbetween the lists move the checked items, or all items, to the other list. Enter or a double\nclick moves one item straight away. Disabled options stay where they are, so a disabled\nselected option is locked in. <code>searchable</code> adds a search box above each list; the\nbuttons then act on the matching items only. Each move is announced, such as \"2 items moved to\nSelected\".</p>\n<p>Without <code>ordered</code> the value keeps the order of <code>options</code>. With\n<code>ordered</code> the selected list keeps the person's order: moved items join at the end,\nthe Move up and Move down buttons move the checked items, and Alt+Up and Alt+Down move the\nfocused one.</p>\n<p>The value follows <code>wc-listbox multiple</code>: <code>value</code> is a comma-separated\nlist (so option values must not contain commas) and <code>values</code> the same as an array.\nInside a <code>&lt;form&gt;</code> each value is submitted under <code>name</code>;\n<code>required</code> blocks submission while nothing is selected, and\n<code>form.reset()</code> restores the first value. <code>readonly</code> shows the lists\nwithout letting the person move items. On a narrow container the lists stack, with the arrows\nturned to point down and up.</p>",
+    "fires": "change - Dispatched when the person moves or reorders items. A move is a commit, so there is no separate `input`.",
+    "cssprop": "--transfer-list-outline-color - Border of each list.",
+    "example": "```html\n<wc-transfer-list label=\"Columns\" searchable ordered></wc-transfer-list>\n```",
+    "tags": "form",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Height of each list. Defaults to `16rem`.",
+          "name": "--transfer-list-list-block-size"
+        },
+        {
+          "description": "Background of each list.",
+          "name": "--transfer-list-container-color"
+        },
+        {
+          "description": "Border of each list.",
+          "name": "--transfer-list-outline-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{value: string, values: string[]}>"
+          },
+          "description": "Dispatched when the person moves or reorders items. A move is a commit, so there is no separate `input`."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "options",
+          "type": {
+            "text": "TransferListOption[]"
+          },
+          "default": "[]",
+          "description": "The items, in the order the lists show them.",
+          "fieldName": "options"
+        },
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The selected values, comma-separated (use `values` for an array), so option values must not\ncontain commas. Without `ordered`, in the order of `options`.",
+          "fieldName": "value"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Label shown above the lists; also the accessible name of the group.",
+          "fieldName": "label"
+        },
+        {
+          "name": "helper-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Help text shown below the lists.",
+          "fieldName": "helperText"
+        },
+        {
+          "name": "error",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the component in its error state with `error-text`.",
+          "fieldName": "error"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "available-headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Headline of the source list. Defaults to Peacock's \"Available\".",
+          "fieldName": "availableHeadline"
+        },
+        {
+          "name": "selected-headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Headline of the list that holds the value. Defaults to Peacock's \"Selected\".",
+          "fieldName": "selectedHeadline"
+        },
+        {
+          "name": "searchable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Adds a search box above each list that filters its items.",
+          "fieldName": "searchable"
+        },
+        {
+          "name": "ordered",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Lets the person order the selected list; the value keeps that order.",
+          "fieldName": "ordered"
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Locale for the counts; defaults to the nearest `lang`.",
+          "fieldName": "locale"
+        },
+        {
+          "name": "name",
+          "fieldName": "name",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "disabled",
+          "fieldName": "disabled",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "readonly",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "required",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        },
+        {
+          "name": "skeleton",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "fieldName": "skeleton",
+          "inheritedFrom": {
+            "name": "BaseInput",
+            "module": "E:/git/redvars/peacock/components/src/input/BaseInput.ts"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "BaseInput",
+        "module": "/E:/git/redvars/peacock/components/src/input/BaseInput.js"
+      },
+      "tagName": "wc-transfer-list",
+      "customElement": true,
+      "rawTag": {
+        "name": "transfer-list",
         "description": ""
       }
     }

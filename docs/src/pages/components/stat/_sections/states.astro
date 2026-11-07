@@ -1,0 +1,32 @@
+---
+export const title = 'Variants and states';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>variant</code> is <code>outlined</code> (the default), <code>filled</code>, or
+  <code>plain</code>, which drops the tile's outline and padding for a stat inside a
+  <code>wc-card</code>. <code>loading</code> shows a placeholder; a stat without a value shows a dash.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem;'>
+    <wc-stat variant='filled' label='Orders' value='1284' previous='1190'></wc-stat>
+    <wc-stat label='Revenue' loading></wc-stat>
+    <wc-stat label='Refunds'></wc-stat>
+  </div>
+</DemoComponentCard>
+
+<h3>Inside a card</h3>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 320px;'>
+    <wc-card variant='outlined' style='--card-padding: 1rem;'>
+      <wc-stat variant='plain' label='Conversion rate' value='0.042' previous='0.038'
+        format='{"style": "percent", "maximumFractionDigits": 1}'>
+        <wc-sparkline slot='trend' type='bar' highlight-last data='[3.1, 3.4, 3.8, 4.2]'></wc-sparkline>
+      </wc-stat>
+    </wc-card>
+  </div>
+</DemoComponentCard>

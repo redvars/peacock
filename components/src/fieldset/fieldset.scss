@@ -1,0 +1,43 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  .headline {
+    @include mixin.get-typography(title-small);
+    padding: 0;
+    color: var(--color-on-surface);
+  }
+
+  .supporting-text {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(
+      --fieldset-gap,
+      calc(var(--spacing-200) + var(--density, 0) * 0.25rem)
+    );
+    margin-block-start: var(--spacing-100);
+  }
+
+  &.disabled .headline,
+  &.disabled .supporting-text {
+    opacity: 0.38;
+  }
+}

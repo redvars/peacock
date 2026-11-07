@@ -1,0 +1,44 @@
+---
+export const title = 'Search and order';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>searchable</code> adds a search box above each list that filters its items by label and
+  description. The move buttons then act on the matching items only.
+</p>
+<p>
+  Without <code>ordered</code> the value keeps the order of <code>options</code>. With
+  <code>ordered</code> the selected list keeps the person's order: moved items join at the end,
+  Move up and Move down move the checked items, and <kbd>Alt</kbd>+<kbd>Up</kbd> and
+  <kbd>Alt</kbd>+<kbd>Down</kbd> move the focused one. Use it when the order matters, such as the
+  columns of a report.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-transfer-list
+    label='Report columns'
+    searchable
+    ordered
+    available-headline='Columns'
+    selected-headline='Shown'
+    value='name,status'
+    style='width: 100%; max-width: 44rem;'
+    options='[{"value":"name","label":"Name"},{"value":"email","label":"Email"},{"value":"status","label":"Status"},{"value":"created","label":"Created","description":"Date the record was added"},{"value":"updated","label":"Updated"},{"value":"owner","label":"Owner"},{"value":"region","label":"Region"}]'
+  ></wc-transfer-list>
+</DemoComponentCard>
+
+<h3>Narrow containers</h3>
+<p>
+  The component reacts to its own width, not the viewport's: below 36rem the lists stack,
+  "Available" above "Selected", and the arrows turn to point down and up.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-transfer-list
+    label='Members'
+    style='width: 100%; max-width: 22rem;'
+    options='[{"value":"ana","label":"Ana"},{"value":"ben","label":"Ben"},{"value":"chen","label":"Chen"}]'
+  ></wc-transfer-list>
+</DemoComponentCard>

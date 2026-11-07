@@ -1,0 +1,33 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-sparkline</code> is a tiny chart without axes that shows the shape of a series next to the
+  number it explains. <code>data</code> is an array of numbers, oldest first. It fills its own box,
+  6rem by 1.5rem by default; size it with CSS.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-direction: column; gap: 1rem;'>
+    <span>Signups <wc-sparkline label='Signups' data='[12, 9, 14, 21, 16, 18]'></wc-sparkline></span>
+    <wc-sparkline type='area' highlight-last data='[3, 5, 4, 7, 6, 9, 8]' style='width: 12rem; height: 3rem;'></wc-sparkline>
+    <wc-sparkline type='bar' highlight-last data='[4, 6, 3, 8, 7, -2, 5]' style='width: 12rem; height: 3rem;'></wc-sparkline>
+  </div>
+</DemoComponentCard>
+
+<h3>Color</h3>
+<p>
+  <code>--sparkline-color</code> sets the color (the primary color by default) and
+  <code>--sparkline-stroke-width</code> the line width, which stays the same however the box is
+  stretched.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; gap: 1rem;'>
+    <wc-sparkline data='[5, 7, 6, 9]' style='--sparkline-color: var(--color-success);'></wc-sparkline>
+    <wc-sparkline data='[9, 6, 7, 4]' style='--sparkline-color: var(--color-error); --sparkline-stroke-width: 2px;'></wc-sparkline>
+  </div>
+</DemoComponentCard>

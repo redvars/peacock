@@ -25,6 +25,8 @@ import styles from './number-field.scss';
  * <p>It validates like a native number input: <code>required</code>, <code>min</code>,
  * <code>max</code> and <code>step</code> block form submission, and the message shows under the
  * field once the value is committed or the form is submitted.</p>
+ * <p>For money, use <code>wc-currency-field</code>: its value is an exact decimal string with the
+ * currency's number of decimals, where this field's value is a JavaScript number.</p>
  *
  * @fires {CustomEvent<{value: number | undefined}>} input - Dispatched as the user types or steps the value.
  * @fires {CustomEvent<{value: number | undefined}>} change - Dispatched when the value is committed.

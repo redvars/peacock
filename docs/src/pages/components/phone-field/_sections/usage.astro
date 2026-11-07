@@ -1,0 +1,51 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-phone-field</code> takes a phone number. The country selector at its start shows the flag
+  and calling code; the field takes the national number. <code>value</code> is the whole number in
+  E.164 form, such as <code>+442079460958</code>, or empty while the field holds no valid number.
+  Paste or type a full international number (<code>+44 20 7946 0958</code>) and the field selects
+  its country.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-phone-field id='phone-field-demo' label='Phone' name='phone' required></wc-phone-field>
+  </div>
+  <script is:inline>
+    document.querySelector('#phone-field-demo').addEventListener('change', function (event) {
+      myConsole.log('change :: ' + event.detail.value + ' (' + event.detail.country + ')');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Countries</h3>
+<p>
+  <code>country</code> (ISO 3166-1 alpha-2) starts as the region of the page's locale, else
+  <code>US</code>. <code>countries</code> limits and orders the list; <code>preferred-countries</code>
+  pins the likely ones above the rest. Countries that share a calling code, such as the +1 countries,
+  keep the one the person selected.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-phone-field
+      label='Mobile'
+      country='GB'
+      preferred-countries='["GB", "IE", "FR"]'
+      value='+447700900123'
+    ></wc-phone-field>
+    <wc-phone-field label='Office (Nordics)' countries='["SE", "NO", "DK", "FI", "IS"]'></wc-phone-field>
+  </div>
+</DemoComponentCard>
+
+<h3>Validation</h3>
+<p>
+  The field checks the shape of the number, not whether it exists: digits, with spaces, dashes and
+  brackets allowed between them, and 4 to 15 digits with the calling code. Anything else shows
+  "Enter a valid phone number" once the value is committed, and blocks form submission.
+</p>

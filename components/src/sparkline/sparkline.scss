@@ -1,0 +1,94 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: inline-block;
+  inline-size: 6rem;
+  block-size: 1.5rem;
+  vertical-align: middle;
+  --_sparkline-color: var(--sparkline-color, var(--color-primary));
+  --_sparkline-stroke-width: var(--sparkline-stroke-width, 1.5px);
+}
+
+.sparkline {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  color: var(--_sparkline-color);
+}
+
+.chart {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  // The stroke is centred on the path, so half of it would be cut at the top and bottom edge.
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--_sparkline-stroke-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.area {
+  fill: currentColor;
+  fill-opacity: 0.16;
+  stroke: none;
+}
+
+.bar {
+  fill: currentColor;
+}
+
+.highlight-last .bar:not(.last) {
+  fill-opacity: 0.4;
+}
+
+// A dot in HTML rather than SVG, so the stretched view box does not squash it into an ellipse.
+.dot {
+  position: absolute;
+  inline-size: calc(var(--_sparkline-stroke-width) * 3);
+  block-size: calc(var(--_sparkline-stroke-width) * 3);
+  border-radius: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+// Right-to-left layouts mirror the chart, so time runs in the reading direction. The dot is placed
+// with logical insets, which mirror on their own.
+:host(:dir(rtl)) .chart {
+  transform: scaleX(-1);
+}
+
+:host(:dir(rtl)) .dot {
+  transform: translate(50%, -50%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .line,
+  .area {
+    transition: d var(--duration-medium, 250ms) var(--easing-standard, ease);
+  }
+
+  .bar {
+    transition:
+      y var(--duration-medium, 250ms) var(--easing-standard, ease),
+      height var(--duration-medium, 250ms) var(--easing-standard, ease);
+  }
+}
+
+@media (forced-colors: active) {
+  .sparkline {
+    color: CanvasText;
+  }
+
+  .area {
+    fill-opacity: 0.3;
+  }
+}

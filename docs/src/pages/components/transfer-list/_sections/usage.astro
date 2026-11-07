@@ -1,0 +1,43 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-transfer-list</code> chooses several items from a long list: roles for a user, columns
+  for a report, members of a group. Items come from <code>options</code>
+  (<code>{ value, label, description?, disabled? }</code>); the ones in the "Selected" list are
+  the value. Check items and press an arrow button to move them, or press <kbd>Enter</kbd> or
+  double-click to move one item.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-transfer-list
+    id='transfer-list-demo'
+    label='Roles'
+    name='roles'
+    value='viewer'
+    helper-text='Owner is always assigned'
+    style='width: 100%; max-width: 44rem;'
+    options='[{"value":"owner","label":"Owner","disabled":true},{"value":"admin","label":"Administrator","description":"Full access"},{"value":"editor","label":"Editor","description":"Can change content"},{"value":"viewer","label":"Viewer"},{"value":"billing","label":"Billing"},{"value":"auditor","label":"Auditor"}]'
+  ></wc-transfer-list>
+  <script is:inline>
+    document.querySelector('#transfer-list-demo').addEventListener('change', function (event) {
+      myConsole.log('change', JSON.stringify(event.detail.values));
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  Disabled options stay where they are, so a disabled option in the value is locked in. The
+  headlines default to "Available" and "Selected"; change them with
+  <code>available-headline</code> and <code>selected-headline</code>. The move buttons, counts
+  and announcements use them.
+</p>
+
+<h3>When to use something else</h3>
+<ul>
+  <li>A short list: <code>wc-listbox multiple</code> or <code>wc-checkbox-group</code>.</li>
+  <li>A compact form field: <code>wc-select multiple</code>.</li>
+</ul>

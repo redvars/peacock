@@ -1,0 +1,57 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+
+  .label {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+
+    .required {
+      color: var(--color-error);
+      padding-inline-start: var(--spacing-025);
+    }
+  }
+
+  .checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--checkbox-group-gap, var(--spacing-100));
+
+    // Under a select-all checkbox, the options are indented as its children.
+    &.nested {
+      padding-inline-start: var(--spacing-300);
+    }
+  }
+
+  &.orientation-horizontal .checkboxes {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--checkbox-group-gap, var(--spacing-300));
+  }
+
+  .helper {
+    @include mixin.get-typography(body-small);
+    color: var(--color-on-surface-variant);
+  }
+
+  &.error {
+    .label,
+    .helper {
+      color: var(--color-error);
+    }
+  }
+
+  &.disabled .label,
+  &.disabled .helper {
+    opacity: 0.38;
+  }
+}

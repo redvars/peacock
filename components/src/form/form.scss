@@ -1,0 +1,62 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --_form-summary-gap: var(--form-summary-gap, var(--spacing-200));
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.summary {
+  margin-block-end: var(--_form-summary-gap);
+  border-radius: var(--shape-corner-small);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+}
+
+.errors {
+  margin-block: var(--spacing-050) 0;
+  margin-inline: 0;
+  padding-inline-start: var(--spacing-300);
+}
+
+.error {
+  margin-block: var(--spacing-025);
+}
+
+.error-link {
+  color: inherit;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+    border-radius: var(--shape-corner-extra-small);
+  }
+}
+
+@media (forced-colors: active) {
+  .error-link {
+    color: LinkText;
+  }
+
+  .summary:focus-visible,
+  .error-link:focus-visible {
+    outline-color: Highlight;
+  }
+}

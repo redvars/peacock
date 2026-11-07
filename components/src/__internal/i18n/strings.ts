@@ -358,6 +358,108 @@ export const defaultStrings = {
   /** Shown under a tree item while its children load. */
   treeLoading: 'Loading…',
 
+  // ── Checkbox group and fieldset ──────────────────────────────────────────
+  /** Validation message of a required checkbox group with nothing checked. */
+  valueMissingCheckboxGroup: 'Please select at least one of these options.',
+  /** Label of the checkbox group's select-all checkbox. */
+  checkboxGroupSelectAll: 'Select all',
+
+  // ── Form ─────────────────────────────────────────────────────────────────
+  /** Headline of a form's error summary; `count` is formatted, `n` the number for plural rules. */
+  formErrorSummary: (count: string, n: number): string =>
+    n === 1
+      ? `There is ${count} problem with this form`
+      : `There are ${count} problems with this form`,
+  /** One entry of a form's error summary, a link to the field. */
+  formErrorItem: (label: string, message: string): string =>
+    `${label}: ${message}`,
+
+  // ── Phone and currency fields ────────────────────────────────────────────
+  /** Accessible name of the phone field's country selector. */
+  phoneCountry: 'Country',
+  phoneInvalid: 'Enter a valid phone number',
+  /** Accessible name of the currency field's currency selector. */
+  currencyPicker: 'Currency',
+  currencyInvalid: 'Enter a valid amount',
+  /** An amount with more decimals than its currency has; 0 means whole amounts only. */
+  currencyTooManyDecimals: (digits: number): string =>
+    digits === 0
+      ? 'Enter a whole amount'
+      : `Enter an amount with at most ${digits} decimal place${digits === 1 ? '' : 's'}`,
+  /** Below `min`, which arrives formatted with its currency, for example "€10.00". */
+  currencyTooLow: (min: string): string => `Enter ${min} or more`,
+  /** Above `max`, which arrives formatted with its currency. */
+  currencyTooHigh: (max: string): string => `Enter ${max} or less`,
+
+  // ── Description list, stat, sparkline ────────────────────────────────────
+  /** Read in place of the dash shown for an empty description item or stat value. */
+  notSet: 'Not set',
+  /** Accessible name of a sparkline without values. */
+  sparklineNoData: 'No data',
+  /** Summary of a sparkline with one value, for example "Value 12". */
+  sparklineValue: (value: string): string => `Value ${value}`,
+  /** Summary of a sparkline, for example "Trend from 12 to 18, high 21, low 9". */
+  sparklineSummary: (
+    first: string,
+    last: string,
+    high: string,
+    low: string,
+  ): string => `Trend from ${first} to ${last}, high ${high}, low ${low}`,
+  /** What a stat's change is measured against when it has no `comparison`. */
+  statComparison: 'from last period',
+  /** A stat's rise, for example "up 8% from last period". */
+  statUp: (change: string, comparison: string): string =>
+    `up ${change} ${comparison}`,
+  /** A stat's fall, for example "down 3% from last period". */
+  statDown: (change: string, comparison: string): string =>
+    `down ${change} ${comparison}`,
+  /** A stat without change, for example "unchanged from last period". */
+  statUnchanged: (comparison: string): string => `unchanged ${comparison}`,
+  /** Accessible name of a stat's info button, whose tooltip explains the metric. */
+  statHelp: 'About this metric',
+
+  // ── Transfer list and status indicator ───────────────────────────────────
+  /** Default headline of a transfer list's source list. */
+  transferListAvailable: 'Available',
+  /** Default headline of a transfer list's list of chosen items. */
+  transferListSelected: 'Selected',
+  /** A transfer list's headline with its item count (formatted), for example "Selected (3)". */
+  transferListHeadline: (headline: string, count: string): string =>
+    `${headline} (${count})`,
+  /** Button that moves the checked items, for example "Move checked items to Selected". */
+  transferListMoveChecked: (target: string): string =>
+    `Move checked items to ${target}`,
+  /** Button that moves every shown item, for example "Move all items to Selected". */
+  transferListMoveAll: (target: string): string =>
+    `Move all items to ${target}`,
+  /** Button that moves the checked selected items one place up. */
+  transferListMoveUp: 'Move up',
+  /** Button that moves the checked selected items one place down. */
+  transferListMoveDown: 'Move down',
+  /** Accessible name of a list's search box, for example "Search Available". */
+  transferListSearch: (headline: string): string => `Search ${headline}`,
+  /** Shown in a list with no items. */
+  transferListEmpty: 'No items',
+  /** Shown in a list whose items all miss the search. */
+  transferListNoMatches: 'No matching items',
+  /** Announced after a move; `formatted` is `count` formatted, for example "2 items moved to Selected". */
+  transferListMoved: (
+    count: number,
+    formatted: string,
+    target: string,
+  ): string =>
+    count === 1
+      ? `1 item moved to ${target}`
+      : `${formatted} items moved to ${target}`,
+  /** Announced after reordering one item, for example "Editor, position 2 of 5". */
+  transferListPosition: (
+    label: string,
+    position: string,
+    total: string,
+  ): string => `${label}, position ${position} of ${total}`,
+  /** Accessible name of a dot-only status indicator without `label` or `intent`. */
+  statusIndicatorNeutral: 'Status',
+
   // ── Confirm dialog ───────────────────────────────────────────────────────
   /** Default label of a confirm dialog's confirm button. */
   confirm: 'Confirm',

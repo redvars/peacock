@@ -1,0 +1,43 @@
+---
+export const title = 'Unsaved changes';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>dirty</code> (a read-only property, reflected as the <code>dirty</code> attribute) is true
+  while any field's value differs from its value when the form was set up, and
+  <code>dirty-change</code> fires when it flips. Changing a value back makes the form clean again.
+  Call <code>markClean()</code> after a successful save to make the current values the new baseline;
+  resetting the form also makes it clean. With <code>warn-unsaved</code>, the browser asks for
+  confirmation before leaving the page while the form is dirty.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 400px;'>
+    <wc-form id='form-dirty-demo' warn-unsaved>
+      <form style='display: flex; flex-direction: column; gap: 1rem;'>
+        <wc-input label='Display name' name='displayName' value='Ada'></wc-input>
+        <wc-checkbox label='Email me updates' name='updates' checked></wc-checkbox>
+        <div style='display: flex; gap: 0.5rem;'>
+          <wc-button type='submit'>Save</wc-button>
+          <wc-button type='reset' variant='text'>Discard changes</wc-button>
+        </div>
+      </form>
+    </wc-form>
+  </div>
+  <script is:inline>
+    (function () {
+      var wcForm = document.querySelector('#form-dirty-demo');
+      wcForm.addEventListener('dirty-change', function (event) {
+        myConsole.log('dirty: ' + event.detail.dirty);
+      });
+      wcForm.addEventListener('submit', function (event) {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        wcForm.markClean();
+        myConsole.log('saved');
+      });
+    })();
+  </script>
+</DemoComponentCard>

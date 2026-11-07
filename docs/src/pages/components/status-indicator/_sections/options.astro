@@ -1,0 +1,59 @@
+---
+export const title = 'Size, pulse and dot only';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>size</code> is <code>sm</code> (the default), <code>md</code> or <code>lg</code>.
+  <code>pulse</code> animates the dot for a live or in-progress state, such as "Syncing" or
+  "Recording"; the animation is off when the person asks for reduced motion.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem;'>
+    <wc-status-indicator intent='success' label='Small'></wc-status-indicator>
+    <wc-status-indicator intent='success' label='Medium' size='md'></wc-status-indicator>
+    <wc-status-indicator intent='success' label='Large' size='lg'></wc-status-indicator>
+    <wc-status-indicator intent='danger' label='Recording' size='md' pulse></wc-status-indicator>
+  </div>
+</DemoComponentCard>
+
+<p>
+  <code>dot-only</code> hides the label where there is no room, such as a dense table column. The
+  label is still read by screen readers and shows as a tooltip, so always give one. An empty
+  <code>label</code> does not mean dot only: the label is what the indicator says.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; gap: 1rem;'>
+    <wc-status-indicator intent='success' label='Online' dot-only></wc-status-indicator>
+    <wc-status-indicator intent='warning' label='Away' dot-only></wc-status-indicator>
+    <wc-status-indicator label='Offline' dot-only></wc-status-indicator>
+  </div>
+</DemoComponentCard>
+
+<h3>Live status</h3>
+<p>
+  By default the indicator is plain text, read where it stands. Set <code>live</code> when the
+  status changes while the person is on the page and the change should be announced: it gets
+  <code>role="status"</code>, a polite live region. Do not set it on many indicators at once,
+  such as every row of a table, or the announcements pile up.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='display: flex; align-items: center; gap: 1rem;'>
+    <wc-status-indicator id='status-indicator-live' intent='info' label='Syncing' pulse live></wc-status-indicator>
+    <wc-button id='status-indicator-toggle' variant='outlined'>Finish sync</wc-button>
+  </div>
+  <script is:inline>
+    document.querySelector('#status-indicator-toggle').addEventListener('click', function () {
+      var el = document.querySelector('#status-indicator-live');
+      var syncing = el.label === 'Syncing';
+      el.label = syncing ? 'Synced' : 'Syncing';
+      el.intent = syncing ? 'success' : 'info';
+      el.pulse = !syncing;
+      this.textContent = syncing ? 'Start sync' : 'Finish sync';
+    });
+  </script>
+</DemoComponentCard>

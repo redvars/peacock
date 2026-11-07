@@ -1,0 +1,53 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-stat</code> is a KPI tile: a <code>label</code>, a <code>value</code> formatted with
+  <code>Intl.NumberFormat</code> using <code>format</code>, and the change since the last period. The
+  change is worked out from <code>previous</code>, or given as <code>delta</code>. An arrow shows its
+  direction and the color whether it is good news.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem;'>
+    <wc-stat
+      label='Monthly revenue'
+      value='12400'
+      previous='11480'
+      format='{"style": "currency", "currency": "USD", "maximumFractionDigits": 0}'
+      comparison='vs last month'
+    >
+      <wc-sparkline slot='trend' data='[9800, 10400, 10900, 11480, 12400]'></wc-sparkline>
+    </wc-stat>
+    <wc-stat label='Active users' value='8210' previous='8640' help='Users who signed in during the last 30 days'></wc-stat>
+    <wc-stat label='Signups' value='312' previous='312'></wc-stat>
+  </div>
+</DemoComponentCard>
+
+<h3>Change</h3>
+<p>
+  <code>delta-format="percent"</code> (the default) shows the change as a share of the previous
+  value; <code>delta</code> is then a fraction, so <code>0.08</code> is 8%.
+  <code>delta-format="absolute"</code> shows the amount, formatted like the value. A value that
+  moves the <code>positive</code> way (<code>up</code> by default) is green, the other way red. Set
+  <code>positive="down"</code> for metrics where less is better, and <code>none</code> for neutral
+  ones.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem;'>
+    <wc-stat
+      label='Churn'
+      value='0.031'
+      delta='-0.004'
+      delta-format='absolute'
+      positive='down'
+      format='{"style": "percent", "maximumFractionDigits": 1}'
+    ></wc-stat>
+    <wc-stat label='Response time' value='420' previous='380' positive='down' format='{"style": "unit", "unit": "millisecond"}'></wc-stat>
+    <wc-stat label='Tickets' value='96' previous='88' positive='none'></wc-stat>
+  </div>
+</DemoComponentCard>
