@@ -1,0 +1,133 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Kanban board block (pages/blocks/kanban/). The outer frame is .block-demo
+// from styles/pages/blocks.scss. The cards are rendered by renderCard into
+// the board's light DOM, so these rules reach them.
+
+.block-demo-kanban {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+.kanban-header {
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-phone-only {
+    --page-header-padding-inline: var(--spacing-200);
+  }
+
+  .kanban-header-icon {
+    --icon-size: 2rem;
+    color: var(--color-primary);
+  }
+}
+
+.kanban-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.kanban-toolbar {
+  padding: var(--spacing-150) var(--spacing-300);
+
+  @include mixin.for-phone-only {
+    padding-inline: var(--spacing-200);
+  }
+
+  wc-filter-bar {
+    display: block;
+  }
+}
+
+.kanban-board {
+  display: block;
+  block-size: 34rem;
+  padding: 0 var(--spacing-300) var(--spacing-300);
+  --kanban-column-inline-size: 17rem;
+
+  @include mixin.for-phone-only {
+    padding-inline: var(--spacing-200);
+    --kanban-column-inline-size: 15rem;
+  }
+}
+
+// The board styles its card wrappers (light-DOM divs) with ::slotted, which
+// loses to the site's CSS reset on div; restore the card padding here.
+.kanban-board [data-kanban-card] {
+  padding: var(--spacing-150);
+}
+
+.kanban-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.kanban-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+}
+
+.kanban-card-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-050);
+}
+
+.kanban-card-id {
+  flex-shrink: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.kanban-card-title {
+  font-weight: 500;
+}
+
+.kanban-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+}
+
+.kanban-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  color: var(--color-on-surface-variant);
+
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-025);
+  }
+
+  wc-icon {
+    --icon-size: 1rem;
+  }
+}
+
+.kanban-card-priority {
+  &.priority-high {
+    color: var(--color-error);
+  }
+
+  &.priority-medium {
+    color: var(--color-tertiary);
+  }
+}
+
+.kanban-card-due.overdue {
+  color: var(--color-error);
+}
+
+.kanban-card-assignees {
+  // The ring between avatars matches the card's background.
+  --avatar-group-ring-color: var(--kanban-card-container-color, var(--color-surface));
+}

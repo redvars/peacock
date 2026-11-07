@@ -2,104 +2,238 @@
 import Layout from '../../../layouts/WithBlocksSidebar.astro';
 import '../../../styles/blocks/data-table.scss';
 
+type Plan = 'Free' | 'Pro' | 'Team';
+type Status = 'Active' | 'Trial' | 'Past due' | 'Cancelled';
+
 interface Customer {
   id: string;
   name: string;
   email: string;
-  plan: 'Free' | 'Pro' | 'Team';
-  status: 'Active' | 'Trial' | 'Past due';
+  plan: Plan;
+  status: Status;
+  mrr: number;
   joined: string;
 }
 
-const customers: Customer[] = [
-  { id: 'c-01', name: 'Alice Liu', email: 'alice@example.com', plan: 'Team', status: 'Active', joined: '2026-01-14' },
-  { id: 'c-02', name: 'Marcus Reid', email: 'marcus@example.com', plan: 'Pro', status: 'Trial', joined: '2026-10-30' },
-  { id: 'c-03', name: 'Sara Okoye', email: 'sara@example.com', plan: 'Pro', status: 'Past due', joined: '2025-11-02' },
-  { id: 'c-04', name: 'Diego Alvarez', email: 'diego@example.com', plan: 'Free', status: 'Active', joined: '2026-06-21' },
-  { id: 'c-05', name: 'Priya Nair', email: 'priya@example.com', plan: 'Team', status: 'Active', joined: '2024-03-09' },
-  { id: 'c-06', name: 'Tom Becker', email: 'tom@example.com', plan: 'Free', status: 'Trial', joined: '2026-11-01' },
-  { id: 'c-07', name: 'Yuki Tanaka', email: 'yuki@example.com', plan: 'Pro', status: 'Active', joined: '2025-08-17' },
-  { id: 'c-08', name: 'Amara Diallo', email: 'amara@example.com', plan: 'Team', status: 'Active', joined: '2025-02-28' },
-  { id: 'c-09', name: 'Lena Fischer', email: 'lena@example.com', plan: 'Pro', status: 'Past due', joined: '2024-12-05' },
-  { id: 'c-10', name: 'Omar Haddad', email: 'omar@example.com', plan: 'Free', status: 'Active', joined: '2026-04-11' },
-  { id: 'c-11', name: 'Grace Kim', email: 'grace@example.com', plan: 'Team', status: 'Trial', joined: '2026-10-19' },
-  { id: 'c-12', name: 'Rafael Costa', email: 'rafael@example.com', plan: 'Pro', status: 'Active', joined: '2025-05-23' },
+const PRICES: Record<Plan, number> = { Free: 0, Pro: 29, Team: 99 };
+
+const rows: [string, string, Plan, Status, string][] = [
+  ['Alice Liu', 'alice@lumen.example', 'Team', 'Active', '2026-01-14'],
+  ['Marcus Reid', 'marcus@reidworks.example', 'Pro', 'Trial', '2026-10-30'],
+  ['Sara Okoye', 'sara@okoye.example', 'Pro', 'Past due', '2025-11-02'],
+  ['Diego Alvarez', 'diego@alvarez.example', 'Free', 'Active', '2026-06-21'],
+  ['Priya Nair', 'priya@nairstudio.example', 'Team', 'Active', '2024-03-09'],
+  ['Tom Becker', 'tom@becker.example', 'Free', 'Trial', '2026-11-01'],
+  ['Yuki Tanaka', 'yuki@tanaka.example', 'Pro', 'Active', '2025-08-17'],
+  ['Amara Diallo', 'amara@diallo.example', 'Team', 'Active', '2025-02-28'],
+  ['Lena Fischer', 'lena@fischer.example', 'Pro', 'Past due', '2024-12-05'],
+  ['Omar Haddad', 'omar@haddad.example', 'Free', 'Cancelled', '2026-04-11'],
+  ['Grace Kim', 'grace@kimlabs.example', 'Team', 'Trial', '2026-10-19'],
+  ['Rafael Costa', 'rafael@costa.example', 'Pro', 'Active', '2025-05-23'],
+  ['Hannah Novak', 'hannah@novak.example', 'Pro', 'Active', '2025-09-12'],
+  ['Kwame Mensah', 'kwame@mensah.example', 'Team', 'Active', '2024-07-30'],
+  ['Sofia Rossi', 'sofia@rossi.example', 'Free', 'Active', '2026-08-04'],
+  ['Ivan Petrov', 'ivan@petrov.example', 'Pro', 'Cancelled', '2025-03-15'],
+  ['Mei Chen', 'mei@chen.example', 'Team', 'Active', '2025-12-01'],
+  ['Lucas Martin', 'lucas@martin.example', 'Pro', 'Trial', '2026-11-03'],
+  ['Zara Ahmed', 'zara@ahmed.example', 'Free', 'Active', '2026-02-18'],
+  ['Noah Williams', 'noah@williams.example', 'Pro', 'Active', '2024-10-22'],
+  ['Elif Kaya', 'elif@kaya.example', 'Team', 'Past due', '2025-06-09'],
+  ['Mateo García', 'mateo@garcia.example', 'Free', 'Trial', '2026-10-27'],
 ];
+
+const customers: Customer[] = rows.map(([name, email, plan, status, joined], index) => ({
+  id: `c-${String(index + 1).padStart(2, '0')}`,
+  name,
+  email,
+  plan,
+  status,
+  mrr: status === 'Active' || status === 'Past due' ? PRICES[plan] : 0,
+  joined,
+}));
 ---
 
 <Layout
   title='Data table'
-  description='A searchable list of records built from Peacock components: a toolbar with search and actions, a table with row selection, status tags and pagination, and an empty state for when nothing matches.'
+  description='A filterable list of records built from Peacock components: a page header with actions, a filter bar with search, filters and saved views, a table with sorting, row selection, status tags, bulk actions behind a confirm dialog and pagination, and empty states with illustrations.'
 >
   <div class='block-demo table-shell'>
-    <div class='table-toolbar'>
-      <div>
-        <h2 class='text-headline-small'>Customers</h2>
-        <p class='text-body-medium block-muted' id='customer-count'>{customers.length} customers</p>
-      </div>
-      <div class='table-toolbar-actions'>
-        <wc-search id='customer-search' class='table-search' placeholder='Search customers' clearable></wc-search>
-        <wc-button variant='outlined'>Export</wc-button>
-        <wc-button level='primary'>Add customer</wc-button>
-      </div>
-    </div>
-
-    <wc-table
-      id='customer-table'
-      class='customer-table'
-      key-field='id'
-      selection='multiple'
-      sortable
-      page-size='10'
-      empty-state-headline='No customers found'
-      empty-state-description='Try a different name or email.'
-      label='Customers'
+    <wc-page-header
+      id='customer-header'
+      class='table-header'
+      headline='Customers'
+      heading-level='2'
+      supporting-text={`${customers.length} customers`}
     >
-      <wc-button slot='bulk-actions' variant='text' size='sm'>Export</wc-button>
-      <wc-button slot='bulk-actions' variant='text' size='sm'>Change plan</wc-button>
-      <wc-pagination slot='footer' page-size='10'></wc-pagination>
+      <wc-button slot='actions' variant='outlined'>
+        <wc-icon slot='icon' name='download'></wc-icon>
+        Export
+      </wc-button>
+      <wc-button slot='actions' level='primary'>
+        <wc-icon slot='icon' name='person_add'></wc-icon>
+        Add customer
+      </wc-button>
+    </wc-page-header>
+
+    <wc-filter-bar id='customer-filters' search search-placeholder='Search name or email' label='Filter customers'></wc-filter-bar>
+
+    <wc-table id='customer-table' class='customer-table' key-field='id' selection='multiple' label='Customers'>
+      <wc-button slot='bulk-actions' variant='text' size='sm'>
+        <wc-icon slot='icon' name='download'></wc-icon>
+        Export
+      </wc-button>
+      <wc-button slot='bulk-actions' variant='text' size='sm'>
+        <wc-icon slot='icon' name='swap_horiz'></wc-icon>
+        Change plan
+      </wc-button>
+      <wc-button slot='bulk-actions' id='bulk-delete' variant='text' size='sm' color='danger'>
+        <wc-icon slot='icon' name='delete'></wc-icon>
+        Delete
+      </wc-button>
+
+      <div slot='empty' class='table-empty'>
+        <wc-illustration name='no-results' size='sm'></wc-illustration>
+        <h3 class='text-title-medium'>No customers match</h3>
+        <p class='text-body-medium block-muted'>Try another search, or clear the filters.</p>
+        <wc-button id='clear-filters' variant='outlined'>Clear filters</wc-button>
+      </div>
+
+      <wc-pagination slot='footer' page-size='8' page-sizes='[8, 16, 24]'></wc-pagination>
     </wc-table>
+
+    <wc-confirm-dialog id='delete-dialog' headline='Delete customers?' intent='danger' confirm-label='Delete'>
+      <span id='delete-message'>The selected customers and their billing history are deleted. This can't be undone.</span>
+    </wc-confirm-dialog>
   </div>
 
   <section class='doc-section table-empty-section' aria-labelledby='empty-title'>
     <h2 class='text-headline-small' id='empty-title'>Empty state</h2>
     <p class='text-body-large doc-muted'>Before the first record exists, show what the list is for and how to start it.</p>
-    <div class='block-demo table-empty'>
-      <wc-illustration name='empty' size='md'></wc-illustration>
+    <div class='block-demo table-empty table-empty-first'>
+      <wc-illustration name='no-team' size='md'></wc-illustration>
       <h3 class='text-title-large'>No customers yet</h3>
-      <p class='text-body-medium doc-muted'>Customers you add or import will appear here.</p>
-      <wc-button level='primary'>Add customer</wc-button>
+      <p class='text-body-medium block-muted'>Customers you add or import from a CSV file will appear here.</p>
+      <div class='table-empty-actions'>
+        <wc-button variant='outlined'>
+          <wc-icon slot='icon' name='upload'></wc-icon>
+          Import CSV
+        </wc-button>
+        <wc-button level='primary'>
+          <wc-icon slot='icon' name='person_add'></wc-icon>
+          Add customer
+        </wc-button>
+      </div>
     </div>
   </section>
 
   <script is:inline define:vars={{ customers }}>
-    const STATUS_INTENTS = { Active: 'success', Trial: 'info', 'Past due': 'danger' };
+    const STATUS_INTENTS = { Active: 'success', Trial: 'info', 'Past due': 'warning', Cancelled: 'danger' };
+    const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const day = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeZone: 'UTC' });
+    const escape = text => text.replace(/[&<>'"]/g, c => `&#${c.charCodeAt(0)};`);
+
+    const $header = document.getElementById('customer-header');
+    const $filters = document.getElementById('customer-filters');
     const $table = document.getElementById('customer-table');
-    const $search = document.getElementById('customer-search');
-    const $count = document.getElementById('customer-count');
+    const $dialog = document.getElementById('delete-dialog');
+    const $deleteMessage = document.getElementById('delete-message');
+
+    let all = customers;
+    let selected = [];
 
     $table.columns = [
-      { name: 'name', label: 'Name', width: 12 },
-      { name: 'email', label: 'Email', width: 16 },
-      { name: 'plan', label: 'Plan', width: 8 },
+      {
+        name: 'name',
+        label: 'Customer',
+        width: 16,
+        flex: 1,
+        template: row => `
+          <span style='display: flex; align-items: center; gap: var(--spacing-150); min-width: 0;'>
+            <wc-avatar size='sm' name='${escape(row.name)}'></wc-avatar>
+            <span style='display: flex; flex-direction: column; min-width: 0;'>
+              <span>${escape(row.name)}</span>
+              <span style='color: var(--color-on-surface-variant); font-size: 0.8125rem; overflow: hidden; text-overflow: ellipsis;'>${escape(row.email)}</span>
+            </span>
+          </span>`,
+      },
+      { name: 'plan', label: 'Plan', width: 6 },
       {
         name: 'status',
         label: 'Status',
         width: 8,
         template: row => `<wc-tag size='sm' intent='${STATUS_INTENTS[row.status]}'>${row.status}</wc-tag>`,
       },
-      { name: 'joined', label: 'Joined', width: 9 },
+      { name: 'mrr', label: 'MRR', width: 6, type: 'number', template: row => money.format(row.mrr) },
+      { name: 'joined', label: 'Joined', width: 8, template: row => day.format(new Date(row.joined)) },
     ];
-    $table.data = customers;
 
-    $search.addEventListener('input', event => {
-      const query = (event.detail?.value ?? '').trim().toLowerCase();
-      const rows = query
-        ? customers.filter(c => c.name.toLowerCase().includes(query) || c.email.toLowerCase().includes(query))
-        : customers;
+    $filters.filters = [
+      {
+        key: 'status',
+        label: 'Status',
+        type: 'multiselect',
+        options: Object.keys(STATUS_INTENTS).map(status => ({ label: status, value: status })),
+      },
+      {
+        key: 'plan',
+        label: 'Plan',
+        type: 'select',
+        options: ['Free', 'Pro', 'Team'].map(plan => ({ label: plan, value: plan })),
+      },
+      { key: 'joined', label: 'Joined', type: 'date-range' },
+    ];
+    $filters.views = [
+      { id: 'attention', label: 'Needs attention', value: { status: ['Past due'] } },
+      { id: 'trials', label: 'Open trials', value: { status: ['Trial'] } },
+      { id: 'team', label: 'Team plan', value: { plan: 'Team' } },
+    ];
+
+    function matches(customer, value) {
+      const q = (value.q || '').trim().toLowerCase();
+      if (q && !customer.name.toLowerCase().includes(q) && !customer.email.toLowerCase().includes(q)) return false;
+      if (value.status?.length && !value.status.includes(customer.status)) return false;
+      if (value.plan && customer.plan !== value.plan) return false;
+      if (value.joined) {
+        const [start, end] = value.joined.split('/');
+        if ((start && customer.joined < start) || (end && customer.joined > end)) return false;
+      }
+      return true;
+    }
+
+    function apply() {
+      const value = $filters.value || {};
+      const rows = all.filter(customer => matches(customer, value));
       $table.page = 1;
       $table.data = rows;
-      $count.textContent = `${rows.length} ${rows.length === 1 ? 'customer' : 'customers'}`;
+      const filtered = rows.length !== all.length;
+      $header.supportingText = filtered
+        ? `${rows.length} of ${all.length} customers`
+        : `${all.length} customers`;
+    }
+
+    apply();
+    $filters.addEventListener('input', apply);
+    $filters.addEventListener('change', apply);
+    document.getElementById('clear-filters').addEventListener('click', () => {
+      $filters.view = '';
+      $filters.value = {};
+      apply();
+    });
+
+    $table.addEventListener('selection-change', event => {
+      selected = event.detail.value;
+    });
+    document.getElementById('bulk-delete').addEventListener('click', () => {
+      const count = selected.length;
+      $dialog.headline = `Delete ${count} ${count === 1 ? 'customer' : 'customers'}?`;
+      $deleteMessage.textContent = `${count === 1 ? 'This customer and their' : 'These customers and their'} billing history are deleted. This can't be undone.`;
+      $dialog.show();
+    });
+    $dialog.addEventListener('confirm', () => {
+      all = all.filter(customer => !selected.includes(customer.id));
+      $table.selectedRowKeys = [];
+      selected = [];
+      apply();
     });
   </script>
 </Layout>

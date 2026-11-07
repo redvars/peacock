@@ -1,0 +1,170 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Pricing block (pages/blocks/pricing/). The outer frame is .block-demo from
+// styles/pages/blocks.scss.
+
+.pricing-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+  padding: var(--spacing-600) var(--spacing-400);
+
+  @include mixin.for-phone-only {
+    gap: var(--spacing-400);
+    padding: var(--spacing-400) var(--spacing-200);
+  }
+}
+
+.pricing-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: center;
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  h2 {
+    text-wrap: balance;
+  }
+}
+
+.pricing-eyebrow {
+  color: var(--color-primary);
+}
+
+.pricing-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150);
+  margin-block-start: var(--spacing-200);
+}
+
+.pricing-plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  align-items: stretch;
+  gap: var(--spacing-250);
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+}
+
+.pricing-plan {
+  height: 100%;
+
+  &.featured {
+    // A ring in the card's own shape marks the recommended plan.
+    border-radius: var(--shape-corner-large);
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+
+  wc-divider {
+    --divider-spacing: 0;
+  }
+}
+
+.pricing-plan-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  height: 100%;
+  padding: var(--spacing-300);
+  box-sizing: border-box;
+
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+.pricing-plan-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+}
+
+.pricing-plan-description {
+  // Two lines on every card, so prices and buttons line up across the row.
+  min-block-size: calc(2 * var(--typography-body-medium-line-height));
+  margin-block-start: calc(var(--spacing-150) * -1) !important;
+}
+
+.pricing-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-075);
+}
+
+.pricing-amount {
+  font-variant-numeric: tabular-nums;
+}
+
+.pricing-billed {
+  margin-block-start: calc(var(--spacing-150) * -1);
+}
+
+.pricing-intro {
+  color: var(--color-on-surface);
+}
+
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-100);
+  }
+
+  wc-icon {
+    flex: none;
+    margin-block-start: 0.125rem;
+    --icon-size: 1.125rem;
+    --icon-color: var(--color-primary);
+  }
+}
+
+.pricing-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--spacing-300) var(--spacing-500);
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+
+  @include mixin.for-phone-only {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.pricing-faq-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.pricing-faq-list p {
+  margin: 0;
+}

@@ -1,0 +1,218 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/kanban.scss';
+
+const team: string[] = ['Priya Raman', 'Marcus Reid', 'Sara Okoye', 'Tomás Herrera', 'Alice Liu', 'Jonas Becker'];
+---
+
+<Layout
+  title='Kanban board'
+  description='A sprint board built from Peacock components: a page header with actions, a filter bar with saved views, and a kanban of task cards with labels, assignees and due dates that move by drag and drop or keyboard.'
+>
+  <div class='block-demo block-demo-kanban'>
+    <wc-page-header
+      class='kanban-header'
+      headline='Website relaunch'
+      supporting-text='Sprint 14 · November 3 – November 14'
+    >
+      <wc-icon slot='start' class='kanban-header-icon' name='view_kanban'></wc-icon>
+      <div slot='meta' class='kanban-meta'>
+        <wc-tag intent='success' size='sm'>On track</wc-tag>
+        <wc-avatar-group size='sm' max='4' label='Project members'>
+          {team.map(name => <wc-avatar name={name}></wc-avatar>)}
+        </wc-avatar-group>
+      </div>
+      <wc-button slot='actions' variant='outlined'>
+        <wc-icon slot='icon' name='person_add'></wc-icon>
+        Invite
+      </wc-button>
+      <wc-button slot='actions' level='primary' id='kanban-add-task'>
+        <wc-icon slot='icon' name='add'></wc-icon>
+        Add task
+      </wc-button>
+    </wc-page-header>
+
+    <div class='kanban-toolbar'>
+      <wc-filter-bar
+        id='kanban-filters'
+        search
+        search-placeholder='Search tasks'
+        label='Filter tasks'
+      ></wc-filter-bar>
+    </div>
+
+    <wc-kanban id='kanban-board' class='kanban-board' label='Sprint 14' addable></wc-kanban>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const board = document.getElementById('kanban-board');
+      const filterBar = document.getElementById('kanban-filters');
+      const addTask = document.getElementById('kanban-add-task');
+
+      const LABELS = {
+        design: { label: 'Design', accent: 'purple' },
+        frontend: { label: 'Frontend', accent: 'blue' },
+        backend: { label: 'Backend', accent: 'green' },
+        content: { label: 'Content', accent: 'orange' },
+        bug: { label: 'Bug', accent: 'red' },
+        research: { label: 'Research', accent: 'yellow' },
+      };
+      const PRIORITY_ICONS = { high: 'keyboard_double_arrow_up', medium: 'drag_handle', low: 'keyboard_arrow_down' };
+      const PEOPLE = ['Priya Raman', 'Marcus Reid', 'Sara Okoye', 'Tomás Herrera', 'Alice Liu', 'Jonas Becker'];
+
+      board.columns = [
+        { id: 'todo', title: 'To do' },
+        { id: 'doing', title: 'In progress', limit: 3 },
+        { id: 'review', title: 'In review' },
+        { id: 'done', title: 'Done' },
+      ];
+
+      let nextId = 100;
+      let allCards = [
+        { id: 'WEB-142', columnId: 'todo', title: 'Write pricing page copy', labels: ['content'], assignees: ['Alice Liu'], due: 'Nov 12', priority: 'medium', comments: 2 },
+        { id: 'WEB-147', columnId: 'todo', title: 'Interview five customers about plan comparison', labels: ['research'], assignees: ['Marcus Reid', 'Priya Raman'], due: 'Nov 13', priority: 'low', comments: 0 },
+        { id: 'WEB-151', columnId: 'todo', title: 'Fix hero image cropping on Safari', labels: ['bug', 'frontend'], assignees: ['Tomás Herrera'], due: 'Nov 10', priority: 'high', comments: 4 },
+        { id: 'WEB-138', columnId: 'doing', title: 'Design the new navigation menu', labels: ['design'], assignees: ['Marcus Reid'], due: 'Nov 9', priority: 'high', comments: 7 },
+        { id: 'WEB-140', columnId: 'doing', title: 'Build the blog listing template', labels: ['frontend'], assignees: ['Sara Okoye', 'Tomás Herrera'], due: 'Nov 11', priority: 'medium', comments: 3 },
+        { id: 'WEB-144', columnId: 'doing', title: 'Connect the contact form to the CRM', labels: ['backend'], assignees: ['Jonas Becker'], due: 'Nov 12', priority: 'medium', comments: 1 },
+        { id: 'WEB-133', columnId: 'review', title: 'Accessibility audit of the checkout flow', labels: ['research', 'frontend'], assignees: ['Priya Raman', 'Sara Okoye', 'Alice Liu'], due: 'Nov 7', priority: 'high', comments: 12, overdue: true },
+        { id: 'WEB-136', columnId: 'review', title: 'Redirect map for retired product pages', labels: ['backend', 'content'], assignees: ['Jonas Becker'], due: 'Nov 8', priority: 'low', comments: 2 },
+        { id: 'WEB-121', columnId: 'done', title: 'Pick the new type scale', labels: ['design'], assignees: ['Marcus Reid'], due: 'Nov 4', priority: 'medium', comments: 5 },
+        { id: 'WEB-125', columnId: 'done', title: 'Set up preview deployments', labels: ['backend'], assignees: ['Tomás Herrera', 'Jonas Becker'], due: 'Nov 5', priority: 'low', comments: 1 },
+      ];
+
+      filterBar.filters = [
+        { key: 'assignee', label: 'Assignee', type: 'multiselect', options: PEOPLE.map(name => ({ label: name, value: name })) },
+        { key: 'label', label: 'Label', type: 'multiselect', options: Object.entries(LABELS).map(([value, item]) => ({ label: item.label, value })) },
+        {
+          key: 'priority',
+          label: 'Priority',
+          type: 'select',
+          options: [
+            { label: 'High', value: 'high' },
+            { label: 'Medium', value: 'medium' },
+            { label: 'Low', value: 'low' },
+          ],
+        },
+      ];
+      filterBar.views = [
+        { id: 'mine', label: 'My tasks', value: { assignee: ['Priya Raman'] } },
+        { id: 'urgent', label: 'High priority', value: { priority: 'high' } },
+      ];
+
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      board.renderCard = card => {
+        const root = el('div', 'kanban-card');
+
+        const labels = el('div', 'kanban-card-labels');
+        card.labels.forEach(key => {
+          const tag = el('wc-tag', '', LABELS[key].label);
+          tag.setAttribute('size', 'sm');
+          tag.setAttribute('accent', LABELS[key].accent);
+          labels.append(tag);
+        });
+
+        const id = el('span', 'kanban-card-id text-label-small', card.id);
+        const title = el('div', 'kanban-card-title text-body-medium', card.title);
+
+        const footer = el('div', 'kanban-card-footer');
+        const meta = el('div', 'kanban-card-meta text-label-medium');
+
+        const priority = el('span', `kanban-card-priority priority-${card.priority}`);
+        const priorityIcon = el('wc-icon');
+        priorityIcon.setAttribute('name', PRIORITY_ICONS[card.priority]);
+        priority.title = `${card.priority[0].toUpperCase()}${card.priority.slice(1)} priority`;
+        priority.append(priorityIcon);
+
+        const due = el('span', card.overdue ? 'kanban-card-due overdue' : 'kanban-card-due');
+        const dueIcon = el('wc-icon');
+        dueIcon.setAttribute('name', 'event');
+        due.append(dueIcon, card.due);
+        meta.append(priority, due);
+
+        if (card.comments) {
+          const comments = el('span', 'kanban-card-comments');
+          const commentIcon = el('wc-icon');
+          commentIcon.setAttribute('name', 'chat_bubble');
+          comments.append(commentIcon, String(card.comments));
+          meta.append(comments);
+        }
+
+        const avatars = el('wc-avatar-group', 'kanban-card-assignees');
+        avatars.setAttribute('size', 'sm');
+        avatars.setAttribute('max', '2');
+        avatars.setAttribute('label', 'Assignees');
+        card.assignees.forEach(name => {
+          const avatar = el('wc-avatar');
+          avatar.setAttribute('name', name);
+          avatars.append(avatar);
+        });
+        footer.append(meta, avatars);
+
+        const head = el('div', 'kanban-card-head');
+        head.append(labels, id);
+        root.append(head, title, footer);
+        return root;
+      };
+
+      // The board shows the cards that match the filter bar; moves and new cards update allCards.
+      let filters = {};
+      const matches = card => {
+        const query = typeof filters.q === 'string' ? filters.q.trim().toLowerCase() : '';
+        if (query && !`${card.id} ${card.title}`.toLowerCase().includes(query)) return false;
+        if (filters.assignee?.length && !card.assignees.some(name => filters.assignee.includes(name))) return false;
+        if (filters.label?.length && !card.labels.some(key => filters.label.includes(key))) return false;
+        if (filters.priority && card.priority !== filters.priority) return false;
+        return true;
+      };
+      const show = () => {
+        board.cards = allCards.filter(matches);
+      };
+      show();
+
+      filterBar.addEventListener('change', event => {
+        filters = event.detail.value;
+        show();
+      });
+      filterBar.addEventListener('input', event => {
+        filters = { ...filters, q: event.detail.value.q };
+        show();
+      });
+
+      board.addEventListener('card-move', () => {
+        // The board applies the move right after this event; keep hidden cards after the visible ones.
+        queueMicrotask(() => {
+          const visible = new Set(board.cards.map(card => card.id));
+          allCards = [...board.cards, ...allCards.filter(card => !visible.has(card.id))];
+        });
+      });
+
+      const addCard = columnId => {
+        nextId += 1;
+        allCards = [
+          ...allCards,
+          {
+            id: `WEB-${nextId}`,
+            columnId,
+            title: 'New task',
+            labels: ['content'],
+            assignees: ['Priya Raman'],
+            due: 'Nov 14',
+            priority: 'medium',
+            comments: 0,
+          },
+        ];
+        show();
+      };
+      board.addEventListener('card-add', event => addCard(event.detail.columnId));
+      addTask.addEventListener('click', () => addCard('todo'));
+    })();
+  </script>
+</Layout>

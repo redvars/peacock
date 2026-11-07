@@ -1,27 +1,39 @@
 ---
+// The Blocks overview: a chip per group to jump to it, then each group's cards with a wireframe
+// preview, summary and tags. Blocks marked `isNew` in _data/blocks.ts get a "New" badge.
 import Layout from '../../layouts/WithBlocksSidebar.astro';
 import BlockPreview from '../../components/BlockPreview.astro';
 import { BLOCK_GROUPS, BLOCKS } from '../../_data/blocks';
 
 const groups = BLOCK_GROUPS.map(name => ({
   name,
-  id: name.toLowerCase().replace(/\s+/g, '-'),
+  id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
   entries: BLOCKS.filter(block => block.group === name),
 })).filter(group => group.entries.length > 0);
 ---
 
 <Layout
   title='Blocks'
-  description='Ready-made page templates assembled from Peacock components, for common patterns like dashboards, sign-in forms, settings and data tables. Copy the markup and adapt it to your project.'
+  description={`${BLOCKS.length} ready-made screens assembled from Peacock components: app shells, sign-in, forms, data views and collaboration. Open one to see it live, then switch to Code to copy the markup.`}
 >
+  <nav class='blocks-jump' aria-label='Block groups'>
+    {groups.map(group => (
+      <a class='blocks-jump-chip text-label-large' href={`#${group.id}`}>
+        {group.name}
+        <span class='blocks-jump-count text-label-medium'>{group.entries.length}</span>
+      </a>
+    ))}
+  </nav>
+
   {groups.map(group => (
     <section class='doc-section' aria-labelledby={group.id}>
-      <h2 class='text-headline-small' id={group.id}>{group.name}</h2>
+      <h2 class='text-headline-small blocks-group-title' id={group.id}>{group.name}</h2>
       <div class='blocks-cards'>
         {group.entries.map(block => (
           <a class='block-card' href={block.href}>
             <div class='block-card-preview' aria-hidden='true'>
               <BlockPreview name={block.name} icon={block.icon} />
+              {block.isNew && <span class='block-card-new text-label-small'>New</span>}
             </div>
             <div class='block-card-body'>
               <h3 class='block-card-title text-title-large'>

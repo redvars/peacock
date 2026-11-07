@@ -1,44 +1,45 @@
 @charset "utf-8";
-@use '../mixin';
 
 // Settings block (pages/blocks/settings/). The frame is .block-demo from
 // styles/pages/blocks.scss.
 
 .settings-shell {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300);
+  padding: 0 var(--spacing-300) var(--spacing-300);
   background: var(--color-surface-container-lowest);
 
-  @include mixin.for-tablet-portrait-up {
-    padding: var(--spacing-400);
+  @container (min-width: 40rem) {
+    padding: 0 var(--spacing-400) var(--spacing-400);
   }
 }
 
 .settings-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-
-  h2,
-  p {
-    margin: 0;
-  }
+  --page-header-padding-inline: 0;
 }
 
 .settings-tabs wc-tab-panel {
   padding-block-start: var(--spacing-300);
 }
 
+// One column of fieldsets, kept to a readable width.
 .settings-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-200);
-  max-width: 40rem;
+  gap: var(--spacing-400);
+  max-width: 42rem;
 
-  > * {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  wc-input,
+  wc-select,
+  wc-textarea,
+  wc-password-field {
     width: 100%;
   }
 }
@@ -49,35 +50,106 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
 }
 
+.settings-photo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-200);
+
+  wc-avatar {
+    flex: none;
+  }
+
+  .settings-photo-upload {
+    flex: 1 1 14rem;
+    min-width: 0;
+    --file-upload-drop-zone-min-block-size: 6rem;
+  }
+}
+
 .settings-list {
   display: flex;
   flex-direction: column;
-  max-width: 40rem;
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-.settings-list-item {
+.settings-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-200);
   padding-block: var(--spacing-150);
+  border-block-end: 1px solid var(--color-outline-variant);
 
-  .settings-list > & {
-    border-block-end: 1px solid var(--color-outline-variant);
-
-    &:last-child {
-      border-block-end: none;
-    }
+  &:first-child {
+    padding-block-start: 0;
   }
+
+  &:last-child {
+    border-block-end: none;
+    padding-block-end: 0;
+  }
+}
+
+.settings-row-text {
+  flex: 1;
+  min-width: 0;
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  p {
+    margin-block-start: var(--spacing-025);
+  }
+}
+
+.settings-row-control {
+  flex: none;
+}
+
+.settings-note {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-075);
+  margin: calc(-1 * var(--spacing-200)) 0 0;
 }
 
 .settings-actions {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
   gap: var(--spacing-100);
   padding-block-start: var(--spacing-200);
   border-block-start: 1px solid var(--color-outline-variant);
+
+  > span {
+    margin-inline-end: auto;
+  }
+
+  // In the password fieldset the button just follows the fields.
+  wc-fieldset & {
+    padding-block-start: 0;
+    border-block-start: none;
+    justify-content: flex-start;
+  }
+}
+
+.settings-danger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-250);
+  border: 1px solid var(--color-error);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-surface);
+
+  h3 {
+    color: var(--color-error);
+  }
 }

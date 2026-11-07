@@ -3,6 +3,18 @@
 // Login and Sign up blocks (pages/blocks/login/, pages/blocks/signup/). The
 // frame is .block-demo.block-demo-centered from styles/pages/blocks.scss.
 
+.auth-shell {
+  // A soft wash behind the card, from theme tokens only.
+  background:
+    radial-gradient(circle at 15% 10%, var(--color-primary-container), transparent 45%),
+    radial-gradient(circle at 85% 90%, var(--color-tertiary-container), transparent 40%),
+    var(--color-surface-container-low);
+
+  @media (max-width: 30rem) {
+    padding-inline: var(--spacing-100);
+  }
+}
+
 .auth-card {
   width: 100%;
   max-width: 26rem;
@@ -13,6 +25,10 @@
   flex-direction: column;
   gap: var(--spacing-250);
   padding: var(--spacing-400) var(--spacing-300);
+
+  @media (max-width: 30rem) {
+    padding: var(--spacing-300) var(--spacing-200);
+  }
 }
 
 .auth-brand {
@@ -22,25 +38,43 @@
   gap: var(--spacing-075);
   text-align: center;
 
-  wc-icon {
-    --icon-size: 2.5rem;
-    color: var(--color-primary);
-  }
-
   h2,
   p {
     margin: 0;
   }
 }
 
-.auth-fields {
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  margin-block-end: var(--spacing-050);
+  border-radius: var(--shape-corner-medium);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  wc-icon {
+    --icon-size: 1.75rem;
+  }
+}
+
+.auth-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-150);
+  gap: var(--spacing-200);
 
-  wc-input {
+  wc-input,
+  wc-password-field {
     width: 100%;
   }
+}
+
+.auth-password {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
 }
 
 .auth-options {
@@ -51,10 +85,30 @@
   gap: var(--spacing-100);
 }
 
-.auth-actions {
-  display: flex;
-  flex-direction: column;
+// wc-button has no full-width option; stretch the host.
+.auth-submit {
+  width: 100%;
+}
+
+.auth-divider {
+  --divider-spacing: 0;
+}
+
+.auth-social {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
   gap: var(--spacing-100);
+
+  wc-button {
+    width: 100%;
+  }
+
+  // Inline brand marks in the button's icon slot, sized like a wc-icon.
+  svg {
+    inline-size: var(--icon-size, 1rem);
+    block-size: var(--icon-size, 1rem);
+    fill: var(--color-on-surface);
+  }
 }
 
 .auth-footer {

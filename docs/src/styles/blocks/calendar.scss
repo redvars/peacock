@@ -1,0 +1,129 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Calendar block (pages/blocks/calendar/). The outer frame is .block-demo
+// from styles/pages/blocks.scss. The agenda panel sits beside the calendar
+// from tablet landscape up and under it below.
+
+.block-demo-calendar {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+.calendar-page-header {
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-phone-only {
+    --page-header-padding-inline: var(--spacing-200);
+  }
+}
+
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  @include mixin.for-tablet-landscape-up {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+  }
+}
+
+.calendar-main {
+  min-width: 0;
+  padding: var(--spacing-200);
+
+  // The calendar's header and seven columns do not shrink to a phone's width,
+  // so the calendar scrolls sideways inside its own region there.
+  @include mixin.for-phone-only {
+    overflow-x: auto;
+    padding: var(--spacing-100);
+  }
+}
+
+.calendar-view {
+  // Tall enough for six weeks of 8rem rows, so the month view never scrolls.
+  block-size: 56rem;
+
+  @include mixin.for-phone-only {
+    min-inline-size: 40rem;
+  }
+}
+
+.calendar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300);
+  border-block-start: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container-low);
+
+  @include mixin.for-tablet-landscape-up {
+    border-block-start: none;
+    border-inline-start: 1px solid var(--color-outline-variant);
+  }
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-200);
+  }
+
+  h2,
+  p {
+    margin: 0;
+  }
+}
+
+.calendar-agenda-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+  margin-block-end: var(--spacing-200);
+}
+
+.calendar-agenda-list {
+  display: block;
+  --timeline-dot-size: 1.75rem;
+}
+
+.calendar-agenda-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-300) var(--spacing-200);
+  border: 1px dashed var(--color-outline-variant);
+  border-radius: var(--shape-corner-medium);
+  text-align: center;
+  color: var(--color-on-surface-variant);
+
+  &[hidden] {
+    display: none;
+  }
+
+  wc-icon {
+    --icon-size: 2rem;
+  }
+}
+
+.calendar-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-075);
+  padding-block-start: var(--spacing-200);
+  border-block-start: 1px solid var(--color-outline-variant);
+
+  h2 {
+    margin-block-end: var(--spacing-050);
+  }
+}
+
+.calendar-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+
+  wc-input,
+  wc-select {
+    width: 100%;
+  }
+}

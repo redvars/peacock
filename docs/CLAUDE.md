@@ -42,6 +42,7 @@ Reusable Astro components for the documentation UI. Key files:
 - `Default.astro` — Main layout with sidebar.
 - `LitComponent.astro` — Layout for individual component documentation pages.
 - `Foundations.astro` — Layout for the Foundations pages: sidebar, header and previous/next links.
+- `WithBlocksSidebar.astro` — Block pages: wraps the page's `.block-demo` in a Preview/Code viewer (the markup is captured before the components upgrade), lists the components it uses, and ends with previous/next. A new block is an entry in `src/_data/blocks.ts`, a page in `pages/blocks/<name>/`, its `styles/blocks/<name>.scss`, and a wireframe in `components/BlockPreview.astro`.
 - `Frameworks.astro` — The same for the Frameworks pages (`src/_data/frameworks.ts` lists them).
 
 ### Pages (`src/pages/`)

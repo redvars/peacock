@@ -1,0 +1,170 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/onboarding.scss';
+---
+
+<Layout
+  title='Onboarding wizard'
+  description='A multi-step setup flow built from Peacock components: a stepper, a form per step with inputs, selects, a logo upload, checkbox and radio groups, and back and next actions.'
+>
+  <div class='block-demo onboarding-demo'>
+    <wc-card class='onboarding-card' variant='outlined'>
+      <wc-card-content class='onboarding-header'>
+        <div class='onboarding-brand'>
+          <wc-icon name='rocket_launch'></wc-icon>
+          <span class='text-title-medium'>Lumen</span>
+        </div>
+        <wc-stepper id='onboarding-stepper' current='workspace' label='Workspace setup'>
+          <wc-step value='workspace' label='Workspace' description='Name and branding' class='is-current'></wc-step>
+          <wc-step value='team' label='Team' description='Invite people'></wc-step>
+          <wc-step value='preferences' label='Preferences' description='How you work'></wc-step>
+          <wc-step value='done' label='Done'></wc-step>
+        </wc-stepper>
+      </wc-card-content>
+
+      <wc-card-content class='onboarding-body'>
+        <section class='onboarding-step' data-step='workspace'>
+          <header class='onboarding-step-header'>
+            <h2 class='text-headline-small'>Set up your workspace</h2>
+            <p class='text-body-medium block-muted'>This is where your team plans, tracks and ships work. You can change these later in settings.</p>
+          </header>
+          <div class='onboarding-fields onboarding-fields-2'>
+            <wc-input label='Workspace name' value='Harbor Analytics' required></wc-input>
+            <wc-input label='Workspace URL' value='harbor-analytics' helper-text='lumen.app/harbor-analytics'></wc-input>
+            <wc-select label='Industry' placeholder='Choose an industry' value='software'>
+              <wc-option value='software'>Software and SaaS</wc-option>
+              <wc-option value='agency'>Agency or consultancy</wc-option>
+              <wc-option value='finance'>Finance</wc-option>
+              <wc-option value='healthcare'>Healthcare</wc-option>
+              <wc-option value='education'>Education</wc-option>
+              <wc-option value='other'>Something else</wc-option>
+            </wc-select>
+            <wc-select label='Company size' placeholder='Choose a size' value='11-50'>
+              <wc-option value='1-10'>1 to 10 people</wc-option>
+              <wc-option value='11-50'>11 to 50 people</wc-option>
+              <wc-option value='51-200'>51 to 200 people</wc-option>
+              <wc-option value='201+'>More than 200 people</wc-option>
+            </wc-select>
+            <wc-file-upload
+              class='onboarding-span'
+              label='Workspace logo'
+              name='logo'
+              accept='image/png,image/svg+xml,image/jpeg'
+              max-size='2097152'
+              helper-text='PNG, SVG or JPG, up to 2 MB. Shown in the sidebar and in invite emails.'
+            ></wc-file-upload>
+          </div>
+        </section>
+
+        <section class='onboarding-step' data-step='team' hidden>
+          <header class='onboarding-step-header'>
+            <h2 class='text-headline-small'>Invite your team</h2>
+            <p class='text-body-medium block-muted'>Lumen works best with the people you build with. Invites expire after seven days.</p>
+          </header>
+          <div class='onboarding-fields'>
+            <wc-input
+              type='email'
+              label='Email addresses'
+              placeholder='name@harbor.io, name@harbor.io'
+              helper-text='Separate addresses with commas.'
+            ></wc-input>
+            <wc-select label='Role for new members' value='member'>
+              <wc-option value='admin'>Admin: manages billing and members</wc-option>
+              <wc-option value='member'>Member: creates and edits work</wc-option>
+              <wc-option value='guest'>Guest: views and comments only</wc-option>
+            </wc-select>
+            <wc-radio-group label='Who can join with a harbor.io email?' name='domain-join' value='request'>
+              <wc-radio value='anyone' label='Anyone, automatically'></wc-radio>
+              <wc-radio value='request' label='Anyone, after an admin approves'></wc-radio>
+              <wc-radio value='invite' label='Only people I invite'></wc-radio>
+            </wc-radio-group>
+          </div>
+        </section>
+
+        <section class='onboarding-step' data-step='preferences' hidden>
+          <header class='onboarding-step-header'>
+            <h2 class='text-headline-small'>Tune Lumen to how you work</h2>
+            <p class='text-body-medium block-muted'>We use this to set up starter projects and views. Nothing here is permanent.</p>
+          </header>
+          <div class='onboarding-fields'>
+            <wc-checkbox-group label='What will you use Lumen for?' name='use-cases' value='projects,roadmaps'>
+              <wc-checkbox value='projects' label='Project planning'></wc-checkbox>
+              <wc-checkbox value='roadmaps' label='Product roadmaps'></wc-checkbox>
+              <wc-checkbox value='bugs' label='Bug tracking'></wc-checkbox>
+              <wc-checkbox value='docs' label='Docs and specs'></wc-checkbox>
+            </wc-checkbox-group>
+            <wc-radio-group label='Work week starts on' name='week-start' value='monday' orientation='horizontal'>
+              <wc-radio value='monday' label='Monday'></wc-radio>
+              <wc-radio value='sunday' label='Sunday'></wc-radio>
+              <wc-radio value='saturday' label='Saturday'></wc-radio>
+            </wc-radio-group>
+            <wc-select label='Time zone' value='europe-lisbon'>
+              <wc-option value='america-new-york'>New York (UTC−05:00)</wc-option>
+              <wc-option value='europe-lisbon'>Lisbon (UTC+00:00)</wc-option>
+              <wc-option value='europe-berlin'>Berlin (UTC+01:00)</wc-option>
+              <wc-option value='asia-kolkata'>Kolkata (UTC+05:30)</wc-option>
+              <wc-option value='asia-singapore'>Singapore (UTC+08:00)</wc-option>
+            </wc-select>
+          </div>
+        </section>
+
+        <section class='onboarding-step onboarding-done' data-step='done' hidden>
+          <span class='onboarding-done-mark'>
+            <wc-icon name='check'></wc-icon>
+          </span>
+          <h2 class='text-headline-small'>Harbor Analytics is ready</h2>
+          <p class='text-body-medium block-muted'>
+            We created a starter project and sent your invites. You can revisit these choices any time in workspace settings.
+          </p>
+          <div class='onboarding-done-actions'>
+            <wc-button level='primary'>Go to workspace</wc-button>
+            <wc-button variant='text' id='onboarding-restart'>Start over</wc-button>
+          </div>
+        </section>
+      </wc-card-content>
+
+      <wc-card-content class='onboarding-footer' id='onboarding-footer'>
+        <span class='text-body-small block-muted' id='onboarding-progress'>Step 1 of 3</span>
+        <div class='onboarding-footer-actions'>
+          <wc-button variant='outlined' id='onboarding-back' disabled>Back</wc-button>
+          <wc-button level='primary' id='onboarding-next'>Continue</wc-button>
+        </div>
+      </wc-card-content>
+    </wc-card>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const steps = ['workspace', 'team', 'preferences', 'done'];
+      const stepper = document.getElementById('onboarding-stepper');
+      const back = document.getElementById('onboarding-back');
+      const next = document.getElementById('onboarding-next');
+      const footer = document.getElementById('onboarding-footer');
+      const progress = document.getElementById('onboarding-progress');
+      const panels = document.querySelectorAll('.onboarding-step');
+      let index = 0;
+
+      const show = i => {
+        index = Math.max(0, Math.min(steps.length - 1, i));
+        const step = steps[index];
+        stepper.current = step;
+        // Lets the phone layout give the current step, the only one with text, more room.
+        stepper.querySelectorAll('wc-step').forEach(el => {
+          el.classList.toggle('is-current', el.value === step);
+        });
+        panels.forEach(panel => {
+          panel.hidden = panel.dataset.step !== step;
+        });
+        const last = index === steps.length - 1;
+        footer.hidden = last;
+        back.disabled = index === 0;
+        next.textContent = index === steps.length - 2 ? 'Finish setup' : 'Continue';
+        progress.textContent = `Step ${index + 1} of ${steps.length - 1}`;
+      };
+
+      next.addEventListener('click', () => show(index + 1));
+      back.addEventListener('click', () => show(index - 1));
+      document.getElementById('onboarding-restart').addEventListener('click', () => show(0));
+    })();
+  </script>
+</Layout>

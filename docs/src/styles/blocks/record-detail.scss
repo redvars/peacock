@@ -1,0 +1,131 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Record detail block (pages/blocks/record-detail/). The outer frame is
+// .block-demo from styles/pages/blocks.scss.
+
+.record-demo {
+  background: var(--color-surface-container-lowest);
+}
+
+.record-header {
+  --page-header-background: var(--color-surface);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  @include mixin.for-phone-only {
+    --page-header-padding-inline: var(--spacing-200);
+    --page-header-padding-block: var(--spacing-200);
+  }
+}
+
+.record-body {
+  padding: var(--spacing-300);
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-200);
+  }
+}
+
+.record-panel[active] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+
+.record-stats {
+  display: grid;
+  // Two tiles a row on phones, four on wider screens.
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+  gap: var(--spacing-200);
+}
+
+.record-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: start;
+  gap: var(--spacing-250);
+
+  @media (max-width: 1199px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.record-card {
+  width: 100%;
+}
+
+.record-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-250);
+
+  h2 {
+    margin: 0;
+  }
+
+  @include mixin.for-phone-only {
+    padding: var(--spacing-200);
+  }
+}
+
+.record-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-100);
+}
+
+.record-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.record-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding-block: var(--spacing-100);
+  border-block-end: 1px solid var(--color-outline-variant);
+
+  &:last-child {
+    border-block-end: none;
+  }
+}
+
+.record-list-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record-file-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--shape-corner-small);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+
+  wc-icon {
+    --icon-size: 1.25rem;
+    --icon-color: currentColor;
+  }
+}
+
+.record-timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-025);
+}

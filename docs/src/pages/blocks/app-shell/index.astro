@@ -1,0 +1,292 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/app-shell.scss';
+
+interface NavItem {
+  value: string;
+  label: string;
+  icon: string;
+  badge?: string;
+  current?: boolean;
+}
+
+interface Kpi {
+  label: string;
+  value: number;
+  previous: number;
+  format?: string;
+  positive?: 'up' | 'down';
+}
+
+interface Project {
+  name: string;
+  team: string;
+  status: string;
+  intent: 'success' | 'warning' | 'danger' | 'info';
+}
+
+interface Activity {
+  name: string;
+  action: string;
+  time: string;
+}
+
+const navItems: NavItem[] = [
+  { value: 'home', label: 'Home', icon: 'home', current: true },
+  { value: 'inbox', label: 'Inbox', icon: 'inbox', badge: '4' },
+  { value: 'projects', label: 'Projects', icon: 'folder' },
+  { value: 'reports', label: 'Reports', icon: 'bar_chart' },
+  { value: 'team', label: 'Team', icon: 'group' },
+  { value: 'settings', label: 'Settings', icon: 'settings' },
+];
+
+const kpis: Kpi[] = [
+  { label: 'Open tasks', value: 128, previous: 142, positive: 'down' },
+  { label: 'Completed this week', value: 64, previous: 51 },
+  { label: 'Hours logged', value: 312, previous: 298 },
+  {
+    label: 'Budget used',
+    value: 0.62,
+    previous: 0.58,
+    format: '{"style": "percent", "maximumFractionDigits": 0}',
+    positive: 'down',
+  },
+];
+
+const projects: Project[] = [
+  { name: 'Website relaunch', team: 'Marketing · 12 open tasks', status: 'On track', intent: 'success' },
+  { name: 'Mobile app 3.0', team: 'Product · 31 open tasks', status: 'At risk', intent: 'warning' },
+  { name: 'Data warehouse migration', team: 'Platform · 18 open tasks', status: 'Blocked', intent: 'danger' },
+  { name: 'Customer onboarding', team: 'Success · 7 open tasks', status: 'Planning', intent: 'info' },
+];
+
+const activity: Activity[] = [
+  { name: 'Marcus Reid', action: 'moved "Pricing page copy" to In review', time: '12 min ago' },
+  { name: 'Sara Okoye', action: 'commented on "Checkout flow audit"', time: '40 min ago' },
+  { name: 'Tomás Herrera', action: 'closed 6 tasks in Mobile app 3.0', time: '2 h ago' },
+  { name: 'Alice Liu', action: 'added you to Data warehouse migration', time: 'Yesterday' },
+];
+---
+
+<Layout
+  title='App shell'
+  description='A complete application frame on wc-app-shell: an app bar with search and the account menu, navigation that collapses to a rail, a workspace switcher, a command palette and a home page.'
+>
+  <div class='block-demo block-demo-app-shell'>
+    <wc-app-shell id='app-shell-block' class='app-shell-frame' hide-menu-button>
+      <wc-app-bar slot='header' class='app-shell-bar'>
+        <wc-icon-button
+          slot='start'
+          id='app-shell-toggle'
+          variant='text'
+          shape='round'
+          aria-label='Toggle navigation'
+        >
+          <wc-icon name='menu'></wc-icon>
+        </wc-icon-button>
+        <span class='app-shell-brand'>
+          <wc-icon name='hub'></wc-icon>
+          <span class='text-title-large'>Orbit</span>
+        </span>
+        <wc-button slot='end' class='app-shell-search' variant='outlined' data-open-palette>
+          <wc-icon slot='icon' name='search'></wc-icon>
+          Search or run a command
+        </wc-button>
+        <wc-icon-button
+          slot='end'
+          class='app-shell-search-icon'
+          variant='text'
+          shape='round'
+          aria-label='Search'
+          data-open-palette
+        >
+          <wc-icon name='search'></wc-icon>
+        </wc-icon-button>
+        <wc-icon-button slot='end' class='app-shell-help' variant='text' shape='round' aria-label='Help'>
+          <wc-icon name='help'></wc-icon>
+        </wc-icon-button>
+        <wc-icon-button slot='end' variant='text' shape='round' aria-label='Notifications'>
+          <wc-icon name='notifications'></wc-icon>
+        </wc-icon-button>
+        <wc-user-menu slot='end' name='Priya Raman' email='priya@fernbrook.io' status='online'>
+          <wc-menu-item><wc-icon slot='start' name='person'></wc-icon>Profile</wc-menu-item>
+          <wc-menu-item><wc-icon slot='start' name='tune'></wc-icon>Preferences</wc-menu-item>
+          <wc-menu-item><wc-icon slot='start' name='keyboard'></wc-icon>Keyboard shortcuts</wc-menu-item>
+          <wc-menu-item slot='footer'><wc-icon slot='start' name='logout'></wc-icon>Sign out</wc-menu-item>
+        </wc-user-menu>
+      </wc-app-bar>
+
+      <wc-navigation-drawer slot='navigation' open class='app-shell-drawer'>
+        <div slot='header' class='app-shell-workspace'>
+          <wc-workspace-switcher id='app-shell-workspaces' value='fernbrook' creatable></wc-workspace-switcher>
+        </div>
+        {navItems.map(item => (
+          <wc-navigation-drawer-item value={item.value} href='#' current={item.current} badge={item.badge}>
+            <wc-icon slot='icon' name={item.icon}></wc-icon>
+            {item.label}
+          </wc-navigation-drawer-item>
+        ))}
+      </wc-navigation-drawer>
+
+      <wc-navigation-rail slot='rail' class='app-shell-rail'>
+        <wc-workspace-switcher
+          slot='header'
+          id='app-shell-workspaces-rail'
+          value='fernbrook'
+          collapsed
+          placement='end-start'
+          creatable
+        ></wc-workspace-switcher>
+        {navItems.map(item => (
+          <wc-navigation-rail-item value={item.value} href='#' current={item.current} badge={item.badge}>
+            <wc-icon slot='icon' name={item.icon}></wc-icon>
+            {item.label}
+          </wc-navigation-rail-item>
+        ))}
+      </wc-navigation-rail>
+
+      <div class='app-shell-content'>
+        <wc-page-header
+          headline='Good morning, Priya'
+          supporting-text='Here is what is happening across Fernbrook Labs this week.'
+        >
+          <wc-button slot='actions' variant='outlined'>
+            <wc-icon slot='icon' name='ios_share'></wc-icon>
+            Share
+          </wc-button>
+          <wc-button slot='actions' level='primary'>
+            <wc-icon slot='icon' name='add'></wc-icon>
+            New project
+          </wc-button>
+        </wc-page-header>
+
+        <div class='app-shell-body'>
+          <div class='app-shell-stats'>
+            {kpis.map(kpi => (
+              <wc-stat
+                label={kpi.label}
+                value={String(kpi.value)}
+                previous={String(kpi.previous)}
+                format={kpi.format}
+                positive={kpi.positive}
+                comparison='vs last week'
+              ></wc-stat>
+            ))}
+          </div>
+
+          <div class='app-shell-panels'>
+            <wc-card class='app-shell-card'>
+              <wc-card-content class='app-shell-card-inner'>
+                <div class='app-shell-card-head'>
+                  <h2 class='text-title-medium'>Active projects</h2>
+                  <wc-link href='#'>View all</wc-link>
+                </div>
+                <wc-list>
+                  {projects.map(project => (
+                    <wc-list-item actionable>
+                      <wc-icon slot='start' name='folder'></wc-icon>
+                      {project.name}
+                      <span slot='supporting-text'>{project.team}</span>
+                      <wc-tag slot='end' size='sm' intent={project.intent}>{project.status}</wc-tag>
+                    </wc-list-item>
+                  ))}
+                </wc-list>
+              </wc-card-content>
+            </wc-card>
+
+            <wc-card class='app-shell-card'>
+              <wc-card-content class='app-shell-card-inner'>
+                <div class='app-shell-card-head'>
+                  <h2 class='text-title-medium'>Recent activity</h2>
+                </div>
+                <wc-list>
+                  {activity.map(entry => (
+                    <wc-list-item>
+                      <wc-avatar slot='start' name={entry.name} size='sm'></wc-avatar>
+                      {entry.name}
+                      <span slot='supporting-text'>{entry.action}</span>
+                      <span slot='trailing-supporting-text'>{entry.time}</span>
+                    </wc-list-item>
+                  ))}
+                </wc-list>
+              </wc-card-content>
+            </wc-card>
+          </div>
+        </div>
+      </div>
+    </wc-app-shell>
+
+    <wc-command-palette
+      id='app-shell-palette'
+      label='Search Orbit'
+      placeholder='Search projects, people and commands'
+    ></wc-command-palette>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const shell = document.getElementById('app-shell-block');
+      document.getElementById('app-shell-toggle').addEventListener('click', () => shell.toggleNavigation());
+
+      const workspaces = [
+        { value: 'fernbrook', label: 'Fernbrook Labs', description: 'Business · 48 members' },
+        { value: 'fernbrook-design', label: 'Fernbrook Design', description: 'Team · 9 members' },
+        { value: 'side-projects', label: 'Side projects', description: 'Free · 2 members' },
+      ];
+      const switchers = [
+        document.getElementById('app-shell-workspaces'),
+        document.getElementById('app-shell-workspaces-rail'),
+      ];
+      switchers.forEach(switcher => {
+        switcher.workspaces = workspaces;
+        // Keep the drawer's and the rail's switcher on the same workspace.
+        switcher.addEventListener('change', event => {
+          switchers.forEach(other => {
+            other.value = event.detail.value;
+          });
+        });
+      });
+
+      const palette = document.getElementById('app-shell-palette');
+      palette.commands = [
+        { id: 'new-project', label: 'New project', group: 'Create', icon: 'add', shortcut: 'P' },
+        { id: 'new-task', label: 'New task', group: 'Create', icon: 'add_task', shortcut: 'C' },
+        { id: 'invite', label: 'Invite teammates', group: 'Create', icon: 'person_add' },
+        { id: 'go-inbox', label: 'Go to inbox', group: 'Navigation', icon: 'inbox', shortcut: 'G I' },
+        { id: 'go-projects', label: 'Go to projects', group: 'Navigation', icon: 'folder', shortcut: 'G P' },
+        { id: 'go-reports', label: 'Go to reports', group: 'Navigation', icon: 'bar_chart', shortcut: 'G R' },
+        {
+          id: 'settings',
+          label: 'Open settings',
+          group: 'Navigation',
+          icon: 'settings',
+          keywords: ['preferences', 'account'],
+        },
+        {
+          id: 'website',
+          label: 'Website relaunch',
+          group: 'Projects',
+          icon: 'folder',
+          description: 'Marketing · On track',
+        },
+        {
+          id: 'mobile',
+          label: 'Mobile app 3.0',
+          group: 'Projects',
+          icon: 'folder',
+          description: 'Product · At risk',
+        },
+        { id: 'marcus', label: 'Marcus Reid', group: 'People', icon: 'person', description: 'Product designer' },
+        { id: 'sara', label: 'Sara Okoye', group: 'People', icon: 'person', description: 'Engineering manager' },
+      ];
+      palette.recent = ['website', 'go-inbox'];
+      document.querySelectorAll('[data-open-palette]').forEach(button => {
+        button.addEventListener('click', () => palette.show());
+      });
+      palette.addEventListener('select', event => {
+        const id = event.detail.command.id;
+        palette.recent = [id, ...palette.recent.filter(recent => recent !== id)].slice(0, 3);
+      });
+    })();
+  </script>
+</Layout>

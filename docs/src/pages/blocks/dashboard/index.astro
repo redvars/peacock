@@ -2,147 +2,234 @@
 import Layout from '../../../layouts/WithBlocksSidebar.astro';
 import '../../../styles/blocks/dashboard.scss';
 
-interface Stat {
+interface Kpi {
   label: string;
-  value: string;
-  trend: string;
-  up: boolean;
+  value: number;
+  previous: number;
+  format: string;
+  trend: number[];
+  help?: string;
 }
 
-interface Order {
-  name: string;
-  order: string;
-  detail: string;
-  status: string;
-  intent: 'success' | 'warning' | 'danger';
+interface NavItem {
+  label: string;
+  icon: string;
+  badge?: string;
+  current?: boolean;
 }
 
-const stats: Stat[] = [
-  { label: 'Total Revenue', value: '$84,250', trend: '+12.5% vs last month', up: true },
-  { label: 'Active Users', value: '3,842', trend: '+5.2% vs last month', up: true },
-  { label: 'New Orders', value: '1,290', trend: '-2.1% vs last month', up: false },
-  { label: 'Conversion Rate', value: '4.7%', trend: '+0.8% vs last month', up: true },
+const usd = JSON.stringify({ style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+const kpis: Kpi[] = [
+  {
+    label: 'Revenue',
+    value: 84250,
+    previous: 69000,
+    format: usd,
+    trend: [52000, 61000, 58000, 74000, 69000, 84250],
+  },
+  {
+    label: 'Orders',
+    value: 1290,
+    previous: 1318,
+    format: JSON.stringify({ maximumFractionDigits: 0 }),
+    trend: [1080, 1190, 1240, 1302, 1318, 1290],
+  },
+  {
+    label: 'Active customers',
+    value: 3842,
+    previous: 3652,
+    format: JSON.stringify({ maximumFractionDigits: 0 }),
+    trend: [3120, 3280, 3410, 3530, 3652, 3842],
+    help: 'Customers who placed an order in the last 90 days',
+  },
+  {
+    label: 'Conversion rate',
+    value: 0.047,
+    previous: 0.039,
+    format: JSON.stringify({ style: 'percent', maximumFractionDigits: 1 }),
+    trend: [0.034, 0.036, 0.035, 0.041, 0.039, 0.047],
+  },
 ];
 
-const orders: Order[] = [
-  { name: 'Alice Liu', order: '#4821', detail: '2 items · $128.00', status: 'Delivered', intent: 'success' },
-  { name: 'Marcus Reid', order: '#4820', detail: '1 item · $54.99', status: 'Processing', intent: 'warning' },
-  { name: 'Sara Okoye', order: '#4819', detail: '3 items · $219.50', status: 'Cancelled', intent: 'danger' },
+const navItems: NavItem[] = [
+  { label: 'Overview', icon: 'dashboard', current: true },
+  { label: 'Orders', icon: 'receipt_long', badge: '12' },
+  { label: 'Products', icon: 'inventory_2' },
+  { label: 'Customers', icon: 'group' },
+  { label: 'Reports', icon: 'bar_chart' },
 ];
 ---
 
 <Layout
   title='Dashboard'
-  description='An admin dashboard assembled from Peacock components: sidebar navigation, a top bar with search, KPI stat cards, an area chart, a doughnut chart and recent orders.'
+  description='An admin dashboard assembled from Peacock components: an app shell with an app bar, navigation drawer, notification center and user menu, a page header with a period switch, KPI stats with sparklines, an area chart, a doughnut chart and a table of recent orders.'
 >
-  <div class='block-demo block-demo-shell'>
-    <aside class='block-demo-sidebar'>
-      <div class='sidebar-brand'>
-        <wc-icon name='widgets'></wc-icon>
-        <span class='text-title-medium'>AdminApp</span>
-      </div>
-      <wc-navigation-drawer open class='sidebar-nav'>
-        <wc-navigation-drawer-item value='dashboard' href='#' current>Dashboard</wc-navigation-drawer-item>
-        <wc-navigation-drawer-group expanded>
-          <span slot='label'>Analytics</span>
-          <wc-navigation-drawer-item value='analytics-overview' href='#'>Overview</wc-navigation-drawer-item>
-          <wc-navigation-drawer-item value='analytics-reports' href='#'>Reports</wc-navigation-drawer-item>
-        </wc-navigation-drawer-group>
-        <wc-navigation-drawer-item value='users' href='#'>Users</wc-navigation-drawer-item>
-        <wc-navigation-drawer-item value='orders' href='#'>Orders</wc-navigation-drawer-item>
-        <wc-navigation-drawer-item value='products' href='#'>Products</wc-navigation-drawer-item>
-        <wc-navigation-drawer-item value='settings' href='#'>Settings</wc-navigation-drawer-item>
+  <div class='block-demo dashboard-block'>
+    <wc-app-shell class='dashboard-shell'>
+      <wc-app-bar slot='header' class='dashboard-app-bar'>
+        <span class='dashboard-brand'>
+          <wc-icon name='storefront'></wc-icon>
+          <span class='text-title-medium'>Northwind store</span>
+        </span>
+        <wc-search slot='end' class='dashboard-search' placeholder='Search orders, products…' size='sm'></wc-search>
+        <wc-notification-center slot='end' id='dashboard-inbox'></wc-notification-center>
+        <wc-user-menu slot='end' name='Jane Doe' email='jane@northwind.example' status='online'>
+          <wc-menu-item><wc-icon slot='start' name='person'></wc-icon>Profile</wc-menu-item>
+          <wc-menu-item><wc-icon slot='start' name='settings'></wc-icon>Settings</wc-menu-item>
+          <wc-divider slot='footer'></wc-divider>
+          <wc-menu-item slot='footer'><wc-icon slot='start' name='logout'></wc-icon>Sign out</wc-menu-item>
+        </wc-user-menu>
+      </wc-app-bar>
+
+      <wc-navigation-drawer slot='navigation' open class='dashboard-nav'>
+        {
+          navItems.map(item => (
+            <wc-navigation-drawer-item value={item.label.toLowerCase()} href='#' current={item.current ? true : null} badge={item.badge}>
+              <wc-icon slot='icon' name={item.icon} />
+              {item.label}
+            </wc-navigation-drawer-item>
+          ))
+        }
+        <wc-divider></wc-divider>
+        <wc-navigation-drawer-item value='settings' href='#'>
+          <wc-icon slot='icon' name='settings' />
+          Settings
+        </wc-navigation-drawer-item>
       </wc-navigation-drawer>
-    </aside>
 
-    <main class='block-demo-main'>
-      <div class='block-demo-topbar'>
-        <span class='text-title-large'>Dashboard</span>
-        <wc-search class='topbar-search' placeholder='Search…' size='sm'></wc-search>
-        <div class='topbar-actions'>
-          <wc-icon-button variant='text' aria-label='Notifications'>
-            <wc-icon name='notifications'></wc-icon>
-          </wc-icon-button>
-          <wc-avatar name='Jane Doe'></wc-avatar>
+      <div class='dashboard-content'>
+        <wc-page-header
+          class='dashboard-header'
+          headline='Overview'
+          heading-level='2'
+          supporting-text='How the store did in the last six months.'
+        >
+          <wc-segmented-button-group slot='actions' label='Period' id='dashboard-period'>
+            <wc-segmented-button value='30d'>30D</wc-segmented-button>
+            <wc-segmented-button value='6m' selected>6M</wc-segmented-button>
+            <wc-segmented-button value='12m'>12M</wc-segmented-button>
+          </wc-segmented-button-group>
+          <wc-button slot='actions' variant='outlined'>
+            <wc-icon slot='icon' name='download'></wc-icon>
+            Export
+          </wc-button>
+        </wc-page-header>
+
+        <div class='dashboard-stats'>
+          {
+            kpis.map(kpi => (
+              <wc-stat
+                label={kpi.label}
+                value={kpi.value}
+                previous={kpi.previous}
+                format={kpi.format}
+                comparison='vs last month'
+                help={kpi.help}
+              >
+                <wc-sparkline slot='trend' type='area' label={kpi.label} data={JSON.stringify(kpi.trend)} highlight-last />
+              </wc-stat>
+            ))
+          }
         </div>
-      </div>
 
-      <div class='block-demo-content'>
-        <div class='stats-row'>
-          {stats.map(stat => (
-            <wc-card class='stat-card'>
-              <wc-card-content class='stat-card-inner'>
-                <div class='stat-label text-body-medium'>{stat.label}</div>
-                <div class='text-headline-medium'>{stat.value}</div>
-                <div class={stat.up ? 'stat-trend up' : 'stat-trend down'}>
-                  <wc-icon name={stat.up ? 'trending_up' : 'trending_down'}></wc-icon>
-                  <span class='text-label-medium'>{stat.trend}</span>
-                </div>
-              </wc-card-content>
-            </wc-card>
-          ))}
-        </div>
-
-        <div class='charts-row'>
-          <wc-card class='chart-card'>
-            <wc-card-content class='chart-card-inner'>
-              <h2 class='text-title-medium chart-title'>Monthly Revenue</h2>
-              <wc-chart-area id='dashboard-revenue-chart' category-key='month' height='240' label='Monthly revenue'></wc-chart-area>
+        <div class='dashboard-charts'>
+          <wc-card variant='outlined' class='dashboard-card'>
+            <wc-card-content class='dashboard-card-inner'>
+              <h3 class='text-title-medium dashboard-card-title'>Monthly revenue</h3>
+              <wc-chart-area id='dashboard-revenue-chart' category-key='month' height='290' label='Monthly revenue'></wc-chart-area>
             </wc-card-content>
           </wc-card>
-          <wc-card class='chart-card'>
-            <wc-card-content class='chart-card-inner'>
-              <h2 class='text-title-medium chart-title'>Traffic by Channel</h2>
+          <wc-card variant='outlined' class='dashboard-card'>
+            <wc-card-content class='dashboard-card-inner'>
+              <h3 class='text-title-medium dashboard-card-title'>Traffic by channel</h3>
               <wc-chart-doughnut id='dashboard-doughnut-chart' height='240' center-label='Visits' label='Traffic by channel'></wc-chart-doughnut>
             </wc-card-content>
           </wc-card>
         </div>
 
-        <wc-card class='activity-card'>
-          <wc-card-content class='activity-card-inner'>
-            <h2 class='text-title-medium activity-title'>Recent Orders</h2>
-            <div class='activity-list'>
-              {orders.map(order => (
-                <div class='activity-item'>
-                  <wc-avatar name={order.name}></wc-avatar>
-                  <div class='activity-text'>
-                    <div class='text-body-medium'>{order.name}, order {order.order}</div>
-                    <div class='text-body-small block-muted'>{order.detail}</div>
-                  </div>
-                  <wc-tag intent={order.intent}>{order.status}</wc-tag>
-                </div>
-              ))}
+        <wc-card variant='outlined' class='dashboard-card'>
+          <wc-card-content class='dashboard-card-inner'>
+            <div class='dashboard-card-heading'>
+              <h3 class='text-title-medium dashboard-card-title'>Recent orders</h3>
+              <wc-button variant='text' trailing-icon>
+                <wc-icon slot='icon' name='arrow_forward'></wc-icon>
+                View all
+              </wc-button>
             </div>
+            <wc-table id='dashboard-orders' class='dashboard-orders' key-field='order' label='Recent orders'></wc-table>
           </wc-card-content>
         </wc-card>
       </div>
-    </main>
+    </wc-app-shell>
   </div>
 
   <script is:inline>
     const revenueChart = document.getElementById('dashboard-revenue-chart');
-    const currency = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      notation: 'compact',
-    });
+    const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', notation: 'compact' });
     revenueChart.valueFormatter = value => currency.format(value);
     revenueChart.config = { revenue: { label: 'Revenue' } };
     revenueChart.data = [
-      { month: 'Jan', revenue: 52000 },
-      { month: 'Feb', revenue: 61000 },
-      { month: 'Mar', revenue: 58000 },
-      { month: 'Apr', revenue: 74000 },
-      { month: 'May', revenue: 69000 },
-      { month: 'Jun', revenue: 84250 },
+      { month: 'Jun', revenue: 52000 },
+      { month: 'Jul', revenue: 61000 },
+      { month: 'Aug', revenue: 58000 },
+      { month: 'Sep', revenue: 74000 },
+      { month: 'Oct', revenue: 69000 },
+      { month: 'Nov', revenue: 84250 },
     ];
 
     const doughnutChart = document.getElementById('dashboard-doughnut-chart');
     doughnutChart.data = [
-      { name: 'organic', label: 'Organic', value: 42 },
-      { name: 'direct', label: 'Direct', value: 28 },
-      { name: 'social', label: 'Social', value: 18 },
-      { name: 'referral', label: 'Referral', value: 12 },
+      { name: 'organic', label: 'Organic', value: 18420 },
+      { name: 'direct', label: 'Direct', value: 12260 },
+      { name: 'social', label: 'Social', value: 7890 },
+      { name: 'referral', label: 'Referral', value: 5230 },
     ];
+
+    const STATUS_INTENTS = { Delivered: 'success', Shipped: 'info', Processing: 'warning', Cancelled: 'danger' };
+    const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    const orders = document.getElementById('dashboard-orders');
+    orders.columns = [
+      { name: 'order', label: 'Order', width: 6 },
+      {
+        name: 'customer',
+        label: 'Customer',
+        width: 13,
+        flex: 1,
+        template: row =>
+          `<span style='display: inline-flex; align-items: center; gap: var(--spacing-100);'><wc-avatar size='sm' name='${row.customer}'></wc-avatar>${row.customer}</span>`,
+      },
+      { name: 'date', label: 'Date', width: 7 },
+      { name: 'total', label: 'Total', width: 7, type: 'number', template: row => money.format(row.total) },
+      {
+        name: 'status',
+        label: 'Status',
+        width: 8,
+        template: row => `<wc-tag size='sm' intent='${STATUS_INTENTS[row.status]}'>${row.status}</wc-tag>`,
+      },
+    ];
+    orders.data = [
+      { order: '#4821', customer: 'Alice Liu', date: 'Nov 7', total: 128, status: 'Delivered' },
+      { order: '#4820', customer: 'Marcus Reid', date: 'Nov 7', total: 54.99, status: 'Processing' },
+      { order: '#4819', customer: 'Sara Okoye', date: 'Nov 6', total: 219.5, status: 'Shipped' },
+      { order: '#4818', customer: 'Diego Alvarez', date: 'Nov 6', total: 76.2, status: 'Cancelled' },
+      { order: '#4817', customer: 'Priya Nair', date: 'Nov 5', total: 342, status: 'Delivered' },
+    ];
+
+    const inbox = document.getElementById('dashboard-inbox');
+    const minutesAgo = minutes => new Date(Date.now() - minutes * 60000).toISOString();
+    inbox.notifications = [
+      { id: 'n1', title: 'New order #4821', body: 'Alice Liu ordered 2 items for $128.00.', timestamp: minutesAgo(4), intent: 'success' },
+      { id: 'n2', title: 'Low stock', body: 'Linen tote bag has 3 left.', timestamp: minutesAgo(52), intent: 'warning' },
+      { id: 'n3', title: 'Payment failed', body: 'Order #4818 could not be charged.', timestamp: minutesAgo(180), intent: 'danger' },
+      { id: 'n4', title: 'Monthly report ready', body: 'October sales are ready to download.', timestamp: minutesAgo(60 * 26), intent: 'info', read: true },
+    ];
+    inbox.addEventListener('read-change', event => {
+      const { ids, read } = event.detail;
+      inbox.notifications = inbox.notifications.map(n => (ids.includes(n.id) ? { ...n, read } : n));
+    });
+    inbox.addEventListener('dismiss', event => {
+      inbox.notifications = inbox.notifications.filter(n => n.id !== event.detail.notification.id);
+    });
   </script>
 </Layout>

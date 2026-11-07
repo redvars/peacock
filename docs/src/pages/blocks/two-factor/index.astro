@@ -1,0 +1,121 @@
+---
+import Layout from '../../../layouts/WithBlocksSidebar.astro';
+import '../../../styles/blocks/auth.scss';
+import '../../../styles/blocks/two-factor.scss';
+---
+
+<Layout
+  title='Two-factor verification'
+  description='A centered verification step built from Peacock components: a six-digit pin input with its own error state, a resend action with a countdown, and a recovery code fallback.'
+>
+  <div class='block-demo block-demo-centered'>
+    <wc-card class='auth-card'>
+      <wc-card-content class='auth-card-inner'>
+        <div class='auth-brand'>
+          <wc-icon name='verified_user'></wc-icon>
+          <h2 class='text-headline-small'>Check your phone</h2>
+          <p class='text-body-medium block-muted'>
+            We sent a 6-digit code to the number ending in <strong class='two-factor-strong'>•• 4821</strong>. Enter it to finish signing in to Lumen.
+          </p>
+        </div>
+
+        <form class='two-factor-form' id='two-factor-form' novalidate>
+          <wc-pin-input
+            id='two-factor-code'
+            class='two-factor-code'
+            label='Verification code'
+            name='code'
+            length='6'
+            size='md'
+            required
+            helper-text='Demo code: 246810'
+          ></wc-pin-input>
+
+          <div class='auth-actions'>
+            <wc-button level='primary' block type='submit' id='two-factor-submit'>Verify and sign in</wc-button>
+          </div>
+        </form>
+
+        <div class='two-factor-resend'>
+          <span class='text-body-medium block-muted'>Didn't get a code?</span>
+          <wc-button variant='text' size='sm' id='two-factor-resend' disabled>Resend in 0:30</wc-button>
+        </div>
+
+        <wc-divider></wc-divider>
+
+        <div class='two-factor-alternatives'>
+          <wc-link href='#'>Use a recovery code instead</wc-link>
+          <wc-link href='/blocks/login/'>Sign in with a different account</wc-link>
+        </div>
+      </wc-card-content>
+    </wc-card>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById('two-factor-form');
+      const code = document.getElementById('two-factor-code');
+      const submit = document.getElementById('two-factor-submit');
+      const resend = document.getElementById('two-factor-resend');
+      const expected = '246810';
+      let timer;
+
+      const clearError = () => {
+        code.error = false;
+        code.errorText = '';
+      };
+
+      const verify = () => {
+        if (code.value.length < 6) {
+          code.error = true;
+          code.errorText = 'Enter all 6 digits of the code.';
+          return;
+        }
+        if (code.value !== expected) {
+          code.error = true;
+          code.errorText = "That code doesn't match. Check the latest message and try again.";
+          return;
+        }
+        clearError();
+        submit.loading = true;
+        setTimeout(() => {
+          submit.loading = false;
+          submit.textContent = 'Signed in';
+          submit.disabled = true;
+        }, 900);
+      };
+
+      const startCountdown = seconds => {
+        clearInterval(timer);
+        let left = seconds;
+        const tick = () => {
+          if (left <= 0) {
+            clearInterval(timer);
+            resend.disabled = false;
+            resend.textContent = 'Resend code';
+            return;
+          }
+          resend.disabled = true;
+          resend.textContent = `Resend in 0:${String(left).padStart(2, '0')}`;
+          left -= 1;
+        };
+        tick();
+        timer = setInterval(tick, 1000);
+      };
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        verify();
+      });
+      code.addEventListener('input', clearError);
+      code.addEventListener('complete', verify);
+      resend.addEventListener('click', () => {
+        code.clear();
+        clearError();
+        startCountdown(30);
+      });
+
+      startCountdown(30);
+    })();
+  </script>
+</Layout>

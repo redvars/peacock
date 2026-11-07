@@ -1,41 +1,61 @@
 ---
 import Layout from '../../../layouts/WithBlocksSidebar.astro';
 import '../../../styles/blocks/auth.scss';
+
+// Monochrome brand marks, inline in the buttons' icon slot (wc-icon cannot load data: URLs).
+const googlePath =
+  'M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z';
+const githubPath =
+  'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12';
 ---
 
 <Layout
   title='Sign up'
-  description='A centered registration form built from Peacock components: name, email and password inputs, a terms checkbox, a primary create-account action and a link back to sign in.'
+  description='A centered registration card built from Peacock components: sign-up with Google or GitHub, an "or" divider, a validated form with name, email and a new password checked live against password rules, a terms checkbox and a link back to sign in.'
 >
-  <div class='block-demo block-demo-centered'>
+  <div class='block-demo block-demo-centered auth-shell'>
     <wc-card class='auth-card'>
       <wc-card-content class='auth-card-inner'>
         <div class='auth-brand'>
-          <wc-icon name='person_add'></wc-icon>
+          <span class='auth-logo'><wc-icon name='storefront'></wc-icon></span>
           <h2 class='text-headline-small'>Create your account</h2>
-          <p class='text-body-medium block-muted'>It takes less than a minute.</p>
+          <p class='text-body-medium block-muted'>Start your 14-day free trial. No card needed.</p>
         </div>
 
-        <div class='auth-fields'>
-          <wc-input label='Full name' placeholder='Jane Doe' autocomplete='on' required></wc-input>
-          <wc-input type='email' label='Email address' placeholder='you@example.com' required></wc-input>
-          <wc-password-field
-            id='signup-password'
-            label='Password'
-            placeholder='Create a password'
-            autocomplete='new-password'
-            required
-          ></wc-password-field>
-          <wc-password-rules for='signup-password' minlength='12' require-number></wc-password-rules>
+        <div class='auth-social'>
+          <wc-button variant='outlined'>
+            <svg slot='icon' viewBox='0 0 24 24' aria-hidden='true'><path d={googlePath} /></svg>
+            Google
+          </wc-button>
+          <wc-button variant='outlined'>
+            <svg slot='icon' viewBox='0 0 24 24' aria-hidden='true'><path d={githubPath} /></svg>
+            GitHub
+          </wc-button>
         </div>
 
-        <wc-checkbox label='I agree to the terms of service and privacy policy' required></wc-checkbox>
+        <wc-divider class='auth-divider'>or</wc-divider>
 
-        <div class='auth-actions'>
-          <wc-button level='primary' block>Create account</wc-button>
-          <wc-divider>or</wc-divider>
-          <wc-button variant='outlined' block>Sign up with Google</wc-button>
-        </div>
+        <wc-form id='signup-form'>
+          <form class='auth-form'>
+            <wc-input name='name' label='Full name' placeholder='Jane Doe' autocomplete='name' required></wc-input>
+            <wc-input type='email' name='email' label='Work email' placeholder='you@example.com' autocomplete='email' required></wc-input>
+            <div class='auth-password'>
+              <wc-password-field
+                id='signup-password'
+                name='password'
+                label='Password'
+                placeholder='Create a password'
+                autocomplete='new-password'
+                required
+              ></wc-password-field>
+              <wc-password-rules for='signup-password' minlength='12' require-number require-symbol></wc-password-rules>
+            </div>
+
+            <wc-checkbox name='terms' label='I agree to the terms of service and privacy policy' required></wc-checkbox>
+
+            <wc-button type='submit' level='primary' class='auth-submit'>Create account</wc-button>
+          </form>
+        </wc-form>
 
         <p class='text-body-medium auth-footer'>
           Already have an account? <wc-link href='/blocks/login/'>Sign in</wc-link>
@@ -43,4 +63,23 @@ import '../../../styles/blocks/auth.scss';
       </wc-card-content>
     </wc-card>
   </div>
+
+  <script is:inline>
+    {
+      const form = document.getElementById('signup-form');
+      form.addEventListener('submit', event => {
+        if (!(event instanceof CustomEvent)) return;
+        event.preventDefault();
+        form.loading = true;
+        setTimeout(() => {
+          form.loading = false;
+          window.dispatchEvent(
+            new CustomEvent('peacock-toast', {
+              detail: { title: `Welcome aboard, ${event.detail.value.name}`, intent: 'success', dismissible: true },
+            }),
+          );
+        }, 900);
+      });
+    }
+  </script>
 </Layout>

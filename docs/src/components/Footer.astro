@@ -1,56 +1,97 @@
 ---
-import { AUTHOR, REPO_URL, PRIVACY_URL, LICENSE_URL, GITHUB_USERNAME } from '../siteconfig';
+// The site footer: brand and mission with social links, three columns of links (docs,
+// resources, project), then a bottom bar. Styles: styles/footer.scss.
+import { AUTHOR, REPO_URL, PRIVACY_URL, LICENSE_URL, GITHUB_USERNAME, NPM_PACKAGE, VERSION, SITE_TITLE } from '../siteconfig';
 import '../styles/footer.scss';
+
+const columns = [
+  {
+    title: 'Docs',
+    links: [
+      { label: 'Components', href: '/components/' },
+      { label: 'Charts', href: '/charts/' },
+      { label: 'Blocks', href: '/blocks/' },
+      { label: 'Foundations', href: '/foundations/' },
+      { label: 'Frameworks', href: '/frameworks/' },
+      { label: 'Theme builder', href: '/theme-builder' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Getting started', href: '/#getting-started' },
+      { label: 'Blog', href: '/blog/' },
+      { label: 'Migrating to 4.0', href: `${REPO_URL}/blob/main/MIGRATION.md`, external: true },
+      { label: 'Releases', href: `${REPO_URL}/releases`, external: true },
+    ],
+  },
+  {
+    title: 'Project',
+    links: [
+      { label: 'GitHub', href: REPO_URL, external: true },
+      { label: 'Report an issue', href: `${REPO_URL}/issues/new`, external: true },
+      { label: 'npm package', href: `https://www.npmjs.com/package/${NPM_PACKAGE}`, external: true },
+      { label: 'License', href: LICENSE_URL },
+      { label: 'Privacy policy', href: PRIVACY_URL },
+    ],
+  },
+];
+
+const year = new Date().getFullYear();
 ---
 
-<footer class="footer-with-about">
+<footer class='site-footer' data-pagefind-ignore='all'>
+  <div class='site-footer-main'>
+    <section class='site-footer-brand' aria-label={`About ${SITE_TITLE}`}>
+      <a class='site-footer-logo' href='/'>
+        <img src='/assets/img/logo-plain.webp' alt='' width='40' height='40' />
+        <span class='site-footer-name'>{SITE_TITLE}</span>
+      </a>
+      <p class='text-body-medium site-footer-muted'>
+        Accessible, themeable web components for product interfaces. Built with Lit, usable everywhere.
+      </p>
+      <a class='site-footer-version text-label-medium' href={`https://www.npmjs.com/package/${NPM_PACKAGE}`} target='_blank' rel='noopener'>
+        <wc-icon name='deployed_code' aria-hidden='true'></wc-icon>
+        v{VERSION} on npm
+      </a>
+      <ul class='site-footer-social' aria-label='Social links'>
+        <li>
+          <wc-icon-button variant='outlined' color='surface' href={`https://github.com/${GITHUB_USERNAME}`} target='_blank' aria-label='GitHub'>
+            <wc-icon name='logo--github' provider='carbon'></wc-icon>
+          </wc-icon-button>
+        </li>
+        <li>
+          <wc-icon-button variant='outlined' color='surface' href={`https://x.com/${AUTHOR.twitter}`} target='_blank' aria-label='X'>
+            <wc-icon name='logo--x' provider='carbon'></wc-icon>
+          </wc-icon-button>
+        </li>
+      </ul>
+    </section>
 
-  <section class="about">
-      <div class="about-content">
-        <h2 class="text-headline section-title">Peacock</h2>
-        <p class="text-body-large">Our mission is to empower developers with high-quality, customizable, and accessible web components that promote web standards and best practices.</p>
-        <p class="text-body-large">
+    {columns.map(column => (
+      <nav class='site-footer-column' aria-label={column.title}>
+        <h2 class='text-title-small site-footer-heading'>{column.title}</h2>
+        <ul>
+          {column.links.map(link => (
+            <li>
+              <a
+                class='text-body-medium'
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener' : undefined}
+              >
+                {link.label}
+                {link.external && <wc-icon name='arrow_outward' aria-hidden='true'></wc-icon>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ))}
+  </div>
 
-          Built by&nbsp;<wc-link href={AUTHOR.url} target="_blank">{AUTHOR.name}</wc-link>. Built using&nbsp;<wc-link class="link" href="//lit.dev" target="_blank">Lit</wc-link>.
-          Source code on&nbsp;<wc-link class="link" href={REPO_URL} target="_blank">GitHub</wc-link>.
-        </p>
-      </div>
-  </section>
-
-  <nav class="footer-links" aria-label="Footer links" data-pagefind-ignore="all">
-    <h2 class="text-title-large section-title">Links</h2>
-    <ul class="section-nav-links">
-      <li><wc-link href={PRIVACY_URL}>Privacy Policy</wc-link></li>
-      <li><wc-link href={LICENSE_URL}>License</wc-link></li>
-    </ul>
-  </nav>
-
-  <div class="footer-social-links" aria-label="Social links">
-    <h2 class="text-title-large section-title">Social</h2>
-
-    <ul class="section-nav-links">
-      <li>
-        <wc-icon-button
-          variant="outlined"
-          color="surface"
-          href={`https://github.com/${GITHUB_USERNAME}`}
-          target="_blank"
-          aria-label="GitHub"
-        >
-          <wc-icon name="logo--github" provider="carbon"></wc-icon>
-        </wc-icon-button>
-      </li>
-      <li>
-        <wc-icon-button
-          variant="outlined"
-          color="surface"
-          href={`https://twitter.com/${AUTHOR.twitter}`}
-          target="_blank"
-          aria-label="X (Twitter)"
-        >
-          <wc-icon name="logo--x" provider="carbon"></wc-icon>
-        </wc-icon-button>
-      </li>
-    </ul>
+  <div class='site-footer-bottom text-body-small'>
+    <span>© {year} <a href={AUTHOR.url} target='_blank' rel='noopener'>{AUTHOR.name}</a>. Released under the MIT license.</span>
+    <span>Built with <a href='https://lit.dev' target='_blank' rel='noopener'>Lit</a> · Made in India</span>
   </div>
 </footer>

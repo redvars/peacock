@@ -1,0 +1,43 @@
+@charset "utf-8";
+@use '../mixin';
+
+// Two-factor verification block (pages/blocks/two-factor/). The card, header
+// and actions come from ./auth.scss; the frame is .block-demo.block-demo-centered.
+
+.two-factor-strong {
+  color: var(--color-on-surface);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.two-factor-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  margin: 0;
+}
+
+// The pin input hugs its cells; center it and narrow the cells on phones.
+.two-factor-code {
+  align-self: center;
+
+  @include mixin.for-phone-only {
+    --pin-input-cell-width: 2.5rem;
+  }
+}
+
+.two-factor-resend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-050);
+  margin-block-start: calc(var(--spacing-100) * -1);
+}
+
+.two-factor-alternatives {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+}
