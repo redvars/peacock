@@ -460,6 +460,150 @@ export const defaultStrings = {
   /** Accessible name of a dot-only status indicator without `label` or `intent`. */
   statusIndicatorNeutral: 'Status',
 
+  // ── App shell, page header, resizable panels ─────────────────────────────
+  /** The app shell's skip link, the first thing a keyboard user reaches. */
+  skipToMainContent: 'Skip to main content',
+  /** The app shell's menu button that opens the navigation drawer on narrow screens. */
+  openNavigation: 'Open navigation',
+  /** Accessible name of the page header's back link when it has no `back-label`. */
+  back: 'Back',
+  /** Accessible name of a divider between two resizable panels without labels. */
+  resizePanels: 'Resize panels',
+  /** Accessible name of a divider before a labelled panel, for example "Resize Inbox". */
+  resizePanel: (panel: string): string => `Resize ${panel}`,
+
+  // ── Stack, grid, avatar group, copy button ───────────────────────────────
+  /** Default accessible name of a `wc-avatar-group`. */
+  avatarGroupLabel: 'Members',
+  /** Accessible name of the avatar group's overflow button; `count` is already formatted. */
+  avatarGroupMore: (count: string): string => `${count} more`,
+  /** Default accessible name and tooltip of a `wc-copy-button`. */
+  copy: 'Copy',
+  /** Tooltip and announcement of a `wc-copy-button` whose copy failed. */
+  copyFailed: 'Copy failed',
+
+  // ── Command palette, workspace switcher, user menu ───────────────────────
+  /** Default accessible name of a command palette. */
+  commandPalette: 'Command palette',
+  /** Placeholder of a command palette's search field. */
+  commandPalettePlaceholder: 'Type a command or search',
+  /** Heading of the recent commands, shown while the query is empty. */
+  commandPaletteRecent: 'Recent',
+  /** Shown when no command matches, for example `No results for "deploy"`. */
+  commandPaletteNoResults: (query: string): string =>
+    `No results for "${query}"`,
+  /** Shown when a command palette has no commands. */
+  commandPaletteEmpty: 'No commands',
+  /** Announced as results change; `formatted` is `count` formatted, for example "5 results". */
+  commandPaletteResults: (count: number, formatted: string): string =>
+    count === 1 ? '1 result' : `${formatted} results`,
+  /** Accessible name of a workspace switcher's trigger, for example "Acme, switch workspace". */
+  workspaceSwitcherTrigger: (name: string): string =>
+    name ? `${name}, switch workspace` : 'Switch workspace',
+  /** Accessible name of a workspace switcher's menu. */
+  workspaceSwitcherMenu: 'Workspaces',
+  /** Label of a workspace switcher's search field. */
+  workspaceSwitcherSearch: 'Search workspaces',
+  /** Shown when no workspace matches the search, for example `No workspaces match "acm"`. */
+  workspaceSwitcherNoResults: (query: string): string =>
+    `No workspaces match "${query}"`,
+  /** A workspace switcher's create action (`creatable`). */
+  workspaceSwitcherCreate: 'Create workspace',
+  /** Accessible name of a user menu's avatar button, for example "Account menu for Ada Lovelace". */
+  userMenuTrigger: (name: string): string =>
+    name ? `Account menu for ${name}` : 'Account menu',
+  /** Heading of a user menu's theme section. */
+  userMenuTheme: 'Theme',
+  userMenuThemeLight: 'Light',
+  userMenuThemeDark: 'Dark',
+  /** The theme that follows the operating system's light or dark setting. */
+  userMenuThemeSystem: 'System',
+  /** Presence shown in a user menu's header (`status`). */
+  userMenuStatusOnline: 'Online',
+  userMenuStatusAway: 'Away',
+  userMenuStatusBusy: 'Busy',
+  userMenuStatusOffline: 'Offline',
+
+  // ── Banner, notification center, tour ────────────────────────────────────
+  /** Accessible name of a banner's close button. */
+  dismissBanner: 'Dismiss banner',
+  /** Default name of a notification center's bell and panel. */
+  notificationCenterLabel: 'Notifications',
+  /** The bell's accessible name with the unread count (formatted), for example "Notifications, 3 unread". */
+  notificationCenterBell: (
+    label: string,
+    count: number,
+    formatted: string,
+  ): string => (count === 0 ? label : `${label}, ${formatted} unread`),
+  /** Announced when notifications arrive while the panel is closed, for example "2 new notifications". */
+  notificationCenterNew: (count: number, formatted: string): string =>
+    count === 1 ? '1 new notification' : `${formatted} new notifications`,
+  /** Name of the All / Unread filter buttons. */
+  notificationCenterFilter: 'Show',
+  notificationCenterAll: 'All',
+  /** The Unread filter, and read before an unread notification's title. */
+  notificationCenterUnread: 'Unread',
+  notificationCenterMarkAllRead: 'Mark all as read',
+  notificationCenterMarkRead: 'Mark as read',
+  notificationCenterMarkUnread: 'Mark as unread',
+  notificationCenterYesterday: 'Yesterday',
+  notificationCenterEmpty: 'No notifications',
+  notificationCenterEmptyUnread: 'No unread notifications',
+  notificationCenterLoadMore: 'Load more',
+  /** A tour's Back button. */
+  tourBack: 'Back',
+  /** A tour's Next button. */
+  tourNext: 'Next',
+  /** A tour's button on the last step. */
+  tourDone: 'Done',
+  /** Accessible name of a tour's close button. */
+  tourSkip: 'Skip tour',
+
+  // ── Inline edit, comment thread ──────────────────────────────────────────
+  /** Accessible name of an inline edit's pencil button, for example "Edit Title". */
+  inlineEditEdit: (label: string): string => (label ? `Edit ${label}` : 'Edit'),
+  /** An inline edit's save button (with `show-actions`). */
+  inlineEditSave: 'Save',
+  /** An inline edit's cancel button (with `show-actions`). */
+  inlineEditCancel: 'Cancel',
+  /** Spoken while an inline edit waits for the app to save. */
+  inlineEditSaving: 'Saving',
+  /** Default accessible name of a comment thread. */
+  commentThreadLabel: 'Comments',
+  /** A comment thread without comments. */
+  commentThreadEmpty: 'No comments yet',
+  /** Label and placeholder of a comment thread's composer. */
+  commentComposerLabel: 'Add a comment',
+  /** The composer's send button. */
+  commentSend: 'Send',
+  /** The button that opens a reply composer under a comment. */
+  commentReply: 'Reply',
+  /** Label and placeholder of a reply composer, for example "Reply to Ada Lovelace". */
+  commentReplyTo: (author: string): string => `Reply to ${author}`,
+  /** A reply composer's cancel button. */
+  commentCancel: 'Cancel',
+  /** Comment actions menu items. */
+  commentEdit: 'Edit',
+  commentDelete: 'Delete',
+  commentCopyLink: 'Copy link',
+  /** Accessible name of a comment's actions button, for example "More actions for comment by Ada". */
+  commentActions: (author: string): string =>
+    `More actions for comment by ${author}`,
+  /** Marker after the time of an edited comment. */
+  commentEdited: 'Edited',
+  /** Accessible name of a comment, for example "Comment by Ada Lovelace, 2 hours ago". */
+  commentLabel: (author: string, time: string): string =>
+    time ? `Comment by ${author}, ${time}` : `Comment by ${author}`,
+  /** Accessible name of a reply, for example "Reply by Ada Lovelace, 2 hours ago". */
+  commentReplyLabel: (author: string, time: string): string =>
+    time ? `Reply by ${author}, ${time}` : `Reply by ${author}`,
+  /** Accessible name of a comment's replies, for example "Replies to Ada Lovelace". */
+  commentReplies: (author: string): string => `Replies to ${author}`,
+  /** Announced politely when a comment is added, for example "New comment by Ada Lovelace". */
+  commentAdded: (author: string): string => `New comment by ${author}`,
+  /** Author shown for a comment without one. */
+  commentUnknownAuthor: 'Unknown author',
+
   // ── Confirm dialog ───────────────────────────────────────────────────────
   /** Default label of a confirm dialog's confirm button. */
   confirm: 'Confirm',

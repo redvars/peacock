@@ -1,0 +1,29 @@
+---
+export const title = 'Sizes and styling';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>size</code> (<code>sm</code>, <code>md</code>, <code>lg</code>) is passed down to every
+  avatar. <code>--avatar-group-overlap</code> sets how far each avatar slides under the previous
+  one, and <code>--avatar-group-ring-color</code> should match the background the group sits on.
+  In RTL the group stacks from the right.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stack gap='200'>
+    <wc-avatar-group size='sm' max='4'>
+      <wc-avatar name='Ada Lovelace'></wc-avatar>
+      <wc-avatar name='Grace Hopper'></wc-avatar>
+      <wc-avatar name='Alan Turing'></wc-avatar>
+      <wc-avatar name='Katherine Johnson'></wc-avatar>
+      <wc-avatar name='Edsger Dijkstra'></wc-avatar>
+    </wc-avatar-group>
+    <wc-avatar-group size='lg' max='2' dir='rtl'>
+      <wc-avatar name='Ada Lovelace'></wc-avatar>
+      <wc-avatar name='Grace Hopper'></wc-avatar>
+      <wc-avatar name='Alan Turing'></wc-avatar>
+    </wc-avatar-group>
+  </wc-stack>
+</DemoComponentCard>

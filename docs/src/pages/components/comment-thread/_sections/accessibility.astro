@@ -1,0 +1,26 @@
+---
+export const title = 'Accessibility';
+export const order = 300;
+---
+
+<ul>
+  <li>
+    The comments sit in a <code>role="feed"</code> named by <code>label</code> ("Comments" by
+    default) and marked busy while <code>loading</code>.
+  </li>
+  <li>
+    Each comment is an <code>article</code> named "Comment by <i>author</i>, <i>time</i>" (a reply
+    "Reply by ..."). <kbd>Page Down</kbd> and <kbd>Page Up</kbd> move focus between comments, and
+    <kbd>Ctrl</kbd>+<kbd>End</kbd> to the composer.
+  </li>
+  <li>
+    The time is a <code>&lt;time datetime&gt;</code> shown relative to now in the page's locale
+    (<code>Intl.RelativeTimeFormat</code>), with the absolute date and time as its tooltip. It
+    refreshes every minute.
+  </li>
+  <li>A comment added after the thread has loaded is announced politely.</li>
+  <li>
+    The actions button is named "More actions for comment by <i>author</i>"; the reply composer is
+    named "Reply to <i>author</i>", and <kbd>Escape</kbd> closes it.
+  </li>
+</ul>

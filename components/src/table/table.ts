@@ -88,6 +88,7 @@ import type { EditorElement } from './table-edit.js';
 import { toCsv } from './table-export.js';
 import { buildDisplayItems, groupRows, virtualWindow } from './table-rows.js';
 import type { TableDisplayItem, TableGroup } from './table-rows.js';
+import { writeClipboardText } from '@/__internal/utils/clipboard.js';
 import type {
   ColumnState,
   GridColumn,
@@ -1499,7 +1500,7 @@ export class Table extends LitElement {
       case 'c':
       case 'C':
         if (event.ctrlKey || event.metaKey) {
-          window.navigator.clipboard?.writeText(cell.innerText).catch(() => {});
+          writeClipboardText(cell.innerText).catch(() => {});
         }
         break;
       default:

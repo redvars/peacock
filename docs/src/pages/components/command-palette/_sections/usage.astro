@@ -1,0 +1,61 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-command-palette</code> finds and runs commands by name. Give it the commands as data,
+  each with an <code>id</code>, a <code>label</code> and optionally a <code>group</code>,
+  <code>description</code>, <code>icon</code>, displayed <code>shortcut</code>,
+  <code>keywords</code> and <code>disabled</code>. Typing filters them and highlights the match;
+  Arrow keys move, Enter runs the command (<code>select</code>), Escape clears the query and then
+  closes. <code>shortcut="mod+k"</code> opens it with Ctrl+K, or Command+K on a Mac.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='command-palette-demo-open'>Open command palette (Ctrl+K)</wc-button>
+  <wc-command-palette id='command-palette-demo' shortcut='mod+k'></wc-command-palette>
+  <script is:inline>
+    (function () {
+      const palette = document.querySelector('#command-palette-demo');
+      palette.commands = [
+        { id: 'new-issue', label: 'New issue', group: 'Issues', icon: 'add', shortcut: 'C' },
+        { id: 'assign', label: 'Assign to me', group: 'Issues', icon: 'person', shortcut: 'I' },
+        { id: 'close-issue', label: 'Close issue', group: 'Issues', icon: 'check', keywords: ['resolve', 'done'] },
+        { id: 'inbox', label: 'Go to inbox', group: 'Navigation', icon: 'inbox', shortcut: 'G+I' },
+        { id: 'settings', label: 'Open settings', group: 'Navigation', icon: 'settings', description: 'Account and workspace preferences' },
+        { id: 'billing', label: 'Billing', group: 'Navigation', icon: 'credit_card', disabled: true, description: 'Only admins can open billing' },
+        { id: 'theme', label: 'Toggle dark theme', group: 'Preferences', icon: 'dark_mode', keywords: ['appearance'] },
+      ];
+      palette.recent = ['settings'];
+      document
+        .querySelector('#command-palette-demo-open')
+        .addEventListener('click', () => palette.show());
+      palette.addEventListener('select', event => {
+        const { id } = event.detail.command;
+        palette.recent = [id, ...palette.recent.filter(other => other !== id)].slice(0, 3);
+        myConsole.log(`select: ${id}`);
+      });
+      palette.addEventListener('close', event => {
+        myConsole.log(`close: ${event.detail.reason}`);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>Recent commands</h3>
+<p>
+  While the query is empty, the commands whose ids are in <code>recent</code> come first, under
+  "Recent". The palette does not keep the list itself: update it on <code>select</code> and store
+  it where the app keeps preferences.
+</p>
+
+<h3>Shortcut</h3>
+<p>
+  <code>shortcut</code> takes modifiers and a key joined by <code>+</code>: <code>mod</code>
+  (Command on Apple platforms, Ctrl elsewhere), <code>ctrl</code>, <code>meta</code>,
+  <code>shift</code> and <code>alt</code>, for example <code>mod+shift+p</code>. It is ignored while
+  the person types in another field, and pressing it again closes the palette. A command's own
+  <code>shortcut</code> is only displayed; the app binds it.
+</p>

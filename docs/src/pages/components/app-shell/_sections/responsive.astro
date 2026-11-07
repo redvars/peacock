@@ -1,0 +1,84 @@
+---
+export const title = 'Narrow screens and collapsing';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  Below <code>breakpoint</code> (840px of the shell's own width by default) the navigation moves
+  into a modal drawer that slides in from the start edge. The shell renders a menu button before the
+  header to open it; choosing a destination, Escape or a click on the scrim closes it.
+  <code>navigation-open</code> reflects the drawer's state, and the shell fires <code>open</code>
+  and <code>close</code> (with <code>detail.reason</code>) when it changes. Apps with their own menu
+  button set <code>hide-menu-button</code> and call <code>toggleNavigation()</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-app-shell
+    style='height: 420px; width: 100%; max-width: 420px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-app-bar slot='header'>Mail</wc-app-bar>
+    <wc-navigation-drawer slot='navigation' open headline='Mail'>
+      <wc-navigation-drawer-item value='inbox' current>
+        <wc-icon slot='icon' name='inbox'></wc-icon>
+        Inbox
+      </wc-navigation-drawer-item>
+      <wc-navigation-drawer-item value='sent'>
+        <wc-icon slot='icon' name='send'></wc-icon>
+        Sent
+      </wc-navigation-drawer-item>
+    </wc-navigation-drawer>
+    <p style='padding: 1.5rem; margin: 0;'>Press the menu button to open the navigation.</p>
+  </wc-app-shell>
+</DemoComponentCard>
+
+<h3>Collapsed navigation</h3>
+<p>
+  On wider screens <code>navigation-collapsed</code> narrows the navigation to rail width. Put a
+  <code>wc-navigation-rail</code> in the <code>rail</code> slot to show it while collapsed;
+  without one the drawer is clipped to <code>--app-shell-rail-width</code>.
+  <code>toggleNavigation()</code> toggles <code>navigation-collapsed</code> above the breakpoint and
+  opens or closes the modal drawer below it.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-app-shell
+    id='app-shell-collapse-demo'
+    navigation-collapsed
+    style='height: 360px; width: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-app-bar slot='header'>
+      <wc-icon-button
+        slot='start'
+        variant='text'
+        shape='round'
+        aria-label='Toggle navigation'
+        onclick="document.querySelector('#app-shell-collapse-demo').toggleNavigation()"
+      >
+        <wc-icon name='menu'></wc-icon>
+      </wc-icon-button>
+      Projects
+    </wc-app-bar>
+    <wc-navigation-drawer slot='navigation' open style='--navigation-drawer-width: 240px;'>
+      <wc-navigation-drawer-item value='home' current>
+        <wc-icon slot='icon' name='home'></wc-icon>
+        Home
+      </wc-navigation-drawer-item>
+      <wc-navigation-drawer-item value='settings'>
+        <wc-icon slot='icon' name='settings'></wc-icon>
+        Settings
+      </wc-navigation-drawer-item>
+    </wc-navigation-drawer>
+    <wc-navigation-rail slot='rail'>
+      <wc-navigation-rail-item value='home' current>
+        <wc-icon slot='icon' name='home'></wc-icon>
+        Home
+      </wc-navigation-rail-item>
+      <wc-navigation-rail-item value='settings'>
+        <wc-icon slot='icon' name='settings'></wc-icon>
+        Settings
+      </wc-navigation-rail-item>
+    </wc-navigation-rail>
+    <p style='padding: 1.5rem; margin: 0;'>Main content</p>
+  </wc-app-shell>
+</DemoComponentCard>

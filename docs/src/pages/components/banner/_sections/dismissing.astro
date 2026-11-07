@@ -1,0 +1,53 @@
+---
+export const title = 'Dismissing and sticky';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>dismissible</code> adds a close button. Pressing it fires a cancelable <code>close</code> event
+  with <code>detail.reason</code> <code>'action'</code>, then the banner hides itself (sets
+  <code>hidden</code>). Call <code>preventDefault()</code> to keep it.
+</p>
+<p>
+  <code>dismiss-key</code> remembers the dismissal in <code>localStorage</code> under
+  <code>wc-banner:&lt;key&gt;</code>, so the banner stays hidden on later visits. Give each message its
+  own key (for example <code>maintenance-2026-11-20</code>) so a new message shows again. When storage is
+  blocked the banner just shows again next time.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%;'>
+    <wc-banner id='banner-demo' intent='info' dismissible dismiss-key='docs-banner-demo' headline='Tip:'>
+      Press the close button, then reload the page: the banner stays hidden.
+    </wc-banner>
+    <wc-button id='banner-reset' variant='text' size='sm' style='margin-top: 1rem;'>Forget dismissal</wc-button>
+  </div>
+  <script is:inline>
+    document.querySelector('#banner-demo').addEventListener('close', function (event) {
+      myConsole.log('close: ' + event.detail.reason);
+    });
+    document.querySelector('#banner-reset').addEventListener('click', function () {
+      try {
+        localStorage.removeItem('wc-banner:docs-banner-demo');
+      } catch (e) {}
+      document.querySelector('#banner-demo').hidden = false;
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  <code>sticky</code> keeps the banner at the top of its scroll container while the page scrolls
+  (<code>position: sticky</code>); <code>--banner-z-index</code> sets its stacking order.
+  <code>--banner-max-content-width</code> centers the content in a narrower column while the background
+  stays full width.
+</p>
+
+<h3>Accessibility</h3>
+<p>
+  A banner is not a live region by default, so one that is there when the page loads is read in reading
+  order, not announced. For a banner you add while the page is in use, set <code>live="polite"</code>
+  (<code>role="status"</code>), or <code>live="assertive"</code> (<code>role="alert"</code>) for urgent
+  news such as a lost connection. The close button is named by the <code>dismissBanner</code> string,
+  translated with <code>setPeacockStrings()</code>.
+</p>

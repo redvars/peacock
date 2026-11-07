@@ -283,6 +283,161 @@
     }
   },
   {
+    "label": "App Shell",
+    "tag": "wc-app-shell",
+    "rawTag": "app-shell",
+    "summary": "The page frame of an app: header, navigation, main content, side panel and footer.",
+    "overview": "<p>App shell lays out a whole app screen at the full viewport height (<code>100dvh</code>).\nThe <code>header</code> slot (usually a <code>wc-app-bar</code>) stays at the top, the\n<code>navigation</code> slot (usually a <code>wc-navigation-drawer</code>) sits at the start,\nthe optional <code>aside</code> slot at the end, and the <code>footer</code> slot at the\nbottom. Only the main region scrolls.</p>\n<p>The shell supplies the page landmarks: a <code>&lt;header&gt;</code>, a\n<code>&lt;main&gt;</code>, an <code>&lt;aside&gt;</code> and a <code>&lt;footer&gt;</code>.\nThe navigation drawer, rail and bar are navigation landmarks themselves, so the shell only\nmarks the navigation region as one when the slotted content is not. A visually hidden\n<em>Skip to main content</em> link is the first focusable element.</p>\n<p>When the shell is narrower than <code>breakpoint</code> (840px by default), the navigation\nmoves into a modal drawer that slides in from the start edge. The shell renders a menu button\nbefore the header to open it (<code>hide-menu-button</code> hides it, for apps that call\n<code>toggleNavigation()</code> from their own button). Choosing an item, Escape and a click on\nthe scrim close it. <code>navigation-open</code> reflects that drawer's state.</p>\n<p>On wider screens, <code>navigation-collapsed</code> narrows the navigation to rail width.\nPut a <code>wc-navigation-rail</code> in the <code>rail</code> slot to show it instead of the\ndrawer while collapsed; without one, the drawer is clipped to the rail width.</p>\n<p>A <code>wc-navigation-drawer</code> in the shell keeps <code>variant=\"standard\"</code> and\n<code>open</code>: the shell moves it into its own modal drawer on narrow screens.</p>",
+    "slot": "footer - Content at the bottom, such as a `wc-navigation-bar` or a status line.",
+    "fires": "close - Dispatched when the modal navigation drawer closes: Escape, a scrim click, choosing an item, or `hideNavigation()` (and widening the shell past the breakpoint).",
+    "csspart": "modal-navigation - The modal drawer on narrow screens.",
+    "cssprop": "--app-shell-modal-navigation-width - Width of the modal drawer. Defaults to 22.5rem.",
+    "example": "```html\n<wc-app-shell navigation-collapsed>\n  <wc-app-bar slot=\"header\">Projects</wc-app-bar>\n  <wc-navigation-drawer slot=\"navigation\" open>…</wc-navigation-drawer>\n  <wc-navigation-rail slot=\"rail\">…</wc-navigation-rail>\n  <p>Main content</p>\n  <div slot=\"aside\">Details</div>\n</wc-app-shell>\n```",
+    "tags": "layout navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the main region. Defaults to `--color-surface`.",
+          "name": "--app-shell-background"
+        },
+        {
+          "description": "Background of the header region. Defaults to the app bar's color.",
+          "name": "--app-shell-header-color"
+        },
+        {
+          "description": "Width of the collapsed navigation without a rail. Defaults to 6rem.",
+          "name": "--app-shell-rail-width"
+        },
+        {
+          "description": "Width of the aside region. Defaults to its content's width.",
+          "name": "--app-shell-aside-width"
+        },
+        {
+          "description": "Width of the modal drawer. Defaults to 22.5rem.",
+          "name": "--app-shell-modal-navigation-width"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The `<header>` around the header slot and the menu button.",
+          "name": "header"
+        },
+        {
+          "description": "The navigation region on wide screens.",
+          "name": "navigation"
+        },
+        {
+          "description": "The `<main>` region.",
+          "name": "main"
+        },
+        {
+          "description": "The `<aside>` region.",
+          "name": "aside"
+        },
+        {
+          "description": "The `<footer>` region.",
+          "name": "footer"
+        },
+        {
+          "description": "The modal drawer on narrow screens.",
+          "name": "modal-navigation"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The app bar, kept at the top.",
+          "name": "header"
+        },
+        {
+          "description": "The app's navigation, usually a `wc-navigation-drawer`.",
+          "name": "navigation"
+        },
+        {
+          "description": "Optional navigation shown while `navigation-collapsed`, usually a `wc-navigation-rail`.",
+          "name": "rail"
+        },
+        {
+          "description": "The main content: the only region that scrolls.",
+          "name": ""
+        },
+        {
+          "description": "Optional panel at the end, such as details or help.",
+          "name": "aside"
+        },
+        {
+          "description": "Content at the bottom, such as a `wc-navigation-bar` or a status line.",
+          "name": "footer"
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the modal navigation drawer opens on a narrow screen."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>"
+          },
+          "description": "Dispatched when the modal navigation drawer closes: Escape, a scrim click, choosing an item, or `hideNavigation()` (and widening the shell past the breakpoint)."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "navigation-open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the modal navigation drawer is open. Only has an effect below the breakpoint.",
+          "fieldName": "navigationOpen"
+        },
+        {
+          "name": "navigation-collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Narrows the navigation to rail width on screens at or above the breakpoint.",
+          "fieldName": "navigationCollapsed"
+        },
+        {
+          "name": "breakpoint",
+          "type": {
+            "text": "number"
+          },
+          "default": "840",
+          "description": "Shell width in pixels below which the navigation becomes a modal drawer.",
+          "fieldName": "breakpoint"
+        },
+        {
+          "name": "hide-menu-button",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the menu button the shell renders on narrow screens.",
+          "fieldName": "hideMenuButton"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-app-shell",
+      "customElement": true,
+      "rawTag": {
+        "name": "app-shell",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Avatar",
     "tag": "wc-avatar",
     "rawTag": "avatar",
@@ -356,6 +511,81 @@
       "customElement": true,
       "rawTag": {
         "name": "avatar",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Avatar Group",
+    "tag": "wc-avatar-group",
+    "rawTag": "avatar-group",
+    "summary": "Shows a row of overlapping avatars, such as the members of a team, with a count of the rest.",
+    "overview": "<p>Put <code>wc-avatar</code> elements inside. They overlap, each separated from the next by a\nring in the surface color, and stack from the start edge, so from the right in RTL.\n<code>size</code> (<code>sm</code>, <code>md</code>, <code>lg</code>) is passed down to every\navatar.</p>\n<p>With <code>max</code>, the group shows the first <code>max</code> avatars and then a\n<em>+N</em> button for the rest; its accessible name is \"N more\". Pressing it opens a popover\nthat lists the hidden avatars by name. Without <code>max</code>, or with fewer avatars, every\navatar shows and there is no button.</p>\n<p>The group has <code>role=\"group\"</code> and is named by <code>label</code>, \"Members\" by\ndefault. Name each avatar with its <code>name</code> or <code>label</code>.</p>",
+    "slot": "- The `wc-avatar` elements.",
+    "cssprop": "--avatar-group-ring-color - Color of the ring between avatars. Defaults to `var(--color-surface)`; set it to the background the group sits on.",
+    "example": "```html\n<wc-avatar-group max=\"3\" label=\"Project members\">\n  <wc-avatar name=\"Ada Lovelace\"></wc-avatar>\n  <wc-avatar name=\"Grace Hopper\"></wc-avatar>\n  <wc-avatar name=\"Alan Turing\"></wc-avatar>\n  <wc-avatar name=\"Katherine Johnson\"></wc-avatar>\n  <wc-avatar name=\"Edsger Dijkstra\"></wc-avatar>\n</wc-avatar-group>\n```",
+    "tags": "display",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "How far each avatar slides under the previous one. Defaults to a quarter of the avatar size.",
+          "name": "--avatar-group-overlap"
+        },
+        {
+          "description": "Width of the ring between avatars. Defaults to `2px`.",
+          "name": "--avatar-group-ring-width"
+        },
+        {
+          "description": "Color of the ring between avatars. Defaults to `var(--color-surface)`; set it to the background the group sits on.",
+          "name": "--avatar-group-ring-color"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The `wc-avatar` elements.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "max",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "How many avatars to show before the +N button. Unset, every avatar shows.",
+          "fieldName": "max"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "AvatarGroupSize"
+          },
+          "default": "'md'",
+          "description": "Size of every avatar in the group: `sm`, `md` (default) or `lg`.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'sm' | 'md' | 'lg'"
+          }
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The accessible name of the group. Defaults to \"Members\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-avatar-group",
+      "customElement": true,
+      "rawTag": {
+        "name": "avatar-group",
         "description": ""
       }
     }
@@ -440,6 +670,35 @@
         "name": "badge",
         "description": ""
       }
+    }
+  },
+  {
+    "label": "Banner",
+    "tag": "wc-banner",
+    "rawTag": "banner",
+    "summary": "A full-width message at the top of the app or a page, such as a maintenance window, an ending trial or a lost connection.",
+    "overview": "<p>Pick the message component by where the message belongs and how long it matters:</p>\n<ul>\n<li><strong>Banner</strong>: about the whole app or page and true until something changes\n(maintenance tonight, trial ends in 3 days, you are offline). It spans the full width above the\ncontent and stays until the condition ends or the person dismisses it. Show one at a time.</li>\n<li><strong><code>wc-alert</code></strong>: about one part of the content, shown in place beside\nit (a form section that failed to save, a setting with a caveat).</li>\n<li><strong><code>wc-snackbar</code></strong>: brief feedback on something the person just did\n(message sent, item deleted, with Undo); it floats and goes away by itself.</li>\n</ul>\n<p>The banner takes the alert's vocabulary: <code>intent</code> (<code>info</code>,\n<code>success</code>, <code>warning</code>, <code>danger</code>; neutral when unset) sets the\ncolor and icon, <code>headline</code> is the bold lead-in, the message is the default slot or\n<code>description</code>, and the <code>action</code> slot takes one or two buttons. With\n<code>sticky</code> it stays at the top of its scroll container while the page scrolls.</p>\n<p>With <code>dismissible</code> a close button fires a cancelable <code>close</code> event with\n<code>reason: 'action'</code> and then hides the banner (sets <code>hidden</code>). Add\n<code>dismiss-key</code> to remember the dismissal in <code>localStorage</code> (under\n<code>wc-banner:&lt;key&gt;</code>): a banner with a key that was dismissed before starts hidden.\nChange the key (for example <code>maintenance-2026-11-20</code>) to show a new message again. When\nstorage is blocked the banner simply shows again on the next visit.</p>\n<p>A banner is not a live region by default, so one that is there when the page loads is read in\nreading order, not announced. Set <code>live=\"polite\"</code> (status) or\n<code>live=\"assertive\"</code> (alert, for urgent news such as a lost connection) on a banner you\nadd or change while the page is in use.</p>",
+    "slot": "action - One or two buttons, for example `<wc-button variant=\"text\" size=\"sm\">`.",
+    "fires": "close - Fired, cancelable, when the close button is pressed. The banner hides (and remembers it under `dismiss-key`) unless the event is cancelled.",
+    "cssprop": "--banner-z-index - Stacking order while `sticky`. Defaults to `var(--z-index-banner, 10)`.",
+    "example": "```html\n<wc-banner intent=\"danger\" live=\"assertive\" sticky headline=\"Connection lost\">\n  Changes are saved on this device until you are back online.\n</wc-banner>\n```",
+    "tags": "display, feedback",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "string"
+        }
+      },
+      "parameters": [
+        {
+          "name": "dismissKey",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "The localStorage key a `dismiss-key` is stored under."
     }
   },
   {
@@ -5156,6 +5415,282 @@
     }
   },
   {
+    "label": "Command Palette",
+    "tag": "wc-command-palette",
+    "rawTag": "command-palette",
+    "summary": "A keyboard launcher (Ctrl/Cmd+K) that finds and runs commands by name.",
+    "overview": "<p>The command palette is a modal dialog with a search field and a list of commands, grouped\nunder their <code>group</code> headings. It opens in the browser's top layer like\n<code>wc-modal</code> (scroll lock, Escape, focus return). Commands are data: set\n<code>commands</code> to an array of <code>{id, label, group, description, icon, shortcut,\nkeywords, disabled}</code>. While the query is empty, the commands whose ids are in\n<code>recent</code> come first, under \"Recent\"; the app keeps that list, usually from\n<code>select</code>.</p>\n<p>Typing filters the commands: every word must appear in the label, the keywords or the\ndescription, and the matching text is highlighted. Labels that start with the query rank first.\nWith <code>search=\"managed\"</code> the palette does not filter: listen to <code>search</code>,\nset <code>loading</code>, and replace <code>commands</code> with the results.</p>\n<p>The field is an ARIA combobox: focus stays in it while Arrow Up/Down, Home/End and\nPageUp/PageDown move the highlighted command (<code>aria-activedescendant</code>). Enter runs\nthe highlighted command: <code>select</code> fires, then the palette closes, unless the\nlistener called <code>preventDefault()</code>. Escape first clears the query, then closes.</p>\n<p><code>shortcut</code> opens the palette from anywhere on the page, for example\n<code>shortcut=\"mod+k\"</code>, where <code>mod</code> is Command on Apple platforms and Ctrl\nelsewhere. The shortcut is ignored while the person types in another field, and closes the\npalette when it is open.</p>",
+    "cssprop": "--command-palette-highlight-color - Background of the highlighted command.",
+    "fires": "select - Fired when the person runs a command. Cancelable: `preventDefault()` keeps the palette open.",
+    "example": "```html\n<wc-command-palette id=\"palette\" shortcut=\"mod+k\"></wc-command-palette>\n<script>\n  const palette = document.getElementById('palette');\n  palette.commands = [\n    { id: 'new-issue', label: 'New issue', group: 'Issues', icon: 'add', shortcut: 'C' },\n    { id: 'settings', label: 'Open settings', group: 'Navigation', icon: 'settings', keywords: ['preferences'] },\n  ];\n  palette.addEventListener('select', event => run(event.detail.command.id));\n</script>\n```",
+    "tags": "overlay, dialog, navigation",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "boolean"
+        }
+      },
+      "parameters": [
+        {
+          "name": "event",
+          "type": {
+            "text": "KeyboardEvent"
+          }
+        },
+        {
+          "name": "shortcut",
+          "type": {
+            "text": "string"
+          }
+        },
+        {
+          "name": "apple",
+          "default": "isApplePlatform()"
+        }
+      ],
+      "description": "Whether a keydown matches a shortcut such as `mod+k` or `ctrl+shift+p`."
+    }
+  },
+  {
+    "label": "Comment",
+    "tag": "wc-comment",
+    "rawTag": "comment",
+    "summary": "One comment in a `wc-comment-thread`, with its replies.",
+    "overview": "<p>A comment shows its <code>author</code> (with a <code>wc-avatar</code> from\n<code>avatar-src</code>, or the author's initials), its time and its text. <code>datetime</code>\n(ISO 8601) shows relative to now in the page's locale, such as \"5 minutes ago\", and keeps itself\ncurrent; the absolute date and time is the tooltip of its <code>&lt;time&gt;</code>. With\n<code>href</code> (the comment's permalink) the time links to it. <code>edited</code> adds an\n\"Edited\" marker.</p>\n<p>The text is <code>body</code>, plain text whose line breaks show. For rich text, put the\ncontent in the comment instead; it replaces <code>body</code>.</p>\n<p>Replies are <code>wc-comment</code> elements with <code>slot=\"replies\"</code> inside their\ncomment, shown indented. There is one level: a reply shows no Reply button and no replies.</p>\n<p>Actions fire events and change nothing; the app owns the data. The actions menu (the\n<code>more_vert</code> button) lists Edit with <code>editable</code>, Delete with\n<code>deletable</code> and, with <code>href</code>, Copy link, which also copies the absolute\nlink to the clipboard. Without any of them there is no menu. Reply (on comments, not replies)\nfires a cancelable <code>reply</code> and opens a reply composer under the replies; Ctrl+Enter\n(Cmd+Enter) or Send fires <code>submit</code> with <code>detail.parentId</code> set to this\ncomment's <code>comment-id</code>, and Escape or Cancel closes it. Cancel <code>submit</code> to\nkeep the composer open with the text.</p>\n<p>Each comment is an <code>article</code> named \"Comment by <i>author</i>, <i>time</i>\" (a\nreply \"Reply by ...\"), so a screen reader can move between them.</p>",
+    "slot": "replies - The replies: `wc-comment` elements.",
+    "fires": "submit - Cancelable. The person sent a reply.",
+    "example": "```html\n<wc-comment comment-id=\"1\" author=\"Ada Lovelace\" datetime=\"2026-11-07T09:30:00Z\" body=\"Looks good to me.\"></wc-comment>\n```",
+    "tags": "collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "Rich text body; replaces `body`.",
+          "name": ""
+        },
+        {
+          "description": "The replies: `wc-comment` elements.",
+          "name": "replies"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string}>"
+          },
+          "description": "The person chose Edit.",
+          "name": "edit"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string}>"
+          },
+          "description": "The person chose Delete.",
+          "name": "delete"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string, href: string}>"
+          },
+          "description": "The person chose Copy link; the link is on the clipboard.",
+          "name": "copy-link"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{commentId: string}>"
+          },
+          "description": "Cancelable. The person pressed Reply; cancel it to show your own reply composer.",
+          "name": "reply"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{body: string, parentId: string}>"
+          },
+          "description": "Cancelable. The person sent a reply.",
+          "name": "submit"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "comment-id",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The app's id of the comment, sent back in every event.",
+          "fieldName": "commentId"
+        },
+        {
+          "name": "author",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Name of the person who wrote it.",
+          "fieldName": "author"
+        },
+        {
+          "name": "avatar-src",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the author's picture; without one the avatar shows initials.",
+          "fieldName": "avatarSrc"
+        },
+        {
+          "name": "datetime",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "When it was written, as an ISO 8601 date-time.",
+          "fieldName": "datetime"
+        },
+        {
+          "name": "body",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The text, as plain text; line breaks show. Slotted content replaces it.",
+          "fieldName": "body"
+        },
+        {
+          "name": "edited",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the \"Edited\" marker.",
+          "fieldName": "edited"
+        },
+        {
+          "name": "editable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Offers Edit in the actions menu.",
+          "fieldName": "editable"
+        },
+        {
+          "name": "deletable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Offers Delete in the actions menu.",
+          "fieldName": "deletable"
+        },
+        {
+          "name": "href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The comment's permalink: the time links to it, and the menu offers Copy link.",
+          "fieldName": "href"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-comment",
+      "customElement": true,
+      "rawTag": {
+        "name": "comment",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Comment Thread",
+    "tag": "wc-comment-thread",
+    "rawTag": "comment-thread",
+    "summary": "A discussion thread for a record: comments, one level of replies and a composer.",
+    "overview": "<p>A comment thread holds <code>wc-comment</code> elements, oldest first, and a composer under\nthem. The app owns the comments: it renders one <code>wc-comment</code> per comment (replies\nwith <code>slot=\"replies\"</code> inside their comment) and changes them in answer to the\nevents. Every event bubbles, so one listener on the thread hears them all.</p>\n<p>The composer is a <code>wc-textarea</code> with a Send button. Ctrl+Enter (Cmd+Enter on a\nMac) or Send fires a cancelable <code>submit</code> with the trimmed text in\n<code>detail.body</code> and <code>detail.parentId</code> <code>null</code> (replies, sent from a\ncomment's reply composer, carry the comment's id). Unless the event is cancelled the composer\nempties, and the app adds the comment; cancel it to keep the text, for example when the app\ncannot take it now. Send is disabled while the text is blank or the thread is\n<code>loading</code>. Put your own control in the <code>composer</code> slot to replace the\ntextarea (a mention input, say): it needs a <code>value</code> property and must fire\n<code>input</code>, and the thread empties it after a send. <code>readonly</code> hides the\ncomposer and the Reply buttons.</p>\n<p><code>loading</code> shows placeholder rows while the comments load. Without comments the\nthread says \"No comments yet\" (replace it with the <code>empty</code> slot).</p>\n<p>Accessibility: the comments sit in a <code>role=\"feed\"</code> named by <code>label</code>\n(\"Comments\" by default), busy while loading. Each comment is an <code>article</code> named\n\"Comment by <i>author</i>, <i>time</i>\". Page Down and Page Up move focus to the next and\nprevious comment, and Ctrl+End to the composer. A comment added after the thread has loaded is\nannounced politely (\"New comment by <i>author</i>\").</p>",
+    "slot": "empty - Replaces the \"No comments yet\" message.",
+    "fires": "submit - Cancelable. The person sent a comment (`parentId` null) or a reply.",
+    "example": "```html\n<wc-comment-thread>\n  <wc-comment comment-id=\"1\" author=\"Ada Lovelace\" datetime=\"2026-11-07T09:30:00Z\" body=\"Can we ship this on Friday?\">\n    <wc-comment slot=\"replies\" comment-id=\"2\" author=\"Grace Hopper\" datetime=\"2026-11-07T10:02:00Z\" body=\"Yes, the tests pass.\"></wc-comment>\n  </wc-comment>\n</wc-comment-thread>\n```",
+    "tags": "collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The comments: `wc-comment` elements.",
+          "name": ""
+        },
+        {
+          "description": "Replaces the composer's textarea; needs a `value` and must fire `input`.",
+          "name": "composer"
+        },
+        {
+          "description": "Replaces the \"No comments yet\" message.",
+          "name": "empty"
+        }
+      ],
+      "events": [
+        {
+          "name": "submit",
+          "type": {
+            "text": "CustomEvent<{body: string, parentId: string | null}>"
+          },
+          "description": "Cancelable. The person sent a comment (`parentId` null) or a reply."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the feed. Defaults to \"Comments\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows placeholder rows while the comments load; Send is disabled.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Hides the composer and the Reply buttons.",
+          "fieldName": "readonly"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-comment-thread",
+      "customElement": true,
+      "rawTag": {
+        "name": "comment-thread",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Condition Builder",
     "tag": "wc-condition-builder",
     "rawTag": "condition-builder",
@@ -5472,6 +6007,105 @@
       "customElement": true,
       "rawTag": {
         "name": "container",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Copy Button",
+    "tag": "wc-copy-button",
+    "rawTag": "copy-button",
+    "summary": "An icon button that copies a value, or the text of another element, to the clipboard.",
+    "overview": "<p>Pressing the button copies <code>value</code>, or, without it, the text of the element whose\n<code>id</code> is in <code>for</code> (the value of an <code>input</code>,\n<code>textarea</code> or <code>select</code>, else its text content). The element is looked up\nwhen the button is pressed, in the same document or shadow root, so its text can change.</p>\n<p>It copies with the Clipboard API, and falls back to a hidden textarea and\n<code>execCommand('copy')</code> where that API is missing or refuses. For about two seconds\nafterwards the icon turns into a check and the tooltip says \"Copied\", or into an error icon and\n\"Copy failed\"; screen readers hear the same through a polite live region. The accessible name\nstays <code>label</code> (\"Copy\" by default) throughout.</p>\n<p>The button is a round <code>wc-icon-button</code> and takes its <code>size</code>\n(default <code>sm</code>) and <code>variant</code> (default <code>text</code>).</p>",
+    "fires": "copy-error - Dispatched when the text could not be copied, or there was nothing to copy (`for` names no element).",
+    "example": "```html\n<code id=\"api-key\">pk_test_4f9a…</code>\n<wc-copy-button for=\"api-key\" label=\"Copy API key\"></wc-copy-button>\n<wc-copy-button value=\"npm install @redvars/peacock\"></wc-copy-button>\n```",
+    "tags": "controls",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "events": [
+        {
+          "name": "copied",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Dispatched after the text was copied, as on wc-code-highlighter and wc-code-editor."
+        },
+        {
+          "name": "copy-error",
+          "type": {
+            "text": "CustomEvent<{value: string, error: unknown}>"
+          },
+          "description": "Dispatched when the text could not be copied, or there was nothing to copy (`for` names no element)."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The text to copy. When set, `for` is not read.",
+          "fieldName": "value"
+        },
+        {
+          "name": "for",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The `id` of an element whose text (or form value) to copy, when `value` is not set.",
+          "fieldName": "for"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "The accessible name and tooltip. Defaults to \"Copy\".",
+          "fieldName": "label"
+        },
+        {
+          "name": "size",
+          "type": {
+            "text": "ButtonSize"
+          },
+          "default": "'sm'",
+          "description": "Button size: `xs`, `sm` (default), `md`, `lg` or `xl`.",
+          "fieldName": "size",
+          "expandedType": {
+            "text": "'xs' | 'sm' | 'md' | 'lg' | 'xl'"
+          }
+        },
+        {
+          "name": "variant",
+          "type": {
+            "text": "ButtonVariant"
+          },
+          "default": "'text'",
+          "description": "Button style, as on `wc-icon-button`. Defaults to `text`.",
+          "fieldName": "variant",
+          "expandedType": {
+            "text": "'elevated' | 'filled' | 'tonal' | 'outlined' | 'text' | 'neo'"
+          }
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Disables the button.",
+          "fieldName": "disabled"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-copy-button",
+      "customElement": true,
+      "rawTag": {
+        "name": "copy-button",
         "description": ""
       }
     }
@@ -8172,6 +8806,109 @@
     }
   },
   {
+    "label": "Grid",
+    "tag": "wc-grid",
+    "rawTag": "grid",
+    "summary": "Lays out its children in a CSS grid of equal columns, or as many columns as fit.",
+    "overview": "<p>The grid is a CSS grid container: the element itself has <code>display: grid</code>, so its\nchildren are the grid items, with no wrapper between them.</p>\n<p>The columns come from two attributes that combine rather than exclude each other:</p>\n<ul>\n  <li><code>columns=\"3\"</code> alone: three equal columns at every width.</li>\n  <li><code>min-column-width=\"12rem\"</code> alone: as many columns as fit, each at least that\n  wide (<code>auto-fill</code>); one column when the grid is narrower than that.</li>\n  <li>Both: as many as fit at that minimum width, but never more than <code>columns</code>.</li>\n</ul>\n<p>Without either, the grid has one column (the CSS default) and only spaces its rows.</p>\n<p><code>gap</code>, <code>row-gap</code> and <code>column-gap</code> take a step of the spacing\ntoken scale, as on <code>wc-stack</code> (<code>gap=\"200\"</code> is\n<code>var(--spacing-200)</code>); <code>row-gap</code> and <code>column-gap</code> override\n<code>gap</code> on their axis. <code>align</code> sets <code>align-items</code> and\n<code>justify</code> sets <code>justify-items</code>.</p>\n<p>An item spans columns or rows with plain CSS on the item: <code>style=\"grid-column: span\n2\"</code>, or <code>grid-column: 1 / -1</code> for a full-width row.</p>",
+    "slot": "- The grid items.",
+    "example": "```html\n<wc-grid columns=\"4\" min-column-width=\"12rem\" gap=\"200\">\n  <wc-card>One</wc-card>\n  <wc-card style=\"grid-column: span 2\">Two, twice as wide</wc-card>\n  <wc-card>Three</wc-card>\n</wc-grid>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The grid items.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "columns",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Number of equal columns; with `min-column-width`, the most columns the grid shows.",
+          "fieldName": "columns"
+        },
+        {
+          "name": "min-column-width",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "Minimum width of a column, as a CSS length (for example `12rem`). The grid shows as many\ncolumns as fit, capped by `columns` when that is set.",
+          "fieldName": "minColumnWidth"
+        },
+        {
+          "name": "gap",
+          "type": {
+            "text": "SpacingStep | undefined"
+          },
+          "description": "Space between rows and columns, as a step of the spacing token scale.",
+          "fieldName": "gap",
+          "expandedType": {
+            "text": "'000' | '025' | '050' | '075' | '100' | '150' | '200' | '250' | '300' | '400' | '500' | '600' | '800' | '1000' | '1200' | '2000' | undefined"
+          }
+        },
+        {
+          "name": "row-gap",
+          "type": {
+            "text": "SpacingStep | undefined"
+          },
+          "description": "Space between rows, as a step of the spacing token scale. Overrides `gap`.",
+          "fieldName": "rowGap",
+          "expandedType": {
+            "text": "'000' | '025' | '050' | '075' | '100' | '150' | '200' | '250' | '300' | '400' | '500' | '600' | '800' | '1000' | '1200' | '2000' | undefined"
+          }
+        },
+        {
+          "name": "column-gap",
+          "type": {
+            "text": "SpacingStep | undefined"
+          },
+          "description": "Space between columns, as a step of the spacing token scale. Overrides `gap`.",
+          "fieldName": "columnGap",
+          "expandedType": {
+            "text": "'000' | '025' | '050' | '075' | '100' | '150' | '200' | '250' | '300' | '400' | '500' | '600' | '800' | '1000' | '1200' | '2000' | undefined"
+          }
+        },
+        {
+          "name": "align",
+          "type": {
+            "text": "GridAlign | undefined"
+          },
+          "description": "Block-axis alignment of the items in their cells (`align-items`).",
+          "fieldName": "align",
+          "expandedType": {
+            "text": "'start' | 'center' | 'end' | 'stretch' | undefined"
+          }
+        },
+        {
+          "name": "justify",
+          "type": {
+            "text": "GridAlign | undefined"
+          },
+          "description": "Inline-axis alignment of the items in their cells (`justify-items`).",
+          "fieldName": "justify",
+          "expandedType": {
+            "text": "'start' | 'center' | 'end' | 'stretch' | undefined"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-grid",
+      "customElement": true,
+      "rawTag": {
+        "name": "grid",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "HTML Editor",
     "tag": "wc-html-editor",
     "rawTag": "html-editor",
@@ -8965,6 +9702,162 @@
       "customElement": true,
       "rawTag": {
         "name": "image",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Inline Edit",
+    "tag": "wc-inline-edit",
+    "rawTag": "inline-edit",
+    "summary": "Click-to-edit text for record pages: a title, a description, a field value.",
+    "overview": "<p>Inline edit shows <code>value</code> as text, or <code>placeholder</code> in a muted style\nwhen it is empty, with a pencil button after it. Clicking the text or the pencil button (or\npressing Enter or Space on the button) opens the editor: a <code>wc-input</code>, or with\n<code>multiline</code> a <code>wc-textarea</code>. The text takes the font of its surroundings,\nso it can sit in a heading.</p>\n<p>Keys: Enter saves (Ctrl+Enter or Cmd+Enter with <code>multiline</code>, where Enter starts a\nnew line) and Escape cancels. <b>Moving focus out of the editor saves</b>, exactly like Enter,\nso nothing typed is lost. A save of an unchanged value just closes the editor and fires nothing.\nAfter a save or cancel from the keyboard or the buttons, focus returns to the pencil button.\n<code>show-actions</code> adds Save and Cancel buttons after the editor.</p>\n<p>Saving fires a cancelable <code>change</code> with the new text in <code>detail.value</code>.\nThe contract:</p>\n<ul>\n<li><b>Synchronous:</b> do nothing. The component sets <code>value</code> and closes the\neditor.</li>\n<li><b>Rejected:</b> call <code>event.preventDefault()</code>. The editor stays open with the\ntext; set <code>error-text</code> to say why.</li>\n<li><b>Asynchronous:</b> set <code>loading</code> in the handler. The editor stays open, read\nonly, with a progress indicator. When the server answers, set <code>loading</code> back to\nfalse: with <code>error-text</code> set the editor stays open and shows the error, so the person\ncan fix the text and save again; with <code>error-text</code> empty the editor closes and\n<code>value</code> becomes the saved text (set <code>value</code> before clearing\n<code>loading</code> to show the server's version instead). Clear <code>error-text</code> when\nyou start the next save and on <code>cancel</code>.</li>\n</ul>\n<p>With <code>required</code> an empty (or blank) text is not saved: the editor stays open with\na message. <code>maxlength</code> limits the text and shows a character counter. While\n<code>loading</code>, Escape and blur do nothing: a save in flight cannot be cancelled.</p>\n<p><code>label</code> names both views for assistive technology: the pencil button is\n\"Edit <i>label</i>\" and the editor is named <i>label</i>. The label is not shown.\n<code>disabled</code> and <code>readonly</code> show the text without the pencil button.</p>\n<p>Inline edit is <b>not a form field</b>: it is not form-associated and has no\n<code>name</code>. It edits a record that the app saves at once. For a value submitted with a\nform, use <code>wc-input</code> or <code>wc-textarea</code> inside a <code>wc-form</code>.</p>",
+    "fires": "cancel - Dispatched when the person cancels an edit (Escape or the Cancel button).",
+    "cssprop": "--inline-edit-hover-color - Background of the text on hover.",
+    "example": "```html\n<wc-inline-edit label=\"Description\" multiline placeholder=\"Add a description\"></wc-inline-edit>\n```",
+    "tags": "input, collaboration",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the text on hover.",
+          "name": "--inline-edit-hover-color"
+        }
+      ],
+      "events": [
+        {
+          "name": "cancel",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Dispatched when the person cancels an edit (Escape or the Cancel button)."
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Cancelable. Dispatched when the person saves a changed text. Cancel it to keep the editor open; set `loading` in the handler for an asynchronous save.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The saved text.",
+          "fieldName": "value"
+        },
+        {
+          "name": "placeholder",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Shown in a muted style when the value is empty, for example \"Add a description\".",
+          "fieldName": "placeholder"
+        },
+        {
+          "name": "multiline",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Edits with a `wc-textarea`; Enter starts a new line and Ctrl/Cmd+Enter saves.",
+          "fieldName": "multiline"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the pencil button (\"Edit <label>\") and of the editor. Not shown.",
+          "fieldName": "label"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the text dimmed, without the pencil button.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "readonly",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows the text without the pencil button.",
+          "fieldName": "readonly"
+        },
+        {
+          "name": "required",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "An empty or blank text cannot be saved.",
+          "fieldName": "required"
+        },
+        {
+          "name": "maxlength",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Most characters allowed; the editor shows a character counter.",
+          "fieldName": "maxLength"
+        },
+        {
+          "name": "loading",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Set by the app while it saves; the editor stays open and read only.",
+          "fieldName": "loading"
+        },
+        {
+          "name": "error-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "A save error from the app, shown under the editor while it is open.",
+          "fieldName": "errorText"
+        },
+        {
+          "name": "show-actions",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Adds Save and Cancel buttons after the editor.",
+          "fieldName": "showActions"
+        },
+        {
+          "name": "editing",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the editor is open. Open it with `edit()`; it reflects for styling.",
+          "fieldName": "editing"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-inline-edit",
+      "customElement": true,
+      "rawTag": {
+        "name": "inline-edit",
         "description": ""
       }
     }
@@ -12040,6 +12933,46 @@
     }
   },
   {
+    "label": "Notification Center",
+    "tag": "wc-notification-center",
+    "rawTag": "notification-center",
+    "summary": "An in-app inbox behind a bell button: an unread count and a panel listing notifications by day.",
+    "overview": "<p>The notification center is a bell <code>wc-icon-button</code> with a <code>wc-badge</code>\nshowing the unread count. Pressing it opens a panel anchored to the bell (a full-height side\nsheet on phone-width screens) with the <code>notifications</code>, newest first, grouped under\nToday, Yesterday and dates, each with a relative time (\"5 min. ago\") formatted with\n<code>Intl</code> in the resolved locale. The panel has All and Unread filters and\nMark all as read.</p>\n<p>The app owns the data. The component never changes <code>notifications</code>; it fires\nevents and the app updates the list (optimistically if it likes) and assigns a new array:</p>\n<ul>\n<li><code>item-click</code> (<code>detail.notification</code>, cancelable) when a notification\nis activated. A notification with <code>href</code> is a link and navigates unless the event is\ncancelled. Marking it read is up to the app.</li>\n<li><code>read-change</code> (<code>detail.ids</code>, <code>detail.read</code>) from the\nper-item Mark as read / unread buttons and Mark all as read.</li>\n<li><code>dismiss</code> (<code>detail.notification</code>) from an item's dismiss button.</li>\n<li><code>load-more</code> from the Load more button, shown while <code>has-more</code> is\nset. Set <code>loading</code> while fetching; the panel shows a progress bar.</li>\n</ul>\n<p>The panel is a non-modal dialog named by <code>label</code> (\"Notifications\"); focus moves into\nit on open and back to the bell on close. Escape, a press outside, the close button or the bell\nclose it. Each day is a list. The bell's name includes the unread count (\"Notifications, 3\nunread\"). When unread notifications arrive while the panel is closed, a polite live region\nannounces \"2 new notifications\".</p>",
+    "fires": "load-more - Fired when the person presses Load more.",
+    "cssprop": "--notification-center-unread-color - Color of the unread marker and the unread item tint.",
+    "example": "```html\n<wc-notification-center id=\"inbox\"></wc-notification-center>\n<script>\n  const inbox = document.querySelector('#inbox');\n  inbox.notifications = [\n    { id: '1', title: 'Build failed', body: 'main #4521', timestamp: new Date().toISOString(), intent: 'danger' },\n    { id: '2', title: 'Ada commented', timestamp: '2026-11-01T09:30:00Z', read: true },\n  ];\n  inbox.addEventListener('read-change', e => {\n    inbox.notifications = inbox.notifications.map(n =>\n      e.detail.ids.includes(n.id) ? { ...n, read: e.detail.read } : n);\n  });\n</script>\n```",
+    "tags": "feedback, overlay",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "string"
+        }
+      },
+      "parameters": [
+        {
+          "name": "time",
+          "type": {
+            "text": "number"
+          }
+        },
+        {
+          "name": "now",
+          "type": {
+            "text": "number"
+          }
+        },
+        {
+          "name": "locale",
+          "type": {
+            "text": "string"
+          }
+        }
+      ],
+      "description": "\"now\", \"5 min. ago\", \"3 hr. ago\", \"2 days ago\"; older than a week, the date."
+    }
+  },
+  {
     "label": "Notification Manager",
     "tag": "wc-notification-manager",
     "rawTag": "notification-manager",
@@ -12501,6 +13434,132 @@
     }
   },
   {
+    "label": "Page Header",
+    "tag": "wc-page-header",
+    "rawTag": "page-header",
+    "summary": "The top of a page: title, supporting text, breadcrumb, actions, metadata and tabs.",
+    "overview": "<p>Page header names the page with <code>headline</code>, an <code>&lt;h1&gt;</code> by default\n(<code>heading-level</code> picks another level, for a header inside a section), and\n<code>supporting-text</code> under it.</p>\n<p>Slots fill the rest: <code>breadcrumb</code> above the title, <code>start</code> before it\n(an avatar or icon), <code>meta</code> under it (tags, a status, timestamps),\n<code>actions</code> at the end (buttons) and <code>tabs</code> along the bottom edge (a\n<code>wc-tabs</code>). <code>back-href</code> adds a round back link before the title, named by\n<code>back-label</code> (<em>Back</em> by default).</p>\n<p>The header responds to its own width: on narrow containers the actions wrap onto their own\nrow under the title and the headline steps down a size.</p>",
+    "slot": "tabs - A `wc-tabs` along the bottom edge.",
+    "csspart": "back - The back link.",
+    "cssprop": "--page-header-background - Background of the header. Defaults to transparent.",
+    "example": "```html\n<wc-page-header\n  headline=\"Quarterly report\"\n  supporting-text=\"Revenue, costs and headcount for Q3\"\n  back-href=\"/reports\"\n  back-label=\"All reports\"\n>\n  <wc-breadcrumb slot=\"breadcrumb\">…</wc-breadcrumb>\n  <wc-tag slot=\"meta\">Draft</wc-tag>\n  <wc-button slot=\"actions\" variant=\"outlined\">Share</wc-button>\n  <wc-button slot=\"actions\">Publish</wc-button>\n  <wc-tabs slot=\"tabs\">…</wc-tabs>\n</wc-page-header>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Space above and below the header. Defaults to `--spacing-300`.",
+          "name": "--page-header-padding-block"
+        },
+        {
+          "description": "Space at the start and end. Defaults to `--spacing-300`.",
+          "name": "--page-header-padding-inline"
+        },
+        {
+          "description": "Background of the header. Defaults to transparent.",
+          "name": "--page-header-background"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "The heading element.",
+          "name": "headline"
+        },
+        {
+          "description": "The supporting text.",
+          "name": "supporting-text"
+        },
+        {
+          "description": "The back link.",
+          "name": "back"
+        }
+      ],
+      "slots": [
+        {
+          "description": "A `wc-breadcrumb` above the title.",
+          "name": "breadcrumb"
+        },
+        {
+          "description": "An avatar or icon before the title.",
+          "name": "start"
+        },
+        {
+          "description": "Tags, status and timestamps under the title.",
+          "name": "meta"
+        },
+        {
+          "description": "Buttons at the end; they wrap on narrow widths.",
+          "name": "actions"
+        },
+        {
+          "description": "A `wc-tabs` along the bottom edge.",
+          "name": "tabs"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "headline",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The page title.",
+          "fieldName": "headline"
+        },
+        {
+          "name": "supporting-text",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Text under the title.",
+          "fieldName": "supportingText"
+        },
+        {
+          "name": "heading-level",
+          "type": {
+            "text": "PageHeaderHeadingLevel"
+          },
+          "default": "1",
+          "description": "Level of the headline's heading element, 1 to 6.",
+          "fieldName": "headingLevel",
+          "expandedType": {
+            "text": "'1' | '2' | '3' | '4' | '5' | '6'"
+          }
+        },
+        {
+          "name": "back-href",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "URL of the back link before the title; without it there is no back link.",
+          "fieldName": "backHref"
+        },
+        {
+          "name": "back-label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Accessible name of the back link. Defaults to \"Back\".",
+          "fieldName": "backLabel"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-page-header",
+      "customElement": true,
+      "rawTag": {
+        "name": "page-header",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Pagination",
     "tag": "wc-pagination",
     "rawTag": "pagination",
@@ -12518,6 +13577,100 @@
         }
       },
       "description": "Lets the next forced variant warn again. For tests only."
+    }
+  },
+  {
+    "label": "Panel",
+    "tag": "wc-panel",
+    "rawTag": "panel",
+    "summary": "One pane of a `wc-resizable-panels` split view.",
+    "overview": "<p>A panel holds one pane's content. <code>size</code> is its share of the split view in\npercent; panels without one share what the others leave. <code>min-size</code> and\n<code>max-size</code> bound the size while resizing. A <code>collapsible</code> panel collapses to\n<code>collapsed-size</code> (0 by default) when it is dragged well past its minimum, or when the\ndivider is double-clicked or gets Enter; <code>collapsed</code> reflects that state and keeps\n<code>size</code> as the size to restore. The panel scrolls its own content.</p>",
+    "slot": "- The panel's content. Another `wc-resizable-panels` nests a split inside it.",
+    "example": "```html\n<wc-resizable-panels>\n  <wc-panel size=\"30\" min-size=\"20\" collapsible label=\"Folders\">…</wc-panel>\n  <wc-panel>…</wc-panel>\n</wc-resizable-panels>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "slots": [
+        {
+          "description": "The panel's content. Another `wc-resizable-panels` nests a split inside it.",
+          "name": ""
+        }
+      ],
+      "attributes": [
+        {
+          "name": "size",
+          "type": {
+            "text": "number | undefined"
+          },
+          "description": "Share of the split view in percent. Unset panels share what the others leave.",
+          "fieldName": "size"
+        },
+        {
+          "name": "min-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Smallest size in percent while resizing.",
+          "fieldName": "minSize"
+        },
+        {
+          "name": "max-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "100",
+          "description": "Largest size in percent while resizing.",
+          "fieldName": "maxSize"
+        },
+        {
+          "name": "collapsible",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the panel can collapse past its minimum.",
+          "fieldName": "collapsible"
+        },
+        {
+          "name": "collapsed-size",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Size in percent of a collapsed panel.",
+          "fieldName": "collapsedSize"
+        },
+        {
+          "name": "collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether a collapsible panel is collapsed. `size` keeps the size to restore.",
+          "fieldName": "collapsed"
+        },
+        {
+          "name": "label",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Names the panel; the divider before it reads \"Resize <label>\".",
+          "fieldName": "label"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-panel",
+      "customElement": true,
+      "rawTag": {
+        "name": "panel",
+        "description": ""
+      }
     }
   },
   {
@@ -13912,6 +15065,104 @@
       "customElement": true,
       "rawTag": {
         "name": "radio-group",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Resizable Panels",
+    "tag": "wc-resizable-panels",
+    "rawTag": "resizable-panels",
+    "summary": "A split view whose panes the person resizes by dragging the dividers between them.",
+    "overview": "<p>Resizable panels lays out its <code>wc-panel</code> children in a row\n(<code>orientation=\"horizontal\"</code>, the default) or a column (<code>\"vertical\"</code>), with a\ndivider between each pair: a list beside its detail, an editor above its preview. Each panel's\n<code>size</code> is its share in percent, bounded by <code>min-size</code> and\n<code>max-size</code>. Dragging a divider resizes the two panels beside it; in right-to-left\nlayouts horizontal drags mirror.</p>\n<p>A <code>collapsible</code> panel collapses to its <code>collapsed-size</code> when dragged\nwell past its minimum, and a double-click or Enter on the divider collapses or restores it.</p>\n<p>Each divider is a focusable <code>role=\"separator\"</code> whose value is the size of the\npanel before it. The arrow keys along the split move it by 1% (10% with Shift), Home and End\nmove it to the panel's minimum and maximum, and Enter collapses or restores.</p>\n<p><code>input</code> fires while a divider moves and <code>change</code> when the drag ends or a\nkey moves it, with every panel's size. Set <code>autosave</code> to a key to keep the layout in\nlocal storage and restore it on the next visit. A panel can hold another split view.</p>",
+    "slot": "- The `wc-panel` elements.",
+    "fires": "change - Dispatched when a drag ends, a key moves a divider, or a panel collapses or restores.",
+    "csspart": "divider - Each divider.",
+    "cssprop": "--resizable-panels-divider-active-color - Color of a hovered, dragged or focused divider. Defaults to `--color-primary`.",
+    "example": "```html\n<wc-resizable-panels orientation=\"vertical\" style=\"height: 400px\">\n  <wc-panel size=\"60\">Editor</wc-panel>\n  <wc-panel collapsible label=\"Preview\">Preview</wc-panel>\n</wc-resizable-panels>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Thickness of the divider line. Defaults to 1px.",
+          "name": "--resizable-panels-divider-size"
+        },
+        {
+          "description": "Color of the divider line. Defaults to `--color-outline-variant`.",
+          "name": "--resizable-panels-divider-color"
+        },
+        {
+          "description": "Color of a hovered, dragged or focused divider. Defaults to `--color-primary`.",
+          "name": "--resizable-panels-divider-active-color"
+        }
+      ],
+      "cssParts": [
+        {
+          "description": "Each divider.",
+          "name": "divider"
+        }
+      ],
+      "slots": [
+        {
+          "description": "The `wc-panel` elements.",
+          "name": ""
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: number[], collapsed: boolean[]}>"
+          },
+          "description": "Dispatched while a divider is dragged.",
+          "name": "input"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{value: number[], collapsed: boolean[]}>"
+          },
+          "description": "Dispatched when a drag ends, a key moves a divider, or a panel collapses or restores.",
+          "name": "change"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "orientation",
+          "type": {
+            "text": "ResizablePanelsOrientation"
+          },
+          "default": "'horizontal'",
+          "description": "`\"horizontal\"`: panels side by side; `\"vertical\"`: panels stacked.",
+          "fieldName": "orientation",
+          "expandedType": {
+            "text": "'horizontal' | 'vertical'"
+          }
+        },
+        {
+          "name": "autosave",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Key to keep the layout under in local storage; empty keeps nothing.",
+          "fieldName": "autosave"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-resizable-panels",
+      "customElement": true,
+      "rawTag": {
+        "name": "resizable-panels",
         "description": ""
       }
     }
@@ -16189,11 +17440,44 @@
     }
   },
   {
+    "label": "Stack",
+    "tag": "wc-stack",
+    "rawTag": "stack",
+    "summary": "Lays out its children in a column or a row, with a gap on the spacing scale.",
+    "overview": "<p>The stack is a flex container: the element itself has <code>display: flex</code>, so its\nchildren are the flex items, with no wrapper between them. <code>direction</code> is\n<code>vertical</code> (a column, the default) or <code>horizontal</code> (a row, which follows the\nwriting direction, so it runs right to left in RTL).</p>\n<p><code>gap</code> takes a step of the spacing token scale: <code>gap=\"200\"</code> is\n<code>var(--spacing-200)</code>. The steps are <code>000</code>, <code>025</code>,\n<code>050</code>, <code>075</code>, <code>100</code>, <code>150</code>, <code>200</code>,\n<code>250</code>, <code>300</code>, <code>400</code>, <code>500</code>, <code>600</code>,\n<code>800</code>, <code>1000</code>, <code>1200</code> and <code>2000</code>. Without\n<code>gap</code> there is none. A <code>style=\"gap: …\"</code> on the element still wins.</p>\n<p><code>align</code> sets <code>align-items</code> and <code>justify</code> sets\n<code>justify-content</code>; <code>wrap</code> lets the items wrap onto more lines.</p>\n<p><code>collapse-below</code> makes a horizontal stack lay out vertically while the stack itself\nis narrower than the given width (pixels, or a length in <code>px</code>, <code>rem</code> or\n<code>em</code>). It measures the stack, not the viewport, so it works in sidebars and cards; the\n<code>collapsed</code> property and the <code>:state(collapsed)</code> selector tell when it\napplies.</p>",
+    "slot": "- The items to lay out.",
+    "example": "```html\n<wc-stack direction=\"horizontal\" gap=\"200\" align=\"center\" collapse-below=\"30rem\">\n  <wc-avatar name=\"Ada Lovelace\"></wc-avatar>\n  <wc-text>Ada Lovelace</wc-text>\n  <wc-button>Follow</wc-button>\n</wc-stack>\n```",
+    "tags": "layout",
+    "customElement": {
+      "kind": "function",
+      "return": {
+        "type": {
+          "text": "number | null"
+        }
+      },
+      "parameters": [
+        {
+          "name": "length",
+          "type": {
+            "text": "string"
+          }
+        },
+        {
+          "name": "element",
+          "type": {
+            "text": "Element"
+          }
+        }
+      ],
+      "description": "Converts a CSS length in `px`, `rem` or `em` (a bare number is pixels) to pixels, or `null`\nwhen it cannot be read."
+    }
+  },
+  {
     "label": "Stat",
     "tag": "wc-stat",
     "rawTag": "stat",
     "summary": "A KPI tile: a labelled number with its change since the last period.",
-    "overview": "<p>Stat shows one metric: a <code>label</code> (\"Monthly revenue\") and a <code>value</code>,\nformatted with <code>Intl.NumberFormat</code> in the nearest <code>lang</code> using\n<code>format</code> (for example <code>{\"style\": \"currency\", \"currency\": \"USD\"}</code>).</p>\n<p>The change comes from <code>previous</code>, the value of the last period, or is given as\n<code>delta</code>. <code>delta-format=\"percent\"</code> (the default) shows it as a share of\nthe previous value; with <code>delta</code> it is then a fraction, so <code>0.08</code> is 8%.\n<code>delta-format=\"absolute\"</code> shows the amount, formatted like the value. An arrow shows\nthe direction, and the color whether it is good: green when the value moves the\n<code>positive</code> way (up by default), red when it moves the other way. Set\n<code>positive=\"down\"</code> for metrics such as churn, or <code>none</code> for neutral ones.\n<code>comparison</code> names the period (\"vs last month\").</p>\n<p>A screen reader reads the tile as one sentence, for example \"Monthly revenue, $12,400, up 8%\nfrom last period\". <code>help</code> adds an info button with a tooltip,\n<code>loading</code> shows a placeholder, and the <code>trend</code> slot holds a\n<code>wc-sparkline</code>. <code>variant=\"plain\"</code> drops the tile's own outline and padding,\nfor a stat inside a <code>wc-card</code>.</p>",
+    "overview": "<p>Stat shows one metric: a <code>label</code> (\"Monthly revenue\") and a <code>value</code>,\nformatted with <code>Intl.NumberFormat</code> in the nearest <code>lang</code> using\n<code>format</code> (for example <code>{\"style\": \"currency\", \"currency\": \"USD\"}</code>).</p>\n<p>The tile fills the width it is given, like a card, and its value gets smaller in a narrow\ntile rather than wrapping. Place stats in a <code>wc-grid</code> or give them a width; in a\nflex row, give each <code>flex: 1</code>.</p>\n<p>The change comes from <code>previous</code>, the value of the last period, or is given as\n<code>delta</code>. <code>delta-format=\"percent\"</code> (the default) shows it as a share of\nthe previous value; with <code>delta</code> it is then a fraction, so <code>0.08</code> is 8%.\n<code>delta-format=\"absolute\"</code> shows the amount, formatted like the value. An arrow shows\nthe direction, and the color whether it is good: green when the value moves the\n<code>positive</code> way (up by default), red when it moves the other way. Set\n<code>positive=\"down\"</code> for metrics such as churn, or <code>none</code> for neutral ones.\n<code>comparison</code> names the period (\"vs last month\").</p>\n<p>A screen reader reads the tile as one sentence, for example \"Monthly revenue, $12,400, up 8%\nfrom last period\". <code>help</code> adds an info button with a tooltip,\n<code>loading</code> shows a placeholder, and the <code>trend</code> slot holds a\n<code>wc-sparkline</code>. <code>variant=\"plain\"</code> drops the tile's own outline and padding,\nfor a stat inside a <code>wc-card</code>.</p>",
     "slot": "trend - A small chart of the metric's history, usually a `wc-sparkline`.",
     "cssprop": "--stat-container-shape - Corner radius of the tile.",
     "example": "```html\n<wc-stat label=\"Churn\" value=\"0.031\" delta=\"-0.004\" delta-format=\"absolute\" positive=\"down\"\n  format='{\"style\": \"percent\", \"maximumFractionDigits\": 1}'></wc-stat>\n```",
@@ -18790,6 +20074,102 @@
     }
   },
   {
+    "label": "Tour",
+    "tag": "wc-tour",
+    "rawTag": "tour",
+    "summary": "A product tour: a sequence of popups that point at parts of the page, with a spotlight on each.",
+    "overview": "<p>Give the tour its <code>steps</code> as data: each has a <code>target</code> (an element id or\na CSS selector), a <code>headline</code>, a <code>body</code> and an optional\n<code>placement</code>. <code>start()</code> shows the first step: the target scrolls into view\n(instantly when the person prefers reduced motion), a spotlight cut out of a dimmed scrim marks it,\nand a popup next to it shows \"Step 2 of 5\", the text, Back, Next (Done on the last step) and a\nclose button that skips the tour. floating-ui flips and shifts the popup so it stays in view. A\nstep without <code>target</code> is centered on the page.</p>\n<p>A step whose target is not on the page is skipped in the direction of travel, with a console\nwarning once per target, so a tour survives a missing feature or a collapsed panel.</p>\n<p>The popup is a <strong>non-modal</strong> dialog (<code>role=\"dialog\"</code>, named by the\nheadline, described by the body). The scrim is only drawn, never hit: clicks reach the page, so\nthe person can try the highlighted control while the tour explains it, which a modal tour would\nblock by making the page inert. Focus moves into the popup at each step and back to where it was\nwhen the tour ends. Escape ends the tour; Left and Right (mirrored in right-to-left layouts) go\nback and forward while focus is in the popup.</p>\n<p>Methods: <code>start(index = 0)</code>, <code>next()</code>, <code>previous()</code>,\n<code>end()</code>. <code>step-change</code> fires with <code>detail.index</code> each time a step\nshows, and <code>close</code> with <code>detail.reason</code> (<code>'escape'</code>,\n<code>'action'</code> for Done or the close button, <code>'api'</code>) and\n<code>detail.completed</code>, true when the person finished the last step. Store that to avoid\nshowing a finished tour again.</p>",
+    "fires": "close - Fired when the tour ends.",
+    "cssprop": "--tour-z-index - Stacking order where the top layer is unavailable.",
+    "example": "```html\n<wc-tour id=\"tour\"></wc-tour>\n<script>\n  const tour = document.querySelector('#tour');\n  tour.steps = [\n    { headline: 'Welcome', body: 'A quick look around.' },\n    { target: 'search', headline: 'Search', body: 'Find anything from here.' },\n    { target: '[data-tour=new]', headline: 'Create', body: 'Start a new project.', placement: 'end' },\n  ];\n  tour.addEventListener('close', e => { if (e.detail.completed) localStorage.setItem('tour-done', '1'); });\n  tour.start();\n</script>\n```",
+    "tags": "feedback, overlay",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Color of the dimmed page around the spotlight.",
+          "name": "--tour-scrim-color"
+        },
+        {
+          "description": "Space between the target and the spotlight edge. Defaults to `0.5rem`.",
+          "name": "--tour-spotlight-padding"
+        },
+        {
+          "description": "Corner radius of the spotlight.",
+          "name": "--tour-spotlight-radius"
+        },
+        {
+          "description": "Width of the popup. Defaults to `20rem`.",
+          "name": "--tour-popup-width"
+        },
+        {
+          "description": "Stacking order where the top layer is unavailable.",
+          "name": "--tour-z-index"
+        }
+      ],
+      "events": [
+        {
+          "name": "type",
+          "type": {
+            "text": "CustomEvent"
+          }
+        },
+        {
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the tour starts.",
+          "name": "open"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{index: number, step: TourStep}>"
+          },
+          "description": "Fired each time a step is shown, including the first.",
+          "name": "step-change"
+        },
+        {
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'action' | 'api', completed: boolean}>"
+          },
+          "description": "Fired when the tour ends.",
+          "name": "close"
+        }
+      ],
+      "attributes": [
+        {
+          "name": "open",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the tour is showing. Prefer `start()` and `end()`.",
+          "fieldName": "open"
+        },
+        {
+          "name": "current",
+          "type": {
+            "text": "number"
+          },
+          "default": "0",
+          "description": "Zero-based index of the step shown (or shown first when the tour opens).",
+          "fieldName": "current"
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-tour",
+      "customElement": true,
+      "rawTag": {
+        "name": "tour",
+        "description": ""
+      }
+    }
+  },
+  {
     "label": "Transfer List",
     "tag": "wc-transfer-list",
     "rawTag": "transfer-list",
@@ -19508,6 +20888,257 @@
       "customElement": true,
       "rawTag": {
         "name": "url-field",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "User Menu",
+    "tag": "wc-user-menu",
+    "rawTag": "user-menu",
+    "summary": "The account menu at the end of an app bar: an avatar that opens the person's menu.",
+    "overview": "<p>The user menu is an avatar button (from <code>name</code> and <code>src</code>) named\n\"Account menu for <em>name</em>\". It opens a <code>wc-menu</code> with a header (the avatar,\n<code>name</code>, <code>email</code> and an optional presence <code>status</code>), then the\n<code>wc-menu-item</code>s you put inside it, such as Profile and Settings. Items in the\n<code>footer</code> slot, such as Sign out, come last.</p>\n<p>Set <code>theme</code> (<code>light</code>, <code>dark</code> or <code>system</code>) to add\na theme section with the three choices and a check on the current one. Picking one sets\n<code>theme</code> and fires <code>theme-change</code>; the component does not touch the page,\nso the app applies it, for example with <code>data-theme</code> on <code>&lt;html&gt;</code>\n(remove the attribute for <code>system</code>), and stores the choice.</p>",
+    "slot": "footer - Menu items after the theme section, such as Sign out.",
+    "cssprop": "--user-menu-header-color - Background of the menu header.",
+    "fires": "close - Fired when the menu closes.",
+    "example": "```html\n<wc-user-menu name=\"Ada Lovelace\" email=\"ada@example.com\" status=\"online\" theme=\"system\">\n  <wc-menu-item href=\"/profile\"><wc-icon slot=\"start\" name=\"person\"></wc-icon>Profile</wc-menu-item>\n  <wc-menu-item href=\"/settings\"><wc-icon slot=\"start\" name=\"settings\"></wc-icon>Settings</wc-menu-item>\n  <wc-menu-item slot=\"footer\"><wc-icon slot=\"start\" name=\"logout\"></wc-icon>Sign out</wc-menu-item>\n</wc-user-menu>\n<script>\n  document.querySelector('wc-user-menu').addEventListener('theme-change', event => {\n    const { value } = event.detail;\n    if (value === 'system') delete document.documentElement.dataset.theme;\n    else document.documentElement.dataset.theme = value;\n  });\n</script>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Background of the menu header.",
+          "name": "--user-menu-header-color"
+        }
+      ],
+      "slots": [
+        {
+          "description": "Menu items (`wc-menu-item`, `wc-divider`), such as Profile and Settings.",
+          "name": ""
+        },
+        {
+          "description": "Menu items after the theme section, such as Sign out.",
+          "name": "footer"
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the menu opens."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>"
+          },
+          "description": "Fired when the menu closes."
+        },
+        {
+          "name": "theme-change",
+          "type": {
+            "text": "CustomEvent<{value: 'light' | 'dark' | 'system'}>"
+          },
+          "description": "Fired when the person picks a theme in the theme section."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "name",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The person's name: the avatar's initials, the header and the button's accessible name.",
+          "fieldName": "name"
+        },
+        {
+          "name": "src",
+          "type": {
+            "text": "string | undefined"
+          },
+          "description": "URL of the person's picture; without one, the initials of `name` show.",
+          "fieldName": "src"
+        },
+        {
+          "name": "email",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "The person's email address, shown under the name.",
+          "fieldName": "email"
+        },
+        {
+          "name": "status",
+          "type": {
+            "text": "UserMenuStatus | undefined"
+          },
+          "description": "The person's presence, shown in the header: `online`, `away`, `busy` or `offline`.",
+          "fieldName": "status",
+          "expandedType": {
+            "text": "'online' | 'away' | 'busy' | 'offline' | undefined"
+          }
+        },
+        {
+          "name": "theme",
+          "type": {
+            "text": "UserMenuTheme | undefined"
+          },
+          "description": "The current color theme: `light`, `dark` or `system`. Setting it adds the theme section to\nthe menu; picking a choice updates it and fires `theme-change`.",
+          "fieldName": "theme",
+          "expandedType": {
+            "text": "'light' | 'dark' | 'system' | undefined"
+          }
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "OverlayPlacement"
+          },
+          "default": "'bottom-end'",
+          "description": "Where the menu opens relative to the avatar: `top`, `bottom`, `start` or `end`, optionally\nfollowed by `-start` or `-end`. Defaults to `\"bottom-end\"`, for the end of an app bar.",
+          "fieldName": "placement",
+          "expandedType": {
+            "text": "'top' | 'bottom' | 'start' | 'end' |  |  | Placement"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-user-menu",
+      "customElement": true,
+      "rawTag": {
+        "name": "user-menu",
+        "description": ""
+      }
+    }
+  },
+  {
+    "label": "Workspace Switcher",
+    "tag": "wc-workspace-switcher",
+    "rawTag": "workspace-switcher",
+    "summary": "The tenant, organization or project picker at the top of an app's navigation.",
+    "overview": "<p>The workspace switcher shows the current workspace (logo or initials, name and a chevron)\nand opens a menu of the person's workspaces, with a check on the current one. Set\n<code>workspaces</code> to an array of <code>{value, label, description, avatar}</code> and\n<code>value</code> to the current workspace's value. Picking another fires <code>change</code>\nwith <code>detail.value</code>; the switcher updates <code>value</code> itself.</p>\n<p>The menu starts with a search field that filters the list by name and description (Arrow\nDown moves into the list, Enter picks the first match); <code>hide-search</code> removes it for\nshort lists. <code>creatable</code> adds a \"Create workspace\" action at the end, which fires\n<code>create</code> with the search text, if any, as <code>detail.value</code>.</p>\n<p>In a collapsed <code>wc-navigation-rail</code>, set <code>collapsed</code>: the trigger shows\nonly the logo, with the name in a tooltip; open the menu to the side with\n<code>placement=\"end-start\"</code>. The strings, including \"workspace\", can be renamed per\ninstance through <code>strings</code>, for example for projects.</p>",
+    "cssprop": "--workspace-switcher-container-shape - Corner radius of the trigger.",
+    "fires": "close - Fired when the menu closes.",
+    "example": "```html\n<wc-workspace-switcher id=\"workspaces\" value=\"acme\" creatable></wc-workspace-switcher>\n<script>\n  const switcher = document.getElementById('workspaces');\n  switcher.workspaces = [\n    { value: 'acme', label: 'Acme Inc', description: 'Enterprise' },\n    { value: 'globex', label: 'Globex', description: 'Free' },\n  ];\n  switcher.addEventListener('change', event => openWorkspace(event.detail.value));\n</script>\n```",
+    "tags": "navigation",
+    "customElement": {
+      "kind": "class",
+      "description": "",
+      "cssProperties": [
+        {
+          "description": "Corner radius of the workspace logos. Defaults to a small rounded square.",
+          "name": "--workspace-switcher-avatar-shape"
+        },
+        {
+          "description": "Corner radius of the trigger.",
+          "name": "--workspace-switcher-container-shape"
+        }
+      ],
+      "events": [
+        {
+          "name": "open",
+          "type": {
+            "text": "CustomEvent"
+          },
+          "description": "Fired when the menu opens."
+        },
+        {
+          "name": "close",
+          "type": {
+            "text": "CustomEvent<{reason: 'escape' | 'light-dismiss' | 'action' | 'api'}>"
+          },
+          "description": "Fired when the menu closes."
+        },
+        {
+          "name": "create",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Fired when the person picks \"Create workspace\" (`creatable`); `value` is the search text."
+        },
+        {
+          "name": "change",
+          "type": {
+            "text": "CustomEvent<{value: string}>"
+          },
+          "description": "Fired when the person picks another workspace."
+        }
+      ],
+      "attributes": [
+        {
+          "name": "value",
+          "type": {
+            "text": "string"
+          },
+          "default": "''",
+          "description": "Value of the current workspace.",
+          "fieldName": "value"
+        },
+        {
+          "name": "creatable",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Adds a \"Create workspace\" action to the menu, which fires `create`.",
+          "fieldName": "creatable"
+        },
+        {
+          "name": "collapsed",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Shows only the logo, with the name in a tooltip, for a collapsed navigation rail.",
+          "fieldName": "collapsed"
+        },
+        {
+          "name": "hide-search",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Removes the search field from the menu, for short lists.",
+          "fieldName": "hideSearch"
+        },
+        {
+          "name": "disabled",
+          "type": {
+            "text": "boolean"
+          },
+          "default": "false",
+          "description": "Whether the switcher is disabled.",
+          "fieldName": "disabled"
+        },
+        {
+          "name": "placement",
+          "type": {
+            "text": "OverlayPlacement"
+          },
+          "default": "'bottom-start'",
+          "description": "Where the menu opens relative to the trigger: `top`, `bottom`, `start` or `end`, optionally\nfollowed by `-start` or `-end`. Defaults to `\"bottom-start\"`; use `\"end-start\"` in a rail.",
+          "fieldName": "placement",
+          "expandedType": {
+            "text": "'top' | 'bottom' | 'start' | 'end' |  |  | Placement"
+          }
+        }
+      ],
+      "superclass": {
+        "name": "LitElement",
+        "package": "lit"
+      },
+      "tagName": "wc-workspace-switcher",
+      "customElement": true,
+      "rawTag": {
+        "name": "workspace-switcher",
         "description": ""
       }
     }

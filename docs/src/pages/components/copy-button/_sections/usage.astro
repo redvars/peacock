@@ -1,0 +1,39 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-copy-button</code> copies <code>value</code> to the clipboard when pressed. For about
+  two seconds afterwards it shows a check and the tooltip "Copied", or an error icon and "Copy
+  failed"; screen readers hear the same. Its accessible name is <code>label</code>, "Copy" by
+  default.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-copy-button id='copy-button-demo' value='npm install @redvars/peacock'></wc-copy-button>
+  <script is:inline>
+    const copyButton = document.querySelector('#copy-button-demo');
+    copyButton.addEventListener('copied', function (event) {
+      myConsole.log('copy: ' + event.detail.value);
+    });
+    copyButton.addEventListener('copy-error', function () {
+      myConsole.log('copy-error');
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Copying another element</h3>
+<p>
+  Without <code>value</code>, <code>for</code> names the <code>id</code> of an element to copy
+  from: the value of an <code>input</code>, <code>textarea</code> or <code>select</code>, else its
+  text content, read when the button is pressed.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-stack direction='horizontal' gap='100' align='center'>
+    <code id='copy-button-key'>pk_test_4f9a2c</code>
+    <wc-copy-button for='copy-button-key' label='Copy API key'></wc-copy-button>
+  </wc-stack>
+</DemoComponentCard>

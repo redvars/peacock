@@ -1,0 +1,58 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-resizable-panels</code> is a split view: its <code>wc-panel</code> children sit side by
+  side with a divider between each pair, and dragging a divider resizes the two panels beside it.
+  A panel's <code>size</code> is its share in percent; panels without one share what is left.
+  <code>min-size</code> and <code>max-size</code> bound the size. Each panel scrolls its own
+  content. In right-to-left layouts horizontal drags mirror.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-resizable-panels
+    id='resizable-panels-demo'
+    style='height: 320px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-panel size='30' min-size='20' max-size='50' label='Messages'>
+      <div style='padding: 1rem;'>Messages</div>
+    </wc-panel>
+    <wc-panel min-size='30' label='Message'>
+      <div style='padding: 1rem;'>Message</div>
+    </wc-panel>
+  </wc-resizable-panels>
+  <script is:inline>
+    document.querySelector('#resizable-panels-demo').addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.value.join(', '));
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Vertical and nested</h3>
+<p>
+  <code>orientation="vertical"</code> stacks the panels. A panel can hold another split view, for
+  an editor beside a preview above a console.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-resizable-panels
+    style='height: 360px; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-panel size='50' min-size='20' label='Editor'>
+      <div style='padding: 1rem;'>Editor</div>
+    </wc-panel>
+    <wc-panel label='Output'>
+      <wc-resizable-panels orientation='vertical'>
+        <wc-panel size='60' label='Preview'>
+          <div style='padding: 1rem;'>Preview</div>
+        </wc-panel>
+        <wc-panel min-size='15' label='Console'>
+          <div style='padding: 1rem;'>Console</div>
+        </wc-panel>
+      </wc-resizable-panels>
+    </wc-panel>
+  </wc-resizable-panels>
+</DemoComponentCard>

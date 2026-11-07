@@ -1,0 +1,107 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  // Full bleed: the banner spans its container edge to edge, with no corners.
+  inline-size: 100%;
+
+  --banner-container-color: var(--color-surface-container-high);
+  --banner-text-color: var(--color-on-surface);
+  --banner-icon-color: var(--color-on-surface-variant);
+  --banner-max-content-width: none;
+  --banner-z-index: var(--z-index-banner, 10);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host([sticky]) {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--banner-z-index);
+}
+
+.banner {
+  background: var(--banner-container-color);
+  color: var(--banner-text-color);
+  border-block-end: 1px solid var(--color-outline-variant);
+  padding-block: var(--spacing-100);
+  padding-inline: var(--spacing-200);
+}
+
+.inner {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100) var(--spacing-200);
+  margin-inline: auto;
+  max-inline-size: var(--banner-max-content-width);
+}
+
+.icon {
+  align-items: center;
+  display: inline-flex;
+  flex: none;
+  // wc-icon paints with --icon-color, which the page sets; follow the banner's intent instead.
+  --icon-color: var(--banner-icon-color);
+  --icon-size: 1.5rem;
+}
+
+.message {
+  @include mixin.get-typography(body-medium);
+  // Grows to fill the row; below 16rem the actions wrap onto their own line.
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+}
+
+.headline {
+  @include mixin.get-typography(label-large);
+  margin-inline-end: var(--spacing-050);
+}
+
+.actions {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100);
+}
+
+.close {
+  flex: none;
+  margin-block: calc(-1 * var(--spacing-050));
+  --icon-color: var(--banner-icon-color);
+}
+
+.banner.info {
+  --banner-container-color: var(--color-primary-container);
+  --banner-text-color: var(--color-on-primary-container);
+  --banner-icon-color: var(--color-on-primary-container);
+}
+
+.banner.success {
+  --banner-container-color: var(--color-success-container);
+  --banner-text-color: var(--color-on-success-container);
+  --banner-icon-color: var(--color-on-success-container);
+}
+
+.banner.warning {
+  --banner-container-color: var(--color-warning-container);
+  --banner-text-color: var(--color-on-warning-container);
+  --banner-icon-color: var(--color-on-warning-container);
+}
+
+.banner.danger {
+  --banner-container-color: var(--color-error-container);
+  --banner-text-color: var(--color-on-error-container);
+  --banner-icon-color: var(--color-on-error-container);
+}
+
+// Forced colors drop the fill: keep the banner's edge visible.
+@media (forced-colors: active) {
+  .banner {
+    border-block-end-color: CanvasText;
+  }
+}

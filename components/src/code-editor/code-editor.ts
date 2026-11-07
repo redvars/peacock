@@ -7,7 +7,7 @@ import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { deprecate } from '@/__internal/utils/deprecate.js';
 import BaseInput from '../input/BaseInput.js';
 import { observeThemeChange } from '../__internal/utils/observe-theme-change.js';
-import { copyToClipboard } from '../__internal/utils/copy-to-clipboard.js';
+import { writeClipboardText } from '../__internal/utils/clipboard.js';
 import { buildEditorTheme, resolvePalette } from './editor-theme.js';
 
 import styles from './code-editor.scss';
@@ -744,7 +744,12 @@ export class CodeEditor extends BaseInput {
 
   private async __handleCopyClick() {
     const value = this.editorMonacoInstance?.getValue() ?? this.value ?? '';
-    await copyToClipboard(value);
+    try {
+      await writeClipboardText(value);
+    } catch {
+      // Nothing was copied: no "Copied" feedback and no copied event.
+      return;
+    }
     this._copied = true;
     clearTimeout(this.__copiedTimer);
     this.__copiedTimer = setTimeout(() => {

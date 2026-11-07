@@ -1,0 +1,23 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-user-menu</code> is the account menu at the end of an app bar. The avatar button, from
+  <code>name</code> and <code>src</code>, is named "Account menu for <em>name</em>". The menu
+  starts with a header (<code>name</code>, <code>email</code> and an optional presence
+  <code>status</code>: <code>online</code>, <code>away</code>, <code>busy</code> or
+  <code>offline</code>), then your <code>wc-menu-item</code>s. Items in the <code>footer</code>
+  slot, such as Sign out, come last.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-user-menu name='Ada Lovelace' email='ada@example.com' status='online'>
+    <wc-menu-item><wc-icon slot='start' name='person'></wc-icon>Profile</wc-menu-item>
+    <wc-menu-item><wc-icon slot='start' name='settings'></wc-icon>Settings</wc-menu-item>
+    <wc-divider slot='footer'></wc-divider>
+    <wc-menu-item slot='footer'><wc-icon slot='start' name='logout'></wc-icon>Sign out</wc-menu-item>
+  </wc-user-menu>
+</DemoComponentCard>

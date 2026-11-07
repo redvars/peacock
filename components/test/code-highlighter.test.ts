@@ -28,6 +28,34 @@ function root(el: CodeHighlighter): ShadowRoot {
   return el.shadowRoot as ShadowRoot;
 }
 
+/**
+ * Replaces `navigator.clipboard.writeText` for one test: background test pages are not focused,
+ * so the real one rejects (and the execCommand fallback copies nothing).
+ */
+function stubClipboard(succeed: boolean) {
+  const original = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
+  const writes: string[] = [];
+  Object.defineProperty(navigator, 'clipboard', {
+    configurable: true,
+    value: {
+      writeText: async (text: string) => {
+        writes.push(text);
+        if (!succeed) throw new Error('denied');
+      },
+    },
+  });
+  const originalExec = document.execCommand;
+  document.execCommand = (() => succeed) as typeof document.execCommand;
+  return {
+    writes,
+    restore() {
+      if (original) Object.defineProperty(navigator, 'clipboard', original);
+      else delete (navigator as { clipboard?: unknown }).clipboard;
+      document.execCommand = originalExec;
+    },
+  };
+}
+
 function lines(el: CodeHighlighter): HTMLElement[] {
   return [...root(el).querySelectorAll<HTMLElement>('.line')];
 }
@@ -190,11 +218,40 @@ describe('CodeHighlighter', () => {
       ></wc-code-highlighter>
     `);
     const button = root(el).querySelector('.copy-button') as HTMLElement;
-    setTimeout(() => button.click());
-    const event = (await oneEvent(el, 'copied')) as CustomEvent<{
-      value: string;
-    }>;
-    expect(event.detail.value).to.equal('npm i\nnpm test');
+    const clipboard = stubClipboard(true);
+    try {
+      setTimeout(() => button.click());
+      const event = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(event.detail.value).to.equal('npm i\nnpm test');
+      expect(clipboard.writes).to.deep.equal(['npm i\nnpm test']);
+    } finally {
+      clipboard.restore();
+    }
+  });
+
+  it('fires no copied and shows no feedback when nothing could be copied', async () => {
+    const el = await fixture<CodeHighlighter>(html`
+      <wc-code-highlighter language="text" .value=${'a'}></wc-code-highlighter>
+    `);
+    const button = root(el).querySelector('.copy-button') as HTMLElement;
+    let copied = false;
+    el.addEventListener('copied', () => {
+      copied = true;
+    });
+    const clipboard = stubClipboard(false);
+    try {
+      button.click();
+      await waitUntil(() => clipboard.writes.length === 1);
+      await new Promise(resolve => {
+        setTimeout(resolve, 50);
+      });
+      await el.updateComplete;
+      expect(copied).to.be.false;
+    } finally {
+      clipboard.restore();
+    }
   });
 
   it('copies copy-value instead of the code when set', async () => {
@@ -206,11 +263,16 @@ describe('CodeHighlighter', () => {
       ></wc-code-highlighter>
     `);
     const button = root(el).querySelector('.copy-button') as HTMLElement;
-    setTimeout(() => button.click());
-    const event = (await oneEvent(el, 'copied')) as CustomEvent<{
-      value: string;
-    }>;
-    expect(event.detail.value).to.equal('npm i');
+    const clipboard = stubClipboard(true);
+    try {
+      setTimeout(() => button.click());
+      const event = (await oneEvent(el, 'copied')) as CustomEvent<{
+        value: string;
+      }>;
+      expect(event.detail.value).to.equal('npm i');
+    } finally {
+      clipboard.restore();
+    }
   });
 
   it('toggles wrapping from the wrap button', async () => {

@@ -4,6 +4,9 @@
 
 :host {
   display: block;
+  // The value scales to the tile's width (cqi units), so the tile is a size container: it fills
+  // the width it is given and does not grow to fit its content.
+  container-type: inline-size;
   --_stat-padding: var(
     --stat-padding,
     calc(1rem + var(--density, 0) * 0.25rem)
@@ -63,7 +66,10 @@
   @include mixin.get-typography-not-important(headline-medium);
   font-variant-numeric: tabular-nums;
   min-inline-size: 0;
-  overflow-wrap: anywhere;
+  // A number never breaks ("18," / "200") or hides digits: in a narrow tile it gets smaller
+  // instead, down to title-large size, measured against the tile's own width.
+  white-space: nowrap;
+  font-size: clamp(1.25rem, 20cqi, var(--_stat-value-size, 1.75rem));
 
   &.empty {
     color: var(--color-on-surface-variant);

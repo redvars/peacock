@@ -1,0 +1,23 @@
+---
+export const title = 'Responsive';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>collapse-below</code> turns a horizontal stack into a vertical one while the stack itself
+  is narrower than the given width: pixels, or a length in <code>px</code>, <code>rem</code> or
+  <code>em</code>. It measures the stack, not the viewport, so it works the same in a sidebar, a
+  card or a full page. The <code>collapsed</code> property and the
+  <code>wc-stack:state(collapsed)</code> selector tell when it applies. Resize the box below.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; resize: horizontal; overflow: auto; border: 1px dashed var(--color-outline-variant); padding: 0.5rem;'>
+    <wc-stack direction='horizontal' gap='200' collapse-below='30rem'>
+      <wc-button>Save</wc-button>
+      <wc-button variant='outlined'>Save as draft</wc-button>
+      <wc-button variant='text'>Cancel</wc-button>
+    </wc-stack>
+  </div>
+</DemoComponentCard>

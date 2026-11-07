@@ -1,0 +1,95 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-notification-center</code> is the in-app inbox behind a bell: the bell shows the unread count,
+  and pressing it opens a panel with the notifications, newest first, grouped under Today, Yesterday and
+  dates, each with a relative time ("5 min. ago"). The panel has All and Unread filters, Mark all as
+  read, and per-item buttons to mark read or unread and to dismiss. On phone-width screens it opens as a
+  full-height side sheet.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: flex; justify-content: flex-end; min-height: 4rem;'>
+    <wc-notification-center id='inbox-demo' has-more></wc-notification-center>
+  </div>
+  <script is:inline>
+    (function () {
+      var inbox = document.querySelector('#inbox-demo');
+      var now = Date.now();
+      var minute = 60000;
+      var hour = 60 * minute;
+      var day = 24 * hour;
+      var page = 0;
+      inbox.notifications = [
+        { id: '1', title: 'Build failed', body: 'main #4521: 3 tests failed', timestamp: new Date(now - 5 * minute).toISOString(), intent: 'danger' },
+        { id: '2', title: 'Ada Lovelace commented on "Q4 plan"', body: 'Looks good, one question about the budget.', timestamp: new Date(now - 2 * hour).toISOString(), avatar: 'https://peacock.redvars.com/assets/img/avatar.xs.webp' },
+        { id: '3', title: 'Deployment finished', timestamp: new Date(now - day).toISOString(), intent: 'success', read: true },
+        { id: '4', title: 'Storage almost full', body: '92% of 50 GB used', timestamp: new Date(now - 3 * day).toISOString(), intent: 'warning', href: '#storage' },
+      ];
+      function update(fn) {
+        inbox.notifications = inbox.notifications.map(fn).filter(Boolean);
+      }
+      inbox.addEventListener('read-change', function (e) {
+        update(function (n) {
+          return e.detail.ids.indexOf(n.id) >= 0 ? Object.assign({}, n, { read: e.detail.read }) : n;
+        });
+      });
+      inbox.addEventListener('dismiss', function (e) {
+        update(function (n) {
+          return n.id === e.detail.notification.id ? null : n;
+        });
+      });
+      inbox.addEventListener('item-click', function (e) {
+        e.preventDefault();
+        myConsole.log('item-click: ' + e.detail.notification.title);
+        update(function (n) {
+          return n.id === e.detail.notification.id ? Object.assign({}, n, { read: true }) : n;
+        });
+      });
+      inbox.addEventListener('load-more', function () {
+        inbox.loading = true;
+        setTimeout(function () {
+          page += 1;
+          inbox.notifications = inbox.notifications.concat([
+            { id: 'old-' + page, title: 'Weekly summary', timestamp: new Date(now - (8 + page * 7) * day).toISOString(), read: true },
+          ]);
+          inbox.loading = false;
+          inbox.hasMore = page < 2;
+        }, 800);
+      });
+    })();
+  </script>
+</DemoComponentCard>
+
+<h3>The app owns the data</h3>
+<p>
+  The component never changes <code>notifications</code>. It fires events and the app updates its data
+  (optimistically if it likes) and assigns a new array:
+</p>
+<ul>
+  <li>
+    <code>item-click</code> (<code>detail.notification</code>, cancelable): a notification was activated.
+    One with <code>href</code> is a link and navigates unless the event is cancelled. Mark it read here if
+    that is what your app wants.
+  </li>
+  <li>
+    <code>read-change</code> (<code>detail.ids</code>, <code>detail.read</code>): from the per-item
+    buttons and Mark all as read.
+  </li>
+  <li><code>dismiss</code> (<code>detail.notification</code>): from an item's dismiss button.</li>
+  <li>
+    <code>load-more</code>: from the Load more button, shown while <code>has-more</code> is set. Set
+    <code>loading</code> while fetching.
+  </li>
+  <li><code>open</code> and <code>close</code> (<code>detail.reason</code>) for the panel.</li>
+</ul>
+<p>
+  Each notification is <code>{'{'} id, title, body?, timestamp, read?, intent?, href?, avatar? {'}'}</code>:
+  <code>timestamp</code> is an ISO 8601 string, <code>intent</code> shows a colored icon when there is no
+  <code>avatar</code> (an image URL). Dates and relative times use <code>Intl</code> in the resolved
+  locale (<code>locale</code>, else the nearest <code>lang</code>).
+</p>

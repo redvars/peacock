@@ -1,0 +1,50 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-inline-edit</code> shows a record's value as text with a pencil button. Clicking the
+  text or the button opens an editor; <kbd>Enter</kbd> saves, <kbd>Escape</kbd> cancels, and
+  moving focus away saves too, so nothing typed is lost. The text takes the font of its
+  surroundings, so it works in a heading.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 1rem;'>
+    <h2 style='margin: 0;'>
+      <wc-inline-edit id='inline-edit-title' label='Title' value='Quarterly report' required></wc-inline-edit>
+    </h2>
+    <wc-inline-edit
+      label='Description'
+      multiline
+      maxlength='500'
+      placeholder='Add a description'
+    ></wc-inline-edit>
+  </div>
+  <script is:inline>
+    document.querySelector('#inline-edit-title').addEventListener('change', function (event) {
+      myConsole.log('change: ' + event.detail.value);
+    });
+  </script>
+</DemoComponentCard>
+
+<p>
+  With <code>multiline</code> the editor is a <code>wc-textarea</code>: <kbd>Enter</kbd> starts a
+  new line and <kbd>Ctrl</kbd>+<kbd>Enter</kbd> (<kbd>Cmd</kbd>+<kbd>Enter</kbd>) saves.
+  <code>show-actions</code> adds Save and Cancel buttons after the editor.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px;'>
+    <wc-inline-edit label='Owner' value='Ada Lovelace' show-actions></wc-inline-edit>
+  </div>
+</DemoComponentCard>
+
+<h3>Not a form field</h3>
+<p>
+  Inline edit is for records that the app saves at once. It is not form-associated and has no
+  <code>name</code>. For values submitted together, use <code>wc-input</code> or
+  <code>wc-textarea</code> inside a <code>wc-form</code>.
+</p>

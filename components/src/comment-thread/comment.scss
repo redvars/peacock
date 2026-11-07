@@ -1,0 +1,121 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  outline: none;
+  border-radius: var(--shape-corner-small);
+  color: var(--color-on-surface);
+  --_gap: calc(var(--spacing-150) + var(--density, 0) * 0.125rem);
+}
+
+:host(:focus-visible) {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.comment {
+  display: flex;
+  gap: var(--spacing-150);
+  padding-block: calc(var(--_gap) / 2);
+}
+
+.avatar {
+  flex: none;
+}
+
+.main {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--spacing-100);
+  min-block-size: 1.5rem;
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
+}
+
+.author {
+  @include mixin.get-typography-not-important(title-small);
+  color: var(--color-on-surface);
+}
+
+.time {
+  color: inherit;
+}
+
+a.time {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--shape-corner-extra-small);
+  }
+}
+
+.edited::before {
+  content: '·';
+  margin-inline-end: var(--spacing-100);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.menu-button {
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.body {
+  @include mixin.get-typography-not-important(body-medium);
+  margin-block-start: var(--spacing-050);
+  overflow-wrap: anywhere;
+}
+
+.plain {
+  white-space: pre-wrap;
+}
+
+.footer {
+  margin-block-start: var(--spacing-050);
+  margin-inline-start: calc(-1 * var(--spacing-100));
+}
+
+// One level of replies, indented under the comment's text.
+.replies {
+  margin-block-start: var(--spacing-100);
+  padding-inline-start: var(--spacing-150);
+  border-inline-start: 2px solid var(--color-outline-variant);
+}
+
+.reply-composer {
+  margin-block-start: var(--spacing-100);
+  padding-inline-start: var(--spacing-150);
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  margin-block-start: var(--spacing-100);
+}
+
+@media (forced-colors: active) {
+  :host(:focus-visible) {
+    outline-color: Highlight;
+  }
+
+  .replies {
+    border-inline-start-color: CanvasText;
+  }
+}

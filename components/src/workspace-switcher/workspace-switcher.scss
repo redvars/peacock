@@ -1,0 +1,158 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  --_container-shape: var(
+    --workspace-switcher-container-shape,
+    var(--shape-corner-medium)
+  );
+  --_avatar-shape: var(
+    --workspace-switcher-avatar-shape,
+    var(--shape-corner-small)
+  );
+}
+
+:host([collapsed]) {
+  display: inline-block;
+}
+
+.avatar {
+  --avatar-container-shape: var(--_avatar-shape);
+  --avatar-container-color: var(--color-primary-container);
+  --avatar-text-color: var(--color-on-primary-container);
+  flex: none;
+}
+
+/* Trigger */
+.trigger-wrapper {
+  border-radius: var(--_container-shape);
+  position: relative;
+}
+
+.focus-ring {
+  --focus-ring-container-shape-start-start: var(--_container-shape);
+  --focus-ring-container-shape-start-end: var(--_container-shape);
+  --focus-ring-container-shape-end-start: var(--_container-shape);
+  --focus-ring-container-shape-end-end: var(--_container-shape);
+}
+
+.ripple {
+  border-radius: var(--_container-shape);
+  --ripple-pressed-color: var(--color-on-surface);
+}
+
+.trigger {
+  @include mixin.reset-button-styles;
+  align-items: center;
+  border-radius: var(--_container-shape);
+  color: var(--color-on-surface);
+  cursor: pointer;
+  display: flex;
+  gap: var(--spacing-150, 0.75rem);
+  inline-size: 100%;
+  min-block-size: calc(3.5rem + var(--density, 0) * 0.25rem);
+  padding: var(--spacing-100, 0.5rem) var(--spacing-150, 0.75rem);
+  text-align: start;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
+}
+
+:host([collapsed]) .trigger {
+  inline-size: auto;
+  justify-content: center;
+  min-block-size: 3rem;
+  min-inline-size: 3rem;
+  padding: var(--spacing-100, 0.5rem);
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.name {
+  @include mixin.get-typography-not-important(title-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.description {
+  @include mixin.get-typography-not-important(body-small);
+  color: var(--color-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  --icon-color: var(--color-on-surface-variant);
+  --icon-size: 1.25rem;
+  flex: none;
+}
+
+/* Menu */
+.menu {
+  --menu-max-height: 24rem;
+  --menu-min-width: 15rem;
+}
+
+.search {
+  align-items: center;
+  border-block-end: 1px solid var(--color-outline-variant);
+  display: flex;
+  gap: var(--spacing-100, 0.5rem);
+  margin-block-end: var(--spacing-050, 0.25rem);
+  padding: var(--spacing-050, 0.25rem) var(--spacing-150, 0.75rem);
+}
+
+.search-icon {
+  --icon-color: var(--color-on-surface-variant);
+  --icon-size: 1.25rem;
+  flex: none;
+}
+
+.search-input {
+  @include mixin.get-typography-not-important(body-medium);
+  background: transparent;
+  block-size: 2.5rem;
+  border: 0;
+  color: var(--color-on-surface);
+  flex: 1;
+  margin: 0;
+  min-inline-size: 0;
+  outline: none;
+  padding: 0;
+
+  &::placeholder {
+    color: var(--color-on-surface-variant);
+  }
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.empty {
+  @include mixin.get-typography-not-important(body-medium);
+  color: var(--color-on-surface-variant);
+  padding: var(--spacing-150, 0.75rem) var(--spacing-200, 1rem);
+}
+
+@media (forced-colors: active) {
+  .trigger {
+    border: 1px solid ButtonText;
+  }
+
+  .trigger:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

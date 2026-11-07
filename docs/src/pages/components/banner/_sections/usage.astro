@@ -1,0 +1,51 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  A banner is a full-width message at the top of the app or a page, about something that stays true
+  until it changes: a maintenance window, a trial that is ending, a lost connection. Put it above the
+  content, edge to edge, and show one at a time.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-banner headline='New dashboard'>Your reports moved to the new dashboard.</wc-banner>
+    <wc-banner intent='info' headline='Scheduled maintenance'>
+      The service is unavailable on Friday from 22:00 to 23:00 UTC.
+      <wc-button slot='action' variant='text' size='sm'>Status page</wc-button>
+    </wc-banner>
+    <wc-banner intent='warning' headline='Your trial ends in 3 days.'>
+      Upgrade to keep your projects.
+      <wc-button slot='action' variant='text' size='sm'>Compare plans</wc-button>
+      <wc-button slot='action' variant='filled' size='sm'>Upgrade</wc-button>
+    </wc-banner>
+    <wc-banner intent='danger' headline='Connection lost.'>
+      Changes are saved on this device until you are back online.
+    </wc-banner>
+    <wc-banner intent='success' headline='Payment received.'>Thank you.</wc-banner>
+  </div>
+</DemoComponentCard>
+
+<h3>Banner, alert or snackbar</h3>
+<ul>
+  <li>
+    <strong>Banner</strong>: about the whole app or page, true until something changes. Full width,
+    above the content, stays until the condition ends or the person dismisses it.
+  </li>
+  <li>
+    <strong><a href='/components/alert'><code>wc-alert</code></a></strong>: about one part of the
+    content, shown in place beside it.
+  </li>
+  <li>
+    <strong><a href='/components/snackbar'><code>wc-snackbar</code></a></strong>: brief feedback on
+    something the person just did; it floats and goes away by itself.
+  </li>
+</ul>
+<p>
+  The banner uses the alert's vocabulary: <code>intent</code> (neutral when unset), <code>headline</code>,
+  the message in the default slot or <code>description</code>, <code>icon</code>, and one or two buttons
+  in the <code>action</code> slot. Narrow banners wrap the actions onto their own line.
+</p>

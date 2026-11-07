@@ -106,6 +106,21 @@ import { Stat } from '@/stat/stat.js';
 import { Sparkline } from '@/sparkline/sparkline.js';
 import { TransferList } from '@/transfer-list/transfer-list.js';
 import { StatusIndicator } from '@/status-indicator/status-indicator.js';
+import { AppShell } from '@/app-shell/app-shell.js';
+import { PageHeader } from '@/page-header/page-header.js';
+import { ResizablePanels, Panel } from '@/resizable-panels/index.js';
+import { Stack } from '@/stack/stack.js';
+import { Grid } from '@/grid/grid.js';
+import { AvatarGroup } from '@/avatar-group/avatar-group.js';
+import { CopyButton } from '@/copy-button/copy-button.js';
+import { CommandPalette } from '@/command-palette/command-palette.js';
+import { WorkspaceSwitcher } from '@/workspace-switcher/workspace-switcher.js';
+import { UserMenu } from '@/user-menu/user-menu.js';
+import { Banner } from '@/banner/banner.js';
+import { NotificationCenter } from '@/notification-center/notification-center.js';
+import { Tour } from '@/tour/tour.js';
+import { InlineEdit } from '@/inline-edit/inline-edit.js';
+import { CommentThread, CommentElement } from '@/comment-thread/index.js';
 import { Toolbar } from '@/toolbar/toolbar.js';
 import { AppBar } from '@/app-bar/app-bar.js';
 import { NavigationRail } from '@/navigation-rail/navigation-rail.js';
@@ -488,6 +503,57 @@ const loaderConfig: LoaderConfig = {
     },
     'wc-status-indicator': {
       CustomElementClass: StatusIndicator,
+    },
+    'wc-app-shell': {
+      CustomElementClass: AppShell,
+    },
+    'wc-page-header': {
+      CustomElementClass: PageHeader,
+    },
+    'wc-resizable-panels': {
+      CustomElementClass: ResizablePanels,
+    },
+    'wc-panel': {
+      CustomElementClass: Panel,
+    },
+    'wc-stack': {
+      CustomElementClass: Stack,
+    },
+    'wc-grid': {
+      CustomElementClass: Grid,
+    },
+    'wc-avatar-group': {
+      CustomElementClass: AvatarGroup,
+    },
+    'wc-copy-button': {
+      CustomElementClass: CopyButton,
+    },
+    'wc-command-palette': {
+      CustomElementClass: CommandPalette,
+    },
+    'wc-workspace-switcher': {
+      CustomElementClass: WorkspaceSwitcher,
+    },
+    'wc-user-menu': {
+      CustomElementClass: UserMenu,
+    },
+    'wc-banner': {
+      CustomElementClass: Banner,
+    },
+    'wc-notification-center': {
+      CustomElementClass: NotificationCenter,
+    },
+    'wc-tour': {
+      CustomElementClass: Tour,
+    },
+    'wc-inline-edit': {
+      CustomElementClass: InlineEdit,
+    },
+    'wc-comment-thread': {
+      CustomElementClass: CommentThread,
+    },
+    'wc-comment': {
+      CustomElementClass: CommentElement,
     },
     'wc-toolbar': {
       CustomElementClass: Toolbar,

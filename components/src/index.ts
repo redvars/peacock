@@ -199,6 +199,64 @@ export type {
 } from './transfer-list/index.js';
 export { StatusIndicator } from './status-indicator/index.js';
 export type { StatusIndicatorIntent } from './status-indicator/index.js';
+export { AppShell } from './app-shell/index.js';
+export type { AppShellCloseDetail } from './app-shell/index.js';
+export { PageHeader } from './page-header/index.js';
+export type { PageHeaderHeadingLevel } from './page-header/index.js';
+export { ResizablePanels, Panel } from './resizable-panels/index.js';
+export type {
+  ResizablePanelsChangeDetail,
+  ResizablePanelsOrientation,
+} from './resizable-panels/index.js';
+export { Stack } from './stack/index.js';
+export type {
+  SpacingStep,
+  StackAlign,
+  StackDirection,
+  StackJustify,
+} from './stack/index.js';
+export { Grid } from './grid/index.js';
+export type { GridAlign } from './grid/index.js';
+export { AvatarGroup } from './avatar-group/index.js';
+export type { AvatarGroupSize } from './avatar-group/index.js';
+export { CopyButton, writeClipboardText } from './copy-button/index.js';
+export type {
+  CopyButtonStatus,
+  CopyErrorEventDetail,
+  CopyEventDetail,
+} from './copy-button/index.js';
+export { CommandPalette } from './command-palette/index.js';
+export type {
+  Command,
+  CommandPaletteSearch,
+  CommandPaletteSelectDetail,
+} from './command-palette/index.js';
+export { WorkspaceSwitcher } from './workspace-switcher/index.js';
+export type { Workspace } from './workspace-switcher/index.js';
+export { UserMenu } from './user-menu/index.js';
+export type { UserMenuStatus, UserMenuTheme } from './user-menu/index.js';
+export { Banner } from './banner/index.js';
+export type { BannerCloseDetail, BannerIntent } from './banner/index.js';
+export { NotificationCenter } from './notification-center/index.js';
+export type {
+  NotificationCenterCloseDetail,
+  NotificationCenterItem,
+  NotificationCenterItemDetail,
+  NotificationCenterReadChangeDetail,
+} from './notification-center/index.js';
+export { Tour } from './tour/index.js';
+export type {
+  TourCloseDetail,
+  TourStep,
+  TourStepChangeDetail,
+} from './tour/index.js';
+export { InlineEdit } from './inline-edit/index.js';
+export { CommentThread, CommentElement } from './comment-thread/index.js';
+export type {
+  CommentActionDetail,
+  CommentCopyLinkDetail,
+  CommentSubmitDetail,
+} from './comment-thread/index.js';
 export {
   Calendar,
   CalendarColumnView,

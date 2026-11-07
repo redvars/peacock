@@ -1,0 +1,41 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-grid</code> lays its children out in a CSS grid. The element itself is the grid
+  container, so the children are its grid items. <code>columns="3"</code> gives three equal
+  columns at every width; <code>gap</code> takes a step of the spacing scale, as on
+  <code>wc-stack</code>.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-grid columns='3' gap='200' style='width: 100%;'>
+    <wc-card>One</wc-card>
+    <wc-card>Two</wc-card>
+    <wc-card>Three</wc-card>
+    <wc-card>Four</wc-card>
+    <wc-card>Five</wc-card>
+    <wc-card>Six</wc-card>
+  </wc-grid>
+</DemoComponentCard>
+
+<h3>Responsive columns</h3>
+<p>
+  <code>min-column-width</code> fits as many columns as there is room for, each at least that
+  wide, and drops to one column when the grid is narrower. Together with <code>columns</code>,
+  <code>columns</code> is the most it shows: the grid below has up to four columns of at least
+  12rem.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-grid columns='4' min-column-width='12rem' gap='200' style='width: 100%;'>
+    <wc-card>One</wc-card>
+    <wc-card>Two</wc-card>
+    <wc-card>Three</wc-card>
+    <wc-card>Four</wc-card>
+    <wc-card>Five</wc-card>
+  </wc-grid>
+</DemoComponentCard>

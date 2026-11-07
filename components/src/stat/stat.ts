@@ -29,6 +29,9 @@ export type StatVariant = 'outlined' | 'filled' | 'plain';
  * <p>Stat shows one metric: a <code>label</code> ("Monthly revenue") and a <code>value</code>,
  * formatted with <code>Intl.NumberFormat</code> in the nearest <code>lang</code> using
  * <code>format</code> (for example <code>{"style": "currency", "currency": "USD"}</code>).</p>
+ * <p>The tile fills the width it is given, like a card, and its value gets smaller in a narrow
+ * tile rather than wrapping. Place stats in a <code>wc-grid</code> or give them a width; in a
+ * flex row, give each <code>flex: 1</code>.</p>
  * <p>The change comes from <code>previous</code>, the value of the last period, or is given as
  * <code>delta</code>. <code>delta-format="percent"</code> (the default) shows it as a share of
  * the previous value; with <code>delta</code> it is then a fraction, so <code>0.08</code> is 8%.

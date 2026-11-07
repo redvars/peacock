@@ -9,7 +9,7 @@ import type {
   ThemeRegistration,
 } from 'shiki';
 import IndividualComponent from '@/IndividualComponent.js';
-import { copyToClipboard } from '@/__internal/utils/copy-to-clipboard.js';
+import { writeClipboardText } from '@/__internal/utils/clipboard.js';
 import { I18nController } from '@/__internal/i18n/i18n-controller.js';
 import type { PeacockStrings } from '@/__internal/i18n/strings.js';
 import { TOKEN_DEFAULTS } from './token-colors.js';
@@ -446,7 +446,12 @@ export class CodeHighlighter extends LitElement {
 
   private async __handleCopyClick() {
     const value = this.copyValue ?? this._code;
-    await copyToClipboard(value);
+    try {
+      await writeClipboardText(value);
+    } catch {
+      // Nothing was copied: no "Copied" feedback and no copied event.
+      return;
+    }
     this._copied = true;
     this.dispatchEvent(
       new CustomEvent('copied', {

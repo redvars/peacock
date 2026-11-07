@@ -1,0 +1,21 @@
+---
+export const title = 'Loading, empty and read only';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>loading</code> shows placeholder rows and disables Send. Without comments the thread says
+  "No comments yet"; replace the message with the <code>empty</code> slot.
+  <code>readonly</code> hides the composer and the Reply buttons.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 2rem;'>
+    <wc-comment-thread loading></wc-comment-thread>
+    <wc-comment-thread></wc-comment-thread>
+    <wc-comment-thread readonly>
+      <wc-comment author='Ada Lovelace' datetime='2026-10-01T12:00:00Z' body='Approved.'></wc-comment>
+    </wc-comment-thread>
+  </div>
+</DemoComponentCard>

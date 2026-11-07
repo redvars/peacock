@@ -1,0 +1,48 @@
+---
+export const title = 'Server search';
+export const order = 200;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  With <code>search="managed"</code> the palette does not filter the commands itself. Listen to
+  <code>search</code>, set <code>loading</code> while the results load, and replace
+  <code>commands</code> with them. The palette still highlights the typed words. Debounce the
+  requests in the app.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-button id='command-palette-managed-open'>Search people</wc-button>
+  <wc-command-palette
+    id='command-palette-managed'
+    search='managed'
+    label='Search people'
+    placeholder='Search by name'
+  ></wc-command-palette>
+  <script is:inline>
+    (function () {
+      const people = ['Ada Lovelace', 'Alan Turing', 'Grace Hopper', 'Katherine Johnson', 'Linus Torvalds'];
+      const palette = document.querySelector('#command-palette-managed');
+      const toCommands = names =>
+        names.map(name => ({ id: name, label: name, group: 'People', icon: 'person' }));
+      palette.commands = toCommands(people);
+      let timer;
+      palette.addEventListener('search', event => {
+        const text = event.detail.value.toLowerCase();
+        clearTimeout(timer);
+        palette.loading = true;
+        // Stands in for the app's request.
+        timer = setTimeout(() => {
+          palette.commands = toCommands(people.filter(name => name.toLowerCase().includes(text)));
+          palette.loading = false;
+        }, 400);
+      });
+      document
+        .querySelector('#command-palette-managed-open')
+        .addEventListener('click', () => palette.show());
+      palette.addEventListener('select', event => {
+        myConsole.log(`select: ${event.detail.command.id}`);
+      });
+    })();
+  </script>
+</DemoComponentCard>

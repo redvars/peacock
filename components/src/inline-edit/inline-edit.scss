@@ -1,0 +1,108 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: block;
+  min-inline-size: 0;
+  --_hover-color: var(
+    --inline-edit-hover-color,
+    var(--color-surface-container-high)
+  );
+}
+
+// The text takes the font of its surroundings, so the component fits a heading or a field row.
+.display {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-050);
+  min-inline-size: 0;
+}
+
+.text {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  margin-inline: calc(-1 * var(--spacing-050));
+  padding-block: var(--spacing-025);
+  padding-inline: var(--spacing-050);
+  border-radius: var(--shape-corner-extra-small);
+  overflow-wrap: anywhere;
+  color: inherit;
+}
+
+// Line breaks of a multiline value show.
+.value {
+  white-space: pre-wrap;
+}
+
+.placeholder {
+  color: var(--color-on-surface-variant);
+  font-style: italic;
+}
+
+.editable .text {
+  cursor: text;
+  transition: background-color var(--duration-short2, 100ms)
+    var(--easing-standard, ease);
+
+  &:hover {
+    background-color: var(--_hover-color);
+  }
+}
+
+.disabled .text {
+  color: var(--color-on-surface);
+  opacity: 0.38;
+}
+
+.edit-button {
+  flex: none;
+  --icon-color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+.display:hover .edit-button,
+.edit-button:focus-within {
+  opacity: 1;
+}
+
+.editor {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+}
+
+.control {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  gap: var(--spacing-050);
+
+  wc-icon-button {
+    --icon-color: currentColor;
+  }
+}
+
+.progress {
+  --progress-height: 1.25rem;
+  --progress-line-thickness: 2px;
+}
+
+@media (forced-colors: active) {
+  .editable .text:hover {
+    outline: 1px dashed CanvasText;
+  }
+
+  .disabled .text {
+    color: GrayText;
+    opacity: 1;
+  }
+
+  .edit-button {
+    opacity: 1;
+  }
+}

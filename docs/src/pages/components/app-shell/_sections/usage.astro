@@ -1,0 +1,66 @@
+---
+export const title = 'Usage';
+export const order = 100;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>wc-app-shell</code> is the frame of an app screen. Put a <code>wc-app-bar</code> in the
+  <code>header</code> slot, a <code>wc-navigation-drawer</code> in the <code>navigation</code>
+  slot, the page in the default slot, and optionally a panel in <code>aside</code> and a bar in
+  <code>footer</code>. The shell fills the viewport height (<code>100dvh</code>); the header and
+  navigation stay put and only the main region scrolls. The demo sets a fixed height.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <wc-app-shell
+    id='app-shell-demo'
+    style='height: 420px; width: 100%; border: 1px solid var(--color-outline-variant); border-radius: 1rem;'
+  >
+    <wc-app-bar slot='header'>
+      Mail
+      <wc-icon-button slot='end' variant='text' shape='round' aria-label='Search'>
+        <wc-icon name='search'></wc-icon>
+      </wc-icon-button>
+    </wc-app-bar>
+    <wc-navigation-drawer slot='navigation' open style='--navigation-drawer-width: 240px;'>
+      <wc-navigation-drawer-item value='inbox' current>
+        <wc-icon slot='icon' name='inbox'></wc-icon>
+        Inbox
+      </wc-navigation-drawer-item>
+      <wc-navigation-drawer-item value='sent'>
+        <wc-icon slot='icon' name='send'></wc-icon>
+        Sent
+      </wc-navigation-drawer-item>
+      <wc-navigation-drawer-item value='drafts'>
+        <wc-icon slot='icon' name='draft'></wc-icon>
+        Drafts
+      </wc-navigation-drawer-item>
+    </wc-navigation-drawer>
+    <div style='padding: 1.5rem;'>
+      <h2 style='margin-top: 0;'>Inbox</h2>
+      <p>Only this region scrolls.</p>
+      <div style='height: 800px; border-radius: 1rem; background: var(--color-surface-container);'></div>
+    </div>
+    <div slot='aside' style='width: 220px; padding: 1.5rem;'>Message details</div>
+  </wc-app-shell>
+  <script is:inline>
+    const shell = document.querySelector('#app-shell-demo');
+    shell.addEventListener('open', function (event) {
+      if (event.target === shell) myConsole.log('open');
+    });
+    shell.addEventListener('close', function (event) {
+      if (event.target === shell) myConsole.log('close: ' + event.detail.reason);
+    });
+  </script>
+</DemoComponentCard>
+
+<h3>Landmarks</h3>
+<p>
+  The shell renders the page landmarks: a <code>&lt;header&gt;</code>, a
+  <code>&lt;main&gt;</code>, an <code>&lt;aside&gt;</code> and a <code>&lt;footer&gt;</code> (the
+  last two only while they have content). The navigation drawer, rail and bar are navigation
+  landmarks already, so the shell marks the navigation region as one only when the slotted content
+  is not, such as a plain list of links. The first focusable element is a visually hidden
+  <em>Skip to main content</em> link; press Tab in the demo to see it.
+</p>

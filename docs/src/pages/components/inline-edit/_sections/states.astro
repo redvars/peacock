@@ -1,0 +1,26 @@
+---
+export const title = 'States and accessibility';
+export const order = 300;
+import DemoComponentCard from '../../../../components/DemoComponentCard.astro';
+---
+
+<p>
+  <code>disabled</code> dims the text and <code>readonly</code> shows it as plain text; neither has
+  a pencil button. An empty value shows <code>placeholder</code> in a muted style.
+</p>
+
+<DemoComponentCard lang={'html'}>
+  <div style='width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 1rem;'>
+    <wc-inline-edit label='Title' placeholder='Add a title'></wc-inline-edit>
+    <wc-inline-edit label='Title' value='Read only' readonly></wc-inline-edit>
+    <wc-inline-edit label='Title' value='Disabled' disabled></wc-inline-edit>
+  </div>
+</DemoComponentCard>
+
+<p>
+  <code>label</code> names both views for assistive technology: the pencil button is "Edit
+  <i>label</i>" and the editor is named <i>label</i>. The button is the keyboard way in
+  (<kbd>Enter</kbd> or <kbd>Space</kbd>); clicking the text is a shortcut for the mouse. After a
+  save or cancel from the keyboard or the action buttons, focus returns to the pencil button. A
+  save in progress is announced as "Saving".
+</p>

@@ -1,0 +1,23 @@
+---
+export const title = 'Keyboard and accessibility';
+export const order = 300;
+---
+
+<p>
+  The popup is a <strong>non-modal</strong> dialog (<code>role="dialog"</code>), named by the step's
+  headline and described by its body. The scrim is only drawn: it takes no clicks, so the page stays
+  usable and the person can try the highlighted control while the step explains it. A modal tour would
+  make the page inert, including the target, and trap people who want to look around.
+</p>
+<p>
+  Focus moves into the popup at each step, so a screen reader reads the new headline, and returns to where
+  it was when the tour ends. Escape ends the tour. While focus is in the popup, Left and Right (mirrored in
+  right-to-left layouts) go back and forward. The target scrolls into view smoothly, or instantly when the
+  person prefers reduced motion; the spotlight then does not animate between steps either. In forced-colors
+  mode the spotlight is drawn as a Highlight outline.
+</p>
+<p>
+  The strings are translated with <code>setPeacockStrings()</code>: <code>tourBack</code>,
+  <code>tourNext</code>, <code>tourDone</code>, <code>tourSkip</code> and the shared
+  <code>stepPosition</code> ("Step 2 of 4").
+</p>

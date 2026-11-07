@@ -1,0 +1,141 @@
+@use '../../scss/mixin';
+
+@include mixin.base-styles;
+
+:host {
+  display: contents;
+
+  --tour-scrim-color: color-mix(in srgb, var(--color-scrim) 48%, transparent);
+  --tour-spotlight-padding: 0.5rem;
+  --tour-spotlight-radius: var(--shape-corner-small);
+  --tour-popup-width: 20rem;
+  --tour-z-index: var(--z-index-popover, 1000);
+}
+
+// The layer covers the viewport in the top layer but takes no clicks: the tour is non-modal and
+// the page, including the highlighted target, stays usable.
+.layer {
+  background: transparent;
+  block-size: 100vh;
+  border: 0;
+  color: inherit;
+  inline-size: 100vw;
+  inset: 0;
+  margin: 0;
+  max-block-size: none;
+  max-inline-size: none;
+  overflow: hidden;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: var(--tour-z-index);
+}
+
+.layer:not(:popover-open) {
+  display: none;
+}
+
+// A box over the target whose huge shadow dims everything around it: the cut-out spotlight.
+.spotlight {
+  block-size: calc(var(--_height, 0px) + 2 * var(--tour-spotlight-padding));
+  border-radius: var(--tour-spotlight-radius);
+  box-shadow: 0 0 0 200vmax var(--tour-scrim-color);
+  inline-size: calc(var(--_width, 0px) + 2 * var(--tour-spotlight-padding));
+  position: fixed;
+  // Viewport coordinates from getBoundingClientRect, which do not mirror.
+  top: calc(var(--_y, 0px) - var(--tour-spotlight-padding));
+  // stylelint-disable-next-line property-disallowed-list
+  left: calc(var(--_x, 0px) - var(--tour-spotlight-padding));
+  transition-duration: var(--duration-medium2, 0.3s);
+  transition-property: top, left, inline-size, block-size;
+  transition-timing-function: var(--easing-standard, ease-in-out);
+}
+
+// A step without a target: dim the whole page.
+.spotlight.full {
+  background: var(--tour-scrim-color);
+  block-size: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  inline-size: 100%;
+  inset: 0;
+  transition: none;
+}
+
+.popup {
+  background: var(--color-surface-container-high);
+  border-radius: var(--shape-corner-medium);
+  box-shadow: var(--elevation-level3);
+  color: var(--color-on-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  inline-size: min(var(--tour-popup-width), calc(100vw - 1rem));
+  padding: var(--spacing-200);
+  pointer-events: auto;
+  position: fixed;
+  top: 0;
+  // floating-ui positions the popup with physical left/top.
+  // stylelint-disable-next-line property-disallowed-list
+  left: 0;
+
+  // The popup takes focus at each step only as a starting point, like a modal; it is not a
+  // control, so it shows no focus ring.
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.popup.centered {
+  block-size: fit-content;
+  inset: 0;
+  margin: auto;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-block-start: calc(-1 * var(--spacing-050));
+  --icon-color: var(--color-on-surface-variant);
+}
+
+.progress {
+  @include mixin.get-typography(label-medium);
+  color: var(--color-on-surface-variant);
+}
+
+.headline {
+  @include mixin.get-typography(title-small);
+  margin: 0;
+}
+
+.body {
+  @include mixin.get-typography(body-medium);
+  color: var(--color-on-surface-variant);
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  gap: var(--spacing-100);
+  justify-content: flex-end;
+  margin-block-start: var(--spacing-100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight {
+    transition: none;
+  }
+}
+
+// Forced colors drop shadows, so the scrim vanishes: outline the spotlight and the popup instead.
+@media (forced-colors: active) {
+  .spotlight:not(.full) {
+    outline: 3px solid Highlight;
+  }
+
+  .popup {
+    border: 1px solid CanvasText;
+  }
+}
